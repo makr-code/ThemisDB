@@ -589,7 +589,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                 event.metadata = {{"table", table}, {"pk", pk}};
                 event.before_snapshot = cdc_before_snapshot;
                 event.after_snapshot = blob_str;
-                changefeed_->recordEvent(event);
+                changefeed_->recordEvent([[maybe_unused]] event);
             } catch (const std::exception& e) {
                 // Log but don't fail the request
                 THEMIS_WARN("CDC event recording failed: {}", e.what());
@@ -812,7 +812,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
                 ).count();
                 event.metadata = {{"table", table}, {"pk", pk}};
                 event.before_snapshot = cdc_before_snapshot;
-                changefeed_->recordEvent(event);
+                changefeed_->recordEvent([[maybe_unused]] event);
             } catch (const std::exception& e) {
                 THEMIS_WARN("CDC event recording failed: {}", e.what());
             }
@@ -1087,7 +1087,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                     event.before_snapshot = vop.before_snapshot;
                     event.timestamp_ms = now_ms;
                     event.metadata = {{"table", vop.table}, {"pk", vop.pk}, {"batch", true}};
-                    changefeed_->recordEvent(event);
+                    changefeed_->recordEvent([[maybe_unused]] event);
                 } catch (const std::exception& e) {
                     // Log but don't fail the request
                     THEMIS_WARN("CDC event recording failed for {}: {}", vop.key, e.what());

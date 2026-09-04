@@ -480,8 +480,8 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
             full_transcript += seg.text;
         }
         // Forward to caller's callback if provided.
-        if (segment_callback) {
-            segment_callback(seg);
+        if ([[maybe_unused]] segment_callback) {
+            segment_callback([[maybe_unused]] seg);
         }
     };
 
@@ -877,7 +877,7 @@ void VoiceAssistant::logVoiceAuthenticationAudit(
         {"confidence_score", result.confidence_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
 }
 
 VerificationResult VoiceAssistant::verifyVoiceSpeaker(
@@ -901,7 +901,7 @@ VerificationResult VoiceAssistant::verifyVoiceSpeaker(
         {"match_score", result.match_score},
         {"threshold", result.threshold}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
     
     return result;
 }
@@ -928,7 +928,7 @@ IdentificationResult VoiceAssistant::identifyVoiceProfiles(
         {"candidate_count", candidate_profiles.size()},
         {"match_count", result.matches.size()}
     };
-    voice_security_manager_.logEvent(entry);
+    voice_security_manager_.logEvent([[maybe_unused]] entry);
     
     return result;
 }
@@ -959,8 +959,8 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     }
 }
 
-void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
-    wake_word_detector_->setDetectionCallback(std::move(callback));
+void VoiceAssistant::setWakeWordCallback([[maybe_unused]] WakeWordDetector::DetectionCallback callback) {
+    wake_word_detector_->setDetectionCallback([[maybe_unused]] std::move(callback));
 }
 
 VoiceMacroManager& VoiceAssistant::macroManager() {

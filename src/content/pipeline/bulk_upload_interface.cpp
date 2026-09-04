@@ -39,7 +39,7 @@ BulkUploadInterface::UploadResult BulkUploadInterface::upload(
     result.status = UploadStatus::COMPLETED;
     
     // Notify progress if callback is set
-    if (progress_callback_) {
+    if ([[maybe_unused]] progress_callback_) {
         progress_callback_(metadata.content_id, content.size(), content.size());
     }
     
@@ -83,7 +83,7 @@ std::vector<BulkUploadInterface::UploadResult> BulkUploadInterface::bulk_upload(
     return results;
 }
 
-void BulkUploadInterface::set_progress_callback(ProgressCallback callback) {
+void BulkUploadInterface::set_progress_callback([[maybe_unused]] ProgressCallback callback) {
     progress_callback_ = callback;
 }
 

@@ -866,8 +866,8 @@ public:
                     loss_history_.push_back(batch_loss);
                     
                     // Call callback if registered
-                    if (training_callback_) {
-                        training_callback_(current_metrics_);
+                    if ([[maybe_unused]] training_callback_) {
+                        training_callback_([[maybe_unused]] current_metrics_);
                     }
                     
                     // Periodic checkpointing
@@ -1054,9 +1054,9 @@ public:
         return current_metrics_;
     }
     
-    void registerCallback(TrainingCallback callback) {
+    void registerCallback([[maybe_unused]] TrainingCallback callback) {
         training_callback_ = callback;
-        spdlog::debug("Registered training callback");
+        spdlog::debug([[maybe_unused]] "Registered training callback");
     }
     
     bool isTraining() const {
@@ -1318,12 +1318,12 @@ TrainingMetrics LoRATrainingService::getMetrics() const {
     return service_impl->getMetrics();
 }
 
-void LoRATrainingService::registerCallback(TrainingCallback callback) {
+void LoRATrainingService::registerCallback([[maybe_unused]] TrainingCallback callback) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    service_impl->registerCallback(callback);
+    service_impl->registerCallback([[maybe_unused]] callback);
 }
 
 bool LoRATrainingService::isTraining() const {
@@ -1631,8 +1631,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if (service_impl->training_callback_) {
-                service_impl->training_callback_(service_impl->current_metrics_);
+            if ([[maybe_unused]] service_impl->training_callback_) {
+                service_impl->training_callback_([[maybe_unused]] service_impl->current_metrics_);
             }
         });
         

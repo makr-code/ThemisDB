@@ -539,7 +539,7 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
 
 void DeltaUpdateEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback) {
-    progress_cb_ = std::move(callback);
+    progress_cb_ = std::move([[maybe_unused]] callback);
 }
 
 // ── Delta registry ────────────────────────────────────────────────────────

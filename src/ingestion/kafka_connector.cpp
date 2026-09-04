@@ -262,7 +262,7 @@ private:
                     ++consumed;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown for Kafka
@@ -447,7 +447,7 @@ private:
                     stats.bytes_processed += msg->len;
                     ++consumed;
 
-                    if (progress_callback) {
+                    if ([[maybe_unused]] progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,

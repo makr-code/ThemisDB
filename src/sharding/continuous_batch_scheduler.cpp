@@ -92,7 +92,7 @@ bool ContinuousBatchScheduler::submitRequest(
     request.stats.state = RequestState::PENDING;
     request.stats.enqueue_time = std::chrono::steady_clock::now();
     request.input_token_ids = input_token_ids;
-    request.callback = std::move(callback);
+    request.callback = std::move([[maybe_unused]] callback);
     
     // Add to appropriate priority queue
     size_t queue_index = getPriorityQueueIndex(priority);
@@ -244,7 +244,7 @@ void ContinuousBatchScheduler::processNextBatch() {
                         request_id, request.stats.generated_tokens, total_time);
             
             // Notify callback
-            if (request.callback) {
+            if ([[maybe_unused]] request.callback) {
                 request.callback(request_id, request.input_token_ids, request.stats);
             }
         }
@@ -405,8 +405,8 @@ void ContinuousBatchScheduler::enableSpeculativeDecoding(
     TokenGenerationCallback target_model_callback
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
-    draft_model_callback_ = std::move(draft_model_callback);
-    target_model_callback_ = std::move(target_model_callback);
+    draft_model_callback_ = std::move([[maybe_unused]] draft_model_callback);
+    target_model_callback_ = std::move([[maybe_unused]] target_model_callback);
     spdlog::info("ContinuousBatchScheduler: Speculative decoding enabled");
 }
 
@@ -471,7 +471,7 @@ std::optional<RequestStats> ContinuousBatchScheduler::getRequestStats(int64_t re
 
 void ContinuousBatchScheduler::onMetricsUpdate(std::function<void(const BatchStats&)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    metrics_callback_ = std::move(callback);
+    metrics_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -529,7 +529,7 @@ bool ContinuousBatchScheduler::processPrefill(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          request.input_token_ids, 
                                          output_tokens, 
@@ -581,7 +581,7 @@ bool ContinuousBatchScheduler::processChunkedPrefill(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          chunk_input, 
                                          output_tokens, 
@@ -618,7 +618,7 @@ bool ContinuousBatchScheduler::processDecode(Request& request) {
     std::vector<int> output_tokens;
     bool success = false;
     
-    if (target_model_callback_) {
+    if ([[maybe_unused]] target_model_callback_) {
         success = target_model_callback_(request.stats.request_id, 
                                          request.input_token_ids, 
                                          output_tokens, 
@@ -652,8 +652,8 @@ bool ContinuousBatchScheduler::processSpeculativeDecoding(Request& request) {
     // Speculative decoding implementation
     // Use draft model to propose tokens, then verify with target model
     
-    if (!draft_model_callback_ || !target_model_callback_) {
-        spdlog::warn("ContinuousBatchScheduler: Speculative decoding callbacks not set");
+    if ([[maybe_unused]] !draft_model_callback_ || !target_model_callback_) {
+        spdlog::warn([[maybe_unused]] "ContinuousBatchScheduler: Speculative decoding callbacks not set");
         request.stats.state = RequestState::DECODING;
         return processDecode(request);
     }
@@ -807,8 +807,8 @@ void ContinuousBatchScheduler::updateStats(const Request& request) {
 }
 
 void ContinuousBatchScheduler::notifyMetricsCallback() {
-    if (metrics_callback_) {
-        metrics_callback_(current_stats_);
+    if ([[maybe_unused]] metrics_callback_) {
+        metrics_callback_([[maybe_unused]] current_stats_);
     }
 }
 

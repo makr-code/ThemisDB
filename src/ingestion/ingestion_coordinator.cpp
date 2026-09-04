@@ -225,7 +225,7 @@ IngestionReport InProcessWorkerNode::ingest(
         manager.registerSource(src);
     }
 
-    return manager.ingestAll(progress_callback);
+    return manager.ingestAll([[maybe_unused]] progress_callback);
 }
 
 // ============================================================================
@@ -314,7 +314,7 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     }
 }
 
-std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
+std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCallback cb) {
     if (nodes_.empty() || remaining_.load(std::memory_order_relaxed) == 0) {
         return {};
     }
@@ -555,7 +555,7 @@ IngestionReport IngestionCoordinator::ingestAll(
     }
 
     // Step 4 — Run the pool; idle workers steal from busy workers' deques.
-    std::vector<IngestionReport> partial_reports = pool.run(progress_callback);
+    std::vector<IngestionReport> partial_reports = pool.run([[maybe_unused]] progress_callback);
 
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);

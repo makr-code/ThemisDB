@@ -271,8 +271,8 @@ public:
                         result.adapters_failed, result.duration.count());
             
             // Notify callback
-            if (sync_callback_) {
-                sync_callback_(result);
+            if ([[maybe_unused]] sync_callback_) {
+                sync_callback_([[maybe_unused]] result);
             }
             
         } catch (const std::exception& e) {
@@ -650,7 +650,7 @@ json AdapterSyncManager::getStats() const {
 }
 
 void AdapterSyncManager::onSyncComplete(std::function<void(const SyncJobResult&)> callback) {
-    impl_->onSyncComplete(callback);
+    impl_->onSyncComplete([[maybe_unused]] callback);
 }
 
 std::vector<std::string> AdapterSyncManager::discoverPeers() const {

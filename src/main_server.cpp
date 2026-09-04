@@ -449,7 +449,7 @@ static bool initializeMimalloc() {
 }
 #endif
 
-void signalHandler(int signal) {
+void signalHandler([[maybe_unused]] int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
         // Only use async-signal-safe operations in signal handler
         // Write to stderr is async-signal-safe, unlike logging
@@ -1593,7 +1593,7 @@ int main(int argc, char* argv[]) {
         if (cfg && cfg->contains("sse")) {
             const auto& sse = (*cfg)["sse"];
             server_config.sse_max_events_per_second = sse.value("max_events_per_second", uint32_t(0));
-            if (server_config.sse_max_events_per_second > 0) {
+            if ([[maybe_unused]] server_config.sse_max_events_per_second > 0) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
@@ -2679,7 +2679,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent(audit_event);
+                                            audit_logger->logEvent([[maybe_unused]] audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log archive operation");
                                         }
@@ -2748,7 +2748,7 @@ int main(int argc, char* argv[]) {
                                             now.time_since_epoch()
                                         ).count();
                                         audit_event["classification"] = "retention_lifecycle";
-                                        audit_logger->logEvent(audit_event);
+                                        audit_logger->logEvent([[maybe_unused]] audit_event);
                                     } catch (...) {
                                         THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
                                     }
@@ -2797,7 +2797,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent(audit_event);
+                                            audit_logger->logEvent([[maybe_unused]] audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log purge operation");
                                         }
@@ -2821,7 +2821,7 @@ int main(int argc, char* argv[]) {
                                         std::chrono::system_clock::now().time_since_epoch()
                                     ).count();
                                     audit_event["classification"] = "retention_lifecycle";
-                                    audit_logger->logEvent(audit_event);
+                                    audit_logger->logEvent([[maybe_unused]] audit_event);
                                 } catch (...) {
                                     THEMIS_WARN("[Retention] Failed to audit-log purge for {}", entity_id);
                                 }

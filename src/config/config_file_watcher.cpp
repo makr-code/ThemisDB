@@ -68,7 +68,7 @@ bool isWatchedExtension(const std::string &filename) {
 
 ConfigFileWatcher::ConfigFileWatcher(std::string watch_path, std::function<void()> callback,
                                      std::chrono::milliseconds debounce)
-    : watch_path_(std::move(watch_path)), callback_(std::move(callback)), debounce_(debounce) {}
+    : watch_path_([[maybe_unused]] std::move(watch_path)), callback_(std::move(callback)), debounce_(debounce) {}
 
 ConfigFileWatcher::~ConfigFileWatcher() {
     stop();
@@ -111,7 +111,7 @@ bool ConfigFileWatcher::start() {
     fcntl(pipe_read_fd_, F_SETFL, O_NONBLOCK);
 #elif defined(_WIN32)
     stop_event_ = CreateEventW(nullptr, TRUE, FALSE, nullptr);
-    if (stop_event_ == nullptr) {
+    if ([[maybe_unused]] stop_event_ == nullptr) {
         spdlog::warn("ConfigFileWatcher: CreateEvent failed: {}", GetLastError());
         return false;
     }
@@ -146,8 +146,8 @@ bool ConfigFileWatcher::start() {
             kqueue_fd_ = -1;
         }
 #elif defined(_WIN32)
-        if (stop_event_ != nullptr) {
-            CloseHandle(static_cast<HANDLE>(stop_event_));
+        if ([[maybe_unused]] stop_event_ != nullptr) {
+            CloseHandle([[maybe_unused]] static_cast<HANDLE>(stop_event_));
             stop_event_ = nullptr;
         }
 #endif
@@ -179,8 +179,8 @@ bool ConfigFileWatcher::start() {
             kqueue_fd_ = -1;
         }
 #elif defined(_WIN32)
-        if (stop_event_ != nullptr) {
-            CloseHandle(static_cast<HANDLE>(stop_event_));
+        if ([[maybe_unused]] stop_event_ != nullptr) {
+            CloseHandle([[maybe_unused]] static_cast<HANDLE>(stop_event_));
             stop_event_ = nullptr;
         }
 #endif
@@ -212,8 +212,8 @@ bool ConfigFileWatcher::start() {
             kqueue_fd_ = -1;
         }
 #elif defined(_WIN32)
-        if (stop_event_ != nullptr) {
-            CloseHandle(static_cast<HANDLE>(stop_event_));
+        if ([[maybe_unused]] stop_event_ != nullptr) {
+            CloseHandle([[maybe_unused]] static_cast<HANDLE>(stop_event_));
             stop_event_ = nullptr;
         }
 #endif
@@ -249,8 +249,8 @@ void ConfigFileWatcher::stop() {
         }
     }
 #elif defined(_WIN32)
-    if (stop_event_ != nullptr) {
-        SetEvent(static_cast<HANDLE>(stop_event_));
+    if ([[maybe_unused]] stop_event_ != nullptr) {
+        SetEvent([[maybe_unused]] static_cast<HANDLE>(stop_event_));
     }
 #endif
 
@@ -282,8 +282,8 @@ void ConfigFileWatcher::stop() {
         kqueue_fd_ = -1;
     }
 #elif defined(_WIN32)
-    if (stop_event_ != nullptr) {
-        CloseHandle(static_cast<HANDLE>(stop_event_));
+    if ([[maybe_unused]] stop_event_ != nullptr) {
+        CloseHandle([[maybe_unused]] static_cast<HANDLE>(stop_event_));
         stop_event_ = nullptr;
     }
 #endif
@@ -371,7 +371,7 @@ void ConfigFileWatcher::watchLoopInotify() {
         int timeout_ms = -1;
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
-            if (event_pending_) {
+            if ([[maybe_unused]] event_pending_) {
                 auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
                                                                                        - last_event_time_);
                 auto remaining = debounce_ - elapsed;
@@ -393,7 +393,7 @@ void ConfigFileWatcher::watchLoopInotify() {
             bool should_fire = false;
             {
                 std::lock_guard<std::mutex> lk(debounce_mutex_);
-                if (event_pending_) {
+                if ([[maybe_unused]] event_pending_) {
                     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::steady_clock::now() - last_event_time_);
                     if (elapsed >= debounce_) {
@@ -402,7 +402,7 @@ void ConfigFileWatcher::watchLoopInotify() {
                     }
                 }
             }
-            if (should_fire && callback_) {
+            if ([[maybe_unused]] should_fire && callback_) {
                 try {
                     callback_();
                 } catch (const std::exception &ex) {
@@ -413,19 +413,19 @@ void ConfigFileWatcher::watchLoopInotify() {
         }
 
         // Stop pipe signalled
-        if (pfds[1].revents & POLLIN) {
+        if ([[maybe_unused]] pfds[1].revents & POLLIN) {
             break;
         }
 
         // inotify events
-        if (pfds[0].revents & POLLIN) {
+        if ([[maybe_unused]] pfds[0].revents & POLLIN) {
             ssize_t len = read(ifd, buf, kBufSize);
             if (len <= 0)
                 continue;
 
             const char *ptr = buf;
             while (ptr < buf + len) {
-                const auto *ev = reinterpret_cast<const struct inotify_event *>(ptr);
+                const auto *ev = reinterpret_cast<const struct inotify_event *>([[maybe_unused]] ptr);
                 ptr += sizeof(struct inotify_event) + ev->len;
 
                 // If a new sub-directory was created, add a watch on it
@@ -516,7 +516,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
         struct timespec *ts = nullptr;
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
-            if (event_pending_) {
+            if ([[maybe_unused]] event_pending_) {
                 auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
                                                                                        - last_event_time_);
                 auto remaining = std::max(std::chrono::milliseconds(0), debounce_ - elapsed);
@@ -540,7 +540,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
             bool should_fire = false;
             {
                 std::lock_guard<std::mutex> lk(debounce_mutex_);
-                if (event_pending_) {
+                if ([[maybe_unused]] event_pending_) {
                     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::steady_clock::now() - last_event_time_);
                     if (elapsed >= debounce_) {
@@ -549,7 +549,7 @@ void ConfigFileWatcher::watchLoopKqueue() {
                     }
                 }
             }
-            if (should_fire && callback_) {
+            if ([[maybe_unused]] should_fire && callback_) {
                 try {
                     callback_();
                 } catch (const std::exception &ex) {
@@ -561,11 +561,11 @@ void ConfigFileWatcher::watchLoopKqueue() {
 
         for (int i = 0; i < n; ++i) {
             // Stop pipe triggered
-            if (static_cast<int>(events[i].ident) == pipe_read_fd_) {
+            if ([[maybe_unused]] static_cast<int>(events[i].ident) == pipe_read_fd_) {
                 goto done;
             }
 
-            auto it = fd_to_path.find(static_cast<int>(events[i].ident));
+            auto it = fd_to_path.find([[maybe_unused]] static_cast<int>(events[i].ident));
             if (it == fd_to_path.end())
                 continue;
 
@@ -626,8 +626,8 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
 
     OVERLAPPED overlapped{};
     overlapped.hEvent = CreateEventW(nullptr, TRUE, FALSE, nullptr);
-    if (overlapped.hEvent == nullptr) {
-        spdlog::warn("ConfigFileWatcher: CreateEvent (overlapped) failed: {}", GetLastError());
+    if ([[maybe_unused]] overlapped.hEvent == nullptr) {
+        spdlog::warn([[maybe_unused]] "ConfigFileWatcher: CreateEvent (overlapped) failed: {}", GetLastError());
         CloseHandle(dir_handle);
         running_.store(false, std::memory_order_release);
         return;
@@ -639,7 +639,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
     HANDLE wait_handles[2] = {overlapped.hEvent, static_cast<HANDLE>(stop_event_)};
 
     auto issue_read = [&]() -> bool {
-        ResetEvent(overlapped.hEvent);
+        ResetEvent([[maybe_unused]] overlapped.hEvent);
         DWORD bytes_returned = 0;
         BOOL ok              = ReadDirectoryChangesW(dir_handle, buf, kBufSize,
                                                      /*bWatchSubtree=*/TRUE,
@@ -654,7 +654,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
     };
 
     if (!issue_read()) {
-        CloseHandle(overlapped.hEvent);
+        CloseHandle([[maybe_unused]] overlapped.hEvent);
         CloseHandle(dir_handle);
         running_.store(false, std::memory_order_release);
         return;
@@ -665,7 +665,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
         DWORD timeout_ms = INFINITE;
         {
             std::lock_guard<std::mutex> lk(debounce_mutex_);
-            if (event_pending_) {
+            if ([[maybe_unused]] event_pending_) {
                 auto elapsed   = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()
                                                                                        - last_event_time_);
                 auto remaining = std::max(std::chrono::milliseconds(0), debounce_ - elapsed);
@@ -685,7 +685,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
             bool should_fire = false;
             {
                 std::lock_guard<std::mutex> lk(debounce_mutex_);
-                if (event_pending_) {
+                if ([[maybe_unused]] event_pending_) {
                     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::steady_clock::now() - last_event_time_);
                     if (elapsed >= debounce_) {
@@ -694,7 +694,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
                     }
                 }
             }
-            if (should_fire && callback_) {
+            if ([[maybe_unused]] should_fire && callback_) {
                 try {
                     callback_();
                 } catch (const std::exception &ex) {
@@ -741,7 +741,7 @@ void ConfigFileWatcher::watchLoopReadDirChanges() {
     }
 
     CancelIo(dir_handle);
-    CloseHandle(overlapped.hEvent);
+    CloseHandle([[maybe_unused]] overlapped.hEvent);
     CloseHandle(dir_handle);
 }
 

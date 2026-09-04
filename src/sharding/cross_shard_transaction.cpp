@@ -367,8 +367,8 @@ bool CrossShardTransactionCoordinator::start() {
     // Start PreCommit retry thread for non-blocking 3PC
     // Only start if deferred PreCommit callback is configured
     {
-        std::lock_guard<std::mutex> lk(callbacks_mutex_);
-        if (deferred_precommit_callback_) {
+        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+        if ([[maybe_unused]] deferred_precommit_callback_) {
             precommit_retry_thread_ = std::thread(
                 &CrossShardTransactionCoordinator::preCommitRetryThread, this
             );
@@ -770,7 +770,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     {
         std::shared_ptr<CrossShardForeignKeyValidator> fk_val;
         {
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
             fk_val = fk_validator_;
         }
         if (fk_val) {
@@ -815,7 +815,7 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     // holding two mutexes simultaneously.
     std::shared_ptr<CrossShardForeignKeyValidator> fk_validator;
     {
-        std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+        std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
         fk_validator = fk_validator_;
     }
     if (fk_validator) {
@@ -1492,24 +1492,24 @@ nlohmann::json CrossShardTransactionCoordinator::getStatistics() const {
 void CrossShardTransactionCoordinator::onTransactionStateChange(
     std::function<void(const std::string&, TransactionState, TransactionState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void CrossShardTransactionCoordinator::setPreCommitCallback(PreCommitRpcFn fn) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    precommit_callback_ = std::move(fn);
+void CrossShardTransactionCoordinator::setPreCommitCallback([[maybe_unused]] PreCommitRpcFn fn) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    precommit_callback_ = std::move([[maybe_unused]] fn);
 }
 
-void CrossShardTransactionCoordinator::setDeferredPreCommitCallback(DeferredPreCommitFn fn) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    deferred_precommit_callback_ = std::move(fn);
+void CrossShardTransactionCoordinator::setDeferredPreCommitCallback([[maybe_unused]] DeferredPreCommitFn fn) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    deferred_precommit_callback_ = std::move([[maybe_unused]] fn);
 }
 
 void CrossShardTransactionCoordinator::setForeignKeyValidator(
     std::shared_ptr<CrossShardForeignKeyValidator> validator)
 {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     fk_validator_ = std::move(validator);
 }
 
@@ -1657,7 +1657,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     // during the (potentially blocking) RPC fan-out.
     PreCommitRpcFn precommit_cb;
     {
-        std::lock_guard<std::mutex> lk(callbacks_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
         precommit_cb = precommit_callback_;
     }
 
@@ -1678,7 +1678,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
     if (!precommit_cb) {
         spdlog::error("execute3PC [{}]: missing PreCommit RPC callback; failing closed",
                       txn.transaction_id);
-        failClosedAbortAllParticipants("precommit_callback_missing");
+        failClosedAbortAllParticipants([[maybe_unused]] "precommit_callback_missing");
         return false;
     }
 
@@ -1760,7 +1760,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
         // prepare(), which takes transactions_mutex_ before callbacks_mutex_.
         DeferredPreCommitFn deferred_cb;
         {
-            std::lock_guard<std::mutex> lk(callbacks_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
             deferred_cb = deferred_precommit_callback_;
         }
 
@@ -1790,7 +1790,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants("deferred_precommit_callback_threw");
+                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_threw");
                 return false;
             } catch (...) {
                 spdlog::error("execute3PC [{}]: deferred PreCommit callback threw unknown exception - failing closed",
@@ -1799,7 +1799,7 @@ bool CrossShardTransactionCoordinator::execute3PC(CrossShardTransaction& txn) {
                     std::lock_guard<std::mutex> def_lk(deferred_mutex_);
                     deferred_precommits_.erase(txn.transaction_id);
                 }
-                failClosedAbortAllParticipants("deferred_precommit_callback_unknown_exception");
+                failClosedAbortAllParticipants([[maybe_unused]] "deferred_precommit_callback_unknown_exception");
                 return false;
             }
 
@@ -3576,7 +3576,7 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             // Snapshot the PreCommit callback under the lock
             PreCommitRpcFn precommit_cb;
             {
-                std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
                 precommit_cb = precommit_callback_;
             }
             

@@ -815,7 +815,7 @@ DistributedTrainingCoordinator::StepResult DistributedTrainingCoordinator::execu
     result.total_time_ms = std::chrono::duration<float, std::milli>(step_end - step_start).count();
     
     // 7. Call progress callback
-    if (progress_callback_) {
+    if ([[maybe_unused]] progress_callback_) {
         progress_callback_(current_step_, result);
     }
     
@@ -1368,7 +1368,7 @@ float DistributedTrainingCoordinator::estimateRemainingTime() const {
     return 0.0f;
 }
 
-void DistributedTrainingCoordinator::setProgressCallback(ProgressCallback callback) {
+void DistributedTrainingCoordinator::setProgressCallback([[maybe_unused]] ProgressCallback callback) {
     progress_callback_ = callback;
 }
 

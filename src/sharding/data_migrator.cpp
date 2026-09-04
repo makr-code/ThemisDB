@@ -195,8 +195,8 @@ MigrationResult DataMigrator::migrate(
                 );
             }
             
-            if (progress_callback) {
-                progress_callback(progress);
+            if ([[maybe_unused]] progress_callback) {
+                progress_callback([[maybe_unused]] progress);
             }
             
             offset += records_in_batch;

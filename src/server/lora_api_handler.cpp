@@ -41,7 +41,7 @@ LoRAApiHandler::LoRAApiHandler(
     }
 }
 
-void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
+void LoRAApiHandler::configureJWT([[maybe_unused]] const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
@@ -52,7 +52,7 @@ void LoRAApiHandler::setInferenceEngine(
 
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleRequest");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRequest");
     
     std::string_view target = req.target();
     auto method = req.method();
@@ -77,7 +77,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     // Model management endpoints
     if (target == "/api/v1/llm/models" && method == http::verb::post) {
-        return handleRegisterModel(req);
+        return handleRegisterModel([[maybe_unused]] req);
     } else if (target == "/api/v1/llm/models" && method == http::verb::get) {
         return handleListModels(req);
     } else if (target.starts_with("/api/v1/llm/models/") && method == http::verb::get) {
@@ -133,7 +133,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
     
     // Cross-shard sync endpoint
     else if (target == "/api/v1/lora/receive" && method == http::verb::post) {
-        return handleReceiveAdapter(req);
+        return handleReceiveAdapter([[maybe_unused]] req);
     }
     
     // Health & monitoring endpoints
@@ -156,7 +156,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
 
 http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleRegisterModel");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleRegisterModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1064,7 +1064,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
 // Helper Methods
 // ═══════════════════════════════════════════════════════════
 
-bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
+bool LoRAApiHandler::validateBearerToken([[maybe_unused]] const http::request<http::string_body>& req) {
     const auto auth_header = req[http::field::authorization];
     if (auth_header.empty()) {
         return false;
@@ -1087,7 +1087,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         // Token is valid
         return true;
     } catch (...) {
-        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "lora_api_handler: unhandled exception caught");
         // Token validation failed (expired, invalid signature, etc.)
         return false;
     }
@@ -1136,7 +1136,7 @@ std::optional<json> LoRAApiHandler::parseRequestBody(
             return parsed;
         }
     } catch (...) {
-        THEMIS_DEBUG("lora_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "lora_api_handler: unhandled exception caught");
         return std::nullopt;
     }
     
@@ -1168,7 +1168,7 @@ std::string LoRAApiHandler::extractPathParameter(
 
 http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
     const http::request<http::string_body>& req) {
-    auto span = Tracer::startSpan("handleReceiveAdapter");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleReceiveAdapter");
     
     auto body = parseRequestBody(req);
     if (!body) {

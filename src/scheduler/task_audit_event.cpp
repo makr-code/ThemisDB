@@ -72,7 +72,7 @@ std::string maskSensitiveData(const std::string& data, const std::string& mask_t
 }
 
 // Event type conversions
-std::string taskEventTypeToString(TaskEventType type) {
+std::string taskEventTypeToString([[maybe_unused]] TaskEventType type) {
     switch (type) {
         case TaskEventType::TASK_REGISTERED: return "TASK_REGISTERED";
         case TaskEventType::TASK_UNREGISTERED: return "TASK_UNREGISTERED";
@@ -95,7 +95,7 @@ std::string taskEventTypeToString(TaskEventType type) {
     }
 }
 
-std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
+std::string taskSecurityEventTypeToString([[maybe_unused]] TaskSecurityEventType type) {
     switch (type) {
         case TaskSecurityEventType::RATE_LIMIT_EXCEEDED: return "RATE_LIMIT_EXCEEDED";
         case TaskSecurityEventType::RESOURCE_LIMIT_EXCEEDED: return "RESOURCE_LIMIT_EXCEEDED";
@@ -111,7 +111,7 @@ std::string taskSecurityEventTypeToString(TaskSecurityEventType type) {
     }
 }
 
-TaskEventType taskEventTypeFromString(const std::string& s) {
+TaskEventType taskEventTypeFromString([[maybe_unused]] const std::string& s) {
     if (s == "TASK_REGISTERED") return TaskEventType::TASK_REGISTERED;
     if (s == "TASK_UNREGISTERED") return TaskEventType::TASK_UNREGISTERED;
     if (s == "TASK_ENABLED") return TaskEventType::TASK_ENABLED;
@@ -133,7 +133,7 @@ TaskEventType taskEventTypeFromString(const std::string& s) {
 }
 
 
-nlohmann::json TaskAuditEvent::toJson(bool gdpr_mode) const {
+nlohmann::json TaskAuditEvent::toJson([[maybe_unused]] bool gdpr_mode) const {
     nlohmann::json j;
     
     // Standard audit fields
@@ -148,7 +148,7 @@ nlohmann::json TaskAuditEvent::toJson(bool gdpr_mode) const {
     j["task_description"] = task_description;
     
     // Event classification
-    j["event_type"] = taskEventTypeToString(event_type);
+    j["event_type"] = taskEventTypeToString([[maybe_unused]] event_type);
     j["trigger_type"] = trigger_type;
     
     // Actor information (with GDPR masking if enabled)
@@ -244,7 +244,7 @@ nlohmann::json TaskAuditEvent::toSplunkHEC() const {
     }
     
     // Event data
-    event["event"] = toJson(false);
+    event["event"] = toJson([[maybe_unused]] false);
     
     return event;
 }
@@ -261,7 +261,7 @@ nlohmann::json TaskAuditEvent::toElasticECS() const {
     ecs["event"]["category"] = "process";
     ecs["event"]["type"] = success ? "info" : "error";
     ecs["event"]["outcome"] = success ? "success" : "failure";
-    ecs["event"]["duration"] = static_cast<int64_t>(duration_ms * 1000000); // nanoseconds
+    ecs["event"]["duration"] = static_cast<int64_t>([[maybe_unused]] duration_ms * 1000000); // nanoseconds
     
     // Service/observer
     ecs["observer"]["name"] = "themisdb";
@@ -282,7 +282,7 @@ nlohmann::json TaskAuditEvent::toElasticECS() const {
     // Custom fields
     ecs["themis"]["task"]["id"] = task_id;
     ecs["themis"]["task"]["trigger_type"] = trigger_type;
-    ecs["themis"]["task"]["event_type"] = taskEventTypeToString(event_type);
+    ecs["themis"]["task"]["event_type"] = taskEventTypeToString([[maybe_unused]] event_type);
     ecs["themis"]["task"]["resource_usage"] = resource_usage.toJson();
     ecs["themis"]["task"]["anomaly_metrics"] = anomaly_metrics.toJson();
     
@@ -309,7 +309,7 @@ nlohmann::json TaskSecurityEvent::toJson() const {
         j["task_name"] = task_name;
     }
     
-    j["event_type"] = taskSecurityEventTypeToString(event_type);
+    j["event_type"] = taskSecurityEventTypeToString([[maybe_unused]] event_type);
     j["severity"] = severity;
     
     j["user_id"] = user_id;

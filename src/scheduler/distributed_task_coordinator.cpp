@@ -141,7 +141,7 @@ void DistributedTaskCoordinator::stop() {
     }
 
     // Remove the leadership callback so we no longer react to elections.
-    coordinator_->setLeaderElectedCallback(nullptr);
+    coordinator_->setLeaderElectedCallback([[maybe_unused]] nullptr);
 
     THEMIS_INFO("DistributedTaskCoordinator stopped");
 }

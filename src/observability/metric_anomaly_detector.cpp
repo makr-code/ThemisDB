@@ -185,9 +185,9 @@ void MetricAnomalyDetector::clearAllAnomalies() {
 // setCallback
 // ---------------------------------------------------------------------------
 
-void MetricAnomalyDetector::setCallback(AnomalyCallback cb) {
+void MetricAnomalyDetector::setCallback([[maybe_unused]] AnomalyCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ---------------------------------------------------------------------------

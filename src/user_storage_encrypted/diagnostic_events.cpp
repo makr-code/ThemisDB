@@ -40,18 +40,18 @@ std::string DiagnosticEvent::toJsonString() const {
  * to direct events to external observability systems.
  */
 namespace {
-    DiagnosticEventHandler g_event_handler = [](const DiagnosticEvent& event) {
+    DiagnosticEventHandler g_event_handler = []([[maybe_unused]] const DiagnosticEvent& event) {
         auto logger = spdlog::get("user_storage_encrypted");
         if (!logger) {
             logger = spdlog::default_logger();
         }
         
         std::string level_str;
-        switch (event.type) {
+        switch ([[maybe_unused]] event.type) {
             case DiagnosticEvent::Type::ERROR_DETECTED:
                 logger->error("[{}] {} - {}", event.component, 
-                    errorCodeToString(event.error_code), event.message);
-                if (!event.remediation.empty()) {
+                    errorCodeToString([[maybe_unused]] event.error_code), event.message);
+                if ([[maybe_unused]] !event.remediation.empty()) {
                     logger->warn("  Remediation: {}", event.remediation);
                 }
                 break;
@@ -59,7 +59,7 @@ namespace {
             [[fallthrough]];\n            case DiagnosticEvent::Type::UNMOUNT_FAILED:
             [[fallthrough]];\n            case DiagnosticEvent::Type::ROTATION_FAILED:
                 logger->error("[{}] {} - {}", event.component,
-                    errorCodeToString(event.error_code), event.message);
+                    errorCodeToString([[maybe_unused]] event.error_code), event.message);
                 break;
             case DiagnosticEvent::Type::STALE_MOUNT_RECONCILED:
                 logger->warn("[{}] Stale mount reconciled: {}", event.component, event.message);
@@ -86,9 +86,9 @@ namespace {
  * 
  * @param handler Function to invoke for each event
  */
-void registerDiagnosticEventHandler(DiagnosticEventHandler handler) {
-    if (handler) {
-        g_event_handler = std::move(handler);
+void registerDiagnosticEventHandler([[maybe_unused]] DiagnosticEventHandler handler) {
+    if ([[maybe_unused]] handler) {
+        g_event_handler = std::move([[maybe_unused]] handler);
     }
 }
 
@@ -99,9 +99,9 @@ void registerDiagnosticEventHandler(DiagnosticEventHandler handler) {
  * 
  * @param event The diagnostic event to emit
  */
-void emitDiagnosticEvent(DiagnosticEvent event) {
+void emitDiagnosticEvent([[maybe_unused]] DiagnosticEvent event) {
     // Ensure timestamp is set
-    if (event.timestamp_ms == 0) {
+    if ([[maybe_unused]] event.timestamp_ms == 0) {
         auto now = std::chrono::system_clock::now();
         auto ms_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(
             now.time_since_epoch()
@@ -109,8 +109,8 @@ void emitDiagnosticEvent(DiagnosticEvent event) {
         event.timestamp_ms = ms_since_epoch;
     }
     
-    if (g_event_handler) {
-        g_event_handler(event);
+    if ([[maybe_unused]] g_event_handler) {
+        g_event_handler([[maybe_unused]] event);
     }
 }
 

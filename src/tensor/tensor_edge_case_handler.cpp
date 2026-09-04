@@ -429,7 +429,7 @@ EdgeCaseResult TensorEdgeCaseHandler::handleConcurrentMemoryExhaustion(
 // Diagnostics & Statistics
 // ─────────────────────────────────────────────────────────────────────────
 
-void TensorEdgeCaseHandler::setDetailedDiagnostics(bool enable) noexcept {
+void TensorEdgeCaseHandler::setDetailedDiagnostics([[maybe_unused]] bool enable) noexcept {
     detailed_diagnostics_ = enable;
 }
 

@@ -355,8 +355,8 @@ void ContinuousBatchScheduler::processBatchResults(
                               [req](const auto& r) { return r && r.get() == req; }),
                 active_requests_.end()
             );
-            if (req->callback) {
-                req->callback(resp);
+            if ([[maybe_unused]] req->callback) {
+                req->callback([[maybe_unused]] resp);
             }
             stats_.failed_requests++;
             continue;
@@ -390,8 +390,8 @@ void ContinuousBatchScheduler::processBatchResults(
             );
             
             // Call callback if provided
-            if (req->callback) {
-                req->callback(resp);
+            if ([[maybe_unused]] req->callback) {
+                req->callback([[maybe_unused]] resp);
             }
             
             stats_.completed_requests++;

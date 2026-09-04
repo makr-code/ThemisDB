@@ -777,13 +777,13 @@ void RedisCache::publishInvalidation(const std::string &key_or_pattern) {
     }
 }
 
-void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
+void RedisCache::subscribeInvalidations([[maybe_unused]] InvalidationCallback cb) {
     {
         std::lock_guard<std::mutex> lock(inv_cb_mutex_);
-        inv_callback_ = std::move(cb);
+        inv_callback_ = std::move([[maybe_unused]] cb);
     }
 
-    if (inv_callback_) {
+    if ([[maybe_unused]] inv_callback_) {
         ensureSubscriberLoopStarted();
     }
 }
@@ -904,8 +904,8 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
 
 void RedisCache::dispatchInvalidation(const std::string &payload) {
     std::lock_guard<std::mutex> lock(inv_cb_mutex_);
-    if (inv_callback_) {
-        inv_callback_(payload);
+    if ([[maybe_unused]] inv_callback_) {
+        inv_callback_([[maybe_unused]] payload);
     }
 }
 

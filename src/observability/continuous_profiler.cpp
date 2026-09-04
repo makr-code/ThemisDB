@@ -579,7 +579,7 @@ ProfileDiff ContinuousProfiler::compare(const ProfileSnapshot& baseline,
 
 void ContinuousProfiler::registerAnomalyCallback(
         std::function<void(const ProfileSnapshot&, const std::string&)> cb) {
-    impl_->registerAnomalyCallback(std::move(cb));
+    impl_->registerAnomalyCallback([[maybe_unused]] std::move(cb));
 }
 
 void ContinuousProfiler::enable()       { impl_->enable();    }

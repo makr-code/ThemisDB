@@ -157,7 +157,7 @@ json VoiceCircuitBreaker::getStats() const {
 VoiceRetryHandler::VoiceRetryHandler(const RetryConfig& config)
     : config_(config) {}
 
-void VoiceRetryHandler::sleepMs(int64_t ms) const {
+void VoiceRetryHandler::sleepMs([[maybe_unused]] int64_t ms) const {
     if (ms > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     }
@@ -292,12 +292,12 @@ json VoiceErrorHandler::getHealthStatus() const {
 // Phase 3: Error Context with Diagnostics and Audit Trail
 // ============================================================================
 
-json VoiceErrorHandler::createErrorContext(const ErrorContext& ctx) {
+json VoiceErrorHandler::createErrorContext([[maybe_unused]] const ErrorContext& ctx) {
     // Phase 3.7: Structured error context with no sensitive data
     return ctx.toJson();
 }
 
-void VoiceErrorHandler::logErrorWithContext(const ErrorContext& ctx) {
+void VoiceErrorHandler::logErrorWithContext([[maybe_unused]] const ErrorContext& ctx) {
     // Phase 3.7: Log error context without sensitive data (credentials masked)
     json log_entry = ctx.toJson();
     

@@ -98,9 +98,9 @@ RebalanceProgress RebalanceOperation::getProgress() const {
 }
 
 /** @brief Install callback invoked whenever progress is updated. */
-void RebalanceOperation::setProgressCallback(ProgressCallback callback) {
+void RebalanceOperation::setProgressCallback([[maybe_unused]] ProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    progress_callback_ = std::move(callback);
+    progress_callback_ = std::move([[maybe_unused]] callback);
 }
 
 /** @brief Update migrated-record counters and estimated completion timestamp. */
@@ -127,8 +127,8 @@ void RebalanceOperation::updateProgress(uint64_t records_migrated, uint64_t byte
     }
     
     // Invoke callback if set
-    if (progress_callback_) {
-        progress_callback_(progress_);
+    if ([[maybe_unused]] progress_callback_) {
+        progress_callback_([[maybe_unused]] progress_);
     }
 }
 
@@ -198,7 +198,7 @@ bool RebalanceOperation::executeWithThroughputGuarantee(
     for (uint64_t i = 0; i < config_.batch_size; ++i) {
         batch_transferred += 1024; // Assume 1KB per record
         
-        if (throughput_callback) {
+        if ([[maybe_unused]] throughput_callback) {
             uint64_t current_throughput = throughput_callback();
             if (current_throughput < minimum_throughput) {
                 // Reduce batch size to maintain minimum throughput

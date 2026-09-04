@@ -403,17 +403,17 @@ std::optional<SandboxStats> HotReloadManager::getSandboxStats(const std::string 
 // Callbacks
 // =============================================================================
 
-void HotReloadManager::setStateSaveCallback(StateSaveCallback cb) {
+void HotReloadManager::setStateSaveCallback([[maybe_unused]] StateSaveCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_save_cb_ = std::move(cb);
 }
 
-void HotReloadManager::setStateRestoreCallback(StateRestoreCallback cb) {
+void HotReloadManager::setStateRestoreCallback([[maybe_unused]] StateRestoreCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     state_restore_cb_ = std::move(cb);
 }
 
-void HotReloadManager::addReloadCallback(ReloadCallback cb) {
+void HotReloadManager::addReloadCallback([[maybe_unused]] ReloadCallback cb) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.push_back(std::move(cb));
 }
@@ -455,9 +455,9 @@ void HotReloadManager::notify(const std::string &name, ReloadPhase phase) {
         } catch (const std::exception &ex) {
             spdlog::warn("HotReloadManager: reload callback threw: {}", ex.what());
         } catch (const std::string &) {
-            spdlog::warn("HotReloadManager: reload callback threw unknown exception");
+            spdlog::warn([[maybe_unused]] "HotReloadManager: reload callback threw unknown exception");
         } catch (const char *) {
-            spdlog::warn("HotReloadManager: reload callback threw unknown exception");
+            spdlog::warn([[maybe_unused]] "HotReloadManager: reload callback threw unknown exception");
         }
     }
 }

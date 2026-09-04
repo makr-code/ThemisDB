@@ -619,7 +619,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
                << "Return each suggestion on a separate line. "
                << "Return ONLY the AQL snippets, no explanations.";
 
-        auto response = handler.executeInfer(prompt.str());
+        auto response = handler.executeInfer([[maybe_unused]] prompt.str());
 
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);

@@ -648,12 +648,12 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 }
 
                 if (!options.dry_run) {
-                    if (options.streaming_row_callback) {
+                    if ([[maybe_unused]] options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
                         buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
-                            THEMIS_INFO("Kafka Importer: streaming callback requested abort");
+                            THEMIS_INFO([[maybe_unused]] "Kafka Importer: streaming callback requested abort");
                             abort_requested = true;
                             break;
                         }
@@ -911,13 +911,13 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 }
 
                 if (!options.dry_run) {
-                    if (options.streaming_row_callback) {
+                    if ([[maybe_unused]] options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
                         buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
                             rd_kafka_message_destroy(msg);
-                            THEMIS_INFO("Kafka Importer: streaming callback requested abort");
+                            THEMIS_INFO([[maybe_unused]] "Kafka Importer: streaming callback requested abort");
                             break;
                         }
                     } else {
@@ -1036,7 +1036,7 @@ void KafkaImporter::emitMetric(const ImportOptions& options,
                                 const std::string& metric,
                                 const std::map<std::string, std::string>& labels,
                                 double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1045,7 +1045,7 @@ void KafkaImporter::emitSpan(const ImportOptions& options,
                               const std::string& operation,
                               const std::map<std::string, std::string>& attributes,
                               double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1054,7 +1054,7 @@ void KafkaImporter::reportProgress(ProgressCallback& callback,
                                     const std::string& stage,
                                     size_t current,
                                     size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }

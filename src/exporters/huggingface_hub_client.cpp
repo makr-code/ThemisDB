@@ -402,7 +402,7 @@ static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, cons
            {"timestamp",
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
                 .count()}};
-    audit_log.logEvent(entry);
+    audit_log.logEvent([[maybe_unused]] entry);
 }
 
 HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_dir,

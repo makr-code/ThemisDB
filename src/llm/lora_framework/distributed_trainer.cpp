@@ -69,7 +69,7 @@ bool DistributedTrainer::initialize() {
     spdlog::info("Initializing distributed training (fail-closed mode):");
     spdlog::info("  Backend: {}", static_cast<int>(config_.backend));
     spdlog::info("  Master: {}:{}", config_.master_addr, config_.master_port);
-    spdlog::info("  Validating required collective operation callbacks...");
+    spdlog::info([[maybe_unused]] "  Validating required collective operation callbacks...");
     
     if (!allreduce_cpu_fn_) {
         spdlog::error("FAIL-CLOSED: AllReduceFn bridge not installed. Distributed training requires "

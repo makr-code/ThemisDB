@@ -485,7 +485,7 @@ private:
                     ++fetched;
                 }
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown
@@ -669,7 +669,7 @@ private:
                 ++fetched;
 
                 // Invoke progress callback once per batch
-                if (fetched % batch_size_ == 0 && progress_callback) {
+                if ([[maybe_unused]] fetched % batch_size_ == 0 && progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,

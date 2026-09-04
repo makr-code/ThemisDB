@@ -486,9 +486,9 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
         }
     }
 
-    if (impl_->step_callback) {
+    if ([[maybe_unused]] impl_->step_callback) {
         try {
-            impl_->step_callback(step);
+            impl_->step_callback([[maybe_unused]] step);
         } catch (...) {
             // Callbacks must not propagate exceptions.
         }
@@ -567,8 +567,8 @@ void RLAIFTrainer::resetStats() {
 }
 
 void RLAIFTrainer::setStepCallback(
-    std::function<void(const RLAIFTrainingStep&)> callback) {
-    impl_->step_callback = std::move(callback);
+    std::function<void([[maybe_unused]] const RLAIFTrainingStep&)> callback) {
+    impl_->step_callback = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================

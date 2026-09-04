@@ -56,9 +56,9 @@ static constexpr size_t EVENT_TYPES_MAX_LEN = 256;
 // Length of the "event_types=" query parameter prefix
 static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
 
-static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& types_str) {
+static std::set<Changefeed::ChangeEventType> parseEventTypes([[maybe_unused]] const std::string& types_str) {
     std::set<Changefeed::ChangeEventType> result;
-    if (types_str.size() > EVENT_TYPES_MAX_LEN) {
+    if ([[maybe_unused]] types_str.size() > EVENT_TYPES_MAX_LEN) {
         THEMIS_WARN("parseEventTypes: input too long ({} bytes, max {} allowed), ignoring",
                     types_str.size(), EVENT_TYPES_MAX_LEN);
         return result;
@@ -75,13 +75,13 @@ static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& 
         token = token.substr(start, end - start + 1);
 
         if (token == "PUT") {
-            result.insert(Changefeed::ChangeEventType::EVENT_PUT);
+            result.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_PUT);
         } else if (token == "DELETE") {
-            result.insert(Changefeed::ChangeEventType::EVENT_DELETE);
+            result.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_DELETE);
         } else if (token == "TRANSACTION_COMMIT") {
-            result.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
+            result.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_COMMIT);
         } else if (token == "TRANSACTION_ROLLBACK") {
-            result.insert(Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
+            result.insert([[maybe_unused]] Changefeed::ChangeEventType::EVENT_TRANSACTION_ROLLBACK);
         } else {
             THEMIS_WARN("parseEventTypes: unrecognized event type '{}'; ignoring", token);
         }
@@ -121,7 +121,7 @@ AsyncSSEStream::~AsyncSSEStream() noexcept {
     close();
 }
 
-void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept {
+void AsyncSSEStream::onChangeEvent([[maybe_unused]] const Changefeed::ChangeEvent& evt) noexcept {
     if (!active_.load(std::memory_order_acquire)) {
         return;  // Stream is closed, ignore events
     }
@@ -130,11 +130,11 @@ void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept 
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
         // Check for backpressure
-        if (event_queue_.size() >= config_.max_buffered_events) {
+        if ([[maybe_unused]] event_queue_.size() >= config_.max_buffered_events) {
             dropped_events_.fetch_add(1, std::memory_order_relaxed);
 
-            if (config_.drop_oldest_on_overflow && !event_queue_.empty()) {
-                event_queue_.erase(event_queue_.begin());
+            if ([[maybe_unused]] config_.drop_oldest_on_overflow && !event_queue_.empty()) {
+                event_queue_.erase([[maybe_unused]] event_queue_.begin());
             } else if (!config_.drop_oldest_on_overflow) {
                 // Drop newest: don't enqueue this event
                 return;
@@ -145,7 +145,7 @@ void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept 
         QueuedEvent queued;
         queued.event = evt;
         queued.enqueued_at_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1'000'000;
-        event_queue_.push_back(queued);
+        event_queue_.push_back([[maybe_unused]] queued);
     } catch (const std::exception& ex) {
         THEMIS_WARN("AsyncSSEStream::onChangeEvent caught exception: {}", ex.what());
     }
@@ -169,7 +169,7 @@ void AsyncSSEStream::drainEventQueue() noexcept {
                 // Track delivered event for at-least-once guarantees
                 {
                     std::lock_guard<std::mutex> lock(delivered_mutex_);
-                    delivered_events_.push_back(queued.event);
+                    delivered_events_.push_back([[maybe_unused]] queued.event);
                 }
             } catch (const std::exception& ex) {
                 THEMIS_WARN("AsyncSSEStream::drainEventQueue write failed: {}", ex.what());
@@ -210,7 +210,7 @@ size_t AsyncSSEStream::run(
 
         // Subscribe to events
         subscription_handle_ = changefeed_->subscribe(filter, [this](const Changefeed::ChangeEvent& evt) {
-            this->onChangeEvent(evt);
+            this->onChangeEvent([[maybe_unused]] evt);
         });
 
         if (!subscription_handle_.active()) {
@@ -243,13 +243,13 @@ size_t AsyncSSEStream::run(
         }
 
         THEMIS_DEBUG("AsyncSSEStream::run: stream closed after {} events",
-                    event_count_.load(std::memory_order_acquire));
+                    event_count_.load([[maybe_unused]] std::memory_order_acquire));
 
-        return event_count_.load(std::memory_order_acquire);
+        return event_count_.load([[maybe_unused]] std::memory_order_acquire);
     } catch (const std::exception& ex) {
         THEMIS_ERROR("AsyncSSEStream::run caught exception: {}", ex.what());
         active_.store(false, std::memory_order_release);
-        return event_count_.load(std::memory_order_acquire);
+        return event_count_.load([[maybe_unused]] std::memory_order_acquire);
     }
 }
 
@@ -264,7 +264,7 @@ std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const 
         std::lock_guard<std::mutex> lock(delivered_mutex_);
         return delivered_events_;
     } catch (...) {
-        THEMIS_DEBUG("changefeed_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "changefeed_api_handler: unhandled exception caught");
         return {};
     }
 }
@@ -272,7 +272,7 @@ std::vector<Changefeed::ChangeEvent> AsyncSSEStream::getDeliveredEvents() const 
 // ============================================================================
 // ChangefeedApiHandler static members
 // ============================================================================
-void ChangefeedApiHandler::setSseStreamWriterFn(SseStreamWriterFn fn) {
+void ChangefeedApiHandler::setSseStreamWriterFn([[maybe_unused]] SseStreamWriterFn fn) {
     std::lock_guard<std::mutex> lock(sse_writer_mutex_);
     sse_stream_writer_fn_ = std::move(fn);
 }
@@ -389,26 +389,26 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
             }
             
             // Parse event_types (comma-separated: PUT,DELETE,TRANSACTION_COMMIT,TRANSACTION_ROLLBACK)
-            size_t et_pos = query_str.find("event_types=");
+            size_t et_pos = query_str.find([[maybe_unused]] "event_types=");
             if (et_pos != std::string::npos) {
                 size_t et_end = query_str.find('&', et_pos);
                 std::string et_str = query_str.substr(et_pos + EVENT_TYPES_PARAM_LEN,
                     et_end == std::string::npos ? std::string::npos : et_end - et_pos - EVENT_TYPES_PARAM_LEN);
-                options.event_types = parseEventTypes(et_str);
+                options.event_types = parseEventTypes([[maybe_unused]] et_str);
             }
         }
         
         // OP-LATENCY-001: Measure changefeed query latency
         auto query_start = std::chrono::steady_clock::now();
-        auto events = changefeed_->listEvents(options);
+        auto events = changefeed_->listEvents([[maybe_unused]] options);
         auto query_latency = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - query_start);
         
         // Build response
         json response;
         response["events"] = json::array();
-        for (const auto& event : events) {
-            response["events"].push_back(event.toJson());
+        for ([[maybe_unused]] const auto& event : events) {
+            response["events"].push_back([[maybe_unused]] event.toJson());
         }
         response["count"] = events.size();
         response["latest_sequence"] = changefeed_->getLatestSequence();
@@ -491,12 +491,12 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             }
             
             // Parse event_types (comma-separated: PUT,DELETE,TRANSACTION_COMMIT,TRANSACTION_ROLLBACK)
-            size_t et_pos = query_str.find("event_types=");
+            size_t et_pos = query_str.find([[maybe_unused]] "event_types=");
             if (et_pos != std::string::npos) {
                 size_t et_end = query_str.find('&', et_pos);
                 std::string et_str = query_str.substr(et_pos + EVENT_TYPES_PARAM_LEN,
                     et_end == std::string::npos ? std::string::npos : et_end - et_pos - EVENT_TYPES_PARAM_LEN);
-                event_types = parseEventTypes(et_str);
+                event_types = parseEventTypes([[maybe_unused]] et_str);
             }
             
             // Parse keep_alive (default true for production)
@@ -565,7 +565,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             }
 
             // Parse max_events_per_poll
-            size_t me_pos = query_str.find("max_events=");
+            size_t me_pos = query_str.find([[maybe_unused]] "max_events=");
             if (me_pos != std::string::npos) {
                 size_t me_end = query_str.find('&', me_pos);
                 std::string me_str = query_str.substr(me_pos + 11,
@@ -578,9 +578,9 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     if (v > 1000) {
                         v = 1000;
                     }
-                    max_events_per_poll = static_cast<size_t>(v);
+                    max_events_per_poll = static_cast<size_t>([[maybe_unused]] v);
                 } catch (...) {
-                    THEMIS_DEBUG("changefeed: ignoring invalid max_events query param");
+                    THEMIS_DEBUG([[maybe_unused]] "changefeed: ignoring invalid max_events query param");
                 }
             }
 
@@ -630,7 +630,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     uint64_t last_id = std::stoull(std::string(h.value()));
                     if (from_seq == 0) from_seq = last_id;
                 } catch (...) {
-                    THEMIS_DEBUG("changefeed: ignoring invalid Last-Event-ID header value");
+                    THEMIS_DEBUG([[maybe_unused]] "changefeed: ignoring invalid Last-Event-ID header value");
                     break;
                 }
             }
@@ -774,7 +774,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 options.key_prefix = key_prefix;
             }
             
-            if (!event_types.empty()) {
+            if ([[maybe_unused]] !event_types.empty()) {
                 options.event_types = event_types;
             }
 
@@ -782,25 +782,25 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             std::vector<Changefeed::ChangeEvent> redelivery_events;
             if (!consumer_id.empty()) {
                 redelivery_events = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
-                for (const auto& ev : redelivery_events) {
+                for ([[maybe_unused]] const auto& ev : redelivery_events) {
                     body << "id: " << ev.sequence << "\n";
                     body << "data: " << ev.toJson().dump() << "\n\n";
                 }
             }
 
-            auto events = changefeed_->listEvents(options);
+            auto events = changefeed_->listEvents([[maybe_unused]] options);
             
-            for (const auto& ev : events) {
+            for ([[maybe_unused]] const auto& ev : events) {
                 body << "id: " << ev.sequence << "\n";
                 body << "data: " << ev.toJson().dump() << "\n\n";
             }
             
-            if (events.empty() && redelivery_events.empty()) {
+            if ([[maybe_unused]] events.empty() && redelivery_events.empty()) {
                 body << ": heartbeat\n\n";
             }
 
             // --- At-least-once: track newly delivered events ---
-            if (!consumer_id.empty() && !events.empty()) {
+            if ([[maybe_unused]] !consumer_id.empty() && !events.empty()) {
                 delivery_tracker_.trackDelivery(consumer_id, events);
             }
 
@@ -954,7 +954,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetention(
         }
 
         span.setAttribute("retention.before_seq", static_cast<int64_t>(before_seq));
-        auto deleted = changefeed_->deleteOldEvents(before_seq);
+        auto deleted = changefeed_->deleteOldEvents([[maybe_unused]] before_seq);
         nlohmann::json response = {
             {"deleted", deleted},
             {"before_sequence", before_seq}
@@ -1066,7 +1066,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
             }
             policy.max_age_hours = std::chrono::hours(v);
         }
-        if (body.contains("max_event_count")) {
+        if ([[maybe_unused]] body.contains("max_event_count")) {
             auto v = body["max_event_count"].get<uint64_t>();
             if (v < 1) {
                 return makeErrorResponse(http::status::bad_request,

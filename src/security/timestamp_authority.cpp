@@ -178,7 +178,7 @@ TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t
             return fn(hash, config_);
         } catch (const std::exception& e) {
             TimestampToken tok;
-            tok.error_message = std::string("getTimestampForHash callback failed: ") + e.what();
+            tok.error_message = std::string([[maybe_unused]] "getTimestampForHash callback failed: ") + e.what();
             return tok;
         }
     }

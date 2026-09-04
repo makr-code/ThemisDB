@@ -923,7 +923,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
             THEMIS_DEBUG("SQLite INSERT entity: {}", entity.dump());
 
             // Invoke streaming row callback if set
-            if (options.streaming_row_callback) {
+            if ([[maybe_unused]] options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                     return true;
@@ -1165,7 +1165,7 @@ void SQLiteImporter::emitMetric(const ImportOptions& options,
                                  const std::string& metric,
                                  const std::map<std::string, std::string>& labels,
                                  double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1174,7 +1174,7 @@ void SQLiteImporter::emitSpan(const ImportOptions& options,
                                const std::string& operation,
                                const std::map<std::string, std::string>& attributes,
                                double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -1182,7 +1182,7 @@ void SQLiteImporter::emitSpan(const ImportOptions& options,
 void SQLiteImporter::reportProgress(ProgressCallback& callback,
                                      const std::string& stage,
                                      size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }

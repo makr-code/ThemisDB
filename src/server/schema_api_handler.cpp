@@ -49,11 +49,11 @@ SchemaApiHandler::SchemaApiHandler(
     , audit_log_(nullptr)
     , column_lineage_tracker_(nullptr)
 {
-    spdlog::info("SchemaApiHandler initialized");
+    spdlog::info([[maybe_unused]] "SchemaApiHandler initialized");
 }
 
 SchemaApiHandler::~SchemaApiHandler() {
-    spdlog::info("SchemaApiHandler destroyed");
+    spdlog::info([[maybe_unused]] "SchemaApiHandler destroyed");
 }
 
 http::response<http::string_body> SchemaApiHandler::handleGetSchema(
@@ -565,27 +565,27 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
 // Setter methods
 // ============================================================================
 
-void SchemaApiHandler::setStatisticsCollector(StatisticsCollector* stats_collector) {
+void SchemaApiHandler::setStatisticsCollector([[maybe_unused]] StatisticsCollector* stats_collector) {
     stats_collector_ = stats_collector;
 }
 
-void SchemaApiHandler::setSchemaConstraints(SchemaConstraints* schema_constraints) {
+void SchemaApiHandler::setSchemaConstraints([[maybe_unused]] SchemaConstraints* schema_constraints) {
     schema_constraints_ = schema_constraints;
 }
 
-void SchemaApiHandler::setSchemaVersionManager(SchemaVersionManager* version_mgr) {
+void SchemaApiHandler::setSchemaVersionManager([[maybe_unused]] SchemaVersionManager* version_mgr) {
     version_mgr_ = version_mgr;
 }
 
-void SchemaApiHandler::setIndexRecommender(metadata::IndexRecommender* index_recommender) {
+void SchemaApiHandler::setIndexRecommender([[maybe_unused]] metadata::IndexRecommender* index_recommender) {
     index_recommender_ = index_recommender;
 }
 
-void SchemaApiHandler::setAuditLog(SchemaAuditLog* audit_log) {
+void SchemaApiHandler::setAuditLog([[maybe_unused]] SchemaAuditLog* audit_log) {
     audit_log_ = audit_log;
 }
 
-void SchemaApiHandler::setColumnLineageTracker(themis::metadata::ColumnLineageTracker* tracker) {
+void SchemaApiHandler::setColumnLineageTracker([[maybe_unused]] themis::metadata::ColumnLineageTracker* tracker) {
     column_lineage_tracker_ = tracker;
 }
 

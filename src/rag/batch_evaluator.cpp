@@ -249,10 +249,10 @@ void BatchEvaluator::workerThread() {
         try {
             auto result = processEvaluation(item.input);
             ++total_processed_;
-            if (item.callback) {
+            if ([[maybe_unused]] item.callback) {
                 // HIGH FIX: Guard callback invocation to prevent exception propagation
                 try {
-                    item.callback(result);
+                    item.callback([[maybe_unused]] result);
                 } catch (const std::exception& cb_ex) {
                     THEMIS_WARN("BatchEvaluator worker: callback threw exception: {}", cb_ex.what());
                 }
@@ -417,7 +417,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
             results.push_back(processEvaluation(input));
             ++completed;
 
-            if (config_.enable_progress_tracking && config_.progress_callback) {
+            if ([[maybe_unused]] config_.enable_progress_tracking && config_.progress_callback) {
                 // HIGH FIX: Guard progress callback to prevent callback exceptions from interrupting batch
                 try {
                     BatchProgress progress;
@@ -430,7 +430,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                     progress.elapsed_time =
                         std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now() - start_time);
-                    config_.progress_callback(progress);
+                    config_.progress_callback([[maybe_unused]] progress);
                 } catch (const std::exception& cb_ex) {
                     THEMIS_WARN("BatchEvaluator::evaluateBatch: progress callback threw: {}", cb_ex.what());
                 }
@@ -678,11 +678,11 @@ std::vector<std::shared_ptr<AsyncEvaluationHandle>> BatchEvaluator::evaluateAsyn
 
 void BatchEvaluator::submit(
     const EvaluationInput& input,
-    std::function<void(const EvaluationResult&)> callback) {
+    std::function<void([[maybe_unused]] const EvaluationResult&)> callback) {
     std::lock_guard<std::mutex> lock(queue_mutex_);
     QueuedEvaluation item;
     item.input    = input;
-    item.callback = std::move(callback);
+    item.callback = std::move([[maybe_unused]] callback);
     eval_queue_.push(std::move(item));
     queue_cv_.notify_one();
 }

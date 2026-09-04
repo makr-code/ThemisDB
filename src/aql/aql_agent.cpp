@@ -31,7 +31,7 @@ namespace aql {
 class ReActAgent::Impl {
   public:
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-        : handler_(std::move(handler)), config_(config) {}
+        : handler_([[maybe_unused]] std::move(handler)), config_(config) {}
 
     // -----------------------------------------------------------------------
     // Tool registry
@@ -301,7 +301,7 @@ class ReActAgent::Impl {
 // ============================================================================
 
 ReActAgent::ReActAgent(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-    : impl_(std::make_unique<Impl>(std::move(handler), config)) {}
+    : impl_([[maybe_unused]] std::make_unique<Impl>(std::move(handler), config)) {}
 
 ReActAgent::~ReActAgent() = default;
 

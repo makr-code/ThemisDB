@@ -273,11 +273,11 @@ void ReplicaConsistencyManager::updateVectorClock(const std::string& node_id,
 }
 
 /** @brief Register callback for custom conflict resolution (thread-safe). */
-void ReplicaConsistencyManager::setConflictCallback(ConflictCallback callback) {
+void ReplicaConsistencyManager::setConflictCallback([[maybe_unused]] ConflictCallback callback) {
     // conflict_callback_ is read under mutex_ by autoResolveConflict; acquire
     // here to prevent a data race when the callback is registered concurrently.
     std::lock_guard<std::mutex> lock(mutex_);
-    conflict_callback_ = std::move(callback);
+    conflict_callback_ = std::move([[maybe_unused]] callback);
 }
 
 /** @brief Return retained version history for key. */
@@ -358,8 +358,8 @@ std::optional<VersionConflict> ReplicaConsistencyManager::detectConflict(
 VersionedEntry ReplicaConsistencyManager::autoResolveConflict(
     const VersionConflict& conflict) {
     
-    if (conflict_callback_) {
-        return conflict_callback_(conflict);
+    if ([[maybe_unused]] conflict_callback_) {
+        return conflict_callback_([[maybe_unused]] conflict);
     }
     
     return selectWinningVersion(conflict.conflicting_versions,

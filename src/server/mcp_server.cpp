@@ -264,7 +264,7 @@ void McpServer::start() {
         // is always non-null here; the guard makes the invariant explicit for
         // static analyzers and future refactors.
         if (stdio_transport_) {
-            stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            stdio_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             stdio_transport_->start();
             if (stdio_transport_->isRunning()) {
                 spdlog::info("MCP stdio transport started");
@@ -279,7 +279,7 @@ void McpServer::start() {
     if (config_.enable_sse) {
         sse_transport_ = std::make_shared<SseTransport>(io_context_, config_.sse_keepalive_ms);
         if (sse_transport_) {
-            sse_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            sse_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             sse_transport_->start();
             spdlog::info("MCP SSE transport started");
         } else {
@@ -290,7 +290,7 @@ void McpServer::start() {
     if (config_.enable_websocket) {
         ws_transport_ = std::make_shared<WebSocketTransport>(io_context_, config_.websocket_ping_interval_ms);
         if (ws_transport_) {
-            ws_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
+            ws_transport_->setMessageHandler([[maybe_unused]] [this](const json& req) { return handleRequest(req); });
             ws_transport_->start();
             spdlog::info("MCP WebSocket transport started");
         } else {
@@ -492,7 +492,7 @@ void McpServer::unregisterPrompt(const std::string& name) {
 // Request Handling
 // ============================================================================
 
-json McpServer::handleRequest(const json& request) {
+json McpServer::handleRequest([[maybe_unused]] const json& request) {
     try {
         // Validate JSON-RPC 2.0 request
         if (!request.contains("jsonrpc") || request["jsonrpc"] != "2.0") {
@@ -514,9 +514,9 @@ json McpServer::handleRequest(const json& request) {
         } else if (method == "tools/call") {
             return handleToolsCall(params);
         } else if (method == "resources/list") {
-            return handleResourcesList(params);
+            return handleResourcesList([[maybe_unused]] params);
         } else if (method == "resources/read") {
-            return handleResourcesRead(params);
+            return handleResourcesRead([[maybe_unused]] params);
         } else if (method == "prompts/list") {
             return handlePromptsList(params);
         } else if (method == "prompts/get") {
@@ -588,18 +588,18 @@ json McpServer::handleToolsCall(const json& params) {
     // Calling an empty std::function throws std::bad_function_call; we
     // catch that below, but making the guard explicit surfaces registration
     // bugs as a distinct, unambiguous error code.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Tool handler not available: " + name);
     }
     try {
-        json result = it->second.handler(args);
+        json result = it->second.handler([[maybe_unused]] args);
         return createSuccessResponse({{"content", {{{"type", "text"}, {"text", result.dump()}}}}});
     } catch (const std::exception& e) {
         return createError(-32000, std::string("Tool execution failed: ") + e.what());
     }
 }
 
-json McpServer::handleResourcesList(const json& params) {
+json McpServer::handleResourcesList([[maybe_unused]] const json& params) {
     json resources_list = json::array();
     
     for (const auto& [uri, info] : resources_) {
@@ -614,7 +614,7 @@ json McpServer::handleResourcesList(const json& params) {
     return createSuccessResponse({{"resources", resources_list}});
 }
 
-json McpServer::handleResourcesRead(const json& params) {
+json McpServer::handleResourcesRead([[maybe_unused]] const json& params) {
     if (!params.contains("uri")) {
         return createError(-32602, "Invalid params: missing 'uri'");
     }
@@ -627,11 +627,11 @@ json McpServer::handleResourcesRead(const json& params) {
     }
 
     // Guard against an empty/null std::function stored for this resource.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Resource handler not available: " + uri);
     }
     try {
-        json content = it->second.handler(uri);
+        json content = it->second.handler([[maybe_unused]] uri);
         return createSuccessResponse({
             {"contents", {{
                 {"uri", uri},
@@ -673,7 +673,7 @@ json McpServer::handlePromptsGet(const json& params) {
     json args = params.contains("arguments") ? params["arguments"] : json::object();
     
     // Guard against an empty/null std::function stored for this prompt.
-    if (!it->second.handler) {
+    if ([[maybe_unused]] !it->second.handler) {
         return createError(-32601, "Prompt handler not available: " + name);
     }
     try {
@@ -2638,11 +2638,11 @@ json McpServer::handleAiApprove(const std::string& operation_id) {
         const auto tool_it = tools_.find(tool);
         if (tool_it == tools_.end()) {
             exec_result = {{"status","error"},{"message","Tool not found after approval"}};
-        } else if (!tool_it->second.handler) {
+        } else if ([[maybe_unused]] !tool_it->second.handler) {
             // Guard: handler stored as empty std::function — indicates a registration bug.
             exec_result = {{"status","error"},{"message","Tool handler not available after approval: " + tool}};
         } else {
-            exec_result = tool_it->second.handler(mutable_args);
+            exec_result = tool_it->second.handler([[maybe_unused]] mutable_args);
         }
     } catch (const std::exception& e) {
         exec_result = {{"status","error"},{"message", std::string("Execution failed: ") + e.what()}};
@@ -3035,8 +3035,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3059,8 +3059,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3110,8 +3110,8 @@ void StdioTransport::readStdin() {
                         json request = json::parse(self->partial_message_);
                         
                         // Call message handler
-                        if (self->message_handler_) {
-                            json response = self->message_handler_(request);
+                        if ([[maybe_unused]] self->message_handler_) {
+                            json response = self->message_handler_([[maybe_unused]] request);
                             self->send(response);
                         }
                         
@@ -3334,9 +3334,9 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
     
     try {
         json request = json::parse(message);
-        if (message_handler_) {
+        if ([[maybe_unused]] message_handler_) {
             // Process request and send response to the specific session
-            json response = message_handler_(request);
+            json response = message_handler_([[maybe_unused]] request);
             sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {

@@ -121,7 +121,7 @@ void GPUTrainingLoop::setMixedPrecisionTrainer(MixedPrecisionTrainer* trainer) {
                  trainer ? trainer->is_enabled() : false);
 }
 
-void GPUTrainingLoop::registerCallback(GPUTrainingCallback callback) {
+void GPUTrainingLoop::registerCallback([[maybe_unused]] GPUTrainingCallback callback) {
     callback_ = callback;
 }
 
@@ -662,8 +662,8 @@ void GPUTrainingLoop::updateMetrics(int epoch, int step, float loss) {
     current_metrics_.progress = static_cast<float>(step) / 
                                 static_cast<float>(current_metrics_.total_steps);
     
-    if (callback_) {
-        callback_(current_metrics_);
+    if ([[maybe_unused]] callback_) {
+        callback_([[maybe_unused]] current_metrics_);
     }
 }
 

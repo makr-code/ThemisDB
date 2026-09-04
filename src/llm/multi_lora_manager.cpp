@@ -3159,7 +3159,7 @@ void MultiLoRAManager::logGPUTransferEvent(const std::string& event_type,
     event.vram_bytes = vram_bytes;
     event.details = details;
     
-    audit_log_.push_back(event);
+    audit_log_.push_back([[maybe_unused]] event);
     
     // Trim log if it exceeds max size
     if (audit_log_.size() > max_audit_log_size_) {

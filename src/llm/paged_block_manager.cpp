@@ -115,7 +115,7 @@ void PagedBlockManager::deallocate(int block_id) {
 void PagedBlockManager::withBlock(int block_id, std::function<void(const Block&)> callback) const {
     auto block_opt = blocks_.get(block_id);
     if (block_opt) {
-        callback(*block_opt);
+        callback([[maybe_unused]] *block_opt);
     }
 }
 

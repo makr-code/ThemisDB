@@ -253,23 +253,23 @@ void EnvoyXdsClient::stop() {
 // Callback registration
 // ─────────────────────────────────────────────────────────────────────────────
 
-void EnvoyXdsClient::setListenerCallback(ListenerCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-    listener_cb_ = std::move(cb);
+void EnvoyXdsClient::setListenerCallback([[maybe_unused]] ListenerCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+    listener_cb_ = std::move([[maybe_unused]] cb);
 }
 
-void EnvoyXdsClient::setClusterCallback(ClusterCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setClusterCallback([[maybe_unused]] ClusterCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     cluster_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setRouteCallback(RouteCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setRouteCallback([[maybe_unused]] RouteCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     route_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setEndpointCallback(EndpointCallback cb) {
-    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+void EnvoyXdsClient::setEndpointCallback([[maybe_unused]] EndpointCallback cb) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
     endpoint_cb_ = std::move(cb);
 }
 
@@ -719,7 +719,7 @@ void EnvoyXdsClient::pollLoop() {
         bool had_any_update = false;
 
         // ── LDS ────────────────────────────────────────────────────────────
-        if (config_.subscribe_listeners) {
+        if ([[maybe_unused]] config_.subscribe_listeners) {
             std::string res_json;
             bool err = false;
             const bool updated = pollDiscoveryService(
@@ -734,9 +734,9 @@ void EnvoyXdsClient::pollLoop() {
             if (updated) {
                 had_any_update = true;
                 {
-                    const auto listeners = parseListeners(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
-                    if (listener_cb_) listener_cb_(listeners);
+                    const auto listeners = parseListeners([[maybe_unused]] res_json);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    if ([[maybe_unused]] listener_cb_) listener_cb_(listeners);
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
                 lds_version_ = lds_ver;
@@ -761,7 +761,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto clusters = parseClusters(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
                     if (cluster_cb_) cluster_cb_(clusters);
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
@@ -787,7 +787,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto endpoints = parseEndpoints(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
                     if (endpoint_cb_) endpoint_cb_(endpoints);
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);
@@ -813,7 +813,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto routes = parseRoutes(res_json);
-                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
                     if (route_cb_) route_cb_(routes);
                 }
                 std::lock_guard<std::mutex> lk(versions_mutex_);

@@ -203,7 +203,7 @@ std::string KafkaCDCProducer::topicForEvent(
         return config_.single_topic;
     }
     // Derive collection name from key: "collection:rest-of-key".
-    const auto colon = event.key.find(':');
+    const auto colon = event.key.find([[maybe_unused]] ':');
     const std::string collection =
         (colon != std::string::npos) ? event.key.substr(0, colon) : event.key;
     return config_.topic_prefix + collection;
@@ -237,12 +237,12 @@ RdKafka::Topic* KafkaCDCProducer::getOrCreateTopic(
 
 // ── Manual publish ────────────────────────────────────────────────────────────
 
-bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
+bool KafkaCDCProducer::publish([[maybe_unused]] const Changefeed::ChangeEvent& event) {
     if (!producer_) {
         return false;
     }
 
-    const std::string topic_name = topicForEvent(event);
+    const std::string topic_name = topicForEvent([[maybe_unused]] event);
     RdKafka::Topic* topic = getOrCreateTopic(topic_name);
     if (!topic) {
         return false;
@@ -255,7 +255,7 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
         DebeziumFormatter fmt(config_.debezium_config);
         // Pass an empty collection name so the formatter derives it from the
         // event key prefix (consistent with topicForEvent() routing logic).
-        payload = fmt.toJson(event).dump();
+        payload = fmt.toJson([[maybe_unused]] event).dump();
     } else {
         payload = event.toJson().dump();
     }
@@ -316,9 +316,9 @@ void KafkaCDCProducer::pollingThread() {
         opts.limit         = 1000;  // Batch up to 1 000 events per poll cycle.
 
         std::vector<Changefeed::ChangeEvent> events =
-            changefeed_->listEvents(opts);
+            changefeed_->listEvents([[maybe_unused]] opts);
 
-        for (const auto& ev : events) {
+        for ([[maybe_unused]] const auto& ev : events) {
             if (publish(ev)) {
                 last_sequence_.store(ev.sequence, std::memory_order_relaxed);
             }
@@ -329,7 +329,7 @@ void KafkaCDCProducer::pollingThread() {
             producer_->poll(static_cast<int>(config_.poll_interval_ms));
         }
 
-        if (events.empty()) {
+        if ([[maybe_unused]] events.empty()) {
             std::this_thread::sleep_for(interval);
         }
     }

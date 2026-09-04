@@ -1308,7 +1308,7 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
         try {
             return fn(message, secret_key);
         } catch (...) {
-            THEMIS_WARN("SphincsPlus::sign: exception from user callback (suppressed)");
+            THEMIS_WARN([[maybe_unused]] "SphincsPlus::sign: exception from user callback (suppressed)");
             return {};
         }
     }
@@ -1376,7 +1376,7 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
         try {
             return fn(message, signature, public_key);
         } catch (...) {
-            THEMIS_WARN("SphincsPlus::verify: exception from user callback (suppressed)");
+            THEMIS_WARN([[maybe_unused]] "SphincsPlus::verify: exception from user callback (suppressed)");
             return false;
         }
     }

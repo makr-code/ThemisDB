@@ -980,8 +980,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     stats.bytes_written     = static_cast<size_t>(file_pos);
 
     // Progress callback
-    if (options.progress_callback) {
-        options.progress_callback(stats);
+    if ([[maybe_unused]] options.progress_callback) {
+        options.progress_callback([[maybe_unused]] stats);
     }
 
     THEMIS_INFO("ArrowIPCExporter: wrote {} entities, {} columns, {} bytes to {}", stats.exported_entities,
@@ -1084,8 +1084,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
     stats.exported_entities = entities.size();
     stats.bytes_written     = maybe_pos.ok() ? static_cast<size_t>(*maybe_pos) : 0;
 
-    if (options.progress_callback) {
-        options.progress_callback(stats);
+    if ([[maybe_unused]] options.progress_callback) {
+        options.progress_callback([[maybe_unused]] stats);
     }
 
     return stats;

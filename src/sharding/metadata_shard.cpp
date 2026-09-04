@@ -251,8 +251,8 @@ bool MetadataShard::put(
         std::lock_guard<std::mutex> lock(subscriptions_mutex_);
         auto sub_it = subscriptions_.find(partition);
         if (sub_it != subscriptions_.end()) {
-            for (auto& callback : sub_it->second) {
-                callback(entry);
+            for ([[maybe_unused]] auto& callback : sub_it->second) {
+                callback([[maybe_unused]] entry);
             }
         }
     }
@@ -381,7 +381,7 @@ void MetadataShard::subscribe(
     std::function<void(const MetadataEntry&)> callback
 ) {
     std::lock_guard<std::mutex> lock(subscriptions_mutex_);
-    subscriptions_[partition].push_back(callback);
+    subscriptions_[partition].push_back([[maybe_unused]] callback);
 }
 
 /** @brief Determine shard owner id by hashing key into metadata shard space. */

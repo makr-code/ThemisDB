@@ -536,7 +536,7 @@ void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
 void HotReloadEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback
 ) {
-    progress_callback_ = std::move(callback);
+    progress_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void HotReloadEngine::setPostUpdateHealthCheck(PostUpdateHealthCheck check) {
@@ -724,7 +724,7 @@ std::string HotReloadEngine::generateRollbackId() {
 void HotReloadEngine::reportProgress(int percentage, const std::string& message) {
     LOG_DEBUG("Progress: {}% - {}", percentage, message);
     
-    if (progress_callback_) {
+    if ([[maybe_unused]] progress_callback_) {
         progress_callback_(percentage, message);
     }
 }

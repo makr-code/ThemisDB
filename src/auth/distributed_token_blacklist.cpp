@@ -382,7 +382,7 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
             if (::bind(srv, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == 0
                 && ::listen(srv, 8) == 0) {
                 server_fd_ = static_cast<std::uintptr_t>(srv);
-                listener_thread_ = std::thread([this] { serveIncomingConnections(); });
+                listener_thread_ = std::thread([[maybe_unused]] [this] { serveIncomingConnections(); });
             } else {
                 sockClose(srv);
                 // Non-fatal: node operates without inbound listener
@@ -406,7 +406,7 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
     
     if (purge_thread_.joinable())       purge_thread_.join();
     if (replication_thread_.joinable()) replication_thread_.join();
-    if (listener_thread_.joinable())    listener_thread_.join();
+    if ([[maybe_unused]] listener_thread_.joinable())    listener_thread_.join();
     
     // Close RocksDB column family handles and the database itself
     if (cf_) {

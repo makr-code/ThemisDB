@@ -417,15 +417,15 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
     return ct;
 }
 
-void SipCallSession::injectDtmf(const DtmfEvent& event) {
+void SipCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
     if (!impl_) return;
-    if (!isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
-        THEMIS_WARN("SipCallSession: invalid DTMF event rejected (error 6910)");
+    if ([[maybe_unused]] !isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
+        THEMIS_WARN([[maybe_unused]] "SipCallSession: invalid DTMF event rejected (error 6910)");
         return;
     }
     THEMIS_INFO("SipCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if (impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) impl_->on_dtmf(event);
 }
 
 std::vector<std::vector<uint8_t>>
@@ -641,11 +641,11 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     return ct;
 }
 
-void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
+void WebRtcCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
     if (!impl_) return;
     THEMIS_INFO("WebRtcCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if (impl_->on_dtmf) impl_->on_dtmf(event);
+    if ([[maybe_unused]] impl_->on_dtmf) impl_->on_dtmf(event);
 }
 
 std::vector<std::vector<uint8_t>>
@@ -722,14 +722,14 @@ void IvrEngine::addNode(IvrNode node) {
     nodes_[std::move(id)] = std::move(node);
 }
 
-std::string IvrEngine::handleDtmf(const DtmfEvent& event) {
-    collected_dtmf_.push_back(event);
+std::string IvrEngine::handleDtmf([[maybe_unused]] const DtmfEvent& event) {
+    collected_dtmf_.push_back([[maybe_unused]] event);
 
     auto it = nodes_.find(current_node_id_);
     if (it == nodes_.end()) return {};
 
     const auto& node = it->second;
-    auto route_it = node.dtmf_routes.find(event.digit);
+    auto route_it = node.dtmf_routes.find([[maybe_unused]] event.digit);
     if (route_it == node.dtmf_routes.end()) return {};
 
     current_node_id_ = route_it->second;

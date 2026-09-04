@@ -836,7 +836,7 @@ bool RocksDBWrapper::isOpen() const {
     return db_ != nullptr;
 }
 
-void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
+void RocksDBWrapper::addEventListener([[maybe_unused]] std::shared_ptr<rocksdb::EventListener> listener) {
     if (!listener) return;
     std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
     if (isOpen()) {
@@ -844,7 +844,7 @@ void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> li
                     "listener will not take effect for the current database instance");
         return;
     }
-    options_->listeners.emplace_back(std::move(listener));
+    options_->listeners.emplace_back([[maybe_unused]] std::move(listener));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
@@ -1938,7 +1938,7 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
     }
 }
 
-void RocksDBWrapper::scanAll(ScanCallback callback) {
+void RocksDBWrapper::scanAll([[maybe_unused]] ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
     if (!guard) return;

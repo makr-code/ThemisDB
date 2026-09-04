@@ -387,36 +387,36 @@ nlohmann::json PaxosConsensus::getStatus() const {
 void PaxosConsensus::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_commit_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_commit_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void PaxosConsensus::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void PaxosConsensus::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_leader_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setPrepareRPCCallback([[maybe_unused]] PaxosPrepareCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_prepare_cb_ = std::move(cb);
 }
 
-void PaxosConsensus::setPrepareFullRPCCallback(PaxosPrepareFullCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setPrepareFullRPCCallback([[maybe_unused]] PaxosPrepareFullCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_prepare_full_cb_ = std::move(cb);
 }
 
-void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+void PaxosConsensus::setAcceptRPCCallback([[maybe_unused]] PaxosAcceptCallback cb) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
     rpc_accept_cb_ = std::move(cb);
 }
 
@@ -592,7 +592,7 @@ void PaxosConsensus::leaderElectionThread() {
 
         PaxosPrepareCallback cb;
         {
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
             cb = rpc_prepare_cb_;
         }
 
@@ -689,7 +689,7 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
             PaxosPrepareFullCallback full_cb;
             PaxosPrepareCallback     basic_cb;
             {
-                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
                 full_cb  = rpc_prepare_full_cb_;
                 basic_cb = rpc_prepare_cb_;
             }
@@ -840,7 +840,7 @@ bool PaxosConsensus::executeAcceptPhase(
 
             PaxosAcceptCallback cb;
             {
-                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
                 cb = rpc_accept_cb_;
             }
 
@@ -918,9 +918,9 @@ bool PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     
     // Call commit callback
     {
-        std::lock_guard<std::mutex> lock(callbacks_mutex_);
-        if (on_commit_callback_) {
-            on_commit_callback_(value);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+        if ([[maybe_unused]] on_commit_callback_) {
+            on_commit_callback_([[maybe_unused]] value);
         }
     }
     

@@ -91,7 +91,7 @@ bool FaultInjector::injectFault(const FaultSpec &fault) {
         }
     }
 
-    for (auto &cb : callbacks_) {
+    for ([[maybe_unused]] auto &cb : callbacks_) {
         cb(fault, true);
     }
     return true;
@@ -103,7 +103,7 @@ bool FaultInjector::recoverFault(const std::string &target_node_id) {
     auto it  = active_faults_.begin();
     while (it != active_faults_.end()) {
         if (it->second.spec.target_node_id == target_node_id) {
-            for (auto &cb : callbacks_) {
+            for ([[maybe_unused]] auto &cb : callbacks_) {
                 cb(it->second.spec, false);
             }
             it  = active_faults_.erase(it);
@@ -122,7 +122,7 @@ bool FaultInjector::recoverFault(const std::string &target_node_id, FaultType ty
     if (it == active_faults_.end()) {
         return false;
     }
-    for (auto &cb : callbacks_) {
+    for ([[maybe_unused]] auto &cb : callbacks_) {
         cb(it->second.spec, false);
     }
     active_faults_.erase(it);
@@ -171,8 +171,8 @@ void FaultInjector::clearAllFaults() {
     active_faults_.clear();
 }
 
-void FaultInjector::registerEventCallback(EventCallback cb) {
-    callbacks_.push_back(std::move(cb));
+void FaultInjector::registerEventCallback([[maybe_unused]] EventCallback cb) {
+    callbacks_.push_back([[maybe_unused]] std::move(cb));
 }
 
 void FaultInjector::pruneExpired() {

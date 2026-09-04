@@ -74,7 +74,7 @@ std::string PIIApiHandler::nowIso8601() {
     return oss.str();
 }
 
-bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
+bool PIIApiHandler::addMapping([[maybe_unused]] const PiiMapping& mappingIn) {
     if (!db_) return false;
     auto& db = *db_;
     PiiMapping mapping = mappingIn;
@@ -97,7 +97,7 @@ bool PIIApiHandler::addMapping(const PiiMapping& mappingIn) {
     return s.ok();
 }
 
-std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_uuid) const {
+std::optional<PiiMapping> PIIApiHandler::getMapping([[maybe_unused]] const std::string& original_uuid) const {
     if (!db_) return std::nullopt;
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
@@ -110,12 +110,12 @@ std::optional<PiiMapping> PIIApiHandler::getMapping(const std::string& original_
         json j = json::parse(value);
         return PiiMapping::fromJson(j);
     } catch (...) {
-        THEMIS_DEBUG("pii_api_handler: unhandled exception caught");
+        THEMIS_DEBUG([[maybe_unused]] "pii_api_handler: unhandled exception caught");
         return std::nullopt;
     }
 }
 
-bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
+bool PIIApiHandler::deleteMapping([[maybe_unused]] const std::string& original_uuid) {
     if (!db_) return false;
     auto& db = *db_;
     std::string key = makeKey(original_uuid);
@@ -124,7 +124,7 @@ bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
     return s.ok();
 }
 
-json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
+json PIIApiHandler::listMappings([[maybe_unused]] const PiiQueryFilter& filter) {
     auto span = Tracer::startSpan("listMappings");
     json out_items = json::array();
     if (!db_) {
@@ -164,7 +164,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
             ++index;
             ++total;
         } catch (...) {
-            THEMIS_WARN("pii_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "pii_api_handler: unhandled exception caught");
             // skip malformed entries
         }
     }
@@ -172,7 +172,7 @@ json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
     return json{{"items", out_items}, {"total", total}, {"page", page}, {"page_size", page_size}};
 }
 
-std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
+std::string PIIApiHandler::exportCsv([[maybe_unused]] const PiiQueryFilter& filter) {
     auto js = listMappings(filter);
     std::string csv = "original_uuid,pseudonym,active,created_at,updated_at\n";
     for (const auto& r : js["items"]) {
@@ -186,7 +186,7 @@ std::string PIIApiHandler::exportCsv(const PiiQueryFilter& filter) {
     return csv;
 }
 
-json PIIApiHandler::deleteByUuid(const std::string& uuid) {
+json PIIApiHandler::deleteByUuid([[maybe_unused]] const std::string& uuid) {
     bool ok = deleteMapping(uuid);
     return json{{"status", ok ? "deleted" : "not_found"}, {"uuid", uuid}};
     auto span = Tracer::startSpan("deleteByUuid");

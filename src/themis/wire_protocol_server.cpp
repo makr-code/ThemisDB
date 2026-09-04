@@ -107,14 +107,14 @@ void setWireGraphTraversalFn(WireGraphTraversalFn fn) {
 }
 
 void MessageDispatcher::register_handler(OpCode opcode, handler_fn handler) {
-    handlers_[opcode] = std::move(handler);
+    handlers_[opcode] = std::move([[maybe_unused]] handler);
 }
 
 void MessageDispatcher::dispatch(WireProtocolSession&        session,
                                  OpCode                      opcode,
                                  const std::vector<uint8_t>& payload) {
-    auto it = handlers_.find(opcode);
-    if (it != handlers_.end()) {
+    auto it = handlers_.find([[maybe_unused]] opcode);
+    if ([[maybe_unused]] it != handlers_.end()) {
         it->second(session, payload);
     } else {
         std::cerr << "[WireV1] No handler for opcode 0x"
@@ -403,9 +403,9 @@ void WireProtocolSession::start() {
 }
 
 void WireProtocolSession::set_disconnect_callback(
-    std::function<void(const std::string&)> callback) {
+    std::function<void([[maybe_unused]] const std::string&)> callback) {
     std::lock_guard<std::mutex> lock(session_mutex_);
-    disconnect_callback_ = std::move(callback);
+    disconnect_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void WireProtocolSession::close(const std::string& /*reason*/) {
@@ -423,8 +423,8 @@ void WireProtocolSession::close(const std::string& /*reason*/) {
         socket_.close(ec);
     }
 
-    if (disconnect_callback) {
-        disconnect_callback(session_id_);
+    if ([[maybe_unused]] disconnect_callback) {
+        disconnect_callback([[maybe_unused]] session_id_);
     }
 }
 
@@ -1644,7 +1644,7 @@ void WireProtocolServer::setGraphTraverseFn(WireProtocolSession::GraphTraverseFn
     graph_traverse_fn_ = std::move(fn);
 }
 
-void WireProtocolServer::bindSessionCallbacksLocked(WireProtocolSession& session) const {
+void WireProtocolServer::bindSessionCallbacksLocked([[maybe_unused]] WireProtocolSession& session) const {
     session.aql_query_fn_ = aql_query_fn_;
     session.cursor_next_fn_ = cursor_next_fn_;
     session.cursor_close_fn_ = cursor_close_fn_;
@@ -1662,7 +1662,7 @@ void WireProtocolServer::async_accept() {
             // Propagate the server bootstrap wiring to each accepted session.
             {
                 std::lock_guard<std::mutex> lock(state_mutex_);
-                bindSessionCallbacksLocked(*session);
+                bindSessionCallbacksLocked([[maybe_unused]] *session);
             }
             handle_accept(session, ec);
         });

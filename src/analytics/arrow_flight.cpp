@@ -230,14 +230,14 @@ class InProcessRegistry {
             }
             const std::string key = descriptorToKey(descriptor);
             auto dit              = sit->second.find(key);
-            if (dit == sit->second.end() || !dit->second.put_handler) {
+            if ([[maybe_unused]] dit == sit->second.end() || !dit->second.put_handler) {
                 return {false, "[ArrowFlight] no put handler for: " + descriptor.toString(), 0, 0};
             }
             handler = dit->second.put_handler; // cheap shared_ptr copy
         }
         const int64_t rows = static_cast<int64_t>(batch.rowCount());
         spdlog::debug("[ArrowFlight] doPut '{}' to '{}' ({} rows)", descriptorToKey(descriptor), endpoint, rows);
-        handler(std::move(batch)); // invoked outside the lock
+        handler([[maybe_unused]] std::move(batch)); // invoked outside the lock
         return {true, "OK", rows, 0};
     }
 
@@ -501,7 +501,7 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
 
     void registerPutHandler(std::vector<std::string> path, std::function<void(RecordBatch)> handler) override {
         DatasetEntry entry;
-        entry.put_handler = std::move(handler);
+        entry.put_handler = std::move([[maybe_unused]] handler);
         InProcessRegistry::instance().addDataset(endpoint_, pathToKey(path), std::move(entry));
     }
 

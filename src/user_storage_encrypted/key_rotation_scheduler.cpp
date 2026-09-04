@@ -194,7 +194,7 @@ void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
     const int64_t now = getCurrentTimeMs();
     schedule.last_check_ms = now;
 
-    if (schedule.callback) {
+    if ([[maybe_unused]] schedule.callback) {
         try {
             schedule.callback(level, true, "");
         } catch (...) {}
@@ -212,7 +212,7 @@ void KeyRotationScheduler::schedulerLoop() {
             for (auto& pair : impl_->schedules) {
                 auto& schedule = pair.second;
 
-                if (!schedule.auto_rotate || !schedule.callback) {
+                if ([[maybe_unused]] !schedule.auto_rotate || !schedule.callback) {
                     continue;
                 }
 

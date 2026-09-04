@@ -48,9 +48,9 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 
         // Event callback emission
         {
-            std::lock_guard<std::mutex> lock(g_callback_mutex);
-            if (g_event_callback) {
-                GPUDispatchEventType event_type = errorCodeToEventType(error_code);
+            std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
+            if ([[maybe_unused]] g_event_callback) {
+                GPUDispatchEventType event_type = errorCodeToEventType([[maybe_unused]] error_code);
                 g_event_callback(event_type, error_code, device_id, detail);
             }
         }
@@ -63,13 +63,13 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
 // Event callback management
 // ============================================================================
 
-void GPUBackendDispatchDiagnostics::setEventCallback(GPUDispatchEventCallback callback) noexcept {
-    std::lock_guard<std::mutex> lock(g_callback_mutex);
+void GPUBackendDispatchDiagnostics::setEventCallback([[maybe_unused]] GPUDispatchEventCallback callback) noexcept {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
     g_event_callback = callback;
 }
 
 GPUDispatchEventCallback GPUBackendDispatchDiagnostics::getEventCallback() noexcept {
-    std::lock_guard<std::mutex> lock(g_callback_mutex);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] g_callback_mutex);
     return g_event_callback;
 }
 
@@ -186,7 +186,7 @@ std::string GPUBackendDispatchDiagnostics::errorCodeToString(GPUDispatchErrorCod
 // Event type to string conversion
 // ============================================================================
 
-std::string GPUBackendDispatchDiagnostics::eventTypeToString(GPUDispatchEventType type) noexcept {
+std::string GPUBackendDispatchDiagnostics::eventTypeToString([[maybe_unused]] GPUDispatchEventType type) noexcept {
     switch (type) {
         case GPUDispatchEventType::ALLOCATION_FAILED:
             return "ALLOCATION_FAILED";

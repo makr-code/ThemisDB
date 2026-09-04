@@ -32,7 +32,7 @@ void invokeObserverNoexcept(const char* observer_name,
                             const Observer& observer,
                             Args&&... args) noexcept {
     try {
-        observer(std::forward<Args>(args)...);
+        observer([[maybe_unused]] std::forward<Args>(args)...);
     } catch (const std::exception& ex) {
         THEMIS_WARN("{} observer callback failed: {}", observer_name, ex.what());
     } catch (...) {
@@ -341,8 +341,8 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
 
     // Notify write observer outside the write lock to avoid lock ordering issues.
     {
-        std::lock_guard<std::mutex> olk(observer_mutex_);
-        if (write_observer_) {
+        std::lock_guard<std::mutex> olk([[maybe_unused]] observer_mutex_);
+        if ([[maybe_unused]] write_observer_) {
             invokeObserverNoexcept("TensorNetworkStorageEngine write", write_observer_, key, train);
         }
     }
@@ -354,14 +354,14 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
 // CDC observer setters
 // ============================================================================
 
-void TensorNetworkStorageEngine::setWriteObserverFn(TensorWriteObserverFn fn) {
-    std::lock_guard<std::mutex> lk(observer_mutex_);
-    write_observer_ = std::move(fn);
+void TensorNetworkStorageEngine::setWriteObserverFn([[maybe_unused]] TensorWriteObserverFn fn) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
+    write_observer_ = std::move([[maybe_unused]] fn);
 }
 
-void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) {
-    std::lock_guard<std::mutex> lk(observer_mutex_);
-    delete_observer_ = std::move(fn);
+void TensorNetworkStorageEngine::setDeleteObserverFn([[maybe_unused]] TensorDeleteObserverFn fn) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
+    delete_observer_ = std::move([[maybe_unused]] fn);
 }
 
 // ============================================================================
@@ -423,8 +423,8 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
 
     // Notify delete observer outside the write lock.
     {
-        std::lock_guard<std::mutex> olk(observer_mutex_);
-        if (delete_observer_) {
+        std::lock_guard<std::mutex> olk([[maybe_unused]] observer_mutex_);
+        if ([[maybe_unused]] delete_observer_) {
             invokeObserverNoexcept("TensorNetworkStorageEngine delete", delete_observer_, key);
         }
     }

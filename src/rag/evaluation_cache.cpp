@@ -193,7 +193,7 @@ void EvaluationCache::clear() {
 
     THEMIS_INFO("EvaluationCache: cleared {} entries", old_size);
 
-    if (invalidation_callback_) {
+    if ([[maybe_unused]] invalidation_callback_) {
         invalidation_callback_(InvalidationTrigger::MANUAL, old_size);
     }
 }
@@ -230,7 +230,7 @@ void EvaluationCache::invalidate(
                     old_size, static_cast<int>(trigger));
     }
 
-    if (invalidation_callback_) {
+    if ([[maybe_unused]] invalidation_callback_) {
         invalidation_callback_(trigger, old_size);
     }
 }
@@ -281,7 +281,7 @@ CacheConfig EvaluationCache::getConfig() const {
 void EvaluationCache::registerInvalidationCallback(
     std::function<void(InvalidationTrigger, size_t)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    invalidation_callback_ = std::move(callback);
+    invalidation_callback_ = std::move([[maybe_unused]] callback);
 }
 
 } // namespace themis::rag::judge

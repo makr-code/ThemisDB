@@ -179,7 +179,7 @@ http::response<http::string_body> WALApiHandler::makeResponse(
     return res;
 }
 
-void WALApiHandler::recordLatency(int64_t elapsed_us) {
+void WALApiHandler::recordLatency([[maybe_unused]] int64_t elapsed_us) {
     wal_apply_latency_sum_us_.fetch_add(static_cast<uint64_t>(elapsed_us), std::memory_order_relaxed);
     wal_apply_latency_count_.fetch_add(1, std::memory_order_relaxed);
     if (elapsed_us <= 50'000) {

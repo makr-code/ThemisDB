@@ -137,14 +137,14 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
     }
 }
 
-void InProcessCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void InProcessCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
-    entry_cb_ = std::move(callback);
+    entry_cb_ = std::move([[maybe_unused]] callback);
 }
 
-void InProcessCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void InProcessCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
-    invalidation_cb_ = std::move(callback);
+    invalidation_cb_ = std::move([[maybe_unused]] callback);
 }
 
 void InProcessCacheCoordinator::deliver(const ReplicationMessage& msg) {
@@ -285,12 +285,12 @@ void CacheReplicationCoordinator::publishInvalidation(const std::string& pattern
     enqueueFanout(std::move(item));
 }
 
-void CacheReplicationCoordinator::subscribeEntries(EntryCallback callback) {
-    local_.subscribeEntries(std::move(callback));
+void CacheReplicationCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+    local_.subscribeEntries([[maybe_unused]] std::move(callback));
 }
 
-void CacheReplicationCoordinator::subscribeInvalidations(InvalidationCallback callback) {
-    local_.subscribeInvalidations(std::move(callback));
+void CacheReplicationCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+    local_.subscribeInvalidations([[maybe_unused]] std::move(callback));
 }
 
 bool CacheReplicationCoordinator::isConnected() const {

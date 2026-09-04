@@ -626,10 +626,10 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
         service_ptr_ = fn();
     } catch (const std::exception& e) {
         THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
-        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an exception");
+        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an exception");
     } catch (...) {
-        THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
-        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an unknown exception");
+        THEMIS_ERROR([[maybe_unused]] "ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an unknown exception");
     }
     if (!service_ptr_) {
         const std::string error =

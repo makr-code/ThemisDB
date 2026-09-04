@@ -212,7 +212,7 @@ void PostgresSession::armReadTimeout() {
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
-            logCurrentException("Read-timeout handler error");
+            logCurrentException([[maybe_unused]] "Read-timeout handler error");
             stop();
         }
     });
@@ -235,7 +235,7 @@ void PostgresSession::armWriteTimeout() {
             stop();
         } catch (...) {
             THEMIS_WARN("postgres_session: unhandled exception caught");
-            logCurrentException("Write-timeout handler error");
+            logCurrentException([[maybe_unused]] "Write-timeout handler error");
             stop();
         }
     });
@@ -1623,7 +1623,7 @@ void PostgresSession::doWrite() {
                 stop();
             } catch (...) {
                 THEMIS_WARN("postgres_session: unhandled exception caught");
-                logCurrentException("Write completion handler error");
+                logCurrentException([[maybe_unused]] "Write completion handler error");
                 stop();
             }
         });

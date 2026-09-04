@@ -420,7 +420,7 @@ void ClusterUpdateManager::setNodeRollbackFunc(NodeRollbackFunc fn) {
     node_rollback_fn_ = std::move(fn);
 }
 
-void ClusterUpdateManager::setProgressCallback(ProgressCallback fn) {
+void ClusterUpdateManager::setProgressCallback([[maybe_unused]] ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);
 }

@@ -77,7 +77,7 @@ std::string ApiKeyMgmtHandler::currentTimestamp() {
     return oss.str();
 }
 
-std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
+std::string ApiKeyMgmtHandler::expiryTimestamp([[maybe_unused]] int days) {
     if (days <= 0) return {};
     auto now = std::chrono::system_clock::now() + std::chrono::hours(24 * days);
     auto t = std::chrono::system_clock::to_time_t(now);
@@ -92,7 +92,7 @@ std::string ApiKeyMgmtHandler::expiryTimestamp(int days) {
     return oss.str();
 }
 
-nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
+nlohmann::json ApiKeyMgmtHandler::recordToJson([[maybe_unused]] const ApiKeyRecord& rec) {
     nlohmann::json obj = {
         {"id",         rec.id},
         {"name",       rec.name},
@@ -109,7 +109,7 @@ nlohmann::json ApiKeyMgmtHandler::recordToJson(const ApiKeyRecord& rec) {
 // CRUD operations
 // ---------------------------------------------------------------------------
 
-nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
+nlohmann::json ApiKeyMgmtHandler::createKey([[maybe_unused]] const nlohmann::json& body) {
     try {
         // Validate required field
         if (!body.contains("name") || !body["name"].is_string()) {
@@ -190,7 +190,7 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
     }
 }
 
-nlohmann::json ApiKeyMgmtHandler::getKey(const std::string& key_id) {
+nlohmann::json ApiKeyMgmtHandler::getKey([[maybe_unused]] const std::string& key_id) {
     try {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = keys_.find(key_id);
@@ -246,7 +246,7 @@ nlohmann::json ApiKeyMgmtHandler::updateKey(const std::string& key_id, const nlo
     }
 }
 
-nlohmann::json ApiKeyMgmtHandler::deleteKey(const std::string& key_id) {
+nlohmann::json ApiKeyMgmtHandler::deleteKey([[maybe_unused]] const std::string& key_id) {
     try {
         std::string token_to_remove;
         {

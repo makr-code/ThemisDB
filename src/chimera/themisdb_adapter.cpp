@@ -1369,7 +1369,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                     ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
             }
 
-            if (progress_callback) {
+            if ([[maybe_unused]] progress_callback) {
                 // Drive the insert in chunks to report incremental progress.
                 // A single preallocated buffer is reused across all chunks to
                 // avoid repeated heap allocations.
@@ -1395,7 +1395,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                         return chunk_result;
                     }
                     total_inserted += chunk_result.value.value_or(0);
-                    progress_callback(total_inserted);
+                    progress_callback([[maybe_unused]] total_inserted);
                 }
                 return Result<size_t>::ok(total_inserted);
             }

@@ -152,7 +152,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.exported_entities++;
 
                     // Progress reporting with ETA
-                    if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+                    if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
                         auto now       = std::chrono::steady_clock::now();
                         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time);
 
@@ -161,7 +161,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                                 = calculateETA(stats.exported_entities, total_count, start_time);
                         }
 
-                        options.progress_callback(stats);
+                        options.progress_callback([[maybe_unused]] stats);
                     }
 
                 } catch (const SizeLimitException &) {

@@ -418,7 +418,7 @@ public:
         return stats_.oom_threshold_exceeded;
     }
 
-    void setOOMCallback(OOMCallback cb) {
+    void setOOMCallback([[maybe_unused]] OOMCallback cb) {
         std::lock_guard<std::mutex> lock(mu_);
         oom_cb_ = std::move(cb);
     }
@@ -725,7 +725,7 @@ private:
         }
     }
 
-    void notifyOOM(const OOMEvent& ev) {
+    void notifyOOM([[maybe_unused]] const OOMEvent& ev) {
         if (oom_cb_) {
             try { oom_cb_(ev); } catch (...) {}
         }
@@ -832,7 +832,7 @@ bool ActiveVRAMAllocator::isOOMThresholdExceeded() const
 
 void ActiveVRAMAllocator::setOOMCallback(OOMCallback cb)
 {
-    impl_->setOOMCallback(std::move(cb));
+    impl_->setOOMCallback([[maybe_unused]] std::move(cb));
 }
 
 std::vector<ActiveVRAMAllocator::AllocationHandle>

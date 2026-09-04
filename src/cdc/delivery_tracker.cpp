@@ -55,7 +55,7 @@ void DeliveryTracker::stop() {
 
 bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
                                      const std::vector<Changefeed::ChangeEvent>& events) {
-    if (events.empty()) {
+    if ([[maybe_unused]] events.empty()) {
         return true;
     }
 
@@ -74,7 +74,7 @@ bool DeliveryTracker::trackDelivery(const std::string& consumer_id,
     }
 
     auto now = std::chrono::steady_clock::now();
-    for (const auto& ev : events) {
+    for ([[maybe_unused]] const auto& ev : events) {
         PendingEvent pending;
         pending.event = ev;
         pending.delivered_at = now;
@@ -168,7 +168,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
                 to_expire.push_back(seq);
                 state.total_expired++;
             } else {
-                to_redeliver.push_back(pending.event);
+                to_redeliver.push_back([[maybe_unused]] pending.event);
                 pending.delivered_at = now; // reset timer for next round
                 pending.attempt++;
                 state.total_redeliveries++;
@@ -267,7 +267,7 @@ void DeliveryTracker::redeliveryThreadFunc() {
 }
 
 void DeliveryTracker::checkAndRedeliver() {
-    if (!redelivery_callback_) {
+    if ([[maybe_unused]] !redelivery_callback_) {
         return;
     }
 
@@ -283,8 +283,8 @@ void DeliveryTracker::checkAndRedeliver() {
     }
 
     for (const auto& cid : consumer_ids) {
-        auto events = getPendingRedelivery(cid);
-        if (!events.empty()) {
+        auto events = getPendingRedelivery([[maybe_unused]] cid);
+        if ([[maybe_unused]] !events.empty()) {
             redelivery_callback_(cid, events);
         }
     }

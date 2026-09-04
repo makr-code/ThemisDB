@@ -82,9 +82,9 @@ void TransactionRetryManager::resetStatistics() {
     stats_ = RetryStatistics();
 }
 
-void TransactionRetryManager::setAlertCallback(AlertCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    alert_callback_ = std::move(callback);
+void TransactionRetryManager::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 ErrorType TransactionRetryManager::classifyError(const std::string& error_message) {
@@ -365,11 +365,11 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
 void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std::string& message) const {
     AlertCallback callback;
     {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
         callback = alert_callback_;
     }
 
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         try {
             callback(state, message);
         } catch (...) {

@@ -363,7 +363,7 @@ void WireProtocolServer::start() {
     bool has_geo_callback = false;
     {
         std::lock_guard<std::mutex> lock(g_network_geo_fn_mutex);
-        has_geo_callback = static_cast<bool>(g_network_geo_query_fn);
+        has_geo_callback = static_cast<bool>([[maybe_unused]] g_network_geo_query_fn);
     }
     const bool has_geo_backend = static_cast<bool>(spatial_index_) || has_geo_callback;
     if (!wire_bootstrap::validateRequiredBackends(
@@ -3744,7 +3744,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid include_history: expected boolean");
             return;
         }
-        if (request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
+        if ([[maybe_unused]] request.contains("max_history_events") && !request["max_history_events"].is_number_unsigned()) {
             sendError(400, "Invalid max_history_events: expected unsigned integer");
             return;
         }
@@ -3762,7 +3762,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             sendError(400, "Invalid process_instance_id: must be <= 256 chars and contain no control characters");
             return;
         }
-        if (max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
+        if ([[maybe_unused]] max_history_events == 0 || max_history_events > kMaxBpmnHistoryEvents) {
             sendError(400, "Invalid max_history_events: must be in range 1..10000");
             return;
         }
@@ -3830,7 +3830,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
-                    if (history.size() >= max_history_events) {
+                    if ([[maybe_unused]] history.size() >= max_history_events) {
                         history_truncated = true;
                         break;
                     }
@@ -3846,7 +3846,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
                     }
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
-                    history.push_back(event);
+                    history.push_back([[maybe_unused]] event);
                 }
                 if (history_truncated) {
                     break;

@@ -251,7 +251,7 @@ void MVCCStore::scanVersions(
             reinterpret_cast<const uint8_t*>(raw_val.data()),
             reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size()
         );
-        return callback(entry);
+        return callback([[maybe_unused]] entry);
     });
 }
 
@@ -315,7 +315,7 @@ uint64_t MVCCStore::gcAllBefore(HLCTimestamp min_ts, GCOptions opts) {
     return total_deleted;
 }
 
-void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> callback) {
+void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_view base_key)> callback) {
     // Collect all versioned keys (those using the versioned key format:
     // <base_key> '\x00' <8-byte-ts>).
     // A key is treated as versioned if it is at least 9 bytes long AND
@@ -339,7 +339,7 @@ void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> call
     base_keys.erase(std::unique(base_keys.begin(), base_keys.end()), base_keys.end());
 
     for (const auto& bk : base_keys) {
-        if (!callback(bk)) {
+        if ([[maybe_unused]] !callback(bk)) {
             break;
         }
     }

@@ -446,7 +446,7 @@ void SocketTimeoutManager::updateHealthState() {
 }
 
 void SocketTimeoutManager::triggerAlert(SocketHealthState new_state, const std::string& message) {
-    if (alert_callback_) {
+    if ([[maybe_unused]] alert_callback_) {
         try {
             alert_callback_(new_state, message);
         } catch (const std::exception& e) {

@@ -263,7 +263,7 @@ bool MptcpSubflowManager::removeSubflow(uint32_t subflow_id) {
 void MptcpSubflowManager::setSubflowStateCallback(
     std::function<void(const MptcpSubflowInfo&)> callback)
 {
-    state_cb_ = std::move(callback);
+    state_cb_ = std::move([[maybe_unused]] callback);
 }
 
 } // namespace network

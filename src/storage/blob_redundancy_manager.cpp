@@ -1320,8 +1320,8 @@ std::string BlobRedundancyManager::exportPrometheusMetrics() const {
 }
 
 Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRocksDBListener() {
-    auto listener = std::make_shared<RocksDBBlobListener>(*this);
-    return themis::Ok(std::static_pointer_cast<rocksdb::EventListener>(listener));
+    auto listener = std::make_shared<RocksDBBlobListener>([[maybe_unused]] *this);
+    return themis::Ok([[maybe_unused]] std::static_pointer_cast<rocksdb::EventListener>(listener));
 }
 
 void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {
@@ -1629,7 +1629,7 @@ void RocksDBBlobListener::OnTableFileDeleted(
     manager_.notifySSTFileDeleted(info.file_path);
 }
 
-BlobType RocksDBBlobListener::levelToBlobType(int level) {
+BlobType RocksDBBlobListener::levelToBlobType([[maybe_unused]] int level) {
     if (level == 0) {
         return BlobType::SST_L0;
     } else if (level == 1) {

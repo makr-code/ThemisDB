@@ -55,7 +55,7 @@ WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std
  * @param path The URL path to check against known streaming paths.
  * @return bool True if the path is for change/CDC streams, false otherwise.
  */
-bool WsChangeHandler::isChangeStreamPath(std::string_view path) {
+bool WsChangeHandler::isChangeStreamPath([[maybe_unused]] std::string_view path) {
     return path == "/v2/changes" || path == "/v2/cdc/stream";
 }
 
@@ -210,7 +210,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
  * @param message The raw string content of the message received from the WebSocket stream.
  * @return void No return value; the outcome is managed via internal logging utilities or state changes.
  */
-void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementation follows */ }
+void WsChangeHandler::ProcessMessage([[maybe_unused]] const std::string& message) { /* implementation follows */ }
 
 // ---------------------------------------------------------------------------
 // OnConnectionOpened
@@ -226,7 +226,7 @@ void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementa
  * @param ws The Boost::Beast WebSocket connection object representing the active stream interface.
  * @return void No return value. Status updates are handled via logging utilities.
  */
-void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
+void WsChangeHandler::OnConnectionOpened([[maybe_unused]] boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
 
 /**
  * @brief Handler function called when a new WebSocket connection is successfully established.
@@ -277,7 +277,7 @@ void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std
  * @param e The standard C++ exception object containing details about the runtime error.
  * @return void No return value. The method logs the error context internally.
  */
-void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
+void WsChangeHandler::handleError([[maybe_unused]] const std::exception& e) { /* implementation follows */ }
 
 /**
  * @brief Processes an incoming raw message received on the WebSocket connection.
@@ -288,7 +288,7 @@ void WsChangeHandler::handleError(const std::exception& e) { /* implementation f
  * 
  * @param rawMessage The raw string or binary payload received via the WebSocket. Must not be null.
  */
-void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
+void WsChangeHandler::HandleWebSocketMessage([[maybe_unused]] const std::string& rawMessage) {
     // Implementation details for parsing, validation, and dispatching messages go here.
 }
 

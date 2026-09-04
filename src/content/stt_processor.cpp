@@ -325,7 +325,7 @@ TranscriptionResult STTProcessor::transcribe(const std::vector<uint8_t> &audio_b
 
 bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
                                     std::function<void(const TranscriptionSegment &)> callback) {
-    if (!initialized_ || !callback || audio_stream.empty()) {
+    if ([[maybe_unused]] !initialized_ || !callback || audio_stream.empty()) {
         return false;
     }
 
@@ -378,7 +378,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
             // Emit only segments that start at or beyond the current watermark
             // to avoid re-delivering text that was already reported in a prior window.
             if (seg.start_ms >= emitted_end_ms) {
-                callback(seg);
+                callback([[maybe_unused]] seg);
                 emitted_end_ms = seg.end_ms;
             }
         }

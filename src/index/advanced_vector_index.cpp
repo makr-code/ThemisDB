@@ -195,17 +195,17 @@ bool AdvancedVectorIndex::initializeIndex() {
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.initialize) {
+    if ([[maybe_unused]] callbacks.initialize) {
         try {
             return callbacks.initialize(dimension_, config_);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::initializeIndex callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::initializeIndex callback failed");
             return false;
         }
     }
@@ -252,10 +252,10 @@ bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_u
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.train) {
+    if ([[maybe_unused]] callbacks.train) {
         try {
             const bool ok = callbacks.train(vectors, count);
             is_trained_ = ok;
@@ -264,7 +264,7 @@ bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_u
             THEMIS_ERROR("AdvancedVectorIndex::train callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::train callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::train callback failed");
             return false;
         }
     }
@@ -303,17 +303,17 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.add) {
+    if ([[maybe_unused]] callbacks.add) {
         try {
             return callbacks.add(vectors, count);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::add callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::add callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::add callback failed");
             return false;
         }
     }
@@ -351,17 +351,17 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.add_with_ids) {
+    if ([[maybe_unused]] callbacks.add_with_ids) {
         try {
             return callbacks.add_with_ids(vectors, ids, count);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::addWithIds callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::addWithIds callback failed");
             return false;
         }
     }
@@ -405,17 +405,17 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.search) {
+    if ([[maybe_unused]] callbacks.search) {
         try {
             return callbacks.search(query, k);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::search callback failed: {}", e.what());
             return result;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::search callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::search callback failed");
             return result;
         }
     }
@@ -480,17 +480,17 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.search_batch) {
+    if ([[maybe_unused]] callbacks.search_batch) {
         try {
             return callbacks.search_batch(queries, num_queries, k);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed: {}", e.what());
             return results;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::searchBatch callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::searchBatch callback failed");
             return results;
         }
     }
@@ -521,16 +521,16 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.stats) {
+    if ([[maybe_unused]] callbacks.stats) {
         try {
             return callbacks.stats();
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed: {}", e.what());
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::getStats callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::getStats callback failed");
         }
     }
 #endif
@@ -559,17 +559,17 @@ bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.save) {
+    if ([[maybe_unused]] callbacks.save) {
         try {
-            return callbacks.save(path);
+            return callbacks.save([[maybe_unused]] path);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::save callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::save callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::save callback failed");
             return false;
         }
     }
@@ -605,17 +605,17 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #else
     StubCallbacks callbacks;
     {
-        std::lock_guard<std::mutex> lk(AdvancedVectorIndex::stubCallbacksMutex());
+        std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
     }
-    if (callbacks.load) {
+    if ([[maybe_unused]] callbacks.load) {
         try {
-            return callbacks.load(path);
+            return callbacks.load([[maybe_unused]] path);
         } catch (const std::exception& e) {
             THEMIS_ERROR("AdvancedVectorIndex::load callback failed: {}", e.what());
             return false;
         } catch (...) {
-            THEMIS_ERROR("AdvancedVectorIndex::load callback failed");
+            THEMIS_ERROR([[maybe_unused]] "AdvancedVectorIndex::load callback failed");
             return false;
         }
     }

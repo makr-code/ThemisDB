@@ -338,12 +338,12 @@ CanaryStatus CanaryRollout::status() const {
     return s;
 }
 
-void CanaryRollout::setStageCompleteCallback(StageCompleteCallback cb) {
+void CanaryRollout::setStageCompleteCallback([[maybe_unused]] StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryRollout::setRollbackCallback(RollbackCallback cb) {
+void CanaryRollout::setRollbackCallback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }
@@ -499,7 +499,7 @@ ReloadResult CanaryDeployment::deploy() {
                    } catch (...) {
                        // Error Code: 7488 - Never let stage callbacks crash the rollout
                        // Log and silently ignore to ensure deployment continuity
-                       LOG_WARN("CanaryRollout: stage complete callback threw exception; silently caught");
+                       LOG_WARN([[maybe_unused]] "CanaryRollout: stage complete callback threw exception; silently caught");
                    }
                }
            });
@@ -518,7 +518,7 @@ ReloadResult CanaryDeployment::deploy() {
                     } catch (...) {
                         // Error Code: 7489 - Never let rollback callbacks crash the rollout
                         // Log and silently ignore to ensure rollout can proceed
-                        LOG_WARN("CanaryRollout: rollback callback threw exception; silently caught");
+                        LOG_WARN([[maybe_unused]] "CanaryRollout: rollback callback threw exception; silently caught");
                     }
                 }
             });
@@ -542,12 +542,12 @@ ReloadResult CanaryDeployment::deploy() {
 // Callbacks
 // ---------------------------------------------------------------------------
 
-void CanaryDeployment::onStageComplete(StageCompleteCallback cb) {
+void CanaryDeployment::onStageComplete([[maybe_unused]] StageCompleteCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     stage_complete_cb_ = std::move(cb);
 }
 
-void CanaryDeployment::onRollback(RollbackCallback cb) {
+void CanaryDeployment::onRollback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }

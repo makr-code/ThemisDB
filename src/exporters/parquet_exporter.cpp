@@ -724,8 +724,8 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
             }
         }
 
-        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
-            options.progress_callback(stats);
+        if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+            options.progress_callback([[maybe_unused]] stats);
         }
     }
 
@@ -833,8 +833,8 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
         ++row_count;
         ++stats.exported_entities;
 
-        if (options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
-            options.progress_callback(stats);
+        if ([[maybe_unused]] options.progress_callback && stats.exported_entities % options.progress_interval == 0) {
+            options.progress_callback([[maybe_unused]] stats);
         }
 
         // File size limit: check each 100 entities

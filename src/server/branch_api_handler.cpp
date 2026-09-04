@@ -21,7 +21,7 @@ BranchApiHandler::BranchApiHandler(transaction::BranchManager& branch_manager)
     : branch_manager_(branch_manager) {
 }
 
-void BranchApiHandler::registerRoutes(httplib::Server& server) {
+void BranchApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
     // POST /api/v1/branches - Create a new branch
     server.Post("/api/v1/branches", [this](const httplib::Request& req, httplib::Response& res) {
         handleCreateBranch(req, res);
@@ -298,7 +298,7 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
-    auto span = Tracer::startSpan("handleResolveMergeBranches");
+    auto span = Tracer::startSpan([[maybe_unused]] "handleResolveMergeBranches");
         return;
     }
 

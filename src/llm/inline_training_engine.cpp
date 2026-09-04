@@ -632,8 +632,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
             }
 
             // Fire progress callback
-            if (cfg.progress_callback) {
-                cfg.progress_callback(metrics);
+            if ([[maybe_unused]] cfg.progress_callback) {
+                cfg.progress_callback([[maybe_unused]] metrics);
             }
 
             // Periodic evaluation
@@ -672,8 +672,8 @@ TrainingResult InlineTrainingEngine::trainLoop(
                     }
                 }
 
-                if (cfg.checkpoint_callback) {
-                    cfg.checkpoint_callback(ckpt_path);
+                if ([[maybe_unused]] cfg.checkpoint_callback) {
+                    cfg.checkpoint_callback([[maybe_unused]] ckpt_path);
                 }
             }
 

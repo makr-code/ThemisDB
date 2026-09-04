@@ -26,31 +26,31 @@ DiagnosticEmitter::DiagnosticEmitter() {
     // Empty constructor; listeners added via addListener()
 }
 
-void DiagnosticEmitter::addListener(std::shared_ptr<DiagnosticListener> listener) {
+void DiagnosticEmitter::addListener([[maybe_unused]] std::shared_ptr<DiagnosticListener> listener) {
     if (!listener) return;
     
-    std::lock_guard<std::mutex> lock(listeners_mutex_);
-    listeners_.push_back(std::move(listener));
+    std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
+    listeners_.push_back([[maybe_unused]] std::move(listener));
 }
 
 void DiagnosticEmitter::clearListeners() {
-    std::lock_guard<std::mutex> lock(listeners_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
     listeners_.clear();
 }
 
 size_t DiagnosticEmitter::listenerCount() const {
-    std::lock_guard<std::mutex> lock(listeners_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
     return listeners_.size();
 }
 
 void DiagnosticEmitter::invokeListeners(const ErrorContext& context, bool is_error) const {
     std::vector<std::shared_ptr<DiagnosticListener>> listeners_copy;
     {
-        std::lock_guard<std::mutex> lock(listeners_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] listeners_mutex_);
         listeners_copy = listeners_;
     }
     
-    for (const auto& listener : listeners_copy) {
+    for ([[maybe_unused]] const auto& listener : listeners_copy) {
         try {
             listener->onDiagnosticEvent(context, is_error);
         } catch (const std::exception& e) {

@@ -2753,7 +2753,7 @@ GraphQueryOptimizer::registerIncrementalBFS(
     entry.start_vertex = std::string(start_vertex);
     entry.max_depth    = max_depth;
     entry.constraints  = constraints;
-    entry.callback     = std::move(callback);
+    entry.callback     = std::move([[maybe_unused]] callback);
 
     // Execute initial BFS to seed the last_result snapshot.
     auto result = executeBFS(start_vertex, max_depth, constraints);
@@ -2856,7 +2856,7 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     // This ensures that any unregisterIncrementalQuery() call inside a callback
     // does not invalidate iterators used in the first pass above.
     for (auto& p : pending) {
-        p.callback(p.delta);
+        p.callback([[maybe_unused]] p.delta);
     }
 
     return pending.size();

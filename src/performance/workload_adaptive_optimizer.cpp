@@ -173,7 +173,7 @@ void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strat
         ++stats_.total_adaptations;
         stats_.last_workload_type = new_profile.type;
     }
-    if (callback_) callback_(old_profile, new_profile, strategy);
+    if ([[maybe_unused]] callback_) callback_(old_profile, new_profile, strategy);
 }
 
 OptimizationStrategy WorkloadAdaptiveOptimizer::current_strategy() const {
@@ -202,8 +202,8 @@ bool WorkloadAdaptiveOptimizer::is_auto_adapt_enabled() const noexcept {
     return adapt_running_.load(std::memory_order_relaxed);
 }
 
-void WorkloadAdaptiveOptimizer::set_callback(AdaptationCallback cb) {
-    callback_ = std::move(cb);
+void WorkloadAdaptiveOptimizer::set_callback([[maybe_unused]] AdaptationCallback cb) {
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 void WorkloadAdaptiveOptimizer::adapt_once() {

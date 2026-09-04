@@ -138,7 +138,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
     prompt_total_latency_ms_.fetch_add(latency_ms, std::memory_order_relaxed);
 
     // Check alert thresholds
-    if (alert_callback_) {
+    if ([[maybe_unused]] alert_callback_) {
         int64_t execs    = prompt_executions_.load(std::memory_order_relaxed);
         int64_t failures = prompt_failures_.load(std::memory_order_relaxed);
         if (execs > 0) {
@@ -149,7 +149,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
                 ev.value       = failure_rate;
                 ev.threshold   = alert_config_.max_failure_rate;
                 ev.message     = "Prompt failure rate exceeded threshold";
-                alert_callback_(ev);
+                alert_callback_([[maybe_unused]] ev);
             }
         }
     }
@@ -215,13 +215,13 @@ void PromptEngineeringMetrics::recordHallucinationDetection(
     (void)prompt_id;
     int64_t count = hallucination_detections_.fetch_add(1, std::memory_order_relaxed) + 1;
 
-    if (alert_callback_ && count > alert_config_.max_hallucinations) {
+    if ([[maybe_unused]] alert_callback_ && count > alert_config_.max_hallucinations) {
         AlertEvent ev;
         ev.metric_name = "hallucination_count";
         ev.value       = static_cast<double>(count);
         ev.threshold   = static_cast<double>(alert_config_.max_hallucinations);
         ev.message     = "Hallucination count exceeded threshold";
-        alert_callback_(ev);
+        alert_callback_([[maybe_unused]] ev);
     }
 }
 
@@ -774,9 +774,9 @@ void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
     alert_config_ = cfg;
 }
 
-void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
+void PromptEngineeringMetrics::setAlertCallback([[maybe_unused]] AlertCallback cb) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
-    alert_callback_ = std::move(cb);
+    alert_callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ============================================================================

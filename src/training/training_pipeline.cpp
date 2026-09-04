@@ -105,7 +105,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Full pipeline execution
     // -------------------------------------------------------------------------
-    PipelineStats run(PipelineCallback callback) {
+    PipelineStats run([[maybe_unused]] PipelineCallback callback) {
         PipelineStats stats;
         PipelineMetrics metrics;
         auto pipeline_start = std::chrono::steady_clock::now();
@@ -129,7 +129,7 @@ public:
         auto emitCallback = [&](const std::string& stage,
                                 size_t step,
                                 const std::string& message) {
-            if (!callback) {
+            if ([[maybe_unused]] !callback) {
                 return;
             }
             callback(stage, step, sanitizeTrainingPipelineMessage(message));
@@ -303,9 +303,9 @@ public:
     // -------------------------------------------------------------------------
     // Phase 7: Stage-specific entry points
     // -------------------------------------------------------------------------
-    LabelingStats runLabeling(LabelingCallback callback) {
-        if (!callback) {
-            return labeler_->labelAll(callback);
+    LabelingStats runLabeling([[maybe_unused]] LabelingCallback callback) {
+        if ([[maybe_unused]] !callback) {
+            return labeler_->labelAll([[maybe_unused]] callback);
         }
         return labeler_->labelAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -313,9 +313,9 @@ public:
             });
     }
 
-    EnrichmentStats runEnrichment(EnrichmentCallback callback) {
-        if (!callback) {
-            return enricher_->enrichAll(callback);
+    EnrichmentStats runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
+        if ([[maybe_unused]] !callback) {
+            return enricher_->enrichAll([[maybe_unused]] callback);
         }
         return enricher_->enrichAll(
             [&](size_t processed, size_t total, const std::string& message) {
@@ -323,8 +323,8 @@ public:
             });
     }
 
-    TrainingResult runTraining(TrainingCallback callback) {
-        if (!callback) {
+    TrainingResult runTraining([[maybe_unused]] TrainingCallback callback) {
+        if ([[maybe_unused]] !callback) {
             return trainer_->train(TrainingMode::INITIAL, callback);
         }
         return trainer_->train(
@@ -337,7 +337,7 @@ public:
     // -------------------------------------------------------------------------
     // Data selection stage (Quality & Diversity Layer)
     // -------------------------------------------------------------------------
-    DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
+    DataSelectionResult runDataSelection([[maybe_unused]] SelectionProgressCallback callback) {
         // In production: load candidate samples via AQL query:
         //   FOR sample IN @collection
         //     RETURN {id: sample._key, text: CONCAT(sample.input, " ", sample.output)}
@@ -349,7 +349,7 @@ public:
         // Allow live config reload on each call
         data_selector_->setConfig(config_.data_selection_config);
 
-        if (!callback) {
+        if ([[maybe_unused]] !callback) {
             return data_selector_->run(candidates, std::move(callback));
         }
 
@@ -529,7 +529,7 @@ public:
                 best_lr       = trial.lr;
             }
 
-            if (callback) {
+            if ([[maybe_unused]] callback) {
                 callback(i, trial_result);
             }
         }
@@ -606,29 +606,29 @@ TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
 
 TrainingPipeline::~TrainingPipeline() = default;
 
-PipelineStats TrainingPipeline::run(PipelineCallback callback) {
-    return impl_->run(callback);
+PipelineStats TrainingPipeline::run([[maybe_unused]] PipelineCallback callback) {
+    return impl_->run([[maybe_unused]] callback);
 }
 
-std::string TrainingPipeline::sanitizeCallbackMessage(const std::string& message) {
+std::string TrainingPipeline::sanitizeCallbackMessage([[maybe_unused]] const std::string& message) {
     return sanitizeTrainingPipelineMessage(message);
 }
 
-LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {
-    return impl_->runLabeling(callback);
+LabelingStats TrainingPipeline::runLabeling([[maybe_unused]] LabelingCallback callback) {
+    return impl_->runLabeling([[maybe_unused]] callback);
 }
 
-EnrichmentStats TrainingPipeline::runEnrichment(EnrichmentCallback callback) {
-    return impl_->runEnrichment(callback);
+EnrichmentStats TrainingPipeline::runEnrichment([[maybe_unused]] EnrichmentCallback callback) {
+    return impl_->runEnrichment([[maybe_unused]] callback);
 }
 
 DataSelectionResult TrainingPipeline::runDataSelection(
         SelectionProgressCallback callback) {
-    return impl_->runDataSelection(std::move(callback));
+    return impl_->runDataSelection([[maybe_unused]] std::move(callback));
 }
 
-TrainingResult TrainingPipeline::runTraining(TrainingCallback callback) {
-    return impl_->runTraining(callback);
+TrainingResult TrainingPipeline::runTraining([[maybe_unused]] TrainingCallback callback) {
+    return impl_->runTraining([[maybe_unused]] callback);
 }
 
 CalibrationResult TrainingPipeline::runCalibration() {

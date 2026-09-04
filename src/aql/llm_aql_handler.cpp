@@ -119,7 +119,7 @@ std::optional<std::string> parseDomainHint(const std::unordered_map<std::string,
     return std::nullopt;
 }
 
-std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest &req) {
+std::string batchDomainKey([[maybe_unused]] const LLMAQLHandler::BatchInferRequest &req) {
     const auto it = req.options.find("domain_hint");
     if (it == req.options.end() || it->second.empty()) {
         return "__default__";
@@ -521,12 +521,12 @@ class LLMAQLHandler::Impl {
         // Wire the full validation pipeline with parser + LLM client
         if (cfg.llm_client) {
             llm_client_ = cfg.llm_client;
-            spdlog::info("LLMAQLHandler: Custom LLM client injected");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Custom LLM client injected");
         } else {
             // Create default mock LLM client for testing/development
             extern std::shared_ptr<llm::LLMClient> createDefaultLLMClient();
             llm_client_ = createDefaultLLMClient();
-            spdlog::info("LLMAQLHandler: Default (mock) LLM client initialized");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Default (mock) LLM client initialized");
         }
         
         // Wire the validation pipeline with parser + LLM client
@@ -613,7 +613,7 @@ class LLMAQLHandler::Impl {
         if (!batch_scheduler_ || !adaptive_shard_router_ || local_shard_id_.empty()) {
             if (batch_scheduler_) {
                 // Detach any previously wired callback.
-                batch_scheduler_->setShardLoadCallback({});
+                batch_scheduler_->setShardLoadCallback([[maybe_unused]] {});
             }
             return;
         }
@@ -627,11 +627,11 @@ class LLMAQLHandler::Impl {
 
 LLMAQLHandler::LLMAQLHandler() : impl_(std::make_unique<Impl>(Config{})) {}
 
-LLMAQLHandler::LLMAQLHandler(const Config &config) : impl_(std::make_unique<Impl>(config)) {}
+LLMAQLHandler::LLMAQLHandler([[maybe_unused]] const Config &config) : impl_(std::make_unique<Impl>(config)) {}
 
 LLMAQLHandler::~LLMAQLHandler() = default;
 
-void LLMAQLHandler::setValidationMode(TranslationValidationMode mode) {
+void LLMAQLHandler::setValidationMode([[maybe_unused]] TranslationValidationMode mode) {
     impl_->validation_mode_ = mode;
 }
 
@@ -645,7 +645,7 @@ TranslationValidationMode LLMAQLHandler::getValidationMode() const {
     return impl_->validation_mode_;
 }
 
-void LLMAQLHandler::setValidationPipelineConfig(const LLMValidationPipelineConfig& config) {
+void LLMAQLHandler::setValidationPipelineConfig([[maybe_unused]] const LLMValidationPipelineConfig& config) {
     impl_->config_.validation_config = config;
     if (impl_->validation_pipeline_) {
         impl_->validation_pipeline_->setConfig(config);
@@ -659,12 +659,12 @@ LLMValidationPipelineConfig LLMAQLHandler::getValidationPipelineConfig() const {
 }
 
 // Phase 0.3 Task 7: Parser service configuration getters/setters
-void LLMAQLHandler::setParserService(std::shared_ptr<query::AQLParserService> parser_service) {
+void LLMAQLHandler::setParserService([[maybe_unused]] std::shared_ptr<query::AQLParserService> parser_service) {
     impl_->parser_service_ = std::move(parser_service);
     if (impl_->parser_service_) {
-        spdlog::info("LLMAQLHandler: Parser service configured");
+        spdlog::info([[maybe_unused]] "LLMAQLHandler: Parser service configured");
     } else {
-        spdlog::warn("LLMAQLHandler: Parser service disabled (nullptr)");
+        spdlog::warn([[maybe_unused]] "LLMAQLHandler: Parser service disabled (nullptr)");
     }
 }
 
@@ -673,7 +673,7 @@ std::shared_ptr<query::AQLParserService> LLMAQLHandler::getParserService() const
 }
 
 // Phase 0.4: LLM Client configuration getters/setters
-void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
+void LLMAQLHandler::setLLMClient([[maybe_unused]] std::shared_ptr<llm::LLMClient> llm_client) {
     impl_->llm_client_ = std::move(llm_client);
     if (impl_->llm_client_) {
         spdlog::info("LLMAQLHandler: LLM client configured (provider={})",
@@ -683,12 +683,12 @@ void LLMAQLHandler::setLLMClient(std::shared_ptr<llm::LLMClient> llm_client) {
             impl_->validation_pipeline_ = LLMValidationPipelineFactory::createWithConfig(
                 impl_->parser_service_, impl_->llm_client_,
                 impl_->config_.validation_config);
-            spdlog::info("LLMAQLHandler: Validation pipeline re-wired");
+            spdlog::info([[maybe_unused]] "LLMAQLHandler: Validation pipeline re-wired");
         } catch (const std::exception& e) {
             spdlog::error("LLMAQLHandler: Failed to re-wire validation pipeline: {}", e.what());
         }
     } else {
-        spdlog::warn("LLMAQLHandler: LLM client disabled (nullptr)");
+        spdlog::warn([[maybe_unused]] "LLMAQLHandler: LLM client disabled (nullptr)");
         impl_->validation_pipeline_ = nullptr;
     }
 }
@@ -701,7 +701,7 @@ std::shared_ptr<LLMValidationPipeline> LLMAQLHandler::getValidationPipeline() co
     return impl_->validation_pipeline_;
 }
 
-void LLMAQLHandler::setValidationLimits(const ValidationLimitsConfig &config) {
+void LLMAQLHandler::setValidationLimits([[maybe_unused]] const ValidationLimitsConfig &config) {
     impl_->validation_limits_ = config;
 }
 
@@ -709,20 +709,20 @@ ValidationLimitsConfig LLMAQLHandler::getValidationLimits() const {
     return impl_->validation_limits_;
 }
 
-void LLMAQLHandler::setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig &config) {
+void LLMAQLHandler::setTimeoutConfig([[maybe_unused]] const LLMTimeoutManager::TimeoutConfig &config) {
     impl_->timeout_manager_.setConfig(config);
 }
 
-void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
+void LLMAQLHandler::setDomainRouteResolver([[maybe_unused]] DomainRouteResolver resolver) {
     impl_->domain_route_resolver_ = std::move(resolver);
 }
 
-void LLMAQLHandler::setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router) {
+void LLMAQLHandler::setAdaptiveShardRouter([[maybe_unused]] std::shared_ptr<sharding::AdaptiveShardRouter> router) {
     impl_->adaptive_shard_router_ = std::move(router);
     impl_->wireShardLoadCallback();
 }
 
-void LLMAQLHandler::setShardingManager(sharding::ShardingManager *sharding_manager) {
+void LLMAQLHandler::setShardingManager([[maybe_unused]] sharding::ShardingManager *sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
 }
 
@@ -732,7 +732,7 @@ void LLMAQLHandler::setBatchScheduler(llm::ContinuousBatchScheduler *sched, std:
     impl_->wireShardLoadCallback();
 }
 
-void LLMAQLHandler::setKVPrefixTransferManager(std::unique_ptr<llm::KVPrefixTransferManager> mgr) {
+void LLMAQLHandler::setKVPrefixTransferManager([[maybe_unused]] std::unique_ptr<llm::KVPrefixTransferManager> mgr) {
     impl_->kv_prefix_transfer_mgr_ = std::move(mgr);
 }
 
@@ -740,7 +740,7 @@ void LLMAQLHandler::setChatExecutor(std::function<std::string(const std::vector<
     impl_->chat_executor_ = std::move(executor);
 }
 
-void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator) {
+void LLMAQLHandler::setTokenEstimator([[maybe_unused]] std::unique_ptr<TokenEstimator> estimator) {
     if (estimator) {
         impl_->token_estimator_ = std::move(estimator);
     } else {
@@ -748,7 +748,7 @@ void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator)
     }
 }
 
-void LLMAQLHandler::setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge) {
+void LLMAQLHandler::setIngestionBridge([[maybe_unused]] std::shared_ptr<AQLIngestionBridge> bridge) {
     impl_->ingestion_bridge_ = std::move(bridge);
 }
 
@@ -756,7 +756,7 @@ std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
     return impl_->ingestion_bridge_;
 }
 
-void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
+void LLMAQLHandler::setStorage([[maybe_unused]] std::shared_ptr<RocksDBWrapper> storage) {
     impl_->storage_ = std::move(storage);
 }
 
@@ -882,8 +882,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                     }
 
                     // Wrap any streaming callback so token delivery stops on cancellation.
-                    if (request.stream_callback) {
-                        auto orig_cb = std::move(request.stream_callback);
+                    if ([[maybe_unused]] request.stream_callback) {
+                        auto orig_cb = std::move([[maybe_unused]] request.stream_callback);
                         request.stream_callback
                             = [orig_cb = std::move(orig_cb), cancel_token](const std::string &token) {
                                   if (!cancel_token->load(std::memory_order_acquire)) {
@@ -1217,8 +1217,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                     }
 
                     // Wrap any streaming callback so token delivery stops on cancellation.
-                    if (request.stream_callback) {
-                        auto orig_cb = std::move(request.stream_callback);
+                    if ([[maybe_unused]] request.stream_callback) {
+                        auto orig_cb = std::move([[maybe_unused]] request.stream_callback);
                         request.stream_callback
                             = [orig_cb = std::move(orig_cb), cancel_token](const std::string &token) {
                                   if (!cancel_token->load(std::memory_order_acquire)) {
@@ -1361,7 +1361,7 @@ void LLMAQLHandler::executeModelLoad(const std::string &model_id, const std::str
     }
 }
 
-void LLMAQLHandler::executeModelUnload(const std::string &model_id) {
+void LLMAQLHandler::executeModelUnload([[maybe_unused]] const std::string &model_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
         plugin_mgr.unloadModel(model_id);
@@ -1397,7 +1397,7 @@ void LLMAQLHandler::executeLoRALoad(const std::string &lora_id, const std::strin
     }
 }
 
-void LLMAQLHandler::executeLoRAUnload(const std::string &lora_id) {
+void LLMAQLHandler::executeLoRAUnload([[maybe_unused]] const std::string &lora_id) {
     try {
         auto &plugin_mgr = impl_->getPluginManager();
         plugin_mgr.unloadLoRA(lora_id);
@@ -1485,7 +1485,7 @@ void LLMAQLHandler::executeCacheClear() {
     }
 }
 
-std::vector<std::string> LLMAQLHandler::executeBatchInfer(const std::vector<BatchInferRequest> &requests) {
+std::vector<std::string> LLMAQLHandler::executeBatchInfer([[maybe_unused]] const std::vector<BatchInferRequest> &requests) {
     try {
         std::vector<std::string> results(requests.size());
         if (requests.empty()) {
@@ -1575,7 +1575,7 @@ std::string LLMAQLHandler::buildNLToAQLSystemPrompt(const std::string &schema_co
     return out;
 }
 
-std::string LLMAQLHandler::stripMarkdownFences(std::string raw) {
+std::string LLMAQLHandler::stripMarkdownFences([[maybe_unused]] std::string raw) {
     // Delegate to centralized implementation from markdown_utils.h (Phase 1 consolidation)
     return themis::prompt_engineering::stripMarkdownFences(raw);
 }
@@ -1897,11 +1897,11 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
                 messages.emplace_back("system", sys_prompt);
                 messages.emplace_back("user", user_prompt_str);
                 raw_response = impl_->chat_executor_(messages);
-                token_callback(raw_response);
+                token_callback([[maybe_unused]] raw_response);
             } else {
-                auto collecting_callback = [&raw_response, &token_callback](const std::string &token) {
+                auto collecting_callback = [&raw_response, &token_callback]([[maybe_unused]] const std::string &token) {
                     raw_response += token;
-                    token_callback(token);
+                    token_callback([[maybe_unused]] token);
                 };
                 executeInferStreaming(full_prompt, collecting_callback);
             }

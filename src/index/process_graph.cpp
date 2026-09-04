@@ -702,10 +702,10 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
         if (isEndNode(node)) hasEnd = true;
     }
     if (!hasStart) {
-        result.errors.push_back("Process has no start event");
+        result.errors.push_back([[maybe_unused]] "Process has no start event");
     }
     if (!hasEnd) {
-        result.warnings.push_back("Process has no end event");
+        result.warnings.push_back([[maybe_unused]] "Process has no end event");
     }
 
     // 2. Check for orphan nodes (no incoming or outgoing edges)
@@ -791,7 +791,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
             BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
             
             auto nodeType = entity.getFieldAsString("node_type").value_or("");
-            if (nodeType == "START_EVENT" || nodeType == "EVENT") {
+            if ([[maybe_unused]] nodeType == "START_EVENT" || nodeType == "EVENT") {
                 startNodeId = nodeId;
                 return false; // Stop scanning
             }
@@ -1263,10 +1263,10 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
         
         // Check if this is a message or signal catching event
         bool isMatchingEvent = false;
-        if (nodeTypeStr == "INTERMEDIATE_EVENT" || nodeTypeStr == "BOUNDARY_EVENT") {
+        if ([[maybe_unused]] nodeTypeStr == "INTERMEDIATE_EVENT" || nodeTypeStr == "BOUNDARY_EVENT") {
             // Check if the event name matches
-            auto eventNameField = nodeEntity.getFieldAsString("event_name");
-            if (eventNameField && *eventNameField == std::string(event_name)) {
+            auto eventNameField = nodeEntity.getFieldAsString([[maybe_unused]] "event_name");
+            if ([[maybe_unused]] eventNameField && *eventNameField == std::string(event_name)) {
                 isMatchingEvent = true;
             }
         }
@@ -1301,7 +1301,7 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
     }
     
     if (!foundWaiting) {
-        return Status::Error("No tokens waiting for event '" + std::string(event_name) + "'");
+        return Status::Error([[maybe_unused]] "No tokens waiting for event '" + std::string(event_name) + "'");
     }
     
     return Status::OK();
@@ -1717,7 +1717,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
         BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
         
         auto nodeType = entity.getFieldAsString("node_type").value_or("");
-        if (nodeType == "START_EVENT" || nodeType == "EVENT") {
+        if ([[maybe_unused]] nodeType == "START_EVENT" || nodeType == "EVENT") {
             startNode = nodeId;
             return false; // Stop scanning
         }

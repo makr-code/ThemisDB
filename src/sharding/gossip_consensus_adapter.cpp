@@ -340,22 +340,22 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
 void GossipConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_commit_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_commit_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void GossipConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_state_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_state_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void GossipConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock(callbacks_mutex_);
-    on_leader_change_callback_ = std::move(callback);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // Private methods
@@ -400,9 +400,9 @@ void GossipConsensusAdapter::gossipThread() {
             commit_index_ = index;
             
             // Call commit callback without holding log_mutex_
-            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
-            if (on_commit_callback_) {
-                on_commit_callback_(entry);
+            std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callbacks_mutex_);
+            if ([[maybe_unused]] on_commit_callback_) {
+                on_commit_callback_([[maybe_unused]] entry);
             }
         }
     }

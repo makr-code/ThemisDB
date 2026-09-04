@@ -334,7 +334,7 @@ StreamRecord makeRecord(const std::string &id, std::chrono::system_clock::time_p
 TumblingWindow::TumblingWindow(const TumblingWindowConfig &config)
     : config_(config), callback_(), agg_specs_(), open_windows_(), watermark_us_(0), windows_opened_(0),
       windows_closed_(0), records_ingested_(0), records_dropped_(0), late_records_(0), results_emitted_(0),
-      idle_running_(false), last_event_us_(0) {
+      idle_running_([[maybe_unused]] false), last_event_us_(0) {
     // RAII SAFETY: Resource lifecycle management
     // - agg_specs_ (vector) initialized with reserve() → exception-safe allocation
     // - idle_thread_ created only if idle_timeout > 0 → safe conditional initialization
@@ -374,9 +374,9 @@ void TumblingWindow::addAggregation(const WindowAggregateSpec &spec) {
     agg_specs_.push_back(spec);
 }
 
-void TumblingWindow::setResultCallback(ResultCallback cb) {
+void TumblingWindow::setResultCallback([[maybe_unused]] ResultCallback cb) {
     std::lock_guard lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 int64_t TumblingWindow::slotIndex(const std::chrono::system_clock::time_point &tp) const {
@@ -390,8 +390,8 @@ std::chrono::system_clock::time_point TumblingWindow::slotStart(int64_t idx) con
     return fromMicros(idx * sz_us);
 }
 
-void TumblingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
-    int64_t ev_us  = toMicros(event_time);
+void TumblingWindow::updateWatermark([[maybe_unused]] const std::chrono::system_clock::time_point &event_time) {
+    int64_t ev_us  = toMicros([[maybe_unused]] event_time);
     int64_t tol    = config_.watermark.max_out_of_orderness.count() * 1000LL;
     int64_t new_wm = ev_us - tol;
     // Monotonically advance
@@ -437,20 +437,20 @@ WindowResult TumblingWindow::computeResult(const InternalWindow &win, bool late)
 
 bool TumblingWindow::ingest(const StreamRecord &record) {
     ++records_ingested_;
-    updateWatermark(record.event_time);
+    updateWatermark([[maybe_unused]] record.event_time);
     int64_t wm = watermark_us_.load(std::memory_order_acquire);
 
     // Check if record is too old
-    int64_t ev_us = toMicros(record.event_time);
+    int64_t ev_us = toMicros([[maybe_unused]] record.event_time);
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        spdlog::debug("TumblingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
+        spdlog::debug([[maybe_unused]] "TumblingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
     // Update last_event_us_ monotonically for idle-timeout tracking
-    int64_t old_last = last_event_us_.load(std::memory_order_relaxed);
+    int64_t old_last = last_event_us_.load([[maybe_unused]] std::memory_order_relaxed);
     while (ev_us > old_last
            && !last_event_us_.compare_exchange_weak(old_last, ev_us, std::memory_order_release,
                                                     std::memory_order_relaxed)) {
@@ -462,7 +462,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
     {
         std::lock_guard lk(mutex_);
 
-        int64_t idx = slotIndex(record.event_time);
+        int64_t idx = slotIndex([[maybe_unused]] record.event_time);
         if (open_windows_.find(idx) == open_windows_.end()) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
             if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
@@ -584,7 +584,7 @@ void TumblingWindow::idleTimeoutLoop() {
         }
 
         auto now_us        = toMicros(std::chrono::system_clock::now());
-        int64_t last       = last_event_us_.load(std::memory_order_acquire);
+        int64_t last       = last_event_us_.load([[maybe_unused]] std::memory_order_acquire);
         int64_t timeout_us = config_.watermark.idle_timeout.count() * 1000LL;
         if (last > 0 && (now_us - last) < timeout_us) {
             continue;
@@ -621,7 +621,7 @@ void TumblingWindow::idleTimeoutLoop() {
 SlidingWindow::SlidingWindow(const SlidingWindowConfig &config)
     : config_(config), callback_(), agg_specs_(), windows_(), watermark_us_(0), windows_opened_(0), windows_closed_(0),
       records_ingested_(0), records_dropped_(0), late_records_(0), results_emitted_(0), idle_running_(false),
-      last_event_us_(0) {
+      last_event_us_([[maybe_unused]] 0) {
     // RAII SAFETY: Resource lifecycle management (same pattern as TumblingWindow)
     // - All container members (agg_specs_, windows_) initialized empty
     // - reserve() called on agg_specs_ for pre-allocation (exception-safe)
@@ -672,17 +672,17 @@ void SlidingWindow::addAggregation(const WindowAggregateSpec &spec) {
     agg_specs_.push_back(spec);
 }
 
-void SlidingWindow::setResultCallback(ResultCallback cb) {
+void SlidingWindow::setResultCallback([[maybe_unused]] ResultCallback cb) {
     std::lock_guard lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 std::string SlidingWindow::generateId() {
     return genId();
 }
 
-void SlidingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
-    int64_t ev_us  = toMicros(event_time);
+void SlidingWindow::updateWatermark([[maybe_unused]] const std::chrono::system_clock::time_point &event_time) {
+    int64_t ev_us  = toMicros([[maybe_unused]] event_time);
     int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
     int64_t new_wm = ev_us - tol_us;
     int64_t old_wm = watermark_us_.load(std::memory_order_relaxed);
@@ -698,7 +698,7 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
     // A record at event_time must appear in all windows [start, start+size) where
     //   start ∈ { ..., t - (t % slide), t - (t % slide) + slide, ... }
     // covering [event_time - size + slide .. event_time]
-    int64_t ev_us    = toMicros(event_time);
+    int64_t ev_us    = toMicros([[maybe_unused]] event_time);
     int64_t size_us  = config_.size.count() * 1000LL;
     int64_t slide_us = config_.slide.count() * 1000LL;
     if (slide_us <= 0) {
@@ -785,20 +785,20 @@ WindowResult SlidingWindow::computeResult(const InternalWindow &win, bool late) 
 
 bool SlidingWindow::ingest(const StreamRecord &record) {
     ++records_ingested_;
-    updateWatermark(record.event_time);
+    updateWatermark([[maybe_unused]] record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
-    int64_t ev_us = toMicros(record.event_time);
+    int64_t ev_us = toMicros([[maybe_unused]] record.event_time);
     bool record_added = true;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        spdlog::debug("SlidingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
+        spdlog::debug([[maybe_unused]] "SlidingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
     // Update last_event_us_ monotonically for idle-timeout tracking
-    int64_t old_last = last_event_us_.load(std::memory_order_relaxed);
+    int64_t old_last = last_event_us_.load([[maybe_unused]] std::memory_order_relaxed);
     while (ev_us > old_last
            && !last_event_us_.compare_exchange_weak(old_last, ev_us, std::memory_order_release,
                                                     std::memory_order_relaxed)) {
@@ -830,7 +830,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         // Add record to all overlapping open windows, respecting max_records_per_window.
         for (auto &w : windows_) {
-            if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
+            if ([[maybe_unused]] !w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
                     w.records.size() >= config_.max_records_per_window) {
                     ++records_dropped_;
@@ -900,7 +900,7 @@ void SlidingWindow::idleTimeoutLoop() {
         }
 
         auto now_us        = toMicros(std::chrono::system_clock::now());
-        int64_t last       = last_event_us_.load(std::memory_order_acquire);
+        int64_t last       = last_event_us_.load([[maybe_unused]] std::memory_order_acquire);
         int64_t timeout_us = config_.watermark.idle_timeout.count() * 1000LL;
         if (last > 0 && (now_us - last) < timeout_us) {
             continue;
@@ -975,9 +975,9 @@ void SessionWindow::addAggregation(const WindowAggregateSpec &spec) {
     agg_specs_.push_back(spec);
 }
 
-void SessionWindow::setResultCallback(ResultCallback cb) {
+void SessionWindow::setResultCallback([[maybe_unused]] ResultCallback cb) {
     std::lock_guard lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 std::string SessionWindow::generateId() {
@@ -1002,7 +1002,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
     // gap-based rather than slot-based, but still respect out-of-orderness tolerance.
-    int64_t ev_us  = toMicros(record.event_time);
+    int64_t ev_us  = toMicros([[maybe_unused]] record.event_time);
     int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
     int64_t new_wm = ev_us - tol_us;
     int64_t old_wm = watermark_us_.load(std::memory_order_relaxed);
@@ -1015,7 +1015,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        spdlog::debug("SessionWindow: dropped late record (event={} < watermark={})", ev_us, wm);
+        spdlog::debug([[maybe_unused]] "SessionWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -1037,7 +1037,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             if (config_.max_open_sessions > 0 && sessions_.size() >= config_.max_open_sessions) {
                 auto oldest = sessions_.end();
                 for (auto sit = sessions_.begin(); sit != sessions_.end(); ++sit) {
-                    if (oldest == sessions_.end() || sit->second.last_event < oldest->second.last_event) {
+                    if ([[maybe_unused]] oldest == sessions_.end() || sit->second.last_event < oldest->second.last_event) {
                         oldest = sit;
                     }
                 }
@@ -1073,7 +1073,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
         } else {
             auto &s = it->second;
             auto gap_since_last
-                = std::chrono::duration_cast<std::chrono::milliseconds>(record.event_time - s.last_event);
+                = std::chrono::duration_cast<std::chrono::milliseconds>([[maybe_unused]] record.event_time - s.last_event);
 
             if (gap_since_last > config_.gap) {
                 // Gap exceeded → close current session and start new
@@ -1174,7 +1174,7 @@ void SessionWindow::expiryLoop() {
             std::lock_guard lk(mutex_);
             std::vector<std::string> to_close;
             for (const auto &[key, s] : sessions_) {
-                auto idle = std::chrono::duration_cast<std::chrono::milliseconds>(now - s.last_event);
+                auto idle = std::chrono::duration_cast<std::chrono::milliseconds>([[maybe_unused]] now - s.last_event);
                 if (idle > config_.gap) {
                     to_close.push_back(key);
                 }
@@ -1223,17 +1223,17 @@ void HoppingWindow::addAggregation(const WindowAggregateSpec &spec) {
     agg_specs_.push_back(spec);
 }
 
-void HoppingWindow::setResultCallback(ResultCallback cb) {
+void HoppingWindow::setResultCallback([[maybe_unused]] ResultCallback cb) {
     std::lock_guard lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 std::string HoppingWindow::generateId() {
     return genId();
 }
 
-void HoppingWindow::updateWatermark(const std::chrono::system_clock::time_point &event_time) {
-    int64_t ev_us  = toMicros(event_time);
+void HoppingWindow::updateWatermark([[maybe_unused]] const std::chrono::system_clock::time_point &event_time) {
+    int64_t ev_us  = toMicros([[maybe_unused]] event_time);
     int64_t tol_us = config_.watermark.max_out_of_orderness.count() * 1000LL;
     int64_t new_wm = ev_us - tol_us;
     int64_t old_wm = watermark_us_.load(std::memory_order_relaxed);
@@ -1243,9 +1243,9 @@ void HoppingWindow::updateWatermark(const std::chrono::system_clock::time_point 
     }
 }
 
-void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_point &event_time) {
+void HoppingWindow::ensureWindowsExist([[maybe_unused]] const std::chrono::system_clock::time_point &event_time) {
     // Same as SlidingWindow but uses hop instead of slide
-    int64_t ev_us   = toMicros(event_time);
+    int64_t ev_us   = toMicros([[maybe_unused]] event_time);
     int64_t size_us = config_.size.count() * 1000LL;
     int64_t hop_us  = config_.hop.count() * 1000LL;
     if (hop_us <= 0) {
@@ -1319,15 +1319,15 @@ WindowResult HoppingWindow::computeResult(const InternalWindow &win, bool late) 
 
 bool HoppingWindow::ingest(const StreamRecord &record) {
     ++records_ingested_;
-    updateWatermark(record.event_time);
+    updateWatermark([[maybe_unused]] record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
-    int64_t ev_us = toMicros(record.event_time);
+    int64_t ev_us = toMicros([[maybe_unused]] record.event_time);
     bool record_added = false;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
         ++records_dropped_;
-        spdlog::debug("HoppingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
+        spdlog::debug([[maybe_unused]] "HoppingWindow: dropped late record (event={} < watermark={})", ev_us, wm);
         return false;
     }
 
@@ -1353,10 +1353,10 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         }
 
         if (!hop_key_rejected) {
-        ensureWindowsExist(record.event_time);
+        ensureWindowsExist([[maybe_unused]] record.event_time);
 
         for (auto &w : windows_) {
-            if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
+            if ([[maybe_unused]] !w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
                     w.records.size() >= config_.max_records_per_window) {
                     ++records_dropped_;
@@ -1466,7 +1466,7 @@ StreamingWindowPipeline &StreamingWindowPipeline::aggregate(const WindowAggregat
 }
 
 StreamingWindowPipeline &StreamingWindowPipeline::onResult(std::function<void(WindowResult)> callback) {
-    callback_ = std::move(callback);
+    callback_ = std::move([[maybe_unused]] callback);
     return *this;
 }
 
@@ -1495,8 +1495,8 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
             for (const auto &s : agg_specs_) {
                 pipeline->tumbling_->addAggregation(s);
             }
-            if (callback_) {
-                pipeline->tumbling_->setResultCallback(callback_);
+            if ([[maybe_unused]] callback_) {
+                pipeline->tumbling_->setResultCallback([[maybe_unused]] callback_);
             }
             break;
         }
@@ -1509,8 +1509,8 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
             for (const auto &s : agg_specs_) {
                 pipeline->sliding_->addAggregation(s);
             }
-            if (callback_) {
-                pipeline->sliding_->setResultCallback(callback_);
+            if ([[maybe_unused]] callback_) {
+                pipeline->sliding_->setResultCallback([[maybe_unused]] callback_);
             }
             break;
         }
@@ -1523,8 +1523,8 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
             for (const auto &s : agg_specs_) {
                 pipeline->session_->addAggregation(s);
             }
-            if (callback_) {
-                pipeline->session_->setResultCallback(callback_);
+            if ([[maybe_unused]] callback_) {
+                pipeline->session_->setResultCallback([[maybe_unused]] callback_);
             }
             break;
         }
@@ -1537,8 +1537,8 @@ std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
             for (const auto &s : agg_specs_) {
                 pipeline->hopping_->addAggregation(s);
             }
-            if (callback_) {
-                pipeline->hopping_->setResultCallback(callback_);
+            if ([[maybe_unused]] callback_) {
+                pipeline->hopping_->setResultCallback([[maybe_unused]] callback_);
             }
             break;
         }

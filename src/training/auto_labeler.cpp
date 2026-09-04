@@ -110,7 +110,7 @@ public:
 
     ~Impl() = default;
 
-    LabelingStats labelAll(LabelingCallback callback) {
+    LabelingStats labelAll([[maybe_unused]] LabelingCallback callback) {
         LabelingStats stats;
         auto start_time = std::chrono::steady_clock::now();
 
@@ -151,7 +151,7 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if (callback && processed % 10 == 0) {
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),
                              "Processing document " + doc_id);
                 }
@@ -347,7 +347,7 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if (callback && processed % 10 == 0) {
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),
                              "Labeled document " + doc_id);
                 }
@@ -802,8 +802,8 @@ void LegalAutoLabeler::registerDocument(const std::string& document_id,
     impl_->registerDocument(document_id, text);
 }
 
-LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
-    return impl_->labelAll(callback);
+LabelingStats LegalAutoLabeler::labelAll([[maybe_unused]] LabelingCallback callback) {
+    return impl_->labelAll([[maybe_unused]] callback);
 }
 
 std::vector<TrainingSample> LegalAutoLabeler::labelDocument(const std::string& document_id) {

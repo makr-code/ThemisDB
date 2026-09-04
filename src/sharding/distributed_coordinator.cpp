@@ -251,7 +251,7 @@ void DistributedCoordinator::becomeLeader() {
     // Capture callback before taking lock to avoid deadlock
     LeaderElectedCallback callback;
     {
-        std::lock_guard<std::mutex> cb_lock(callback_mutex_);
+        std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callback_mutex_);
         callback = leader_elected_callback_;
     }
     
@@ -272,8 +272,8 @@ void DistributedCoordinator::becomeLeader() {
     }
     
     // Trigger callback outside of locks to avoid deadlock
-    if (callback) {
-        callback(local_shard_id_);
+    if ([[maybe_unused]] callback) {
+        callback([[maybe_unused]] local_shard_id_);
     }
 }
 
@@ -343,7 +343,7 @@ DistributedCoordinator::getPendingTasks() const {
 // Task execution callback
 /** @brief Register callback used to execute coordinator tasks. */
 void DistributedCoordinator::setTaskExecutor(TaskExecutor executor) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     task_executor_ = executor;
 }
 
@@ -366,8 +366,8 @@ DistributedCoordinator::LeaderInfo DistributedCoordinator::getLeaderInfo() const
 
 // Callbacks
 /** @brief Register callback notified when leadership changes. */
-void DistributedCoordinator::setLeaderElectedCallback(LeaderElectedCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
+void DistributedCoordinator::setLeaderElectedCallback([[maybe_unused]] LeaderElectedCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
     leader_elected_callback_ = callback;
 }
 
@@ -427,7 +427,7 @@ void DistributedCoordinator::taskExecutorLoop() {
     // Get executor outside of any locks to avoid deadlock
     TaskExecutor executor;
     {
-        std::lock_guard<std::mutex> cb_lock(callback_mutex_);
+        std::lock_guard<std::mutex> cb_lock([[maybe_unused]] callback_mutex_);
         executor = task_executor_;
     }
     

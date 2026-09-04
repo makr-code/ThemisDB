@@ -45,7 +45,7 @@ SLOThresholds LagAlertManager::thresholds() const
 void LagAlertManager::setAlertCallback(AlertCallback callback)
 {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    alert_callback_ = std::move(callback);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ---------------------------------------------------------------------------
@@ -365,7 +365,7 @@ void LagAlertManager::emitAlert(const AlertEvent& event)
 
     try {
         if (cb) {
-            cb(event);
+            cb([[maybe_unused]] event);
         }
     } catch (...) {
         // Suppress exceptions from callback to ensure alert infrastructure stays robust

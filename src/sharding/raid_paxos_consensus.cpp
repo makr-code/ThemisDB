@@ -212,28 +212,28 @@ std::optional<std::vector<uint8_t>> RAIDPaxosConsensus::reconstructFromParity(
     const std::vector<std::vector<uint8_t>>& data_chunks,
     int failed_shard_index
 ) const {
-    if (parity_reconstruction_callback_) {
+    if ([[maybe_unused]] parity_reconstruction_callback_) {
         try {
             return parity_reconstruction_callback_(data_chunks, failed_shard_index);
         } catch (const std::exception& e) {
             spdlog::error("RAIDPaxosConsensus: Parity reconstruction callback failed: {}", e.what());
         } catch (...) {
-            spdlog::error("RAIDPaxosConsensus: Parity reconstruction callback threw unknown exception");
+            spdlog::error([[maybe_unused]] "RAIDPaxosConsensus: Parity reconstruction callback threw unknown exception");
         }
     }
     
-    spdlog::warn("RAIDPaxosConsensus: No parity reconstruction callback configured");
+    spdlog::warn([[maybe_unused]] "RAIDPaxosConsensus: No parity reconstruction callback configured");
     return std::nullopt;
 }
 
-void RAIDPaxosConsensus::setParityReconstructionCallback(ParityReconstructionFn fn) {
-    parity_reconstruction_callback_ = std::move(fn);
-    spdlog::info("RAIDPaxosConsensus: Parity reconstruction callback set");
+void RAIDPaxosConsensus::setParityReconstructionCallback([[maybe_unused]] ParityReconstructionFn fn) {
+    parity_reconstruction_callback_ = std::move([[maybe_unused]] fn);
+    spdlog::info([[maybe_unused]] "RAIDPaxosConsensus: Parity reconstruction callback set");
 }
 
-void RAIDPaxosConsensus::setMirrorSelectionCallback(MirrorSelectionFn fn) {
-    mirror_selection_callback_ = std::move(fn);
-    spdlog::info("RAIDPaxosConsensus: Mirror selection callback set");
+void RAIDPaxosConsensus::setMirrorSelectionCallback([[maybe_unused]] MirrorSelectionFn fn) {
+    mirror_selection_callback_ = std::move([[maybe_unused]] fn);
+    spdlog::info([[maybe_unused]] "RAIDPaxosConsensus: Mirror selection callback set");
 }
 
 // ============================================================================

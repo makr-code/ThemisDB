@@ -85,7 +85,7 @@ bool isValidCacheAdminFilePath(const std::string& value) {
 static const char kBase64Chars[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-std::string CacheAdminApiHandler::base64Decode(const std::string& input) {
+std::string CacheAdminApiHandler::base64Decode([[maybe_unused]] const std::string& input) {
     std::string output;
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; ++i) {

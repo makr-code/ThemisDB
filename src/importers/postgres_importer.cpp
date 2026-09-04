@@ -566,7 +566,7 @@ ImportStats PostgreSQLImporter::importDataStreaming(
     // check options.streaming_row_callback and invoke it per-row, so no rows
     // are accumulated in memory between callback invocations.
     ImportOptions streaming_opts = options;
-    streaming_opts.streaming_row_callback = std::move(row_callback);
+    streaming_opts.streaming_row_callback = std::move([[maybe_unused]] row_callback);
 
     ImportStats stats = importData(source_path, streaming_opts, nullptr);
 
@@ -2013,7 +2013,7 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
                  "table " + table_name + ", line " + std::to_string(line_number));
         stats.imported_records++;
     } else {
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             if (!options.streaming_row_callback(table_name, entity)) {
                 cancelled_ = true;  // abort the import
             }
@@ -2244,7 +2244,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                      "table " + table_name + ", row " + std::to_string(row_num));
             stats.imported_records++;
         } else {
-            if (options.streaming_row_callback) {
+            if ([[maybe_unused]] options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;  // caller requested abort
                     stats.imported_records++;
@@ -2509,7 +2509,7 @@ void PostgreSQLImporter::emitMetric(const ImportOptions& options,
                                      const std::string& metric,
                                      const std::map<std::string, std::string>& labels,
                                      double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -2518,7 +2518,7 @@ void PostgreSQLImporter::emitSpan(const ImportOptions& options,
                                    const std::string& operation,
                                    const std::map<std::string, std::string>& attributes,
                                    double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -2625,7 +2625,7 @@ void PostgreSQLImporter::saveCheckpoint(const std::string& checkpoint_file,
 }
 
 void PostgreSQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }

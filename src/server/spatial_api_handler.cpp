@@ -322,7 +322,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             auto gpu_stats = json::parse(gpu_json_str);
             response["gpu_backend"] = gpu_stats;
         } catch (...) {
-            THEMIS_DEBUG("spatial_api_handler: unhandled exception caught");
+            THEMIS_DEBUG([[maybe_unused]] "spatial_api_handler: unhandled exception caught");
             response["gpu_backend"] = nullptr;
         }
         
@@ -339,7 +339,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
 }
 
 // Helper to decode URL-encoded strings
-std::string SpatialApiHandler::urlDecode(const std::string& str) {
+std::string SpatialApiHandler::urlDecode([[maybe_unused]] const std::string& str) {
     std::string result;
     result.reserve(str.size());
     for (size_t i = 0; i < str.size(); ++i) {
@@ -364,7 +364,7 @@ std::string SpatialApiHandler::urlDecode(const std::string& str) {
 }
 
 // Helper to parse query parameters from URL
-std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery(const std::string& target) {
+std::unordered_map<std::string, std::string> SpatialApiHandler::parseQuery([[maybe_unused]] const std::string& target) {
     std::unordered_map<std::string, std::string> out;
     auto qpos = target.find('?');
     if (qpos == std::string::npos) return out;

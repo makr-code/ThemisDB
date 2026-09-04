@@ -147,7 +147,7 @@ ExportStats IncrementalExporter::exportEntities(
                     auto now = std::chrono::steady_clock::now();
                     stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                         now - start_time);
-                    options.progress_callback(stats);
+                    options.progress_callback([[maybe_unused]] stats);
                 }
 
             } catch (const SizeLimitException&) {

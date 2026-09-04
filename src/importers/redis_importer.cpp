@@ -402,7 +402,7 @@ ImportStats RedisImporter::importData(
             ++stats.imported_records;
         }
 
-        if (progress_callback) {
+        if ([[maybe_unused]] progress_callback) {
             progress_callback("scan", stats.total_records, 0);
         }
 

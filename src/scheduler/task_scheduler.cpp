@@ -161,14 +161,14 @@ static constexpr const char* DEFAULT_AUDIT_USER = "system";
 static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
 // Helper function to set audit context from thread-local RequestContext
-static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
-    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+static void setDefaultAuditContext([[maybe_unused]] scheduler::TaskAuditEvent& event) {
+    event.user_id    = TaskScheduler::currentUserId([[maybe_unused]] DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
 
-static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
-    event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
+static void setDefaultAuditContext([[maybe_unused]] scheduler::TaskSecurityEvent& event) {
+    event.user_id    = TaskScheduler::currentUserId([[maybe_unused]] DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
 }
@@ -202,7 +202,7 @@ static void logUnauthorizedPermissionAttempt(
     security_event.task_name = task_name;
     security_event.event_type = scheduler::TaskSecurityEventType::UNAUTHORIZED_ACCESS;
     security_event.severity = "HIGH";
-    setDefaultAuditContext(security_event);
+    setDefaultAuditContext([[maybe_unused]] security_event);
     security_event.violation_type = "PERMISSION_DENIED";
     security_event.description = "Scheduler permission check denied operation";
     security_event.details = {
@@ -213,7 +213,7 @@ static void logUnauthorizedPermissionAttempt(
     };
     security_event.blocked = true;
     security_event.action_taken = "operation_blocked";
-    audit_manager->logSecurityEvent(security_event);
+    audit_manager->logSecurityEvent([[maybe_unused]] security_event);
 }
 
 // Helper function to convert trigger type to string
@@ -458,10 +458,10 @@ TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config,
     
     // Initialize event trigger manager if changefeed is provided
     if (changefeed_) {
-        event_trigger_manager_ = std::make_unique<EventTriggerManager>(changefeed_);
-        THEMIS_INFO("TaskScheduler initialized with CDC event support");
+        event_trigger_manager_ = std::make_unique<EventTriggerManager>([[maybe_unused]] changefeed_);
+        THEMIS_INFO([[maybe_unused]] "TaskScheduler initialized with CDC event support");
     } else {
-        THEMIS_INFO("TaskScheduler initialized without CDC event support");
+        THEMIS_INFO([[maybe_unused]] "TaskScheduler initialized without CDC event support");
     }
 
     // Initialize result store if enabled and storage is provided
@@ -505,7 +505,7 @@ void TaskScheduler::start() {
 
     // Restart any event triggers that were stopped (e.g. after a previous stop()).
     // Called outside tasks_mutex_ to avoid lock inversion with the trigger callback.
-    if (event_trigger_manager_) {
+    if ([[maybe_unused]] event_trigger_manager_) {
         event_trigger_manager_->startAll();
     }
     
@@ -558,7 +558,7 @@ void TaskScheduler::stop() {
     }
 
     // Stop event triggers to prevent CDC-triggered execution after stop()
-    if (event_trigger_manager_) {
+    if ([[maybe_unused]] event_trigger_manager_) {
         event_trigger_manager_->stopAll();
     }
     
@@ -592,10 +592,10 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // Validate trigger-specific configuration
     if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
         validateCronExpression(task.cron_expression);
-    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+    } else if ([[maybe_unused]] task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
         validateCDCTrigger(task.cdc_trigger);
         if (!changefeed_) {
-            throw std::invalid_argument("CDC event triggers require a Changefeed instance");
+            throw std::invalid_argument([[maybe_unused]] "CDC event triggers require a Changefeed instance");
         }
     }
     
@@ -650,8 +650,8 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
                 event.event_type = scheduler::TaskEventType::TASK_REGISTRATION_REJECTED;
                 event.success = false;
                 event.error_message = "Conflicting task descriptor for existing task ID";
-                setDefaultAuditContext(event);
-                audit_manager_->logAuditEvent(event);
+                setDefaultAuditContext([[maybe_unused]] event);
+                audit_manager_->logAuditEvent([[maybe_unused]] event);
             }
             
             throw std::runtime_error(
@@ -683,9 +683,9 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
             task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
         }
-    } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+    } else if ([[maybe_unused]] task_ptr->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
         // Setup CDC event trigger
-        setupEventTrigger(task_ptr);
+        setupEventTrigger([[maybe_unused]] task_ptr);
     }
     
     tasks_[id] = task_ptr;
@@ -703,13 +703,13 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         event.task_name = sanitized_task.name;
         event.task_description = sanitized_task.description;
         event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
-        event.trigger_type = getTriggerTypeString(sanitized_task.trigger_type);
+        event.trigger_type = getTriggerTypeString([[maybe_unused]] sanitized_task.trigger_type);
         event.success = true;
-        setDefaultAuditContext(event);
+        setDefaultAuditContext([[maybe_unused]] event);
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
         event.metadata["interval_ms"] = sanitized_task.interval.count();
         
-        audit_manager_->logAuditEvent(event);
+        audit_manager_->logAuditEvent([[maybe_unused]] event);
     }
     
     if (config_.persist_tasks) {
@@ -725,8 +725,8 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
     auto it = tasks_.find(task_id);
     if (it != tasks_.end()) {
         // Remove CDC event trigger if present
-        if (it->second->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
-            removeEventTrigger(task_id);
+        if ([[maybe_unused]] it->second->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+            removeEventTrigger([[maybe_unused]] task_id);
         }
         
         // Remove cron expression from cache
@@ -1291,9 +1291,9 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     start_event.task_name = task->name;
                     start_event.task_description = task->description;
                     start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
-                    start_event.trigger_type = getTriggerTypeString(task->trigger_type);
-                    setDefaultAuditContext(start_event);
-                    audit_manager_->logAuditEvent(start_event);
+                    start_event.trigger_type = getTriggerTypeString([[maybe_unused]] task->trigger_type);
+                    setDefaultAuditContext([[maybe_unused]] start_event);
+                    audit_manager_->logAuditEvent([[maybe_unused]] start_event);
                 }
 
                 try {
@@ -1342,8 +1342,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                         completion_event.task_name = task->name;
                         completion_event.task_description = task->description;
                         completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
-                        completion_event.trigger_type = getTriggerTypeString(task->trigger_type);
-                        setDefaultAuditContext(completion_event);
+                        completion_event.trigger_type = getTriggerTypeString([[maybe_unused]] task->trigger_type);
+                        setDefaultAuditContext([[maybe_unused]] completion_event);
                         completion_event.success = true;
                         // cpu_time_ms is approximated by wall-clock time (same as executeTask)
                         completion_event.resource_usage.execution_time_ms = dur_ms;
@@ -1358,7 +1358,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                                     wave_results[i].result["affected"].get<uint64_t>();
                             }
                         }
-                        audit_manager_->logAuditEvent(completion_event);
+                        audit_manager_->logAuditEvent([[maybe_unused]] completion_event);
                     }
 
                     if (task->on_success) {
@@ -1381,15 +1381,15 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                         failure_event.task_name = task->name;
                         failure_event.task_description = task->description;
                         failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
-                        failure_event.trigger_type = getTriggerTypeString(task->trigger_type);
-                        setDefaultAuditContext(failure_event);
+                        failure_event.trigger_type = getTriggerTypeString([[maybe_unused]] task->trigger_type);
+                        setDefaultAuditContext([[maybe_unused]] failure_event);
                         failure_event.success = false;
                         failure_event.error_message = wave_results[i].error;
                         failure_event.error_type = wave_results[i].error_type;
                         // cpu_time_ms is approximated by wall-clock time (same as executeTask)
                         failure_event.resource_usage.execution_time_ms = dur_ms;
                         failure_event.resource_usage.cpu_time_ms = dur_ms;
-                        audit_manager_->logAuditEvent(failure_event);
+                        audit_manager_->logAuditEvent([[maybe_unused]] failure_event);
                     }
 
                     if (task->on_failure) {
@@ -1680,7 +1680,7 @@ std::vector<scheduler::TaskAuditEvent> TaskScheduler::getExecutionHistory(
     params.offset = offset;
     params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
     
-    return audit_manager_->queryAuditEvents(params);
+    return audit_manager_->queryAuditEvents([[maybe_unused]] params);
 }
 
 // ===== Scheduler Loop =====
@@ -1841,10 +1841,10 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         start_event.task_name = task->name;
         start_event.task_description = task->description;
         start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
-        start_event.trigger_type = getTriggerTypeString(task->trigger_type);
-        setDefaultAuditContext(start_event);
+        start_event.trigger_type = getTriggerTypeString([[maybe_unused]] task->trigger_type);
+        setDefaultAuditContext([[maybe_unused]] start_event);
         
-        audit_manager_->logAuditEvent(start_event);
+        audit_manager_->logAuditEvent([[maybe_unused]] start_event);
     }
 
     // Retry loop with strategy-based backoff (RetryPolicy)
@@ -1958,7 +1958,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            setDefaultAuditContext(completion_event);
+            setDefaultAuditContext([[maybe_unused]] completion_event);
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -1975,7 +1975,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 }
             }
             
-            audit_manager_->logAuditEvent(completion_event);
+            audit_manager_->logAuditEvent([[maybe_unused]] completion_event);
         }
         
         if (task->on_success) {
@@ -2010,7 +2010,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            setDefaultAuditContext(failure_event);
+            setDefaultAuditContext([[maybe_unused]] failure_event);
             failure_event.success = false;
             failure_event.error_message = last_error;
             failure_event.error_type = "EXECUTION_ERROR";
@@ -2020,7 +2020,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.resource_usage.execution_time_ms = elapsed_ms;
             failure_event.resource_usage.cpu_time_ms = elapsed_ms;
             
-            auto anomaly_metrics = audit_manager_->logAuditEvent(failure_event);
+            auto anomaly_metrics = audit_manager_->logAuditEvent([[maybe_unused]] failure_event);
             
             // If anomaly detected in failures, log as security event
             if (anomaly_metrics.is_anomalous && anomaly_metrics.failure_rate_score > 0.7) {
@@ -2031,7 +2031,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                setDefaultAuditContext(security_event);
+                setDefaultAuditContext([[maybe_unused]] security_event);
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
@@ -2039,7 +2039,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.blocked = false;
                 security_event.action_taken = "logged_for_review";
                 
-                audit_manager_->logSecurityEvent(security_event);
+                audit_manager_->logSecurityEvent([[maybe_unused]] security_event);
             }
         }
         
@@ -2165,7 +2165,7 @@ bool TaskScheduler::shouldExecute(const ScheduledTask& task,
         return shouldExecuteCron(task, now);
     } else if (task.trigger_type == ScheduledTask::TriggerType::INTERVAL) {
         return now >= task.next_run;
-    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+    } else if ([[maybe_unused]] task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
         // CDC events trigger tasks directly via callbacks
         return false;
     } else if (task.trigger_type == ScheduledTask::TriggerType::MANUAL) {
@@ -2228,8 +2228,8 @@ void TaskScheduler::saveTasks() {
         nlohmann::json cdc_json;
         cdc_json["key_prefix"] = task->cdc_trigger.key_prefix;
         cdc_json["event_types"] = nlohmann::json::array();
-        for (int type : task->cdc_trigger.event_types) {
-            cdc_json["event_types"].push_back(type);
+        for ([[maybe_unused]] int type : task->cdc_trigger.event_types) {
+            cdc_json["event_types"].push_back([[maybe_unused]] type);
         }
         if (task->cdc_trigger.condition) {
             cdc_json["condition"] = *task->cdc_trigger.condition;
@@ -2354,9 +2354,9 @@ void TaskScheduler::loadTasks() {
                 task.cdc_trigger.key_prefix = cdc_json.value("key_prefix", "");
                 task.cdc_trigger.debounce_ms = cdc_json.value("debounce_ms", 0);
                 
-                if (cdc_json.contains("event_types")) {
-                    for (const auto& type : cdc_json["event_types"]) {
-                        task.cdc_trigger.event_types.insert(type.get<int>());
+                if ([[maybe_unused]] cdc_json.contains("event_types")) {
+                    for ([[maybe_unused]] const auto& type : cdc_json["event_types"]) {
+                        task.cdc_trigger.event_types.insert([[maybe_unused]] type.get<int>());
                     }
                 }
                 
@@ -2490,7 +2490,7 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
             security_event.blocked = true;
             security_event.action_taken = "query_rejected";
             
-            audit_manager_->logSecurityEvent(security_event);
+            audit_manager_->logSecurityEvent([[maybe_unused]] security_event);
         }
         
         throw std::invalid_argument("AQL query validation failed: " + validation_result.error_message);
@@ -2530,7 +2530,7 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
             security_event.blocked = true;
             security_event.action_taken = "task_rejected";
             
-            audit_manager_->logSecurityEvent(security_event);
+            audit_manager_->logSecurityEvent([[maybe_unused]] security_event);
         }
         
         throw std::invalid_argument("Task timeout exceeds maximum allowed: " + 
@@ -2689,7 +2689,7 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) {
             security_event.blocked = true;
             security_event.action_taken = "execution_denied";
             
-            audit_manager_->logSecurityEvent(security_event);
+            audit_manager_->logSecurityEvent([[maybe_unused]] security_event);
         }
         
         return false;
@@ -2746,21 +2746,21 @@ void TaskScheduler::validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger)
         throw std::invalid_argument("CDC trigger key_prefix cannot be empty");
     }
     
-    if (trigger.event_types.empty()) {
-        throw std::invalid_argument("CDC trigger must specify at least one event type");
+    if ([[maybe_unused]] trigger.event_types.empty()) {
+        throw std::invalid_argument([[maybe_unused]] "CDC trigger must specify at least one event type");
     }
     
     // Validate event types are in valid range (0-3)
-    for (int type : trigger.event_types) {
+    for ([[maybe_unused]] int type : trigger.event_types) {
         if (type < 0 || type > 3) {
-            throw std::invalid_argument("Invalid CDC event type: " + std::to_string(type));
+            throw std::invalid_argument([[maybe_unused]] "Invalid CDC event type: " + std::to_string(type));
         }
     }
 }
 
-void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
-    if (!event_trigger_manager_) {
-        THEMIS_ERROR("Cannot setup CDC trigger without EventTriggerManager");
+void TaskScheduler::setupEventTrigger([[maybe_unused]] std::shared_ptr<ScheduledTask> task) {
+    if ([[maybe_unused]] !event_trigger_manager_) {
+        THEMIS_ERROR([[maybe_unused]] "Cannot setup CDC trigger without EventTriggerManager");
         return;
     }
     
@@ -2769,15 +2769,15 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     config.key_prefix = task->cdc_trigger.key_prefix;
     
     // Convert event types from int to ChangeEventType
-    for (int type_int : task->cdc_trigger.event_types) {
-        config.event_types.insert(static_cast<Changefeed::ChangeEventType>(type_int));
+    for ([[maybe_unused]] int type_int : task->cdc_trigger.event_types) {
+        config.event_types.insert([[maybe_unused]] static_cast<Changefeed::ChangeEventType>(type_int));
     }
     
     config.condition = task->cdc_trigger.condition;
     config.debounce_ms = task->cdc_trigger.debounce_ms;
     
     // Create callback that triggers task execution via onCDCEvent
-    auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
+    auto callback = [this, task_id = task->id]([[maybe_unused]] const Changefeed::ChangeEvent& event) {
         // Retrieve task inside the callback to avoid capturing by value
         std::shared_ptr<ScheduledTask> task_ptr;
         {
@@ -2796,16 +2796,16 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     event_trigger_manager_->registerTrigger(task->id, config, std::move(callback));
 }
 
-void TaskScheduler::removeEventTrigger(const std::string& task_id) {
-    if (event_trigger_manager_) {
-        event_trigger_manager_->unregisterTrigger(task_id);
+void TaskScheduler::removeEventTrigger([[maybe_unused]] const std::string& task_id) {
+    if ([[maybe_unused]] event_trigger_manager_) {
+        event_trigger_manager_->unregisterTrigger([[maybe_unused]] task_id);
     }
 }
 
 void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
                                const Changefeed::ChangeEvent& event) {
     THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
-                task->id, event.key, static_cast<int>(event.type));
+                task->id, event.key, static_cast<int>([[maybe_unused]] event.type));
 
     // Audit log CDC trigger activation
     if (config_.enable_audit_logging && audit_logger_) {

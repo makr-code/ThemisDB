@@ -177,7 +177,7 @@ uint64_t GeoEdgeCaseHandler::fallbackCount() const noexcept {
 }
 
 uint64_t GeoEdgeCaseHandler::driftEventCount() const noexcept {
-    return drift_event_count_.load(std::memory_order_acquire);
+    return drift_event_count_.load([[maybe_unused]] std::memory_order_acquire);
 }
 
 // ============================================================================

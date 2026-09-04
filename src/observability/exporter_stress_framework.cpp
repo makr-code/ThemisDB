@@ -174,7 +174,7 @@ public:
     ExporterStressFrameworkImpl()
         : cancel_test_(false),
           active_test_(false),
-          progress_callback_(nullptr) {}
+          progress_callback_([[maybe_unused]] nullptr) {}
 
     ExporterStressTestResult runStressTest(
         const ExporterStressTestConfig& config) override {
@@ -236,8 +236,8 @@ public:
                 }
 
                 // Update progress
-                if (progress_callback_) {
-                    progress_callback_((sec * 100) / config.duration_seconds);
+                if ([[maybe_unused]] progress_callback_) {
+                    progress_callback_([[maybe_unused]] (sec * 100) / config.duration_seconds);
                 }
             }
         }
@@ -454,7 +454,7 @@ public:
     }
 
     void setProgressCallback(
-        std::function<void(std::uint32_t progress_percent)> callback) override {
+        std::function<void([[maybe_unused]] std::uint32_t progress_percent)> callback) override {
         progress_callback_ = callback;
     }
 

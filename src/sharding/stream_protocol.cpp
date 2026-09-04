@@ -654,7 +654,7 @@ bool StreamSession::initialize() {
         std::lock_guard<std::mutex> lock(mutex_);
         prepare_callback = prepare_callback_;
     }
-    if (prepare_callback) {
+    if ([[maybe_unused]] prepare_callback) {
         const bool prepared = prepare_callback();
         if (!prepared) {
             transitionState(StreamSessionState::ABORTED);
@@ -798,7 +798,7 @@ void StreamSession::abort(const std::string& reason) {
         }
     }
     
-    if (completion_callback) {
+    if ([[maybe_unused]] completion_callback) {
         completion_callback(session_id_, false, reason);
     }
 }
@@ -839,19 +839,19 @@ StreamSessionProgress StreamSession::getProgress() const {
     return progress;
 }
 
-void StreamSession::setProgressCallback(StreamProgressCallback callback) {
+void StreamSession::setProgressCallback([[maybe_unused]] StreamProgressCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    progress_callback_ = std::move(callback);
+    progress_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void StreamSession::setCompletionCallback(StreamCompletionCallback callback) {
+void StreamSession::setCompletionCallback([[maybe_unused]] StreamCompletionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    completion_callback_ = std::move(callback);
+    completion_callback_ = std::move([[maybe_unused]] callback);
 }
 
-void StreamSession::setPrepareTransferCallback(std::function<bool()> cb) {
+void StreamSession::setPrepareTransferCallback([[maybe_unused]] std::function<bool()> cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    prepare_callback_ = std::move(cb);
+    prepare_callback_ = std::move([[maybe_unused]] cb);
 }
 
 bool StreamSession::isActive() const {
@@ -901,7 +901,7 @@ void StreamSession::sessionLoop() {
                 std::lock_guard<std::mutex> lock(mutex_);
                 completion_callback = completion_callback_;
             }
-            if (completion_callback) {
+            if ([[maybe_unused]] completion_callback) {
                 completion_callback(session_id_, false, "Transfer task failed");
             }
             break;
@@ -917,7 +917,7 @@ void StreamSession::sessionLoop() {
                 std::lock_guard<std::mutex> lock(mutex_);
                 completion_callback = completion_callback_;
             }
-            if (completion_callback) {
+            if ([[maybe_unused]] completion_callback) {
                 completion_callback(session_id_, true, "");
             }
             break;
@@ -950,8 +950,8 @@ void StreamSession::notifyProgress() {
         std::lock_guard<std::mutex> lock(mutex_);
         progress_callback = progress_callback_;
     }
-    if (progress_callback) {
-        progress_callback(getProgress());
+    if ([[maybe_unused]] progress_callback) {
+        progress_callback([[maybe_unused]] getProgress());
     }
 }
 
@@ -1132,9 +1132,9 @@ std::vector<StreamSessionProgress> StreamPlan::getProgress() const {
     return progress;
 }
 
-void StreamPlan::addListener(std::shared_ptr<IStreamListener> listener) {
+void StreamPlan::addListener([[maybe_unused]] std::shared_ptr<IStreamListener> listener) {
     std::lock_guard<std::mutex> lock(mutex_);
-    listeners_.push_back(listener);
+    listeners_.push_back([[maybe_unused]] listener);
 }
 
 void StreamPlan::executorLoop() {
@@ -1199,9 +1199,9 @@ void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback)
         listeners = listeners_;
     }
 
-    for (auto& listener : listeners) {
-        if (listener) {
-            callback(*listener);
+    for ([[maybe_unused]] auto& listener : listeners) {
+        if ([[maybe_unused]] listener) {
+            callback([[maybe_unused]] *listener);
         }
     }
 }

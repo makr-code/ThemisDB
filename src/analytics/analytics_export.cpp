@@ -286,7 +286,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             while (offset < data.size()) {
                 size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
-                callback(chunk);
+                callback([[maybe_unused]] chunk);
                 offset += len;
             }
 
@@ -856,7 +856,7 @@ class FeatherExporter : public IAnalyticsExporter {
             while (offset < data.size()) {
                 size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
-                callback(chunk);
+                callback([[maybe_unused]] chunk);
                 offset += len;
             }
             result.rows_exported = batch.rowCount();

@@ -1068,7 +1068,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         } else {
             json entity = convertRowToEntity(eff_schema, values);
             THEMIS_DEBUG("MySQL INSERT entity: {}", entity.dump());
-            if (options.streaming_row_callback) {
+            if ([[maybe_unused]] options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;
                 }
@@ -1482,7 +1482,7 @@ void MySQLImporter::emitMetric(const ImportOptions& options,
                                 const std::string& metric,
                                 const std::map<std::string, std::string>& labels,
                                 double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -1491,14 +1491,14 @@ void MySQLImporter::emitSpan(const ImportOptions& options,
                               const std::string& operation,
                               const std::map<std::string, std::string>& attributes,
                               double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
 
 void MySQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage,
                                     size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }

@@ -311,7 +311,7 @@ public:
                     metrics_.step_losses.push_back(step_loss);
                     metrics_.total_steps++;
 
-                    if (callback && steps_in_epoch % 10 == 0) {
+                    if ([[maybe_unused]] callback && steps_in_epoch % 10 == 0) {
                         callback(epoch, steps_in_epoch, step_loss,
                                  "Training epoch " + std::to_string(epoch));
                     }

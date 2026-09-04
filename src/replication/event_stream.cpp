@@ -134,7 +134,7 @@ void ReplicationEventStream::emit(Event ev)
     // Append to ring buffer
     {
         std::lock_guard<std::mutex> lock(buffer_mutex_);
-        if (buffer_.size() >= config_.max_history_events) {
+        if ([[maybe_unused]] buffer_.size() >= config_.max_history_events) {
             if (config_.drop_oldest_on_full) {
                 buffer_.pop_front();
             } else {
@@ -152,7 +152,7 @@ void ReplicationEventStream::emit(Event ev)
     }
     for (const auto& sub : snapshot) {
         if (!sub.filter || *sub.filter == ev.type) {
-            sub.callback(ev);
+            sub.callback([[maybe_unused]] ev);
         }
     }
 }

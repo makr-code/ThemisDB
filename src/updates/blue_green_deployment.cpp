@@ -319,12 +319,12 @@ std::string BlueGreenDeployment::slotVersion(DeploymentSlot slot) const {
 // Callbacks
 // ---------------------------------------------------------------------------
 
-void BlueGreenDeployment::setPromotionCallback(PromotionCallback cb) {
+void BlueGreenDeployment::setPromotionCallback([[maybe_unused]] PromotionCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     promotion_cb_ = std::move(cb);
 }
 
-void BlueGreenDeployment::setRollbackCallback(RollbackCallback cb) {
+void BlueGreenDeployment::setRollbackCallback([[maybe_unused]] RollbackCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_cb_ = std::move(cb);
 }

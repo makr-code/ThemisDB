@@ -29,7 +29,7 @@ DiffApiHandler::DiffApiHandler(analytics::DiffEngine& diff_engine)
     : diff_engine_(diff_engine) {
 }
 
-void DiffApiHandler::registerRoutes(httplib::Server& server) {
+void DiffApiHandler::registerRoutes([[maybe_unused]] httplib::Server& server) {
     // GET /api/v1/diff - Compute diff
     server.Get("/api/v1/diff", [this](const httplib::Request& req, httplib::Response& res) {
         handleGetDiff(req, res);
@@ -125,7 +125,7 @@ void DiffApiHandler::handleClearCache(const httplib::Request& /*req*/, httplib::
     }
 }
 
-analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::Request& req) const {
+analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions([[maybe_unused]] const httplib::Request& req) const {
     analytics::DiffEngine::DiffOptions options;
     
     // Parse table filter
@@ -150,7 +150,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
         } catch (...) {
-            THEMIS_WARN("diff_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "diff_api_handler: unhandled exception caught");
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -161,7 +161,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
         } catch (...) {
-            THEMIS_WARN("diff_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "diff_api_handler: unhandled exception caught");
             throw std::invalid_argument("Invalid offset parameter");
         }
     }
@@ -175,7 +175,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
     return options;
 }
 
-int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
+int64_t DiffApiHandler::parseTimestamp([[maybe_unused]] const std::string& str) const {
     // Try to parse as milliseconds first
     try {
         return std::stoll(str);
@@ -209,7 +209,7 @@ int64_t DiffApiHandler::parseTimestamp(const std::string& str) const {
     return ms.count();
 }
 
-bool DiffApiHandler::isSequenceNumber(const std::string& str) const {
+bool DiffApiHandler::isSequenceNumber([[maybe_unused]] const std::string& str) const {
     if (str.empty()) return false;
     
     // Check if all characters are digits

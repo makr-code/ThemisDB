@@ -206,16 +206,16 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     // this file found no unbounded raw-pointer arithmetic — findings are
     // false-positives from the scanner.  No change required.
     constexpr int kStreamCallbackMaxRetries = 3;
-    auto invokeStreamCallback = [&](const std::string& token) {
-        for (int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
+    auto invokeStreamCallback = [&]([[maybe_unused]] const std::string& token) {
+        for ([[maybe_unused]] int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
             try {
-                request.stream_callback(token);
+                request.stream_callback([[maybe_unused]] token);
                 return; // success
             } catch (const std::bad_alloc&) {
                 ++error_count_;
                 return; // non-retryable; abort immediately
             } catch (...) {
-                if (attempt < kStreamCallbackMaxRetries - 1) {
+                if ([[maybe_unused]] attempt < kStreamCallbackMaxRetries - 1) {
                     ++stream_retry_count_; // transient — will retry
                 } else {
                     ++error_count_; // all retries exhausted
@@ -322,8 +322,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             if (bridged.span_id.empty()) {
                 bridged.span_id = request.span_id;
             }
-            if (request.stream_callback && !bridged.text.empty()) {
-                invokeStreamCallback(bridged.text);
+            if ([[maybe_unused]] request.stream_callback && !bridged.text.empty()) {
+                invokeStreamCallback([[maybe_unused]] bridged.text);
             }
             ++inference_count_;
             return bridged;
@@ -388,8 +388,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             text = "[stub:" + request.prompt.substr(0, 40) + "]";
         }
 
-        if (request.stream_callback) {
-            invokeStreamCallback(text);
+        if ([[maybe_unused]] request.stream_callback) {
+            invokeStreamCallback([[maybe_unused]] text);
         }
         response.text             = text;
         response.success          = true;
@@ -900,10 +900,10 @@ std::vector<std::vector<float>> LlamaCppPlugin::computeTargetLogitsForTokens(
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
         llm::InferenceRequest request,
-        std::function<void(const std::string& token)> token_callback) {
+        std::function<void([[maybe_unused]] const std::string& token)> token_callback) {
     // Inject the caller-supplied callback and delegate to generate(), which
     // already dispatches stream_callback when it is set.
-    request.stream_callback = std::move(token_callback);
+    request.stream_callback = std::move([[maybe_unused]] token_callback);
     return generate(request);
 }
 

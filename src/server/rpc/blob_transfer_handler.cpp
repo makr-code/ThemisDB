@@ -42,7 +42,7 @@ std::mutex                    s_blob_checksum_bridge_mutex;
 BlobTransferHandler::ChecksumFn s_blob_checksum_fn;
 }
 
-void BlobTransferHandler::setChecksumFn(ChecksumFn fn) {
+void BlobTransferHandler::setChecksumFn([[maybe_unused]] ChecksumFn fn) {
     std::lock_guard<std::mutex> lk(s_blob_checksum_bridge_mutex);
     s_blob_checksum_fn = std::move(fn);
 }
@@ -142,7 +142,7 @@ public:
         return BlobStatus::OK;
     }
     
-    BlobStatus StreamChunks(BlobChunkCallback callback) {
+    BlobStatus StreamChunks([[maybe_unused]] BlobChunkCallback callback) {
         std::ifstream file(config_.source_path, std::ios::binary);
         if (!file) {
             return BlobStatus::ERROR_IO_ERROR;
@@ -202,7 +202,7 @@ public:
             double progress = total_bytes_ > 0 ? (static_cast<double>(transferred_bytes_ + bytes_read) / static_cast<double>(total_bytes_)) * 100.0 : 0.0;
             chunk.set_progress_percent(progress);
             
-            callback(chunk);
+            callback([[maybe_unused]] chunk);
             
             transferred_bytes_ += bytes_read;
             transferred_chunks_++; 
@@ -219,7 +219,7 @@ public:
             final_chunk.set_bytes_transferred(transferred_bytes_);
             double progress = total_bytes_ > 0 ? (static_cast<double>(transferred_bytes_) / static_cast<double>(total_bytes_)) * 100.0 : 0.0;
             final_chunk.set_progress_percent(progress);
-            callback(final_chunk);
+            callback([[maybe_unused]] final_chunk);
         }
         
         return BlobStatus::OK;
@@ -568,19 +568,19 @@ BlobTransferHandler::BlobTransferHandler()
 
 BlobTransferHandler::~BlobTransferHandler() = default;
 
-BlobStatus BlobTransferHandler::StartTransfer(const BlobConfig& config) {
+BlobStatus BlobTransferHandler::StartTransfer([[maybe_unused]] const BlobConfig& config) {
     return impl_->StartTransfer(config);
 }
 
-BlobStatus BlobTransferHandler::StreamChunks(BlobChunkCallback callback) {
-    return impl_->StreamChunks(callback);
+BlobStatus BlobTransferHandler::StreamChunks([[maybe_unused]] BlobChunkCallback callback) {
+    return impl_->StreamChunks([[maybe_unused]] callback);
 }
 
-BlobStatus BlobTransferHandler::VerifyBlob(const std::string& expected_hash) {
+BlobStatus BlobTransferHandler::VerifyBlob([[maybe_unused]] const std::string& expected_hash) {
     return impl_->VerifyBlob(expected_hash);
 }
 
-BlobStatus BlobTransferHandler::ReceiveChunk(const themis::sharding::proto::BlobChunk& chunk) {
+BlobStatus BlobTransferHandler::ReceiveChunk([[maybe_unused]] const themis::sharding::proto::BlobChunk& chunk) {
     return impl_->ReceiveChunk(chunk);
 }
 
@@ -596,7 +596,7 @@ std::string BlobTransferHandler::CreateCheckpoint() {
     return impl_->CreateCheckpoint();
 }
 
-BlobStatus BlobTransferHandler::ResumeTransfer(const std::string& checkpoint_id) {
+BlobStatus BlobTransferHandler::ResumeTransfer([[maybe_unused]] const std::string& checkpoint_id) {
     return impl_->ResumeTransfer(checkpoint_id);
 }
 

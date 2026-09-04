@@ -75,7 +75,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
     }
 }
 
-nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
+nlohmann::json ClassificationApiHandler::testClassification([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("testClassification");
         if (!pii_detector_) {

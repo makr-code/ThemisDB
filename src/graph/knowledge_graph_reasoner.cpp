@@ -412,15 +412,15 @@ std::optional<InferenceEdge> KnowledgeGraphReasoner::explain(const Triple &fact)
 // onCDCEvent()
 // ─────────────────────────────────────────────────────────────────────────────
 
-void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
-    if (event.op == CDCEvent::Op::INSERT) {
+void KnowledgeGraphReasoner::onCDCEvent([[maybe_unused]] const CDCEvent &event) {
+    if ([[maybe_unused]] event.op == CDCEvent::Op::INSERT) {
         // Add to base facts (deduplication inside addFact).
-        if (!event.edge.isGround()) {
+        if ([[maybe_unused]] !event.edge.isGround()) {
             return;
         }
 
         // Add the new fact.
-        addFact(event.edge);
+        addFact([[maybe_unused]] event.edge);
 
         // Run one incremental forward-chaining pass with just the new fact plus
         // existing base facts — much cheaper than a full re-evaluation.
@@ -438,16 +438,16 @@ void KnowledgeGraphReasoner::onCDCEvent(const CDCEvent &event) {
         {
             std::unique_lock lock(facts_mutex_);
             auto it = std::remove_if(base_facts_.begin(), base_facts_.end(),
-                                     [&](const Triple &t) { return t == event.edge; });
+                                     [&]([[maybe_unused]] const Triple &t) { return t == event.edge; });
             base_facts_.erase(it, base_facts_.end());
         }
 
         // Conservatively clear derived triples whose premises included this edge.
         // We rebuild on the next infer() call.
-        std::vector<InferenceEdge> all_derived = inference_store_.getDerived(event.edge.subject);
+        std::vector<InferenceEdge> all_derived = inference_store_.getDerived([[maybe_unused]] event.edge.subject);
         for (auto &edge : all_derived) {
             for (const auto &premise : edge.premises) {
-                if (premise == event.edge) {
+                if ([[maybe_unused]] premise == event.edge) {
                     // Evict this derived triple.
                     inference_store_.store(edge.fact, "__deleted__", {}, std::chrono::seconds{0});
                     break;

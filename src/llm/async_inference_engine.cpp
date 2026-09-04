@@ -221,8 +221,8 @@ InferenceHandle AsyncInferenceEngine::submit(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
-                    if (async_req->callback) {
-                        async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] response);
                     }
                     try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
                 } catch (...) {
@@ -327,8 +327,8 @@ std::string AsyncInferenceEngine::submitAsync(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
-                    if (async_req->callback) {
-                        async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] response);
                     }
                 } catch (const std::exception& e) {
                     spdlog::error("Async callback request {} failed: {}",
@@ -414,7 +414,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     // is fired exactly once regardless of whether the stream ends normally
     // or via cancellation.
     auto fired_final    = std::make_shared<std::atomic<bool>>(false);
-    auto cb             = std::make_shared<TokenCallback>(std::move(callback));
+    auto cb             = std::make_shared<TokenCallback>([[maybe_unused]] std::move(callback));
 
     async_req->request.stream_callback =
         [cb, cancel_token = async_req->cancel_token, fired_final](const std::string& token) {
@@ -457,8 +457,8 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         bool queued = shared_pool_->submit(
             [this, async_req, promise, submit_time]() {
                 if (async_req->cancel_token->load(std::memory_order_acquire)) {
-                    if (async_req->callback) {
-                        async_req->callback(InferenceResponse{});
+                    if ([[maybe_unused]] async_req->callback) {
+                        async_req->callback([[maybe_unused]] InferenceResponse{});
                     }
                     try {
                         promise->set_exception(std::make_exception_ptr(
@@ -471,7 +471,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed++;
-                    if (async_req->callback) async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) async_req->callback(response);
                     try { promise->set_value(response); } catch (...) {}
                 } catch (...) {
                     THEMIS_WARN("async_inference_engine: unhandled exception caught");
@@ -780,8 +780,8 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             // Fire the completion callback so that streaming requests
             // receive the is_final=true sentinel even when the request is
             // cancelled while still queued (never dispatched to a plugin).
-            if (item.request->callback) {
-                try { item.request->callback(InferenceResponse{}); } catch (...) {}
+            if ([[maybe_unused]] item.request->callback) {
+                try { item.request->callback([[maybe_unused]] InferenceResponse{}); } catch (...) {}
             }
 
             // Set exception in promise — guard against double-resolve (timeout
@@ -817,9 +817,9 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             stats_.total_completed.fetch_add(1, std::memory_order_relaxed);
             
             // Deliver result
-            if (item.request->callback) {
+            if ([[maybe_unused]] item.request->callback) {
                 // Call callback on worker thread
-                item.request->callback(response);
+                item.request->callback([[maybe_unused]] response);
             }
             // Guard against double-resolve: timeout monitor may have already
             // resolved the promise while the plugin was still running.
@@ -867,7 +867,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     // cancellation (and deadline expiry) are checked at every token boundary.
     InferenceRequest effective_request = request.request;
     auto deadline = request.deadline;
-    const bool streaming_mode = static_cast<bool>(effective_request.stream_callback);
+    const bool streaming_mode = static_cast<bool>([[maybe_unused]] effective_request.stream_callback);
 
     if (streaming_mode) {
         spdlog::info(
@@ -877,9 +877,9 @@ InferenceResponse AsyncInferenceEngine::processRequest(
             request.priority);
     }
 
-    if (effective_request.stream_callback) {
+    if ([[maybe_unused]] effective_request.stream_callback) {
         // Wrap the original callback: stop streaming when cancelled/timed-out.
-        auto original_cb = std::move(effective_request.stream_callback);
+        auto original_cb = std::move([[maybe_unused]] effective_request.stream_callback);
         effective_request.stream_callback = [original_cb, 
             cancel_token = request.cancel_token,  // Direct capture to extend lifetime
             deadline]
@@ -899,7 +899,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
 
     // Check deduplication cache (skip for streaming requests as they cannot be cached)
-    if (dedup_cache_ && !effective_request.stream_callback) {
+    if ([[maybe_unused]] dedup_cache_ && !effective_request.stream_callback) {
         auto cached = dedup_cache_->get(effective_request.prompt);
         if (cached.has_value()) {
             stats_.total_dedup_cache_hits.fetch_add(1, std::memory_order_relaxed);
@@ -979,7 +979,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     }
     
     // Store in deduplication cache (skip for streaming requests)
-    if (dedup_cache_ && !effective_request.stream_callback) {
+    if ([[maybe_unused]] dedup_cache_ && !effective_request.stream_callback) {
         dedup_cache_->put(effective_request.prompt, response);
     }
     

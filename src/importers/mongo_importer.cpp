@@ -729,7 +729,7 @@ bool MongoDBImporter::importDocument(const json& doc,
     entity["_type"] = collection;
 
     THEMIS_DEBUG("MongoDB document entity: {}", entity.dump());
-    if (options.streaming_row_callback) {
+    if ([[maybe_unused]] options.streaming_row_callback) {
         if (!options.streaming_row_callback(collection, entity)) {
             cancelled_ = true;
         }
@@ -962,7 +962,7 @@ void MongoDBImporter::emitMetric(const ImportOptions& options,
                                   const std::string& metric,
                                   const std::map<std::string, std::string>& labels,
                                   double value) const {
-    if (options.metrics_callback) {
+    if ([[maybe_unused]] options.metrics_callback) {
         options.metrics_callback(metric, labels, value);
     }
 }
@@ -971,7 +971,7 @@ void MongoDBImporter::emitSpan(const ImportOptions& options,
                                 const std::string& operation,
                                 const std::map<std::string, std::string>& attributes,
                                 double duration_seconds) const {
-    if (options.tracing_callback) {
+    if ([[maybe_unused]] options.tracing_callback) {
         options.tracing_callback(operation, attributes, duration_seconds);
     }
 }
@@ -979,7 +979,7 @@ void MongoDBImporter::emitSpan(const ImportOptions& options,
 void MongoDBImporter::reportProgress(ProgressCallback& callback,
                                      const std::string& stage,
                                      size_t current, size_t total) {
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         callback(stage, current, total);
     }
 }

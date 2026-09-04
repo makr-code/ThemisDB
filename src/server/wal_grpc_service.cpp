@@ -194,10 +194,10 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
             service_ptr_ = fn();
         } catch (const std::exception& e) {
             THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
-            throw std::runtime_error("WalGrpcService service callback threw an exception");
+            throw std::runtime_error([[maybe_unused]] "WalGrpcService service callback threw an exception");
         } catch (...) {
-            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
-            throw std::runtime_error("WalGrpcService service callback threw an unknown exception");
+            THEMIS_ERROR([[maybe_unused]] "WalGrpcService: service callback failed: unknown error");
+            throw std::runtime_error([[maybe_unused]] "WalGrpcService service callback threw an unknown exception");
         }
         if (!service_ptr_) {
             const std::string error =

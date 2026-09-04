@@ -267,9 +267,9 @@ ShardRPCClient::ShardRPCClient(const Config& config)
 ShardRPCClient::~ShardRPCClient() = default;
 
 /** @brief Install or clear in-process response handler used by simulation fallback. */
-void ShardRPCClient::setInProcessResponseHandler(InProcessResponseHandler handler) {
-    std::lock_guard<std::mutex> lk(impl_->handler_mutex);
-    impl_->in_process_handler = std::move(handler);
+void ShardRPCClient::setInProcessResponseHandler([[maybe_unused]] InProcessResponseHandler handler) {
+    std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
+    impl_->in_process_handler = std::move([[maybe_unused]] handler);
 }
 
 /**
@@ -936,7 +936,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     // (possibly sleeping) retry loop.
     InProcessResponseHandler injected_handler;
     {
-        std::lock_guard<std::mutex> lk(impl_->handler_mutex);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] impl_->handler_mutex);
         injected_handler = impl_->in_process_handler;
     }
     
@@ -977,7 +977,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
             // If a custom handler has been injected (e.g. for testing failure
             // scenarios), delegate to it instead of the hardcoded fallback.
             nlohmann::json response;
-            if (injected_handler) {
+            if ([[maybe_unused]] injected_handler) {
                 response = injected_handler(method, params);
             } else {
                 // Built-in hardcoded fallback responses for single-node / test mode.

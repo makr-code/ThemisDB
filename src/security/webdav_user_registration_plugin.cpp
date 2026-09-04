@@ -288,7 +288,7 @@ public:
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kPropfindBody) - 1));
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -454,7 +454,7 @@ public:
             curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kPropfindBody);
             curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                              static_cast<long>(sizeof(kPropfindBody) - 1));
-            curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+            curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
             curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
             curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
             curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -536,7 +536,7 @@ private:
         curl_easy_setopt(curl.get(), CURLOPT_USERNAME, user_id.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_PASSWORD, password.c_str());
         curl_easy_setopt(curl.get(), CURLOPT_CUSTOMREQUEST, "PROPFIND");
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);
@@ -641,7 +641,7 @@ private:
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDS, kAdPropfindBody);
         curl_easy_setopt(curl.get(), CURLOPT_POSTFIELDSIZE,
                          static_cast<long>(sizeof(kAdPropfindBody) - 1));
-        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, curlWriteCallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl.get(), CURLOPT_TIMEOUT_MS, kRequestTimeoutMs);
         curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT_MS, kRequestTimeoutMs / 2);

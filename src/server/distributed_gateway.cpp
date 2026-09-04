@@ -547,7 +547,7 @@ bool DistributedGateway::needsSessionAffinity(
         std::string accept_lower(accept.begin(), accept.end());
         std::transform(accept_lower.begin(), accept_lower.end(),
                        accept_lower.begin(), ::tolower);
-        if (accept_lower.find("text/event-stream") != std::string::npos) {
+        if ([[maybe_unused]] accept_lower.find("text/event-stream") != std::string::npos) {
             return true;
         }
     }

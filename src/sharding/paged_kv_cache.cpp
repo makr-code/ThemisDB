@@ -598,9 +598,9 @@ void PagedKVCache::setBlockDeallocator(BlockDeallocator deallocator) {
     block_deallocator_ = std::move(deallocator);
 }
 
-void PagedKVCache::setEvictionCallback(EvictionCallback callback) {
+void PagedKVCache::setEvictionCallback([[maybe_unused]] EvictionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    eviction_callback_ = std::move(callback);
+    eviction_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ============================================================================
@@ -723,9 +723,9 @@ bool PagedKVCache::evictBlocks(uint32_t needed_blocks) {
     auto eviction_callback = eviction_callback_;
     lock.unlock();
 
-    if (eviction_callback) {
+    if ([[maybe_unused]] eviction_callback) {
         for (const auto& [block_id, request_id] : evicted_blocks) {
-            eviction_callback(static_cast<uint32_t>(request_id), block_id);
+            eviction_callback([[maybe_unused]] static_cast<uint32_t>(request_id), block_id);
         }
     }
 

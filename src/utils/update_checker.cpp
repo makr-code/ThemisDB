@@ -376,7 +376,7 @@ UpdateCheckResult UpdateChecker::checkNow() {
         if (update_callback_ && 
             (result.status == UpdateStatus::UPDATE_AVAILABLE || 
              result.status == UpdateStatus::CRITICAL_UPDATE)) {
-            update_callback_(result);
+            update_callback_([[maybe_unused]] result);
         }
     }
     
@@ -598,7 +598,7 @@ UpdateCheckResult UpdateChecker::analyzeReleases(const std::vector<ReleaseInfo>&
 
 void UpdateChecker::onUpdateAvailable(std::function<void(const UpdateCheckResult&)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    update_callback_ = std::move(callback);
+    update_callback_ = std::move([[maybe_unused]] callback);
 }
 
 } // namespace utils

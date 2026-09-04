@@ -132,7 +132,7 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
         persistUpsertJournalEntry(*record, total_bytes_stored, bytes_saved);
     });
 
-    storage_->setDeleteObserverFn([this](const TensorFieldKey &key) {
+    storage_->setDeleteObserverFn([[maybe_unused]] [this](const TensorFieldKey &key) {
         std::string tensor_id;
         std::size_t total_bytes_stored  = 0;
         std::size_t bytes_saved         = 0;
@@ -165,8 +165,8 @@ TensorDeduplicationManager::TensorDeduplicationManager(std::shared_ptr<storage::
 
 TensorDeduplicationManager::~TensorDeduplicationManager() {
     if (storage_) {
-        storage_->setWriteObserverFn(nullptr);
-        storage_->setDeleteObserverFn(nullptr);
+        storage_->setWriteObserverFn([[maybe_unused]] nullptr);
+        storage_->setDeleteObserverFn([[maybe_unused]] nullptr);
     }
 }
 

@@ -31,7 +31,7 @@
 
 namespace themis { namespace server {
 
-nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& report_type) {
+nlohmann::json ReportsApiHandler::generateComplianceReport([[maybe_unused]] const std::string& report_type) {
     try {
     auto span = Tracer::startSpan("generateComplianceReport");
         // Minimal MVP: aggregate basic metrics from audit log JSONL
@@ -79,7 +79,7 @@ nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& re
                         last_ts = ts;
                     }
                 } catch (...) {
-                    THEMIS_WARN("reports_api_handler: unhandled exception caught");
+                    THEMIS_WARN([[maybe_unused]] "reports_api_handler: unhandled exception caught");
                     // Ignore parse errors for robustness
                 }
             }

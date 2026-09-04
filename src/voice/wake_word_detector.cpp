@@ -220,8 +220,8 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     last_detection_ms_ = now;
     ++total_detections_;
 
-    if (detection_callback_) {
-        detection_callback_(result);
+    if ([[maybe_unused]] detection_callback_) {
+        detection_callback_([[maybe_unused]] result);
     }
 
     // If not continuous listening, clear the buffer so we stop firing
@@ -232,9 +232,9 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     return result;
 }
 
-void WakeWordDetector::setDetectionCallback(DetectionCallback callback) {
+void WakeWordDetector::setDetectionCallback([[maybe_unused]] DetectionCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    detection_callback_ = std::move(callback);
+    detection_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ---------------------------------------------------------------------------

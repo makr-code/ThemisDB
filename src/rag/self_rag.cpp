@@ -134,11 +134,11 @@ SelfRAGController::~SelfRAGController() = default;
 // Callback injection
 // ============================================================================
 
-void SelfRAGController::setRetrievalCallback(RetrievalCallback cb) {
+void SelfRAGController::setRetrievalCallback([[maybe_unused]] RetrievalCallback cb) {
     retrieval_cb_ = std::move(cb);
 }
 
-void SelfRAGController::setCriticCallback(CriticCallback cb) {
+void SelfRAGController::setCriticCallback([[maybe_unused]] CriticCallback cb) {
     critic_cb_ = std::move(cb);
 }
 

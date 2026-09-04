@@ -1068,32 +1068,32 @@ PluginSecurityAuditor &PluginSecurityAuditor::instance() {
     return instance;
 }
 
-void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
+void PluginSecurityAuditor::logEvent([[maybe_unused]] const PluginSecurityEvent &event) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        events_.push_back(event);
+        events_.push_back([[maybe_unused]] event);
     }
 
     // Forward to the ThemisDB system logger
     const std::string msg
         = "[PluginSecurity] " + event.message + " | plugin=" + event.pluginPath + " | hash=" + event.pluginHash;
-    if (event.severity == "CRITICAL") {
+    if ([[maybe_unused]] event.severity == "CRITICAL") {
         THEMIS_CRITICAL("{}", msg);
-    } else if (event.severity == "ERROR") {
+    } else if ([[maybe_unused]] event.severity == "ERROR") {
         THEMIS_ERROR("{}", msg);
-    } else if (event.severity == "WARNING") {
+    } else if ([[maybe_unused]] event.severity == "WARNING") {
         THEMIS_WARN("{}", msg);
     } else {
         THEMIS_INFO("{}", msg);
     }
 }
 
-std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(const std::string &pluginPath) const {
+std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin([[maybe_unused]] const std::string &pluginPath) const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PluginSecurityEvent> result;
-    for (const auto &event : events_) {
-        if (event.pluginPath == pluginPath) {
-            result.push_back(event);
+    for ([[maybe_unused]] const auto &event : events_) {
+        if ([[maybe_unused]] event.pluginPath == pluginPath) {
+            result.push_back([[maybe_unused]] event);
         }
     }
     return result;
@@ -1109,7 +1109,7 @@ void PluginSecurityAuditor::clearEvents() {
     events_.clear();
 }
 
-bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
+bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &outputPath) const {
     // Validate output path against traversal and injection (CWE-22/23/24).
     if (outputPath.empty()) {
         return false;
@@ -1167,16 +1167,16 @@ bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
         json j;
         j["events"] = json::array();
 
-        for (const auto &event : snapshot) {
+        for ([[maybe_unused]] const auto &event : snapshot) {
             json eventJson;
-            eventJson["type"]       = typeToString(event.type);
+            eventJson["type"]       = typeToString([[maybe_unused]] event.type);
             eventJson["pluginPath"] = event.pluginPath;
             eventJson["pluginHash"] = event.pluginHash;
             eventJson["message"]    = event.message;
             eventJson["timestamp"]  = event.timestamp;
             eventJson["severity"]   = event.severity;
 
-            j["events"].push_back(eventJson);
+            j["events"].push_back([[maybe_unused]] eventJson);
         }
 
         std::ofstream file(outputPath);

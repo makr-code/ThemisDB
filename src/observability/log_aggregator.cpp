@@ -197,8 +197,8 @@ public:
         }
 
         // Callback (called under the lock – caller must not re-enter)
-        if (callback_) {
-            callback_(entry);
+        if ([[maybe_unused]] callback_) {
+            callback_([[maybe_unused]] entry);
         }
 
         publishMetrics();
@@ -460,9 +460,9 @@ LogAggregatorStats LogAggregator::stats() const {
     return s;
 }
 
-void LogAggregator::setEntryCallback(EntryCallback cb) {
+void LogAggregator::setEntryCallback([[maybe_unused]] EntryCallback cb) {
     std::lock_guard<std::mutex> lk(impl_->mu_);
-    impl_->callback_ = std::move(cb);
+    impl_->callback_ = std::move([[maybe_unused]] cb);
 }
 
 LogAggregatorConfig LogAggregator::getConfig() const {

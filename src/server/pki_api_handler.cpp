@@ -170,7 +170,7 @@ nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::
 // HSM Endpoints
 // ============================================================================
 
-nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
+nlohmann::json PkiApiHandler::hsmSign([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("hsmSign");
         if (!hsm_provider_) {
@@ -247,7 +247,7 @@ nlohmann::json PkiApiHandler::hsmListKeys() {
 // Timestamp Authority Endpoints
 // ============================================================================
 
-nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
+nlohmann::json PkiApiHandler::getTimestamp([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("getTimestamp");
         if (!tsa_) {
@@ -284,7 +284,7 @@ nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
     }
 }
 
-nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
+nlohmann::json PkiApiHandler::verifyTimestamp([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("verifyTimestamp");
         if (!tsa_) {
@@ -321,7 +321,7 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 // eIDAS Qualified Signature Endpoints
 // ============================================================================
 
-nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
+nlohmann::json PkiApiHandler::eidasSign([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("eidasSign");
         if (!hsm_provider_ || !tsa_) {
@@ -376,7 +376,7 @@ nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
     }
 }
 
-nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
+nlohmann::json PkiApiHandler::eidasVerify([[maybe_unused]] const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("eidasVerify");
         if (!hsm_provider_ || !tsa_) {
@@ -476,7 +476,7 @@ nlohmann::json PkiApiHandler::listCertificates() {
     }
 }
 
-nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
+nlohmann::json PkiApiHandler::getCertificate([[maybe_unused]] const std::string& cert_id) {
     try {
     auto span = Tracer::startSpan("getCertificate");
         if (!hsm_provider_) {
@@ -536,7 +536,7 @@ nlohmann::json PkiApiHandler::getStatus() {
                 status["hsm_keys_count"] = keys.size();
                 status["hsm_status"] = "connected";
             } catch (...) {
-                THEMIS_WARN("pki_api_handler: unhandled exception caught");
+                THEMIS_WARN([[maybe_unused]] "pki_api_handler: unhandled exception caught");
                 status["hsm_status"] = "error";
             }
         }

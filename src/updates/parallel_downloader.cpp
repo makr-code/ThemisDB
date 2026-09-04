@@ -185,7 +185,7 @@ void ParallelDownloader::setTransferTimeoutSeconds(long seconds) {
 void ParallelDownloader::setProgressCallback(
     std::function<void(size_t, uint64_t, uint64_t, const std::string&)> callback)
 {
-    progress_cb_ = std::move(callback);
+    progress_cb_ = std::move([[maybe_unused]] callback);
 }
 
 void ParallelDownloader::setFetchFunction(FetchFn fn) {
@@ -417,7 +417,7 @@ bool ParallelDownloader::defaultFetch(
 
     WriteCtx ctx{fp.get()};
     curl_easy_setopt(curl.get(), CURLOPT_URL,             url.c_str());
-    curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
+    curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
     curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA,       &ctx);
     curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION,  1L);
     curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT,  connect_timeout_s);

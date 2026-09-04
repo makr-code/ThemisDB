@@ -176,8 +176,8 @@ void PredictiveFailureDetector::monitoringLoop() {
             checkAllShards();
         } catch (const std::exception& e) {
             // Log error but continue monitoring
-            if (config_.alert_callback) {
-                config_.alert_callback("Monitoring error: " + std::string(e.what()));
+            if ([[maybe_unused]] config_.alert_callback) {
+                config_.alert_callback([[maybe_unused]] "Monitoring error: " + std::string(e.what()));
             }
         }
         
@@ -520,7 +520,7 @@ void PredictiveFailureDetector::setPredictFn(PredictFn fn) {
 // ═══════════════════════════════════════════════════════════
 
 void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
-    if (!config_.alert_callback) {
+    if ([[maybe_unused]] !config_.alert_callback) {
         return;
     }
     
@@ -529,7 +529,7 @@ void PredictiveFailureDetector::sendAlert(const FailurePrediction& prediction) {
                          "% failure probability in next " +
                          std::to_string(prediction.predicted_days_to_failure) + " days";
     
-    config_.alert_callback(message);
+    config_.alert_callback([[maybe_unused]] message);
     
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_.alerts_sent++;

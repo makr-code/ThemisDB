@@ -43,7 +43,7 @@ void VoiceAuditLogger::logAuthenticationAttempt(
     }
     event["reason"] = reason;
 
-    writeEvent(event);
+    writeEvent([[maybe_unused]] event);
 }
 
 void VoiceAuditLogger::logSessionLifecycle(
@@ -64,9 +64,9 @@ void VoiceAuditLogger::logSessionLifecycle(
     event["user_id"] = user_id;
     event["event"] = event_type;
     event["duration_ms"] = duration_ms;
-    event["bytes_transferred"] = static_cast<uint64_t>(bytes_transferred);
+    event["bytes_transferred"] = static_cast<uint64_t>([[maybe_unused]] bytes_transferred);
 
-    writeEvent(event);
+    writeEvent([[maybe_unused]] event);
 }
 
 void VoiceAuditLogger::logLivenessChallenge(
@@ -91,7 +91,7 @@ void VoiceAuditLogger::logLivenessChallenge(
         event["reason"] = reason;
     }
 
-    writeEvent(event);
+    writeEvent([[maybe_unused]] event);
 }
 
 void VoiceAuditLogger::logSpoofDetection(
@@ -120,7 +120,7 @@ void VoiceAuditLogger::logSpoofDetection(
         event["reason"] = reason;
     }
 
-    writeEvent(event);
+    writeEvent([[maybe_unused]] event);
 }
 
 std::vector<json> VoiceAuditLogger::getEventLog() const {
@@ -128,13 +128,13 @@ std::vector<json> VoiceAuditLogger::getEventLog() const {
     return event_log_;
 }
 
-std::vector<json> VoiceAuditLogger::getEventsForUser(const std::string& user_id) const {
+std::vector<json> VoiceAuditLogger::getEventsForUser([[maybe_unused]] const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     std::vector<json> user_events;
-    for (const auto& event : event_log_) {
-        if (event.contains("user_id") && event["user_id"].get<std::string>() == user_id) {
-            user_events.push_back(event);
+    for ([[maybe_unused]] const auto& event : event_log_) {
+        if ([[maybe_unused]] event.contains("user_id") && event["user_id"].get<std::string>() == user_id) {
+            user_events.push_back([[maybe_unused]] event);
         }
     }
     return user_events;
@@ -174,25 +174,25 @@ std::string VoiceAuditLogger::getTimestamp() const {
     return ss.str();
 }
 
-void VoiceAuditLogger::writeEvent(const json& event) {
+void VoiceAuditLogger::writeEvent([[maybe_unused]] const json& event) {
     std::function<void(const json&)> callback;
     Config config_snapshot;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        event_log_.push_back(event);
+        event_log_.push_back([[maybe_unused]] event);
         callback = event_callback_;
         config_snapshot = config_;
     }
 
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         try {
-            callback(event);
+            callback([[maybe_unused]] event);
         } catch (...) {
             // Audit callbacks must never break event capture.
         }
     }
 
-    const std::string serialized = serializeEvent(event);
+    const std::string serialized = serializeEvent([[maybe_unused]] event);
     if (config_snapshot.log_to_console) {
         std::cerr << serialized << std::endl;
     }
@@ -205,7 +205,7 @@ void VoiceAuditLogger::writeEvent(const json& event) {
     }
 }
 
-std::string VoiceAuditLogger::serializeEvent(const json& event) const {
+std::string VoiceAuditLogger::serializeEvent([[maybe_unused]] const json& event) const {
     return event.dump();
 }
 

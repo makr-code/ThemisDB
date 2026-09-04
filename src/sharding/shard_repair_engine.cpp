@@ -57,7 +57,7 @@ ShardRepairEngine::ShardRepairEngine(
       ring_(ring),
       topology_(topology),
       read_handler_(std::move(read_handler)),
-      write_handler_(std::move(write_handler)) {}
+      write_handler_([[maybe_unused]] std::move(write_handler)) {}
 
 /** @brief Stop worker threads on destruction. */
 ShardRepairEngine::~ShardRepairEngine() {

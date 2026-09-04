@@ -146,7 +146,7 @@ class V2SessionImpl : public V2Session {
     V2SessionImpl(tcp::socket socket, const V2ConnectionConfig &cfg, V2DataHandler data_handler,
                   V2HeadersHandler headers_handler, V2RstStreamHandler rst_handler)
         : socket_(std::move(socket)), cfg_(cfg), data_handler_(std::move(data_handler)),
-          headers_handler_(std::move(headers_handler)), rst_handler_(std::move(rst_handler)) {
+          headers_handler_([[maybe_unused]] std::move(headers_handler)), rst_handler_(std::move(rst_handler)) {
         // Generate a simple connection ID
         static std::atomic<uint64_t> counter{1};
         std::ostringstream oss;
@@ -694,14 +694,14 @@ class V2Server::Impl {
         return running_.load();
     }
 
-    void set_data_handler(V2DataHandler h) {
-        data_handler_ = std::move(h);
+    void set_data_handler([[maybe_unused]] V2DataHandler h) {
+        data_handler_ = std::move([[maybe_unused]] h);
     }
-    void set_headers_handler(V2HeadersHandler h) {
-        headers_handler_ = std::move(h);
+    void set_headers_handler([[maybe_unused]] V2HeadersHandler h) {
+        headers_handler_ = std::move([[maybe_unused]] h);
     }
-    void set_rst_stream_handler(V2RstStreamHandler h) {
-        rst_handler_ = std::move(h);
+    void set_rst_stream_handler([[maybe_unused]] V2RstStreamHandler h) {
+        rst_handler_ = std::move([[maybe_unused]] h);
     }
 
     bool push_to_client(const std::string &conn_id, uint32_t associated_sid,
@@ -748,7 +748,7 @@ class V2Server::Impl {
                 auto session = std::make_shared<V2SessionImpl>(std::move(socket), cfg_, data_handler_, headers_handler_,
                                                                rst_handler_);
 
-                session->set_disconnect_handler([this](const std::string &id) {
+                session->set_disconnect_handler([[maybe_unused]] [this](const std::string &id) {
                     std::lock_guard<std::mutex> lock(sessions_mutex_);
                     sessions_.erase(id);
                 });
@@ -804,14 +804,14 @@ bool V2Server::is_running() const {
     return impl_->is_running();
 }
 
-void V2Server::set_data_handler(V2DataHandler h) {
-    impl_->set_data_handler(std::move(h));
+void V2Server::set_data_handler([[maybe_unused]] V2DataHandler h) {
+    impl_->set_data_handler([[maybe_unused]] std::move(h));
 }
-void V2Server::set_headers_handler(V2HeadersHandler h) {
-    impl_->set_headers_handler(std::move(h));
+void V2Server::set_headers_handler([[maybe_unused]] V2HeadersHandler h) {
+    impl_->set_headers_handler([[maybe_unused]] std::move(h));
 }
-void V2Server::set_rst_stream_handler(V2RstStreamHandler h) {
-    impl_->set_rst_stream_handler(std::move(h));
+void V2Server::set_rst_stream_handler([[maybe_unused]] V2RstStreamHandler h) {
+    impl_->set_rst_stream_handler([[maybe_unused]] std::move(h));
 }
 
 bool V2Server::push_to_client(const std::string &conn_id, uint32_t associated_sid,

@@ -49,7 +49,7 @@ bool AdminOperations::initialize() {
     );
     
     admin_api_.registerRebalanceHandler(
-        [this](const nlohmann::json& body) { return handleRebalanceRequest(body); }
+        [this]([[maybe_unused]] const nlohmann::json& body) { return handleRebalanceRequest(body); }
     );
     
     admin_api_.registerHealthHandler(
@@ -303,7 +303,7 @@ nlohmann::json AdminOperations::handleTopologyRequest(const nlohmann::json& body
     return getTopology();
 }
 
-nlohmann::json AdminOperations::handleRebalanceRequest(const nlohmann::json& body) {
+nlohmann::json AdminOperations::handleRebalanceRequest([[maybe_unused]] const nlohmann::json& body) {
     if (body.contains("action")) {
         std::string action = body["action"];
         

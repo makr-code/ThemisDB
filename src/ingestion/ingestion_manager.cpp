@@ -926,7 +926,7 @@ public:
         return stats;
     }
     
-    IngestionReport ingestAll(ProgressCallback progress_callback) {
+    IngestionReport ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
         IngestionReport report;
         report.dry_run = dry_run_;
         
@@ -1479,8 +1479,8 @@ IngestionStats IngestionManager::ingestSource(const std::string& source_id,
     return impl_->ingestSource(source_id, progress_callback);
 }
 
-IngestionReport IngestionManager::ingestAll(ProgressCallback progress_callback) {
-    return impl_->ingestAll(progress_callback);
+IngestionReport IngestionManager::ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
+    return impl_->ingestAll([[maybe_unused]] progress_callback);
 }
 
 std::vector<SourceConfig> IngestionManager::getRegisteredSources() const {

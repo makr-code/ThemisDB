@@ -128,8 +128,8 @@ void KVCacheBuffer::flush() {
     }
     
     // Call flush callback if set
-    if (flush_callback_) {
-        flush_callback_(current_batch_);
+    if ([[maybe_unused]] flush_callback_) {
+        flush_callback_([[maybe_unused]] current_batch_);
     }
     
     // Update stats

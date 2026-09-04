@@ -372,8 +372,8 @@ bool MqttClientService::unsubscribe(const std::string& topic_filter) {
 
 void MqttClientService::setMessageHandler(
         std::shared_ptr<IMqttMessageHandler> handler) {
-    std::lock_guard<std::mutex> lk(handler_mutex_);
-    handler_ = std::move(handler);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
+    handler_ = std::move([[maybe_unused]] handler);
 }
 
 void MqttClientService::registerWithServiceRegistry(
@@ -443,7 +443,7 @@ void MqttClientService::doConnect() {
     asio_->connect_timer.async_wait([this, connected](boost::system::error_code ec3) {
         if (!ec3 && !connected->load()) {
             boost::system::error_code ce;
-            asio_->socket.close(ce); // triggers the async_connect error handler
+            asio_->socket.close([[maybe_unused]] ce); // triggers the async_connect error handler
         }
     });
 }
@@ -578,7 +578,7 @@ void MqttClientService::onConnAck(uint8_t /*flags*/, uint8_t return_code) {
     std::string cid = effective_client_id_;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk(handler_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -594,7 +594,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
     ++stats_.messages_received;
     std::shared_ptr<IMqttMessageHandler> h;
     {
-        std::lock_guard<std::mutex> lk(handler_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
         h = handler_;
     }
     if (h) {
@@ -722,7 +722,7 @@ void MqttClientService::handleDisconnect(const std::string& reason) {
     if (was_connected) {
         std::shared_ptr<IMqttMessageHandler> h;
         {
-            std::lock_guard<std::mutex> lk(handler_mutex_);
+            std::lock_guard<std::mutex> lk([[maybe_unused]] handler_mutex_);
             h = handler_;
         }
         if (h) {
@@ -845,11 +845,11 @@ void MqttCDCTransport::stop() {
     service_.stop();
 }
 
-bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
+bool MqttCDCTransport::publish([[maybe_unused]] const Changefeed::ChangeEvent& event) {
     try {
         nlohmann::json j = event.toJson();
         std::string    payload = j.dump();
-        std::string    topic   = topicForEvent(event);
+        std::string    topic   = topicForEvent([[maybe_unused]] event);
         return service_.publish(topic, payload, qos_, false);
     } catch (...) {
         THEMIS_WARN("mqtt_client_service::service_: unhandled exception caught");
@@ -861,7 +861,7 @@ std::string MqttCDCTransport::topicForEvent(
         const Changefeed::ChangeEvent& event) const {
     using ET = Changefeed::ChangeEventType;
     std::string type_str;
-    switch (event.type) {
+    switch ([[maybe_unused]] event.type) {
     case ET::EVENT_PUT:                  type_str = "PUT";                  break;
     case ET::EVENT_DELETE:               type_str = "DELETE";               break;
     case ET::EVENT_TRANSACTION_COMMIT:   type_str = "TRANSACTION_COMMIT";   break;

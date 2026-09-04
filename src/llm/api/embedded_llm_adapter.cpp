@@ -46,7 +46,7 @@ std::string EmbeddedLLM::generateStreaming(const std::string& prompt, std::funct
     std::string out;
     impl->generateStreaming(prompt, [&](const std::string& token){
         out += token;
-        callback(token);
+        callback([[maybe_unused]] token);
     });
     return out;
 }

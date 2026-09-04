@@ -177,7 +177,7 @@ EdgeCaseResult UpdatesEdgeCaseHandler::detectAndHandle(
 // classifyEdgeCase
 // ============================================================================
 
-std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode code) {
+std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_INVALID_TRANSITION:       return "InvalidTransition";
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:     return "ConcurrentCollision";
@@ -213,7 +213,7 @@ std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode co
 // isFatal
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::isFatal([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_FAILED_LOCKED:
         [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
@@ -230,7 +230,7 @@ bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
 // requiresIsolation
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::requiresIsolation(DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::requiresIsolation([[maybe_unused]] DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:
         [[fallthrough]];\n        case DiagnosticErrorCode::STATE_FAILED_LOCKED:

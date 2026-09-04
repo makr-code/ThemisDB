@@ -476,7 +476,7 @@ public:
                 }
                 ++page_num;
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       total_hint,

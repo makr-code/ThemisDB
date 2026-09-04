@@ -179,7 +179,7 @@ std::string LLMIntegration::generate(
         auto response = handle.get();
         
         // Call token probability callback if provided
-        if (options.token_callback && options.include_token_probabilities) {
+        if ([[maybe_unused]] options.token_callback && options.include_token_probabilities) {
             // Walk through response words; use logprobs from the response when
             // available (InferenceResponse.logprobs stores per-token log-probs),
             // otherwise fall back to a neutral default of 0.5.
@@ -197,7 +197,7 @@ std::string LLMIntegration::generate(
                     tp.probability = 0.5;  // neutral default when logprobs unavailable
                 }
                 tp.position = pos++;
-                options.token_callback(tp);
+                options.token_callback([[maybe_unused]] tp);
             }
         }
         

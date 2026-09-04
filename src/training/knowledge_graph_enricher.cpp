@@ -182,7 +182,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 6: Enrich all samples in collection
     // -------------------------------------------------------------------------
-    EnrichmentStats enrichAll(EnrichmentCallback callback) {
+    EnrichmentStats enrichAll([[maybe_unused]] EnrichmentCallback callback) {
         EnrichmentStats stats;
         auto start_time = std::chrono::steady_clock::now();
 
@@ -211,7 +211,7 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if (callback && processed % 10 == 0) {
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
                     callback(processed, sample_ids.size(),
                              "Enriched sample " + sample_id);
                 }
@@ -324,7 +324,7 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if (callback && processed % 10 == 0) {
+                if ([[maybe_unused]] callback && processed % 10 == 0) {
                     callback(processed, sample_ids.size(),
                              "Query-enriched sample " + sample_id);
                 }
@@ -594,8 +594,8 @@ KnowledgeGraphEnricher::KnowledgeGraphEnricher(const EnrichmentConfig& config,
 
 KnowledgeGraphEnricher::~KnowledgeGraphEnricher() = default;
 
-EnrichmentStats KnowledgeGraphEnricher::enrichAll(EnrichmentCallback callback) {
-    return impl_->enrichAll(callback);
+EnrichmentStats KnowledgeGraphEnricher::enrichAll([[maybe_unused]] EnrichmentCallback callback) {
+    return impl_->enrichAll([[maybe_unused]] callback);
 }
 
 GraphContext KnowledgeGraphEnricher::enrichSample(const std::string& sample_id) {

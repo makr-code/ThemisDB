@@ -233,9 +233,9 @@ PluginHealthMonitor::GlobalStats PluginHealthMonitor::getGlobalStats() const {
 // Configuration & callbacks
 // ============================================================================
 
-void PluginHealthMonitor::registerEventCallback(MonitoringEventCallback callback) {
+void PluginHealthMonitor::registerEventCallback([[maybe_unused]] MonitoringEventCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    event_callbacks_.push_back(std::move(callback));
+    event_callbacks_.push_back([[maybe_unused]] std::move(callback));
 }
 
 void PluginHealthMonitor::clearEventCallbacks() {
@@ -601,14 +601,14 @@ void PluginHealthMonitor::notifyAdministrators(
     });
 }
 
-void PluginHealthMonitor::emitEvent(const MonitoringEventData& event) {
+void PluginHealthMonitor::emitEvent([[maybe_unused]] const MonitoringEventData& event) {
     // mutex_ must be held by caller; copy callbacks to avoid deadlock if a
     // callback calls back into the monitor.
     auto callbacks_copy = event_callbacks_;
 
-    for (const auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] const auto& cb : callbacks_copy) {
         try {
-            cb(event);
+            cb([[maybe_unused]] event);
         } catch (const std::exception& e) {
             THEMIS_WARN("PluginHealthMonitor: event callback threw: {}", e.what());
         }

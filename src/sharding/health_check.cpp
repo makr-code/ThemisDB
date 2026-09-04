@@ -129,7 +129,7 @@ ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::stri
 }
 
 /** @brief Register callback for periodic cluster-health updates. */
-void HealthCheckSystem::registerCallback(HealthCheckCallback callback) {
+void HealthCheckSystem::registerCallback([[maybe_unused]] HealthCheckCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     callback_ = callback;
 }
@@ -175,8 +175,8 @@ void HealthCheckSystem::startPeriodicChecks(const std::map<std::string, std::str
                 callback_copy = callback_;
             }
 
-            if (callback_copy) {
-                callback_copy(health);
+            if ([[maybe_unused]] callback_copy) {
+                callback_copy([[maybe_unused]] health);
             }
 
             std::unique_lock<std::mutex> lock(cv_mutex_);

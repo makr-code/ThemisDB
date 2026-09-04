@@ -363,10 +363,10 @@ private:
     /// Clean up expired weak_ptr references to released listeners.
     /// This prevents the listeners_ vector from growing unboundedly.
     void cleanupExpiredListeners() {
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
         listeners_.erase(
             std::remove_if(listeners_.begin(), listeners_.end(),
-                          [](const std::weak_ptr<IRemediationHintListener>& weak) {
+                          []([[maybe_unused]] const std::weak_ptr<IRemediationHintListener>& weak) {
                               return weak.expired();
                           }),
             listeners_.end()
@@ -374,8 +374,8 @@ private:
     }
 
 public:
-    bool addListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
-        if (!listener) {
+    bool addListener([[maybe_unused]] const std::shared_ptr<IRemediationHintListener>& listener) override {
+        if ([[maybe_unused]] !listener) {
             return false;
         }
 
@@ -385,22 +385,22 @@ public:
             cleanupExpiredListeners();
         }
 
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
-        listeners_.push_back(listener);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
+        listeners_.push_back([[maybe_unused]] listener);
         return true;
     }
 
-    bool removeListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
-        if (!listener) {
+    bool removeListener([[maybe_unused]] const std::shared_ptr<IRemediationHintListener>& listener) override {
+        if ([[maybe_unused]] !listener) {
             return false;
         }
 
-        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
+        std::unique_lock<std::shared_mutex> lock([[maybe_unused]] listeners_mutex_);
         
         // Use custom comparison: lock weak_ptr and compare with incoming listener
         auto it = std::find_if(
             listeners_.begin(), listeners_.end(),
-            [&listener](const std::weak_ptr<IRemediationHintListener>& weak) {
+            [&listener]([[maybe_unused]] const std::weak_ptr<IRemediationHintListener>& weak) {
                 auto shared = weak.lock();
                 if (!shared) {
                     return false;  // Listener already expired
@@ -409,8 +409,8 @@ public:
             }
         );
         
-        if (it != listeners_.end()) {
-            listeners_.erase(it);
+        if ([[maybe_unused]] it != listeners_.end()) {
+            listeners_.erase([[maybe_unused]] it);
             return true;
         }
         
@@ -494,11 +494,11 @@ public:
                     }
 
                     // Notify listeners
-                    std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
-                    for (const auto& listener : listeners_) {
+                    std::shared_lock<std::shared_mutex> listeners_lock([[maybe_unused]] listeners_mutex_);
+                    for ([[maybe_unused]] const auto& listener : listeners_) {
                         auto listener_shared = listener.lock();
-                        if (listener_shared) {
-                            listener_shared->onNewHint(hint);
+                        if ([[maybe_unused]] listener_shared) {
+                            listener_shared->onNewHint([[maybe_unused]] hint);
                         }
                     }
                 }
@@ -534,11 +534,11 @@ public:
             active_hints_.erase(it);
 
             // Notify listeners
-            std::shared_lock<std::shared_mutex> listeners_lock(listeners_mutex_);
-            for (const auto& listener : listeners_) {
+            std::shared_lock<std::shared_mutex> listeners_lock([[maybe_unused]] listeners_mutex_);
+            for ([[maybe_unused]] const auto& listener : listeners_) {
                 auto listener_shared = listener.lock();
-                if (listener_shared) {
-                    listener_shared->onHintResolved(hint_id);
+                if ([[maybe_unused]] listener_shared) {
+                    listener_shared->onHintResolved([[maybe_unused]] hint_id);
                 }
             }
 

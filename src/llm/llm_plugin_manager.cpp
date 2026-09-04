@@ -266,7 +266,7 @@ LLMPluginManager& LLMPluginManager::instance() {
     // sequentially-consistent execution even under concurrent callers.
     static std::once_flag oom_cb_flag;
     std::call_once(oom_cb_flag, [](LLMPluginManager& mgr) {
-        mgr.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+        mgr.vram_allocator_.setOOMCallback([[maybe_unused]] [](const ActiveVRAMAllocator::OOMEvent& ev) {
             spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
                          "recovered={}, freed={} bytes",
                          ev.requested_bytes,

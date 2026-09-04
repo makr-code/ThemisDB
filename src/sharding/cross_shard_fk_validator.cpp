@@ -93,12 +93,12 @@ void CrossShardForeignKeyValidator::removeConstraint(
     }
 }
 
-void CrossShardForeignKeyValidator::setKeyExistsCallback(KeyExistsCallback cb) {
+void CrossShardForeignKeyValidator::setKeyExistsCallback([[maybe_unused]] KeyExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     key_exists_cb_ = std::move(cb);
 }
 
-void CrossShardForeignKeyValidator::setChildExistsCallback(ChildExistsCallback cb) {
+void CrossShardForeignKeyValidator::setChildExistsCallback([[maybe_unused]] ChildExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     child_exists_cb_ = std::move(cb);
 }

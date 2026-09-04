@@ -464,7 +464,7 @@ private:
                 stats.bytes_processed += body.size();
                 last_key_processed_ = key;
 
-                if (progress_callback) {
+                if ([[maybe_unused]] progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,

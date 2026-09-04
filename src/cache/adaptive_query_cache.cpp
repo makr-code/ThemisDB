@@ -787,7 +787,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
                 tenant_metrics_[tenant_id].bytes_used += result_size;
             }
             notifyCoordinator();
-            if (rep_listener) {
+            if ([[maybe_unused]] rep_listener) {
                 cache::CacheReplicationEvent ev;
                 ev.type        = cache::CacheReplicationEventType::WRITE;
                 ev.key         = key;
@@ -834,7 +834,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             }
         }
         notifyCoordinator();
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type        = cache::CacheReplicationEventType::WRITE;
             ev.key         = key;
@@ -880,7 +880,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
             }
         }
         notifyCoordinator();
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type        = cache::CacheReplicationEventType::WRITE;
             ev.key         = fingerprint;
@@ -942,7 +942,7 @@ bool AdaptiveQueryCache::put(const std::string &fingerprint, const nlohmann::jso
         }
         if (ok) {
             notifyCoordinator();
-            if (rep_listener) {
+            if ([[maybe_unused]] rep_listener) {
                 cache::CacheReplicationEvent ev;
                 ev.type        = cache::CacheReplicationEventType::WRITE;
                 ev.key         = l3_key;
@@ -965,7 +965,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
     // backtracking budget API, so length capping is the primary mitigation.
     constexpr size_t kMaxRegexPatternLen = 256;
     if (pattern.size() > kMaxRegexPatternLen) {
-        THEMIS_WARN("Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
+        THEMIS_WARN([[maybe_unused]] "Cache invalidate: pattern too long ({} chars), rejecting to prevent ReDoS", pattern.size());
         return 0;
     }
     std::regex re;
@@ -1107,7 +1107,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string &pattern) {
             std::lock_guard<std::mutex> rep_lock(replication_mutex_);
             rep_listener = replication_listener_;
         }
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type    = cache::CacheReplicationEventType::INVALIDATE;
             ev.pattern = pattern;
@@ -1456,10 +1456,10 @@ void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model:
     // cache or coordinator code that tries to acquire the same or a dependent lock.
     access_model::EvictionListener* listener = nullptr;
     {
-        std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+        std::lock_guard<std::mutex> lock([[maybe_unused]] eviction_listener_mutex_);
         listener = eviction_listener_;
     }
-    if (!listener) {
+    if ([[maybe_unused]] !listener) {
         return;  // No listener registered
     }
 
@@ -2086,7 +2086,7 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string &tenant_id) {
             std::lock_guard<std::mutex> rep_lock(replication_mutex_);
             rep_listener = replication_listener_;
         }
-        if (rep_listener) {
+        if ([[maybe_unused]] rep_listener) {
             cache::CacheReplicationEvent ev;
             ev.type      = cache::CacheReplicationEventType::INVALIDATE_TENANT;
             ev.tenant_id = tenant_id;
@@ -2510,13 +2510,13 @@ void AdaptiveQueryCache::applyReplicatedInvalidation(const cache::ReplicationMes
 // Phase 4: Cache Replication for High-Availability
 // ============================================================================
 
-void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheReplicationListener> listener) {
+void AdaptiveQueryCache::setReplicationListener([[maybe_unused]] std::shared_ptr<cache::ICacheReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(replication_mutex_);
-    replication_listener_ = std::move(listener);
-    if (replication_listener_) {
-        THEMIS_INFO("AdaptiveQueryCache: replication listener registered ({})", replication_listener_->replicaId());
+    replication_listener_ = std::move([[maybe_unused]] listener);
+    if ([[maybe_unused]] replication_listener_) {
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: replication listener registered ({})", replication_listener_->replicaId());
     } else {
-        THEMIS_INFO("AdaptiveQueryCache: replication listener unregistered");
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: replication listener unregistered");
     }
 }
 
@@ -2524,13 +2524,13 @@ void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheRep
 // Phase 5: BLOCK 2 Cache Integration — AccessCoordinator Listener
 // ============================================================================
 
-void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* listener) noexcept {
-    std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+void AdaptiveQueryCache::setEvictionListener([[maybe_unused]] access_model::EvictionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] eviction_listener_mutex_);
     eviction_listener_ = listener;
-    if (eviction_listener_) {
-        THEMIS_INFO("AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
+    if ([[maybe_unused]] eviction_listener_) {
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
     } else {
-        THEMIS_INFO("AdaptiveQueryCache: eviction listener unregistered");
+        THEMIS_INFO([[maybe_unused]] "AdaptiveQueryCache: eviction listener unregistered");
     }
 }
 

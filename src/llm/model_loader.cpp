@@ -50,7 +50,7 @@ static void llamaLoadLogCaptureCallback(ggml_log_level level, const char* text, 
     auto* state = static_cast<LlamaLoadLogCaptureState*>(user_data);
 
     // Preserve pre-existing llama.cpp logging behavior so diagnostics are not hidden.
-    if (state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
+    if ([[maybe_unused]] state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
         state->passthrough_callback(level, text, state->passthrough_user_data);
     }
 

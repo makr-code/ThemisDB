@@ -216,7 +216,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     }
 
     // Call callback if set
-    if (request_callback_) {
+    if ([[maybe_unused]] request_callback_) {
         std::string method_str;
         switch (method) {
             case HTTPMethod::GET:    method_str = "GET";    break;
@@ -227,8 +227,8 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
         
         // Safely access callback with mutex protection
         {
-            std::lock_guard<std::mutex> lock(callback_mutex_);
-            if (request_callback_) {  // Double-check pattern
+            std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+            if ([[maybe_unused]] request_callback_) {  // Double-check pattern
                 request_callback_(method_str, path, response.status_code, response.latency.count());
             }
         }
@@ -253,9 +253,9 @@ void HTTPMetricsClient::resetStatistics() {
     stats_ = Statistics();
 }
 
-void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
-    std::lock_guard<std::mutex> lock(callback_mutex_);
-    request_callback_ = std::move(callback);
+void HTTPMetricsClient::setRequestCallback([[maybe_unused]] RequestCallback callback) {
+    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+    request_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {

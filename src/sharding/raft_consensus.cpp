@@ -207,15 +207,15 @@ std::vector<ReplicaState> RaftConsensus::getReplicaStates() const {
 }
 
 /** @brief Register transport callback for follower log replication. */
-void RaftConsensus::setReplicationCallback(ReplicationCallback callback) {
+void RaftConsensus::setReplicationCallback([[maybe_unused]] ReplicationCallback callback) {
     // RAFT-2: Protect the write side under the same mutex used by propose()
     // to read the callback, preventing a data race on std::function.
     std::lock_guard<std::mutex> lock(replica_mutex_);
-    replication_callback_ = std::move(callback);
+    replication_callback_ = std::move([[maybe_unused]] callback);
 }
 
 /** @brief Register transport callback for follower heartbeats. */
-void RaftConsensus::setHeartbeatCallback(HeartbeatCallback callback) {
+void RaftConsensus::setHeartbeatCallback([[maybe_unused]] HeartbeatCallback callback) {
     std::lock_guard<std::mutex> lock(replica_mutex_);
     heartbeat_callback_ = callback;
 }
@@ -346,7 +346,7 @@ void RaftConsensus::sendHeartbeats() {
 bool RaftConsensus::replicateToFollower(const std::string& node_id,
                                         const LogEntry& entry,
                                         const ReplicationCallback& callback) {
-    if (!callback) {
+    if ([[maybe_unused]] !callback) {
         return false;
     }
     

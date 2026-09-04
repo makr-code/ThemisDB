@@ -1767,7 +1767,7 @@ void ConfigPathResolver::registerSighupHandler() {
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGHUP, &sa, nullptr) != 0) {
-        spdlog::warn("ConfigPathResolver: Failed to register SIGHUP handler");
+        spdlog::warn([[maybe_unused]] "ConfigPathResolver: Failed to register SIGHUP handler");
     } else {
         spdlog::info("ConfigPathResolver: SIGHUP hot-reload registered – "
                      "send SIGHUP to flush the resolved path cache at runtime");

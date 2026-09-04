@@ -120,9 +120,9 @@ std::optional<Permission> CollaborationManager::getUserPermission(
 
 // ── Event subscriptions ───────────────────────────────────────────────────────
 
-void CollaborationManager::subscribe(ProjectEventCallback callback) {
+void CollaborationManager::subscribe([[maybe_unused]] ProjectEventCallback callback) {
     std::unique_lock lock(subscribers_mutex_);
-    subscribers_.push_back(std::move(callback));
+    subscribers_.push_back([[maybe_unused]] std::move(callback));
 }
 
 void CollaborationManager::unsubscribeAll() {

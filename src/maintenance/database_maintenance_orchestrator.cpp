@@ -694,13 +694,13 @@ void DatabaseMaintenanceOrchestrator::registerTaskHandler(
     MaintenanceTaskType task_type,
     std::shared_ptr<IMaintenanceTaskHandler> handler)
 {
-    if (!handler) {
+    if ([[maybe_unused]] !handler) {
         spdlog::warn("registerTaskHandler: ignoring null handler for task type '{}'",
                      taskTypeToString(task_type));
         return;
     }
-    std::unique_lock<std::shared_mutex> lock(handlers_mutex_);
-    task_handlers_[static_cast<int>(task_type)] = std::move(handler);
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
+    task_handlers_[static_cast<int>([[maybe_unused]] task_type)] = std::move(handler);
 }
 
 void DatabaseMaintenanceOrchestrator::setDistributedLock(
@@ -713,11 +713,11 @@ void DatabaseMaintenanceOrchestrator::setDistributedLock(
 std::map<std::string, std::string>
 DatabaseMaintenanceOrchestrator::listTaskHandlers() const
 {
-    std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
+    std::shared_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
     std::map<std::string, std::string> result;
     for (const auto& [key, handler] : task_handlers_) {
         const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
-        if (handler) {
+        if ([[maybe_unused]] handler) {
             result[task_type_str] = handler->handlerName(); // null-checked above
         } else {
             result[task_type_str] = "<null-handler>";
@@ -1355,14 +1355,14 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             // Look for a registered handler for this task type.
             std::shared_ptr<IMaintenanceTaskHandler> handler;
             {
-                std::shared_lock<std::shared_mutex> lock(handlers_mutex_);
-                auto it = task_handlers_.find(static_cast<int>(task_type));
-                if (it != task_handlers_.end()) {
+                std::shared_lock<std::shared_mutex> lock([[maybe_unused]] handlers_mutex_);
+                auto it = task_handlers_.find([[maybe_unused]] static_cast<int>(task_type));
+                if ([[maybe_unused]] it != task_handlers_.end()) {
                     handler = it->second;
                 }
             }
 
-            if (handler) {
+            if ([[maybe_unused]] handler) {
                 auto result = handler->execute(job.id, task_type);
                 if (!result) {
                     job.state         = MaintenanceJobState::FAILED;
@@ -1394,7 +1394,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
                     "real execution for this task type.",
                     taskTypeToString(task_type), job.id);
                 job.state          = MaintenanceJobState::SKIPPED;
-                job.error_message  = "no handler registered for " + taskTypeToString(task_type);
+                job.error_message  = "no handler registered for " + taskTypeToString([[maybe_unused]] task_type);
                 job.result_summary = "Task '" + taskTypeToString(task_type) +
                                      "' skipped: no handler registered";
 

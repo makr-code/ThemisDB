@@ -57,13 +57,13 @@ LoRAFederationCoordinator &LoRAFederationCoordinator::operator=(LoRAFederationCo
         current_round_             = other.current_round_;
         pending_gradients_         = std::move(other.pending_gradients_);
         last_delta_                = std::move(other.last_delta_);
-        delta_callback_            = std::move(other.delta_callback_);
+        delta_callback_            = std::move([[maybe_unused]] other.delta_callback_);
         dr_processor_              = std::move(other.dr_processor_);
         erase_count_               = other.erase_count_;
         cross_border_policy_       = std::move(other.cross_border_policy_);
         shard_locations_           = std::move(other.shard_locations_);
-        audit_record_callback_     = std::move(other.audit_record_callback_);
-        signing_callback_          = std::move(other.signing_callback_);
+        audit_record_callback_     = std::move([[maybe_unused]] other.audit_record_callback_);
+        signing_callback_          = std::move([[maybe_unused]] other.signing_callback_);
         total_rounds_completed_    = other.total_rounds_completed_;
         total_gradients_processed_ = other.total_gradients_processed_;
         total_epsilon_spent_       = other.total_epsilon_spent_;
@@ -194,20 +194,20 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     emitFederationDecisionRecord(delta, "SUCCESS");
 
     // ── DK-7: Audit callback with optional SphincsPlus signature ─────────────
-    if (audit_record_callback_) {
+    if ([[maybe_unused]] audit_record_callback_) {
         nlohmann::json audit_rec = {{"decision_type", "FEDERATED_ROUND"},    {"round", delta.round},
                                     {"participants", delta.participants},    {"epsilon_spent", delta.epsilon_spent},
                                     {"total_epsilon", total_epsilon_spent_}, {"algorithm", delta.algorithm},
                                     {"delta_version", delta.version}};
-        if (signing_callback_) {
-            audit_rec["sphincs_signature"] = signing_callback_(audit_rec);
+        if ([[maybe_unused]] signing_callback_) {
+            audit_rec["sphincs_signature"] = signing_callback_([[maybe_unused]] audit_rec);
         }
-        audit_record_callback_(audit_rec);
+        audit_record_callback_([[maybe_unused]] audit_rec);
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    if (delta_callback_) {
-        delta_callback_(delta);
+    if ([[maybe_unused]] delta_callback_) {
+        delta_callback_([[maybe_unused]] delta);
     }
     return delta;
 }
@@ -361,7 +361,7 @@ std::string LoRAFederationCoordinator::nextDeltaVersion() const {
 
 void LoRAFederationCoordinator::setGlobalDeltaCallback(std::function<void(const GlobalAdapterDelta &)> cb) {
     std::lock_guard<std::mutex> lk(mutex_);
-    delta_callback_ = std::move(cb);
+    delta_callback_ = std::move([[maybe_unused]] cb);
 }
 
 uint64_t LoRAFederationCoordinator::currentRound() const {
@@ -468,12 +468,12 @@ void LoRAFederationCoordinator::setShardLocations(std::map<std::string, std::str
 
 void LoRAFederationCoordinator::setAuditRecordCallback(std::function<void(const nlohmann::json &)> callback) {
     std::lock_guard<std::mutex> lk(mutex_);
-    audit_record_callback_ = std::move(callback);
+    audit_record_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void LoRAFederationCoordinator::setSigningCallback(std::function<std::string(const nlohmann::json &)> signing_fn) {
     std::lock_guard<std::mutex> lk(mutex_);
-    signing_callback_ = std::move(signing_fn);
+    signing_callback_ = std::move([[maybe_unused]] signing_fn);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -687,7 +687,7 @@ bool AdapterRegistry::hotLoad(
         callbacks = impl_->hot_load_callbacks;
     }
 
-    for (const auto& cb : callbacks) {
+    for ([[maybe_unused]] const auto& cb : callbacks) {
         if (cb) {
             cb(adapter_id, weights_path, scale);
         }
@@ -698,13 +698,13 @@ bool AdapterRegistry::hotLoad(
     return true;
 }
 
-void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
-    if (!callback) {
-        spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");
+void AdapterRegistry::addHotLoadObserver([[maybe_unused]] HotLoadCallback callback) {
+    if ([[maybe_unused]] !callback) {
+        spdlog::warn([[maybe_unused]] "AdapterRegistry::addHotLoadObserver: null callback ignored");
         return;
     }
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
-    impl_->hot_load_callbacks.push_back(std::move(callback));
+    impl_->hot_load_callbacks.push_back([[maybe_unused]] std::move(callback));
     spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
                   impl_->hot_load_callbacks.size());
 }

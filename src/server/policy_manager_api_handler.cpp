@@ -56,7 +56,7 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
     , auth_(std::move(auth))
 {
     if (!policy_manager_) {
-        THEMIS_WARN("PolicyManagerApiHandler created with null PolicyManager");
+        THEMIS_WARN([[maybe_unused]] "PolicyManagerApiHandler created with null PolicyManager");
     }
 }
 

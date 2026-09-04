@@ -1891,10 +1891,10 @@ void ThemisDBGrpcService::buildImpl() {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
         } catch (const std::string&) {
-            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         } catch (const char*) {
-            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }

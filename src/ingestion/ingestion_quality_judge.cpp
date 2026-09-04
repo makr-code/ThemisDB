@@ -148,18 +148,18 @@ void IngestionQualityJudge::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
     if (!observer) return;
-    std::lock_guard<std::mutex> lk(observer_mutex_);
-    observers_.push_back(std::move(observer));
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
+    observers_.push_back([[maybe_unused]] std::move(observer));
 }
 
 void IngestionQualityJudge::removeObserver(
     const IIngestionQualityObserver* observer)
 {
     if (!observer) return;
-    std::lock_guard<std::mutex> lk(observer_mutex_);
+    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
-            [observer](const std::shared_ptr<IIngestionQualityObserver>& sp) {
+            [observer]([[maybe_unused]] const std::shared_ptr<IIngestionQualityObserver>& sp) {
                 return sp.get() == observer;
             }),
         observers_.end());
@@ -545,7 +545,7 @@ void IngestionQualityJudge::notifyEvaluated(
 {
     std::vector<std::shared_ptr<IIngestionQualityObserver>> snapshot;
     {
-        std::lock_guard<std::mutex> lk(observer_mutex_);
+        std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
         snapshot = observers_;
     }
     for (const auto& obs : snapshot) {
@@ -585,7 +585,7 @@ void ReIngestionController::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
     if (!observer) return;
-    observers_.push_back(std::move(observer));
+    observers_.push_back([[maybe_unused]] std::move(observer));
 }
 
 void ReIngestionController::removeObserver(
@@ -594,7 +594,7 @@ void ReIngestionController::removeObserver(
     if (!observer) return;
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
-            [observer](const std::shared_ptr<IIngestionQualityObserver>& sp) {
+            [observer]([[maybe_unused]] const std::shared_ptr<IIngestionQualityObserver>& sp) {
                 return sp.get() == observer;
             }),
         observers_.end());
@@ -705,7 +705,7 @@ void ReIngestionController::notifyTriggered(
     int                             attempt,
     const std::vector<std::string>& reasons) noexcept
 {
-    for (const auto& obs : observers_) {
+    for ([[maybe_unused]] const auto& obs : observers_) {
         try { obs->onReIngestionTriggered(doc_id, attempt, reasons); } catch (...) {}
     }
     // Forward to judge observers as well.
@@ -716,7 +716,7 @@ void ReIngestionController::notifyComplete(
     int                attempt,
     bool               improved) noexcept
 {
-    for (const auto& obs : observers_) {
+    for ([[maybe_unused]] const auto& obs : observers_) {
         try { obs->onReIngestionComplete(doc_id, attempt, improved); } catch (...) {}
     }
 }

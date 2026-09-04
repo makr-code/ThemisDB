@@ -371,7 +371,7 @@ void APIGateway::registerHandler(
     std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
 ) {
     spdlog::info("Registering handler for pattern: {}", pattern);
-    handlers_[pattern] = std::move(handler);
+    handlers_[pattern] = std::move([[maybe_unused]] handler);
 }
 
 void APIGateway::registerDeprecation(
@@ -599,7 +599,7 @@ http::response<http::string_body> APIGateway::executeLocal(
     std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
 ) {
     try {
-        return handler(req);
+        return handler([[maybe_unused]] req);
     } catch (const std::exception& e) {
         spdlog::error("Local execution failed: {}", e.what());
         return makeErrorResponse(http::status::internal_server_error, 

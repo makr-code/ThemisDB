@@ -161,7 +161,7 @@ TTSResult TTSProcessor::synthesize(const std::string &text, const TTSOptions &op
 
 bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(const std::vector<uint8_t> &)> callback,
                                     const TTSOptions &options) {
-    if (!initialized_ || !callback) {
+    if ([[maybe_unused]] !initialized_ || !callback) {
         return false;
     }
 
@@ -185,7 +185,7 @@ bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(
     const auto &data             = result.audio_data;
     for (size_t offset = 0; offset < data.size(); offset += kChunkBytes) {
         const size_t end = std::min(offset + kChunkBytes, data.size());
-        callback({data.begin() + static_cast<ptrdiff_t>(offset), data.begin() + static_cast<ptrdiff_t>(end)});
+        callback([[maybe_unused]] {data.begin() + static_cast<ptrdiff_t>(offset), data.begin() + static_cast<ptrdiff_t>(end)});
     }
     return true;
 }

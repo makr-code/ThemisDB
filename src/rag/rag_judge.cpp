@@ -145,7 +145,7 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
         config.use_geval_scoring ||
         config.use_quality_control_pipeline;
     try {
-        std::lock_guard<std::mutex> lock(impl_->callback_mutex);  // RAII barrier
+        std::lock_guard<std::mutex> lock([[maybe_unused]] impl_->callback_mutex);  // RAII barrier
         if (requires_llm_judge_client) {
             LLMJudgeClient::Config client_config;
             client_config.model_name = config.judge_model;
@@ -720,11 +720,11 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     try {
         std::function<void(const EvaluationResult&)> callback;
         {
-            std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
+            std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
             callback = impl_->eval_callback;
         }
-        if (callback) {
-            callback(result);
+        if ([[maybe_unused]] callback) {
+            callback([[maybe_unused]] result);
         }
     } catch (const std::exception& e) {
         THEMIS_ERROR("Evaluation callback failed: {}", e.what());
@@ -863,8 +863,8 @@ RAGJudgeConfig RAGJudge::getConfig() const {
 void RAGJudge::setEvaluationCallback(
     std::function<void(const EvaluationResult&)> callback
 ) {
-    std::lock_guard<std::mutex> callback_lock(impl_->callback_mutex);
-    impl_->eval_callback = std::move(callback);
+    std::lock_guard<std::mutex> callback_lock([[maybe_unused]] impl_->callback_mutex);
+    impl_->eval_callback = std::move([[maybe_unused]] callback);
 }
 
 void RAGJudge::clearCache() {

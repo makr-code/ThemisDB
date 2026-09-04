@@ -1357,9 +1357,9 @@ void ProcessGraphRag::fireSlaAlert_(
     SlaAlert alert{instance_id, process_name, sla_ms, elapsed_ms, status};
     std::lock_guard<std::mutex> lock(sla_rules_mutex_);
     auto it = sla_rules_.find(instance_id);
-    if (it != sla_rules_.end() && it->second.callback) {
+    if ([[maybe_unused]] it != sla_rules_.end() && it->second.callback) {
         try {
-            it->second.callback(alert);
+            it->second.callback([[maybe_unused]] alert);
         } catch (const std::exception& ex) {
             SPDLOG_WARN("ProcessGraphRag: SLA alert callback threw: {}", ex.what());
         }

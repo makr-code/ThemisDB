@@ -32,8 +32,8 @@ void RetentionManager::logAudit(const RetentionAuditEntry& entry) {
         }
         audit_log_.push_back(entry);
     }
-    if (audit_callback_) {
-        audit_callback_(entry);
+    if ([[maybe_unused]] audit_callback_) {
+        audit_callback_([[maybe_unused]] entry);
     }
 }
 

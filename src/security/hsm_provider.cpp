@@ -315,7 +315,7 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
             impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
             return result;
         } catch (const std::exception& e) {
-            r.error_message = std::string("signHash callback failed: ") + e.what();
+            r.error_message = std::string([[maybe_unused]] "signHash callback failed: ") + e.what();
             impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
             return r;
         } catch (...) {
@@ -393,7 +393,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         try {
             return fn(data, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("encryptData callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "encryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "encryptData callback failed: unknown exception";
@@ -421,7 +421,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         try {
             return fn(encrypted, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("decryptData callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "decryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "decryptData callback failed: unknown exception";
@@ -460,7 +460,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uin
         try {
             return fn(label, key_size, extractable);
         } catch (const std::exception& e) {
-            last_error_ = std::string("generateKeyPair callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "generateKeyPair callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -484,7 +484,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused
         try {
             return fn(key_label, cert_pem);
         } catch (const std::exception& e) {
-            last_error_ = std::string("importCertificate callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "importCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -508,7 +508,7 @@ std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const st
         try {
             return fn(key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string("getCertificate callback failed: ") + e.what();
+            last_error_ = std::string([[maybe_unused]] "getCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return std::nullopt;
         } catch (...) {

@@ -213,9 +213,9 @@ std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) 
 // Alerting
 // ─────────────────────────────────────────────────────────────────────────────
 
-void HallucinationDashboard::setAlertCallback(AlertCallback callback) {
+void HallucinationDashboard::setAlertCallback([[maybe_unused]] AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    alert_callback_ = std::move(callback);
+    alert_callback_ = std::move([[maybe_unused]] callback);
 }
 
 std::vector<HallucinationAlert> HallucinationDashboard::checkAlerts() {

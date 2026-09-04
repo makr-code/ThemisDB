@@ -66,7 +66,7 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
         {"params",  json::object()}
     };
 
-    json list_resp = mcp.handleRequest(list_req);
+    json list_resp = mcp.handleRequest([[maybe_unused]] list_req);
 
     json tools_array;
     if (list_resp.contains("result") && list_resp["result"].contains("tools")) {
@@ -96,7 +96,7 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
         registry.registerTool(spec,
             [&mcp, captured_name](const json& args, const ModeSpec&) -> json {
                 const json req  = buildMcpToolCallRequest(captured_name, args);
-                const json resp = mcp.handleRequest(req);
+                const json resp = mcp.handleRequest([[maybe_unused]] req);
                 return extractMcpResult(resp);
             });
 
@@ -128,7 +128,7 @@ void McpToolBridge::bridgeTool(themis::server::McpServer& mcp,
     registry.registerTool(spec,
         [&mcp, captured_name](const json& args, const ModeSpec&) -> json {
             const json req  = buildMcpToolCallRequest(captured_name, args);
-            const json resp = mcp.handleRequest(req);
+            const json resp = mcp.handleRequest([[maybe_unused]] req);
             return extractMcpResult(resp);
         });
 

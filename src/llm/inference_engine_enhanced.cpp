@@ -324,12 +324,12 @@ void InferenceEngineEnhanced::setFederatedBackend(
     }
 }
 
-void InferenceEngineEnhanced::setSelfRAGRetrievalCallback(SelfRAGRetrievalCallback cb) {
+void InferenceEngineEnhanced::setSelfRAGRetrievalCallback([[maybe_unused]] SelfRAGRetrievalCallback cb) {
     std::lock_guard<std::mutex> lock(self_rag_mutex_);
     self_rag_retrieval_cb_ = std::move(cb);
 }
 
-void InferenceEngineEnhanced::setSelfRAGCriticCallback(SelfRAGCriticCallback cb) {
+void InferenceEngineEnhanced::setSelfRAGCriticCallback([[maybe_unused]] SelfRAGCriticCallback cb) {
     std::lock_guard<std::mutex> lock(self_rag_mutex_);
     self_rag_critic_cb_ = std::move(cb);
 }
@@ -686,7 +686,7 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     // is fired exactly once regardless of whether the stream ends normally
     // or via cancellation.
     auto fired_final  = std::make_shared<std::atomic<bool>>(false);
-    auto cb           = std::make_shared<TokenCallback>(std::move(callback));
+    auto cb           = std::make_shared<TokenCallback>([[maybe_unused]] std::move(callback));
 
     tracked->request.base_request.stream_callback =
         [cb, cancel_token = tracked->cancel_token, fired_final](const std::string& token) {
@@ -1177,8 +1177,8 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
                 timeout_response.text = "";
                 timeout_response.model_id = "";
                 
-                if (it->second->callback) {
-                    it->second->callback(timeout_response);
+                if ([[maybe_unused]] it->second->callback) {
+                    it->second->callback([[maybe_unused]] timeout_response);
                 }
                 
                 it->second->promise.set_value(timeout_response);
@@ -1217,8 +1217,8 @@ void InferenceEngineEnhanced::processBatch(
                 // non-streaming submitAsync() requests the callback is the
                 // user's completion handler; calling it with an empty response
                 // here would be unexpected and misleading.
-                if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                if ([[maybe_unused]] tracked->request.base_request.stream_callback && tracked->callback) {
+                    try { tracked->callback([[maybe_unused]] InferenceResponse{}); } catch (...) {}
                 }
                 try {
                     tracked->promise.set_exception(
@@ -1241,8 +1241,8 @@ void InferenceEngineEnhanced::processBatch(
                     spdlog::debug("Cache hit for request {}", req.request_id);
                     
                     // Deliver cached response
-                    if (tracked->callback) {
-                        tracked->callback(*cached_response);
+                    if ([[maybe_unused]] tracked->callback) {
+                        tracked->callback([[maybe_unused]] *cached_response);
                     }
                     tracked->promise.set_value(*cached_response);
                     
@@ -1316,8 +1316,8 @@ void InferenceEngineEnhanced::processBatch(
             raid_sharding["allow_cross_instance_batching"] = req.allow_cross_instance_batching;
             effective_request.metadata["raid_sharding"] = std::move(raid_sharding);
             auto deadline = tracked->deadline;
-            if (effective_request.stream_callback) {
-                auto original_cb = std::move(effective_request.stream_callback);
+            if ([[maybe_unused]] effective_request.stream_callback) {
+                auto original_cb = std::move([[maybe_unused]] effective_request.stream_callback);
                 effective_request.stream_callback =
                     [original_cb, cancel_token = tracked->cancel_token, deadline](const std::string& token) {
                     if (cancel_token->load(std::memory_order_acquire)) return;
@@ -1631,8 +1631,8 @@ void InferenceEngineEnhanced::processBatch(
                 // Deliver the is_final=true streaming sentinel so that the
                 // TokenCallback contract is upheld even when cancellation is
                 // detected after inference completes.
-                if (tracked->request.base_request.stream_callback && tracked->callback) {
-                    try { tracked->callback(InferenceResponse{}); } catch (...) {}
+                if ([[maybe_unused]] tracked->request.base_request.stream_callback && tracked->callback) {
+                    try { tracked->callback([[maybe_unused]] InferenceResponse{}); } catch (...) {}
                 }
                 std::lock_guard<std::mutex> lock(requests_mutex_);
                 tracked_requests_.erase(req.request_id);
@@ -1645,8 +1645,8 @@ void InferenceEngineEnhanced::processBatch(
             }
             
             // Deliver response
-            if (tracked->callback) {
-                tracked->callback(response);
+            if ([[maybe_unused]] tracked->callback) {
+                tracked->callback([[maybe_unused]] response);
             }
             try {
                 tracked->promise.set_value(response);
@@ -1670,8 +1670,8 @@ void InferenceEngineEnhanced::processBatch(
             error_response.text = "Error: " + std::string(e.what());
             error_response.model_id = "";
             
-            if (tracked->callback) {
-                tracked->callback(error_response);
+            if ([[maybe_unused]] tracked->callback) {
+                tracked->callback([[maybe_unused]] error_response);
             }
             
             try {

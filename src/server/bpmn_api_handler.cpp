@@ -489,7 +489,7 @@ http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
                     event["timestamp_ns"] = ts_ms * 1'000'000;
                     event["data"] = json::object();
                     event["data"]["node_id"] = node;
-                    history.push_back(event);
+                    history.push_back([[maybe_unused]] event);
                 }
             }
             response["history"] = history;

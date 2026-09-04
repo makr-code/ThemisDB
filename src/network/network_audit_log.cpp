@@ -139,16 +139,16 @@ void NetworkAuditLog::setEventCallback(
     std::function<void(const AuditEvent&)> cb)
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    callback_ = std::move(cb);
+    callback_ = std::move([[maybe_unused]] cb);
 }
 
 // ---------------------------------------------------------------------------
 // Recording
 // ---------------------------------------------------------------------------
 
-void NetworkAuditLog::record(AuditEvent event) {
+void NetworkAuditLog::record([[maybe_unused]] AuditEvent event) {
     // Fill in timestamp if caller left it default-constructed (epoch).
-    if (event.timestamp == std::chrono::system_clock::time_point{}) {
+    if ([[maybe_unused]] event.timestamp == std::chrono::system_clock::time_point{}) {
         event.timestamp = std::chrono::system_clock::now();
     }
 
@@ -160,18 +160,18 @@ void NetworkAuditLog::record(AuditEvent event) {
             buffer_.pop_front();
             ++total_evicted_;
         }
-        buffer_.push_back(event);
+        buffer_.push_back([[maybe_unused]] event);
         ++total_recorded_;
-        updateCounters(event.type);
+        updateCounters([[maybe_unused]] event.type);
 
-        if (config_.enable_callback) {
+        if ([[maybe_unused]] config_.enable_callback) {
             cb_copy = callback_;
         }
     }
 
     // Invoke callback outside the lock to avoid priority inversion.
     if (cb_copy) {
-        cb_copy(event);
+        cb_copy([[maybe_unused]] event);
     }
 }
 
@@ -233,17 +233,17 @@ void NetworkAuditLog::recordRateLimited(const std::string& remote_address,
 // Query
 // ---------------------------------------------------------------------------
 
-std::vector<AuditEvent> NetworkAuditLog::getRecentEvents(size_t n) const {
+std::vector<AuditEvent> NetworkAuditLog::getRecentEvents([[maybe_unused]] size_t n) const {
     std::lock_guard<std::mutex> lk(mutex_);
     if (n == 0 || n >= buffer_.size()) {
-        return std::vector<AuditEvent>(buffer_.begin(), buffer_.end());
+        return std::vector<AuditEvent>([[maybe_unused]] buffer_.begin(), buffer_.end());
     }
     const size_t skip = buffer_.size() - n;
     return std::vector<AuditEvent>(buffer_.begin() + static_cast<std::ptrdiff_t>(skip),
                                    buffer_.end());
 }
 
-std::vector<AuditEvent> NetworkAuditLog::getEventsByType(AuditEventType type) const {
+std::vector<AuditEvent> NetworkAuditLog::getEventsByType([[maybe_unused]] AuditEventType type) const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<AuditEvent> result;
     for (const auto& ev : buffer_) {
@@ -294,7 +294,7 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
 // Private
 // ---------------------------------------------------------------------------
 
-void NetworkAuditLog::updateCounters(AuditEventType type) {
+void NetworkAuditLog::updateCounters([[maybe_unused]] AuditEventType type) {
     switch (type) {
     case AuditEventType::CONNECTION_OPEN:  ++connection_opens_;  break;
     case AuditEventType::CONNECTION_CLOSE: ++connection_closes_; break;

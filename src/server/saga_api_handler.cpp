@@ -117,7 +117,7 @@ nlohmann::json SAGABatchDetail::toJson() const {
     return j;
 }
 
-SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
+SAGABatchInfo SAGAApiHandler::parseBatchInfo([[maybe_unused]] const std::string& batch_id) {
     SAGABatchInfo info;
     info.batch_id = batch_id;
     
@@ -158,7 +158,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 break;
             }
         } catch (...) {
-            THEMIS_WARN("saga_api_handler: unhandled exception caught");
+            THEMIS_WARN([[maybe_unused]] "saga_api_handler: unhandled exception caught");
             continue;
         }
     }
@@ -193,7 +193,7 @@ nlohmann::json SAGAApiHandler::listBatches() {
     }
 }
 
-nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
+nlohmann::json SAGAApiHandler::getBatchDetail([[maybe_unused]] const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("getBatchDetail");
         return {{"error", "SAGA logger not initialized"}};
@@ -238,7 +238,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         break;
                     }
                 } catch (...) {
-                    THEMIS_WARN("saga_api_handler: unhandled exception caught");
+                    THEMIS_WARN([[maybe_unused]] "saga_api_handler: unhandled exception caught");
                     continue;
                 }
             }
@@ -251,7 +251,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     }
 }
 
-nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
+nlohmann::json SAGAApiHandler::verifyBatch([[maybe_unused]] const std::string& batch_id) {
     if (!saga_logger_) {
     auto span = Tracer::startSpan("verifyBatch");
         return {{"error", "SAGA logger not initialized"}};

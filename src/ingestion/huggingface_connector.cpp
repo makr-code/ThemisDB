@@ -542,7 +542,7 @@ private:
                                      : chunk_size * 1024;
             processed += chunk_size;
             
-            if (callback && processed % (batch_size_ * 10) == 0) {
+            if ([[maybe_unused]] callback && processed % (batch_size_ * 10) == 0) {
                 callback(config_.source_id, processed, total_docs,
                         "Downloaded " + std::to_string(processed) + " documents");
             }
@@ -585,7 +585,7 @@ private:
                                     ? response.body.size()
                                     : total_docs * 1024;
             
-            if (callback) {
+            if ([[maybe_unused]] callback) {
                 callback(config_.source_id, total_docs, total_docs,
                         "Completed batch ingestion");
             }

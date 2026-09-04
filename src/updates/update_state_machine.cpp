@@ -260,7 +260,7 @@ bool UpdateStateMachine::transition(UpdateState to,
         callbacks_copy   = callbacks_;  // shallow copy of function wrappers
     }  // lock released here
 
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from, to, notify_version);
         } catch (...) {
@@ -299,20 +299,20 @@ void UpdateStateMachine::reset() {
         callbacks_copy = callbacks_;
     }  // lock released here
 
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from, UpdateState::IDLE, "");
         } catch (...) {
             // Error Code: 7490 - Never let callbacks crash the state machine
             // Log and silently ignore to ensure state integrity is maintained
-            LOG_WARN("UpdateStateMachine: state change callback threw exception; silently caught");
+            LOG_WARN([[maybe_unused]] "UpdateStateMachine: state change callback threw exception; silently caught");
         }
     }
 }
 
-void UpdateStateMachine::addStateChangeCallback(StateChangeCallback cb) {
+void UpdateStateMachine::addStateChangeCallback([[maybe_unused]] StateChangeCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    callbacks_.push_back(std::move(cb));
+    callbacks_.push_back([[maybe_unused]] std::move(cb));
 }
 
 bool UpdateStateMachine::hasInFlightUpdate() const {
@@ -619,7 +619,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     }
 
     // Notify callbacks outside the lock
-    for (auto& cb : callbacks_copy) {
+    for ([[maybe_unused]] auto& cb : callbacks_copy) {
         try {
             cb(from_state, to_state, notify_version);
         } catch (...) {}
@@ -659,9 +659,9 @@ void UpdateStateMachine::clearCheckpoints() {
 // Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
 // ============================================================================
 
-void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
+void UpdateStateMachine::setRollbackCallback([[maybe_unused]] RollbackCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    rollback_callback_ = std::move(callback);
+    rollback_callback_ = std::move([[maybe_unused]] callback);
 }
 
 bool UpdateStateMachine::rollbackToLatestCheckpoint() {
@@ -735,7 +735,7 @@ void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
     
     // Invoke registered callback if set
     std::lock_guard<std::mutex> lock(mutex_);
-    if (rollback_callback_) {
+    if ([[maybe_unused]] rollback_callback_) {
         try {
             rollback_callback_(checkpoint_id, success, 
                              success ? "" : reason);

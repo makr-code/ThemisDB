@@ -97,7 +97,7 @@ void SchemaAwareCDCBridge::start() {
     std::lock_guard<std::mutex> lock(mutex_);
     if (started_) return;
     if (repl_mgr_) {
-        repl_mgr_->addListener(shared_from_this());
+        repl_mgr_->addListener([[maybe_unused]] shared_from_this());
     }
     started_ = true;
 }
@@ -112,7 +112,7 @@ void SchemaAwareCDCBridge::stop() {
 SchemaAwareCDCBridge::Stats SchemaAwareCDCBridge::getStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     Stats s = stats_;
-    s.events_skipped = skipped_events_.load(std::memory_order_relaxed);
+    s.events_skipped = skipped_events_.load([[maybe_unused]] std::memory_order_relaxed);
     return s;
 }
 
@@ -179,11 +179,11 @@ void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
     dispatch(out);
 }
 
-void SchemaAwareCDCBridge::dispatch(const SchemaEncodedEvent& ev) {
+void SchemaAwareCDCBridge::dispatch([[maybe_unused]] const SchemaEncodedEvent& ev) {
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& sub : subscriptions_) {
         if (sub.collection.empty() || sub.collection == ev.collection) {
-            sub.callback(ev);
+            sub.callback([[maybe_unused]] ev);
         }
     }
 }

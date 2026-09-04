@@ -229,7 +229,7 @@ ExportStats JoinExporter::exportEntities(
                     stats.estimated_eta_seconds =
                         static_cast<double>(total_count - stats.exported_entities) / rate;
                 }
-                options.progress_callback(stats);
+                options.progress_callback([[maybe_unused]] stats);
             }
 
         } catch (const ExporterException& e) {

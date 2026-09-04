@@ -215,7 +215,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     snapshot_.pages[parsed_page.page.page_id] = parsed_page.page;
     snapshot_.revisions[parsed_page.revision.revision_id] = parsed_page.revision;
 
-    if (options.streaming_row_callback) {
+    if ([[maybe_unused]] options.streaming_row_callback) {
         options.streaming_row_callback("wiki_page", parsed_page.page.toJson());
         options.streaming_row_callback("wiki_revision", parsed_page.revision.toJson());
     }
@@ -223,7 +223,7 @@ void WikipediaIngestionPipeline::applyParsedPage(
     auto links = WikipediaTransform::extractLinks(parsed_page.page, parsed_page.revision);
     for (auto& link : links) {
         snapshot_.links.push_back(link);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_link", link.toJson());
         }
     }
@@ -231,14 +231,14 @@ void WikipediaIngestionPipeline::applyParsedPage(
     auto categories = WikipediaTransform::extractCategories(parsed_page.page, parsed_page.revision);
     for (auto& category : categories) {
         snapshot_.categories.push_back(category);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_category", category.toJson());
         }
     }
 
     if (auto redirect = WikipediaTransform::extractRedirect(parsed_page.page, parsed_page.revision)) {
         snapshot_.redirects.push_back(*redirect);
-        if (options.streaming_row_callback) {
+        if ([[maybe_unused]] options.streaming_row_callback) {
             options.streaming_row_callback("wiki_redirect", redirect->toJson());
         }
     }

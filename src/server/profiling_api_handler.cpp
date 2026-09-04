@@ -407,7 +407,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
         value = std::stoi(value_str);
         return true;
     } catch (...) {
-        THEMIS_WARN("profiling_api_handler: unhandled exception caught");
+        THEMIS_WARN([[maybe_unused]] "profiling_api_handler: unhandled exception caught");
         value = default_value;
         return false;
     }

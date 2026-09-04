@@ -377,7 +377,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             }
             
             // Set hostname verification callback for proper TLS validation
-            ssl_stream->set_verify_callback(ssl::host_name_verification(host));
+            ssl_stream->set_verify_callback([[maybe_unused]] ssl::host_name_verification(host));
             
             // Perform SSL handshake with timeout
             local_io.restart();

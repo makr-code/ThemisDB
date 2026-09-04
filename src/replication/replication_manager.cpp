@@ -1284,7 +1284,7 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
         stats_.bytes_replicated += entry.data.size();
         
         // Notify CDC listeners about the applied WAL entry
-        notifyListeners([&entry](IReplicationListener& l) {
+        notifyListeners([[maybe_unused]] [&entry](IReplicationListener& l) {
             l.onWALEntryApplied(entry);
         });
         
@@ -1413,7 +1413,7 @@ void ReplicationManager::addReplica(const ReplicaInfo& replica) {
         }
     }
     
-    notifyListeners([&replica](IReplicationListener& l) {
+    notifyListeners([[maybe_unused]] [&replica](IReplicationListener& l) {
         l.onReplicaAdded(replica);
     });
 }
@@ -1433,7 +1433,7 @@ void ReplicationManager::removeReplica(const std::string& node_id) {
         }
     }
     
-    notifyListeners([&node_id](IReplicationListener& l) {
+    notifyListeners([[maybe_unused]] [&node_id](IReplicationListener& l) {
         l.onReplicaRemoved(node_id);
     });
 }
@@ -1456,9 +1456,9 @@ void ReplicationManager::addWitnessNode(const std::string& node_id,
     addReplica(witness);
 }
 
-void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> listener) {
+void ReplicationManager::addListener([[maybe_unused]] std::shared_ptr<IReplicationListener> listener) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
-    listeners_.push_back(listener);
+    listeners_.push_back([[maybe_unused]] listener);
 }
 
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
@@ -1486,7 +1486,7 @@ bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
         election_->startElection();
         
         if (election_->isLeader()) {
-            notifyListeners([this](IReplicationListener& l) {
+            notifyListeners([[maybe_unused]] [this](IReplicationListener& l) {
                 l.onFailoverCompleted(node_id_, true);
             });
             return true;
@@ -1604,7 +1604,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
     }
     
     // Step 6: Notify all other replicas of new leader via listeners
-    notifyListeners([&replica_id](IReplicationListener& l) {
+    notifyListeners([[maybe_unused]] [&replica_id](IReplicationListener& l) {
         l.onLeaderElected(replica_id);
     });
     
@@ -1744,10 +1744,10 @@ void ReplicationManager::compactionLoop() {
 }
 
 void ReplicationManager::notifyListeners(
-    std::function<void(IReplicationListener&)> callback) {
-    for (auto& listener : listeners_) {
-        if (listener) {
-            callback(*listener);
+    std::function<void([[maybe_unused]] IReplicationListener&)> callback) {
+    for ([[maybe_unused]] auto& listener : listeners_) {
+        if ([[maybe_unused]] listener) {
+            callback([[maybe_unused]] *listener);
         }
     }
 }
@@ -1823,7 +1823,7 @@ void ReplicationManager::performHealthCheck() {
     }
     
     for (const auto& change : changes) {
-        notifyListeners([&change](IReplicationListener& l) {
+        notifyListeners([[maybe_unused]] [&change](IReplicationListener& l) {
             l.onReplicaHealthChanged(change.node_id, change.old_status, change.new_status);
         });
     }
@@ -1986,7 +1986,7 @@ void ReplicationManager::healthMonitorLoop() {
                 }
             }
             
-            notifyListeners([&unreachable_nodes](IReplicationListener& l) {
+            notifyListeners([[maybe_unused]] [&unreachable_nodes](IReplicationListener& l) {
                 l.onNetworkPartitionDetected(unreachable_nodes);
             });
         }
@@ -2006,7 +2006,7 @@ void ReplicationManager::healthMonitorLoop() {
                 
                 // Notify listeners of excessive lag
                 if (lag > static_cast<int64_t>(config_.max_replication_lag_ms)) {
-                    notifyListeners([lag](IReplicationListener& l) {
+                    notifyListeners([[maybe_unused]] [lag](IReplicationListener& l) {
                         l.onReplicationLagWarning(lag);
                     });
                 }
@@ -2042,11 +2042,11 @@ void ReplicationManager::attemptAutomaticFailover(const std::string& failed_node
             l.onFailoverStarted(failed_node_id, new_leader_id);
         });
         
-        notifyListeners([&new_leader_id](IReplicationListener& l) {
+        notifyListeners([[maybe_unused]] [&new_leader_id](IReplicationListener& l) {
             l.onFailoverCompleted(new_leader_id, true);
         });
     } else {
-        notifyListeners([](IReplicationListener& l) {
+        notifyListeners([[maybe_unused]] [](IReplicationListener& l) {
             l.onFailoverCompleted("", false);
         });
     }
@@ -3491,8 +3491,8 @@ std::string MultiMasterReplicationManager::write(
     {
         std::lock_guard<std::mutex> lock(writes_mutex_);
         pending_writes_.push(entry);
-        if (callback) {
-            write_callbacks_[entry.write_id] = std::move(callback);
+        if ([[maybe_unused]] callback) {
+            write_callbacks_[entry.write_id] = std::move([[maybe_unused]] callback);
         }
     }
     writes_cv_.notify_one();
@@ -3642,9 +3642,9 @@ MMPeerInfo MultiMasterReplicationManager::getLocalInfo() const {
 // Conflict Management
 // -------------------------
 
-void MultiMasterReplicationManager::registerConflictCallback(ConflictCallback callback) {
+void MultiMasterReplicationManager::registerConflictCallback([[maybe_unused]] ConflictCallback callback) {
     std::lock_guard<std::mutex> lock(conflicts_mutex_);
-    conflict_callbacks_.push_back(std::move(callback));
+    conflict_callbacks_.push_back([[maybe_unused]] std::move(callback));
 }
 
 void MultiMasterReplicationManager::setConflictResolver(
@@ -3832,10 +3832,10 @@ void MultiMasterReplicationManager::replicationLoop() {
                 pending_writes_.pop();
 
                 WriteCallback cb;
-                auto it = write_callbacks_.find(entry.write_id);
-                if (it != write_callbacks_.end()) {
+                auto it = write_callbacks_.find([[maybe_unused]] entry.write_id);
+                if ([[maybe_unused]] it != write_callbacks_.end()) {
                     cb = std::move(it->second);
-                    write_callbacks_.erase(it);
+                    write_callbacks_.erase([[maybe_unused]] it);
                 }
                 batch.emplace_back(std::move(entry), std::move(cb));
             }
@@ -4072,7 +4072,7 @@ void MultiMasterReplicationManager::handleConflict(
         conflicts_.push_back(record);
 
         // Notify registered callbacks
-        for (const auto& cb : conflict_callbacks_) {
+        for ([[maybe_unused]] const auto& cb : conflict_callbacks_) {
             cb(record);
         }
     }
@@ -4523,7 +4523,7 @@ void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
     replicas_ = replicas;
 }
 
-void QuorumReadManager::setDocumentFetchCallback(DocumentFetchFn fn) {
+void QuorumReadManager::setDocumentFetchCallback([[maybe_unused]] DocumentFetchFn fn) {
     std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
     doc_fetch_fn_ = std::move(fn);
 }
@@ -5410,7 +5410,7 @@ void CDCManager::onWALEntryApplied(const WALEntry& entry) {
         // Empty collection = wildcard; otherwise match on collection name
         if (sub.collection.empty() || sub.collection == entry.collection) {
             try {
-                sub.callback(entry);
+                sub.callback([[maybe_unused]] entry);
             } catch (const std::exception& e) {
                 THEMIS_ERROR("CDCManager: subscriber {} threw: {}", sub.id, e.what());
             } catch (...) {
@@ -5465,7 +5465,7 @@ PublicationFilter CrossClusterPublication::getFilter() const {
     return filter_;
 }
 
-uint64_t CrossClusterPublication::addRemoteSubscriber(RemoteSubscriberCallback callback) {
+uint64_t CrossClusterPublication::addRemoteSubscriber([[maybe_unused]] RemoteSubscriberCallback callback) {
     uint64_t id = next_id_.fetch_add(1);
     std::unique_lock<std::shared_mutex> lock(subs_mutex_);
     subscribers_.push_back({id, std::move(callback)});
@@ -5500,7 +5500,7 @@ void CrossClusterPublication::publish(const WALEntry& entry) {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
     for (const auto& sub : subscribers_) {
         try {
-            sub.callback(entry);
+            sub.callback([[maybe_unused]] entry);
         } catch (const std::exception& e) {
             THEMIS_ERROR("CrossClusterPublication[{}]: subscriber {} threw: {}",
                          name_, sub.id, e.what());

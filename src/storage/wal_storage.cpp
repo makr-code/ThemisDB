@@ -331,7 +331,7 @@ Result<std::unique_ptr<WALStorage>> WALStorage::open(
 // Open / create / replay
 // ──────────────────────────────────────────────────────────────────────────────
 
-Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
+Result<void> WALStorage::openOrCreate([[maybe_unused]] RecoveryCallback& on_recover) {
     // Create directory if it doesn't exist.
     std::error_code ec;
     fs::create_directories(config_.dir, ec);
@@ -364,7 +364,7 @@ Result<void> WALStorage::openOrCreate(RecoveryCallback& on_recover) {
         // Still scan to find the highest sequence number.
         for (uint64_t sid : segments_) {
             auto path = config_.dir + "/" + segmentName(sid);
-            RecoveryCallback noop = [this](const Entry& e) {
+            RecoveryCallback noop = [this]([[maybe_unused]] const Entry& e) {
                 if (e.sequence >= next_seq_) next_seq_ = e.sequence + 1;
                 return true;
             };

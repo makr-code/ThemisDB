@@ -1091,7 +1091,7 @@ TEST(LlamaCppPluginFocusedTests, X1_StreamCallbackRetry_TransientException) {
     int throw_count = 0;
     InferenceRequest req;
     req.prompt = "x1_retry_test";
-    req.stream_callback = [&](const std::string&) {
+    req.stream_callback = [&]([[maybe_unused]] const std::string&) {
         // Throw on the first two calls to force the retry path.
         if (throw_count++ < 2) throw std::runtime_error("transient");
     };

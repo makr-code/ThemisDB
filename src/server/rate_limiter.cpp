@@ -91,9 +91,9 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
-void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
-    std::unique_lock<std::shared_mutex> lock(callback_mutex_);
-    anomaly_callback_ = std::move(callback);
+void RateLimiter::setAnomalyCallback([[maybe_unused]] AnomalyCallback callback) {
+    std::unique_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
+    anomaly_callback_ = std::move([[maybe_unused]] callback);
 }
 
 void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
@@ -102,7 +102,7 @@ void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
     // Use a separate mutex so this is safe to call while mutex_ is held.
     AnomalyCallback cb;
     {
-        std::shared_lock<std::shared_mutex> lock(callback_mutex_);
+        std::shared_lock<std::shared_mutex> lock([[maybe_unused]] callback_mutex_);
         cb = anomaly_callback_;
     }
     if (cb) {

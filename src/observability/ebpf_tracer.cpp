@@ -202,7 +202,7 @@ public:
 
     void registerEventCallback(std::function<void(const std::vector<KernelEvent>&)> cb) {
         std::lock_guard<std::mutex> lk(mu_);
-        callback_ = std::move(cb);
+        callback_ = std::move([[maybe_unused]] cb);
     }
 
     void reset() {
@@ -388,8 +388,8 @@ private:
             {
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
-                    accumulateEvent(ev);
-                    appendEvent(ev);
+                    accumulateEvent([[maybe_unused]] ev);
+                    appendEvent([[maybe_unused]] ev);
                 }
                 ++stats_.collection_cycles;
                 publishMetrics();
@@ -409,7 +409,7 @@ private:
         }
     }
 
-    void accumulateEvent(const KernelEvent& ev) {
+    void accumulateEvent([[maybe_unused]] const KernelEvent& ev) {
         switch (ev.type) {
             case EbpfProbeType::CONTEXT_SWITCH:
                 stats_.context_switches_total += ev.delta;
@@ -428,9 +428,9 @@ private:
         }
     }
 
-    void appendEvent(const KernelEvent& ev) {
-        events_.push_back(ev);
-        while (events_.size() > config_.max_events_retained) {
+    void appendEvent([[maybe_unused]] const KernelEvent& ev) {
+        events_.push_back([[maybe_unused]] ev);
+        while ([[maybe_unused]] events_.size() > config_.max_events_retained) {
             events_.pop_front();
         }
     }
@@ -500,8 +500,8 @@ std::vector<KernelEvent> EbpfTracer::getRecentEvents() const {
 }
 
 void EbpfTracer::registerEventCallback(
-        std::function<void(const std::vector<KernelEvent>&)> cb) {
-    impl_->registerEventCallback(std::move(cb));
+        std::function<void([[maybe_unused]] const std::vector<KernelEvent>&)> cb) {
+    impl_->registerEventCallback([[maybe_unused]] std::move(cb));
 }
 
 void EbpfTracer::reset() { impl_->reset(); }

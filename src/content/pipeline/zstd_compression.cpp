@@ -61,7 +61,7 @@ std::vector<uint8_t> ZstdCompression::compress_streaming(
     }
     
     // Simulate progress for large data
-    if (callback) {
+    if ([[maybe_unused]] callback) {
         size_t total = data.size();
         size_t processed = 0;
         
@@ -91,8 +91,8 @@ std::vector<uint8_t> ZstdCompression::decompress_streaming(
     auto result = themis::utils::zstd_decompress(compressed_data);
     
     // Call progress callback when done
-    if (callback && !result.empty()) {
-        callback(result.size(), result.size());
+    if ([[maybe_unused]] callback && !result.empty()) {
+        callback([[maybe_unused]] result.size(), result.size());
     }
     
     return result;

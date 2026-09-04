@@ -1910,9 +1910,9 @@ bool PluginManager::isHotPlugEnabled() const {
 // Reload Event Listeners
 // ============================================================================
 
-void PluginManager::registerReloadListener(PluginReloadListener listener) {
+void PluginManager::registerReloadListener([[maybe_unused]] PluginReloadListener listener) {
     std::lock_guard<std::mutex> lock(mutex_);
-    reload_listeners_.push_back(std::move(listener));
+    reload_listeners_.push_back([[maybe_unused]] std::move(listener));
 }
 
 void PluginManager::clearReloadListeners() {
@@ -1950,7 +1950,7 @@ void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhas
     }
     
     // Notify all listeners (outside of mutex lock)
-    for (const auto& listener : listeners_copy) {
+    for ([[maybe_unused]] const auto& listener : listeners_copy) {
         try {
             listener(name, phase);
         } catch (const std::exception& e) {

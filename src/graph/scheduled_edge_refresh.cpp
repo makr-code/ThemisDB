@@ -173,7 +173,7 @@ void ScheduledGraphEdgeRefreshEngine::setANNIndex(std::shared_ptr<index::IAnnInd
 
 void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(std::function<void(themisdb::analytics::Event)> callback) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    cep_event_callback_ = std::move(callback);
+    cep_event_callback_ = std::move([[maybe_unused]] callback);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -805,7 +805,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
             const std::string pair_key = vertex + "|" + other;
             if (!existing_pairs.count(pair_key)) {
                 candidates.emplace_back(vertex, other, sim);
-                existing_pairs.insert(pair_key); // prevent duplicates within this discovery pass
+                existing_pairs.insert([[maybe_unused]] pair_key); // prevent duplicates within this discovery pass
             }
         }
     }
@@ -911,7 +911,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             try {
                 cep_cb(std::move(ev));
             } catch (const std::exception &ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}", ex.what());
+                spdlog::warn([[maybe_unused]] "[ScheduledEdgeRefresh] CEP callback(EDGE_REMOVED) failed: {}", ex.what());
             }
         }
 
@@ -928,7 +928,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
             try {
                 cep_cb(std::move(ev));
             } catch (const std::exception &ex) {
-                spdlog::warn("[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}", ex.what());
+                spdlog::warn([[maybe_unused]] "[ScheduledEdgeRefresh] CEP callback(EDGE_ADDED) failed: {}", ex.what());
             }
         }
     }
@@ -957,7 +957,7 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
                        {"relevance_score", entry.relevance_score},
                        {"cycle_number", entry.cycle_number}};
         try {
-            changefeed_->recordEvent(std::move(ev));
+            changefeed_->recordEvent([[maybe_unused]] std::move(ev));
         } catch (const std::exception &ex) {
             spdlog::warn("[ScheduledEdgeRefresh] changefeed recordEvent failed: {}", ex.what());
         }

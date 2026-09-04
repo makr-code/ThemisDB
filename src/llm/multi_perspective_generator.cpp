@@ -209,8 +209,8 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     }
     
     // Call callback if set
-    if (impl_->callback) {
-        impl_->callback(result);
+    if ([[maybe_unused]] impl_->callback) {
+        impl_->callback([[maybe_unused]] result);
     }
     
     if (result.perspectives.size() >= 2) {

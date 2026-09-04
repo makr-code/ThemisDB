@@ -455,9 +455,9 @@ LoRAOrchestrator::JobInfo LoRAOrchestrator::waitForJob(const std::string& job_id
     return missing;
 }
 
-void LoRAOrchestrator::registerEventCallback(EventCallback callback) {
+void LoRAOrchestrator::registerEventCallback([[maybe_unused]] EventCallback callback) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
-    impl_->callbacks.push_back(std::move(callback));
+    impl_->callbacks.push_back([[maybe_unused]] std::move(callback));
 }
 
 json LoRAOrchestrator::getStats() const {

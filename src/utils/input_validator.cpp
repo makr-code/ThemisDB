@@ -456,7 +456,7 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
     }
     // Step 2: remove on* event-handler attributes (onerror=, onload=, etc.)
     {
-        static const std::regex event_handler(R"(\bon\w+\s*=)", std::regex::icase);
+        static const std::regex event_handler([[maybe_unused]] R"(\bon\w+\s*=)", std::regex::icase);
         tmp = std::regex_replace(tmp, event_handler, "");
     }
     // Step 3: HTML-encode remaining special characters
