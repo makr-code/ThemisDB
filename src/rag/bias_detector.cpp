@@ -37,7 +37,7 @@ BiasDetectionResult BiasDetector::detectPositionBias(
     result.bias_magnitude = 0.0;
     result.p_value = 1.0;
     
-    if (comparisons.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(comparisons.size()) < config_.min_samples_for_detection) {
         result.description = "Insufficient samples for position bias detection";
         THEMIS_WARN("Not enough samples for position bias detection: {} < {}", 
                    comparisons.size(), config_.min_samples_for_detection);
@@ -115,7 +115,7 @@ BiasDetectionResult BiasDetector::detectLengthBias(
     result.bias_magnitude = 0.0;
     result.p_value = 1.0;
     
-    if (evaluations.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(evaluations.size()) < config_.min_samples_for_detection) {
         result.description = "Insufficient samples for length bias detection";
         THEMIS_WARN("Not enough samples for length bias detection");
         return result;
@@ -221,7 +221,7 @@ double BiasDetector::calculateCorrelation(
     const std::vector<double>& x,
     const std::vector<double>& y
 ) {
-    if (x.size() != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != y.size() || x.empty()) {
         return 0.0;
     }
     
@@ -277,7 +277,7 @@ double BiasDetector::calculateChiSquare(
     const std::vector<int>& observed,
     const std::vector<int>& expected
 ) {
-    if (observed.size() != expected.size()) {
+    if (static_cast<int>(observed.size()) != expected.size()) {
         return 0.0;
     }
     

@@ -364,7 +364,7 @@ bool ReflectionHallucinationGuard::detectHallucinationSignals(
 bool ReflectionHallucinationGuard::isDiverging(
     const std::vector<double>& trajectory) const {
 
-    if (trajectory.size() < window_ + 1) {
+    if (static_cast<int>(trajectory.size()) < window_ + 1) {
         return false;
     }
 
@@ -560,7 +560,7 @@ bool ReflectionTuner::shouldConverge(const ReflectionResult& result,
     if (step.quality_score >= config_.convergence_threshold) {
         return true;
     }
-    if (result.steps.size() >= 2 &&
+    if (static_cast<int>(result.steps.size()) >= 2 &&
         std::abs(step.quality_delta) < config_.min_delta_improvement) {
         return true;
     }

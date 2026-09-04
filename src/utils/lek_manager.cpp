@@ -328,7 +328,7 @@ std::vector<std::string> LEKManager::getRevokedKeys() const {
 
 bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
     // Parse date_str "YYYY-MM-DD"
-    if (date_str.size() != 10) {
+    if (static_cast<int>(date_str.size()) != 10) {
       return false;
     }
     try {

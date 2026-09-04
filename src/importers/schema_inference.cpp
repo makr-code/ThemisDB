@@ -334,7 +334,7 @@ SchemaInferenceEngine::validateSchemaStructure(
             continue;  // Skip this schema due to critical error
         }
 
-        if (schema.name.size() > kMaxIdentifierLength) {
+        if (static_cast<int>(schema.name.size()) > kMaxIdentifierLength) {
             SchemaStructureError err;
             err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
             err.table_name = schema.name;
@@ -354,7 +354,7 @@ SchemaInferenceEngine::validateSchemaStructure(
         // Check column validity
         std::unordered_set<std::string> seen_columns = {};
 
-        if (schema.columns.size() > kMaxColumnCount) {
+        if (static_cast<int>(schema.columns.size()) > kMaxColumnCount) {
             SchemaStructureError err;
             err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
             err.table_name = schema.name;
@@ -536,7 +536,7 @@ SchemaInferenceEngine::estimateCardinalities(
     
     for (const auto& schema : schemas) {
         // Check column count bounds per table
-        if (schema.columns.size() > kMaxColumnCount) {
+        if (static_cast<int>(schema.columns.size()) > kMaxColumnCount) {
             // Skip this table to prevent resource exhaustion
             continue;
         }

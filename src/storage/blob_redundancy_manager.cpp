@@ -944,7 +944,7 @@ Result<void> BlobRedundancyManager::writeBlob(
             }
         }
 
-        if (written_shards.size() < static_cast<size_t>(ec_config.data_shards)) {
+        if (static_cast<int>(written_shards.size()) < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<void>(
                 themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
                 "Failed to write enough erasure-coded shards for blob '" +
@@ -1028,7 +1028,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
             }
         }
 
-        if (available.size() < static_cast<size_t>(ec_config.data_shards)) {
+        if (static_cast<int>(available.size()) < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<std::vector<uint8_t>>(
                 themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                 "Not enough shards to reconstruct blob '" + blob_id +

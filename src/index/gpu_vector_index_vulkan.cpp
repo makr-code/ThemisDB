@@ -397,7 +397,7 @@ public:
             {
                 size_t offset = 0;
                 for (const auto& vec : vectors) {
-                    if (vec.size() != static_cast<size_t>(dimension_)) {
+                    if (static_cast<int>(vec.size()) != static_cast<size_t>(dimension_)) {
                         THEMIS_ERROR("VulkanVectorIndexBackend: Vector dimension mismatch");
                         return false;
                     }
@@ -625,7 +625,7 @@ public:
         }
 
         // For small batches, use the single-query path to avoid dispatch overhead.
-        if (queries.size() < 4) {
+        if (static_cast<int>(queries.size()) < 4) {
             std::vector<std::vector<std::pair<float, size_t>>> results;
             results.reserve(queries.size());
             for (const auto& query : queries) {
@@ -643,7 +643,7 @@ public:
             {
                 size_t queryOffset = 0;
                 for (const auto& query : queries) {
-                    if (query.size() != static_cast<size_t>(dimension_)) {
+                    if (static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
                         THEMIS_ERROR("VulkanVectorIndexBackend: Query dimension mismatch in batch");
                         return {};
                     }

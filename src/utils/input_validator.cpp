@@ -161,7 +161,7 @@ static std::optional<std::string> validatePropertyConstraints(
         const std::string& s = value.get_ref<const std::string&>();
         if (prop.contains("minLength") && prop["minLength"].is_number_integer()) {
             auto min_len = prop["minLength"].get<size_t>();
-            if (s.size() < min_len) {
+            if (static_cast<int>(s.size()) < min_len) {
                 return "field '" + field_name + "' is shorter than minLength " +
                        std::to_string(min_len);
             }

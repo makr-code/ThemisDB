@@ -426,7 +426,7 @@ void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled)
 }
 
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
-	if (a.size() != b.size()) {
+	if (static_cast<int>(a.size()) != b.size()) {
 	  return std::numeric_limits<float>::infinity();
 	}
 	// Return squared L2 to match existing distance semantics (lower is better)
@@ -490,7 +490,7 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 // Note: Currently unused, kept for future implementation
 #if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
-	if (a.size() != b.size() || a.empty()) {
+	if (static_cast<int>(a.size()) != b.size() || a.empty()) {
 	  return 1.0f;
 	}
 	std::vector<float> ac(a), bc(b);
@@ -1461,7 +1461,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						}
 					}
 
-					if (v.size() == expected_dim) {
+					if (static_cast<int>(v.size()) == expected_dim) {
 						consider(pk, v);
 					}
 				} catch (...) {
@@ -1510,7 +1510,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
 				for (size_t i = block_start; i < block_end; ++i) {
 					const auto& [pk, vec] = *cache_ptrs[i];
-					if (vec.size() == expected_dim) {
+					if (static_cast<int>(vec.size()) == expected_dim) {
 						consider(pk, vec);
 					}
 				}
@@ -1535,7 +1535,7 @@ std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (query.size() != expected_dim) {
+	if (static_cast<int>(query.size()) != expected_dim) {
 		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>();
 	}
     
@@ -1865,7 +1865,7 @@ VectorIndexManager::searchKnnFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (query.size() != expected_dim) {
+	if (static_cast<int>(query.size()) != expected_dim) {
 		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
@@ -2035,7 +2035,7 @@ VectorIndexManager::searchKnnPreFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (query.size() != expected_dim) {
+	if (static_cast<int>(query.size()) != expected_dim) {
 		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), std::vector<Result>();
 	}
 
@@ -3050,7 +3050,7 @@ VectorIndexManager::computeCentroid() const {
 	std::vector<float> centroid(dim_, 0.0f);
 	
 	for (const auto& [pk, vec] : cache_) {
-		if (vec.size() != static_cast<size_t>(dim_)) {
+		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		for (int i = 0; i < dim_; ++i) {
@@ -3081,7 +3081,7 @@ VectorIndexManager::computeVariance() const {
 	std::vector<float> variance(dim_, 0.0f);
 	
 	for (const auto& [pk, vec] : cache_) {
-		if (vec.size() != static_cast<size_t>(dim_)) {
+		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		for (int i = 0; i < dim_; ++i) {
@@ -3119,7 +3119,7 @@ VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
 	float outlier_threshold = stats.mean_distance + threshold * stats.std_dev_distance;
 
 	for (const auto& [pk, vec] : cache_) {
-		if (vec.size() != static_cast<size_t>(dim_)) {
+		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		
@@ -3185,7 +3185,7 @@ VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 		
 		train_data.reserve(cache_.size());
 		for (const auto& [pk, vec] : cache_) {
-			if (vec.size() == static_cast<size_t>(dim_)) {
+			if (static_cast<int>(vec.size()) == static_cast<size_t>(dim_)) {
 				train_data.push_back(vec);
 			}
 		}
@@ -3214,7 +3214,7 @@ VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 		           cache_.size());
 		
 		for (const auto& [pk, vec] : cache_) {
-			if (vec.size() == static_cast<size_t>(dim_)) {
+			if (static_cast<int>(vec.size()) == static_cast<size_t>(dim_)) {
 				auto codes = quantizer_->encode(vec);
 				if (!codes.empty()) {
 					quantized_cache_[pk] = std::move(codes);

@@ -719,7 +719,7 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt64(const std::vecto
 }
 
 Result<std::vector<int32_t>> FrameOfReferenceCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int32_t)) {
+    if (static_cast<int>(encoded.size()) < sizeof(int32_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Frame-of-reference decode: no reference value"
@@ -747,7 +747,7 @@ Result<std::vector<int32_t>> FrameOfReferenceCodec::decodeInt32(const std::vecto
 }
 
 Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vector<uint8_t>& encoded) {
-    if (encoded.size() < sizeof(int64_t)) {
+    if (static_cast<int>(encoded.size()) < sizeof(int64_t)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "Frame-of-reference decode: no reference value"
@@ -848,7 +848,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     }
 
     // Validate minimum size for header
-    if (compressed.size() < 8) {
+    if (static_cast<int>(compressed.size()) < 8) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "LZ4 decompression: compressed data too small (missing header)"
@@ -1550,7 +1550,7 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
     size_t row_count,
     bool auto_select_codec
 ) {
-    if (column_types.size() != column_data.size()) {
+    if (static_cast<int>(column_types.size()) != column_data.size()) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "Column types and data size mismatch"

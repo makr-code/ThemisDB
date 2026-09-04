@@ -698,7 +698,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
+    if (static_cast<int>(config_.hmac_secret.size()) > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }
@@ -747,7 +747,7 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
         }
 
         // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
-        if (received_sig.size() != expected_sig.size()) {
+        if (static_cast<int>(received_sig.size()) != expected_sig.size()) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }

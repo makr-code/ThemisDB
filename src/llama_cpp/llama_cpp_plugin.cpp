@@ -711,7 +711,7 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     constexpr size_t kMinLoRASize = 8u;
     constexpr size_t kMaxLoRASize = 2 * 1024 * 1024 * 1024; // 2 GB
 
-    if (data.size() < kMinLoRASize) {
+    if (static_cast<int>(data.size()) < kMinLoRASize) {
         return false; // Too small — cannot contain a valid header
     }
     if (static_cast<int>(data.size()) > kMaxLoRASize) {

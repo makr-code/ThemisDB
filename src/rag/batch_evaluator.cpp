@@ -33,7 +33,7 @@ namespace {
 static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
 
 bool iequals(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
         return false;
     }
     for (size_t i = 0; i < a.size(); ++i) {
@@ -312,7 +312,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
     
     // Validate input sizes to prevent DoS and memory exhaustion
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here before use
-    if (input.query.size() > 100000) {
+    if (static_cast<int>(input.query.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -322,7 +322,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
     }
     
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated before use
-    if (input.generated_answer.size() > 100000) {
+    if (static_cast<int>(input.generated_answer.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -332,7 +332,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         return error_result;
     }
     
-    if (input.documents.size() > 1000) {
+    if (static_cast<int>(input.documents.size()) > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;

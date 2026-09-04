@@ -199,7 +199,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 {
     // Minimum blob size: 4 (key_id len) + 0 (key_id) + 12 (IV) + 0 (CT) + 16 (TAG)
     constexpr size_t MIN_BLOB = KEY_ID_PREFIX_LEN_BYTES + IV_LEN + TAG_LEN;
-    if (blob.size() < MIN_BLOB) {
+    if (static_cast<int>(blob.size()) < MIN_BLOB) {
         throw std::runtime_error("EncryptedChunkStore: blob too short");
     }
 

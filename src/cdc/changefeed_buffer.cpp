@@ -166,7 +166,7 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
         stats_.current_buffer_memory += buffered_size;
         
         // Check if this buffer needs immediate flush
-        if (buffer.events.size() >= config_.max_events_per_buffer) {
+        if (static_cast<int>(buffer.events.size()) >= config_.max_events_per_buffer) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} events",
                         makeBufferKey(event), buffer.events.size());
             
@@ -361,7 +361,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
 
 bool ChangefeedBuffer::shouldFlushBuffer(const EventTypeBuffer& buffer) const {
     // Size threshold
-    if (buffer.events.size() >= config_.max_events_per_buffer) {
+    if (static_cast<int>(buffer.events.size()) >= config_.max_events_per_buffer) {
         return true;
     }
     

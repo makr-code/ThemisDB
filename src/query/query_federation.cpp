@@ -339,7 +339,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
         switch (plan.strategy) {
             case ExecutionPlan::Strategy::SCATTER_GATHER:
                 scatter_gather_queries_++;
-                if (plan.target_shards.size() > 10) {
+                if (static_cast<int>(plan.target_shards.size()) > 10) {
                     spdlog::warn("QueryFederation: broadcasting to {} shards (no shard-key predicate found); "
                                  "consider adding a FILTER on _key to enable partition pruning",
                                  plan.target_shards.size());
@@ -400,7 +400,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
             case ExecutionPlan::Strategy::BROADCAST_JOIN:
                 broadcast_joins_++;
                 // Handled by executeJoin - check if we have enough tables
-                if (metadata.tables.size() >= 2 && !metadata.joins.empty()) {
+                if (static_cast<int>(metadata.tables.size()) >= 2 && !metadata.joins.empty()) {
                     return executeJoin(metadata.tables[0], metadata.tables[1], 
                                      metadata.joins[0]);
                 } else {
@@ -412,7 +412,7 @@ nlohmann::json QueryFederation::execute(const std::string& query) {
             case ExecutionPlan::Strategy::SHUFFLE_JOIN:
                 shuffle_joins_++;
                 // Handled by executeJoin - check if we have enough tables
-                if (metadata.tables.size() >= 2 && !metadata.joins.empty()) {
+                if (static_cast<int>(metadata.tables.size()) >= 2 && !metadata.joins.empty()) {
                     return executeJoin(metadata.tables[0], metadata.tables[1], 
                                      metadata.joins[0]);
                 } else {
@@ -501,7 +501,7 @@ QueryFederation::ExecutionPlan QueryFederation::createExecutionPlan(
     
     // Check for JOINs
     if (!metadata.joins.empty()) {
-        if (metadata.tables.size() >= 2) {
+        if (static_cast<int>(metadata.tables.size()) >= 2) {
             // Estimate table sizes
             uint64_t left_size = estimateCollectionSize(metadata.tables[0]);
             uint64_t right_size = estimateCollectionSize(metadata.tables[1]);

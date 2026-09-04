@@ -54,7 +54,7 @@ bool SignedAdapterValidator::validate(const AdapterMetadata& m) {
     // Constant-time comparison to resist timing side-channels.
     // Both strings must be the same length (64 hex chars for sha256).
     const std::string& expected = expected_sig_.digest;
-    if (computed.size() != expected.size()) {
+    if (static_cast<int>(computed.size()) != expected.size()) {
         return false;
     }
 

@@ -341,7 +341,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     std::vector<std::vector<float>> centroids;
     std::vector<size_t> assignments;
     kmeans(vectors, count, dim, k, cfg_.kmeans_iters, centroids, assignments);
-    if (centroids.size() != k || assignments.size() != count) {
+    if (static_cast<int>(centroids.size()) != k || assignments.size() != count) {
         return false;
     }
 

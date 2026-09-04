@@ -209,7 +209,7 @@ MergeResult LoRAAdapterMerger::mergeLinearAll(
         result.error_message = "No adapters provided";
         return result;
     }
-    if (weights.size() != adapters.size()) {
+    if (static_cast<int>(weights.size()) != adapters.size()) {
         result.error_message = "weights.size() != adapters.size()";
         return result;
     }

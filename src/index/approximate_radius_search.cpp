@@ -221,7 +221,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
         float ratio = static_cast<float>(actual_count) / static_cast<float>(target_count);
         if (ratio >= (1.0f - TARGET_TOLERANCE) && ratio <= (1.0f + TARGET_TOLERANCE)) {
             // Truncate to exact target count if needed
-            if (best_result.results.size() > static_cast<size_t>(target_count)) {
+            if (static_cast<int>(best_result.results.size()) > static_cast<size_t>(target_count)) {
                 best_result.results.resize(target_count);
                 best_result.truncated = true;
             }
@@ -242,7 +242,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
     }
     
     // Return best result found
-    if (best_result.results.size() > static_cast<size_t>(target_count)) {
+    if (static_cast<int>(best_result.results.size()) > static_cast<size_t>(target_count)) {
         best_result.results.resize(target_count);
         best_result.truncated = true;
     }

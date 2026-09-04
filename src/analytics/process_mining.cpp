@@ -1429,7 +1429,7 @@ Cut tryXorCut(const SubDFG &dfg) {
 // Topological sort of strongly-connected components; if a valid ordering exists
 // where no edge goes backwards, the cut is a sequence.
 Cut trySeqCut(const SubDFG &dfg) {
-    if (dfg.activities.size() < 2) {
+    if (static_cast<int>(dfg.activities.size()) < 2) {
         return {};
     }
 
@@ -1467,7 +1467,7 @@ Cut trySeqCut(const SubDFG &dfg) {
         }
     }
 
-    if (order.size() != dfg.activities.size()) {
+    if (static_cast<int>(order.size()) != dfg.activities.size()) {
         return {}; // has cycle
     }
 
@@ -1512,7 +1512,7 @@ Cut trySeqCut(const SubDFG &dfg) {
 // All activity pairs are connected in both directions.
 Cut tryAndCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
-    if (components.size() < 2) {
+    if (static_cast<int>(components.size()) < 2) {
         return {};
     }
 
@@ -1540,7 +1540,7 @@ Cut tryAndCut(const SubDFG &dfg) {
 // The first partition is the "do" body, the second is the "redo" body.
 // Heuristic: activities that appear as loop-back sources.
 Cut tryLoopCut(const SubDFG &dfg) {
-    if (dfg.activities.size() < 2) {
+    if (static_cast<int>(dfg.activities.size()) < 2) {
         return {};
     }
 
@@ -1713,7 +1713,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         return;
     }
 
-    if (activities.size() == 1) {
+    if (static_cast<int>(activities.size()) == 1) {
         const std::string &act = *activities.begin();
         DiscoveredProcess::Node task;
         task.id   = "task_" + std::to_string(nodeId++);
@@ -1882,7 +1882,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
                               loopStart.id, loopEnd.id);
 
         // redo-body: loopEnd -> redo -> loopStart
-        if (cut.partitions.size() > 1 && !subTraceSets[1].empty()) {
+        if (static_cast<int>(cut.partitions.size()) > 1 && !subTraceSets[1].empty()) {
             inductiveMinerRecurse(subTraceSets[1], cut.partitions[1], noise_threshold, process, nodeId, edgeId,
                                   loopEnd.id, loopStart.id);
         } else {

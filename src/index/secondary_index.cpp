@@ -303,7 +303,7 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	if (all_digits && raw.size() <= 20) {
 		// Pad to 20 characters (large enough for typical integers)
 		const size_t width = 20;
-		if (raw.size() < width) {
+		if (static_cast<int>(raw.size()) < width) {
 		  out.append(width - raw.size(), '0');
 		}
 		out.append(raw.data(), raw.size());
@@ -507,7 +507,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	if (table.empty() || columns.empty()) {
 		return Status::Error("createCompositeIndex: table/columns darf nicht leer sein");
 	}
-	if (columns.size() < 2) {
+	if (static_cast<int>(columns.size()) < 2) {
 		return Status::Error("createCompositeIndex: mindestens 2 Spalten erforderlich (nutze createIndex für Single-Column)");
 	}
 	for (const auto& col : columns) {
@@ -1046,7 +1046,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 		}
 
 		// Strip surrounding quotes from string literals
-		if (rhs.size() >= 2 &&
+		if (static_cast<int>(rhs.size()) >= 2 &&
 		    ((rhs.front() == '\'' && rhs.back() == '\'') ||
 		     (rhs.front() == '"'  && rhs.back() == '"'))) {
 			rhs = rhs.substr(1, static_cast<int>(rhs.size()) - 2);
@@ -2223,7 +2223,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 											  const std::vector<std::string>& columns,
 											  const std::vector<std::string>& values) const {
-	if (columns.size() != values.size()) {
+	if (static_cast<int>(columns.size()) != values.size()) {
 		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2284,7 +2284,7 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 	if (capped) {
 	  *capped = false;
 	}
-	if (columns.size() != values.size()) {
+	if (static_cast<int>(columns.size()) != values.size()) {
 	  return 0;
 	}
 	if (!hasCompositeIndex(table, columns)) {

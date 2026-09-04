@@ -89,7 +89,7 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
     if (config_.num_shards == 0) {
         throw std::invalid_argument("DistributedVectorIndex: num_shards must be > 0");
     }
-    if (shards_.size() != config_.num_shards) {
+    if (static_cast<int>(shards_.size()) != config_.num_shards) {
         throw std::invalid_argument(
             "DistributedVectorIndex: shards.size() must equal config.num_shards");
     }

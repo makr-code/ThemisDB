@@ -151,7 +151,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_image(
     }
     
     const size_t expected_size = width * height * bytes_per_pixel;
-    if (data.size() != expected_size) {
+    if (static_cast<int>(data.size()) != expected_size) {
         // Size mismatch - fall back to generic chunking
         return generic_chunker_.chunk(data);
     }

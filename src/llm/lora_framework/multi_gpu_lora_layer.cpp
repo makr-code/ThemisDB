@@ -116,7 +116,7 @@ void MultiGPULoRALayer::initialize_backend(CommBackend backend) {
 }
 
 std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& inputs) {
-    if (inputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
+    if (static_cast<int>(inputs.size()) != static_cast<size_t>(ctx_.num_gpus())) {
         throw std::invalid_argument(
             "Number of input tensors must match number of GPUs");
     }
@@ -153,7 +153,7 @@ std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& 
 std::vector<GPUTensor> MultiGPULoRALayer::backward(
     const std::vector<GPUTensor>& grad_outputs) {
     
-    if (grad_outputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
+    if (static_cast<int>(grad_outputs.size()) != static_cast<size_t>(ctx_.num_gpus())) {
         throw std::invalid_argument(
             "Number of gradient tensors must match number of GPUs");
     }
@@ -257,7 +257,7 @@ bool MultiGPULoRALayer::broadcast_parameters() {
     for (int i = 1; i < ctx_.num_gpus(); ++i) {
         auto target_params = layers_[i]->parameters();
         
-        if (master_params.size() != target_params.size()) {
+        if (static_cast<int>(master_params.size()) != target_params.size()) {
             spdlog::error("Parameter count mismatch between GPUs");
             return false;
         }

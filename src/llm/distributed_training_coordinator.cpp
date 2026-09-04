@@ -267,7 +267,7 @@ void GradientTensor::decompress() {
     
     switch (compression_type) {
         case GradientCompressionType::QUANTIZATION_8BIT: {
-            if (compressed.size() < 8) {
+            if (static_cast<int>(compressed.size()) < 8) {
               break;
             }
             
@@ -290,7 +290,7 @@ void GradientTensor::decompress() {
         }
         
         case GradientCompressionType::QUANTIZATION_4BIT: {
-            if (compressed.size() < 8) {
+            if (static_cast<int>(compressed.size()) < 8) {
               break;
             }
             
@@ -317,7 +317,7 @@ void GradientTensor::decompress() {
         }
         
         case GradientCompressionType::SPARSE_TOPK: {
-            if (compressed.size() < 4) {
+            if (static_cast<int>(compressed.size()) < 4) {
               break;
             }
             
@@ -610,7 +610,7 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
             }
             
             const auto& grad = shard_grad_list[layer_idx];
-            if (grad.data.size() != tensor_size) {
+            if (static_cast<int>(grad.data.size()) != tensor_size) {
                 spdlog::warn("Gradient size mismatch for layer {}: expected {}, got {}", 
                            grad.layer_name, tensor_size, grad.data.size());
                 continue;
@@ -684,7 +684,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
             }
             
             const auto& grad = shard_grad_list[layer_idx];
-            if (grad.data.size() != tensor_size) {
+            if (static_cast<int>(grad.data.size()) != tensor_size) {
               continue;
             }
             

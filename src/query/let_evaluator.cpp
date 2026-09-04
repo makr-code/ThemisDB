@@ -491,7 +491,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Point(x, y) - Create a 2D Point geometry
     // Returns: GeoJSON object {"type": "Point", "coordinates": [x, y]}
     if (funcName == "ST_Point") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Point expects 2 arguments: ST_Point(x, y)");
         }
         double x = toNumber(evaluateExpression(args[0], currentDoc));
@@ -507,7 +507,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // Input: GeoJSON object or EWKB binary string
     // Output: GeoJSON string representation
     if (funcName == "ST_AsGeoJSON") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_AsGeoJSON expects 1 argument");
         }
         auto geom = evaluateExpression(args[0], currentDoc);
@@ -536,7 +536,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Distance(geom1, geom2) - Euclidean distance between two geometries
     // Returns: Distance in coordinate system units (typically meters for geographic data)
     if (funcName == "ST_Distance") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Distance expects 2 arguments: ST_Distance(geom1, geom2)");
         }
         
@@ -588,7 +588,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Intersects(geom1, geom2) - Test if two geometries spatially intersect
     // Returns: Boolean true if geometries intersect
     if (funcName == "ST_Intersects") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Intersects expects 2 arguments: ST_Intersects(geom1, geom2)");
         }
         
@@ -620,7 +620,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Within(geom1, geom2) - Test if geom1 is completely inside geom2
     // Returns: Boolean true if geom1 is within geom2
     if (funcName == "ST_Within") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Within expects 2 arguments: ST_Within(geom1, geom2)");
         }
         
@@ -771,7 +771,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_GeomFromGeoJSON(json_string) - Parse GeoJSON string to geometry object
     // Returns: GeoJSON object (same as ST_Point returns)
     if (funcName == "ST_GeomFromGeoJSON") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_GeomFromGeoJSON expects 1 argument: ST_GeomFromGeoJSON(json_string)");
         }
         
@@ -805,7 +805,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Contains(g1, g2) - Test if g1 completely contains g2
     // Returns: Boolean true if g1 contains g2 (inverse of ST_Within)
     if (funcName == "ST_Contains") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Contains expects 2 arguments: ST_Contains(geom1, geom2)");
         }
         
@@ -865,7 +865,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_DWithin(g1, g2, distance) - Check if geometries are within distance
     // Returns: Boolean true if distance between g1 and g2 <= distance
     if (funcName == "ST_DWithin") {
-        if (args.size() != 3) {
+        if (static_cast<int>(args.size()) != 3) {
             throw std::runtime_error("ST_DWithin expects 3 arguments: ST_DWithin(geom1, geom2, distance)");
         }
         
@@ -901,7 +901,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_HasZ(geom) - Check if geometry has Z coordinate
     // Returns: Boolean true if geometry is 3D
     if (funcName == "ST_HasZ") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_HasZ expects 1 argument");
         }
         
@@ -933,7 +933,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Z(point) - Extract Z coordinate from Point
     // Returns: Z value or null if no Z
     if (funcName == "ST_Z") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_Z expects 1 argument");
         }
         
@@ -951,7 +951,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZMin(geom) - Extract minimum Z value from geometry
     // Returns: Minimum Z or null if 2D
     if (funcName == "ST_ZMin") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_ZMin expects 1 argument");
         }
         
@@ -1000,7 +1000,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZMax(geom) - Extract maximum Z value from geometry
     // Returns: Maximum Z or null if 2D
     if (funcName == "ST_ZMax") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_ZMax expects 1 argument");
         }
         
@@ -1050,7 +1050,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // Returns: GeoJSON object
     // Supports: POINT, LINESTRING, POLYGON (simplified WKT parser)
     if (funcName == "ST_GeomFromText") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_GeomFromText expects 1 argument: ST_GeomFromText(wkt_string)");
         }
         
@@ -1205,7 +1205,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_AsText(geom) - Convert geometry to WKT (Well-Known Text)
     // Returns: WKT string representation
     if (funcName == "ST_AsText") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_AsText expects 1 argument");
         }
         
@@ -1295,7 +1295,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_3DDistance(g1, g2) - 3D Euclidean distance between geometries
     // Returns: Distance in 3D space
     if (funcName == "ST_3DDistance") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_3DDistance expects 2 arguments: ST_3DDistance(geom1, geom2)");
         }
         
@@ -1333,7 +1333,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Force2D(geom) - Remove Z coordinates from geometry
     // Returns: 2D geometry (GeoJSON without Z)
     if (funcName == "ST_Force2D") {
-        if (args.size() != 1) {
+        if (static_cast<int>(args.size()) != 1) {
             throw std::runtime_error("ST_Force2D expects 1 argument");
         }
         
@@ -1384,7 +1384,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZBetween(geom, zmin, zmax) - Check if any coordinate's Z is within [zmin, zmax]
     // Returns: Boolean; null/false if geometry has no Z
     if (funcName == "ST_ZBetween") {
-        if (args.size() != 3) {
+        if (static_cast<int>(args.size()) != 3) {
             throw std::runtime_error("ST_ZBetween expects 3 arguments: ST_ZBetween(geom, zmin, zmax)");
         }
 
@@ -1444,7 +1444,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
     // ST_Buffer(geom, distance) - MVP: Point -> square Polygon buffer; others: simple MBR expansion if Polygon
     if (funcName == "ST_Buffer") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Buffer expects 2 arguments: ST_Buffer(geom, distance)");
         }
         auto geom = evaluateExpression(args[0], currentDoc);
@@ -1496,7 +1496,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
     // ST_Union(g1, g2) - MVP: return MBR union as Polygon
     if (funcName == "ST_Union") {
-        if (args.size() != 2) {
+        if (static_cast<int>(args.size()) != 2) {
             throw std::runtime_error("ST_Union expects 2 arguments: ST_Union(g1, g2)");
         }
         auto g1 = evaluateExpression(args[0], currentDoc);

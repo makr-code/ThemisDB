@@ -215,7 +215,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         impl_->callback([[maybe_unused]] result);
     }
     
-    if (result.perspectives.size() >= 2) {
+    if (static_cast<int>(result.perspectives.size()) >= 2) {
         impl_->stats.multi_perspective_generated++;
     }
     
@@ -290,7 +290,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
         return "";
     }
     
-    if (perspectives.size() == 1) {
+    if (static_cast<int>(perspectives.size()) == 1) {
         return perspectives[0].response;
     }
     
@@ -628,7 +628,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
 ) {
     std::vector<std::string> common_themes;
     
-    if (perspectives.size() < 2) {
+    if (static_cast<int>(perspectives.size()) < 2) {
         return common_themes;
     }
     
@@ -673,7 +673,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
 ) {
     std::vector<std::string> disagreements;
     
-    if (perspectives.size() < 2) {
+    if (static_cast<int>(perspectives.size()) < 2) {
         return disagreements;
     }
     

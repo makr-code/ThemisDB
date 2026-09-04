@@ -84,7 +84,7 @@ void CicadaTransaction::install_writes() {
         }
         
         // Validate data size is reasonable (prevent OOM)
-        if (entry.data.size() > (1 << 30)) {  // 1GB limit per value
+        if (static_cast<int>(entry.data.size()) > (1 << 30)) {  // 1GB limit per value
             throw std::runtime_error("Cicada: Value size exceeds maximum (1GB)");
         }
         

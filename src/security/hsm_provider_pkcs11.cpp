@@ -165,7 +165,7 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
 
 // AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) return {};
+    if (static_cast<int>(key.size()) != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
@@ -197,7 +197,7 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
 
 // AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
+    if (static_cast<int>(key.size()) != 32 || encrypted.size() < 12 + 16) return {};
     const uint8_t* iv  = encrypted.data();
     size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;

@@ -207,7 +207,7 @@ void TenantMetricsNamespace::observeHistogram(
     }
 
     auto& hd = store.histograms[key];
-    if (hd.samples.size() < TenantStore::HistogramData::kMaxSamples) {
+    if (static_cast<int>(hd.samples.size()) < TenantStore::HistogramData::kMaxSamples) {
         hd.samples.push_back(value);
     }
     store.total_observations.fetch_add(1, std::memory_order_relaxed);

@@ -308,7 +308,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
         // full scan when the index itself has no entries (uninitialized /
         // not yet populated), because in that case the index cannot be trusted
         // to answer the query correctly.
-        if (index.size() == 0) {
+        if (static_cast<int>(index.size()) == 0) {
             return queryAsOf(table, as_of, filters);
         }
         return {};

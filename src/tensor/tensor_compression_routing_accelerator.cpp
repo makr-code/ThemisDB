@@ -61,7 +61,7 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 
     const std::size_t dim = tensor.size();
     for (const auto& route : route_weights) {
-        if (route.size() != dim) {
+        if (static_cast<int>(route.size()) != dim) {
             return {};
         }
     }

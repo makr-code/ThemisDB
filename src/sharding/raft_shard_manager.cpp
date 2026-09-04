@@ -59,7 +59,7 @@ bool RaftShardManager::initializeShard(const std::string& shard_id,
     }
     
     // Validate replica count
-    if (replica_ids.size() < config_.replication_factor) {
+    if (static_cast<int>(replica_ids.size()) < config_.replication_factor) {
         spdlog::error("Insufficient replicas for shard {}: got {}, expected {}",
                      shard_id, replica_ids.size(), config_.replication_factor);
         return false;

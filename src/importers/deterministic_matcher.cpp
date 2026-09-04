@@ -390,7 +390,7 @@ std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
     }
     // Strip leading country code heuristic: if digits start with "1" and
     // length is 11, drop the leading "1" (North American number).
-    if (digits.size() == 11 && digits[0] == '1') {
+    if (static_cast<int>(digits.size()) == 11 && digits[0] == '1') {
         digits = digits.substr(1);
     }
     return digits;

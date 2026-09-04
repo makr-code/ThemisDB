@@ -1288,7 +1288,7 @@ void WireProtocolServer::Session::handleMessage() {
     bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + payload_buffer_.size(), std::memory_order_relaxed);
     
     // Validate header size (must be at least 12 bytes)
-    if (header_buffer_.size() < 12) {
+    if (static_cast<int>(header_buffer_.size()) < 12) {
         sendError(0x0008, "Invalid header size");
         return;
     }
@@ -1562,7 +1562,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
             // timing side-channel attacks that leak the pre-shared token prefix/length.
             const auto& stored = server_->config_.auth_token;
-            if (token.size() == stored.size()) {
+            if (static_cast<int>(token.size()) == stored.size()) {
                 accepted = (CRYPTO_memcmp(token.data(), stored.data(), stored.size()) == 0);
             }
             // Different lengths → accepted stays false (no timing leak from size mismatch

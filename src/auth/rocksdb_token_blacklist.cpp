@@ -44,7 +44,7 @@ std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_
 }
 
 std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(const std::string &val) {
-    if (val.size() < 8) {
+    if (static_cast<int>(val.size()) < 8) {
         return std::chrono::system_clock::time_point{};
     }
     int64_t secs = 0;

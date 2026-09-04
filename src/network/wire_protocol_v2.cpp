@@ -509,7 +509,7 @@ class V2SessionImpl : public V2Session {
                 }
                 // PRIORITY frame payload (RFC 7540 §6.3): 5 bytes
                 //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
-                if (payload.size() < 5)
+                if (static_cast<int>(payload.size()) < 5)
                     break;
                 uint32_t dep_field = 0;
                 std::memcpy(&dep_field, payload.data(), 4);

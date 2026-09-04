@@ -272,7 +272,7 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
     const std::vector<size_t>& positions,
     const std::string& adapter_name
 ) const {
-    if (embeddings.size() != positions.size()) {
+    if (static_cast<int>(embeddings.size()) != positions.size()) {
         throw std::invalid_argument("Embeddings and positions size mismatch");
     }
     
@@ -324,7 +324,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
         return rotate(embedding, position);  // No adapters, return base rotation
     }
     
-    if (adapter_names.size() != weights.size()) {
+    if (static_cast<int>(adapter_names.size()) != weights.size()) {
         throw std::invalid_argument("Adapter names and weights size mismatch");
     }
     

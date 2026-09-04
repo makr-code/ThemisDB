@@ -132,7 +132,7 @@ double SchemaDeadWeightDetector::computeSeasonalityScore(
     const std::vector<AccessEntry>& access_series) const
 {
     // Need at least 3 data points for a meaningful Fourier approximation
-    if (access_series.size() < 3) {
+    if (static_cast<int>(access_series.size()) < 3) {
         return 0.0;
     }
 

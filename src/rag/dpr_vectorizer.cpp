@@ -202,11 +202,11 @@ public:
         std::vector<float> embedding(config.embedding_dimension, 0.0f);
 
         // Common DPR output patterns: [1, hidden] or [1, seq, hidden].
-        if (out_shape.size() == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
+        if (static_cast<int>(out_shape.size()) == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
             const size_t hidden = static_cast<size_t>(out_shape[1]);
             const size_t copy = std::min(hidden, embedding.size());
             std::copy_n(out_data, copy, embedding.begin());
-        } else if (out_shape.size() == 3 && out_shape[0] == 1 &&
+        } else if (static_cast<int>(out_shape.size()) == 3 && out_shape[0] == 1 &&
                    out_shape[1] > 0 && out_shape[2] > 0) {
             const size_t seq = static_cast<size_t>(out_shape[1]);
             const size_t hidden = static_cast<size_t>(out_shape[2]);

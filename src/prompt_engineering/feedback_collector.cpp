@@ -301,7 +301,7 @@ std::vector<std::string> FeedbackCollector::getPromptsWithNegativeFeedback(
     std::vector<std::string> result;
     
     for (const auto& [prompt_id, entries] : feedback_) {
-        if (entries.size() < min_feedback) {
+        if (static_cast<int>(entries.size()) < min_feedback) {
             continue;
         }
         
@@ -556,7 +556,7 @@ std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
     }
 
     const auto& entries = it->second;
-    if (entries.size() < 2) {
+    if (static_cast<int>(entries.size()) < 2) {
         return {};
     }
 
@@ -886,7 +886,7 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
         p.pattern = key;
         p.occurrences++;
 
-        if (p.examples.size() < 5) {
+        if (static_cast<int>(p.examples.size()) < 5) {
             p.examples.push_back(entry.query);
         }
 

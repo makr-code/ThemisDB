@@ -303,7 +303,7 @@ float MultiGPULoRATrainer::compute_loss(
     auto output_data = output.cpu_data();
     auto target_data = target.cpu_data();
     
-    if (output_data.size() != target_data.size()) {
+    if (static_cast<int>(output_data.size()) != target_data.size()) {
         throw std::invalid_argument("Output and target size mismatch");
     }
     

@@ -64,7 +64,7 @@ void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) 
     
     // Validate training data consistency
     for (const auto& vec : training_data) {
-        if (vec.size() != dimension_) {
+        if (static_cast<int>(vec.size()) != dimension_) {
             throw std::runtime_error(
                 "RaBitQ: Training data vector dimension mismatch"
             );
@@ -98,7 +98,7 @@ void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) 
 
 RaBitQVector RaBitQEncoder::encode(const std::vector<float>& vec) const {
     // Validate input dimension
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::runtime_error(
             "RaBitQ: Vector dimension mismatch (expected " + std::to_string(dimension_) + 
             ", got " + std::to_string(vec.size()) + ")"
@@ -214,7 +214,7 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vecto
     for (size_t i = 0; i < vectors_.size(); i++) {
         float dist = encoder_->asymmetric_distance(query, vectors_[i]);
         
-        if (heap.size() < static_cast<size_t>(k)) {
+        if (static_cast<int>(heap.size()) < static_cast<size_t>(k)) {
             heap.push({ids_[i], dist});
         } else if (dist < heap.top().distance) {
             heap.pop();
@@ -261,7 +261,7 @@ ProductQuantizer::ProductQuantizer(size_t dimension, size_t num_subvectors)
 }
 
 std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector<float>& vec) const {
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::split_vector");
     }
 
@@ -394,12 +394,12 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) const {
-    if (vec.size() != dimension_) {
+    if (static_cast<int>(vec.size()) != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch in ProductQuantizer::encode");
     }
 
     // Preserve deterministic no-op behavior before train() populated codebooks.
-    if (codebooks_.size() != num_subvectors_) {
+    if (static_cast<int>(codebooks_.size()) != num_subvectors_) {
         return std::vector<uint8_t>(num_subvectors_, 0);
     }
 

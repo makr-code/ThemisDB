@@ -352,7 +352,7 @@ SerializerValidationResult EpkValidator::validateEpkConstraints(
     std::set<std::string> node_set(nodes.begin(), nodes.end());
 
     // Check for duplicate node IDs
-    if (node_set.size() != nodes.size()) {
+    if (static_cast<int>(node_set.size()) != nodes.size()) {
         return SerializerValidationResult::failure(
             "EPK contains duplicate node IDs"
         );

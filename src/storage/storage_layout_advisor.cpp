@@ -51,7 +51,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
 
     // If no samples are available we trust the has_monotonic_timestamp flag alone
     // when range_scan_ratio is also significant (typical for time-series queries).
-    if (stats.timestamp_series.size() < 4) {
+    if (static_cast<int>(stats.timestamp_series.size()) < 4) {
         return stats.range_scan_ratio > 0.3;
     }
 

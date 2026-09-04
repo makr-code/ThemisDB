@@ -24,7 +24,7 @@ std::string stripMarkdownFences(const std::string& text, std::string* language_t
     }
 
     // Handle empty or too-short input
-    if (text.size() < 6) {  // Minimum: ```\n```
+    if (static_cast<int>(text.size()) < 6) {  // Minimum: ```\n```
         return text;
     }
 
@@ -68,7 +68,7 @@ std::string stripMarkdownAndComments(const std::string& text) {
 }
 
 bool isWrappedInMarkdownFences(std::string_view text) {
-    if (text.size() < 6) {  // Minimum: ```\n```
+    if (static_cast<int>(text.size()) < 6) {  // Minimum: ```\n```
         return false;
     }
     

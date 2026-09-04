@@ -252,7 +252,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         result.reason = "no_samples";
         return result;
     }
-    if (samples.size() < 1600) {
+    if (static_cast<int>(samples.size()) < 1600) {
         result.reason = "insufficient_audio";
         return result;
     }
@@ -785,7 +785,7 @@ float VoiceBiometricAuthenticator::cosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) const
 {
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
         return 0.0f;
     }
     float dot = 0.0f;

@@ -908,7 +908,7 @@ public:
                 query_embedding = query_json["values"].get<std::vector<float>>();
                 size_t expected_dims = query_json["dimensions"];
                 
-                if (query_embedding.size() != expected_dims) {
+                if (static_cast<int>(query_embedding.size()) != expected_dims) {
                     spdlog::error("Embedding dimension mismatch for model {}", model_id);
                     return similar_models;
                 }
@@ -934,7 +934,7 @@ public:
                         json j = json::parse(json_str);
                         if (j.contains("values") && j.contains("dimensions")) {
                             auto emb = j["values"].get<std::vector<float>>();
-                            if (emb.size() == query_embedding.size()) {
+                            if (static_cast<int>(emb.size()) == query_embedding.size()) {
                                 all_embeddings.emplace_back(model_id_from_key, std::move(emb));
                             }
                         }

@@ -113,7 +113,7 @@ void PromptQualityEvaluator::checkRepetition(
     double                     max_repetition,
     std::vector<QualityCheck>& failed) const {
     const auto tokens = tokenize(text);
-    if (tokens.size() < 2) {
+    if (static_cast<int>(tokens.size()) < 2) {
         return;  // not enough tokens to form bigrams
     }
 

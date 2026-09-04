@@ -208,7 +208,7 @@ bool LoRARouter::configureABTest(const ABTestConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Validate configuration
-    if (config.adapter_ids.size() != config.traffic_splits.size()) {
+    if (static_cast<int>(config.adapter_ids.size()) != config.traffic_splits.size()) {
         spdlog::error("A/B test config invalid: adapter count != traffic split count");
         return false;
     }
@@ -653,7 +653,7 @@ float LoRARouter::cosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) const {
     
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
         return 0.0f;
     }
     

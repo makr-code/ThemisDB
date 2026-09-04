@@ -91,7 +91,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
             
             const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
             
-            if (nearest.size() < R) {
+            if (static_cast<int>(nearest.size()) < R) {
                 nearest.push({distance, j});
             } else if (distance < nearest.top().first) {
                 nearest.pop();
@@ -128,7 +128,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
 }
 
 void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
-    if (vector.size() != dimension_) {
+    if (static_cast<int>(vector.size()) != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch");
     }
     
@@ -145,7 +145,7 @@ void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
         DiskANNNode existing_node = load_node(existing_id);
         float dist = compute_distance(vector, existing_node.vector);
         
-        if (nearest.size() < R) {
+        if (static_cast<int>(nearest.size()) < R) {
             nearest.push({dist, existing_id});
         } else if (dist < nearest.top().first) {
             nearest.pop();
@@ -354,7 +354,7 @@ void DiskANNIndex::save_node(const DiskANNNode& node) {
 }
 
 float DiskANNIndex::compute_distance(const std::vector<float>& a, const std::vector<float>& b) const {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
         throw std::invalid_argument("Vector dimensions must match");
     }
     
@@ -402,7 +402,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
             DiskANNNode neighbor_node = load_node(neighbor_id);
             float neighbor_dist = compute_distance(query, neighbor_node.vector);
             
-            if (beam.size() < static_cast<size_t>(beam_width)) {
+            if (static_cast<int>(beam.size()) < static_cast<size_t>(beam_width)) {
                 beam.push({neighbor_dist, neighbor_id});
             } else if (neighbor_dist < beam.top().first) {
                 beam.pop();

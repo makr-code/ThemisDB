@@ -203,7 +203,7 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
  * @return Parsed header or std::nullopt for malformed/short input.
  */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
-    if (data.size() < SIZE) {
+    if (static_cast<int>(data.size()) < SIZE) {
         return std::nullopt;
     }
     
@@ -308,7 +308,7 @@ std::vector<uint8_t> StreamChunk::serialize() const {
  */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
     // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
-    if (data.size() < 24) {
+    if (static_cast<int>(data.size()) < 24) {
         return std::nullopt;
     }
     
@@ -1384,7 +1384,7 @@ std::optional<StreamChunk> StreamTransferTask::createChunk([[maybe_unused]] uint
     if (config_.compression != CompressionAlgorithm::NONE) {
         auto compressed = StreamCompressor::compress(
             chunk.data, config_.compression, config_.compression_level);
-        if (compressed.size() < chunk.uncompressed_size) {
+        if (static_cast<int>(compressed.size()) < chunk.uncompressed_size) {
             chunk.compressed_size = static_cast<uint32_t>(compressed.size());
             chunk.data = std::move(compressed);
         } else {
@@ -1430,7 +1430,7 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         spdlog::error("Invalid chunk index for staging write");
         return false;
     }
-    if (chunk.data.size() > 1024 * 1024 * 1024) {  // 1GB max chunk
+    if (static_cast<int>(chunk.data.size()) > 1024 * 1024 * 1024) {  // 1GB max chunk
         spdlog::error("Chunk data exceeds maximum size ({})", chunk.data.size());
         return false;
     }
@@ -1674,7 +1674,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
         // Data is compressed, decompress it
         write_data = StreamCompressor::decompress(
             chunk.data, config_.compression, chunk.uncompressed_size);
-        if (write_data.size() != chunk.uncompressed_size) {
+        if (static_cast<int>(write_data.size()) != chunk.uncompressed_size) {
             std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
             return false;
         }

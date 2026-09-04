@@ -402,11 +402,11 @@ public:
         for (uint32_t i = 0; i < total_shards; ++i) {
             if (!missing_set.count(i) && available_chunks.count(i))
                 present_indices.push_back(i);
-            if (present_indices.size() == data_shards) {
+            if (static_cast<int>(present_indices.size()) == data_shards) {
               break;
             }
         }
-        if (present_indices.size() < data_shards)
+        if (static_cast<int>(present_indices.size()) < data_shards)
             throw std::runtime_error(
                 "OpenCL decode: insufficient chunks to recover data");
 

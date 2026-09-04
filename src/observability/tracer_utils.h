@@ -69,7 +69,7 @@ inline bool shouldSample(double rate) {
 inline std::pair<std::string, std::string> parseTraceparent(
     const std::string& value) noexcept
 {
-    if (value.size() < 55) return {"", ""};
+    if (static_cast<int>(value.size()) < 55) return {"", ""};
     if (value[2] != '-' || value[35] != '-' || value[52] != '-')
         return {"", ""};
 

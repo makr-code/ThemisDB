@@ -2545,13 +2545,13 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     size_t after_paren = ti + 1;  // token index after the closing ')'
 
     if (win_func == "TIME") {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
             return make_err("WINDOW TIME requires two arguments: TIME(<range_ms>, <slide_ms>)");
         }
         ddl.spec.range_ms = args[0];
         ddl.spec.slide_ms = args[1];
     } else if (win_func == "COUNT") {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
             return make_err("WINDOW COUNT requires two arguments: COUNT(<rows>, <slide_rows>)");
         }
         ddl.spec.rows       = args[0];

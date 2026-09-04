@@ -968,7 +968,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
             }
             aql << "}";
         } else if (!valueProps.empty()) {
-            if (valueProps.size() == 1) {
+            if (static_cast<int>(valueProps.size()) == 1) {
                 aql << returnPrefix << retVar << "." << valueProps[0];
             } else {
                 aql << returnPrefix << "{";

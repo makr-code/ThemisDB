@@ -46,7 +46,7 @@ AutocompleteEngine::AutocompleteEngine(SecondaryIndexManager* index,
 std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                                                       const std::string& table,
                                                       const std::string& column) const {
-    if (prefix.size() < config_.min_prefix_length) {
+    if (static_cast<int>(prefix.size()) < config_.min_prefix_length) {
         return {};
     }
 

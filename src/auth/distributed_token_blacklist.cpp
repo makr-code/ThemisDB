@@ -313,7 +313,7 @@ std::string DistributedTokenBlacklist::encodeExpiry(
 std::chrono::system_clock::time_point DistributedTokenBlacklist::decodeExpiry(
     const std::string& val)
 {
-    if (val.size() != 8) {
+    if (static_cast<int>(val.size()) != 8) {
         throw std::runtime_error("Invalid expiry encoding");
     }
     

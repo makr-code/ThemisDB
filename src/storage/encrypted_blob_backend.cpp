@@ -229,7 +229,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
 std::vector<uint8_t>
 EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
 {
-    if (ciphertext.size() < static_cast<std::size_t>(kIvLen + kTagLen)) {
+    if (static_cast<int>(ciphertext.size()) < static_cast<std::size_t>(kIvLen + kTagLen)) {
         std::lock_guard<std::mutex> lk(mutex_);
         stats_.decrypt_failures++;
         throw std::runtime_error(

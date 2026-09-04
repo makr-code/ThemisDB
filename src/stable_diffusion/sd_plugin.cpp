@@ -117,7 +117,7 @@ bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
         return false;
     }
     const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
-    if (rgb.size() < expected) {
+    if (static_cast<int>(rgb.size()) < expected) {
         error_out = "generator returned undersized RGB buffer";
         return false;
     }
@@ -160,7 +160,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
         return std::nullopt;
     }
     const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
-    if (rgb.size() < expected) {
+    if (static_cast<int>(rgb.size()) < expected) {
         return std::nullopt;
     }
 

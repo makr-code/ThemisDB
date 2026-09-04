@@ -428,7 +428,7 @@ std::string SelfAwareness::assessOverallHealth(const Snapshot& snapshot) const {
 nlohmann::json SelfAwareness::compareWithPrevious() const {
     nlohmann::json comparison;
     
-    if (snapshots_.size() < 2) {
+    if (static_cast<int>(snapshots_.size()) < 2) {
         comparison["status"] = "insufficient_data";
         comparison["message"] = "Need at least 2 snapshots for comparison";
         return comparison;

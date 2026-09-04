@@ -506,7 +506,7 @@ Result<void> VectorIndexSinkAdapter::writeVectors(const std::vector<VectorRecord
 
     std::lock_guard<std::mutex> lock(mtx_);
     for (const auto& record : records) {
-        if (record.embedding.size() != dimension_) {
+        if (static_cast<int>(record.embedding.size()) != dimension_) {
             return tl::make_unexpected(
                 Error(errors::ErrorCode::ERR_INDEX_INVALID_TYPE,
                       "chunk '" + record.chunk_id + "' embedding dimension mismatch"));

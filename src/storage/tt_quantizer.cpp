@@ -54,7 +54,7 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
     // validate the sub-buffer length before calling here; the minimum-size
     // check and try/catch below guard against malformed data.  Higher-level
     // integrity (WAL CRC, RocksDB checksums) is enforced by the storage layer.
-    if (bytes.size() < 33) {
+    if (static_cast<int>(bytes.size()) < 33) {
       return std::nullopt;
     }
     std::size_t pos = 0;
@@ -153,7 +153,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
     // slicing (pos + clen > bytes.size()) prevent over-read; blob integrity is
     // guaranteed by the storage layer (WAL CRC / RocksDB checksums) before
     // reaching this point — false positive at the deserializer level.
-    if (bytes.size() < 9) {
+    if (static_cast<int>(bytes.size()) < 9) {
       return std::nullopt;
     }
     std::size_t pos = 0;

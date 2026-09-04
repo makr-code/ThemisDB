@@ -336,7 +336,7 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
         if (dim == 0) {
             dim = emb.size();
         }
-        if (emb.size() != dim) {
+        if (static_cast<int>(emb.size()) != dim) {
             continue; // dimension mismatch – skip
         }
 

@@ -305,7 +305,7 @@ public:
                     col.geometries.push_back(geom2);
                     return col;
                 }
-                if (result.size() == 1) {
+                if (static_cast<int>(result.size()) == 1) {
                     // Single merged polygon.
                     return boostPolyToGeomInfo(result[0]);
                 }
@@ -335,7 +335,7 @@ public:
                 MultiPoly result;
                 bg::difference(poly1, poly2, result);
                 if (result.empty()) return GeometryInfo{};
-                if (result.size() == 1) {
+                if (static_cast<int>(result.size()) == 1) {
                     return boostPolyToGeomInfo(result[0]);
                 }
                 GeometryInfo col(GeometryType::GeometryCollection);

@@ -51,7 +51,7 @@ static const double kCpuPi      = 3.14159265358979323846;
 // Helper function to check point-in-polygon using ray casting algorithm
 // This provides a reasonable fallback when Boost.Geometry is not available
 static bool pointInPolygon(double px, double py, const std::vector<Coordinate> &polygon) {
-    if (polygon.size() < 3) {
+    if (static_cast<int>(polygon.size()) < 3) {
         return false;
     }
 
@@ -520,7 +520,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             }
             if (geom.isPolygon()) {
                 const std::vector<Coordinate> &ring_in = geom.rings.empty() ? geom.coords : geom.rings[0];
-                if (ring_in.size() < 3) {
+                if (static_cast<int>(ring_in.size()) < 3) {
                     return GeometryInfo{};
                 }
                 const auto mbr          = geom.computeMBR();
@@ -837,7 +837,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             }
         }
         // Close the ring if not already closed.
-        if (ring.size() > 2
+        if (static_cast<int>(ring.size()) > 2
             && (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon
                 || std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
             ring.push_back(ring[0]);
@@ -905,7 +905,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 }
             }
         }
-        if (ring.size() > 2
+        if (static_cast<int>(ring.size()) > 2
             && (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon
                 || std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
             ring.push_back(ring[0]);
@@ -922,7 +922,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     static GeometryInfo cpuPolyUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
-        if (ring1.size() < 3 || ring2.size() < 3) {
+        if (static_cast<int>(ring1.size()) < 3 || ring2.size() < 3) {
             return GeometryInfo{};
         }
 
@@ -975,7 +975,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         GeometryInfo result(GeometryType::Polygon);
         for (;;) {
             auto r = ghTraverseUnion(A, B);
-            if (r.size() < 4) {
+            if (static_cast<int>(r.size()) < 4) {
                 break;
             }
             result.rings.push_back(std::move(r));
@@ -994,10 +994,10 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     static GeometryInfo cpuPolyDiff(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
-        if (ring1.size() < 3) {
+        if (static_cast<int>(ring1.size()) < 3) {
             return GeometryInfo{};
         }
-        if (ring2.size() < 3) {
+        if (static_cast<int>(ring2.size()) < 3) {
             return geom1;
         }
 
@@ -1050,7 +1050,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         GeometryInfo result(GeometryType::Polygon);
         for (;;) {
             auto r = ghTraverseDiff(A, B);
-            if (r.size() < 4) {
+            if (static_cast<int>(r.size()) < 4) {
                 break;
             }
             result.rings.push_back(std::move(r));

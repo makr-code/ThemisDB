@@ -217,7 +217,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 
         std::vector<std::size_t> neighbours = regionQuery(i);
 
-        if (neighbours.size() < config.min_points) {
+        if (static_cast<int>(neighbours.size()) < config.min_points) {
             // Mark as noise for now; may be density-reachable from another core.
             result.labels[i] = kDbscanNoise;
             continue;

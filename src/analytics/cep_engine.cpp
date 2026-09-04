@@ -1537,7 +1537,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::DISTINCT_COUNT:
             return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.distinct_values.size())));
         case AggregationType::VARIANCE: {
-            if (s.values.size() < 2) {
+            if (static_cast<int>(s.values.size()) < 2) {
                 return 0.0;
             }
             double mean = s.sum / static_cast<double>(s.count);
@@ -1548,7 +1548,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
             return var / static_cast<double>(s.count - 1);
         }
         case AggregationType::STDDEV: {
-            if (s.values.size() < 2) {
+            if (static_cast<int>(s.values.size()) < 2) {
                 return 0.0;
             }
             double mean = s.sum / static_cast<double>(s.count);

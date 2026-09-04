@@ -1504,7 +1504,7 @@ bool ShardRouter::validateMultiShardExactConsistency(
     
     // Need at least quorum of successful results
     size_t quorum_size = (results.size() / 2) + 1;
-    if (successful.size() < quorum_size) {
+    if (static_cast<int>(successful.size()) < quorum_size) {
         return false; // Quorum not achieved
     }
     

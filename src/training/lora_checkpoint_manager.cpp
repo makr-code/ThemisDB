@@ -61,7 +61,7 @@ parseManifest(const std::string& content) {
 
     // Returns true when 's' is exactly 64 lowercase hex characters.
     auto isValidSha256 = [](const std::string& s) -> bool {
-        if (s.size() != 64) {
+        if (static_cast<int>(s.size()) != 64) {
           return false;
         }
         for (char c : s) {

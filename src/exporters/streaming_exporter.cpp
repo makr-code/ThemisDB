@@ -172,7 +172,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                     metrics_->recordError("exporter_exception");
 
-                    if (stats.errors.size() >= options.max_errors) {
+                    if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                         THEMIS_ERROR("StreamingExporter: max errors reached, stopping");
                         limit_reached = true;
                         break;
@@ -185,7 +185,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + std::string(e.what()));
                     metrics_->recordError("std_exception");
 
-                    if (stats.errors.size() >= options.max_errors) {
+                    if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                         THEMIS_ERROR("StreamingExporter: max errors reached, stopping");
                         limit_reached = true;
                         break;

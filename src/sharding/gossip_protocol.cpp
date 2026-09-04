@@ -201,7 +201,7 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
         std::lock_guard<std::mutex> lock(peers_mutex_);
 
         // Check max peers limit
-        if (peers_.size() >= config_.max_peers &&
+        if (static_cast<int>(peers_.size()) >= config_.max_peers &&
             peers_.find(peer.peer_id) == peers_.end()) {
             return;  // At capacity, don't add new peers
         }

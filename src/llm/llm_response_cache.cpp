@@ -451,7 +451,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.embedding_fn(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (embedding.size() != config_.embedding_dim) {
+                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
                     THEMIS_DEBUG("Custom embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);
@@ -470,7 +470,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.llm_ptr->embed(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (embedding.size() != config_.embedding_dim) {
+                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
                     THEMIS_DEBUG("LLM embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);

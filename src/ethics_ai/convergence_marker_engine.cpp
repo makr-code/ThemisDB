@@ -54,7 +54,7 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
 {
     std::vector<ConvergenceMarker> markers;
 
-    if (round_outputs.size() < 2) {
+    if (static_cast<int>(round_outputs.size()) < 2) {
         return markers;
     }
 

@@ -110,7 +110,7 @@ std::string parseGermanMonth(const std::string& month) {
 
 /// Zero-pad a 1-2 digit number string to 2 digits.
 std::string pad2(const std::string& s) {
-    if (s.size() == 1) {
+    if (static_cast<int>(s.size()) == 1) {
       return "0" + s;
     }
     return s;

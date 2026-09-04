@@ -127,7 +127,7 @@ void PredictivePrefetcher::recordQueryAccess(const std::string &fingerprint, con
         auto &successors = transitions_[from];
 
         // Limit successors per key
-        if (successors.size() < config_.max_successors_per_key || successors.find(fingerprint) != successors.end()) {
+        if (static_cast<int>(successors.size()) < config_.max_successors_per_key || successors.find(fingerprint) != successors.end()) {
             successors[fingerprint]++;
             total_transitions_recorded_++;
 
@@ -421,7 +421,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
 
         // Ensure source key entry exists (no FIFO eviction during load)
         if (transitions_.find(from) == transitions_.end()) {
-            if (ordered_keys_.size() < config_.max_tracked_keys) {
+            if (static_cast<int>(ordered_keys_.size()) < config_.max_tracked_keys) {
                 ordered_keys_.push_back(from);
                 transitions_[from] = {};
             } else {
@@ -430,7 +430,7 @@ void PredictivePrefetcher::loadModel(RocksDBWrapper *db) {
         }
 
         auto& successors = transitions_[from];
-        if (successors.size() < config_.max_successors_per_key || successors.find(to) != successors.end()) {
+        if (static_cast<int>(successors.size()) < config_.max_successors_per_key || successors.find(to) != successors.end()) {
             // Merge: take the max of persisted vs. in-memory count and
             // update total_transitions_recorded_ only by the delta so that
             // repeated loadModel() calls don't inflate the counter.

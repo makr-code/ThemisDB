@@ -728,7 +728,7 @@ GraphAnalytics::kShortestPaths(
             
             // Remove edges that are part of previous paths with the same root
             for (const auto& path : A) {
-                if (path.vertices.size() > spur_idx + 1) {
+                if (static_cast<int>(path.vertices.size()) > spur_idx + 1) {
                     bool same_root = true;
                     for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) < path.vertices.size(); ++i) {
                         if (path.vertices[i] != root_vertices[i]) {

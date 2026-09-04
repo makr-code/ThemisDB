@@ -305,7 +305,7 @@ void ScraperPlugin::processDocument(
         const std::string& date_issued,
         const std::string& title_hint) {
     const std::string text = extractText(html);
-    if (text.size() < 50) return; // skip near-empty pages
+    if (static_cast<int>(text.size()) < 50) return; // skip near-empty pages
 
     // LLM evaluation
     const EvaluationResult eval = evaluator_->evaluate(

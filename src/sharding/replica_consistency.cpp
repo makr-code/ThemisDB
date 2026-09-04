@@ -227,7 +227,7 @@ ReplicaConsistencyManager::mergeReplicas(
         return VersionConflict{};  // Empty conflict
     }
     
-    if (entries.size() == 1) {
+    if (static_cast<int>(entries.size()) == 1) {
         return entries[0];  // No conflict
     }
     

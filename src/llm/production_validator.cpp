@@ -973,7 +973,7 @@ double ProductionValidator::calculatePercentile(
         return 0.0;
     }
     
-    if (data.size() == 1) {
+    if (static_cast<int>(data.size()) == 1) {
         return data[0];
     }
     

@@ -599,7 +599,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         {
             InferenceRequest req;
             req.prompt = fallback_prompt.str();
-            if (req.prompt.size() > 6000) {
+            if (static_cast<int>(req.prompt.size()) > 6000) {
                 req.prompt.resize(6000);
             }
             if (!impl_->config.llm_model_id.empty()) {

@@ -181,7 +181,7 @@ ConflictReasonType ImportConflictResolver::determineConflictReason(
     }
 
     // Check if timestamp field is the only difference → timestamp conflict
-    if (affected_fields.size() == 1 && affected_fields[0] == "timestamp") {
+    if (static_cast<int>(affected_fields.size()) == 1 && affected_fields[0] == "timestamp") {
         return ConflictReasonType::TIMESTAMP_CONFLICT;
     }
 

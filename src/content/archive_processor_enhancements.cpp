@@ -188,7 +188,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(
         }
         
         // Check 7-Zip (0x377ABCAF271C)
-        if (blob.size() >= 6 &&
+        if (static_cast<int>(blob.size()) >= 6 &&
             blob[0] == 0x37 && blob[1] == 0x7A && blob[2] == 0xBC &&
             blob[3] == 0xAF && blob[4] == 0x27 && blob[5] == 0x1C) {
             THEMIS_INFO("ArchiveProcessor: Detected 7Z format from magic bytes");

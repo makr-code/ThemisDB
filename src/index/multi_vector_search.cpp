@@ -115,7 +115,7 @@ MultiVectorSearch::search(
     // Validate dimensions are consistent
     size_t expected_dim = query.vectors[0].size();
     for (const auto& vec : query.vectors) {
-        if (vec.size() != expected_dim) {
+        if (static_cast<int>(vec.size()) != expected_dim) {
             return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                             "MultiVectorSearch::search - all query vectors must have same dimension");
         }
@@ -142,7 +142,7 @@ MultiVectorSearch::search(
     }
     
     // Validate weights for strategies that need them
-    if (weights.size() != query.vectors.size()) {
+    if (static_cast<int>(weights.size()) != query.vectors.size()) {
         return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "Weight count must match query vector count");
     }
@@ -553,7 +553,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments cannot be empty");
     }
     
-    if (queries.size() != relevance_judgments.size()) {
+    if (static_cast<int>(queries.size()) != relevance_judgments.size()) {
         return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments must have same size");
     }

@@ -518,7 +518,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     const std::string& expected_digest)
 {
     // expected_digest is in the form "sha256:<hex>".
-    if (expected_digest.size() <= 7 ||
+    if (static_cast<int>(expected_digest.size()) <= 7 ||
         expected_digest.substr(0, 7) != "sha256:") {
         return false;
     }

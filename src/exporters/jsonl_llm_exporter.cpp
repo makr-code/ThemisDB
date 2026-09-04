@@ -321,7 +321,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back(error_msg);
                 metrics_->recordError("exporter_exception");
 
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }
@@ -334,7 +334,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                 metrics_->recordError("generic_exception");
 
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }

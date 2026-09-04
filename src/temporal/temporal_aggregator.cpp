@@ -385,7 +385,7 @@ TrendResult TemporalAggregator::analyzeTrend(
     }
 
     trend.sample_count = xs.size();
-    if (xs.size() < 2) {
+    if (static_cast<int>(xs.size()) < 2) {
         if (!ys.empty()) {
             trend.intercept = ys[0];
         }

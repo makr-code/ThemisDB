@@ -479,7 +479,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     // Step 3: Fetch new events beyond the current in-flight range.
     std::vector<InFlightRecord> new_records;
 
-    if (result.size() < effective_limit) {
+    if (static_cast<int>(result.size()) < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
         const uint64_t from_seq  = (std::max)(committed, highest_inflight);

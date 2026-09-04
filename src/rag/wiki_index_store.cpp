@@ -525,7 +525,7 @@ static float computePositionalBM25Score(
     size_t window_size = 8)
 {
     float score = bm25PlusScore(query_terms, doc_text, avg_len, idf_cache);
-    if (query_terms.size() > 1 &&
+    if (static_cast<int>(query_terms.size()) > 1 &&
         termsWithinWindow(query_terms, doc_id, pos_idx, window_size)) {
         score *= 1.5f;
     }
@@ -549,7 +549,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
     if (phrase_terms.empty()) return {};
 
     // Single-term phrase → delegate to standard BM25.
-    if (phrase_terms.size() == 1) {
+    if (static_cast<int>(phrase_terms.size()) == 1) {
         return searchBM25(phrase_terms, top_k);
     }
 
@@ -733,7 +733,7 @@ void WikiIndexStore::addVector(const std::string& doc_id,
     // Enforce consistent dimensionality after the first insertion.
     if (impl_->hnsw_dim == 0) {
         impl_->hnsw_dim = embedding.size();
-    } else if (embedding.size() != impl_->hnsw_dim) {
+    } else if (static_cast<int>(embedding.size()) != impl_->hnsw_dim) {
         throw std::invalid_argument(
             "WikiIndexStore::addVector: dimension mismatch — expected " +
             std::to_string(impl_->hnsw_dim) + ", got " +
@@ -800,7 +800,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
         return {};
     }
 
-    if (query_embedding.size() != impl_->hnsw_dim) {
+    if (static_cast<int>(query_embedding.size()) != impl_->hnsw_dim) {
         THEMIS_WARN("WikiIndexStore::searchHNSW: query dim={} != index dim={}; returning empty",
                     query_embedding.size(), impl_->hnsw_dim);
         return {};

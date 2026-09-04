@@ -285,7 +285,7 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata
 ) {
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw std::invalid_argument("Key must be exactly 32 bytes for AES-256");
     }
      

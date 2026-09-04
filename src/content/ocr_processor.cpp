@@ -69,7 +69,7 @@ std::string OcrProcessor::getTesseractVersion() {
 // ---------------------------------------------------------------------------
 
 /*static*/ bool OcrProcessor::isSupportedImageFormat(const std::string &blob) {
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return false;
     }
 

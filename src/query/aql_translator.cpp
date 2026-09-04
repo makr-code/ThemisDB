@@ -373,7 +373,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::SimilarityCall) {
                 auto sim = std::static_pointer_cast<SimilarityCallExpr>(spec.expression);
                 const auto& args = sim->arguments;
-                if (args.size() < 2 || args.size() > 3) {
+                if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
                     return TranslationResult::Error("SIMILARITY() requires 2-3 arguments: SIMILARITY(doc.embedding, [vector] [, k])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {
@@ -403,7 +403,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 }
 
                 size_t k = 10;
-                if (args.size() == 3) {
+                if (static_cast<int>(args.size()) == 3) {
                     if (args[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("SIMILARITY() third argument k must be integer literal");
                     }
@@ -453,7 +453,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::ProximityCall) {
                 auto prox = std::static_pointer_cast<ProximityCallExpr>(spec.expression);
                 const auto& args = prox->arguments;
-                if (args.size() != 2) {
+                if (static_cast<int>(args.size()) != 2) {
                     return TranslationResult::Error("PROXIMITY() requires exactly 2 arguments: PROXIMITY(doc.location, [lon,lat])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {

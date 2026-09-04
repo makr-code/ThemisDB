@@ -714,7 +714,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC([[maybe_unused]] const Task
     nlohmann::json j = event.toJson([[maybe_unused]] false);  // Don't mask for HMAC calculation
     std::string data = j.dump();
     
-    if (config_.audit_hmac_key.size() > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
+    if (static_cast<int>(config_.audit_hmac_key.size()) > static_cast<std::size_t>(std::numeric_limits<int>::max()) ||
         data.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
         THEMIS_ERROR("TaskAuditManager: HMAC input too large (key_size={}, data_size={})",
                      config_.audit_hmac_key.size(), data.size());

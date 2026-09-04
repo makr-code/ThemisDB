@@ -102,7 +102,7 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
           continue;
         }
         // Remove leading digit+dot or dash/star
-        if (t.size() >= 2 &&
+        if (static_cast<int>(t.size()) >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
              t[0] == '-' || t[0] == '*')) {
             t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
@@ -249,7 +249,7 @@ std::string MultiHopReasoner::composeAnswer(
     if (partial_answers.empty()) return {};
 
     // If only one hop, its answer IS the final answer
-    if (partial_answers.size() == 1u) {
+    if (static_cast<int>(partial_answers.size()) == 1u) {
       return hop_records[0].intermediate_answer;
     }
 

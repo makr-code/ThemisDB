@@ -76,7 +76,7 @@ static std::string objStorageJsonExtractString(const std::string& json,
 
 /// Determine whether a key refers to a JSON object (ends with .json).
 static bool isJsonKey(const std::string& key) {
-    if (key.size() < 5) {
+    if (static_cast<int>(key.size()) < 5) {
       return false;
     }
     std::string suffix = key.substr(static_cast<int>(key.size()) - 5);

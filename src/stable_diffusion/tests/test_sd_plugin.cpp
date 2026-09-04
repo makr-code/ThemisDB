@@ -662,7 +662,7 @@ namespace {
 // Returns true when buf contains a PNG chunk with the given 4-byte type.
 // Scans the entire buffer (post-signature) to find any matching chunk.
 bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
-    if (buf.size() < 8u) {
+    if (static_cast<int>(buf.size()) < 8u) {
       return false;
     }
     size_t pos = 8u;  // skip PNG signature
@@ -672,7 +672,7 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (buf.size() < pos + 12u + len) {
+        if (static_cast<int>(buf.size()) < pos + 12u + len) {
           break;
         }
         if (buf[pos + 4] == static_cast<uint8_t>(type[0]) &&
@@ -689,7 +689,7 @@ bool png_has_chunk(const std::vector<uint8_t>& buf, const char type[4]) {
 // Read the IDAT chunk data (first occurrence) from a PNG buffer.
 // Returns empty vector if not found.
 std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
-    if (buf.size() < 8u) return {};
+    if (static_cast<int>(buf.size()) < 8u) return {};
     size_t pos = 8u;
     while (pos + 12u <= buf.size()) {
         const uint32_t len =
@@ -697,7 +697,7 @@ std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
             (static_cast<uint32_t>(buf[pos + 1]) << 16) |
             (static_cast<uint32_t>(buf[pos + 2]) <<  8) |
              static_cast<uint32_t>(buf[pos + 3]);
-        if (buf.size() < pos + 12u + len) {
+        if (static_cast<int>(buf.size()) < pos + 12u + len) {
           break;
         }
         if (buf[pos + 4] == 'I' && buf[pos + 5] == 'D' &&
@@ -713,7 +713,7 @@ std::vector<uint8_t> png_idat_data(const std::vector<uint8_t>& buf) {
 // Read IHDR dimensions from a PNG buffer.
 // Returns {-1,-1} on error.
 std::pair<int,int> png_ihdr_dims(const std::vector<uint8_t>& buf) {
-    if (buf.size() < 8u + 25u) return {-1, -1};
+    if (static_cast<int>(buf.size()) < 8u + 25u) return {-1, -1};
     const size_t pos = 8u;
     // Length of IHDR data must be 13
     const uint32_t len =

@@ -147,7 +147,7 @@ bool BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor(const
     if (proof.merkle_root.empty()) {
         return false;
     }
-    if (proof.merkle_root.size() != 64) {
+    if (static_cast<int>(proof.merkle_root.size()) != 64) {
         return false;
     }
     for (char c : proof.merkle_root) {

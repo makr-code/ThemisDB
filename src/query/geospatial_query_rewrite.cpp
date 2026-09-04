@@ -208,7 +208,7 @@ RewriteResult GeospatialQueryRewriter::applyRedundantPredicateElimination(Execut
     
     auto spatialPredicates = extractSpatialPredicates(plan);
     
-    if (spatialPredicates.size() < 2) {
+    if (static_cast<int>(spatialPredicates.size()) < 2) {
         result.reason = "Less than 2 spatial predicates (no redundancy possible)";
         return result;
     }

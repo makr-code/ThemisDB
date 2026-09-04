@@ -408,7 +408,7 @@ struct AuthDataFields {
 };
 
 static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
-    if (d.size() < 37)
+    if (static_cast<int>(d.size()) < 37)
         throw std::runtime_error("authData too short (" + std::to_string(d.size()) + " bytes)");
 
     AuthDataFields ad;
@@ -425,7 +425,7 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
     }
 
     // Attested credential data: AAGUID[16] + credIdLen[2] + credId[N] + COSE key
-    if (d.size() < 37 + 16 + 2)
+    if (static_cast<int>(d.size()) < 37 + 16 + 2)
         throw std::runtime_error("authData too short for attested credential");
 
     size_t off = 37;
@@ -443,7 +443,7 @@ static AuthDataFields parseAuthData(const std::vector<uint8_t>& d) {
         (static_cast<uint16_t>(d[off]) << 8) | static_cast<uint16_t>(d[off + 1]);
     off += 2;
 
-    if (d.size() < off + cred_id_len)
+    if (static_cast<int>(d.size()) < off + cred_id_len)
         throw std::runtime_error("authData too short for credentialId");
 
     ad.credential_id_b64 = passkeyBase64UrlEncodeImpl(d.data() + off, cred_id_len);
@@ -480,7 +480,7 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
             err_out = "unsupported EC curve (only P-256 supported)";
             return nullptr;
         }
-        if (fields.neg2_bytes.size() != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || fields.neg3_bytes.size() != 32) {
             err_out = "EC P-256 x/y coordinates are not 32 bytes";
             return nullptr;
         }

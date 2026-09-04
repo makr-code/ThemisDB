@@ -118,7 +118,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     }
 
     const std::size_t total = static_cast<std::size_t>(1 << bit_count);
-    if (dense.size() != total) {
+    if (static_cast<int>(dense.size()) != total) {
         throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
                                     std::to_string(dense.size()) +
                                     ") must equal 2^bit_count (" +

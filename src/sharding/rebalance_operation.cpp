@@ -230,7 +230,7 @@ bool RebalanceOperation::isTopologyChangeRebalancingNeeded(
     
     // Detect node join: new_topology.size() > old_topology.size()
     // Detect node leave: new_topology.size() < old_topology.size()
-    if (new_topology.size() == old_topology.size()) {
+    if (static_cast<int>(new_topology.size()) == old_topology.size()) {
         return false; // No topology change
     }
     

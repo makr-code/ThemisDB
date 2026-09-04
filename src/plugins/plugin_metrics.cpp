@@ -86,7 +86,7 @@ void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseco
     stats.sum_call_latency_ms += latency_ms;
     
     // Add to samples (FIFO circular buffer, O(1) eviction via deque::pop_front)
-    if (stats.latency_samples.size() >= PluginStats::MAX_SAMPLES) {
+    if (static_cast<int>(stats.latency_samples.size()) >= PluginStats::MAX_SAMPLES) {
         stats.latency_samples.pop_front();
     }
     stats.latency_samples.push_back(latency_ms);

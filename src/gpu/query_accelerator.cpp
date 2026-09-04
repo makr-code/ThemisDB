@@ -689,7 +689,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     JoinKeyFn probe_key                = right_key;
     bool swapped                       = false;
 
-    if (right.size() < left.size()) {
+    if (static_cast<int>(right.size()) < left.size()) {
         std::swap(build_side, probe_side);
         std::swap(build_key, probe_key);
         swapped = true;
@@ -1349,9 +1349,9 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                 dist = -dot;
             }
 
-            if (heap.size() < actual_k) {
+            if (static_cast<int>(heap.size()) < actual_k) {
                 heap.emplace_back(dist, vi);
-                if (heap.size() == actual_k) {
+                if (static_cast<int>(heap.size()) == actual_k) {
                     std::make_heap(heap.begin(), heap.end());
                 }
             } else if (dist < heap.front().first) {

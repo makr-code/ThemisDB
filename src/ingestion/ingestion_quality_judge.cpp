@@ -709,7 +709,7 @@ ReIngestionController::RunResult ReIngestionController::process(
 
         // Determine improvement for the upcoming pass notification.
         bool improved_over_prev = false;
-        if (result.history.size() >= 2) {
+        if (static_cast<int>(result.history.size()) >= 2) {
             improved_over_prev = isImprovement(
                 result.history[result.history.size() - 2], report);
         }

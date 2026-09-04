@@ -193,7 +193,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
     }
     
     // No free blocks - try to allocate new one
-    if (blocks_.size() < config_.max_total_blocks) {
+    if (static_cast<int>(blocks_.size()) < config_.max_total_blocks) {
         uint32_t new_block_id = allocateBlockId();
         if (new_block_id != static_cast<uint32_t>(-1)) {
             return initialize_block(new_block_id);
@@ -307,7 +307,7 @@ bool PagedKVCache::writeBlock(
     }
     
     // Check data sizes
-    if (key_data.size() < token_count || value_data.size() < token_count) {
+    if (static_cast<int>(key_data.size()) < token_count || value_data.size() < token_count) {
         spdlog::warn("PagedKVCache: Insufficient data for write to block {} (need {}, got key={}, value={})",
                      block_id, token_count, key_data.size(), value_data.size());
         return false;
@@ -824,7 +824,7 @@ void PagedKVCache::destroyBlockUnlocked([[maybe_unused]] uint32_t block_id) {
         auto& block_ids = req_it->second.block_ids;
         const auto old_size = block_ids.size();
         block_ids.erase(std::remove(block_ids.begin(), block_ids.end(), block_id), block_ids.end());
-        if (block_ids.size() != old_size) {
+        if (static_cast<int>(block_ids.size()) != old_size) {
             req_it->second.total_tokens = req_it->second.total_tokens > block.token_count
                 ? req_it->second.total_tokens - block.token_count
                 : 0;

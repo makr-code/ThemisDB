@@ -606,7 +606,7 @@ void RaftLoadBalancer::healthCheckLoop() {
 void RaftLoadBalancer::maybeRebalance() {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     auto healthy = healthyBackends();
-    if (healthy.size() < 2)
+    if (static_cast<int>(healthy.size()) < 2)
         return;
 
     // Compute mean load (active connections normalised by weight)

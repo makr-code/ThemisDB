@@ -1511,7 +1511,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     const std::vector<uint8_t>& data, size_t original_size)
 {
-    if (data.size() < kLz4HeaderSize) {
+    if (static_cast<int>(data.size()) < kLz4HeaderSize) {
         spdlog::error("[gpu_compress] LZ4 decompression: data too short for header");
         return {};
     }

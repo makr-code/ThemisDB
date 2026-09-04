@@ -292,10 +292,10 @@ std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& ciphertext,
     const std::vector<uint8_t>& tag)
 {
-    if (iv.size() != 12) {
+    if (static_cast<int>(iv.size()) != 12) {
       throw std::runtime_error("ConfidentialComputing: invalid IV length");
     }
-    if (tag.size() != 16) {
+    if (static_cast<int>(tag.size()) != 16) {
       throw std::runtime_error("ConfidentialComputing: invalid tag length");
     }
 

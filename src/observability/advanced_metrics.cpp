@@ -52,7 +52,7 @@ void AdvancedMetrics::recordSummary(const std::string& name, double value) {
     auto& data = summary_data_[name];
     data.values.push_back(value);
     data.sum += value;
-    if (data.values.size() > kMaxSummarySamples) {
+    if (static_cast<int>(data.values.size()) > kMaxSummarySamples) {
         data.sum -= data.values.front();
         data.values.pop_front();
     }
@@ -111,7 +111,7 @@ void AdvancedMetrics::recordExponentialHistogram(const std::string& name,
     } else {
         data.values.push_back(value);
         data.sum += value;
-        if (data.values.size() > kMaxExpHistSamples) {
+        if (static_cast<int>(data.values.size()) > kMaxExpHistSamples) {
             data.sum -= data.values.front();
             data.values.pop_front();
         }
@@ -217,7 +217,7 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
 
     // With a single sample there is no elapsed time to weight by; return the
     // sample value directly.
-    if (deque.size() == 1) {
+    if (static_cast<int>(deque.size()) == 1) {
         return deque.front().value;
     }
 

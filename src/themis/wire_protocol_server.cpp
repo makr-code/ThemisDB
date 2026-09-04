@@ -516,7 +516,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             if (with_checksum) {
                 // Bounds check before reading CRC
                 const std::size_t required_size = header.payload_length + CHECKSUM_SIZE;
-                if (read_buffer_.size() < required_size) {
+                if (static_cast<int>(read_buffer_.size()) < required_size) {
                     send_error(0x04, "Incomplete message with checksum");
                     return;
                 }

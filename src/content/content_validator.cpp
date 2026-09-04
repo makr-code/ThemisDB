@@ -241,7 +241,7 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
 }
 
 ContentError ContentValidator::validateFormat(const std::string &data, const std::string &expected_mime) {
-    if (data.size() < 4) {
+    if (static_cast<int>(data.size()) < 4) {
         // Too small to check magic bytes reliably
         return ContentError::ok();
     }
@@ -401,7 +401,7 @@ ContentCategory ContentValidator::mimeToCategory(const std::string &mime_type) c
 }
 
 bool ContentValidator::checkMagicBytes(const std::string &data, const std::string &mime_type) const {
-    if (data.size() < 4) {
+    if (static_cast<int>(data.size()) < 4) {
         return true; // Can't check, assume OK
     }
 

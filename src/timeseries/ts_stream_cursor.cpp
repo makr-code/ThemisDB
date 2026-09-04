@@ -163,7 +163,7 @@ Result<void> TsStreamCursor::fetchNextPage() {
     last_timestamp_ms_ = page_.back().timestamp_ms;
 
     // If the page returned fewer rows than requested, the scan is complete.
-    if (page_.size() < cfg_.page_size) {
+    if (static_cast<int>(page_.size()) < cfg_.page_size) {
         // We'll exhaust naturally — no need to set exhausted_ here; once
         // advance() goes past page_.size() and fetchNextPage() returns an
         // empty page, exhausted_ will be set above.

@@ -521,7 +521,7 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
             result["roles"] = claims.roles;
         }
         if (!claims.audience.empty()) {
-            if (claims.audience.size() == 1) {
+            if (static_cast<int>(claims.audience.size()) == 1) {
                 result["aud"] = claims.audience[0];
             } else {
                 result["aud"] = claims.audience;

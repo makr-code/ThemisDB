@@ -263,7 +263,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     constexpr size_t MIN_HEADER_SIZE = 24;  // 3 uint64 values = 24 bytes
     constexpr uint32_t MAX_STRING_LENGTH = 1024 * 1024 * 100;  // 100 MB limit per field
     
-    if (data.size() < MIN_HEADER_SIZE) {
+    if (static_cast<int>(data.size()) < MIN_HEADER_SIZE) {
         THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})", data.size(), MIN_HEADER_SIZE);
         return std::nullopt;
     }
@@ -3108,7 +3108,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
             }
             std::string pair = addArr.substr(lb + 1, rb - lb - 1);
             auto tokens = extractJsonArrayStrings("[" + pair + "]");
-            if (tokens.size() == 2) {
+            if (static_cast<int>(tokens.size()) == 2) {
                 auto it = tokens.begin();
                 std::string elem = *it++;
                 std::string tag  = *it;
@@ -3407,7 +3407,7 @@ std::vector<uint8_t> MMWriteEntry::serialize() const {
 }
 
 std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>& raw) {
-    if (raw.size() < 4) {
+    if (static_cast<int>(raw.size()) < 4) {
       return std::nullopt;
     }
     size_t pos = 0;
@@ -4535,7 +4535,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         }
     }
 
-    if (responses.size() < required) {
+    if (static_cast<int>(responses.size()) < required) {
         THEMIS_WARN("QuorumRead: only {}/{} replicas responded for {}/{}",
                     responses.size(), required, collection, document_id);
         return QuorumReadResult{false, "", 0, false, {}, ""};
@@ -5262,7 +5262,7 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
     std::vector<Bottleneck> bottlenecks;
 
     for (const auto& [replica_id, history] : lag_history_) {
-        if (history.size() < 2) {
+        if (static_cast<int>(history.size()) < 2) {
           continue;
         }
 
@@ -5909,7 +5909,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& key) {
     // Minimum: IV(12) + Tag(16) = 28 bytes
-    if (data.size() < 28) {
+    if (static_cast<int>(data.size()) < 28) {
         THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})", data.size());
         return std::nullopt;
     }
@@ -6081,7 +6081,7 @@ uint32_t WALArchivalManager::archiveSegments(
                 continue;
             }
             std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
-            if (key.size() != 32) {
+            if (static_cast<int>(key.size()) != 32) {
                 THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
                              "is not a valid 64-hex-char (32-byte) AES-256 key; "
                              "refusing to archive {} without encryption",
@@ -6189,7 +6189,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
             return std::nullopt;
         }
         std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
-        if (key.size() != 32) {
+        if (static_cast<int>(key.size()) != 32) {
             THEMIS_ERROR("WALArchival: invalid encryption key length for segment {}",
                          segment_id);
             return std::nullopt;

@@ -432,7 +432,7 @@ float VoiceBatchProcessor::computeNoiseFloor(
 
 std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& data) const {
     // Treat pairs of bytes as little-endian int16, convert to [-1, 1] float
-    if (data.size() < 2) {
+    if (static_cast<int>(data.size()) < 2) {
         // Fallback: treat each byte as unsigned 8-bit sample
         std::vector<float> samples = {};
 

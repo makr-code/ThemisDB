@@ -347,7 +347,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
             bool in_word = false;
             for (char c : trimmed) { if (c == ' ') { in_word = false; } else if (!in_word) { ++words; in_word = true; } }
             if (words > 1 || config_.extract_single_word_entities) {
-                if (entities.size() < config_.max_entities_per_text) {
+                if (static_cast<int>(entities.size()) < config_.max_entities_per_text) {
                     entities.push_back({trimmed, EntityType::OTHER, 0.7,
                                         span_start, span_end});
                 }
@@ -397,7 +397,7 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
             // when explicitly enabled, but do NOT join consecutive lowercase
             // tokens into a multi-word span (avoid spurious long spans).
             flushSpan();
-            if (entities.size() < config_.max_entities_per_text) {
+            if (static_cast<int>(entities.size()) < config_.max_entities_per_text) {
                 entities.push_back({clean, EntityType::OTHER, 0.7, pos, word_end});
             }
         } else {

@@ -2370,7 +2370,7 @@ namespace {
 
 float computeCosineSimilarity(const std::vector<float>& a,
                               const std::vector<float>& b) noexcept {
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
       return 0.0f;
     }
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
@@ -2989,7 +2989,7 @@ ProcessGraphManager::findTasksInGeofence(
 
     const std::string wkt(geofence_wkt);
     const auto ring = parseWktPolygon(wkt);
-    if (ring.size() < 3) return {Status::Error("Invalid or empty WKT polygon"), result};
+    if (static_cast<int>(ring.size()) < 3) return {Status::Error("Invalid or empty WKT polygon"), result};
 
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,

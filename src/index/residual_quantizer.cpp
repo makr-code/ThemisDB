@@ -125,7 +125,7 @@ std::vector<uint8_t> ResidualQuantizer::encode(const std::vector<float>& vector)
         return {};
     }
     
-    if (vector.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(vector.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("ResidualQuantizer::encode - Dimension mismatch: {} vs {}",
                      vector.size(), dimension_);
         return {};
@@ -161,7 +161,7 @@ std::vector<float> ResidualQuantizer::decode(const std::vector<uint8_t>& codes) 
     }
     
     size_t expected_size = getEncodedSize();
-    if (codes.size() != expected_size) {
+    if (static_cast<int>(codes.size()) != expected_size) {
         THEMIS_ERROR("ResidualQuantizer::decode - Code size mismatch: {} vs {}",
                      codes.size(), expected_size);
         return {};
@@ -200,13 +200,13 @@ float ResidualQuantizer::asymmetricDistance(const std::vector<float>& query,
         return std::numeric_limits<float>::max();
     }
     
-    if (query.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("ResidualQuantizer::asymmetricDistance - Query dimension mismatch");
         return std::numeric_limits<float>::max();
     }
     
     size_t expected_size = getEncodedSize();
-    if (codes.size() != expected_size) {
+    if (static_cast<int>(codes.size()) != expected_size) {
         THEMIS_ERROR("ResidualQuantizer::asymmetricDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }

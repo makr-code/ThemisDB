@@ -261,7 +261,7 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     const uint8_t* payload_ptr  = data_.data();
     size_t         payload_size = data_.size();
 
-    if (data_.size() >= 3 &&
+    if (static_cast<int>(data_.size()) >= 3 &&
             data_[0] == kGorillaMagic0 &&
             data_[1] == kGorillaMagic1) {
         if (data_[2] != kGorillaCurrentVersion) {

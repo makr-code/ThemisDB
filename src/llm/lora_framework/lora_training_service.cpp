@@ -72,7 +72,7 @@ void LoRATrainingService::clearModelPathProviderFn() {
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
-    if (predictions.size() != targets.size()) {
+    if (static_cast<int>(predictions.size()) != targets.size()) {
         throw std::invalid_argument("Predictions and targets must have same size");
     }
     
@@ -636,7 +636,7 @@ public:
                         spdlog::debug("Skipping empty training batch at step {}", step);
                         continue;
                     }
-                    if (batch.label_ids.size() != batch_size) {
+                    if (static_cast<int>(batch.label_ids.size()) != batch_size) {
                         spdlog::warn(
                             "Skipping malformed training batch at step {}: input/label row count mismatch ({} vs {})",
                             step,
@@ -946,7 +946,7 @@ public:
                     validation_data.metadata = data.metadata;
                     
                     // Take last 20% of data for validation (to test on unseen-during-training data)
-                    if (data.samples.size() > validation_size) {
+                    if (static_cast<int>(data.samples.size()) > validation_size) {
                         validation_data.samples.insert(
                             validation_data.samples.end(),
                             data.samples.end() - validation_size,

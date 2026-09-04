@@ -198,7 +198,7 @@ DetectionResult MedianDetector::detectByzantineShards(
     DetectionResult result;
     result.detection_method = "MEDIAN";
     
-    if (shard_gradients.size() < 2) {
+    if (static_cast<int>(shard_gradients.size()) < 2) {
         // Need at least 2 shards for comparison
         return result;
     }
@@ -253,7 +253,7 @@ float KrumDetector::computeDistance(
     const std::vector<GradientTensor>& grad1,
     const std::vector<GradientTensor>& grad2
 ) const {
-    if (grad1.size() != grad2.size()) {
+    if (static_cast<int>(grad1.size()) != grad2.size()) {
         throw std::runtime_error("Gradient tensor sizes do not match");
     }
     

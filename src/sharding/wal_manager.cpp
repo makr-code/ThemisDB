@@ -100,7 +100,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
  * @throws std::runtime_error on truncated/corrupt payload.
  */
 WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
-    if (bytes.size() < 29) {  // Minimum size
+    if (static_cast<int>(bytes.size()) < 29) {  // Minimum size
         throw std::runtime_error("WAL entry too small");
     }
     

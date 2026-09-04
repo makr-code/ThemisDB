@@ -89,7 +89,7 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
 std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& data,
                                                   float& out_sample_rate) {
     // Validate RIFF header
-    if (data.size() < 44 ||
+    if (static_cast<int>(data.size()) < 44 ||
         data[0] != 'R' || data[1] != 'I' || data[2] != 'F' || data[3] != 'F' ||
         data[8] != 'W' || data[9] != 'A' || data[10] != 'V' || data[11] != 'E') {
         throw std::runtime_error("WavAudioChunkReader: not a valid RIFF/WAV file");

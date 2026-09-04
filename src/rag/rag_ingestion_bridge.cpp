@@ -290,7 +290,7 @@ IndexResult RAGIngestionBridge::indexDocument(
                 chunk.metadata["text"] = bounded_content;
                 chunk.metadata["body"] = bounded_content;
             }
-            if (chunk.text_snippet.size() > kMaxChunkSnippetChars) {
+            if (static_cast<int>(chunk.text_snippet.size()) > kMaxChunkSnippetChars) {
                 chunk.text_snippet.resize(kMaxChunkSnippetChars);
             }
         }

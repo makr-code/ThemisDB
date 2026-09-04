@@ -181,7 +181,7 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
                 std::vector<float> arg_emb = generateEmbedding(arg.content);
-                if (arg_emb.size() != query_embedding.size()) {
+                if (static_cast<int>(arg_emb.size()) != query_embedding.size()) {
                     continue;
                 }
                 double dot = 0.0, qnorm = 0.0, anorm = 0.0;

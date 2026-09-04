@@ -214,7 +214,7 @@ std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string
     }
 
     // Default to text/plain if mostly printable ASCII
-    if (blob.size() < 10000) { // Only check small files
+    if (static_cast<int>(blob.size()) < 10000) { // Only check small files
         int printable_count = 0;
         for (size_t i = 0; i < std::min(blob.size(), size_t(1000)); i++) {
             if (std::isprint(blob[i]) || blob[i] == '\n' || blob[i] == '\r' || blob[i] == '\t') {

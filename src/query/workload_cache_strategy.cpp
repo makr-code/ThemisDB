@@ -213,7 +213,7 @@ void WorkloadCacheStrategy::recordQuery(
 WorkloadType WorkloadCacheStrategy::detectWorkload() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (query_patterns_.size() < config_.min_samples_for_detection) {
+    if (static_cast<int>(query_patterns_.size()) < config_.min_samples_for_detection) {
         THEMIS_DEBUG("Insufficient samples for workload detection: {} < {}",
                     query_patterns_.size(), config_.min_samples_for_detection);
         return WorkloadType::UNKNOWN;

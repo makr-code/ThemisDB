@@ -130,7 +130,7 @@ GeoErrorCode GeoEdgeCaseHandler::validateRing(
         const std::vector<std::pair<double, double>>& ring) const noexcept {
 
     // Minimum 4 points (3 unique + closing point).
-    if (ring.size() < 4) {
+    if (static_cast<int>(ring.size()) < 4) {
         return GeoErrorCode::GEOMETRY_INVALID;
     }
     // Ring must be closed: first == last.

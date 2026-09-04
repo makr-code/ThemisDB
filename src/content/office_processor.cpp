@@ -76,7 +76,7 @@ bool OfficeProcessor::isAvailable() {
 }
 
 OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) {
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return OfficeDocumentType::UNKNOWN;
     }
 
@@ -800,7 +800,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     result.metadata["extraction_method"] = "libreoffice_headless";
 
     // Validate OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1 (all 8 bytes)
-    if (blob.size() < 8) {
+    if (static_cast<int>(blob.size()) < 8) {
         result.error_message = "Legacy Office document too small (< 8 bytes)";
         return result;
     }

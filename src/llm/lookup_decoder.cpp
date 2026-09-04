@@ -72,7 +72,7 @@ void LookupDecoder::loadStaticNgrams(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [key, cont] : ngrams) {
-        if (key.size() >= config_.ngram_min &&
+        if (static_cast<int>(key.size()) >= config_.ngram_min &&
             key.size() <= config_.ngram_max &&
             !cont.empty()) {
             std::vector<int> trimmed(
@@ -111,7 +111,7 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
 
     // Probe from longest to shortest n-gram (greedy longest match).
     for (size_t n = config_.ngram_max; n >= config_.ngram_min; --n) {
-        if (context_tokens.size() < n) {
+        if (static_cast<int>(context_tokens.size()) < n) {
           continue;
         }
 
@@ -153,7 +153,7 @@ void LookupDecoder::insertEntry(std::vector<int> key,
                                  std::vector<int> continuation)
 {
     // Evict oldest entry if at capacity.
-    if (index_.size() >= config_.max_index_entries &&
+    if (static_cast<int>(index_.size()) >= config_.max_index_entries &&
         !insertion_order_.empty()) {
         const auto& oldest = insertion_order_.front();
         index_.erase(oldest);

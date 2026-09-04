@@ -299,7 +299,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
                 if (kname != metric_name) {
                   continue;
                 }
-                if (deque.size() < 2) {
+                if (static_cast<int>(deque.size()) < 2) {
                   continue;
                 }
 

@@ -1170,7 +1170,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto parseIso = [&](const std::string& s, std::tm& tm)->bool{
                     memset(&tm, 0, sizeof tm);
                     int Y=0,M=0,D=0,h=0,m=0,sec=0; char T='\0', Z='\0';
-                    if (s.size() == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &Y,&M,&D) == 3) {
+                    if (static_cast<int>(s.size()) == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &Y,&M,&D) == 3) {
                         tm.tm_year = Y-1900; tm.tm_mon = M-1; tm.tm_mday = D; tm.tm_hour = 0; tm.tm_min = 0; tm.tm_sec = 0; return true;
                     }
                     if (std::sscanf(s.c_str(), "%d-%d-%d%c%d:%d:%d%c", &Y,&M,&D,&T,&h,&m,&sec,&Z) >= 7) {
@@ -1408,7 +1408,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto parseDate = [](const std::string& s, time_t& t)->bool{
                     // Unterst�tzt YYYY-MM-DD oder YYYY-MM-DDTHH:MM:SSZ
                     std::tm tm{}; memset(&tm, 0, sizeof tm);
-                    if (s.size() == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
+                    if (static_cast<int>(s.size()) == 10 && std::sscanf(s.c_str(), "%d-%d-%d", &tm.tm_year, &tm.tm_mon, &tm.tm_mday) == 3) {
                         tm.tm_year -= 1900; tm.tm_mon -= 1; tm.tm_hour = 0; tm.tm_min = 0; tm.tm_sec = 0;
                         t = portable_mkgmtime_impl(&tm); return t != -1;
                     }
@@ -2553,7 +2553,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             const auto& jq = translate_result.join.value();
             
             // For single-FOR + COLLECT, convert back to ConjunctiveQuery and skip to standard path
-            if (jq.for_nodes.size() == 1 && jq.collect) {
+            if (static_cast<int>(jq.for_nodes.size()) == 1 && jq.collect) {
                 // Reconstruct ConjunctiveQuery from JoinQuery
                 themis::ConjunctiveQuery cq;
                 const auto& first_for_node = jq.for_nodes.front();

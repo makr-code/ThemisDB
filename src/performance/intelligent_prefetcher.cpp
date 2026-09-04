@@ -195,7 +195,7 @@ public:
             }
 
             // Track in pending set for the feedback loop.
-            if (pending_.size() < MAX_PENDING_PREDICTIONS) {
+            if (static_cast<int>(pending_.size()) < MAX_PENDING_PREDICTIONS) {
                 pending_.insert(addr);
             } else {
                 // Set is full – evict one arbitrary entry as wasted.
@@ -280,7 +280,7 @@ private:
      * as no-pattern (confidence = 0).
      */
     void analyse_pattern() {
-        if (history_.size() < MIN_HISTORY_FOR_STRIDE) {
+        if (static_cast<int>(history_.size()) < MIN_HISTORY_FOR_STRIDE) {
             pattern_.confidence = 0.0;
             pattern_.stride     = 0;
             return;

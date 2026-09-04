@@ -691,7 +691,7 @@ GPUTensor createEmbeddingsOnGPU(
 ) {
     // Get batch size and sequence length from token_ids shape
     auto shape = token_ids.shape();
-    if (shape.size() < 2) {
+    if (static_cast<int>(shape.size()) < 2) {
         throw std::invalid_argument("token_ids must be at least 2D (batch_size, seq_len)");
     }
     

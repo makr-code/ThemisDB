@@ -88,7 +88,7 @@ Tensor Tensor::operator*([[maybe_unused]] float scalar) const {
 
 Tensor Tensor::matmul(const Tensor& other) const {
     // Supports (M, K) @ (K, N) -> (M, N)
-    if (shape_.size() != 2 || other.shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2 || other.shape_.size() != 2) {
         throw std::invalid_argument("matmul only supports 2D tensors");
     }
     
@@ -118,7 +118,7 @@ Tensor Tensor::matmul(const Tensor& other) const {
 }
 
 Tensor Tensor::transpose() const {
-    if (shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2) {
         throw std::invalid_argument("transpose only supports 2D tensors");
     }
     
@@ -168,7 +168,7 @@ Tensor randn(const std::vector<size_t>& shape, float mean, float std) {
 }
 
 Tensor xavier_uniform(const std::vector<size_t>& shape) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("xavier_uniform only supports 2D tensors");
     }
     
@@ -180,7 +180,7 @@ Tensor xavier_uniform(const std::vector<size_t>& shape) {
 }
 
 Tensor kaiming_uniform(const std::vector<size_t>& shape, float a) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("kaiming_uniform only supports 2D tensors");
     }
     

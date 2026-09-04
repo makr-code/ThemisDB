@@ -444,7 +444,7 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::str
         }
 
         // Check path length
-        if (member.path.size() > config_.max_path_length) {
+        if (static_cast<int>(member.path.size()) > config_.max_path_length) {
             error_message = "Archive member path too long: " + member.path;
             return false;
         }

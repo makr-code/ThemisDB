@@ -125,13 +125,13 @@ static bool validate_signature_format(
     }
     
     // Verify signature size is reasonable for RSA (128-1024 bytes)
-    if (signature.size() < 128 || signature.size() > 1024) {
+    if (static_cast<int>(signature.size()) < 128 || signature.size() > 1024) {
         spdlog::error("Signature size {} is outside expected range (128-1024 bytes)", signature.size());
         return false;
     }
     
     // Verify cert fingerprint format (64 hex chars for SHA-256)
-    if (cert_fingerprint.size() != 64 && cert_fingerprint.size() != 40) {
+    if (static_cast<int>(cert_fingerprint.size()) != 64 && cert_fingerprint.size() != 40) {
         spdlog::error("Invalid certificate fingerprint format: {} chars", cert_fingerprint.size());
         return false;
     }
@@ -761,7 +761,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     
     // Try binary LoRa format (SafeTensors or similar)
     // SafeTensors format: 8-byte header size (little-endian), JSON header, then binary data
-    if (data.size() < 8) {
+    if (static_cast<int>(data.size()) < 8) {
         spdlog::warn("LoRa file too small for binary format: {} bytes", data.size());
         return weights;
     }
@@ -800,7 +800,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             auto dtype = tensor_info["dtype"].get<std::string>();
             auto offsets = tensor_info["data_offsets"].get<std::vector<uint64_t>>();
             
-            if (offsets.size() != 2) {
+            if (static_cast<int>(offsets.size()) != 2) {
               continue;
             }
             
@@ -1108,7 +1108,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
         return 0.0f;
     }
     
-    if (embedding.size() != mean_embedding_.size()) {
+    if (static_cast<int>(embedding.size()) != mean_embedding_.size()) {
         spdlog::error("Embedding dimension mismatch");
         return 1.0f;  // Definitely anomalous
     }
@@ -1179,7 +1179,7 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
       return 0.0f;
     }
     
@@ -1197,7 +1197,7 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
       return std::numeric_limits<float>::max();
     }
     

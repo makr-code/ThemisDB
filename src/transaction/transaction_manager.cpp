@@ -1415,7 +1415,7 @@ static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
 
 /// Decode an 8-byte little-endian blob to uint64_t; returns 0 on wrong size.
 static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
-    if (buf.size() != 8) {
+    if (static_cast<int>(buf.size()) != 8) {
       return 0;
     }
     uint64_t v = 0;

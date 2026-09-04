@@ -21,7 +21,7 @@ namespace analytics {
 void ArrowRecordBatch::appendRow(const std::vector<std::variant<
     std::nullptr_t, int64_t, double, std::string, bool>>& row_data) {
     
-    if (row_data.size() != columns_.size()) {
+    if (static_cast<int>(row_data.size()) != columns_.size()) {
         throw std::runtime_error(
             "Row data size (" + std::to_string(row_data.size()) + 
             ") does not match column count (" + std::to_string(columns_.size()) + ")");

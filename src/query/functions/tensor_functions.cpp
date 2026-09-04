@@ -216,7 +216,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument("TENSOR_SIMILARITY: requires 2 arguments");
         TTTrain a = buildTrain(args[0], ctx);
         TTTrain b = buildTrain(args[1], ctx);
@@ -285,7 +285,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 3)
+        if (static_cast<int>(args.size()) < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0], ctx);
         // TC-16: guard against negative user-supplied dim/idx — negative int wraps
@@ -438,7 +438,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 4)
+        if (static_cast<int>(args.size()) < 4)
             throw std::invalid_argument(
                 "TENSOR_CONTRACT: requires 4 arguments (a, b, modes_a, modes_b)");
 
@@ -501,7 +501,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument(
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
@@ -558,7 +558,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2)
+        if (static_cast<int>(args.size()) < 2)
             throw std::invalid_argument(
                 "TENSOR_DECOMPOSE: requires at least 2 arguments (data, shape)");
 

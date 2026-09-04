@@ -104,7 +104,7 @@ double computeMean(const std::vector<double> &v) {
 }
 
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
-    if (v.size() < 2) {
+    if (static_cast<int>(v.size()) < 2) {
         return 0.0;
     }
     double acc = 0.0;

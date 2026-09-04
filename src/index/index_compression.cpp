@@ -234,7 +234,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
             current.suffixes.push_back(sorted_keys[i].substr(current.prefix.size()));
         } else {
             // Flush current block
-            if (current.suffixes.size() == 1) {
+            if (static_cast<int>(current.suffixes.size()) == 1) {
                 // Single entry: store as full key, no prefix savings
                 PrefixBlock single;
                 single.prefix = "";
@@ -251,7 +251,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     }
 
     // Flush last block
-    if (current.suffixes.size() == 1) {
+    if (static_cast<int>(current.suffixes.size()) == 1) {
         PrefixBlock single;
         single.prefix = "";
         single.suffixes.push_back(current.prefix + current.suffixes[0]);

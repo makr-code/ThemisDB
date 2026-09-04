@@ -117,7 +117,7 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
             }
         }
     }
-    if (result.size() != steps.size()) return {}; // cycle detected
+    if (static_cast<int>(result.size()) != steps.size()) return {}; // cycle detected
     return result;
 }
 

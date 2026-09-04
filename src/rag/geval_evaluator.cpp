@@ -251,7 +251,7 @@ struct GEvalEvaluator::Impl {
                 while (iss >> tok  && static_cast<size_t>(idx) < response.logprobs.size()) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
                     char max_digit = static_cast<char>('0' + kNumScoreLevels);
-                    if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
+                    if (static_cast<int>(tok.size()) == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
                         double parsed = static_cast<double>(tok[0] - '0');
                         return probsFromScore(parsed);
                     }
@@ -388,7 +388,7 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
 }
 
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
-    if (probabilities.size() != kNumScoreLevels) {
+    if (static_cast<int>(probabilities.size()) != kNumScoreLevels) {
         spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
                      kNumScoreLevels, kNumScoreLevels, probabilities.size());
         return 0.5;  // Default to middle
@@ -442,7 +442,7 @@ double GEvalEvaluator::aggregateScores(
         return 0.5;  // Default
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         return samples[0];
     }
     

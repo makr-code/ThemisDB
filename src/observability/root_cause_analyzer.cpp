@@ -25,7 +25,7 @@ namespace observability {
 // ---------------------------------------------------------------------------
 
 double TimeSeries::change_percent() const {
-    if (points.size() < 2) {
+    if (static_cast<int>(points.size()) < 2) {
         return 0.0;
     }
     const double first = points.front().value;
@@ -183,7 +183,7 @@ namespace {
 /// Returns 0.0 if variance is zero on either side.
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
-    if (x.size() != y.size() || x.empty()) {
+    if (static_cast<int>(x.size()) != y.size() || x.empty()) {
         return 0.0;
     }
     const size_t n = x.size();
@@ -457,7 +457,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         std::vector<double> target_copy = target_vals;
         std::vector<double> other_vals = extractValues(kv.second);
         alignVectors(target_copy, other_vals);
-        if (target_copy.size() < 2 || other_vals.size() < 2) {
+        if (static_cast<int>(target_copy.size()) < 2 || other_vals.size() < 2) {
             continue;
         }
 
@@ -508,7 +508,7 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
             std::vector<double> a_vals = extractValues(metrics[i]);
             std::vector<double> b_vals = extractValues(metrics[j]);
 
-            if (a_vals.size() < 3 || b_vals.size() < 3) {
+            if (static_cast<int>(a_vals.size()) < 3 || b_vals.size() < 3) {
                 continue;
             }
 

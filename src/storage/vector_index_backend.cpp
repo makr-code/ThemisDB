@@ -49,7 +49,7 @@ void InMemoryVectorIndex::add(const std::string& id,
     // uncaught_exception scanner alert (line 45): throws std::invalid_argument for
     // an embedding dimension mismatch — this is an intentional precondition that
     // prevents corrupt index state; callers must validate embedding sizes — false positive.
-    if (embedding.size() != cfg_.dim) {
+    if (static_cast<int>(embedding.size()) != cfg_.dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +
@@ -75,7 +75,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
 {
     // uncaught_exception scanner alert (line 69): throws std::invalid_argument for
     // a query dimension mismatch — same intentional precondition as add() — false positive.
-    if (query.size() != cfg_.dim) {
+    if (static_cast<int>(query.size()) != cfg_.dim) {
         throw std::invalid_argument(
             "Query dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +

@@ -129,7 +129,7 @@ namespace {
     }
 
     std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
-        if (timeout.size() < 2) {
+        if (static_cast<int>(timeout.size()) < 2) {
             return std::nullopt;
         }
 

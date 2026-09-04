@@ -169,7 +169,7 @@ double TimeSeries::mean() const {
 }
 
 double TimeSeries::stddev() const {
-    if (points_.size() < 2) {
+    if (static_cast<int>(points_.size()) < 2) {
         return 0.0;
     }
     double m   = mean();
@@ -432,7 +432,7 @@ double medianSorted(const std::vector<double> &sorted) {
 
 /// Median interval between consecutive observations.
 int64_t medianInterval(const std::vector<int64_t> &timestamps) {
-    if (timestamps.size() < 2) {
+    if (static_cast<int>(timestamps.size()) < 2) {
         return 1;
     }
     std::vector<double> diffs = {};
@@ -853,7 +853,7 @@ static std::vector<double> seasonalDiff(const std::vector<double> &y, int D, int
 static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
     std::vector<double> yd = y;
     for (int iter = 0; iter < d; ++iter) {
-        if (yd.size() < 2) {
+        if (static_cast<int>(yd.size()) < 2) {
             break;
         }
         std::vector<double> tmp(static_cast<int>(yd.size()) - 1);
@@ -875,7 +875,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
     params.D = D;
     params.Q = Q;
 
-    if (y.size() < 4) {
+    if (static_cast<int>(y.size()) < 4) {
         params.last_obs = y.empty() ? 0.0 : y.back();
         return params;
     }
@@ -1204,7 +1204,7 @@ ProphetParams fitProphet(const std::vector<double> &y, const std::vector<int64_t
     p.fourier_order_weekly = cfg.prophet_fourier_order_weekly;
     p.fourier_order_yearly = cfg.prophet_fourier_order_yearly;
 
-    if (y.size() < 3) {
+    if (static_cast<int>(y.size()) < 3) {
         p.last_ts_ms = ts.empty() ? 0 : ts.back();
         return p;
     }
@@ -1696,7 +1696,7 @@ struct ForecastModel::Impl {
         std::vector<std::vector<double>> forecasts
             = {predictLinear(steps), predictSES(steps), predictHW(steps), predictARIMA(steps)};
         std::vector<double> weights(4, 1.0);
-        if (config.ensemble_weights.size() == 4) {
+        if (static_cast<int>(config.ensemble_weights.size()) == 4) {
             weights = config.ensemble_weights;
         }
         double wsum = 0.0;
@@ -1788,7 +1788,7 @@ void ForecastModel::fit(const TimeSeries &ts) {
 
 void ForecastModel::fit(const TimeSeries &ts, const ForecastConfig &config) {
     std::lock_guard<std::mutex> lk(impl_->access_mutex);
-    if (ts.size() < 2) {
+    if (static_cast<int>(ts.size()) < 2) {
         throw std::invalid_argument("TimeSeries must have at least 2 points to fit");
     }
 
@@ -2572,7 +2572,7 @@ int seasonalityDuration(
     int max_lag) {
     
     // Validate input
-    if (timeseries.size() < 2) {
+    if (static_cast<int>(timeseries.size()) < 2) {
         throw std::invalid_argument("Time series must have at least 2 points");
     }
     
@@ -2662,7 +2662,7 @@ std::pair<bool, std::string> exponentialSmoothing(
     double gamma) {
     
     // Validate input
-    if (timeseries.size() < 2) {
+    if (static_cast<int>(timeseries.size()) < 2) {
         return {false, "Time series must have at least 2 points"};
     }
     

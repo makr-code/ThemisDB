@@ -162,7 +162,7 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
     }
 
     // Minimum size check: any valid container needs at least 8 bytes for a box header
-    if (blob.size() < 8) {
+    if (static_cast<int>(blob.size()) < 8) {
         result.success       = false;
         result.error_message = "Input blob too small to be a valid video file";
         errors_++;

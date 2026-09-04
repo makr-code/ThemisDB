@@ -72,7 +72,7 @@ constexpr double kEpsilon = 1e-9;
 
 /// Ray-casting point-in-polygon (closed outer ring).
 static bool pointInRing(double px, double py, const std::vector<Coordinate> &ring) {
-    if (ring.size() < 3) {
+    if (static_cast<int>(ring.size()) < 3) {
         return false;
     }
     bool inside   = false;
@@ -637,7 +637,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         // Interleaved format: [lat0=x, lon0=y, lat1=x, lon1=y, ...] matching the
         // pointInPolygonKernel's polygon_coords convention.
         const auto &poly_ring = outerRing(in.geoms_b[0]);
-        if (poly_ring.size() < 3) {
+        if (static_cast<int>(poly_ring.size()) < 3) {
             return GpuKernelDispatcher::ContainmentResult{};
         }
         std::vector<double> poly_coords = {};

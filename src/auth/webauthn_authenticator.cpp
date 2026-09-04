@@ -862,7 +862,7 @@ WebAuthnAuthenticator::parseClientDataJSON(const std::vector<uint8_t> &client_da
 
 WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::vector<uint8_t> &auth_data_bytes) {
     // Minimum: 37 bytes (rpIdHash[32] + flags[1] + signCount[4])
-    if (auth_data_bytes.size() < 37) {
+    if (static_cast<int>(auth_data_bytes.size()) < 37) {
         throw std::runtime_error("authData too short (" + std::to_string(auth_data_bytes.size()) + " bytes)");
     }
 
@@ -880,7 +880,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
 
     // Attested credential data starts at byte 37
     // Layout: AAGUID[16] + credentialIdLength[2] + credentialId[N] + credentialPublicKey[CBOR]
-    if (auth_data_bytes.size() < 37 + 16 + 2) {
+    if (static_cast<int>(auth_data_bytes.size()) < 37 + 16 + 2) {
         throw std::runtime_error("authData too short for attested credential");
     }
 
@@ -892,7 +892,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
         = (static_cast<uint16_t>(auth_data_bytes[off]) << 8) | static_cast<uint16_t>(auth_data_bytes[off + 1]);
     off += 2;
 
-    if (auth_data_bytes.size() < off + cred_id_len) {
+    if (static_cast<int>(auth_data_bytes.size()) < off + cred_id_len) {
         throw std::runtime_error("authData too short for credentialId");
     }
 
@@ -939,7 +939,7 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
                           "Only EC curve P-256 (crv=1) is supported; got crv=" + std::to_string(fields.crv)));
         }
 
-        if (fields.neg2_bytes.size() != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || fields.neg3_bytes.size() != 32) {
             throw std::runtime_error("EC P-256 key: x or y coordinate is not 32 bytes");
         }
 

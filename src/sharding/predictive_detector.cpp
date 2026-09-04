@@ -386,7 +386,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     
     // Helper: compute trend (linear regression slope)
     auto compute_trend = [](const std::vector<double>& values) -> float {
-        if (values.size() < 2) {
+        if (static_cast<int>(values.size()) < 2) {
           return 0.0f;
         }
         

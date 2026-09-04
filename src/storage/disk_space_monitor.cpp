@@ -305,7 +305,7 @@ std::string DiskSpaceMonitor::getRecommendedAction() const {
 std::chrono::seconds DiskSpaceMonitor::estimateTimeUntilFull() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (usage_history_.size() < 2) {
+    if (static_cast<int>(usage_history_.size()) < 2) {
         return std::chrono::seconds(0);  // Not enough data
     }
     

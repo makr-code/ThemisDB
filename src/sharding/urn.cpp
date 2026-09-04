@@ -48,7 +48,7 @@ namespace {
 std::optional<URN> URN::parse(std::string_view urn_str) {
     // Expected format: urn:themis:{model}:{namespace}:{collection}:{uuid}
     // Minimum length check: "urn:themis:a:b:c:d" = 18 chars minimum
-    if (urn_str.size() < 18) {
+    if (static_cast<int>(urn_str.size()) < 18) {
         return std::nullopt;
     }
     
@@ -73,7 +73,7 @@ std::optional<URN> URN::parse(std::string_view urn_str) {
     }
     
     // Expected: ["urn", "themis", model, namespace, collection, uuid]
-    if (parts.size() != 6) {
+    if (static_cast<int>(parts.size()) != 6) {
         return std::nullopt;
     }
     

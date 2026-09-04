@@ -414,7 +414,7 @@ void BackendAwareLlamaModelHandle::allocateGPUMemory(
     }
     
     // Multi-GPU setup
-    if (config.secondary_gpus.size() > 0) {
+    if (static_cast<int>(config.secondary_gpus.size()) > 0) {
         spdlog::info("Multi-GPU setup detected: {} GPUs", 
                     1 + config.secondary_gpus.size());
         

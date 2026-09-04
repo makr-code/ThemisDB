@@ -1001,7 +1001,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen (weniger Overhead)
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
@@ -1081,7 +1081,7 @@ std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge
 	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b) {
-		if (a.size() == b.size()) {
+		if (static_cast<int>(a.size()) == b.size()) {
 			return a < b;
 		}
 		return static_cast<bool>(a.size()  < static_cast<int>(b.size()));
@@ -1107,7 +1107,7 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 std::vector<std::string>
 QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	if (lists.empty()) return {};
-	if (lists.size() == 1) {
+	if (static_cast<int>(lists.size()) == 1) {
 	  return lists.front();
 	}
 	
@@ -1303,7 +1303,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) {
@@ -1391,7 +1391,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
 			if (!blob) {
@@ -1557,7 +1557,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 
 	out.reserve(keys.size());
 
-	if (keys.size() < PARALLEL_THRESHOLD) {
+	if (static_cast<int>(keys.size()) < PARALLEL_THRESHOLD) {
 		// Sequential für kleine Mengen
 		for (const auto& pk : keys) {
 			auto blob = db_->get(KeySchema::makeRelationalKey(table, pk));
@@ -1739,7 +1739,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 
 	// Basic string/number functions (subset, mirroring LetEvaluator)
 	if (funcName == "LENGTH") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 				fmt::format("LENGTH expects 1 argument, got {}", args.size()));
 		}
@@ -1767,7 +1767,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		return Ok(nlohmann::json(out));
 	}
 	if (funcName == "SUBSTRING") {
-		if (args.size() < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 				fmt::format("SUBSTRING expects 2 or 3 arguments, got {}", args.size()));
 		}
@@ -1793,7 +1793,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (startIdx >= static_cast<int>(sv.size())) {
 		  return Ok(nlohmann::json(""));
 		}
-		if (args.size() == 3) {
+		if (static_cast<int>(args.size()) == 3) {
 			auto lenRes = evalArg(2);
 			if (!lenRes) {
 			  return lenRes;
@@ -1807,7 +1807,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		return Ok(nlohmann::json(sv.substr(startIdx)));
 	}
 	if (funcName == "UPPER" || funcName == "LOWER") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
 		}
@@ -1827,7 +1827,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		return Ok(nlohmann::json(s));
 	}
 	if (funcName == "ABS" || funcName == "CEIL" || funcName == "FLOOR" || funcName == "ROUND") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
 		}
@@ -1872,7 +1872,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 
 	// ================= SPATIAL (ST_*) =================
 	if (funcName == "ST_Point") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Point expects 2 arguments, got {}", args.size()));
 		}
@@ -1891,7 +1891,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_AsGeoJSON") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_AsGeoJSON expects 1 argument, got {}", args.size()));
 		}
@@ -1920,7 +1920,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Distance") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Distance expects 2 arguments, got {}", args.size()));
 		}
@@ -1966,7 +1966,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_GeomFromGeoJSON") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_GeomFromGeoJSON expects 1 argument, got {}", args.size()));
 		}
@@ -1997,7 +1997,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Intersects") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Intersects expects 2 arguments, got {}", args.size()));
 		}
@@ -2032,7 +2032,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Within") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Within expects 2 arguments, got {}", args.size()));
 		}
@@ -2126,7 +2126,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Contains") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Contains expects 2 arguments, got {}", args.size()));
 		}
@@ -2177,7 +2177,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_DWithin") {
-		if (args.size() != 3) {
+		if (static_cast<int>(args.size()) != 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_DWithin expects 3 arguments, got {}", args.size()));
 		}
@@ -2217,7 +2217,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_HasZ") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_HasZ expects 1 argument, got {}", args.size()));
 		}
@@ -2242,7 +2242,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Z") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Z expects 1 argument, got {}", args.size()));
 		}
@@ -2258,7 +2258,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_ZMin" || funcName == "ST_ZMax") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("{} expects 1 argument, got {}", funcName, args.size()));
 		}
@@ -2290,7 +2290,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_GeomFromText") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_GeomFromText expects 1 argument, got {}", args.size()));
 		}
@@ -2369,7 +2369,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_AsText") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_AsText expects 1 argument, got {}", args.size()));
 		}
@@ -2407,7 +2407,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_3DDistance") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_3DDistance expects 2 arguments, got {}", args.size()));
 		}
@@ -2442,7 +2442,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Force2D") {
-		if (args.size() != 1) {
+		if (static_cast<int>(args.size()) != 1) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Force2D expects 1 argument, got {}", args.size()));
 		}
@@ -2465,7 +2465,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_ZBetween") {
-		if (args.size() != 3) {
+		if (static_cast<int>(args.size()) != 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_ZBetween expects 3 arguments, got {}", args.size()));
 		}
@@ -2495,7 +2495,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Buffer") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Buffer expects 2 arguments, got {}", args.size()));
 		}
@@ -2542,7 +2542,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 
 	if (funcName == "ST_Union") {
-		if (args.size() != 2) {
+		if (static_cast<int>(args.size()) != 2) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("ST_Union expects 2 arguments, got {}", args.size()));
 		}
@@ -2589,7 +2589,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	// GEO_BUFFER(geom, distance_m [, arc_points]) — geodesic ST_BUFFER via the CPU-exact backend.
 	// ArangoDB-compatible name; distance_m is in metres (geodesic-aware).
 	if (funcName == "GEO_BUFFER" || funcName == "ST_BUFFER") {
-		if (args.size() < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("{} expects 2 or 3 arguments, got {}", funcName, args.size()));
 		}
@@ -2603,7 +2603,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		const double distance_m = qe_toNumber(*distRes);
 		int arc_points = 36;
-		if (args.size() == 3) {
+		if (static_cast<int>(args.size()) == 3) {
 			auto apRes = evalArg(2);
 			if (!apRes) {
 			  return apRes;
@@ -3407,7 +3407,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 		std::set<std::string> vars;
 		collectVariables(filter->condition, vars);
 		
-		if (vars.size() == 1) {
+		if (static_cast<int>(vars.size()) == 1) {
 			// Single-variable filter: can be pushed down
 			single_var_filters[*vars.begin()].push_back(filter);
 			span.setAttribute("join.pushed_filters", static_cast<int64_t>(single_var_filters.size()));
@@ -3418,7 +3418,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 	}
 	
 	// OPTIMIZATION: Hash-Join for 2-way equi-joins
-	if (for_nodes.size() == 2) {
+	if (static_cast<int>(for_nodes.size()) == 2) {
 		auto equiJoin = analyzeEquiJoin(multi_var_filters, for_nodes[0].variable, for_nodes[1].variable);
 		if (equiJoin.found) {
 			span.setAttribute("join.algorithm", "hash_join");
@@ -4937,7 +4937,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			  return true;
 			}
 			std::vector<float> vec = doc[q.vector_field].get<std::vector<float>>();
-			if (vec.size() != q.query_vector.size()) {
+			if (static_cast<int>(vec.size()) != q.query_vector.size()) {
 			  return true;
 			}
 			EvaluationContext ctx; ctx.bind("doc", doc);
@@ -5271,7 +5271,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					}
 				}
 				std::vector<float> vec = entity[q.vector_field].get<std::vector<float>>();
-				if (vec.size() != q.query_vector.size()) {
+				if (static_cast<int>(vec.size()) != q.query_vector.size()) {
 				  continue;
 				}
 				float d = simd::l2_distance(vec.data(), q.query_vector.data(), vec.size());

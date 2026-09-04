@@ -672,7 +672,7 @@ bool MultiGPUVectorIndex::addVector(const std::string& id, const std::vector<flo
 
 bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                         const std::vector<std::vector<float>>& vectors) {
-    if (ids.size() != vectors.size()) {
+    if (static_cast<int>(ids.size()) != vectors.size()) {
         return false;
     }
     

@@ -123,7 +123,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     LoadImbalanceResult result;
     
     // Check minimum requirements
-    if (shard_loads_.size() < config_.min_shards_for_detection) {
+    if (static_cast<int>(shard_loads_.size()) < config_.min_shards_for_detection) {
         result.reason = "Insufficient shards for detection (min: " + 
                        std::to_string(config_.min_shards_for_detection) + ")";
         return result;
@@ -527,7 +527,7 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 
 /** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
-    if (values.size() < 2) {
+    if (static_cast<int>(values.size()) < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
     }
 

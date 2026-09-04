@@ -361,7 +361,7 @@ ValidationReport HuggingFaceIngestPlugin::validateQuality() const {
 
     for (const auto& [id, example] : training_examples_) {
         (void)id;
-        if (example.input.size() < config_.min_quality_text_length) {
+        if (static_cast<int>(example.input.size()) < config_.min_quality_text_length) {
             report.ok = false;
             ++report.failed_examples;
             report.errors.push_back("training example below min text length: " + example.example_id);

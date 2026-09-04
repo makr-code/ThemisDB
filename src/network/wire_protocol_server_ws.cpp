@@ -520,7 +520,7 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
 
 void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>& data)
 {
-    if (data.size() < kWireHeaderSize) {
+    if (static_cast<int>(data.size()) < kWireHeaderSize) {
         sendBinaryError(0x0008u, "Binary frame too short (minimum 12-byte header required)");
         return;
     }
@@ -546,7 +546,7 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
 
     const bool has_checksum = !(flags & kWireSkipChecksumFlag);
     const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4u : 0u);
-    if (data.size() < expected_size) {
+    if (static_cast<int>(data.size()) < expected_size) {
         sendBinaryError(0x000Au, "Binary frame incomplete");
         return;
     }

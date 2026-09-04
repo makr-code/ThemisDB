@@ -1586,7 +1586,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
 
     // If not all tasks were emitted, at least one cycle exists.
-    if (result.size() != entry.tasks.size()) {
+    if (static_cast<int>(result.size()) != entry.tasks.size()) {
         throw std::invalid_argument(
             "task_dependencies: circular dependency detected");
     }

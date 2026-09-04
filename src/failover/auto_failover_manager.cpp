@@ -653,7 +653,7 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
     }
 
     std::string candidate = {};
-    if (candidates.size() == 1 || !getConfig().deterministic_tie_breaking) {
+    if (static_cast<int>(candidates.size()) == 1 || !getConfig().deterministic_tie_breaking) {
         candidate = candidates.front();
     } else {
         candidate = resolveSplitVote(candidates);

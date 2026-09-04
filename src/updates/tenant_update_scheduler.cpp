@@ -557,7 +557,7 @@ void TenantUpdateScheduler::removeTenant(const std::string& tenant_id)
 
 int TenantUpdateScheduler::parseMinutes(const std::string& hhmm)
 {
-    if (hhmm.size() != 5 || hhmm[2] != ':') {
+    if (static_cast<int>(hhmm.size()) != 5 || hhmm[2] != ':') {
         return -1;
     }
     try {

@@ -368,7 +368,7 @@ GeometryInfo EWKBParser::parsePolygon(const uint8_t*& ptr, bool has_z, bool is_l
 
 // Parse EWKB
 GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
-    if (ewkb.size() < 5) {
+    if (static_cast<int>(ewkb.size()) < 5) {
         throw std::runtime_error("EWKB: Invalid size (< 5 bytes)");
     }
     

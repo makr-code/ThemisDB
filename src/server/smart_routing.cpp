@@ -100,7 +100,7 @@ void SmartRouter::recordLatency(const std::string& backend_id,
 
     auto& state = it->second;
     state.latency_window.push_back(latency_ms);
-    if (state.latency_window.size() > config_.latency_window_size) {
+    if (static_cast<int>(state.latency_window.size()) > config_.latency_window_size) {
         state.latency_window.pop_front();
     }
     state.total_requests++;

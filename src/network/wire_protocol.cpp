@@ -128,7 +128,7 @@ std::vector<uint8_t> PacketParser::read_bytes(
 
 WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 {
-    if (buf.size() < kWireProtocolMinPacketSize) {
+    if (static_cast<int>(buf.size()) < kWireProtocolMinPacketSize) {
         throw ParseError("buffer too short: need at least " +
                          std::to_string(kWireProtocolMinPacketSize) +
                          " bytes, got " + std::to_string(buf.size()));

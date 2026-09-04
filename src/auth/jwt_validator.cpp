@@ -539,7 +539,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) {
+    if (static_cast<int>(x_bytes.size()) != coord_size || y_bytes.size() != coord_size) {
         return false;
     }
 
@@ -590,7 +590,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     // JWT ECDSA signature is raw (r || s) encoding (coord_size bytes each).
     // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
-    if (signature.size() != coord_size * 2) {
+    if (static_cast<int>(signature.size()) != coord_size * 2) {
         return false;
     }
 
@@ -652,7 +652,7 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false;
     }
     auto pub_bytes = decodeBase64Url(it_x->get<std::string>());
-    if (pub_bytes.size() != 32) {
+    if (static_cast<int>(pub_bytes.size()) != 32) {
         return false; // Ed25519 public key is exactly 32 bytes
     }
 
@@ -761,7 +761,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     while (std::getline(ss, part, '.')) {
         parts.push_back(part);
     }
-    if (parts.size() != 3) {
+    if (static_cast<int>(parts.size()) != 3) {
         utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -802,7 +802,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     claims.sub = payload.value("sub", "");
 
     // Input validation: Check principal/subject length
-    if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
+    if (static_cast<int>(claims.sub.size()) > MAX_PRINCIPAL_NAME_LENGTH) {
         utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",

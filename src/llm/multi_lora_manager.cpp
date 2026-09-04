@@ -977,7 +977,7 @@ bool MultiLoRAManager::fuseLoRAs(
         return false;
     }
     
-    if (lora_ids.size() != weights.size()) {
+    if (static_cast<int>(lora_ids.size()) != weights.size()) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
                         lora_ids.size(), weights.size());
         return false;
@@ -1360,7 +1360,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     size_t offset = 0;
     // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
     const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
-    if (serialized.size() < expected_size) {
+    if (static_cast<int>(serialized.size()) < expected_size) {
         spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
         return std::vector<uint8_t>();
     }
@@ -1424,7 +1424,7 @@ bool MultiLoRAManager::importLoRA(
     size_t offset = 0;
     size_t id_len, path_len;
     
-    if (data.size() < sizeof(size_t)) {
+    if (static_cast<int>(data.size()) < sizeof(size_t)) {
         errors::logError(errors::ErrorCode::ERR_LORA_INVALID_DATA, "too small");
         return false;
     }
@@ -2003,7 +2003,7 @@ size_t MultiLoRAManager::balanceGPULoad() {
         return 0;
     }
     
-    if (config_.multi_gpu.devices.size() < 2) {
+    if (static_cast<int>(config_.multi_gpu.devices.size()) < 2) {
         return 0;  // Nothing to balance with single GPU
     }
     
@@ -3309,7 +3309,7 @@ bool MultiLoRAManager::fuseLoRAsInternal(
         return false;
     }
     
-    if (config.source_lora_ids.size() != config.weights.size()) {
+    if (static_cast<int>(config.source_lora_ids.size()) != config.weights.size()) {
         errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
                         config.source_lora_ids.size(), config.weights.size());
         return false;
@@ -3416,7 +3416,7 @@ bool MultiLoRAManager::updateFusionWeights(
         return false;
     }
     
-    if (new_weights.size() != config_it->second.source_lora_ids.size()) {
+    if (static_cast<int>(new_weights.size()) != config_it->second.source_lora_ids.size()) {
         spdlog::error("Weight count mismatch: expected {}, got {}",
                      config_it->second.source_lora_ids.size(), new_weights.size());
         return false;
@@ -3558,7 +3558,7 @@ std::vector<float> MultiLoRAManager::computeLinearSchedule(
 
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
-    } else if (schedule.static_weights.size() >= 2) {
+    } else if (static_cast<int>(schedule.static_weights.size()) >= 2) {
         // Backward compatibility: use a_weight and b_weight
         target_weights = {schedule.a_weight, schedule.b_weight};
     } else {
@@ -3595,7 +3595,7 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
 
     if (!schedule.target_weights.empty()) {
         target_weights = schedule.target_weights;
-    } else if (schedule.static_weights.size() >= 2) {
+    } else if (static_cast<int>(schedule.static_weights.size()) >= 2) {
         target_weights = {schedule.a_weight, schedule.b_weight};
     } else {
         return schedule.static_weights;
@@ -3659,7 +3659,7 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     if (!schedule.static_weights.empty()) {
         size_t expected_size = schedule.static_weights.size();
         for (const auto& step_weight : schedule.step_weights) {
-            if (step_weight.size() != expected_size) {
+            if (static_cast<int>(step_weight.size()) != expected_size) {
                 spdlog::warn("Step-wise schedule has inconsistent weight vector sizes; "
                            "expected {}, got {}. Falling back to static weights.",
                            expected_size, step_weight.size());

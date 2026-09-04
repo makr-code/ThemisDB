@@ -368,7 +368,7 @@ Result<std::vector<uint8_t>> StorageParquetExporter::buildParquet(
             errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
             "ParquetExportConfig.columns is empty"));
     }
-    if (column_segments.size() != ncols) {
+    if (static_cast<int>(column_segments.size()) != ncols) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
             "column_segments size (" + std::to_string(column_segments.size()) +

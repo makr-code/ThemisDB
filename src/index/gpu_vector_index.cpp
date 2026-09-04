@@ -788,7 +788,7 @@ public:
 
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
-            if (query.size() != static_cast<size_t>(dimension)) {
+            if (static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
                 // Skip invalid queries or fall back to CPU for all
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
@@ -925,7 +925,7 @@ public:
 
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
-            if (query.size() != static_cast<size_t>(dimension)) {
+            if (static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
                 for (const auto& q : queries) {

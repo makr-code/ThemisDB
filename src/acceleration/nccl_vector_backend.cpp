@@ -172,7 +172,7 @@ public:
     
     bool checkNVLinkAvailable() {
         // Simple check: if P2P is available between any two devices, assume NVLink
-        if (config.deviceIds.size() < 2) {
+        if (static_cast<int>(config.deviceIds.size()) < 2) {
           return false;
         }
         
@@ -572,7 +572,7 @@ std::string NCCLVectorBackend::getNCCLVersionString() {
 }
 
 bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
-    if (deviceIds.size() < 2) {
+    if (static_cast<int>(deviceIds.size()) < 2) {
       return false;
     }
     

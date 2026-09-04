@@ -73,7 +73,7 @@ TensorFingerprintGraph::columnMeans(const std::vector<float>& data,
 
 float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
                                                 const std::vector<float>& b) noexcept {
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
       return 0.0f;
     }
 

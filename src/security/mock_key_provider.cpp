@@ -59,7 +59,7 @@ void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {
 void MockKeyProvider::createKeyWithBytes(const std::string& key_id,
                                         uint32_t version,
                                         const std::vector<uint8_t>& key_bytes) {
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw std::invalid_argument("Key must be exactly 32 bytes (256 bits)");
     }
     
@@ -235,7 +235,7 @@ uint32_t MockKeyProvider::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata) {
     
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw std::invalid_argument("Key must be 32 bytes for AES-256");
     }
     

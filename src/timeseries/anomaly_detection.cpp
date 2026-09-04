@@ -25,7 +25,7 @@ namespace themis {
 
 std::vector<std::pair<int64_t, double>>
 ZScoreDetector::scoreAll(const std::vector<TSStore::DataPoint>& points) const {
-    if (points.size() < 2) return {};
+    if (static_cast<int>(points.size()) < 2) return {};
 
     // Compute mean
     double sum = 0.0;
@@ -56,7 +56,7 @@ std::vector<AnomalyPoint> ZScoreDetector::detect(
     const std::vector<TSStore::DataPoint>& points,
     const AnomalyConfig& cfg) const {
 
-    if (points.size() < cfg.min_samples) return {};
+    if (static_cast<int>(points.size()) < cfg.min_samples) return {};
 
     const auto scores = scoreAll(points);
     if (scores.empty()) return {};
@@ -97,7 +97,7 @@ std::vector<AnomalyPoint> IQRDetector::detect(
     const std::vector<TSStore::DataPoint>& points,
     const AnomalyConfig& cfg) const {
 
-    if (points.size() < cfg.min_samples) return {};
+    if (static_cast<int>(points.size()) < cfg.min_samples) return {};
 
     // Extract sorted values for percentile computation
     std::vector<double> vals = {};

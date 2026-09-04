@@ -36,7 +36,7 @@ struct TOTPSecretEncryption::Impl {
     Config config;
 
     explicit Impl(const Config &cfg) : config(cfg) {
-        if (config.master_key.size() != 32) {
+        if (static_cast<int>(config.master_key.size()) != 32) {
             throw std::invalid_argument("Master key must be 32 bytes for AES-256");
         }
     }
@@ -155,7 +155,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::EncryptedSecret::des
         parts.push_back(part);
     }
 
-    if (parts.size() != 5) {
+    if (static_cast<int>(parts.size()) != 5) {
         throw std::runtime_error("Invalid encrypted secret format");
     }
 
@@ -307,7 +307,7 @@ std::string TOTPSecretEncryption::deserializeAndDecrypt(const std::string &seria
 }
 
 void TOTPSecretEncryption::rotateKey(const SecureBuffer<uint8_t> &new_master_key, int new_version) {
-    if (new_master_key.size() != 32) {
+    if (static_cast<int>(new_master_key.size()) != 32) {
         throw std::invalid_argument("New master key must be 32 bytes for AES-256");
     }
 

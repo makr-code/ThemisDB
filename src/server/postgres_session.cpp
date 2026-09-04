@@ -2065,7 +2065,7 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
                 return_clause_oss << "max(n." << col << ")";
             }
         }
-    } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
+    } else if (static_cast<int>(info.selectColumns.size()) == 1 && info.selectColumns[0] == "*") {
         return_clause_oss << "n";
     } else {
         // Regular columns

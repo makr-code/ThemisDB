@@ -61,7 +61,7 @@ std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t
     }
     flush_number();
 
-    if (indices.size() == history_size) {
+    if (static_cast<int>(indices.size()) == history_size) {
         return indices;
     }
 
@@ -252,7 +252,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
         if (accumulated_tokens + turn_tokens <= max_tokens) {
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
-        } else if (selected.size() < static_cast<size_t>(config_.top_k_turns)) {
+        } else if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.top_k_turns)) {
             // Keep adding even if over budget, up to top_k
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
@@ -260,7 +260,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     }
 
     // Ensure minimum turns preserved
-    if (selected.size() < static_cast<size_t>(config_.min_preserved_turns) && 
+    if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.min_preserved_turns) && 
         selected.size() < history.size()) {
         // Add more turns to reach minimum
         for (int32_t idx : ranked_indices) {

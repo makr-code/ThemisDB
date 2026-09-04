@@ -58,7 +58,7 @@ WorkloadForecast WorkloadPredictor::predict([[maybe_unused]] uint64_t horizon_us
 
     result.forecast_timestamp_us = history_.back().timestamp_us + horizon_us;
 
-    if (history_.size() < 2) {
+    if (static_cast<int>(history_.size()) < 2) {
         // Single observation: return it with zero confidence
         const auto& s = history_.back();
         result.predicted_qps               = s.qps;

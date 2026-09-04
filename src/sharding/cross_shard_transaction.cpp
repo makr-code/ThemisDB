@@ -1216,7 +1216,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     const std::vector<nlohmann::json>& compensations
 ) {
     // Validate input early before acquiring locks
-    if (steps.size() != compensations.size()) {
+    if (static_cast<int>(steps.size()) != compensations.size()) {
         spdlog::error("SAGA transaction {} has mismatched steps ({}) and compensations ({})", 
                      transaction_id, steps.size(), compensations.size());
         return false;

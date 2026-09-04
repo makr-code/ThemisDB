@@ -383,7 +383,7 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
         throw std::invalid_argument("ThreeWayMergeResolver::selectBase requires non-empty writes vector");
     }
     
-    if (writes.size() == 1) {
+    if (static_cast<int>(writes.size()) == 1) {
       return writes[0];
     }
 
@@ -504,7 +504,7 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
     }
-    if (conflicting_writes.size() == 1) {
+    if (static_cast<int>(conflicting_writes.size()) == 1) {
       return conflicting_writes[0];
     }
 
@@ -617,7 +617,7 @@ std::string FieldLevelMergeResolver::mergeFields(
 
             if (strategy_ == MergeStrategy::INTERSECT) {
                 // Only include if all writes have the key
-                if (present_indices.size() != writes.size()) {
+                if (static_cast<int>(present_indices.size()) != writes.size()) {
                   continue;
                 }
             }
@@ -703,7 +703,7 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
     }
-    if (conflicting_writes.size() == 1) {
+    if (static_cast<int>(conflicting_writes.size()) == 1) {
       return conflicting_writes[0];
     }
 

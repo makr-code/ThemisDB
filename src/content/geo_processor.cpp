@@ -857,7 +857,7 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
     // Simplified area calculation using shoelace formula
     // Real implementation would account for spherical geometry
     
-    if (geo.coordinates.size() < 3) {
+    if (static_cast<int>(geo.coordinates.size()) < 3) {
         return 0.0;
     }
     
@@ -876,7 +876,7 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
 double GeoProcessor::calculateLength(const GeoExtractionData& geo) {
     // Calculate total length using Haversine distance
     
-    if (geo.coordinates.size() < 2) {
+    if (static_cast<int>(geo.coordinates.size()) < 2) {
         return 0.0;
     }
     

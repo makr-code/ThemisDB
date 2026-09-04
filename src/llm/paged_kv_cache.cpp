@@ -58,7 +58,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
     
     // Allocate blocks, retrying with LRU eviction up to 3 times
     auto current_blocks = block_table->getBlockMapping();
-    if (current_blocks.size() < num_blocks_needed) {
+    if (static_cast<int>(current_blocks.size()) < num_blocks_needed) {
         size_t blocks_to_allocate = num_blocks_needed - current_blocks.size();
 
         constexpr int kMaxEvictionRetries = 3;
@@ -373,7 +373,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         
         case KVQuantizationType::INT8: {
             // INT8 dequantization with metadata
-            if (quantized_data.size() < 8) return {};
+            if (static_cast<int>(quantized_data.size()) < 8) return {};
             
             // Extract metadata
             uint32_t min_bits = 0;

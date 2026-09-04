@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 // ---------------------------------------------------------------------------
 
 BinaryMimeType detectBinaryMimeType(const std::string& raw) {
-    if (raw.size() < 4) {
+    if (static_cast<int>(raw.size()) < 4) {
       return BinaryMimeType::UNKNOWN;
     }
 

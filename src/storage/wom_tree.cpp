@@ -363,7 +363,7 @@ struct WomTree::Impl {
                 // to ci+1 in node.children.
                 size_t children_before = node.children.size();
                 maybeSplitChild(node, ci);
-                if (node.children.size() > children_before) {
+                if (static_cast<int>(node.children.size()) > children_before) {
                     ++splits_so_far;  // Account for the newly-inserted right leaf.
                 }
             } else {
@@ -424,7 +424,7 @@ struct WomTree::Impl {
         if (!child.is_leaf) {
           return;
         }
-        if (child.data.size() <= config.leaf_capacity) {
+        if (static_cast<int>(child.data.size()) <= config.leaf_capacity) {
           return;
         }
 

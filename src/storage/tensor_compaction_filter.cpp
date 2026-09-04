@@ -107,14 +107,14 @@ TensorCompactionFilter::TensorCompactionFilter(
 // ============================================================================
 
 bool TensorCompactionFilter::isTTCoreKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTCorePrefixLen) {
+    if (static_cast<int>(key.size()) < kTTCorePrefixLen) {
       return false;
     }
     return std::memcmp(key.data(), kTTCorePrefix, kTTCorePrefixLen) == 0;
 }
 
 bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
-    if (key.size() < kTTNPrefixLen + kMetaInfixLen) {
+    if (static_cast<int>(key.size()) < kTTNPrefixLen + kMetaInfixLen) {
       return false;
     }
     if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) {

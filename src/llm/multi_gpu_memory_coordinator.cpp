@@ -318,7 +318,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
 }
 
 bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
-    if (gpu_ids.size() < 2) {
+    if (static_cast<int>(gpu_ids.size()) < 2) {
         spdlog::warn("MultiGPUMemoryCoordinator::enableP2P: Need at least 2 GPUs");
         return false;
     }

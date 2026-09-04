@@ -1669,7 +1669,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
                                                   const std::vector<uint8_t>& signatureBytes,
                                                   const std::string& publicKeyPem,
                                                   std::string& error) {
-    if (signatureBytes.size() != 64) {
+    if (static_cast<int>(signatureBytes.size()) != 64) {
         error = "Ed25519 signature must be exactly 64 bytes, got " +
                 std::to_string(signatureBytes.size());
         return false;

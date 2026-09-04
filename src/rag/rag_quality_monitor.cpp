@@ -109,7 +109,7 @@ std::vector<std::string> RagQualityMonitor::checkAnomalies() const
     std::vector<std::string> hints;
 
     std::lock_guard<std::mutex> lk(mutex_);
-    if (buffer_.size() < 2) {
+    if (static_cast<int>(buffer_.size()) < 2) {
         return hints;
     }
 

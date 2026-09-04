@@ -386,7 +386,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
         throw std::invalid_argument("RasterGrid::cell_size_deg must be > 0");
     }
     const std::size_t expected = grid.rows * grid.cols;
-    if (grid.values.size() != expected) {
+    if (static_cast<int>(grid.values.size()) != expected) {
         throw std::invalid_argument(
             "RasterGrid::values.size() (" + std::to_string(grid.values.size()) +
             ") != rows*cols (" + std::to_string(expected) + ")");
@@ -462,7 +462,7 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
         throw std::invalid_argument("image dimensions h, w, c must all be > 0");
     }
     const std::size_t expected = h * w * c;
-    if (pixels.size() != expected) {
+    if (static_cast<int>(pixels.size()) != expected) {
         throw std::invalid_argument(
             "pixels.size() (" + std::to_string(pixels.size()) +
             ") != h*w*c (" + std::to_string(expected) + ")");
@@ -620,7 +620,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         if (use_text_encoder) {
             // Priority 1: registered ITextEncoder
             emb = text_encoder->encode(seg, embed_dim);
-            if (emb.size() != embed_dim) {
+            if (static_cast<int>(emb.size()) != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: registered ITextEncoder ('" +
                     std::string(text_encoder->description()) +
@@ -630,7 +630,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         } else if (use_embed_fn) {
             // Priority 2: raw EmbedFn bridge
             emb = embed_fn(seg, embed_dim);
-            if (emb.size() != embed_dim) {
+            if (static_cast<int>(emb.size()) != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: injected EmbedFn returned " +
                     std::to_string(emb.size()) +

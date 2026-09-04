@@ -133,7 +133,7 @@ void AuditedImporter::ImmutableAuditLog::recordEvent(const AuditEvent &event) {
 }
 
 bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
-    if (events_.size() != chain_hashes_.size()) {
+    if (static_cast<int>(events_.size()) != chain_hashes_.size()) {
         return false;
     }
     std::string prev = "0000000000000000";

@@ -416,7 +416,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
         });
     
     // Decide whether to use single index or intersection
-    if (sorted_indexes.size() == 1 || 
+    if (static_cast<int>(sorted_indexes.size()) == 1 || 
         sorted_indexes[0].estimated_selectivity < table_size * 0.01) {
         // Very selective - use single index
         plan.indexes_to_use.push_back(sorted_indexes[0].index_name);
@@ -438,7 +438,7 @@ MultiIndexOptimizer::IntersectionPlan MultiIndexOptimizer::optimizeMultiIndexAcc
                 total_cost += idx.access_cost;
                 
                 // Use bitmap if multiple indexes and selectivity warrants it
-                if (plan.indexes_to_use.size() > 1 && 
+                if (static_cast<int>(plan.indexes_to_use.size()) > 1 && 
                     selectivity_factor < getBitmapIntersectionThreshold()) {
                     plan.use_bitmap_intersection = true;
                 }
@@ -456,7 +456,7 @@ bool MultiIndexOptimizer::shouldUseIndexIntersection(
     const std::vector<IndexCandidate>& candidates,
     size_t table_size) const {
     
-    if (candidates.size() < 2) {
+    if (static_cast<int>(candidates.size()) < 2) {
         return false;
     }
     

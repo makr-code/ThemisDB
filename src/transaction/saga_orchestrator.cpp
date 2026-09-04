@@ -94,7 +94,7 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
     }
 
     const auto order = topologicalSort(saga);
-    if (order.size() != saga.steps.size()) {
+    if (static_cast<int>(order.size()) != saga.steps.size()) {
         return SagaOrchestratorStatus::Error("dependency cycle detected");
     }
 
@@ -211,7 +211,7 @@ std::vector<std::string> SAGAOrchestrator::topologicalSort(const SAGADefinition&
         }
     }
 
-    if (order.size() != saga.steps.size()) {
+    if (static_cast<int>(order.size()) != saga.steps.size()) {
         return {};
     }
     return order;

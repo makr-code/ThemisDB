@@ -154,7 +154,7 @@ float NoiseSuppressor::processRNNoiseFrames(
 
     // Fallback: spectral-gate noise suppression (no external library).
     // Estimate noise floor from leading samples and attenuate below threshold.
-    if (samples_48k.size() < 2) {
+    if (static_cast<int>(samples_48k.size()) < 2) {
       return 0.0f;
     }
 
@@ -716,7 +716,7 @@ bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) cons
 DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
-    if (raw_audio.size() < 4) {
+    if (static_cast<int>(raw_audio.size()) < 4) {
       return DetectedAudioCodec::UNKNOWN;
     }
     
@@ -726,7 +726,7 @@ DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     }
     
     // Check for FLAC header ('fLaC' = 0x66 0x4C 0x61 0x43)
-    if (raw_audio.size() >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
+    if (static_cast<int>(raw_audio.size()) >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
         raw_audio[2] == 0x61 && raw_audio[3] == 0x43) {
         return DetectedAudioCodec::FLAC;
     }
@@ -744,7 +744,7 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
     // Minimum frame size: check for truncation
-    if (raw_audio.size() < 4) {
+    if (static_cast<int>(raw_audio.size()) < 4) {
         return false;
     }
     

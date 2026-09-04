@@ -339,7 +339,7 @@ bool SignedPluginRepository::verifyEd25519Signature(
     const std::string& message,
     const std::vector<uint8_t>& signature) const
 {
-    if (public_key.size() != 32 || signature.size() != 64) {
+    if (static_cast<int>(public_key.size()) != 32 || signature.size() != 64) {
         return false;
     }
     // Load the raw Ed25519 public key via OpenSSL EVP_PKEY using RAII wrapper

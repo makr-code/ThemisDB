@@ -104,7 +104,7 @@ void TARGRetrieval::computeMetrics(const std::vector<float>& logits,
                                     float& out_gap,
                                     float& out_entropy,
                                     bool   compute_entropy) {
-    if (logits.size() < 2)
+    if (static_cast<int>(logits.size()) < 2)
         throw std::invalid_argument(
             "TARGRetrieval::computeMetrics: logits must have at least 2 elements");
 

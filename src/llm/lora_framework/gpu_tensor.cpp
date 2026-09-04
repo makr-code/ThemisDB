@@ -256,7 +256,7 @@ GPUTensor GPUTensor::mul(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::matmul(const GPUTensor& other) const {
-    if (shape_.size() != 2 || other.shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2 || other.shape_.size() != 2) {
         throw std::invalid_argument("matmul requires 2D tensors");
     }
     
@@ -272,7 +272,7 @@ GPUTensor GPUTensor::matmul(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::transpose() const {
-    if (shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2) {
         throw std::invalid_argument("transpose requires 2D tensor");
     }
     
@@ -944,7 +944,7 @@ GPUTensor randn(const std::vector<size_t>& shape, float mean, float std, const D
 }
 
 GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device, DType dtype) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("Xavier init requires 2D tensor");
     }
     
@@ -969,7 +969,7 @@ GPUTensor xavier_uniform(const std::vector<size_t>& shape, const Device& device,
 }
 
 GPUTensor kaiming_uniform(const std::vector<size_t>& shape, float a, const Device& device, DType dtype) {
-    if (shape.size() != 2) {
+    if (static_cast<int>(shape.size()) != 2) {
         throw std::invalid_argument("Kaiming init requires 2D tensor");
     }
     
@@ -1011,7 +1011,7 @@ GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType d
 Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     Tensor result(gpu_tensor.shape());
     auto data = gpu_tensor.cpu_data();
-    if (data.size() == result.size()) {
+    if (static_cast<int>(data.size()) == result.size()) {
         std::copy(data.begin(), data.end(), result.data().begin());
     }
     return result;

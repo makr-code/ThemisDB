@@ -148,7 +148,7 @@ bool validateDistanceOutputs(const std::vector<float>& distances, bool useL2, st
 
 bool validateTopKOutputs(const std::vector<int>& topkIndices, const std::vector<float>& topkDistances, size_t numVectors,
                          bool useL2, std::string& validationError) {
-    if (topkIndices.size() != topkDistances.size()) {
+    if (static_cast<int>(topkIndices.size()) != topkDistances.size()) {
         validationError = "Top-K output size mismatch between indices and distances";
         return false;
     }

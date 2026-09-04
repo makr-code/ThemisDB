@@ -618,7 +618,7 @@ public:
         }
 
         // Quality gate
-        if (out.nodes.size() < profile.quality_gate_min_entities) {
+        if (static_cast<int>(out.nodes.size()) < profile.quality_gate_min_entities) {
             ctx.warnings.push_back("Quality gate: only "
                                    + std::to_string(out.nodes.size())
                                    + " entities extracted (min: "

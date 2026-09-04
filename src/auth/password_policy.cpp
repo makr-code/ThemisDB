@@ -38,7 +38,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     ValidationResult result;
 
     // --- Length checks -----------------------------------------------------
-    if (password.size() < config_.min_length) {
+    if (static_cast<int>(password.size()) < config_.min_length) {
         std::ostringstream msg = {};
         msg << "Password must be at least " << config_.min_length << " characters long";
         result.violations.push_back(msg.str());
@@ -83,7 +83,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     // --- Unique character check -------------------------------------------
     if (config_.min_unique_chars > 0) {
         std::unordered_set<char> unique_chars(password.begin(), password.end());
-        if (unique_chars.size() < config_.min_unique_chars) {
+        if (static_cast<int>(unique_chars.size()) < config_.min_unique_chars) {
             std::ostringstream msg = {};
             msg << "Password must contain at least " << config_.min_unique_chars << " distinct characters";
             result.violations.push_back(msg.str());

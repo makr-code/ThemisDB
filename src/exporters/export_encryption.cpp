@@ -149,7 +149,7 @@ ExportEncryption::deriveJobDEK([[maybe_unused]] uint32_t key_version) const {
     std::lock_guard<std::mutex> lk(key_provider_mutex_);
     kek = config_.key_provider->getKey(config_.kek_id, key_version);
   }
-  if (kek.size() != KEY_LEN) {
+  if (static_cast<int>(kek.size()) != KEY_LEN) {
     throw std::runtime_error(
         "ExportEncryption: KEK must be 32 bytes (AES-256)");
   }

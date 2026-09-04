@@ -92,7 +92,7 @@ std::vector<GPUTensor> SequencePacker::unpackResults(
     }
     
     auto output_shape = packed_output.shape();
-    if (output_shape.size() != 2) {
+    if (static_cast<int>(output_shape.size()) != 2) {
         spdlog::error("Expected 2D packed output [total_tokens, hidden_dim], got {}D", 
                      output_shape.size());
         return {};

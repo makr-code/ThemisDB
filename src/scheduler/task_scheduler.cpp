@@ -1113,7 +1113,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         }
     }
 
-    if (order.size() != task_ids.size()) {
+    if (static_cast<int>(order.size()) != task_ids.size()) {
         throw std::runtime_error(
             "TaskScheduler::executeDAG: dependency graph contains a cycle");
     }

@@ -221,7 +221,7 @@ std::vector<std::string> VoiceMeetingSupport::extractKeyPoints(
     auto sentences = tokenizeSentences(transcript);
     int count = 0;
     for (const auto& sent : sentences) {
-        if (sent.size() < 20) continue; // Skip trivial sentences
+        if (static_cast<int>(sent.size()) < 20) continue; // Skip trivial sentences
         auto type = classifySegment(sent);
         if (type == MeetingSegmentType::DECISION ||
             type == MeetingSegmentType::AGENDA_ITEM) {
@@ -399,7 +399,7 @@ void RealtimeMeetingSession::addSegment(
     if (seg.type == MeetingSegmentType::ACTION_ITEM ||
         support_.containsTrigger(text, config_.action_item_triggers))
     {
-        if (protocol_.action_items.size() < config_.max_action_items) {
+        if (static_cast<int>(protocol_.action_items.size()) < config_.max_action_items) {
             ActionItem ai;
             ai.id               = support_.generateActionItemId();
             ai.description      = text;

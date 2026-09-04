@@ -465,7 +465,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
     // Minimum WAV file size (RIFF header + fmt chunk + data chunk header)
     constexpr size_t MIN_WAV_SIZE = 44;
-    if (wav_data.size() < MIN_WAV_SIZE) {
+    if (static_cast<int>(wav_data.size()) < MIN_WAV_SIZE) {
         throw std::runtime_error("WAV file too small: " + std::to_string(wav_data.size()) + " bytes (minimum "
                                  + std::to_string(MIN_WAV_SIZE) + " bytes required)");
     }
@@ -883,7 +883,7 @@ STTProcessor::performSpeakerDiarization(const std::vector<TranscriptionSegment> 
 std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vector<TranscriptionSegment> &segments,
                                                                 const std::vector<float> &pcm_data, int max_speakers) {
     // Need at least 2 segments and PCM data to perform meaningful diarization.
-    if (segments.size() < 2 || pcm_data.empty()) {
+    if (static_cast<int>(segments.size()) < 2 || pcm_data.empty()) {
         return segments;
     }
 

@@ -672,7 +672,7 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot([[maybe_unused]] u
                 return std::nullopt;
             }
             // Verify decompressed size matches the stored metadata
-            if (decompressed.size() != snap.uncompressed_size) {
+            if (static_cast<int>(decompressed.size()) != snap.uncompressed_size) {
                 spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
                               "expected {} got {}",
                               snapshot_index, snap.uncompressed_size, decompressed.size());

@@ -542,7 +542,7 @@ KyberKEM::KeyPair KyberKEM::generateKeyPair() {
  */
 KyberKEM::EncapsulationResult
 KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
-    if (public_key.size() != publicKeySize()) {
+    if (static_cast<int>(public_key.size()) != publicKeySize()) {
         throw std::invalid_argument(
             "KyberKEM::encapsulate: unexpected public key size " +
             std::to_string(public_key.size()) + " (expected " +
@@ -596,12 +596,12 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
 std::vector<uint8_t>
 KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
                        const std::vector<uint8_t>& secret_key) {
-    if (ciphertext.size() != ciphertextSize()) {
+    if (static_cast<int>(ciphertext.size()) != ciphertextSize()) {
         throw std::invalid_argument(
             "KyberKEM::decapsulate: unexpected ciphertext size " +
             std::to_string(ciphertext.size()));
     }
-    if (secret_key.size() != secretKeySize()) {
+    if (static_cast<int>(secret_key.size()) != secretKeySize()) {
         throw std::invalid_argument(
             "KyberKEM::decapsulate: unexpected secret key size " +
             std::to_string(secret_key.size()));
@@ -728,7 +728,7 @@ DilithiumSigner::sign(const std::vector<uint8_t>& message,
     if (!s.sig) {
       throw std::runtime_error("DilithiumSigner::sign: OQS_SIG_new failed");
     }
-    if (secret_key.size() != s.sig->length_secret_key)
+    if (static_cast<int>(secret_key.size()) != s.sig->length_secret_key)
         throw std::invalid_argument(
             "DilithiumSigner::sign: unexpected secret key size " +
             std::to_string(secret_key.size()));
@@ -742,7 +742,7 @@ DilithiumSigner::sign(const std::vector<uint8_t>& message,
     return sig_buf;
 #else
     // PERMANENT FALLBACK: Ed25519 simulation
-    if (secret_key.size() != 32) {
+    if (static_cast<int>(secret_key.size()) != 32) {
         throw std::invalid_argument(
             "DilithiumSigner::sign: unexpected secret key size " +
             std::to_string(secret_key.size()));
@@ -777,7 +777,7 @@ bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
     return ok;
 #else
     // PERMANENT FALLBACK: Ed25519 simulation
-    if (public_key.size() != 32) {
+    if (static_cast<int>(public_key.size()) != 32) {
       return false;
     }
     bool ok = ed25519_verify(message, signature, public_key);
@@ -903,7 +903,7 @@ PostQuantumKeyProvider::unwrapKeyWithKyber(
     const std::vector<uint8_t>& secret_key)
 {
     // Minimum size: 4 + 32 (kem_ct) + 12 (iv) + 4 + 1 (enc_dek) + 16 (tag)
-    if (wrapped_key.size() < 4 + 32 + 12 + 4 + 1 + 16) {
+    if (static_cast<int>(wrapped_key.size()) < 4 + 32 + 12 + 4 + 1 + 16) {
         throw std::runtime_error("unwrapKeyWithKyber: blob too short");
     }
 
@@ -1189,7 +1189,7 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
     auto combined_key = hkdf_sha256(ikm, {}, info, 32);
 
     // 4. Decrypt with AES-256-GCM
-    if (blob.iv.size() != 12 || blob.tag.size() != 16) {
+    if (static_cast<int>(blob.iv.size()) != 12 || blob.tag.size() != 16) {
         throw DecryptionException("HybridEncryption::decryptHybrid: invalid IV/tag size");
     }
     std::array<uint8_t, 12> iv_arr{};
@@ -1383,7 +1383,7 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
         }
     }
 
-    if (secret_key.size() != secretKeySize()) {
+    if (static_cast<int>(secret_key.size()) != secretKeySize()) {
         throw std::invalid_argument("SphincsPlus::sign: unexpected secret key size");
     }
 
@@ -1457,7 +1457,7 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
         }
     }
 
-    if (public_key.size() != publicKeySize()) {
+    if (static_cast<int>(public_key.size()) != publicKeySize()) {
       return false;
     }
 

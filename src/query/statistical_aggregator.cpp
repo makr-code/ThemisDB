@@ -47,7 +47,7 @@ Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
     // Sort values
     std::sort(values.begin(), values.end());
     
-    if (values.size() == 1) {
+    if (static_cast<int>(values.size()) == 1) {
         return Ok(nlohmann::json(values[0]));
     }
     
@@ -86,7 +86,7 @@ double StatisticalAggregator::calculateMean(const std::vector<double>& values) {
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vector<double>& values) {
-    if (values.size() < 2) {
+    if (static_cast<int>(values.size()) < 2) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
             fmt::format("Cannot calculate variance: need at least 2 values, got {}", values.size())
@@ -113,7 +113,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::ve
         );
     }
     
-    if (values.size() == 1) {
+    if (static_cast<int>(values.size()) == 1) {
         return Ok(nlohmann::json(0.0));  // Population variance of single value is 0
     }
     
@@ -165,7 +165,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<d
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> values) {
-    if (values.size() < 4) {
+    if (static_cast<int>(values.size()) < 4) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
             fmt::format("Cannot calculate IQR: need at least 4 values, got {}", values.size())

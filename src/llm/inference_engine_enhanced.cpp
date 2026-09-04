@@ -100,7 +100,7 @@ themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
 
     return [cached_rows = std::move(cached_rows)](const std::vector<float>& logits) -> float {
         for (const auto& cached : cached_rows) {
-            if (cached.first.size() == logits.size() &&
+            if (static_cast<int>(cached.first.size()) == logits.size() &&
                 std::equal(cached.first.begin(), cached.first.end(), logits.begin())) {
                 return cached.second;
             }
@@ -2389,10 +2389,10 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         try {
             target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
             // Validate output size: must be exactly K+1 rows of vocab_size columns.
-            if (target_logit_matrix.size() == K + 1) {
+            if (static_cast<int>(target_logit_matrix.size()) == K + 1) {
                 bool valid = true;
                 for (const auto& row : target_logit_matrix) {
-                    if (row.size() != vocab_size) { valid = false; break; }
+                    if (static_cast<int>(row.size()) != vocab_size) { valid = false; break; }
                 }
                 used_injected_logits = valid;
                 used_global_target_logits_fn = valid;
@@ -2437,7 +2437,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
 
-    if (target_logit_matrix.size() != K + 1) {
+    if (static_cast<int>(target_logit_matrix.size()) != K + 1) {
         spdlog::warn("Target-logit bridge returned {} rows (expected {}) — "
                      "falling back to target generation",
                      target_logit_matrix.size(),
@@ -2445,7 +2445,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
     for (const auto& row : target_logit_matrix) {
-        if (row.size() != vocab_size) {
+        if (static_cast<int>(row.size()) != vocab_size) {
             spdlog::warn("Target-logit bridge returned vocab row size {} (expected {}) "
                          "— falling back to target generation",
                          row.size(),

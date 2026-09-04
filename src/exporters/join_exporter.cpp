@@ -241,7 +241,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("exporter_exception");
 
-            if (stats.errors.size() >= options.max_errors) {
+            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }
@@ -255,7 +255,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("generic_exception");
 
-            if (stats.errors.size() >= options.max_errors) {
+            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }

@@ -271,7 +271,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     if (master_key.empty()) {
         throw std::invalid_argument("master_key must not be empty");
     }
-    if (salt.size() < 8) {
+    if (static_cast<int>(salt.size()) < 8) {
         throw std::invalid_argument("salt must be at least 8 bytes");
     }
 

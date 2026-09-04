@@ -119,7 +119,7 @@ namespace {
 bool startsWithHttps(const std::string& url) {
     constexpr char kHttpsPrefix[] = "https://";
     constexpr std::size_t kPrefixLen = sizeof(kHttpsPrefix) - 1;
-    if (url.size() < kPrefixLen) {
+    if (static_cast<int>(url.size()) < kPrefixLen) {
         return false;
     }
     return std::equal(
@@ -701,7 +701,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     // Validate timestamp token structure
     const unsigned char* p = token.token_der.data();
     // Safe cast: d2i_PKCS7 expects long, ensure we don't overflow
-    if (token.token_der.size() > static_cast<size_t>(LONG_MAX)) {
+    if (static_cast<int>(token.token_der.size()) > static_cast<size_t>(LONG_MAX)) {
         validation_errors_.push_back("Token size exceeds maximum allowed");
         return false;
     }

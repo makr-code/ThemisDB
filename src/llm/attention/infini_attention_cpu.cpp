@@ -207,7 +207,7 @@ std::vector<float> InfiniAttentionCPU::getMemorySnapshot() const {
 }
 
 bool InfiniAttentionCPU::restoreMemory(const std::vector<float>& snapshot) {
-    if (snapshot.size() != static_cast<size_t>(config_.hidden_dim) *
+    if (static_cast<int>(snapshot.size()) != static_cast<size_t>(config_.hidden_dim) *
                                config_.memory_size) {
         return false;
     }

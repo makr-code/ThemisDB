@@ -82,7 +82,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     }
 
     // For very small embeddings the decomposition never compresses.
-    if (embedding.size() < 4) {
+    if (static_cast<int>(embedding.size()) < 4) {
         return false;
     }
 

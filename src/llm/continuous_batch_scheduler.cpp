@@ -325,7 +325,7 @@ void ContinuousBatchScheduler::processBatchResults(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (batch.size() != responses.size()) {
+    if (static_cast<int>(batch.size()) != responses.size()) {
         spdlog::error("Batch size mismatch: {} requests, {} responses",
                       batch.size(), responses.size());
         return;

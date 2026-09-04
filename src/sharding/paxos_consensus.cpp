@@ -616,7 +616,7 @@ void PaxosConsensus::leaderElectionThread() {
                     }
                 }
             }
-        } else if (nodes_snapshot.size() == 1) {
+        } else if (static_cast<int>(nodes_snapshot.size()) == 1) {
             // Single-node cluster: we are implicitly the leader.
             promises = quorum;
         }

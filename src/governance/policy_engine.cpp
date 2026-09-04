@@ -660,7 +660,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
             return it->second;
         }
         for (const auto &kv : headers) {
-            if (kv.first.size() != key.size()) {
+            if (static_cast<int>(kv.first.size()) != key.size()) {
                 continue;
             }
             bool equal_ci = true;

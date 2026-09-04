@@ -199,7 +199,7 @@ public:
     
     bool checkXGMIAvailable() {
         // Simple check: if P2P is available between any two devices, assume XGMI
-        if (config.deviceIds.size() < 2) {
+        if (static_cast<int>(config.deviceIds.size()) < 2) {
           return false;
         }
         
@@ -585,7 +585,7 @@ std::string RCCLVectorBackend::getRCCLVersionString() {
 }
 
 bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
-    if (deviceIds.size() < 2) {
+    if (static_cast<int>(deviceIds.size()) < 2) {
       return false;
     }
     

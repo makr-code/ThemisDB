@@ -100,7 +100,7 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
 }
 
 std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
-    if (expected_sha256_hex.size() != 64) {
+    if (static_cast<int>(expected_sha256_hex.size()) != 64) {
         throw std::invalid_argument(
             "ModelServingEngine::loadModel expected_sha256_hex must be 64 hex characters");
     }
@@ -127,7 +127,7 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     }
 
     e.latency_buf.push_back(ms);
-    if (e.latency_buf.size() > window) {
+    if (static_cast<int>(e.latency_buf.size()) > window) {
         e.latency_buf.pop_front();
     }
 

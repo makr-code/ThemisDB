@@ -412,7 +412,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description must not be empty"));
     }
-    if (prompt.description.size() > 8192u) {
+    if (static_cast<int>(prompt.description.size()) > 8192u) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description exceeds 8192-character limit"));
@@ -420,13 +420,13 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     // --- Validate required_capabilities list ---
     // Scanner note: reserve() ensures vector capacity; all access is bounds-checked
-    if (prompt.required_capabilities.size() > kMaxPromptListEntries) {
+    if (static_cast<int>(prompt.required_capabilities.size()) > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: required_capabilities exceeds maximum entry count"));
     }
     // --- Validate dependencies list ---
-    if (prompt.dependencies.size() > kMaxPromptListEntries) {
+    if (static_cast<int>(prompt.dependencies.size()) > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: dependencies exceeds maximum entry count"));
@@ -673,7 +673,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     static constexpr std::size_t kMaxDepEntryLen = 256u;
     
     // Validate code field sizes (prevents memory exhaustion attacks)
-    if (generated.implementation_code.size() > kMaxCodeSize ||
+    if (static_cast<int>(generated.implementation_code.size()) > kMaxCodeSize ||
         generated.header_code.size()         > kMaxCodeSize ||
         generated.test_code.size()           > kMaxCodeSize) {
         ++stat_parse_errors_;
@@ -681,14 +681,14 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM output exceeds maximum allowed code size"));
     }
-    if (generated.cmake_code.size() > kMaxCodeSize) {
+    if (static_cast<int>(generated.cmake_code.size()) > kMaxCodeSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM cmake_code exceeds maximum allowed code size"));
     }
     // Validate security report field size
-    if (generated.security_report.size() > kMaxReportSize) {
+    if (static_cast<int>(generated.security_report.size()) > kMaxReportSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -701,11 +701,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
     generated.manifest.name = std::move(raw_name);
     generated.manifest.version = payload.value("version", std::string("0.1.0"));
-    if (generated.manifest.version.size() > kMaxVersionLen || generated.manifest.version.empty()) {
+    if (static_cast<int>(generated.manifest.version.size()) > kMaxVersionLen || generated.manifest.version.empty()) {
         generated.manifest.version = "0.1.0";
     }
     generated.manifest.description = payload.value("description", prompt.description);
-    if (generated.manifest.description.size() > kMaxDescLen) {
+    if (static_cast<int>(generated.manifest.description.size()) > kMaxDescLen) {
         generated.manifest.description = generated.manifest.description.substr(0, kMaxDescLen);
     }
     generated.manifest.type = prompt.type;

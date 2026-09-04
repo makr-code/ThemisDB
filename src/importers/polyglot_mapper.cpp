@@ -65,7 +65,7 @@ PolyglotPersistenceMapper::inferModelFromSchema(
     }
 
     // Key-value: exactly one PK and one or two value columns
-    if (schema.primary_keys.size() == 1 &&
+    if (static_cast<int>(schema.primary_keys.size()) == 1 &&
         schema.columns.size() <= 3 &&
         schema.foreign_keys.empty()) {
         return DataModel::KEYVALUE;

@@ -1164,13 +1164,13 @@ PolicyOptimizer::recommendSimplifications(const PolicyManager &policy_mgr) const
         bool is_complex = false;
         std::string complexity_reason = {};
 
-        if (rule.resources.size() > 10) {
+        if (static_cast<int>(rule.resources.size()) > 10) {
             is_complex        = true;
             complexity_reason = "Too many resource patterns (" + std::to_string(rule.resources.size()) + ")";
-        } else if (rule.actions.size() > 10) {
+        } else if (static_cast<int>(rule.actions.size()) > 10) {
             is_complex        = true;
             complexity_reason = "Too many action patterns (" + std::to_string(rule.actions.size()) + ")";
-        } else if (rule.required_roles.size() > 5) {
+        } else if (static_cast<int>(rule.required_roles.size()) > 5) {
             is_complex        = true;
             complexity_reason = "Too many required roles (" + std::to_string(rule.required_roles.size()) + ")";
         }

@@ -325,7 +325,7 @@ struct VaultKeyProvider::Impl {
     }
     
     void evictLRU() {
-        if (cache.size() < (size_t)config.cache_capacity) {
+        if (static_cast<int>(cache.size()) < (size_t)config.cache_capacity) {
             return;
         }
         
@@ -817,7 +817,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata) {
     
-    if (key_bytes.size() != 32) {
+    if (static_cast<int>(key_bytes.size()) != 32) {
         throw KeyOperationException("Key must be exactly 32 bytes (256 bits)");
     }
     

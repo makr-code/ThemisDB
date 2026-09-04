@@ -154,7 +154,7 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
         stats_.current_buffer_memory += op_size;
         
         // Check if this buffer needs immediate flush
-        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
+        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} vectors",
                         buffer_key, buffer.operations.size());
             
@@ -195,7 +195,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
         stats_.current_buffer_size++;
         stats_.current_buffer_memory += op_size;
         
-        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
+        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
             flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
@@ -230,7 +230,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
         stats_.current_buffer_size++;
         stats_.current_buffer_memory += op_size;
         
-        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
+        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
             flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
@@ -385,7 +385,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
 
 bool VectorAutoBuffer::shouldFlushBuffer(const NamespaceBuffer& buffer) const {
     // Size threshold
-    if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
+    if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
         return true;
     }
     

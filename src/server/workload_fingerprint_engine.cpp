@@ -193,7 +193,7 @@ double WorkloadFingerprintEngine::similarityTo(
     const WorkloadFingerprint& a,
     const WorkloadFingerprint& b
 ) const {
-    if (a.vector.size() != b.vector.size() || a.vector.empty()) {
+    if (static_cast<int>(a.vector.size()) != b.vector.size() || a.vector.empty()) {
         return 0.0;
     }
 

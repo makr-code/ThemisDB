@@ -64,7 +64,7 @@ void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
     
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (records_.size() < MAX_RECORDS) {
+    if (static_cast<int>(records_.size()) < MAX_RECORDS) {
         records_.push_back(std::move(record));
     } else {
         // Rolling overwrite: wrap-around ring

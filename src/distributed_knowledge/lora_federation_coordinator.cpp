@@ -180,7 +180,7 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    if (pending_gradients_.size() < config_.min_participants) {
+    if (static_cast<int>(pending_gradients_.size()) < config_.min_participants) {
         throw std::runtime_error("LoRAFederationCoordinator::triggerAggregation: insufficient "
                                  "participants ("
                                  + std::to_string(pending_gradients_.size()) + " < "
@@ -237,7 +237,7 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
             }
         }
         // Re-check participant count after filtering
-        if (pending_gradients_.size() < config_.min_participants) {
+        if (static_cast<int>(pending_gradients_.size()) < config_.min_participants) {
             throw std::runtime_error("LoRAFederationCoordinator::doAggregation: insufficient "
                                      "participants after outlier filtering ("
                                      + std::to_string(pending_gradients_.size()) + " < "
@@ -552,7 +552,7 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter([[maybe_unused]] double z_thr
             }
         }
 
-        if (norms.size() < 2) {
+        if (static_cast<int>(norms.size()) < 2) {
             // Cannot compute statistics with fewer than 2 samples — accept all
             return true;
         }

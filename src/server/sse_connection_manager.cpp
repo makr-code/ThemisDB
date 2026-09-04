@@ -94,7 +94,7 @@ uint64_t SseConnectionManager::registerConnection(
             conn->id, from_seq, key_prefix);
 
         // Mark to start background polling if first connection
-        if (connections_.size() == 1 && !running_) {
+        if (static_cast<int>(connections_.size()) == 1 && !running_) {
             running_ = true;
             start_background = true;
         }
@@ -471,7 +471,7 @@ void SseConnectionManager::backgroundPollTask() {
                 }
 
                 // Skip event if buffer is still at capacity (drop_oldest_on_overflow==false).
-                if (c.buffered_events.size() >= config_.max_buffered_events) {
+                if (static_cast<int>(c.buffered_events.size()) >= config_.max_buffered_events) {
                     c.dropped_events++;
                     total_dropped_events_++;
                     continue;

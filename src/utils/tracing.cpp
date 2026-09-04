@@ -527,7 +527,7 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
       return it->second;
     }
     for (const auto& [k, v] : headers) {
-        if (k.size() == name.size() &&
+        if (static_cast<int>(k.size()) == name.size() &&
             std::equal(k.begin(), k.end(), name.begin(),
                        [](unsigned char a, unsigned char b) {
                            return std::tolower(a) == std::tolower(b);
@@ -543,7 +543,7 @@ bool parseTraceparent(const std::string& value,
                       otel::trace::TraceId& trace_id_out,
                       otel::trace::SpanId& parent_id_out,
                       otel::trace::TraceFlags& flags_out) {
-    if (value.size() != 55) {
+    if (static_cast<int>(value.size()) != 55) {
       return false;
     }
     if (value[2] != '-' || value[35] != '-' || value[52] != '-') {

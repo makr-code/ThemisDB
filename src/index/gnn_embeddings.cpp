@@ -116,7 +116,7 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
         parts.push_back(part);
     }
     
-    if (parts.size() < 5 || parts[0] != "gnn_emb") {
+    if (static_cast<int>(parts.size()) < 5 || parts[0] != "gnn_emb") {
         return std::nullopt;
     }
     
@@ -250,7 +250,7 @@ GNNEmbeddingManager::computeEmbedding_(
             std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
             
             // Pad/truncate to target dimension
-            if (neighbor_features.size() < static_cast<size_t>(target_dim)) {
+            if (static_cast<int>(neighbor_features.size()) < static_cast<size_t>(target_dim)) {
                 neighbor_features.resize(target_dim, 0.0f);
             } else if (static_cast<int>(neighbor_features.size()) > static_cast<size_t>(target_dim)) {
                 neighbor_features.resize(target_dim);

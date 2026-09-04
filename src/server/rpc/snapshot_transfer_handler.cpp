@@ -284,7 +284,7 @@ public:
         }
         
         // Verify decompressed size
-        if (decompressed_data.size() != chunk.uncompressed_size()) {
+        if (static_cast<int>(decompressed_data.size()) != chunk.uncompressed_size()) {
             return SnapshotStatus::ERROR_COMPRESSION_FAILED;
         }
         

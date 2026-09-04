@@ -286,7 +286,7 @@ AdaLoRAAdapter AdaLoraTTBridge::importFromTT(const AdaLoraTTExport& exp) const {
     AdaLoRAAdapter adapter(max_rank, 8.0f, std::max<std::size_t>(1, total_budget));
 
     for (const auto& layer : exp.layers) {
-        if (layer.train.cores.size() != 2) {
+        if (static_cast<int>(layer.train.cores.size()) != 2) {
             continue;
         }
 

@@ -299,7 +299,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     width = 0;
     height = 0;
     
-    if (blob.size() < 24) {
+    if (static_cast<int>(blob.size()) < 24) {
       return;
     }
     
@@ -347,7 +347,7 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     json exif;
     
     // Check for JPEG with EXIF
-    if (blob.size() < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
+    if (static_cast<int>(blob.size()) < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
         return exif;
     }
     
@@ -429,7 +429,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     std::array<double, 1024> samples{};
 
     // Try to decode as uncompressed 24-bpp BMP
-    if (blob.size() > 54 &&
+    if (static_cast<int>(blob.size()) > 54 &&
         blob[0] == 'B' && blob[1] == 'M')
     {
         uint32_t pixel_offset =
@@ -521,7 +521,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
 
 /*static*/ std::string ImageProcessor::computePHash(const std::vector<uint8_t>& blob) {
     // Minimum viable image blob
-    if (blob.size() < 16) return {};
+    if (static_cast<int>(blob.size()) < 16) return {};
 
     // 1. Extract 32×32 grayscale samples
     auto pixels = extractGrayscaleSamples(blob);

@@ -270,7 +270,7 @@ PITRManager::Status PITRManager::replayBackward(uint64_t from_sequence, uint64_t
     // unless the caller explicitly requested a replay cap.
     if (options.max_events_to_replay == 0) {
         const auto expected_events = from_sequence - to_sequence;
-        if (events.size() < expected_events) {
+        if (static_cast<int>(events.size()) < expected_events) {
             return Status::Error(
                 "WAL replay coverage incomplete: expected " +
                 std::to_string(expected_events) +

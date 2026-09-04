@@ -45,7 +45,7 @@ std::vector<SchoolTension> CrossSchoolTensionResolver::loadTensions(
         }
 
         // Expected: ["tension", opposing_school, own_thesis, opposing_thesis]
-        if (parts.size() < 4) {
+        if (static_cast<int>(parts.size()) < 4) {
             continue;
         }
 

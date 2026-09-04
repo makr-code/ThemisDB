@@ -2401,7 +2401,7 @@ float GPUMemoryManager::getAverageGPULoad() const {
 bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (available_gpus_.size() < 2) {
+    if (static_cast<int>(available_gpus_.size()) < 2) {
         return false;  // No need to rebalance with single GPU
     }
     

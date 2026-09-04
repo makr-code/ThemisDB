@@ -162,7 +162,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // before invoking deserialize.  The raw deserialiser intentionally does not
     // re-verify the HMAC to avoid double-computing it; callers must always invoke
     // the integrity check before deserialization.
-    if (bytes.size() < 8) {
+    if (static_cast<int>(bytes.size()) < 8) {
       return std::nullopt;
     }
     std::size_t pos = 0;
@@ -642,7 +642,7 @@ std::pair<TTTrain, DecompositionStats>
 TensorTrainDecomposer::decompose(const std::vector<float>&       data,
                                   const std::vector<std::size_t>& mode_sizes,
                                   const TensorTrainConfig&         cfg) const {
-    if (mode_sizes.size() < 2)
+    if (static_cast<int>(mode_sizes.size()) < 2)
         // uncaught_exception scanner alert: this is a public API precondition
         // failure at the decompose() boundary and callers are expected to handle
         // invalid_argument — false positive.
@@ -652,7 +652,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     for (auto n : mode_sizes) {
       total *= n;
     }
-    if (data.size() != total)
+    if (static_cast<int>(data.size()) != total)
         // uncaught_exception scanner alert: this is also public API boundary
         // validation for decompose(), not an unhandled internal exception — false
         // positive.

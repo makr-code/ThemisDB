@@ -113,7 +113,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     result.num_retrieved_docs = documents.size();
 
     // Check document count threshold
-    if (documents.size() < config.min_documents) {
+    if (static_cast<int>(documents.size()) < config.min_documents) {
         result.gap_detected = true;
         result.gap_type = GapType::INSUFFICIENT_DOCS;
         result.confidence_score = 0.9;
@@ -164,7 +164,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
     }
 
     // If most documents are outdated, flag it
-    if (documents.size() > 0 &&
+    if (static_cast<int>(documents.size()) > 0 &&
         static_cast<double>(outdated_count) / documents.size() > 0.5) {
         result.gap_detected = true;
         result.gap_type = GapType::OUTDATED_INFO;
@@ -311,7 +311,7 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
             }
         }
 
-        if (claims.size() > 0 &&
+        if (static_cast<int>(claims.size()) > 0 &&
             static_cast<double>(unverified_count) / claims.size() > 0.3) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
@@ -775,7 +775,7 @@ bool KnowledgeGapDetector::checkSelfConsistency(
         config.self_consistency_samples
     );
 
-    if (samples.size() < 2) {
+    if (static_cast<int>(samples.size()) < 2) {
         return true; // Not enough samples to check consistency
     }
 
@@ -992,7 +992,7 @@ double KnowledgeGapDetector::calculateSlidingWindowPerplexity(
     }
 
     // If sequence shorter than window, use full sequence
-    if (token_probs.size() < window_size) {
+    if (static_cast<int>(token_probs.size()) < window_size) {
         max_perplexity = calculatePerplexity(token_probs);
     }
 
@@ -1040,7 +1040,7 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     const std::vector<double>& token_probs,
     double zscore_threshold
 ) {
-    if (token_probs.size() < 3) {
+    if (static_cast<int>(token_probs.size()) < 3) {
         return token_probs; // Need at least 3 points for meaningful outlier detection
     }
 
@@ -1070,7 +1070,7 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
 
     // If we filtered too many, return original
-    if (filtered.size() < token_probs.size() * 0.5) {
+    if (static_cast<int>(filtered.size()) < token_probs.size() * 0.5) {
         return token_probs;
     }
 
@@ -1264,7 +1264,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
 double KnowledgeGapDetector::calculateConsistencyScore(
     const std::vector<std::string>& samples
 ) {
-    if (samples.size() < 2) {
+    if (static_cast<int>(samples.size()) < 2) {
         return 1.0; // Single sample is trivially consistent
     }
 

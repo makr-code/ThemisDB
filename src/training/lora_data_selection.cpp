@@ -184,7 +184,7 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
 // Estimate Jaccard similarity from two MinHash signatures
 static double jaccardEstimate(const std::vector<uint32_t>& a,
                                const std::vector<uint32_t>& b) {
-    if (a.size() != b.size() || a.empty()) {
+    if (static_cast<int>(a.size()) != b.size() || a.empty()) {
       return 0.0;
     }
     size_t matches = 0;
@@ -864,7 +864,7 @@ static std::string trimLeft(const std::string& s) {
 }
 
 static std::string stripQuotes(const std::string& s) {
-    if (s.size() >= 2 &&
+    if (static_cast<int>(s.size()) >= 2 &&
         ((s.front() == '"' && s.back() == '"') ||
          (s.front() == '\'' && s.back() == '\'')))
         return s.substr(1, static_cast<int>(s.size()) - 2);

@@ -79,7 +79,7 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     constexpr size_t kMinWithCrc = 13;
     constexpr size_t kMinLegacy  = 9;
 
-    if (bytes.size() < kMinLegacy) {
+    if (static_cast<int>(bytes.size()) < kMinLegacy) {
         return std::nullopt; // Too small even for legacy format
     }
 

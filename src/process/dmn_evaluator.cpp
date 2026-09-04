@@ -66,7 +66,7 @@ std::optional<double> parseNumber(std::string_view sv) {
 /// Evaluate a FEEL range expression like [a..b], (a..b], [a..b), (a..b)
 /// against a numeric JSON value.
 bool evaluateRange(std::string_view expr, const json& value) {
-    if (expr.size() < 4) {
+    if (static_cast<int>(expr.size()) < 4) {
       return false;
     }
     const bool left_closed  = (expr.front() == '[');

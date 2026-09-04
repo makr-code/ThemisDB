@@ -99,7 +99,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
             "': " + ex.what());
     }
 
-    if (raw_chunks.size() != static_cast<size_t>(k + m)) {
+    if (static_cast<int>(raw_chunks.size()) != static_cast<size_t>(k + m)) {
         throw std::runtime_error(
             "ErasureCodingBackend::encode: expected " +
             std::to_string(k + m) + " chunks, got " +
@@ -141,7 +141,7 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     const uint32_t k = config_.data_shards;
     const uint32_t m = config_.parity_shards;
 
-    if (shards.size() < static_cast<size_t>(k)) {
+    if (static_cast<int>(shards.size()) < static_cast<size_t>(k)) {
         throw std::runtime_error(
             "ErasureCodingBackend::decode: need at least " +
             std::to_string(k) + " shards for blob '" + blob_id +
@@ -234,7 +234,7 @@ std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     const BlobEntry& entry = it->second;
 
     // Verify we have enough shards for reconstruction
-    if (entry.chunks.size() < static_cast<size_t>(config_.data_shards)) {
+    if (static_cast<int>(entry.chunks.size()) < static_cast<size_t>(config_.data_shards)) {
         spdlog::warn("ErasureCodingBackend::get: blob='{}' only {}/{} shards "
                      "available (need {}); cannot reconstruct",
                      blob_id, entry.chunks.size(),

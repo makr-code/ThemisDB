@@ -552,7 +552,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
 
     std::string field = trimCopy(expression.substr(0, pos));
     std::string value = trimCopy(expression.substr(pos + 2));
-    if (value.size() >= 2 &&
+    if (static_cast<int>(value.size()) >= 2 &&
         ((value.front() == '"' && value.back() == '"') ||
          (value.front() == '\'' && value.back() == '\''))) {
         value = value.substr(1, static_cast<int>(value.size()) - 2);

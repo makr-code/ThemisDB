@@ -167,7 +167,7 @@ void WireProtocolMetrics::reset() {
 /*static*/ double WireProtocolMetrics::percentile(const std::vector<double> &sorted, double p) noexcept {
     if (sorted.empty())
         return 0.0;
-    if (sorted.size() == 1)
+    if (static_cast<int>(sorted.size()) == 1)
         return sorted[0];
 
     double rank = (p / 100.0) * static_cast<double>(static_cast<int>(sorted.size()) - 1);
@@ -265,7 +265,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
     buf->reserve(slab_size_); // re-warm capacity
 
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    if (idle_slabs_.size() < pool_depth_) {
+    if (static_cast<int>(idle_slabs_.size()) < pool_depth_) {
         idle_slabs_.push_back(std::move(buf));
     }
     // If pool is full, just drop (let unique_ptr destructor free it)

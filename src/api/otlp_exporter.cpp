@@ -59,7 +59,7 @@ static std::string normaliseTraceId(const std::string &raw) {
         }
     }
     // Pad to 32 hex chars (zero-pad on the right if shorter, truncate if longer)
-    if (out.size() < 32) {
+    if (static_cast<int>(out.size()) < 32) {
         out.resize(32, '0');
     } else if (static_cast<int>(out.size()) > 32) {
         out = out.substr(0, 32);

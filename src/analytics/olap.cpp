@@ -1053,7 +1053,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             }
 
             auto value_fn = [](const Row &r) -> double {
-                if (r.data.size() < sizeof(double)) {
+                if (static_cast<int>(r.data.size()) < sizeof(double)) {
                     return 0.0;
                 }
                 double v = 0;
@@ -1919,7 +1919,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (fs.size() < fvs.size() || fs.rfind(fvs) != static_cast<int>(fs.size()) - fvs.size()) {
+                        if (static_cast<int>(fs.size()) < fvs.size() || fs.rfind(fvs) != static_cast<int>(fs.size()) - fvs.size()) {
                             return false;
                         }
                         break;

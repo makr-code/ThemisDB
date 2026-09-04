@@ -657,7 +657,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 		shard_infos, available_threads);
 	
 	// Enable NUMA awareness for large distributed queries
-	if (plan.shard_ids.size() >= 4 && available_threads >= 8) {
+	if (static_cast<int>(plan.shard_ids.size()) >= 4 && available_threads >= 8) {
 		plan.enable_numa_awareness = true;
 		
 		if (NumaAwareOptimizer::isNumaAvailable()) {
@@ -674,7 +674,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	}
 	
 	// Determine join strategy for multi-shard queries
-	if (plan.shard_ids.size() > 1) {
+	if (static_cast<int>(plan.shard_ids.size()) > 1) {
 		size_t estimated_results = 1000;
 		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
 	}

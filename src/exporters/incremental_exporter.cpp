@@ -159,7 +159,7 @@ ExportStats IncrementalExporter::exportEntities(
                 stats.failed_entities++;
                 stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                 metrics_->recordError("exporter_exception");
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     limit_reached = true;
                     full_scan_completed = false;
                     break;
@@ -172,7 +172,7 @@ ExportStats IncrementalExporter::exportEntities(
                 stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " +
                                        std::string(e.what()));
                 metrics_->recordError("std_exception");
-                if (stats.errors.size() >= options.max_errors) {
+                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     limit_reached = true;
                     full_scan_completed = false;
                     break;

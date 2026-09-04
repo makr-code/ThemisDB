@@ -501,7 +501,7 @@ struct DecisionTree {
             }
             std::sort(vals.begin(), vals.end());
             vals.erase(std::unique(vals.begin(), vals.end()), vals.end());
-            if (vals.size() < 2) {
+            if (static_cast<int>(vals.size()) < 2) {
                 continue;
             }
 
@@ -2099,7 +2099,7 @@ AutoML::~AutoML() = default;
 EvalMetrics AutoML::crossValidate(const std::vector<DataPoint> &data, const AutoMLConfig &config,
                                   ModelAlgorithm algorithm,
                                   const std::map<std::string, double> &hyperparameters) const {
-    if (data.size() < 2) {
+    if (static_cast<int>(data.size()) < 2) {
         return {};
     }
 
@@ -2389,12 +2389,12 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     }
     
     // Check dimensions match
-    if (features.size() != target.size()) {
+    if (static_cast<int>(features.size()) != target.size()) {
         return {false, "Feature matrix rows must match target vector size"};
     }
     
     // Check minimum samples
-    if (features.size() < 2) {
+    if (static_cast<int>(features.size()) < 2) {
         return {false, "At least 2 training samples required"};
     }
     
@@ -2433,7 +2433,7 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     // For classification, check minimum number of classes
     if (task == AutoMLTask::CLASSIFICATION) {
         std::set<double> unique_classes(target.begin(), target.end());
-        if (unique_classes.size() < 2) {
+        if (static_cast<int>(unique_classes.size()) < 2) {
             return {false, "Classification requires at least 2 distinct classes"};
         }
     }
@@ -2452,7 +2452,7 @@ ModelAlgorithm AutoML::selectMetalearner(
         throw std::invalid_argument("Features and target must not be empty");
     }
     
-    if (features.size() != target.size()) {
+    if (static_cast<int>(features.size()) != target.size()) {
         throw std::invalid_argument("Features and target size mismatch");
     }
     

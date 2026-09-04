@@ -1216,7 +1216,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                     << " GRAPH \"" << graph_name << "\"\n";
 
                 // Multi-type filter: e._type IN ["T1","T2",…]
-                if (rel.types.size() > 1) {
+                if (static_cast<int>(rel.types.size()) > 1) {
                     std::string type_list = {};
                     for (size_t i = 0; i < rel.types.size(); ++i) {
                         if (i) {
@@ -1287,7 +1287,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         if (!ast.return_items.empty() && ast.return_items[0].star) {
             if (all_vars.empty()) {
                 aql << "{}\n";
-            } else if (all_vars.size() == 1) {
+            } else if (static_cast<int>(all_vars.size()) == 1) {
                 aql << all_vars[0] << "\n";
             } else {
                 aql << "{";
@@ -1301,7 +1301,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
             }
         } else if (!ast.return_items.empty()) {
             // Multiple items → wrap in an object; single item → return directly.
-            if (ast.return_items.size() == 1) {
+            if (static_cast<int>(ast.return_items.size()) == 1) {
                 const auto& item = ast.return_items[0];
                 aql << (!item.alias.empty() ? item.alias : item.expression) << "\n";
             } else {

@@ -273,7 +273,7 @@ struct YOLOv8OnnxPlugin::Impl {
         const int num_classes = static_cast<int>(labels.size());
         const int num_anchors = 8400; // standard for 640×640
         // raw layout: channel-major [84, 8400] – stride = num_anchors
-        if (raw.size() < static_cast<size_t>(84) * num_anchors) {
+        if (static_cast<int>(raw.size()) < static_cast<size_t>(84) * num_anchors) {
             result.success = false;
             result.error_message = "Unexpected output tensor size";
             return result;

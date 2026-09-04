@@ -310,7 +310,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     for (auto n : mode_sizes) {
       expected *= n;
     }
-    if (data.size() != expected)
+    if (static_cast<int>(data.size()) != expected)
         throw std::invalid_argument("TensorNetworkStorageEngine::put: size mismatch");
 
     // Decompose

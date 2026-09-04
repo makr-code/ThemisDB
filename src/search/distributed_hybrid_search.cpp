@@ -341,7 +341,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
 
     // Phase 2: Track merge underflow (insufficient candidates)
     bool merge_underflow = false;
-    if (merged.size() < config_.k) {
+    if (static_cast<int>(merged.size()) < config_.k) {
         merge_underflow = true;
         THEMIS_WARN("DistributedHybridSearch: merge underflow "
                     "(expected {} results, got {})",

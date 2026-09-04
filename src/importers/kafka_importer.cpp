@@ -1012,7 +1012,7 @@ json KafkaImporter::extractEntity(const std::string& payload) const {
 
     if (message_format_ == "avro") {
         // Confluent wire format: magic byte (0x00) + 4-byte schema ID + JSON/bytes
-        if (payload.size() > 5 &&
+        if (static_cast<int>(payload.size()) > 5 &&
             static_cast<unsigned char>(payload[0]) == 0x00) {
             std::string content = payload.substr(5);
             if (content.empty()) {

@@ -371,7 +371,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) {
+        if (static_cast<int>(args.size()) < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
@@ -436,7 +436,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) {
+        if (static_cast<int>(args.size()) < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
@@ -501,7 +501,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) {
+        if (static_cast<int>(args.size()) < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
@@ -583,7 +583,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
           return "";
         }
         if (!args[0].is_string()) {
@@ -648,7 +648,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
           return "";
         }
         if (!args[0].is_string()) {
@@ -733,7 +733,7 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) {
+        if (static_cast<int>(args.size()) < 2) {
           return 0.0;
         }
         

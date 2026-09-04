@@ -117,7 +117,7 @@ std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
         if (result) return false; // stop after first match
 
         std::string stored_hex(key.substr(kPrefix.size()));
-        if (stored_hex.size() < 16) {
+        if (static_cast<int>(stored_hex.size()) < 16) {
           return true;
         }
 
@@ -152,7 +152,7 @@ void DeduplicationChecker::registerImage(
 std::optional<DuplicateOf> DeduplicationChecker::isDuplicateText(
     const std::vector<uint32_t>& minhash
 ) const {
-    if (minhash.size() < kNumHashFunctions) {
+    if (static_cast<int>(minhash.size()) < kNumHashFunctions) {
       return std::nullopt;
     }
 
@@ -173,7 +173,7 @@ void DeduplicationChecker::registerText(
     const std::string& content_id,
     const std::vector<uint32_t>& minhash
 ) {
-    if (minhash.size() < kNumHashFunctions || content_id.empty()) {
+    if (static_cast<int>(minhash.size()) < kNumHashFunctions || content_id.empty()) {
       return;
     }
 

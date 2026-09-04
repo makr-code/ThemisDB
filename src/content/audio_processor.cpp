@@ -341,7 +341,7 @@ static uint32_t readBE32(const std::vector<uint8_t> &blob, size_t offset) {
 // Parse WAV/RIFF header to extract audio metadata
 static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // WAV header minimum size: 44 bytes (RIFF + WAVE + fmt chunk + data chunk)
-    if (blob.size() < 44) {
+    if (static_cast<int>(blob.size()) < 44) {
         return;
     }
     // Verify "WAVE" marker at offset 8
@@ -406,7 +406,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
 static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionData &data) {
     // FLAC file starts with "fLaC" (4 bytes), then metadata blocks
     // Minimum STREAMINFO block: 4 (marker) + 4 (block header) + 34 (STREAMINFO) = 42 bytes
-    if (blob.size() < 42) {
+    if (static_cast<int>(blob.size()) < 42) {
         return;
     }
 
@@ -573,7 +573,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
     //   Byte  26:    page_segments (number of entries in segment table)
     //   Bytes 27+:   segment_table[page_segments]
     //   Bytes 27+page_segments: page body (Vorbis identification packet)
-    if (blob.size() < 58) {
+    if (static_cast<int>(blob.size()) < 58) {
         return;
     }
 
@@ -620,7 +620,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
 MediaExtractionData AudioProcessor::extractMetadata(const std::vector<uint8_t> &blob) {
     MediaExtractionData data = {};
 
-    if (blob.size() < 4) {
+    if (static_cast<int>(blob.size()) < 4) {
         return data;
     }
 

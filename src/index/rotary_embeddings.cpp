@@ -73,7 +73,7 @@ std::vector<float> RotaryEmbedding::rotateImpl(
     bool is_relational
 ) const {
     const auto started_at = std::chrono::steady_clock::now();
-    if (embedding.size() != config_.hidden_dim) {
+    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 
@@ -119,7 +119,7 @@ std::vector<float> RotaryEmbedding::rotateInverse(
     const std::vector<float>& embedding,
     size_t position
 ) const {
-    if (embedding.size() != config_.hidden_dim) {
+    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 
@@ -155,7 +155,7 @@ std::vector<std::vector<float>> RotaryEmbedding::rotateBatch(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
-    if (embeddings.size() != positions.size()) {
+    if (static_cast<int>(embeddings.size()) != positions.size()) {
         throw std::invalid_argument(
             "Batch size mismatch: embeddings=" + std::to_string(embeddings.size()) +
             ", positions=" + std::to_string(positions.size())
@@ -176,7 +176,7 @@ std::vector<float> RotaryEmbedding::rotateRelational(
     const std::vector<float>& embedding,
     const std::string& relation_type
 ) const {
-    if (embedding.size() != config_.hidden_dim) {
+    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 

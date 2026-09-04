@@ -90,7 +90,7 @@ bool SecureTransportClient::compressData(const std::string& data,
     }
     
     // Only compress if data exceeds threshold
-    if (data.size() < config_.compression_threshold) {
+    if (static_cast<int>(data.size()) < config_.compression_threshold) {
         return false;
     }
     

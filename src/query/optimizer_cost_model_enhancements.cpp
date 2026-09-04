@@ -157,7 +157,7 @@ double EstimateValidation::computeP95Error() const {
 }
 
 bool EstimateValidation::hasSystematicUnderestimation() const {
-    if (samples.size() < 5) {
+    if (static_cast<int>(samples.size()) < 5) {
       return false;
     }
 
@@ -170,7 +170,7 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
         }
     }
     
-    if (ratios.size() < 5) {
+    if (static_cast<int>(ratios.size()) < 5) {
       return false;
     }
     std::sort(ratios.begin(), ratios.end());
@@ -179,7 +179,7 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
 }
 
 bool EstimateValidation::hasSystematicOverestimation() const {
-    if (samples.size() < 5) {
+    if (static_cast<int>(samples.size()) < 5) {
       return false;
     }
 
@@ -192,7 +192,7 @@ bool EstimateValidation::hasSystematicOverestimation() const {
         }
     }
     
-    if (ratios.size() < 5) {
+    if (static_cast<int>(ratios.size()) < 5) {
       return false;
     }
     std::sort(ratios.begin(), ratios.end());

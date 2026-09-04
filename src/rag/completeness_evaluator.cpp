@@ -421,7 +421,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
             }
             explanation << result.missing_information[i];
         }
-        if (result.missing_information.size() > 3) {
+        if (static_cast<int>(result.missing_information.size()) > 3) {
             explanation << " and " << (result.missing_information.size() - 3) << " more";
         }
         explanation << "\n";

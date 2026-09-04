@@ -98,7 +98,7 @@ CompressionResult CompressionStrategyManager::compress(
     }
     
     // Check if compression was beneficial
-    if (result.data.size() >= size * 0.95f) {
+    if (static_cast<int>(result.data.size()) >= size * 0.95f) {
         // Less than 5% savings, store uncompressed
         result.data.assign(data, data + size);
         result.method_used = CompressionMethod::NONE;
@@ -669,7 +669,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     // Read dictionary size
     uint8_t dict_size = data[0];
     
-    if (data.size() < static_cast<size_t>(1 + dict_size)) {
+    if (static_cast<int>(data.size()) < static_cast<size_t>(1 + dict_size)) {
         THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})", data.size(), dict_size);
         return {};  // Invalid format
     }

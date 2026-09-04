@@ -442,7 +442,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
 
         // Snippet: all remaining text
         item.snippet = extractText(li.first_child().value());
-        if (item.snippet.size() > 300) {
+        if (static_cast<int>(item.snippet.size()) > 300) {
           item.snippet = item.snippet.substr(0, 300) + "…";
         }
 

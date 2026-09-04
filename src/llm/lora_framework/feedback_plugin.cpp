@@ -196,7 +196,7 @@ bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
 
 bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch) const {
     // Check minimum batch size
-    if (batch.size() < config_.min_batch_size) {
+    if (static_cast<int>(batch.size()) < config_.min_batch_size) {
         return false;
     }
     

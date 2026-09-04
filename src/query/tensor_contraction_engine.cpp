@@ -307,7 +307,7 @@ TTTrain TensorContractionEngine::contractModes(
     std::size_t                    max_rank,
     double                         round_eps) {
 
-    if (modes_a.size() != modes_b.size())
+    if (static_cast<int>(modes_a.size()) != modes_b.size())
         throw std::invalid_argument(
             "TensorContractionEngine::contractModes: modes_a / modes_b length mismatch");
 

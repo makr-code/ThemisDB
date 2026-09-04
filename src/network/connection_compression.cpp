@@ -171,7 +171,7 @@ bool ZstdDictionaryCompressor::loadDictionary(
 std::vector<uint8_t> ZstdDictionaryCompressor::compress(
     const std::vector<uint8_t>& data) const
 {
-    if (data.size() < cfg_.min_compress_bytes) return {};
+    if (static_cast<int>(data.size()) < cfg_.min_compress_bytes) return {};
 
     const size_t bound = ZSTD_compressBound(data.size());
     if (ZSTD_isError(bound)) return {};
@@ -217,7 +217,7 @@ std::vector<uint8_t> ZstdDictionaryCompressor::compress(
 std::vector<uint8_t> ZstdDictionaryCompressor::decompress(
     const std::vector<uint8_t>& data) const
 {
-    if (data.size() < DICT_PREFIX_SIZE) return {};
+    if (static_cast<int>(data.size()) < DICT_PREFIX_SIZE) return {};
 
     uint32_t dict_id_in = 0;
     uint32_t orig_size  = 0;

@@ -264,7 +264,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     }
 
     // After '#' there must be a '/'.
-    if (ref.size() < 2 || ref[1] != '/') {
+    if (static_cast<int>(ref.size()) < 2 || ref[1] != '/') {
         return nullptr;
     }
 
@@ -567,7 +567,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- minItems ---
     if (schema.contains("minItems") && schema["minItems"].is_number_integer()) {
         std::size_t min = schema["minItems"].get<std::size_t>();
-        if (value.size() < min) {
+        if (static_cast<int>(value.size()) < min) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, minimum is "
                             + std::to_string(min));
         }
@@ -620,7 +620,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- minLength ---
     if (schema.contains("minLength") && schema["minLength"].is_number_integer()) {
         std::size_t min = schema["minLength"].get<std::size_t>();
-        if (s.size() < min) {
+        if (static_cast<int>(s.size()) < min) {
             result.addError("String at '" + json_path + "' is too short (length " + std::to_string(s.size())
                             + ", minimum " + std::to_string(min) + ")");
         }

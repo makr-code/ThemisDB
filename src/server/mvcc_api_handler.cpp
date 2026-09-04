@@ -361,7 +361,7 @@ void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string MvccApiHandler::extractKey([[maybe_unused]] const httplib::Request& req) {
-    if (req.matches.size() < 2) return {};
+    if (static_cast<int>(req.matches.size()) < 2) return {};
     std::string key = req.matches[1];
     if (!isValidMvccKey(key)) {
         return {};

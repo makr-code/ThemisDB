@@ -240,7 +240,7 @@ bool BaseModelAdapter::parseLayerInfo(const TensorMetadata& tensor, BaseLayerInf
     }
     
     // For 2D weight matrices: shape is typically [out_features, in_features] in GGUF
-    if (layer_info.shape.size() == 2) {
+    if (static_cast<int>(layer_info.shape.size()) == 2) {
         layer_info.out_features = layer_info.shape[0];
         layer_info.in_features = layer_info.shape[1];
         return true;
@@ -478,7 +478,7 @@ std::vector<float> BaseModelAdapter::getTokenEmbedding([[maybe_unused]] int toke
     }
     
     // Add to cache if not full
-    if (embedding_cache_.size() < MAX_CACHE_SIZE) {
+    if (static_cast<int>(embedding_cache_.size()) < MAX_CACHE_SIZE) {
         embedding_cache_[token_id] = embedding;
     }
     

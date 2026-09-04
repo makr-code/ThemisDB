@@ -106,12 +106,12 @@ int16_t alawToPcm([[maybe_unused]] uint8_t alaw_byte) {
  * Returns empty vector if the packet is too short.
  */
 std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
-    if (pkt.size() < 12) return {};
+    if (static_cast<int>(pkt.size()) < 12) return {};
     size_t offset = 12;
     uint8_t cc = pkt[0] & 0x0F;   // CSRC count
     offset += 4u * cc;             // skip CSRC list
     if (pkt[0] & 0x10) {           // extension bit
-        if (pkt.size() < offset + 4) return {};
+        if (static_cast<int>(pkt.size()) < offset + 4) return {};
         uint16_t ext_len = static_cast<uint16_t>((pkt[offset + 2] << 8) | pkt[offset + 3]);
         offset += 4u + 4u * ext_len;
     }
@@ -338,7 +338,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 
     // TASK 2.6: RTP packet validation (error code 6910)
     // CRITICAL GAP 12: Reject oversized RTP packets
-    if (rtp_packet.size() < 12) {
+    if (static_cast<int>(rtp_packet.size()) < 12) {
         THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
                     rtp_packet.size());
         return empty;

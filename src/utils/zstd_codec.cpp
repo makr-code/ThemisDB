@@ -292,7 +292,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     if (compressed.empty()) {
         return Ok(std::vector<uint8_t>());
     }
-    if (compressed.size() < 5
+    if (static_cast<int>(compressed.size()) < 5
         || compressed[0] != static_cast<uint8_t>('T')
         || compressed[1] != static_cast<uint8_t>('R')
         || compressed[2] != static_cast<uint8_t>('L')

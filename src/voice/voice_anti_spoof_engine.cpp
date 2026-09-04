@@ -117,7 +117,7 @@ SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
         result.reason = "Invalid audio or baseline data";
         return result;
     }
-    if (audio_data.size() < config_.min_audio_bytes || audio_data.size() > config_.max_audio_bytes) {
+    if (static_cast<int>(audio_data.size()) < config_.min_audio_bytes || audio_data.size() > config_.max_audio_bytes) {
         result.reason = "Audio payload outside supported bounds";
         return result;
     }
@@ -203,7 +203,7 @@ double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
 
 double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) {
     auto noise_profile = extractNoiseProfile(audio_data);
-    if (noise_profile.size() < 3) {
+    if (static_cast<int>(noise_profile.size()) < 3) {
         return 0.0;
     }
 
@@ -227,7 +227,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
@@ -293,7 +293,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpectralFeatures(const std::str
 
 std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 
@@ -325,7 +325,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
 
 std::vector<double> VoiceAntiSpoofEngine::extractNoiseProfile(const std::string& audio) {
     auto samples = parsePcm16Le(audio);
-    if (samples.size() < (config_.min_audio_bytes / 2)) {
+    if (static_cast<int>(samples.size()) < (config_.min_audio_bytes / 2)) {
         return {};
     }
 

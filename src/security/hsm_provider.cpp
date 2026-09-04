@@ -118,7 +118,7 @@ static std::string ossl_error() {
 
 // AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
                                 std::to_string(key.size()) + ")");
     }
@@ -159,11 +159,11 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
 
 // AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
                                 std::to_string(key.size()) + ")");
     }
-    if (encrypted.size() < 12 + 16) {
+    if (static_cast<int>(encrypted.size()) < 12 + 16) {
         throw std::runtime_error("AES-256-GCM decryption: encrypted data too short (expected at least " +
                                 std::to_string(12 + 16) + " bytes, got " + 
                                 std::to_string(encrypted.size()) + ")");

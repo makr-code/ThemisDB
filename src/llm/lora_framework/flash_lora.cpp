@@ -117,12 +117,12 @@ GPUTensor FlashLoRA::forward(
     auto input_shape = input.shape();
     size_t batch_size, seq_len, in_dim;
     
-    if (input_shape.size() == 2) {
+    if (static_cast<int>(input_shape.size()) == 2) {
         // [batch, in_dim]
         batch_size = input_shape[0];
         seq_len = 1;
         in_dim = input_shape[1];
-    } else if (input_shape.size() == 3) {
+    } else if (static_cast<int>(input_shape.size()) == 3) {
         // [batch, seq_len, in_dim]
         batch_size = input_shape[0];
         seq_len = input_shape[1];
@@ -136,7 +136,7 @@ GPUTensor FlashLoRA::forward(
     
     // Create output tensor
     GPUTensor output = {};
-    if (input_shape.size() == 2) {
+    if (static_cast<int>(input_shape.size()) == 2) {
         output = GPUTensor({batch_size, out_dim}, input.device());
     } else {
         output = GPUTensor({batch_size, seq_len, out_dim}, input.device());
@@ -265,7 +265,7 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     auto input_shape = input.shape();
     size_t batch_size, seq_len, in_dim;
     
-    if (input_shape.size() == 2) {
+    if (static_cast<int>(input_shape.size()) == 2) {
         batch_size = input_shape[0];
         seq_len = 1;
         in_dim = input_shape[1];
@@ -291,7 +291,7 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     
     // Create gradient tensors
     GPUTensor grad_input = {};
-    if (input_shape.size() == 2) {
+    if (static_cast<int>(input_shape.size()) == 2) {
         grad_input = GPUTensor({batch_size, in_dim}, input.device());
     } else {
         grad_input = GPUTensor({batch_size, seq_len, in_dim}, input.device());
@@ -498,7 +498,7 @@ void FlashLoRA::validate_shapes(
 ) {
     // Validate input shape
     auto input_shape = input.shape();
-    if (input_shape.size() != 2 && input_shape.size() != 3) {
+    if (static_cast<int>(input_shape.size()) != 2 && input_shape.size() != 3) {
         throw std::invalid_argument(
             "Input must be 2D [batch, in_dim] or 3D [batch, seq_len, in_dim]"
         );
@@ -506,13 +506,13 @@ void FlashLoRA::validate_shapes(
     
     // Validate B shape
     auto B_shape = B.shape();
-    if (B_shape.size() != 2) {
+    if (static_cast<int>(B_shape.size()) != 2) {
         throw std::invalid_argument("B must be 2D [rank, in_dim]");
     }
     
     // Validate A shape
     auto A_shape = A.shape();
-    if (A_shape.size() != 2) {
+    if (static_cast<int>(A_shape.size()) != 2) {
         throw std::invalid_argument("A must be 2D [out_dim, rank]");
     }
     

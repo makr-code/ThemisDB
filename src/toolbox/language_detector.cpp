@@ -53,7 +53,7 @@ DefaultLanguageDetector::DefaultLanguageDetector(double min_ratio)
 
 std::string DefaultLanguageDetector::detect(std::string_view text) const {
     auto tokens = tokenize(text);
-    if (tokens.size() < 3) {
+    if (static_cast<int>(tokens.size()) < 3) {
         return "und";
     }
 

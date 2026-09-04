@@ -160,7 +160,7 @@ void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size,
         throw std::invalid_argument(error_msg);
     }
     
-    if (tokens.size() < min_size) {
+    if (static_cast<int>(tokens.size()) < min_size) {
         const std::string error_msg = "LlamaWrapper: Token array size (" + std::to_string(tokens.size()) + 
                                       ") is below minimum (" + std::to_string(min_size) + ") in " + context_name;
         spdlog::error("{}", error_msg);

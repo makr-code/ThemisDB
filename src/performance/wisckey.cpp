@@ -269,7 +269,7 @@ std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std
     static_cast<void>(key);
     if (is_separated(encoded_value)) {
         // Value is in value log
-        if (encoded_value.size() != ValueAddress::ENCODED_SIZE) {
+        if (static_cast<int>(encoded_value.size()) != ValueAddress::ENCODED_SIZE) {
             return std::nullopt;  // Malformed encoded value
         }
         ValueAddress addr = ValueAddress::decode(encoded_value);

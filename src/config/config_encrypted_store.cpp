@@ -285,7 +285,7 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
         KeyMaterial km;
         km.version   = j.at("key_version").get<uint32_t>();
         km.key_bytes = base64Decode(j.at("key_bytes").get<std::string>());
-        if (km.key_bytes.size() != 32) {
+        if (static_cast<int>(km.key_bytes.size()) != 32) {
             throw ConfigEncryptionException("deserialize: key_bytes must be exactly 32 bytes, got "
                                             + std::to_string(km.key_bytes.size()));
         }
@@ -379,10 +379,10 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
 
 std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciphertext, const std::vector<uint8_t> &key,
                                                 const std::vector<uint8_t> &iv, const std::vector<uint8_t> &tag) {
-    if (iv.size() != 12) {
+    if (static_cast<int>(iv.size()) != 12) {
         throw ConfigEncryptionException("aesGcmDecrypt: IV must be 12 bytes");
     }
-    if (tag.size() != 16) {
+    if (static_cast<int>(tag.size()) != 16) {
         throw ConfigEncryptionException("aesGcmDecrypt: tag must be 16 bytes");
     }
 

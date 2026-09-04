@@ -358,7 +358,7 @@ void RelationBuilder::buildCoOccurrence(ExtractionContext& ctx) const {
     }
 
     for (const auto& [section, ids] : by_section) {
-        if (ids.size() < 2) {
+        if (static_cast<int>(ids.size()) < 2) {
           continue;
         }
         for (std::size_t i = 0; i < ids.size(); ++i) {

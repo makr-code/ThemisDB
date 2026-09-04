@@ -612,7 +612,7 @@ private:
             return Err<SQLInsertStatement>(err.error().code(), err.error().context());
         }
 
-        if (stmt.columns.size() != stmt.values.size()) {
+        if (static_cast<int>(stmt.columns.size()) != stmt.values.size()) {
             return Err<SQLInsertStatement>(
                 errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
                 "Column count does not match value count in INSERT"
@@ -1097,7 +1097,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     aql << " RETURN ";
     if (stmt.star || stmt.columns.empty()) {
         aql << var;
-    } else if (stmt.columns.size() == 1) {
+    } else if (static_cast<int>(stmt.columns.size()) == 1) {
         aql << var << "." << stmt.columns[0];
     } else {
         aql << "{";

@@ -538,7 +538,7 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
         }
     }
 
-    if (row_keys.size() < threshold) {
+    if (static_cast<int>(row_keys.size()) < threshold) {
         return;
     }
 

@@ -195,7 +195,7 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
         stats_.current_buffer_memory = buffer.memory_bytes;
         
         // Check if this buffer needs immediate flush (use effective batch size)
-        if (buffer.points.size() >= effectiveBatchSize()) {
+        if (static_cast<int>(buffer.points.size()) >= effectiveBatchSize()) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} points",
                         buffer_key, buffer.points.size());
             
@@ -318,7 +318,7 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
 
 bool TSAutoBuffer::shouldFlushBuffer(const MetricBuffer& buffer) const {
     // Size threshold (use adaptive batch size when enabled)
-    if (buffer.points.size() >= effectiveBatchSize()) {
+    if (static_cast<int>(buffer.points.size()) >= effectiveBatchSize()) {
         return true;
     }
     
@@ -590,7 +590,7 @@ TSAutoBuffer::PushStatus TSAutoBuffer::push(const TSStore::DataPoint& point) {
         const size_t batch_trigger = (config_.gorilla_batch_size > 0)
                                          ? config_.gorilla_batch_size
                                          : effectiveBatchSize();
-        if (buffer.points.size() >= batch_trigger) {
+        if (static_cast<int>(buffer.points.size()) >= batch_trigger) {
             size_t flushed = flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
             THEMIS_DEBUG("TSAutoBuffer::push gorilla batch flush: {} points for {}",

@@ -286,7 +286,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (results.empty()) {
         return judge::EvaluationResult{};
     }
-    if (results.size() == 1) {
+    if (static_cast<int>(results.size()) == 1) {
         return results[0];
     }
 

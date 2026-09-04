@@ -652,7 +652,7 @@ QUICClient::~QUICClient() {
 /* static */
 bool QUICClient::parseUrl(const std::string &url, std::string &host, uint16_t &port) {
     constexpr std::string_view kScheme = "quic://";
-    if (url.size() < kScheme.size()) {
+    if (static_cast<int>(url.size()) < kScheme.size()) {
         return false;
     }
     std::string_view sv(url);

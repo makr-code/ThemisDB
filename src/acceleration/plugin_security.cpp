@@ -234,7 +234,7 @@ bool PluginSecurityVerifier::validatePluginPath(const std::string &path, std::st
     }
 
     // Reject paths with null bytes (check using size vs c_str length)
-    if (path.size() != std::strlen(path.c_str())) {
+    if (static_cast<int>(path.size()) != std::strlen(path.c_str())) {
         errorMessage = "Plugin path contains null byte";
         return false;
     }
@@ -1120,7 +1120,7 @@ bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &out
     if (outputPath.find("..") != std::string::npos) {
         return false;
     }
-    if (outputPath.size() != std::strlen(outputPath.c_str())) {
+    if (static_cast<int>(outputPath.size()) != std::strlen(outputPath.c_str())) {
         return false;
     }
     {

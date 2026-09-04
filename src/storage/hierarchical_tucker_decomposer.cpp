@@ -890,7 +890,7 @@ HierarchicalTuckerDecomposer::decompose(
         }
         N *= s;
     }
-    if (data.size() != N)
+    if (static_cast<int>(data.size()) != N)
         throw std::invalid_argument("HTDecomposer: data.size() != product of shape");
 
     // ── Step 1: HOSVD — compute mode-k SVDs for leaf bases ────────────────────

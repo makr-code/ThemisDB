@@ -440,7 +440,7 @@ private:
                 // splitBy('$') produces: ["","argon2id","v=19","m=...,t=...,p=...","<salt>","<hash>"]
                 auto parts = splitBy(stored_hash, '$');
                 // Expect exactly 6 parts (parts[0] is empty due to leading '$')
-                if (parts.size() != 6) {
+                if (static_cast<int>(parts.size()) != 6) {
                   return false;
                 }
 
@@ -513,7 +513,7 @@ private:
             constexpr int ITER         = 100000;
 
             // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars
-            if (stored_hash.size() != 7u + SALT_HEX_LEN + 1u + 64u) {
+            if (static_cast<int>(stored_hash.size()) != 7u + SALT_HEX_LEN + 1u + 64u) {
                 return false;
             }
 

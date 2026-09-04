@@ -99,7 +99,7 @@ bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
                                               std::string& out_msg)
 {
     // Minimum frame: 5-byte header
-    if (body.size() < 5) {
+    if (static_cast<int>(body.size()) < 5) {
         return false;
     }
 
@@ -123,7 +123,7 @@ bool GrpcWebProxyHandler::decodeGrpcWebFrame(const std::string& body,
         (static_cast<uint32_t>(static_cast<uint8_t>(body[4])));
 
     // Validate that the body contains the promised bytes
-    if (body.size() < static_cast<size_t>(5) + msg_len) {
+    if (static_cast<int>(body.size()) < static_cast<size_t>(5) + msg_len) {
         return false;
     }
 

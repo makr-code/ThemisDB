@@ -171,7 +171,7 @@ bool isValidCronExpression(const std::string& expression) {
         fields.push_back(field);
     }
 
-    if (fields.size() != 5) {
+    if (static_cast<int>(fields.size()) != 5) {
         return false;
     }
 
@@ -415,7 +415,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     }
     case StorageBackend::AZURE: {
         const auto segments = splitPathSegments(payload);
-        if (segments.size() < 2) {
+        if (static_cast<int>(segments.size()) < 2) {
             return std::nullopt;
         }
 
@@ -835,7 +835,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             
         case RAIDMode::RAID5:
             // RAID5: N-1 data shards, 1 parity shard
-            if (config.shards.size() >= 3) {
+            if (static_cast<int>(config.shards.size()) >= 3) {
                 config.data_shards = static_cast<uint32_t>(config.shards.size() - 1);
                 config.parity_shards = 1;
                 config.is_coordinated = true;  // Need all shards (data + parity)
@@ -844,7 +844,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             
         case RAIDMode::RAID6:
             // RAID6: N-2 data shards, 2 parity shards
-            if (config.shards.size() >= 4) {
+            if (static_cast<int>(config.shards.size()) >= 4) {
                 config.data_shards = static_cast<uint32_t>(config.shards.size() - 2);
                 config.parity_shards = 2;
                 config.is_coordinated = true;  // Need all shards (data + double parity)
@@ -2747,7 +2747,7 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         for (const auto& backup_name : backups) {
             // Only consider full backups (incremental replay not yet implemented).
             static constexpr std::string_view kPrefix = "full_";
-            if (backup_name.size() < static_cast<int>(kPrefix.size()) + 15u) {
+            if (static_cast<int>(backup_name.size()) < static_cast<int>(kPrefix.size()) + 15u) {
               continue;
             }
             if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) {

@@ -46,7 +46,7 @@ void ApiKeyAuthenticator::addCredential(const ApiKeyCredential& credential) {
         ));
     }
     // A valid SHA-256 hex digest is exactly 64 lower-case hex characters.
-    if (credential.secret_hash.size() != 64) {
+    if (static_cast<int>(credential.secret_hash.size()) != 64) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_CONFIG_INVALID,
             "API key credential error",
@@ -253,7 +253,7 @@ ApiKeyCredential ApiKeyAuthenticator::createCredential(
 bool ApiKeyAuthenticator::constantTimeEqual(const std::string& a,
                                              const std::string& b)
 {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
         return false;
     }
     return CRYPTO_memcmp(a.data(), b.data(), a.size()) == 0;

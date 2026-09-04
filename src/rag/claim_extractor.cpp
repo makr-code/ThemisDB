@@ -219,7 +219,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         return result;
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         result.consistency_score = 1.0;
         result.confidence = 1.0;
         result.consensus_answer = samples[0];
@@ -293,7 +293,7 @@ std::string SelfConsistencyEvaluator::extractConsensus(
         return "";
     }
     
-    if (samples.size() == 1) {
+    if (static_cast<int>(samples.size()) == 1) {
         return samples[0];
     }
     

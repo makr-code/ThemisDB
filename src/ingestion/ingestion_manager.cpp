@@ -1245,7 +1245,7 @@ public:
                   continue;
                 }
                 ++preview.total_available;
-                if (preview.documents.size() < max_documents) {
+                if (static_cast<int>(preview.documents.size()) < max_documents) {
                     addDoc(entry.path());
                 }
             }

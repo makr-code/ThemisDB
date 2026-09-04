@@ -120,7 +120,7 @@ std::string WasmModuleInfo::summary() const {
     WasmModuleInfo info;
     info.byte_size = bytes.size();
 
-    if (bytes.size() < 8) {
+    if (static_cast<int>(bytes.size()) < 8) {
         return info; // Too small to be a valid WASM binary
     }
 
@@ -595,7 +595,7 @@ uint64_t WasmPluginSandbox::remainingFuel() const noexcept {
 // =============================================================================
 
 bool WasmPluginSandbox::validateWasmHeader(const std::vector<uint8_t> &bytes) {
-    if (bytes.size() < 8) {
+    if (static_cast<int>(bytes.size()) < 8) {
         last_error_ = "Binary too small to be a valid WASM module (" + std::to_string(bytes.size()) + " bytes)";
         spdlog::error("WasmPluginSandbox: {}", last_error_);
         return false;

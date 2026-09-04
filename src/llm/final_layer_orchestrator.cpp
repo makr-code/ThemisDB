@@ -233,7 +233,7 @@ FinalLayerResolution FinalLayerOrchestrator::resolve(const FinalLayerRequest& re
     }
 
     if (!package) {
-        if (packages_.size() == 1u) {
+        if (static_cast<int>(packages_.size()) == 1u) {
             package = &packages_.begin()->second;
             if (resolution.routing_reason_code.empty()) {
                 resolution.routing_reason_code = std::string(observability::reason_codes::final_layer::kSinglePackageSelected);

@@ -64,7 +64,7 @@ std::string PDFProcessor::getLibraryVersion() {
 
 bool PDFProcessor::isPDFValid(const std::string &blob) {
     // Check PDF header signature
-    if (blob.size() < 8) {
+    if (static_cast<int>(blob.size()) < 8) {
         return false;
     }
     // PDF starts with %PDF-x.x
@@ -588,7 +588,7 @@ int PDFProcessor::countTokens(const std::string &text) {
 std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
     // PDF date format: D:YYYYMMDDHHmmSSOHH'mm'
     // Convert to ISO 8601
-    if (pdf_date.size() < 10) {
+    if (static_cast<int>(pdf_date.size()) < 10) {
         return "";
     }
 
@@ -597,7 +597,7 @@ std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
         date = date.substr(2);
     }
 
-    if (date.size() < 8) {
+    if (static_cast<int>(date.size()) < 8) {
         return "";
     }
 

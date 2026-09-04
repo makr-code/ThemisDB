@@ -203,7 +203,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         // inputs (which would require zero-padding and may confuse static
         // analysers), and does not expose any additional timing information
         // beyond the publicly-known expected token length.
-        if (stored.size() != token_str.size()) {
+        if (static_cast<int>(stored.size()) != token_str.size()) {
           continue;
         }
         // Constant-time byte comparison: CRYPTO_memcmp runs in O(len) time

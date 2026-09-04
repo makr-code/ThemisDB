@@ -438,7 +438,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
                                  " missing, but only " + std::to_string(parity_shards) +
                                  " parity shard(s) available");
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -480,7 +480,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [idx, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(idx);
         }
     }
@@ -819,7 +819,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
                                  " parity shard(s) available");
     }
     // Check if we have enough chunks
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
     
@@ -869,7 +869,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     
     for (const auto& [idx, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(idx);
         }
     }
@@ -1185,7 +1185,7 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
               avail_rows.push_back(data_shards + p);
             }
 
-        if (avail_rows.size() < data_shards)
+        if (static_cast<int>(avail_rows.size()) < data_shards)
             throw std::runtime_error("LRC decode: insufficient shards for recovery");
 
         // Build encode matrix: identity (data) + Vandermonde (global)
@@ -1730,7 +1730,7 @@ WriteResult RedundancyStrategy::writeMirror(
             break;
     }
 
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult result;
         result.success = false;
         result.document_id = document_id;
@@ -1740,7 +1740,7 @@ WriteResult RedundancyStrategy::writeMirror(
 
     // Fast path: single target shard should be handled synchronously to avoid
     // unnecessary async machinery and potential blocking edge cases.
-    if (target_shards.size() == 1) {
+    if (static_cast<int>(target_shards.size()) == 1) {
         const auto& shard_id = target_shards.front();
         bool ok = false;
         try {
@@ -1997,7 +1997,7 @@ WriteResult RedundancyStrategy::writeStripe(
             break;
     }
     
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult result;
         result.success = false;
         result.document_id = document_id;
@@ -2278,7 +2278,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
             break;
     }
 
-    if (target_shards.size() < required_acks) {
+    if (static_cast<int>(target_shards.size()) < required_acks) {
         WriteResult r;
         r.success = false;
         r.document_id = document_id;
@@ -2792,7 +2792,7 @@ ReadResult RedundancyStrategy::readParity(
     
     // W2-S06: Consensus validation — check if we have enough chunks for recovery
     // Check if we can recover (need at least k data shards)
-    if (available_chunks.size() < data_shards_snap) {
+    if (static_cast<int>(available_chunks.size()) < data_shards_snap) {
         result.error_message = "Not enough chunks available for recovery";
         return result;
     }

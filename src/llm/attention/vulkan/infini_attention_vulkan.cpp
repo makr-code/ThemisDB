@@ -392,7 +392,7 @@ std::vector<float> InfiniAttentionVulkan::getCompressiveMemory() const {
 
 Status InfiniAttentionVulkan::restoreCompressiveMemory(const std::vector<float>& checkpoint) {
     size_t expected_size = config_.memory_dim * config_.memory_dim;
-    if (checkpoint.size() != expected_size) {
+    if (static_cast<int>(checkpoint.size()) != expected_size) {
         throw std::invalid_argument("Checkpoint size mismatch");
     }
 

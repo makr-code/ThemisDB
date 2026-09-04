@@ -61,7 +61,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided return zero mask immediately.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 
@@ -164,7 +164,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Point-in-polygon test using ray-casting algorithm
     bool pointInPolygon(const Coordinate &point, const GeometryInfo &polygon) const {
         const auto &ring = polygon.rings.empty() ? polygon.coords : polygon.rings[0];
-        if (ring.size() < 3) {
+        if (static_cast<int>(ring.size()) < 3) {
             return false;
         }
 
@@ -355,7 +355,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 
@@ -688,7 +688,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 

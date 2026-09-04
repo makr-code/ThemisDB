@@ -4436,7 +4436,7 @@ namespace {
         }
         // /v1/queries/continuous/:name
         // /v1/queries/continuous/:name/results
-        if (path_only.size() > 23 &&
+        if (static_cast<int>(path_only.size()) > 23 &&
             path_only.substr(0, 23) == "/v1/queries/continuous/")
         {
             const std::string rest_cq = path_only.substr(23);  // ":name" or ":name/results"
@@ -10394,7 +10394,7 @@ namespace {
         std::string date = s.substr(0, tpos);
         std::string rest = s.substr(tpos + 1);
         // Parse date
-        if (date.size() != 10) {
+        if (static_cast<int>(date.size()) != 10) {
           return 0;
         }
         std::istringstream dss(date);

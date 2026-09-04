@@ -63,7 +63,7 @@ RedundancyMetrics SimilarityBasedDetector::detect(
     metrics.total_candidates = summaries.size();
     metrics.similarity_threshold = threshold;
 
-    if (summaries.size() < 2) {
+    if (static_cast<int>(summaries.size()) < 2) {
         metrics.redundant_count = 0;
         metrics.unique_count = summaries.size();
         metrics.redundancy_ratio = 0.0f;

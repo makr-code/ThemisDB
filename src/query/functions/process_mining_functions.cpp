@@ -786,7 +786,7 @@ json PmFindSimilarFunction::execute(
 json PmCompareIdealFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
-    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_string() || !args[1].is_object()) {
         return makeError("PM_COMPARE_IDEAL: expected case_id string and ideal_model object");
     }
 
@@ -802,7 +802,7 @@ json PmCompareIdealFunction::execute(
 json PmHasPatternFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
-    if (args.size() < 2 || !args[0].is_string() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_string() || !args[1].is_object()) {
         return false;
     }
 
@@ -1060,7 +1060,7 @@ json PmConformanceFunction::execute(
     result["generalization"] = 0.0;
     result["simplicity"]     = 0.0;
 
-    if (args.size() < 2 || !args[0].is_object() || !args[1].is_object()) {
+    if (static_cast<int>(args.size()) < 2 || !args[0].is_object() || !args[1].is_object()) {
         return result;
     }
 
@@ -1103,7 +1103,7 @@ json PmDeviationsFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.size() < 2) {
+    if (static_cast<int>(args.size()) < 2) {
       return json::array();
     }
 

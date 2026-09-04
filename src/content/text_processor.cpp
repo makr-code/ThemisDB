@@ -368,7 +368,7 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     // Build 3-word shingles (fall back to unigrams for very short texts)
     std::vector<std::string> shingles = {};
 
-    if (words.size() < 3) {
+    if (static_cast<int>(words.size()) < 3) {
         shingles = words;
     } else {
         shingles.reserve(static_cast<int>(words.size()) - 2);

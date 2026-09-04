@@ -97,7 +97,7 @@ struct ConstraintPart {
 /// Returns false when the token is malformed or does not start with a
 /// recognised operator.
 static bool parseConstraintToken(const std::string& token, ConstraintPart& out) {
-    if (token.size() < 2) {
+    if (static_cast<int>(token.size()) < 2) {
       return false;
     }
     size_t pos = 0;
@@ -452,7 +452,7 @@ ResolutionResult DependencyResolver::resolve(
 
     // ── Phase 4: Cycle detection ──────────────────────────────────────────
 
-    if (sorted_pkgs.size() != node_target.size()) {
+    if (static_cast<int>(sorted_pkgs.size()) != node_target.size()) {
         std::vector<std::string> cycle_nodes = {};
 
        cycle_nodes.reserve(in_degree.size());  // Pre-allocate (Error Code: 7459)

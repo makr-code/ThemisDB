@@ -66,7 +66,7 @@ static void append_crc32(std::vector<uint8_t>& buf) {
 // not in the new framing format (legacy path: no CRC trailer).
 static std::optional<std::string_view> verify_crc32(std::string_view data) {
     constexpr size_t kCrcSize = 4;
-    if (data.size() < kCrcSize) {
+    if (static_cast<int>(data.size()) < kCrcSize) {
         // Too short for CRC trailer — treat as legacy (no checksum).
         return data;
     }
@@ -285,7 +285,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
     }
 
     std::string_view found_key = it.key();
-    if (found_key.size() < prefix.size() ||
+    if (static_cast<int>(found_key.size()) < prefix.size() ||
         found_key.substr(0, prefix.size()) != std::string_view(prefix)) {
         return std::nullopt;
     }

@@ -52,7 +52,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
 ) const {
     AggregatedMetrics agg = {};
     
-    if (outputs.size() != expected.size()) {
+    if (static_cast<int>(outputs.size()) != expected.size()) {
         THEMIS_ERROR("Output and expected vectors must have same size");
         return agg;
     }

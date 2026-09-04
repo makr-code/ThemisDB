@@ -207,7 +207,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     stats.memory_usage.push_back([[maybe_unused]] static_cast<double>(event.resource_usage.memory_bytes));
     
     // Limit history size
-    if (stats.execution_times.size() > config_.max_history_size) {
+    if (static_cast<int>(stats.execution_times.size()) > config_.max_history_size) {
         stats.execution_times.pop_front();
         stats.execution_durations.pop_front();
         stats.execution_results.pop_front();
@@ -254,7 +254,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     }
     
     // Calculate execution frequency
-    if (stats.execution_times.size() >= 2) {
+    if (static_cast<int>(stats.execution_times.size()) >= 2) {
         auto duration = stats.last_execution - stats.first_execution;
         auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
         if (hours > 0) {
@@ -274,7 +274,7 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_times.size() < config_.min_samples) {
+    if (static_cast<int>(stats.execution_times.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -318,7 +318,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_times.size() < config_.pattern_window_size) {
+    if (static_cast<int>(stats.execution_times.size()) < config_.pattern_window_size) {
         return 0.0;
     }
     
@@ -363,7 +363,7 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.cpu_usage.size() < config_.min_samples) {
+    if (static_cast<int>(stats.cpu_usage.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -398,7 +398,7 @@ double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
     }
     const auto& stats = it->second;
     
-    if (stats.execution_results.size() < config_.min_samples) {
+    if (static_cast<int>(stats.execution_results.size()) < config_.min_samples) {
         return 0.0;
     }
     
@@ -546,7 +546,7 @@ void TaskAnomalyDetector::recalibrateBaseline(const std::string& task_id) {
     }
     
     // Recalculate execution frequency
-    if (stats.execution_times.size() >= 2) {
+    if (static_cast<int>(stats.execution_times.size()) >= 2) {
         auto duration = stats.last_execution - stats.first_execution;
         auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
         if (hours > 0) {
@@ -751,7 +751,7 @@ double TaskAnomalyDetector::calculateMean(const std::deque<double>& values) cons
 }
 
 double TaskAnomalyDetector::calculateStdDev(const std::deque<double>& values, double mean) const {
-    if (values.size() < 2) {
+    if (static_cast<int>(values.size()) < 2) {
         return 0.0;
     }
     

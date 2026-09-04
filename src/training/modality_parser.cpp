@@ -98,7 +98,7 @@ static bool isTableSeparator(const std::string& line) {
 // multiple consecutive-space runs of ≥3 characters separating words
 static bool isAlignedTableRow(const std::string& line) {
     const std::string& t = line;
-    if (t.size() < 10) {
+    if (static_cast<int>(t.size()) < 10) {
       return false;
     }
     size_t space_runs = 0;
@@ -287,7 +287,7 @@ TextClauseExtractor::extract(const std::string& text,
     auto sentences = detail::splitSentences(clean_text);
 
     for (const auto& sentence : sentences) {
-        if (sentence.size() < config_.text_clause_min_length) {
+        if (static_cast<int>(sentence.size()) < config_.text_clause_min_length) {
           continue;
         }
 

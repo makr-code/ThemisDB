@@ -339,7 +339,7 @@ DependencyResolutionResult ModuleDependencyResolver::topologicalSort(
     }
 
     // If not all nodes were processed, at least one cycle exists.
-    if (result.loadOrder.size() != nodes.size()) {
+    if (static_cast<int>(result.loadOrder.size()) != nodes.size()) {
         std::vector<std::string> cycleNodes = {};
 
         for (const auto& kv : inDegree) {

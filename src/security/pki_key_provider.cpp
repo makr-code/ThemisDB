@@ -172,7 +172,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     if (existing_opt.has_value()) {
         // Decode hex
         const std::string hex(existing_opt->begin(), existing_opt->end());
-        if (hex.size() != 64) {
+        if (static_cast<int>(hex.size()) != 64) {
             throw std::runtime_error("Persisted IKM hat unerwartete Länge (" + std::to_string(hex.size()) + ")");
         }
         ikm_raw.reserve(32);
@@ -239,7 +239,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t v
             // If JSON parsing failed, try legacy/binary format: iv||ciphertext||tag
             if (!parsed) {
                 const auto& enc = *encrypted_dek_opt;
-                if (enc.size() < 12 + 16) {
+                if (static_cast<int>(enc.size()) < 12 + 16) {
                     throw std::runtime_error("Invalid encrypted DEK format");
                 }
                 blob.iv.assign(enc.begin(), enc.begin() + 12);
@@ -512,7 +512,7 @@ std::vector<uint8_t> PKIKeyProvider::loadOrCreateGroupDEK(const std::string& gro
         auto encrypted = *encrypted_dek_opt;
         
         // Extract nonce (first 12 bytes)
-        if (encrypted.size() < 12 + 16) {
+        if (static_cast<int>(encrypted.size()) < 12 + 16) {
             throw std::runtime_error("Invalid encrypted Group DEK format");
         }
          

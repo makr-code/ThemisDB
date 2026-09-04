@@ -135,7 +135,7 @@ bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
         return false;
     }
 
-    if (actual.size() != expected_hash.size()) {
+    if (static_cast<int>(actual.size()) != expected_hash.size()) {
         THEMIS_WARN("USBVolumeHardening: volume hash length mismatch (actual={} expected={})",
                     actual.size(), expected_hash.size());
         return false;
@@ -342,7 +342,7 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
         return false;
     }
 
-    if (actual.size() != expected_serial.size()) {
+    if (static_cast<int>(actual.size()) != expected_serial.size()) {
         THEMIS_WARN("USBVolumeHardening: USB serial length mismatch — possible cloned device");
         return false;
     }

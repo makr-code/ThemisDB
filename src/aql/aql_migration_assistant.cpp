@@ -310,7 +310,7 @@ std::string AQLMigrationAssistant::rewriteNear(const std::string &query, std::ve
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 4) {
+        if (static_cast<int>(args.size()) < 4) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "NEAR() detected but argument count is unexpected; manual migration required",
                               "Replace NEAR(collection, lat, lng, n) with: "
@@ -388,7 +388,7 @@ std::string AQLMigrationAssistant::rewriteWithin(const std::string &query, std::
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 4) {
+        if (static_cast<int>(args.size()) < 4) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "WITHIN() detected but argument count is unexpected; manual migration required",
                               "Replace WITHIN(collection, lat, lng, radius) with: "
@@ -466,7 +466,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
         }
 
         auto args = splitArgs(args_str);
-        if (args.size() < 3) {
+        if (static_cast<int>(args.size()) < 3) {
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "FULLTEXT() detected but argument count is unexpected; manual migration required",
                               "Replace FULLTEXT(collection, attribute, searchQuery) with: "
@@ -483,7 +483,7 @@ std::string AQLMigrationAssistant::rewriteFulltext(const std::string &query,
 
         // Strip quotes from attribute if present
         std::string attr = attr_quoted;
-        if (attr.size() >= 2
+        if (static_cast<int>(attr.size()) >= 2
             && ((attr.front() == '"' && attr.back() == '"') || (attr.front() == '\'' && attr.back() == '\''))) {
             attr = attr.substr(1, static_cast<int>(attr.size()) - 2);
         }
@@ -549,7 +549,7 @@ std::string AQLMigrationAssistant::rewriteDocument(const std::string &query,
 
         auto args = splitArgs(args_str);
 
-        if (args.size() == 1) {
+        if (static_cast<int>(args.size()) == 1) {
             // Single-arg form: cannot automatically rewrite
             issues.push_back({MigrationIssue::Severity::WARNING,
                               "DOCUMENT(id) single-argument form is not directly supported in ThemisDB",

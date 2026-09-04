@@ -88,7 +88,7 @@ void CrossShardForeignKeyValidator::removeConstraint(
         std::remove_if(constraints_.begin(), constraints_.end(),
             [&]([[maybe_unused]] const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
         constraints_.end());
-    if (constraints_.size() < before) {
+    if (static_cast<int>(constraints_.size()) < before) {
         spdlog::debug("CrossShardFKValidator: removed constraint '{}'", constraint_name);
     }
 }

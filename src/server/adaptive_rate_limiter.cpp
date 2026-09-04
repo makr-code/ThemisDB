@@ -56,7 +56,7 @@ void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
     state.window.push_back(ts);
 
     // Adapt capacity whenever we have accumulated enough samples.
-    if (state.window.size() >= config_.min_samples_to_adapt) {
+    if (static_cast<int>(state.window.size()) >= config_.min_samples_to_adapt) {
         pruneAndAdapt(state);
     }
 }
@@ -131,7 +131,7 @@ void AdaptiveRateLimiter::pruneAndAdapt(TenantState& state)
         state.window.end());
 
     // Don't adapt until we have enough samples.
-    if (state.window.size() < config_.min_samples_to_adapt) {
+    if (static_cast<int>(state.window.size()) < config_.min_samples_to_adapt) {
         return;
     }
 

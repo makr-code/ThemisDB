@@ -464,7 +464,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     }
 
     // Validate shape compatibility
-    if (data.cores.size() != cfg_.grid_shape.size()) {
+    if (static_cast<int>(data.cores.size()) != cfg_.grid_shape.size()) {
         std::ostringstream oss = {};
         oss << "TensorButterflyOperator::apply: data has " << data.cores.size()
             << " modes but operator was built for " << cfg_.grid_shape.size()

@@ -681,7 +681,7 @@ double MoralAnalyzer::checkConsistency(const EthicalDecision& decision) {
     }
     
     // Reward if multiple principles support the decision
-    if (decision.principle_citations.size() >= 3) {
+    if (static_cast<int>(decision.principle_citations.size()) >= 3) {
         consistency += 0.1;
     }
     

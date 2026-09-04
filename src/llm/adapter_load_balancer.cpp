@@ -62,7 +62,7 @@ int AdapterLoadBalancer::selectGPUForAdapter(
         if (free_vram >= vram_bytes && free_vram > max_free_vram) {
             // Check adapter count limit
             auto& adapters = gpu_to_adapters_[gpu_id];
-            if (adapters.size() < config_.max_adapters_per_gpu) {
+            if (static_cast<int>(adapters.size()) < config_.max_adapters_per_gpu) {
                 max_free_vram = free_vram;
                 best_gpu = gpu_id;
             }
@@ -253,7 +253,7 @@ bool AdapterLoadBalancer::rebalance() {
     spdlog::info("Starting adapter load rebalancing");
     
     auto healthy_gpus = memory_manager_->getHealthyGPUs();
-    if (healthy_gpus.size() < 2) {
+    if (static_cast<int>(healthy_gpus.size()) < 2) {
         return false;  // No rebalancing needed with single GPU
     }
     

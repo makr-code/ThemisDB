@@ -285,7 +285,7 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
         return result;
     }
     for (const auto& upd : updates) {
-        if (upd.gradient.size() != dims) {
+        if (static_cast<int>(upd.gradient.size()) != dims) {
             throw std::invalid_argument("All participant gradients must share identical dimensions");
         }
     }

@@ -343,7 +343,7 @@ std::vector<uint8_t> UDPFastPath::dispatchPing([[maybe_unused]] uint32_t request
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
-    if (data.size() < kUdpFastPathHeaderSize) {
+    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize) {
         return false;
     }
     // Magic bytes
@@ -358,7 +358,7 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     uint16_t payload_len_be;
     std::memcpy(&payload_len_be, data.data() + 8, 2);
     const uint16_t payload_len = ntohs(payload_len_be);
-    if (data.size() < kUdpFastPathHeaderSize + payload_len) {
+    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize + payload_len) {
         return false;
     }
     return true;

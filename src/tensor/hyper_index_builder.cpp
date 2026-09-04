@@ -556,7 +556,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         const std::vector<ColumnSchema>& schema,
         const std::vector<TableRow>&     rows,
         const HyperIndexConfig&          cfg) {
-    if (schema.size() < 2) {
+    if (static_cast<int>(schema.size()) < 2) {
         throw std::invalid_argument("schema must have at least 2 columns, got: " +
                                     std::to_string(schema.size()));
     }
@@ -610,7 +610,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
                 tenant_id, schema, row, row_idx, buckets);
-            if (assigned.size() != schema.size()) {
+            if (static_cast<int>(assigned.size()) != schema.size()) {
                 throw std::runtime_error(
                     "bucket assignment bridge returned " +
                     std::to_string(assigned.size()) +

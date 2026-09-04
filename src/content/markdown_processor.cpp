@@ -51,7 +51,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     body_out = markdown;
 
     // Must start with "---" on its own line
-    if (markdown.size() < 3 || markdown.substr(0, 3) != "---") {
+    if (static_cast<int>(markdown.size()) < 3 || markdown.substr(0, 3) != "---") {
         return fm;
     }
     size_t first_nl = markdown.find('\n');
@@ -119,7 +119,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             std::string item = {};
             while (std::getline(list_ss, item, ',')) {
                 std::string ti = trimCopy(item);
-                if (ti.size() >= 2 &&
+                if (static_cast<int>(ti.size()) >= 2 &&
                     ((ti.front() == '"' && ti.back() == '"') ||
                      (ti.front() == '\'' && ti.back() == '\''))) {
                     ti = ti.substr(1, static_cast<int>(ti.size()) - 2);
@@ -129,7 +129,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             fm[key] = arr;
         } else {
             // Scalar — strip optional surrounding quotes
-            if (value.size() >= 2 &&
+            if (static_cast<int>(value.size()) >= 2 &&
                 ((value.front() == '"' && value.back() == '"') ||
                  (value.front() == '\'' && value.back() == '\''))) {
                 value = value.substr(1, static_cast<int>(value.size()) - 2);

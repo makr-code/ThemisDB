@@ -497,7 +497,7 @@ bool VoiceTTSCustomizer::isSSMLSafe(const std::string& ssml_input) const {
 float VoiceTTSCustomizer::computeSignalEnergy(
     const std::vector<uint8_t>& audio, int /*sample_rate*/) const
 {
-    if (audio.size() < 2) {
+    if (static_cast<int>(audio.size()) < 2) {
       return 0.0f;
     }
     size_t n_samples = audio.size() / 2;
@@ -514,7 +514,7 @@ float VoiceTTSCustomizer::computeSignalEnergy(
 float VoiceTTSCustomizer::computeSpeechRhythm(
     const std::vector<uint8_t>& audio, int sample_rate) const
 {
-    if (audio.size() < 2 || sample_rate <= 0) {
+    if (static_cast<int>(audio.size()) < 2 || sample_rate <= 0) {
       return 0.5f;
     }
     // Simple rhythm: variance in energy across 100ms windows
@@ -571,7 +571,7 @@ MOSMetrics VoiceTTSCustomizer::estimateMOS(
     const std::vector<uint8_t>& audio_data, int sample_rate) const
 {
     MOSMetrics m = {};
-    if (audio_data.size() < 2) {
+    if (static_cast<int>(audio_data.size()) < 2) {
         m.mos_score = 1.0f;
         m.quality_label = classifyMOS(1.0f);
         return m;

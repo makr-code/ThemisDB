@@ -94,7 +94,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
         fields.push_back(field);
     }
     
-    if (fields.size() != 5 && fields.size() != 6) {
+    if (static_cast<int>(fields.size()) != 5 && fields.size() != 6) {
         THEMIS_ERROR("Invalid cron expression: expected 5 or 6 fields, got {}", fields.size());
         return std::nullopt;
     }
@@ -131,7 +131,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     }
 
     // Optional 6th field: year (1970-2199)
-    if (fields.size() == 6) {
+    if (static_cast<int>(fields.size()) == 6) {
         auto years = parseField(fields[5], 1970, 2199);
         if (!years) {
             THEMIS_ERROR("Invalid year field: {} (must be in range 1970-2199)", fields[5]);
@@ -181,7 +181,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
         fields.push_back(field);
     }
     
-    if (fields.size() != 5 && fields.size() != 6) {
+    if (static_cast<int>(fields.size()) != 5 && fields.size() != 6) {
         result.error_message = "Cron expression must have 5 fields (minute hour day month weekday)"
                                " or 6 fields (minute hour day month weekday year), got " +
                                std::to_string(fields.size());
@@ -214,7 +214,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
         return result;
     }
 
-    if (fields.size() == 6 && !parseField(fields[5], 1970, 2199)) {
+    if (static_cast<int>(fields.size()) == 6 && !parseField(fields[5], 1970, 2199)) {
         result.error_message = "Invalid year field '" + fields[5] + "' (must be 1970-2199)";
         return result;
     }
@@ -401,7 +401,7 @@ std::string CronExpression::describe() const {
     std::ostringstream oss = {};
     
     // Simple description based on patterns
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
         hours_.size() == 1 && *hours_.begin() == 0 &&
         days_.size() == 1 && *days_.begin() == 1 &&
         months_.size() == 12) {
@@ -409,7 +409,7 @@ std::string CronExpression::describe() const {
         return oss.str();
     }
     
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
         hours_.size() == 1 && *hours_.begin() == 0 &&
         days_.size() == 31 &&
         months_.size() == 12) {
@@ -417,7 +417,7 @@ std::string CronExpression::describe() const {
         return oss.str();
     }
     
-    if (minutes_.size() == 1 && *minutes_.begin() == 0 &&
+    if (static_cast<int>(minutes_.size()) == 1 && *minutes_.begin() == 0 &&
         hours_.size() == 1 &&
         days_.size() == 31 &&
         months_.size() == 12) {
@@ -425,19 +425,19 @@ std::string CronExpression::describe() const {
         return oss.str();
     }
     
-    if (minutes_.size() == 60 && hours_.size() == 1 &&
+    if (static_cast<int>(minutes_.size()) == 60 && hours_.size() == 1 &&
         days_.size() == 31 && months_.size() == 12) {
         oss << "Every minute during hour " << *hours_.begin();
         return oss.str();
     }
     
-    if (minutes_.size() == 4 && hours_.size() == 24 &&
+    if (static_cast<int>(minutes_.size()) == 4 && hours_.size() == 24 &&
         days_.size() == 31 && months_.size() == 12) {
         oss << "Every 15 minutes";
         return oss.str();
     }
     
-    if (minutes_.size() == 12 && hours_.size() == 24 &&
+    if (static_cast<int>(minutes_.size()) == 12 && hours_.size() == 24 &&
         days_.size() == 31 && months_.size() == 12) {
         oss << "Every 5 minutes";
         return oss.str();

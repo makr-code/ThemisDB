@@ -26,7 +26,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     SeriesProfile p;
     p.sample_count = points.size();
 
-    if (points.size() < 2) {
+    if (static_cast<int>(points.size()) < 2) {
         return p;
     }
 

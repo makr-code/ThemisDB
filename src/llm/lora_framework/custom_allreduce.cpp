@@ -82,7 +82,7 @@ bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) 
         auto data = tensor->cpu_data();
         if (tensor_size == 0) {
             tensor_size = data.size();
-        } else if (data.size() != tensor_size) {
+        } else if (static_cast<int>(data.size()) != tensor_size) {
             spdlog::error("CustomAllReduce shape mismatch: {} vs {}", data.size(), tensor_size);
             return false;
         }

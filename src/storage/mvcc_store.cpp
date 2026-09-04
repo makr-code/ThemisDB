@@ -64,7 +64,7 @@ HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
     // The separator '\x00' is at position (size - 9); the timestamp follows it.
     // We use a fixed offset from the end (not rfind) because the 8-byte
     // big-endian timestamp may itself contain '\x00' bytes.
-    if (versioned_key.size() < 9) {
+    if (static_cast<int>(versioned_key.size()) < 9) {
         return HLCTimestamp{};  // not a valid versioned key
     }
     const auto* ts_bytes = reinterpret_cast<const uint8_t*>(
@@ -214,7 +214,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string_view found_key = it.key();
 
     // Verify the found key belongs to the same base key (shares the prefix).
-    if (found_key.size() < prefix.size() ||
+    if (static_cast<int>(found_key.size()) < prefix.size() ||
         found_key.substr(0, prefix.size()) != std::string_view(prefix)) {
         return std::nullopt;
     }
@@ -328,7 +328,7 @@ void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_vie
     std::vector<std::string> base_keys;
 
     db_->scanAll([&](std::string_view vkey, std::string_view) -> bool {
-        if (vkey.size() >= 9 &&
+        if (static_cast<int>(vkey.size()) >= 9 &&
             static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
             base_keys.emplace_back(vkey.data(), static_cast<int>(vkey.size()) - 9);
         }

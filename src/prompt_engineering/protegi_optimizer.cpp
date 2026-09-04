@@ -361,7 +361,7 @@ std::vector<std::string> ProTeGiOptimizer::defaultErrorFn(
     errors.reserve(mini_batch.size());
 
     for (const auto& tc : mini_batch) {
-        if (tc.expected_output.size() > prompt.size()) {
+        if (static_cast<int>(tc.expected_output.size()) > prompt.size()) {
             errors.push_back("Expected output longer than prompt; prompt may lack detail.");
         } else {
             errors.push_back("");  // no error

@@ -282,7 +282,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         return result;
     }
     for (const auto& doc : documents) {
-        if (doc.content.size() > kMaxChunkChars) {
+        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runMapReduce rejected: oversize chunk");
             return result;
         }
@@ -317,7 +317,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     AssembledContext single = assembler_.assemble(
         documents, config_.system_prompt, query);
 
-    if (single.chunks_used.size() == documents.size() && !single.was_truncated) {
+    if (static_cast<int>(single.chunks_used.size()) == documents.size() && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
         result.final_answer   = infer(prompt, bounded_max_tokens);
@@ -399,7 +399,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         return result;
     }
 
-    if (result.steps.size() == 1u) {
+    if (static_cast<int>(result.steps.size()) == 1u) {
         result.final_answer = result.steps.front();
         spdlog::info(
             "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
@@ -438,7 +438,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         return result;
     }
     for (const auto& doc : documents) {
-        if (doc.content.size() > kMaxChunkChars) {
+        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runIterative rejected: oversize chunk");
             return result;
         }

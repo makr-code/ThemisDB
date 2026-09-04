@@ -359,7 +359,7 @@ double HallucinationDashboard::computeMean(const std::deque<double>& data) const
 
 double HallucinationDashboard::computeStdDev(const std::deque<double>& data,
                                              double mean) const {
-    if (data.size() < 2) {
+    if (static_cast<int>(data.size()) < 2) {
       return 0.0;
     }
     double variance = 0.0;
@@ -372,7 +372,7 @@ double HallucinationDashboard::computeStdDev(const std::deque<double>& data,
 }
 
 double HallucinationDashboard::computeTrend(const std::deque<double>& data) const {
-    if (data.size() < 2) {
+    if (static_cast<int>(data.size()) < 2) {
       return 0.0;
     }
     double n = static_cast<double>(data.size());

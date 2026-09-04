@@ -176,7 +176,7 @@ double FewShotOptimizer::computeRelevance(
 double FewShotOptimizer::computeDiversity(
     const std::vector<FewShotExample>& examples
 ) {
-    if (examples.size() < 2) {
+    if (static_cast<int>(examples.size()) < 2) {
         return 1.0;
     }
     

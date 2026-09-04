@@ -274,7 +274,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     // Validate query is not excessively long (prevent DoS via huge inputs)
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - input.query is user data, 
     // but is validated here before any downstream use
-    if (input.query.size() > 100000) {
+    if (static_cast<int>(input.query.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -286,7 +286,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     // Validate generated_answer is not excessively long
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here, 
     // no uncontrolled use downstream
-    if (input.generated_answer.size() > 100000) {
+    if (static_cast<int>(input.generated_answer.size()) > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -297,7 +297,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     
     // Validate document count
-    if (input.documents.size() > 1000) {
+    if (static_cast<int>(input.documents.size()) > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -1709,7 +1709,7 @@ std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
 namespace metrics {
 
 double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results) {
-    if (results.size() < 2) {
+    if (static_cast<int>(results.size()) < 2) {
         return 1.0;
     }
 

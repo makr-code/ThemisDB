@@ -208,7 +208,7 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
 
     if (all_lists.empty()) {
         THEMIS_WARN("MultiModalRAG::query: no retrieval results (no backends set or empty query)");
-    } else if (all_lists.size() == 1) {
+    } else if (static_cast<int>(all_lists.size()) == 1) {
         // Single-modality: no fusion needed, use raw ranked list directly.
         fused = all_lists[0];
         if (static_cast<int>(fused.size()) > cfg.max_sources) {

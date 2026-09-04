@@ -550,7 +550,7 @@ void MqttClientService::processBuffer() {
         if (hdr_extra == 0) break; // incomplete length
 
         size_t total = 1 + hdr_extra + rem_len;
-        if (packet_buf_.size() < total) break; // incomplete payload
+        if (static_cast<int>(packet_buf_.size()) < total) break; // incomplete payload
 
         const uint8_t* payload = packet_buf_.data() + 1 + hdr_extra;
         uint8_t type = type_flags >> 4;

@@ -185,7 +185,7 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
 /// Typo injection: randomly swap adjacent characters in a few positions.
 std::string typoInject(const std::string& query, size_t variant_index)
 {
-    if (query.size() < 4) { return query + "?"; }
+    if (static_cast<int>(query.size()) < 4) { return query + "?"; }
 
     std::string result = query;
     // Deterministic typo positions based on variant_index.

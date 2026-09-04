@@ -281,7 +281,7 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
     auto ngrams = [n](const std::string& s) -> std::multiset<std::string> {
         std::multiset<std::string> result = {};
 
-        if (s.size() < n) {
+        if (static_cast<int>(s.size()) < n) {
             result.insert(s);
             return result;
         }

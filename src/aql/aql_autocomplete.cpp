@@ -174,7 +174,7 @@ static bool ciStartsWith(const std::string &s, const std::string &prefix) {
     if (prefix.empty()) {
         return true;
     }
-    if (s.size() < prefix.size()) {
+    if (static_cast<int>(s.size()) < prefix.size()) {
         return false;
     }
     return aqlAutoCompleteToLower(s).substr(0, prefix.size()) == aqlAutoCompleteToLower(prefix);

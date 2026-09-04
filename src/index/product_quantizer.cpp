@@ -130,7 +130,7 @@ ProductQuantizer::Status ProductQuantizer::train(
 
     const size_t expected_dimension = static_cast<size_t>(dimension_);
     for (const auto& vec : training_vectors) {
-        if (vec.size() != expected_dimension) {
+        if (static_cast<int>(vec.size()) != expected_dimension) {
             return Status::Error("Training vector dimension mismatch");
         }
     }
@@ -153,7 +153,7 @@ ProductQuantizer::Status ProductQuantizer::train(
         }
         
         // Validate data size (development safety check)
-        if (training_data.size() != expected_values) {
+        if (static_cast<int>(training_data.size()) != expected_values) {
             return Status::Error("Training data size mismatch during conversion");
         }
         
@@ -221,7 +221,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
         return {};
     }
     
-    if (vector.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(vector.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("ProductQuantizer::encode - Dimension mismatch: {} vs {}",
                      vector.size(), dimension_);
         return {};
@@ -282,7 +282,7 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
         return {};
     }
     
-    if (codes.size() != static_cast<size_t>(config_.num_subquantizers)) {
+    if (static_cast<int>(codes.size()) != static_cast<size_t>(config_.num_subquantizers)) {
         THEMIS_ERROR("ProductQuantizer::decode - Code size mismatch");
         return {};
     }
@@ -340,12 +340,12 @@ float ProductQuantizer::computeAsymmetricDistance(
         return std::numeric_limits<float>::max();
     }
     
-    if (query.size() != static_cast<size_t>(dimension_)) {
+    if (static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
         THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Query dimension mismatch");
         return std::numeric_limits<float>::max();
     }
     
-    if (codes.size() != static_cast<size_t>(config_.num_subquantizers)) {
+    if (static_cast<int>(codes.size()) != static_cast<size_t>(config_.num_subquantizers)) {
         THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }
@@ -455,7 +455,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     }
 
     for (const auto& subvector : subvector_data) {
-        if (subvector.size() != static_cast<size_t>(subvector_dim_)) {
+        if (static_cast<int>(subvector.size()) != static_cast<size_t>(subvector_dim_)) {
             THEMIS_WARN("ProductQuantizer::runKMeans - Subvector dimension mismatch");
             return {};
         }
@@ -649,7 +649,7 @@ uint8_t ProductQuantizer::findNearestCentroid(
 }
 
 float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
         THEMIS_DEBUG("ProductQuantizer::l2Distance - vector size mismatch ({} != {})", a.size(), b.size());
         return std::numeric_limits<float>::max();
     }

@@ -43,7 +43,7 @@ std::string toLower(const std::string& s) {
 
 /// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
-    if (s.size() >= 2 &&
+    if (static_cast<int>(s.size()) >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
          (s.front() == '"'  && s.back() == '"'))) {
         return s.substr(1, static_cast<int>(s.size()) - 2);
@@ -55,7 +55,7 @@ std::string stripQuotes(const std::string& s) {
  * @brief Case-insensitive string comparison.
  */
 bool iequal(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) {
+    if (static_cast<int>(a.size()) != b.size()) {
       return false;
     }
     return std::equal(a.begin(), a.end(), b.begin(),

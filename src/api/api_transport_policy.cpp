@@ -101,12 +101,12 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
     }
 
     // Rule 2: path length check.
-    if (req.path.size() > config_.max_path_bytes) {
+    if (static_cast<int>(req.path.size()) > config_.max_path_bytes) {
         return TransportFailureClass::MalformedRequest; // non-retryable: request property
     }
 
     // Rule 3: payload size check.
-    if (req.body.size() > config_.max_payload_bytes) {
+    if (static_cast<int>(req.body.size()) > config_.max_payload_bytes) {
         return TransportFailureClass::PayloadTooLarge; // non-retryable: request property
     }
 

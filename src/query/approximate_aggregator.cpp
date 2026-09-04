@@ -262,7 +262,7 @@ void SamplingAggregator::add(const nlohmann::json& value) {
     const double v = value.get<double>();
     ++total_seen_;
 
-    if (reservoir_.size() < sample_size_) {
+    if (static_cast<int>(reservoir_.size()) < sample_size_) {
         reservoir_.push_back(v);
     } else {
         // Reservoir sampling: replace a random element.

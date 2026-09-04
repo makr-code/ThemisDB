@@ -181,7 +181,7 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
         parts.push_back(part);
     }
     
-    if (parts.size() != 5) {
+    if (static_cast<int>(parts.size()) != 5) {
         throw std::runtime_error("Invalid EncryptedBlob format: expected 5 parts, got " + std::to_string(parts.size()));
     }
     
@@ -531,7 +531,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
                                                 const std::string& key_id,
                                                 uint32_t key_version,
                                                 const std::vector<uint8_t>& key) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw EncryptionException("Key must be 32 bytes (256 bits)");
     }
     
@@ -592,15 +592,15 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
 
 std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
                                                        const std::vector<uint8_t>& key) {
-    if (key.size() != 32) {
+    if (static_cast<int>(key.size()) != 32) {
         throw DecryptionException("Key must be 32 bytes (256 bits)");
     }
     
-    if (blob.iv.size() != 12) {
+    if (static_cast<int>(blob.iv.size()) != 12) {
         throw DecryptionException("IV must be 12 bytes");
     }
     
-    if (blob.tag.size() != 16) {
+    if (static_cast<int>(blob.tag.size()) != 16) {
         throw DecryptionException("Tag must be 16 bytes");
     }
     

@@ -602,7 +602,7 @@ TrainingResult AQLLoRAFinetuner::train() {
     // Build the training dataset
     auto dataset = impl_->dataset_builder.build("themisdb_aql");
 
-    if (dataset.size() < impl_->config.min_training_samples) {
+    if (static_cast<int>(dataset.size()) < impl_->config.min_training_samples) {
         throw std::runtime_error("AQLLoRAFinetuner: insufficient training samples (" + std::to_string(dataset.size())
                                  + " < " + std::to_string(impl_->config.min_training_samples) + " required)");
     }

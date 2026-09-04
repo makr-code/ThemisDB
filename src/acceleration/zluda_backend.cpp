@@ -469,7 +469,7 @@ public:
                 input.insert(input.end(), vectors, vectors + numVectors * dim);
                 try {
                     auto raw_out = kfn(input);
-                    if (raw_out.size() == numQueries * numVectors) {
+                    if (static_cast<int>(raw_out.size()) == numQueries * numVectors) {
                         std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
                         const size_t kk = std::min(k, numVectors);
                         for (size_t q = 0; q < numQueries; ++q) {

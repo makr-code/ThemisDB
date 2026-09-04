@@ -515,7 +515,7 @@ void EventTrigger::rebuildConditionCache_() const {
             }
         }
 
-        if (tokens.size() < 3) {
+        if (static_cast<int>(tokens.size()) < 3) {
             THEMIS_WARN("EventTrigger: malformed condition clause '{}', skipping", raw);
             continue;
         }

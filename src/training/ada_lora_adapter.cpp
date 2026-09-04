@@ -298,9 +298,9 @@ public:
                     const std::vector<float>& B,
                     const std::vector<float>& A) {
         Layer& lay = getLayer(name);
-        if (B.size() != lay.in_dim * lay.max_rank)
+        if (static_cast<int>(B.size()) != lay.in_dim * lay.max_rank)
             throw std::invalid_argument("B size mismatch");
-        if (A.size() != lay.max_rank * lay.out_dim)
+        if (static_cast<int>(A.size()) != lay.max_rank * lay.out_dim)
             throw std::invalid_argument("A size mismatch");
         lay.B = B;
         lay.A = A;
@@ -324,7 +324,7 @@ public:
         const size_t D_out = lay.out_dim;
         const size_t r     = lay.active_rank;
 
-        if (input.size() != batch_size * D_in)
+        if (static_cast<int>(input.size()) != batch_size * D_in)
             throw std::invalid_argument("Input size mismatch");
 
         const float scaling = lay.alpha / static_cast<float>(lay.max_rank);

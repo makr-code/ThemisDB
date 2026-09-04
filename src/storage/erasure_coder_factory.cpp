@@ -147,7 +147,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
         );
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -184,7 +184,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [index, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(index);
         }
     }
@@ -463,7 +463,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
         );
     }
-    if (available_chunks.size() < data_shards) {
+    if (static_cast<int>(available_chunks.size()) < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -504,7 +504,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [index, _] : available_chunks) {
-        if (available_indices.size() < data_shards) {
+        if (static_cast<int>(available_indices.size()) < data_shards) {
             available_indices.push_back(index);
         }
     }

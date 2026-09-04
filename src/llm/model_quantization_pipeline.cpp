@@ -73,7 +73,7 @@ lora::QuantizedModel ModelQuantizationPipeline::load(
 ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
 {
     // 1) File with .gguf extension
-    if (path.size() > 5 &&
+    if (static_cast<int>(path.size()) > 5 &&
         path.substr(static_cast<int>(path.size()) - 5) == ".gguf") {
         return ModelFormat::GGUF;
     }
@@ -118,7 +118,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
     if (fs::is_directory(dir)) {
         for (const auto& entry : fs::directory_iterator(dir)) {
             const std::string fname = entry.path().filename().string();
-            if (fname.size() > 12 &&
+            if (static_cast<int>(fname.size()) > 12 &&
                 fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
                 // Quickly read just the JSON header to check tensor names
                 std::ifstream sf(entry.path(), std::ios::binary);
@@ -266,7 +266,7 @@ std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
 
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
-        if (fname.size() > 12 &&
+        if (static_cast<int>(fname.size()) > 12 &&
             fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
             shards.push_back(entry.path().string());
         }
@@ -573,7 +573,7 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             const auto& sd = *bufs.scales;
             const auto& zd = *bufs.zeros;
 
-            if (wd.shape.size() < 2) {
+            if (static_cast<int>(wd.shape.size()) < 2) {
               continue;
             }
 
@@ -709,7 +709,7 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             const auto& zd = *bufs.qzeros;
             const auto& sd = *bufs.scales;
 
-            if (wd.shape.size() < 2) {
+            if (static_cast<int>(wd.shape.size()) < 2) {
               continue;
             }
 

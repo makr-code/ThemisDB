@@ -323,7 +323,7 @@ float quantization_error(const std::vector<float>& original,
     std::vector<float> reconstructed;
     dequantize(quantized, reconstructed);
     
-    if (original.size() != reconstructed.size()) {
+    if (static_cast<int>(original.size()) != reconstructed.size()) {
         throw std::invalid_argument("Size mismatch in quantization_error");
     }
     
@@ -404,7 +404,7 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
                              float global_zero,
                              std::vector<QuantizationBlock>& blocks) {
     
-    if (quantized_scales.size() != quantized_zeros.size()) {
+    if (static_cast<int>(quantized_scales.size()) != quantized_zeros.size()) {
         throw std::invalid_argument("Scale and zero point sizes must match");
     }
     
