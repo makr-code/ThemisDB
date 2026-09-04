@@ -1371,6 +1371,27 @@ void InferenceEngineEnhanced::processBatch(
                     const auto fan_results =
                         fed_backend->execute(req.target_instance_ids, effective_request);
 
+                    size_t success_count = 0;
+                    size_t failure_count = 0;
+                    int total_attempts = 0;
+                    int64_t max_dispatch_time_ms = 0;
+                    json failure_envelope = json::array();
+                    for (const auto& fr : fan_results) {
+                        total_attempts += fr.attempts;
+                        max_dispatch_time_ms = std::max(max_dispatch_time_ms, fr.dispatch_time_ms);
+                        if (fr.success) {
+                            ++success_count;
+                        } else {
+                            ++failure_count;
+                            failure_envelope.push_back({
+                                {"instance_id", fr.instance_id},
+                                {"error_code", fr.error_code},
+                                {"attempts", fr.attempts},
+                                {"dispatch_time_ms", fr.dispatch_time_ms},
+                            });
+                        }
+                    }
+
                     // First-wins merge: pick first successful result.
                     bool merged = false;
                     for (const auto& fr : fan_results) {
@@ -1378,6 +1399,15 @@ void InferenceEngineEnhanced::processBatch(
                             response = fr.response;
                             response.metadata["fan_out_instance"] = fr.instance_id;
                             response.metadata["fan_out_total"]    = fan_results.size();
+                            response.metadata["fan_out_success_count"] = success_count;
+                            response.metadata["fan_out_failure_count"] = failure_count;
+                            response.metadata["fan_out_total_attempts"] = total_attempts;
+                            response.metadata["fan_out_max_dispatch_time_ms"] = max_dispatch_time_ms;
+                            response.metadata["fan_out_partial_failure"] = (failure_count > 0);
+                            if (!failure_envelope.empty()) {
+                                response.metadata["fan_out_failure_envelope"] =
+                                    std::move(failure_envelope);
+                            }
                             merged = true;
                             break;
                         }
@@ -1387,12 +1417,19 @@ void InferenceEngineEnhanced::processBatch(
                         // All instances failed — build aggregated error.
                         std::string agg;
                         for (const auto& fr : fan_results) {
-                            agg += "[" + fr.instance_id + ": " + fr.error + "] ";
+                            agg += "[" + fr.instance_id + "|" + fr.error_code + ": " + fr.error + "] ";
                         }
                         spdlog::error("InferenceEngineEnhanced: all {} fan-out instances "
                                       "failed for request '{}': {}",
                                       fan_results.size(), req.request_id, agg);
                         response.success       = false;
+                        response.metadata["fan_out_total"] = fan_results.size();
+                        response.metadata["fan_out_success_count"] = success_count;
+                        response.metadata["fan_out_failure_count"] = failure_count;
+                        response.metadata["fan_out_total_attempts"] = total_attempts;
+                        response.metadata["fan_out_max_dispatch_time_ms"] = max_dispatch_time_ms;
+                        response.metadata["fan_out_failure_envelope"] = std::move(failure_envelope);
+                        response.metadata["fan_out_failure_class"] = "LLM_FANOUT_ALL_FAILED";
                         response.error_message = "All fan-out instances failed: " + agg;
                     }
 

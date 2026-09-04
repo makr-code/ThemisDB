@@ -255,12 +255,15 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] Document ownership/lifecycle boundaries for plugin, model, and adapter resources — `include/llm/llm_api_contract.h` (§3 Plugin/Adapter Lifecycle, §6 Resource Contracts VRAM/RAM) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] Implement pending distributed inference and speculative decode integration items (Target: Q4 2026)
-- [ ] Complete runtime wiring for queue/load telemetry propagation in all configured execution paths (Target: Q4 2026)
+- [~] Implement pending distributed inference and speculative decode integration items (Target: Q4 2026)
+- [~] Complete runtime wiring for queue/load telemetry propagation in all configured execution paths (Target: Q4 2026)
+  - [x] Fan-out merge path now emits per-request telemetry metadata (`fan_out_success_count`, `fan_out_failure_count`, `fan_out_total_attempts`, `fan_out_max_dispatch_time_ms`) in `InferenceEngineEnhanced`.
+  - [x] Fan-out success path now preserves partial-failure envelope metadata for operator diagnostics.
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
+- [~] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
 - [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
+  - [x] `FanOutInstanceResult` now carries stable `error_code` + `dispatch_time_ms`; coordinator emits canonical classes for unknown-instance, timeout, backend-unavailable, permanent-remote, and retry-exhausted errors.
 
 ### Phase 4: Tests
 - [x] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)

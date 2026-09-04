@@ -26,6 +26,7 @@
 #include "llm/speculative_decoder.h"
 #include "llm/async_inference_engine.h"
 #include "llm/inference_engine_enhanced.h"
+#include "llm/i_federated_inference_backend.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/openai_compat_adapter.h"
 
@@ -806,6 +807,61 @@ static void BM_OpenAICompatAdapter_RoundTrip(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_OpenAICompatAdapter_RoundTrip)->Iterations(1000);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_FanOutFailureEnvelope_Aggregation
+// Measure fan-out failure-envelope aggregation overhead for large shard sets.
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_FanOutFailureEnvelope_Aggregation(benchmark::State& state) {
+    const int fanout_size = static_cast<int>(state.range(0));
+    std::vector<FanOutInstanceResult> fan_results;
+    fan_results.reserve(static_cast<size_t>(fanout_size));
+    for (int i = 0; i < fanout_size; ++i) {
+        FanOutInstanceResult r;
+        r.instance_id = "shard-" + std::to_string(i);
+        r.success = ((i % 4) != 0);
+        r.error_code = r.success ? "" : "LLM_FANOUT_TIMEOUT";
+        r.error = r.success ? "" : "timeout";
+        r.attempts = r.success ? 1 : 2;
+        r.dispatch_time_ms = 10 + (i % 7);
+        fan_results.push_back(std::move(r));
+    }
+
+    for (auto _ : state) {
+        size_t success_count = 0;
+        size_t failure_count = 0;
+        int total_attempts = 0;
+        int64_t max_dispatch_time_ms = 0;
+        nlohmann::json failure_envelope = nlohmann::json::array();
+        for (const auto& fr : fan_results) {
+            total_attempts += fr.attempts;
+            max_dispatch_time_ms = std::max(max_dispatch_time_ms, fr.dispatch_time_ms);
+            if (fr.success) {
+                ++success_count;
+            } else {
+                ++failure_count;
+                failure_envelope.push_back({
+                    {"instance_id", fr.instance_id},
+                    {"error_code", fr.error_code},
+                    {"attempts", fr.attempts},
+                    {"dispatch_time_ms", fr.dispatch_time_ms},
+                });
+            }
+        }
+
+        benchmark::DoNotOptimize(success_count);
+        benchmark::DoNotOptimize(failure_count);
+        benchmark::DoNotOptimize(total_attempts);
+        benchmark::DoNotOptimize(max_dispatch_time_ms);
+        benchmark::DoNotOptimize(failure_envelope);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetItemsProcessed(state.iterations() * fanout_size);
+    state.SetLabel("fanout_failure_envelope_aggregation");
+}
+BENCHMARK(BM_FanOutFailureEnvelope_Aggregation)->Arg(8)->Arg(32)->Arg(128)->Arg(512);
 
 // ═══════════════════════════════════════════════════════════════════
 // Main
