@@ -132,7 +132,7 @@ void radonFiberTransform(float* data, std::size_t n) {
         float integral = 0.0f;
         for (std::size_t j = 0; j < n; ++j) {
             // Simpson's weight: 1 at endpoints, 4 at odd j, 2 at even interior j.
-            float w;
+            float w = 0;
             if (j == 0 || j == n - 1) {
               w = 1.0f;
             }

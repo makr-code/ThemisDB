@@ -185,7 +185,7 @@ std::vector<TSStore::DataPoint> LinearInterpolationGapFiller::fill(
         double  v1 = next_it->value;
 
         // Gap check uses the gap to the preceding observation
-        double interp_val;
+        double interp_val = 0;
         if (cfg.max_gap_ms > 0 && (t1 - t0) > cfg.max_gap_ms) {
             interp_val = cfg.null_fill_value;
         } else if (t1 == t0) {

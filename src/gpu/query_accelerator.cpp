@@ -139,7 +139,7 @@ static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     const uint32_t exp16  = (h >> 10) & 0x1Fu;
     const uint32_t mant16 = h & 0x3FFu;
 
-    uint32_t bits;
+    uint32_t bits = 0;
     if (exp16 == 0x1F) {
         // Inf or NaN
         bits = (sign << 31) | 0x7F800000u | (mant16 << 13);

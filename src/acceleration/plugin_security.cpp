@@ -1497,7 +1497,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
         // Data directories start offset within the optional header:
         //   PE32  (0x10B): +96 from start of optional header
         //   PE32+ (0x20B): +112 from start of optional header
-        uint64_t data_dir_start;
+        uint64_t data_dir_start = 0;
         if (opt_magic == 0x010Bu) {
             data_dir_start = opt_hdr_offset + 96u;
         } else if (opt_magic == 0x020Bu) {

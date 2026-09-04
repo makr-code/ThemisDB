@@ -67,7 +67,7 @@ HLCTimestamp HybridLogicalClock::advanceTo([[maybe_unused]] uint64_t phys_ms) {
         uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
 
         uint64_t new_phys;
-        uint32_t new_log;
+        uint32_t new_log = 0;
         if (phys_ms > cur_phys) {
             new_phys = phys_ms;
             new_log  = 0;
@@ -104,7 +104,7 @@ HLCTimestamp HybridLogicalClock::update(HLCTimestamp received) {
         uint32_t cur_log  = static_cast<uint32_t>(cur & HLCTimestamp::LOGICAL_MASK);
 
         uint64_t new_phys;
-        uint32_t new_log;
+        uint32_t new_log = 0;
         if (max_phys == cur_phys) {
             // Both local and remote share the same physical millisecond.
             new_phys = cur_phys;

@@ -261,7 +261,7 @@ size_t estimate_memory_usage(size_t num_parameters,
     }
     
     // Block parameters
-    size_t block_bytes;
+    size_t block_bytes = 0;
     if (use_double_quant) {
         // 2 uint8 per block + 2 global floats
         block_bytes = num_blocks * 2 + 2 * sizeof(float);

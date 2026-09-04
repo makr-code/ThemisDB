@@ -235,7 +235,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     if (br_.eof()) { error_ = true; return std::nullopt; }
     bool different = br_.readBit();
     
-    uint64_t vbits;
+    uint64_t vbits = 0;
     if (!different) {
         vbits = prev_vbits_;
     } else {

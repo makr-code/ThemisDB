@@ -467,7 +467,7 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	double costSpatialFirst = spatialPhaseCost + vectorPhaseCostSpatialFirst;
 
 	// Vector-first cost
-	double vectorSearchCost;
+	double vectorSearchCost = 0;
 	if (in.hasVectorIndex) {
 		vectorSearchCost = std::log(static_cast<double>(universe) + 1.0) * dimScale; // ANN approximation
 	} else {

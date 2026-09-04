@@ -293,7 +293,7 @@ double normalQuantile([[maybe_unused]] double p) {
                                -2.549732539343734e+00, 4.374664141464968e+00,  2.938163982698783e+00};
     static const double d[]
         = {7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00};
-    double q;
+    double q = 0;
     if (p <= 0.0 || p >= 1.0) {
         return (p <= 0.0) ? -1e38 : 1e38;
     }
@@ -614,7 +614,7 @@ HoltWintersParams fitHoltWinters(const std::vector<double> &y, double alpha, dou
         }
 
         double Lnew, Tnew;
-        double Snew;
+        double Snew = 0;
         if (multiplicative) {
             double s_val = (std::abs(S[static_cast<size_t>(si)]) > 1e-12) ? S[static_cast<size_t>(si)] : 1e-10;
             Lnew         = alpha * (y[i] / s_val) + (1.0 - alpha) * (L + T);
@@ -1609,7 +1609,7 @@ struct ForecastModel::Impl {
         int train_n = static_cast<int>(n);
 
         for (int k = 1; k <= steps; ++k) {
-            double val;
+            double val = 0;
             if (has_season) {
                 int si = (train_n - 1 + k) % m;
                 if (si < 0) {
@@ -1651,7 +1651,7 @@ struct ForecastModel::Impl {
             double pred_diff = arima_p.mean_diff + ar_contrib + ma_contrib;
 
             // Integrate if d == 1
-            double pred_val;
+            double pred_val = 0;
             if (arima_p.d == 1) {
                 pred_val = last_val + pred_diff;
                 last_val = pred_val;

@@ -97,7 +97,7 @@ public:
             iss >> word;
             
             std::vector<float> embedding;
-            float value;
+            float value = 0;
             while (iss >> value) {
                 embedding.push_back(value);
             }

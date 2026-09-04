@@ -513,7 +513,7 @@ bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
 /*static*/
 bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     line_out.clear();
-    char ch;
+    char ch = 0;
     while (true) {
         ssize_t n = ::recv(fd, &ch, 1, 0);
         if (n <= 0)

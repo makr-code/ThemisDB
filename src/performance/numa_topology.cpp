@@ -182,7 +182,7 @@ static NumaTopology detect_linux() noexcept {
         std::string dist_str = read_sysfs_file(base + "/distance");
         if (!dist_str.empty()) {
             std::istringstream iss(dist_str);
-            int d;
+            int d = 0;
             while (iss >> d) {
               node.distances.push_back(d);
             }

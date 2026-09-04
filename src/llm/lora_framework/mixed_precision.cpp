@@ -180,7 +180,7 @@ static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
     const uint32_t mant16 = static_cast<uint32_t>( f16        & 0x3FFu);
 
     uint32_t exp32;
-    uint32_t mant32;
+    uint32_t mant32 = 0;
 
     if (exp16 == 0x1Fu) {
         exp32  = 0xFFu;
@@ -221,7 +221,7 @@ float MixedPrecisionTrainer::fp32_to_fp16([[maybe_unused]] float value) {
     const uint32_t mant32   =  f32        & 0x7FFFFFu;
 
     uint32_t exp16;
-    uint32_t mant16;
+    uint32_t mant16 = 0;
 
     if (exp32 == 0xFFu) {
         // Inf or NaN

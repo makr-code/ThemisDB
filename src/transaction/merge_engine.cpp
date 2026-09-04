@@ -411,7 +411,7 @@ MergeEngine::MergeResult MergeEngine::mergeByTag(
         return result;
     }
     
-    uint64_t target_sequence;
+    uint64_t target_sequence = 0;
     if (target_tag == "current" || target_tag == "HEAD") {
         target_sequence = changefeed_.getLatestSequence();
     } else {

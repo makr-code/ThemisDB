@@ -163,7 +163,7 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
         if (c=='=') {
           break;
         }
-        int d;
+        int d = 0;
         if (c < 128) {
             d = T[c];
         } else {

@@ -26,7 +26,7 @@ float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
     uint32_t exponent = (h & 0x7C00) >> 10;
     uint32_t mantissa = (h & 0x03FF);
     
-    uint32_t result;
+    uint32_t result = 0;
     
     if (exponent == 0) {
         if (mantissa == 0) {

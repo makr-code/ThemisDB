@@ -90,7 +90,7 @@ int16_t alawToPcm([[maybe_unused]] uint8_t alaw_byte) {
     int sign  = (alaw_byte & 0x80) ? -1 : 1;
     int exp   = (alaw_byte >> 4) & 0x07;
     int data  = alaw_byte & 0x0F;
-    int sample;
+    int sample = 0;
     if (exp == 0) {
         sample = (data << 1) | 1;
     } else {

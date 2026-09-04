@@ -543,7 +543,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 
     // Validate count against remaining encoded size to avoid excessive allocation
     size_t remaining = encoded.size() - pos;
-    size_t bytes_per_value;
+    size_t bytes_per_value = 0;
     if (bits_required <= 8) {
         bytes_per_value = sizeof([[maybe_unused]] uint8_t);
     } else if (bits_required <= 16) {
@@ -612,7 +612,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
 
     // Validate count against remaining encoded size to avoid excessive allocation
     size_t remaining = encoded.size() - pos;
-    size_t bytes_per_value;
+    size_t bytes_per_value = 0;
     if (bits_required <= 8) {
         bytes_per_value = sizeof([[maybe_unused]] uint8_t);
     } else if (bits_required <= 16) {

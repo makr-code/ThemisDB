@@ -879,7 +879,7 @@ public:
         if (!ctx_) {
           return false;
         }
-        redisReply* r;
+        redisReply* r = nullptr;
         if (ttl_secs > 0) {
             r = static_cast<redisReply*>(
                 redisCommand(ctx_, "SET %b %b EX %d",

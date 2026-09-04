@@ -1067,7 +1067,7 @@ bool GGUFLoader::validateQuantizationMetadata(const std::string& tensor_name) co
     }
     
     // Calculate expected data size
-    size_t expected_size;
+    size_t expected_size = 0;
     if (elements_per_block > 1) {
         // Block-based quantization
         size_t num_blocks = (num_elements + elements_per_block - 1) / elements_per_block;

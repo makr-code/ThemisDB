@@ -365,7 +365,7 @@ bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
 /*static*/
 bool RedisCache::readLine(SocketFd fd, std::string &out) noexcept {
     out.clear();
-    char ch;
+    char ch = 0;
     while (true) {
 #if defined(_WIN32)
         int n = ::recv(static_cast<SOCKET>(fd), &ch, 1, 0);

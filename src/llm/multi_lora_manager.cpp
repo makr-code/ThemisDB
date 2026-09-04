@@ -3597,7 +3597,7 @@ std::vector<float> MultiLoRAManager::computeExponentialSchedule(
     // Compute exponential progress
     // For decay: progress = 1 - exp(-base * t)
     // For growth: progress = (exp(base * t) - 1) / (exp(base) - 1)
-    float progress;
+    float progress = 0;
     if (schedule.exponential_decay) {
         // Exponential decay: fast transition at start, slow at end
         progress = 1.0f - std::exp(-safe_base * normalized_time);

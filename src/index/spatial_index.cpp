@@ -165,7 +165,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
         // lo = code of (x0, y0) with all free bits set to 0.
         // hi = lo | mask, where mask fills all 2*bits free low bits with 1.
         uint64_t lo = interleaveBits2D(n.x0, n.y0);
-        uint64_t hi;
+        uint64_t hi = 0;
         if (n.bits == 0) {
             hi = lo;
         } else {

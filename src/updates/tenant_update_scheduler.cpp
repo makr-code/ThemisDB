@@ -600,7 +600,7 @@ bool TenantUpdateScheduler::isInWindow(const MaintenanceWindow& win,
     //   - Before midnight (cur_min >= start_min): the window started today.
     //   - After midnight  (cur_min < end_min):    the window started yesterday.
     int  check_wday;
-    bool in_time_range;
+    bool in_time_range = 0;
 
     if (start_min <= end_min) {
         // Same-day window.

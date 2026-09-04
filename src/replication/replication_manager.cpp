@@ -1793,7 +1793,7 @@ bool ReplicationManager::hasQuorum() const {
     for (const auto& replica : replicas_) {
         if (replica.is_voting_member) {
             total_voting_members++;
-            bool counts_as_healthy;
+            bool counts_as_healthy = 0;
             if (replica.role == ReplicationRole::WITNESS) {
                 // Witnesses receive no WAL data, so their health_status may remain
                 // UNKNOWN until the first health-check cycle.  Use the raw heartbeat

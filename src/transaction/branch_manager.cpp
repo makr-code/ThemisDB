@@ -453,7 +453,7 @@ MergeEngine::MergeResult BranchManager::previewBranchMerge(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
 
-    uint64_t base_seq;
+    uint64_t base_seq = 0;
     if (!base_branch.empty()) {
         auto base = getBranch(base_branch);
         if (!base.has_value()) {
@@ -497,7 +497,7 @@ MergeEngine::MergeResult BranchManager::resolveAndMergeBranches(
     uint64_t source_seq = source->creation_sequence;
     uint64_t target_seq = target->creation_sequence;
 
-    uint64_t base_seq;
+    uint64_t base_seq = 0;
     if (!base_branch.empty()) {
         auto base = getBranch(base_branch);
         if (!base.has_value()) {

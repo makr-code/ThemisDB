@@ -344,7 +344,7 @@ std::string DocsAssistantFunctions::extractSearchQuery(const std::string &query)
     std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
 
     std::string search_query = query;
-    size_t pos;
+    size_t pos = 0;
 
     if ((pos = query_lower.find("search for")) != std::string::npos) {
         search_query = query.substr(pos + 11);

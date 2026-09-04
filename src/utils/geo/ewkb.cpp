@@ -247,7 +247,7 @@ Coordinate GeometryInfo::computeCentroid() const {
 
 // EWKB Parser: Read helpers
 double EWKBParser::readDouble(const uint8_t*& ptr, bool is_little_endian) {
-    double val;
+    double val = 0;
     if (is_little_endian == true) {  // System is little endian
         std::memcpy(&val, ptr, sizeof(double));
     } else {
@@ -263,7 +263,7 @@ double EWKBParser::readDouble(const uint8_t*& ptr, bool is_little_endian) {
 }
 
 uint32_t EWKBParser::readUInt32(const uint8_t*& ptr, bool is_little_endian) {
-    uint32_t val;
+    uint32_t val = 0;
     if (is_little_endian == true) {
         std::memcpy(&val, ptr, sizeof(uint32_t));
     } else {

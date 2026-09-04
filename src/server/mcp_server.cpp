@@ -3029,7 +3029,7 @@ void StdioTransport::readStdin() {
                     line += buffer[0];
                     
                     while (std::cin.peek() != '\n' && std::cin.peek() != EOF) {
-                        char ch;
+                        char ch = 0;
                         if (std::cin.get(ch)) {
                             line += ch;
                         } else {

@@ -537,7 +537,7 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
     const auto eq_pos = expression.find("==");
     const auto ne_pos = expression.find("!=");
     bool equality = true;
-    size_t pos;
+    size_t pos = 0;
     if (eq_pos != std::string::npos) {
         pos = eq_pos;
         equality = true;

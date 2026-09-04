@@ -207,7 +207,7 @@ bool OpenCLVectorBackend::initialize() {
     } catch (const std::exception& e) {
         // Get detailed build log
         std::string buildLog;
-        size_t logSize;
+        size_t logSize = 0;
         if (clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize) == CL_SUCCESS && logSize > 0) {
             std::vector<char> log(logSize);
             clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);

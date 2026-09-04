@@ -313,7 +313,7 @@ std::vector<float> ModelQuantizationPipeline::fp16_to_fp32_array(
         const uint32_t exponent = (h & 0x7C00u) >> 10u;
         const uint32_t mantissa = (h & 0x03FFu);
 
-        uint32_t bits32;
+        uint32_t bits32 = 0;
         if (exponent == 0) {
             // Subnormal or zero
             if (mantissa == 0) {

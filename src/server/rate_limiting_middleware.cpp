@@ -153,7 +153,7 @@ RateLimitingMiddleware::check(const std::string& client_key,
 
     // ── Select the appropriate limiter and effective limits ───────────────
     std::size_t override_idx = findOverrideIndex(path);
-    double refill_rate;
+    double refill_rate = 0;
     if (override_idx < config_.endpoint_overrides.size()) {
         const auto& ep = config_.endpoint_overrides[override_idx];
         result.limit = ep.capacity;

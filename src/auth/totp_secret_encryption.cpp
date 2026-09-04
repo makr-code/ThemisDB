@@ -210,7 +210,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
         std::vector<uint8_t> plaintext(plaintext_secret.begin(), plaintext_secret.end());
         result.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
-        int len;
+        int len = 0;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size()))
             != 1) {
             throw std::runtime_error("Encryption failed");
@@ -262,7 +262,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
         // Decrypt the ciphertext
         std::vector<uint8_t> plaintext(encrypted.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
-        int len;
+        int len = 0;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, encrypted.ciphertext.data(),
                               static_cast<int>(encrypted.ciphertext.size()))
             != 1) {

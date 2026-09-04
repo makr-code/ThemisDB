@@ -435,7 +435,7 @@ bool initializeAzureProvider(const std::string &account_name, const std::string 
                     }
 
                     std::vector<uint8_t> buffer(8192);
-                    size_t bytes_read;
+                    size_t bytes_read = 0;
                     while ((bytes_read
                             = download.BodyStream.read(reinterpret_cast<char *>(buffer.data()), buffer.size()).gcount())
                            > 0) {

@@ -751,7 +751,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
             }
 
             std::string frame_id(reinterpret_cast<const char *>(&blob[pos]), 4);
-            uint32_t frame_size;
+            uint32_t frame_size = 0;
             if (id3_major == 4) {
                 // ID3v2.4: syncsafe integer size
                 frame_size = ((uint32_t)(blob[pos + 4] & 0x7F) << 21) | ((uint32_t)(blob[pos + 5] & 0x7F) << 14)

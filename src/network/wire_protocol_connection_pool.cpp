@@ -820,7 +820,7 @@ bool WireProtocolConnectionPool::performHealthCheck(SocketWrapper& socket) {
     boost::system::error_code ec;
     
     // Try to read with MSG_PEEK to check if connection is alive
-    char dummy;
+    char dummy = 0;
     
     if (socket.is_ssl()) {
         // For SSL sockets, we can't use MSG_PEEK directly

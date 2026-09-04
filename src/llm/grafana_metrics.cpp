@@ -761,7 +761,7 @@ void LLMMetricsCollector::recordWorkerPoolTasksCompleted([[maybe_unused]] uint64
     uint64_t prev = last_pool_tasks_completed_.load(std::memory_order_relaxed);
     while (true) {
         uint64_t new_val;
-        double   delta;
+        double   delta = 0;
         if (total_completed >= prev) {
             delta   = static_cast<double>(total_completed - prev);
             new_val = total_completed;

@@ -116,7 +116,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(const std::vecto
             const auto &result = results[0];
 
             // Convert distance to similarity based on metric
-            float similarity;
+            float similarity = 0;
             if (impl_->metric == VectorIndexManager::Metric::COSINE) {
                 // For cosine: similarity = 1 - distance
                 similarity = 1.0f - result.distance;
