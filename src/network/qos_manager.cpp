@@ -39,7 +39,7 @@ namespace {
 /// Rejects leading '-' to prevent argument injection (e.g. "--help").
 /// This is a defence-in-depth guard; the primary protection is posix_spawn().
 static bool isValidInterfaceName(std::string_view iface) noexcept {
-    if (iface.empty() || iface.size() > 15) {
+    if (iface.empty() || static_cast<int>(iface.size()) > 15) {
       return false;
     }
     if (iface.front() == '-') {

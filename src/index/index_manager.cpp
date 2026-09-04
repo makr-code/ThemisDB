@@ -225,7 +225,7 @@ namespace {
 ///
 /// @return true when the component is safe to embed in a tenant key.
 static bool isValidTenantComponent(std::string_view s) noexcept {
-    if (s.empty() || s.size() > 512) {
+    if (s.empty() || static_cast<int>(s.size()) > 512) {
       return false;
     }
     for (char c : s) {

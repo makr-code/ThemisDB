@@ -147,7 +147,7 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
     size_t iterations = 0;
     const size_t max_iterations = ring_.size(); // Prevent infinite loop
     
-    while (result.size() < count && iterations < max_iterations) {
+    while ( static_cast<int>(result.size()) < count && iterations < max_iterations) {
         if (seen.find(it->second) == seen.end()) {
             result.push_back(it->second);
             seen.insert(it->second);

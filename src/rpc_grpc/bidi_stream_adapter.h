@@ -113,7 +113,7 @@ public:
             std::unique_lock<std::mutex> lock(queue_mutex_);
             // Wait while queue is full and stream is still open
             queue_not_full_.wait(lock, [this] {
-                return finished_ || queue_.size() < max_queue_depth_;
+                return finished_ || static_cast<int>(queue_.size()) < max_queue_depth_;
             });
 
             if (finished_) {

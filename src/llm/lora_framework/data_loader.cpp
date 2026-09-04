@@ -398,7 +398,7 @@ void DataLoader::padBatch(TrainingBatch& batch) {
         auto& label_seq = batch.label_ids[i];
         
         // Pad to target length
-        while (input_seq.size() < static_cast<size_t>(target_length)) {
+        while ( static_cast<int>(input_seq.size()) < static_cast<size_t>(target_length)) {
             input_seq.push_back(config_.pad_token_id);
             label_seq.push_back(-100);  // -100 is ignored in loss calculation
         }

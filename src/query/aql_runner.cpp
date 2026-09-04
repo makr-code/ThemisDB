@@ -729,7 +729,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     // Count total statements across both query and mutation slots
     const std::size_t total = block.ordered_statements.empty()
-                                  ? block.statements.size()
+                                  ?static_cast<int>(block.statements.size())
                                   : block.ordered_statements.size();
 
     // ROLLBACK: do not execute any statement; return metadata only

@@ -1208,7 +1208,7 @@ bool GPUMemoryManager::defragment() {
             }
         }
         
-        if (static_cast<int>(gpu_allocs.size()) > 1 || cpu_allocs.size() > 1) {
+        if (static_cast<int>(gpu_allocs.size()) > 1 || static_cast<int>(cpu_allocs.size()) > 1) {
             models_defragmented++;
         }
     }

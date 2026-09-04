@@ -948,7 +948,7 @@ public:
             
             // Calculate cosine similarity and find top-k
             auto cosine_similarity = [](const std::vector<float>& a, const std::vector<float>& b) -> float {
-                if (a.empty() || b.empty() || a.size() != b.size()) {
+                if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
                     return 0.0f;
                 }
                 

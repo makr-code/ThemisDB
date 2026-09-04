@@ -307,7 +307,7 @@ bool PagedKVCache::writeBlock(
     }
     
     // Check data sizes
-    if (static_cast<int>(key_data.size()) < token_count || value_data.size() < token_count) {
+    if (static_cast<int>(key_data.size()) < token_count || static_cast<int>(value_data.size()) < token_count) {
         spdlog::warn("PagedKVCache: Insufficient data for write to block {} (need {}, got key={}, value={})",
                      block_id, token_count,static_cast<int>(key_data.size()),static_cast<int>(value_data.size()));
         return false;

@@ -539,7 +539,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (static_cast<int>(x_bytes.size()) != coord_size || y_bytes.size() != coord_size) {
+    if (static_cast<int>(x_bytes.size()) != coord_size || static_cast<int>(y_bytes.size()) != coord_size) {
         return false;
     }
 

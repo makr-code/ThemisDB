@@ -433,7 +433,7 @@ public:
     std::vector<std::pair<float, size_t>> searchIndices(
         const std::vector<float>& query, size_t k) {
         
-        if (!initialized_ || query.size() != static_cast<size_t>(dimension_)) {
+        if (!initialized_ || static_cast<int>(query.size()) != static_cast<size_t>(dimension_)) {
             THEMIS_WARN("VulkanVectorIndexBackend::searchIndices: uninitialized or query dimension mismatch (initialized={} dim={} expected={})",
                         initialized_,static_cast<int>(query.size()), static_cast<size_t>(dimension_));
             return {};

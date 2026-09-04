@@ -136,11 +136,11 @@ std::string HtmlProcessor::removeElement(
                 depth++;
                 // Advance past the '>'
                 size_t end = html.find('>', scan);
-                scan = (end == std::string::npos) ? html.size() : end + 1;
+                scan = (end == std::string::npos) ?static_cast<int>(html.size()) : end + 1;
             } else if (at_close) {
                 depth--;
                 size_t end = html.find('>', scan);
-                scan = (end == std::string::npos) ? html.size() : end + 1;
+                scan = (end == std::string::npos) ?static_cast<int>(html.size()) : end + 1;
                 if (depth == 0) {
                   break;
                 }

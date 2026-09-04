@@ -603,7 +603,7 @@ public:
      */
     bool rebalance() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
-        if (!initialized || gpuIndices.size() <= 1) {
+        if (!initialized || static_cast<int>(gpuIndices.size()) <= 1) {
             return false;
         }
         

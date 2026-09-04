@@ -376,7 +376,7 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
                 const std::string res_str  = resolved.string();
                 if (res_str.rfind(root_str, 0) != 0 ||
                     (res_str.size() > root_str.size() &&
-                     res_str[root_str.size()] != fs::path::preferred_separator)) {
+                     res_str[static_cast<int>(root_str.size())] != fs::path::preferred_separator)) {
                     spdlog::error("LLMPluginManager::loadModel: path '{}' is outside "
                                   "THEMIS_MODEL_ROOT '{}'", path, model_root_str);
                     return false;

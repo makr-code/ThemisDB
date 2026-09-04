@@ -143,7 +143,7 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
                 || !running_.load(std::memory_order_relaxed);
         });
 
-        if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
+        if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
                                         "StreamingIngestManager: buffer full, "
                                         "back-pressure timeout exceeded"));
@@ -183,7 +183,7 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
                 return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
                     || !running_.load(std::memory_order_relaxed);
             });
-            if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
+            if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
                 // Drop the rest of the batch.
                 stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
                                          std::memory_order_relaxed);

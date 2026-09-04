@@ -5844,7 +5844,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     // Security: Validates format to prevent injection attacks via malformed hex.
     
     // Validate: must be non-empty, even-length, and contain only hex digits
-    if (hex.empty() || hex.size() % 2 != 0) {
+    if (hex.empty() || static_cast<int>(hex.size()) % 2 != 0) {
         THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})",static_cast<int>(hex.size()));
         return {};  // Production behavior: return empty on format error
     }

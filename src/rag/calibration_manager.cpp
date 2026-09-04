@@ -277,7 +277,7 @@ CalibrationMetrics CalibrationManager::calculateMetrics(
     const std::vector<EvaluationResult>& predictions,
     const std::vector<GroundTruthAnnotation>& ground_truth) {
     CalibrationMetrics m{};
-    if (predictions.empty() || predictions.size() != ground_truth.size()) {
+    if (predictions.empty() || static_cast<int>(predictions.size()) != ground_truth.size()) {
       return m;
     }
 

@@ -257,7 +257,7 @@ std::vector<double> LlmReranker::parseScores(
     }
 
     // Pad missing scores with 0.0
-    while (scores.size() < count) {
+    while ( static_cast<int>(scores.size()) < count) {
         scores.push_back(0.0);
     }
 

@@ -70,7 +70,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
 // Helper function to validate and sanitize coordinate pair
 [[maybe_unused]] static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
     try {
-        if (!coord.is_array() || coord.size() < 2) {
+        if (!coord.is_array() || static_cast<int>(coord.size()) < 2) {
             return false;
         }
         

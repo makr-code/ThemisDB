@@ -125,7 +125,7 @@ static bool validate_signature_format(
     }
     
     // Verify signature size is reasonable for RSA (128-1024 bytes)
-    if (static_cast<int>(signature.size()) < 128 || signature.size() > 1024) {
+    if (static_cast<int>(signature.size()) < 128 || static_cast<int>(signature.size()) > 1024) {
         spdlog::error("Signature size {} is outside expected range (128-1024 bytes)",static_cast<int>(signature.size()));
         return false;
     }

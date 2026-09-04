@@ -150,7 +150,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Collection name validation: must be non-empty, <= 256 chars, no control chars
     // Control char check prevents injection attacks and ensures clean metadata
-    if (trimmed_collection.empty() || trimmed_collection.size() > kMaxCollectionChars ||
+    if (trimmed_collection.empty() || static_cast<int>(trimmed_collection.size()) > kMaxCollectionChars ||
         hasControlCharacters(trimmed_collection)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid collection");
         return IndexResult{
@@ -159,7 +159,7 @@ IndexResult RAGIngestionBridge::indexDocument(
         };
     }
     // MIME type validation: must be non-empty, <= 128 chars, no control chars
-    if (trimmed_mime.empty() || trimmed_mime.size() > kMaxMimeChars ||
+    if (trimmed_mime.empty() || static_cast<int>(trimmed_mime.size()) > kMaxMimeChars ||
         hasControlCharacters(trimmed_mime)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid mime");
         return IndexResult{
@@ -169,7 +169,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Filename validation: must be non-empty, <= 512 chars, no control chars
     // Filename used for workflow routing (e.g., PDF vs plain text handling)
-    if (trimmed_filename.empty() || trimmed_filename.size() > kMaxFilenameChars ||
+    if (trimmed_filename.empty() || static_cast<int>(trimmed_filename.size()) > kMaxFilenameChars ||
         hasControlCharacters(trimmed_filename)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid filename");
         return IndexResult{

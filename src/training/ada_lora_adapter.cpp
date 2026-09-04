@@ -553,8 +553,8 @@ void AdaLoRAAdapter::saveToFile(const std::string& path,
         const float  importance  = impl_->getImportance(name);
 
         // Infer dimensions from B (in_dim × max_rank) and A (max_rank × out_dim)
-        const size_t in_dim  = (max_rank > 0) ? B.size() / max_rank : 0;
-        const size_t out_dim = (max_rank > 0) ? A.size() / max_rank : 0;
+        const size_t in_dim  = (max_rank > 0) ?static_cast<int>(B.size()) / max_rank : 0;
+        const size_t out_dim = (max_rank > 0) ?static_cast<int>(A.size()) / max_rank : 0;
 
         // alpha is not directly exposed; reconstruct as default
         // We store a synthetic alpha via importance field note: real alpha stored

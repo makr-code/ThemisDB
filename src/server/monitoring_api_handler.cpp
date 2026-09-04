@@ -1214,7 +1214,7 @@ namespace {
     std::size_t pos = 0;
     while (static_cast<size_t>(pos) < query.size()) {
         const auto amp = query.find('&', pos);
-        const auto token_end = (amp == std::string_view::npos) ? query.size() : amp;
+        const auto token_end = (amp == std::string_view::npos) ?static_cast<int>(query.size()) : amp;
         const auto eq = query.find('=', pos);
 
         if (eq != std::string_view::npos && eq < token_end) {

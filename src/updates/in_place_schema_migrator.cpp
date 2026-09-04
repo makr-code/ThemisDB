@@ -76,7 +76,7 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
     }
 
     // to_schema must add at least one new column
-    return static_cast<bool>(to_schema.properties.size()  < static_cast<int>(from_schema.properties.size()));
+    return static_cast<bool>( static_cast<int>(to_schema.properties.size()) < static_cast<int>(from_schema.properties.size()));
 }
 
 // ----------------------------------------------------------------------------

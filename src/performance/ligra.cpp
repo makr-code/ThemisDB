@@ -129,7 +129,7 @@ Frontier LigraProcessor::process_edges(
     
     // Use lock-free atomic operations for frontier updates in sparse mode
     // Check current frontier size to determine strategy
-    if (frontier.is_dense_mode() || frontier.size() > num_vertices_ * 0.1) {
+    if (frontier.is_dense_mode() || static_cast<int>(frontier.size()) > num_vertices_ * 0.1) {
         // For dense mode or large frontiers, switch to dense representation
         next_frontier.switch_to_dense();
         std::vector<std::atomic<bool>> atomic_dense(num_vertices_);

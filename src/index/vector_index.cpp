@@ -943,7 +943,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				}
 			}
 
-			if (v.empty() || v.size() != static_cast<size_t>(dim_)) {
+			if (v.empty() || static_cast<int>(v.size()) != static_cast<size_t>(dim_)) {
 			  return true;
 			}
 			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {

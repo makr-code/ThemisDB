@@ -386,7 +386,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
 
     while (pos <= query.size()) {
         const size_t amp = query.find('&', pos);
-        const size_t token_end = (amp == std::string::npos) ? query.size() : amp;
+        const size_t token_end = (amp == std::string::npos) ?static_cast<int>(query.size()) : amp;
         if (token_end > pos) {
             const std::string token = query.substr(pos, token_end - pos);
             const size_t eq = token.find('=');

@@ -171,7 +171,7 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 size_t editDistance(const std::string& a, const std::string& b) {
     // Safety cap: use char-difference for very large strings
     constexpr size_t MAX_LEN = 10'000;
-    if (static_cast<int>(a.size()) > MAX_LEN || b.size() > MAX_LEN) {
+    if (static_cast<int>(a.size()) > MAX_LEN || static_cast<int>(b.size()) > MAX_LEN) {
         // Approximate: Hamming distance on common prefix length
         size_t diffs = 0;
         const size_t common = std::min(a.size(),static_cast<int>(b.size()));

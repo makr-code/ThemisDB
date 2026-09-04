@@ -895,7 +895,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         bool vertex_error = false;
         std::string error_vertex = {};
 
-        if (!use_parallel || current_frontier.size() < effective_threads) {
+        if (!use_parallel || static_cast<int>(current_frontier.size()) < effective_threads) {
             // Sequential expansion
             for (const auto& node : current_frontier) {
                 auto [status, neighbors] = graph_manager_.outNeighbors(node);

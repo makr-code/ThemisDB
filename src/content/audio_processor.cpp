@@ -421,7 +421,7 @@ static void parseFlacMetadata(const std::vector<uint8_t> &blob, MediaExtractionD
     // Bytes 5-7: block data length (24-bit big-endian)
     uint32_t block_len = (static_cast<uint32_t>(blob[5]) << 16) | (static_cast<uint32_t>(blob[6]) << 8)
                          | static_cast<uint32_t>(blob[7]);
-    if (block_len < 34 || blob.size() < 8 + block_len) {
+    if (block_len < 34 || static_cast<int>(blob.size()) < 8 + block_len) {
         return;
     }
 

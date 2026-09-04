@@ -474,7 +474,7 @@ MultiVectorSearch::hybridSearch(
             case FusionStrategy::LEARNED_FUSION:
                 // Learned fusion uses optimized weights (similar to linear combination)
                 // Weights should be pre-computed using optimizeWeights() method
-                if (config.weights.empty() || config.weights.size() != fusion_scores.size()) {
+                if (config.weights.empty() || static_cast<int>(config.weights.size()) != fusion_scores.size()) {
                     return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
                 }

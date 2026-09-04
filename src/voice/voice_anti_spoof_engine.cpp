@@ -74,7 +74,7 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
     size_t start = 0;
     while (static_cast<size_t>(start) < baseline.size()) {
         const auto comma = baseline.find(',', start);
-        const auto end = (comma == std::string::npos) ? baseline.size() : comma;
+        const auto end = (comma == std::string::npos) ?static_cast<int>(baseline.size()) : comma;
         auto token = baseline.substr(start, end - start);
         token.erase(std::remove_if(token.begin(), token.end(),
                                    [](unsigned char c) { return std::isspace(c); }),
@@ -117,7 +117,7 @@ SpoofAnalysis VoiceAntiSpoofEngine::analyzeSpoofRisk(
         result.reason = "Invalid audio or baseline data";
         return result;
     }
-    if (static_cast<int>(audio_data.size()) < config_.min_audio_bytes || audio_data.size() > config_.max_audio_bytes) {
+    if (static_cast<int>(audio_data.size()) < config_.min_audio_bytes || static_cast<int>(audio_data.size()) > config_.max_audio_bytes) {
         result.reason = "Audio payload outside supported bounds";
         return result;
     }
@@ -306,7 +306,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
 
     for (size_t band = 0; band < kBands; ++band) {
         const size_t start = band * band_size;
-        const size_t end = (band == kBands - 1) ? samples.size() : start + band_size;
+        const size_t end = (band == kBands - 1) ?static_cast<int>(samples.size()) : start + band_size;
         const size_t length = end - start;
         double rms = 0.0;
         size_t zero_crossings = 0;

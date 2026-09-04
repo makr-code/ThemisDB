@@ -562,7 +562,7 @@ private:
             }
             stats.documents_processed += chunk_size;
             stats.bytes_processed += response.body.size() > 0
-                                     ? response.body.size()
+                                     ?static_cast<int>(response.body.size())
                                      : chunk_size * 1024;
             processed += chunk_size;
             
@@ -606,7 +606,7 @@ private:
             // In production: parse JSON/Parquet from response.body
             stats.documents_processed = total_docs;
             stats.bytes_processed = response.body.size() > 0
-                                    ? response.body.size()
+                                    ?static_cast<int>(response.body.size())
                                     : total_docs * 1024;
             
             if ([[maybe_unused]] callback) {

@@ -110,7 +110,7 @@ public:
         }
         
         // Pad to max_token_length with padding token (typically 0)
-        while (tokens.size() < config.max_token_length) {
+        while ( static_cast<int>(tokens.size()) < config.max_token_length) {
             tokens.push_back(0);
         }
         

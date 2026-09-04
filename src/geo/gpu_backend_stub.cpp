@@ -287,7 +287,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         }
 
         // CPU exact-intersection fallback.
-        if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
+        if (have_geoms && (in.geoms_a.size() != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("GPU spatial batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({}); processing {} pairs",
                         in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count,
@@ -400,7 +400,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Point × LineString  (is point on any segment?)
         if (g1.isPoint() && g2.isLineString()) {
-            if (g1.coords.empty() || g2.coords.size() < 2) {
+            if (g1.coords.empty() || static_cast<int>(g2.coords.size()) < 2) {
                 return false;
             }
             const auto &ls = g2.coords;
@@ -601,7 +601,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     /// Returns true if the batch is all Points vs the same Polygon — the
     /// pattern that maps directly to the GPU containment kernel.
     static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
-        if (n == 0 || in.geoms_a.size() < n || in.geoms_b.size() < n) {
+        if (n == 0 || static_cast<int>(in.geoms_a.size()) < n || static_cast<int>(in.geoms_b.size()) < n) {
             return false;
         }
         if (!in.geoms_b[0].isPolygon()) {

@@ -179,12 +179,12 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
     std::size_t start = 0;
     while (static_cast<size_t>(start) < text.size()) {
         const auto pos = text.find("\n\n", start);
-        const auto end = (pos == std::string::npos) ? text.size() : pos;
+        const auto end = (pos == std::string::npos) ?static_cast<int>(text.size()) : pos;
         const auto seg = text.substr(start, end - start);
         if (!seg.empty()) {
           segments.push_back(seg);
         }
-        start = (pos == std::string::npos) ? text.size() : (pos + 2);
+        start = (pos == std::string::npos) ?static_cast<int>(text.size()) : (pos + 2);
     }
     if (segments.empty()) {
       segments.push_back(text);

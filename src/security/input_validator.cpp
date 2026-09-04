@@ -275,7 +275,7 @@ ValidationResult InputValidator::validateSearchQuery(
 
 ValidationResult InputValidator::validateIdentifier(std::string_view identifier) {
   // Check length
-  if (identifier.empty() || identifier.size() > MAX_IDENTIFIER_LENGTH) {
+  if (identifier.empty() || static_cast<int>(identifier.size()) > MAX_IDENTIFIER_LENGTH) {
     return {false,
             "Identifier length invalid (must be 1-" + std::to_string(MAX_IDENTIFIER_LENGTH) + ")",
             "Choose a name within the length limit"};

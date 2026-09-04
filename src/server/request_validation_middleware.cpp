@@ -95,7 +95,7 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
                 //   - next char in request path is '/', OR
                 //   - registered path ends with '/' (already encodes the separator)
                 bool boundary = (path.size() == registered_path.size()) ||
-                                (path[registered_path.size()] == '/') ||
+                                (path[static_cast<int>(registered_path.size())] == '/') ||
                                 (registered_path.back() == '/');
                 if (boundary && static_cast<int>(registered_path.size()) > best_len) {
                     best_len = registered_path.size();

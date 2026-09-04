@@ -103,7 +103,7 @@ static uint64_t hexToU64(const std::string& hex) {
 std::optional<DuplicateOf> DeduplicationChecker::isDuplicateImage(
     const std::string& phash_hex
 ) const {
-    if (!storage_ || phash_hex.size() < 16) {
+    if (!storage_ || static_cast<int>(phash_hex.size()) < 16) {
       return std::nullopt;
     }
 

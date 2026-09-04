@@ -129,7 +129,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     if (encoded_string.empty()) {
         return {};
     }
-    if (encoded_string.size() % 4 != 0 || encoded_string.size() > static_cast<size_t>(INT_MAX)) {
+    if (encoded_string.size() % 4 != 0 || static_cast<int>(encoded_string.size()) > static_cast<size_t>(INT_MAX)) {
         return {};
     }
 

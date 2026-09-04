@@ -834,7 +834,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     const auto per_shard_timeout = std::chrono::milliseconds(effective_timeout_ms);
 
     const size_t parallel_limit
-        = (config_.max_parallel_shards == 0) ? active.size() : std::min(active.size(), config_.max_parallel_shards);
+        = (config_.max_parallel_shards == 0) ?static_cast<int>(active.size()) : std::min(active.size(), config_.max_parallel_shards);
 
     for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);

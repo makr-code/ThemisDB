@@ -174,7 +174,7 @@ std::vector<float> embedActivities(const std::vector<std::string>& activities) {
 }
 
 double cosineSimilarity(const std::vector<float>& lhs, const std::vector<float>& rhs) {
-    if (lhs.empty() || rhs.empty() || lhs.size() != rhs.size()) {
+    if (lhs.empty() || rhs.empty() || static_cast<int>(lhs.size()) != rhs.size()) {
         return 0.0;
     }
     double dot = 0.0;

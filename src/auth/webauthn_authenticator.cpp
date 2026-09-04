@@ -939,7 +939,7 @@ WebAuthnAuthenticator::coseKeyToSpki(const std::vector<uint8_t> &cose_key_bytes)
                           "Only EC curve P-256 (crv=1) is supported; got crv=" + std::to_string(fields.crv)));
         }
 
-        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || static_cast<int>(fields.neg3_bytes.size()) != 32) {
             throw std::runtime_error("EC P-256 key: x or y coordinate is not 32 bytes");
         }
 

@@ -483,7 +483,7 @@ double PromptEvaluator::computeCosineSimilarity(
     const std::vector<double>& v1,
     const std::vector<double>& v2
 ) {
-    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != v2.size()) {
         return 0.0;
     }
 

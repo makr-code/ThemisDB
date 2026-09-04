@@ -767,7 +767,7 @@ bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
                                const std::vector<uint8_t>& public_key) {
 #ifdef THEMIS_HAS_OQS
     OqsSigRAII s(dilithiumAlgName(level_));
-    if (!s.sig || public_key.size() != s.sig->length_public_key) {
+    if (!s.sig || static_cast<int>(public_key.size()) != s.sig->length_public_key) {
       return false;
     }
     bool ok = (OQS_SIG_verify(s.sig, message.data(),static_cast<int>(message.size()),
@@ -859,7 +859,7 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     const std::vector<uint8_t>& dek,
     const std::vector<uint8_t>& recipient_public_key)
 {
-    if (dek.empty() || dek.size() > 256) {
+    if (dek.empty() || static_cast<int>(dek.size()) > 256) {
         // 256-byte upper bound matches common DEK sizes (AES-128: 16 B,
         // AES-256: 32 B, ChaCha20: 32 B) while preventing accidental
         // misuse that would embed large payloads in the wire format blob.
@@ -1189,7 +1189,7 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
     auto combined_key = hkdf_sha256(ikm, {}, info, 32);
 
     // 4. Decrypt with AES-256-GCM
-    if (static_cast<int>(blob.iv.size()) != 12 || blob.tag.size() != 16) {
+    if (static_cast<int>(blob.iv.size()) != 12 || static_cast<int>(blob.tag.size()) != 16) {
         throw DecryptionException("HybridEncryption::decryptHybrid: invalid IV/tag size");
     }
     std::array<uint8_t, 12> iv_arr{};

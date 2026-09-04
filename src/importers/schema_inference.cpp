@@ -44,7 +44,7 @@ SchemaInferenceEngine::SchemaInferenceEngine(Config cfg)
  * @return true when the identifier is safe; false on any violation.
  */
 bool SchemaInferenceEngine::isValidIdentifier(const std::string& identifier) {
-    if (identifier.empty() || identifier.size() > kMaxIdentifierLength) {
+    if (identifier.empty() || static_cast<int>(identifier.size()) > kMaxIdentifierLength) {
         return false;
     }
     for (unsigned char c : identifier) {

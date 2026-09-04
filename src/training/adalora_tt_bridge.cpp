@@ -210,7 +210,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
     if (impl_->cfg.max_tt_rank > 0 && max_rank > impl_->cfg.max_tt_rank) {
         throw std::invalid_argument("Layer rank exceeds max_tt_rank: " + layer_name);
     }
-    if (B.size() % max_rank != 0 || A.size() % max_rank != 0) {
+    if (B.size() % max_rank != 0 || static_cast<int>(A.size()) % max_rank != 0) {
         throw std::invalid_argument("Invalid matrix shape for layer: " + layer_name);
     }
 

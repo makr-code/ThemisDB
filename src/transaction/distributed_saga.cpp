@@ -392,7 +392,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
         return true;
     };
 
-    if (!config_.enable_parallel || wave.size() == 1) {
+    if (!config_.enable_parallel || static_cast<int>(wave.size()) == 1) {
         // Sequential execution
         for (const auto& name : wave) {
             auto it = index.find(name);

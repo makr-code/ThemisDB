@@ -405,7 +405,7 @@ static const std::array<bool, 256>& filenameMetacharTable() {
 }
 
 bool InputValidator::validateAQLQuery(const std::string& query) const {
-    if (query.empty() || query.size() > kMaxAqlQuerySize) {
+    if (query.empty() || static_cast<int>(query.size()) > kMaxAqlQuerySize) {
       return false;
     }
 
@@ -466,7 +466,7 @@ bool InputValidator::validateAQLQuery(const std::string& query) const {
 }
 
 bool InputValidator::validateFilePath(const std::string& path) const {
-    if (path.empty() || path.size() > kMaxFilePathSize) {
+    if (path.empty() || static_cast<int>(path.size()) > kMaxFilePathSize) {
       return false;
     }
 
@@ -545,7 +545,7 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
 }
 
 bool InputValidator::validateFilename(const std::string& filename) const {
-    if (filename.empty() || filename.size() > kMaxFilenameSize) {
+    if (filename.empty() || static_cast<int>(filename.size()) > kMaxFilenameSize) {
       return false;
     }
 
@@ -666,7 +666,7 @@ bool InputValidator::validateEmail(const std::string& email) const {
 
 bool InputValidator::validateURL(const std::string& url,
                                   const std::vector<std::string>& allowed_schemes) const {
-    if (url.empty() || url.size() > kMaxUrlSize) {
+    if (url.empty() || static_cast<int>(url.size()) > kMaxUrlSize) {
       return false;
     }
 

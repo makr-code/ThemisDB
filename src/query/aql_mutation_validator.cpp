@@ -18,7 +18,7 @@ namespace query {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) {
+    if (name.empty() || static_cast<int>(name.size()) > 256) {
       return false;
     }
 
@@ -43,7 +43,7 @@ bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidFieldName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) {
+    if (name.empty() || static_cast<int>(name.size()) > 256) {
       return false;
     }
 

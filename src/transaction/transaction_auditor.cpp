@@ -62,7 +62,7 @@ TransactionAuditor::queryAuditLog(
 
     std::vector<AuditRecord> result = {};
 
-    result.reserve(limit == 0 ? log_.size() : std::min(log_.size(), limit));
+    result.reserve(limit == 0 ?static_cast<int>(log_.size()) : std::min(log_.size(), limit));
 
     // Iterate in reverse (most-recent-first).
     for (auto it = log_.rbegin(); it != log_.rend(); ++it) {

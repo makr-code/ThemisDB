@@ -415,7 +415,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
         return false;
     }
     const auto& store = scores_.at(experiment_id);
-    if (static_cast<int>(store.control.size()) < 2 || store.treatment.size() < 2) {
+    if (static_cast<int>(store.control.size()) < 2 || static_cast<int>(store.treatment.size()) < 2) {
         return false;
     }
 

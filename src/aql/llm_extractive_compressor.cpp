@@ -342,8 +342,8 @@ float LLMExtractiveCompressor::computeSimilarity(
     }
 
     // Dot product (iterate over the smaller vector for efficiency)
-    const auto& iter_tf = (orig_tf.size() <= comp_tf.size()) ? orig_tf : comp_tf;
-    const auto& lookup_tf = (orig_tf.size() <= comp_tf.size()) ? comp_tf : orig_tf;
+    const auto& iter_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? orig_tf : comp_tf;
+    const auto& lookup_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? comp_tf : orig_tf;
     float dot = 0.0f;
     for (const auto& [term, value] : iter_tf) {
         auto it = lookup_tf.find(term);

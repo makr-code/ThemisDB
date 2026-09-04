@@ -673,7 +673,7 @@ public:
                                     } else {
                                         // Use real embeddings (average over sequence for now)
                                         // In production, this would be the actual transformer input
-                                        const size_t emb_depth = (hidden_dim > 0) ? input_embeddings.size() / hidden_dim : 0;
+                                        const size_t emb_depth = (hidden_dim > 0) ?static_cast<int>(input_embeddings.size()) / hidden_dim : 0;
                                         const size_t row_input_seq = batch.input_ids[i].size();
                                         const size_t eff_input_seq = std::min(row_input_seq, emb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
@@ -698,7 +698,7 @@ public:
                                         }
                                     } else {
                                         // Use real embeddings for target
-                                        const size_t temb_depth = (hidden_dim > 0) ? target_embeddings.size() / hidden_dim : 0;
+                                        const size_t temb_depth = (hidden_dim > 0) ?static_cast<int>(target_embeddings.size()) / hidden_dim : 0;
                                         const size_t row_target_seq = batch.label_ids[i].size();
                                         const size_t eff_target_seq = std::min(row_target_seq, temb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {

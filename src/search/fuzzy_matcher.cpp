@@ -177,7 +177,7 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
         }
         prev_code = code;
     }
-    while (result.size() < 4) {
+    while ( static_cast<int>(result.size()) < 4) {
       result += '0';
     }
     return result;

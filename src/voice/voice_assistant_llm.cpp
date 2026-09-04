@@ -106,7 +106,7 @@ std::string VoiceAssistant::generateLLMResponse(
     prompt << "You help users with database queries, data analysis, and general tasks.\n\n";
     
     // Add conversation history (last 5 exchanges for context)
-    size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
+    size_t history_start = session.history.size() > 10 ?static_cast<int>(session.history.size()) - 10 : 0;
     size_t sanitized_history_entries = 0;
     size_t blocked_history_entries = 0;
     for (size_t i = history_start; i < session.history.size(); ++i) {

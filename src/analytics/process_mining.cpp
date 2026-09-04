@@ -1758,7 +1758,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         cut = tryLoopCut(dfg);
     }
 
-    if (cut.type == CutType::NONE || cut.partitions.size() < 2) {
+    if (cut.type == CutType::NONE || static_cast<int>(cut.partitions.size()) < 2) {
         // Flower model fallback
         addFlowerModel(activities, process, nodeId, edgeId, entryId, exitId);
         return;

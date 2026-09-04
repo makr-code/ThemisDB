@@ -107,7 +107,7 @@ namespace geo {
     const std::vector<uint8_t>& cpu_mask,
     const std::vector<uint8_t>& gpu_mask,
     std::size_t count) noexcept {
-    if (static_cast<int>(cpu_mask.size()) != count || gpu_mask.size() != count) {
+    if (static_cast<int>(cpu_mask.size()) != count || static_cast<int>(gpu_mask.size()) != count) {
         return false;
     }
     return std::equal(cpu_mask.begin(), cpu_mask.begin() + count,
@@ -153,7 +153,7 @@ namespace geo {
     const std::vector<double>& lons,
     const std::vector<double>& lats) noexcept {
     // Minimum 4 vertices: 3 unique + 1 closing point
-    if (static_cast<int>(lons.size()) < 4 || lats.size() < 4 || lons.size() != lats.size()) {
+    if (static_cast<int>(lons.size()) < 4 || static_cast<int>(lats.size()) < 4 || static_cast<int>(lons.size()) != lats.size()) {
         return false;
     }
 

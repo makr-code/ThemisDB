@@ -475,7 +475,7 @@ public:
     #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
-        if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
+        if (!initialized || static_cast<int>(vector.size()) != static_cast<size_t>(dimension)) {
             return false;
         }
         
@@ -658,7 +658,7 @@ public:
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
-        if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+        if (vectorData.empty() || static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
                         vectorData.size(),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
@@ -695,7 +695,7 @@ public:
 #ifdef THEMIS_ENABLE_CUDA
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
-        if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+        if (!cudaBackend || vectorData.empty() || static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
             THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
                         static_cast<bool>(cudaBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
             return {};
@@ -1087,7 +1087,7 @@ bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& 
 
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
-    if (!pImpl->initialized || ids.size() != vectors.size()) {
+    if (!pImpl->initialized || static_cast<int>(ids.size()) != vectors.size()) {
         return false;
     }
 

@@ -360,7 +360,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             }
         } else {
             const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
-                ? shard_backends.size()
+                ?static_cast<int>(shard_backends.size())
                 : std::min(config_.distributed_max_fanout,static_cast<int>(shard_backends.size()));
             for (std::size_t i = 0; i < fanout_limit; ++i) {
                 execution_backends.push_back(shard_backends[i]);

@@ -373,7 +373,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::SimilarityCall) {
                 auto sim = std::static_pointer_cast<SimilarityCallExpr>(spec.expression);
                 const auto& args = sim->arguments;
-                if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
+                if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
                     return TranslationResult::Error("SIMILARITY() requires 2-3 arguments: SIMILARITY(doc.embedding, [vector] [, k])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {

@@ -141,7 +141,7 @@ static bool compareString(const std::string& lhs,
             if (prefix_wild && suffix_wild)
                 return lhs.find(pattern) != std::string::npos;
             if (prefix_wild)
-                return static_cast<bool>(lhs.size()  < static_cast<int>(= pattern.size())) &&
+                return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= pattern.size())) &&
                        lhs.substr(static_cast<int>(lhs.size()) - pattern.size()) == pattern;
             if (suffix_wild)
                 return lhs.substr(0,static_cast<int>(pattern.size())) == pattern;

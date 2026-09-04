@@ -1064,7 +1064,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             s.start         = record.event_time;
             s.last_event    = record.event_time;
             // Enforce max_records_per_session on new session creation.
-            if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
+            if (config_.max_records_per_session == 0 || static_cast<int>(s.records.size()) < config_.max_records_per_session) {
                 s.records.push_back(record);
             } else {
                 ++records_dropped_;

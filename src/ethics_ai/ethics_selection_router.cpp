@@ -121,7 +121,7 @@ static constexpr double kSigmoidBias = 1.0;
 /// Cosine similarity between two dense float vectors.
 /// Returns 0.0 if either vector is empty or has mismatched dimensions.
 double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || a.size() != b.size()) {
+    if (a.empty() || b.empty() || static_cast<int>(a.size()) != b.size()) {
       return 0.0;
     }
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;

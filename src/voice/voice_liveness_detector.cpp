@@ -275,7 +275,7 @@ size_t VoiceLivenessDetector::getActiveChallengeCount() const {
 }
 
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
-    if (audio.empty() || audio.size() > config_.max_response_bytes) {
+    if (audio.empty() || static_cast<int>(audio.size()) > config_.max_response_bytes) {
         return {};
     }
 

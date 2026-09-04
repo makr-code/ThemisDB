@@ -274,7 +274,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
         const bool have_geoms = !in.geoms_a.empty() || !in.geoms_b.empty();
-        if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
+        if (have_geoms && (in.geoms_a.size() != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
             THEMIS_WARN("CPU exact batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({})",
                         in.geoms_a.size(),static_cast<int>(in.geoms_b.size()), in.count);
@@ -922,7 +922,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     static GeometryInfo cpuPolyUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
-        if (static_cast<int>(ring1.size()) < 3 || ring2.size() < 3) {
+        if (static_cast<int>(ring1.size()) < 3 || static_cast<int>(ring2.size()) < 3) {
             return GeometryInfo{};
         }
 

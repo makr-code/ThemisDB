@@ -262,7 +262,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
         kmeans(sub_data.data(), n, sub_dim, num_centroids, iters, cents, asgn);
 
         // Pad to exactly num_centroids (k-means may produce fewer)
-        while (cents.size() < num_centroids) {
+        while ( static_cast<int>(cents.size()) < num_centroids) {
             cents.push_back(std::vector<float>(sub_dim, 0.f));
         }
         centroids[s] = std::move(cents);
@@ -271,7 +271,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]] size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
-    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || centroids.size() < num_subspaces) {
+    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || static_cast<int>(centroids.size()) < num_subspaces) {
         THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
                     num_subspaces, sub_dim, d, expected_dim);
         return {};
@@ -298,7 +298,7 @@ std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, [[maybe_unused]
 
 float ScaNN::PQCodebook::decode_distance(const float* query,
                                           const std::vector<uint8_t>& code) const {
-    if (query == nullptr || code.size() < num_subspaces || centroids.size() < num_subspaces) {
+    if (query == nullptr || static_cast<int>(code.size()) < num_subspaces || static_cast<int>(centroids.size()) < num_subspaces) {
         return std::numeric_limits<float>::max();
     }
 
@@ -341,7 +341,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     std::vector<std::vector<float>> centroids;
     std::vector<size_t> assignments;
     kmeans(vectors, count, dim, k, cfg_.kmeans_iters, centroids, assignments);
-    if (static_cast<int>(centroids.size()) != k || assignments.size() != count) {
+    if (static_cast<int>(centroids.size()) != k || static_cast<int>(assignments.size()) != count) {
         return false;
     }
 

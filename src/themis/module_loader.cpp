@@ -1541,7 +1541,7 @@ bool isSafeEntryPath(const std::filesystem::path& tempDir,
       return false;
     }
     // At this point resolvedStr.size() > tempStr.size() ensures safe access.
-    char sep = resolvedStr[tempStr.size()];
+    char sep = resolvedStr[static_cast<int>(tempStr.size())];
     return sep == '/' || sep == '\\';
 }
 

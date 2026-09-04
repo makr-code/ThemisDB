@@ -61,7 +61,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided return zero mask immediately.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 
@@ -355,7 +355,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 
@@ -688,7 +688,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || in.geoms_b.size() < in.count) {
+        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
             return out;
         }
 

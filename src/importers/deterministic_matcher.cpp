@@ -303,7 +303,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
         }
         prev = c;
     }
-    while (code.size() < 4) {
+    while ( static_cast<int>(code.size()) < 4) {
         code += '0';
     }
     return code;
@@ -409,7 +409,7 @@ double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string 
 }
 
 double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std::vector<float> &v2) {
-    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != v2.size()) {
         return 0.0;
     }
 

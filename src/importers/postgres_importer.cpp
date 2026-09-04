@@ -1235,7 +1235,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         return s.substr(l, r - l + 1);
     };
     auto startsWith = [](const std::string& s, const std::string& pfx) {
-        return static_cast<bool>(s.size()  < static_cast<int>(= pfx.size() && s.compare(0,static_cast<int>(pfx.size()))), pfx) == 0;
+        return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= pfx.size() && s.compare(0,static_cast<int>(pfx.size()))), pfx) == 0;
     };
 
     for (const auto& raw_def : column_defs) {

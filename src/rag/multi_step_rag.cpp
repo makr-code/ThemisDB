@@ -273,7 +273,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const InferenceFn&                 infer) const
 {
     MultiStepRAGResult result = {};
-    if (query.empty() || query.size() > kMaxQueryChars) {
+    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
         spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }
@@ -433,7 +433,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result = {};
-    if (query.empty() || query.size() > kMaxQueryChars) {
+    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
         spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}",static_cast<int>(query.size()));
         return result;
     }

@@ -836,7 +836,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     DotProductResult result;
     result.precision_used = config_.precision_mode;
 
-    if (a.empty() || a.size() != b.size()) {
+    if (a.empty() || static_cast<int>(a.size()) != b.size()) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_dot_products;
         recordOp(0, 0, false);
@@ -1198,8 +1198,8 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
     AnnResult result;
 
     // Validate inputs --------------------------------------------------------
-    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || queries.size() != numQueries * dim
-        || database.size() != numVectors * dim) {
+    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || static_cast<int>(queries.size()) != numQueries * dim
+        || static_cast<int>(database.size()) != numVectors * dim) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_ann_searches;
         recordOp(0, 0, false);

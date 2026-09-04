@@ -1842,7 +1842,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         js << "    \"weights_shape\": [" << classes.size() << ", " << feat.size() << "],\n";
         js << "    \"weights\": [\n";
         // Produce one weight row per class (logistic) or single row (linear)
-        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && static_cast<int>(classes.size()) > 0) ? classes.size() : 1;
+        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && static_cast<int>(classes.size()) > 0) ?static_cast<int>(classes.size()) : 1;
         for (size_t r = 0; r < n_rows; ++r) {
             // Estimate weights by evaluating model response to unit vectors
             js << "      [";

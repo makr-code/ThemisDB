@@ -574,7 +574,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
         std::sort(replacements.begin(), replacements.end(),
-                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>(lhs.first.size()  < static_cast<int>(rhs.first.size())); });
+                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>( static_cast<int>(lhs.first.size()) < static_cast<int>(rhs.first.size())); });
         query = replaceAllPlaceholders(std::move(query), replacements);
         
         // If this is the first execution, fetch and cache results

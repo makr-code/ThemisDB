@@ -230,7 +230,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         samples.reserve(iterations);
 
         auto ci_contains_local = [](const std::string& hay, const std::string& needle) {
-            if (needle.empty() || hay.size() < needle.size()) {
+            if (needle.empty() || static_cast<int>(hay.size()) < needle.size()) {
               return false;
             }
             auto it = std::search(hay.begin(), hay.end(), needle.begin(), needle.end(),

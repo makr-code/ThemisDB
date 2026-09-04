@@ -412,7 +412,7 @@ void VulkanComputePipeline::update_descriptor_sets() {
         descriptor_write.dstArrayElement = 0;
         descriptor_write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
         descriptor_write.descriptorCount = 1;
-        descriptor_write.pBufferInfo = &buffer_infos[descriptor_writes.size()];
+        descriptor_write.pBufferInfo = &buffer_infos[static_cast<int>(descriptor_writes.size())];
         
         descriptor_writes.push_back(descriptor_write);
     }

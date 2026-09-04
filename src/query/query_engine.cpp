@@ -1084,7 +1084,7 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 		if (static_cast<int>(a.size()) == b.size()) {
 			return a < b;
 		}
-		return static_cast<bool>(a.size()  < static_cast<int>(b.size()));
+		return static_cast<bool>( static_cast<int>(a.size()) < static_cast<int>(b.size()));
 	});
 	if (lists.empty()) return {};
 	
@@ -1767,7 +1767,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		return Ok(nlohmann::json(out));
 	}
 	if (funcName == "SUBSTRING") {
-		if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, 
 				fmt::format("SUBSTRING expects 2 or 3 arguments, got {}",static_cast<int>(args.size())));
 		}
@@ -1788,7 +1788,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		// size_t; a raw static_cast of a negative double is implementation-defined UB.
 		const double startD = qe_toNumber(*st);
 		size_t startIdx = (startD <= 0.0) ? 0 :
-			(startD >= static_cast<double>(sv.size())) ? sv.size() :
+			(startD >= static_cast<double>(sv.size())) ?static_cast<int>(sv.size()) :
 			static_cast<size_t>(startD);
 		if (startIdx >= static_cast<int>(sv.size())) {
 		  return Ok(nlohmann::json(""));
@@ -1800,7 +1800,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			}
 			const double lenD = qe_toNumber(*lenRes);
 			size_t len = (lenD <= 0.0) ? 0 :
-				(lenD >= static_cast<double>(sv.size())) ? sv.size() :
+				(lenD >= static_cast<double>(sv.size())) ?static_cast<int>(sv.size()) :
 				static_cast<size_t>(lenD);
 			return Ok(nlohmann::json(sv.substr(startIdx, len)));
 		}
@@ -2384,7 +2384,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		std::string t = g["type"]; const auto& c = g["coordinates"]; std::ostringstream wkt;
 		if (t=="Point") {
-			if (!c.is_array() || c.size()<2) {
+			if (!c.is_array() || static_cast<int>(c.size())<2) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Point");
 			}
 			wkt<<"POINT("<<c[0].get<double>()<<" "<<c[1].get<double>(); if (static_cast<int>(c.size()) > =3) wkt<<" "<<c[2].get<double>(); wkt<<")";
@@ -2516,7 +2516,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		std::string t=g["type"];
 		if (t=="Point") {
 			const auto& c=g["coordinates"];
-			if (!c.is_array()||c.size()<2) {
+			if (!c.is_array()|| static_cast<int>(c.size())<2) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH,
 					"ST_Buffer: invalid Point");
 			}
@@ -2589,7 +2589,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	// GEO_BUFFER(geom, distance_m [, arc_points]) — geodesic ST_BUFFER via the CPU-exact backend.
 	// ArangoDB-compatible name; distance_m is in metres (geodesic-aware).
 	if (funcName == "GEO_BUFFER" || funcName == "ST_BUFFER") {
-		if (static_cast<int>(args.size()) < 2 || args.size() > 3) {
+		if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
 			return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
 				fmt::format("{} expects 2 or 3 arguments, got {}", funcName,static_cast<int>(args.size())));
 		}

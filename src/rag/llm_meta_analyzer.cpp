@@ -138,7 +138,7 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
         throw std::invalid_argument("Input text exceeds maximum size");
     }
     
-    if (static_cast<int>(criteria.size()) > 100 || examples.size() > 50) {
+    if (static_cast<int>(criteria.size()) > 100 || static_cast<int>(examples.size()) > 50) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: criteria/examples count exceeds maximum");
         throw std::invalid_argument("Criteria or examples count exceeds maximum");
     }

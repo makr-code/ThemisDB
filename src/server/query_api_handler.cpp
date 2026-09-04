@@ -2243,8 +2243,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                         if (pass) {
                             // Result-Limit Check
-                            size_t currentResultCount = (retMode == RetMode::Vertex) ? resultVertices.size() :
-                                                        (retMode == RetMode::Edge) ? resultEdgeIds.size() :
+                            size_t currentResultCount = (retMode == RetMode::Vertex) ?static_cast<int>(resultVertices.size()) :
+                                                        (retMode == RetMode::Edge) ?static_cast<int>(resultEdgeIds.size()) :
                                                         resultTerminalVertices.size();
                             if (currentResultCount >= max_results) {
                                 resultLimitReached = true;

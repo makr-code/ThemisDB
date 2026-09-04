@@ -86,7 +86,7 @@ static int base64CharValue(char c) {
 
 std::string TemporalCompressor::base64Decode(const std::string& input) {
     std::string out = {};
-    if (input.empty() || input.size() % 4 != 0) {
+    if (input.empty() || static_cast<int>(input.size()) % 4 != 0) {
       return out;
     }
     out.reserve((input.size() / 4) * 3);

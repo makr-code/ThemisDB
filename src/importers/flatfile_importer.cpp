@@ -462,7 +462,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
               continue;
             }
             auto fields = parseCsvRow(data_line, delim, quote_char_);
-            while (fields.size() < cols_vec.size()) {
+            while ( static_cast<int>(fields.size()) < cols_vec.size()) {
               fields.emplace_back();
             }
             if (static_cast<int>(fields.size()) > cols_vec.size()) {
@@ -725,7 +725,7 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
         }
 
         auto fields = parseCsvRow(sample_line, delim, quote_char_);
-        while (fields.size() < columns.size()) {
+        while ( static_cast<int>(fields.size()) < columns.size()) {
           fields.emplace_back();
         }
         if (static_cast<int>(fields.size()) > columns.size()) {
@@ -892,7 +892,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         auto fields = parseCsvRow(line, delim, quote_char_);
 
         // Column count mismatch – pad with empty or truncate
-        while (fields.size() < columns.size()) {
+        while ( static_cast<int>(fields.size()) < columns.size()) {
           fields.emplace_back();
         }
         if (static_cast<int>(fields.size()) > columns.size()) {

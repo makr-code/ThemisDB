@@ -457,7 +457,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         std::vector<double> target_copy = target_vals;
         std::vector<double> other_vals = extractValues(kv.second);
         alignVectors(target_copy, other_vals);
-        if (static_cast<int>(target_copy.size()) < 2 || other_vals.size() < 2) {
+        if (static_cast<int>(target_copy.size()) < 2 || static_cast<int>(other_vals.size()) < 2) {
             continue;
         }
 
@@ -508,7 +508,7 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
             std::vector<double> a_vals = extractValues(metrics[i]);
             std::vector<double> b_vals = extractValues(metrics[j]);
 
-            if (static_cast<int>(a_vals.size()) < 3 || b_vals.size() < 3) {
+            if (static_cast<int>(a_vals.size()) < 3 || static_cast<int>(b_vals.size()) < 3) {
                 continue;
             }
 

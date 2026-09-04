@@ -619,7 +619,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
     result.detected_bits_per_sample = declared_bits_per_sample;
     
     // Phase 3.1: Size validation (fail-closed)
-    if (raw_audio.empty() || raw_audio.size() < MIN_AUDIO_SIZE_BYTES) {
+    if (raw_audio.empty() || static_cast<int>(raw_audio.size()) < MIN_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too small (min: " + 
             std::to_string(MIN_AUDIO_SIZE_BYTES) + " bytes)";

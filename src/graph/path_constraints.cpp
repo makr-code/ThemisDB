@@ -53,7 +53,7 @@ PathConstraints::PathConstraints(GraphIndexManager *graph_mgr) : graph_mgr_(grap
 // ── Security helpers ─────────────────────────────────────────────────────────
 
 bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
-    if (s.empty() || s.size() > MAX_ID_LENGTH) {
+    if (s.empty() || static_cast<int>(s.size()) > MAX_ID_LENGTH) {
         return false;
     }
     // Reject null bytes — they can cause string-comparison bypass via early
@@ -62,7 +62,7 @@ bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
 }
 
 bool PathConstraints::isValidFieldName(std::string_view s) noexcept {
-    if (s.empty() || s.size() > MAX_FIELD_NAME_LENGTH) {
+    if (s.empty() || static_cast<int>(s.size()) > MAX_FIELD_NAME_LENGTH) {
         return false;
     }
     for (char ch : s) {

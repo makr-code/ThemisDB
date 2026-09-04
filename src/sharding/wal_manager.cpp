@@ -232,7 +232,7 @@ LSN WALManager::append(const WALEntry& entry) {
     total_bytes_ += bytes.size();
     
     // Flush if configured or buffer full
-    if (config_.sync_on_write || write_buffer_.size() >= config_.write_buffer_size) {
+    if (config_.sync_on_write || static_cast<int>(write_buffer_.size()) >= config_.write_buffer_size) {
         flush();
     }
     

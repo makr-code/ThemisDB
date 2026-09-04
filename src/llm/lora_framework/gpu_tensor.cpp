@@ -256,7 +256,7 @@ GPUTensor GPUTensor::mul(const GPUTensor& other) const {
 }
 
 GPUTensor GPUTensor::matmul(const GPUTensor& other) const {
-    if (static_cast<int>(shape_.size()) != 2 || other.shape_.size() != 2) {
+    if (static_cast<int>(shape_.size()) != 2 || static_cast<int>(other.shape_.size()) != 2) {
         throw std::invalid_argument("matmul requires 2D tensors");
     }
     

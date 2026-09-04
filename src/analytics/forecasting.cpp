@@ -1588,7 +1588,7 @@ struct ForecastModel::Impl {
         out.reserve(static_cast<size_t>(steps));
         // Use train_ts.size() so this also works after deserialization
         // (train_y is not persisted but train_ts is).
-        size_t n      = train_ts.empty() ? train_y.size() : train_ts.size();
+        size_t n      = train_ts.empty() ?static_cast<int>(train_y.size()) : train_ts.size();
         double n_last = static_cast<double>(n) - 1.0;
         for (int k = 1; k <= steps; ++k) {
             out.push_back(linear_p.alpha + linear_p.beta * (n_last + static_cast<double>(k)));
@@ -1610,7 +1610,7 @@ struct ForecastModel::Impl {
         int m           = hw_p.m;
         bool has_season = (m >= 2) && !S.empty();
         // Use train_ts.size() so this also works after deserialization
-        size_t n    = train_ts.empty() ? train_y.size() : train_ts.size();
+        size_t n    = train_ts.empty() ?static_cast<int>(train_y.size()) : train_ts.size();
         int train_n = static_cast<int>(n);
 
         for (int k = 1; k <= steps; ++k) {

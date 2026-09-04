@@ -480,7 +480,7 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
             err_out = "unsupported EC curve (only P-256 supported)";
             return nullptr;
         }
-        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || fields.neg3_bytes.size() != 32) {
+        if (static_cast<int>(fields.neg2_bytes.size()) != 32 || static_cast<int>(fields.neg3_bytes.size()) != 32) {
             err_out = "EC P-256 x/y coordinates are not 32 bytes";
             return nullptr;
         }

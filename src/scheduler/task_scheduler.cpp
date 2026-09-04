@@ -1184,7 +1184,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     std::set<std::string> completed;  // succeeded tasks
     std::set<std::string> processed;  // all tasks we have decided about
 
-    while (processed.size() < task_ids.size()) {
+    while ( static_cast<int>(processed.size()) < task_ids.size()) {
         // Collect tasks that are ready (all deps completed successfully)
         std::vector<std::string> wave = {};
 

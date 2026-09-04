@@ -242,7 +242,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         result.reason = "empty_audio";
         return result;
     }
-    if ((audio_sample.size() % 2) != 0 || audio_sample.size() < 320) {
+    if ((audio_sample.size() % 2) != 0 || static_cast<int>(audio_sample.size()) < 320) {
         result.reason = "insufficient_audio";
         return result;
     }

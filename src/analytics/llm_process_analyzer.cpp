@@ -700,7 +700,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["five_rights_check"].contains("corrective_actions")) {
                 const auto &actions = response["five_rights_check"]["corrective_actions"];
-                if (!actions.is_array() || actions.size() > kMaxListSize) {
+                if (!actions.is_array() || static_cast<int>(actions.size()) > kMaxListSize) {
                    return false;
                 }
                 for (const auto &action : actions) {
@@ -725,7 +725,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["fraud_analysis"].contains("detected_anomalies")) {
                 const auto &anomalies = response["fraud_analysis"]["detected_anomalies"];
-                if (!anomalies.is_array() || anomalies.size() > kMaxListSize) {
+                if (!anomalies.is_array() || static_cast<int>(anomalies.size()) > kMaxListSize) {
                    return false;
                 }
                 for (const auto &anomaly : anomalies) {

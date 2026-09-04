@@ -565,7 +565,7 @@ std::vector<CompletionItem> AQLAutoComplete::filterAndSort(std::vector<Completio
 std::vector<CompletionItem> AQLAutoComplete::complete(const CompletionContext &ctx) const {
     const std::string &text = ctx.query_text;
     std::size_t cursor
-        = (ctx.cursor_offset == std::string::npos) ? text.size() : std::min(ctx.cursor_offset,static_cast<int>(text.size()));
+        = (ctx.cursor_offset == std::string::npos) ?static_cast<int>(text.size()) : std::min(ctx.cursor_offset,static_cast<int>(text.size()));
 
     std::string prefix     = extractPrefix(text, cursor);
     std::size_t ps         = prefixStart(text, cursor);

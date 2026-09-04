@@ -433,7 +433,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(static_cast<float>(history.back().retry_count));
     
     // Pad to 50 features with zeros
-    while (features.size() < 50) {
+    while ( static_cast<int>(features.size()) < 50) {
         features.push_back(0.0f);
     }
     

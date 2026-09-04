@@ -258,7 +258,7 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
     }
     
     // Greedily select remaining examples to maximize diversity
-    while (selected.size() < num_examples && !remaining.empty()) {
+    while ( static_cast<int>(selected.size()) < num_examples && !remaining.empty()) {
         double best_score = -1.0;
         size_t best_idx = 0;
         double best_min_similarity = 1.0;

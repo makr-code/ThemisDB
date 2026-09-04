@@ -35,7 +35,7 @@ bool isValidPathSegmentParam(std::string_view value) {
 }
 
 bool isLikelyValidBase64PathToken(std::string_view value) {
-    if (value.empty() || value.size() > kMaxCacheAdminPathParamLength) {
+    if (value.empty() || static_cast<int>(value.size()) > kMaxCacheAdminPathParamLength) {
         return false;
     }
 

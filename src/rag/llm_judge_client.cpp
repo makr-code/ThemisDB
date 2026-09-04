@@ -319,7 +319,7 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
 
     results.reserve(prompts.size());
     
-    if (!impl_->config.enable_batching || prompts.size() == 1) {
+    if (!impl_->config.enable_batching || static_cast<int>(prompts.size()) == 1) {
         // Sequential processing
         for (const auto& prompt : prompts) {
             results.push_back(evaluate(prompt));

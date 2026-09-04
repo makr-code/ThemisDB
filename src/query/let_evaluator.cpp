@@ -662,7 +662,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         // Uses the horizontal ray cast to the right; boundary crossings are counted.
         auto pointInRing = [](double px, double py,
                                const nlohmann::json& ring) -> bool {
-            if (!ring.is_array() || ring.size() < 3) {
+            if (!ring.is_array() || static_cast<int>(ring.size()) < 3) {
               return false;
             }
             const std::size_t n = ring.size();
@@ -1224,7 +1224,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::ostringstream wkt = {};
         
         if (type == "Point") {
-            if (!coords.is_array() || coords.size() < 2) {
+            if (!coords.is_array() || static_cast<int>(coords.size()) < 2) {
                 return nlohmann::json(nullptr);
             }
             
@@ -1455,7 +1455,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         if (type == "Point") {
             const auto& c = geom["coordinates"];
-            if (!c.is_array() || c.size() < 2) {
+            if (!c.is_array() || static_cast<int>(c.size()) < 2) {
               throw std::runtime_error("ST_Buffer: invalid Point");
             }
             double x=c[0].get<double>(), y=c[1].get<double>();

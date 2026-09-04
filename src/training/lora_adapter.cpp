@@ -369,7 +369,7 @@ public:
             const size_t expected_B = e.in_dim  * e.rank;
             const size_t expected_A = e.rank    * e.out_dim;
 
-            if (static_cast<int>(e.B.size()) != expected_B || e.A.size() != expected_A) {
+            if (static_cast<int>(e.B.size()) != expected_B || static_cast<int>(e.A.size()) != expected_A) {
                 std::ostringstream oss = {};
                 oss << "LoRAAdapter::importWeights: size mismatch for entry '" << e.layer_name
                     << "': B expected " << expected_B << " (got " << e.B.size()

@@ -2758,7 +2758,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
     };
     auto isSafeSnapshotId = [](const std::string& value) {
         constexpr size_t kMaxSnapshotIdLength = 128;
-        if (value.empty() || value.size() > kMaxSnapshotIdLength) {
+        if (value.empty() || static_cast<int>(value.size()) > kMaxSnapshotIdLength) {
             return false;
         }
 

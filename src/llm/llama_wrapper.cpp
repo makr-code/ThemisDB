@@ -2856,7 +2856,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         size_t total_speculations = 0;
         size_t total_accepted = 0;
         
-        while (generated_tokens.size() < static_cast<size_t>(max_tokens)) {
+        while ( static_cast<int>(generated_tokens.size()) < static_cast<size_t>(max_tokens)) {
             // 3a. Draft model generates N candidate tokens
             std::vector<llama_token> draft_tokens = {};
 

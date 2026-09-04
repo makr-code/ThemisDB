@@ -397,7 +397,7 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
         }
     };
 
-    if (!config_.parallel_decoding || slots_copy.size() <= 1) {
+    if (!config_.parallel_decoding || static_cast<int>(slots_copy.size()) <= 1) {
         process_slots_sequential();
         return;
     }

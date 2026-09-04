@@ -60,7 +60,7 @@ PolyglotPersistenceMapper::inferModelFromSchema(
           ++self_fk;
         }
     }
-    if (self_fk >= 2 || schema.foreign_keys.size() >= 3) {
+    if (self_fk >= 2 || static_cast<int>(schema.foreign_keys.size()) >= 3) {
         return DataModel::GRAPH;
     }
 

@@ -742,7 +742,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
               return true;
             }
             auto r = ProcessModelRecord::fromDocument(doc);
-            if (r.embedding.empty() || r.embedding.size() != query_embedding.size())
+            if (r.embedding.empty() || static_cast<int>(r.embedding.size()) != query_embedding.size())
                 return true;
 
             // Compute cosine similarity

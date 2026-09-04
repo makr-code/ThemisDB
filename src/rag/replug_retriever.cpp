@@ -298,7 +298,7 @@ ReplugFusionResult ReplugRetriever::fuse(
     // ── Step 8: apply top_k and build output ─────────────────────────────
     const size_t limit =
         (config_.top_k == 0 || config_.top_k >= indices.size())
-            ? indices.size()
+            ?static_cast<int>(indices.size())
             : config_.top_k;
 
     result.documents.reserve(limit);

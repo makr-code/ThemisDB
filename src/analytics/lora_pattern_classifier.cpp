@@ -252,7 +252,7 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 // ──────────────────────────────────────────────────────────────────────────────
 
 /*static*/ double LoRAPatternClassifier::cosineSimilarity(const std::vector<double> &a, const std::vector<double> &b) {
-    if (a.empty() || a.size() != b.size()) {
+    if (a.empty() || static_cast<int>(a.size()) != b.size()) {
         return 0.0;
     }
 

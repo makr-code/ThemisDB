@@ -626,7 +626,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     }
 
     // Try real RSA signing if key is available and hash length matches
-    if (!cfg_.key_path.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
+    if (!cfg_.key_path.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)) {
         auto pkey_result = load_private_key(cfg_);
         if (pkey_result) {
             EVP_PKEY* pkey = *pkey_result;
@@ -689,7 +689,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
             cert_serial = cached_cert_serial_;
         }
 
-        if (!cert_pem.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
+        if (!cert_pem.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)) {
             auto pkey_result = load_private_key(cfg_);
             if (pkey_result) {
                 EVP_PKEY* pkey = *pkey_result;
@@ -853,7 +853,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     // Try real RSA verify if certificate is available and hash length matches.
     // When trust_store_path is also configured, first validate the full X.509 chain
     // so that an untrusted or expired certificate is rejected before checking the signature.
-    if (!cfg_.cert_path.empty() && (expected_len == 0 || hash_bytes.size() == expected_len)) {
+    if (!cfg_.cert_path.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)) {
         // Enforce chain validation when a trust store is configured.
         if (!cfg_.trust_store_path.empty() && !verify_cert_chain(cfg_)) {
             return false;

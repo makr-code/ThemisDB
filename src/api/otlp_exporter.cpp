@@ -310,7 +310,7 @@ void OtlpExporter::flushLoop() {
         {
             std::unique_lock<std::mutex> lk(queue_mutex_);
             queue_cv_.wait_for(lk, flush_interval, [this] {
-                return stop_.load(std::memory_order_relaxed) || queue_.size() >= config_.batch_size;
+                return stop_.load(std::memory_order_relaxed) || static_cast<int>(queue_.size()) >= config_.batch_size;
             });
 
             const size_t take = std::min(queue_.size(), config_.batch_size);
