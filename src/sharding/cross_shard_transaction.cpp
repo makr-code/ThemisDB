@@ -2744,7 +2744,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
 int64_t CrossShardTransactionCoordinator::generateCommitTimestamp(
     const CrossShardTransaction& txn
 ) {
-    int64_t commit_timestamp;
+    int64_t commit_timestamp = 0;
     
     // Use TrueTime for MVCC isolation levels
     if (truetime_ && (txn.isolation_level == IsolationLevel::SNAPSHOT_ISOLATION ||

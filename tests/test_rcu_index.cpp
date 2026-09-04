@@ -146,7 +146,7 @@ TEST(RCUHashTableTest, ConcurrentReads) {
     for (int t = 0; t < 4; ++t) {
         readers.emplace_back([&table, &successful_reads]() {
             for (int i = 0; i < 1000; ++i) {
-                int value;
+                int value = 0;
                 if (table.lookup(i, value)) {
                     if (value == i * 2) {
                         successful_reads.fetch_add(1);
@@ -182,7 +182,7 @@ TEST(RCUHashTableTest, ConcurrentReadWrite) {
     for (int t = 0; t < 3; ++t) {
         threads.emplace_back([&]() {
             while (!stop.load()) {
-                int value;
+                int value = 0;
                 for (int i = 0; i < 100; ++i) {
                     if (table.lookup(i, value)) {
                         read_count.fetch_add(1);

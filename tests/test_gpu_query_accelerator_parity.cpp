@@ -75,7 +75,7 @@ static double payloadVal(const Row& r) {
     if (r.data.size() < sizeof(float)) {
       return 0.0;
     }
-    float v;
+    float v = 0;
     std::memcpy(&v, r.data.data(), sizeof(float));
     return static_cast<double>(v);
 }

@@ -497,7 +497,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     // → LAST_VALUE ist der Wert der aktuellen Row (nicht der letzten Row der Partition!)
     
     for (size_t i = 0; i < sortedIndices.size(); ++i) {
-        size_t lastRowIdx;
+        size_t lastRowIdx = 0;
         
         // Frame-End bestimmen
         if (frame.end.type == WindowFrameBound::BoundType::CURRENT_ROW) {

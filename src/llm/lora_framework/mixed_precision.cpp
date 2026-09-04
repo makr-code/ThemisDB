@@ -203,7 +203,7 @@ static float fp16_to_fp32_bits([[maybe_unused]] uint16_t f16) {
     }
 
     uint32_t f32 = (sign << 31) | (exp32 << 23) | mant32;
-    float out;
+    float out = 0;
     std::memcpy(&out, &f32, sizeof(out));
     return out;
 }

@@ -102,7 +102,7 @@ TEST_F(TBBLibIntegrationTest, ConcurrentQueueOperations) {
     
     // Pop all items
     std::vector<int> values;
-    int val;
+    int val = 0;
     while (queue.try_pop(val)) {
         values.push_back(val);
     }

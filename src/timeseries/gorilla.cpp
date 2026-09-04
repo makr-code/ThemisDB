@@ -20,13 +20,13 @@
 namespace themis {
 
 static inline uint64_t dbl_to_bits([[maybe_unused]] double v) {
-    uint64_t b;
+    uint64_t b = 0;
     std::memcpy(&b, &v, sizeof(b));
     return b;
 }
 
 static inline double bits_to_dbl([[maybe_unused]] uint64_t b) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }

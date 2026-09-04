@@ -200,7 +200,7 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErr
                 return;
             }
 
-            bool ok;
+            bool ok = 0;
             if (i % 2 == 0) {
                 ok = tx_manager_->commitTransaction(txn_id).ok;
             } else {
@@ -211,7 +211,7 @@ TEST_F(TransactionErrorPathDeterminismPhase1Test, ErrorPropagation_ConcurrentErr
                 ++success_count;
 
                 // Attempt invalid second operation — must fail consistently
-                bool invalid_ok;
+                bool invalid_ok = 0;
                 if (i % 2 == 0) {
                     invalid_ok = tx_manager_->rollbackTransaction(txn_id);
                 } else {

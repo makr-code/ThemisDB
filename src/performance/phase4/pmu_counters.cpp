@@ -333,7 +333,7 @@ static inline uint64_t read_platform_cycles() noexcept {
     return (static_cast<uint64_t>(hi) << 32) | lo;
 #elif defined(__aarch64__)
     // Virtual counter register — same as CycleMetrics::cpu_cycles() on ARM64
-    uint64_t val;
+    uint64_t val = 0;
     __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
     return val;
 #else
@@ -705,7 +705,7 @@ static inline uint64_t read_platform_cycles() noexcept {
     __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
     return (static_cast<uint64_t>(hi) << 32) | lo;
 #elif defined(__aarch64__)
-    uint64_t val;
+    uint64_t val = 0;
     __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
     return val;
 #else

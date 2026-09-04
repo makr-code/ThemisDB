@@ -50,7 +50,7 @@ float GGUFConverter::fp16_to_fp32([[maybe_unused]] uint16_t h) {
         result = sign | ((exponent + 112) << 23) | (mantissa << 13);
     }
     
-    float f;
+    float f = 0;
     std::memcpy(&f, &result, sizeof(float));
     return f;
 }

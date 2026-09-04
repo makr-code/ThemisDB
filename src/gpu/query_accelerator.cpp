@@ -161,7 +161,7 @@ static float fp16_to_fp32([[maybe_unused]] uint16_t h) noexcept {
     } else {
         bits = (sign << 31) | ((exp16 + 112u) << 23) | (mant16 << 13);
     }
-    float f;
+    float f = 0;
     std::memcpy(&f, &bits, 4);
     return f;
 }
@@ -183,7 +183,7 @@ static uint16_t fp32_to_bf16([[maybe_unused]] float f) noexcept {
 /// Decode BF16 bits back to float32 — restore the truncated mantissa bits as 0.
 static float bf16_to_fp32([[maybe_unused]] uint16_t b) noexcept {
     uint32_t bits = static_cast<uint32_t>(b) << 16;
-    float f;
+    float f = 0;
     std::memcpy(&f, &bits, 4);
     return f;
 }

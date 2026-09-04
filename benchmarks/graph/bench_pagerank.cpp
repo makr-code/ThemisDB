@@ -81,7 +81,7 @@ public:
             int edges_to_add = avg_out_degree;
             
             for (int j = 0; j < edges_to_add; j++) {
-                int target;
+                int target = 0;
                 
                 // Preferential attachment: more likely to link to earlier pages
                 if (prob_dist(rng) < 0.3 && i > 0) {

@@ -576,7 +576,7 @@ struct CypherParser::Parser {
             return v;
         }
         if (check(TokenType::FLOAT_LIT)) {
-            double v;
+            double v = 0;
             try {
                 v = std::stod(current().value);
             } catch (const std::out_of_range&) {

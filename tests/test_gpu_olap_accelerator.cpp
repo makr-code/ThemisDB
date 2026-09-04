@@ -186,7 +186,7 @@ protected:
         if (r.data.size() < sizeof(double)) {
           return 0.0;
         }
-        double v;
+        double v = 0;
         std::memcpy(&v, r.data.data(), sizeof(double));
         return v;
     }

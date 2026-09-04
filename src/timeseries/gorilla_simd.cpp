@@ -66,7 +66,7 @@ bool gorilla_simd_has_neon() noexcept {
 // ──────────────────────────────────────────────────────────────────────────
 
 static inline double bits_to_dbl_simd([[maybe_unused]] uint64_t b) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &b, sizeof(v));
     return v;
 }

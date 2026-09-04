@@ -185,12 +185,12 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         for (int i = 0; i < 4; ++i) {
           u |= static_cast<uint32_t>(bytes[pos++]) << (i*8);
         }
-        float v; std::memcpy(&v, &u, 4);
+        float v = 0; std::memcpy(&v, &u, 4);
         return v;
     };
     auto readF64 = [&]() -> double {
         uint64_t u = readU64();
-        double v; std::memcpy(&v, &u, 8);
+        double v = 0; std::memcpy(&v, &u, 8);
         return v;
     };
 

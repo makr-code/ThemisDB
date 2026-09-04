@@ -187,7 +187,7 @@ TEST(CycleMetricsTest, LockFreeRingBufferConcurrent) {
         }
         
         int received = 0;
-        int value;
+        int value = 0;
         while (received < NUM_ITEMS) {
             if (buffer.tryPop(value)) {
                 EXPECT_EQ(value, received);

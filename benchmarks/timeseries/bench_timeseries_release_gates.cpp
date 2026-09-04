@@ -102,14 +102,14 @@ static std::size_t rangeQuery(const std::vector<TimePoint>& series,
 
 /// Gorilla encode: memcpy double → uint64.
 static std::uint64_t gorillaEncode(double v) {
-    std::uint64_t bits;
+    std::uint64_t bits = 0;
     std::memcpy(&bits, &v, sizeof(bits));
     return bits;
 }
 
 /// Gorilla decode: memcpy uint64 → double.
 static double gorillaDecode(std::uint64_t bits) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &bits, sizeof(v));
     return v;
 }

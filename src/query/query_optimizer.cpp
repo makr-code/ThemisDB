@@ -794,7 +794,7 @@ double QueryOptimizer::DistributedQueryCostModel::measureShardLatency(
     const std::string& shard_id) const {
     
     // Determine latency based on shard naming convention (network-latency proxy).
-    double latency_ms;
+    double latency_ms = 0;
     try {
         if (shard_id.find("local") != std::string::npos || 
             shard_id.find("0") == 0) {
@@ -845,7 +845,7 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
     double combined_selectivity = 1.0;
     
     for (const auto& pred : predicates) {
-        double pred_selectivity;
+        double pred_selectivity = 0;
 
         // Use real statistics when available.
         if (table_stats_ptr) {

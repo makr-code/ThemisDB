@@ -178,7 +178,7 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
                     }
 
                     bool commit = (j % 2 == 0);
-                    bool ok;
+                    bool ok = 0;
                     if (commit) {
                         auto status = tx_manager_->commitTransaction(txn_id);
                         ok = status.ok;
@@ -358,7 +358,7 @@ TEST_F(TransactionLifecyclePhase1Test, ErrorPathDeterminism_LargeStateTransition
             continue;
         }
 
-        bool ok;
+        bool ok = 0;
         if (i % 2 == 0) {
             ok = tx_manager_->commitTransaction(txn_id).ok;
         } else {

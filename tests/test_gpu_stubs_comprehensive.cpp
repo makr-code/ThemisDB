@@ -139,8 +139,8 @@ public:
 class GPUBackendStub : public GPUBackend {
 private:
     GPUBackendType type_;
-    bool available_;
-    int device_count_;
+    bool available_ = 0;
+    int device_count_ = 0;
 
 public:
     GPUBackendStub(GPUBackendType type, bool available = true, int device_count = 1)

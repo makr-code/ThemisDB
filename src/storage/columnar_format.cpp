@@ -1459,7 +1459,7 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
         if ([[maybe_unused]] pos + sizeof(uint64_t) > data.size()) {
             throw std::out_of_range("Segment deserialize: truncated metadata");
         }
-        uint64_t val;
+        uint64_t val = 0;
         std::memcpy(&val, &data[pos], sizeof(uint64_t));
         pos += sizeof(uint64_t);
         return val;

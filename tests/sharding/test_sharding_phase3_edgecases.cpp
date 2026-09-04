@@ -86,7 +86,7 @@ class MockRecoveryOperation : public IdempotentRecoveryOperation {
 private:
     std::string operation_id_;
     bool should_succeed_;
-    mutable int execution_count_;
+    mutable int execution_count_ = 0;
     mutable std::string last_result_;
 
 public:

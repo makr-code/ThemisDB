@@ -46,7 +46,7 @@ static void BM_RandomAccess_8020(benchmark::State& state) {
     
     for (auto _ : state) {
         // 80% of accesses go to 20% of keys (hot set)
-        int key;
+        int key = 0;
         if (dis(gen) < 0.8) {
             key = gen() % (cache_size / 5);  // Hot 20%
         } else {

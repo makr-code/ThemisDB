@@ -94,7 +94,7 @@ public:
 
 private:
     T* ptr_;
-    size_t size_;
+    size_t size_ = 0;
 };
 
 /// Simple span implementation for bounds-checked access

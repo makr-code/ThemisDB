@@ -351,7 +351,7 @@ static void BM_PQ_DistanceComparison(benchmark::State& state) {
         const auto& query = query_vectors[query_idx % query_vectors.size()];
         const auto& codes = encoded_db[db_idx % encoded_db.size()];
         
-        float dist;
+        float dist = 0;
         
         if (use_asymmetric) {
             // Fast asymmetric distance

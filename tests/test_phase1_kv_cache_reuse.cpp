@@ -496,7 +496,7 @@ TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
     for (int i = 0; i < total_accesses; ++i) {
         // Zipfian: P(k) ~ 1/k^alpha, alpha=1
         // Approximate: first 4 items get most traffic
-        int idx;
+        int idx = 0;
         if (i % 10 < 8) {
             // 80% of accesses go to top 20% of items
             idx = i % 4;

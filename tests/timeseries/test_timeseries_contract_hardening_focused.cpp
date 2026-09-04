@@ -105,14 +105,14 @@ static std::optional<TimeseriesErrorCode> mockSeriesCheck(bool exists) {
 
 /// Gorilla encode: stores the raw IEEE 754 bits (lossless mock).
 static std::uint64_t mockGorillaEncode(double v) {
-    std::uint64_t bits;
+    std::uint64_t bits = 0;
     std::memcpy(&bits, &v, sizeof(bits));
     return bits;
 }
 
 /// Gorilla decode: restores the raw IEEE 754 bits.
 static double mockGorillaDecode(std::uint64_t bits) {
-    double v;
+    double v = 0;
     std::memcpy(&v, &bits, sizeof(v));
     return v;
 }
