@@ -1043,7 +1043,7 @@ public:
 
 #if defined(THEMIS_ENABLE_GPU)
         // Multi-GPU path: requested when num_gpus > 1
-        if (config_.num_gpus > 1 && (config_.device == "cuda" || config_.device == "hip")) {
+        if ((config_.num_gpus > 1 && (config_.device == "cuda" || config_.device == "hip"))) {
             try {
                 multi_gpu_ctx_ = std::make_unique<llm::lora::MultiGPUContext>(
                     config_.num_gpus, config_.gpu_ids);
@@ -1435,7 +1435,7 @@ public:
 #endif
 #ifdef THEMIS_ENABLE_LLM
         // CPU path: dispatch to QLoRALayer or LoRALayer depending on quantization config
-        if (lora_initialized_ && (lora_layer_ || q_lora_layer_)) {
+        if ((lora_initialized_ && (lora_layer_ || q_lora_layer_))) {
             return runCPUTrainingStep(training_data, batch_offset, step_idx);
         }
 #endif

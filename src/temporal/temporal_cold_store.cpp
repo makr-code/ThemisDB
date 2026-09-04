@@ -94,9 +94,9 @@ std::string FileSystemBackend::percentEncode(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() * 3);
     for (unsigned char c : s) {
-        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
+        if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') ||
             (c >= '0' && c <= '9') || c == '-' || c == '_' ||
-            c == '.' || c == '~') {
+           c == '.' || c == '~')) {
             out += static_cast<char>(c);
         } else {
             out += '%';

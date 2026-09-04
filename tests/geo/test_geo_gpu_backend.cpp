@@ -90,8 +90,8 @@ bool segsIntersect(double ax, double ay, double bx, double by,
     double d2 = cross2d(cx, cy, dx, dy, bx, by);
     double d3 = cross2d(ax, ay, bx, by, cx, cy);
     double d4 = cross2d(ax, ay, bx, by, dx, dy);
-    if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
-        ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0)))
+    if (((((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
+        ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))))) {
         return true;
     auto colOn = [&](double px, double py,
                      double qx, double qy, double rx, double ry) {

@@ -415,7 +415,7 @@ static int runImport(const Config& cfg) {
 
     while (std::getline(file, line)) {
         line_num++;
-        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
+        if ((line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')))
             continue;
 
         sql += line + " ";
@@ -446,7 +446,7 @@ static int runImport(const Config& cfg) {
                       word = word.substr(dot + 1);
                     }
                     // strip trailing (
-                    while (!word.empty() && (word.back() == '(' || word.back() == ' '))
+                    while ((!word.empty() && (word.back() == '(' || word.back() == ' ')))
                         word.pop_back();
                     name = word;
                 }

@@ -106,12 +106,12 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
             return fmt;
         }
         // MP3: sync word 0xFF 0xFB or 0xFF 0xF3 or 0xFF 0xFA
-        if (data[0] == 0xFF && (data[1] == 0xFB || data[1] == 0xF3 || data[1] == 0xFA)) {
+        if ((data[0] == 0xFF && (data[1] == 0xFB || data[1] == 0xF3 || data[1] == 0xFA))) {
             fmt.codec = "mp3";
             return fmt;
         }
         // AAC ADTS: 0xFF 0xF1 or 0xFF 0xF9
-        if (data[0] == 0xFF && (data[1] == 0xF1 || data[1] == 0xF9)) {
+        if ((data[0] == 0xFF && (data[1] == 0xF1 || data[1] == 0xF9))) {
             fmt.codec = "aac";
             return fmt;
         }

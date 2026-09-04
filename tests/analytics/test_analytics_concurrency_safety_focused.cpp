@@ -191,7 +191,7 @@ TEST_F(ConcurrencySafetyTest, CS_02_TwoThreadsConsistentOrdering) {
 
     // Wait for completion with timeout
     auto start = std::chrono::steady_clock::now();
-    while ((!thread1_done || !thread2_done) && 
+    while (((!thread1_done || !thread2_done) && 
            (std::chrono::steady_clock::now() - start) < timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -239,7 +239,7 @@ TEST_F(ConcurrencySafetyTest, CS_03_ThreeThreadCircularDependency) {
 
         auto start = std::chrono::steady_clock::now();
     auto wait_timeout = std::chrono::seconds(10);
-    while ((!done[0] || !done[1] || !done[2]) &&
+    while (((!done[0] || !done[1] || !done[2]) &&
             (std::chrono::steady_clock::now() - start) < wait_timeout) {
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }

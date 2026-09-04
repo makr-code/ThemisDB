@@ -282,8 +282,8 @@ static std::vector<std::string> parseInsertValuesTuple(const std::string& tuple_
     size_t n = tuple_str.size();
 
     auto skipWs = [&]() {
-        while (i < n && (tuple_str[i] == ' ' || tuple_str[i] == '\t' ||
-                         tuple_str[i] == '\r' || tuple_str[i] == '\n')) ++i;
+        while ((i < n && (tuple_str[i] == ' ' || tuple_str[i] == '\t' ||
+                         tuple_str[i] == '\r' || tuple_str[i] == '\n'))) ++i;
     };
 
     while (i < n) {
@@ -490,7 +490,7 @@ static bool parseCreateTable(const std::string& sql, TableSchema& out) {
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
                 if (tdep > 0) { --tdep; col_type += c; } else break;
-            } else if ((c == ' ' || c == '\t') && tdep == 0) break;
+            } else if (((c == ' ' || c == '\t') && tdep == 0)) break;
             else col_type += c;
             ++k;
         }

@@ -204,7 +204,7 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
     const size_t n = values_clause.size();
 
     while (i < n) {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) {
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '	'))) {
           ++i;
         }
         if (i >= n) {
@@ -236,8 +236,8 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
             result.push_back(token);
         }
 
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
-                          values_clause[i] == ',')) ++i;
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+                          values_clause[i] == ','))) ++i;
     }
     return result;
 }

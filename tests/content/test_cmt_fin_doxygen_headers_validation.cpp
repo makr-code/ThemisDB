@@ -207,9 +207,9 @@ TEST_F(DoxygenHeadersValidation, CMT_FIN_03_MaturityClassificationVerified) {
         std::string expected = ClassifyMaturity(fields.score);
         bool matches = false;
         
-        if ((fields.score >= 85 && fields.maturity.find("PRODUCTION-READY") != std::string::npos) ||
+        if (((fields.score >= 85 && fields.maturity.find("PRODUCTION-READY") != std::string::npos) ||
             (fields.score >= 70 && fields.score < 85 && fields.maturity.find("BETA") != std::string::npos) ||
-            (fields.score < 70 && fields.maturity.find("ALPHA") != std::string::npos)) {
+            (fields.score < 70 && fields.maturity.find("ALPHA") != std::string::npos))) {
             matches = true;
         }
         

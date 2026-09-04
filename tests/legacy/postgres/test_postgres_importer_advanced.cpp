@@ -266,7 +266,7 @@ static ImportStats importContent(const std::string& content,
             continue;
         }
 
-        if (line.empty() || (line.size() >= 2 && line[0]=='-' && line[1]=='-')) {
+        if ((line.empty() || (line.size() >= 2 && line[0]=='-' && line[1]=='-'))) {
           continue;
         }
         sql += line + " ";
@@ -284,7 +284,7 @@ static ImportStats importContent(const std::string& content,
                     if (dot != std::string::npos) {
                       w = w.substr(dot + 1);
                     }
-                    while (!w.empty() && (w.back()=='(' || w.back()==' ')) w.pop_back();
+                    while ((!w.empty() && (w.back()=='(' || w.back()==' '))) w.pop_back();
                     current_table = w;
                 }
                 if (sql.find("FROM stdin") != std::string::npos) {

@@ -56,7 +56,7 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
     if (!expression.empty() && expression[0] == '@') {
         std::string special = expression;
         // Trim whitespace
-        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+        while ((!special.empty() && (special.back() == ' ' || special.back() == '\t'))) {
             special.pop_back();
         }
 
@@ -149,7 +149,7 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
     // Handle special @-expressions
     if (!expression.empty() && expression[0] == '@') {
         std::string special = expression;
-        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+        while ((!special.empty() && (special.back() == ' ' || special.back() == '\t'))) {
             special.pop_back();
         }
         static const std::set<std::string> VALID_SPECIALS = {
