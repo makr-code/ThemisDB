@@ -1431,6 +1431,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         case SimplePred::Op::Lte: return aval <= lit;
                         case SimplePred::Op::Gt:  return aval >  lit;
                         case SimplePred::Op::Gte: return aval >= lit;
+                        default: break;
                     }
                 } else if (b.is_boolean()) {
                     bool lit = b.get<bool>(); bool av;
@@ -1454,6 +1455,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             case SimplePred::Op::Lte: return ta <= tb;
                             case SimplePred::Op::Gt:  return ta >  tb;
                             case SimplePred::Op::Gte: return ta >= tb;
+                            default: break;
                         }
                     }
                     // Default: lexikographisch
@@ -1465,6 +1467,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         case SimplePred::Op::Lte: return c <= 0;
                         case SimplePred::Op::Gt:  return c >  0;
                         case SimplePred::Op::Gte: return c >= 0;
+                        default: break;
                     }
                 }
                 return false;
