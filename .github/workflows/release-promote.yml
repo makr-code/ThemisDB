@@ -1,0 +1,386 @@
+name: "Release: Promote (Semi-Automatic)"
+
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=3) | last-calibrated: 2026-09-04
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Semi-automatic stable/rc/alpha release triggering via PR labels or manual dispatch.
+#
+# Pipeline stages:
+#   extract-release-type → bump-version → update-changelog
+#   → create-release-pr → notify
+#
+# Release label triggers:
+#   - release/stable  → stable release
+#   - release/rc      → release candidate
+#   - release/beta    → beta pre-release
+#   - release/alpha   → alpha pre-release
+#
+# Versioning:
+#   - PATCH bump if label is on a patch/hotfix branch
+#   - MINOR bump if label is on develop/feature branch
+#   - Manual MAJOR bump via workflow_dispatch
+#
+# Workflow output:
+#   - Creates release/v<new-version> branch
+#   - Creates PR to appropriate target branch (develop/community)
+#   - Updates VERSION, RELEASE_TYPE, CHANGELOG
+#   - Includes release checklist for manual approval
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - synchronize
+    branches:
+      - develop
+      - community
+      - release/**
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: "Release type"
+        required: true
+        type: choice
+        options:
+          - stable
+          - rc
+          - beta
+          - alpha
+      version-bump:
+        description: "Version bump type"
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+      target-version:
+        description: "Optional: explicit version (e.g., 2.5.0); overrides bump logic"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ci-release-promote-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  extract-release-context:
+    name: Extract Release Context
+    runs-on: ubuntu-latest
+    outputs:
+      release-type: ${{ steps.extract.outputs.release-type }}
+      version-bump: ${{ steps.extract.outputs.version-bump }}
+      target-version: ${{ steps.extract.outputs.target-version }}
+      trigger-type: ${{ steps.extract.outputs.trigger-type }}
+      should-run: ${{ steps.extract.outputs.should-run }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract release context
+        id: extract
+        run: |
+          set -euo pipefail
+          
+          RELEASE_TYPE=""
+          VERSION_BUMP=""
+          TARGET_VERSION=""
+          TRIGGER_TYPE="unknown"
+          SHOULD_RUN="false"
+          
+          # Determine trigger type
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TRIGGER_TYPE="manual"
+            RELEASE_TYPE="${{ github.event.inputs.release-type }}"
+            VERSION_BUMP="${{ github.event.inputs.version-bump }}"
+            TARGET_VERSION="${{ github.event.inputs.target-version }}"
+            SHOULD_RUN="true"
+          
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # Check for release labels
+            LABELS="${{ join(github.event.pull_request.labels.*.name) }}"
+            
+            if [[ "$LABELS" == *"release/stable"* ]]; then
+              TRIGGER_TYPE="label:stable"
+              RELEASE_TYPE="stable"
+              VERSION_BUMP="minor"  # Default; can be adjusted
+              SHOULD_RUN="true"
+            elif [[ "$LABELS" == *"release/rc"* ]]; then
+              TRIGGER_TYPE="label:rc"
+              RELEASE_TYPE="rc"
+              VERSION_BUMP="minor"
+              SHOULD_RUN="true"
+            elif [[ "$LABELS" == *"release/beta"* ]]; then
+              TRIGGER_TYPE="label:beta"
+              RELEASE_TYPE="beta"
+              VERSION_BUMP="minor"
+              SHOULD_RUN="true"
+            elif [[ "$LABELS" == *"release/alpha"* ]]; then
+              TRIGGER_TYPE="label:alpha"
+              RELEASE_TYPE="alpha"
+              VERSION_BUMP="minor"
+              SHOULD_RUN="true"
+            fi
+          fi
+          
+          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
+          echo "version-bump=$VERSION_BUMP" >> "$GITHUB_OUTPUT"
+          echo "target-version=$TARGET_VERSION" >> "$GITHUB_OUTPUT"
+          echo "trigger-type=$TRIGGER_TYPE" >> "$GITHUB_OUTPUT"
+          echo "should-run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          
+          echo "::notice::Release context:"
+          echo "  Trigger: $TRIGGER_TYPE"
+          echo "  Release Type: $RELEASE_TYPE"
+          echo "  Version Bump: $VERSION_BUMP"
+          echo "  Should Run: $SHOULD_RUN"
+
+  bump-version:
+    name: Bump Version and RELEASE_TYPE
+    needs: extract-release-context
+    runs-on: ubuntu-latest
+    if: needs.extract-release-context.outputs.should-run == 'true'
+    outputs:
+      new-version: ${{ steps.bump.outputs.new-version }}
+      old-version: ${{ steps.bump.outputs.old-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make version-release-type-manager executable
+        run: chmod +x .github/scripts/version-release-type-manager.sh
+
+      - name: Bump version
+        id: bump
+        run: |
+          set -euo pipefail
+          
+          OLD_VERSION=$(cat VERSION | tr -d '[:space:]')
+          
+          # Use explicit target version if provided
+          if [[ -n "${{ needs.extract-release-context.outputs.target-version }}" ]]; then
+            NEW_VERSION="${{ needs.extract-release-context.outputs.target-version }}"
+          else
+            # Bump based on type
+            case "${{ needs.extract-release-context.outputs.version-bump }}" in
+              major)
+                # X.Y.Z → (X+1).0.0
+                NEW_VERSION=$(.github/scripts/version-release-type-manager.sh bump-version major)
+                ;;
+              minor)
+                # X.Y.Z → X.(Y+1).0
+                NEW_VERSION=$(.github/scripts/version-release-type-manager.sh bump-version minor)
+                ;;
+              patch)
+                # X.Y.Z → X.Y.(Z+1)
+                NEW_VERSION=$(.github/scripts/version-release-type-manager.sh bump-version patch)
+                ;;
+              *)
+                echo "::error::Invalid version bump: ${{ needs.extract-release-context.outputs.version-bump }}"
+                exit 1
+                ;;
+            esac
+          fi
+          
+          # Update VERSION
+          .github/scripts/version-release-type-manager.sh write-version "$NEW_VERSION"
+          
+          # Update RELEASE_TYPE
+          .github/scripts/version-release-type-manager.sh write-release-type "${{ needs.extract-release-context.outputs.release-type }}"
+          
+          echo "old-version=$OLD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new-version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          
+          echo "::notice::Version bump: $OLD_VERSION → $NEW_VERSION"
+
+  update-changelog:
+    name: Update CHANGELOG
+    needs: [extract-release-context, bump-version]
+    runs-on: ubuntu-latest
+    if: needs.extract-release-context.outputs.should-run == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update CHANGELOG.md
+        run: |
+          set -euo pipefail
+          
+          NEW_VERSION="${{ needs.bump-version.outputs.new-version }}"
+          RELEASE_TYPE="${{ needs.extract-release-context.outputs.release-type }}"
+          RELEASE_DATE=$(date +%Y-%m-%d)
+          
+          # Add new version section to CHANGELOG
+          cat > /tmp/new_changelog.md << CHANGELOG_HEADER_EOF
+          # Changelog
+          
+          All notable changes to this project will be documented in this file.
+          
+          The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+          and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+          
+          ## [Unreleased]
+          
+          ### Added
+          - (no unreleased changes yet)
+          
+          ## [$NEW_VERSION] - $RELEASE_DATE
+          
+          > Release Type: **$RELEASE_TYPE**
+          
+          ### Added
+          - (See GitHub Release notes for full details)
+          
+          ### Changed
+          - (See GitHub Release notes for full details)
+          
+          ### Fixed
+          - (See GitHub Release notes for full details)
+          
+          CHANGELOG_HEADER_EOF
+          
+          # Append existing CHANGELOG (skip old header)
+          tail -n +9 CHANGELOG.md >> /tmp/new_changelog.md 2>/dev/null || true
+          
+          # Replace
+          mv /tmp/new_changelog.md CHANGELOG.md
+          
+          echo "✓ CHANGELOG.md updated with version $NEW_VERSION"
+
+  create-release-pr:
+    name: Create Release PR
+    needs: [extract-release-context, bump-version]
+    runs-on: ubuntu-latest
+    if: needs.extract-release-context.outputs.should-run == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release branch and commit changes
+        id: release-branch
+        run: |
+          set -euo pipefail
+          
+          NEW_VERSION="${{ needs.bump-version.outputs.new-version }}"
+          OLD_VERSION="${{ needs.bump-version.outputs.old-version }}"
+          BRANCH_NAME="release/v${NEW_VERSION}"
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create release branch
+          git checkout -b "$BRANCH_NAME"
+          
+          # Stage and commit changes
+          git add VERSION RELEASE_TYPE CHANGELOG.md
+          git commit -m "chore: release v${NEW_VERSION}" \
+            --message="Release Type: ${{ needs.extract-release-context.outputs.release-type }}" \
+            --message="Version Bump: ${OLD_VERSION} → ${NEW_VERSION}" \
+            || echo "No changes to commit"
+          
+          git push origin "$BRANCH_NAME" --force-with-lease
+          
+          echo "branch=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
+          echo "::notice::Created branch: $BRANCH_NAME"
+
+      - name: Create Pull Request
+        id: pr
+        uses: actions/create-pull-request@v5
+        with:
+          commit-message: "chore: release v${{ needs.bump-version.outputs.new-version }}"
+          title: "Release: v${{ needs.bump-version.outputs.new-version }} (${{ needs.extract-release-context.outputs.release-type }})"
+          body: |
+            ## Release Promotion
+            
+            **Version:** ${{ needs.bump-version.outputs.new-version }}  
+            **Release Type:** `${{ needs.extract-release-context.outputs.release-type }}`  
+            **Trigger:** ${{ needs.extract-release-context.outputs.trigger-type }}
+            
+            ### Release Checklist
+            
+            Please verify before merging:
+            
+            - [ ] **CI Gates Passed**: All required CI checks (build, test, lint) are passing
+            - [ ] **Changelog Complete**: CHANGELOG.md has been updated with release notes
+            - [ ] **Documentation Updated**: VERSIONING.md and related docs reflect this release
+            - [ ] **No Breaking Changes Unannounced**: Breaking changes are documented and listed
+            - [ ] **Release Notes Ready**: Ready to be published in GitHub Release
+            
+            ### Release Notes Template
+            
+            ```markdown
+            # ThemisDB Release v${{ needs.bump-version.outputs.new-version }}
+            
+            **Release Type:** ${{ needs.extract-release-context.outputs.release-type }}  
+            **Release Date:** $(date +%Y-%m-%d)
+            
+            ## What's New
+            
+            - Feature 1
+            - Feature 2
+            
+            ## Bug Fixes
+            
+            - Fix 1
+            
+            ## Documentation
+            
+            - Doc update 1
+            
+            ```
+            
+            ---
+            
+            Once all checks pass and the checklist is complete, merge this PR to proceed with release publication.
+          branch: ${{ steps.release-branch.outputs.branch }}
+          target: develop
+          delete-branch: false
+          labels: release/pending,${{ needs.extract-release-context.outputs.release-type }}
+
+      - name: Report PR creation
+        run: |
+          echo "✓ Release PR created"
+          echo "  PR: #${{ steps.pr.outputs.pull_request_number }}"
+          echo "  URL: ${{ steps.pr.outputs.pull_request_url }}"
+          echo "  Branch: ${{ steps.release-branch.outputs.branch }}"
+
+  notify:
+    name: Notify Release Promotion
+    needs: [extract-release-context, bump-version, create-release-pr]
+    runs-on: ubuntu-latest
+    if: needs.extract-release-context.outputs.should-run == 'true'
+    steps:
+      - name: Comment on source PR (if applicable)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 Release promotion initiated!\n\n**Version:** ${{ needs.bump-version.outputs.new-version }}\n**Release Type:** ${{ needs.extract-release-context.outputs.release-type }}\n**Release PR:** #${{ needs.create-release-pr.outputs.pull_request_number }}`
+            })
+
+      - name: Report promotion complete
+        run: |
+          echo "✓ Release Promotion Complete"
+          echo "  Old Version: ${{ needs.bump-version.outputs.old-version }}"
+          echo "  New Version: ${{ needs.bump-version.outputs.new-version }}"
+          echo "  Release Type: ${{ needs.extract-release-context.outputs.release-type }}"
+          echo "  Trigger: ${{ needs.extract-release-context.outputs.trigger-type }}"
