@@ -126,6 +126,10 @@ TranscriptExportResult VoiceAccessibility::exportTranscript(
                 result.content = formatAsJSONString(cues, options);
                 result.mime_type = "application/json";
                 break;
+            default:
+                result.mime_type = "text/plain";
+                result.content = formatAsPlainText(cues, options);
+                break;
         }
         result.success = true;
         ++exports_completed_;

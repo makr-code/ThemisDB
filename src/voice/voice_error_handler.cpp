@@ -88,8 +88,10 @@ bool VoiceCircuitBreaker::canCall() {
         case CircuitState::HALF_OPEN:
             ++total_calls_;
             return true;
+         
+        default:
+            return false;
     }
-    return false;
 }
 
 void VoiceCircuitBreaker::recordSuccess() {

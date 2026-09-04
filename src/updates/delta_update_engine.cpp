@@ -785,11 +785,15 @@ bool DeltaUpdateEngine::generatePatch(const std::string& base_path,
         case PatchAlgorithm::VCDIFF:
             return generatePatchVcdiff(base, target, patch_path);
         case PatchAlgorithm::BSDIFF:
-        [[fallthrough]];\n        case PatchAlgorithm::XDELTA3:
+        [[fallthrough]];
+        case PatchAlgorithm::XDELTA3:
             // These algorithms need external libraries not bundled with ThemisDB.
             // Fall back to ZSTD_DICT which is always available.
             LOG_WARN("Algorithm {} not compiled in – falling back to ZSTD_DICT",
                 patchAlgorithmToString(algorithm));
+            return generatePatchZstdDict(base, target, patch_path);
+        default:
+            LOG_WARN("Unknown patch algorithm, falling back to ZSTD_DICT");
             return generatePatchZstdDict(base, target, patch_path);
     }
     return false;

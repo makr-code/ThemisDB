@@ -42,8 +42,9 @@ bool isValidSessionTransition(SessionState current, SessionState next) {
             return false;
         case SessionState::CLOSING:
             return next == SessionState::TERMINATED;
+        default:
+            return false;
     }
-    return false;
 }
 
 void finalizeSessionTeardownLocked(
