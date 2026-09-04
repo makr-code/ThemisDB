@@ -51,7 +51,7 @@ std::string HtmlProcessor::removeElement(
     const std::string close_pattern = "</" + tag; // </nav, </header …
 
     size_t pos = 0;
-    while (pos < html.size()) {
+    while (static_cast<size_t>(pos) < html.size()) {
         // Case-insensitive search for the opening tag
         // We compare lower-cased prefix of the html substring
         auto ciFind = [&]([[maybe_unused]] const std::string& pat) -> size_t {
@@ -68,7 +68,7 @@ std::string HtmlProcessor::removeElement(
                     // Ensure the character after the tag name is a space, '>', or '/'
                     // to avoid matching e.g. <navigation> when looking for <nav>
                     size_t after = i + pat.size();
-                    if (after >= html.size()) {
+                    if (after >= static_cast<int>(html.size())) {
                       return i;
                     }
                     char next = html[after];
@@ -93,7 +93,7 @@ std::string HtmlProcessor::removeElement(
         // Skip over the entire element (handle nesting)
         int depth = 0;
         size_t scan = open_pos;
-        while (scan < html.size()) {
+        while (static_cast<size_t>(scan) < html.size()) {
             // Find next opening or closing tag for this element name
             // We look for < followed by optional / and the tag name
             bool at_open = false;
@@ -239,7 +239,7 @@ std::string HtmlProcessor::decodeEntities(const std::string& text) {
     result.reserve(text.size());
 
     size_t pos = 0;
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) < text.size()) {
         if (text[pos] != '&') {
             result += text[pos++];
             continue;

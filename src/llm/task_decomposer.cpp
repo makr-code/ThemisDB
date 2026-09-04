@@ -462,7 +462,7 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
     };
 
     size_t pos = 0;
-    while (pos < content.size()) {
+    while (static_cast<size_t>(pos) < content.size()) {
         size_t tag_start = content.find('<', pos);
         if (tag_start == std::string::npos) {
           break;

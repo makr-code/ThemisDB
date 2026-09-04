@@ -50,7 +50,7 @@ namespace {
 
 /// Read CBOR argument value (length or integer payload) and advance pos.
 static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &out) {
-    if (pos >= d.size()) {
+    if (pos >= static_cast<int>(d.size())) {
         throw std::runtime_error("CBOR: truncated data");
     }
     const uint8_t info = d[pos] & 0x1F;
@@ -60,7 +60,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
         return pos;
     }
     if (info == 24) {
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated 1-byte arg");
         }
         out = d[pos++];
@@ -99,7 +99,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
 
 /// Skip one CBOR item, returning the new position.
 static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
-    if (pos >= d.size()) {
+    if (pos >= static_cast<int>(d.size())) {
         throw std::runtime_error("CBOR: truncated (skip)");
     }
     const uint8_t initial = d[pos];
@@ -246,7 +246,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated COSE key map");
         }
 
@@ -269,7 +269,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         }
 
         // --- read value ---
-        if (pos >= d.size()) {
+        if (pos >= static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: truncated COSE key value");
         }
         const uint8_t v_major = d[pos] >> 5;

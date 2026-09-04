@@ -131,7 +131,7 @@ static bool findJsonStringValueRe(const std::string& json,
     ++pos;
     value.clear();
     bool esc = false;
-    while (pos < json.size()) {
+    while (static_cast<size_t>(pos) < json.size()) {
         char c = json[pos++];
         if (esc) {
             switch (c) {
@@ -991,7 +991,7 @@ public:
             futures.reserve(enabled_sources.size());
 
             size_t submitted = 0;
-            while (submitted < enabled_sources.size()) {
+            while (static_cast<size_t>(submitted) < enabled_sources.size()) {
                 size_t wave_end = std::min(submitted + concurrency,
                                            enabled_sources.size());
                 for (size_t i = submitted; i < wave_end; ++i) {

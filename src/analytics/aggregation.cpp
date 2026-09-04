@@ -35,7 +35,7 @@ const AggregationOutputRow& AggregationResult::at(std::size_t idx) const
 {
     // Explicit size check before iterator formation prevents UB when
     // idx > rows.size() (forming an out-of-range random-access iterator is UB).
-    if (idx >= rows.size()) {
+    if (idx >= static_cast<int>(rows.size())) {
         throw std::out_of_range(
             "AggregationResult::at: index " + std::to_string(idx) +
             " out of range [0, " + std::to_string(rows.size()) + ")");

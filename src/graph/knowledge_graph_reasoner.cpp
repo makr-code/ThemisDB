@@ -267,7 +267,7 @@ void KnowledgeGraphReasoner::clearFacts() {
 /*static*/ void KnowledgeGraphReasoner::matchConditions(const std::vector<Triple> &conditions, std::size_t cond_idx,
                                                         const std::vector<Triple> &facts, Bindings bindings,
                                                         std::vector<Bindings> &out) {
-    if (cond_idx >= conditions.size()) {
+    if (cond_idx >= static_cast<int>(conditions.size())) {
         out.push_back(std::move(bindings));
         return;
     }

@@ -87,7 +87,7 @@ Result<T> ResultStream<T>::next() {
     }
     
     // Handle streaming mode
-    if (buffer_pos_ >= buffer_.size()) {
+    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
         // Need to fill buffer
         auto fill_result = fillBuffer();
         if (!fill_result) {
@@ -186,7 +186,7 @@ Result<void> ResultStream<T>::skip([[maybe_unused]] size_t count) {
         }
         
         size_t new_offset = cursor_.offset + count;
-        if (new_offset >= materialized_data_.size()) {
+        if (new_offset >= static_cast<int>(materialized_data_.size())) {
             cursor_.offset = materialized_data_.size();
             cursor_.has_more = false;
         } else {
@@ -295,7 +295,7 @@ void ResultStream<T>::updateCursor(const T& item) {
         // For other numeric/scalar types the offset-based cursor is sufficient.
     }
 
-    if (buffer_pos_ >= buffer_.size()) {
+    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
         // Reached end of current buffer
         if (buffer_.empty()) {
             cursor_.has_more = false;

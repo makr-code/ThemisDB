@@ -933,7 +933,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
             for (size_t t = 0; t < effective_threads; ++t) {
                 const size_t begin_idx = t * chunk_size;
-                if (begin_idx >= current_frontier.size()) {
+                if (begin_idx >= static_cast<int>(current_frontier.size())) {
                   break;
                 }
                 const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());

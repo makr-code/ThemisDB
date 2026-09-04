@@ -138,7 +138,7 @@ Frontier LigraProcessor::process_edges(
         }
         
         process_vertices(frontier, [&]([[maybe_unused]] NodeID src) {
-            if (src >= adj_list.size()) {
+            if (src >= static_cast<int>(adj_list.size())) {
               return;
             }
             
@@ -178,7 +178,7 @@ Frontier LigraProcessor::process_edges(
             threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {
                 for (auto v_it = it; v_it != chunk_end; ++v_it) {
                     NodeID src = *v_it;
-                    if (src >= adj_list.size()) {
+                    if (src >= static_cast<int>(adj_list.size())) {
                       continue;
                     }
                     

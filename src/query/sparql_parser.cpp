@@ -123,9 +123,9 @@ public:
     std::vector<SPARQLToken> tokenize() {
         std::vector<SPARQLToken> tokens = {};
 
-        while (pos_ < input_.size()) {
+        while (static_cast<size_t>(pos_) < input_.size()) {
             skipWhitespace();
-            if (pos_ >= input_.size()) {
+            if (pos_ >= static_cast<int>(input_.size())) {
               break;
             }
 

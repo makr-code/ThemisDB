@@ -218,7 +218,7 @@ const Edge& AdjacencyList::neighbour_at(VertexId src, std::size_t index) const
     // Fix: explicit size check before iterator formation; forming a random-access
     // iterator past the end is UB even before dereferencing.
     const auto& edges = vit->second.edges;
-    if (index >= edges.size()) {
+    if (index >= static_cast<int>(edges.size())) {
         throw std::out_of_range(
             "AdjacencyList::neighbour_at: index " + std::to_string(index) +
             " out of range [0, " + std::to_string(edges.size()) + ") for vertex " +

@@ -72,7 +72,7 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
     }
 
     size_t start = 0;
-    while (start < baseline.size()) {
+    while (static_cast<size_t>(start) < baseline.size()) {
         const auto comma = baseline.find(',', start);
         const auto end = (comma == std::string::npos) ? baseline.size() : comma;
         auto token = baseline.substr(start, end - start);

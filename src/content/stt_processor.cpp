@@ -550,7 +550,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
         // Chunks are word-aligned (2 bytes)
         if (chunk_size % 2 != 0) {
-            if (offset >= wav_data.size()) {
+            if (offset >= static_cast<int>(wav_data.size())) {
                 break;
             }
             offset++;
@@ -611,7 +611,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
         // Chunks are word-aligned
         if (chunk_size % 2 != 0) {
-            if (offset >= wav_data.size()) {
+            if (offset >= static_cast<int>(wav_data.size())) {
                 break;
             }
             offset++;
@@ -655,7 +655,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
             if (audio_format == 1) { // PCM
                 if (bits_per_sample == 8) {
                     // 8-bit PCM is unsigned (0-255)
-                    if (sample_offset >= wav_data.size()) {
+                    if (sample_offset >= static_cast<int>(wav_data.size())) {
                         throw std::runtime_error("Sample offset out of bounds");
                     }
                     uint8_t val = wav_data[sample_offset];

@@ -336,7 +336,7 @@ std::shared_ptr<Column> ColumnBatch::getColumn(const std::string &name) const {
 }
 
 std::shared_ptr<Column> ColumnBatch::getColumnAt([[maybe_unused]] size_t idx) const {
-    if (idx >= columns_.size()) {
+    if (idx >= static_cast<int>(columns_.size())) {
         return nullptr;
     }
     return columns_[idx];

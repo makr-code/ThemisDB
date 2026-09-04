@@ -177,7 +177,7 @@ static std::size_t clampPatchExtent(std::size_t extent) noexcept {
 static std::vector<std::string> splitParagraphs(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (start < text.size()) {
+    while (static_cast<size_t>(start) < text.size()) {
         const auto pos = text.find("\n\n", start);
         const auto end = (pos == std::string::npos) ? text.size() : pos;
         const auto seg = text.substr(start, end - start);

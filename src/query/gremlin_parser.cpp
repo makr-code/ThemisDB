@@ -111,7 +111,7 @@ struct GremlinParser::Lexer {
         tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
-            if (pos >= src.size()) {
+            if (pos >= static_cast<int>(src.size())) {
                 tokens.push_back({GremlinTokenType::END_OF_FILE, "", pos});
                 break;
             }
@@ -189,7 +189,7 @@ struct GremlinParser::Parser {
 
     const Token& peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        if (p >= tokens.size()) {
+        if (p >= static_cast<int>(tokens.size())) {
           return tokens.back();
         }
         return tokens[p];

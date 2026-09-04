@@ -224,7 +224,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
 
         // Equal keys — collect all matching right rows for this key.
         size_t ri_start = ri;
-        while (ri < right.size()) {
+        while (static_cast<size_t>(ri) < right.size()) {
             const uint64_t rk2 = (op.right_key_col < right[ri].size())
                                       ? right[ri][op.right_key_col] : UINT64_MAX;
             if (rk2 != lk) {
@@ -232,7 +232,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++ri;
         }
-        while (li < left.size()) {
+        while (static_cast<size_t>(li) < left.size()) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;
             if (lk2 != lk) {
@@ -335,7 +335,7 @@ ExecutionResult simdFilter(const QueryOperator& op) {
     const auto&    fop = op.filter_op;
 
     for (const auto& row : op.rows) {
-        if (col >= row.size()) {
+        if (col >= static_cast<int>(row.size())) {
           continue;
         }
         if (applyFilterOp(row[col], fop, val)) {

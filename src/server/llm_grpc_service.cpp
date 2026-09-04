@@ -630,7 +630,7 @@ grpc::Status LLMGrpcService::ExportLoRA(
         const size_t chunk_size = 4 * 1024 * 1024;
         size_t offset = 0;
         
-        while (offset < lora_data.size()) {
+        while (static_cast<size_t>(offset) < lora_data.size()) {
             llm::LoRAChunk chunk;
             chunk.set_lora_id(request->lora_id());
             

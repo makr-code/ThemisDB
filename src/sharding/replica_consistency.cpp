@@ -329,10 +329,10 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     }
     
     // Add remaining entries
-    while (local_idx < local_entries.size()) {
+    while (static_cast<size_t>(local_idx) < local_entries.size()) {
         merged.push_back(local_entries[local_idx++]);
     }
-    while (remote_idx < remote_entries.size()) {
+    while (static_cast<size_t>(remote_idx) < remote_entries.size()) {
         merged.push_back(remote_entries[remote_idx++]);
     }
     

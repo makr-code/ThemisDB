@@ -3030,7 +3030,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     std::string carry;  // incomplete segment carried over between read iterations
     auto flushCarry = [&]([[maybe_unused]] bool force) {
         size_t pos = 0;
-        while (pos < carry.size()) {
+        while (static_cast<size_t>(pos) < carry.size()) {
             size_t remaining = carry.size() - pos;
             if (!force && remaining < static_cast<size_t>(text_chunk_chars))
                 break;  // wait for more data

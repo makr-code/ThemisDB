@@ -206,7 +206,7 @@ std::pair<int32_t, int32_t> SerializerInputValidator::countXmlTags(std::string_v
     int32_t close_count = 0;
 
     size_t pos = 0;
-    while (pos < xml.size()) {
+    while (static_cast<size_t>(pos) < xml.size()) {
         size_t tag_start = xml.find('<', pos);
         if (tag_start == std::string_view::npos) {
             break;

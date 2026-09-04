@@ -199,7 +199,7 @@ static std::string htmlToText(const std::string& html) {
 static std::vector<std::string> extractHrefs(const std::string& html) {
     std::vector<std::string> hrefs;
     size_t pos = 0;
-    while (pos < html.size()) {
+    while (static_cast<size_t>(pos) < html.size()) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
         if (a_pos == std::string::npos) {
@@ -211,11 +211,11 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         while (tag_start < html.size() && html[tag_start] == ' ') {
           ++tag_start;
         }
-        if (tag_start >= html.size()) { pos = a_pos + 1; continue; }
+        if (tag_start >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
         char t0 = static_cast<char>(std::tolower(static_cast<unsigned char>(html[tag_start])));
         if (t0 != 'a') { pos = a_pos + 1; continue; }
         size_t after_a = tag_start + 1;
-        if (after_a >= html.size()) { pos = a_pos + 1; continue; }
+        if (after_a >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
         char delim = html[after_a];
         if (delim != ' ' && delim != '\t' && delim != '\n' && delim != '\r' && delim != '>') {
             pos = a_pos + 1;
@@ -267,7 +267,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     size_t pos = 0;
     const std::string open  = "<loc>";
     const std::string close = "</loc>";
-    while (pos < xml.size()) {
+    while (static_cast<size_t>(pos) < xml.size()) {
         auto start = xml.find(open, pos);
         if (start == std::string::npos) {
           break;

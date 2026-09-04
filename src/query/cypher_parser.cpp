@@ -190,7 +190,7 @@ struct CypherParser::Lexer {
 
         while (true) {
             skipWhitespace();
-            if (pos >= src.size()) {
+            if (pos >= static_cast<int>(src.size())) {
               break;
             }
 
@@ -232,7 +232,7 @@ struct CypherParser::Lexer {
                   num += advance();
                 }
                 bool is_float = false;
-                while (pos < src.size()) {
+                while (static_cast<size_t>(pos) < src.size()) {
                     if (std::isdigit(static_cast<unsigned char>(peek()))) {
                         num += advance();
                         continue;

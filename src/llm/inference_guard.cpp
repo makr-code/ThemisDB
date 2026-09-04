@@ -165,7 +165,7 @@ void TokenBufferGuard::Push(int32_t token) {
 }
 
 int32_t TokenBufferGuard::At([[maybe_unused]] size_t index) const {
-    if (index >= tokens_.size()) {
+    if (index >= static_cast<int>(tokens_.size())) {
         spdlog::error("TokenBufferGuard: index {} out of range [0, {})",
                      index, tokens_.size());
         throw std::out_of_range(

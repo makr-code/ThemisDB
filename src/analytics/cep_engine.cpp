@@ -190,7 +190,7 @@ struct Token {
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
-    while (i < expr.size()) {
+    while (static_cast<size_t>(i) < expr.size()) {
         char c = expr[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             ++i;
@@ -589,7 +589,7 @@ EventStream::PushResult EventStream::push([[maybe_unused]] Event event) {
 }
 
 std::optional<Event> EventStream::pull([[maybe_unused]] uint32_t partition_id) {
-    if (partition_id >= partitions_.size()) {
+    if (partition_id >= static_cast<int>(partitions_.size())) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -605,7 +605,7 @@ std::optional<Event> EventStream::pull([[maybe_unused]] uint32_t partition_id) {
 }
 
 std::optional<Event> EventStream::peek([[maybe_unused]] uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) {
+    if (partition_id >= static_cast<int>(partitions_.size())) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -617,7 +617,7 @@ std::optional<Event> EventStream::peek([[maybe_unused]] uint32_t partition_id) c
 }
 
 float EventStream::getFillLevel([[maybe_unused]] uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) {
+    if (partition_id >= static_cast<int>(partitions_.size())) {
         return 0.0f;
     }
     size_t max_pp = config_.buffer_size / partitions_.size();

@@ -501,7 +501,7 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
 /*static*/
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
-    while (sent < buf.size()) {
+    while (static_cast<size_t>(sent) < buf.size()) {
         ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);
         if (n <= 0)
             return false;

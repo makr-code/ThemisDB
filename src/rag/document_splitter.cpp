@@ -119,7 +119,7 @@ std::string extractOverlapTail(const std::string& text,
     if (text.empty() || overlap_tokens == 0) return {};
     const size_t overlap_chars =
         static_cast<size_t>(static_cast<double>(overlap_tokens) * chars_per_token);
-    if (overlap_chars >= text.size()) {
+    if (overlap_chars >= static_cast<int>(text.size())) {
       return text;
     }
     return text.substr(text.size() - overlap_chars);
@@ -167,7 +167,7 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) < text.size()) {
         const size_t core_end = std::min(pos + step_chars, text.size());
 
         // Build chunk: optional overlap prefix + core
@@ -228,7 +228,7 @@ DocumentSplitter::Impl::splitSliding(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) < text.size()) {
         const size_t end = std::min(pos + chunk_chars, text.size());
         std::string  content = text.substr(pos, end - pos);
 

@@ -80,7 +80,7 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) {
+        if (idx_1 >= static_cast<int>(rotated.size())) {
           break;
         }
         
@@ -117,7 +117,7 @@ std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngl
     size_t position, 
     size_t pair_idx
 ) const {
-    if (pair_idx >= learnable_theta_.size()) {
+    if (pair_idx >= static_cast<int>(learnable_theta_.size())) {
         throw std::out_of_range(
             "Pair index out of range: " + std::to_string(pair_idx) +
             " >= " + std::to_string(learnable_theta_.size())

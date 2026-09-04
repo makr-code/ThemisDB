@@ -221,7 +221,7 @@ static std::vector<TableBlock> detectTableBlocks(
 {
     std::vector<TableBlock> blocks;
     size_t i = 0;
-    while (i < lines.size()) {
+    while (static_cast<size_t>(i) < lines.size()) {
         bool is_table = isPipeTableRow(lines[i]) || isAlignedTableRow(lines[i]);
         if (is_table) {
             size_t start = i;

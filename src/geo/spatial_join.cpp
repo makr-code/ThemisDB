@@ -204,7 +204,7 @@ struct SpatialJoinIterator::Impl {
             const auto &[key_a, geom_a] = (*outer_ptr)[outer_idx];
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
-            while (cand_idx < candidates.size()) {
+            while (static_cast<size_t>(cand_idx) < candidates.size()) {
                 const std::string &key_b = candidates[cand_idx++];
                 auto it                  = inner_key_idx.find(key_b);
                 if (it == inner_key_idx.end()) {

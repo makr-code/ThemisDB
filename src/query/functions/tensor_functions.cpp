@@ -56,7 +56,7 @@ static std::vector<float> jsonToFloats(const json& arr) {
                                                      const std::string& path) {
     const json* current = &root;
     std::size_t pos = 0;
-    while (pos < path.size()) {
+    while (static_cast<size_t>(pos) < path.size()) {
         const auto next = path.find('.', pos);
         const auto token = (next == std::string::npos)
             ? path.substr(pos)

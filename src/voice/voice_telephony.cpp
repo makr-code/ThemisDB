@@ -115,7 +115,7 @@ std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
         uint16_t ext_len = static_cast<uint16_t>((pkt[offset + 2] << 8) | pkt[offset + 3]);
         offset += 4u + 4u * ext_len;
     }
-    if (offset >= pkt.size()) return {};
+    if (offset >= static_cast<int>(pkt.size())) return {};
     return std::vector<uint8_t>(pkt.begin() + static_cast<std::ptrdiff_t>(offset),
                                  pkt.end());
 }

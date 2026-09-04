@@ -125,7 +125,7 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size());
     size_t i = 0;
-    while (i < input.size()) {
+    while (static_cast<size_t>(i) < input.size()) {
         unsigned char cur = static_cast<unsigned char>(input[i]);
         size_t run = 1;
         while (i + run < input.size() &&
@@ -152,7 +152,7 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size() * 2);
     size_t i = 0;
-    while (i < input.size()) {
+    while (static_cast<size_t>(i) < input.size()) {
         unsigned char byte = static_cast<unsigned char>(input[i]);
         if (byte == kRlRepeatMarker && i + 2 < input.size()) {
             unsigned char count = static_cast<unsigned char>(input[i+1]);

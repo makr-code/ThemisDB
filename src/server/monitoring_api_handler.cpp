@@ -1212,7 +1212,7 @@ namespace {
 
     std::string_view query = target.substr(query_pos + 1);
     std::size_t pos = 0;
-    while (pos < query.size()) {
+    while (static_cast<size_t>(pos) < query.size()) {
         const auto amp = query.find('&', pos);
         const auto token_end = (amp == std::string_view::npos) ? query.size() : amp;
         const auto eq = query.find('=', pos);
@@ -1766,7 +1766,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
                     std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
                     // Split on "},{" boundaries
                     size_t cur = 0;
-                    while (cur < arr.size()) {
+                    while (static_cast<size_t>(cur) < arr.size()) {
                         auto next = arr.find("},{", cur);
                         if (next == std::string::npos) {
                             loop_items.push_back(arr.substr(cur));

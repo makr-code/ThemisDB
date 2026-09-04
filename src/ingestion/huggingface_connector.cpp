@@ -115,7 +115,7 @@ static size_t hfJsonExtractSizeT(const std::string& json,
     while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
       ++pos;
     }
-    if (pos >= json.size()) {
+    if (pos >= static_cast<int>(json.size())) {
       return 0;
     }
     size_t val = 0;

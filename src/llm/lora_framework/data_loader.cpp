@@ -428,7 +428,7 @@ void DataLoader::shuffle() {
 }
 
 std::optional<InstructionDataSample> DataLoader::getSample([[maybe_unused]] size_t idx) const {
-    if (idx >= samples_.size()) {
+    if (idx >= static_cast<int>(samples_.size())) {
         return std::nullopt;
     }
     return samples_[idx];

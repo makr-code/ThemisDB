@@ -1117,7 +1117,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             double rank  = percentile / 100.0 * (sorted.size() - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
-            if (upper >= sorted.size()) {
+            if (upper >= static_cast<int>(sorted.size())) {
                 return sorted.back();
             }
             double fraction = rank - lower;

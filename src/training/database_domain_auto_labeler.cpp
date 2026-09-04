@@ -59,7 +59,7 @@ static double extractDoubleField(const std::string& json, const std::string& key
     while (pos < json.size() && (json[pos] == ':' || json[pos] == ' ')) {
       ++pos;
     }
-    if (pos >= json.size()) {
+    if (pos >= static_cast<int>(json.size())) {
       return std::numeric_limits<double>::quiet_NaN();
     }
     try {

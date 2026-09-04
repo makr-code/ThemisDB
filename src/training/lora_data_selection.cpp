@@ -614,7 +614,7 @@ public:
         auto take = [](const std::vector<DataSample>& src,
                        size_t from, size_t to,
                        size_t count) -> std::vector<DataSample> {
-            if (from >= src.size()) return {};
+            if (from >= static_cast<int>(src.size())) return {};
             to = std::min(to, src.size());
             count = std::min(count, to - from);
             return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
@@ -1314,7 +1314,7 @@ public:
           ++j;
         }
         double threshold = 0.0;
-        if (j >= condition.size()) return false; // malformed condition: no threshold
+        if (j >= static_cast<int>(condition.size())) return false; // malformed condition: no threshold
         try { threshold = std::stod(condition.substr(j)); }
         catch (...) { return false; } // malformed threshold: treat as not triggered
 

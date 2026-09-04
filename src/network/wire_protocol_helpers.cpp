@@ -25,7 +25,7 @@ bool ProtobufParser::readVarint([[maybe_unused]] uint64_t& value) {
     value = 0;
     int shift = 0;
     
-    while (pos_ < data_.size()) {
+    while (static_cast<size_t>(pos_) < data_.size()) {
         uint8_t byte = data_[pos_++];
         value |= static_cast<uint64_t>(byte & 0x7F) << shift;
         

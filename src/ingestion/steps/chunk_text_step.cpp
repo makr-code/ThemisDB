@@ -140,7 +140,7 @@ private:
             }
         };
 
-        while (pos < text.size()) {
+        while (static_cast<size_t>(pos) < text.size()) {
             current += text[pos];
             if (pos + 1 < text.size() &&
                 (text[pos] == '.' || text[pos] == '!' || text[pos] == '?') &&

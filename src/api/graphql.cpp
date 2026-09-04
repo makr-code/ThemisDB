@@ -119,14 +119,14 @@ Parser::Result Parser::parseDocument() {
     skipWhitespace();
 
     // Empty or whitespace-only documents are invalid GraphQL input.
-    if (pos_ >= source_.size()) {
+    if (pos_ >= static_cast<int>(source_.size())) {
         result.success = false;
         result.errors.push_back(
             ParseError{.message = "Document must contain at least one operation", .line = line_, .column = column_});
         return result;
     }
 
-    while (pos_ < source_.size()) {
+    while (static_cast<size_t>(pos_) < source_.size()) {
         auto opResult = parseOperation();
         if (opResult) {
             result.document.operations.push_back(std::move(*opResult));
@@ -553,7 +553,7 @@ themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
 }
 
 void Parser::skipWhitespace() {
-    while (pos_ < source_.size()) {
+    while (static_cast<size_t>(pos_) < source_.size()) {
         char c = source_[pos_];
         if (c == ' ' || c == '\t' || c == '\r' || c == ',') {
             ++pos_;

@@ -421,7 +421,7 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
             try {
                 while (true) {
                     const size_t idx = next_index.fetch_add(1);
-                    if (idx >= slots_copy.size()) {
+                    if (idx >= static_cast<int>(slots_copy.size())) {
                       break;
                     }
                     auto [f, e] = process_slot(slots_copy[idx]);

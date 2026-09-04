@@ -130,7 +130,7 @@ void SearchResultStream::forEachResult([[maybe_unused]] ResultCallback callback)
     if (!callback) {
       return;
     }
-    while (cursor_ < results_.size()) {
+    while (static_cast<size_t>(cursor_) < results_.size()) {
         try {
             if ([[maybe_unused]] !callback(results_[cursor_])) {
                 break;

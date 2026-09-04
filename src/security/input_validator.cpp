@@ -433,7 +433,7 @@ bool InputValidator::containsControlCharacters(std::string_view input) {
 
 bool InputValidator::isValidUtf8(std::string_view input) {
   size_t i = 0;
-  while (i < input.size()) {
+  while (static_cast<size_t>(i) < input.size()) {
     unsigned char c = static_cast<unsigned char>(input[i]);
     
     if (c < 0x80) {

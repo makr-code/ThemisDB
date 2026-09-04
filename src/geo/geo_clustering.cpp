@@ -237,7 +237,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
         }
 
         std::size_t qi = 0;
-        while (qi < queue.size()) {
+        while (static_cast<size_t>(qi) < queue.size()) {
             const std::size_t j = queue[qi++];
 
             if (result.labels[j] == kDbscanNoise) {

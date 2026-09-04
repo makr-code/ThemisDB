@@ -375,7 +375,7 @@ bool IoUringZeroCopyIO::register_fd([[maybe_unused]] int fd) noexcept {
 }
 
 int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noexcept {
-    if (buf_index >= buffers_.size()) {
+    if (buf_index >= static_cast<int>(buffers_.size())) {
       return -EINVAL;
     }
 
@@ -435,7 +435,7 @@ int IoUringZeroCopyIO::send_zerocopy(int fd, uint32_t buf_index, size_t len) noe
 }
 
 int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len) noexcept {
-    if (buf_index >= buffers_.size()) {
+    if (buf_index >= static_cast<int>(buffers_.size())) {
       return -EINVAL;
     }
 

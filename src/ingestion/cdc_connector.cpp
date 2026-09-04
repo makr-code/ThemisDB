@@ -263,13 +263,13 @@ parseColToken(const std::string& line, size_t& pos) {
 
     pos = rb + 2; // skip ']:'
 
-    if (pos >= line.size()) return {col, ""};
+    if (pos >= static_cast<int>(line.size())) return {col, ""};
 
     std::string val = {};
     if (line[pos] == '\'') {
         // Single-quoted string; '' is an escaped single quote
         ++pos;
-        while (pos < line.size()) {
+        while (static_cast<size_t>(pos) < line.size()) {
             char c = line[pos];
             if (c == '\'') {
                 if (pos + 1 < line.size() && line[pos + 1] == '\'') {
@@ -303,7 +303,7 @@ static std::unordered_map<std::string, std::string>
 parseColSet(const std::string& line, size_t& pos) {
     std::unordered_map<std::string, std::string> result = {};
 
-    while (pos < line.size()) {
+    while (static_cast<size_t>(pos) < line.size()) {
         auto [c, v] = parseColToken(line, pos);
         if (c.empty()) {
           break;

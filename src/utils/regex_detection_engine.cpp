@@ -620,7 +620,7 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
     
     // Validate UTF-8 byte sequences (RFC 3629 strict: rejects overlong encodings,
     // surrogate halves U+D800–U+DFFF, and code points beyond U+10FFFF).
-    while (pos < text.size()) {
+    while (static_cast<size_t>(pos) < text.size()) {
         unsigned char byte = data[pos];
 
         if (byte < 0x80) {

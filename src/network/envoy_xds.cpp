@@ -114,7 +114,7 @@ static std::string extractRawValue(const std::string& json, const std::string& k
                                    json[start] == '\r' || json[start] == '\n')) {
         ++start;
     }
-    if (start >= json.size()) return {};
+    if (start >= static_cast<int>(json.size())) return {};
     const char open = json[start];
     if (open != '[' && open != '{') {
         // Scalar – read until delimiter
@@ -600,7 +600,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
                 const std::string dom_body = domains_raw.substr(1, domains_raw.size() - 2);
                 // Simple string-array split: find quoted strings
                 std::size_t pos = 0;
-                while (pos < dom_body.size()) {
+                while (static_cast<size_t>(pos) < dom_body.size()) {
                     const auto q1 = dom_body.find('"', pos);
                     if (q1 == std::string::npos) {
                       break;

@@ -168,7 +168,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
     std::string result = {};
     size_t pos = 0;
-    while (pos < encoded.size()) {
+    while (static_cast<size_t>(pos) < encoded.size()) {
         // Find CRLF that ends the chunk-size line
         size_t crlf = encoded.find("\r\n", pos);
         if (crlf == std::string::npos) {

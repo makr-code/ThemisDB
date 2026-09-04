@@ -122,7 +122,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
 
             for (size_t t = 0; t < nthreads; ++t) {
                 const size_t begin = t * chunk_size;
-                if (begin >= current_frontier.size()) {
+                if (begin >= static_cast<int>(current_frontier.size())) {
                     break;
                 }
                 const size_t end = std::min(begin + chunk_size, current_frontier.size());

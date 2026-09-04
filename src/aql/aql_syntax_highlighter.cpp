@@ -111,7 +111,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
     auto peek
         = [&]([[maybe_unused]] std::size_t offset = 0) -> char { return (pos + offset < code.size()) ? code[pos + offset] : '\0'; };
 
-    while (pos < code.size()) {
+    while (static_cast<size_t>(pos) < code.size()) {
         // Skip whitespace (preserve for faithful reconstruction)
         if (std::isspace(static_cast<unsigned char>(code[pos]))) {
             std::string ws = {};
@@ -140,7 +140,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             std::string comment = {};
             comment += advance();
             comment += advance(); // consume /*
-            while (pos < code.size()) {
+            while (static_cast<size_t>(pos) < code.size()) {
                 if (code[pos] == '*' && peek(1) == '/') {
                     comment += advance();
                     comment += advance();
@@ -157,7 +157,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             char q = code[pos];
             std::string str = {};
             str += advance(); // opening quote
-            while (pos < code.size()) {
+            while (static_cast<size_t>(pos) < code.size()) {
                 char c = advance();
                 str += c;
                 if (c == '\\' && pos < code.size()) {

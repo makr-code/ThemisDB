@@ -277,7 +277,7 @@ std::string trimSlashes(std::string value) {
 std::vector<std::string> splitPathSegments(std::string_view value) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (start < value.size()) {
+    while (static_cast<size_t>(start) < value.size()) {
         const auto next = value.find('/', start);
         const auto len = next == std::string_view::npos ? value.size() - start : next - start;
         if (len > 0) {

@@ -1790,7 +1790,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		size_t startIdx = (startD <= 0.0) ? 0 :
 			(startD >= static_cast<double>(sv.size())) ? sv.size() :
 			static_cast<size_t>(startD);
-		if (startIdx >= sv.size()) {
+		if (startIdx >= static_cast<int>(sv.size())) {
 		  return Ok(nlohmann::json(""));
 		}
 		if (args.size() == 3) {
@@ -3673,7 +3673,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 		
 		std::function<void(size_t, EvaluationContext)> nestedLoop;
 		nestedLoop = [&](size_t depth, EvaluationContext ctx) {
-			if (depth >= for_nodes.size()) {
+			if (depth >= static_cast<int>(for_nodes.size())) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
 				if (secIdx_) {
@@ -3849,7 +3849,7 @@ apply_sort_limit:
 		// Guard against negative int64_t values: cast to size_t only after clamping.
 		size_t offset = (limit->offset <= 0) ? 0 : static_cast<size_t>(limit->offset);
 		size_t count  = (limit->count  <= 0) ? 0 : static_cast<size_t>(limit->count);
-		if (offset >= results.size()) {
+		if (offset >= static_cast<int>(results.size())) {
 			results.clear();
 		} else {
 			size_t end = std::min(offset + count, results.size());

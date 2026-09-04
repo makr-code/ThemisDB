@@ -54,7 +54,7 @@ namespace {
     std::string extract_url_host(const std::string& url) {
         const size_t scheme_pos = url.find("://");
         const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-        if (host_start >= url.size()) {
+        if (host_start >= static_cast<int>(url.size())) {
             return {};
         }
 

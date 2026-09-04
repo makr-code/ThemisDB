@@ -317,7 +317,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
 
             // Decode values
             for (int i = start; i < end; i++) {
-                if (code_offset >= codes.size()) {
+                if (code_offset >= static_cast<int>(codes.size())) {
                     THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data");
                     return {};
                 }
@@ -391,7 +391,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
             code_offset += sizeof(float);
 
             for (int i = start; i < end; i++) {
-                if (code_offset >= codes.size()) {
+                if (code_offset >= static_cast<int>(codes.size())) {
                     THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data");
                     return std::numeric_limits<float>::max();
                 }

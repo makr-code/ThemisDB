@@ -370,12 +370,12 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                     long long mean = sum / static_cast<long long>(doc_times.size());
                     long long p50 = doc_times[doc_times.size()/2];
                     size_t i95 = static_cast<size_t>(doc_times.size()*0.95);
-                    if (i95 >= doc_times.size()) {
+                    if (i95 >= static_cast<int>(doc_times.size())) {
                       i95 = doc_times.size()-1;
                     }
                     long long p95 = doc_times[i95];
                     size_t i99 = static_cast<size_t>(doc_times.size()*0.99);
-                    if (i99 >= doc_times.size()) {
+                    if (i99 >= static_cast<int>(doc_times.size())) {
                       i99 = doc_times.size()-1;
                     }
                     long long p99 = doc_times[i99];
@@ -474,12 +474,12 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
             long long mean = samples.empty() ? 0 : sum / static_cast<long long>(samples.size());
             long long p50 = samples.empty() ? 0 : samples[samples.size()/2];
             size_t idx95 = static_cast<size_t>(samples.size() * 0.95);
-            if (idx95 >= samples.size()) {
+            if (idx95 >= static_cast<int>(samples.size())) {
               idx95 = samples.size() - 1;
             }
             long long p95 = samples.empty() ? 0 : samples[idx95];
             size_t idx99 = static_cast<size_t>(samples.size() * 0.99);
-            if (idx99 >= samples.size()) {
+            if (idx99 >= static_cast<int>(samples.size())) {
               idx99 = samples.size() - 1;
             }
             long long p99 = samples.empty() ? 0 : samples[idx99];

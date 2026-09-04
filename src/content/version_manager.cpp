@@ -86,10 +86,10 @@ std::string VersionManager::computeDelta(const std::string& old_content,
             }
         }
     }
-    while (oi < old_lines.size()) {
+    while (static_cast<size_t>(oi) < old_lines.size()) {
         delta << '-' << old_lines[oi++] << '\n';
     }
-    while (ni < new_lines.size()) {
+    while (static_cast<size_t>(ni) < new_lines.size()) {
         delta << '+' << new_lines[ni++] << '\n';
     }
 

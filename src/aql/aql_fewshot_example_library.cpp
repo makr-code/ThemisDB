@@ -184,7 +184,7 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
     if (!embedding_provider_) {
         return false;
     }
-    if (idx >= examples_.size()) {
+    if (idx >= static_cast<int>(examples_.size())) {
         return false;
     }
 

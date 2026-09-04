@@ -203,7 +203,7 @@ struct GeoFaissKnn::Impl {
               continue;
             }
             const auto fi = static_cast<std::size_t>(idx[i]);
-            if (fi >= dataset_map.size()) {
+            if (fi >= static_cast<int>(dataset_map.size())) {
               continue;
             }
             GeoKnnResult r;

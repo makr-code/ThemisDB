@@ -334,12 +334,12 @@ std::string sanitizeTagAttributes(
     std::string output = {};
     size_t ap = 0;
 
-    while (ap < attrs_str.size()) {
+    while (static_cast<size_t>(ap) < attrs_str.size()) {
         // Skip leading whitespace
         while (ap < attrs_str.size() && std::isspace(static_cast<unsigned char>(attrs_str[ap]))) {
           ++ap;
         }
-        if (ap >= attrs_str.size()) {
+        if (ap >= static_cast<int>(attrs_str.size())) {
           break;
         }
 
@@ -423,7 +423,7 @@ SSMLSanitizeResult VoiceTTSCustomizer::sanitizeSSML(const std::string& ssml_inpu
     output.reserve(ssml_input.size());
     size_t pos = 0;
 
-    while (pos < ssml_input.size()) {
+    while (static_cast<size_t>(pos) < ssml_input.size()) {
         if (ssml_input[pos] != '<') {
             output += ssml_input[pos++];
             continue;

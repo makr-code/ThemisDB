@@ -206,7 +206,7 @@ size_t RedisCache::nodeIndexForKey(std::string_view key) const {
 
 std::string RedisCache::nodeForKey(std::string_view key) const {
     size_t idx = nodeIndexForKey(key);
-    if (idx >= nodes_.size()) {
+    if (idx >= static_cast<int>(nodes_.size())) {
         return "";
     }
     return nodes_[idx]->host + ":" + std::to_string(nodes_[idx]->port);
@@ -346,7 +346,7 @@ void RedisCache::closeSocket(SocketFd &fd) noexcept {
 /*static*/
 bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
     size_t total = 0;
-    while (total < buf.size()) {
+    while (static_cast<size_t>(total) < buf.size()) {
 #if defined(_WIN32)
         int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
         if (sent == SOCKET_ERROR) {

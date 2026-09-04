@@ -107,14 +107,14 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     int seq_num                            = 0;
     size_t current_pos                     = 0;
 
-    while (current_pos < sentence_list.size()) {
+    while (static_cast<size_t>(current_pos) < sentence_list.size()) {
         std::string chunk_text = {};
         int chunk_tokens       = 0;
         size_t chunk_start_idx = current_pos;
         size_t chunk_end_idx   = current_pos;
 
         // Add sentences until we reach chunk_size
-        while (chunk_end_idx < sentence_list.size()) {
+        while (static_cast<size_t>(chunk_end_idx) < sentence_list.size()) {
             const std::string &sentence = sentence_list[chunk_end_idx];
             int sentence_tokens         = countTokens(sentence);
 

@@ -2736,7 +2736,7 @@ namespace {
         
         std::string query_string = target_str.substr(query_pos + 1);
         size_t pos = 0;
-        while (pos < query_string.size()) {
+        while (static_cast<size_t>(pos) < query_string.size()) {
             auto eq_pos = query_string.find('=', pos);
             if (eq_pos == std::string::npos) {
               break;
@@ -13961,7 +13961,7 @@ http::response<http::string_body> HttpServer::handleIndexStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (pos < query.size()) {
+                while (static_cast<size_t>(pos) < query.size()) {
                     size_t eq = query.find('=', pos);
                     if (eq == std::string::npos) {
                       break;

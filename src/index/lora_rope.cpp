@@ -248,7 +248,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) {
+        if (idx_1 >= static_cast<int>(rotated.size())) {
           break;
         }
         

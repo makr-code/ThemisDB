@@ -86,7 +86,7 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
         size_t gpu_start = gpu_idx * samples_per_gpu;
         size_t gpu_end = std::min(gpu_start + samples_per_gpu, batch_samples.size());
         
-        if (gpu_start >= batch_samples.size()) {
+        if (gpu_start >= static_cast<int>(batch_samples.size())) {
             // Empty shard for this GPU
             sharded_batch.emplace_back(std::vector<size_t>{0}, ctx_.get_device(gpu_idx));
             continue;
@@ -184,7 +184,7 @@ InMemoryDataset::InMemoryDataset(std::vector<GPUTensor> data)
 }
 
 GPUTensor InMemoryDataset::get([[maybe_unused]] size_t index) const {
-    if (index >= data_.size()) {
+    if (index >= static_cast<int>(data_.size())) {
         throw std::out_of_range("Dataset index out of range");
     }
     

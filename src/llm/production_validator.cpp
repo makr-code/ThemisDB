@@ -985,7 +985,7 @@ double ProductionValidator::calculatePercentile(
     );
     
     // Ensure index is valid
-    if (index >= mutable_copy.size()) {
+    if (index >= static_cast<int>(mutable_copy.size())) {
         index = mutable_copy.size() - 1;
     }
     

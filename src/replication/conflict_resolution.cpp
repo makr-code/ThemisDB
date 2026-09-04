@@ -408,7 +408,7 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
     }
     
     // BATCH D FIX: Bounds check before access
-    if (best_idx >= writes.size()) {
+    if (best_idx >= static_cast<int>(writes.size())) {
         THEMIS_ERROR("ThreeWayMergeResolver::selectBase: best_idx {} out of bounds (size {})",
                     best_idx, writes.size());
         return writes[0];
@@ -652,7 +652,7 @@ std::string FieldLevelMergeResolver::mergeFields(
                     // Latest HLC wins for conflicting fields
                     size_t best = present_indices[0];
                     for (size_t idx : present_indices) {
-                        if (idx >= writes.size()) {
+                        if (idx >= static_cast<int>(writes.size())) {
                             THEMIS_ERROR("FieldLevelMergeResolver: index {} out of bounds", idx);
                             continue;
                         }

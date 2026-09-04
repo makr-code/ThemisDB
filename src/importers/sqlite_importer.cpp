@@ -801,7 +801,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (k < col_def.size()) {
+        while (static_cast<size_t>(k) < col_def.size()) {
             char c = col_def[k];
             if (c == '(') {
                 ++tdep; col_type += c;
@@ -902,7 +902,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
     std::string values_payload = match[5].str();
     size_t pos = 0;
 
-    while (pos < values_payload.size()) {
+    while (static_cast<size_t>(pos) < values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -910,7 +910,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= values_payload.size()) {
+        if (pos >= static_cast<int>(values_payload.size())) {
           break;
         }
         if (values_payload[pos] != '(') { ++pos; continue; }

@@ -177,7 +177,7 @@ ProductQuantizer::Status ProductQuantizer::train(
     // Train each subquantizer independently
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
         const size_t sq_index = static_cast<size_t>(sq);
-        if (sq_index >= codebooks_.size()) {
+        if (sq_index >= static_cast<int>(codebooks_.size())) {
             return Status::Error("Subquantizer index out of range");
         }
 
@@ -252,7 +252,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
     // Encode each subvector independently
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
         const size_t sq_index = static_cast<size_t>(sq);
-        if (sq_index >= codebooks_.size()) {
+        if (sq_index >= static_cast<int>(codebooks_.size())) {
             THEMIS_ERROR("ProductQuantizer::encode - Subquantizer index out of range");
             return {};
         }
@@ -312,7 +312,7 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
     // Concatenate centroid vectors
     for (int sq = 0; sq < config_.num_subquantizers; ++sq) {
         const size_t sq_index = static_cast<size_t>(sq);
-        if (sq_index >= codebooks_.size()) {
+        if (sq_index >= static_cast<int>(codebooks_.size())) {
             THEMIS_ERROR("ProductQuantizer::decode - Subquantizer index out of range");
             return {};
         }
@@ -382,7 +382,7 @@ float ProductQuantizer::computeAsymmetricDistance(
         for (int i = 0; i < config_.num_subquantizers; ++i) {
             const size_t table_index =
                 static_cast<size_t>(i) * static_cast<size_t>(config_.num_centroids) + codes[static_cast<size_t>(i)];
-            if (table_index >= dis_table.size()) {
+            if (table_index >= static_cast<int>(dis_table.size())) {
                 THEMIS_ERROR("ProductQuantizer::computeAsymmetricDistance - Distance table index out of range");
                 return std::numeric_limits<float>::max();
             }
@@ -552,7 +552,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         // Sample next centroid with probability proportional to D^2
         std::discrete_distribution<uint64_t> weighted_dis(distances.begin(), distances.end());
         const size_t selected_index = static_cast<size_t>(weighted_dis(gen));
-        if (selected_index >= subvector_data.size()) {
+        if (selected_index >= static_cast<int>(subvector_data.size())) {
             THEMIS_WARN("ProductQuantizer::runKMeans - Weighted centroid index out of range");
             return {};
         }
@@ -610,7 +610,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             } else {
                 // Handle empty cluster: reinitialize
                 const size_t reset_index = dis(gen);
-                if (reset_index >= subvector_data.size()) {
+                if (reset_index >= static_cast<int>(subvector_data.size())) {
                     THEMIS_WARN("ProductQuantizer::runKMeans - Reinitialization index out of range");
                     return {};
                 }

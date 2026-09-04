@@ -69,7 +69,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     // Search for closing delimiter: "---" or "..." on its own line
     size_t search_start = first_nl + 1;
     size_t close_pos    = std::string::npos;
-    while (search_start < markdown.size()) {
+    while (static_cast<size_t>(search_start) < markdown.size()) {
         size_t line_end = markdown.find('\n', search_start);
         if (line_end == std::string::npos) {
           line_end = markdown.size();
@@ -326,7 +326,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             std::string result = {};
             result.reserve(line.size());
             size_t i = 0;
-            while (i < line.size()) {
+            while (static_cast<size_t>(i) < line.size()) {
                 // Images: ![alt](url) → alt text
                 if (line[i] == '!' && i + 1 < line.size() && line[i + 1] == '[') {
                     size_t alt_start = i + 2;

@@ -664,7 +664,7 @@ float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                     for (size_t s = 0; s < rAl; ++s) {
                         for (size_t t = 0; t < rBl; ++t) {
                             size_t tIdx = s * rBl + t;
-                            if (tIdx >= T.size()) {
+                            if (tIdx >= static_cast<int>(T.size())) {
                               continue;
                             }
                             acc += T[tIdx]

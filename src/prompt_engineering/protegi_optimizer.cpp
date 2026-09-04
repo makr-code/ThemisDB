@@ -332,7 +332,7 @@ std::vector<TestCase> ProTeGiOptimizer::sampleMiniBatch(
     const std::vector<TestCase>& test_cases,
     size_t n) const
 {
-    if (n >= test_cases.size()) {
+    if (n >= static_cast<int>(test_cases.size())) {
         return test_cases;
     }
 

@@ -38,7 +38,7 @@ const Row& ResultSet::at(std::size_t index) const
     // Gap B002: previously used rows[index] without bounds guard.
     // Fix: explicit size check before iterator formation prevents UB when
     // index > rows.size() (forming an out-of-range iterator is itself UB).
-    if (index >= rows.size()) {
+    if (index >= static_cast<int>(rows.size())) {
         throw std::out_of_range(
             "ResultSet::at: index " + std::to_string(index) +
             " out of range [0, " + std::to_string(rows.size()) + ")");

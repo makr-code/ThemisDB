@@ -70,7 +70,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
     encoded.reserve(data.size() * sizeof(int32_t) / 2); // Estimate
 
     size_t i = 0;
-    while (i < data.size()) {
+    while (static_cast<size_t>(i) < data.size()) {
         int32_t value = data[i];
         size_t run_length = 1;
 
@@ -109,7 +109,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
     encoded.reserve(data.size() * sizeof(int64_t) / 2);
 
     size_t i = 0;
-    while (i < data.size()) {
+    while (static_cast<size_t>(i) < data.size()) {
         int64_t value = data[i];
         size_t run_length = 1;
 
@@ -133,7 +133,7 @@ Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& e
     std::vector<int32_t> decoded;
 
     size_t pos = 0;
-    while (pos < encoded.size()) {
+    while (static_cast<size_t>(pos) < encoded.size()) {
         if (pos + 1 + sizeof(int32_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -159,7 +159,7 @@ Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& e
     std::vector<int64_t> decoded;
 
     size_t pos = 0;
-    while (pos < encoded.size()) {
+    while (static_cast<size_t>(pos) < encoded.size()) {
         if (pos + 1 + sizeof(int64_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -339,7 +339,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
         std::memcpy(&idx, &encoded[pos], sizeof(uint32_t));
         pos += sizeof(uint32_t);
 
-        if (idx >= dictionary.size()) {
+        if (idx >= static_cast<int>(dictionary.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "Dictionary decode: invalid index"
@@ -1600,7 +1600,7 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::projectColumns(
     projected.reserve(column_indices.size());
 
     for (size_t idx : column_indices) {
-        if (idx >= segments.size()) {
+        if (idx >= static_cast<int>(segments.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                 "Column index out of range"
@@ -1617,7 +1617,7 @@ Result<std::vector<size_t>> ColumnarFormatManager::filterSegments(
     size_t column_index,
     const void* filter_value
 ) {
-    if (column_index >= segments.size()) {
+    if (column_index >= static_cast<int>(segments.size())) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "Column index out of range"

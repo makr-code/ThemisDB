@@ -543,7 +543,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment([[maybe_unused]] uint64
         seqs = listSegmentSeqs();
     }
 
-    if (seq >= seqs.size()) {
+    if (seq >= static_cast<int>(seqs.size())) {
         throw std::out_of_range("CDCPersistentLog::replaySegment: seq "
                                 + std::to_string(seq) + " out of range");
     }

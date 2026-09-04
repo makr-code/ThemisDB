@@ -273,7 +273,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
 					// `start` is a byte offset into string `s`; encryptList.push_back()
 					// operates on a separate vector and cannot invalidate this iteration.
-					while (start < s.size()) {
+					while (static_cast<size_t>(start) < s.size()) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
@@ -1633,7 +1633,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
-					while (start < s.size()) {
+					while (static_cast<size_t>(start) < s.size()) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim

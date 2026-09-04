@@ -37,7 +37,7 @@ double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
 
     // Nearest-rank method: index = floor(q * (n - 1)), clamped to [0, n-1].
     size_t idx = static_cast<size_t>(q * static_cast<double>(sorted_vals.size() - 1));
-    if (idx >= sorted_vals.size()) {
+    if (idx >= static_cast<int>(sorted_vals.size())) {
       idx = sorted_vals.size() - 1;
     }
     return sorted_vals[idx];

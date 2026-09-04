@@ -435,7 +435,7 @@ private:
                       std::function<std::string(const std::string&)> fetcher) {
         // Split into sub-batches of max_concurrent_downloads_.
         size_t i = 0;
-        while (i < keys.size()) {
+        while (static_cast<size_t>(i) < keys.size()) {
             size_t end = std::min(i + max_concurrent_downloads_, keys.size());
 
             // Launch concurrent downloads.

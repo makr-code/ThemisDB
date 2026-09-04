@@ -135,14 +135,14 @@ std::vector<uint8_t> Serialization::Encoder::finish() {
 Serialization::Decoder::Decoder(const std::vector<uint8_t>& data) : data_(data) {}
 
 Serialization::TypeTag Serialization::Decoder::peekType() const {
-    if (pos_ >= data_.size()) {
+    if (pos_ >= static_cast<int>(data_.size())) {
         return TypeTag::NULL_VALUE;
     }
     return static_cast<TypeTag>(data_[pos_]);
 }
 
 Serialization::TypeTag Serialization::Decoder::readTag() {
-    if (pos_ >= data_.size()) {
+    if (pos_ >= static_cast<int>(data_.size())) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
             fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),

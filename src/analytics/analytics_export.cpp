@@ -283,7 +283,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             size_t chunk_size = options.batch_size * 100; // Approximate chunk size
             size_t offset     = 0;
 
-            while (offset < data.size()) {
+            while (static_cast<size_t>(offset) < data.size()) {
                 size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);
@@ -853,7 +853,7 @@ class FeatherExporter : public IAnalyticsExporter {
             std::string data  = exportToString(batch, options);
             size_t chunk_size = options.batch_size * 100;
             size_t offset     = 0;
-            while (offset < data.size()) {
+            while (static_cast<size_t>(offset) < data.size()) {
                 size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);

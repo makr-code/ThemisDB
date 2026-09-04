@@ -278,7 +278,7 @@ bool PersistentTensorFingerprintGraph::deserializeJournalRecord(const std::vecto
     if (!readU32(bytes, off, version) || version != kJournalFormatVersion) {
         return false;
     }
-    if (off >= bytes.size()) {
+    if (off >= static_cast<int>(bytes.size())) {
         return false;
     }
 

@@ -605,7 +605,7 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
         // Sum gradients from all shards
         int valid_shards = 0;
         for (const auto& shard_grad_list : shard_gradients) {
-            if (layer_idx >= shard_grad_list.size()) {
+            if (layer_idx >= static_cast<int>(shard_grad_list.size())) {
               continue;
             }
             
@@ -679,7 +679,7 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
         // Weighted sum
         for (size_t shard_idx = 0; shard_idx < shard_gradients.size(); ++shard_idx) {
             const auto& shard_grad_list = shard_gradients[shard_idx];
-            if (layer_idx >= shard_grad_list.size()) {
+            if (layer_idx >= static_cast<int>(shard_grad_list.size())) {
               continue;
             }
             

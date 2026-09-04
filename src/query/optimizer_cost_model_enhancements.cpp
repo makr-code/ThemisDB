@@ -150,7 +150,7 @@ double EstimateValidation::computeP95Error() const {
     std::sort(errors.begin(), errors.end());
     
     size_t idx = static_cast<size_t>(errors.size() * 0.95);
-    if (idx >= errors.size()) {
+    if (idx >= static_cast<int>(errors.size())) {
       idx = errors.size() - 1;
     }
     return errors[idx];

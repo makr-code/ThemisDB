@@ -917,7 +917,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 
     // Parse the tuple list: (v1,...),(v2,...), ...
     size_t pos = 0;
-    while (pos < values_payload.size()) {
+    while (static_cast<size_t>(pos) < values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -925,7 +925,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= values_payload.size()) {
+        if (pos >= static_cast<int>(values_payload.size())) {
           break;
         }
         if (values_payload[pos] != '(') {
@@ -1304,7 +1304,7 @@ std::string OracleImporter::stripOracleComments(const std::string& sql) {
     std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
-    while (i < sql.size()) {
+    while (static_cast<size_t>(i) < sql.size()) {
         if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;
