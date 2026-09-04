@@ -1,0 +1,360 @@
+name: "Release: WinGet"
+
+# Rechenaufwand-Score: R=3 (K=2, L=3, N=2) | last-calibrated: 2026-09-04
+# Trigger policy: repo framework score calibration for workflow cost controls.
+# Automated WinGet community package submission (after stable release).
+#
+# Trigger:
+#   - Runs after successful GitHub Release creation (release event)
+#   - Triggers only on stable releases (not pre-release)
+#   - Can be manually triggered with explicit version
+#
+# Pipeline stages:
+#   detect-release → download-artifacts → generate-checksums
+#   → generate-manifests → validate-manifests → create-fork-pr
+#   → notify
+#
+# Output:
+#   - WinGet manifest files (YAML)
+#   - Pull request to https://github.com/microsoft/winget-pkgs
+#   - Checksums and SBOM artifacts
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to submit to WinGet (e.g., 2.4.0)"
+        required: true
+        type: string
+      release-url:
+        description: "GitHub Release URL (for context)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+  actions: read
+  pull-requests: write
+
+jobs:
+
+  detect-release:
+    name: Detect Release Type
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.detect.outputs.version }}
+      release-type: ${{ steps.detect.outputs.release-type }}
+      is-stable: ${{ steps.detect.outputs.is-stable }}
+      should-submit: ${{ steps.detect.outputs.should-submit }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect release details
+        id: detect
+        run: |
+          set -euo pipefail
+          
+          VERSION=""
+          RELEASE_TYPE=""
+          IS_STABLE="false"
+          SHOULD_SUBMIT="false"
+          
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # Manual trigger
+            VERSION="${{ github.event.inputs.version }}"
+            IS_STABLE="true"
+            SHOULD_SUBMIT="true"
+          
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            # Triggered by release event
+            VERSION="${{ github.event.release.tag_name }}"
+            IS_PRERELEASE="${{ github.event.release.prerelease }}"
+            
+            # Extract version from tag (v2.4.0 → 2.4.0)
+            VERSION="${VERSION#v}"
+            VERSION="${VERSION#enterprise-v}"
+            VERSION="${VERSION#hyperscaler-v}"
+            VERSION="${VERSION#military-v}"
+            VERSION="${VERSION#minimal-v}"
+            
+            # Only submit stable (non-prerelease) releases for community WinGet
+            if [[ "$IS_PRERELEASE" == "false" ]]; then
+              IS_STABLE="true"
+              SHOULD_SUBMIT="true"
+            else
+              echo "::notice::Skipping WinGet submission for prerelease: $VERSION"
+            fi
+          fi
+          
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "is-stable=$IS_STABLE" >> "$GITHUB_OUTPUT"
+          echo "should-submit=$SHOULD_SUBMIT" >> "$GITHUB_OUTPUT"
+          
+          echo "::notice::Release Detection:"
+          echo "  Version: $VERSION"
+          echo "  Is Stable: $IS_STABLE"
+          echo "  Should Submit: $SHOULD_SUBMIT"
+
+  download-artifacts:
+    name: Download Release Artifacts
+    needs: detect-release
+    runs-on: ubuntu-latest
+    if: needs.detect-release.outputs.should-submit == 'true'
+    outputs:
+      artifact-dir: ${{ steps.download.outputs.artifact-dir }}
+    steps:
+      - name: Download release artifacts
+        id: download
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: List downloaded artifacts
+        run: |
+          echo "Downloaded artifacts:"
+          find release-artifacts -type f | head -20
+          echo "artifact-dir=release-artifacts" >> "$GITHUB_OUTPUT"
+
+  generate-checksums:
+    name: Generate Checksums for Windows Binaries
+    needs: [detect-release, download-artifacts]
+    runs-on: ubuntu-latest
+    if: needs.detect-release.outputs.should-submit == 'true'
+    outputs:
+      checksums-json: ${{ steps.checksums.outputs.checksums-json }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate checksums
+        id: checksums
+        shell: pwsh
+        run: |
+          .github/scripts/generate-winget-checksums.ps1 `
+            -ArtifactDir "${{ needs.download-artifacts.outputs.artifact-dir }}" `
+            -OutputDir "${{ runner.temp }}/checksums" `
+            -IncludeSBOM
+
+      - name: Upload checksums
+        uses: actions/upload-artifact@v4
+        with:
+          name: winget-checksums
+          path: ${{ runner.temp }}/checksums/checksums.json
+          retention-days: 90
+
+  generate-manifests:
+    name: Generate WinGet Manifests
+    needs: [detect-release, generate-checksums]
+    runs-on: ubuntu-latest
+    if: needs.detect-release.outputs.should-submit == 'true'
+    outputs:
+      manifest-dir: ${{ steps.generate.outputs.manifest-dir }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download checksums
+        uses: actions/download-artifact@v4
+        with:
+          name: winget-checksums
+
+      - name: Generate WinGet manifests
+        id: generate
+        shell: pwsh
+        run: |
+          $Version = "${{ needs.detect-release.outputs.version }}"
+          $ManifestDir = "packaging/winget/manifests/t/ThemisDB/ThemisDB/$Version"
+          
+          # Create manifest directory
+          New-Item -ItemType Directory -Path $ManifestDir -Force | Out-Null
+          
+          # Read checksums
+          $Checksums = Get-Content checksums.json | ConvertFrom-Json
+          
+          # Find Windows installers in artifacts
+          $Zip64 = $Checksums.artifacts | Where-Object { $_.filename -match "windows.*x64.*\.zip" } | Select-Object -First 1
+          $Zip86 = $Checksums.artifacts | Where-Object { $_.filename -match "windows.*x86.*\.zip" } | Select-Object -First 1
+          
+          if (-not $Zip64) {
+            Write-Error "No x64 Windows ZIP artifact found"
+            exit 1
+          }
+          
+          # Build download URLs
+          $DownloadUrl64 = "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Zip64.filename)"
+          $DownloadUrl86 = if ($Zip86) { "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Zip86.filename)" } else { "" }
+          
+          # Generate root manifest (ThemisDB.ThemisDB.yaml)
+          $RootManifest = @"
+          PackageIdentifier: ThemisDB.ThemisDB
+          PackageVersion: $Version
+          PackageLocale: en-US
+          PackageName: ThemisDB
+          PackagePublisher: ThemisDB Contributors
+          PackageUrl: https://github.com/makr-code/ThemisDB
+          License: Apache-2.0
+          LicenseUrl: https://github.com/makr-code/ThemisDB/blob/develop/LICENSE
+          ShortDescription: Distributed knowledge graph database
+          Description: |
+            ThemisDB is a distributed, high-performance knowledge graph database
+            with built-in LLM integration and advanced graph algorithms.
+          Moniker: themisdb
+          Tags:
+            - database
+            - knowledge-graph
+            - distributed
+            - graph
+            - llm
+          "@
+          
+          $RootManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.yaml" -Encoding UTF8
+          
+          # Generate installer manifest
+          $InstallerManifest = @"
+          PackageIdentifier: ThemisDB.ThemisDB
+          PackageVersion: $Version
+          Platform:
+            - Windows.Desktop
+          MinimumOSVersion: '10.0.14393.0'
+          Scope: Machine
+          Installers:
+          "@
+          
+          # x64 installer entry
+          $InstallerManifest += @"
+          
+            - Architecture: x64
+              InstallerType: zip
+              InstallerUrl: $DownloadUrl64
+              InstallerSha256: $($Zip64.sha256)
+              ReleaseNotes: |
+                Build: #${{ github.run_number }} ($(Get-Date -Format 'yyyy-MM-dd'))
+                Release Type: stable
+                Commit: $(git rev-parse --short HEAD)
+          "@
+          
+          # x86 installer entry (if available)
+          if ($Zip86) {
+            $InstallerManifest += @"
+          
+            - Architecture: x86
+              InstallerType: zip
+              InstallerUrl: $DownloadUrl86
+              InstallerSha256: $($Zip86.sha256)
+              ReleaseNotes: |
+                Build: #${{ github.run_number }} ($(Get-Date -Format 'yyyy-MM-dd'))
+                Release Type: stable
+                Commit: $(git rev-parse --short HEAD)
+            "@
+          }
+          
+          $InstallerManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.installer.yaml" -Encoding UTF8
+          
+          # Generate locale manifest (en-US)
+          $LocaleManifest = @"
+          PackageIdentifier: ThemisDB.ThemisDB
+          PackageVersion: $Version
+          PackageLocale: en-US
+          LicenseUrl: https://github.com/makr-code/ThemisDB/blob/develop/LICENSE
+          ReleaseNotesUrl: https://github.com/makr-code/ThemisDB/releases/tag/v${Version}
+          "@
+          
+          $LocaleManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.locale.en-US.yaml" -Encoding UTF8
+          
+          Write-Host "✓ Generated manifests in: $ManifestDir"
+          echo "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
+
+  validate-manifests:
+    name: Validate WinGet Manifests
+    needs: generate-manifests
+    runs-on: windows-latest
+    if: needs.generate-manifests.outputs.manifest-dir != ''
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate manifests with winget
+        shell: pwsh
+        run: |
+          $ManifestDir = "${{ needs.generate-manifests.outputs.manifest-dir }}"
+          
+          Write-Host "Validating manifest directory: $ManifestDir"
+          
+          # winget validate requires the manifest root path
+          winget validate --manifest "$ManifestDir"
+          
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Manifest validation failed"
+            exit $LASTEXITCODE
+          }
+          
+          Write-Host "✓ Manifests are valid"
+
+  create-fork-pr:
+    name: Create PR to WinGet Community Repository
+    needs: [detect-release, validate-manifests, generate-manifests]
+    runs-on: ubuntu-latest
+    if: |
+      needs.generate-manifests.outputs.manifest-dir != '' &&
+      github.event_name != 'workflow_dispatch'  # Only auto-submit for release events
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Git for fork submission
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create fork PR (manual workflow for WinGet submission)
+        run: |
+          set -euo pipefail
+          
+          VERSION="${{ needs.detect-release.outputs.version }}"
+          MANIFEST_DIR="${{ needs.generate-manifests.outputs.manifest-dir }}"
+          
+          echo "::notice::Generated WinGet manifests for version $VERSION"
+          echo "::notice::Manifests located at: $MANIFEST_DIR"
+          echo "::notice::To submit to WinGet:"
+          echo "  1. Fork: https://github.com/microsoft/winget-pkgs"
+          echo "  2. Copy $MANIFEST_DIR to your fork"
+          echo "  3. Submit PR to microsoft/winget-pkgs"
+          echo ""
+          echo "Manifest files:"
+          ls -lh "$MANIFEST_DIR"
+
+      - name: Upload manifests as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: winget-manifests-${{ needs.detect-release.outputs.version }}
+          path: ${{ needs.generate-manifests.outputs.manifest-dir }}
+          retention-days: 90
+
+  notify:
+    name: Notify WinGet Submission
+    needs: [detect-release, generate-manifests]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Report WinGet submission status
+        run: |
+          echo "═══════════════════════════════════════════════════"
+          echo "WinGet Release Submission Status"
+          echo "═══════════════════════════════════════════════════"
+          echo "Version: ${{ needs.detect-release.outputs.version }}"
+          echo "Should Submit: ${{ needs.detect-release.outputs.should-submit }}"
+          echo "Manifests Generated: ${{ needs.generate-manifests.outputs.manifest-dir }}"
+          echo ""
+          echo "Next steps:"
+          echo "  1. Download winget-manifests artifact"
+          echo "  2. Fork: https://github.com/microsoft/winget-pkgs"
+          echo "  3. Copy manifests to your fork at:"
+          echo "     manifests/t/ThemisDB/ThemisDB/${{ needs.detect-release.outputs.version }}/"
+          echo "  4. Submit PR with title:"
+          echo "     'New package: ThemisDB.ThemisDB version ${{ needs.detect-release.outputs.version }}'"
+          echo "═══════════════════════════════════════════════════"
