@@ -214,7 +214,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string_view found_key = it.key();
 
     // Verify the found key belongs to the same base key (shares the prefix).
-    if (static_cast<int>(found_key.size()) < prefix.size() ||
+    if (static_cast<int>(found_key.size()) <static_cast<int>(prefix.size()) ||
         found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
         return std::nullopt;
     }

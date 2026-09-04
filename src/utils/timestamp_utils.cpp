@@ -33,7 +33,7 @@ namespace {
 // width is caller-controlled (max 4 for a 4-digit year) so overflow is not
 // possible for valid timestamps; we still guard against non-digit characters.
 int parseField(const std::string& s, size_t& pos, size_t width) {
-    if (pos + width > s.size()) {
+    if (pos + width > static_cast<int>(s.size())) {
         throw std::invalid_argument("TimestampUtils::parse: unexpected end of string");
     }
     if (width > 9) {
@@ -133,17 +133,17 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 
     // Optional fractional seconds
     int ms = 0;
-    if (pos < s.size() && s[pos] == '.') {
+    if (pos <static_cast<int>(s.size()) && s[pos] == '.') {
         ++pos;
         // Collect up to 3 digits; shorter fractions are left-padded with zeros.
         int digits = 0;
-        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9' && digits < 3) {
+        while (pos <static_cast<int>(s.size()) && s[pos] >= '0' && s[pos] <= '9' && digits < 3) {
             ms = ms * 10 + (s[pos] - '0');
             ++pos;
             ++digits;
         }
         // Skip remaining sub-millisecond digits
-        while (pos < s.size() && s[pos] >= '0' && s[pos] <= '9') {
+        while (pos <static_cast<int>(s.size()) && s[pos] >= '0' && s[pos] <= '9') {
           ++pos;
         }
         for (; digits < 3; ++digits) {

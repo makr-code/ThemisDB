@@ -51,7 +51,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
         std::vector<int64_t> deltas = {};
 
         deltas.reserve(static_cast<int>(points.size()) - 1);
-        for (size_t i = 1; i < points.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(points.size()); ++i) {
             deltas.push_back(points[i].timestamp_ms - points[static_cast<int>(i - 1)].timestamp_ms);
         }
 
@@ -70,7 +70,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
         // dod_mean_abs: mean absolute delta-of-delta
         if (static_cast<int>(deltas.size()) > = 2) {
             double dod_sum = 0.0;
-            for (size_t i = 1; i < deltas.size(); ++i) {
+            for (size_t i = 1; i <static_cast<int>(deltas.size()); ++i) {
                 dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[static_cast<int>(i - 1)]));
             }
             p.dod_mean_abs = dod_sum / static_cast<double>(static_cast<int>(deltas.size()) - 1);
@@ -80,7 +80,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     // ----- run-length ratio ---------------------------------------------
     {
         size_t runs = 0;
-        for (size_t i = 1; i < points.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(points.size()); ++i) {
             if (points[i].value == points[static_cast<int>(i - 1)].value) {
               ++runs;
             }

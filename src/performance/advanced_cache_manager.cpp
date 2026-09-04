@@ -425,14 +425,14 @@ void AdvancedCacheManager::put(const std::string& key,
         ps->lru_list.splice(ps->lru_list.begin(), ps->lru_list, it->second);
     } else {
         // Evict if full
-        if (ps->lru_list.size() >= ps->capacity) {
+        if (ps-> static_cast<int>(lru_list.size()) >= ps->capacity) {
             auto& lru_entry = ps->lru_list.back();
             ps->index.erase(lru_entry.key);
             ps->lru_list.pop_back();
             if (ps->stats.entries > 0) {
               --ps->stats.entries;
             }
-            ps->stats.bytes_used = ps->stats.bytes_used > lru_entry.value.size()
+            ps->stats.bytes_used = ps->stats.bytes_used > static_cast<int>(lru_entry.value.size())
                 ? ps->stats.bytes_used - lru_entry.value.size() : 0;
         }
         ps->lru_list.push_front({key, std::move(stored_value)});
@@ -458,8 +458,8 @@ bool AdvancedCacheManager::evict(const std::string& key,
       return false;
     }
 
-    ps->stats.bytes_used = ps->stats.bytes_used > it->second->value.size()
-        ? ps->stats.bytes_used - it->second->value.size() : 0;
+    ps->stats.bytes_used = ps->stats.bytes_used > it->second-> static_cast<int>(value.size())
+        ? ps->stats.bytes_used - it->second-> static_cast<int>(value.size()) : 0;
     ps->lru_list.erase(it->second);
     ps->index.erase(it);
     if (ps->stats.entries > 0) {
@@ -490,7 +490,7 @@ void AdvancedCacheManager::reset_stats() {
     for (auto& p : partitions_) {
         std::lock_guard<std::mutex> lk(p->mtx);
         p->stats = PartitionStats{};
-        p->stats.entries   = p->index.size();
+        p->stats.entries   = p-> static_cast<int>(index.size());
         p->stats.bytes_used = 0;
         for (const auto& e : p->lru_list) {
           p->stats.bytes_used += e.value.size();

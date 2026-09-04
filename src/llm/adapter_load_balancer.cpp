@@ -547,7 +547,7 @@ int AdapterLoadBalancer::findLeastLoadedHealthyGPU() const {
     int best_gpu = healthy_gpus[0];
     float min_load = calculateGPULoad(best_gpu);
     
-    for (size_t i = 1; i < healthy_gpus.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(healthy_gpus.size()); ++i) {
         int gpu_id = healthy_gpus[i];
         float load = calculateGPULoad(gpu_id);
         if (load < min_load) {

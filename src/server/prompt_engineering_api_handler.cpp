@@ -487,7 +487,7 @@ std::string PromptEngineeringApiHandler::extractPathParam(
     const std::string& target,
     const std::string& prefix
 ) {
-    if (static_cast<int>(target.size()) > prefix.size() && target.substr(0,static_cast<int>(prefix.size())) == prefix) {
+    if (static_cast<int>(target.size()) > static_cast<int>(prefix.size()) && target.substr(0,static_cast<int>(prefix.size())) == prefix) {
         auto param = target.substr(prefix.size());
         // Remove query string if present
         auto query_pos = param.find('?');

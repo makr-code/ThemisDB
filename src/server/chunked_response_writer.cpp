@@ -27,7 +27,7 @@ namespace server {
 void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& data) {
     // chunk-size in hex
     std::ostringstream hex = {};
-    hex << std::hex << data.size();
+    hex << std::hex <<static_cast<int>(data.size());
     out += hex.str();
     out += "\r\n";
     out += data;
@@ -168,7 +168,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
     std::string result = {};
     size_t pos = 0;
-    while (static_cast<size_t>(pos) < encoded.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(encoded.size())) {
         // Find CRLF that ends the chunk-size line
         size_t crlf = encoded.find("\r\n", pos);
         if (crlf == std::string::npos) {
@@ -190,7 +190,7 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
             // Terminal chunk
             break;
         }
-        if (pos + chunk_size > encoded.size()) {
+        if (pos + chunk_size > static_cast<int>(encoded.size())) {
             // Truncated – take what we have
             THEMIS_WARN("decodeChunkedBody: truncated chunk (expected {} bytes, {} available); returning partial data",
                         chunk_size, static_cast<int>(encoded.size()) - pos);

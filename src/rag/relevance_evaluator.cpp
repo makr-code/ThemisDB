@@ -59,7 +59,7 @@ struct RelevanceEvaluator::Impl {
             freq[t] += 1.0;
         }
         std::vector<double> vec(vocab.size(), 0.0);
-        for (size_t i = 0; i < vocab.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(vocab.size()); ++i) {
             auto it = freq.find(vocab[i]);
             if (it != freq.end()) {
                 vec[i] = it->second;
@@ -74,7 +74,7 @@ struct RelevanceEvaluator::Impl {
         const std::vector<double>& b
     ) {
         double dot = 0.0, na = 0.0, nb = 0.0;
-        for (size_t i = 0; i < a.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
             dot += a[i] * b[i];
             na  += a[i] * a[i];
             nb  += b[i] * b[i];

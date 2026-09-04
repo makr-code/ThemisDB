@@ -670,7 +670,7 @@ public:
         std::vector<std::pair<float, size_t>> distances;
         distances.reserve(vectorData.size());
         
-        for (size_t i = 0; i < vectorData.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(vectorData.size()); ++i) {
             float dist = computeDistance(query.data(), vectorData[i].data(), dimension);
             distances.emplace_back(dist, i);
         }
@@ -1104,7 +1104,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     // reserve once and append directly to avoid per-item upsert and backend checks.
     bool canUseFastPath = (pImpl->oversubManager == nullptr);
     if (canUseFastPath) {
-        for (size_t i = 0; i < ids.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
             if (vectors[i].size() != static_cast<size_t>(dim) ||
                 pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
                 canUseFastPath = false;
@@ -1124,13 +1124,13 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
             }
         }
 
-        const size_t baseIndex = pImpl->vectorData.size();
+        const size_t baseIndex = pImpl-> static_cast<int>(vectorData.size());
         try {
             pImpl->vectorIds.reserve(baseIndex + ids.size());
             pImpl->vectorData.reserve(baseIndex + vectors.size());
             pImpl->idToIndex.reserve(baseIndex + ids.size());
 
-            for (size_t i = 0; i < ids.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
                 pImpl->vectorIds.push_back(ids[i]);
                 pImpl->vectorData.push_back(vectors[i]);
                 pImpl->idToIndex.emplace(pImpl->vectorIds.back(), baseIndex + i);
@@ -1165,14 +1165,14 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
         }
         #endif
 
-        pImpl->stats.numVectors = pImpl->vectorData.size();
+        pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
         return true;
     }
 
     // Suppress per-vector partition rebuilds during bulk ingestion; a single
     // rebuild at the end is far cheaper than one rebuild per vector (O(n²)).
     pImpl->oversubBulkLoading_ = true;
-    for (size_t i = 0; i < ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
         if (!pImpl->addVector(ids[i], vectors[i])) {
             pImpl->oversubBulkLoading_ = false;
             return false;
@@ -1244,7 +1244,7 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
                 queryResults.reserve(queryIndices.size());
                 
                 for (const auto& [distance, index] : queryIndices) {
-                    if (index < pImpl->vectorIds.size()) {
+                    if (index < pImpl-> static_cast<int>(vectorIds.size())) {
                         queryResults.push_back({pImpl->vectorIds[index], distance});
                     }
                 }
@@ -1370,7 +1370,7 @@ bool GPUVectorIndex::saveIndex(const std::string& path) {
     int32_t dim = pImpl->dimension;
     ofs.write(reinterpret_cast<const char*>(&dim), sizeof(dim));
 
-    size_t numVectors = pImpl->vectorIds.size();
+    size_t numVectors = pImpl-> static_cast<int>(vectorIds.size());
     ofs.write(reinterpret_cast<const char*>(&numVectors), sizeof(numVectors));
 
     int32_t metric = static_cast<int32_t>(pImpl->config.metric);
@@ -1608,7 +1608,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
             pImpl->rebuildOversubPartitions();
         }
 
-        pImpl->stats.numVectors = pImpl->vectorData.size();
+        pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
         return true;
     };
     
@@ -1627,7 +1627,7 @@ bool GPUVectorIndex::switchBackend(Backend backend) {
         pImpl->rebuildOversubPartitions();
     }
 
-    pImpl->stats.numVectors = pImpl->vectorData.size();
+    pImpl->stats.numVectors = pImpl-> static_cast<int>(vectorData.size());
     
     return true;
 }

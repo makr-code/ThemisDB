@@ -60,7 +60,7 @@ Tensor Tensor::operator+(const Tensor& other) const {
     }
     
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] + other.data_[i];
     }
     return result;
@@ -72,7 +72,7 @@ Tensor Tensor::operator-(const Tensor& other) const {
     }
     
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] - other.data_[i];
     }
     return result;
@@ -80,7 +80,7 @@ Tensor Tensor::operator-(const Tensor& other) const {
 
 Tensor Tensor::operator*([[maybe_unused]] float scalar) const {
     Tensor result(shape_);
-    for (size_t i = 0; i < data_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data_.size()); ++i) {
         result.data_[i] = data_[i] * scalar;
     }
     return result;

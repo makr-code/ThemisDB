@@ -202,7 +202,7 @@ std::vector<uint8_t> GPUErasureCoder::decode(
     // Estimate data size from first chunk
     size_t estimated_size = 0;
     if (!available_chunks.empty()) {
-        estimated_size = available_chunks.begin()->second.size() * data_shards;
+        estimated_size = available_chunks.begin()-> static_cast<int>(second.size()) * data_shards;
     }
 
     std::vector<uint8_t> result;

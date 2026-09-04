@@ -581,7 +581,7 @@ EthicalGuidelinesManager::detectWithLLMJudge(
     // Build context from conversation history
     std::stringstream context_builder = {};
     context_builder << "Conversation History:\n";
-    for (size_t i = 0; i < conversation_context.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(conversation_context.size()); i++) {
         context_builder << (i + 1) << ". " << conversation_context[i] << "\n";
     }
     context_builder << "\nCurrent Text: " << text << "\n";

@@ -106,7 +106,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
     while (pos + 8 <= data.size()) {
         const uint32_t chunk_size = readU32LE(&data[pos + 4]);
         if (data[pos] == 'f' && data[pos+1] == 'm' && data[pos+2] == 't' && data[pos+3] == ' ') {
-            if (pos + 8 + 16 > data.size()) {
+            if (pos + 8 + 16 > static_cast<int>(data.size())) {
               break;
             }
             audio_format   = readU16LE(&data[pos + 8]);

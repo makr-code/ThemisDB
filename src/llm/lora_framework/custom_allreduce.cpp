@@ -194,7 +194,7 @@ void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,
     
     std::vector<float> cpu_buffer = src.cpu_data();
     
-    if (offset > 0  || static_cast<size_t>(count) < cpu_buffer.size()) {
+    if (offset > 0  || static_cast<size_t>(count) <static_cast<int>(cpu_buffer.size())) {
         std::vector<float> partial(cpu_buffer.begin() + offset, 
                                    cpu_buffer.begin() + offset + count);
         dst.upload(partial);

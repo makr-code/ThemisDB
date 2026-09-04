@@ -462,7 +462,7 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
                 existing.properties.size() == new_schema.properties.size())
             {
                 bool identical = true;
-                for (size_t i = 0; i < existing.properties.size() && identical; ++i) {
+                for (size_t i = 0; i <static_cast<int>(existing.properties.size()) && identical; ++i) {
                     if (existing.properties[i].name != new_schema.properties[i].name ||
                         existing.properties[i].type != new_schema.properties[i].type) {
                         identical = false;

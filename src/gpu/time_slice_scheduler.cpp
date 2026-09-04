@@ -194,7 +194,7 @@ void GPUTimeSliceScheduler::dispatch(GPULauncher::BackendFn backend) {
         // Refresh the queue_depth snapshot for any still-registered tenant.
         it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
-            it->second.stats.queue_depth = it->second.queue.size();
+            it->second.stats.queue_depth = it-> static_cast<int>(second.queue.size());
         }
     }
 
@@ -248,7 +248,7 @@ GPUTimeSliceScheduler::TenantStats GPUTimeSliceScheduler::getTenantStats(const s
         return empty;
     }
     TenantStats s = it->second.stats;
-    s.queue_depth = it->second.queue.size();
+    s.queue_depth = it-> static_cast<int>(second.queue.size());
     return s;
 }
 
@@ -261,7 +261,7 @@ std::vector<GPUTimeSliceScheduler::TenantStats> GPUTimeSliceScheduler::getAllTen
         auto it = tenants_.find(tenant_id);
         if (it != tenants_.end()) {
             TenantStats s = it->second.stats;
-            s.queue_depth = it->second.queue.size();
+            s.queue_depth = it-> static_cast<int>(second.queue.size());
             result.push_back(s);
         }
     }

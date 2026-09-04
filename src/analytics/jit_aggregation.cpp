@@ -186,7 +186,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
     const size_t n = input.rowCount();
     std::vector<JitAggState> states(specs.size());
 
-    for (size_t s = 0; s < specs.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs.size()); ++s) {
         const auto &spec = specs[s];
         auto &st         = states[s];
 
@@ -278,7 +278,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
     }
 
     ColumnBatch result(1);
-    for (size_t s = 0; s < specs.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs.size()); ++s) {
         double val   = finalizeAggJit(states[s], specs[s].function);
         auto out_col = std::make_shared<Column>(specs[s].result_name, ColumnType::Double);
         out_col->appendDouble(val);
@@ -315,7 +315,7 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
         } // Hot path (existing key): iterator remains valid; fall through.
 
         auto &states = it->second;
-        for (size_t s = 0; s < specs.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(specs.size()); ++s) {
             const auto &spec = specs[s];
             auto &st         = states[s];
 
@@ -383,7 +383,7 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
     }
 
     // Aggregate measure columns.
-    for (size_t s = 0; s < specs.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs.size()); ++s) {
         auto out_col = std::make_shared<Column>(specs[s].result_name, ColumnType::Double);
         out_col->reserve(num_rows);
         for (const auto &k : key_order) {

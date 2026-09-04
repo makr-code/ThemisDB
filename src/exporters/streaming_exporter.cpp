@@ -50,7 +50,7 @@ std::vector<BaseEntity> VectorExportCursor::nextPage() {
 }
 
 bool VectorExportCursor::seekTo([[maybe_unused]] size_t offset) {
-    if (offset > entities_.size()) {
+    if (offset > static_cast<int>(entities_.size())) {
         return false;
     }
     offset_ = offset;

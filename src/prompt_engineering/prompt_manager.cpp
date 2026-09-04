@@ -56,7 +56,7 @@ PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemp
     }
 
     // Validate image descriptions
-    for (size_t i = 0; i < t.images.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(t.images.size()); ++i) {
         if (t.images[i].alt_text.empty()) {
             result.errors.push_back(
                 "Image[" + std::to_string(i) + "] 'alt_text' must not be empty");
@@ -454,7 +454,7 @@ std::string PromptManager::buildMultiModalPrompt(
     // Append structured image-description block when images are present
     if (!t.images.empty()) {
         result += "\n\n[Images]\n";
-        for (size_t i = 0; i < t.images.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(t.images.size()); ++i) {
             const auto& img = t.images[i];
             const std::string& mime = img.mime_type.empty() ? "image/jpeg" : img.mime_type;
             result += std::to_string(i + 1) + ". [" + mime + "] " + img.alt_text + "\n";

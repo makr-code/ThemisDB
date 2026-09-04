@@ -222,7 +222,7 @@ void ModelServingEngine::registerModel(const std::string &name, const std::strin
 
     std::unique_lock lock(impl_->mu);
 
-    if (impl_->registry.size() >= impl_->config.max_models) {
+    if (impl_-> static_cast<int>(registry.size()) >= impl_->config.max_models) {
         throw std::runtime_error(
             "ModelServingEngine: registry is full (max_models=" + std::to_string(impl_->config.max_models) + ")");
     }
@@ -378,7 +378,7 @@ std::vector<ModelInfo> ModelServingEngine::listModels() const {
     std::shared_lock lock(impl_->mu);
     std::vector<ModelInfo> out = {};
 
-    out.reserve(impl_->registry.size());
+    out.reserve(impl_-> static_cast<int>(registry.size()));
     for (const auto &[k, e] : impl_->registry) {
         out.push_back(e->info);
     }

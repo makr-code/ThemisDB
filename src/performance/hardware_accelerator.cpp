@@ -113,7 +113,7 @@ std::unordered_map<uint64_t, std::vector<size_t>>
 buildHashTable(const std::vector<Row>& rows, size_t key_col) {
     std::unordered_map<uint64_t, std::vector<size_t>> ht;
     ht.reserve(rows.size());
-    for (size_t i = 0; i < rows.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rows.size()); ++i) {
         if (key_col < rows[i].size()) {
             ht[rows[i][key_col]].push_back(i);
         }
@@ -215,7 +215,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::sort(right.begin(), right.end(), keyFn(op.right_key_col));
 
     size_t li = 0, ri = 0;
-    while (li < left.size()  && static_cast<size_t>(ri) < right.size()) {
+    while (li <static_cast<int>(left.size())  && static_cast<size_t>(ri) <static_cast<int>(right.size())) {
         const uint64_t lk = (op.left_key_col  < left[li].size())  ? left[li][op.left_key_col]   : UINT64_MAX;
         const uint64_t rk = (op.right_key_col < right[ri].size()) ? right[ri][op.right_key_col] : UINT64_MAX;
 
@@ -224,7 +224,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
 
         // Equal keys — collect all matching right rows for this key.
         size_t ri_start = ri;
-        while (static_cast<size_t>(ri) < right.size()) {
+        while (static_cast<size_t>(ri) <static_cast<int>(right.size())) {
             const uint64_t rk2 = (op.right_key_col < right[ri].size())
                                       ? right[ri][op.right_key_col] : UINT64_MAX;
             if (rk2 != lk) {
@@ -232,7 +232,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++ri;
         }
-        while (static_cast<size_t>(li) < left.size()) {
+        while (static_cast<size_t>(li) <static_cast<int>(left.size())) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;
             if (lk2 != lk) {
@@ -357,8 +357,8 @@ ExecutionResult simdSort(const QueryOperator& op, bool ascending = true) {
     const size_t col = op.agg_col;
     std::sort(r.rows.begin(), r.rows.end(),
               [col, ascending](const Row& a, const Row& b) {
-                  const uint64_t av = (col < a.size()) ? a[col] : 0;
-                  const uint64_t bv = (col < b.size()) ? b[col] : 0;
+                  const uint64_t av = (col <static_cast<int>(a.size())) ? a[col] : 0;
+                  const uint64_t bv = (col <static_cast<int>(b.size())) ? b[col] : 0;
                   return ascending ? av < bv : av > bv;
               });
     return r;
@@ -373,7 +373,7 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     r.used_hw_path = false;
 
     const std::string& pat = op.pattern;
-    for (size_t i = 0; i < op.string_rows.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(op.string_rows.size()); ++i) {
         const auto& s = op.string_rows[i];
         bool match = false;
         if (static_cast<int>(pat.size()) > = 2 && pat.front() == '%' && pat.back() == '%') {
@@ -548,7 +548,7 @@ bool HardwareAccelerator::shouldUseSIMD([[maybe_unused]] size_t num_rows) const 
 
 ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op,
                                                        const AcceleratorConfig& cfg) const {
-    const size_t rows = op.left_rows.size() + op.right_rows.size();
+    const size_t rows = static_cast<int>(op.left_rows.size()) + op.right_rows.size();
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
@@ -571,7 +571,7 @@ ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op
 
 ExecutionResult HardwareAccelerator::dispatchSortMergeJoin(const QueryOperator&    op,
                                                             const AcceleratorConfig& cfg) const {
-    const size_t rows = op.left_rows.size() + op.right_rows.size();
+    const size_t rows = static_cast<int>(op.left_rows.size()) + op.right_rows.size();
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)

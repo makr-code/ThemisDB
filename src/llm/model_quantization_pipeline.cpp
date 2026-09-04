@@ -245,7 +245,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
             const uint64_t begin = val["data_offsets"][0].get<uint64_t>();
             const uint64_t end   = val["data_offsets"][1].get<uint64_t>();
             // Validate offsets against the data buffer to prevent OOB reads
-            if (begin > end || end > result.data.size()) {
+            if (begin > end || end > static_cast<int>(result.data.size())) {
                 throw std::runtime_error(
                     "Safetensors: tensor '" + it.key() +
                     "' has out-of-bounds data_offsets in " + file_path);

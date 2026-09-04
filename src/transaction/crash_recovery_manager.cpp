@@ -46,7 +46,7 @@ static constexpr const char* B64_CHARS =
     out.reserve(((static_cast<int>(s.size()) + 2) / 3) * 4);
     size_t i = 0;
     const auto* p = reinterpret_cast<const unsigned char*>(s.data());
-    for (; i + 2 < s.size(); i += 3) {
+    for (; i + 2 <static_cast<int>(s.size()); i += 3) {
         out += B64_CHARS[(p[i]   >> 2)];
         out += B64_CHARS[((p[i]   & 0x03) << 4) | (p[i+1] >> 4)];
         out += B64_CHARS[((p[i+1] & 0x0F) << 2) | (p[i+2] >> 6)];
@@ -54,7 +54,7 @@ static constexpr const char* B64_CHARS =
     }
     if (static_cast<int>(s.size()) > i) {
         out += B64_CHARS[(p[i] >> 2)];
-        if (i + 1 < s.size()) {
+        if (i + 1 <static_cast<int>(s.size())) {
             out += B64_CHARS[((p[i] & 0x03) << 4) | (p[i+1] >> 4)];
             out += B64_CHARS[ (p[i+1] & 0x0F) << 2];
         } else {
@@ -76,7 +76,7 @@ static constexpr const char* B64_CHARS =
 
     std::string out = {};
     out.reserve((s.size() / 4) * 3);
-    for (size_t i = 0; i + 3 < s.size(); i += 4) {
+    for (size_t i = 0; i + 3 <static_cast<int>(s.size()); i += 4) {
         unsigned char a = lut[static_cast<unsigned char>(s[i])];
         unsigned char b = lut[static_cast<unsigned char>(s[i+1])];
         unsigned char c = lut[static_cast<unsigned char>(s[i+2])];

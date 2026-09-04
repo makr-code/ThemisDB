@@ -152,7 +152,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
         if      (tr.vector_geo.has_value())   { request_type = "vector_geo";    }
         else if (tr.content_geo.has_value())  { request_type = "content_geo";   }
         else if (tr.disjunctive.has_value())  { request_type = "or_disjunctive";
-            shard_count = static_cast<int>(tr.disjunctive->disjuncts.size());   }
+            shard_count = static_cast<int>(tr.disjunctive-> static_cast<int>(disjuncts.size()));   }
         else if (tr.traversal.has_value())    { request_type = "graph_traversal"; }
         else if (tr.join.has_value())         { request_type = "join";           }
         else if (tr.spatial_join.has_value()) { request_type = "spatial_join";   }
@@ -564,7 +564,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
 
     // COMMIT: execute each statement in sequence and collect results
     nlohmann::json results = nlohmann::json::array();
-    for (std::size_t i = 0; i < block.statements.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(block.statements.size()); ++i) {
         const auto& stmt = block.statements[i];
         if (!stmt) {
             return Err<nlohmann::json>(
@@ -756,7 +756,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     nlohmann::json results = nlohmann::json::array();
 
-    for (std::size_t i = 0; i < block.ordered_statements.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(block.ordered_statements.size()); ++i) {
         const auto& s = block.ordered_statements[i];
         nlohmann::json stmtResult;
 

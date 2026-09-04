@@ -914,8 +914,8 @@ void AutoRebalancer::handleTopologyChange() {
     }
     
     // Topology has changed - detect join or leave
-    bool is_join = current_topology.size() > last_known_topology_.size();
-    bool is_leave = current_topology.size() < last_known_topology_.size();
+    bool is_join = current_topology.size() > static_cast<int>(last_known_topology_.size());
+    bool is_leave = current_topology.size() <static_cast<int>(last_known_topology_.size());
     
     THEMIS_WARN("Topology change detected: {} (was {}, now {} nodes)",
                is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN"),

@@ -335,7 +335,7 @@ TensorButterflyOperator::build(OperatorType                      type,
     }
 
     // Validate grid_shape for FOURIER (WHT requires power-of-2 mode sizes).
-    for (std::size_t k = 0; k < grid_shape.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(grid_shape.size()); ++k) {
         if (!isPow2(grid_shape[k])) {
             std::ostringstream oss = {};
             oss << "TensorButterflyOperator::build: grid_shape[" << k
@@ -365,7 +365,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // `result` is an intentional value-copy of `data` (mutated in-place).
     auto applyFiberFn = [](const std::function<void(std::vector<float>&)>& fn,
                            storage::TTTrain result) {
-        for (std::size_t k = 0; k < result.cores.size(); ++k) {
+        for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ++k) {
             auto& core        = result.cores[k];
             const std::size_t r_left  = core.r_left;
             const std::size_t n_k     = core.n;
@@ -466,12 +466,12 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // Validate shape compatibility
     if (static_cast<int>(data.cores.size()) != cfg_.grid_shape.size()) {
         std::ostringstream oss = {};
-        oss << "TensorButterflyOperator::apply: data has " << data.cores.size()
-            << " modes but operator was built for " << cfg_.grid_shape.size()
+        oss << "TensorButterflyOperator::apply: data has " <<static_cast<int>(data.cores.size())
+            << " modes but operator was built for " <<static_cast<int>(cfg_.grid_shape.size())
             << " modes.";
         throw std::invalid_argument(oss.str());
     }
-    for (std::size_t k = 0; k < data.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(data.cores.size()); ++k) {
         if (data.cores[k].n != cfg_.grid_shape[k]) {
             std::ostringstream oss = {};
             oss << "TensorButterflyOperator::apply: data mode " << k
@@ -493,7 +493,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // Stride pattern: elements for fixed (α_l, α_r) are NOT contiguous;
     // they step by r_r along i.  We extract into a temporary buffer,
     // transform, and scatter back.
-    for (std::size_t k = 0; k < result.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ++k) {
         auto& core        = result.cores[k];
         const std::size_t r_left  = core.r_left;
         const std::size_t n_k     = core.n;
@@ -569,7 +569,7 @@ std::string TensorButterflyOperator::describe() const {
         case OperatorType::GREENS_FUNCTION: oss << "GREENS(trapezoidal)"; break;
     }
     oss << ", shape=[";
-    for (std::size_t i = 0; i < cfg_.grid_shape.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(cfg_.grid_shape.size()); ++i) {
         if (i) {
           oss << ',';
         }

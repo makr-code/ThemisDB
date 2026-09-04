@@ -248,7 +248,7 @@ bool CTEEvaluator::areResultsEqual(
     }
     
     // Simple comparison - could be optimized
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         if (a[i] != b[i]) {
             return false;
         }

@@ -27,7 +27,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
             ") does not match column count (" + std::to_string(columns_.size()) + ")");
     }
 
-    for (size_t i = 0; i < row_data.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(row_data.size()); ++i) {
         columns_[i].data.push_back(row_data[i]);
         
         // Track null values
@@ -74,11 +74,11 @@ std::string ArrowRecordBatch::toJSON() const {
     oss << "{\n";
     oss << "  \"metadata\": {\n";
     oss << "    \"row_count\": " << row_count_ << ",\n";
-    oss << "    \"column_count\": " << columns_.size() << "\n";
+    oss << "    \"column_count\": " <<static_cast<int>(columns_.size()) << "\n";
     oss << "  },\n";
     oss << "  \"schema\": [\n";
     
-    for (size_t i = 0; i < columns_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(columns_.size()); ++i) {
         const auto& col = columns_[i];
         oss << "    {\n";
         oss << "      \"name\": \"" << col.schema.name << "\",\n";
@@ -120,7 +120,7 @@ std::string ArrowRecordBatch::toJSON() const {
     for (size_t row = 0; row < sample_rows; ++row) {
         oss << "    {";
         
-        for (size_t col = 0; col < columns_.size(); ++col) {
+        for (size_t col = 0; col <static_cast<int>(columns_.size()); ++col) {
             const auto& column = columns_[col];
             oss << "\"" << column.schema.name << "\": ";
             

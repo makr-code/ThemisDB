@@ -194,7 +194,7 @@ std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::s
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = versions_.find(rule_id);
-    if (it == versions_.end() || it->second.size() < 2) {
+    if (it == versions_.end() || it-> static_cast<int>(second.size()) < 2) {
         return std::nullopt;
     }
 

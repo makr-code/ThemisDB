@@ -150,7 +150,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     result.download_path = version_dir;
     
     // Download files
-    size_t file_count = manifest->files.size();
+    size_t file_count = manifest-> static_cast<int>(files.size());
     size_t current_file = 0;
     
     for (const auto& file : manifest->files) {
@@ -268,7 +268,7 @@ ReloadResult HotReloadEngine::applyHotReload(
 
     // Apply updates
     reportProgress(50, "Applying updates");
-    size_t file_count = manifest->files.size();
+    size_t file_count = manifest-> static_cast<int>(files.size());
     size_t current_file = 0;
 
     std::string version_dir = config_.download_directory + "/" + version;
@@ -526,7 +526,7 @@ void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
     }
     
     // Delete old rollback points
-    for (size_t i = keep_count; i < rollback_points.size(); i++) {
+    for (size_t i = keep_count; i <static_cast<int>(rollback_points.size()); i++) {
         std::string rollback_dir = config_.backup_directory + "/" + rollback_points[i].first;
         try {
             fs::remove_all(rollback_dir);

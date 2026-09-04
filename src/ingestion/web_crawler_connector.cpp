@@ -102,7 +102,7 @@ static std::string resolveUrl(const std::string& base,
     auto q = base.find('?');
     std::string base_path = (q != std::string::npos) ? base.substr(0, q) : base;
     auto slash = base_path.rfind('/');
-    if (slash == std::string::npos  || static_cast<size_t>(slash) < origin.size()) {
+    if (slash == std::string::npos  || static_cast<size_t>(slash) <static_cast<int>(origin.size())) {
         return origin + '/' + href;
     }
     return base_path.substr(0, slash + 1) + href;
@@ -125,7 +125,7 @@ static std::string htmlToText(const std::string& html) {
 
     auto startsWithCI = [&](size_t pos, const char* needle) {
         size_t n = std::strlen(needle);
-        if (pos + n > html.size()) {
+        if (pos + n > static_cast<int>(html.size())) {
           return false;
         }
         for (size_t i = 0; i < n; ++i) {
@@ -136,7 +136,7 @@ static std::string htmlToText(const std::string& html) {
         return true;
     };
 
-    for (size_t i = 0; i < html.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(html.size()); ++i) {
         char c = html[i];
         if (c == '<') {
             // Check for <script or <style blocks to skip entirely
@@ -165,11 +165,11 @@ static std::string htmlToText(const std::string& html) {
 
         // Basic entity decoding
         if (c == '&') {
-            if (i + 4 < html.size() && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
-            if (i + 3 < html.size() && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
-            if (i + 5 < html.size() && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
-            if (i + 5 < html.size() && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
+            if (i + 4 <static_cast<int>(html.size()) && html.substr(i, 5) == "&amp;")  { text += '&'; i += 4; continue; }
+            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == "<")   { text += '<'; i += 3; continue; }
+            if (i + 3 <static_cast<int>(html.size()) && html.substr(i, 4) == ">")   { text += '>'; i += 3; continue; }
+            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&quot;") { text += '"'; i += 5; continue; }
+            if (i + 5 <static_cast<int>(html.size()) && html.substr(i, 6) == "&apos;") { text += '\''; i += 5; continue; }
         }
 
         text += c;
@@ -199,7 +199,7 @@ static std::string htmlToText(const std::string& html) {
 static std::vector<std::string> extractHrefs(const std::string& html) {
     std::vector<std::string> hrefs;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) < html.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(html.size())) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
         if (a_pos == std::string::npos) {
@@ -208,7 +208,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         // Check "a " or "a\t" or "a>"
         size_t tag_start = a_pos + 1;
         // Skip whitespace after <
-        while (tag_start < html.size() && html[tag_start] == ' ') {
+        while (tag_start <static_cast<int>(html.size()) && html[tag_start] == ' ') {
           ++tag_start;
         }
         if (tag_start >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
@@ -248,7 +248,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
                 } else {
                     // Unquoted
                     auto val_end = val_start;
-                    while (val_end < tag.size() && tag[val_end] != ' ' &&
+                    while (val_end <static_cast<int>(tag.size()) && tag[val_end] != ' ' &&
                            tag[val_end] != '>' && tag[val_end] != '\t')
                         ++val_end;
                     hrefs.push_back(tag.substr(val_start, val_end - val_start));
@@ -267,7 +267,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     size_t pos = 0;
     const std::string open  = "<loc>";
     const std::string close = "</loc>";
-    while (static_cast<size_t>(pos) < xml.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(xml.size())) {
         auto start = xml.find(open, pos);
         if (start == std::string::npos) {
           break;

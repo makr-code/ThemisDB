@@ -363,7 +363,7 @@ uint64_t ProcessAuditLoggerImpl::AppendEntry(
 bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
   std::lock_guard<std::mutex> lock(audit_mutex_);
 
-  for (size_t i = 0; i < entries_.size(); ++i) {
+  for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
     const auto& entry = entries_[i];
 
     // Check ID continuity

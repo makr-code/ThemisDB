@@ -114,7 +114,7 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
         case 2:
         [[fallthrough]];\n        case 3: // byte / text string
             pos = cborReadArg(d, pos, arg);
-            if (pos + arg > d.size()) {
+            if (pos + arg > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: string out of bounds (skip)");
             }
             return pos + static_cast<size_t>(arg);
@@ -182,7 +182,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
         }
         uint64_t klen = {};
         pos = cborReadArg(d, pos, klen);
-        if (pos + klen > d.size()) {
+        if (pos + klen > static_cast<int>(d.size())) {
             throw std::runtime_error("CBOR: key text out of bounds");
         }
         const std::string key(d.begin() + pos, d.begin() + pos + klen);
@@ -194,7 +194,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             }
             uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: fmt text out of bounds");
             }
             fmt.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -206,7 +206,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             }
             uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: authData out of bounds");
             }
             auth_data.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -287,7 +287,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         auto readBytes = [&]() -> std::vector<uint8_t> {
             uint64_t vlen = 0;
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
                 throw std::runtime_error("CBOR: byte value out of bounds");
             }
             std::vector<uint8_t> b(d.begin() + pos, d.begin() + pos + vlen);
@@ -411,7 +411,7 @@ static std::vector<uint8_t> base64UrlDecodeImpl(const std::string &input) {
 
     out.reserve(padded.size() / 4 * 3);
 
-    for (std::size_t i = 0; i < padded.size(); i += 4) {
+    for (std::size_t i = 0; i <static_cast<int>(padded.size()); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
         const int8_t b = kDec[static_cast<uint8_t>(padded[i + 1])];
         const int8_t c = kDec[static_cast<uint8_t>(padded[i + 2])];

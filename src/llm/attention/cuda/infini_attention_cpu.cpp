@@ -245,7 +245,7 @@ float validateNumericConsistency(
     double total_error = 0.0;
     size_t count = 0;
     
-    for (size_t i = 0; i < cpu_output.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cpu_output.size()); ++i) {
         float cpu_val = cpu_output[i];
         float cuda_val = cuda_output[i];
         

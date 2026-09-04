@@ -2736,7 +2736,7 @@ namespace {
         
         std::string query_string = target_str.substr(query_pos + 1);
         size_t pos = 0;
-        while (static_cast<size_t>(pos) < query_string.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(query_string.size())) {
             auto eq_pos = query_string.find('=', pos);
             if (eq_pos == std::string::npos) {
               break;
@@ -4120,7 +4120,7 @@ namespace {
     {
         static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
         if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
-            path_only.size() > kGrpcWebPrefix.size()) {
+            path_only.size() > static_cast<int>(kGrpcWebPrefix.size())) {
             if (method == http::verb::options) {
               return Route::GrpcWebOptions;
             }
@@ -4157,7 +4157,7 @@ namespace {
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
         if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            path_only.size() > kFnInvokePrefix.size()) {
+            path_only.size() > static_cast<int>(kFnInvokePrefix.size())) {
             if (method == http::verb::get) {
               return Route::ServerlessFnGet;
             }
@@ -4184,7 +4184,7 @@ namespace {
             }
         }
         if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
-            path_only.size() > kJobsPrefix.size()) {
+            path_only.size() > static_cast<int>(kJobsPrefix.size())) {
             if (method == http::verb::get) {
               return Route::AsyncJobStatusGet;
             }
@@ -4253,7 +4253,7 @@ namespace {
     {
         static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
         if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
-            path_only.size() > kUdfPrefix.size()) {
+            path_only.size() > static_cast<int>(kUdfPrefix.size())) {
             if (method == http::verb::get) {
               return Route::UdfGet;
             }
@@ -4281,7 +4281,7 @@ namespace {
     {
         static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
         if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
-            path_only.size() > kTasksPrefix.size()) {
+            path_only.size() > static_cast<int>(kTasksPrefix.size())) {
             std::string rest = path_only.substr(kTasksPrefix.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4342,7 +4342,7 @@ namespace {
         }
         // /api/v1/maintenance/schedules/{id}[/run]
         if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
-            path_only.size() > kMaintSchedulesPfx.size()) {
+            path_only.size() > static_cast<int>(kMaintSchedulesPfx.size())) {
             std::string rest = path_only.substr(kMaintSchedulesPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4371,7 +4371,7 @@ namespace {
             return Route::MaintenanceJobsGet;
         // /api/v1/maintenance/jobs/{id}[/cancel]
         if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
-            path_only.size() > kMaintJobsPfx.size()) {
+            path_only.size() > static_cast<int>(kMaintJobsPfx.size())) {
             std::string rest = path_only.substr(kMaintJobsPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4448,7 +4448,7 @@ namespace {
                 }
             } else {
                 // /v1/queries/continuous/:name/results
-                if (slash_cq + 1 < rest_cq.size()) {
+                if (slash_cq + 1 <static_cast<int>(rest_cq.size())) {
                     const std::string suffix = rest_cq.substr(slash_cq + 1);
                     if (method == http::verb::get && suffix == "results")
                         return Route::ContinuousQueryStreamSseGet;
@@ -7837,7 +7837,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
-                if (static_cast<int>(id.size()) > sv.size() &&
+                if (static_cast<int>(id.size()) > static_cast<int>(sv.size()) &&
                     id.substr(static_cast<int>(id.size()) - sv.size()) == sv) {
                     id = id.substr(0, static_cast<int>(id.size()) - sv.size());
                     break;
@@ -12222,13 +12222,13 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             scores.reserve(static_cast<int>(textResults.size()) + vectorResults.size());
 
             // Text contributions
-            for (size_t i = 0; i < textResults.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(textResults.size()); ++i) {
                 auto [it, inserted] = scores.try_emplace(textResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
             
             // Vector contributions
-            for (size_t i = 0; i < vectorResults.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(vectorResults.size()); ++i) {
                 auto [it, inserted] = scores.try_emplace(vectorResults[i].pk, 0.0);
                 it->second += 1.0 / (kRrf + i + 1);
             }
@@ -13961,7 +13961,7 @@ http::response<http::string_body> HttpServer::handleIndexStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (static_cast<size_t>(pos) < query.size()) {
+                while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
                     size_t eq = query.find('=', pos);
                     if (eq == std::string::npos) {
                       break;
@@ -15365,7 +15365,7 @@ http::response<http::string_body> HttpServer::handleContentFsGet(
             auto dash = rv.find('-');
             if (dash != std::string::npos) {
                 try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
-                if (dash + 1 < rv.size()) {
+                if (dash + 1 <static_cast<int>(rv.size())) {
                     try {
                         uint64_t end_pos = std::stoull(rv.substr(dash + 1));
                         length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;

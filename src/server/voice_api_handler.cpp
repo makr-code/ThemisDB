@@ -2117,7 +2117,7 @@ std::string VoiceApiHandler::parseQueryParam(
     // Note: percent-encoded characters are not decoded.
     std::string search = key + '=';
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) < query.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
         if (query.compare(pos,static_cast<int>(search.size()), search) == 0) {
             std::string value = query.substr(pos + search.size());
             auto amp = value.find('&');

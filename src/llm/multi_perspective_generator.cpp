@@ -182,10 +182,10 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         
         // Generate synthesis reasoning
         std::ostringstream oss = {};
-        oss << "Synthesized " << result.perspectives.size() << " perspectives: ";
-        for (size_t i = 0; i < result.perspectives.size(); ++i) {
+        oss << "Synthesized " <<static_cast<int>(result.perspectives.size()) << " perspectives: ";
+        for (size_t i = 0; i <static_cast<int>(result.perspectives.size()); ++i) {
             oss << result.perspectives[i].perspective.tradition;
-            if (i < result.perspectives.size() - 1) {
+            if (i <static_cast<int>(result.perspectives.size()) - 1) {
               oss << ", ";
             }
         }
@@ -203,7 +203,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     
     // Cache result
     if (impl_->config.cache_perspectives) {
-        if (impl_->cache.size() >= impl_->config.max_cache_size) {
+        if (impl_-> static_cast<int>(cache.size()) >= impl_->config.max_cache_size) {
             // Remove oldest entry (simplified)
             impl_->cache.erase(impl_->cache.begin());
         }
@@ -304,7 +304,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
     oss << "Considering this question from multiple ethical perspectives:\n\n";
     
     // Include each perspective
-    for (size_t i = 0; i < perspectives.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(perspectives.size()); ++i) {
         oss << (i + 1) << ". **" << perspectives[i].perspective.tradition 
             << "**: " << perspectives[i].response << "\n\n";
     }
@@ -314,7 +314,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
         auto common = findCommonThemes(perspectives);
         if (!common.empty()) {
             oss << "**Common themes**: ";
-            for (size_t i = 0; i < common.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(common.size()); ++i) {
                 oss << common[i];
                 if (i < static_cast<int>(common.size()) - 1) {
                   oss << "; ";
@@ -329,7 +329,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
         auto disagreements = findDisagreements(perspectives);
         if (!disagreements.empty()) {
             oss << "**Areas of tension**: ";
-            for (size_t i = 0; i < disagreements.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(disagreements.size()); ++i) {
                 oss << disagreements[i];
                 if (i < static_cast<int>(disagreements.size()) - 1) {
                   oss << "; ";
@@ -405,7 +405,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     
     // Ensure minimum perspectives
     while ( static_cast<int>(selected.size()) < static_cast<size_t>(impl_->config.min_perspectives) &&
-           selected.size() < impl_->perspectives.size()) {
+           selected.size() < impl_-> static_cast<int>(perspectives.size())) {
         // Add any remaining perspective
         for (const auto& p : impl_->perspectives) {
             bool already_selected = false;
@@ -584,8 +584,8 @@ float MultiPerspectiveGenerator::calculateDiversityScore(
     float total_difference = 0.0f;
     int comparisons = 0;
     
-    for (size_t i = 0; i < perspectives.size(); ++i) {
-        for (size_t j = i + 1; j < perspectives.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(perspectives.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(perspectives.size()); ++j) {
             // Simple difference metric based on unique words
             std::unordered_set<std::string> words_i = extractWords(perspectives[i].response);
             std::unordered_set<std::string> words_j = extractWords(perspectives[j].response);
@@ -791,7 +791,7 @@ std::string MultiPerspectiveGenerator::buildSynthesisPrompt(
     oss << "Synthesize the following ethical perspectives into a balanced response:\n\n";
     oss << "Query: " << query << "\n\n";
     oss << "Perspectives:\n";
-    for (size_t i = 0; i < perspectives.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(perspectives.size()); ++i) {
         oss << (i + 1) << ". " << perspectives[i].perspective.tradition << ": "
             << perspectives[i].response << "\n\n";
     }

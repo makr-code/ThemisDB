@@ -454,7 +454,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     std::unordered_map<std::string, int> in_degree;
     std::unordered_map<std::string, size_t> delta_indices;  // For quick lookup
     
-    for (size_t i = 0; i < deltas.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(deltas.size()); ++i) {
         delta_indices[deltas[i].path] = i;
         in_degree[deltas[i].path] = 0;
     }
@@ -988,7 +988,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     std::vector<uint8_t> instructions;
     size_t tpos = 0;
 
-    while (static_cast<size_t>(tpos) < target.size()) {
+    while (static_cast<size_t>(tpos) <static_cast<int>(target.size())) {
         size_t best_len    = 0;
         uint32_t best_off  = 0;
 
@@ -1118,18 +1118,18 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     target.reserve(orig_size);
 
     size_t ip = 0; // instruction pointer
-    while (static_cast<size_t>(ip) < instructions.size()) {
+    while (static_cast<size_t>(ip) <static_cast<int>(instructions.size())) {
         uint8_t opcode = instructions[ip++];
 
         if (opcode == INSTR_COPY) {
-            if (ip + 8 > instructions.size()) {
+            if (ip + 8 > static_cast<int>(instructions.size())) {
                 LOG_ERROR("Truncated COPY instruction");
                 return false;
             }
             uint32_t off = readU32LE(&instructions[ip]);     ip += 4;
             uint32_t len = readU32LE(&instructions[ip]);     ip += 4;
 
-            if (static_cast<size_t>(off) + len > base.size()) {
+            if (static_cast<size_t>(off) + len > static_cast<int>(base.size())) {
                 LOG_ERROR("COPY out of bounds: off={} len={} base_size={}",
                     off, len,static_cast<int>(base.size()));
                 return false;
@@ -1139,13 +1139,13 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
                           base.begin() + off + len);
 
         } else if (opcode == INSTR_ADD) {
-            if (ip + 4 > instructions.size()) {
+            if (ip + 4 > static_cast<int>(instructions.size())) {
                 LOG_ERROR("Truncated ADD instruction");
                 return false;
             }
             uint32_t len = readU32LE(&instructions[ip]);     ip += 4;
 
-            if (ip + len > instructions.size()) {
+            if (ip + len > static_cast<int>(instructions.size())) {
                 LOG_ERROR("ADD data out of bounds");
                 return false;
             }

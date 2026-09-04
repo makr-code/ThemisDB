@@ -46,12 +46,12 @@ Tensor MixedPrecisionTrainer::to_lower_precision(const Tensor& input) const {
     
     if (config_.mode == PrecisionMode::FP16 || config_.mode == PrecisionMode::AMP) {
         // Simulate FP16 precision loss
-        for (size_t i = 0; i < output.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(output.size()); ++i) {
             output[i] = fp16_to_fp32(fp32_to_fp16(output[i]));
         }
     } else if (config_.mode == PrecisionMode::BF16) {
         // BF16 has same exponent range as FP32, just reduced mantissa
-        for (size_t i = 0; i < output.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(output.size()); ++i) {
             // Truncate mantissa bits (simplified)
             float val = output[i];
             uint32_t bits = {};

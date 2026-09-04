@@ -542,7 +542,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
 
         // Build roles string manually (fmt::join not available in fmt 11.0.2)
         std::ostringstream roles_oss = {};
-        for (size_t i = 0; i < result.roles.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(result.roles.size()); ++i) {
             if (i > 0) {
               roles_oss << ", ";
             }

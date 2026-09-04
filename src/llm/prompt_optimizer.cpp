@@ -150,7 +150,7 @@ std::string PromptOptimizer::generateFeedback(
         feedback << "- Testing on more challenging cases\n";
     }
     
-    feedback << "\nNumber of test cases: " << test_cases.size() << "\n";
+    feedback << "\nNumber of test cases: " <<static_cast<int>(test_cases.size()) << "\n";
     
     return feedback.str();
 }

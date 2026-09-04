@@ -845,7 +845,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 if (!cycle_desc.empty()) {
                   cycle_desc += "; ";
                 }
-                for (size_t i = 0; i < cycle.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(cycle.size()); ++i) {
                     if (i > 0) {
                       cycle_desc += " -> ";
                     }
@@ -1699,7 +1699,7 @@ Result<size_t> PluginManager::autoLoadPlugins() {
                 if (!cycle_desc.empty()) {
                   cycle_desc += "; ";
                 }
-                for (size_t i = 0; i < cycle.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(cycle.size()); ++i) {
                     if (i > 0) {
                       cycle_desc += " -> ";
                     }
@@ -2379,7 +2379,7 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
                           "'. Allowed editions: " + 
                           [&]() {
                               std::string result = {};
-                              for (size_t i = 0; i < manifest.allowed_editions.size(); ++i) {
+                              for (size_t i = 0; i <static_cast<int>(manifest.allowed_editions.size()); ++i) {
                                   if (i > 0) {
                                     result += ", ";
                                   }

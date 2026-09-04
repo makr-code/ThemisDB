@@ -481,7 +481,7 @@ std::vector<HnswTraversalResult>
 CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) const {
     if (!impl_->index_built || impl_->flat_vectors.empty()) {
         THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty (index_built={} flat_vectors={})",
-                    impl_->index_built.load(), impl_->flat_vectors.size());
+                    impl_->index_built.load(), impl_-> static_cast<int>(flat_vectors.size()));
         return {};
     }
     if (ef == 0) {
@@ -796,7 +796,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             const size_t take = std::min(static_cast<size_t>(k),
                                                          cands.size());
-                            if (take > 0  && static_cast<size_t>(take) < cands.size()) {
+                            if (take > 0  && static_cast<size_t>(take) <static_cast<int>(cands.size())) {
                                 std::partial_sort(
                                     cands.begin(),
                                     cands.begin() + static_cast<ptrdiff_t>(take),

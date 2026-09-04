@@ -48,7 +48,7 @@ std::vector<ContentChunker::Chunk> ContentChunker::chunk(const std::vector<uint8
     const size_t chunk_size = config_.chunk_size;
     const size_t total_chunks = (static_cast<int>(data.size()) + chunk_size - 1) / chunk_size;
     
-    for (size_t i = 0; i < data.size(); i += chunk_size) {
+    for (size_t i = 0; i <static_cast<int>(data.size()); i += chunk_size) {
         Chunk chunk;
         size_t remaining = static_cast<int>(data.size()) - i;
         size_t current_chunk_size = std::min(chunk_size, remaining);

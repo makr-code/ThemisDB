@@ -150,7 +150,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
     bridge->regions_.reserve(train.cores.size());
     bridge->slices_.reserve(train.cores.size());
 
-    for (std::size_t ci = 0; ci < train.cores.size(); ++ci) {
+    for (std::size_t ci = 0; ci <static_cast<int>(train.cores.size()); ++ci) {
         const auto& core  = train.cores[ci];
         const std::size_t n_elems = core.data.size();
         const std::size_t bytes   = n_elems * sizeof(float);
@@ -237,7 +237,7 @@ TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
         const long page_size = ::sysconf(_SC_PAGESIZE);
         const std::size_t ps = (page_size > 0) ? static_cast<std::size_t>(page_size) : 4096u;
 
-        for (std::size_t ci = 0; ci < train.cores.size(); ++ci) {
+        for (std::size_t ci = 0; ci <static_cast<int>(train.cores.size()); ++ci) {
             const auto& core  = train.cores[ci];
             const std::size_t n_elems = core.data.size();
             const std::size_t bytes   = n_elems * sizeof(float);

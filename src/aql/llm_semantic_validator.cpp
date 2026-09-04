@@ -327,7 +327,7 @@ static void walkExpressionForTypeChecks(
         if (fc) {
             // Common function signature checks
             if (fc->name == "CONCAT" && !fc->arguments.empty()) {
-                for (size_t i = 0; i < fc->arguments.size(); ++i) {
+                for (size_t i = 0; i < fc-> static_cast<int>(arguments.size()); ++i) {
                     auto arg_type = inferTypeFromExpression(fc->arguments[i]);
                     if (arg_type != "string" && arg_type != "unknown") {
                         result.warnings.push_back(fmt::format(
@@ -460,7 +460,7 @@ void LLMSemanticValidator::validateJoins(
     
     // PHASE 4.6: Join Detection
     // Detect JOIN operations (multiple FOR clauses)
-    if (query_ptr->for_nodes.size() <= 1 && query_ptr->for_node.variable.empty()) {
+    if (query_ptr-> static_cast<int>(for_nodes.size()) <= 1 && query_ptr->for_node.variable.empty()) {
         // No join detected (single collection query)
         spdlog::debug("[aql_semantic_validator] Single collection query (no JOIN)");
         return;
@@ -621,7 +621,7 @@ static void estimateJoinSelectivity(
     const query::Query* query_ptr,
     SemanticValidationResult& result)
 {
-    if (!query_ptr || query_ptr->for_nodes.size() <= 1) {
+    if (!query_ptr || query_ptr-> static_cast<int>(for_nodes.size()) <= 1) {
         return;
     }
     
@@ -823,7 +823,7 @@ void LLMSemanticValidator::validateFunctionSignatures(
         }
         
         const std::string& func_name = func_call->name;
-        size_t param_count = func_call->arguments.size();
+        size_t param_count = func_call-> static_cast<int>(arguments.size());
         
         spdlog::debug("[aql_semantic_validator] Validating function call: {}({})", func_name, param_count);
         
@@ -882,7 +882,7 @@ void LLMSemanticValidator::validateFunctionSignatures(
             
             // Validate parameter types if specified
             if (!sig.param_types.empty()) {
-                for (size_t i = 0; i < param_count  && static_cast<size_t>(i) < sig.param_types.size(); ++i) {
+                for (size_t i = 0; i < param_count  && static_cast<size_t>(i) <static_cast<int>(sig.param_types.size()); ++i) {
                     if (sig.param_types[i].empty()) continue;  // Any type allowed
                     
                     auto param_type = inferTypeFromExpression(func_call->arguments[i]);

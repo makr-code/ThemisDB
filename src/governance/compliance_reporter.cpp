@@ -90,14 +90,14 @@ static std::string buildComplianceReportHTML(const ComplianceReport &report) {
          << "</table>";
 
     if (!report.gaps.empty()) {
-        html << "<h2>Compliance Gaps (" << report.gaps.size() << ")</h2>"
+        html << "<h2>Compliance Gaps (" <<static_cast<int>(report.gaps.size()) << ")</h2>"
              << "<table><tr><th>Type</th><th>Severity</th>"
              << "<th>Description</th><th>Affected Resources</th></tr>";
         for (const auto &gap : report.gaps) {
             html << "<tr><td>" << gap.gap_type << "</td>"
                  << "<td class='gap-" << gap.severity << "'>" << gap.severity << "</td>"
                  << "<td>" << gap.description << "</td>"
-                 << "<td>" << gap.affected_resources.size() << " resource(s)</td></tr>";
+                 << "<td>" <<static_cast<int>(gap.affected_resources.size()) << " resource(s)</td></tr>";
         }
         html << "</table>";
     } else {
@@ -418,8 +418,8 @@ std::vector<std::pair<std::string, std::string>> ComplianceReporter::detectOverl
     auto rules = policy_manager_->listRules();
 
     // Check each pair of rules for overlap
-    for (size_t i = 0; i < rules.size(); i++) {
-        for (size_t j = i + 1; j < rules.size(); j++) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); i++) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); j++) {
             const auto &rule1 = rules[i];
             const auto &rule2 = rules[j];
 
@@ -841,7 +841,7 @@ std::string ComplianceReporter::reportToCSV(const ComplianceReport &report) cons
     csv << "\nGap Type,Severity,Description,Affected Count\n";
     for (const auto &gap : report.gaps) {
         csv << gap.gap_type << "," << gap.severity << ","
-            << "\"" << gap.description << "\"," << gap.affected_resources.size() << "\n";
+            << "\"" << gap.description << "\"," <<static_cast<int>(gap.affected_resources.size()) << "\n";
     }
 
     return csv.str();

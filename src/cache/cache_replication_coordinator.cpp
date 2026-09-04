@@ -184,7 +184,7 @@ nlohmann::json InProcessCacheCoordinator::getStats() const {
     size_t peer_count = 0;
     if (bus_) {
         std::lock_guard<std::mutex> bus_lk(bus_->mutex);
-        peer_count = bus_->peers.size() > 0 ? bus_->peers.size() - 1 : 0;
+        peer_count = bus_-> static_cast<int>(peers.size()) > 0 ? bus_-> static_cast<int>(peers.size()) - 1 : 0;
     }
     return {
         {"name",               name()},

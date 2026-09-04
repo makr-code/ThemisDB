@@ -297,7 +297,7 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     ev.type      = EventType::NETWORK_PARTITION;
     ev.timestamp = std::chrono::system_clock::now();
     std::ostringstream nodes_stream = {};
-    for (size_t i = 0; i < affected.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(affected.size()); ++i) {
         if (i > 0) {
           nodes_stream << ',';
         }

@@ -115,7 +115,7 @@ std::string SQLUnaryOpExpr::toAQL(const std::string& var) const {
 std::string SQLListExpr::toAQL(const std::string& var) const {
     std::ostringstream oss = {};
     oss << "[";
-    for (size_t i = 0; i < elements.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(elements.size()); ++i) {
         if (i > 0) {
           oss << ", ";
         }
@@ -198,7 +198,7 @@ public:
     std::vector<SQLToken> tokenize() {
         std::vector<SQLToken> tokens = {};
 
-        while (static_cast<size_t>(pos_) < input_.size()) {
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
             if (pos_ >= static_cast<int>(input_.size())) {
               break;
@@ -208,8 +208,8 @@ public:
             char c = input_[pos_];
 
             // Single-line comment (-- ...)
-            if (c == '-' && pos_ + 1 < input_.size() && input_[pos_ + 1] == '-') {
-                while (pos_ < input_.size() && input_[pos_] != '\n') {
+            if (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '-') {
+                while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != '\n') {
                   ++pos_;
                 }
                 continue;
@@ -222,7 +222,7 @@ public:
             }
 
             // Numbers
-            if (std::isdigit(c) || (c == '-' && pos_ + 1 < input_.size() && std::isdigit(input_[pos_ + 1]))) {
+            if (std::isdigit(c) || (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) && std::isdigit(input_[pos_ + 1]))) {
                 tokens.push_back(readNumber(start));
                 continue;
             }
@@ -237,23 +237,23 @@ public:
             switch (c) {
                 case '=': tokens.push_back({SQLTokenType::EQ, "=", start}); ++pos_; break;
                 case '<':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SQLTokenType::LTE, "<=", start}); pos_ += 2;
-                    } else if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '>') {
+                    } else if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '>') {
                         tokens.push_back({SQLTokenType::NEQ, "<>", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SQLTokenType::LT, "<", start}); ++pos_;
                     }
                     break;
                 case '>':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SQLTokenType::GTE, ">=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SQLTokenType::GT, ">", start}); ++pos_;
                     }
                     break;
                 case '!':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SQLTokenType::NEQ, "!=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SQLTokenType::INVALID, "!", start}); ++pos_;
@@ -277,7 +277,7 @@ private:
     size_t pos_ = {};
 
     void skipWhitespace() {
-        while (pos_ < input_.size() && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
+        while (pos_ <static_cast<int>(input_.size()) && std::isspace(static_cast<unsigned char>(input_[pos_]))) {
           ++pos_;
         }
     }
@@ -285,18 +285,18 @@ private:
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
         std::string val = {};
-        while (static_cast<size_t>(pos_) < input_.size()) {
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             char ch = input_[pos_];
             // SQL doubled-delimiter escape: '' or "" within a string
             if (ch == delim) {
-                if (pos_ + 1 < input_.size() && input_[pos_ + 1] == delim) {
+                if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == delim) {
                     val += delim;
                     pos_ += 2;
                     continue;
                 }
                 break; // closing delimiter
             }
-            if (ch == '\\' && pos_ + 1 < input_.size()) {
+            if (ch == '\\' && pos_ + 1 <static_cast<int>(input_.size())) {
                 ++pos_;
                 switch (input_[pos_]) {
                     case 'n': val += '\n'; break;
@@ -317,7 +317,7 @@ private:
         std::string val = {};
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
-        while (pos_ < input_.size() && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) {
+        while (pos_ <static_cast<int>(input_.size()) && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) {
             if (input_[pos_] == '.') {
               is_float = true;
             }
@@ -328,7 +328,7 @@ private:
 
     SQLToken readIdent([[maybe_unused]] size_t start) {
         std::string val = {};
-        while (pos_ < input_.size() && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
+        while (pos_ <static_cast<int>(input_.size()) && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
             val += input_[pos_++];
         }
         // Uppercase for keyword lookup
@@ -403,7 +403,7 @@ private:
     const SQLToken& current() const { return tokens_[pos_]; }
 
     void advance() {
-        if (pos_ + 1 < tokens_.size()) {
+        if (pos_ + 1 <static_cast<int>(tokens_.size())) {
           ++pos_;
         }
     }
@@ -1075,7 +1075,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     // SORT clause
     if (!stmt.order_by.empty()) {
         aql << " SORT ";
-        for (size_t i = 0; i < stmt.order_by.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
             if (i > 0) {
               aql << ", ";
             }
@@ -1101,7 +1101,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
         aql << var << "." << stmt.columns[0];
     } else {
         aql << "{";
-        for (size_t i = 0; i < stmt.columns.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
             if (i > 0) {
               aql << ", ";
             }
@@ -1116,7 +1116,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
 std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) {
     std::ostringstream aql = {};
     aql << "INSERT {";
-    for (size_t i = 0; i < stmt.columns.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
         if (i > 0) {
           aql << ", ";
         }
@@ -1137,7 +1137,7 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
     }
 
     aql << " UPDATE " << var << " WITH {";
-    for (size_t i = 0; i < stmt.assignments.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stmt.assignments.size()); ++i) {
         if (i > 0) {
           aql << ", ";
         }

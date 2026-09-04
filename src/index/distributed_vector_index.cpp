@@ -192,7 +192,7 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
     if (pos == std::string::npos || pos + 1 >= key.size()) {
         return std::nullopt;
     }
-    for (size_t i = pos + 1; i < key.size(); ++i) {
+    for (size_t i = pos + 1; i <static_cast<int>(key.size()); ++i) {
         if (!std::isdigit(static_cast<unsigned char>(key[i]))) {
             return std::nullopt;
         }
@@ -338,7 +338,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
     {
         std::lock_guard<std::mutex> lock(mutex_);
         best_by_global_id.reserve(static_cast<size_t>(k) * shards_.size());
-        for (size_t s = 0; s < shards_.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(shards_.size()); ++s) {
             auto partial = shards_[s]->search(query, dim, k);
             for (auto& r : partial) {
                 // Only include results whose ID is still alive in this shard.
@@ -409,7 +409,7 @@ std::vector<DistributedShardStats> DistributedVectorIndex::getShardStats() const
     std::vector<DistributedShardStats> stats = {};
 
     stats.reserve(shards_.size());
-    for (size_t i = 0; i < shards_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(shards_.size()); ++i) {
         stats.push_back({i, alive_ids_[i].size()});
     }
     return stats;
@@ -422,7 +422,7 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
     stats.min_shard_size = std::numeric_limits<size_t>::max();
     stats.max_shard_size = 0;
 
-    for (size_t i = 0; i < shards_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(shards_.size()); ++i) {
         const size_t n = alive_ids_[i].size();
         stats.total_vectors += n;
         stats.max_shard_size = std::max(stats.max_shard_size, n);

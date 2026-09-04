@@ -329,7 +329,7 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
     }
 
     std::vector<struct iovec> iovecs(buffers_.size());
-    for (size_t i = 0; i < buffers_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buffers_.size()); ++i) {
         iovecs[i].iov_base = buffers_[i].data();
         iovecs[i].iov_len  = buffers_[i].size();
     }
@@ -363,7 +363,7 @@ bool IoUringZeroCopyIO::register_fd([[maybe_unused]] int fd) noexcept {
     int ret = io_uring_register(ring_->ring_fd,
                                 IORING_REGISTER_FILES,
                                 ring_->registered_fds.data(),
-                                static_cast<unsigned>(ring_->registered_fds.size()));
+                                static_cast<unsigned>(ring_-> static_cast<int>(registered_fds.size())));
     if (ret != 0) {
         ring_->registered_fds.pop_back();
         return false;

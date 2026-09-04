@@ -125,7 +125,7 @@ bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
 namespace {
 std::string trimCopy(const std::string& s) {
     size_t start = 0;
-    while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) {
+    while (start <static_cast<int>(s.size()) && std::isspace(static_cast<unsigned char>(s[start]))) {
       start++;
     }
     size_t end = s.size();
@@ -287,7 +287,7 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
     }
 
     std::lock_guard<std::mutex> lock(runtime->mutex);
-    const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime->buffer.size()));
+    const uint32_t count = std::min<uint32_t>(max_changes, static_cast<uint32_t>(runtime-> static_cast<int>(buffer.size())));
     // BATCH B OPTIMIZATION: Reserve space for all changes upfront
     out.reserve(count);
     for (uint32_t i = 0; i < count; ++i) {

@@ -210,7 +210,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     p += KEY_ID_PREFIX_LEN_BYTES;
 
     if (key_id_len > 4096u ||
-        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > blob.size()) {
+        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > static_cast<int>(blob.size())) {
         throw std::runtime_error("EncryptedChunkStore: invalid blob (key_id_len out of bounds)");
     }
 

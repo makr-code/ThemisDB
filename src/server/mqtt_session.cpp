@@ -767,10 +767,10 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
     
     size_t filterPos = 0, topicPos = 0;
     
-    while (filterPos < filter.size()  && static_cast<size_t>(topicPos) < topic.size()) {
+    while (filterPos <static_cast<int>(filter.size())  && static_cast<size_t>(topicPos) <static_cast<int>(topic.size())) {
         if (filter[filterPos] == '+') {
             // Single-level wildcard: match until next '/' or end
-            while (topicPos < topic.size() && topic[topicPos] != '/') {
+            while (topicPos <static_cast<int>(topic.size()) && topic[topicPos] != '/') {
                 topicPos++;
             }
             filterPos++;

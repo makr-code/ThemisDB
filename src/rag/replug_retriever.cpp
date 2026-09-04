@@ -283,7 +283,7 @@ ReplugFusionResult ReplugRetriever::fuse(
     std::vector<double> fused = {};
 
     fused.reserve(filtered.size());
-    for (size_t i = 0; i < filtered.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(filtered.size()); ++i) {
         fused.push_back((1.0 - lam) * ret_scores[i] + lam * llm_probs[i]);
     }
 

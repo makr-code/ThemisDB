@@ -37,7 +37,7 @@ const Row& ResultSet::at(std::size_t index) const
 {
     // Gap B002: previously used rows[index] without bounds guard.
     // Fix: explicit size check before iterator formation prevents UB when
-    // index > rows.size() (forming an out-of-range iterator is itself UB).
+    // index > static_cast<int>(rows.size()) (forming an out-of-range iterator is itself UB).
     if (index >= static_cast<int>(rows.size())) {
         throw std::out_of_range(
             "ResultSet::at: index " + std::to_string(index) +
@@ -105,7 +105,7 @@ Row QueryExecutor::build_row(
     const std::unordered_map<std::string, ColumnValue>& src) const
 {
     Row row;
-    row.reserve(plan_->column_names.size());
+    row.reserve(plan_-> static_cast<int>(column_names.size()));
 
     // Iterate column_names with RangeValidator to guard sub-range.
     RangeValidator<std::vector<std::string>::const_iterator>

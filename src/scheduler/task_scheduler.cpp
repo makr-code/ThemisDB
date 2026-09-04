@@ -1184,7 +1184,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     std::set<std::string> completed;  // succeeded tasks
     std::set<std::string> processed;  // all tasks we have decided about
 
-    while ( static_cast<int>(processed.size()) < task_ids.size()) {
+    while ( static_cast<int>(processed.size()) <static_cast<int>(task_ids.size())) {
         // Collect tasks that are ready (all deps completed successfully)
         std::vector<std::string> wave = {};
 
@@ -1284,7 +1284,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 
         threads.reserve(wave.size());
 
-        for (size_t i = 0; i < wave.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(wave.size()); ++i) {
             wave_results[i].id = wave[i];
             threads.emplace_back([this, &wave_results, i, &task_map]() {
                 const auto& id = wave_results[i].id;

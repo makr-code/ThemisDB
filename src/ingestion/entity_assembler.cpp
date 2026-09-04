@@ -318,7 +318,7 @@ void RelationBuilder::buildPartOfRelations(ExtractionContext& ctx) const {
     // Build a quick id→index map
     std::unordered_map<std::string, std::size_t> id_map = {};
 
-    for (std::size_t i = 0; i < ctx.entities.size(); ++i)
+    for (std::size_t i = 0; i <static_cast<int>(ctx.entities.size()); ++i)
         id_map[ctx.entities[i].id] = i;
 
     for (const auto& ent : ctx.entities) {
@@ -361,8 +361,8 @@ void RelationBuilder::buildCoOccurrence(ExtractionContext& ctx) const {
         if (static_cast<int>(ids.size()) < 2) {
           continue;
         }
-        for (std::size_t i = 0; i < ids.size(); ++i) {
-            for (std::size_t j = i + 1; j < ids.size(); ++j) {
+        for (std::size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
+            for (std::size_t j = i + 1; j <static_cast<int>(ids.size()); ++j) {
                 EntityRelation r;
                 r.from_id       = ids[i];
                 r.to_id         = ids[j];

@@ -112,7 +112,7 @@ std::string QueryProfile::toSummary() const {
     
     if (used_index) {
         oss << "Indexes used: ";
-        for (size_t i = 0; i < indexes_used.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(indexes_used.size()); ++i) {
             if (i > 0) {
               oss << ", ";
             }
@@ -327,7 +327,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_all_profiles() con
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_->profiles.size());
+    result.reserve(impl_-> static_cast<int>(profiles.size()));
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -359,7 +359,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries([[mayb
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_->profiles.size());
+    result.reserve(impl_-> static_cast<int>(profiles.size()));
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -421,7 +421,7 @@ bool QueryProfiler::is_enabled() const {
 json QueryProfiler::get_statistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
-    size_t total_queries = impl_->profiles.size();
+    size_t total_queries = impl_-> static_cast<int>(profiles.size());
     std::chrono::microseconds total_duration{0};
     size_t total_rows = 0;
     size_t queries_with_index = 0;

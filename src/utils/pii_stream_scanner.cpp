@@ -201,7 +201,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         size_t rel_start = f.start_offset - base_offset;
         size_t rel_end   = f.end_offset   - base_offset;
 
-        if (rel_start > finalized_chunk.size()) {
+        if (rel_start > static_cast<int>(finalized_chunk.size())) {
           break;
         }
         rel_end = std::min(rel_end,static_cast<int>(finalized_chunk.size()));

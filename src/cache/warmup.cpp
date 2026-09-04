@@ -48,7 +48,7 @@ static std::string base64Decode(const std::string &encoded) {
     // Build reverse lookup table.
     uint8_t lookup[256];
     std::fill(std::begin(lookup), std::end(lookup), 0xFF);
-    for (size_t i = 0; i < kB64Chars.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(kB64Chars.size()); ++i) {
         lookup[static_cast<uint8_t>(kB64Chars[i])] = static_cast<uint8_t>(i);
     }
 

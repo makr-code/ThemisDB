@@ -186,7 +186,7 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     // TASK 2.3: Stage 3 - Score each wake word and pick the best
     float  best_score = 0.0f;
     size_t best_idx   = 0;
-    for (size_t i = 0; i < wake_words_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(wake_words_.size()); ++i) {
         float score = scorePhrase(wake_words_[i].phrase, sample_buffer_);
         if (score > best_score) {
             best_score = score;
@@ -329,7 +329,7 @@ float WakeWordDetector::scorePhrase(
     // high-frequency energy).
     float high_energy = 0.0f;
     float total_energy = 0.0f;
-    for (size_t i = 1; i < samples.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(samples.size()); ++i) {
         float diff = samples[i] - samples[static_cast<int>(i - 1)];
         high_energy  += diff * diff;
         total_energy += samples[i] * samples[i];

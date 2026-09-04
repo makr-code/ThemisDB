@@ -95,7 +95,7 @@ ExpandedQuery QueryExpander::expand(const std::string& query) const {
     }
     if (any_correction) {
         std::ostringstream oss = {};
-        for (size_t i = 0; i < corrected_tokens.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(corrected_tokens.size()); ++i) {
             if (i) {
               oss << ' ';
             }
@@ -281,7 +281,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
     std::vector<std::string> best_corrections(tokens.size());
     std::vector<int> best_distances(tokens.size(), 0);
 
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         const std::string lower = toLower(tokens[i]);
         if (vocabulary_.count(lower)) {
             best_corrections[i] = tokens[i];
@@ -308,7 +308,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
 
     auto addSuggestion = [&](const std::vector<std::string>& parts, int total_dist) {
         std::ostringstream oss = {};
-        for (size_t i = 0; i < parts.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(parts.size()); ++i) {
             if (i) {
               oss << ' ';
             }
@@ -328,7 +328,7 @@ std::vector<SpellingCorrection> QueryExpander::suggestQueryCorrections(
     };
 
     // Per-token substitution variants
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         if (best_distances[i] == 0) {
           continue;
         }
@@ -412,7 +412,7 @@ std::string QueryExpander::relaxQuery(const std::string& query) const {
     }
     tokens.pop_back();
     std::ostringstream oss = {};
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         if (i) {
           oss << ' ';
         }

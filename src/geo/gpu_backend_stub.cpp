@@ -405,7 +405,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             }
             const auto &ls = g2.coords;
             double px = g1.coords[0].x, py = g1.coords[0].y;
-            for (std::size_t i = 1; i < ls.size(); ++i) {
+            for (std::size_t i = 1; i <static_cast<int>(ls.size()); ++i) {
                 if (segmentsIntersect(px, py, px, py, ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y)) {
                     return true;
                 }
@@ -420,8 +420,8 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         if (g1.isLineString() && g2.isLineString()) {
             const auto &ls1 = g1.coords;
             const auto &ls2 = g2.coords;
-            for (std::size_t i = 1; i < ls1.size(); ++i) {
-                for (std::size_t j = 1; j < ls2.size(); ++j) {
+            for (std::size_t i = 1; i <static_cast<int>(ls1.size()); ++i) {
+                for (std::size_t j = 1; j <static_cast<int>(ls2.size()); ++j) {
                     if (segmentsIntersect(ls1[static_cast<int>(i - 1)].x, ls1[static_cast<int>(i - 1)].y, ls1[i].x, ls1[i].y, ls2[static_cast<int>(j - 1)].x, ls2[static_cast<int>(j - 1)].y,
                                           ls2[j].x, ls2[j].y)) {
                         return true;
@@ -442,8 +442,8 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
                 }
             }
             // Any segment crosses a polygon edge?
-            for (std::size_t i = 1; i < ls.size(); ++i) {
-                for (std::size_t k = 0, l = static_cast<int>(ring.size()) - 1; k < ring.size(); l = k++) {
+            for (std::size_t i = 1; i <static_cast<int>(ls.size()); ++i) {
+                for (std::size_t k = 0, l = static_cast<int>(ring.size()) - 1; k <static_cast<int>(ring.size()); l = k++) {
                     if (segmentsIntersect(ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
                                           ring[k].y)) {
                         return true;

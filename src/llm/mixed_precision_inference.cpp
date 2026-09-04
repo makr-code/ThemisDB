@@ -71,7 +71,7 @@ MixedPrecisionInference::getTuningSchedule(
     
     size_t budget = available_vram;
     
-    for (size_t i = 0; i < arch.layer_types.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(arch.layer_types.size()); ++i) {
         LayerPrecisionConfig config;
         config.layer_id = i;
         

@@ -317,7 +317,7 @@ MergeEngine::MergeResult MergeEngine::merge(
         resolved_changes = resolveConflicts(conflicts, options);
         
         // Check if all conflicts were resolved
-        if (static_cast<int>(resolved_changes.size()) < conflicts.size() && options.strategy == MergeStrategy::MANUAL) {
+        if (static_cast<int>(resolved_changes.size()) <static_cast<int>(conflicts.size()) && options.strategy == MergeStrategy::MANUAL) {
             result.success = false;
             result.message = "Merge requires manual conflict resolution";
             spdlog::warn("Unresolved conflicts remain");

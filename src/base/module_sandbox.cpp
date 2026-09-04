@@ -240,7 +240,7 @@ AbiCheckResult AbiChecker::check(void *module_handle, const ModuleMetadata &modu
 
     std::ostringstream oss = {};
     oss << (combined.compatible ? "ABI OK" : "ABI INCOMPATIBLE");
-    oss << " – " << combined.issues.size() << " issue(s)";
+    oss << " – " <<static_cast<int>(combined.issues.size()) << " issue(s)";
     combined.summary = oss.str();
 
     return combined;

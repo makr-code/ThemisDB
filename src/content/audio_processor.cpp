@@ -387,7 +387,7 @@ static void parseWavMetadata(const std::vector<uint8_t> &blob, MediaExtractionDa
             break;
         } else {
             // Skip unknown chunk
-            if (pos + 8 > blob.size()) {
+            if (pos + 8 > static_cast<int>(blob.size())) {
                 break;
             }
             uint32_t chunk_size = readLE32(blob, pos + 4);
@@ -578,7 +578,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
     }
 
     uint8_t num_segments = blob[26]; // page_segments count at byte 26
-    if (27 + static_cast<size_t>(num_segments) > blob.size()) {
+    if (27 + static_cast<size_t>(num_segments) > static_cast<int>(blob.size())) {
         return;
     }
 
@@ -586,7 +586,7 @@ static void parseOggVorbisMetadata(const std::vector<uint8_t> &blob, MediaExtrac
 
     // Vorbis ID header: packet type (1 byte) + "vorbis" (6 bytes) + version (4) + channels (1) + sample_rate (4) ...
     // Minimum: 1+6+4+1+4+4+4+4 = 28 bytes; we need at least 24 for channels+sample_rate+bitrates
-    if (vorbis_id_offset + 24 > blob.size()) {
+    if (vorbis_id_offset + 24 > static_cast<int>(blob.size())) {
         return;
     }
 
@@ -740,7 +740,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t> &blob) {
         }
 
         size_t tag_end = 10 + id3_size;
-        if (tag_end > blob.size())
+        if (tag_end > static_cast<int>(blob.size()))
             tag_end = blob.size();
 
         size_t pos = frames_start;

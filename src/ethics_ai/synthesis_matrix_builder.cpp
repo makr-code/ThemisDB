@@ -70,7 +70,7 @@ SchoolPositionSummary SynthesisMatrixBuilder::extractSummary(
 
     // Limit core_thesis_ids to 3
     summary.core_thesis_ids.clear();
-    for (size_t i = 0; i < round_output.core_thesis_ids.size() && i < 3; ++i) {
+    for (size_t i = 0; i <static_cast<int>(round_output.core_thesis_ids.size()) && i < 3; ++i) {
         summary.core_thesis_ids.push_back(round_output.core_thesis_ids[i]);
     }
 

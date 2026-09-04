@@ -274,7 +274,7 @@ public:
                     size_t minVectors = std::numeric_limits<size_t>::max();
                     int selectedGPU = 0;
                     
-                    for (size_t i = 0; i < gpuIndices.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(gpuIndices.size()); ++i) {
                         auto stats = gpuIndices[i]->getStatistics();
                         if (stats.numVectors < minVectors) {
                             minVectors = stats.numVectors;
@@ -361,7 +361,7 @@ public:
         // Broadcast query to all GPUs and collect results
         std::vector<MultiGPUVectorIndex::SearchResult> allResults;
         
-        for (size_t gpuIdx = 0; gpuIdx < gpuIndices.size(); ++gpuIdx) {
+        for (size_t gpuIdx = 0; gpuIdx <static_cast<int>(gpuIndices.size()); ++gpuIdx) {
             auto gpuStart = std::chrono::steady_clock::now();
             auto gpuResults = gpuIndices[gpuIdx]->search(query, k);
             auto gpuEnd = std::chrono::steady_clock::now();
@@ -529,7 +529,7 @@ public:
         size_t maxVectors = 0;
         size_t totalVectorsOnGPUs = 0;
         
-        for (size_t i = 0; i < gpuIndices.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(gpuIndices.size()); ++i) {
             auto gpuStats = gpuIndices[i]->getStatistics();
             
             GPUStatistics perGPUStat;
@@ -540,7 +540,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0  && static_cast<size_t>(i) < perGpuQueryTimeUs.size()) {
+            if (elapsedUs > 0.0  && static_cast<size_t>(i) <static_cast<int>(perGpuQueryTimeUs.size())) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);
@@ -612,7 +612,7 @@ public:
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU = {};
 
-        for (size_t i = 0; i < gpuIndices.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(gpuIndices.size()); ++i) {
             auto stats = gpuIndices[i]->getStatistics();
             vectorsPerGPU.push_back(stats.numVectors);
             THEMIS_INFO("MultiGPUVectorIndex: Partition {} (Device {}): {} vectors",
@@ -677,7 +677,7 @@ bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     }
     
     bool allSuccess = true;
-    for (size_t i = 0; i < ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(ids.size()); ++i) {
         if (!addVector(ids[i], vectors[i])) {
             allSuccess = false;
         }

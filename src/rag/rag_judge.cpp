@@ -345,7 +345,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             auto cache_it = impl_->injection_cache.find(injection_cache_key);
             if (cache_it != impl_->injection_cache.end()) {
                 injection_cache_hit = true;
-                cached_findings_count = cache_it->second.size();
+                cached_findings_count = cache_it-> static_cast<int>(second.size());
                 // Check if any findings are high severity (CRITICAL or HIGH)
                 for (const auto& finding : cache_it->second) {
                     if (finding.severity == security::InjectionSeverity::CRITICAL ||
@@ -385,7 +385,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                         }
                     }
                     // Simple cache eviction: limit cache size to 1000 entries
-                    if (impl_->injection_cache.size() >= 1000) {
+                    if (impl_-> static_cast<int>(injection_cache.size()) >= 1000) {
                         impl_->injection_cache.clear();  // Simple LRU: clear all on overflow
                     }
                     impl_->injection_cache[injection_cache_key] = flat_findings;
@@ -691,7 +691,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         try {
             std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);  // RAII: lock acquired
             // Simple cache eviction: limit cache size to 10000 entries
-            if (impl_->cache.size() >= 10000) {
+            if (impl_-> static_cast<int>(cache.size()) >= 10000) {
                 impl_->cache.clear();  // LRU: clear all on overflow
                 THEMIS_WARN("Evaluation result cache overflow, cleared");
             }
@@ -882,7 +882,7 @@ RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
     std::vector<EvaluationResult> eval_history;
     {
         std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
-        summary.samples_analyzed = impl_->eval_history.size();
+        summary.samples_analyzed = impl_-> static_cast<int>(eval_history.size());
         eval_history = impl_->eval_history;
     }
 
@@ -1456,7 +1456,7 @@ bool RAGJudge::verifyClaimViaLLM(
     THEMIS_DEBUG("Verifying claim via LLM");
 
     std::ostringstream context = {};
-    for (size_t i = 0; i < documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(documents.size()); ++i) {
         // F4-1: Wrap each document in hard delimiters and apply injection
         // sanitization so that adversarial document content cannot override
         // the judge's instructions via prompt injection.
@@ -1552,7 +1552,7 @@ JudgeEnsemble::JudgeEnsemble(
 JudgeEnsemble::~JudgeEnsemble() = default;
 
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
-    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
+    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_-> static_cast<int>(judges.size()));
     
     std::vector<EvaluationResult> results = {};
 

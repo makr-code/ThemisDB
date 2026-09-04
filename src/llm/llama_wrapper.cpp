@@ -1750,7 +1750,7 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
         }
 
         std::vector<float> row(static_cast<size_t>(n_vocab), 0.0f);
-        for (size_t i = 0; i < row.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(row.size()); ++i) {
             row[i] = logits_ptr[i];
         }
         return row;
@@ -2094,7 +2094,7 @@ std::string LlamaWrapper::formatPromptForRAG(
     
     // Add context documents
     oss << "Context:\n";
-    for (size_t i = 0; i < rag_context.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
         const auto& doc = rag_context.documents[i];
         std::string sanitized_content = {};
         if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
@@ -2901,7 +2901,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
             
             // 3c. Check which tokens are accepted
             int accepted = 0;
-            for (size_t i = 0; i < draft_tokens.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(draft_tokens.size()); ++i) {
                 float* target_logits = llama_get_logits_ith(target_context, static_cast<int32_t>(i));
                 if (!target_logits) {
                     spdlog::error("llama_get_logits_ith returned null for target context at validation step {}", i);

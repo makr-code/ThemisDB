@@ -602,16 +602,16 @@ private:
         std::ostringstream oss = {};
 
         if (!context.related_provisions.empty()) {
-            oss << "Related provisions: " << context.related_provisions.size() << "; ";
+            oss << "Related provisions: " <<static_cast<int>(context.related_provisions.size()) << "; ";
         }
         if (!context.case_law.empty()) {
-            oss << "Case law: " << context.case_law.size() << "; ";
+            oss << "Case law: " <<static_cast<int>(context.case_law.size()) << "; ";
         }
         if (!context.similar_documents.empty()) {
-            oss << "Similar documents: " << context.similar_documents.size() << "; ";
+            oss << "Similar documents: " <<static_cast<int>(context.similar_documents.size()) << "; ";
         }
         if (!context.internal_guidance.empty()) {
-            oss << "Guidance documents: " << context.internal_guidance.size();
+            oss << "Guidance documents: " <<static_cast<int>(context.internal_guidance.size());
         }
 
         return oss.str();

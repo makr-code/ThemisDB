@@ -396,7 +396,7 @@ std::string RaftLoadBalancer::selectWeightedRoundRobin() {
     // Step 2 – pick the backend with the highest effective weight.
     Backend *winner = healthy[0];
     double best     = wrr_effective_weights_[healthy[0]->address];
-    for (size_t i = 1; i < healthy.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(healthy.size()); ++i) {
         const double ew = wrr_effective_weights_[healthy[i]->address];
         if (ew > best) {
             best   = ew;

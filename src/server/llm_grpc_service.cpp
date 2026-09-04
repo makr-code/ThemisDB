@@ -107,7 +107,7 @@ std::string LLMGrpcService::extractBearerToken(grpc::ServerContext* context) {
         return "";
     }
     
-    std::string auth_value(it->second.data(), it->second.size());
+    std::string auth_value(it->second.data(), it-> static_cast<int>(second.size()));
     std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
     std::smatch matches = {};
     
@@ -630,7 +630,7 @@ grpc::Status LLMGrpcService::ExportLoRA(
         const size_t chunk_size = 4 * 1024 * 1024;
         size_t offset = 0;
         
-        while (static_cast<size_t>(offset) < lora_data.size()) {
+        while (static_cast<size_t>(offset) <static_cast<int>(lora_data.size())) {
             llm::LoRAChunk chunk;
             chunk.set_lora_id(request->lora_id());
             

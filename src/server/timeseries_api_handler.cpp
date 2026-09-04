@@ -453,7 +453,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
                 const std::string key_str(key);
                 constexpr std::string_view kPrefix = "wm:cagg:";
-                if (key_str.rfind(kPrefix, 0) == 0 && static_cast<int>(key_str.size()) > kPrefix.size()) {
+                if (key_str.rfind(kPrefix, 0) == 0 && static_cast<int>(key_str.size()) > static_cast<int>(kPrefix.size())) {
                     materialized.push_back({
                         {"aggregate_id", key_str.substr(kPrefix.size())},
                         {"watermark_ms", std::string(value)}

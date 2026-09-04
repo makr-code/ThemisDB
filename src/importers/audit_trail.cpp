@@ -137,7 +137,7 @@ bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
         return false;
     }
     std::string prev = "0000000000000000";
-    for (size_t i = 0; i < events_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(events_.size()); ++i) {
         std::string expected = computeEventHash(events_[i], prev);
         if (expected != chain_hashes_[i]) {
             return false;
@@ -149,7 +149,7 @@ bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
 
 json AuditedImporter::ImmutableAuditLog::exportForSIEM(const std::string &format) const {
     json arr = json::array();
-    for (size_t i = 0; i < events_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(events_.size()); ++i) {
         const auto &e = events_[i];
         json entry    = {{"event_type", eventTypeToString(e.type)},
                          {"timestamp", e.timestamp},

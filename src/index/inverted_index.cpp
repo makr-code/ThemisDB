@@ -364,7 +364,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
 
     // AND intersection
     std::unordered_set<std::string> intersection = postings[0];
-    for (size_t i = 1; i < postings.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(postings.size()); ++i) {
         std::unordered_set<std::string> tmp = {};
 
         for (const auto& pk : intersection)
@@ -418,7 +418,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
     for (const auto& pk : intersection) {
         double dl = docLen.count(pk) ? docLen.at(pk) : 0.0;
         double score = 0.0;
-        for (size_t i = 0; i < tokens.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
             double df  = std::max(1.0, dfs[i]);
             double idf = std::log((N - df + 0.5) / (df + 0.5) + 1.0);
             auto tfv = db_.get(makeTFKey(table, column, tokens[i], pk));
@@ -489,7 +489,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
     }
 
     std::unordered_set<std::string> candidates = postings[0];
-    for (size_t i = 1; i < postings.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(postings.size()); ++i) {
         std::unordered_set<std::string> tmp = {};
 
         for (const auto& pk : candidates)

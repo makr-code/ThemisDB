@@ -80,7 +80,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
     // We use a map keyed by school_id → representative argument index.
     std::map<std::string, std::size_t> school_to_arg_index = {};
 
-    for (std::size_t i = 0; i < opponent_arguments.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(opponent_arguments.size()); ++i) {
         const auto &arg = opponent_arguments[i];
         if (arg.philosophy_school == own_school_id) {
             continue;

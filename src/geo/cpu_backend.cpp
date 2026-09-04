@@ -725,11 +725,11 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
         std::stable_sort(B.begin(), B.end(), [](const GHVert &a, const GHVert &b) { return a.alpha < b.alpha; });
         // Cross-link by matching position.
-        for (std::size_t ia = 0; ia < A.size(); ++ia) {
+        for (std::size_t ia = 0; ia <static_cast<int>(A.size()); ++ia) {
             if (!A[ia].is_isect || A[ia].link >= 0) {
                 continue;
             }
-            for (std::size_t ib = 0; ib < B.size(); ++ib) {
+            for (std::size_t ib = 0; ib <static_cast<int>(B.size()); ++ib) {
                 if (!B[ib].is_isect || B[ib].link >= 0) {
                     continue;
                 }

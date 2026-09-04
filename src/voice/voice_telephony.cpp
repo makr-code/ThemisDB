@@ -138,7 +138,7 @@ CallTranscript runCallStt(const CallID&                call_id,
 
     std::ostringstream oss = {};
     oss << "[" << (is_final ? "final" : "partial")
-        << ":" << samples.size() << "samples]";
+        << ":" <<static_cast<int>(samples.size()) << "samples]";
     ct.text = oss.str();
     return ct;
 }
@@ -373,9 +373,9 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     // TASK 2.6: Audio buffer size limits (anti-DoS)
     // CRITICAL GAP 13: Oversized session buffer rejection
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
-    if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + payload.size() > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
-                     impl_->pcm_buffer.size(),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
+                     impl_-> static_cast<int>(pcm_buffer.size()),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
         if (impl_->on_error) {
           impl_->on_error("Session buffer overflow");
         }
@@ -403,7 +403,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     case AudioCodec::G722:
     [[fallthrough]];\n    case AudioCodec::OPUS:
         // For G.722/Opus: payload is already decoded by caller; treat as raw bytes
-        for (size_t i = 0; i + 1 < payload.size(); i += 2) {
+        for (size_t i = 0; i + 1 <static_cast<int>(payload.size()); i += 2) {
             int16_t s = static_cast<int16_t>(
                 (static_cast<uint16_t>(payload[i + 1]) << 8) | payload[i]);
             pcm.push_back(s);
@@ -422,7 +422,7 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
         THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
         return empty;
     }
-    if (impl_->pcm_buffer.size() + pcm_samples.size() > (10 * 1024 * 1024)) {
+    if (impl_-> static_cast<int>(pcm_buffer.size()) + pcm_samples.size() > (10 * 1024 * 1024)) {
         THEMIS_WARN("SipCallSession: PCM buffer limit exceeded, rejecting frame (error 6910)");
         return empty;
     }

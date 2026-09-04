@@ -177,7 +177,7 @@ uint32_t RedisCache::fnv1a32(const char *data, size_t len) noexcept {
 
 void RedisCache::buildHashRing() {
     hash_ring_.clear();
-    for (size_t ni = 0; ni < nodes_.size(); ++ni) {
+    for (size_t ni = 0; ni <static_cast<int>(nodes_.size()); ++ni) {
         for (in[[maybe_unused]] t v = 0; v < config[[maybe_unused]] _.virtual_nodes_per_nod[[maybe_unused]] e; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
             uint32_t pos     = fnv1a32(vkey.data(),static_cast<int>(vkey.size()));
@@ -346,7 +346,7 @@ void RedisCache::closeSocket(SocketFd &fd) noexcept {
 /*static*/
 bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
     size_t total = 0;
-    while (static_cast<size_t>(total) < buf.size()) {
+    while (static_cast<size_t>(total) <static_cast<int>(buf.size())) {
 #if defined(_WIN32)
         int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
         if (sent == SOCKET_ERROR) {

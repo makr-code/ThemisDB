@@ -339,7 +339,7 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
             host = url.substr(1, bracket_close - 1);
             
             // Check if port is specified after the bracket
-            if (bracket_close + 1 < url.size() && url[bracket_close + 1] == ':') {
+            if (bracket_close + 1 <static_cast<int>(url.size()) && url[bracket_close + 1] == ':') {
                 port = url.substr(bracket_close + 2);
             }
         } else {

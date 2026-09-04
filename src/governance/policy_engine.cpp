@@ -664,7 +664,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
                 continue;
             }
             bool equal_ci = true;
-            for (size_t i = 0; i < key.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(key.size()); ++i) {
                 if (std::tolower(static_cast<unsigned char>(kv.first[i]))
                     != std::tolower(static_cast<unsigned char>(key[i]))) {
                     equal_ci = false;

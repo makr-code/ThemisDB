@@ -130,7 +130,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
         return std::nullopt;
     }
 
-    if (req_it->second.block_ids.size() >= config_.max_blocks_per_request) {
+    if (req_it-> static_cast<int>(second.block_ids.size()) >= config_.max_blocks_per_request) {
         spdlog::warn("PagedKVCache: Request {} already reached max block limit ({})",
                      request_id, config_.max_blocks_per_request);
         stats_.allocation_failures++;
@@ -142,7 +142,7 @@ std::optional<uint32_t> PagedKVCache::allocateBlock(int64_t request_id, uint32_t
         KVCacheBlock block;
         block.block_id = block_id;
         block.request_id = static_cast<uint32_t>(request_id);
-        block.sequence_number = static_cast<uint32_t>(req_it->second.block_ids.size());
+        block.sequence_number = static_cast<uint32_t>(req_it-> static_cast<int>(second.block_ids.size()));
         block.token_start = req_it->second.total_tokens;
         block.token_count = actual_token_count;
         block.is_active = true;
@@ -438,7 +438,7 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
         }
 
         const uint32_t matched_blocks = static_cast<uint32_t>(matched_tokens / config_.block_size);
-        if (matched_blocks == 0 || matched_blocks > candidate.block_ids.size()) {
+        if (matched_blocks == 0 || matched_blocks > static_cast<int>(candidate.block_ids.size())) {
             continue;
         }
 
@@ -500,10 +500,10 @@ bool PagedKVCache::sharePrefixBlock(
 
     const auto token_start = static_cast<size_t>(block_it->second.token_start);
     const auto token_end = token_start + block_it->second.token_count;
-    if (token_end <= source_it->second.token_sequence.size()) {
+    if (token_end <= source_it-> static_cast<int>(second.token_sequence.size())) {
         const auto prefix_begin = source_it->second.token_sequence.begin() + static_cast<std::ptrdiff_t>(token_start);
         const auto prefix_end = prefix_begin + static_cast<std::ptrdiff_t>(block_it->second.token_count);
-        if (target_it->second.token_sequence.size() < token_end) {
+        if (target_it-> static_cast<int>(second.token_sequence.size()) < token_end) {
             target_it->second.token_sequence.insert(
                 target_it->second.token_sequence.end(),
                 prefix_begin,

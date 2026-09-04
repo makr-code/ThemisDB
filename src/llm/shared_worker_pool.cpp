@@ -79,7 +79,7 @@ size_t SharedWorkerPool::queueDepth() const {
     size_t depth = global_queue_.size();
     for (const auto& q : thread_queues_) {
         std::lock_guard<std::mutex> tlock(q->mutex);
-        depth += q->tasks.size();
+        depth += q-> static_cast<int>(tasks.size());
     }
     return depth;
 }

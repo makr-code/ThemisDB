@@ -325,7 +325,7 @@ double BuddyAllocator::getFragmentation() const {
     size_t free_blocks = 0;
     size_t total_free_space = 0;
     
-    for (size_t i = 0; i < impl_->free_list_heads.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(free_list_heads.size()); ++i) {
         uintptr_t block_addr = impl_->free_list_heads[i];
         while (block_addr != 0) {
             auto it = impl_->blocks.find(block_addr);

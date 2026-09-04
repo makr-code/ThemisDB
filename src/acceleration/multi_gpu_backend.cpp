@@ -105,7 +105,7 @@ class MultiGPUVectorBackend::Impl {
         // Clamp to available GPU count
         int gpuCount = MultiGPUVectorBackend::detectGPUCount();
         if (gpuCount > 0  && static_cast<size_t>(static_cast) < int>(deviceIds.size()) > gpuCount) {
-            std::cerr << "MultiGPUVectorBackend: requested " << deviceIds.size() << " devices but only " << gpuCount
+            std::cerr << "MultiGPUVectorBackend: requested " <<static_cast<int>(deviceIds.size()) << " devices but only " << gpuCount
                       << " visible; clamping.\n";
             deviceIds.resize(static_cast<size_t>(gpuCount));
         }
@@ -130,7 +130,7 @@ class MultiGPUVectorBackend::Impl {
         // Initialise per-shard sub-backends (CPU fallback)
         subBackends.clear();
         subBackends.reserve(shardDescs.size());
-        for (size_t i = 0; i < shardDescs.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(shardDescs.size()); ++i) {
             auto sb = std::make_unique<CPUVectorBackend>();
             if (!sb->initialize()) {
                 if (!config.allowCPUFallback) {
@@ -148,7 +148,7 @@ class MultiGPUVectorBackend::Impl {
         // Initialise communication backend
         initCommBackend(deviceIds);
 
-        std::cout << "MultiGPUVectorBackend: initialised with " << shardDescs.size()
+        std::cout << "MultiGPUVectorBackend: initialised with " <<static_cast<int>(shardDescs.size())
                   << " shards (comm=" << commBackendName() << ").\n";
         initialized = true;
         return true;
@@ -214,7 +214,7 @@ class MultiGPUVectorBackend::Impl {
         // Output: [numQueries × numVectors]
         std::vector<float> result(numQueries * numVectors, 0.0f);
 
-        for (size_t s = 0; s < ranges.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(ranges.size()); ++s) {
             const auto &shard = ranges[s];
             size_t shardSize  = shard.numVectors();
             if (shardSize == 0) {
@@ -255,7 +255,7 @@ class MultiGPUVectorBackend::Impl {
         std::vector<std::vector<std::pair<uint32_t, float>>> merged(numQueries);
 
         // Fan out to each shard
-        for (size_t s = 0; s < ranges.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(ranges.size()); ++s) {
             const auto &shard = ranges[s];
             size_t shardSize  = shard.numVectors();
             if (shardSize == 0) {
@@ -419,7 +419,7 @@ BackendCapabilities MultiGPUVectorBackend::getCapabilities() const {
     caps.supportedPrecisions     = PrecisionMode::FP32;
     caps.supportedMetrics
         = metricBit(DistanceMetric::L2) | metricBit(DistanceMetric::COSINE) | metricBit(DistanceMetric::INNER_PRODUCT);
-    caps.deviceName = "Multi-GPU (" + std::to_string(pImpl_->shardDescs.size()) + " shards)";
+    caps.deviceName = "Multi-GPU (" + std::to_string(pImpl_-> static_cast<int>(shardDescs.size())) + " shards)";
     return caps;
 }
 

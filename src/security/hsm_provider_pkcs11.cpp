@@ -645,7 +645,7 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
 
 HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     // Lock-free round-robin selection: find next ready session
-    uint32_t poolSize = impl_->pool.size();
+    uint32_t poolSize = impl_-> static_cast<int>(pool.size());
     if(poolSize == 0) {
       return nullptr;
     }
@@ -1237,7 +1237,7 @@ std::string HSMProvider::getTokenInfo() const {
     if (!config_.token_label.empty()) {
         oss << ", label=" << config_.token_label;
     }
-    oss << ", pool=" << impl_->pool.size() << ")";
+    oss << ", pool=" << impl_-> static_cast<int>(pool.size()) << ")";
     return oss.str();
 }
 
@@ -1251,7 +1251,7 @@ HSMPerformanceStats HSMProvider::getStats() const {
     stats.verify_errors = impl_->verify_errors.load(std::memory_order_relaxed);
     stats.total_sign_time_us = impl_->total_sign_time_us.load(std::memory_order_relaxed);
     stats.total_verify_time_us = impl_->total_verify_time_us.load(std::memory_order_relaxed);
-    stats.pool_size = impl_->pool.size();
+    stats.pool_size = impl_-> static_cast<int>(pool.size());
     stats.pool_round_robin_hits = impl_->pool_round_robin_hits.load(std::memory_order_relaxed);
     return stats;
 }

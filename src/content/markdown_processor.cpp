@@ -69,7 +69,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     // Search for closing delimiter: "---" or "..." on its own line
     size_t search_start = first_nl + 1;
     size_t close_pos    = std::string::npos;
-    while (static_cast<size_t>(search_start) < markdown.size()) {
+    while (static_cast<size_t>(search_start) <static_cast<int>(markdown.size())) {
         size_t line_end = markdown.find('\n', search_start);
         if (line_end == std::string::npos) {
           line_end = markdown.size();
@@ -78,7 +78,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
         std::string trimmed = trimCopy(markdown.substr(search_start, line_end - search_start));
         if (trimmed == "---" || trimmed == "...") {
             close_pos = search_start;
-            body_out  = (line_end < markdown.size()) ? markdown.substr(line_end + 1) : "";
+            body_out  = (line_end <static_cast<int>(markdown.size())) ? markdown.substr(line_end + 1) : "";
             break;
         }
         search_start = line_end + 1;
@@ -216,17 +216,17 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') {
+            while (i <static_cast<int>(line.size()) && line[i] == ' ') {
               ++i;
             }
-            if (i < line.size() && line[i] == '>') {
+            if (i <static_cast<int>(line.size()) && line[i] == '>') {
                 std::string rest = line;
                 while (!rest.empty()) {
                     size_t j = 0;
-                    while (j < rest.size() && rest[j] == ' ') {
+                    while (j <static_cast<int>(rest.size()) && rest[j] == ' ') {
                       ++j;
                     }
-                    if (j < rest.size() && rest[j] == '>') {
+                    if (j <static_cast<int>(rest.size()) && rest[j] == '>') {
                         rest = rest.substr(j + 1);
                         if (!rest.empty() && rest[0] == ' ') {
                           rest = rest.substr(1);
@@ -265,11 +265,11 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t hashes = 0;
-            while (hashes < line.size() && line[hashes] == '#') {
+            while (hashes <static_cast<int>(line.size()) && line[hashes] == '#') {
               ++hashes;
             }
             if (hashes >= 1 && hashes <= 6 &&
-                hashes < line.size() && line[hashes] == ' ') {
+                hashes <static_cast<int>(line.size()) && line[hashes] == ' ') {
                 std::string text = line.substr(hashes + 1);
                 // Strip trailing closing hashes
                 auto rend = text.find_last_not_of("# \t");
@@ -291,12 +291,12 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') {
+            while (i <static_cast<int>(line.size()) && line[i] == ' ') {
               ++i;
             }
-            if (i < line.size() &&
+            if (i <static_cast<int>(line.size()) &&
                 (line[i] == '-' || line[i] == '*' || line[i] == '+') &&
-                i + 1 < line.size() && line[i + 1] == ' ') {
+                i + 1 <static_cast<int>(line.size()) && line[i + 1] == ' ') {
                 line = line.substr(i + 2);
             }
         }
@@ -306,15 +306,15 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') {
+            while (i <static_cast<int>(line.size()) && line[i] == ' ') {
               ++i;
             }
             size_t j = i;
-            while (j < line.size() && std::isdigit(static_cast<unsigned char>(line[j]))) {
+            while (j <static_cast<int>(line.size()) && std::isdigit(static_cast<unsigned char>(line[j]))) {
               ++j;
             }
-            if (j > i  && static_cast<size_t>(j) < line.size() && line[j] == '.' &&
-                j + 1 < line.size() && line[j + 1] == ' ') {
+            if (j > i  && static_cast<size_t>(j) <static_cast<int>(line.size()) && line[j] == '.' &&
+                j + 1 <static_cast<int>(line.size()) && line[j + 1] == ' ') {
                 line = line.substr(j + 2);
             }
         }
@@ -326,9 +326,9 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             std::string result = {};
             result.reserve(line.size());
             size_t i = 0;
-            while (static_cast<size_t>(i) < line.size()) {
+            while (static_cast<size_t>(i) <static_cast<int>(line.size())) {
                 // Images: ![alt](url) → alt text
-                if (line[i] == '!' && i + 1 < line.size() && line[i + 1] == '[') {
+                if (line[i] == '!' && i + 1 <static_cast<int>(line.size()) && line[i + 1] == '[') {
                     size_t alt_start = i + 2;
                     size_t alt_end   = line.find(']', alt_start);
                     if (alt_end != std::string::npos) {
@@ -364,7 +364,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 // Inline code: `...` or ``...``
                 if (line[i] == '`') {
                     size_t n = 0;
-                    while (i + n < line.size() && line[i + n] == '`') {
+                    while (i + n <static_cast<int>(line.size()) && line[i + n] == '`') {
                       ++n;
                     }
                     std::string ticks(n, '`');
@@ -383,7 +383,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
 
                 // Bold+italic: ***…*** or ___…___
                 if ((line[i] == '*' || line[i] == '_') &&
-                    i + 2 < line.size() && line[i+1] == line[i] && line[i+2] == line[i]) {
+                    i + 2 <static_cast<int>(line.size()) && line[i+1] == line[i] && line[i+2] == line[i]) {
                     char m = line[i];
                     std::string triple(3, m);
                     size_t close = line.find(triple, i + 3);
@@ -398,7 +398,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
 
                 // Bold: **…** or __…__
                 if ((line[i] == '*' || line[i] == '_') &&
-                    i + 1 < line.size() && line[i+1] == line[i]) {
+                    i + 1 <static_cast<int>(line.size()) && line[i+1] == line[i]) {
                     char m = line[i];
                     std::string pair(2, m);
                     size_t close = line.find(pair, i + 2);
@@ -425,7 +425,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 }
 
                 // Strikethrough: ~~…~~
-                if (line[i] == '~' && i + 1 < line.size() && line[i+1] == '~') {
+                if (line[i] == '~' && i + 1 <static_cast<int>(line.size()) && line[i+1] == '~') {
                     size_t close = line.find("~~", i + 2);
                     if (close != std::string::npos) {
                         result += line.substr(i + 2, close - (i + 2));
@@ -671,7 +671,7 @@ std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk
       return embedding;
     }
 
-    for (size_t i = 0; i < tokens.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); ++i) {
         size_t token_hash = hasher(tokens[i]);
         for (int seed = 0; seed < 3; ++seed) {
             size_t combined = token_hash ^ (i * 31) ^ (static_cast<size_t>(seed) * 97);

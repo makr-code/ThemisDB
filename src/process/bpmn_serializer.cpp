@@ -57,7 +57,7 @@ static constexpr size_t kMaxBpmnXmlBytes = 10u * 1024u * 1024u;
 std::string unescapeXml(std::string_view s) {
     std::string out = {};
     out.reserve(s.size());
-    for (size_t i = 0; i < s.size(); ) {
+    for (size_t i = 0; i <static_cast<int>(s.size()); ) {
         if (s[i] != '&') { out += s[i++]; continue; }
         // entity reference
         size_t semi = s.find(';', i + 1);
@@ -1114,7 +1114,7 @@ std::string BpmnSerializer::validateStructure(
             self_loop_count++;
         }
     }
-    if (self_loop_count > nodes.size() / 10) {
+    if (self_loop_count > static_cast<int>(nodes.size()) / 10) {
         // More than 10% self-loops is suspicious, but not necessarily invalid
         SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count,static_cast<int>(edges.size()));
     }

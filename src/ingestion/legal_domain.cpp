@@ -250,7 +250,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
         }
 
         std::size_t end = pos;
-        while (end < trimmed.size() &&
+        while (end <static_cast<int>(trimmed.size()) &&
                (std::isalnum(static_cast<unsigned char>(trimmed[end])) || trimmed[end] == '.')) {
             ++end;
         }
@@ -655,7 +655,7 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
     if (!be.auflagen.empty()) {
         // Serialize auflagen list as a semicolon-delimited string
         std::string auflagen_str = {};
-        for (std::size_t i = 0; i < be.auflagen.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(be.auflagen.size()); ++i) {
             if (i > 0) {
               auflagen_str += "; ";
             }

@@ -632,7 +632,7 @@ std::string BaseEntity::toJson() const {
                 oss << nlohmann::json(arg).dump();
             } else if constexpr (std::is_same_v<T, std::vector<float>>) {
                 oss << "[";
-                for (size_t i = 0; i < arg.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(arg.size()); ++i) {
                     if (i > 0) {
                       oss << ",";
                     }

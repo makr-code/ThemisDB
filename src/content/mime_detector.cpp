@@ -270,7 +270,7 @@ bool MimeDetector::matchesMagicSignature(const std::vector<uint8_t>& content,
         return false;
     }
     
-    for (size_t i = 0; i < sig.signature.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sig.signature.size()); ++i) {
         // Skip wildcard positions
         if (sig.wildcard_positions.count(i) > 0) {
             continue;
@@ -356,7 +356,7 @@ std::string MimeDetector::computeDeterministicHash() const {
         std::vector<std::string> mimes(cat.second.begin(), cat.second.end());
         std::sort(mimes.begin(), mimes.end());
         std::string joined = {};
-        for (size_t i = 0; i < mimes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(mimes.size()); ++i) {
             if (i) {
               joined += ",";
             }

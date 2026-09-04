@@ -74,12 +74,12 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
     bool literal_placeholder_inserted = false;
     bool last_was_space = false;
 
-    for (size_t i = 0; i < query.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(query.size()); ++i) {
         const char ch = query[i];
 
         if (in_single_quote) {
             if (ch == '\'') {
-                if (i + 1 < query.size() && query[i + 1] == '\'') {
+                if (i + 1 <static_cast<int>(query.size()) && query[i + 1] == '\'') {
                     ++i;
                     continue;
                 }
@@ -92,7 +92,7 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         if (in_double_quote) {
             normalized.push_back(ch);
             if (ch == '"') {
-                if (i + 1 < query.size() && query[i + 1] == '"') {
+                if (i + 1 <static_cast<int>(query.size()) && query[i + 1] == '"') {
                     normalized.push_back(query[++i]);
                     continue;
                 }
@@ -133,7 +133,7 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         if ((ch == '+' || ch == '-') &&
             (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
                         query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@')) &&
-            i + 1 < query.size() &&
+            i + 1 <static_cast<int>(query.size()) &&
             std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0) {
             // The sign is a numeric prefix; skip it so the following digit
             // handler collapses the whole signed literal into a single '?'.
@@ -150,7 +150,7 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
             if (normalized.empty() || normalized.back() != '?') {
                 normalized.push_back('?');
             }
-            while (i + 1 < query.size()) {
+            while (i + 1 <static_cast<int>(query.size())) {
                 const char next = query[i + 1];
                 const bool continue_numeric =
                     (std::isdigit(static_cast<unsigned char>(next)) != 0) ||

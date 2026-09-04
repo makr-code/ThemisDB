@@ -1784,11 +1784,11 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
         // Prewarm-only entries (generated_text is empty) prepare KV-tensor state
         // but must not short-circuit model inference; fall through to normal generation.
         if (!cached->generated_text.empty()) {
-            recordCacheHit(cached->token_ids.size());
+            recordCacheHit(cached-> static_cast<int>(token_ids.size()));
 
             InferenceResponse response;
             response.text = cached->generated_text;
-            response.tokens_prompt = static_cast<int>(cached->token_ids.size());
+            response.tokens_prompt = static_cast<int>(cached-> static_cast<int>(token_ids.size()));
             response.cache_hit = true;
 
             return response;
@@ -2208,7 +2208,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         tok_fn_copy(remote_text, vocab_size);
                     if (!tok_ids.empty()) {
                         for (size_t i = 0; i < K; ++i) {
-                            const int tid = (i < tok_ids.size())
+                            const int tid = (i <static_cast<int>(tok_ids.size()))
                                 ? tok_ids[i] : 0;
                             draft_result.tokens.push_back(tid);
                             std::vector<float> row(vocab_size, kBaseline);
@@ -2314,7 +2314,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                             result.tokens.reserve(k);
                             result.logits.reserve(k);
                             for (size_t i = 0; i < k; ++i) {
-                                const int tid = (i < ids.size()) ? ids[i] : 0;
+                                const int tid = (i <static_cast<int>(ids.size())) ? ids[i] : 0;
                                 result.tokens.push_back(tid);
                                 std::vector<float> row(vocab, kBaseline);
                                 const size_t idx = static_cast<size_t>(

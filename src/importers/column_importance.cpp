@@ -153,8 +153,8 @@ ColumnImportanceAnalyzer::findRedundantColumns(const std::vector<ColumnImportanc
 
     // Simple heuristic: columns with similar entropy values are candidates
     // for redundancy (they carry similar information content)
-    for (size_t i = 0; i < importance_scores.size(); ++i) {
-        for (size_t j = i + 1; j < importance_scores.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(importance_scores.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(importance_scores.size()); ++j) {
             const auto &a = importance_scores[i];
             const auto &b = importance_scores[j];
 

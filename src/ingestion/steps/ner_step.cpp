@@ -250,7 +250,7 @@ public:
         if (ctx.text_language.empty() && !lang.empty())
             ctx.text_language = lang;
 
-        const std::size_t added = ctx.entities.size() - prior_count;
+        const std::size_t added = static_cast<int>(ctx.entities.size()) - prior_count;
         if (added == 0) {
             ctx.warnings.push_back(
                 "builtin.ner_de: no entities extracted from text");

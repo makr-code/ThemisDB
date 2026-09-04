@@ -234,7 +234,7 @@ private:
             std::string value_str = j.dump();
             std::vector<uint8_t> value(value_str.begin(), value_str.end());
             db_->put(key, value);
-            std::cout << "✓ Stored: " << key << " (" << value.size() << " bytes)\n";
+            std::cout << "✓ Stored: " << key << " (" <<static_cast<int>(value.size()) << " bytes)\n";
         }
         
         // Store customers
@@ -244,7 +244,7 @@ private:
             std::string value_str = j.dump();
             std::vector<uint8_t> value(value_str.begin(), value_str.end());
             db_->put(key, value);
-            std::cout << "✓ Stored: " << key << " (" << value.size() << " bytes)\n";
+            std::cout << "✓ Stored: " << key << " (" <<static_cast<int>(value.size()) << " bytes)\n";
         }
         
         auto end = std::chrono::high_resolution_clock::now();
@@ -274,7 +274,7 @@ private:
         
         std::cout << "Retrieved User: " << alice.username << "\n";
         std::cout << "────────────────────────────────────────────────────────────\n";
-        std::cout << "📦 Encrypted blob size: " << alice_json.size() << " bytes\n";
+        std::cout << "📦 Encrypted blob size: " <<static_cast<int>(alice_json.size()) << " bytes\n";
         std::cout << "⏱️  Fetch time: " << fetch_time << "μs\n\n";
         
         // Decrypt fields
@@ -418,8 +418,8 @@ private:
         std::cout << "   • Hardware Acceleration: Active (AES-NI)\n\n";
         
         std::cout << "✅ Data Created:\n";
-        std::cout << "   • Users: " << users_.size() << "\n";
-        std::cout << "   • Customers: " << customers_.size() << "\n";
+        std::cout << "   • Users: " <<static_cast<int>(users_.size()) << "\n";
+        std::cout << "   • Customers: " <<static_cast<int>(customers_.size()) << "\n";
         std::cout << "   • Encrypted Fields: " << (users_.size() * 4 + customers_.size() * 3) << "\n\n";
         
         std::cout << "✅ Security Features:\n";

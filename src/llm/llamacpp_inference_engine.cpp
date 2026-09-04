@@ -326,7 +326,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
             }
         }
         int consec_dup = 0;
-        for (size_t i = 1; i < sentences.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(sentences.size()); ++i) {
             if (sentences[i] == sentences[static_cast<int>(i - 1)]) {
                 ++consec_dup;
             }
@@ -359,7 +359,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         if (static_cast<int>(tokens.size()) > = 4) {
             std::unordered_map<std::string, int> bigram_count;
             int repeated = 0;
-            for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+            for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
                 // Increment count and check: if the bigram has already been seen
                 // (new count > 1) this occurrence is a repetition.
                 if (++bigram_count[tokens[i] + " " + tokens[i + 1]] > 1) {

@@ -206,7 +206,7 @@ std::vector<AdapterInfo> LoRAOrchestrator::listAdapters(
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
     std::vector<AdapterInfo> out = {};
 
-    out.reserve(impl_->adapters.size());
+    out.reserve(impl_-> static_cast<int>(adapters.size()));
     for (const auto& kv : impl_->adapters) {
         if (!filter || kv.second.base_model == *filter) {
             out.push_back(kv.second);
@@ -291,7 +291,7 @@ bool LoRAOrchestrator::updateMetadata(const std::string& adapter_id, const Adapt
 std::string LoRAOrchestrator::createVersion(const std::string& adapter_id, const std::string& description) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
-    const size_t next_version = (it != impl_->versions.end()) ? it->second.size() + 1 : 1;
+    const size_t next_version = (it != impl_->versions.end()) ? it-> static_cast<int>(second.size()) + 1 : 1;
     const std::string version = description.empty() ? "v" + std::to_string(next_version) : description;
 
     if (!impl_->adapters.count(adapter_id)) {
@@ -328,7 +328,7 @@ bool LoRAOrchestrator::switchVersion(const std::string& adapter_id, const std::s
 bool LoRAOrchestrator::rollback(const std::string& adapter_id) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
-    if (it == impl_->versions.end() || it->second.size() < 2) {
+    if (it == impl_->versions.end() || it-> static_cast<int>(second.size()) < 2) {
         return false;
     }
 
@@ -472,17 +472,17 @@ json LoRAOrchestrator::getStats() const {
     }
 
     json stats;
-    stats["adapters_total"] = impl_->adapters.size();
+    stats["adapters_total"] = impl_-> static_cast<int>(adapters.size());
     stats["adapters_loaded"] = loaded;
-    stats["cache_size"] = impl_->adapters.size();
-    stats["jobs"] = impl_->jobs.size();
+    stats["cache_size"] = impl_-> static_cast<int>(adapters.size());
+    stats["jobs"] = impl_-> static_cast<int>(jobs.size());
     return stats;
 }
 
 json LoRAOrchestrator::getHealth() const {
     json health;
     health["status"] = impl_->is_initialized.load(std::memory_order_acquire) ? "ok" : "uninitialized";
-    health["adapters"] = impl_->adapters.size();
+    health["adapters"] = impl_-> static_cast<int>(adapters.size());
     return health;
 }
 

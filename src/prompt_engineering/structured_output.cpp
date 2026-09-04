@@ -77,7 +77,7 @@ bool StructuredOutputEnforcer::checkJsonStructure(const std::string& text,
     bool in_string    = false;
     bool escaped      = false;
 
-    for (size_t i = 0; i < text.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         const char c = text[i];
 
         if (escaped) {
@@ -189,7 +189,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
     size_t obj_end = std::string::npos;
     bool in_string = false;
     bool escaped   = false;
-    for (size_t i = obj_start; i < schema.size(); ++i) {
+    for (size_t i = obj_start; i <static_cast<int>(schema.size()); ++i) {
         const char c = schema[i];
         if (escaped) { escaped = false; continue; }
         if (c == '\\' && in_string) { escaped = true; continue; }
@@ -218,7 +218,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
     bool in_s = false; bool esc = false; int dep = 0;
     std::string cur_key = {};
     bool reading_key = false;
-    for (size_t i = 0; i < flat.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(flat.size()); ++i) {
         const char c = flat[i];
         if (esc) { esc = false; if (reading_key) cur_key += c; continue; }
         if (c == '\\' && in_s) { esc = true; continue; }
@@ -228,10 +228,10 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
                 if (dep == 0 && reading_key) {
                     // confirm next non-space char is ':'
                     size_t j = i + 1;
-                    while (j < flat.size() && flat[j] == ' ') {
+                    while (j <static_cast<int>(flat.size()) && flat[j] == ' ') {
                       ++j;
                     }
-                    if (j < flat.size() && flat[j] == ':') {
+                    if (j <static_cast<int>(flat.size()) && flat[j] == ':') {
                         names.push_back(cur_key);
                     }
                     reading_key = false;
@@ -265,7 +265,7 @@ std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
     std::string cur_key = {};
     bool reading_key = false;
 
-    for (size_t i = 0; i < json.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(json.size()); ++i) {
         const char c = json[i];
         if (escaped) {
             escaped = false;
@@ -281,10 +281,10 @@ std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
                 if (depth == 1 && reading_key) {
                     // Confirm ':' follows
                     size_t j = i + 1;
-                    while (j < json.size() && (json[j] == ' ' || json[j] == '\t' ||
+                    while (j <static_cast<int>(json.size()) && (json[j] == ' ' || json[j] == '\t' ||
                                                 json[j] == '\n' || json[j] == '\r'))
                         ++j;
-                    if (j < json.size() && json[j] == ':') {
+                    if (j <static_cast<int>(json.size()) && json[j] == ':') {
                         keys.push_back(cur_key);
                     }
                     reading_key = false;

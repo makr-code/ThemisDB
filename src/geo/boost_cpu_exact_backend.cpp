@@ -73,7 +73,7 @@ static Polygon toBoostPolygon(const GeometryInfo& geom) {
         }
     } else if (!geom.rings.empty()) {
         // Polygon with rings (first ring is outer, rest are holes)
-        for (size_t i = 0; i < geom.rings.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(geom.rings.size()); ++i) {
             if (i == 0) {
                 // Outer ring
                 for (const auto& coord : geom.rings[i]) {

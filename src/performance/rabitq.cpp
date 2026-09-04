@@ -107,7 +107,7 @@ RaBitQVector RaBitQEncoder::encode(const std::vector<float>& vec) const {
     
     RaBitQVector result(vec.size());
     
-    for (size_t i = 0; i < vec.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(vec.size()); i++) {
         uint8_t quantized = quantize_value(vec[i], i);
         result.set(i, quantized);
     }
@@ -140,7 +140,7 @@ float RaBitQEncoder::compute_distance(const RaBitQVector& a, const RaBitQVector&
 float RaBitQEncoder::asymmetric_distance(const std::vector<float>& query, const RaBitQVector& db_vector) const {
     // Query is full precision, database vector is quantized
     float dist = 0.0f;
-    for (size_t i = 0; i < query.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(query.size()); i++) {
         float db_val = dequantize_value(db_vector.get(i), i);
         float diff = query[i] - db_val;
         dist += diff * diff;
@@ -211,7 +211,7 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vecto
     std::priority_queue<SearchResult, std::vector<SearchResult>, decltype(cmp)> heap(cmp);
     
     // Compute distances to all vectors
-    for (size_t i = 0; i < vectors_.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(vectors_.size()); i++) {
         float dist = encoder_->asymmetric_distance(query, vectors_[i]);
         
         if (static_cast<int>(heap.size()) < static_cast<size_t>(k)) {
@@ -418,7 +418,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vec) con
         float min_dist = std::numeric_limits<float>::max();
         uint8_t best = 0;
 
-        for (size_t ci = 0; ci < codebook.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(codebook.size()); ++ci) {
             float dist = 0.0f;
             for (size_t dim = 0; dim < subvector_dimension_; ++dim) {
                 float diff = subvec[dim] - codebook[ci][dim];

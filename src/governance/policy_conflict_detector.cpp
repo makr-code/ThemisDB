@@ -129,8 +129,8 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectPermitDenyConflicts(
     auto rules = policy_mgr.listRules();
     
     // O(n²) comparison of all rule pairs
-    for (size_t i = 0; i < rules.size(); ++i) {
-        for (size_t j = i + 1; j < rules.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             auto conflict = checkRuleConflict(rules[i], rules[j]);
             if (conflict) {
                 conflicts.push_back(conflict.value());
@@ -147,8 +147,8 @@ std::vector<PolicyConflict> PolicyConflictDetector::detectOverlappingConflicts(
     std::vector<PolicyConflict> conflicts;
     auto rules = policy_mgr.listRules();
     
-    for (size_t i = 0; i < rules.size(); ++i) {
-        for (size_t j = i + 1; j < rules.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             const auto& rule1 = rules[i];
             const auto& rule2 = rules[j];
             

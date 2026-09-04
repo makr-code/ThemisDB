@@ -73,7 +73,7 @@ bool DirectXShader::load() {
             return false;
         }
         std::cout << "DirectXShader: Loaded shader bytecode from " << file_path.string()
-                  << " (" << bytecode_.size() << " bytes)\n";
+                  << " (" <<static_cast<int>(bytecode_.size()) << " bytes)\n";
         return true;
     };
 
@@ -113,7 +113,7 @@ bool DirectXShader::load() {
                 static_cast<const uint8_t*>(blob->GetBufferPointer()) + blob->GetBufferSize()
             );
             std::cout << "DirectXShader: Compiled HLSL source " << shader_path_ << " ("
-                      << bytecode_.size() << " bytes)\n";
+                      <<static_cast<int>(bytecode_.size()) << " bytes)\n";
             return true;
         }
         // Attempt to read as compiled bytecode
@@ -160,7 +160,7 @@ bool DirectXShader::load() {
                 static_cast<const uint8_t*>(blob->GetBufferPointer()) + blob->GetBufferSize()
             );
             std::cout << "DirectXShader: Compiled HLSL source " << alt.string() << " ("
-                      << bytecode_.size() << " bytes)\n";
+                      <<static_cast<int>(bytecode_.size()) << " bytes)\n";
             return true;
         }
     }

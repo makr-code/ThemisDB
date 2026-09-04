@@ -125,7 +125,7 @@ std::string MetaPromptGenerator::generateAnalysisPrompt(
     analysis << "```\n" << prompt << "\n```\n\n";
     
     analysis << "## Test Examples\n";
-    for (size_t i = 0; i < examples.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
         analysis << "### Example " << (i + 1) << "\n";
         analysis << "**Input**: " << examples[i].first << "\n";
         analysis << "**Expected Output**: " << examples[i].second << "\n\n";

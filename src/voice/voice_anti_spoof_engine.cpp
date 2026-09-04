@@ -36,7 +36,7 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
     std::vector<double> samples = {};
 
     samples.reserve(audio_data.size() / 2);
-    for (size_t i = 0; i < audio_data.size(); i += 2) {
+    for (size_t i = 0; i <static_cast<int>(audio_data.size()); i += 2) {
         const auto lo = static_cast<unsigned char>(audio_data[i]);
         const auto hi = static_cast<unsigned char>(audio_data[i + 1]);
         const int16_t sample = static_cast<int16_t>(
@@ -72,7 +72,7 @@ constexpr size_t MAX_SILENCE_DURATION_MS = 500;
     }
 
     size_t start = 0;
-    while (static_cast<size_t>(start) < baseline.size()) {
+    while (static_cast<size_t>(start) <static_cast<int>(baseline.size())) {
         const auto comma = baseline.find(',', start);
         const auto end = (comma == std::string::npos) ?static_cast<int>(baseline.size()) : comma;
         auto token = baseline.substr(start, end - start);
@@ -211,7 +211,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
                   static_cast<double>(noise_profile.size());
     double variance = 0.0;
     double max_jump = 0.0;
-    for (size_t i = 0; i < noise_profile.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(noise_profile.size()); ++i) {
         const double diff = noise_profile[i] - mean;
         variance += diff * diff;
         if (i > 0) {

@@ -369,7 +369,7 @@ size_t SnapshotManager::pruneOldSnapshots() {
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
 
-    for (size_t i = 0; i < snapshots.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(snapshots.size()); ++i) {
         if (pol.protect_latest && i == newest_idx) {
           continue;
         }

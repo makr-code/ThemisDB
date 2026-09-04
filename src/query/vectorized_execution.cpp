@@ -281,7 +281,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
 
     // 2. Infer column types from first non-null value per column
     std::vector<ColumnType> col_types(col_names.size(), ColumnType::Null);
-    for (size_t ci = 0; ci < col_names.size(); ++ci) {
+    for (size_t ci = 0; ci <static_cast<int>(col_names.size()); ++ci) {
         const std::string& name = col_names[ci];
         for (size_t i = offset; i < end; ++i) {
             const auto& row = rows[i];
@@ -308,7 +308,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
     // 3. Allocate and populate columns
     std::vector<std::shared_ptr<Column>> columns;
     columns.reserve(col_names.size());
-    for (size_t ci = 0; ci < col_names.size(); ++ci) {
+    for (size_t ci = 0; ci <static_cast<int>(col_names.size()); ++ci) {
         auto col = std::make_shared<Column>(col_names[ci], col_types[ci]);
         col->reserve(count);
         columns.push_back(std::move(col));
@@ -316,7 +316,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
 
     for (size_t i = offset; i < end; ++i) {
         const auto& row = rows[i];
-        for (size_t ci = 0; ci < col_names.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(col_names.size()); ++ci) {
             auto& col = *columns[ci];
             if (!row.is_object() || !row.contains(col_names[ci])) {
                 col.appendNull();

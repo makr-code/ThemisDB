@@ -111,7 +111,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
     // Build arrays – zero-copy for numeric types, builder-based for others
     std::vector<std::shared_ptr<arrow::Array>> arrays;
 
-    for (size_t col_idx = 0; col_idx < columns.size(); ++col_idx) {
+    for (size_t col_idx = 0; col_idx <static_cast<int>(columns.size()); ++col_idx) {
         const auto &col = columns[col_idx];
         std::shared_ptr<arrow::Array> array;
 
@@ -141,7 +141,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
             case ArrowRecordBatch::DataType::STRING: {
                 // Strings are stored as variants; use builder (no contiguous buffer)
                 arrow::StringBuilder builder;
-                for (size_t i = 0; i < col.data.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(col.data.size()); ++i) {
                     if (col.null_bitmap[i]) {
                         ARROW_RETURN_NOT_OK(builder.AppendNull());
                     } else {
@@ -154,7 +154,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
             case ArrowRecordBatch::DataType::BOOLEAN: {
                 // Booleans are stored as variants; use builder (no contiguous buffer)
                 arrow::BooleanBuilder builder;
-                for (size_t i = 0; i < col.data.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(col.data.size()); ++i) {
                     if (col.null_bitmap[i]) {
                         ARROW_RETURN_NOT_OK(builder.AppendNull());
                     } else {
@@ -283,7 +283,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
             size_t chunk_size = options.batch_size * 100; // Approximate chunk size
             size_t offset     = 0;
 
-            while (static_cast<size_t>(offset) < data.size()) {
+            while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
                 size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);
@@ -327,7 +327,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
         // Header
         const auto &columns = batch.getColumns();
-        for (size_t i = 0; i < columns.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
             oss << columns[i].schema.name;
             if (i < static_cast<int>(columns.size()) - 1) {
                 oss << ",";
@@ -337,7 +337,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
 
         // Data rows
         for (size_t row = 0; row < batch.rowCount(); ++row) {
-            for (size_t col = 0; col < columns.size(); ++col) {
+            for (size_t col = 0; col <static_cast<int>(columns.size()); ++col) {
                 const auto &column = columns[col];
 
                 if (column.null_bitmap[row]) {
@@ -853,7 +853,7 @@ class FeatherExporter : public IAnalyticsExporter {
             std::string data  = exportToString(batch, options);
             size_t chunk_size = options.batch_size * 100;
             size_t offset     = 0;
-            while (static_cast<size_t>(offset) < data.size()) {
+            while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
                 size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback([[maybe_unused]] chunk);

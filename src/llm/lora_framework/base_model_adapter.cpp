@@ -583,7 +583,7 @@ bool LoRAEnhancedModel::initialize() {
     
     if (active_layers_.empty()) {
         std::string modules_str = {};
-        for (size_t i = 0; i < config_.target_modules.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(config_.target_modules.size()); ++i) {
             if (i > 0) {
               modules_str += ", ";
             }

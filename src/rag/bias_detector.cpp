@@ -282,7 +282,7 @@ double BiasDetector::calculateChiSquare(
     }
     
     double chi_square = 0.0;
-    for (size_t i = 0; i < observed.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(observed.size()); ++i) {
         if (expected[i] > 0) {
             double diff = observed[i] - expected[i];
             chi_square += (diff * diff) / expected[i];

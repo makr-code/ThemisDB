@@ -52,7 +52,7 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
     const std::string snippet = (text.size() > 3000) ? text.substr(0, 3000) + "…" : text;
 
     std::ostringstream keywords_str = {};
-    for (std::size_t i = 0; i < gap.keywords.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(gap.keywords.size()); ++i) {
         if (i > 0) {
           keywords_str << ", ";
         }

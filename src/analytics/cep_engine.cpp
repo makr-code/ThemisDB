@@ -159,7 +159,7 @@ std::string hexDecode(const std::string &hex) {
         }
         return -1;
     };
-    for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+    for (size_t i = 0; i + 1 <static_cast<int>(hex.size()); i += 2) {
         int hi = nibble(hex[i]);
         int lo = nibble(hex[i + 1]);
         if (hi >= 0 && lo >= 0) {
@@ -190,7 +190,7 @@ struct Token {
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
-    while (static_cast<size_t>(i) < expr.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(expr.size())) {
         char c = expr[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             ++i;
@@ -198,7 +198,7 @@ std::vector<Token> tokenize(const std::string &expr) {
         }
         if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
             size_t start = i;
-            while (i < expr.size()
+            while (i <static_cast<int>(expr.size())
                    && (std::isalnum(static_cast<unsigned char>(expr[i])) || expr[i] == '_' || expr[i] == '.')) {
                 ++i;
             }
@@ -213,12 +213,12 @@ std::vector<Token> tokenize(const std::string &expr) {
             }
             tokens.push_back({t, word});
         } else if (std::isdigit(static_cast<unsigned char>(c))
-                   || (c == '-' && i + 1 < expr.size() && std::isdigit(static_cast<unsigned char>(expr[i + 1])))) {
+                   || (c == '-' && i + 1 <static_cast<int>(expr.size()) && std::isdigit(static_cast<unsigned char>(expr[i + 1])))) {
             size_t start = i;
             if (c == '-') {
                 ++i;
             }
-            while (i < expr.size() && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) {
+            while (i <static_cast<int>(expr.size()) && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) {
                 ++i;
             }
             std::string ns = expr.substr(start, i - start);
@@ -237,7 +237,7 @@ std::vector<Token> tokenize(const std::string &expr) {
             char quote = c;
             ++i;
             size_t start = i;
-            while (i < expr.size() && expr[i] != quote) {
+            while (i <static_cast<int>(expr.size()) && expr[i] != quote) {
                 ++i;
             }
             tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
@@ -250,11 +250,11 @@ std::vector<Token> tokenize(const std::string &expr) {
         } else if (c == ')') {
             tokens.push_back({TokType::RPAREN, ")"});
             ++i;
-        } else if (c == '=' && i + 1 < expr.size() && expr[i + 1] == '=') {
+        } else if (c == '=' && i + 1 <static_cast<int>(expr.size()) && expr[i + 1] == '=') {
             tokens.push_back({TokType::EQ, "=="});
             i += 2;
         } else if (c == '!') {
-            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+            if (i + 1 <static_cast<int>(expr.size()) && expr[i + 1] == '=') {
                 tokens.push_back({TokType::NEQ, "!="});
                 i += 2;
             } else {
@@ -262,7 +262,7 @@ std::vector<Token> tokenize(const std::string &expr) {
                 ++i;
             }
         } else if (c == '<') {
-            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+            if (i + 1 <static_cast<int>(expr.size()) && expr[i + 1] == '=') {
                 tokens.push_back({TokType::LEQ, "<="});
                 i += 2;
             } else {
@@ -270,7 +270,7 @@ std::vector<Token> tokenize(const std::string &expr) {
                 ++i;
             }
         } else if (c == '>') {
-            if (i + 1 < expr.size() && expr[i + 1] == '=') {
+            if (i + 1 <static_cast<int>(expr.size()) && expr[i + 1] == '=') {
                 tokens.push_back({TokType::GEQ, ">="});
                 i += 2;
             } else {
@@ -302,7 +302,7 @@ struct ExprEvaluator {
         return tokens[pos];
     }
     void advance() {
-        if (pos + 1 < tokens.size()) {
+        if (pos + 1 <static_cast<int>(tokens.size())) {
             ++pos;
         }
     }
@@ -682,12 +682,12 @@ void PatternMatcher::buildNFA() {
         return;
     }
 
-    for (uint32_t i = 0; i < ev_types.size(); ++i) {
+    for (uint32_t i = 0; i <static_cast<int>(ev_types.size()); ++i) {
         NFAState s;
         s.state_id            = i;
         s.expected_event_type = ev_types[i];
         s.is_accepting        = (i + 1 == ev_types.size());
-        if (i + 1 < ev_types.size()) {
+        if (i + 1 <static_cast<int>(ev_types.size())) {
             s.transitions.push_back(i + 1);
         }
         nfa_states_.push_back(std::move(s));
@@ -1644,7 +1644,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
-                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) < group_by_fields_.size()) {
+                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) <static_cast<int>(group_by_fields_.size())) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
                     }
                 }

@@ -162,8 +162,8 @@ ConflictDiagnosticHelper::detectConflict(
         // Simple conflict detection: if multiple policies exist, potential conflict
         result.has_conflicts = true;
         
-        for (size_t i = 0; i < policy_ids.size(); ++i) {
-            for (size_t j = i + 1; j < policy_ids.size(); ++j) {
+        for (size_t i = 0; i <static_cast<int>(policy_ids.size()); ++i) {
+            for (size_t j = i + 1; j <static_cast<int>(policy_ids.size()); ++j) {
                 result.conflicting_pairs.emplace_back(policy_ids[i], policy_ids[j]);
                 result.descriptions.push_back(
                     "Potential conflict between policies: " + 
@@ -709,7 +709,7 @@ SafeAccessResult SafeAccessValidator::validateAccessRequest(
         diag.context["violation_count"] = std::to_string(result.violations.size());
         diag.context["user_tier"] = request.user_tier;
         
-        for (size_t i = 0; i < result.scenario_codes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(result.scenario_codes.size()); ++i) {
             diag.remediation_steps.push_back(result.remediation_steps[i]);
         }
         

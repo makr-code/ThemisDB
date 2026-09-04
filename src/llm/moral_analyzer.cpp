@@ -217,7 +217,7 @@ MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
     const std::string& action_id,
     const std::vector<PredictedOutcome>& outcomes
 ) {
-    for (size_t i = 0; i < outcomes.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(outcomes.size()); ++i) {
         const auto& outcome = outcomes[i];
         std::string outcome_id = action_id + "_outcome_" + std::to_string(i);
         
@@ -659,7 +659,7 @@ MoralAnalyzer::EthicalDecision MoralAnalyzer::synthesizeDecision(
     
     // Generate synthesis reasoning
     std::ostringstream oss = {};
-    oss << "After considering " << paths.size() << " philosophical perspectives, "
+    oss << "After considering " <<static_cast<int>(paths.size()) << " philosophical perspectives, "
         << "the recommended action is: " << synthesized.recommended_action << ". ";
     
     for (const auto& [philosophy, path] : paths) {
@@ -1109,7 +1109,7 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     
     if (!decision.reasoning_path.supporting_principles.empty()) {
         oss << "This decision is supported by the following principles: ";
-        for (size_t i = 0; i < decision.reasoning_path.supporting_principles.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.supporting_principles.size()); ++i) {
             if (i > 0) {
               oss << ", ";
             }
@@ -1120,7 +1120,7 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     
     if (!decision.reasoning_path.opposing_principles.empty()) {
         oss << "However, some principles suggest caution: ";
-        for (size_t i = 0; i < decision.reasoning_path.opposing_principles.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.opposing_principles.size()); ++i) {
             if (i > 0) {
               oss << ", ";
             }
@@ -1131,7 +1131,7 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     
     if (!decision.reasoning_path.outcomes.empty()) {
         oss << "Expected outcomes include: ";
-        for (size_t i = 0; i < decision.reasoning_path.outcomes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(decision.reasoning_path.outcomes.size()); ++i) {
             if (i > 0) {
               oss << ", ";
             }

@@ -76,7 +76,7 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
         THEMIS_WARN("Batch size {} exceeds max {}, splitting",static_cast<int>(metrics.size()), config_.max_batch_size);
         
         HTTPResponse last_response;
-        for (size_t i = 0; i < metrics.size(); i += config_.max_batch_size) {
+        for (size_t i = 0; i <static_cast<int>(metrics.size()); i += config_.max_batch_size) {
             size_t end = std::min(i + config_.max_batch_size,static_cast<int>(metrics.size()));
             std::vector<QualityMetricPayload> batch(metrics.begin() + i, metrics.begin() + end);
             last_response = sendMetricsBatch(batch);

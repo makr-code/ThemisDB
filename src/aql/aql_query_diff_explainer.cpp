@@ -96,9 +96,9 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
     std::sort(matches.begin(), matches.end(), [](const Match &a, const Match &b) { return a.pos < b.pos; });
 
     // Extract bodies.
-    for (size_t i = 0; i < matches.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(matches.size()); ++i) {
         size_t body_start = matches[i].pos + matches[i].keyword.size();
-        size_t body_end   = (i + 1 < matches.size()) ? matches[i + 1].pos : norm.size();
+        size_t body_end   = (i + 1 <static_cast<int>(matches.size())) ? matches[i + 1].pos : norm.size();
         std::string body  = norm.substr(body_start, body_end - body_start);
         if (!body.empty() && body.front() == ' ') {
             body = body.substr(1);
@@ -288,8 +288,8 @@ QueryDiffResult AQLQueryDiffExplainer::explain(const std::string &query_a, const
         result.summary       = "Queries are structurally equivalent (whitespace differences only).";
     } else {
         std::ostringstream ss = {};
-        ss << result.diffs.size() << " difference" << (result.diffs.size() != 1 ? "s" : "") << ": ";
-        for (size_t i = 0; i < result.diffs.size(); ++i) {
+        ss <<static_cast<int>(result.diffs.size()) << " difference" << (result.diffs.size() != 1 ? "s" : "") << ": ";
+        for (size_t i = 0; i <static_cast<int>(result.diffs.size()); ++i) {
             if (i) {
                 ss << "; ";
             }

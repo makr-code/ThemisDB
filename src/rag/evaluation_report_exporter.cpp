@@ -135,14 +135,14 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // documents array
     os << "  \"documents\": [\n";
-    for (size_t i = 0; i < inp.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(inp.documents.size()); ++i) {
         const auto& doc = inp.documents[i];
         os << "    {"
            << "\"id\": \""       << escapeJSON(doc.id)      << "\","
            << "\"similarity_score\": " << doc.similarity_score << ","
            << "\"content\": \""  << escapeJSON(doc.content) << "\""
            << "}";
-        if (i + 1 < inp.documents.size()) {
+        if (i + 1 <static_cast<int>(inp.documents.size())) {
           os << ",";
         }
         os << "\n";
@@ -156,7 +156,7 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
         for (const auto& kv : inp.metadata) {
             os << "    \"" << escapeJSON(kv.first)
                << "\": \""  << escapeJSON(kv.second) << "\"";
-            if (++idx < inp.metadata.size()) {
+            if (++idx <static_cast<int>(inp.metadata.size())) {
               os << ",";
             }
             os << "\n";
@@ -184,9 +184,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // verified claims
     os << "  \"verified_claims\": [\n";
-    for (size_t i = 0; i < res.verified_claims.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.verified_claims.size()); ++i) {
         os << "    \"" << escapeJSON(res.verified_claims[i]) << "\"";
-        if (i + 1 < res.verified_claims.size()) {
+        if (i + 1 <static_cast<int>(res.verified_claims.size())) {
           os << ",";
         }
         os << "\n";
@@ -195,9 +195,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // unverified claims
     os << "  \"unverified_claims\": [\n";
-    for (size_t i = 0; i < res.unverified_claims.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.unverified_claims.size()); ++i) {
         os << "    \"" << escapeJSON(res.unverified_claims[i]) << "\"";
-        if (i + 1 < res.unverified_claims.size()) {
+        if (i + 1 <static_cast<int>(res.unverified_claims.size())) {
           os << ",";
         }
         os << "\n";
@@ -206,9 +206,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
 
     // improvements
     os << "  \"improvements\": [\n";
-    for (size_t i = 0; i < res.improvements.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.improvements.size()); ++i) {
         os << "    \"" << escapeJSON(res.improvements[i]) << "\"";
-        if (i + 1 < res.improvements.size()) {
+        if (i + 1 <static_cast<int>(res.improvements.size())) {
           os << ",";
         }
         os << "\n";
@@ -218,9 +218,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     // ethical
     os << "  \"ethical\": {\n";
     os << "    \"violations\": [\n";
-    for (size_t i = 0; i < res.ethical_violations.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.ethical_violations.size()); ++i) {
         os << "      \"" << escapeJSON(res.ethical_violations[i]) << "\"";
-        if (i + 1 < res.ethical_violations.size()) {
+        if (i + 1 <static_cast<int>(res.ethical_violations.size())) {
           os << ",";
         }
         os << "\n";
@@ -374,7 +374,7 @@ std::string EvaluationReportExporter::toHTML(const PerQueryReport& report) const
     // ── retrieved documents ───────────────────────────────────────────────
     if (!inp.documents.empty()) {
         os << "<div class=\"card\">\n<h2>Retrieved Documents ("
-           << inp.documents.size() << ")</h2>\n";
+           <<static_cast<int>(inp.documents.size()) << ")</h2>\n";
         for (const auto& doc : inp.documents) {
             os << "<div class=\"doc-block\">"
                << "<strong>" << escapeHTML(doc.id) << "</strong>"

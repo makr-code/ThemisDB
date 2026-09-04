@@ -75,7 +75,7 @@ struct GEvalEvaluator::Impl {
         
         if (!documents.empty()) {
             prompt << "Retrieved Documents:\n";
-            for (size_t i = 0; i < documents.size() && i < 3; i++) {
+            for (size_t i = 0; i <static_cast<int>(documents.size()) && i < 3; i++) {
                 prompt << "Document " << (i+1) << ":\n";
                 prompt << documents[i].second.substr(0, 500) << "...\n\n";
             }
@@ -248,7 +248,7 @@ struct GEvalEvaluator::Impl {
                 std::istringstream iss(response.text);
                 std::string tok = {};
                 size_t idx = 0;
-                while (iss >> tok  && static_cast<size_t>(idx) < response.logprobs.size()) {
+                while (iss >> tok  && static_cast<size_t>(idx) <static_cast<int>(response.logprobs.size())) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
                     char max_digit = static_cast<char>('0' + kNumScoreLevels);
                     if (static_cast<int>(tok.size()) == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
@@ -354,7 +354,7 @@ GEvalResult GEvalEvaluator::evaluate(
         std::ostringstream reasoning = {};
         reasoning << "G-Eval probabilistic scoring for " << dimension << ":\n";
         reasoning << "Token probability distribution:\n";
-        for (size_t i = 0; i < result.token_probabilities.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(result.token_probabilities.size()); i++) {
             reasoning << "  Level " << (i+1) << ": " 
                      << std::fixed << std::setprecision(3) 
                      << result.token_probabilities[i] << "\n";
@@ -396,7 +396,7 @@ double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilitie
     
     // Compute expected value: E[score] = Σ(level × P(level))
     double expected_score = 0.0;
-    for (size_t i = 0; i < probabilities.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(probabilities.size()); i++) {
         int level = static_cast<int>(i) + 1;
         expected_score += level * probabilities[i];
     }

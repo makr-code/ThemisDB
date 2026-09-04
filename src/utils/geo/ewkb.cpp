@@ -118,7 +118,7 @@ MBR GeometryInfo::computeMBR() const {
     // For multi-geometry types, union MBRs of sub-geometries
     if (!geometries.empty() && coords.empty() && rings.empty()) {
         MBR result = geometries[0].computeMBR();
-        for (size_t i = 1; i < geometries.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(geometries.size()); ++i) {
             MBR sub = geometries[i].computeMBR();
             result.minx = std::min(result.minx, sub.minx);
             result.maxx = std::max(result.maxx, sub.maxx);
@@ -804,7 +804,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "LINESTRING EMPTY";
         }
         oss << "LINESTRING(";
-        for (size_t i = 0; i < geom.coords.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(geom.coords.size()); ++i) {
             const auto& c = geom.coords[i];
             if (i > 0) {
                 oss << ",";
@@ -823,7 +823,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "POLYGON EMPTY";
         }
         oss << "POLYGON(";
-        for (size_t r = 0; r < geom.rings.size(); ++r) {
+        for (size_t r = 0; r <static_cast<int>(geom.rings.size()); ++r) {
             if (r > 0) {
                 oss << ",";
             }

@@ -53,7 +53,7 @@ float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b)
       return 0.f;
     }
     float dot = 0.f, na = 0.f, nb = 0.f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += a[i] * b[i];
         na  += a[i] * a[i];
         nb  += b[i] * b[i];
@@ -1142,7 +1142,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(keine)";
         } else {
-            for (size_t i = 0; i < ctx.active_nodes.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1153,7 +1153,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.visited_nodes.empty()) {
             ss << "Verlauf: ";
-            for (size_t i = 0; i < ctx.visited_nodes.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ctx.visited_nodes.size()); ++i) {
                 if (i > 0) {
                   ss << " → ";
                 }
@@ -1189,7 +1189,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i < ctx.compliance_tags.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1246,7 +1246,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(none)";
         } else {
-            for (size_t i = 0; i < ctx.active_nodes.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1278,7 +1278,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i < ctx.compliance_tags.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }

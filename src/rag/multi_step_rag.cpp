@@ -175,7 +175,7 @@ std::string MultiStepRAGOrchestrator::buildMapPrompt(
 {
     // Build context block: "Source: …\n<content>"
     std::ostringstream ctx = {};
-    for (size_t i = 0; i < chunks.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
         if (i > 0) {
           ctx << "\n\n---\n\n";
         }
@@ -200,7 +200,7 @@ std::string MultiStepRAGOrchestrator::buildReducePrompt(
     const std::string&              query) const
 {
     std::ostringstream pa = {};
-    for (size_t i = 0; i < partial_answers.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(partial_answers.size()); ++i) {
         pa << "--- Answer " << (i + 1) << " ---\n" << partial_answers[i] << "\n";
     }
 
@@ -358,7 +358,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         // first exception after draining.
         std::vector<std::future<std::string>> futures;
         futures.reserve(batches.size());
-        for (size_t bi = 0; bi < batches.size(); ++bi) {
+        for (size_t bi = 0; bi <static_cast<int>(batches.size()); ++bi) {
             futures.push_back(std::async(std::launch::async,
                 [this, &batches, &query, &infer, map_max_tok, bi]() -> std::string {
                     return infer(buildMapPrompt(batches[bi], query), map_max_tok);

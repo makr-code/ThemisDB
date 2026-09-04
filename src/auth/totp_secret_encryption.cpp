@@ -334,7 +334,7 @@ SecureBuffer<uint8_t> TOTPSecretEncryption::deriveKey(const std::vector<uint8_t>
 
     // Use PBKDF2-HMAC-SHA256
     if (PKCS5_PBKDF2_HMAC(reinterpret_cast<const char *>(impl_->config.master_key.data()),
-                          static_cast<int>(impl_->config.master_key.size()), salt.data(), static_cast<int>(salt.size()),
+                          static_cast<int>(impl_-> static_cast<int>(config.master_key.size())), salt.data(), static_cast<int>(salt.size()),
                           impl_->config.pbkdf2_iterations, EVP_sha256(), static_cast<int>(derived_key.size()),
                           derived_key.data())
         != 1) {

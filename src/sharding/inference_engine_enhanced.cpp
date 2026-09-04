@@ -468,7 +468,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     double acceptance_rate = 0.0;
     uint32_t accepted_count = 0;
     
-    for (size_t i = 0; i < draft_token_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(draft_token_ids.size()); ++i) {
         // Simulate verification: accept with certain probability
         if (accept_dist(gen)) {
             verified_token_ids.push_back(draft_token_ids[i]);
@@ -832,7 +832,7 @@ std::string InferenceEngineEnhanced::detokenize(const std::vector<int>& token_id
     // For simulation, we'll just return a placeholder
     
     std::string text = {};
-    for (size_t i = 0; i < token_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(token_ids.size()); ++i) {
         if (i > 0) {
             text += " ";
         }

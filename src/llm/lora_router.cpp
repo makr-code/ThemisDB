@@ -532,7 +532,7 @@ RoutingDecision LoRARouter::selectByABTest(
     float cumulative = 0.0f;
     
     std::string selected_adapter = {};
-    for (size_t i = 0; i < ab_test_config_->adapter_ids.size(); ++i) {
+    for (size_t i = 0; i < ab_test_config_-> static_cast<int>(adapter_ids.size()); ++i) {
         cumulative += ab_test_config_->traffic_splits[i];
         if (rand_val <= cumulative) {
             selected_adapter = ab_test_config_->adapter_ids[i];
@@ -661,7 +661,7 @@ float LoRARouter::cosineSimilarity(
     float norm_a = 0.0f;
     float norm_b = 0.0f;
     
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot_product += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];

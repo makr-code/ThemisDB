@@ -159,7 +159,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
         int applied = 0;
         json errors_array = json::array();
 
-        for (size_t i = 0; i < ops.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(ops.size()); ++i) {
             const json& op = ops[i];
 
             if (!op.contains("type") || !op["type"].is_string()) {

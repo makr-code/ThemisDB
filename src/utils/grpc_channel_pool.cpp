@@ -74,7 +74,7 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::acquireChannel(
         }
         
         // No available channels, check if we can create new one
-        if (pool->all_channels.size() < config_.max_channels_per_target) {
+        if (pool-> static_cast<int>(all_channels.size()) < config_.max_channels_per_target) {
             lock.unlock();
 
             // Create new channel outside the lock (may throw).
@@ -151,7 +151,7 @@ GrpcChannelPool::Stats GrpcChannelPool::getStats() const {
     std::lock_guard<std::mutex> lock(pools_mutex_);
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
-        stats.available_channels += pool->available.size();
+        stats.available_channels += pool-> static_cast<int>(available.size());
         
         for (const auto& [ch, pooled_ch] : pool->all_channels) {
             if (pooled_ch->in_use) {
@@ -267,7 +267,7 @@ void GrpcChannelPool::warmup(
     std::lock_guard<std::mutex> lock(pool->mutex);
     
     // Create channels up to the requested amount
-    for (size_t i = pool->all_channels.size(); i < num_channels; ++i) {
+    for (size_t i = pool-> static_cast<int>(all_channels.size()); i < num_channels; ++i) {
         try {
             auto channel = createChannel(target, credentials);
             auto pooled_channel = std::make_shared<PooledChannel>();

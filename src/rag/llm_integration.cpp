@@ -189,7 +189,7 @@ std::string LLMIntegration::generate(
             while (iss >> tok) {
                 TokenProbability tp;
                 tp.token = tok;
-                if (!response.logprobs.empty()  && static_cast<size_t>(pos) < response.logprobs.size()) {
+                if (!response.logprobs.empty()  && static_cast<size_t>(pos) <static_cast<int>(response.logprobs.size())) {
                     // logprobs are natural-log probabilities; convert to probability
                     tp.probability = static_cast<double>(
                         std::exp(response.logprobs[pos]));

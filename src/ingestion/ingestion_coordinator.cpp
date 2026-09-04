@@ -243,7 +243,7 @@ WorkStealingPool::WorkStealingPool(
 {}
 
 void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
-    assert(worker_idx < deques_.size());
+    assert(worker_idx <static_cast<int>(deques_.size()));
     {
         std::lock_guard<std::mutex> lock(deques_[worker_idx].mtx);
         deques_[worker_idx].tasks.push_back(std::move(source));
@@ -334,7 +334,7 @@ std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCall
     std::vector<std::thread> threads = {};
 
     threads.reserve(nodes_.size());
-    for (size_t i = 0; i < nodes_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(nodes_.size()); ++i) {
         threads.emplace_back(&WorkStealingPool::workerFn, this, i, cb);
     }
     for (auto& t : threads) {
@@ -540,7 +540,7 @@ IngestionReport IngestionCoordinator::ingestAll(
     {
         std::lock_guard<std::mutex> lock(nodes_mutex_);
         active_nodes = nodes_;
-        for (size_t i = 0; i < active_nodes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(active_nodes.size()); ++i) {
             node_idx_map[active_nodes[i]->nodeId()] = i;
         }
     }

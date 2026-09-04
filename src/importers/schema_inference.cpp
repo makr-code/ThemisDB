@@ -477,16 +477,16 @@ SchemaInferenceEngine::detectRelationshipCycles(
                     } else if (rec_stack.count(neighbor)) {
                         // Cycle detected – backtrack to find all nodes in cycle
                         size_t cycle_start = 0;
-                        for (size_t i = 0; i < path.size(); ++i) {
+                        for (size_t i = 0; i <static_cast<int>(path.size()); ++i) {
                             if (path[i] == neighbor) {
                                 cycle_start = i;
                                 break;
                             }
                         }
                         // Record all edges in the cycle
-                        for (size_t i = cycle_start; i < path.size(); ++i) {
+                        for (size_t i = cycle_start; i <static_cast<int>(path.size()); ++i) {
                             std::string key = path[i];
-                            std::string next_node = (i + 1 < path.size())
+                            std::string next_node = (i + 1 <static_cast<int>(path.size()))
                                 ? path[i + 1]
                                 : neighbor;
                             if (cycles[key].empty()) {

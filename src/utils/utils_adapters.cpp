@@ -112,7 +112,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
         const std::string placeholder = "[REDACTED]";
         size_t start = f.start_offset + offset_shift;
         size_t len   = f.end_offset - f.start_offset;
-        if (start < text.size() && start + len <= text.size()) {
+        if (start <static_cast<int>(text.size()) && start + len <= text.size()) {
             text.replace(start, len, placeholder);
             offset_shift += static_cast<int>(placeholder.size()) - len;
         }

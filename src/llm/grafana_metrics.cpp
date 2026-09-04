@@ -105,7 +105,7 @@ void PrometheusExporter::observeHistogram(const std::string& name, double value,
     if (it != metrics_.end()) {
         it->second.histogram_buckets.push_back(value);
         // Keep only recent values (max MAX_HISTOGRAM_SAMPLES)
-        if (it->second.histogram_buckets.size() > MAX_HISTOGRAM_SAMPLES) {
+        if (it-> static_cast<int>(second.histogram_buckets.size()) > MAX_HISTOGRAM_SAMPLES) {
             it->second.histogram_buckets.erase(it->second.histogram_buckets.begin());
         }
     } else {

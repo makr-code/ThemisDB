@@ -173,7 +173,7 @@ static int bridge_geo_containment(
     auto* geo = themis::geo::getGpuSpatialBackend();
     themis::geo::SpatialBatchResults res = geo->batchIntersects(batch);
     const size_t n = static_cast<size_t>(numPoints);
-    for (size_t i = 0; i < res.mask.size() && i < n; ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.mask.size()) && i < n; ++i) {
         results[i] = res.mask[i];
     }
     return 0;
@@ -317,7 +317,7 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
 
     // Convert uint8_t mask → bool.
     std::vector<bool> out(numPoints, false);
-    for (size_t i = 0; i < res.mask.size() && i < numPoints; ++i) {
+    for (size_t i = 0; i <static_cast<int>(res.mask.size()) && i < numPoints; ++i) {
         out[i] = (res.mask[i] != 0u);
     }
     return out;

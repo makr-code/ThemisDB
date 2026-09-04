@@ -286,12 +286,12 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
         });
     } else {
         // Use sequential loop to avoid potential threading issues with OpenSSL in tests.
-        for (size_t i = 0; i < items.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(items.size()); ++i) {
             process_item(i);
         }
     }
 #else
-    for (size_t i = 0; i < items.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(items.size()); ++i) {
         process_item(i);
     }
 #endif

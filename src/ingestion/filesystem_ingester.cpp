@@ -183,7 +183,7 @@ static std::string extractJsonText(const std::string& raw) {
     bool escape = false;
     std::string token = {};
 
-    for (size_t i = 0; i < raw.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(raw.size()); ++i) {
         char c = raw[i];
         if (escape) {
             if (in_string) {

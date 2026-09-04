@@ -277,7 +277,7 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
         }
 
         // Only emit config keys (not offset keys)
-        if (static_cast<int>(key.size()) > config_sfx.size()
+        if (static_cast<int>(key.size()) > static_cast<int>(config_sfx.size())
             && key.compare(static_cast<int>(key.size()) - config_sfx.size(),static_cast<int>(config_sfx.size()), config_sfx) == 0) {
             // Strip prefix and suffix to get group_id
             std::string gid = key.substr(prefix.size(), static_cast<int>(key.size()) - static_cast<int>(prefix.size()) - config_sfx.size());

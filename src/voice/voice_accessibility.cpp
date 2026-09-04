@@ -43,11 +43,11 @@ std::vector<CaptionCue> VoiceAccessibility::generateCaptions(
 
     cues.reserve(timed_segments.size());
 
-    for (size_t i = 0; i < timed_segments.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(timed_segments.size()); ++i) {
         CaptionCue cue;
         cue.start_ms = timed_segments[i].first;
         // End time: next segment start or start + 3000ms
-        if (i + 1 < timed_segments.size()) {
+        if (i + 1 <static_cast<int>(timed_segments.size())) {
             cue.end_ms = timed_segments[i + 1].first;
         } else {
             cue.end_ms = timed_segments[i].first + 3000;
@@ -277,12 +277,12 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSortCues(const std::vector<Capt
     });
 
     // Fix overlapping timestamps: ensure end_ms >= start_ms + 1 and no overlap with next
-    for (size_t i = 0; i < sorted.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
         static constexpr int64_t DEFAULT_MIN_CUE_DURATION_MS = 1000;
         if (sorted[i].end_ms <= sorted[i].start_ms) {
             sorted[i].end_ms = sorted[i].start_ms + DEFAULT_MIN_CUE_DURATION_MS;
         }
-        if (i + 1 < sorted.size() && sorted[i].end_ms > sorted[i + 1].start_ms) {
+        if (i + 1 <static_cast<int>(sorted.size()) && sorted[i].end_ms > sorted[i + 1].start_ms) {
             sorted[i].end_ms = sorted[i + 1].start_ms;
         }
         sorted[i].sequence = static_cast<int>(i + 1);
@@ -367,7 +367,7 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<Ca
     std::vector<CaptionCue> result;
     result.push_back(sorted[0]);
 
-    for (size_t i = 1; i < sorted.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(sorted.size()); ++i) {
         auto& last = result.back();
         int64_t gap = sorted[i].start_ms - last.end_ms;
         // Merge if gap is small and same speaker
@@ -380,7 +380,7 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<Ca
     }
 
     // Renumber sequences
-    for (size_t i = 0; i < result.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(result.size()); ++i) {
         result[i].sequence = static_cast<int>(i + 1);
     }
     return result;
@@ -393,7 +393,7 @@ std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars)
 
     std::ostringstream wrapped = {};
     size_t start = 0;
-    while (static_cast<size_t>(start) < text.size()) {
+    while (static_cast<size_t>(start) <static_cast<int>(text.size())) {
         size_t end = start + static_cast<size_t>(max_chars);
         if (end >= static_cast<int>(text.size())) {
             wrapped << text.substr(start);

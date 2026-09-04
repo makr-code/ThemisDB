@@ -395,7 +395,7 @@ ResolutionResult DependencyResolver::resolve(
         // Track edges already added for this pkg to guard against duplicate deps.
         std::unordered_set<std::string> added_edges = {};
 
-        added_edges.reserve(it_ver->second.size());
+        added_edges.reserve(it_ver-> static_cast<int>(second.size()));
 
         for (const auto& dep : it_ver->second) {
             // Only create an ordering edge when dep.package is also being updated.

@@ -140,7 +140,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             
             if (status.ok) {
                 bm25_results.reserve(ft_results.size());
-                for (size_t i = 0; i < ft_results.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(ft_results.size()); ++i) {
                     const auto& ft_result = ft_results[i];
                     Result r;
                     r.document_id = ft_result.pk;
@@ -172,7 +172,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 );
 
                 vector_results.reserve(frontdoor_result.candidates.size());
-                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(frontdoor_result.candidates.size()); ++i) {
                     const auto& candidate = frontdoor_result.candidates[i];
                     Result r;
                     r.document_id = std::to_string(candidate.id);
@@ -193,7 +193,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
                     if (status.ok) {
                         vector_results.reserve(vec_results.size());
-                        for (size_t i = 0; i < vec_results.size(); ++i) {
+                        for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                             const auto& vec_result = vec_results[i];
                             Result r;
                             r.document_id = vec_result.pk;
@@ -219,7 +219,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
 
                 if (status.ok) {
                     vector_results.reserve(vec_results.size());
-                    for (size_t i = 0; i < vec_results.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                         const auto& vec_result = vec_results[i];
                         Result r;
                         r.document_id = vec_result.pk;
@@ -368,7 +368,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     std::unordered_map<std::string, Result> doc_map;
     
     // Process BM25 results
-    for (size_t i = 0; i < bm25_results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(bm25_results.size()); ++i) {
         const auto& r = bm25_results[i];
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;
@@ -382,7 +382,7 @@ std::vector<HybridSearch::Result> HybridSearch::reciprocalRankFusion(
     }
     
     // Process vector results
-    for (size_t i = 0; i < vector_results.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(vector_results.size()); ++i) {
         const auto& r = vector_results[i];
         auto& doc = doc_map[r.document_id];
         doc.document_id = r.document_id;

@@ -2205,7 +2205,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                 
                 // Manual join for documentation links (fmt::join may not be available in all versions)
                 std::string docs_str = {};
-                for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(metadata.related_docs.size()); ++i) {
                     if (i > 0) {
                       docs_str += ", ";
                     }

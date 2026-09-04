@@ -65,12 +65,12 @@ void StreamWriter::write(const char* data, size_t size) {
         compressAndWrite(data, size);
     } else {
         // Write directly if buffer would overflow
-        if (buffer_pos_ + size > buffer_.size()) {
+        if (buffer_pos_ + size > static_cast<int>(buffer_.size())) {
             writeBuffer();
         }
         
         // If data is larger than buffer, write directly
-        if (size > buffer_.size()) {
+        if (size > static_cast<int>(buffer_.size())) {
             file_.write(data, size);
             compressed_bytes_written_ += size;
         } else {

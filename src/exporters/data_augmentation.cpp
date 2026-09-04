@@ -144,7 +144,7 @@ const std::map<std::string, std::vector<std::string>> &DataAugmentationPipeline:
     }
     std::string result = text;
     bool next_upper    = true;
-    for (size_t i = 0; i < result.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(result.size()); ++i) {
         if (next_upper && std::isalpha(static_cast<unsigned char>(result[i]))) {
             result[i]  = static_cast<char>(std::toupper(static_cast<unsigned char>(result[i])));
             next_upper = false;

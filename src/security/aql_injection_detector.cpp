@@ -64,7 +64,7 @@ AQLInjectionDetector::validateParameterizedQuery(
     }
     
     // Step 3: Validate parameters are properly escaped
-    for (size_t i = 0; i < parameters.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(parameters.size()); ++i) {
         auto param_result = validateParameter(parameters[i]);
         if (!param_result.is_safe) {
             result.is_safe = false;
@@ -96,7 +96,7 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
         result.detected_patterns = extractPatterns(aql);
         if (!result.detected_patterns.empty()) {
             std::ostringstream token_stream = {};
-            for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(result.detected_patterns.size()); ++i) {
                 if (i > 0) {
                     token_stream << ", ";
                 }

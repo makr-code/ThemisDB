@@ -42,7 +42,7 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
     out.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
     const auto* data = reinterpret_cast<const unsigned char*>(input.data());
     size_t i = 0;
-    for (; i + 2 < input.size(); i += 3) {
+    for (; i + 2 <static_cast<int>(input.size()); i += 3) {
         uint32_t v = (uint32_t(data[i]) << 16) | (uint32_t(data[i+1]) << 8) | data[i+2];
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
@@ -90,7 +90,7 @@ std::string TemporalCompressor::base64Decode(const std::string& input) {
       return out;
     }
     out.reserve((input.size() / 4) * 3);
-    for (size_t i = 0; i < input.size(); i += 4) {
+    for (size_t i = 0; i <static_cast<int>(input.size()); i += 4) {
         int a = base64CharValue(input[i]);
         int b = base64CharValue(input[i+1]);
         int c = input[i+2] == '=' ? 0 : base64CharValue(input[i+2]);
@@ -125,10 +125,10 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size());
     size_t i = 0;
-    while (static_cast<size_t>(i) < input.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
         unsigned char cur = static_cast<unsigned char>(input[i]);
         size_t run = 1;
-        while (i + run < input.size() &&
+        while (i + run <static_cast<int>(input.size()) &&
                static_cast<unsigned char>(input[i + run]) == cur &&
                run < 255) {
             ++run;
@@ -152,9 +152,9 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size() * 2);
     size_t i = 0;
-    while (static_cast<size_t>(i) < input.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
         unsigned char byte = static_cast<unsigned char>(input[i]);
-        if (byte == kRlRepeatMarker && i + 2 < input.size()) {
+        if (byte == kRlRepeatMarker && i + 2 <static_cast<int>(input.size())) {
             unsigned char count = static_cast<unsigned char>(input[i+1]);
             char ch = input[i+2];
             for (unsigned char k = 0; k < count; ++k) {
@@ -252,13 +252,13 @@ nlohmann::json TemporalCompressor::applyGorilla(
     // Delta-encode timestamps
     nlohmann::json ts_arr = nlohmann::json::array();
     ts_arr.push_back(series[0].first);
-    for (size_t i = 1; i < series.size(); ++i)
+    for (size_t i = 1; i <static_cast<int>(series.size()); ++i)
         ts_arr.push_back(series[i].first - series[static_cast<int>(i - 1)].first);
 
     // XOR-delta encode doubles (store as uint64 bit patterns)
     nlohmann::json val_arr = nlohmann::json::array();
     uint64_t prev_bits = 0;
-    for (size_t i = 0; i < series.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(series.size()); ++i) {
         uint64_t bits = 0;
         static_assert(sizeof(double) == sizeof(uint64_t), "");
         std::memcpy(&bits, &series[i].second, sizeof(bits));
@@ -487,7 +487,7 @@ CompressionStats TemporalCompressor::compressHistory(
         switch (config.algorithm) {
         // ── DELTA ──────────────────────────────────────────────────────────
         case CompressionAlgorithm::DELTA: {
-            for (size_t i = 1; i < sorted_versions.size(); ++i) {
+            for (size_t i = 1; i <static_cast<int>(sorted_versions.size()); ++i) {
                 const auto& base    = sorted_versions[static_cast<int>(i - 1)];
                 const auto& current = sorted_versions[i];
 
@@ -572,7 +572,7 @@ CompressionStats TemporalCompressor::compressHistory(
             }
 
             // Encode each version: numeric fields → Gorilla ref, others verbatim
-            for (size_t i = 0; i < sorted_versions.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(sorted_versions.size()); ++i) {
                 const auto& v = sorted_versions[i];
                 const std::string orig = v.data.dump();
                 stats.original_size_bytes += orig.size();

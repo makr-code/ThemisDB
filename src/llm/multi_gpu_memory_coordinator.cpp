@@ -192,7 +192,7 @@ bool MultiGPUMemoryCoordinator::initialize(const std::vector<int>& gpu_ids) {
     }
     
     impl_->initialized_ = true;
-    spdlog::info("MultiGPUMemoryCoordinator: Successfully initialized {} GPU(s)", impl_->gpus_.size());
+    spdlog::info("MultiGPUMemoryCoordinator: Successfully initialized {} GPU(s)", impl_-> static_cast<int>(gpus_.size()));
     return true;
 }
 
@@ -209,14 +209,14 @@ MultiGPUMemoryCoordinator::distributeModelWeights(
     
     // Split model evenly across GPUs (tensor parallelism)
     size_t shard_size = model_size_bytes / gpu_ids.size();
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
         plan.shard_sizes.push_back(shard_size);
     }
     
     // Enable P2P for all GPU pairs
     plan.enable_p2p = true;
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
-        for (size_t j = i + 1; j < gpu_ids.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(gpu_ids.size()); ++j) {
             plan.p2p_pairs.emplace_back(gpu_ids[i], gpu_ids[j]);
         }
     }
@@ -244,7 +244,7 @@ MultiGPUMemoryCoordinator::distributeLayers(
     size_t remaining_layers = num_layers % gpu_ids.size();
     
     size_t current_layer = 0;
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
         std::vector<int> gpu_layers;
         size_t num_layers_this_gpu = layers_per_gpu + (i < remaining_layers ? 1 : 0);
         
@@ -258,7 +258,7 @@ MultiGPUMemoryCoordinator::distributeLayers(
     
     // Enable P2P for adjacent GPUs (pipeline stages)
     plan.enable_p2p = true;
-    for (size_t i = 0; i + 1 < gpu_ids.size(); ++i) {
+    for (size_t i = 0; i + 1 <static_cast<int>(gpu_ids.size()); ++i) {
         plan.p2p_pairs.emplace_back(gpu_ids[i], gpu_ids[i + 1]);
     }
     
@@ -297,7 +297,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
     
     // Distribute batch proportionally to inverse utilization
     size_t assigned = 0;
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
         size_t batch_for_gpu = static_cast<size_t>(
             total_batch_size * (inverse_util[i] / sum_inverse)
         );
@@ -329,8 +329,8 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     int success_count = 0;
     int fail_count = 0;
     
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
-        for (size_t j = i + 1; j < gpu_ids.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(gpu_ids.size()); ++j) {
             int src_gpu = gpu_ids[i];
             int dst_gpu = gpu_ids[j];
             
@@ -406,8 +406,8 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     int success_count = 0;
     int fail_count = 0;
     
-    for (size_t i = 0; i < gpu_ids.size(); ++i) {
-        for (size_t j = i + 1; j < gpu_ids.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(gpu_ids.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(gpu_ids.size()); ++j) {
             int src_gpu = gpu_ids[i];
             int dst_gpu = gpu_ids[j];
             

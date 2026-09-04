@@ -111,7 +111,7 @@ public:
         std::vector<GpuCompressionResult> results = {};
 
         results.reserve(ptrs.size());
-        for (size_t i = 0; i < ptrs.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(ptrs.size()); ++i) {
             results.push_back(compress(ptrs[i], sizes[i], algorithm, cfg));
         }
         return results;
@@ -1280,7 +1280,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
         // Collect indices of buffers large enough for the GPU threshold
         std::vector<size_t> gpu_indices = {};
 
-        for (size_t i = 0; i < buffers.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(buffers.size()); ++i) {
             if (should_use_gpu(buffers[i].size()))
                 gpu_indices.push_back(i);
         }
@@ -1305,7 +1305,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
 
             size_t g = 0;
             for (size_t idx : gpu_indices) {
-                if (g < gpu_results.size() && gpu_results[g].success) {
+                if (g <static_cast<int>(gpu_results.size()) && gpu_results[g].success) {
                     results[idx] = std::move(gpu_results[g]);
                     filled[idx]  = true;
                     std::lock_guard<std::mutex> lk(mu_);
@@ -1325,7 +1325,7 @@ std::vector<GpuCompressionResult> GpuCompressionManager::compress_batch(
             }
 
             // CPU path for non-GPU and failed/fallback buffers
-            for (size_t i = 0; i < buffers.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(buffers.size()); ++i) {
                 if (!filled[i])
                     results[i] = compress(buffers[i], algorithm);
             }
@@ -1353,8 +1353,8 @@ std::vector<std::vector<uint8_t>> GpuCompressionManager::decompress_batch(
 {
     std::vector<std::vector<uint8_t>> results;
     results.reserve(compressed_buffers.size());
-    for (size_t i = 0; i < compressed_buffers.size(); ++i) {
-        size_t orig = (i < original_sizes.size()) ? original_sizes[i] : 0;
+    for (size_t i = 0; i <static_cast<int>(compressed_buffers.size()); ++i) {
+        size_t orig = (i <static_cast<int>(original_sizes.size())) ? original_sizes[i] : 0;
         results.push_back(decompress(compressed_buffers[i], algorithm, orig));
     }
     return results;

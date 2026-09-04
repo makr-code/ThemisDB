@@ -504,7 +504,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     // Feature 1: Character n-grams (trigrams)
     std::unordered_map<std::string, int> trigrams = {};
 
-    for (size_t i = 0; i + 2 < lower_prompt.size(); ++i) {
+    for (size_t i = 0; i + 2 <static_cast<int>(lower_prompt.size()); ++i) {
         if (std::isalnum(lower_prompt[i]) && 
             std::isalnum(lower_prompt[i+1]) && 
             std::isalnum(lower_prompt[i+2])) {

@@ -166,7 +166,7 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
     result += first;
 
     char prev_code = (first >= 'A' && first <= 'Z') ? table[first - 'A'] : '0';
-    for (size_t i = 1; i < word.size() && static_cast<int>(result.size()) < 4; ++i) {
+    for (size_t i = 1; i <static_cast<int>(word.size()) && static_cast<int>(result.size()) < 4; ++i) {
         char c = static_cast<char>(std::toupper(static_cast<unsigned char>(word[i])));
         if (c < 'A' || c > 'Z') {
           continue;

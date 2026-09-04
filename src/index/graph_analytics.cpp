@@ -34,7 +34,7 @@ GraphAnalytics::buildTopology(const std::vector<std::string>& node_pks) const {
     
     // Batch lookups: fewer DB roundtrips (10-100× faster for large graphs)
     const size_t batch_size = 256;
-    for (size_t start = 0; start < node_pks.size(); start += batch_size) {
+    for (size_t start = 0; start <static_cast<int>(node_pks.size()); start += batch_size) {
         size_t end = std::min(start + batch_size,static_cast<int>(node_pks.size()));
         
         for (size_t i = start; i < end; ++i) {
@@ -79,12 +79,12 @@ GraphAnalytics::degreeCentrality(const std::vector<std::string>& node_pks) const
         
         auto out_it = topo.outgoing.find(pk);
         if (out_it != topo.outgoing.end()) {
-            dr.out_degree = static_cast<int>(out_it->second.size());
+            dr.out_degree = static_cast<int>(out_it-> static_cast<int>(second.size()));
         }
         
         auto in_it = topo.incoming.find(pk);
         if (in_it != topo.incoming.end()) {
-            dr.in_degree = static_cast<int>(in_it->second.size());
+            dr.in_degree = static_cast<int>(in_it-> static_cast<int>(second.size()));
         }
         
         dr.total_degree = dr.in_degree + dr.out_degree;
@@ -146,7 +146,7 @@ GraphAnalytics::pageRank(
         out_degrees.reserve(n);
         for (const auto& pk : node_pks) {
             auto out_it = topo.outgoing.find(pk);
-            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it->second.size() : 0);
+            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it-> static_cast<int>(second.size()) : 0);
         }
         
         // Distribute rank from each node to its outgoing neighbors
@@ -710,7 +710,7 @@ GraphAnalytics::kShortestPaths(
         const PathInfo& prev_path = A[static_cast<int>(k_idx - 1)];
         
         // For each node in the previous shortest path (except the last)
-        for (size_t spur_idx = 0; spur_idx < prev_path.vertices.size() - 1; ++spur_idx) {
+        for (size_t spur_idx = 0; spur_idx <static_cast<int>(prev_path.vertices.size()) - 1; ++spur_idx) {
             const std::string& spur_node = prev_path.vertices[spur_idx];
             
             // Root path: from source to spur node
@@ -730,14 +730,14 @@ GraphAnalytics::kShortestPaths(
             for (const auto& path : A) {
                 if (static_cast<int>(path.vertices.size()) > spur_idx + 1) {
                     bool same_root = true;
-                    for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) < path.vertices.size(); ++i) {
+                    for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) <static_cast<int>(path.vertices.size()); ++i) {
                         if (path.vertices[i] != root_vertices[i]) {
                             same_root = false;
                             break;
                         }
                     }
                     
-                    if (same_root  && static_cast<size_t>(spur_idx) < path.edges.size()) {
+                    if (same_root  && static_cast<size_t>(spur_idx) <static_cast<int>(path.edges.size())) {
                         excluded_edges.insert(path.edges[spur_idx]);
                     }
                 }
@@ -753,7 +753,7 @@ GraphAnalytics::kShortestPaths(
                 total_path.edges = root_edges;
                 
                 // Add spur path (skip first vertex as it's the spur node)
-                for (size_t i = 1; i < spur_path.vertices.size(); ++i) {
+                for (size_t i = 1; i <static_cast<int>(spur_path.vertices.size()); ++i) {
                     total_path.vertices.push_back(spur_path.vertices[i]);
                 }
                 for (const auto& edge : spur_path.edges) {

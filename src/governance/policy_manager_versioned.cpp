@@ -374,12 +374,12 @@ std::vector<ConflictInfo> PolicyManagerWithVersioning::getActiveConflicts() cons
 
     auto rules = policy_manager_->listRules();
 
-    for (std::size_t i = 0; i < rules.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
         if (!rules[i].enabled) {
             continue;
         }
 
-        for (std::size_t j = i + 1; j < rules.size(); ++j) {
+        for (std::size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             if (!rules[j].enabled) {
                 continue;
             }

@@ -48,7 +48,7 @@ std::string PositionAbstractValidator::extractVerdictFromContent(const std::stri
 
 std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRoundOutput &output) {
     std::ostringstream thesis_joined = {};
-    for (std::size_t i = 0; i < output.core_thesis_ids.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(output.core_thesis_ids.size()); ++i) {
         if (i > 0) {
             thesis_joined << ", ";
         }

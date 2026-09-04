@@ -96,7 +96,7 @@ public:
         };
 
         size_t batch_start = 0;
-        while (static_cast<size_t>(batch_start) < records.size()) {
+        while (static_cast<size_t>(batch_start) <static_cast<int>(records.size())) {
             // Enforce write deadline before starting each batch.
             if (has_timeout && std::chrono::steady_clock::now() >= deadline) {
                 stats.records_rejected += static_cast<int>(records.size()) - batch_start;

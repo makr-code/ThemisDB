@@ -180,8 +180,8 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
         // Use stringstream for efficient string concatenation (Error Code: 7451)
         std::ostringstream oss = {};
         oss << "Migration preview: migration is not purely additive "
-            << "(" << result.removed_columns.size() << " removed, "
-            << result.modified_columns.size() << " modified); "
+            << "(" <<static_cast<int>(result.removed_columns.size()) << " removed, "
+            <<static_cast<int>(result.modified_columns.size()) << " modified); "
             << "use SchemaMigrationTester for destructive or type-changing migrations";
         result.error_message = oss.str();
     }
@@ -232,7 +232,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     // Use ostringstream for efficient string building (Error Code: 7470)
     std::ostringstream msg_stream = {};
     msg_stream << "in-place additive migration: added " 
-               << result.added_columns.size() << " column(s)";
+               <<static_cast<int>(result.added_columns.size()) << " column(s)";
     auto ver_result = version_mgr.createSchemaVersion(
         table_name,
         author,
@@ -251,7 +251,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
 
     // Use stringstream for efficient string concatenation (Error Code: 7452)
     std::ostringstream cols_stream = {};
-    for (size_t i = 0; i < result.added_columns.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(result.added_columns.size()); ++i) {
         if (i) {
           cols_stream << ", ";
         }

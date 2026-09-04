@@ -272,7 +272,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     
     auto readUint64 = [&data, &pos]() -> uint64_t {
         // BATCH D FIX: Explicit bounds check on every read
-        if (pos + 8 > data.size()) {
+        if (pos + 8 > static_cast<int>(data.size())) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for uint64 at offset {}", pos);
             throw std::out_of_range("uint64 read exceeds buffer boundary");
         }
@@ -285,7 +285,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     
     auto readString = [&data, &pos]([[maybe_unused]] uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
-        if (pos + 4 > data.size()) {
+        if (pos + 4 > static_cast<int>(data.size())) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
             throw std::out_of_range("string length read exceeds buffer boundary");
         }
@@ -302,7 +302,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
             throw std::out_of_range("string length exceeds maximum allowed");
         }
         
-        if (pos + len > data.size()) {
+        if (pos + len > static_cast<int>(data.size())) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string data at offset {} (need {})",
                         pos, len);
             throw std::out_of_range("string data read exceeds buffer boundary");
@@ -1693,7 +1693,7 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     }
     
     oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
-    oss << "themisdb_cluster_nodes_total " << health.size() << "\n";
+    oss << "themisdb_cluster_nodes_total " <<static_cast<int>(health.size()) << "\n";
     
     // Add replication lag metrics per replica
     oss << "\n# HELP themisdb_replication_lag_per_replica Replication lag per replica\n"
@@ -2083,7 +2083,7 @@ bool ReplicationManager::electNewLeader() {
     
     // BATCH B OPTIMIZATION & SAFETY FIX: Use index instead of pointer to avoid invalidation
     size_t best_candidate_idx = static_cast<size_t>(-1);
-    for (size_t i = 0; i < replicas_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(replicas_.size()); ++i) {
         const auto& replica = replicas_[i];
         if (!replica.is_voting_member || 
             replica.role == ReplicationRole::WITNESS ||  // Witnesses never become leaders
@@ -2198,7 +2198,7 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     }
     // Skip past key, colon, and optional whitespace
     pos += key.size();
-    while (pos < json_doc.size() && (json_doc[pos] == ' ' || json_doc[pos] == ':')) {
+    while (pos <static_cast<int>(json_doc.size()) && (json_doc[pos] == ' ' || json_doc[pos] == ':')) {
         ++pos;
     }
     if (pos >= static_cast<int>(json_doc.size())) {
@@ -2288,7 +2288,7 @@ std::string CRDTConflictResolver::resolve(
     {
         std::map<std::string, int64_t> fields;
         size_t p = 0;
-        while (static_cast<size_t>(p) < doc.size()) {
+        while (static_cast<size_t>(p) <static_cast<int>(doc.size())) {
             // Find next key (starts with '"')
             auto kstart = doc.find('"', p);
             if (kstart == std::string::npos) {
@@ -2302,14 +2302,14 @@ std::string CRDTConflictResolver::resolve(
             
             // Skip past colon and whitespace
             size_t vp = kend + 1;
-            while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) {
+            while (vp <static_cast<int>(doc.size()) && (doc[vp] == ' ' || doc[vp] == ':')) {
               ++vp;
             }
             
             // Check if value is numeric (starts with digit, or '-' followed by a digit)
-            if (vp < doc.size() &&
+            if (vp <static_cast<int>(doc.size()) &&
                 (std::isdigit(static_cast<unsigned char>(doc[vp])) ||
-                 (doc[vp] == '-' && vp + 1 < doc.size() &&
+                 (doc[vp] == '-' && vp + 1 <static_cast<int>(doc.size()) &&
                   std::isdigit(static_cast<unsigned char>(doc[vp + 1]))))) {
                 try {
                     size_t consumed = 0;
@@ -2351,16 +2351,16 @@ std::string CRDTConflictResolver::resolve(
             while ((pos = merged.find(search, pos)) != std::string::npos) {
                 // Skip to value
                 size_t vp = pos + search.size();
-                while (vp < merged.size() && (merged[vp] == ' ' || merged[vp] == ':')) {
+                while (vp <static_cast<int>(merged.size()) && (merged[vp] == ' ' || merged[vp] == ':')) {
                   ++vp;
                 }
                 
                 size_t vend = vp;
                 // Accept an optional leading '-', then only digits
-                if (vend < merged.size() && merged[vend] == '-') {
+                if (vend <static_cast<int>(merged.size()) && merged[vend] == '-') {
                   ++vend;
                 }
-                while (vend < merged.size() &&
+                while (vend <static_cast<int>(merged.size()) &&
                        std::isdigit(static_cast<unsigned char>(merged[vend]))) {
                     ++vend;
                 }
@@ -2602,7 +2602,7 @@ VectorClock VectorClock::fromJson(const std::string& json) {
     
     VectorClock vc;
     size_t p = 0;
-    while (static_cast<size_t>(p) < json.size()) {
+    while (static_cast<size_t>(p) <static_cast<int>(json.size())) {
         auto kstart = json.find('"', p);
         if (kstart == std::string::npos) {
           break;
@@ -2615,11 +2615,11 @@ VectorClock VectorClock::fromJson(const std::string& json) {
 
         // Skip ':' and whitespace
         size_t vp = kend + 1;
-        while (vp < json.size() && (json[vp] == ' ' || json[vp] == ':')) {
+        while (vp <static_cast<int>(json.size()) && (json[vp] == ' ' || json[vp] == ':')) {
           ++vp;
         }
 
-        if (vp < json.size() && std::isdigit(static_cast<unsigned char>(json[vp]))) {
+        if (vp <static_cast<int>(json.size()) && std::isdigit(static_cast<unsigned char>(json[vp]))) {
             try {
                 size_t consumed = 0;
                 uint64_t val = std::stoull(json.substr(vp), &consumed);
@@ -2862,7 +2862,7 @@ std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& 
 static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     std::map<std::string, int64_t> fields;
     size_t p = 0;
-    while (static_cast<size_t>(p) < doc.size()) {
+    while (static_cast<size_t>(p) <static_cast<int>(doc.size())) {
         auto ks = doc.find('"', p);
         if (ks == std::string::npos) {
           break;
@@ -2873,12 +2873,12 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
         }
         std::string key = doc.substr(ks + 1, ke - ks - 1);
         size_t vp = ke + 1;
-        while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) {
+        while (vp <static_cast<int>(doc.size()) && (doc[vp] == ' ' || doc[vp] == ':')) {
           ++vp;
         }
-        if (vp < doc.size() &&
+        if (vp <static_cast<int>(doc.size()) &&
             (std::isdigit(static_cast<unsigned char>(doc[vp])) ||
-             (doc[vp] == '-' && vp + 1 < doc.size() &&
+             (doc[vp] == '-' && vp + 1 <static_cast<int>(doc.size()) &&
               std::isdigit(static_cast<unsigned char>(doc[vp + 1]))))) {
             try {
                 size_t consumed = 0;
@@ -2904,12 +2904,12 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
       return "";
     }
     pos += search.size();
-    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) {
+    while (pos <static_cast<int>(doc.size()) && (doc[pos] == ' ' || doc[pos] == ':')) {
       ++pos;
     }
     if (pos >= doc.size() || doc[pos] != '{') return "";
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) < doc.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(doc.size())) {
         if (doc[pos] == '{') ++depth;
         else if (doc[pos] == '}') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
         ++pos;
@@ -2962,14 +2962,14 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
       return "";
     }
     pos += search.size();
-    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) {
+    while (pos <static_cast<int>(doc.size()) && (doc[pos] == ' ' || doc[pos] == ':')) {
       ++pos;
     }
     if (pos >= doc.size() || doc[pos] != '[') {
       return "";
     }
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) < doc.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(doc.size())) {
         if (doc[pos] == '[') {
           ++depth;
         }
@@ -3046,7 +3046,7 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
 
     for (const auto& w : writes) {
         size_t p = 0;
-        while (p < w.data.size()) {
+        while (p <static_cast<int>(w.data.size())) {
             auto qs = w.data.find('"', p);
             if (qs == std::string::npos) {
               break;
@@ -3097,7 +3097,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
         auto addArr = extractSubArray(w.data, "add");
         // Each inner element looks like ["element","tag"]
         size_t p = 0;
-        while (static_cast<size_t>(p) < addArr.size()) {
+        while (static_cast<size_t>(p) <static_cast<int>(addArr.size())) {
             auto lb = addArr.find('[', p);
             if (lb == std::string::npos) {
               break;
@@ -3231,15 +3231,15 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
         const std::string& src = w.data;
         size_t p = 0;
         // Skip leading '[' if present
-        while (p < src.size() && src[p] != '{') ++p;
-        while (static_cast<size_t>(p) < src.size()) {
+        while (p <static_cast<int>(src.size()) && src[p] != '{') ++p;
+        while (static_cast<size_t>(p) <static_cast<int>(src.size())) {
             auto ob = src.find('{', p);
             if (ob == std::string::npos) {
               break;
             }
             // Find matching '}'
             size_t depth = 0, oe = ob;
-            while (static_cast<size_t>(oe) < src.size()) {
+            while (static_cast<size_t>(oe) <static_cast<int>(src.size())) {
                 if (src[oe] == '{') ++depth;
                 else if (src[oe] == '}') { if (--depth == 0) break; }
                 ++oe;
@@ -3279,7 +3279,7 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
                 auto kp = obj.find("\"del\"");
                 if (kp != std::string::npos) {
                     auto vp = kp + 5;
-                    while (vp < obj.size() && (obj[vp] == ' ' || obj[vp] == ':')) {
+                    while (vp <static_cast<int>(obj.size()) && (obj[vp] == ' ' || obj[vp] == ':')) {
                       ++vp;
                     }
                     elem.deleted = (obj.substr(vp, 4) == "true");
@@ -3414,13 +3414,13 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
 
     auto readUint64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (size_t i = 0; i < 8  && static_cast<size_t>(pos) < raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 8  && static_cast<size_t>(pos) <static_cast<int>(raw.size()); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
     auto readUint32 = [&]() -> uint32_t {
         uint32_t v = 0;
-        for (size_t i = 0; i < 4  && static_cast<size_t>(pos) < raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 4  && static_cast<size_t>(pos) <static_cast<int>(raw.size()); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
@@ -3430,13 +3430,13 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
         // Prevents buffer overrun by verifying:
         // 1. Sufficient bytes available for length field (4 bytes)
         // 2. Sufficient bytes available for string payload
-        if (pos + 4 > raw.size()) { 
+        if (pos + 4 > static_cast<int>(raw.size())) { 
             parse_ok = false; 
             THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string length at offset {}", pos); 
             return {};  // Production behavior: signal truncation, allow parser to fail gracefully
         }
         uint32_t len = readUint32();
-        if (pos + len > raw.size()) { 
+        if (pos + len > static_cast<int>(raw.size())) { 
             parse_ok = false; 
             THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string payload (len={}) at offset {}", len, pos); 
             return {};  // Production behavior: signal truncation, prevent buffer overrun
@@ -5857,7 +5857,7 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     std::vector<uint8_t> bytes = {};
 
     bytes.reserve(hex.size() / 2);
-    for (size_t i = 0; i < hex.size(); i += 2) {
+    for (size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
         unsigned int val = 0;
         std::istringstream{hex.substr(i, 2)} >> std::hex >> val;
         bytes.push_back(static_cast<uint8_t>(val));

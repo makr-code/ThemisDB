@@ -154,7 +154,7 @@ std::vector<FederatedSearch::Result> FederatedSearch::mergeTenantResults(
 
     for (const auto& [tid, results] : tenant_results) {
         const double weight = getTenantWeight(tid);
-        for (size_t rank = 0; rank < results.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(results.size()); ++rank) {
             const auto& r = results[rank];
             if (r.document_id.empty()) {
               continue;

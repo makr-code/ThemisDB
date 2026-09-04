@@ -107,14 +107,14 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     int seq_num                            = 0;
     size_t current_pos                     = 0;
 
-    while (static_cast<size_t>(current_pos) < sentence_list.size()) {
+    while (static_cast<size_t>(current_pos) <static_cast<int>(sentence_list.size())) {
         std::string chunk_text = {};
         int chunk_tokens       = 0;
         size_t chunk_start_idx = current_pos;
         size_t chunk_end_idx   = current_pos;
 
         // Add sentences until we reach chunk_size
-        while (static_cast<size_t>(chunk_end_idx) < sentence_list.size()) {
+        while (static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
             const std::string &sentence = sentence_list[chunk_end_idx];
             int sentence_tokens         = countTokens(sentence);
 
@@ -156,7 +156,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
         seq_num++;
 
         // Move to next chunk with overlap
-        if (overlap > 0  && static_cast<size_t>(chunk_end_idx) < sentence_list.size()) {
+        if (overlap > 0  && static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
             // Calculate how many sentences to overlap
             int overlap_sentences      = 0;
             int overlap_tokens_counted = 0;
@@ -220,7 +220,7 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
     }
 
     // Generate embedding components with better distribution
-    for (size_t i = 0; i < tokens.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(tokens.size()); i++) {
         size_t token_hash = hasher(tokens[i]);
 
         // Use different hash seeds for better differentiation

@@ -755,8 +755,8 @@ std::string InputValidator::sanitizeLogMessage(const std::string& input) const {
     // if the string is ever passed as a printf format argument.
     std::string result = {};
     result.reserve(input.size());
-    for (size_t i = 0; i < input.size(); ++i) {
-        if (input[i] == '%' && i + 1 < input.size()) {
+    for (size_t i = 0; i <static_cast<int>(input.size()); ++i) {
+        if (input[i] == '%' && i + 1 <static_cast<int>(input.size())) {
             char next = input[i + 1];
             if (next == 'n' || next == 'N') {
                 ++i; // skip the 'n'/'N' character; don't emit either byte
@@ -777,10 +777,10 @@ std::string InputValidator::normalizeUnicode(const std::string& input) const {
     std::string result = {};
     result.reserve(input.size());
 
-    for (size_t i = 0; i < input.size(); ) {
+    for (size_t i = 0; i <static_cast<int>(input.size()); ) {
         auto byte = static_cast<unsigned char>(input[i]);
 
-        if (byte == 0xEF && i + 2 < input.size()) {
+        if (byte == 0xEF && i + 2 <static_cast<int>(input.size())) {
             auto b2 = static_cast<unsigned char>(input[i + 1]);
             auto b3 = static_cast<unsigned char>(input[i + 2]);
 

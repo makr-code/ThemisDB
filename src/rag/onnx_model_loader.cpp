@@ -177,7 +177,7 @@ size_t ONNXModelLoader::clearCache(const std::string& model_name) {
     
     if (model_name.empty()) {
         // Clear all
-        cleared = impl_->cache.size();
+        cleared = impl_-> static_cast<int>(cache.size());
         impl_->cache.clear();
     } else {
         // Clear specific model

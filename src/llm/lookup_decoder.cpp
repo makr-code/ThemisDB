@@ -172,7 +172,7 @@ void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
     for (size_t n = config_.ngram_min; n <= config_.ngram_max; ++n) {
         if (static_cast<int>(tokens.size()) <= n) continue;  // need at least one continuation token
 
-        for (size_t start = 0; start + n < tokens.size(); ++start) {
+        for (size_t start = 0; start + n <static_cast<int>(tokens.size()); ++start) {
             std::vector<int> key(tokens.begin() + static_cast<ptrdiff_t>(start),
                                  tokens.begin() + static_cast<ptrdiff_t>(start + n));
             // Continuation: up to max_draft_tokens tokens following the key.

@@ -348,7 +348,7 @@ public:
             std::vector<uint8_t>(chunk_size, 0));
         for (uint32_t i = 0; i < data_shards; ++i) {
             size_t off = static_cast<size_t>(i) * chunk_size;
-            size_t sz  = (off < data.size())
+            size_t sz  = (off <static_cast<int>(data.size()))
                 ? std::min(chunk_size, static_cast<int>(data.size()) - off) : 0;
             if (sz > 0)
                 std::memcpy(data_chunks[i].data(), data.data() + off, sz);
@@ -391,7 +391,7 @@ public:
         if (available_chunks.empty())
             throw std::runtime_error("OpenCL decode: no chunks available");
 
-        const size_t chunk_size = available_chunks.begin()->second.size();
+        const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
         const uint32_t total_shards = data_shards + parity_shards;
 
         // Collect the indices of available chunks (up to data_shards needed)
@@ -493,7 +493,7 @@ public:
             for (uint32_t d = 0; d < data_shards; ++d) {
                 size_t off = d * chunk_size;
                 size_t src_off = off;
-                size_t sz = (src_off < block.size())
+                size_t sz = (src_off <static_cast<int>(block.size()))
                     ? std::min(chunk_size, static_cast<int>(block.size()) - src_off) : 0;
                 if (sz > 0)
                     std::memcpy(flat_data.data()
@@ -608,7 +608,7 @@ public:
                 for (uint32_t d = 0; d < data_shards; ++d) {
                     std::vector<uint8_t> chunk(chunk_size, 0);
                     size_t off = d * chunk_size;
-                    size_t sz  = (off < block.size())
+                    size_t sz  = (off <static_cast<int>(block.size()))
                         ? std::min(chunk_size, static_cast<int>(block.size()) - off) : 0;
                     if (sz > 0)
                         std::memcpy(chunk.data(), block.data() + off, sz);

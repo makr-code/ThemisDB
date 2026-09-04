@@ -199,7 +199,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
     }
 
-    const size_t chunk_size = available_chunks.begin()->second.size();
+    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
@@ -275,7 +275,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) <static_cast<int>(vec.size()); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -352,7 +352,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t row = 0; row < rows; ++row) {
         uint8_t sum = 0;
-        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) < vec.size(); ++col) {
+        for (size_t col = 0; col < matrix[row].size()  && static_cast<size_t>(col) <static_cast<int>(vec.size()); ++col) {
             sum ^= gf_mul(matrix[row][col], vec[col]);
         }
         result[row] = sum;
@@ -485,7 +485,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
         return recovered;
     }
 
-    const size_t chunk_size = available_chunks.begin()->second.size();
+    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
     const uint32_t total_shards = data_shards + parity_shards;
     std::vector<std::vector<uint8_t>> full_matrix(total_shards,
                                                   std::vector<uint8_t>(data_shards, 0));

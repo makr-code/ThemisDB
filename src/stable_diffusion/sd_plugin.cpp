@@ -186,7 +186,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
 
     const uint8_t avg = static_cast<uint8_t>(sum / 64u);
     uint64_t bits = 0u;
-    for (size_t i = 0; i < luma.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(luma.size()); ++i) {
         if (luma[i] >= avg) {
             bits |= (1 << i);
         }
@@ -269,7 +269,7 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         filtered[y * (1u + row_bytes)] = 0x00u;  // filter type: None
         const size_t src_off = y * row_bytes;
         const size_t dst_off = y * (1u + row_bytes) + 1u;
-        const size_t avail = (src_off < rgb.size())
+        const size_t avail = (src_off <static_cast<int>(rgb.size()))
                              ? std::min(row_bytes, static_cast<int>(rgb.size()) - src_off) : 0u;
         if (avail > 0)
             std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),

@@ -305,7 +305,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
         std::string hex = j.value("state_data_hex", std::string());
         snapshot.state_data.clear();
         snapshot.state_data.reserve(hex.size() / 2);
-        for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+        for (size_t i = 0; i + 1 <static_cast<int>(hex.size()); i += 2) {
             unsigned int byte = 0;
             std::istringstream iss(hex.substr(i,2));
             iss >> std::hex >> byte;

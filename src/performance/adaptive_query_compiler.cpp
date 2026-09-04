@@ -253,7 +253,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
 
     switch (query.op_type) {
         case QueryOpType::Filter:
-            ir << "  ; Filter specialisation: " << query.predicates.size()
+            ir << "  ; Filter specialisation: " <<static_cast<int>(query.predicates.size())
                << " predicate(s)\n";
             for (const auto& p : query.predicates) {
                 ir << "  ; predicate: " << p.column << " op val\n";
@@ -274,7 +274,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
             break;
         case QueryOpType::Projection:
             ir << "  ; Projection specialisation: "
-               << query.select_columns.size() << " column(s)\n";
+               <<static_cast<int>(query.select_columns.size()) << " column(s)\n";
             break;
         default:
             ir << "  ; Generic specialisation\n";
@@ -789,7 +789,7 @@ private:
             QueryRow joined;
             joined.column_names = lrow.column_names;
             joined.values       = lrow.values;
-            for (size_t ci = 0; ci < rit->second.column_names.size(); ++ci) {
+            for (size_t ci = 0; ci < rit-> static_cast<int>(second.column_names.size()); ++ci) {
                 joined.column_names.push_back(
                     query.join_table + "." + rit->second.column_names[ci]);
                 joined.values.push_back(rit->second.values[ci]);
@@ -891,7 +891,7 @@ private:
 
         cq.llvm_ir   = generateLLVMIR(query, schema, ir_opts);
         cq.assembly  = generateAssembly(query, ir_opts);
-        cq.code_size_bytes = cq.llvm_ir.size() + cq.assembly.size();
+        cq.code_size_bytes = static_cast<int>(cq.llvm_ir.size()) + cq.assembly.size();
 
         // Build the type-specialised execution closure.
         // The closure captures copies of all compile-time constants so the

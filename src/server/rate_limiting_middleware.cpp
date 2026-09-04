@@ -90,7 +90,7 @@ RateLimitingMiddleware::findOverrideIndex(const std::string& path) const {
     std::size_t best_len = 0;
     std::size_t best_idx = config_.endpoint_overrides.size(); // sentinel = no match
 
-    for (std::size_t i = 0; i < config_.endpoint_overrides.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(config_.endpoint_overrides.size()); ++i) {
         const auto& ep = config_.endpoint_overrides[i];
         if (ep.path_prefix.empty()) {
           continue;
@@ -163,7 +163,7 @@ RateLimitingMiddleware::check(const std::string& client_key,
         refill_rate  = config_.default_refill_rate;
     }
 
-    PerClientRateLimiter* limiter = (override_idx < override_limiters_.size())
+    PerClientRateLimiter* limiter = (override_idx <static_cast<int>(override_limiters_.size()))
                                     ? override_limiters_[override_idx].get()
                                     : default_limiter_.get();
 

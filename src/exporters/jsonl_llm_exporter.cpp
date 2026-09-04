@@ -1099,7 +1099,7 @@ std::string JSONLLLMExporter::getQualityMetricsReport() const {
             size_t start
                 = runtime_metrics_.validation_errors.size() > 10 ?static_cast<int>(runtime_metrics_.validation_errors.size()) - 10 : 0;
             j["schema_validation"]["recent_errors"] = json::array();
-            for (size_t i = start; i < runtime_metrics_.validation_errors.size(); ++i) {
+            for (size_t i = start; i <static_cast<int>(runtime_metrics_.validation_errors.size()); ++i) {
                 j["schema_validation"]["recent_errors"].push_back(runtime_metrics_.validation_errors[i]);
             }
         }

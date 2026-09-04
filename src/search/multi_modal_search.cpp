@@ -209,14 +209,14 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     std::unordered_map<std::string, std::string> best_modality;
     std::unordered_map<std::string, double> best_contribution;
 
-    for (size_t list_idx = 0; list_idx < ranked_lists.size(); ++list_idx) {
-        const double w = (list_idx < weights.size()) ? weights[list_idx] : 1.0;
+    for (size_t list_idx = 0; list_idx <static_cast<int>(ranked_lists.size()); ++list_idx) {
+        const double w = (list_idx <static_cast<int>(weights.size())) ? weights[list_idx] : 1.0;
         const auto& list = ranked_lists[list_idx];
-        const std::string& mod_name = (list_idx < modality_names.size())
+        const std::string& mod_name = (list_idx <static_cast<int>(modality_names.size()))
             ? modality_names[list_idx]
             : "modal_" + std::to_string(list_idx);
 
-        for (size_t rank = 0; rank < list.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(list.size()); ++rank) {
             const std::string& doc_id = list[rank].first;
             double contribution = w / (config_.rrf_k + static_cast<double>(rank + 1));
             rrf_scores[doc_id] += contribution;

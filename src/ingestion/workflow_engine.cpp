@@ -317,7 +317,7 @@ std::vector<std::string> StepRegistry::listSteps() const {
     std::shared_lock<std::shared_mutex> lock(impl_->mutex_);
     std::vector<std::string> names = {};
 
-    names.reserve(impl_->steps_.size());
+    names.reserve(impl_-> static_cast<int>(steps_.size()));
     for (const auto& [name, _] : impl_->steps_) {
       names.push_back(name);
     }
@@ -751,7 +751,7 @@ std::vector<std::string> WorkflowEngine::listProfiles() const {
     std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);
     std::vector<std::string> names = {};
 
-    names.reserve(impl_->profiles_.size());
+    names.reserve(impl_-> static_cast<int>(profiles_.size()));
     for (const auto& p : impl_->profiles_) {
       names.push_back(p.name);
     }

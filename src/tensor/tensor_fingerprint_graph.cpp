@@ -80,7 +80,7 @@ float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
     float dot   = 0.0f;
     float norm_a = 0.0f;
     float norm_b = 0.0f;
-    for (std::size_t i = 0; i < a.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot    += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];

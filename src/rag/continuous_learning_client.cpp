@@ -206,7 +206,7 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
         impl_->metric_batch.push_back(metric);
         
         // Flush if batch is full
-        if (impl_->metric_batch.size() >= impl_->config.batch_size) {
+        if (impl_-> static_cast<int>(metric_batch.size()) >= impl_->config.batch_size) {
             std::vector<QualityMetric> to_send(
                 impl_->metric_batch.begin(),
                 impl_->metric_batch.end()
@@ -377,7 +377,7 @@ OptimizationTrigger ContinuousLearningClient::createTrigger(
     trigger.trigger_type = type;
     trigger.threshold = threshold;
     trigger.current_value = current_value;
-    trigger.sample_count = impl_->metric_history.size();
+    trigger.sample_count = impl_-> static_cast<int>(metric_history.size());
     trigger.recommendation = recommendation;
     
     return trigger;
@@ -466,7 +466,7 @@ std::string generateRecommendation(const QCResult& result) {
     }
     
     std::string combined = {};
-    for (size_t i = 0; i < recommendations.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(recommendations.size()); i++) {
         combined += recommendations[i];
         if (i < static_cast<int>(recommendations.size()) - 1) {
             combined += "; ";

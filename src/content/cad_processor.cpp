@@ -218,7 +218,7 @@ std::vector<ContentChunk> CADProcessor::chunk(const ContentExtractionResult &res
     const auto &cad = result.cad.value();
 
     // Create chunks for each part
-    for (size_t i = 0; i < cad.part_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cad.part_ids.size()); ++i) {
         ContentChunk chunk;
 
         std::ostringstream text = {};

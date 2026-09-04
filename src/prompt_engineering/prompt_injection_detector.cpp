@@ -94,7 +94,7 @@ void PromptInjectionDetector::initializePatterns() {
 float PromptInjectionDetector::calculatePatternScore(
         const std::string& text, std::vector<std::string>& matched_out) const {
     int hits = 0;
-    for (size_t i = 0; i < patterns_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(patterns_.size()); ++i) {
         if (std::regex_search(text, patterns_[i])) {
             ++hits;
             matched_out.push_back(pattern_labels_[i]);
@@ -137,7 +137,7 @@ float PromptInjectionDetector::calculateSyntaxScore(
             ++special;
         }
     }
-    if (!text.empty() && special * 10 > text.size()) {
+    if (!text.empty() && special * 10 > static_cast<int>(text.size())) {
         score += 0.3f;
         matched_out.push_back("syntax:high_special_char_density");
     }

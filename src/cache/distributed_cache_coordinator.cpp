@@ -501,7 +501,7 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
 /*static*/
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
-    while (static_cast<size_t>(sent) < buf.size()) {
+    while (static_cast<size_t>(sent) <static_cast<int>(buf.size())) {
         ssize_t n = ::send(fd, buf.data() + sent, static_cast<int>(buf.size()) - sent, MSG_NOSIGNAL);
         if (n <= 0)
             return false;
@@ -529,9 +529,9 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
 /*static*/
 std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &args) {
     std::ostringstream ss = {};
-    ss << '*' << args.size() << "\r\n";
+    ss << '*' <<static_cast<int>(args.size()) << "\r\n";
     for (const auto &arg : args) {
-        ss << '$' << arg.size() << "\r\n" << arg << "\r\n";
+        ss << '$' <<static_cast<int>(arg.size()) << "\r\n" << arg << "\r\n";
     }
     return ss.str();
 }

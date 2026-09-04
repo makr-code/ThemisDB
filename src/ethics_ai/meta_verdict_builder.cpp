@@ -151,9 +151,9 @@ MetaVerdict MetaVerdictBuilder::buildMetaVerdict(
 
     mv.norm_evidence.legal_db_unavailable = mv.legal_grounding.legal_db_unavailable;
     mv.norm_evidence.citations.reserve(mv.legal_grounding.norm_refs.size());
-    for (size_t i = 0; i < mv.legal_grounding.norm_refs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(mv.legal_grounding.norm_refs.size()); ++i) {
         NormCitation citation;
-        citation.citation_id = (i < mv.legal_grounding.citation_ids.size())
+        citation.citation_id = (i <static_cast<int>(mv.legal_grounding.citation_ids.size()))
                                    ? mv.legal_grounding.citation_ids[i]
                                    : ("norm-ref-" + std::to_string(i));
         citation.article_ref     = mv.legal_grounding.norm_refs[i];

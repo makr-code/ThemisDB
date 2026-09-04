@@ -432,7 +432,7 @@ bool SAGALogger::verifyBatch(const std::string& batch_id) {
     // 3. Rebuild hash: iv || ciphertext || tag
     std::vector<uint8_t> to_hash = {};
 
-    to_hash.reserve(batch_meta->iv.size() + ciphertext->size() + batch_meta->tag.size());
+    to_hash.reserve(batch_meta-> static_cast<int>(iv.size()) + ciphertext->size() + batch_meta-> static_cast<int>(tag.size()));
     to_hash.insert(to_hash.end(), batch_meta->iv.begin(), batch_meta->iv.end());
     to_hash.insert(to_hash.end(), ciphertext->begin(), ciphertext->end());
     to_hash.insert(to_hash.end(), batch_meta->tag.begin(), batch_meta->tag.end());

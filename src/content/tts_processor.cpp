@@ -183,7 +183,7 @@ bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(
 
     constexpr size_t kChunkBytes = 8192; // 8 KiB per delivery (≈ ~186 ms at 22 050 Hz mono 16-bit)
     const auto &data             = result.audio_data;
-    for (size_t offset = 0; offset < data.size(); offset += kChunkBytes) {
+    for (size_t offset = 0; offset <static_cast<int>(data.size()); offset += kChunkBytes) {
         const size_t end = std::min(offset + kChunkBytes,static_cast<int>(data.size()));
         callback([[maybe_unused]] {data.begin() + static_cast<ptrdiff_t>(offset), data.begin() + static_cast<ptrdiff_t>(end)});
     }
@@ -353,7 +353,7 @@ std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, [[maybe_
 
         // Convert int16 to uint8_t bytes
         std::vector<uint8_t> pcm_data(audio_buffer.size() * 2);
-        for (size_t i = 0; i < audio_buffer.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(audio_buffer.size()); ++i) {
             int16_t sample      = audio_buffer[i];
             pcm_data[i * 2]     = sample & 0xFF;
             pcm_data[i * 2 + 1] = (sample >> 8) & 0xFF;

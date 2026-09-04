@@ -94,14 +94,14 @@ std::string PerformanceAnalysis::toReport() const {
             case IssueSeverity::INFO: info++; break;
         }
     }
-    oss << "Total Issues: " << issues.size() << "\n";
+    oss << "Total Issues: " <<static_cast<int>(issues.size()) << "\n";
     oss << "  Critical: " << critical << "\n";
     oss << "  Warning: " << warning << "\n";
     oss << "  Info: " << info << "\n\n";
     
     // Issues
     oss << "--- Issues ---\n\n";
-    for (size_t i = 0; i < issues.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(issues.size()); ++i) {
         const auto& issue = issues[i];
         oss << i + 1 << ". [" << to_string(issue.severity) << "] " 
             << issue.title << "\n";
@@ -307,7 +307,7 @@ void PerformanceAnalyzer::export_html_report(const PerformanceAnalysis& analysis
     // Summary section
     file << "<div class='summary'>\n";
     file << "<h2>Summary</h2>\n";
-    file << "<p>Total Issues: " << analysis.issues.size() << "</p>\n";
+    file << "<p>Total Issues: " <<static_cast<int>(analysis.issues.size()) << "</p>\n";
     file << "</div>\n";
     
     // Issues section

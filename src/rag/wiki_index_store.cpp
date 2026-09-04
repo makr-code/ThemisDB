@@ -229,7 +229,7 @@ struct WikiIndexStore::Impl {
         positional_index_.clear();
         for (const auto& [doc_id, text] : docs) {
             const auto tokens = tokenise(text);
-            for (size_t pos = 0; pos < tokens.size(); ++pos) {
+            for (size_t pos = 0; pos <static_cast<int>(tokens.size()); ++pos) {
                 positional_index_[tokens[pos]][doc_id].push_back(pos);
             }
         }
@@ -430,7 +430,7 @@ void WikiIndexStore::addDocument(const std::string& doc_id,
     impl_->docs[doc_id] = text;
     impl_->rebuildIDF();
     impl_->rebuildPositionalIndex();
-    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_->docs.size());
+    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_-> static_cast<int>(docs.size()));
 }
 
 std::vector<IndexResult> WikiIndexStore::searchBM25(
@@ -442,7 +442,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     const float avg_len = impl_->computeAvgDocLen();
     std::vector<IndexResult> results = {};
 
-    results.reserve(impl_->docs.size());
+    results.reserve(impl_-> static_cast<int>(docs.size()));
 
     for (const auto& [doc_id, text] : impl_->docs) {
         const float score = bm25PlusScore(query_terms, text, avg_len, impl_->idf_cache);
@@ -493,7 +493,7 @@ static bool termsWithinWindow(
     // term has at least one position inside [anchor, anchor + window_size).
     for (size_t anchor : *term_pos_lists[0]) {
         bool all_in_window = true;
-        for (size_t ti = 1; ti < term_pos_lists.size(); ++ti) {
+        for (size_t ti = 1; ti <static_cast<int>(term_pos_lists.size()); ++ti) {
             bool found = false;
             for (size_t p : *term_pos_lists[ti]) {
                 if (p >= anchor && p < anchor + window_size) {
@@ -562,12 +562,12 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
 
     std::vector<std::string> candidates = {};
 
-    candidates.reserve(it_first->second.size());
+    candidates.reserve(it_first-> static_cast<int>(second.size()));
     for (const auto& [doc_id, _] : it_first->second) {
         candidates.push_back(doc_id);
     }
 
-    for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+    for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
         auto it = impl_->positional_index_.find(phrase_terms[ti]);
         if (it == impl_->positional_index_.end()) return {};
         const auto& posting = it->second;
@@ -592,7 +592,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         bool phrase_found = false;
         for (size_t anchor : pos0) {
             bool consecutive = true;
-            for (size_t ti = 1; ti < phrase_terms.size(); ++ti) {
+            for (size_t ti = 1; ti <static_cast<int>(phrase_terms.size()); ++ti) {
                 const auto& pos_ti =
                     impl_->positional_index_.at(phrase_terms[ti]).at(doc_id);
                 size_t expected = anchor + ti;
@@ -665,7 +665,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         bool within = false;
         if (term1 == term2) {
             // Same term: need ≥2 positions within distance of each other.
-            for (size_t i = 0; i + 1 < pos_list1.size() && !within; ++i) {
+            for (size_t i = 0; i + 1 <static_cast<int>(pos_list1.size()) && !within; ++i) {
                 if (pos_list1[i + 1] - pos_list1[i] <= distance) {
                   within = true;
                 }
@@ -673,7 +673,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         } else {
             // Two-pointer scan (both lists are sorted).
             size_t i = 0, j = 0;
-            while (i < pos_list1.size()  && static_cast<size_t>(j) < pos_list2.size() && !within) {
+            while (i <static_cast<int>(pos_list1.size())  && static_cast<size_t>(j) <static_cast<int>(pos_list2.size()) && !within) {
                 size_t p1 = pos_list1[i];
                 size_t p2 = pos_list2[j];
                 size_t d  = (p1 <= p2) ? (p2 - p1) : (p1 - p2);
@@ -837,7 +837,7 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
         THEMIS_WARN("WikiIndexStore::searchHNSW[fallback]: no vectors indexed");
         return {};
     }
-    results.reserve(impl_->hnsw_vectors_fallback.size());
+    results.reserve(impl_-> static_cast<int>(hnsw_vectors_fallback.size()));
     for (const auto& [id, vec] : impl_->hnsw_vectors_fallback) {
         results.push_back(IndexResult{id, Impl::cosineSim(q_unit, vec)});
     }

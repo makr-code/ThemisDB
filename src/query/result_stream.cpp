@@ -81,7 +81,7 @@ Result<T> ResultStream<T>::next() {
     if (is_materialized_) {
         T item = materialized_data_[cursor_.offset];
         cursor_.offset++;
-        cursor_.has_more = cursor_.offset < materialized_data_.size();
+        cursor_.has_more = cursor_.offset <static_cast<int>(materialized_data_.size());
         stats_.items_read++;
         return item;
     }

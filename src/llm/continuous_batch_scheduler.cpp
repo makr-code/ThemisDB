@@ -283,7 +283,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
         if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
             batch.push_back(req.get());
             total_tokens += prefill_tokens;
-            reserved_blocks_in_batch += req->allocated_blocks.size();
+            reserved_blocks_in_batch += req-> static_cast<int>(allocated_blocks.size());
             active_requests_.push_back(req);
         } else {
             // Put back in queue
@@ -334,7 +334,7 @@ void ContinuousBatchScheduler::processBatchResults(
     bool saw_decode_error = false;
     std::vector<ScheduledRequest*> to_retry;
 
-    for (size_t i = 0; i < batch.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(batch.size()); ++i) {
         auto* req = batch[i];
         const auto& resp = responses[i];
         const bool decode_failed = !resp.error_message.empty();
@@ -562,7 +562,7 @@ bool ContinuousBatchScheduler::canAddToBatch(
             return true;
         }
 
-        size_t blocks_needed = request->allocated_blocks.size();
+        size_t blocks_needed = request-> static_cast<int>(allocated_blocks.size());
         if (blocks_needed == 0) {
             size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
             blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
@@ -630,7 +630,7 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
     kv_cache_->removeSequence(request->sequence_id);
     
     spdlog::debug("Freed {} blocks for request {} (sequence {})",
-                  request->allocated_blocks.size(), request->request_id, 
+                  request-> static_cast<int>(allocated_blocks.size()), request->request_id, 
                   request->sequence_id);
     
     request->allocated_blocks.clear();

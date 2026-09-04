@@ -569,7 +569,7 @@ std::vector<VersionedDocument> coalesceVersions(
     std::vector<VersionedDocument> result;
     result.push_back(versions.front());
 
-    for (size_t i = 1; i < versions.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(versions.size()); ++i) {
         auto& last = result.back();
         const auto& cur = versions[i];
 

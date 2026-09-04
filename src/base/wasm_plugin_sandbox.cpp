@@ -101,7 +101,7 @@ static size_t readWasmName(const uint8_t *data, const uint8_t *end, std::string 
 std::string WasmModuleInfo::summary() const {
     std::ostringstream oss = {};
     oss << (valid ? "valid" : "invalid") << " wasm v" << wasm_version << " size=" << byte_size << "B"
-        << " imports=" << imports.size() << " exports=" << exports.size();
+        << " imports=" <<static_cast<int>(imports.size()) << " exports=" <<static_cast<int>(exports.size());
     if (!module_name.empty()) {
         oss << " name=\"" << module_name << "\"";
     }
@@ -654,8 +654,8 @@ bool WasmPluginSandbox::checkImportAllowlist() {
 
     if (!unknown.empty()) {
         std::ostringstream oss = {};
-        oss << "WASM module requires " << unknown.size() << " unregistered host function(s): ";
-        for (size_t i = 0; i < unknown.size(); ++i) {
+        oss << "WASM module requires " <<static_cast<int>(unknown.size()) << " unregistered host function(s): ";
+        for (size_t i = 0; i <static_cast<int>(unknown.size()); ++i) {
             if (i) {
                 oss << ", ";
             }

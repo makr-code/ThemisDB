@@ -344,7 +344,7 @@ nlohmann::json MetadataShard::getPartitionStats(MetadataPartitionKey partition) 
     
     return {
         {"partition", static_cast<int>(partition)},
-        {"entry_count", partition_it->second.size()}
+        {"entry_count", partition_it-> static_cast<int>(second.size())}
     };
 }
 

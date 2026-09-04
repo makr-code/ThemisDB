@@ -82,7 +82,7 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
         std::string hint = "Node labels (OR): ";
-        for (size_t i = 0; i < constraints.node_labels.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(constraints.node_labels.size()); ++i) {
             if (i > 0) {
               hint += ", ";
             }
@@ -92,7 +92,7 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
     }
     if (!constraints.excluded_edge_types.empty()) {
         std::string hint = "Excluded edge types: ";
-        for (size_t i = 0; i < constraints.excluded_edge_types.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(constraints.excluded_edge_types.size()); ++i) {
             if (i > 0) {
               hint += ", ";
             }
@@ -518,7 +518,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     std::ostringstream oss = {};
     oss << "Constrained path finding from '" << start_vertex << "' to '" << end_vertex << "'\n";
     oss << "Algorithm: " << (plan.algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << "\n";
-    oss << "Constraints: " << constraint_list.size() << " active\n";
+    oss << "Constraints: " <<static_cast<int>(constraint_list.size()) << " active\n";
     oss << "Estimated depth: " << estimated_depth << "\n";
     oss << "Estimated cost: " << plan.estimated_cost << "\n";
     if (has_min_length) {
@@ -1346,7 +1346,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                     std::max<size_t>(1u, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
-                for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
+                for (size_t cs = 0; cs <static_cast<int>(S.size()); cs += chunk_size) {
                     const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
@@ -2132,7 +2132,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
         if (!plan.shard_ids.empty()) {
             explanation += "Shards: ";
-            for (size_t i = 0; i < plan.shard_ids.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(plan.shard_ids.size()); ++i) {
                 if (i > 0) {
                   explanation += ", ";
                 }
@@ -2401,7 +2401,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
 
             TraversalAlgorithm best = candidates[0];
             double best_cost = estimateCost(candidates[0], estimated_depth, constraints);
-            for (size_t i = 1; i < candidates.size(); ++i) {
+            for (size_t i = 1; i <static_cast<int>(candidates.size()); ++i) {
                 double c = estimateCost(candidates[i], estimated_depth, constraints);
                 if (c < best_cost) { best_cost = c; best = candidates[i]; }
             }

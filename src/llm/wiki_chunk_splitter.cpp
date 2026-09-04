@@ -106,7 +106,7 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
     // Tokenise every line once for efficient sliding-window accounting
     // line_tokens[i] contains the token count for lines[i].
     std::vector<int> line_tokens(lines.size());
-    for (std::size_t i = 0; i < lines.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
         line_tokens[i] = countTokens(lines[i]);
     }
 
@@ -136,7 +136,7 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
         out.push_back(std::move(c));
     };
 
-    for (std::size_t i = 0; i < lines.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(lines.size()); ++i) {
         if (running_tokens + line_tokens[i] > max_tokens_ && i > chunk_start) {
             // Flush [chunk_start, i)
             emit(chunk_start, i);
@@ -190,7 +190,7 @@ std::vector<WikiChunk> WikiChunkSplitter::split(const std::string& file_path,
     int                      section_line_start = 1; // 1-based
     int                      seq = 0;
 
-    for (std::size_t i = 0; i < all_lines.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(all_lines.size()); ++i) {
         const std::string& line = all_lines[i];
 
         // Check if this line is an ATX heading

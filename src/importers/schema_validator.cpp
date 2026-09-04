@@ -49,7 +49,7 @@ static bool valueIsInteger(const std::string& s) {
     if (start == s.size()) {
       return false;
     }
-    for (size_t i = start; i < s.size(); ++i) {
+    for (size_t i = start; i <static_cast<int>(s.size()); ++i) {
         if (!std::isdigit(static_cast<unsigned char>(s[i]))) {
           return false;
         }

@@ -299,9 +299,9 @@ std::string IngestionQualityJudge::buildCompletenessPrompt(
            "is represented in the extracted data.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << " total) ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << " total) ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED CHUNKS (" << ctx.chunks.size() << ") ---\n";
+        << "--- EXTRACTED CHUNKS (" <<static_cast<int>(ctx.chunks.size()) << ") ---\n";
     for (size_t i = 0; i < std::min(ctx.chunks.size(), size_t{5}); ++i)
         oss << "Chunk " << i << ": " << truncate(ctx.chunks[i].text, 200) << "\n";
     oss << "\nRate the completeness (SCORE) and list important information "
@@ -320,9 +320,9 @@ std::string IngestionQualityJudge::buildGroundednessPrompt(
            "back to a verbatim passage in the source text.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" << ctx.relations.size() << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
         << truncate(relationSummary(ctx), 800) << "\n\n"
         << "Rate groundedness (SCORE) and list claims NOT supported by the "
            "source text (UNGROUNDED).";
@@ -341,7 +341,7 @@ std::string IngestionQualityJudge::buildEntityCoveragePrompt(
            "present in the extracted entity list.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx, 50) << "\n\n"
         << "Rate entity coverage (SCORE) and list entity LABELS that appear "
            "in the source but are absent from the extraction (MISSING).";
@@ -357,9 +357,9 @@ std::string IngestionQualityJudge::buildRelationCoherencePrompt(
         << "Relation coherence = the extracted subject–predicate–object triples "
            "are semantically valid (both endpoints exist as entities, the "
            "predicate is appropriate for the entity types).\n\n"
-        << "--- EXTRACTED ENTITIES (" << ctx.entities.size() << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" << ctx.relations.size() << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
         << truncate(relationSummary(ctx), 1200) << "\n\n"
         << "Rate relation coherence (SCORE) and list incoherent or implausible "
            "relations as HINTS for improvement.";
@@ -384,11 +384,11 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         pos = lpos;
     }
     pos += tag.size();
-    while (pos < response.size() && (response[pos] == ' ' || response[pos] == '\t'))
+    while (pos <static_cast<int>(response.size()) && (response[pos] == ' ' || response[pos] == '\t'))
         ++pos;
     // Read digits / dot until whitespace or newline.
     std::string num = {};
-    while (pos < response.size() &&
+    while (pos <static_cast<int>(response.size()) &&
            (std::isdigit(static_cast<unsigned char>(response[pos])) ||
             response[pos] == '.'))
     {
@@ -418,7 +418,7 @@ std::string IngestionQualityJudge::parseRationale(
     auto pos = response.find(tag);
     if (pos == std::string::npos) return {};
     pos += tag.size();
-    while (pos < response.size() && response[pos] == ' ') {
+    while (pos <static_cast<int>(response.size()) && response[pos] == ' ') {
       ++pos;
     }
     auto end = response.find('\n', pos);

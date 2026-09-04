@@ -478,7 +478,7 @@ std::string ExportApiHandler::buildAqlQuery([[maybe_unused]] const json& request
     // Build final query
     if (!conditions.empty()) {
         query = conditions[0];
-        for (size_t i = 1; i < conditions.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(conditions.size()); ++i) {
             query += " AND " + conditions[i];
         }
     }

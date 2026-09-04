@@ -202,7 +202,7 @@ static std::string s3JsonExtractField(const std::string& body,
     start += needle.size();
     std::string value = {};
     bool escape = false;
-    for (size_t i = start; i < body.size(); ++i) {
+    for (size_t i = start; i <static_cast<int>(body.size()); ++i) {
         char c = body[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
@@ -435,7 +435,7 @@ private:
                       std::function<std::string(const std::string&)> fetcher) {
         // Split into sub-batches of max_concurrent_downloads_.
         size_t i = 0;
-        while (static_cast<size_t>(i) < keys.size()) {
+        while (static_cast<size_t>(i) <static_cast<int>(keys.size())) {
             size_t end = std::min(i + max_concurrent_downloads_,static_cast<int>(keys.size()));
 
             // Launch concurrent downloads.

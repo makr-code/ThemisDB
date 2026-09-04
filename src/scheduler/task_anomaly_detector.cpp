@@ -162,7 +162,7 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskA
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i < anomalies.size(); i++) {
+            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }
@@ -244,8 +244,8 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
         // Recent failure rate (last 20 executions)
         size_t recent_window = std::min(size_t(20),static_cast<int>(stats.execution_results.size()));
         size_t recent_failures = 0;
-        for (size_t i = stats.execution_results.size() - recent_window; 
-             i < stats.execution_results.size(); i++) {
+        for (size_t i = static_cast<int>(stats.execution_results.size()) - recent_window; 
+             i <static_cast<int>(stats.execution_results.size()); i++) {
             if (!stats.execution_results[i]) {
                 recent_failures++;
             }
@@ -325,7 +325,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     // Analyze inter-execution intervals
     std::vector<double> intervals = {};
 
-    for (size_t i = 1; i < stats.execution_times.size(); i++) {
+    for (size_t i = 1; i <static_cast<int>(stats.execution_times.size()); i++) {
         auto interval = stats.execution_times[i] - stats.execution_times[static_cast<int>(i - 1)];
         intervals.push_back(std::chrono::duration<double>(interval).count());
     }
@@ -494,7 +494,7 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
         
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
-            for (size_t i = 0; i < anomalies.size(); i++) {
+            for (size_t i = 0; i <static_cast<int>(anomalies.size()); i++) {
                 if (i > 0) {
                   metrics.description += ", ";
                 }

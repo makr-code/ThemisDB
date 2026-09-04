@@ -494,7 +494,7 @@ std::vector<int64_t> ContinuousBatchScheduler::selectNextBatch() {
     uint32_t tokens_used = 0;
     
     // Select requests from highest priority to lowest
-    for (size_t i = 0; i < priority_queues_.size() && static_cast<int>(batch.size()) < config_.max_batch_size; ++i) {
+    for (size_t i = 0; i <static_cast<int>(priority_queues_.size()) && static_cast<int>(batch.size()) < config_.max_batch_size; ++i) {
         auto& queue = priority_queues_[i];
         
         while (!queue.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {

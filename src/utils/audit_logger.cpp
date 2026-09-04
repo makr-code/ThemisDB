@@ -1459,7 +1459,7 @@ std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventT
     }
     
     // Join extensions
-    for (size_t i = 0; i < extensions.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(extensions.size()); ++i) {
         if (i > 0) {
           cef << " ";
         }

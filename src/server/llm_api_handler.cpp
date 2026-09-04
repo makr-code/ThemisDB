@@ -813,9 +813,9 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             // Basic URL-decode
             std::string decoded = {};
             decoded.reserve(raw.size());
-            for (size_t i = 0; i < raw.size(); ) {
+            for (size_t i = 0; i <static_cast<int>(raw.size()); ) {
                 if (raw[i] == '+') { decoded += ' '; ++i; }
-                else if (raw[i] == '%' && i + 2 < raw.size()) {
+                else if (raw[i] == '%' && i + 2 <static_cast<int>(raw.size())) {
                     auto is_hex = [](char c) {
                         return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
                     };

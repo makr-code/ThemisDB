@@ -227,7 +227,7 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
     const sharding::ShardInfo* best       = &shards[0];
     int                        best_score = localityScore(shards[0]);
 
-    for (std::size_t i = 1; i < shards.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(shards.size()); ++i) {
         const int score = localityScore(shards[i]);
         if (score > best_score) {
             best_score = score;

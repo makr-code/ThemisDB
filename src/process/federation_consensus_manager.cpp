@@ -539,7 +539,7 @@ void FederationConsensusManagerImpl::ReplicateLogEntries() {
 
 const ConsensusLogEntry* FederationConsensusManagerImpl::GetLogEntry(
     uint64_t index) const {
-  if (index == 0 || index > log_.size()) {
+  if (index == 0 || index > static_cast<int>(log_.size())) {
     return nullptr;
   }
   return &log_[static_cast<int>(index - 1)];  // Log is 1-indexed

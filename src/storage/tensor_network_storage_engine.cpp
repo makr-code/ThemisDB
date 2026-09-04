@@ -268,7 +268,7 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // the scanner confuses the outer write-lock scope with per-iteration locking —
     // false positives.
     std::size_t persisted_core_count = 0;
-    for (std::size_t k = 0; k < qtrain.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(qtrain.cores.size()); ++k) {
         auto cb = qtrain.cores[k].serialize();
         if (!backend_->put(makeCoreKey(key, k, version), cb)) {
             // Best-effort rollback to avoid partially persisted versions.
@@ -344,7 +344,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
         std::size_t oldest = ver - cfg_.version_retention;
         // Attempt removal of old meta key (best-effort)
         backend_->del(makeMetaKey(key, oldest));
-        for (std::size_t k = 0; k < qtrain.cores.size(); ++k)
+        for (std::size_t k = 0; k <static_cast<int>(qtrain.cores.size()); ++k)
             backend_->del(makeCoreKey(key, k, oldest));
     }
 
@@ -436,7 +436,7 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
         // lock_in_loop scanner alert (line 320): see persistQuantizedTrain above —
         // this deletion loop holds no independent mutex; it runs under the caller's
         // engine write lock — false positive.
-        for (std::size_t k = 0; k < oqt->cores.size(); ++k)
+        for (std::size_t k = 0; k < oqt-> static_cast<int>(cores.size()); ++k)
             backend_->del(makeCoreKey(key, k, ver));
     }
     eraseVersion(key);

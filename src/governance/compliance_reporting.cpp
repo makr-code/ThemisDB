@@ -529,7 +529,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
                         gap.description = "Policy exists but missing controls: " + 
                                         [&]() {
                                             std::string s = {};
-                                            for (size_t i = 0; i < missing_controls.size(); i++) {
+                                            for (size_t i = 0; i <static_cast<int>(missing_controls.size()); i++) {
                                                 if (i > 0) {
                                                   s += ", ";
                                                 }
@@ -786,13 +786,13 @@ std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
     html << "<p>Overall Compliance: <strong>" << std::fixed << std::setprecision(2) 
          << overall_compliance << "%</strong></p>";
     
-    html << "<h2>Compliant Controls (" << compliant_controls.size() << ")</h2><ul>";
+    html << "<h2>Compliant Controls (" <<static_cast<int>(compliant_controls.size()) << ")</h2><ul>";
     for (const auto& control : compliant_controls) {
         html << "<li class='compliant'>" << control << "</li>";
     }
     html << "</ul>";
     
-    html << "<h2>Non-Compliant Controls (" << non_compliant_controls.size() << ")</h2><ul>";
+    html << "<h2>Non-Compliant Controls (" <<static_cast<int>(non_compliant_controls.size()) << ")</h2><ul>";
     for (const auto& control : non_compliant_controls) {
         html << "<li class='non-compliant'>" << control << "</li>";
     }
@@ -831,7 +831,7 @@ std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
         csv << entry.role << ",";
         csv << entry.resource << ",";
         csv << "\"";
-        for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
             if (i > 0) {
               csv << ";";
             }
@@ -861,7 +861,7 @@ std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
         html << "<tr><td>" << entry.role << "</td>";
         html << "<td>" << entry.resource << "</td>";
         html << "<td>";
-        for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
             if (i > 0) {
               html << ", ";
             }
@@ -910,7 +910,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
         csv << risk.severity << ",";
         csv << "\"" << risk.description << "\",";
         csv << "\"";
-        for (size_t i = 0; i < risk.affected_resources.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
             if (i > 0) {
               csv << ";";
             }
@@ -955,7 +955,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
         html << "<td>" << risk.severity << "</td>";
         html << "<td>" << risk.description << "</td>";
         html << "<td>";
-        for (size_t i = 0; i < risk.affected_resources.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
             if (i > 0) {
               html << ", ";
             }
@@ -1456,7 +1456,7 @@ void flattenJsonToLines(const nlohmann::json& j,
             }
         }
     } else if (j.is_array()) {
-        for (size_t i = 0; i < j.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(j.size()); ++i) {
             std::string idx_prefix = prefix + "[" + std::to_string(i) + "]";
             if (j[i].is_object() || j[i].is_array()) {
                 lines.push_back(idx_prefix + ":");
@@ -1727,11 +1727,11 @@ std::string ComplianceReporter::CcpaReport::toCSV() const {
     csv << "opt_out_count," << opt_out_count << "\n";
     csv << "ccpa_compliant_rules," << ccpa_compliant_rules << "\n";
     csv << "ccpa_non_compliant_rules," << ccpa_non_compliant_rules << "\n";
-    csv << "missing_right_to_know_count," << missing_right_to_know.size() << "\n";
-    csv << "missing_right_to_delete_count," << missing_right_to_delete.size() << "\n";
-    csv << "missing_opt_out_of_sale_count," << missing_opt_out_of_sale.size() << "\n";
-    csv << "missing_data_portability_count," << missing_data_portability.size() << "\n";
-    csv << "third_party_disclosure_count," << third_party_disclosure_rule_ids.size() << "\n";
+    csv << "missing_right_to_know_count," <<static_cast<int>(missing_right_to_know.size()) << "\n";
+    csv << "missing_right_to_delete_count," <<static_cast<int>(missing_right_to_delete.size()) << "\n";
+    csv << "missing_opt_out_of_sale_count," <<static_cast<int>(missing_opt_out_of_sale.size()) << "\n";
+    csv << "missing_data_portability_count," <<static_cast<int>(missing_data_portability.size()) << "\n";
+    csv << "third_party_disclosure_count," <<static_cast<int>(third_party_disclosure_rule_ids.size()) << "\n";
     csv << "generated_at," << generated_at << "\n";
     return csv.str();
 }

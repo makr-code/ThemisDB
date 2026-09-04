@@ -179,10 +179,10 @@ std::vector<std::string> SseConnectionManager::pollEvents(
         if (budget == 0) {
             return {};
         }
-        count = std::min({max_events, conn->buffered_events.size(),
+        count = std::min({max_events, conn-> static_cast<int>(buffered_events.size()),
                           static_cast<size_t>(budget)});
     } else {
-        count = std::min(max_events, conn->buffered_events.size());
+        count = std::min(max_events, conn-> static_cast<int>(buffered_events.size()));
     }
 
     if (count == 0) {
@@ -201,7 +201,7 @@ std::vector<std::string> SseConnectionManager::pollEvents(
 
     // Keep raw_buffered_events in sync so that pollRawEvents() remains consistent
     // with the number of formatted lines already consumed.
-    const size_t raw_count = std::min(count, conn->raw_buffered_events.size());
+    const size_t raw_count = std::min(count, conn-> static_cast<int>(raw_buffered_events.size()));
     if (raw_count > 0) {
         conn->raw_buffered_events.erase(
             conn->raw_buffered_events.begin(),
@@ -254,10 +254,10 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
         if (budget == 0) {
             return {};
         }
-        count = std::min({max_events, conn->raw_buffered_events.size(),
+        count = std::min({max_events, conn-> static_cast<int>(raw_buffered_events.size()),
                           static_cast<size_t>(budget)});
     } else {
-        count = std::min(max_events, conn->raw_buffered_events.size());
+        count = std::min(max_events, conn-> static_cast<int>(raw_buffered_events.size()));
     }
 
     if (count == 0) {
@@ -403,7 +403,7 @@ void SseConnectionManager::backgroundPollTask() {
                 // already full.  This read is safe here because we hold the
                 // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
                 // backgroundPollTask write path) holds the exclusive lock.
-                if (conn->buffered_events.size() >= config_.max_buffered_events
+                if (conn-> static_cast<int>(buffered_events.size()) >= config_.max_buffered_events
                     && !config_.drop_oldest_on_overflow) {
                     THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
                     continue;

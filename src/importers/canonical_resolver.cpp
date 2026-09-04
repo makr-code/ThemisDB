@@ -165,7 +165,7 @@ json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json 
             // Prefer longer / non-null value.
             const std::string v1 = result[key].is_string() ? result[key].get<std::string>() : result[key].dump();
             const std::string v2 = it.value().is_string() ? it.value().get<std::string>() : it.value().dump();
-            if (static_cast<int>(v2.size()) > v1.size()) {
+            if (static_cast<int>(v2.size()) > static_cast<int>(v1.size())) {
                 result[key] = it.value();
             }
         }
@@ -251,7 +251,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
     size_t base_idx = 0;
     if (policy == ResolutionPolicy::MOST_COMPLETE) {
         double best = -1.0;
-        for (size_t i = 0; i < linked_entities.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
             double c = computeCompleteness(linked_entities[i].second);
             if (c > best) {
                 best     = c;
@@ -260,7 +260,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
         }
     } else if (policy == ResolutionPolicy::NEWEST_FIRST) {
         std::string newest = {};
-        for (size_t i = 0; i < linked_entities.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
             const auto &e = linked_entities[i].second;
             std::string ts = {};
             if (e.contains("updated_at") && e["updated_at"].is_string()) {
@@ -300,7 +300,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
     }
 
     // Merge remaining records.
-    for (size_t i = 0; i < linked_entities.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(linked_entities.size()); ++i) {
         if (i == base_idx) {
             continue;
         }

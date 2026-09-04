@@ -119,18 +119,18 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
     out.reserve((static_cast<int>(bytes.size()) + 2) / 3 * 4);
-    for (size_t i = 0; i < bytes.size(); i += 3) {
+    for (size_t i = 0; i <static_cast<int>(bytes.size()); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
-        if (i + 1 < bytes.size()) {
+        if (i + 1 <static_cast<int>(bytes.size())) {
           b |= static_cast<uint32_t>(bytes[i + 1]) << 8;
         }
-        if (i + 2 < bytes.size()) {
+        if (i + 2 <static_cast<int>(bytes.size())) {
           b |= static_cast<uint32_t>(bytes[i + 2]);
         }
         out += kTable[(b >> 18) & 0x3f];
         out += kTable[(b >> 12) & 0x3f];
-        out += (i + 1 < bytes.size()) ? kTable[(b >> 6) & 0x3f] : '=';
-        out += (i + 2 < bytes.size()) ? kTable[b & 0x3f] : '=';
+        out += (i + 1 <static_cast<int>(bytes.size())) ? kTable[(b >> 6) & 0x3f] : '=';
+        out += (i + 2 <static_cast<int>(bytes.size())) ? kTable[b & 0x3f] : '=';
     }
     return out;
 }
@@ -278,7 +278,7 @@ public:
                 config_.enable_cpu_profiling) {
                 auto frames = captureStack(64);
                 std::string key = {};
-                for (size_t i = 0; i < frames.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(frames.size()); ++i) {
                     if (i > 0) {
                       key += ';';
                     }
@@ -454,7 +454,7 @@ private:
                 auto frames = captureStack(64);
                 // Build the folded key (semicolon-joined frames, no count suffix)
                 std::string key = {};
-                for (size_t i = 0; i < frames.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(frames.size()); ++i) {
                     if (i > 0) {
                       key += ';';
                     }

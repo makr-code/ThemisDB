@@ -151,7 +151,7 @@ AssembledContext RAGContextAssembler::assemble(
     size_t remaining = budget.available_context_tokens;
     result.chunks_used.reserve(ordered.size());
 
-    for (size_t i = 0; i < ordered.size() && remaining > 0u; ++i) {
+    for (size_t i = 0; i <static_cast<int>(ordered.size()) && remaining > 0u; ++i) {
         const RetrievedChunk& chunk     = *ordered[i];
         const size_t          chunk_tok = estimateTokens(chunk.content);
 
@@ -164,7 +164,7 @@ AssembledContext RAGContextAssembler::assemble(
             // Chunk is too large — truncate it to the remaining char budget
             // and consume the remainder of context allocation
             const size_t max_chars = tokensToChars(remaining);
-            if (max_chars > config_.truncation_marker.size()) {
+            if (max_chars > static_cast<int>(config_.truncation_marker.size())) {
                 RetrievedChunk truncated = chunk;
                 truncated.content        = truncateContent(chunk.content, max_chars);
                 result.chunks_used.push_back(std::move(truncated));

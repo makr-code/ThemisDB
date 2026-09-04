@@ -64,7 +64,7 @@ std::string FlightDescriptor::toString() const {
     std::ostringstream oss = {};
     if (type == Type::PATH) {
         oss << "path://";
-        for (size_t i = 0; i < path.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(path.size()); ++i) {
             if (i > 0) {
                 oss << '/';
             }
@@ -87,7 +87,7 @@ using RecordBatch = themis::analytics::ArrowRecordBatch;
 /** Convert a path vector to a flat registry key string. */
 static std::string pathToKey(const std::vector<std::string> &path) {
     std::ostringstream oss = {};
-    for (size_t i = 0; i < path.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(path.size()); ++i) {
         if (i > 0) {
             oss << '/';
         }

@@ -188,7 +188,7 @@ MergeLayerResult LoRAAdapterMerger::mergeLinear(
 
         float sc_i = we.alpha / static_cast<float>(we.rank);
         auto dW_i = computeDeltaW(we.B, we.A, in_dim, out_dim, we.rank, sc_i);
-        for (size_t k = 0; k < merged_dW.size(); ++k)
+        for (size_t k = 0; k <static_cast<int>(merged_dW.size()); ++k)
             merged_dW[k] += desc.weight * dW_i[k];
     }
 
@@ -236,7 +236,7 @@ MergeResult LoRAAdapterMerger::mergeLinearAll(
 
         std::vector<AdapterDescriptor> descs = {};
 
-        for (size_t i = 0; i < adapters.size(); ++i)
+        for (size_t i = 0; i <static_cast<int>(adapters.size()); ++i)
             descs.push_back({adapters[i], lname, weights[i]});
 
         auto lr = mergeLinear(descs, lname, in_dim, out_dim, output_rank, alpha);
@@ -283,7 +283,7 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
     // Collect trimmed ΔW for each adapter
     std::vector<std::vector<float>> trimmed(adapters.size());
 
-    for (size_t ai = 0; ai < adapters.size(); ++ai) {
+    for (size_t ai = 0; ai <static_cast<int>(adapters.size()); ++ai) {
         const auto& desc = adapters[ai];
         if (!desc.adapter) {
             result.error_message = "Null adapter pointer";
@@ -315,7 +315,7 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
     std::vector<float> resolved_sign(N, 0.0f);
     for (size_t k = 0; k < N; ++k) {
         int pos = 0, neg = 0;
-        for (size_t ai = 0; ai < adapters.size(); ++ai) {
+        for (size_t ai = 0; ai <static_cast<int>(adapters.size()); ++ai) {
             float v = trimmed[ai][k];
             if (v > 0.0f) {
               ++pos;
@@ -333,7 +333,7 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
     std::vector<float> merged_dW(N, 0.0f);
     std::vector<int>   count(N, 0);
 
-    for (size_t ai = 0; ai < adapters.size(); ++ai) {
+    for (size_t ai = 0; ai <static_cast<int>(adapters.size()); ++ai) {
         for (size_t k = 0; k < N; ++k) {
             float v = trimmed[ai][k];
             if (v == 0.0f) {
@@ -436,14 +436,14 @@ std::string LoRAAdapterMerger::validateMergeInputs(
     }
     
     // Check: all adapters are non-null
-    for (size_t i = 0; i < adapters.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(adapters.size()); ++i) {
         if (!adapters[i].adapter) {
             return "Adapter at index " + std::to_string(i) + " is null";
         }
     }
     
     // Check: all weights are positive
-    for (size_t i = 0; i < adapters.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(adapters.size()); ++i) {
         if (adapters[i].weight <= 0.0f) {
             return "Adapter " + std::to_string(i) + " has non-positive weight " +
                    std::to_string(adapters[i].weight);
@@ -451,7 +451,7 @@ std::string LoRAAdapterMerger::validateMergeInputs(
     }
     
     // Check: all adapters have at least one layer
-    for (size_t i = 0; i < adapters.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(adapters.size()); ++i) {
         const auto* adapter = adapters[i].adapter;
         if (!adapter || adapter->layerCount() == 0) {
             return "Adapter at index " + std::to_string(i) + " is empty (no layers)";

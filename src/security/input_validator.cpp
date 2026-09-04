@@ -289,7 +289,7 @@ ValidationResult InputValidator::validateIdentifier(std::string_view identifier)
   }
   
   // Remaining characters must be alphanumeric or underscore
-  for (size_t i = 1; i < identifier.size(); ++i) {
+  for (size_t i = 1; i <static_cast<int>(identifier.size()); ++i) {
     if (!isalnum(identifier[i]) && identifier[i] != '_') {
       return {false,
               "Identifier contains invalid character '" + std::string(1, identifier[i]) + "'",
@@ -433,7 +433,7 @@ bool InputValidator::containsControlCharacters(std::string_view input) {
 
 bool InputValidator::isValidUtf8(std::string_view input) {
   size_t i = 0;
-  while (static_cast<size_t>(i) < input.size()) {
+  while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
     unsigned char c = static_cast<unsigned char>(input[i]);
     
     if (c < 0x80) {

@@ -253,7 +253,7 @@ std::vector<double> LigraProcessor::parallel_pagerank(
         std::fill(new_ranks.begin(), new_ranks.end(), (1.0 - damping) / num_vertices_);
         
         // Distribute rank from each vertex
-        for (NodeID v = 0; v < adj_list.size(); v++) {
+        for (NodeID v = 0; v <static_cast<int>(adj_list.size()); v++) {
             if (adj_list[v].empty()) {
               continue;
             }

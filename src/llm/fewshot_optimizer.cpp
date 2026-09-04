@@ -108,7 +108,7 @@ std::vector<FewShotExample> FewShotOptimizer::getCachedExamples(
     // Compute relevance for all cached examples
     std::vector<std::pair<double, size_t>> scored_examples;
     
-    for (size_t i = 0; i < cache_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cache_.size()); ++i) {
         double relevance = computeRelevance(query, cache_[i]);
         scored_examples.push_back({relevance, i});
     }
@@ -184,8 +184,8 @@ double FewShotOptimizer::computeDiversity(
     double total_dissimilarity = 0.0;
     size_t pair_count = 0;
     
-    for (size_t i = 0; i < examples.size(); ++i) {
-        for (size_t j = i + 1; j < examples.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(examples.size()); ++j) {
             double similarity = computeSimilarity(examples[i], examples[j]);
             total_dissimilarity += (1.0 - similarity);
             pair_count++;
@@ -201,7 +201,7 @@ std::string FewShotOptimizer::formatExamples(
 ) {
     std::ostringstream oss = {};
     
-    for (size_t i = 0; i < examples.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(examples.size()); ++i) {
         std::string formatted = format;
         
         // Replace placeholders
@@ -263,7 +263,7 @@ std::vector<FewShotExample> FewShotOptimizer::greedyDiversitySelection(
         size_t best_idx = 0;
         double best_min_similarity = 1.0;
         
-        for (size_t i = 0; i < remaining.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(remaining.size()); ++i) {
             // Compute minimum similarity to already selected examples
             double min_similarity = 1.0;
             for (const auto& sel : selected) {
@@ -341,7 +341,7 @@ void FewShotOptimizer::updateQueryIndex() {
     // Simple indexing: map first words to example indices
     query_index_.clear();
     
-    for (size_t i = 0; i < cache_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(cache_.size()); ++i) {
         std::istringstream iss(cache_[i].input);
         std::string first_word = {};
         if (iss >> first_word) {

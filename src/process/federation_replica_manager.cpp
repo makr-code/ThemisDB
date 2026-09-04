@@ -330,7 +330,7 @@ std::shared_ptr<Snapshot> FederationReplicaManagerImpl::TakeSnapshot() {
 
   utils::Logger::Info(
       "TakeSnapshot: node=%s, index=%llu, blob_size=%zu, duration=%llums",
-      node_id_.c_str(), snapshot->snapshot_index, snapshot->state_blob.size(),
+      node_id_.c_str(), snapshot->snapshot_index, snapshot-> static_cast<int>(state_blob.size()),
       snapshot->duration_ms);
 
   return snapshot;
@@ -406,7 +406,7 @@ std::string FederationReplicaManagerImpl::ComputeStateHash() const {
 
 bool FederationReplicaManagerImpl::ReplayEntries(
     const std::vector<std::string>& entries) {
-  for (size_t i = 0; i < entries.size(); ++i) {
+  for (size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
     uint64_t index = snapshot_index_ + i + 1;
     ApplyEntryLocked(index, 0, entries[i]);
   }

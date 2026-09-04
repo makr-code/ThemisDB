@@ -132,7 +132,7 @@ size_t IoUringBatchedSender::submitAndWait() {
         // Step 1: Populate SQEs
         // -----------------------------------------------------------------
         size_t submitted = 0;
-        for (size_t i = 0; i < pending_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pending_.size()); ++i) {
             auto& entry = pending_[i];
             if (enqueueSqe(entry.fd, entry.iovs.data(),static_cast<int>(entry.iovs.size()),
                            static_cast<uint64_t>(i))) {

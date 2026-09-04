@@ -65,7 +65,7 @@ std::string coordsToJson(const std::vector<Coordinate> &coords) {
     // concatenation inside the coordinate loop.
     std::ostringstream os = {};
     os << "[";
-    for (std::size_t i = 0; i < coords.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(coords.size()); ++i) {
         if (i > 0) {
             os << ",";
         }
@@ -145,7 +145,7 @@ ValidationResult GeoLineString::validate() const {
         vr.addError({"INSUFFICIENT_POSITIONS",
                      "GeoLineString requires at least 2 positions, got " + std::to_string(coords_.size())});
     }
-    for (std::size_t i = 0; i < coords_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(coords_.size()); ++i) {
         vr.merge(validateCoordinate(coords_[i], crs_, "GeoLineString[" + std::to_string(i) + "]"));
     }
     return vr;
@@ -169,7 +169,7 @@ ValidationResult validateRing(const GeoPolygon::Ring &ring, CrsId crs, const std
         vr.addError({"RING_NOT_CLOSED", name + ": first and last position must be identical"});
     }
     // Coordinate validity
-    for (std::size_t i = 0; i < ring.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(ring.size()); ++i) {
         vr.merge(validateCoordinate(ring[i], crs, name + "[" + std::to_string(i) + "]"));
     }
     // Winding-order check (only meaningful when ring is closed and has ≥ 3 unique vertices)
@@ -203,7 +203,7 @@ std::string GeoPolygon::toGeoJSON() const {
     // concatenation inside the ring loop.
     std::ostringstream os = {};
     os << R"({"type":"Polygon","coordinates":[)";
-    for (std::size_t i = 0; i < rings_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(rings_.size()); ++i) {
         if (i > 0) {
             os << ",";
         }
@@ -222,7 +222,7 @@ ValidationResult GeoPolygon::validate() const {
     // Exterior ring: must be CCW
     vr.merge(validateRing(rings_[0], crs_, "exterior_ring", /*must_be_ccw=*/true));
     // Interior rings: must be CW
-    for (std::size_t i = 1; i < rings_.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(rings_.size()); ++i) {
         vr.merge(validateRing(rings_[i], crs_, "interior_ring[" + std::to_string(i - 1) + "]",
                               /*must_be_ccw=*/false));
     }
@@ -238,7 +238,7 @@ BBox GeoMultiPolygon::bbox() const noexcept {
         return {0.0, 0.0, 0.0, 0.0};
     }
     BBox bb = polygons_[0].bbox();
-    for (std::size_t i = 1; i < polygons_.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(polygons_.size()); ++i) {
         bb = mergeBBox(bb, polygons_[i].bbox());
     }
     return bb;
@@ -249,7 +249,7 @@ std::string GeoMultiPolygon::toGeoJSON() const {
     // concatenation inside the polygon loop.
     std::ostringstream os = {};
     os << R"({"type":"MultiPolygon","coordinates":[)";
-    for (std::size_t i = 0; i < polygons_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(polygons_.size()); ++i) {
         if (i > 0) {
             os << ",";
         }
@@ -268,7 +268,7 @@ std::string GeoMultiPolygon::toGeoJSON() const {
 
 ValidationResult GeoMultiPolygon::validate() const {
     ValidationResult vr;
-    for (std::size_t i = 0; i < polygons_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(polygons_.size()); ++i) {
         const auto sub = polygons_[i].validate();
         if (!sub.ok()) {
             for (const auto &e : sub.errors()) {
@@ -288,7 +288,7 @@ BBox GeoGeometryCollection::bbox() const noexcept {
         return {0.0, 0.0, 0.0, 0.0};
     }
     BBox bb = members_[0]->bbox();
-    for (std::size_t i = 1; i < members_.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(members_.size()); ++i) {
         bb = mergeBBox(bb, members_[i]->bbox());
     }
     return bb;
@@ -299,7 +299,7 @@ std::string GeoGeometryCollection::toGeoJSON() const {
     // concatenation inside the geometry loop.
     std::ostringstream os = {};
     os << R"({"type":"GeometryCollection","geometries":[)";
-    for (std::size_t i = 0; i < members_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(members_.size()); ++i) {
         if (i > 0) {
             os << ",";
         }
@@ -311,7 +311,7 @@ std::string GeoGeometryCollection::toGeoJSON() const {
 
 ValidationResult GeoGeometryCollection::validate() const {
     ValidationResult vr;
-    for (std::size_t i = 0; i < members_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(members_.size()); ++i) {
         const auto sub = members_[i]->validate();
         if (!sub.ok()) {
             for (const auto &e : sub.errors()) {

@@ -251,7 +251,7 @@ void Column::clear() {
 std::shared_ptr<Column> Column::filter(const SelectionVector &sel) const {
     auto out = std::make_shared<Column>(name_, type_);
     out->reserve(sel.size());
-    for (size_t i = 0; i < sel.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(sel.size()); ++i) {
         uint32_t row = sel[i];
         bool is_null = (!null_bitmap_.empty() && null_bitmap_[row]);
         switch (type_) {
@@ -445,7 +445,7 @@ namespace {
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
     SelectionVector out(std::min(a.size(),static_cast<int>(b.size())));
     size_t i = 0, j = 0;
-    while (i < a.size()  && static_cast<size_t>(j) < b.size()) {
+    while (i <static_cast<int>(a.size())  && static_cast<size_t>(j) <static_cast<int>(b.size())) {
         if (a[i] == b[j]) {
             out.push_back(a[i]);
             ++i;
@@ -519,7 +519,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
             if (const auto *rv = std::get_if<int64_t>(&pred.value)) {
                 int64_t threshold = *rv;
                 Predicate::Op op  = pred.op;
-                for (size_t i = 0; i < data.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                     if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
                         sel.push_back(static_cast<uint32_t>(i));
                     }
@@ -527,7 +527,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
             } else if (const auto *dv = std::get_if<double>(&pred.value)) {
                 int64_t threshold = static_cast<int64_t>(*dv);
                 Predicate::Op op  = pred.op;
-                for (size_t i = 0; i < data.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                     if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
                         sel.push_back(static_cast<uint32_t>(i));
                     }
@@ -546,7 +546,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
                 break;
             }
             Predicate::Op op = pred.op;
-            for (size_t i = 0; i < data.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                 if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
                     sel.push_back(static_cast<uint32_t>(i));
                 }
@@ -561,7 +561,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
             }
             const std::string &threshold = *sv;
             Predicate::Op op             = pred.op;
-            for (size_t i = 0; i < data.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                 if (!col->isNull(i) && compareValues(data[i], threshold, op)) {
                     sel.push_back(static_cast<uint32_t>(i));
                 }
@@ -576,7 +576,7 @@ SelectionVector FilterOperator::evalPredicate(const ColumnBatch &batch, const Pr
             }
             bool threshold   = *bv;
             Predicate::Op op = pred.op;
-            for (size_t i = 0; i < data.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
                 if (!col->isNull(i)) {
                     bool val = data[i];
                     if (compareValues(val, threshold, op)) {
@@ -920,7 +920,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch &input) const {
     // Accumulate one AggState per spec.
     std::vector<AggState> states(specs_.size());
 
-    for (size_t s = 0; s < specs_.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs_.size()); ++s) {
         const auto &spec = specs_[s];
         auto &st         = states[s];
 
@@ -965,7 +965,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch &input) const {
 
     // Build result batch (one row).
     ColumnBatch result(1);
-    for (size_t s = 0; s < specs_.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs_.size()); ++s) {
         double val   = finalizeAgg(states[s], specs_[s].function);
         auto out_col = std::make_shared<Column>(specs_[s].result_name, ColumnType::Double);
         out_col->appendDouble(val);
@@ -999,7 +999,7 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
         }
 
         auto &states = it->second;
-        for (size_t s = 0; s < specs_.size(); ++s) {
+        for (size_t s = 0; s <static_cast<int>(specs_.size()); ++s) {
             const auto &spec = specs_[s];
             auto &st         = states[s];
 
@@ -1071,7 +1071,7 @@ ColumnBatch AggregateOperator::aggregateGroupBy(const ColumnBatch &input,
     }
 
     // Aggregate columns
-    for (size_t s = 0; s < specs_.size(); ++s) {
+    for (size_t s = 0; s <static_cast<int>(specs_.size()); ++s) {
         const auto &spec = specs_[s];
         auto out_col     = std::make_shared<Column>(spec.result_name, ColumnType::Double);
         out_col->reserve(num_rows);

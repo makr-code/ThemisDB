@@ -152,7 +152,7 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
     float dot = 0.0f;
     float an = 0.0f;
     float bn = 0.0f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += a[i] * b[i];
         an += a[i] * a[i];
         bn += b[i] * b[i];
@@ -170,7 +170,7 @@ float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& v
     float dot = 0.0f;
     float qn = 0.0f;
     float vn = 0.0f;
-    for (size_t i = 0; i < q.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(q.size()); ++i) {
         const float dv = static_cast<float>(vq[i]) * scale;
         dot += q[i] * dv;
         qn += q[i] * q[i];
@@ -645,7 +645,7 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
     
     // Search for relevant documents
     result.relevant_docs = searchDocs(query, impl_->config.max_context_docs);
-    result.total_docs_searched = saturating_to_int(impl_->documents.size());
+    result.total_docs_searched = saturating_to_int(impl_-> static_cast<int>(documents.size()));
     result.docs_included_in_context = saturating_to_int(result.relevant_docs.size());
     
     auto search_end = std::chrono::high_resolution_clock::now();
@@ -727,8 +727,8 @@ DocsQueryResult DocsAssistant::getTroubleshootingHelp(const std::string& error_d
 json DocsAssistant::getStats() const {
     json stats;
     stats["database_loaded"] = impl_->database_loaded;
-    stats["total_documents"] = impl_->documents.size();
-    stats["cache_size"] = impl_->cache.size();
+    stats["total_documents"] = impl_-> static_cast<int>(documents.size());
+    stats["cache_size"] = impl_-> static_cast<int>(cache.size());
     stats["database_metadata"] = impl_->database_metadata;
     return stats;
 }

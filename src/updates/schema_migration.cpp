@@ -185,7 +185,7 @@ public:
     private:
         void advance_to_valid()
         {
-            while (pos_ < keys_.size() &&
+            while (pos_ <static_cast<int>(keys_.size()) &&
                    keys_[pos_].substr(0,static_cast<int>(prefix_.size())) != prefix_)
             {
                 ++pos_;
@@ -676,7 +676,7 @@ struct SchemaMigration::Impl {
 
             // Build column list string with validation
             std::string cols = {};
-            for (std::size_t i = 0; i < op.index.columns.size(); ++i) {
+            for (std::size_t i = 0; i <static_cast<int>(op.index.columns.size()); ++i) {
                 // FIX UM-SMD-21: Validate each column name
                 if (op.index.columns[i].empty()) {
                     LOG_ERROR("SchemaMigration [{}]: addIndex '{}' has empty column at position {} (error code 7420)",

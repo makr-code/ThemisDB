@@ -197,7 +197,7 @@ json OpenAICompatAdapter::buildResponse(
         message["content"] = nullptr;  // OpenAI spec: null when tool_calls present
 
         json tool_calls_arr = json::array();
-        for (size_t i = 0; i < response.tool_calls.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(response.tool_calls.size()); ++i) {
             const auto& tc = response.tool_calls[i];
             tool_calls_arr.push_back({
                 {"id",   "call_" + randomHex(8)},

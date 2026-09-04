@@ -164,8 +164,8 @@ public:
           return true;
         }
         
-        for (size_t i = 0; i < config.deviceIds.size(); ++i) {
-            for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
+        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
+            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
                 int canAccess = 0;
                 hipDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
@@ -211,8 +211,8 @@ public:
     int countXGMILinks() {
         // Simplified: count P2P-capable device pairs
         int count = 0;
-        for (size_t i = 0; i < config.deviceIds.size(); ++i) {
-            for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
+        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
+            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
                 int canAccess = 0;
                 hipDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
@@ -590,8 +590,8 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
     }
     
     // Check if P2P is available between devices (simplified XGMI check)
-    for (size_t i = 0; i < deviceIds.size(); ++i) {
-        for (size_t j = i + 1; j < deviceIds.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(deviceIds.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(deviceIds.size()); ++j) {
             int canAccess = 0;
             hipDeviceCanAccessPeer(&canAccess, deviceIds[i], deviceIds[j]);
             if (canAccess) {

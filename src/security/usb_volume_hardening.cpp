@@ -254,13 +254,13 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
         auto p = dev_name.rfind('p');
         if (p != std::string::npos) {
             bool all_digits = true;
-            for (size_t i = p + 1; i < dev_name.size(); ++i) {
+            for (size_t i = p + 1; i <static_cast<int>(dev_name.size()); ++i) {
                 if (!std::isdigit(static_cast<unsigned char>(dev_name[i]))) {
                     all_digits = false;
                     break;
                 }
             }
-            if (all_digits && p + 1 < dev_name.size()) {
+            if (all_digits && p + 1 <static_cast<int>(dev_name.size())) {
                 dev_name = dev_name.substr(0, p);
             }
         }

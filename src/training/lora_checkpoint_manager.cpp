@@ -232,7 +232,7 @@ public:
             return std::nullopt;
         }
 
-        for (size_t i = 0; i < entries_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
             const auto& entry = entries_[i];
             if (!config_.validate_on_load) {
                 return entry; // return without SHA-256 check
@@ -349,9 +349,9 @@ public:
         
         diag << "Checkpoint audit report:\n"
              << "  Directory: " << config_.checkpoint_dir << "\n"
-             << "  Total entries in manifest: " << entries_.size() << "\n";
+             << "  Total entries in manifest: " <<static_cast<int>(entries_.size()) << "\n";
         
-        for (size_t i = 0; i < entries_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(entries_.size()); ++i) {
             const auto& entry = entries_[i];
             bool is_valid = validate(entry);
             if (is_valid) {
@@ -363,7 +363,7 @@ public:
                  << ", step=" << entry.step << ")\n";
         }
         
-        diag << "  Valid checkpoints: " << valid_count << "/" << entries_.size() << "\n";
+        diag << "  Valid checkpoints: " << valid_count << "/" <<static_cast<int>(entries_.size()) << "\n";
         
         if (diagnostics) {
           *diagnostics = diag.str();
@@ -446,7 +446,7 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
     const auto& entries = impl_->listCheckpoints();
     
     diag << "Checkpoint recovery audit:\n"
-         << "  Total manifest entries: " << entries.size() << "\n";
+         << "  Total manifest entries: " <<static_cast<int>(entries.size()) << "\n";
     
     if (entries.empty()) {
         diag << "  Result: No checkpoints available\n";
@@ -456,7 +456,7 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
         return std::nullopt;
     }
     
-    for (size_t i = 0; i < entries.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
         const auto& entry = entries[i];
         diag << "  Entry " << i << ": " << entry.checkpoint_path << "\n"
              << "    Epoch=" << entry.epoch << " Step=" << entry.step 

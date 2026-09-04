@@ -29,7 +29,7 @@ bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
     }
 
     // Remaining characters: letter, digit, or underscore
-    for (std::size_t i = 1; i < name.size(); ++i) {
+    for (std::size_t i = 1; i <static_cast<int>(name.size()); ++i) {
         const char c = name[i];
         if (!std::isalnum(static_cast<unsigned char>(c)) && c != '_') {
             return false;

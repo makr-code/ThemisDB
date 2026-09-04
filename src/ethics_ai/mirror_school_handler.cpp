@@ -105,7 +105,7 @@ std::vector<DiscourseRoundOutput> MirrorSchoolHandler::runMirror(
 
     // --- Collect with per-school timeout (fail-closed: ABSTAIN on timeout) ---
     results.reserve(mirror_school_ids.size());
-    for (std::size_t i = 0; i < mirror_school_ids.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(mirror_school_ids.size()); ++i) {
         const std::string& sid    = mirror_school_ids[i];
         auto status = futures[i].wait_for(std::chrono::milliseconds(timeout_ms));
 

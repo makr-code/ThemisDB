@@ -142,7 +142,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 config_.max_concurrent_shards,static_cast<int>(remote_shards.size()));
 
             for (size_t batch_start = 0;
-                 batch_start < remote_shards.size();
+                 batch_start <static_cast<int>(remote_shards.size());
                  batch_start += max_concurrent) {
 
                 const size_t batch_end = std::min(
@@ -165,7 +165,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
                 const auto timeout =
                     std::chrono::milliseconds(config_.shard_timeout_ms);
 
-                for (size_t i = 0; i < futures.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
                     const auto& shard = remote_shards[batch_start + i];
                     try {
                         if (futures[i].wait_for(timeout) ==
@@ -282,7 +282,7 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::mergeShardResults(
             continue;
         }
 
-        for (size_t rank = 0; rank < sr.results.size(); ++rank) {
+        for (size_t rank = 0; rank <static_cast<int>(sr.results.size()); ++rank) {
             const auto& r = sr.results[rank];
             if (r.document_id.empty()) {
               continue;

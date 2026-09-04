@@ -88,7 +88,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
 
     // Core-wise Frobenius norms
     fp.core_norms.resize(train.cores.size());
-    for (std::size_t k = 0; k < train.cores.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()); ++k) {
         double sn = 0.0;
         for (float v : train.cores[k].data) {
             sn += (double)v * v;
@@ -106,9 +106,9 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     std::vector<uint64_t> elements;
     elements.reserve(512);
 
-    for (std::size_t k = 0; k < train.cores.size() && k < 32; ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()) && k < 32; ++k) {
         const auto &core = train.cores[k];
-        for (std::size_t i = 0; i < core.data.size() && i < 64; ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(core.data.size()) && i < 64; ++i) {
             // Quantise to 256 levels
             int8_t q         = static_cast<int8_t>(std::max(
                 -128.0f, std::min(127.0f, core.data[i] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f) * 127.0f)));
@@ -119,7 +119,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     }
 
     // Also hash core norms
-    for (std::size_t k = 0; k < fp.core_norms.size(); ++k) {
+    for (std::size_t k = 0; k <static_cast<int>(fp.core_norms.size()); ++k) {
         uint32_t quantised_norm = 0;
         float scaled   = fp.core_norms[k] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f);
         scaled         = std::max(0.0f, std::min(1.0f, scaled));
@@ -269,7 +269,7 @@ void TensorFingerprintGraph::insert(const std::string &tensor_id, const TTTrain 
                         nadj.end());
                     edge_count_.fetch_sub(1, std::memory_order_relaxed);
                 }
-                edge_count_.fetch_sub(ait->second.size(), std::memory_order_relaxed);
+                edge_count_.fetch_sub(ait-> static_cast<int>(second.size()), std::memory_order_relaxed);
                 adj_.erase(ait);
             }
             removeFromBuckets(tensor_id, previous_fp);
@@ -395,7 +395,7 @@ bool TensorFingerprintGraph::remove(const std::string &tensor_id) {
                            nadj.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(static_cast<std::size_t>(ait->second.size()), std::memory_order_relaxed);
+            edge_count_.fetch_sub(static_cast<std::size_t>(ait-> static_cast<int>(second.size())), std::memory_order_relaxed);
             adj_.erase(ait);
         }
 
@@ -641,7 +641,7 @@ TensorFingerprintGraph::buildPersistedEdgesForLocked(const std::string &tensor_i
     if (it == adj_.end()) {
         return out;
     }
-    out.reserve(it->second.size());
+    out.reserve(it-> static_cast<int>(second.size()));
     for (const auto &edge : it->second) {
         out.push_back({tensor_id, edge.to, edge.similarity});
     }
@@ -710,7 +710,7 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
                               reverse.end());
                 edge_count_.fetch_sub(1, std::memory_order_relaxed);
             }
-            edge_count_.fetch_sub(adj_it->second.size(), std::memory_order_relaxed);
+            edge_count_.fetch_sub(adj_it-> static_cast<int>(second.size()), std::memory_order_relaxed);
             adj_.erase(adj_it);
         }
 

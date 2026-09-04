@@ -453,9 +453,9 @@ std::string ExternalSchedulerAdapter::toAirflowDagPython(
 
     if (!config.tags.empty()) {
         py << "    tags=[";
-        for (size_t i = 0; i < config.tags.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(config.tags.size()); ++i) {
             py << "'" << pyStringEscape(config.tags[i]) << "'";
-            if (i + 1 < config.tags.size()) py << ", ";
+            if (i + 1 <static_cast<int>(config.tags.size())) py << ", ";
         }
         py << "],\n";
     }

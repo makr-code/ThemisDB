@@ -123,7 +123,7 @@ public:
     std::vector<SPARQLToken> tokenize() {
         std::vector<SPARQLToken> tokens = {};
 
-        while (static_cast<size_t>(pos_) < input_.size()) {
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
             if (pos_ >= static_cast<int>(input_.size())) {
               break;
@@ -134,7 +134,7 @@ public:
 
             // Comment (# to end of line)
             if (c == '#') {
-                while (pos_ < input_.size() && input_[pos_] != '\n') {
+                while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != '\n') {
                   ++pos_;
                 }
                 continue;
@@ -144,7 +144,7 @@ public:
             if (c == '?' || c == '$') {
                 ++pos_;
                 size_t name_start = pos_;
-                while (pos_ < input_.size() &&
+                while (pos_ <static_cast<int>(input_.size()) &&
                        (std::isalnum(static_cast<unsigned char>(input_[pos_])) || input_[pos_] == '_')) {
                     ++pos_;
                 }
@@ -155,7 +155,7 @@ public:
 
             // URI reference <uri> vs. comparison operator < / <=
             if (c == '<') {
-                char next = (pos_ + 1 < input_.size()) ? input_[pos_ + 1] : '\0';
+                char next = (pos_ + 1 <static_cast<int>(input_.size())) ? input_[pos_ + 1] : '\0';
                 // Treat as URI when the character after '<' starts a typical URI scheme
                 // (letter, digit, underscore, slash, hash) and is not '=' or '>'
                 if (next != '=' && next != '>' && next != ' ' && next != '\t' &&
@@ -165,7 +165,7 @@ public:
                      next == '_' || next == '/' || next == '#')) {
                     ++pos_;  // consume '<'
                     size_t uri_start = pos_;
-                    while (pos_ < input_.size() && input_[pos_] != '>') {
+                    while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != '>') {
                       ++pos_;
                     }
                     std::string uri = input_.substr(uri_start, pos_ - uri_start);
@@ -191,7 +191,7 @@ public:
 
             // Numbers (and negative numbers)
             if (std::isdigit(static_cast<unsigned char>(c)) ||
-                (c == '-' && pos_ + 1 < input_.size() &&
+                (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) &&
                  std::isdigit(static_cast<unsigned char>(input_[pos_ + 1])))) {
                 tokens.push_back(readNumber(start));
                 continue;
@@ -215,28 +215,28 @@ public:
                 case ';': tokens.push_back({SPARQLTokenType::SEMICOLON, ";", start}); ++pos_; break;
                 case '=': tokens.push_back({SPARQLTokenType::EQ,      "==", start}); ++pos_; break;
                 case '>':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SPARQLTokenType::GTE, ">=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::GT,  ">",  start}); ++pos_;
                     }
                     break;
                 case '!':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '=') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '=') {
                         tokens.push_back({SPARQLTokenType::NEQ,    "!=", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::NOT_OP, "!",  start}); ++pos_;
                     }
                     break;
                 case '&':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '&') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '&') {
                         tokens.push_back({SPARQLTokenType::AND_OP, "&&", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::INVALID, "&", start}); ++pos_;
                     }
                     break;
                 case '|':
-                    if (pos_ + 1 < input_.size() && input_[pos_ + 1] == '|') {
+                    if (pos_ + 1 <static_cast<int>(input_.size()) && input_[pos_ + 1] == '|') {
                         tokens.push_back({SPARQLTokenType::OR_OP, "||", start}); pos_ += 2;
                     } else {
                         tokens.push_back({SPARQLTokenType::INVALID, "|", start}); ++pos_;
@@ -257,7 +257,7 @@ private:
     size_t pos_ = {};
 
     void skipWhitespace() {
-        while (pos_ < input_.size() &&
+        while (pos_ <static_cast<int>(input_.size()) &&
                std::isspace(static_cast<unsigned char>(input_[pos_]))) {
             ++pos_;
         }
@@ -266,8 +266,8 @@ private:
     SPARQLToken readString(char quote, size_t start) {
         ++pos_;  // skip opening quote
         std::string val = {};
-        while (pos_ < input_.size() && input_[pos_] != quote) {
-            if (input_[pos_] == '\\' && pos_ + 1 < input_.size()) {
+        while (pos_ <static_cast<int>(input_.size()) && input_[pos_] != quote) {
+            if (input_[pos_] == '\\' && pos_ + 1 <static_cast<int>(input_.size())) {
                 char esc = input_[pos_ + 1];
                 switch (esc) {
                     case '"':  case '\'': case '\\': val += esc; break;
@@ -290,15 +290,15 @@ private:
         if (input_[pos_] == '-') {
           ++pos_;
         }
-        while (pos_ < input_.size() &&
+        while (pos_ <static_cast<int>(input_.size()) &&
                std::isdigit(static_cast<unsigned char>(input_[pos_]))) {
             ++pos_;
         }
         bool is_float = false;
-        if (pos_ < input_.size() && input_[pos_] == '.') {
+        if (pos_ <static_cast<int>(input_.size()) && input_[pos_] == '.') {
             is_float = true;
             ++pos_;
-            while (pos_ < input_.size() &&
+            while (pos_ <static_cast<int>(input_.size()) &&
                    std::isdigit(static_cast<unsigned char>(input_[pos_]))) {
                 ++pos_;
             }
@@ -310,7 +310,7 @@ private:
 
     SPARQLToken readIdent([[maybe_unused]] size_t start) {
         size_t ident_start = pos_;
-        while (pos_ < input_.size() &&
+        while (pos_ <static_cast<int>(input_.size()) &&
                (std::isalnum(static_cast<unsigned char>(input_[pos_])) ||
                 input_[pos_] == '_' || input_[pos_] == '-')) {
             ++pos_;
@@ -318,10 +318,10 @@ private:
         std::string ident = input_.substr(ident_start, pos_ - ident_start);
 
         // Prefixed name: ident followed immediately by ':' and local part
-        if (pos_ < input_.size() && input_[pos_] == ':') {
+        if (pos_ <static_cast<int>(input_.size()) && input_[pos_] == ':') {
             ++pos_;  // consume ':'
             size_t local_start = pos_;
-            while (pos_ < input_.size() &&
+            while (pos_ <static_cast<int>(input_.size()) &&
                    (std::isalnum(static_cast<unsigned char>(input_[pos_])) ||
                     input_[pos_] == '_' || input_[pos_] == '-')) {
                 ++pos_;
@@ -387,7 +387,7 @@ private:
     const SPARQLToken& current() const { return tokens_[pos_]; }
 
     void advance() {
-        if (pos_ + 1 < tokens_.size()) {
+        if (pos_ + 1 <static_cast<int>(tokens_.size())) {
           ++pos_;
         }
     }
@@ -961,7 +961,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
 
             if (!constraints.empty()) {
                 oss << "FILTER ";
-                for (size_t i = 0; i < constraints.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(constraints.size()); ++i) {
                     if (i > 0) {
                       oss << " AND ";
                     }
@@ -978,7 +978,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     // ORDER BY
     if (!stmt.order_by.empty()) {
         oss << "SORT ";
-        for (size_t i = 0; i < stmt.order_by.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
             if (i > 0) {
               oss << ", ";
             }

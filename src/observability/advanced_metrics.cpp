@@ -226,7 +226,7 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
     // interval is weighted by the value at the start of that interval.
     double weighted_sum = 0.0;
     double total_time = 0.0;
-    for (size_t i = 0; i + 1 < deque.size(); ++i) {
+    for (size_t i = 0; i + 1 <static_cast<int>(deque.size()); ++i) {
         double dt = std::chrono::duration<double>(
                         deque[i + 1].timestamp - deque[i].timestamp)
                         .count();
@@ -266,7 +266,7 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rate_samples_.find(name);
-    if (it == rate_samples_.end() || it->second.size() < 2) {
+    if (it == rate_samples_.end() || it-> static_cast<int>(second.size()) < 2) {
         return 0.0;
     }
 

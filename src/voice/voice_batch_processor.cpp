@@ -110,7 +110,7 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
 
     size_t batch_size = config_.default_batch_size > 0 ? config_.default_batch_size : 1;
 
-    for (size_t i = 0; i < items.size(); i += batch_size) {
+    for (size_t i = 0; i <static_cast<int>(items.size()); i += batch_size) {
         size_t end = std::min(i + batch_size,static_cast<int>(items.size()));
         for (size_t j = i; j < end; ++j) {
             results.push_back(processItem(items[j]));
@@ -446,7 +446,7 @@ std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& d
     std::vector<float> samples = {};
 
     samples.reserve(data.size() / 2);
-    for (size_t i = 0; i + 1 < data.size(); i += 2) {
+    for (size_t i = 0; i + 1 <static_cast<int>(data.size()); i += 2) {
         int16_t s = static_cast<int16_t>(
             static_cast<uint16_t>(data[i]) | (static_cast<uint16_t>(data[i + 1]) << 8)
         );

@@ -217,7 +217,7 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF(const std::vector<Sh
             shard_boost = config_.specialisation_boost;
         }
 
-        for (size_t i = 0; i < sr.documents.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(sr.documents.size()); ++i) {
             const auto &doc   = sr.documents[i];
             const size_t rank = doc.rank_in_shard > 0 ? doc.rank_in_shard : (i + 1);
             const double rrf  = shard_boost / (config_.rrf_constant + static_cast<double>(rank));

@@ -740,7 +740,7 @@ std::string TenantManager::getMetrics() const {
     
     oss << "# HELP themis_tenant_count Total number of tenants\n";
     oss << "# TYPE themis_tenant_count gauge\n";
-    oss << "themis_tenant_count " << tenants_.size() << "\n\n";
+    oss << "themis_tenant_count " <<static_cast<int>(tenants_.size()) << "\n\n";
     
     for (const auto& [id, usage] : usage_) {
         // Escape label value safely using a new string

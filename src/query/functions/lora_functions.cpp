@@ -790,7 +790,7 @@ nlohmann::json LoraLineageFunction::execute(
         // Build lineage array
         json lineage = json::array();
         
-        for (size_t i = 0; i < versions.size() && i < static_cast<size_t>(depth); ++i) {
+        for (size_t i = 0; i <static_cast<int>(versions.size()) && i < static_cast<size_t>(depth); ++i) {
             json version;
             version["version"] = versions[i];
             version["parent"] = (i > 0) ? json(versions[static_cast<int>(i - 1)]) : json(nullptr);

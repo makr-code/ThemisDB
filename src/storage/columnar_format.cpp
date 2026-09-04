@@ -70,12 +70,12 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
     encoded.reserve(data.size() * sizeof(int32_t) / 2); // Estimate
 
     size_t i = 0;
-    while (static_cast<size_t>(i) < data.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(data.size())) {
         int32_t value = data[i];
         size_t run_length = 1;
 
         // Count consecutive identical values
-        while (i + run_length < data.size() &&
+        while (i + run_length <static_cast<int>(data.size()) &&
                data[i + run_length] == value &&
                run_length < 255) {
             run_length++;
@@ -109,11 +109,11 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
     encoded.reserve(data.size() * sizeof(int64_t) / 2);
 
     size_t i = 0;
-    while (static_cast<size_t>(i) < data.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(data.size())) {
         int64_t value = data[i];
         size_t run_length = 1;
 
-        while (i + run_length < data.size() &&
+        while (i + run_length <static_cast<int>(data.size()) &&
                data[i + run_length] == value &&
                run_length < 255) {
             run_length++;
@@ -133,8 +133,8 @@ Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& e
     std::vector<int32_t> decoded;
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos) < encoded.size()) {
-        if (pos + 1 + sizeof(int32_t) > encoded.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(encoded.size())) {
+        if (pos + 1 + sizeof(int32_t) > static_cast<int>(encoded.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "RLE decode: insufficient data"
@@ -159,8 +159,8 @@ Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& e
     std::vector<int64_t> decoded;
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos) < encoded.size()) {
-        if (pos + 1 + sizeof(int64_t) > encoded.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(encoded.size())) {
+        if (pos + 1 + sizeof(int64_t) > static_cast<int>(encoded.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "RLE decode: insufficient data"
@@ -285,7 +285,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
     dictionary.reserve(dict_size);
 
     for (uint32_t i = 0; i < dict_size; ++i) {
-        if ([[maybe_unused]] pos + sizeof(uint32_t) > encoded.size()) {
+        if ([[maybe_unused]] pos + sizeof(uint32_t) > static_cast<int>(encoded.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "Dictionary decode: truncated dictionary entry"
@@ -307,7 +307,7 @@ Result<std::vector<std::string>> DictionaryCodec::decodeStrings(const std::vecto
             ));
         }
 
-        if (pos + str_len > encoded.size()) {
+        if (pos + str_len > static_cast<int>(encoded.size())) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "Dictionary decode: truncated string"
@@ -567,7 +567,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 
     if (bits_required <= 8) {
         // Stored as uint8_t
-        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) <static_cast<int>(encoded.size()); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int32_t>(normalized) + min_val);
         }
@@ -637,7 +637,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     decoded.reserve(count);
 
     if (bits_required <= 8) {
-        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos) <static_cast<int>(encoded.size()); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int64_t>(normalized) + min_val);
         }
@@ -689,7 +689,7 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt32(const std::vecto
     encoded.insert(encoded.end(), ref_bytes, ref_bytes + sizeof(int32_t));
 
     // Store deltas
-    for (size_t i = 1; i < data.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(data.size()); ++i) {
         int32_t delta = data[i] - reference;
         const uint8_t* delta_bytes = reinterpret_cast<const uint8_t*>(&delta);
         encoded.insert(encoded.end(), delta_bytes, delta_bytes + sizeof(int32_t));
@@ -709,7 +709,7 @@ Result<std::vector<uint8_t>> FrameOfReferenceCodec::encodeInt64(const std::vecto
     const uint8_t* ref_bytes = reinterpret_cast<const uint8_t*>(&reference);
     encoded.insert(encoded.end(), ref_bytes, ref_bytes + sizeof(int64_t));
 
-    for (size_t i = 1; i < data.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(data.size()); ++i) {
         int64_t delta = data[i] - reference;
         const uint8_t* delta_bytes = reinterpret_cast<const uint8_t*>(&delta);
         encoded.insert(encoded.end(), delta_bytes, delta_bytes + sizeof(int64_t));
@@ -1458,7 +1458,7 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     segment.metadata_.codec = static_cast<CompressionCodec>(raw_codec);
 
     auto read_uint64 = [&]() -> uint64_t {
-        if ([[maybe_unused]] pos + sizeof(uint64_t) > data.size()) {
+        if ([[maybe_unused]] pos + sizeof(uint64_t) > static_cast<int>(data.size())) {
             throw std::out_of_range("Segment deserialize: truncated metadata");
         }
         uint64_t val = 0;
@@ -1561,7 +1561,7 @@ Result<std::vector<ColumnSegment>> ColumnarFormatManager::createSegments(
 
     segments.reserve(column_types.size());
 
-    for (size_t i = 0; i < column_types.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(column_types.size()); ++i) {
         CompressionCodec codec = auto_select_codec
             ? CompressionCodec::NONE  // Will be auto-selected in create()
             : CompressionCodec::NONE;
@@ -1626,7 +1626,7 @@ Result<std::vector<size_t>> ColumnarFormatManager::filterSegments(
 
     std::vector<size_t> matching_indices;
 
-    for (size_t i = 0; i < segments.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(segments.size()); ++i) {
         if (!segments[i].canSkipSegment(filter_value)) {
             matching_indices.push_back(i);
         }

@@ -236,7 +236,7 @@ public:
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
         
-        while (static_cast<size_t>(pos_) < input_.size()) {
+        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
             skipWhitespace();
             if (pos_ >= static_cast<int>(input_.size())) {
               break;
@@ -285,7 +285,7 @@ private:
     }
     
     void skipWhitespace() {
-        while (pos_ < input_.size() && std::isspace(peek())) {
+        while (pos_ <static_cast<int>(input_.size()) && std::isspace(peek())) {
             advance();
         }
     }
@@ -2520,7 +2520,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     size_t arg_start = 9;  // first token after '('
     std::vector<int64_t> args;
     size_t ti = arg_start;
-    while (ti < tokens.size() && tok(ti) != ")") {
+    while (ti <static_cast<int>(tokens.size()) && tok(ti) != ")") {
         const std::string& t = tok(ti);
         if (t == ",") { ++ti; continue; }
         // Must be an integer literal
@@ -2708,7 +2708,7 @@ static std::string extractJsonBlock(const std::string& source, size_t from_pos) 
     if (brace_open == std::string::npos) return {};
 
     int depth = 0;
-    for (size_t i = brace_open; i < source.size(); ++i) {
+    for (size_t i = brace_open; i <static_cast<int>(source.size()); ++i) {
         if (source[i] == '{')      ++depth;
         else if (source[i] == '}') {
             --depth;
@@ -2846,7 +2846,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
             // Parse comma-separated field names
             std::vector<FieldDef> fields;
             size_t fi = paren_open_idx + 1;
-            while (fi < tokens.size() && tok_up(fi) != ")") {
+            while (fi <static_cast<int>(tokens.size()) && tok_up(fi) != ")") {
                 if (tok_up(fi) == ",") { ++fi; continue; }
                 FieldDef f;
                 f.name = tok_orig(fi);
@@ -2867,8 +2867,8 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
             std::string index_type = "hash"; // default
             bool is_sparse   = false;
             bool if_not_exists = false;
-            for (size_t mi = fi + 1; mi < tokens.size(); ++mi) {
-                if (tok_up(mi) == "TYPE" && mi + 1 < tokens.size()) {
+            for (size_t mi = fi + 1; mi <static_cast<int>(tokens.size()); ++mi) {
+                if (tok_up(mi) == "TYPE" && mi + 1 <static_cast<int>(tokens.size())) {
                     index_type = tok_orig(mi + 1);
                     ++mi;
                 } else if (tok_up(mi) == "SPARSE") {
@@ -2922,7 +2922,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
             // Body starts immediately after "AS" — use character offset
             size_t body_start = tok_start(as_token_idx) + 2; // skip the 2-char "AS"
-            while (body_start < trimmed.size()
+            while (body_start <static_cast<int>(trimmed.size())
                    && std::isspace(static_cast<unsigned char>(trimmed[body_start]))) {
                 ++body_start;
             }

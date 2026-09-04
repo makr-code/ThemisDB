@@ -253,7 +253,7 @@ std::vector<AdapterMetadata> AdapterRegistry::listAdapters() {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     std::vector<AdapterMetadata> result = {};
 
-    result.reserve(impl_->adapters.size());
+    result.reserve(impl_-> static_cast<int>(adapters.size()));
     for (const auto& [id, meta] : impl_->adapters) {
         result.push_back(meta);
     }
@@ -617,8 +617,8 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
 AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
     std::shared_lock<std::shared_mutex> lock(impl_->rw_mu);
     RegistryStats stats;
-    stats.total_adapters = impl_->adapters.size();
-    stats.signed_adapters = impl_->signatures.size();
+    stats.total_adapters = impl_-> static_cast<int>(adapters.size());
+    stats.signed_adapters = impl_-> static_cast<int>(signatures.size());
 
     std::unordered_map<std::string, size_t> by_model;
     std::unordered_map<std::string, size_t> by_domain = {};
@@ -733,7 +733,7 @@ void AdapterRegistry::addHotLoadObserver([[maybe_unused]] HotLoadCallback callba
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     impl_->hot_load_callbacks.push_back([[maybe_unused]] std::move(callback));
     spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
-                  impl_->hot_load_callbacks.size());
+                  impl_-> static_cast<int>(hot_load_callbacks.size()));
 }
 
 } // namespace llm

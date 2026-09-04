@@ -147,7 +147,7 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     fm.X.reserve(data.size());
     for (const auto &p : data) {
         std::vector<double> row(fm.names.size(), 0.0);
-        for (size_t j = 0; j < fm.names.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(fm.names.size()); ++j) {
             auto it = p.fields.find(fm.names[j]);
             if (it != p.fields.end()) {
                 if (auto *d = std::get_if<double>(&it->second)) {
@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) < mean.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(x.size())  && static_cast<size_t>(j) <static_cast<int>(mean.size()); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -505,7 +505,7 @@ struct DecisionTree {
                 continue;
             }
 
-            for (size_t vi = 0; vi + 1 < vals.size(); ++vi) {
+            for (size_t vi = 0; vi + 1 <static_cast<int>(vals.size()); ++vi) {
                 double thr   = (vals[vi] + vals[vi + 1]) * 0.5;
                 double score = splitScore(X, y_cls, y_reg, idx, f, thr);
                 if (score > best_score) {
@@ -791,7 +791,7 @@ struct LinearReg {
 
     double predictOne(const std::vector<double> &x) const {
         double s = 0.0;
-        for (size_t j = 0; j < x.size() && j + 1 < w.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(x.size()) && j + 1 <static_cast<int>(w.size()); ++j) {
             s += w[j] * x[j];
         }
         if (!w.empty()) {
@@ -851,7 +851,7 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
         return 0.0;
     }
     int correct = 0;
-    for (size_t i = 0; i < y_true.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(y_true.size()); ++i) {
         if (y_true[i] == y_pred[i]) {
             ++correct;
         }
@@ -866,7 +866,7 @@ struct ClassMetrics {
 ClassMetrics computeClassMetrics(const std::vector<int> &y_true, const std::vector<int> &y_pred, int n_classes) {
     std::vector<int> tp(static_cast<size_t>(n_classes), 0), fp(static_cast<size_t>(n_classes), 0),
         fn(static_cast<size_t>(n_classes), 0);
-    for (size_t i = 0; i < y_true.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(y_true.size()); ++i) {
         int t = y_true[i], p = y_pred[i];
         if (t == p) {
             ++tp[static_cast<size_t>(t)];
@@ -996,7 +996,7 @@ struct LRModel : ModelBase {
         // For k > 2 classes the result is the probability-weighted class index.
         const auto proba = lr.predictProbaOne(x);
         double v         = 0.0;
-        for (size_t c = 0; c < proba.size(); ++c) {
+        for (size_t c = 0; c <static_cast<int>(proba.size()); ++c) {
             v += static_cast<double>(c) * proba[c];
         }
         return v;
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) < p.size(); ++c) {
+            for (size_t c = 0; c <static_cast<int>(avg.size())  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1169,7 +1169,7 @@ struct KNNModel : ModelBase {
     std::vector<std::pair<double, int>> neighbors(const std::vector<double> &x) const {
         std::vector<std::pair<double, int>> dists;
         dists.reserve(X_train.size());
-        for (size_t i = 0; i < X_train.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(X_train.size()); ++i) {
             dists.emplace_back(l2sq(x, X_train[i]), static_cast<int>(i));
         }
         size_t kk = std::min(static_cast<size_t>(k),static_cast<int>(dists.size()));
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) < p.size(); ++c) {
+            for (size_t c = 0; c <static_cast<int>(avg.size())  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1529,7 +1529,7 @@ struct AutoMLModel::Impl {
 
     std::vector<double> prepareRow(const DataPoint &p) const {
         std::vector<double> row(feat_names.size(), 0.0);
-        for (size_t j = 0; j < feat_names.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(feat_names.size()); ++j) {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
             bool is_sq       = false;
@@ -1593,7 +1593,7 @@ std::vector<std::map<std::string, double>> AutoMLModel::predictProba(const std::
         auto probs = impl_->model->predictProbaOne(row);
         std::map<std::string, double> m = {};
 
-        for (size_t c = 0; c < probs.size(); ++c) {
+        for (size_t c = 0; c <static_cast<int>(probs.size()); ++c) {
             m[impl_->label_enc.decode(static_cast<int>(c))] = probs[c];
         }
         out.push_back(std::move(m));
@@ -1651,7 +1651,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
         double perturbed = baseScore();
         row[j]           = orig;
         double contrib   = base - perturbed;
-        std::string name = (j < impl_->feat_names.size()) ? impl_->feat_names[j] : "f" + std::to_string(j);
+        std::string name = (j < impl_-> static_cast<int>(feat_names.size())) ? impl_->feat_names[j] : "f" + std::to_string(j);
         exp.feature_contributions.emplace_back(name, contrib);
     }
 
@@ -1792,9 +1792,9 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
 
     // ---- feature schema ---------------------------------------------------
     js << "  \"feature_names\": [";
-    for (size_t i = 0; i < feat.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(feat.size()); ++i) {
         js << jStr(feat[i]);
-        if (i + 1 < feat.size()) {
+        if (i + 1 <static_cast<int>(feat.size())) {
             js << ", ";
         }
     }
@@ -1803,9 +1803,9 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     // ---- class labels -----------------------------------------------------
     js << "  \"class_labels\": [";
     const auto &classes = impl_->label_enc.classes;
-    for (size_t i = 0; i < classes.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(classes.size()); ++i) {
         js << jStr(classes[i]);
-        if (i + 1 < classes.size()) {
+        if (i + 1 <static_cast<int>(classes.size())) {
             js << ", ";
         }
     }
@@ -1814,17 +1814,17 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     // ---- scaler -----------------------------------------------------------
     js << "  \"scaler\": {\n";
     js << "    \"mean\": [";
-    for (size_t i = 0; i < impl_->scaler.mean.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.mean.size()); ++i) {
         js << impl_->scaler.mean[i];
-        if (i + 1 < impl_->scaler.mean.size()) {
+        if (i + 1 < impl_-> static_cast<int>(scaler.mean.size())) {
             js << ", ";
         }
     }
     js << "],\n";
     js << "    \"scale\": [";
-    for (size_t i = 0; i < impl_->scaler.std_dev.size(); ++i) {
+    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.std_dev.size()); ++i) {
         js << impl_->scaler.std_dev[i];
-        if (i + 1 < impl_->scaler.std_dev.size()) {
+        if (i + 1 < impl_-> static_cast<int>(scaler.std_dev.size())) {
             js << ", ";
         }
     }
@@ -1839,14 +1839,14 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         // We call predictProbaOne on a zero vector to confirm the model is
         // live; for serialisation we use the stored metadata and produce
         // a self-contained weight block that downstream tooling can load.
-        js << "    \"weights_shape\": [" << classes.size() << ", " << feat.size() << "],\n";
+        js << "    \"weights_shape\": [" <<static_cast<int>(classes.size()) << ", " <<static_cast<int>(feat.size()) << "],\n";
         js << "    \"weights\": [\n";
         // Produce one weight row per class (logistic) or single row (linear)
         size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && static_cast<int>(classes.size()) > 0) ?static_cast<int>(classes.size()) : 1;
         for (size_t r = 0; r < n_rows; ++r) {
             // Estimate weights by evaluating model response to unit vectors
             js << "      [";
-            for (size_t f = 0; f < feat.size(); ++f) {
+            for (size_t f = 0; f <static_cast<int>(feat.size()); ++f) {
                 // Finite-difference gradient along feature f
                 std::vector<double> x0(feat.size(), 0.0);
                 std::vector<double> x1(feat.size(), 0.0);
@@ -1854,7 +1854,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
                 double y0 = (r < impl_->model->predictProbaOne(x0).size()) ? impl_->model->predictProbaOne(x0)[r] : 0.0;
                 double y1 = (r < impl_->model->predictProbaOne(x1).size()) ? impl_->model->predictProbaOne(x1)[r] : 0.0;
                 js << (y1 - y0);
-                if (f + 1 < feat.size()) {
+                if (f + 1 <static_cast<int>(feat.size())) {
                     js << ", ";
                 }
             }
@@ -1869,7 +1869,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         const auto *knn = dynamic_cast<const KNNModel *>(impl_->model.get());
         if (knn) {
             js << "    \"k\": " << knn->k << ",\n";
-            js << "    \"n_train\": " << knn->X_train.size() << "\n";
+            js << "    \"n_train\": " << knn-> static_cast<int>(X_train.size()) << "\n";
             // Training data is intentionally omitted from the export for
             // privacy; downstream users should re-train from golden dataset.
         } else {
@@ -1878,7 +1878,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     } else {
         // DecisionTree, RandomForest, GradientBoosting:
         // Emit a summary: depth, n_estimators, n_classes.
-        js << "    \"n_features\": " << feat.size() << ",\n";
+        js << "    \"n_features\": " <<static_cast<int>(feat.size()) << ",\n";
         js << "    \"n_classes\": " << (classes.empty() ? 1 : static_cast<int>(classes.size())) << "\n";
     }
 
@@ -1948,7 +1948,7 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
         }
     }
     // Rebuild label encoder index
-    for (size_t i = 0; i < static_cast<int>(m.impl_->label_enc.classes.size()); ++i) {
+    for (size_t i = 0; i < static_cast<int>(m.impl_-> static_cast<int>(label_enc.classes.size())); ++i) {
         m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
     }
     return m;
@@ -2408,7 +2408,7 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
         return {false, "Each sample must have at least 1 feature"};
     }
     
-    for (size_t i = 0; i < features.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(features.size()); ++i) {
         if (features[i].size() != n_features) {
             return {false, "All samples must have the same number of features"};
         }
@@ -2423,7 +2423,7 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     }
     
     // Check target values
-    for (size_t i = 0; i < target.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(target.size()); ++i) {
         double val = target[i];
         if (std::isnan(val) || std::isinf(val)) {
             return {false, "Target vector contains NaN or Inf values"};

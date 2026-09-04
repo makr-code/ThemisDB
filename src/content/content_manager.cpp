@@ -900,7 +900,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
 #ifdef THEMIS_HAS_ZSTD
                 auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()),static_cast<int>(bb.size()), zstd_level);
                 // Only use compressed version if it actually reduces size (avoid decompression overhead for incompressible data)
-                if (!comp.empty() && static_cast<int>(comp.size()) < bb.size()) {
+                if (!comp.empty() && static_cast<int>(comp.size()) <static_cast<int>(bb.size())) {
                     to_store = std::move(comp);
                     compressed_size = to_store.size();
                     compression_ratio = static_cast<float>(original_size) / static_cast<float>(compressed_size);
@@ -1977,7 +1977,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(cons[[maybe_unused]] t st
                 if (j.contain[[maybe_unused]] s("virtual_pat[[maybe_unused]] h")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
-                    if (static_cast<int>(vpath.size()) > prefix.size() && vpath.rfind(prefix, 0) == 0) {
+                    if (static_cast<int>(vpath.size()) > static_cast<int>(prefix.size()) && vpath.rfind(prefix, 0) == 0) {
                         std::string remainder = vpath.substr(prefix.size());
                         // Direct child if no more slashes
                         if (remainder.find('/') == std::string::npos) {
@@ -3030,7 +3030,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     std::string carry;  // incomplete segment carried over between read iterations
     auto flushCarry = [&]([[maybe_unused]] bool force) {
         size_t pos = 0;
-        while (static_cast<size_t>(pos) < carry.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(carry.size())) {
             size_t remaining = static_cast<int>(carry.size()) - pos;
             if (!force && remaining < static_cast<size_t>(text_chunk_chars))
                 break;  // wait for more data

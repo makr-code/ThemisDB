@@ -137,7 +137,7 @@ std::vector<std::vector<float>> EmbeddingProvider::getEmbeddings(
     embeddings.reserve(texts.size());
     
     // Process in batches for efficiency
-    for (size_t i = 0; i < texts.size(); i += config_.batch_size) {
+    for (size_t i = 0; i <static_cast<int>(texts.size()); i += config_.batch_size) {
         size_t batch_end = std::min(i + config_.batch_size,static_cast<int>(texts.size()));
         
         for (size_t j = i; j < batch_end; ++j) {
@@ -166,8 +166,8 @@ bool EmbeddingProvider::buildEmbeddingCache(
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
     // Build cache entries
-    for (size_t i = 0; i < training_texts.size(); ++i) {
-        if (i < embeddings.size() && !embeddings[i].empty()) {
+    for (size_t i = 0; i <static_cast<int>(training_texts.size()); ++i) {
+        if (i <static_cast<int>(embeddings.size()) && !embeddings[i].empty()) {
             EmbeddingCache entry;
             entry.text = training_texts[i];
             entry.embedding = embeddings[i];
@@ -427,7 +427,7 @@ void EmbeddingProvider::evictCacheIfNeeded() {
     
     // Remove oldest 20%
     size_t to_remove = config_.max_cache_entries / 5;
-    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) < entries.size(); ++i) {
+    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) <static_cast<int>(entries.size()); ++i) {
         cache_.erase(entries[i].first);
     }
     

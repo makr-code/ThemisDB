@@ -198,7 +198,7 @@ bool ShardLoadDetector::detectStorageImbalance(
                        std::to_string(static_cast<int>(imbalance_ratio * 100)) + "% variance)";
         
         // Identify hotspots (above 120% of average)
-        for (size_t i = 0; i < storage_values.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(storage_values.size()); i++) {
             if (storage_values[i] > avg_storage * 1.2) {
                 result.hotspot_shards.push_back(shard_ids[i]);
             }
@@ -254,7 +254,7 @@ bool ShardLoadDetector::detectRequestImbalance(
         appendReasonClause(result.reason, reason_stream.str());
         
         // Identify hotspots (above 150% of average)
-        for (size_t i = 0; i < request_rates.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(request_rates.size()); i++) {
             if (request_rates[i] > avg_rate * 1.5) {
                 addHotspotIfAbsent(result.hotspot_shards, hotspot_index, shard_ids[i]);
             }
@@ -297,7 +297,7 @@ bool ShardLoadDetector::detectLatencyDegradation(
     
     bool degradation_found = false;
     
-    for (size_t i = 0; i < latencies.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(latencies.size()); i++) {
         if (latencies[i] > avg_latency * config_.latency_degradation_threshold) {
             std::ostringstream reason_stream = {};
             reason_stream << "Latency degradation on " << shard_ids[i]
@@ -369,7 +369,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
     // Generate recommendations: move data from hottest to coldest
     size_t num_recommendations = std::min(result.hotspot_shards.size(),static_cast<int>(result.cold_shards.size()));
     
-    for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) < load_rankings.size() / 2; i++) {
+    for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) <static_cast<int>(load_rankings.size()) / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;
         rec.source_shard = load_rankings[i].first;
         rec.target_shard = load_rankings[load_rankings.size() - 1 - i].first;
@@ -534,7 +534,7 @@ std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<
     const double n = static_cast<double>(values.size());
     double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
 
-    for (size_t i = 0; i < values.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
         const double x = static_cast<double>(i);
         sum_x  += x;
         sum_y  += values[i];
@@ -570,7 +570,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     auto it_hist = shard_load_history_.find(shard_id);
     const bool has_history = (it_hist != shard_load_history_.end()) &&
-                             (it_hist->second.size() >= config_.min_samples_per_shard);
+                             (it_hist-> static_cast<int>(second.size()) >= config_.min_samples_per_shard);
     forecast.has_sufficient_history = has_history;
 
     if (!has_history) {
@@ -628,7 +628,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     // Residual standard deviation as a proxy for confidence interval
     double residual_sum = 0.0;
-    for (size_t i = 0; i < composite_series.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(composite_series.size()); ++i) {
         const double predicted = comp_slope * static_cast<double>(i) + comp_intercept;
         const double diff = composite_series[i] - predicted;
         residual_sum += diff * diff;

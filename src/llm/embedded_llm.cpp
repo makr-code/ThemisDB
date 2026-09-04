@@ -31,7 +31,7 @@ std::vector<float> buildFallbackEmbedding(const std::string& text) {
         return embedding;
     }
 
-    for (std::size_t i = 0; i < text.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         const auto bucket = (static_cast<unsigned char>(text[i]) + i) % kEmbeddingDim;
         embedding[bucket] += 1.0f + static_cast<float>((i % 7) + 1) * 0.05f;
     }

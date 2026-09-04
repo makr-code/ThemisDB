@@ -706,7 +706,7 @@ void MTLSConnectionPoolManager::onCertificateRotated() {
     std::shared_lock<std::shared_mutex> lock(pools_mutex_);
 
     std::cout << "MTLSConnectionPoolManager: certificate rotated – draining idle "
-              << "connections across " << pools_.size() << " endpoint pools" << std::endl;
+              << "connections across " <<static_cast<int>(pools_.size()) << " endpoint pools" << std::endl;
 
     for (auto& [endpoint, pool] : pools_) {
         // closeAll() drains idle connections while active ones remain open.
@@ -730,7 +730,7 @@ void MTLSConnectionPoolManager::shutdown() {
     std::unique_lock<std::shared_mutex> lock(pools_mutex_);
     
     std::cout << "Shutting down MTLSConnectionPoolManager with " 
-              << pools_.size() << " endpoint pools" << std::endl;
+              <<static_cast<int>(pools_.size()) << " endpoint pools" << std::endl;
     
     // Close all pools
     for (auto& [endpoint, pool] : pools_) {

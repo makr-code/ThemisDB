@@ -500,7 +500,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     }
     
     // Process shards in batches to limit concurrency
-    for (size_t batch_start = 0; batch_start < sorted_shards.size(); batch_start += max_concurrent) {
+    for (size_t batch_start = 0; batch_start <static_cast<int>(sorted_shards.size()); batch_start += max_concurrent) {
         size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sorted_shards.size()));
         
         // Create futures for this batch
@@ -575,7 +575,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
         // Collect results from all futures with timeout
         const auto timeout = operation.timeout;
         
-        for (size_t i = 0; i < futures.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
             try {
                 auto status = futures[i].wait_for(timeout);
                 

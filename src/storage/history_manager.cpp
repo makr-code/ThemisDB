@@ -107,7 +107,7 @@ static std::vector<uint8_t> hexToBytes(const std::string& hex) {
       return out;
     }
     out.reserve(hex.size() / 2);
-    for (size_t i = 0; i < hex.size(); i += 2) {
+    for (size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
         auto hi = hex[i];
         auto lo = hex[i + 1];
         auto nibble = [](char c) -> uint8_t {
@@ -285,7 +285,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
     }
 
     std::string_view found_key = it.key();
-    if (static_cast<int>(found_key.size()) < prefix.size() ||
+    if (static_cast<int>(found_key.size()) <static_cast<int>(prefix.size()) ||
         found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
         return std::nullopt;
     }

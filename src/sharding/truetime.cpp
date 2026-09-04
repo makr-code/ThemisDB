@@ -157,7 +157,7 @@ std::string TrueTime::getStats() const {
         << "\"uncertainty_us\": " << (uncertainty_ns_.load() / 1000) << ", "
         << "\"drift_us\": " << (drift_ns_.load() / 1000) << ", "
         << "\"last_sync_ns\": " << last_sync_ns_.load() << ", "
-        << "\"ntp_servers\": " << config_.ntp_servers.size()
+        << "\"ntp_servers\": " <<static_cast<int>(config_.ntp_servers.size())
         << "}";
     return oss.str();
 }

@@ -472,7 +472,7 @@ void EventTrigger::rebuildConditionCache_() const {
     // Split on AND
     std::vector<std::string> raw_clauses;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) < condition.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(condition.size())) {
         size_t found = condition.find(AND_SEP, pos);
         if (found == std::string::npos) {
             raw_clauses.push_back(themis::utils::trim(condition.substr(pos)));
@@ -524,7 +524,7 @@ void EventTrigger::rebuildConditionCache_() const {
         pc.field = tokens[0];
         pc.op    = tokens[1];
         std::string rhs = {};
-        for (size_t k = 2; k < tokens.size(); ++k) {
+        for (size_t k = 2; k <static_cast<int>(tokens.size()); ++k) {
             if (k > 2) {
               rhs += " ";
             }

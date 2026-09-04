@@ -222,8 +222,8 @@ BiTemporalTable::findOverlaps(const std::string& key) const {
         }
     }
 
-    for (size_t i = 0; i < current.size(); ++i) {
-        for (size_t j = i + 1; j < current.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(current.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(current.size()); ++j) {
             if (current[i]->valid_time.overlaps(current[j]->valid_time)) {
                 overlaps.emplace_back(*current[i], *current[j]);
             }
@@ -275,7 +275,7 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
     // Merge overlapping covered intervals, then compute complement in [from, to)
     std::vector<TimeRange> merged;
     merged.push_back(covered[0]);
-    for (size_t i = 1; i < covered.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(covered.size()); ++i) {
         if (covered[i].start <= merged.back().end) {
             merged.back().end = std::max(merged.back().end, covered[i].end);
         } else {
@@ -454,7 +454,7 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
             bool found_exact = false;
             std::size_t conflict_idx = std::numeric_limits<std::size_t>::max();
 
-            for (std::size_t i = 0; i < self_versions.size(); ++i) {
+            for (std::size_t i = 0; i <static_cast<int>(self_versions.size()); ++i) {
                 const auto& s_row = self_versions[i];
 
                 if (s_row.valid_time == o_row.valid_time &&

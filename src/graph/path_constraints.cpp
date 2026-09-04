@@ -613,7 +613,7 @@ void PathConstraints::clearConstraints() {
 
 std::string PathConstraints::describeConstraints() const {
     std::ostringstream oss = {};
-    oss << "Path Constraints (" << constraints_.size() << " total):\n";
+    oss << "Path Constraints (" <<static_cast<int>(constraints_.size()) << " total):\n";
 
     for (const auto &constraint : constraints_) {
         oss << "  - ";
@@ -704,8 +704,8 @@ PathConstraints::validateSemanticPath(const PathResult &result) const {
     const std::size_t edge_count = result.edges.size();
     for (std::size_t i = 0; i < edge_count; ++i) {
         const std::string &edge_id  = result.edges[i];
-        const std::string &src_node = (i < result.nodes.size()) ? result.nodes[i] : "";
-        const std::string &tgt_node = (i + 1 < result.nodes.size()) ? result.nodes[i + 1] : "";
+        const std::string &src_node = (i <static_cast<int>(result.nodes.size())) ? result.nodes[i] : "";
+        const std::string &tgt_node = (i + 1 <static_cast<int>(result.nodes.size())) ? result.nodes[i + 1] : "";
 
         // Fetch node class from the graph ("_class" field; default "")
         std::string src_class, tgt_class, edge_type;

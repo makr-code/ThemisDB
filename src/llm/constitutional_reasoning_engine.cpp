@@ -189,7 +189,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     // Generate revision reasoning
     if (result.was_revised) {
         std::ostringstream oss = {};
-        oss << "Revised to address " << result.critiques.size() << " critique(s). ";
+        oss << "Revised to address " <<static_cast<int>(result.critiques.size()) << " critique(s). ";
         oss << "Improvement: " << (result.improvement * 100) << "%. ";
         oss << "Iterations: " << result.iterations << ".";
         result.revision_reasoning = oss.str();
@@ -364,7 +364,7 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     }
     
     float compliance_rate = 1.0f - (static_cast<float>(violations.size()) / 
-                                   impl_->config.principles.size());
+                                   impl_-> static_cast<int>(config.principles.size()));
     
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }
@@ -658,7 +658,7 @@ std::string ConstitutionalReasoningEngine::buildRevisionPrompt(
     oss << "Revise the following response based on these critiques:\n\n";
     oss << "Original Response: " << response << "\n\n";
     oss << "Critiques:\n";
-    for (size_t i = 0; i < critiques.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(critiques.size()); ++i) {
         oss << (i + 1) << ". " << critiques[i] << "\n";
     }
     oss << "\nProvide a revised response that addresses these critiques while "

@@ -428,7 +428,7 @@ IntervalTreeIndex::queryKey(const std::string& key,
 
     std::vector<IntervalEntry> result = {};
 
-    result.reserve(it->second.size());
+    result.reserve(it-> static_cast<int>(second.size()));
     for (const auto& entry : it->second) {
         if (!range.has_value() || entry.range.overlaps(*range)) {
             result.push_back(entry);

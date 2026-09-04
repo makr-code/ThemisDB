@@ -430,7 +430,7 @@ std::string PrometheusMetrics::getMetricsWithAnnotations() const {
         oss << key << "{quantile=\"0.95\"} " << p95 << "\n";
         oss << key << "{quantile=\"0.99\"} " << p99 << "\n";
         oss << key << "_sum " << sum << "\n";
-        oss << key << "_count " << sorted.size() << "\n";
+        oss << key << "_count " <<static_cast<int>(sorted.size()) << "\n";
     }
 
     return oss.str();

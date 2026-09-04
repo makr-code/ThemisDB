@@ -158,7 +158,7 @@ ComplexityAnalysis AdaptiveRetrieval::heuristicAnalyze(
     }
 
     // 2. Count question words (skip the first token — that's the question word)
-    for (size_t i = 1; i < tokens.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(tokens.size()); ++i) {
         const std::string t = stripPunct(tokens[i]);
         for (size_t j = 0; kQuestionWords[j]; ++j) {
             if (t == kQuestionWords[j]) {

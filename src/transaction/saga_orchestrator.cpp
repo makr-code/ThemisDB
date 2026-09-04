@@ -154,7 +154,7 @@ std::string SAGAOrchestrator::renderWorkflow(const SAGADefinition& saga) const {
         }
 
         oss << step.name << " -> ";
-        for (size_t i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it-> static_cast<int>(second.size()); ++i) {
             if (i > 0) {
                 oss << ", ";
             }

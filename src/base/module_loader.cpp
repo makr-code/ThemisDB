@@ -1672,7 +1672,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
             std::string secName = {};
-            if (shdr.sh_name < strtab.size()) {
+            if (shdr.sh_name <static_cast<int>(strtab.size())) {
                 secName = &strtab[shdr.sh_name];
             }
 
@@ -1729,7 +1729,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
             std::string secName = {};
-            if (shdr.sh_name < strtab.size()) {
+            if (shdr.sh_name <static_cast<int>(strtab.size())) {
                 secName = &strtab[shdr.sh_name];
             }
 

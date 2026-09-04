@@ -88,8 +88,8 @@ void DeadlockPredictor::recordTransaction(
     // map even before any deadlock is observed.  Deadlock events then apply an
     // additional multiplier (deadlock_weight_multiplier) so that pairs confirmed
     // to deadlock receive substantially higher scores.
-    for (size_t i = 0; i < locks_acquired.size(); ++i) {
-        for (size_t j = i + 1; j < locks_acquired.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(locks_acquired.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(locks_acquired.size()); ++j) {
             const std::string pk = makePairKey(locks_acquired[i], locks_acquired[j]);
             double new_val = (pair_conflicts_[pk] += 1.0);
 
@@ -122,8 +122,8 @@ void DeadlockPredictor::recordDeadlock(const std::vector<std::string>& keys) {
     ++deadlock_count_;
 
     // Apply a higher weight to pairs that participated in a real deadlock.
-    for (size_t i = 0; i < keys.size(); ++i) {
-        for (size_t j = i + 1; j < keys.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(keys.size()); ++j) {
             const std::string pk = makePairKey(keys[i], keys[j]);
             double new_val = (pair_conflicts_[pk] += config_.deadlock_weight_multiplier);
 
@@ -332,8 +332,8 @@ double DeadlockPredictor::computeConflictScore(
         const std::vector<std::string>& keys) const
 {
     double score = 0.0;
-    for (size_t i = 0; i < keys.size(); ++i) {
-        for (size_t j = i + 1; j < keys.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(keys.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(keys.size()); ++j) {
             const std::string pk = makePairKey(keys[i], keys[j]);
             auto it = pair_conflicts_.find(pk);
             if (it != pair_conflicts_.end()) {

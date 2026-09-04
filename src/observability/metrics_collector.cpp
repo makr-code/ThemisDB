@@ -233,7 +233,7 @@ std::string MetricsCollector::getPrometheusMetrics() const {
             oss << "\n";
         }
 
-        oss << name << "_count" << labels << " " << hist->values.size() << "\n";
+        oss << name << "_count" << labels << " " << hist-> static_cast<int>(values.size()) << "\n";
         oss << name << "_sum" << labels << " " << std::accumulate(hist->values.begin(), hist->values.end(), 0.0) << "\n";
     }
     

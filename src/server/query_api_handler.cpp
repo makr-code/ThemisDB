@@ -1136,7 +1136,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 // Funktionsnamen case-insensitiv vergleichen
                 std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 auto getArgLit = [&](size_t idx, nlohmann::json& argOut)->bool{
-                    if (idx >= fc->arguments.size()) {
+                    if (idx >= fc-> static_cast<int>(arguments.size())) {
                       return false;
                     }
                     return evalExprToLiteral(fc->arguments[idx], argOut);
@@ -1514,7 +1514,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string fname = fe->name; std::transform(fname.begin(), fname.end(), fname.begin(), ::tolower);
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
-                        if (fe->arguments.size() != 2) {
+                        if (fe-> static_cast<int>(arguments.size()) != 2) {
                           return false;
                         }
                         const auto& path_args = fe->arguments;
@@ -3499,7 +3499,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
-                        if (fc->arguments.size() != 1) {
+                        if (fc-> static_cast<int>(arguments.size()) != 1) {
                           return 0.0;
                         }
                         auto arg = evalExpr(fc->arguments.front(), ent, env);

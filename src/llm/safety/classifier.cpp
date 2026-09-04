@@ -83,7 +83,7 @@ std::vector<SafetyClassification> SafetyClassifier::classifyBatch(
     const std::size_t workers = max_parallelism == 0 ? hw : std::max<std::size_t>(1, max_parallelism);
 
     std::size_t index = 0;
-    while (static_cast<size_t>(index) < texts.size()) {
+    while (static_cast<size_t>(index) <static_cast<int>(texts.size())) {
         const std::size_t chunk = std::min(workers, static_cast<int>(texts.size()) - index);
         std::vector<std::future<SafetyClassification>> futures;
         futures.reserve(chunk);

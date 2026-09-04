@@ -176,7 +176,7 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
             throw std::runtime_error("Persisted IKM hat unerwartete Länge (" + std::to_string(hex.size()) + ")");
         }
         ikm_raw.reserve(32);
-        for (size_t i = 0; i < hex.size(); i += 2) {
+        for (size_t i = 0; i <static_cast<int>(hex.size()); i += 2) {
             auto byte_str = hex.substr(i, 2);
             uint8_t b = static_cast<uint8_t>(std::stoul(byte_str, nullptr, 16));
             ikm_raw.push_back(b);

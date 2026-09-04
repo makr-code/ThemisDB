@@ -79,7 +79,7 @@ void sha256Transform(Sha256State& state, const uint8_t* block) {
 std::string toLowerHex(const std::array<uint8_t, 32>& digest) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out(64, '\0');
-    for (std::size_t i = 0; i < digest.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(digest.size()); ++i) {
         out[i * 2] = kHex[digest[i] >> 4];
         out[i * 2 + 1] = kHex[digest[i] & 0x0fU];
     }
@@ -154,7 +154,7 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
     sha256Transform(state, block.data());
 
     std::array<uint8_t, 32> digest{};
-    for (std::size_t i = 0; i < state.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(state.size()); ++i) {
         digest[i * 4] = static_cast<uint8_t>((state[i] >> 24) & 0xFFU);
         digest[i * 4 + 1] = static_cast<uint8_t>((state[i] >> 16) & 0xFFU);
         digest[i * 4 + 2] = static_cast<uint8_t>((state[i] >> 8) & 0xFFU);

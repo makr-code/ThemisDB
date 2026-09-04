@@ -747,7 +747,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
 
             // Compute cosine similarity
             float dot = 0.f, qa = 0.f, ra = 0.f;
-            for (size_t i = 0; i < query_embedding.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(query_embedding.size()); ++i) {
                 dot += query_embedding[i] * r.embedding[i];
                 qa  += query_embedding[i] * query_embedding[i];
                 ra  += r.embedding[i]     * r.embedding[i];

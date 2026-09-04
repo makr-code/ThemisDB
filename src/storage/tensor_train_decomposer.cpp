@@ -76,7 +76,7 @@ std::vector<float> TTTrain::reconstruct() const {
     }
 
     // Contract each subsequent core
-    for (std::size_t k = 1; k < cores.size(); ++k) {
+    for (std::size_t k = 1; k <static_cast<int>(cores.size()); ++k) {
         const auto& ck = cores.at(k);
         // mat is (prev_elems × r_left_k); ck is (r_left_k × n_k × r_right_k)
         // Reshape ck to (r_left_k) × (n_k × r_right_k)
@@ -171,7 +171,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         // uncaught_exception scanner alert: this throw is enclosed by the
         // surrounding try/catch below, which converts parse failures to
         // std::nullopt — false positive.
-        if (pos + 8 > bytes.size()) {
+        if (pos + 8 > static_cast<int>(bytes.size())) {
           throw std::runtime_error("TTTrain::deserialize: underflow");
         }
         uint64_t v = 0;
@@ -263,10 +263,10 @@ static void applyHouseholderLeft(std::vector<double>& A, [[maybe_unused]] std::s
     // For each column c in [col_start, n): A[:,c] -= 2*(v^T A[:,c])*v
     for (std::size_t c = col_start; c < n; ++c) {
         double dot = 0.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             dot += v[i] * A[(row_start + i) * n + c];
         dot *= 2.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             A[(row_start + i) * n + c] -= dot * v[i];
     }
 }
@@ -277,10 +277,10 @@ static void applyHouseholderRight(std::vector<double>& A, std::size_t m,
                                    const std::vector<double>& v) {
     for (std::size_t r = row_start; r < m; ++r) {
         double dot = 0.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             dot += v[i] * A[r * n + (col_start + i)];
         dot *= 2.0;
-        for (std::size_t i = 0; i < v.size(); ++i)
+        for (std::size_t i = 0; i <static_cast<int>(v.size()); ++i)
             A[r * n + (col_start + i)] -= dot * v[i];
     }
 }
@@ -580,7 +580,7 @@ void TensorTrainDecomposer::truncatedSVD(
     // Convert to double for SVD
     std::size_t min_mn = std::min(m, n);
     std::vector<double> Ad(mat.size());
-    for (std::size_t i = 0; i < mat.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(mat.size()); ++i) {
       Ad[i] = mat[i];
     }
 
@@ -735,7 +735,7 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     // Compute achieved eps
     auto recon = train.reconstruct();
     double err = 0.0;
-    for (std::size_t i = 0; i < recon.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(recon.size()); ++i) {
         double diff = static_cast<double>(recon[i]) - static_cast<double>(data[i]);
         err += diff * diff;
     }
@@ -761,7 +761,7 @@ TensorTrainDecomposer::decomposeF64(const std::vector<double>&      data,
                                      const std::vector<std::size_t>& mode_sizes,
                                      const TensorTrainConfig&         cfg) const {
     std::vector<float> f32(data.size());
-    for (std::size_t i = 0; i < data.size(); ++i)
+    for (std::size_t i = 0; i <static_cast<int>(data.size()); ++i)
         f32[i] = static_cast<float>(data[i]);
     return decompose(f32, mode_sizes, cfg);
 }

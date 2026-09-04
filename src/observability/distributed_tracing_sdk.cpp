@@ -260,7 +260,7 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
             // Build jaeger-baggage
             if (!baggage_.empty()) {
                 std::string baggage_str = {};
-                for (size_t i = 0; i < baggage_.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(baggage_.size()); ++i) {
                     if (i > 0) {
                       baggage_str += ",";
                     }
@@ -302,7 +302,7 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::withBaggage(
     ctx->created_at_ = created_at_;
 
     // Add new baggage item
-    if (ctx->baggage_.size() >= kMaxBaggageItems) {
+    if (ctx-> static_cast<int>(baggage_.size()) >= kMaxBaggageItems) {
         // Remove oldest inherited baggage item to make room
         auto it = std::find_if(ctx->baggage_.begin(), ctx->baggage_.end(),
                               [](const BaggageItem& b) { return b.inherited; });

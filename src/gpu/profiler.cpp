@@ -127,7 +127,7 @@ std::string GPUProfiler::rocm_profiler_export() const {
 
     oss << "{\n  \"traceEvents\": [\n";
 
-    for (std::size_t i = 0; i < completed_ranges_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(completed_ranges_.size()); ++i) {
         const Range &r        = completed_ranges_[i];
         const bool is_instant = (r.start_ns == r.end_ns);
 
@@ -141,7 +141,7 @@ std::string GPUProfiler::rocm_profiler_export() const {
                 << "\"dur\": " << ((r.end_ns - r.start_ns) / 1000) << ", "
                 << "\"pid\": 0, \"tid\": " << r.device_id << "}";
         }
-        if (i + 1 < completed_ranges_.size()) {
+        if (i + 1 <static_cast<int>(completed_ranges_.size())) {
             oss << ',';
         }
         oss << '\n';

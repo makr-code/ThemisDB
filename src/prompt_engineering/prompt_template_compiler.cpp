@@ -54,7 +54,7 @@ std::string PromptContextValue::toString() const {
             return str_val;
         case SlotType::LIST: {
             std::ostringstream oss = {};
-            for (std::size_t i = 0; i < list_val.size(); ++i) {
+            for (std::size_t i = 0; i <static_cast<int>(list_val.size()); ++i) {
                 if (i > 0) {
                   oss << '\n';
                 }
@@ -64,7 +64,7 @@ std::string PromptContextValue::toString() const {
         }
         case SlotType::DOCUMENT_CHUNK: {
             std::ostringstream oss = {};
-            for (std::size_t i = 0; i < chunks.size(); ++i) {
+            for (std::size_t i = 0; i <static_cast<int>(chunks.size()); ++i) {
                 if (i > 0) {
                   oss << '\n';
                 }
@@ -233,7 +233,7 @@ static std::vector<detail::ASTNodePtr> parse(
 {
     std::vector<detail::ASTNodePtr> nodes;
 
-    while (static_cast<size_t>(idx) < tokens.size()) {
+    while (static_cast<size_t>(idx) <static_cast<int>(tokens.size())) {
         const Token& tok = tokens[idx];
 
         switch (tok.kind) {
@@ -272,7 +272,7 @@ static std::vector<detail::ASTNodePtr> parse(
                 node->children = parse(tokens, idx, slot_index,
                                        /*inside_if=*/true, inside_for);
                 // If we stopped at ELSE, parse the else-branch
-                if (idx < tokens.size() && tokens[idx].kind == TokenKind::ELSE) {
+                if (idx <static_cast<int>(tokens.size()) && tokens[idx].kind == TokenKind::ELSE) {
                     ++idx; // consume ELSE
                     node->else_children = parse(tokens, idx, slot_index,
                                                 /*inside_if=*/true, inside_for);

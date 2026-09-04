@@ -408,7 +408,7 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
                 // Represent embedding as JSON array string
                 std::ostringstream oss = {};
                 oss << "[";
-                for (size_t i = 0; i < v.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(v.size()); ++i) {
                     if (i > 0) {
                         oss << ",";
                     }
@@ -419,7 +419,7 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
             } else {
                 // vector<uint8_t> — binary blob
                 std::ostringstream oss = {};
-                oss << "<binary:" << v.size() << ">";
+                oss << "<binary:" <<static_cast<int>(v.size()) << ">";
                 return oss.str();
             }
         },
@@ -641,7 +641,7 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
             return true;
 
         arrow::ArrayVector arrays;
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             arrow::StringBuilder builder;
             for (const auto &v : col_values[ci]) {
                 if (v.empty()) {
@@ -699,7 +699,7 @@ ExportStats ParquetExporter::exportWithArrow(const std::vector<BaseEntity> &enti
         }
         duplicate_set.insert(entity.getPrimaryKey());
 
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             std::string val = valueToString(entity.getField(columns[ci]));
 
             // PII scrub
@@ -816,7 +816,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
             continue;
         }
 
-        for (size_t ci = 0; ci < columns.size(); ++ci) {
+        for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
             std::string val = valueToString(entity.getField(columns[ci]));
 
             // PII scrub
@@ -905,7 +905,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     std::vector<ColumnChunkInfo> chunks;
     int64_t row_group_total_bytes = 0;
 
-    for (size_t ci = 0; ci < columns.size(); ++ci) {
+    for (size_t ci = 0; ci <static_cast<int>(columns.size()); ++ci) {
         int64_t col_start_offset = static_cast<int64_t>(file_offset);
 
         DataPage page = encodePlainByteArrayPage(col_data[ci]);

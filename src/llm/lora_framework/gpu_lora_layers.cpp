@@ -591,7 +591,7 @@ void GPUSGDOptimizer::add_parameters(const std::vector<GPUTensor*>& params) {
 }
 
 void GPUSGDOptimizer::step() {
-    for (size_t i = 0; i < parameters_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(parameters_.size()); ++i) {
         auto* param = parameters_[i];
         
         if (!param->grad) {
@@ -606,7 +606,7 @@ void GPUSGDOptimizer::step() {
         if (param->device().type == DeviceType::CUDA) {
             float* param_ptr = reinterpret_cast<float*>(param->data());
             const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
-            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) < momentum_buffers_.size()) 
+            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) <static_cast<int>(momentum_buffers_.size())) 
                 ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
                 : nullptr;
             
@@ -625,7 +625,7 @@ void GPUSGDOptimizer::step() {
         if (param->device().type == DeviceType::HIP) {
             float* param_ptr = reinterpret_cast<float*>(param->data());
             const float* grad_ptr = reinterpret_cast<const float*>(param->grad->data());
-            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) < momentum_buffers_.size()) 
+            float* momentum_ptr = (momentum_ > 0.0f  && static_cast<size_t>(i) <static_cast<int>(momentum_buffers_.size())) 
                 ? reinterpret_cast<float*>(momentum_buffers_[i]->data()) 
                 : nullptr;
             

@@ -71,7 +71,7 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
         std::vector<std::string> next = {};
 
         next.reserve(layer.size() / 2);
-        for (size_t i = 0; i < layer.size(); i += 2) {
+        for (size_t i = 0; i <static_cast<int>(layer.size()); i += 2) {
             next.push_back(combineHashes(layer[i], layer[i + 1]));
         }
         layer = std::move(next);

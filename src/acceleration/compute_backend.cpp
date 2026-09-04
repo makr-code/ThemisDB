@@ -93,7 +93,7 @@ PartialBatchResult IVectorBackend::batchKnnSearchSafe(
 
     // Build a contiguous buffer of valid query vectors
     std::vector<float> validQueries(validIndices.size() * dim);
-    for (size_t i = 0; i < validIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(validIndices.size()); ++i) {
         const float* src = queries + validIndices[i] * dim;
         std::copy(src, src + dim, validQueries.data() + i * dim);
     }
@@ -105,7 +105,7 @@ PartialBatchResult IVectorBackend::batchKnnSearchSafe(
     );
 
     // Map results back to the original query indices
-    for (size_t i = 0; i < validIndices.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(validIndices.size()); ++i) {
         KnnQueryResult& qr = result.queryResults[validIndices[i]];
         qr.neighbors = std::move(batchResults[i]);
         qr.status    = AccelerationErrorCode::Success;

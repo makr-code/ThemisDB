@@ -34,7 +34,7 @@ public:
         const uint64_t mask = (1 << 13) - 1;  // For ~8KB average chunks
         uint64_t fingerprint = 0;
         
-        for (size_t i = 0; i < data.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(data.size()); i++) {
             fingerprint = (fingerprint << 1) + static_cast<uint8_t>(data[i]);
             
             // Check if this is a boundary
@@ -209,7 +209,7 @@ public:
             auto it = by_index.find(idx);
             if (it == by_index.end()) { continue; }
             const ChunkInfo& ci = *it->second;
-            if (ci.offset + ci.size > data.size()) { continue; }
+            if (ci.offset + ci.size > static_cast<int>(data.size())) { continue; }
             chunks[idx] = data.substr(ci.offset, ci.size);
         }
 
@@ -248,7 +248,7 @@ private:
         uint64_t chunk_size = chunk_size_kb * 1024;
         uint32_t index = 0;
         
-        for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
+        for (uint64_t offset = 0; offset <static_cast<int>(data.size()); offset += chunk_size) {
             uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(static_cast<int>(data.size()) - offset)));
             
             ChunkInfo info;

@@ -489,7 +489,7 @@ public:
         int    best_rank = trials.empty() ? 0 : trials[0].rank;
         float  best_lr   = trials.empty() ? 0.0f : trials[0].lr;
 
-        for (size_t i = 0; i < trials.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(trials.size()); ++i) {
             // Budget check: stop if wall-clock budget is exceeded
             if (cfg.budget_seconds > 0.0) {
                 auto now = std::chrono::steady_clock::now();
@@ -588,7 +588,7 @@ private:
         oss << "success=" << (r.success ? "true" : "false") << "\n"
             << "elapsed=" << r.elapsed_seconds << "\n"
             << "summary=" << r.summary << "\n"
-            << "threshold_count=" << r.thresholds.size() << "\n";
+            << "threshold_count=" <<static_cast<int>(r.thresholds.size()) << "\n";
         for (const auto& t : r.thresholds) {
             oss << "threshold[" << t.category << "]="
                 << t.threshold << " samples=" << t.sample_count
@@ -706,7 +706,7 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
         // We model the target as y_i = 1 if model_correct else 0 and fit a
         // monotone non-decreasing function.
         std::vector<double> y(sorted.size());
-        for (size_t i = 0; i < sorted.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
             y[i] = sorted[i].correct ? 1.0 : 0.0;
         }
 
@@ -747,10 +747,10 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
         float best_threshold  = 0.5f;
         double best_f1        = -1.0;
 
-        for (size_t t = 0; t < sorted.size(); ++t) {
+        for (size_t t = 0; t <static_cast<int>(sorted.size()); ++t) {
             float thr = sorted[t].confidence;
             size_t tp = 0, fp = 0, fn = 0;
-            for (size_t i = 0; i < sorted.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(sorted.size()); ++i) {
                 bool predicted_positive = sorted[i].confidence >= thr;
                 bool actually_positive  = sorted[i].correct;
                 if (predicted_positive && actually_positive) {

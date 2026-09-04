@@ -260,7 +260,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     float mean_abs = 0.0f;
     float mean_abs_delta = 0.0f;
     size_t clipping_count = 0;
-    for (size_t i = 0; i < samples.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
         const float a = std::abs(samples[i]);
         mean_abs += a;
         if (a >= 0.98f) {
@@ -791,7 +791,7 @@ float VoiceBiometricAuthenticator::cosineSimilarity(
     float dot = 0.0f;
     float na  = 0.0f;
     float nb  = 0.0f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         dot += a[i] * b[i];
         na  += a[i] * a[i];
         nb  += b[i] * b[i];

@@ -1892,10 +1892,10 @@ void WireProtocolServer::Session::handleBatchGet() {
         json results = json::array();
         uint32_t found_count = 0;
         uint32_t not_found_count = 0;
-        for (size_t i = 0; i < client_keys.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(client_keys.size()); ++i) {
             json item;
             item["key"] = client_keys[i];
-            if (i < multi_results.size() && multi_results[i].has_value()) {
+            if (i <static_cast<int>(multi_results.size()) && multi_results[i].has_value()) {
                 const auto& value_bytes = multi_results[i].value();
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {

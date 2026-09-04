@@ -258,7 +258,7 @@ std::string AIDecisionAuditor::generateExplanation(const std::string& decision_i
     
     if (!audit.reasoning_steps.empty()) {
         explanation << "Reasoning Steps:\n";
-        for (size_t i = 0; i < audit.reasoning_steps.size(); i++) {
+        for (size_t i = 0; i <static_cast<int>(audit.reasoning_steps.size()); i++) {
             explanation << (i + 1) << ". " << audit.reasoning_steps[i] << "\n";
         }
         explanation << "\n";

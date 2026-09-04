@@ -140,7 +140,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         if (gpu_result.dispatched) {
             // Convert float distances from GPU to double for result
             result.distances_km.resize(gpu_result.distances_km.size());
-            for (size_t i = 0; i < gpu_result.distances_km.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(gpu_result.distances_km.size()); ++i) {
                 result.distances_km[i] = static_cast<double>(gpu_result.distances_km[i]);
             }
             result.cpu_fallback = false;
@@ -155,7 +155,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     
     // CPU fallback: Compute distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < points1.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
             result.distances_km[i] = haversineDistance(
                 points1[i], points2[i], earth_radius_km);
         }
@@ -189,7 +189,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         point_lats.reserve(num_test_points);
         point_lons.reserve(num_test_points);
         
-        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
             point_lats.push_back(test_points[i].lat_deg);
             point_lons.push_back(test_points[i].lon_deg);
         }
@@ -231,7 +231,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     
     // CPU fallback: Compute containment on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) < test_points.size(); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
             result.containment_mask[i] = 
                 pointInPolygon(test_points[i], polygons[0]) ? 1u : 0u;
         }
@@ -272,7 +272,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     
     // CPU fallback: Compute Vincenty distances on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < points1.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(points1.size()); ++i) {
             result.distances_km[i] = vincentyDistance(points1[i], points2[i]);
         }
         result.error_code = 0;

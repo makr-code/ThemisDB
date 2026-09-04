@@ -82,7 +82,7 @@ std::vector<ResourceSnapshot> ResourceProfiler::get_snapshots() const {
 
 ResourceStats ResourceProfiler::compute_stats() const {
     ResourceStats stats;
-    stats.num_snapshots = impl_->snapshots.size();
+    stats.num_snapshots = impl_-> static_cast<int>(snapshots.size());
     if (impl_->snapshots.empty()) {
         return stats;
     }
@@ -94,7 +94,7 @@ ResourceStats ResourceProfiler::compute_stats() const {
         stats.avg_samples_per_second    += s.samples_per_second;
         stats.avg_tokens_per_second     += s.tokens_per_second;
     }
-    const float n = static_cast<float>(impl_->snapshots.size());
+    const float n = static_cast<float>(impl_-> static_cast<int>(snapshots.size()));
     stats.avg_gpu_utilization        /= n;
     stats.avg_gpu_memory_utilization /= n;
     stats.avg_samples_per_second     /= n;

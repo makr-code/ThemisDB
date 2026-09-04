@@ -431,7 +431,7 @@ AgenticRAGResult AgenticRAG::run(
 
                 THEMIS_INFO("AgenticRAG delegate relay complete: rs_count={}, "
                             "catastrophic_count={}, persistence_failures={}",
-                            result.delegate_relay->scores.rs_per_interaction.size(),
+                            result.delegate_relay-> static_cast<int>(scores.rs_per_interaction.size()),
                             result.delegate_relay->catastrophic_corruption_count,
                             result.delegate_relay->persistence_write_failures);
             } catch (const std::exception& ex) {

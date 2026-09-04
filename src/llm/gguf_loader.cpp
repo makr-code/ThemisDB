@@ -189,7 +189,7 @@ void validateTensorShape(const TensorMetadata& tensor, const std::string& tensor
         throw std::runtime_error(error_msg);
     }
     
-    for (size_t i = 0; i < tensor.shape.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(tensor.shape.size()); ++i) {
         if (tensor.shape[i] <= 0) {
             const std::string error_msg = "Tensor dimension[" + std::to_string(i) + "] is invalid (<=0) for: " + tensor_name;
             spdlog::error("{}", error_msg);
@@ -778,7 +778,7 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
                   << "\"version\":" << metadata_.version << ","
                   << "\"architecture\":\"" << escapeJson(metadata_.architecture) << "\","
                   << "\"total_size\":" << metadata_.total_size << ","
-                  << "\"num_tensors\":" << metadata_.tensors.size() << ","
+                  << "\"num_tensors\":" <<static_cast<int>(metadata_.tensors.size()) << ","
                   << "\"urn\":\"" << escapeJson(model_urn) << "\","
                   << "\"config\":{";
     
@@ -803,7 +803,7 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
                      << "\"size\":" << tensor.size << ","
                      << "\"offset\":" << tensor.offset << ","
                      << "\"shape\":[";
-        for (size_t i = 0; i < tensor.shape.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(tensor.shape.size()); ++i) {
             if (i > 0) {
               metadata_json << ",";
             }

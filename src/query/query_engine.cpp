@@ -770,7 +770,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	errors.reserve(q.predicates.size());
 	tbb::task_group tg;
 
-	for (size_t i = 0; i < q.predicates.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.predicates.size()); ++i) {
 		const auto& p = q.predicates[i];
 		tg.run([this, &q, &p, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("index.scanEqual");
@@ -1020,7 +1020,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
-		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
+		for (size_t batch_idx = 0; batch_idx <static_cast<int>(batches.size()); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
@@ -1090,7 +1090,7 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 	
 	std::vector<std::string> result = lists.front();
 	
-	for (size_t i = 1; i < lists.size(); ++i) {
+	for (size_t i = 1; i <static_cast<int>(lists.size()); ++i) {
 		const auto& next = lists[i];
 		std::vector<std::string> tmp = {};
 
@@ -1114,7 +1114,7 @@ QueryEngine::unionSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Merge all lists using set_union (removes duplicates)
 	std::vector<std::string> result = lists.front();
 	
-	for (size_t i = 1; i < lists.size(); ++i) {
+	for (size_t i = 1; i <static_cast<int>(lists.size()); ++i) {
 		const auto& next = lists[i];
 		std::vector<std::string> tmp = {};
 
@@ -1158,7 +1158,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 	errors.reserve(q.disjuncts.size());
 	tbb::task_group tg;
 
-	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.disjuncts.size()); ++i) {
 		const auto& disjunct = q.disjuncts[i];
 		tg.run([this, &disjunct, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute");
@@ -1240,7 +1240,7 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 	errors.reserve(q.disjuncts.size());
 	std::mutex error_mutex = {};
 	tbb::task_group tg;
-	for (size_t i = 0; i < q.disjuncts.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(q.disjuncts.size()); ++i) {
 		const auto& disjunct = q.disjuncts[i];
 		tg.run([this, &disjunct, &all_lists, i, optimize, &errors, &error_mutex]() {
 			auto child = Tracer::startSpan("or.disjunct.execute_fallback");
@@ -1319,7 +1319,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 		failed_deserialize_pks.reserve(keys.size() / 10 + 1);
 		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
-		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
+		for (size_t batch_idx = 0; batch_idx <static_cast<int>(batches.size()); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
@@ -1408,7 +1408,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
-		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
+		for (size_t batch_idx = 0; batch_idx <static_cast<int>(batches.size()); ++batch_idx) {
 			tg.run([this, &q, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
@@ -1506,7 +1506,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 		if (base.empty()) { span.setStatus(true); return Ok(std::vector<std::string>{}); }
         
 		std::vector<std::string> current = std::move(base);
-		for (size_t i = 1; i < orderedPredicates.size(); ++i) {
+		for (size_t i = 1; i <static_cast<int>(orderedPredicates.size()); ++i) {
 			const auto& p = orderedPredicates[i];
 			auto child2 = Tracer::startSpan("index.scanEqual");
 			child2.setAttribute("index.table", table);
@@ -1576,7 +1576,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 		std::mutex failed_deserialize_mutex = {};
 		tbb::task_group tg;
 
-		for (size_t batch_idx = 0; batch_idx < batches.size(); ++batch_idx) {
+		for (size_t batch_idx = 0; batch_idx <static_cast<int>(batches.size()); ++batch_idx) {
 			tg.run([this, &table, &keys, &batches, batch_idx, BATCH_SIZE, &failed_deserialize_pks, &failed_deserialize_mutex]() {
 				size_t start = batch_idx * BATCH_SIZE;
 				size_t end = std::min(start + BATCH_SIZE,static_cast<int>(keys.size()));
@@ -1757,7 +1757,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 	}
 	if (funcName == "CONCAT") {
 		std::string out = {};
-		for (size_t i = 0; i < args.size(); ++i) {
+		for (size_t i = 0; i <static_cast<int>(args.size()); ++i) {
 			auto v = evalArg(i);
 			if (!v) {
 			  return v;
@@ -1857,7 +1857,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		  return arg0;
 		}
 		double val = qe_toNumber(*arg0);
-		for (size_t i = 1; i < args.size(); ++i) {
+		for (size_t i = 1; i <static_cast<int>(args.size()); ++i) {
 			auto argRes = evalArg(i);
 			if (!argRes) {
 			  return argRes;
@@ -2393,13 +2393,13 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid LineString");
 			}
-			wkt<<"LINESTRING("; for (size_t i=0;i<c.size();++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
+			wkt<<"LINESTRING("; for (size_t i=0;i<static_cast<int>(c.size());++i){ if(i>0) wkt<<","; const auto& pt=c[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		} else if (t=="Polygon") {
 			if (!c.is_array()||c.empty()) {
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_AsText: Invalid Polygon");
 			}
-			wkt<<"POLYGON("; for (size_t r=0;r<c.size();++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for(size_t i=0;i<ring.size();++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
+			wkt<<"POLYGON("; for (size_t r=0;r<static_cast<int>(c.size());++r){ if(r>0) wkt<<","; wkt<<"("; const auto& ring=c[r]; for(size_t i=0;i<static_cast<int>(ring.size());++i){ if(i>0) wkt<<","; const auto& pt=ring[i]; wkt<<pt[0].get<double>()<<" "<<pt[1].get<double>(); if (static_cast<int>(pt.size()) > =3) wkt<<" "<<pt[2].get<double>(); } wkt<<")"; } wkt<<")";
 			return Ok(nlohmann::json(wkt.str()));
 		}
 		return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED,
@@ -2679,7 +2679,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 			auto obj = std::static_pointer_cast<ObjectConstructExpr>(expr);
 			nlohmann::json o = nlohmann::json::object();
 			std::vector<std::pair<std::string, std::shared_ptr<Expression>>> sorted_fields;
-			sorted_fields.reserve(obj->fields.size());
+			sorted_fields.reserve(obj-> static_cast<int>(fields.size()));
 			for (const auto& [k, e] : obj->fields) {
 				sorted_fields.emplace_back(k, e);
 			}
@@ -2995,7 +2995,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
 		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
-		for (size_t i=0;i<q.predicates.size();++i) {
+		for (size_t i=0;i<static_cast<int>(q.predicates.size());++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
 			if (eff < bestEst) { bestEst = eff; bestIdx = i; bestCapped = capped; }
@@ -4203,7 +4203,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			auto vertexDataList = db_->multiGet(vertexKeys);
 			
 			// Evaluate spatial filter for each vertex
-			for (size_t i = 0; i < pathResult.path.size(); ++i) {
+			for (size_t i = 0; i <static_cast<int>(pathResult.path.size()); ++i) {
 				const auto& vertexPk = pathResult.path[i];
 				const auto& vertexDataOpt = vertexDataList[i];
 				
@@ -4301,7 +4301,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			const size_t CHUNK = std::max<std::size_t>(128, (n + T - 1) / T);
 			std::vector<std::vector<std::string>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg3;
-			for (size_t bi = 0; bi < buckets.size(); ++bi) {
+			for (size_t bi = 0; bi <static_cast<int>(buckets.size()); ++bi) {
 				tg3.run([&, bi]() {
 					size_t start = bi * CHUNK;
 					size_t end = std::min(start + CHUNK, n);
@@ -4346,7 +4346,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// individual path lookups to avoid O(N²) worst-case runtime; nodes
 		// beyond the cap are represented as trivial 2-hop paths.
 		static constexpr size_t kMaxPathLookups = 500;
-		for (size_t i = 0; i < reachableNodes.size(); ++i) {
+		for (size_t i = 0; i <static_cast<int>(reachableNodes.size()); ++i) {
 			const auto& node = reachableNodes[i];
 			if (node == q.start_node) {
 				continue;
@@ -4587,12 +4587,12 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
     if (expr->getType() == ASTNodeType::FunctionCall) {
         auto funcCall = std::static_pointer_cast<FunctionCallExpr>(expr);
         
-        if (funcCall->name == "ST_Within" && funcCall->arguments.size() == 2) {
+        if (funcCall->name == "ST_Within" && funcCall-> static_cast<int>(arguments.size()) == 2) {
             // Second argument should be ST_GeomFromText("POLYGON(...)")
             auto arg2 = funcCall->arguments[1];
             if (arg2->getType() == ASTNodeType::FunctionCall) {
                 auto geomFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
-                if (geomFunc->name == "ST_GeomFromText" && geomFunc->arguments.size() == 1) {
+                if (geomFunc->name == "ST_GeomFromText" && geomFunc-> static_cast<int>(arguments.size()) == 1) {
                     auto litExpr = geomFunc->arguments[0];
                     if (litExpr->getType() == ASTNodeType::Literal) {
                         auto lit = std::static_pointer_cast<LiteralExpr>(litExpr);
@@ -4627,7 +4627,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
         }
         
         // Handle ST_DWithin(geom, ST_Point(x,y), distance)
-        if (funcCall->name == "ST_DWithin" && funcCall->arguments.size() == 3) {
+        if (funcCall->name == "ST_DWithin" && funcCall-> static_cast<int>(arguments.size()) == 3) {
             auto arg2 = funcCall->arguments[1];
             auto arg3 = funcCall->arguments[2];
             
@@ -4635,7 +4635,7 @@ static std::optional<utils::geo::MBR> extractBBoxFromFilter(
                 auto pointFunc = std::static_pointer_cast<FunctionCallExpr>(arg2);
                 auto distLit = std::static_pointer_cast<LiteralExpr>(arg3);
                 
-                if (pointFunc->name == "ST_Point" && pointFunc->arguments.size() == 2) {
+                if (pointFunc->name == "ST_Point" && pointFunc-> static_cast<int>(arguments.size()) == 2) {
                     if (pointFunc->arguments[0]->getType() == ASTNodeType::Literal &&
                         pointFunc->arguments[1]->getType() == ASTNodeType::Literal) {
                         
@@ -4904,7 +4904,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			  keys.emplace_back(q.table + ":" + r.pk);
 			}
 			auto blobs = db_->multiGet(keys);
-			for (size_t i=0;i<vr.size();++i) {
+			for (size_t i=0;i<static_cast<int>(vr.size());++i) {
 				if (!blobs[i].has_value()) {
 				  continue;
 				}
@@ -5031,7 +5031,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_spatial_eval, (n + T - 1) / T);
 			std::vector<std::vector<VectorGeoResult>> buckets((n + CHUNK - 1) / CHUNK);
 			tbb::task_group tg;
-			for (size_t bi = 0; bi < buckets.size(); ++bi) {
+			for (size_t bi = 0; bi <static_cast<int>(buckets.size()); ++bi) {
 				tg.run([&, bi]() {
 					size_t start = bi * CHUNK;
 					size_t end = std::min(start + CHUNK, n);
@@ -5113,7 +5113,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			  keys.emplace_back(q.table + ":" + r.primary_key);
 			}
 			auto blobs = db_->multiGet(keys);
-			for (size_t i = 0; i < indexResults.size(); ++i) {
+			for (size_t i = 0; i <static_cast<int>(indexResults.size()); ++i) {
 				const auto& r = indexResults[i];
 				if (!blobs[i].has_value()) {
 				  continue;
@@ -5246,7 +5246,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	const size_t CHUNK = std::max<std::size_t>(cfg.min_chunk_vector_bf, (n + T - 1) / T);
 	std::vector<std::vector<std::pair<std::string, float>>> buckets((n + CHUNK - 1) / CHUNK);
 	tbb::task_group tg2;
-	for (size_t bi = 0; bi < buckets.size(); ++bi) {
+	for (size_t bi = 0; bi <static_cast<int>(buckets.size()); ++bi) {
 		tg2.run([&, bi]() {
 			size_t start = bi * CHUNK;
 			size_t end = std::min(start + CHUNK, n);
@@ -5376,7 +5376,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 		auto blobs = db_->multiGet(keys);
 		const size_t n = pks.size(); const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency()); const size_t CHUNK = std::max<std::size_t>(64,(n+T-1)/T);
 		std::vector<std::vector<ContentGeoResult>> buckets((n+CHUNK-1)/CHUNK); tbb::task_group tg;
-		for(size_t bi=0; bi<buckets.size(); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
+		for(size_t bi=0; bi<static_cast<int>(buckets.size()); ++bi){ tg.run([&,bi](){ size_t start=bi*CHUNK; size_t end=std::min(start+CHUNK,n); std::vector<ContentGeoResult> buf; buf.reserve(end-start); for(size_t i=start;i<end;++i){ if(!blobs[i].has_value()) continue; nlohmann::json doc; try { auto entity = BaseEntity::deserialize(pks[i], *blobs[i]); doc = nlohmann::json::parse(entity.toJson()); } catch (...) { continue; } EvaluationContext ctx; ctx.bind("doc", doc); if(!evaluateCondition(q.spatial_filter, ctx)) continue; ContentGeoResult r; r.pk=pks[i]; const auto bm25_it = bm25.find(pks[i]); r.bm25_score = (bm25_it != bm25.end()) ? bm25_it->second : 0.0; r.entity=std::move(doc); if(q.boost_by_distance && q.center_point){ const auto& docRef=r.entity; if(docRef.contains(q.geom_field)){ nlohmann::json geom; if(docRef[q.geom_field].is_string()){ try { geom=nlohmann::json::parse(docRef[q.geom_field].get<std::string>()); } catch (...) {} } else if(docRef[q.geom_field].is_object()){ geom=docRef[q.geom_field]; } if(!geom.is_null() && geom.contains("type") && geom["type"]=="Point" && geom.contains("coordinates") && geom["coordinates"].is_array() && geom["coordinates"].size()>=2){ double x=geom["coordinates"][0].get<double>(); double y=geom["coordinates"][1].get<double>(); double cx=(*q.center_point)[0]; double cy=(*q.center_point)[1]; double dx=x-cx; double dy=y-cy; r.geo_distance=std::sqrt(dx*dx+dy*dy); } } } buf.emplace_back(std::move(r)); } buckets[bi]=std::move(buf); }); }
 		// [WAVE3B-FIX: blocking_no_timeout — query_engine.cpp inline tg.wait()]
 		// Replace inline tg.wait() (advisory post-fact) with tbbWaitWithTimeout()
 		// so stalled content-geo morsels are cancelled within the query timeout.
@@ -5403,7 +5403,7 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 				  keys.emplace_back(q.table+":"+r.primary_key);
 				}
 				auto blobs = db_->multiGet(keys);
-				for(size_t i=0;i<indexResults.size();++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
+				for(size_t i=0;i<static_cast<int>(indexResults.size());++i){ if(!blobs[i].has_value()) continue; try { auto entity = BaseEntity::deserialize(indexResults[i].primary_key, *blobs[i]); nlohmann::json doc = nlohmann::json::parse(entity.toJson()); spatialCandidates.emplace_back(indexResults[i].primary_key); cache.emplace(indexResults[i].primary_key, std::move(doc));} catch (...) {} }
 			} else {
 				childS.setAttribute("method","bbox_extract_failed_fallback_scan");
 			}

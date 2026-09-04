@@ -574,7 +574,7 @@ GeoPredicatePatternDetector::detect(const std::string& query_text) {
 
     int depth = 1;
     std::size_t close_pos = open_pos + 1;
-    for (; close_pos < lowered.size(); ++close_pos) {
+    for (; close_pos <static_cast<int>(lowered.size()); ++close_pos) {
         const char ch = lowered[close_pos];
         if (ch == '(') {
             ++depth;
@@ -593,7 +593,7 @@ GeoPredicatePatternDetector::detect(const std::string& query_text) {
     const std::string arg_text = query_text.substr(open_pos + 1, close_pos - open_pos - 1);
     int nested = 0;
     std::size_t split_pos = std::string::npos;
-    for (std::size_t i = 0; i < arg_text.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(arg_text.size()); ++i) {
         const char ch = arg_text[i];
         if (ch == '(') {
             ++nested;

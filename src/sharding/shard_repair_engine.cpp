@@ -477,7 +477,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
 
     // Partition shards into bands – one per worker thread
     std::vector<std::vector<ShardInfo>> bands(num_workers);
-    for (size_t i = 0; i < all_shards.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(all_shards.size()); ++i) {
         bands[i % num_workers].push_back(all_shards[i]);
     }
 

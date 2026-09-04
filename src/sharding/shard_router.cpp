@@ -454,7 +454,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::atomic<uint64_t> remote_count{0};
     
     // Process shards in batches to limit concurrency
-    for (size_t batch_start = 0; batch_start < shards.size(); batch_start += max_concurrent) {
+    for (size_t batch_start = 0; batch_start <static_cast<int>(shards.size()); batch_start += max_concurrent) {
         size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(shards.size()));
         
         // Create futures for this batch
@@ -518,7 +518,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
         // Collect results from all futures with timeout
         const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
         
-        for (size_t i = 0; i < futures.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
             try {
                 // Wait for result with timeout
                 auto status = futures[i].wait_for(timeout);
@@ -614,7 +614,7 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
     std::atomic<uint64_t> local_count{0};
     std::atomic<uint64_t> remote_count{0};
 
-    for (size_t batch_start = 0; batch_start < target_shards.size(); batch_start += max_concurrent) {
+    for (size_t batch_start = 0; batch_start <static_cast<int>(target_shards.size()); batch_start += max_concurrent) {
         size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(target_shards.size()));
 
         std::vector<std::future<ShardResult>> futures;
@@ -664,7 +664,7 @@ std::vector<ShardResult> ShardRouter::executeOnShards(
         }
 
         const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
-        for (size_t i = 0; i < futures.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
             try {
                 if (futures[i].wait_for(timeout) == std::future_status::ready) {
                     results.push_back(futures[i].get());
@@ -1428,7 +1428,7 @@ std::vector<ShardResult> ShardRouter::executeMultiShardExactConsistency(
     const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
     size_t successful_count = 0;
     
-    for (size_t i = 0; i < futures.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
         try {
             auto status = futures[i].wait_for(timeout);
             

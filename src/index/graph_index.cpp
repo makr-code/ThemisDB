@@ -256,7 +256,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 						// Iterating j by index ensures encryptList.push_back() cannot
 						// invalidate any active iterator even if the same container were
 						// involved (they are distinct here, but the pattern is consistent).
-						for (size_t ji = 0; ji < j.size(); ++ji) {
+						for (size_t ji = 0; ji <static_cast<int>(j.size()); ++ji) {
 							const auto& jv = j[ji];
 							if (jv.is_string()) {
 							  encryptList.push_back(jv.get<std::string>());
@@ -273,7 +273,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
 					// `start` is a byte offset into string `s`; encryptList.push_back()
 					// operates on a separate vector and cannot invalidate this iteration.
-					while (static_cast<size_t>(start) < s.size()) {
+					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
@@ -420,7 +420,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
-			result.reserve(it->second.size());
+			result.reserve(it-> static_cast<int>(second.size()));
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -455,7 +455,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
-			result.reserve(it->second.size());
+			result.reserve(it-> static_cast<int>(second.size()));
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -1633,7 +1633,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
-					while (static_cast<size_t>(start) < s.size()) {
+					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim

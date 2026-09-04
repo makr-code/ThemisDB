@@ -109,11 +109,11 @@ std::vector<PolicyConflict> PolicyValidator::detectConflicts() const {
     auto rules = policy_manager_->listRules();
 
     // Check each pair for contradictions, skipping disabled rules
-    for (size_t i = 0; i < rules.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); i++) {
         if (!rules[i].enabled) {
             continue;
         }
-        for (size_t j = i + 1; j < rules.size(); j++) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); j++) {
             if (!rules[j].enabled) {
                 continue;
             }
@@ -149,11 +149,11 @@ std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() cons
     }
     auto rules = policy_manager_->listRules();
 
-    for (size_t i = 0; i < rules.size(); i++) {
+    for (size_t i = 0; i <static_cast<int>(rules.size()); i++) {
         if (!rules[i].enabled) {
             continue;
         }
-        for (size_t j = i + 1; j < rules.size(); j++) {
+        for (size_t j = i + 1; j <static_cast<int>(rules.size()); j++) {
             if (!rules[j].enabled) {
                 continue;
             }
@@ -224,13 +224,13 @@ std::vector<PolicyConflict> PolicyValidator::detectCircularDependencies() const 
     // simultaneously in conflict with at least one other member.
     std::unordered_map<std::string, std::vector<std::string>> conflict_graph;
 
-    for (std::size_t i = 0; i < rules.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(rules.size()); ++i) {
         const auto &r1 = rules[i];
         if (!r1.enabled) {
             continue;
         }
 
-        for (std::size_t j = i + 1; j < rules.size(); ++j) {
+        for (std::size_t j = i + 1; j <static_cast<int>(rules.size()); ++j) {
             const auto &r2 = rules[j];
             if (!r2.enabled) {
                 continue;

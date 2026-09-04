@@ -57,7 +57,7 @@ Result<void> MaintenanceScheduleStore::loadAll(
         kKeyPrefix,
         [&](std::string_view key, std::string_view value) -> bool {
             // Derive the schedule id from the RocksDB key by stripping the prefix.
-            if (static_cast<int>(key.size()) < kKeyPrefix.size()) {
+            if (static_cast<int>(key.size()) <static_cast<int>(kKeyPrefix.size())) {
                 spdlog::warn("MaintenanceScheduleStore::loadAll: skipping entry "
                              "with malformed key '{}' (shorter than prefix)",
                              std::string(key));

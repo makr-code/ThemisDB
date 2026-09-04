@@ -1494,7 +1494,7 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer([[maybe_unused]] const
         }
 
         std::unordered_map<std::string, std::vector<size_t>> indices_by_domain;
-        for (size_t i = 0; i < requests.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(requests.size()); ++i) {
             indices_by_domain[batchDomainKey(requests[i])].push_back(i);
         }
 
@@ -1652,7 +1652,7 @@ static std::pair<bool, std::string> validateAQLWithParser(
             // Add suggestions for LLM retry feedback
             if (!parse_result.diagnostics.suggestions.empty()) {
                 error_msg += ". Suggestions: ";
-                for (size_t i = 0; i < parse_result.diagnostics.suggestions.size() && i < 2; ++i) {
+                for (size_t i = 0; i <static_cast<int>(parse_result.diagnostics.suggestions.size()) && i < 2; ++i) {
                     if (i > 0) {
                       error_msg += "; ";
                     }
@@ -1719,7 +1719,7 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
         = query_preview.size() > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
 
     std::ostringstream warn_msg = {};
-    warn_msg << function_name << " produced " << annotations.size() << " potential syntax issue(s) for query \""
+    warn_msg << function_name << " produced " <<static_cast<int>(annotations.size()) << " potential syntax issue(s) for query \""
              << preview << "\":";
     for (const auto &ann : annotations) {
         warn_msg << "\n  Line " << ann.line << ", Col " << ann.column << ": " << ann.message;

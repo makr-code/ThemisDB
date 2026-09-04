@@ -465,7 +465,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
                         size_t off = pixel_offset
                             + static_cast<size_t>(actual_row) * static_cast<size_t>(row_stride)
                             + static_cast<size_t>(px) * 3;
-                        if (off + 2 < blob.size()) {
+                        if (off + 2 <static_cast<int>(blob.size())) {
                             uint8_t b = blob[off];
                             uint8_t g = blob[off + 1];
                             uint8_t r = blob[off + 2];

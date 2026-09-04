@@ -289,7 +289,7 @@ bool DataLoader::parsePlainText(const std::string& filepath) {
     // Each chunk becomes an instruction-output pair
     const size_t chunk_size = 512;  // characters per chunk
     
-    for (size_t i = 0; i < text.size(); i += chunk_size) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); i += chunk_size) {
         size_t end = std::min(i + chunk_size,static_cast<int>(text.size()));
         std::string chunk = text.substr(i, end - i);
         
@@ -393,7 +393,7 @@ void DataLoader::padBatch(TrainingBatch& batch) {
     int target_length = config_.pad_to_max_length ? 
         config_.max_sequence_length : batch.max_sequence_length;
     
-    for (size_t i = 0; i < batch.input_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(batch.input_ids.size()); ++i) {
         auto& input_seq = batch.input_ids[i];
         auto& label_seq = batch.label_ids[i];
         

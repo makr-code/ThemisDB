@@ -242,11 +242,11 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     std::string out = {};
     bool in_tag = false;
     bool in_script = false;
-    for (std::size_t i = 0; i < html.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(html.size()); ++i) {
         if (html[i] == '<') {
             in_tag = true;
             // Detect <script or <style
-            if (i + 6 < html.size()) {
+            if (i + 6 <static_cast<int>(html.size())) {
                 std::string tag6 = html.substr(i + 1, 6);
                 std::transform(tag6.begin(), tag6.end(), tag6.begin(),
                                [](unsigned char c){ return static_cast<char>(std::tolower(c)); });

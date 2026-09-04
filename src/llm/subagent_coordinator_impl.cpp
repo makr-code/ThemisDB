@@ -55,7 +55,7 @@ public:
         std::vector<std::future<SubagentInferenceResult>> futures;
         std::vector<std::string> submitted_ids;
 
-        for (size_t i = 0; i < subagents.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(subagents.size()); ++i) {
             futures.push_back(subagents[i]->inferAsync(request, config.correlation_context));
             submitted_ids.push_back(subagent_ids[i]);
             stats_.total_subagent_requests++;
@@ -77,7 +77,7 @@ public:
         auto deadline = std::chrono::steady_clock::now() +
                        std::chrono::milliseconds(actual_timeout_ms);
 
-        for (size_t i = 0; i < futures.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
             auto remaining = deadline - std::chrono::steady_clock::now();
             if (remaining.count() <= 0) {
                 SubagentCoordinatorResult coord_result;

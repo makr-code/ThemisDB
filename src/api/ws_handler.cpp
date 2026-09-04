@@ -69,8 +69,8 @@ bool WsChangeHandler::isChangeStreamPath([[maybe_unused]] std::string_view path)
 static std::string url_decode(const std::string& encoded) {
     std::string result = {};
     result.reserve(encoded.size());
-    for (std::size_t i = 0; i < encoded.size(); ++i) {
-        if (encoded[i] == '%' && i + 2 < encoded.size() &&
+    for (std::size_t i = 0; i <static_cast<int>(encoded.size()); ++i) {
+        if (encoded[i] == '%' && i + 2 <static_cast<int>(encoded.size()) &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 1])) &&
             std::isxdigit(static_cast<unsigned char>(encoded[i + 2])))
         {
@@ -119,7 +119,7 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
         if (!auth_hdr.empty()) {
             const std::string auth_str(auth_hdr);
             constexpr std::string_view kBearer = "Bearer ";
-            if (static_cast<int>(auth_str.size()) > kBearer.size() &&
+            if (static_cast<int>(auth_str.size()) > static_cast<int>(kBearer.size()) &&
                 auth_str.substr(0,static_cast<int>(kBearer.size())) == kBearer)
             {
                 token = auth_str.substr(kBearer.size());

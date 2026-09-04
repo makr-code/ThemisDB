@@ -109,7 +109,7 @@ std::string VoiceAssistant::generateLLMResponse(
     size_t history_start = session.history.size() > 10 ?static_cast<int>(session.history.size()) - 10 : 0;
     size_t sanitized_history_entries = 0;
     size_t blocked_history_entries = 0;
-    for (size_t i = history_start; i < session.history.size(); ++i) {
+    for (size_t i = history_start; i <static_cast<int>(session.history.size()); ++i) {
         const auto history_outcome = sanitizePromptFragment(session.history[i]);
         if (!history_outcome.allowed) {
             ++blocked_history_entries;

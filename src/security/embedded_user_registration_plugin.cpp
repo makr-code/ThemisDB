@@ -242,7 +242,7 @@ public:
         it->second.password_history.push_back(new_hash);
         
         // Keep only last 5 passwords
-        if (it->second.password_history.size() > 5) {
+        if (it-> static_cast<int>(second.password_history.size()) > 5) {
             it->second.password_history.erase(it->second.password_history.begin());
         }
         
@@ -522,7 +522,7 @@ private:
 
             auto fromHex = [](const std::string& hex, std::vector<unsigned char>& out) {
                 out.resize(hex.size() / 2);
-                for (size_t i = 0; i < out.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(out.size()); ++i) {
                     out[i] = static_cast<unsigned char>(
                         std::stoul(hex.substr(i * 2, 2), nullptr, 16));
                 }

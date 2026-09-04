@@ -676,7 +676,7 @@ bool MongoDBImporter::parseJsonArray(const std::string& file_path,
     }
 
     size_t batch_count = 0;
-    for (size_t i = 0; i < arr.size() && !cancelled_; ++i) {
+    for (size_t i = 0; i <static_cast<int>(arr.size()) && !cancelled_; ++i) {
         stats.total_records++;
         importDocument(arr[i], collection, options, stats, i);
         batch_count++;

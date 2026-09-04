@@ -153,7 +153,7 @@ std::string RootCauseReport::toReport() const {
 
     if (!remediation_steps.empty()) {
         oss << "Remediation Steps:\n";
-        for (size_t i = 0; i < remediation_steps.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(remediation_steps.size()); ++i) {
             oss << "  " << (i + 1) << ". " << remediation_steps[i] << "\n";
         }
         oss << "\n";
@@ -500,8 +500,8 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
     // lagging A by one step produces a stronger correlation with B than the
     // instantaneous correlation.  If the lagged correlation is stronger and
     // exceeds the threshold, add edge A→B.
-    for (size_t i = 0; i < metrics.size(); ++i) {
-        for (size_t j = 0; j < metrics.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(metrics.size()); ++i) {
+        for (size_t j = 0; j <static_cast<int>(metrics.size()); ++j) {
             if (i == j) {
                 continue;
             }

@@ -188,7 +188,7 @@ class V2SessionImpl : public V2Session {
             hdr.flags |= static_cast<uint16_t>(V2FrameFlags::END_STREAM);
 
         // Use compressed payload only when it actually saves bytes
-        if (!compressed_buf.empty() && static_cast<int>(compressed_buf.size()) < data.size()) {
+        if (!compressed_buf.empty() && static_cast<int>(compressed_buf.size()) <static_cast<int>(data.size())) {
             payload = &compressed_buf;
             if (cfg_.enable_zstd_compression) {
                 hdr.flags |= static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);

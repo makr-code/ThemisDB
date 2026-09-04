@@ -441,7 +441,7 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
             // Generate synthetic column names: col_0, col_1, ...
             auto fields = parseCsvRow(header_line, delim, quote_char_);
             cols_vec.reserve(fields.size());
-            for (size_t i = 0; i < fields.size(); ++i)
+            for (size_t i = 0; i <static_cast<int>(fields.size()); ++i)
                 cols_vec.push_back("col_" + std::to_string(i));
             // Re-wind: treat the first "header" line as a data row too
             file.clear();
@@ -462,10 +462,10 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
               continue;
             }
             auto fields = parseCsvRow(data_line, delim, quote_char_);
-            while ( static_cast<int>(fields.size()) < cols_vec.size()) {
+            while ( static_cast<int>(fields.size()) <static_cast<int>(cols_vec.size())) {
               fields.emplace_back();
             }
-            if (static_cast<int>(fields.size()) > cols_vec.size()) {
+            if (static_cast<int>(fields.size()) > static_cast<int>(cols_vec.size())) {
               fields.resize(cols_vec.size());
             }
             detector.feedRow(cols_vec, fields);
@@ -725,10 +725,10 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
         }
 
         auto fields = parseCsvRow(sample_line, delim, quote_char_);
-        while ( static_cast<int>(fields.size()) < columns.size()) {
+        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
           fields.emplace_back();
         }
-        if (static_cast<int>(fields.size()) > columns.size()) {
+        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
           fields.resize(columns.size());
         }
 
@@ -868,7 +868,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         // If no header was read, generate synthetic column names on first row
         if (columns.empty()) {
             auto first_fields = parseCsvRow(line, delim, quote_char_);
-            for (size_t i = 0; i < first_fields.size(); ++i)
+            for (size_t i = 0; i <static_cast<int>(first_fields.size()); ++i)
                 columns.push_back("col_" + std::to_string(i));
         }
 
@@ -892,10 +892,10 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         auto fields = parseCsvRow(line, delim, quote_char_);
 
         // Column count mismatch – pad with empty or truncate
-        while ( static_cast<int>(fields.size()) < columns.size()) {
+        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
           fields.emplace_back();
         }
-        if (static_cast<int>(fields.size()) > columns.size()) {
+        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
           fields.resize(columns.size());
         }
 
@@ -918,7 +918,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 
         // Build entity JSON
         json entity = json::object();
-        for (size_t i = 0; i < columns.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(columns.size()); ++i) {
             entity[columns[i]] = fields[i];
         }
 
@@ -1301,7 +1301,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             ft = DetectedFieldType::DOUBLE;
         }
         // Defensive bounds check to prevent potential out-of-bounds access
-        if (static_cast<size_t>(i) < columns.size()) {
+        if (static_cast<size_t>(i) <static_cast<int>(columns.size())) {
             detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
         } else {
             THEMIS_WARN("Column index {} exceeds columns.size() = {}", i,static_cast<int>(columns.size()));

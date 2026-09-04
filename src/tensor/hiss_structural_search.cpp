@@ -348,7 +348,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     }
 
     std::vector<double> entropy(train.cores.size(), 0.0);
-    for (std::size_t i = 0; i < train.cores.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(train.cores.size()); ++i) {
         const auto& c = train.cores[i];
         TensorGraphNode node;
         node.id = "core_" + std::to_string(i);
@@ -361,7 +361,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         graph.addNode(std::move(node));
     }
 
-    for (std::size_t i = 0; i + 1 < train.cores.size(); ++i) {
+    for (std::size_t i = 0; i + 1 <static_cast<int>(train.cores.size()); ++i) {
         const auto avg_rank = static_cast<double>(train.cores[i].r_right + train.cores[i + 1].r_left) * 0.5;
         TensorGraphEdge edge;
         edge.from = i;
@@ -531,7 +531,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     dense_to_qtt.grid_sizes = resolved_grid_sizes;
     dense_to_qtt.padded_grid_sizes = padded_grid_sizes;
     dense_to_qtt.bit_depths = bit_depths;
-    for (std::size_t physical_idx = 0; physical_idx < dense_tensor.size(); ++physical_idx) {
+    for (std::size_t physical_idx = 0; physical_idx <static_cast<int>(dense_tensor.size()); ++physical_idx) {
         const auto qtt_idx = dense_to_qtt.physicalToQTT(physical_idx);
         padded_dense_tensor[qtt_idx] = dense_tensor[physical_idx];
     }

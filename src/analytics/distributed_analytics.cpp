@@ -836,7 +836,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     const size_t parallel_limit
         = (config_.max_parallel_shards == 0) ?static_cast<int>(active.size()) : std::min(active.size(), config_.max_parallel_shards);
 
-    for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
+    for (size_t batch_begin = 0; batch_begin <static_cast<int>(active.size()); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
         std::vector<FutureResult> futures;
         futures.reserve(batch_end - batch_begin);
@@ -938,7 +938,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             futures.push_back(std::move(f));
         }
 
-    for (size_t i = 0; i < futures.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
             auto &f                 = futures[i];
             const auto active_index = batch_begin + i;
             auto& entry             = active[active_index];

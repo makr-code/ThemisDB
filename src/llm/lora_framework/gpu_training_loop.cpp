@@ -376,7 +376,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     
     // Apply checkpointing to layers
     int checkpointed_count = 0;
-    for (size_t i = 0; i < layers_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(layers_.size()); ++i) {
         if (checkpointer_->shouldCheckpoint(static_cast<int>(i))) {
             layers_[i]->set_checkpointing(true);
             layers_[i]->set_layer_id(static_cast<int>(i));
@@ -871,7 +871,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         auto target_data = targets.cpu_data();
         
         float sum = 0.0f;
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             float diff = pred_data[i] - target_data[i];
             sum += diff * diff;
         }
@@ -884,7 +884,7 @@ float computeMSELossGPU(const GPUTensor& predictions, const GPUTensor& targets) 
         auto target_data = targets.cpu_data();
         
         float sum = 0.0f;
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             float diff = pred_data[i] - target_data[i];
             sum += diff * diff;
         }
@@ -950,7 +950,7 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
         
         std::vector<float> grad_data(pred_data.size());
         
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             grad_data[i] = scale * (pred_data[i] - target_data[i]);
         }
         
@@ -964,7 +964,7 @@ GPUTensor computeMSEGradientGPU(const GPUTensor& predictions, const GPUTensor& t
         
         std::vector<float> grad_data(pred_data.size());
         
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             grad_data[i] = scale * (pred_data[i] - target_data[i]);
         }
         
@@ -1058,7 +1058,7 @@ float computeFusedMSELossGradientGPU(
         std::vector<float> grad_data(pred_data.size());
         float scale = 2.0f / static_cast<float>(pred_data.size());
         
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             float diff = pred_data[i] - target_data[i];
             sum += diff * diff;
             grad_data[i] = scale * diff;
@@ -1076,7 +1076,7 @@ float computeFusedMSELossGradientGPU(
         std::vector<float> grad_data(pred_data.size());
         float scale = 2.0f / static_cast<float>(pred_data.size());
         
-        for (size_t i = 0; i < pred_data.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(pred_data.size()); ++i) {
             float diff = pred_data[i] - target_data[i];
             sum += diff * diff;
             grad_data[i] = scale * diff;

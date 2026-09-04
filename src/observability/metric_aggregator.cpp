@@ -160,7 +160,7 @@ double MetricAggregator::calculateRate(
 
     std::string key = makeSeriesKey(name, labels);
     auto it = rate_samples_.find(key);
-    if (it == rate_samples_.end() || it->second.size() < 2) {
+    if (it == rate_samples_.end() || it-> static_cast<int>(second.size()) < 2) {
         return 0.0;
     }
 

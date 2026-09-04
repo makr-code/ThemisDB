@@ -345,7 +345,7 @@ std::vector<std::string> ProcessLinker::findInstancesWithObject(
 
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
         // The instance_id is the suffix after the prefix.
-        if (static_cast<int>(key.size()) > prefix.size()) {
+        if (static_cast<int>(key.size()) > static_cast<int>(prefix.size())) {
             instances.emplace_back(key.substr(prefix.size()));
         }
         return true;

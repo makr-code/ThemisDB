@@ -100,7 +100,7 @@ nlohmann::json LetEvaluator::evaluateExpression(
         }
 
         if (auto bound = resolveVariable(root); bound.has_value()) {
-            if (pathFA->path.size() == 1) {
+            if (pathFA-> static_cast<int>(path.size()) == 1) {
                 return *bound;
             }
             std::vector<std::string> tail(pathFA->path.begin() + 1, pathFA->path.end());
@@ -737,7 +737,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                   return false;
                 }
                 // … and outside every hole ring.
-                for (std::size_t h = 1; h < rings.size(); ++h) {
+                for (std::size_t h = 1; h <static_cast<int>(rings.size()); ++h) {
                     if (pointInRing(px, py, rings[h])) {
                       return false;
                     }
@@ -1119,7 +1119,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t pos = 0;
-            while (static_cast<size_t>(pos) < inner.size()) {
+            while (static_cast<size_t>(pos) <static_cast<int>(inner.size())) {
                 size_t comma = inner.find(',', pos);
                 std::string token = (comma == std::string::npos) ? inner.substr(pos) : inner.substr(pos, comma - pos);
                 // trim token
@@ -1163,7 +1163,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t start = 0;
-            while (static_cast<size_t>(start) < inner.size()) {
+            while (static_cast<size_t>(start) <static_cast<int>(inner.size())) {
                 size_t comma = inner.find(',', start);
                 std::string token = (comma == std::string::npos) ? inner.substr(start) : inner.substr(start, comma - start);
                 // trim token
@@ -1241,7 +1241,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             wkt << "LINESTRING(";
-            for (size_t i = 0; i < coords.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(coords.size()); ++i) {
                 if (i > 0) {
                   wkt << ", ";
                 }
@@ -1261,14 +1261,14 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
             
             wkt << "POLYGON(";
-            for (size_t ringIdx = 0; ringIdx < coords.size(); ++ringIdx) {
+            for (size_t ringIdx = 0; ringIdx <static_cast<int>(coords.size()); ++ringIdx) {
                 if (ringIdx > 0) {
                   wkt << ",";
                 }
                 wkt << "(";
                 const auto& ring = coords[ringIdx];
                 if (ring.is_array()) {
-                    for (size_t i = 0; i < ring.size(); ++i) {
+                    for (size_t i = 0; i <static_cast<int>(ring.size()); ++i) {
                         if (i > 0) {
                           wkt << ", ";
                         }

@@ -238,7 +238,7 @@ std::shared_ptr<KVCacheBuffer> KVCacheBufferPool::acquireBuffer() {
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
     // Find first available buffer
-    for (size_t i = 0; i < buffers_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buffers_.size()); ++i) {
         if (buffer_available_[i]) {
             buffer_available_[i] = false;
             return buffers_[i];
@@ -253,7 +253,7 @@ void KVCacheBufferPool::releaseBuffer(std::shared_ptr<KVCacheBuffer> buffer) {
     std::lock_guard<std::mutex> lock(pool_mutex_);
     
     // Find buffer in pool and mark as available
-    for (size_t i = 0; i < buffers_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buffers_.size()); ++i) {
         if (buffers_[i] == buffer) {
             buffer->clear();  // Clear before returning to pool
             buffer_available_[i] = true;

@@ -773,7 +773,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
     size_t chunk_size = config_.rebuild_chunk_size_mb > 0 ? 
                         config_.rebuild_chunk_size_mb : 100;
     
-    for (size_t i = 0; i < task.documents.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(task.documents.size()); ++i) {
         const auto& doc_id = task.documents[i];
         
         // Check if rebuild is paused
@@ -847,7 +847,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
             }
             
             // Log progress periodically
-            if ((i + 1) % chunk_size == 0 || i == task.documents.size() - 1) {
+            if ((i + 1) % chunk_size == 0 || i == static_cast<int>(task.documents.size()) - 1) {
                 double progress = ((i + 1) * 100.0) / task.documents.size();
                 auto elapsed = std::chrono::steady_clock::now() - rebuild_start;
                 double elapsed_seconds = std::chrono::duration<double>(elapsed).count();

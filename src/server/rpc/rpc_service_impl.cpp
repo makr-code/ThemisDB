@@ -817,7 +817,7 @@ json ThemisRPCService::handleBatchGetInternal(
         auto values = storage->multiGet(keys);
         
         // Build results
-        for (size_t i = 0; i < values.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
             if (shouldCheckDeadline(i + 1) && isDeadlineExceeded(deadline)) {
                 return createError(
                     themis::plugins::rpc::RPCErrorCode::QUERY_TIMEOUT,

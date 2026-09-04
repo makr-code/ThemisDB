@@ -492,7 +492,7 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
                               / static_cast<float>(entries.size());
 
     // Emotion switches: count transitions.
-    for (size_t i = 1; i < entries.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(entries.size()); ++i) {
         if (entries[i].emotion != entries[static_cast<int>(i - 1)].emotion) {
             ++stats.emotion_switches;
         }
@@ -512,7 +512,7 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
         for (size_t i = 0; i < half; ++i) {
             first_half += entries[i].sentiment_score;
         }
-        for (size_t i = half; i < entries.size(); ++i) {
+        for (size_t i = half; i <static_cast<int>(entries.size()); ++i) {
             second_half += entries[i].sentiment_score;
         }
         stats.sentiment_trend = (second_half - first_half) / static_cast<float>(half);

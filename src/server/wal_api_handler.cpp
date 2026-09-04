@@ -216,7 +216,7 @@ bool WALApiHandler::timingSafeEqual(const std::string& a, const std::string& b) 
       return false;
     }
     unsigned char diff = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         diff |= static_cast<unsigned char>(a[i] ^ b[i]);
     }
     return diff == 0;

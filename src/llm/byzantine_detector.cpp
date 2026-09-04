@@ -212,7 +212,7 @@ DetectionResult MedianDetector::detectByzantineShards(
     }
     
     // Detect outliers
-    for (size_t i = 0; i < stats.shard_ids.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(stats.shard_ids.size()); ++i) {
         const std::string& shard_id = stats.shard_ids[i];
         float norm = stats.gradient_norms[i];
         float deviation = std::abs(norm - stats.global_median_norm);
@@ -259,7 +259,7 @@ float KrumDetector::computeDistance(
     
     float distance = 0.0f;
     
-    for (size_t i = 0; i < grad1.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(grad1.size()); ++i) {
         if (grad1[i].data.size() != grad2[i].data.size()) {
             throw std::runtime_error("Gradient data sizes do not match");
         }

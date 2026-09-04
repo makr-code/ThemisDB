@@ -584,14 +584,14 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         std::string tmpl = rag_context.context_template;
 
         std::ostringstream context_block = {};
-        for (size_t i = 0; i < rag_context.documents.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
             const auto& doc = rag_context.documents[i];
             context_block << "[" << (i + 1) << "] ";
             if (!doc.source.empty()) {
               context_block << "(" << doc.source << ") ";
             }
             context_block << doc.content;
-            if (i + 1 < rag_context.documents.size()) {
+            if (i + 1 <static_cast<int>(rag_context.documents.size())) {
               context_block << "\n\n";
             }
         }

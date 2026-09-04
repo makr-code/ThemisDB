@@ -451,7 +451,7 @@ DistributedSagaStatus DistributedSagaCoordinator::executeWave(
 
     // Collect results
     DistributedSagaStatus wave_status;
-    for (size_t i = 0; i < futures.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(futures.size()); ++i) {
         try {
             auto st = futures[i].get();
             if (!st.ok && wave_status.ok) {
@@ -966,7 +966,7 @@ DistributedSagaReport DistributedSagaCoordinator::executeDistributed(
                                  "REJECTED_INVALID_REMOTE_SAGA");
     }
 
-    for (size_t i = 0; i < remote_saga.steps.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(remote_saga.steps.size()); ++i) {
         const auto& step = remote_saga.steps[i];
         if (step.name.empty()) {
             return rejectDistributed(
@@ -1129,7 +1129,7 @@ SagaVisualization DistributedSagaCoordinator::visualize(
     // ── Text summary ───────────────────────────────────────────────────────
     std::ostringstream txt = {};
     txt << "SAGA: " << saga.saga_id << "\n";
-    txt << "Steps: " << saga.steps.size() << "\n";
+    txt << "Steps: " <<static_cast<int>(saga.steps.size()) << "\n";
     if (report_opt) {
         txt << "State: ";
         switch (report_opt->state) {

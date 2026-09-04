@@ -324,7 +324,7 @@ struct GgmlTensorBridge::Impl {
             !handle.impl_->fake_tensor.data.empty()) {
             // Guard: ensure tensor type is F32 and has sufficient capacity before copying.
             const size_t copy_bytes =
-                handle.impl_->fake_tensor.data.size() * sizeof(float);
+                handle.impl_-> static_cast<int>(fake_tensor.data.size()) * sizeof(float);
             const bool type_ok = handle.impl_->real_ggml_tensor->type == GGML_TYPE_F32;
             const size_t alloc_bytes =
                 static_cast<size_t>(handle.impl_->real_ggml_tensor->ne[0]) * sizeof(float);

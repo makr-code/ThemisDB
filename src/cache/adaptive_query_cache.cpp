@@ -2177,7 +2177,7 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string &pii_uuid) {
                     l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
                         pii_ref_keys.emplace_back(key);
                         std::string k(key);
-                        if (static_cast<int>(k.size()) > pii_ref_prefix.size()) {
+                        if (static_cast<int>(k.size()) > static_cast<int>(pii_ref_prefix.size())) {
                             cache_keys.emplace_back(QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
                         }
                         return true;

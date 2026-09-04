@@ -785,8 +785,8 @@ bool KnowledgeGapDetector::checkSelfConsistency(
     THEMIS_DEBUG("Self-consistency score: {}", consistency_score);
 
     // Check for contradictions
-    for (size_t i = 0; i < samples.size(); ++i) {
-        for (size_t j = i + 1; j < samples.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(samples.size()); ++j) {
             if (detectContradiction(samples[i], samples[j])) {
                 THEMIS_DEBUG("Contradiction detected between samples {} and {}", i, j);
                 return false;
@@ -1070,7 +1070,7 @@ std::vector<double> KnowledgeGapDetector::removeOutlierTokens(
     }
 
     // If we filtered too many, return original
-    if (static_cast<int>(filtered.size()) < token_probs.size() * 0.5) {
+    if (static_cast<int>(filtered.size()) <static_cast<int>(token_probs.size()) * 0.5) {
         return token_probs;
     }
 
@@ -1146,11 +1146,11 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     auto splitSentences = [](const std::string& text) -> std::vector<std::string> {
         std::vector<std::string> sentences;
         std::string current = {};
-        for (std::size_t i = 0; i < text.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
             current += text[i];
             const char c = text[i];
             if ((c == '.' || c == '!' || c == '?')
-                    && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
+                    && i + 1 <static_cast<int>(text.size()) && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
                 const std::size_t s = current.find_first_not_of(" \t\n\r");
                 if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
                     sentences.push_back(current.substr(s));
@@ -1169,7 +1169,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Collect all sentences tagged by source document index.
     std::vector<std::pair<std::size_t, std::string>> tagged;  // (doc_index, sentence)
-    for (std::size_t d = 0; d < docs.size(); ++d) {
+    for (std::size_t d = 0; d <static_cast<int>(docs.size()); ++d) {
         // HIGH FIX: Range-for on temporary container — split sentences once and reuse
         // to prevent reference invalidation. This ensures references remain valid
         // for the entire loop iteration.
@@ -1200,7 +1200,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
         // Pick up to 3 sentences starting at a unique offset for this sample.
         const std::size_t start = (s * stride) % tagged.size();
         std::size_t added = 0;
-        for (std::size_t k = 0; k < tagged.size() && added < 3; ++k) {
+        for (std::size_t k = 0; k <static_cast<int>(tagged.size()) && added < 3; ++k) {
             const std::size_t idx = (start + k) % tagged.size();
             oss << tagged[idx].second << " ";
             ++added;
@@ -1272,8 +1272,8 @@ double KnowledgeGapDetector::calculateConsistencyScore(
     double total_similarity = 0.0;
     size_t comparisons = 0;
 
-    for (size_t i = 0; i < samples.size(); ++i) {
-        for (size_t j = i + 1; j < samples.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(samples.size()); ++j) {
             total_similarity += calculateSemanticSimilarity(samples[i], samples[j]);
             comparisons++;
         }

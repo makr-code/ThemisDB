@@ -98,7 +98,7 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         std::vector<std::string> next = {};
 
         next.reserve(leaves.size() / 2);
-        for (std::size_t i = 0; i + 1 < leaves.size(); i += 2) {
+        for (std::size_t i = 0; i + 1 <static_cast<int>(leaves.size()); i += 2) {
             next.push_back(hashPair(leaves[i], leaves[i + 1]));
         }
         leaves = std::move(next);

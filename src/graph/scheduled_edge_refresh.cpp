@@ -53,7 +53,7 @@ inline float l2norm(const std::vector<float> &v) {
 /// Dot product of two equal-length float vectors.
 inline float dotProduct(const std::vector<float> &a, const std::vector<float> &b) {
     float s = 0.0f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         s += a[i] * b[i];
     }
     return s;
@@ -62,7 +62,7 @@ inline float dotProduct(const std::vector<float> &a, const std::vector<float> &b
 /// Euclidean distance between two equal-length float vectors.
 inline float euclideanDist(const std::vector<float> &a, const std::vector<float> &b) {
     float s = 0.0f;
-    for (size_t i = 0; i < a.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
         float d = a[i] - b[i];
         s += d * d;
     }
@@ -855,7 +855,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
 
     added_records.reserve(edges_to_add.size());
 
-    for (size_t i = 0; i < edges_to_add.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(edges_to_add.size()); ++i) {
         const auto &[from, to, sim] = edges_to_add[i];
         const std::string new_id    = makeNewEdgeId(from, to, cycle_number, i);
 

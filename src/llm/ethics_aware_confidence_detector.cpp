@@ -571,7 +571,7 @@ std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceRes
     }
     
     if (result.has_patronizing_language) {
-        oss << "Detected patronizing language (" << result.patronizing_phrases.size() 
+        oss << "Detected patronizing language (" <<static_cast<int>(result.patronizing_phrases.size()) 
             << " instances). ";
     }
     
@@ -613,7 +613,7 @@ void EthicsAwareConfidenceDetector::cacheResult(
     const ConfidenceResult& result
 ) {
     // Simple cache size management
-    if (impl_->cache.size() >= impl_->config.max_cache_size) {
+    if (impl_-> static_cast<int>(cache.size()) >= impl_->config.max_cache_size) {
         // Remove oldest entry (simplified - could use LRU)
         impl_->cache.erase(impl_->cache.begin());
     }

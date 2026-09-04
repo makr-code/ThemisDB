@@ -62,13 +62,13 @@ bool VoiceMeetingSupport::containsTrigger(
 std::vector<std::string> VoiceMeetingSupport::tokenizeSentences(const std::string& text) const {
     std::vector<std::string> sentences;
     std::string current = {};
-    for (size_t i = 0; i < text.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(text.size()); ++i) {
         char c = text[i];
         current += c;
         if (c == '.' || c == '!' || c == '?') {
             // Look ahead: if next non-space is uppercase or end, split
             size_t j = i + 1;
-            while (j < text.size() && text[j] == ' ') {
+            while (j <static_cast<int>(text.size()) && text[j] == ' ') {
               ++j;
             }
             if (j >= text.size() || std::isupper(static_cast<unsigned char>(text[j]))) {
@@ -162,7 +162,7 @@ std::string VoiceMeetingSupport::extractAssignee(
             size_t start = pos + pat.size();
             // Read a word
             size_t end = start;
-            while (end < text.size() && !std::isspace(static_cast<unsigned char>(text[end])) &&
+            while (end <static_cast<int>(text.size()) && !std::isspace(static_cast<unsigned char>(text[end])) &&
                    text[end] != '.' && text[end] != ',') {
                 ++end;
             }

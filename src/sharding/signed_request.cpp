@@ -64,7 +64,7 @@ namespace {
             return false;
         }
 
-        for (size_t i = 0; i < input.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(input.size()); ++i) {
             const unsigned char ch = static_cast<unsigned char>(input[i]);
             const bool is_base64_char = std::isalnum(ch) || ch == '+' || ch == '/' || ch == '=';
             if (!is_base64_char) {

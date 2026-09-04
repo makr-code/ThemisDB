@@ -391,7 +391,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
         }
         
         double sum_x = 0.0, sum_y = 0.0, sum_xy = 0.0, sum_xx = 0.0;
-        for (size_t i = 0; i < values.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(values.size()); ++i) {
             double x = static_cast<double>(i);
             double y = values[i];
             sum_x += x;

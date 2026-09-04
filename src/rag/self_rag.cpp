@@ -230,7 +230,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         samples.reserve(iterations);
 
         auto ci_contains_local = [](const std::string& hay, const std::string& needle) {
-            if (needle.empty() || static_cast<int>(hay.size()) < needle.size()) {
+            if (needle.empty() || static_cast<int>(hay.size()) <static_cast<int>(needle.size())) {
               return false;
             }
             auto it = std::search(hay.begin(), hay.end(), needle.begin(), needle.end(),
@@ -257,7 +257,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             std::sort(samples.begin(), samples.end());
             auto p50 = samples[samples.size()/2];
             auto p95 = samples[static_cast<size_t>(samples.size()*0.95)];
-            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) < samples.size() ? static_cast<size_t>(samples.size()*0.99) : static_cast<int>(samples.size()) -1];
+            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) <static_cast<int>(samples.size()) ? static_cast<size_t>(samples.size()*0.99) : static_cast<int>(samples.size()) -1];
             long long sum = 0;
             for (auto v : samples) {
               sum += v;

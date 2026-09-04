@@ -352,7 +352,7 @@ bool STTProcessor::streamTranscribe(const std::vector<uint8_t> &audio_stream,
     int64_t emitted_end_ms = 0; // high-watermark: end time of last emitted segment
     bool any_success       = false;
 
-    for (size_t start = 0; start < pcm_data.size(); start += STEP_SAMPLES) {
+    for (size_t start = 0; start <static_cast<int>(pcm_data.size()); start += STEP_SAMPLES) {
         size_t end = std::min(start + WINDOW_SAMPLES,static_cast<int>(pcm_data.size()));
         std::vector<float> window(pcm_data.begin() + static_cast<std::ptrdiff_t>(start),
                                   pcm_data.begin() + static_cast<std::ptrdiff_t>(end));
@@ -472,7 +472,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
     // Helper lambda to read little-endian uint32
     auto readUInt32LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint32_t {
-        if (offset + 4 > wav_data.size()) {
+        if (offset + 4 > static_cast<int>(wav_data.size())) {
             throw std::runtime_error("Buffer overflow reading uint32 at offset " + std::to_string(offset));
         }
         return static_cast<uint32_t>(wav_data[offset]) | (static_cast<uint32_t>(wav_data[offset + 1]) << 8)
@@ -482,7 +482,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
     // Helper lambda to read little-endian uint16
     auto readUInt16LE = [&wav_data]([[maybe_unused]] size_t offset) -> uint16_t {
-        if (offset + 2 > wav_data.size()) {
+        if (offset + 2 > static_cast<int>(wav_data.size())) {
             throw std::runtime_error("Buffer overflow reading uint16 at offset " + std::to_string(offset));
         }
         return static_cast<uint16_t>(wav_data[offset]) | (static_cast<uint16_t>(wav_data[offset + 1]) << 8);
@@ -524,7 +524,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
                 throw std::runtime_error("Invalid fmt chunk size: " + std::to_string(fmt_size));
             }
 
-            if (offset + 8 + fmt_size > wav_data.size()) {
+            if (offset + 8 + fmt_size > static_cast<int>(wav_data.size())) {
                 throw std::runtime_error("fmt chunk extends beyond file boundary");
             }
 
@@ -622,7 +622,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         throw std::runtime_error("WAV file missing data chunk");
     }
 
-    if (data_offset + data_size > wav_data.size()) {
+    if (data_offset + data_size > static_cast<int>(wav_data.size())) {
         throw std::runtime_error("data chunk extends beyond file boundary");
     }
 
@@ -666,7 +666,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
                     sample      = val / 32768.0f;
                 } else if (bits_per_sample == 24) {
                     // 24-bit PCM is signed
-                    if (sample_offset + 3 > wav_data.size()) {
+                    if (sample_offset + 3 > static_cast<int>(wav_data.size())) {
                         throw std::runtime_error("24-bit sample extends beyond buffer");
                     }
                     // Use explicit casting to avoid sign extension issues
@@ -985,7 +985,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     // Assumes both inputs are L2-normalised; result is in [-1, 1].
     auto cosineSim = [](const std::vector<float> &a, const std::vector<float> &b) -> float {
         float dot = 0.0f;
-        for (size_t i = 0; i < a.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(a.size()); ++i) {
             dot += a[i] * b[i];
         }
         return std::max(-1.0f, std::min(1.0f, dot));

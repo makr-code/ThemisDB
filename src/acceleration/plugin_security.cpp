@@ -191,7 +191,7 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
     outBytes.reserve(hexStr.size() / 2);
 
     try {
-        for (size_t i = 0; i < hexStr.size(); i += 2) {
+        for (size_t i = 0; i <static_cast<int>(hexStr.size()); i += 2) {
             std::string byteStr = hexStr.substr(i, 2);
             uint8_t byte        = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
             outBytes.push_back(byte);

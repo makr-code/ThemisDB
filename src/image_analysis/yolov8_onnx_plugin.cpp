@@ -328,7 +328,7 @@ struct YOLOv8OnnxPlugin::Impl {
                   });
 
         std::vector<bool> suppressed(candidates.size(), false);
-        for (size_t i = 0; i < candidates.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(candidates.size()); ++i) {
             if (suppressed[i]) {
               continue;
             }
@@ -350,7 +350,7 @@ struct YOLOv8OnnxPlugin::Impl {
                 break;
             }
 
-            for (size_t j = i + 1; j < candidates.size(); ++j) {
+            for (size_t j = i + 1; j <static_cast<int>(candidates.size()); ++j) {
                 if (suppressed[j]) {
                   continue;
                 }

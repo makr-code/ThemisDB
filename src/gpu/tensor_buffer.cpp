@@ -208,7 +208,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
 
 void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > data_.size()) {
+    if (bytes > static_cast<int>(data_.size())) {
         throw std::out_of_range("GPUTensorBuffer::copyFromHost: bytes > buffer size");
     }
     std::memcpy(data_.data(), src, bytes);
@@ -216,7 +216,7 @@ void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
 
 void GPUTensorBuffer::copyToHost(void *dst, size_t bytes) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > data_.size()) {
+    if (bytes > static_cast<int>(data_.size())) {
         throw std::out_of_range("GPUTensorBuffer::copyToHost: bytes > buffer size");
     }
     std::memcpy(dst, data_.data(), bytes);

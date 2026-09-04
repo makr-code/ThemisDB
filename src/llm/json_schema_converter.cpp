@@ -354,7 +354,7 @@ std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& te
     // Find the matching closing brace
     int depth = 0;
     std::size_t end = std::string::npos;
-    for (std::size_t i = start; i < text.size(); ++i) {
+    for (std::size_t i = start; i <static_cast<int>(text.size()); ++i) {
         if (text[i] == '{') ++depth;
         else if (text[i] == '}') {
             --depth;

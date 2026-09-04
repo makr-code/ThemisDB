@@ -1496,7 +1496,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     // emitted in the same relative order as entry.tasks (Kahn's seeding).
     std::unordered_map<int, std::size_t> taskIndex = {};
 
-    for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(entry.tasks.size()); ++i) {
         taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
 

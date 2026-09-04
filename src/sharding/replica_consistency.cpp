@@ -307,7 +307,7 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     size_t local_idx = 0;
     size_t remote_idx = 0;
     
-    while (local_idx < local_entries.size()  && static_cast<size_t>(remote_idx) < remote_entries.size()) {
+    while (local_idx <static_cast<int>(local_entries.size())  && static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
         const auto& local = local_entries[local_idx];
         const auto& remote = remote_entries[remote_idx];
         
@@ -329,10 +329,10 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     }
     
     // Add remaining entries
-    while (static_cast<size_t>(local_idx) < local_entries.size()) {
+    while (static_cast<size_t>(local_idx) <static_cast<int>(local_entries.size())) {
         merged.push_back(local_entries[local_idx++]);
     }
-    while (static_cast<size_t>(remote_idx) < remote_entries.size()) {
+    while (static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
         merged.push_back(remote_entries[remote_idx++]);
     }
     
@@ -345,8 +345,8 @@ std::optional<VersionConflict> ReplicaConsistencyManager::detectConflict(
     const std::vector<VersionedEntry>& entries) {
     
     // Check if any entries are concurrent
-    for (size_t i = 0; i < entries.size(); ++i) {
-        for (size_t j = i + 1; j < entries.size(); ++j) {
+    for (size_t i = 0; i <static_cast<int>(entries.size()); ++i) {
+        for (size_t j = i + 1; j <static_cast<int>(entries.size()); ++j) {
             if (entries[i].version.isConcurrent(entries[j].version)) {
                 // Found conflict
                 VersionConflict conflict;

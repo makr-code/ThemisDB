@@ -119,7 +119,7 @@ public:
 
         // Group samples by task.
         std::unordered_map<std::string, std::vector<size_t>> task_sample_map;
-        for (size_t i = 0; i < samples.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(samples.size()); ++i) {
             const auto& s = samples[i];
             if (!task_index_.count(s.task_id))
                 throw std::invalid_argument(
@@ -185,7 +185,7 @@ public:
                 // Forward: shared_hidden = B^T * input  (shared_rank output)
                 std::vector<float> hidden(shared_rank, 0.0f);
                 for (size_t k = 0; k < shared_rank; ++k) {
-                    for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) < s.input.size(); ++j) {
+                    for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(s.input.size()); ++j) {
                         hidden[k] += shared_B_[j * shared_rank + k] * s.input[j];
                     }
                 }
@@ -292,7 +292,7 @@ public:
         float best_score = -1.0f;
         std::string best_task = {};
 
-        for (size_t ti = 0; ti < tasks_.size(); ++ti) {
+        for (size_t ti = 0; ti <static_cast<int>(tasks_.size()); ++ti) {
             const auto& proto = task_prototypes_[ti];
             size_t n = std::min(input.size(),static_cast<int>(proto.size()));
 
@@ -343,7 +343,7 @@ public:
 
         std::vector<float> hidden(cfg_.shared_rank, 0.0f);
         for (size_t k = 0; k < cfg_.shared_rank; ++k) {
-            for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) < input.size(); ++j) {
+            for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(input.size()); ++j) {
                 hidden[k] += shared_B_[j * shared_rank + k] * input[j];
             }
         }

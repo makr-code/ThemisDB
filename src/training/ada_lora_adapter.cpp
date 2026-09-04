@@ -208,7 +208,7 @@ public:
         std::vector<size_t> allocs(order.size());
         size_t allocated = 0;
 
-        for (size_t i = 0; i < order.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
             Layer& lay = layers_.at(order[i]);
             float  frac = lay.importance / total_importance;
             size_t raw  = static_cast<size_t>(std::round(frac * static_cast<float>(total_budget)));
@@ -224,7 +224,7 @@ public:
             // Find layer with highest importance
             size_t best = 0;
             float  best_imp = -1.0f;
-            for (size_t i = 0; i < order.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
                 if (layers_.at(order[i]).importance > best_imp) {
                     best_imp = layers_.at(order[i]).importance;
                     best     = i;
@@ -242,7 +242,7 @@ public:
         }
 
         // Apply
-        for (size_t i = 0; i < order.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
             Layer& lay      = layers_.at(order[i]);
             size_t new_rank = allocs[i];
             if (new_rank < lay.active_rank) {

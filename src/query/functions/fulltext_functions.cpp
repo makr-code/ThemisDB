@@ -258,7 +258,7 @@ std::string applyHighlight(const std::string& text,
     result.reserve(static_cast<int>(text.size()) + 64);
     size_t i = 0;
 
-    while (static_cast<size_t>(i) < text.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(text.size())) {
         // Skip non-alnum prefix until next word boundary
         if (!std::isalnum(static_cast<unsigned char>(text[i]))) {
             result += text[i++];
@@ -266,7 +266,7 @@ std::string applyHighlight(const std::string& text,
         }
         // Find end of current word (alnum run)
         size_t end = i;
-        while (end < text.size() &&
+        while (end <static_cast<int>(text.size()) &&
                std::isalnum(static_cast<unsigned char>(text[end]))) ++end;
 
         std::string word = lower.substr(i, end - i);
@@ -295,10 +295,10 @@ size_t bestSnippetOffset(const std::string& lower,
     // Collect all match start positions
     std::vector<size_t> positions;
     size_t i = 0;
-    while (static_cast<size_t>(i) < lower.size()) {
+    while (static_cast<size_t>(i) <static_cast<int>(lower.size())) {
         if (!std::isalnum(static_cast<unsigned char>(lower[i]))) { ++i; continue; }
         size_t end = i;
-        while (end < lower.size() &&
+        while (end <static_cast<int>(lower.size()) &&
                std::isalnum(static_cast<unsigned char>(lower[end]))) ++end;
         if (terms.count(lower.substr(i, end - i))) {
           positions.push_back(i);
@@ -313,7 +313,7 @@ size_t bestSnippetOffset(const std::string& lower,
     // Sliding-window: maximise term density
     size_t bestStart = 0, bestCount = 0;
     size_t lo = 0;
-    for (size_t hi = 0; hi < positions.size(); ++hi) {
+    for (size_t hi = 0; hi <static_cast<int>(positions.size()); ++hi) {
         while (positions[hi] - positions[lo] >= windowSize) {
           ++lo;
         }
@@ -328,7 +328,7 @@ size_t bestSnippetOffset(const std::string& lower,
     // Align to a boundary without rewinding across a very long token.
     // Rewinding can move the window far away from the actual match cluster.
     if (bestStart > 0 && std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
-        while (bestStart < lower.size() &&
+        while (bestStart <static_cast<int>(lower.size()) &&
                std::isalnum(static_cast<unsigned char>(lower[bestStart]))) {
             ++bestStart;
         }
@@ -691,7 +691,7 @@ public:
 
         size_t start = bestSnippetOffset(lower, terms, windowSize);
         bool truncLeft  = (start > 0);
-        bool truncRight = (start + windowSize < text.size());
+        bool truncRight = (start + windowSize <static_cast<int>(text.size()));
 
         std::string excerpt = text.substr(start, windowSize);
 

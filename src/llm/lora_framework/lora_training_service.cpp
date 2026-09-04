@@ -77,7 +77,7 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
     }
     
     float sum = 0.0f;
-    for (size_t i = 0; i < predictions.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
         float diff = predictions[i] - targets[i];
         sum += diff * diff;
     }
@@ -94,7 +94,7 @@ Tensor compute_mse_gradient(const Tensor& predictions, const Tensor& targets) {
     Tensor grad(predictions.shape());
     float scale = 2.0f / static_cast<float>(predictions.size());
     
-    for (size_t i = 0; i < predictions.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(predictions.size()); ++i) {
         grad[i] = scale * (predictions[i] - targets[i]);
     }
     
@@ -848,7 +848,7 @@ public:
                         if (gradient_accumulator->should_step()) {
                             auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
                             // Attach accumulated gradients to parameter grad fields (avoid copy assignment)
-                            for (size_t i = 0; i < gradients.size()  && static_cast<size_t>(i) < accumulated_grads.size(); ++i) {
+                            for (size_t i = 0; i <static_cast<int>(gradients.size())  && static_cast<size_t>(i) <static_cast<int>(accumulated_grads.size()); ++i) {
                                 if (gradients[i] && accumulated_grads[i]) {
                                     // Initialize or update the grad tensor
                                     if (!gradients[i]->grad) {
@@ -1235,7 +1235,7 @@ private:
     ) const {
         std::vector<float> embeddings(token_ids.size() * hidden_dim);
         
-        for (size_t i = 0; i < token_ids.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(token_ids.size()); ++i) {
             int token_id = token_ids[i];
             // Simple hash-based embedding
             float value = static_cast<float>(token_id % 100) / 100.0f;

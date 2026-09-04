@@ -306,7 +306,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
             [[maybe_unused]] int block_dim = end - start;
 
             // Read scale
-            if (code_offset + sizeof(float) > codes.size()) {
+            if (code_offset + sizeof(float) > static_cast<int>(codes.size())) {
                 THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data for scale");
                 return {};
             }
@@ -382,7 +382,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
 
-            if (code_offset + sizeof(float) > codes.size()) {
+            if (code_offset + sizeof(float) > static_cast<int>(codes.size())) {
                 THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data for scale");
                 return std::numeric_limits<float>::max();
             }

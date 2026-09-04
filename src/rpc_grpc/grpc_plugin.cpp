@@ -238,7 +238,7 @@ void GRPCServer::registerService(void* service_impl) {
     }
 
     services_.push_back(service);
-    std::cout << "[RPC-I] Service registered (count=" << services_.size() << ")" << std::endl;
+    std::cout << "[RPC-I] Service registered (count=" <<static_cast<int>(services_.size()) << ")" << std::endl;
 }
 
 std::string GRPCServer::getAddress() const {

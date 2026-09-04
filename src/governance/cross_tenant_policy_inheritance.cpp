@@ -170,7 +170,7 @@ CrossTenantPolicyInheritance::evaluateEffectivePolicy(const std::string &tenant_
     PolicyManager::PolicyDecision effective;
     bool first = true;
 
-    for (std::size_t i = 0; i < managers.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(managers.size()); ++i) {
         if (!managers[i]) {
             continue; // Tenant has no policy manager – skip
         }
@@ -230,7 +230,7 @@ std::vector<PolicyRule> CrossTenantPolicyInheritance::resolveEffectiveRules(cons
 
     std::vector<PolicyRule> all_rules = {};
 
-    for (std::size_t i = 0; i < managers.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(managers.size()); ++i) {
         if (!managers[i]) {
             continue;
         }

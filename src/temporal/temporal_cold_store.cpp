@@ -110,8 +110,8 @@ std::string FileSystemBackend::percentEncode(const std::string& s) {
 std::string FileSystemBackend::percentDecode(const std::string& s) {
     std::string out = {};
     out.reserve(s.size());
-    for (size_t i = 0; i < s.size(); ) {
-        if (s[i] == '%' && i + 2 < s.size()) {
+    for (size_t i = 0; i <static_cast<int>(s.size()); ) {
+        if (s[i] == '%' && i + 2 <static_cast<int>(s.size())) {
             auto hexVal = [](char c) -> int {
                 if (c >= '0' && c <= '9') {
                   return c - '0';

@@ -74,7 +74,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     std::unordered_map<std::string, std::size_t> inner_key_idx = {};
 
     inner_key_idx.reserve(inner.size());
-    for (std::size_t i = 0; i < inner.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(inner.size()); ++i) {
         inner_key_idx.emplace(inner[i].first, i);
     }
 
@@ -165,7 +165,7 @@ struct SpatialJoinIterator::Impl {
         }
         index.bulkLoad(inner);
         inner_key_idx.reserve(inner.size());
-        for (std::size_t i = 0; i < inner.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(inner.size()); ++i) {
             inner_key_idx.emplace(inner[i].first, i);
         }
         // Pre-load candidates for the first outer element.
@@ -204,7 +204,7 @@ struct SpatialJoinIterator::Impl {
             const auto &[key_a, geom_a] = (*outer_ptr)[outer_idx];
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
-            while (static_cast<size_t>(cand_idx) < candidates.size()) {
+            while (static_cast<size_t>(cand_idx) <static_cast<int>(candidates.size())) {
                 const std::string &key_b = candidates[cand_idx++];
                 auto it                  = inner_key_idx.find(key_b);
                 if (it == inner_key_idx.end()) {

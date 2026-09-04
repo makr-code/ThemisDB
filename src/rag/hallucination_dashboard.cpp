@@ -89,7 +89,7 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
         ++impl_->total_recorded;
 
         // Enforce rolling window
-        while (impl_->window.size() > config_.window_size) {
+        while (impl_-> static_cast<int>(window.size()) > config_.window_size) {
             impl_->window.pop_front();
             impl_->faithfulness_history.pop_front();
         }
@@ -104,7 +104,7 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
                 }
             }
             rate = static_cast<double>(hall_count) /
-                   static_cast<double>(impl_->window.size());
+                   static_cast<double>(impl_-> static_cast<int>(window.size()));
         }
     }
 
@@ -140,7 +140,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 
     DashboardSnapshot snap;
     snap.total_recorded   = impl_->total_recorded;
-    snap.window_size      = impl_->window.size();
+    snap.window_size      = impl_-> static_cast<int>(window.size());
 
     if (impl_->window.empty()) {
       return snap;
@@ -211,7 +211,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 
 std::vector<HallucinationEntry> HallucinationDashboard::recentEntries([[maybe_unused]] size_t n) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (n == 0 || n >= impl_->window.size()) {
+    if (n == 0 || n >= impl_-> static_cast<int>(window.size())) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
                                                impl_->window.end());
     }
@@ -377,7 +377,7 @@ double HallucinationDashboard::computeTrend(const std::deque<double>& data) cons
     }
     double n = static_cast<double>(data.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sx2 = 0.0;
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(data.size()); ++i) {
         double x = static_cast<double>(i);
         double y = data[i];
         sx  += x;

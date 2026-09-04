@@ -250,7 +250,7 @@ void DeviceManager::logDeviceInfo() {
     const auto devices = probeDevices();
     const auto best    = getBestDevice();
 
-    std::cout << "[acceleration] Device capability probe — " << devices.size() << " device(s) found:" << std::endl;
+    std::cout << "[acceleration] Device capability probe — " <<static_cast<int>(devices.size()) << " device(s) found:" << std::endl;
 
     for (const auto &d : devices) {
         std::cout << "  [" << (d.is_healthy ? "OK" : "!!") << "] " << d.name

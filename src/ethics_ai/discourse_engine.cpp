@@ -124,7 +124,7 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
         decision.metadata["legal_grounding_available"] = legal_grounding.grounding_available ? "true" : "false";
         decision.metadata["legal_grounding_retrieved_at_utc"] = legal_grounding.retrieval_timestamp_utc;
         std::stringstream norm_refs_csv = {};
-        for (size_t i = 0; i < legal_grounding.norm_refs.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(legal_grounding.norm_refs.size()); ++i) {
             if (i > 0) {
               norm_refs_csv << ",";
             }
@@ -199,7 +199,7 @@ EthicalArgument EthicalDiscourseEngine::generateArgument(const PhilosophyProfile
     // Heuristic: 0 theses → WEAK (no principled basis); 1-2 → MODERATE (minimal support);
     // 3-5 → STRONG (well-grounded); 6+ → DECISIVE (comprehensive philosophical basis).
     // This feeds directly into EthicsEvaluator::computeConfidence() via ArgumentStrength.
-    const size_t total_theses = profile.main_theses.size() + profile.secondary_theses.size();
+    const size_t total_theses = static_cast<int>(profile.main_theses.size()) + profile.secondary_theses.size();
     if (total_theses == 0) {
         argument.strength = ArgumentStrength::WEAK;
     } else if (total_theses <= 2) {
@@ -254,7 +254,7 @@ std::string EthicalDiscourseEngine::synthesizeDecision(const std::vector<Ethical
     std::stringstream ss = {};
     ss << "After considering perspectives from ";
 
-    for (size_t i = 0; i < arguments.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(arguments.size()); ++i) {
         if (i > 0 && i == static_cast<int>(arguments.size()) - 1) {
             ss << " and ";
         } else if (i > 0) {
@@ -299,7 +299,7 @@ std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(const s
         std::lock_guard<std::mutex> lock(debates_mutex_);
         auto it = debate_arguments_.find(debate_id);
         if (it != debate_arguments_.end()) {
-            prev_arg_ids.reserve(it->second.size());
+            prev_arg_ids.reserve(it-> static_cast<int>(second.size()));
             for (const auto &arg : it->second) {
                 prev_arg_ids.push_back(arg.id);
             }

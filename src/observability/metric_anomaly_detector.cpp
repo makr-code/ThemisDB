@@ -221,7 +221,7 @@ void MetricAnomalyDetector::publishMetrics() const {
         mc.setGauge("themis_anomaly_score",       latest_score,                         labels);
         mc.setGauge("themis_anomaly_detected",    latest_detected,                      labels);
         mc.setGauge("themis_anomaly_total",
-                    static_cast<double>(state->anomalies.size()),                        labels);
+                    static_cast<double>(state-> static_cast<int>(anomalies.size())),                        labels);
         mc.setGauge("themis_anomaly_window_size",
                     static_cast<double>(stats.window_size),                              labels);
         mc.setGauge("themis_anomaly_points_seen",
@@ -237,7 +237,7 @@ std::string MetricAnomalyDetector::generateReport() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::ostringstream oss = {};
     oss << "=== ThemisDB Metric Anomaly Detection Report ===\n\n";
-    oss << "Monitored metrics: " << streams_.size() << "\n\n";
+    oss << "Monitored metrics: " <<static_cast<int>(streams_.size()) << "\n\n";
 
     for (const auto& [name, state] : streams_) {
         auto stats = state->sad.getWindowStats();
@@ -248,12 +248,12 @@ std::string MetricAnomalyDetector::generateReport() const {
         oss << "  Points seen:     " << state->points_seen << "\n";
         oss << "  Window size:     " << stats.window_size << "\n";
         oss << "  Trained:         " << (stats.trained ? "yes" : "no (warming up)") << "\n";
-        oss << "  Anomaly count:   " << state->anomalies.size() << "\n";
+        oss << "  Anomaly count:   " << state-> static_cast<int>(anomalies.size()) << "\n";
         if (!state->anomalies.empty()) {
             oss << "  Recent anomalies:\n";
-            size_t start = state->anomalies.size() > 5
-                           ? state->anomalies.size() - 5 : 0;
-            for (size_t i = start; i < state->anomalies.size(); ++i) {
+            size_t start = state-> static_cast<int>(anomalies.size()) > 5
+                           ? state-> static_cast<int>(anomalies.size()) - 5 : 0;
+            for (size_t i = start; i < state-> static_cast<int>(anomalies.size()); ++i) {
                 const auto& a = state->anomalies[i];
                 oss << std::fixed << std::setprecision(4)
                     << "    [" << a.severity << "] score=" << a.score
@@ -282,7 +282,7 @@ json MetricAnomalyDetector::generateReportJson() const {
             {"points_seen",    state->points_seen},
             {"window_size",    stats.window_size},
             {"trained",        stats.trained},
-            {"anomaly_count",  state->anomalies.size()},
+            {"anomaly_count",  state-> static_cast<int>(anomalies.size())},
             {"anomalies",      anomalies_arr}
         });
     }

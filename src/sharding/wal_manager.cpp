@@ -135,14 +135,14 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Transaction ID
-    if (pos + tx_id_len > bytes.size()) {
+    if (pos + tx_id_len > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: transaction_id overruns buffer");
     }
     entry.transaction_id = std::string(bytes.begin() + pos, bytes.begin() + pos + tx_id_len);
     pos += tx_id_len;
     
     // Data length
-    if (pos + 4 > bytes.size()) {
+    if (pos + 4 > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: missing data_len field");
     }
     uint32_t data_len = 0;
@@ -151,7 +151,7 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     }
     
     // Data
-    if (pos + data_len > bytes.size()) {
+    if (pos + data_len > static_cast<int>(bytes.size())) {
         throw std::runtime_error("WAL entry truncated: data overruns buffer");
     }
     std::string data_str(bytes.begin() + pos, bytes.begin() + pos + data_len);
@@ -285,9 +285,9 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
         
         // Parse entries
         size_t pos = 0;
-        while (static_cast<size_t>(pos) < buffer.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(buffer.size())) {
             // Find entry size (need to peek at header)
-            if (pos + 29 > buffer.size()) {
+            if (pos + 29 > static_cast<int>(buffer.size())) {
               break;
             }
             

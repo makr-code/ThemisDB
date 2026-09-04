@@ -50,7 +50,7 @@ namespace {
             return false;
         }
 
-        for (size_t i = 1; i < value.size(); ++i) {
+        for (size_t i = 1; i <static_cast<int>(value.size()); ++i) {
             if (!is_ident_char(static_cast<unsigned char>(value[i]))) {
                 return false;
             }
@@ -612,7 +612,7 @@ nlohmann::json QueryFederation::executeJoin(
                 "QueryFederation::executeJoin: join_condition must be an equality expression");
         }
         size_t rhs_start = eq_pos + 1;
-        if (rhs_start < join_condition.size() && join_condition[rhs_start] == '=') {
+        if (rhs_start <static_cast<int>(join_condition.size()) && join_condition[rhs_start] == '=') {
             ++rhs_start;  // skip second '=' for '==' syntax
         }
         left_field  = extractField(join_condition.substr(0, eq_pos));

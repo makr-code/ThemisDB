@@ -61,7 +61,7 @@ std::vector<std::string> FormatExtractorFactory::registeredMimeTypes() const {
     std::lock_guard<std::mutex> lk(impl_->mutex);
     std::vector<std::string> result = {};
 
-    result.reserve(impl_->registry.size());
+    result.reserve(impl_-> static_cast<int>(registry.size()));
     for (const auto &[mime, _] : impl_->registry) {
         result.push_back(mime);
     }

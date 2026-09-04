@@ -165,7 +165,7 @@ std::vector<GPUTensor> MultiGPULoRALayer::backward(
     grad_inputs.reserve(grad_outputs.size());
     
     // Backward pass on each GPU independently
-    for (size_t i = 0; i < grad_outputs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(grad_outputs.size()); ++i) {
         grad_inputs.push_back(layers_[i]->backward(grad_outputs[i]));
     }
     
@@ -217,7 +217,7 @@ bool MultiGPULoRALayer::allreduce_gradients() {
     for (size_t param_idx = 0; param_idx < num_params; ++param_idx) {
         std::vector<GPUTensor*> param_grads = {};
 
-        for (size_t gpu_idx = 0; gpu_idx < all_gradients.size(); ++gpu_idx) {
+        for (size_t gpu_idx = 0; gpu_idx <static_cast<int>(all_gradients.size()); ++gpu_idx) {
             param_grads.push_back(all_gradients[gpu_idx][param_idx]);
         }
         
@@ -262,7 +262,7 @@ bool MultiGPULoRALayer::broadcast_parameters() {
             return false;
         }
         
-        for (size_t j = 0; j < master_params.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(master_params.size()); ++j) {
             // Copy from master to target
             auto master_data = master_params[j]->cpu_data();
             target_params[j]->upload(master_data);

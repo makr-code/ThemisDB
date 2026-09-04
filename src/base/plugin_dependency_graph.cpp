@@ -474,9 +474,9 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
     out << "Plugin Dependency Graph\n";
     out << "=======================\n";
     if (!nodes_.empty()) {
-        out << nodes_.size() << " module(s), " << edges_.size() << " edge(s)";
+        out <<static_cast<int>(nodes_.size()) << " module(s), " <<static_cast<int>(edges_.size()) << " edge(s)";
         if (!cycles.empty()) {
-            out << "  [WARNING: " << cycles.size() << " cycle(s) detected]";
+            out << "  [WARNING: " <<static_cast<int>(cycles.size()) << " cycle(s) detected]";
         }
         out << "\n";
     }
@@ -518,7 +518,7 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
     // Load order summary (only if acyclic).
     if (cycles.empty() && !order.empty()) {
         out << "Load order: ";
-        for (std::size_t i = 0; i < order.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(order.size()); ++i) {
             if (i > 0) {
                 out << " -> ";
             }

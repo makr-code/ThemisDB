@@ -608,7 +608,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
         prompt << "Current partial AQL query:\n```\n" << partial << "\n```\n\n";
         prompt << "Valid next clauses (based on AQL grammar): ";
         auto steps = getNextSteps();
-        for (size_t i = 0; i < steps.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(steps.size()); ++i) {
             if (i > 0) {
                 prompt << ", ";
             }

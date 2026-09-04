@@ -165,7 +165,7 @@ std::string GPUMetrics::nsight_export() const {
         oss << "  \"Kernels\": []\n";
     } else {
         oss << "  \"Kernels\": [\n";
-        for (std::size_t i = 0; i < kernels_.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(kernels_.size()); ++i) {
             const KernelRecord &k = kernels_[i];
             oss << "    {\n";
             oss << "      \"Name\": \"" << k.name << "\",\n";
@@ -175,7 +175,7 @@ std::string GPUMetrics::nsight_export() const {
             oss << "      \"Grid Size\": [" << k.grid_x << ", " << k.grid_y << ", " << k.grid_z << "],\n";
             oss << "      \"Block Size\": [" << k.block_x << ", " << k.block_y << ", " << k.block_z << "]\n";
             oss << "    }";
-            if (i + 1 < kernels_.size()) {
+            if (i + 1 <static_cast<int>(kernels_.size())) {
                 oss << ',';
             }
             oss << '\n';
@@ -210,7 +210,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
 
     oss << "{\n  \"traceEvents\": [\n";
 
-    for (std::size_t i = 0; i < kernels_.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(kernels_.size()); ++i) {
         const KernelRecord &k = kernels_[i];
         const uint64_t ts     = static_cast<uint64_t>(k.duration_ns) / 1000;
         const uint64_t dur    = ts; // treat duration_ns as elapsed time
@@ -223,7 +223,7 @@ std::string GPUMetrics::rocm_profiler_export() const {
             << "\"grid\": [" << k.grid_x << "," << k.grid_y << "," << k.grid_z << "], "
             << "\"block\": [" << k.block_x << "," << k.block_y << "," << k.block_z << "]"
             << "}}";
-        if (i + 1 < kernels_.size()) {
+        if (i + 1 <static_cast<int>(kernels_.size())) {
             oss << ',';
         }
         oss << '\n';

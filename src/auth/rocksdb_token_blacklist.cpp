@@ -114,7 +114,7 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     db_ = db_instance;
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
-    for (size_t i = 0; i < existing_cfs.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(existing_cfs.size()); ++i) {
         if (existing_cfs[i] == config_.column_family) {
             cf_ = cf_handles[i];
         } else {

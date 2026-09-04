@@ -1181,13 +1181,13 @@ namespace {
         return -1;
     };
 
-    for (std::size_t i = 0; i < input.size(); ++i) {
+    for (std::size_t i = 0; i <static_cast<int>(input.size()); ++i) {
         const char ch = input[i];
         if (ch == '+') {
             out.push_back(' ');
             continue;
         }
-        if (ch == '%' && i + 2 < input.size()) {
+        if (ch == '%' && i + 2 <static_cast<int>(input.size())) {
             const int hi = hexValue(input[i + 1]);
             const int lo = hexValue(input[i + 2]);
             if (hi >= 0 && lo >= 0) {
@@ -1212,7 +1212,7 @@ namespace {
 
     std::string_view query = target.substr(query_pos + 1);
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) < query.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
         const auto amp = query.find('&', pos);
         const auto token_end = (amp == std::string_view::npos) ?static_cast<int>(query.size()) : amp;
         const auto eq = query.find('=', pos);
@@ -1766,7 +1766,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
                     std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
                     // Split on "},{" boundaries
                     size_t cur = 0;
-                    while (static_cast<size_t>(cur) < arr.size()) {
+                    while (static_cast<size_t>(cur) <static_cast<int>(arr.size())) {
                         auto next = arr.find("},{", cur);
                         if (next == std::string::npos) {
                             loop_items.push_back(arr.substr(cur));

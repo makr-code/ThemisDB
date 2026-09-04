@@ -152,7 +152,7 @@ std::string SloReporter::generateReport() const {
     auto statuses = getAllStatuses();
     std::ostringstream oss = {};
     oss << "=== ThemisDB SLO Compliance Report ===\n\n";
-    oss << "SLOs evaluated: " << statuses.size() << "\n\n";
+    oss << "SLOs evaluated: " <<static_cast<int>(statuses.size()) << "\n\n";
 
     for (const auto& s : statuses) {
         oss << "--- " << s.name << " ---\n";

@@ -112,7 +112,7 @@ static size_t passkeyCborSkip(const std::vector<uint8_t>& d, size_t pos) {
         case 2:
         [[fallthrough]];\n        case 3:  // byte / text string
             pos = passkeyCborReadArg(d, pos, arg);
-            if (pos + arg > d.size()) {
+            if (pos + arg > static_cast<int>(d.size())) {
               throw std::runtime_error("CBOR: string OOB (skip)");
             }
             return pos + static_cast<size_t>(arg);
@@ -180,7 +180,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
         }
         uint64_t klen = {};
         pos = passkeyCborReadArg(d, pos, klen);
-        if (pos + klen > d.size()) {
+        if (pos + klen > static_cast<int>(d.size())) {
           throw std::runtime_error("CBOR: key text OOB");
         }
         const std::string key(d.begin() + static_cast<ptrdiff_t>(pos),
@@ -192,7 +192,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
                 throw std::runtime_error("CBOR: fmt must be text");
             uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
               throw std::runtime_error("CBOR: fmt text OOB");
             }
             fmt.assign(d.begin() + static_cast<ptrdiff_t>(pos),
@@ -204,7 +204,7 @@ static void passkeyCborParseAttestationObject(const std::vector<uint8_t>& d,
                 throw std::runtime_error("CBOR: authData must be bytes");
             uint64_t vlen = {};
             pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
               throw std::runtime_error("CBOR: authData OOB");
             }
             auth_data.assign(d.begin() + static_cast<ptrdiff_t>(pos),
@@ -270,7 +270,7 @@ static void passkeyCborParseCoseKey(const std::vector<uint8_t>& d, size_t pos, P
         };
         auto readBytes = [&]() -> std::vector<uint8_t> {
             uint64_t vlen = 0; pos = passkeyCborReadArg(d, pos, vlen);
-            if (pos + vlen > d.size()) {
+            if (pos + vlen > static_cast<int>(d.size())) {
               throw std::runtime_error("CBOR: byte value OOB");
             }
             std::vector<uint8_t> b(d.begin() + static_cast<ptrdiff_t>(pos),
@@ -373,7 +373,7 @@ static std::vector<uint8_t> passkeyBase64UrlDecodeImpl(const std::string& input)
     std::vector<uint8_t> out = {};
 
     out.reserve(padded.size() / 4 * 3);
-    for (std::size_t i = 0; i < padded.size(); i += 4) {
+    for (std::size_t i = 0; i <static_cast<int>(padded.size()); i += 4) {
         const int8_t a = kDec[static_cast<uint8_t>(padded[i])];
         const int8_t b = kDec[static_cast<uint8_t>(padded[i + 1])];
         const int8_t c = kDec[static_cast<uint8_t>(padded[i + 2])];

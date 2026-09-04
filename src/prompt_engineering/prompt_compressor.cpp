@@ -66,7 +66,7 @@ std::string SimplePromptCompressor::joinWords(
     const std::vector<std::string>& words) {
 
     std::string result = {};
-    for (size_t i = 0; i < words.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(words.size()); ++i) {
         if (i > 0) {
           result += ' ';
         }
@@ -245,10 +245,10 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
     // from the end until we exceed budget.
     std::vector<size_t> kept_indices = {};
 
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) < paragraphs.size(); ++i)
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);
-         i < paragraphs.size(); ++i)
+         i <static_cast<int>(paragraphs.size()); ++i)
         kept_indices.push_back(i);
 
     // Build the initial kept string
@@ -298,7 +298,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     // Build result: system + summary placeholder + tail
     std::string result = {};
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) < paragraphs.size(); ++i) {
+    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i) {
         if (!result.empty()) {
           result += "\n\n";
         }
@@ -313,7 +313,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
     }
 
     for (size_t i = std::max(sys_end, tail_start);
-         i < paragraphs.size(); ++i) {
+         i <static_cast<int>(paragraphs.size()); ++i) {
         if (!result.empty()) {
           result += "\n\n";
         }

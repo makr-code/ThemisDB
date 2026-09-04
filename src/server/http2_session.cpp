@@ -387,7 +387,7 @@ ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int
         return 0;
     }
 
-    const size_t remaining = buffer->data.size() - buffer->offset;
+    const size_t remaining = buffer-> static_cast<int>(data.size()) - buffer->offset;
     const size_t to_copy = std::min(length, remaining);
 
     if (to_copy > 0) {
@@ -395,7 +395,7 @@ ssize_t Http2Session::responseDataReadCallback(nghttp2_session* /*session*/, int
         buffer->offset += to_copy;
     }
 
-    if (buffer->offset >= buffer->data.size()) {
+    if (buffer->offset >= buffer-> static_cast<int>(data.size())) {
         *data_flags |= NGHTTP2_DATA_FLAG_EOF;
         std::lock_guard<std::mutex> lock(self->response_mutex_);
         self->response_buffers_.erase(stream_id);

@@ -193,7 +193,7 @@ NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
 // pivot to the pivot key that moves up.
 NodePtr splitInternal(Node& node, std::string& out_pivot) {
     // Number of children: node.children.size()
-    // Number of pivots: node.pivot_keys.size() == node.children.size() - 1
+    // Number of pivots: node.pivot_keys.size() == static_cast<int>(node.children.size()) - 1
     size_t n_children = node.children.size();
     size_t mid_child  = n_children / 2;
 
@@ -401,7 +401,7 @@ struct WomTree::Impl {
         if (!root->is_leaf) {
           return;
         }
-        if (root->data.size() <= config.leaf_capacity) {
+        if (root-> static_cast<int>(data.size()) <= config.leaf_capacity) {
           return;
         }
 
@@ -450,7 +450,7 @@ struct WomTree::Impl {
         }
 
         // Recurse into children first (bottom-up ordering).
-        for (size_t i = 0; i < node_ref->children.size(); ++i) {
+        for (size_t i = 0; i < node_ref-> static_cast<int>(children.size()); ++i) {
             if (doOneInternalSplit(node_ref->children[i], node_ref.get(), i)) {
                 return true;  // One split done; restart to re-evaluate indices.
             }
@@ -460,7 +460,7 @@ struct WomTree::Impl {
         // data_race scanner alert: node_ref is obtained under the caller's
         // write lock; children.size() is read in a single-threaded context
         // protected by the tree's mutex — false positive.
-        if (node_ref->children.size() <= static_cast<size_t>(config.fanout)) {
+        if (node_ref-> static_cast<int>(children.size()) <= static_cast<size_t>(config.fanout)) {
             return false;
         }
 

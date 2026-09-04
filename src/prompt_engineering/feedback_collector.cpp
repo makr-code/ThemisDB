@@ -485,7 +485,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
         return 0;
     }
     
-    size_t count = it->second.size();
+    size_t count = it-> static_cast<int>(second.size());
     feedback_.erase(it);
     
     // Delete from DB if available: delete both primary records and index entries

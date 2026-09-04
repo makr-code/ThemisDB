@@ -37,7 +37,7 @@ SitemapCrawler::SitemapCrawler(FetchFn fetch_fn,
     const std::size_t close_len = close_tag.size();
 
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) < xml_content.size()) {
+    while (static_cast<size_t>(pos) <static_cast<int>(xml_content.size())) {
         const std::size_t open_pos = xml_content.find(open_tag, pos);
         if (open_pos == std::string::npos) {
           break;

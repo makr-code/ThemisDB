@@ -269,7 +269,7 @@ public:
     // -----------------------------------------------------------------------
 
     ptrdiff_t insertionIndex([[maybe_unused]] size_t partition_id) const {
-        for (size_t i = 0; i < insertion_order.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(insertion_order.size()); ++i) {
             if (insertion_order[i] == partition_id) {
                 return static_cast<ptrdiff_t>(i);
             }
@@ -294,7 +294,7 @@ public:
             // Prefetch the partition inserted immediately after accessed_id.
             ptrdiff_t idx = insertionIndex(accessed_id);
             if (idx >= 0 &&
-                static_cast<size_t>(idx + 1) < insertion_order.size()) {
+                static_cast<size_t>(idx + 1) <static_cast<int>(insertion_order.size())) {
                 target_id = insertion_order[static_cast<size_t>(idx + 1)];
             }
             break;
@@ -579,7 +579,7 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
 
     std::vector<size_t> result = {};
 
-    result.reserve(pImpl_->lru_list.size());
+    result.reserve(pImpl_-> static_cast<int>(lru_list.size()));
     for (const size_t pid : pImpl_->lru_list) {
         auto it = pImpl_->partitions.find(pid);
         if (it != pImpl_->partitions.end() && it->second.in_vram) {
@@ -710,7 +710,7 @@ GPUMemoryOversubscriptionManager::getStats() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     Stats s;
-    s.total_partitions    = pImpl_->partitions.size();
+    s.total_partitions    = pImpl_-> static_cast<int>(partitions.size());
     s.hot_partitions      = 0;
     s.cold_partitions     = 0;
     for (const auto& [id, p] : pImpl_->partitions) {

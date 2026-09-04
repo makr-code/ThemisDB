@@ -511,7 +511,7 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 	}
 	// Compute cosine directly
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
-	for (size_t i = 0; i < ac.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(ac.size()); ++i) {
 		dot += ac[i] * bc[i];
 		na += ac[i] * ac[i];
 		nb += bc[i] * bc[i];
@@ -1381,7 +1381,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	if (whitelist && !whitelist->empty()) {
 		for (const auto& pk : *whitelist) {
 			auto it = cache_.find(pk);
-			if (it != cache_.end() && it->second.size() == expected_dim) {
+			if (it != cache_.end() && it-> static_cast<int>(second.size()) == expected_dim) {
 				consider(pk, it->second);
 			} else {
 				// Lade aus Storage on-demand
@@ -1482,7 +1482,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				cache_ptrs.push_back(&entry);
 			}
 			
-			for (size_t block_start = 0; block_start < cache_ptrs.size(); block_start += BLOCK_SIZE) {
+			for (size_t block_start = 0; block_start <static_cast<int>(cache_ptrs.size()); block_start += BLOCK_SIZE) {
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
 				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
@@ -2844,7 +2844,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 #if defined(_OPENMP)
 	#pragma omp simd
 #endif
-	for (size_t idx = 0; idx < entities.size(); ++idx) {
+	for (size_t idx = 0; idx <static_cast<int>(entities.size()); ++idx) {
 		const auto& entity = entities[idx];
 		const std::string& pk = entity.getPrimaryKey();
 		auto v = entity.extractVector(vectorField);
@@ -2892,7 +2892,7 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 	// Gap A-6.1: WriteBatch lifecycle safety in vector index batch operations
 	auto batch = db_.createWriteBatch();
 	
-	for (size_t i = 0; i < batch_keys.size(); ++i) {
+	for (size_t i = 0; i <static_cast<int>(batch_keys.size()); ++i) {
 		batch->put(batch_keys[i], batch_serialized[i]);
 		
 		// Also update cache (extract vector again for cache)
@@ -3008,7 +3008,7 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) < pks.size(); ++i) {
+	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <static_cast<int>(pks.size()); ++i) {
 		for (size_t j = i + 1; j < std::min(i + 10,static_cast<int>(pks.size())); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);

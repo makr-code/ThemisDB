@@ -203,7 +203,7 @@ std::vector<int32_t> LLMExtractiveCompressor::rankTurnsByImportance(
 
     // Format turns for LLM prompt
     std::ostringstream turn_format = {};
-    for (size_t i = 0; i < history.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(history.size()); ++i) {
         turn_format << "[" << i << "] " << history[i].first << ": " 
                    << history[i].second.substr(0, 100) << "...\n";
     }
@@ -261,7 +261,7 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
 
     // Ensure minimum turns preserved
     if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.min_preserved_turns) && 
-        selected.size() < history.size()) {
+        selected.size() <static_cast<int>(history.size())) {
         // Add more turns to reach minimum
         for (int32_t idx : ranked_indices) {
             if (std::find(selected.begin(), selected.end(), idx) == selected.end()) {

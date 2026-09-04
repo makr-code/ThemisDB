@@ -135,7 +135,7 @@ void LLMBatchTuner::maybeTune() noexcept {
     double mean_latency = 0.0;
     double total_tokens_window = 0.0;
 
-    for (size_t i = static_cast<int>(records_.size()) - window; i < records_.size(); ++i) {
+    for (size_t i = static_cast<int>(records_.size()) - window; i <static_cast<int>(records_.size()); ++i) {
         mean_latency       += records_[i].latency_ms;
         total_tokens_window += static_cast<double>(records_[i].total_tokens);
     }

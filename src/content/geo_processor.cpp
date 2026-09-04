@@ -229,7 +229,7 @@ ContentExtractionResult GeoProcessor::extract(
         // Generate text description
         std::ostringstream text = {};
         text << "Geospatial data: " << geo.geometry_type;
-        text << " with " << geo.coordinates.size() << " coordinate pairs";
+        text << " with " <<static_cast<int>(geo.coordinates.size()) << " coordinate pairs";
         text << " in CRS " << geo.crs;
         result.text = text.str();
         
@@ -266,7 +266,7 @@ std::vector<ContentChunk> GeoProcessor::chunk(
     // Each chunk contains a subset of coordinates
     const int coords_per_chunk = 100;
     
-    for (size_t i = 0; i < geo.coordinates.size(); i += coords_per_chunk) {
+    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()); i += coords_per_chunk) {
         ContentChunk chunk;
         
         std::ostringstream text = {};
@@ -883,7 +883,7 @@ double GeoProcessor::calculateLength(const GeoExtractionData& geo) {
     double total = 0.0;
     const double R = 6371.0;  // Earth radius in km
     
-    for (size_t i = 0; i < geo.coordinates.size() - 1; ++i) {
+    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()) - 1; ++i) {
         double lat1 = geo.coordinates[i].first * M_PI / 180.0;
         double lon1 = geo.coordinates[i].second * M_PI / 180.0;
         double lat2 = geo.coordinates[i + 1].first * M_PI / 180.0;

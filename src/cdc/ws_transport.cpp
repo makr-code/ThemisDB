@@ -60,7 +60,7 @@ void WsTransport::removeSession(const std::string& session_id) {
     auto it = sessions_.find(session_id);
     if (it != sessions_.end()) {
         THEMIS_INFO("WsTransport: session removed: {} ({} subscriptions)",
-                    session_id, it->second.subscriptions.size());
+                    session_id, it-> static_cast<int>(second.subscriptions.size()));
         sessions_.erase(it);
     }
 }

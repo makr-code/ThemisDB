@@ -101,7 +101,7 @@ std::string LLMMetaAnalyzer::buildPrompt(
     
     if (!criteria.empty()) {
         prompt << "Evaluation Criteria:\n";
-        for (size_t i = 0; i < criteria.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(criteria.size()); ++i) {
             prompt << (i + 1) << ". " << criteria[i] << "\n";
         }
         prompt << "\n";
@@ -161,7 +161,7 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
     
     if (!criteria.empty()) {
         prompt << "Evaluation Criteria:\n";
-        for (size_t i = 0; i < criteria.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(criteria.size()); ++i) {
             prompt << (i + 1) << ". " << criteria[i] << "\n";
         }
         prompt << "\n";

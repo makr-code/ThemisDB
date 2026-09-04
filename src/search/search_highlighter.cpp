@@ -74,7 +74,7 @@ std::string SearchHighlighter::applyHighlight(
 
     size_t cursor = 0;
     for (auto& [start, end] : offsets) {
-        if (start > text.size() || end > text.size() || start >= end) {
+        if (start > static_cast<int>(text.size()) || end > static_cast<int>(text.size()) || start >= end) {
           continue;
         }
         // Append text before this match
@@ -115,7 +115,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
         }
     }
 
-    for (size_t ti = 0; ti < terms.size(); ++ti) {
+    for (size_t ti = 0; ti <static_cast<int>(terms.size()); ++ti) {
         const std::string& term = terms[ti];
         if (term.empty()) {
           continue;
@@ -222,7 +222,7 @@ SearchHighlighter::findMatchRanges(const std::string& text,
     // Merge overlapping ranges
     std::vector<std::pair<size_t, size_t>> merged;
     merged.push_back(ranges.front());
-    for (size_t i = 1; i < ranges.size(); ++i) {
+    for (size_t i = 1; i <static_cast<int>(ranges.size()); ++i) {
         if (ranges[i].first <= merged.back().second) {
             // Overlapping: extend current range
             merged.back().second = std::max(merged.back().second, ranges[i].second);
@@ -296,7 +296,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
 
         size_t end_offset = std::min(offset + window_size,static_cast<int>(text.size()));
         // Snap end to word boundary (walk forward to next space or end)
-        while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
+        while (end_offset <static_cast<int>(text.size()) && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
             ++end_offset;
         }
 

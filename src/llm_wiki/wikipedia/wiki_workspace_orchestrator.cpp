@@ -388,13 +388,13 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
                 }
             }
         }
-        for (std::size_t i = 0; i < seen_sections.size(); ++i) {
+        for (std::size_t i = 0; i <static_cast<int>(seen_sections.size()); ++i) {
             WikiLink lnk;
             lnk.from = slug;
             lnk.to = seen_sections[i];
             lnk.type = "concept";
             state.links.push_back(lnk);
-            if (i + 1 < seen_sections.size()) {
+            if (i + 1 <static_cast<int>(seen_sections.size())) {
                 WikiLink adj;
                 adj.from = seen_sections[i];
                 adj.to = seen_sections[i + 1];

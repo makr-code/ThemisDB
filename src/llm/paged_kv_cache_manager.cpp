@@ -92,7 +92,7 @@ bool PagedKVCacheManager::enablePrefixCaching(
     // Calculate number of blocks to share
     // IVB-PKV-02: block_size > 0 is guaranteed by the constructor guard; no zero-division risk.
     size_t blocks_to_share = (prefix_length + config_.block_size - 1) / config_.block_size;
-    blocks_to_share = std::min(blocks_to_share, parent_it->second.block_ids.size());
+    blocks_to_share = std::min(blocks_to_share, parent_it-> static_cast<int>(second.block_ids.size()));
     
     // Create new sequence with shared blocks
     BlockTable child_table;

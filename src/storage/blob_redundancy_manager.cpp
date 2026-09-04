@@ -833,7 +833,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
                      blob_id, healthy, required,static_cast<int>(missing.size()),
                      [&]() {
                          std::ostringstream ss = {};
-                         for (size_t i = 0; i < missing.size(); ++i) {
+                         for (size_t i = 0; i <static_cast<int>(missing.size()); ++i) {
                              if (i) {
                                ss << ", ";
                              }

@@ -25,7 +25,7 @@ bool ProtobufParser::readVarint([[maybe_unused]] uint64_t& value) {
     value = 0;
     int shift = 0;
     
-    while (static_cast<size_t>(pos_) < data_.size()) {
+    while (static_cast<size_t>(pos_) <static_cast<int>(data_.size())) {
         uint8_t byte = data_[pos_++];
         value |= static_cast<uint64_t>(byte & 0x7F) << shift;
         
@@ -43,7 +43,7 @@ bool ProtobufParser::readVarint([[maybe_unused]] uint64_t& value) {
 }
 
 bool ProtobufParser::readFixed64([[maybe_unused]] uint64_t& value) {
-    if (pos_ + 8 > data_.size()) {
+    if (pos_ + 8 > static_cast<int>(data_.size())) {
         return false;
     }
     
@@ -57,7 +57,7 @@ bool ProtobufParser::readFixed64([[maybe_unused]] uint64_t& value) {
 }
 
 bool ProtobufParser::readFixed32([[maybe_unused]] uint32_t& value) {
-    if (pos_ + 4 > data_.size()) {
+    if (pos_ + 4 > static_cast<int>(data_.size())) {
         return false;
     }
     
@@ -76,7 +76,7 @@ bool ProtobufParser::readLengthDelimited(std::vector<uint8_t>& value) {
         return false;
     }
     
-    if (pos_ + length > data_.size()) {
+    if (pos_ + length > static_cast<int>(data_.size())) {
         return false;
     }
     

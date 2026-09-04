@@ -120,7 +120,7 @@ void PromptQualityEvaluator::checkRepetition(
     // Build consecutive bigrams and count repetitions.
     std::unordered_map<std::string, size_t> bigram_counts = {};
 
-    for (size_t i = 0; i + 1 < tokens.size(); ++i) {
+    for (size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
         bigram_counts[tokens[i] + '\0' + tokens[i + 1]]++;
     }
 
@@ -156,7 +156,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     report.threshold = config.min_score_threshold;
 
     // Count total checks: one per injection pattern + 1 diversity + 1 repetition.
-    const size_t total_checks = config.injection_blocklist.size() + 2;
+    const size_t total_checks = static_cast<int>(config.injection_blocklist.size()) + 2;
 
     checkInjection(text, config.injection_blocklist, report.failed_checks);
     checkTokenDiversity(text, config.min_token_diversity, report.failed_checks);

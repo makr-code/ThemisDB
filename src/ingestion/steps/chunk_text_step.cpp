@@ -140,9 +140,9 @@ private:
             }
         };
 
-        while (static_cast<size_t>(pos) < text.size()) {
+        while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
             current += text[pos];
-            if (pos + 1 < text.size() &&
+            if (pos + 1 <static_cast<int>(text.size()) &&
                 (text[pos] == '.' || text[pos] == '!' || text[pos] == '?') &&
                 text[pos + 1] == ' ') {
                 if (static_cast<int>(current.size()) > = max_size / 2) {
@@ -172,7 +172,7 @@ private:
         const std::string& text = ctx.raw_text;
         const std::size_t step = (size > overlap) ? (size - overlap) : size;
         std::uint32_t seq = 0;
-        for (std::size_t start = 0; start < text.size(); start += step) {
+        for (std::size_t start = 0; start <static_cast<int>(text.size()); start += step) {
             const std::size_t end = std::min(start + size,static_cast<int>(text.size()));
             TextChunk c;
             c.seq        = seq++;

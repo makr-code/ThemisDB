@@ -157,14 +157,14 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
     // Compute baseline loss based on the rotated embedding
     // Simple loss: mean squared deviation from target
     double base_loss = 0.0;
-    for (size_t i = 0; i < rotated.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(rotated.size()); ++i) {
         double diff = rotated[i] - (embedding[i] * target_similarity);
         base_loss += diff * diff;
     }
     base_loss /= rotated.size();
     
     // Compute gradient for each theta parameter using finite differences
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         // Perturb theta[i] by epsilon
         double original_theta = learnable_theta_[i];
         learnable_theta_[i] = original_theta + epsilon;
@@ -174,7 +174,7 @@ std::vector<double> LearnableRotaryEmbedding::computeGradients(
         
         // Compute perturbed loss
         double perturbed_loss = 0.0;
-        for (size_t j = 0; j < perturbed.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(perturbed.size()); ++j) {
             double diff = perturbed[j] - (embedding[j] * target_similarity);
             perturbed_loss += diff * diff;
         }
@@ -207,7 +207,7 @@ void LearnableRotaryEmbedding::updateParameters(
     }
     
     // Simple SGD update: theta = theta - learning_rate * gradient
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         learnable_theta_[i] -= learning_rate * gradients[i];
         
         // Ensure theta stays positive (it's a frequency parameter)
@@ -236,7 +236,7 @@ void LearnableRotaryEmbedding::updateAdam(
     adam_t_++;
     
     // Adam update: https://arxiv.org/abs/1412.6980
-    for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
         // Update biased first moment estimate
         adam_m_[i] = config.adam_beta1 * adam_m_[i] + (1.0f - config.adam_beta1) * gradients[i];
         
@@ -290,7 +290,7 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         // Compute loss as mean squared difference between rotated and target-scaled embedding
         // This encourages the rotation to preserve similarity according to target
         float sample_loss = 0.0f;
-        for (size_t i = 0; i < rotated.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(rotated.size()); ++i) {
             float target_val = sample.embedding[i] * sample.similarity_target;
             float diff = rotated[i] - target_val;
             sample_loss += diff * diff;
@@ -372,7 +372,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
         float epoch_loss = 0.0f;
         size_t num_batches = 0;
 
-        for (size_t i = 0; i < shuffled.size(); i += config.batch_size) {
+        for (size_t i = 0; i <static_cast<int>(shuffled.size()); i += config.batch_size) {
             size_t batch_end = std::min(i + config.batch_size,static_cast<int>(shuffled.size()));
             std::vector<TrainingSample> batch(
                 shuffled.begin() + i,
@@ -394,7 +394,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
                     sample.position
                 );
 
-                for (size_t j = 0; j < batch_gradients.size(); ++j) {
+                for (size_t j = 0; j <static_cast<int>(batch_gradients.size()); ++j) {
                     batch_gradients[j] += sample_grads[j];
                 }
             }
@@ -458,7 +458,7 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
         file << "  \"base_theta\": " << getConfig().base_theta << ",\n";
         file << "  \"learnable_theta\": [";
         
-        for (size_t i = 0; i < learnable_theta_.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(learnable_theta_.size()); ++i) {
             if (i > 0) {
               file << ", ";
             }

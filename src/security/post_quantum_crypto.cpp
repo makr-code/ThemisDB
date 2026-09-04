@@ -996,7 +996,7 @@ static const std::string B64_CHARS =
 static const std::array<uint8_t, 256> B64_DEC_TABLE = []() {
     std::array<uint8_t, 256> t{};
     t.fill(0xFF);
-    for (size_t i = 0; i < B64_CHARS.size(); ++i)
+    for (size_t i = 0; i <static_cast<int>(B64_CHARS.size()); ++i)
         t[static_cast<unsigned char>(B64_CHARS[i])] = static_cast<uint8_t>(i);
     return t;
 }();
@@ -1040,7 +1040,7 @@ static std::vector<uint8_t> b64_dec(const std::string& s) {
     int i = 0;
     size_t in_pos = 0;
     uint8_t ca4[4] = {0}, ca3[3] = {0};  // Initialize arrays to prevent uninitialized read
-    while (in_pos < s.size() && s[in_pos] != '=' && is_b64(s[in_pos])) {
+    while (in_pos <static_cast<int>(s.size()) && s[in_pos] != '=' && is_b64(s[in_pos])) {
         ca4[i++] = s[in_pos++];
         if (i == 4) {
             for (int k = 0; k < 4; ++k)

@@ -398,7 +398,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("Graph BFS failed: {}", st.message);
             } else {
                 std::string path = {};
-                for (size_t i = 0; i < order.size(); ++i) {
+                for (size_t i = 0; i <static_cast<int>(order.size()); ++i) {
                     if (i) {
                       path += " -> ";
                     }
@@ -427,7 +427,7 @@ int main(int argc, char* argv[]) {
             themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
             std::string orderStr = {};
-            for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(plan.orderedPredicates.size()); ++i) {
                 if (i) {
                   orderStr += ", ";
                 }

@@ -63,7 +63,7 @@ uint64_t LatencyHistogram::percentile([[maybe_unused]] double p) const {
     }
 
     uint64_t cumulative = 0;
-    for (size_t i = 0; i < buckets_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buckets_.size()); ++i) {
         cumulative += buckets_[i];
         if (cumulative >= target_count) {
             return i * bucket_width_us_;
@@ -89,7 +89,7 @@ double LatencyHistogram::stdDev() const {
     double variance = 0.0;
 
     // Recalculate to compute variance (approximation from buckets)
-    for (size_t i = 0; i < buckets_.size(); ++i) {
+    for (size_t i = 0; i <static_cast<int>(buckets_.size()); ++i) {
         if (buckets_[i] == 0) {
             continue;
         }
