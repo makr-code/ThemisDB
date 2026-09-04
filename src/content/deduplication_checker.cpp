@@ -77,14 +77,14 @@ static uint64_t hexToU64(const std::string& hex) {
     size_t band
 ) {
     // FNV-1a over the band's kBandRows uint32 values
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     size_t start = band * kBandRows;
     size_t end   = std::min(start + kBandRows, sig.size());
     for (size_t i = start; i < end; ++i) {
         uint32_t v = sig[i];
         for (int b = 0; b < 4; ++b) {
             hash ^= static_cast<uint64_t>((v >> (b * 8)) & 0xFF);
-            hash *= 1099511628211ULL;
+            hash *= 1099511628211;
         }
     }
     return hash;

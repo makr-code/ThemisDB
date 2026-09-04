@@ -467,7 +467,7 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
         // unconstrained Dijkstra overload which is slightly more efficient.
         GraphIndexManager::PathResult path_result;
         GraphIndexManager::Status status;
-        if (max_depth != 10U) {
+        if (max_depth != 10) {
             GraphIndexManager::PathConstraints constraints;
             constraints.max_edge_count = static_cast<int>(max_depth);
             std::tie(status, path_result) =

@@ -307,7 +307,7 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
 
     // Security guard: 10 MiB
     // Use explicit unsigned multiplication to avoid overflow warnings
-    constexpr size_t MAX_DMN_SIZE = 10UL * 1024UL * 1024UL;  // 10 MiB
+    constexpr size_t MAX_DMN_SIZE = 10 * 1024 * 1024;  // 10 MiB
     if (dmn_xml.size() > MAX_DMN_SIZE) {
         SPDLOG_ERROR("[DmnEvaluator] DMN XML exceeds 10 MiB size limit");
         return false;

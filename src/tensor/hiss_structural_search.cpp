@@ -84,9 +84,9 @@ double coreEntropy(const storage::TTCore& core) {
 }
 
 std::uint64_t xorshift64(std::uint64_t& x) {
-    x ^= x << 13U;
-    x ^= x >> 7U;
-    x ^= x << 17U;
+    x ^= x << 13;
+    x ^= x >> 7;
+    x ^= x << 17;
     return x;
 }
 
@@ -117,7 +117,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                   std::to_string(bit_count));
     }
 
-    const std::size_t total = static_cast<std::size_t>(1ULL << bit_count);
+    const std::size_t total = static_cast<std::size_t>(1 << bit_count);
     if (dense.size() != total) {
         throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
                                     std::to_string(dense.size()) +
@@ -130,8 +130,8 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     train.cores.resize(bit_count);
 
     for (std::size_t k = 0; k + 1 < bit_count; ++k) {
-        const std::size_t r_left = static_cast<std::size_t>(1ULL << k);
-        const std::size_t r_right = static_cast<std::size_t>(1ULL << (k + 1));
+        const std::size_t r_left = static_cast<std::size_t>(1 << k);
+        const std::size_t r_right = static_cast<std::size_t>(1 << (k + 1));
         auto& core = train.cores[k];
         core.r_left = r_left;
         core.n = 2;
@@ -139,23 +139,23 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
         core.data.assign(r_left * 2 * r_right, 0.0f);
 
         for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
-            const std::size_t next0 = (prefix << 1U);
-            const std::size_t next1 = next0 | 1U;
+            const std::size_t next0 = (prefix << 1);
+            const std::size_t next1 = next0 | 1;
             core.at(prefix, 0, next0) = 1.0f;
             core.at(prefix, 1, next1) = 1.0f;
         }
     }
 
     {
-        const std::size_t r_left = static_cast<std::size_t>(1ULL << (bit_count - 1));
+        const std::size_t r_left = static_cast<std::size_t>(1 << (bit_count - 1));
         auto& core = train.cores.back();
         core.r_left = r_left;
         core.n = 2;
         core.r_right = 1;
         core.data.assign(r_left * 2, 0.0f);
         for (std::size_t prefix = 0; prefix < r_left; ++prefix) {
-            core.at(prefix, 0, 0) = dense[(prefix << 1U)];
-            core.at(prefix, 1, 0) = dense[(prefix << 1U) | 1U];
+            core.at(prefix, 0, 0) = dense[(prefix << 1)];
+            core.at(prefix, 1, 0) = dense[(prefix << 1) | 1];
         }
     }
 
@@ -174,7 +174,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                       " is too large for bit-depth calculation (max depth: " +
                                       std::to_string(std::numeric_limits<std::size_t>::digits - 1) + ")");
         }
-        v <<= 1U;
+        v <<= 1;
         ++depth;
     }
     return std::max<std::size_t>(depth, 1);
@@ -231,7 +231,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
         const auto bd = bit_depths[d];
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
-            const auto bit = (multi_idx[d] >> (bd - 1u - b)) & 1ULL;
+            const auto bit = (multi_idx[d] >> (bd - 1u - b)) & 1;
             qtt_idx |= bit << bit_pos;
         }
     }
@@ -272,7 +272,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
         std::size_t idx_d = 0;
         for (std::size_t b = 0; b < bd; ++b) {
             --bit_pos;
-            const auto bit = (qtt_idx >> bit_pos) & 1ULL;
+            const auto bit = (qtt_idx >> bit_pos) & 1;
             idx_d = (idx_d << 1u) | bit;
         }
         if (idx_d >= grid_sizes[d]) {
@@ -428,7 +428,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
                                         " exceeds packed edge-key limit of " +
                                         std::to_string(kMaxPackedIndex));
         }
-        const auto key = (static_cast<std::uint64_t>(e.from) << 32U) | static_cast<std::uint64_t>(e.to);
+        const auto key = (static_cast<std::uint64_t>(e.from) << 32) | static_cast<std::uint64_t>(e.to);
         const auto it = best_by_edge.find(key);
         if (it == best_by_edge.end() || e.weight > it->second.weight) {
             best_by_edge[key] = e;
@@ -516,7 +516,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     for (const auto grid_size : resolved_grid_sizes) {
         const auto bit_depth = calculateBitDepth(grid_size);
         bit_depths.push_back(bit_depth);
-        const auto padded_grid_size = static_cast<std::size_t>(1ULL << bit_depth);
+        const auto padded_grid_size = static_cast<std::size_t>(1 << bit_depth);
         padded_grid_sizes.push_back(padded_grid_size);
         quantics_mode_sizes.insert(quantics_mode_sizes.end(), bit_depth, std::size_t{2});
     }

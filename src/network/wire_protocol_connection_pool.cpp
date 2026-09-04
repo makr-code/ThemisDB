@@ -39,10 +39,10 @@ namespace themis::network {
 namespace {
 
 uint64_t fnv1a64Pool(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }

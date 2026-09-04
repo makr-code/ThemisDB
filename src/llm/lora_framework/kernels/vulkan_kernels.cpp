@@ -49,7 +49,7 @@ struct VulkanState {
 
 static VulkanState g_vulkan_state;
 constexpr auto kVulkanStateLockTimeout = std::chrono::seconds(30);
-constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000ULL;
+constexpr uint64_t kVulkanKernelWaitTimeoutNs = 30000000000;
 
 static std::unique_lock<std::recursive_timed_mutex> lock_vulkan_state_or_throw() {
     std::unique_lock<std::recursive_timed_mutex> lock(g_vulkan_state.mutex, std::defer_lock);

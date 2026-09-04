@@ -418,7 +418,7 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
         // registration to avoid allocating a 0-byte sentinel.
         auto info = plugin->getModelInfo();
         if (info && info->vram_required_mb > 0) {
-            const size_t vram_bytes = info->vram_required_mb * 1024ULL * 1024ULL;
+            const size_t vram_bytes = info->vram_required_mb * 1024 * 1024;
             auto handle = vram_allocator_.registerExternal(vram_bytes, model_id);
             std::lock_guard<std::mutex> lock(mutex_);
             vram_handles_[model_id] = std::move(handle);

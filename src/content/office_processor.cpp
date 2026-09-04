@@ -57,7 +57,7 @@ constexpr const char *PPTX_CONTENT_TYPE = "application/vnd.openxmlformats-office
 
 // ZIP signatures
 constexpr uint32_t ZIP_SIGNATURE = 0x04034b50; // PK\x03\x04
-constexpr size_t MAX_OFFICE_BLOB_BYTES = 256ULL * 1024ULL * 1024ULL; // 256 MiB safety ceiling
+constexpr size_t MAX_OFFICE_BLOB_BYTES = 256 * 1024 * 1024; // 256 MiB safety ceiling
 
 // ============================================================================
 // OfficeProcessor Implementation

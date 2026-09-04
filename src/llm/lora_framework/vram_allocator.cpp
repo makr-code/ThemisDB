@@ -364,7 +364,7 @@ VRAMAllocator::VRAMAllocator(acceleration::BackendType backend, size_t pool_size
         }
 #endif
         if (pool_size_bytes_ == 0) {
-            pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8 GB fallback
+            pool_size_bytes_ = 8 * 1024 * 1024 * 1024; // Default 8 GB fallback
             spdlog::debug("VRAMAllocator: could not query backend memory, defaulting to 8 GB pool");
         }
     }

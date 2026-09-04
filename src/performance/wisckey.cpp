@@ -116,7 +116,7 @@ ValueAddress ValueLog::append(const std::string& value) {
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
     // Validate address bounds
-    if (addr.size == 0 || addr.size > (1ULL << 32)) {
+    if (addr.size == 0 || addr.size > (1 << 32)) {
         return std::nullopt;
     }
     if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {
@@ -154,7 +154,7 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
     
     // Validate all addresses before starting compaction
     for (const auto& addr : live_addresses) {
-        if (addr.size == 0 || addr.size > (1ULL << 32)) {
+        if (addr.size == 0 || addr.size > (1 << 32)) {
             throw std::runtime_error("WiscKey: Invalid address during compaction");
         }
         if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {

@@ -6275,9 +6275,9 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
     // Segments older than transition_to_cold_after_days     -> "cold"
     // Segments older than transition_to_cold_after_days * 3 -> "glacier"
     auto cold_threshold    = now - std::chrono::hours(
-        24ULL * config_.transition_to_cold_after_days);
+        24 * config_.transition_to_cold_after_days);
     auto glacier_threshold = now - std::chrono::hours(
-        24ULL * config_.transition_to_cold_after_days * 3);
+        24 * config_.transition_to_cold_after_days * 3);
 
     std::lock_guard<std::mutex> lock(archive_mutex_);
     uint32_t transitioned = 0;

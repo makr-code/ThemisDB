@@ -575,7 +575,7 @@ static std::vector<uint8_t> serializeGraphSnapshot(const themis::graph::Persiste
 static void writeStoredTensorRecord(std::vector<uint8_t> &buf, const themis::graph::StoredTensorRecord &record) {
     writeStr(buf, record.tensor_id);
     writeStr(buf, record.reference_id);
-    writeLE<uint8_t>(buf, record.is_canonical ? 1U : 0U);
+    writeLE<uint8_t>(buf, record.is_canonical ? 1 : 0);
     writeLE<uint64_t>(buf, static_cast<uint64_t>(record.compressed_bytes));
     writeLE<uint64_t>(buf, static_cast<uint64_t>(record.saved_bytes));
     writeLE<double>(buf, record.similarity_to_reference);
@@ -610,8 +610,8 @@ static void writePersistedFingerprintEdge(std::vector<uint8_t> &buf,
 }
 
 static std::vector<uint8_t> serializeMutationJournal(const std::vector<MutationJournalEntry> &entries) {
-    constexpr std::size_t kEstimatedBytesPerEntry = 256U;
-    constexpr std::size_t kJournalHeaderBytes     = 64U;
+    constexpr std::size_t kEstimatedBytesPerEntry = 256;
+    constexpr std::size_t kJournalHeaderBytes     = 64;
     std::vector<uint8_t> buf = {};
 
     buf.reserve(entries.size() * kEstimatedBytesPerEntry + kJournalHeaderBytes);
@@ -643,7 +643,7 @@ static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::Persiste
 
     std::vector<uint8_t> buf = {};
 
-    buf.reserve(graph_bytes.size() + records.size() * 256U + 64U);
+    buf.reserve(graph_bytes.size() + records.size() * 256 + 64);
     writeLE<uint64_t>(buf, kDedupSnapshotMagic);
     writeLE<uint32_t>(buf, kDedupSnapshotVersion);
     writeLE<uint64_t>(buf, static_cast<uint64_t>(graph_bytes.size()));
@@ -689,7 +689,7 @@ static bool deserializeGraphSnapshot(const std::vector<uint8_t> &buf,
     // Sanity-bound: reject unreasonably large node counts before allocating.
     // This prevents std::length_error ("vector too long") from escaping when
     // a corrupted or adversarial payload encodes a huge node_count value.
-    constexpr uint64_t kMaxGraphNodes = 50'000'000ULL;
+    constexpr uint64_t kMaxGraphNodes = 50'000'000;
     if (node_count > kMaxGraphNodes) {
         THEMIS_WARN(
             "[TensorDeduplicationManager] restore snapshot: node_count {} exceeds sanity limit {}; rejecting payload",
@@ -715,7 +715,7 @@ static bool deserializeGraphSnapshot(const std::vector<uint8_t> &buf,
             return false;
         }
         // Sanity-bound: reject payloads with unreasonably many core norms.
-        constexpr uint32_t kMaxCoreNorms = 500'000U;
+        constexpr uint32_t kMaxCoreNorms = 500'000;
         if (core_norms_len > kMaxCoreNorms) {
             THEMIS_WARN("[TensorDeduplicationManager] restore snapshot: core_norms_len {} exceeds sanity limit {}; "
                         "rejecting payload",
@@ -763,7 +763,7 @@ static bool deserializeGraphSnapshot(const std::vector<uint8_t> &buf,
 
     snapshot.edges.clear();
     // Sanity-bound: reject unreasonably large edge counts.
-    constexpr uint64_t kMaxGraphEdges = 200'000'000ULL;
+    constexpr uint64_t kMaxGraphEdges = 200'000'000;
     if (edge_count > kMaxGraphEdges) {
         THEMIS_WARN(
             "[TensorDeduplicationManager] restore snapshot: edge_count {} exceeds sanity limit {}; rejecting payload",
@@ -995,7 +995,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 
 [[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string &snapshot_key) {
     std::string key = {};
-    key.reserve((sizeof(kMutationJournalMetaPrefix) - 1U) + snapshot_key.size());
+    key.reserve((sizeof(kMutationJournalMetaPrefix) - 1) + snapshot_key.size());
     key.append(kMutationJournalMetaPrefix);
     key.append(snapshot_key);
     return key;
@@ -1003,7 +1003,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string &snapshot_key) {
     std::string key = {};
-    key.reserve(snapshot_key.size() + 5U);
+    key.reserve(snapshot_key.size() + 5);
     key.append(snapshot_key);
     key.append("::wal");
     return key;
@@ -1170,7 +1170,7 @@ static bool deserializeDedupSnapshot(const std::vector<uint8_t> &buf,
     }
     records.clear();
     // Sanity-bound: reject unreasonably large record counts.
-    constexpr uint64_t kMaxDedupRecords = 50'000'000ULL;
+    constexpr uint64_t kMaxDedupRecords = 50'000'000;
     if (record_count > kMaxDedupRecords) {
         THEMIS_WARN(
             "[TensorDeduplicationManager] restore snapshot: record_count {} exceeds sanity limit {}; rejecting payload",
@@ -1550,11 +1550,11 @@ constexpr std::string_view kJournalType         = "__tfgjournal__";
 inline std::string toHex(std::string_view text) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
-    out.resize(text.size() * 2U);
+    out.resize(text.size() * 2);
     for (std::size_t i = 0; i < text.size(); ++i) {
         const uint8_t byte = static_cast<uint8_t>(text[i]);
-        out[(i * 2U)]      = kHex[(byte >> 4U) & 0x0FU];
-        out[(i * 2U) + 1U] = kHex[byte & 0x0FU];
+        out[(i * 2)]      = kHex[(byte >> 4) & 0x0FU];
+        out[(i * 2) + 1] = kHex[byte & 0x0FU];
     }
     return out;
 }
@@ -1575,11 +1575,11 @@ inline std::string makeEdgeId(std::string_view snapshot_key, std::string_view te
 inline std::string toHex(const std::vector<uint8_t> &data) {
     static constexpr char kHex[] = "0123456789abcdef";
     std::string out = {};
-    out.resize(data.size() * 2U);
+    out.resize(data.size() * 2);
     for (std::size_t i = 0; i < data.size(); ++i) {
         const uint8_t byte = data[i];
-        out[(i * 2U)]      = kHex[(byte >> 4U) & 0x0FU];
-        out[(i * 2U) + 1U] = kHex[byte & 0x0FU];
+        out[(i * 2)]      = kHex[(byte >> 4) & 0x0FU];
+        out[(i * 2) + 1] = kHex[byte & 0x0FU];
     }
     return out;
 }
@@ -1598,19 +1598,19 @@ inline uint8_t hexNibble(char c) {
 }
 
 inline std::optional<std::vector<uint8_t>> fromHex(std::string_view hex) {
-    if ((hex.size() % 2U) != 0U) {
+    if ((hex.size() % 2) != 0) {
         return std::nullopt;
     }
     std::vector<uint8_t> out = {};
 
-    out.reserve(hex.size() / 2U);
-    for (std::size_t i = 0; i < hex.size(); i += 2U) {
+    out.reserve(hex.size() / 2);
+    for (std::size_t i = 0; i < hex.size(); i += 2) {
         const uint8_t hi = hexNibble(hex[i]);
-        const uint8_t lo = hexNibble(hex[i + 1U]);
+        const uint8_t lo = hexNibble(hex[i + 1]);
         if (hi == 0xFFU || lo == 0xFFU) {
             return std::nullopt;
         }
-        out.push_back(static_cast<uint8_t>((hi << 4U) | lo));
+        out.push_back(static_cast<uint8_t>((hi << 4) | lo));
     }
     return out;
 }

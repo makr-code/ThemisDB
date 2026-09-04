@@ -96,7 +96,7 @@ inline bool retryWithBackoff(
         
         if (attempt < max_retries - 1) {
             // Exponential backoff: 100ms, 200ms, 400ms, ...
-            uint64_t delay_ms = initial_delay_ms * (1ULL << attempt);
+            uint64_t delay_ms = initial_delay_ms * (1 << attempt);
             delay_ms = std::min(delay_ms, max_delay_ms);
             
             std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
@@ -420,7 +420,7 @@ void GossipProtocol::cleanupLoop() {
         updatePeerHealth();
         
         // Sleep for cleanup interval (half of gossip interval)
-        uint32_t cleanup_interval = std::max(config_.gossip_interval_sec / 2, 1U);
+        uint32_t cleanup_interval = std::max(config_.gossip_interval_sec / 2, 1);
         for (uint32_t i = 0; i < cleanup_interval && running_.load(); ++i) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }

@@ -115,8 +115,8 @@ ConsistentHashRing::ConsistentHashRing([[maybe_unused]] uint32_t virtual_nodes)
 
 // FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.
 uint64_t ConsistentHashRing::hash(const std::string& key, uint32_t replica) {
-    static constexpr uint64_t kFNVOffset = 14695981039346656037ULL;
-    static constexpr uint64_t kFNVPrime  = 1099511628211ULL;
+    static constexpr uint64_t kFNVOffset = 14695981039346656037;
+    static constexpr uint64_t kFNVPrime  = 1099511628211;
 
     std::string salted = key + "#" + std::to_string(replica);
     uint64_t h = kFNVOffset;

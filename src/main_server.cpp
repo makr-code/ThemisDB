@@ -770,7 +770,7 @@ int main(int argc, char* argv[]) {
         std::filesystem::create_directories("logs", _logs_ec);    // cwd fallback
     }
     utils::Logger::initRotating("../logs/themis_server.log",
-                                10ULL * 1024ULL * 1024ULL,  // 10 MB per file
+                                10 * 1024 * 1024,  // 10 MB per file
                                 5,                           // keep 5 rotations
                                 utils::Logger::Level::INFO);
 

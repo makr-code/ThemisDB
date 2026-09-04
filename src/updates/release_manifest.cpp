@@ -58,7 +58,7 @@ std::optional<ReleaseFile> ReleaseFile::fromJson(const json& j) {
         file.path = j.value("path", "");
         file.type = j.value("type", "");
         file.sha256_hash = j.value("sha256_hash", "");
-        file.size_bytes = j.value("size_bytes", 0ULL);
+        file.size_bytes = j.value("size_bytes", 0);
         file.file_signature = j.value("file_signature", "");
         file.platform = j.value("platform", "");
         file.architecture = j.value("architecture", "");

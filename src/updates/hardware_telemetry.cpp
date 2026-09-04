@@ -254,7 +254,7 @@ uint64_t SystemHardwareInfoProvider::totalRamMb() const {
     MEMORYSTATUSEX ms{};
     ms.dwLength = sizeof(ms);
     if (GlobalMemoryStatusEx(&ms)) {
-        uint64_t mb = ms.ullTotalPhys / (1024ULL * 1024ULL);
+        uint64_t mb = ms.ullTotalPhys / (1024 * 1024);
         return bucketRamMb(mb);
     }
     return 0;
@@ -262,7 +262,7 @@ uint64_t SystemHardwareInfoProvider::totalRamMb() const {
     int64_t mem = 0;
     std::size_t len = sizeof(mem);
     if (sysctlbyname("hw.memsize", &mem, &len, nullptr, 0) == 0 && mem > 0) {
-        uint64_t mb = static_cast<uint64_t>(mem) / (1024ULL * 1024ULL);
+        uint64_t mb = static_cast<uint64_t>(mem) / (1024 * 1024);
         return bucketRamMb(mb);
     }
     return 0;

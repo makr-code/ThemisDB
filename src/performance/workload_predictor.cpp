@@ -136,7 +136,7 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
     uint64_t current_cache_size_mb) const
 {
     // Predict 30 s into the future – a practical planning horizon
-    constexpr uint64_t kHorizon30s = 30ULL * 1'000'000ULL;
+    constexpr uint64_t kHorizon30s = 30 * 1'000'000;
     const WorkloadForecast forecast = predict(kHorizon30s);
 
     ScaleRecommendation rec{};

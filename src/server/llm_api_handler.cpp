@@ -336,7 +336,7 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
     // Validates all user-supplied fields before they reach the inference engine.
     {
-        static constexpr std::size_t kMaxPromptBytes = 1ULL * 1024 * 1024; // 1 MB
+        static constexpr std::size_t kMaxPromptBytes = 1 * 1024 * 1024; // 1 MB
         if (prompt.size() > kMaxPromptBytes) {
             THEMIS_WARN("[SEC] Input validation failed: field=prompt reason=too_large size={}", prompt.size());
             return createErrorResponse(http::status::bad_request,
@@ -530,7 +530,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
     // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
     {
-        static constexpr std::size_t kMaxQueryBytes = 1ULL * 1024 * 1024; // 1 MB
+        static constexpr std::size_t kMaxQueryBytes = 1 * 1024 * 1024; // 1 MB
         if (query.size() > kMaxQueryBytes) {
             THEMIS_WARN("[SEC] Input validation failed: field=query reason=too_large size={}", query.size());
             return createErrorResponse(http::status::bad_request,

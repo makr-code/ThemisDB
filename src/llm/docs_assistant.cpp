@@ -99,8 +99,8 @@ std::vector<std::string> tokenizeLower(const std::string& text) {
 }
 
 uint64_t fnv1a64(const std::string& s) {
-    constexpr uint64_t kOffset = 1469598103934665603ULL;
-    constexpr uint64_t kPrime = 1099511628211ULL;
+    constexpr uint64_t kOffset = 1469598103934665603;
+    constexpr uint64_t kPrime = 1099511628211;
     uint64_t hash = kOffset;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
@@ -127,7 +127,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
         const int tf = kv.second;
         const uint64_t h = fnv1a64(tok);
         const int idx = static_cast<int>(h % static_cast<uint64_t>(dim));
-        const float sign = ((h >> 8) & 1ULL) ? -1.0f : 1.0f;
+        const float sign = ((h >> 8) & 1) ? -1.0f : 1.0f;
         const float weight = 1.0f + std::log(static_cast<float>(std::max(1, tf)));
         vec[static_cast<size_t>(idx)] += sign * weight;
     }

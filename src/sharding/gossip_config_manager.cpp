@@ -812,7 +812,7 @@ void GossipConfigManager::handleConfigUpdate(const ConfigUpdate& update) {
         std::chrono::system_clock::now().time_since_epoch()
     ).count());
     
-    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0ULL;
+    const uint64_t latency_ns = (now_ns >= update.timestamp_ns) ? (now_ns - update.timestamp_ns) : 0;
     double latency_ms = latency_ns / 1e6;
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
@@ -875,9 +875,9 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     ).count());
     
     // Reject updates older than 1 hour.
-    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
+    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600 * 1000000000;
     // Accept bounded future skew to avoid unsigned underflow and tolerate mild clock drift.
-    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300ULL * 1000000000ULL;
+    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300 * 1000000000;
     if (update.timestamp_ns > now_ns) {
         if (update.timestamp_ns - now_ns > MAX_FUTURE_SKEW_NS) {
             return false;

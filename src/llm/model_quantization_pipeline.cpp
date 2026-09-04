@@ -194,7 +194,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     uint64_t hdr_len = 0;
     f.read(reinterpret_cast<char*>(&hdr_len), sizeof(hdr_len));
     // Guard: header must fit in the file and not exceed 64 MB to prevent OOM
-    constexpr uint64_t kMaxHeaderBytes = 64ULL * 1024 * 1024;
+    constexpr uint64_t kMaxHeaderBytes = 64 * 1024 * 1024;
     if (hdr_len == 0 || hdr_len > file_size - 8 || hdr_len > kMaxHeaderBytes) {
         throw std::runtime_error(
             "Safetensors: invalid header length in " + file_path);

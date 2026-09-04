@@ -139,10 +139,10 @@ static void timedJoin(std::thread& t,
 }
 
 uint64_t fnv1a64(std::string_view value) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }
@@ -3153,7 +3153,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
             return;
         }
 
-        constexpr uint64_t kMaxTimeseriesWindowNs = 315'360'000'000'000'000ULL;  // 10 years
+        constexpr uint64_t kMaxTimeseriesWindowNs = 315'360'000'000'000'000;  // 10 years
         const uint64_t window_ns = request.end_time_ns - request.start_time_ns;
         if (window_ns > kMaxTimeseriesWindowNs) {
             sendError(0x000B, "requested time window exceeds supported range");

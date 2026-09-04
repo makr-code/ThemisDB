@@ -322,7 +322,7 @@ bool validateMemoryAllocation(
     // Estimate GPU memory needed
     // Rough estimate: 1.5x model size for working buffers
     size_t estimated_gpu_memory = (model_size * 3) / 2;
-    constexpr size_t GPU_MEM_LIMIT = GPU_MEMORY_LIMIT_GB * 1024ULL * 1024ULL * 1024ULL;
+    constexpr size_t GPU_MEM_LIMIT = GPU_MEMORY_LIMIT_GB * 1024 * 1024 * 1024;
     
     if (estimated_gpu_memory > GPU_MEM_LIMIT) {
         error_msg = "Estimated GPU memory " + std::to_string(estimated_gpu_memory / 1024 / 1024 / 1024) +

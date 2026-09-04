@@ -1981,7 +1981,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             return val * 3600000;
         }
         if (u == "d" || u == "day" || u == "days") {
-            return val * 86400000ULL;
+            return val * 86400000;
         }
         return val; // default: ms
     };

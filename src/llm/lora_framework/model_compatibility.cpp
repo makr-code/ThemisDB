@@ -466,7 +466,7 @@ size_t ModelCompatibilityChecker::estimate_memory_requirements(
         num_parameters = 12 * metadata.hidden_size * metadata.hidden_size * metadata.num_layers;
     } else {
         // Default to 7B parameters
-        num_parameters = 7000000000ULL;
+        num_parameters = 7000000000;
     }
     
     // Apply quantization reduction

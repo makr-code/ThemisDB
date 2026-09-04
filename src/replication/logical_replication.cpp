@@ -662,7 +662,7 @@ void LogicalReplicationManager::loadPersistedSlots() {
         auto runtime = std::make_shared<SlotRuntime>();
         runtime->meta.slot_name = j.value("slot_name", entry.path().stem().string());
         runtime->meta.plugin_name = j.value("plugin_name", "json");
-        runtime->meta.restart_lsn = j.value("restart_lsn", 0ULL);
+        runtime->meta.restart_lsn = j.value("restart_lsn", 0);
         runtime->meta.confirmed_flush_lsn = j.value("confirmed_flush_lsn", runtime->meta.restart_lsn);
         runtime->meta.initial_sync_pending = j.value("initial_sync_pending", false);
         runtime->initial_sync_pending = runtime->meta.initial_sync_pending;

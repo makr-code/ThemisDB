@@ -20,10 +20,10 @@ namespace themis::importers {
 
 namespace {
 uint64_t fnv1a64(std::string_view text) {
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (const unsigned char ch : text) {
         hash ^= ch;
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }

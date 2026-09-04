@@ -120,9 +120,9 @@ inline void closeSocketFd([[maybe_unused]] int &fd) noexcept {
 }
 #else
 inline void closeSocketFd([[maybe_unused]] uintptr_t &fd) noexcept {
-    if (fd != static_cast<uintptr_t>(~0ULL)) {
+    if (fd != static_cast<uintptr_t>(~0)) {
         ::closesocket(static_cast<SOCKET>(fd));
-        fd = static_cast<uintptr_t>(~0ULL);
+        fd = static_cast<uintptr_t>(~0);
     }
 }
 #endif

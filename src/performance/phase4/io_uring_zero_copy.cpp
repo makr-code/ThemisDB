@@ -593,7 +593,7 @@ ScopedIoUringTimer::ScopedIoUringTimer(uint64_t* output_ns) noexcept
 #ifdef __linux__
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    start_ns_ = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL +
+    start_ns_ = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000 +
                 static_cast<uint64_t>(ts.tv_nsec);
 #endif
 }
@@ -605,7 +605,7 @@ ScopedIoUringTimer::~ScopedIoUringTimer() noexcept {
 #ifdef __linux__
     struct timespec ts{};
     ::clock_gettime(CLOCK_MONOTONIC, &ts);
-    uint64_t end_ns = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000ULL +
+    uint64_t end_ns = static_cast<uint64_t>(ts.tv_sec) * 1'000'000'000 +
                       static_cast<uint64_t>(ts.tv_nsec);
     *output_ns_ = (end_ns >= start_ns_) ? (end_ns - start_ns_) : 0;
 #else

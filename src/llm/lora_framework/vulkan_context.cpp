@@ -473,7 +473,7 @@ int32_t VulkanContext::find_memory_type(uint32_t type_filter,
                                          VkMemoryPropertyFlags properties) const {
     for (uint32_t i = 0; i < memory_properties_.memoryTypeCount; ++i) {
         const uint32_t type_bit = uint32_t{1u} << i;
-        if ((type_filter & type_bit) != 0U &&
+        if ((type_filter & type_bit) != 0 &&
             (memory_properties_.memoryTypes[i].propertyFlags & properties) == properties) {
             return static_cast<int32_t>(i);
         }

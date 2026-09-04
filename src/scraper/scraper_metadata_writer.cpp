@@ -35,10 +35,10 @@ namespace {
 
 /// FNV-1a 64-bit hash for quick doc-id generation (no libssl needed).
 uint64_t fnv1a64(const std::string& s) {
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     return hash;
 }

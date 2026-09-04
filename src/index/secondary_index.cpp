@@ -2511,7 +2511,7 @@ std::string SecondaryIndexManager::encodeGeohash(double lat, double lon, int /*p
 	// Interleave bits (Z-Order / Morton Code)
 	uint64_t morton = 0;
 	for (int i = 0; i < 32; ++i) {
-		morton |= ((lat_bits & (1ULL << i)) << i) | ((lon_bits & (1ULL << i)) << (i + 1));
+		morton |= ((lat_bits & (1 << i)) << i) | ((lon_bits & (1 << i)) << (i + 1));
 	}
 	
 	// Convert to hex string
@@ -2525,11 +2525,11 @@ std::pair<double, double> SecondaryIndexManager::decodeGeohash(std::string_view 
 	
 	uint64_t lat_bits = 0, lon_bits = 0;
 	for (int i = 0; i < 32; ++i) {
-		if (morton & (1ULL << (i * 2))) {
-		  lat_bits |= (1ULL << i);
+		if (morton & (1 << (i * 2))) {
+		  lat_bits |= (1 << i);
 		}
-		if (morton & (1ULL << (i * 2 + 1))) {
-		  lon_bits |= (1ULL << i);
+		if (morton & (1 << (i * 2 + 1))) {
+		  lon_bits |= (1 << i);
 		}
 	}
 	

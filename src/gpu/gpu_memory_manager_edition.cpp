@@ -440,7 +440,7 @@ void GPUMemoryManager::ValidateAllocation([[maybe_unused]] uint64_t size_bytes) 
 
     if (size_bytes > max_vram) {
         std::string error = "GPU allocation request (";
-        error += std::to_string(size_bytes / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(size_bytes / (1024 * 1024 * 1024));
         error += "GB) exceeds edition limit (";
         error += std::to_string(GetMaxGPUVRAMGB());
         error += "GB). Edition: ";
@@ -453,9 +453,9 @@ void GPUMemoryManager::ValidateAllocation([[maybe_unused]] uint64_t size_bytes) 
 
     if (new_total > max_vram) {
         std::string error = "GPU memory exhausted. Current usage: ";
-        error += std::to_string(gpu_memory_allocated_ / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(gpu_memory_allocated_ / (1024 * 1024 * 1024));
         error += "GB, requested: ";
-        error += std::to_string(size_bytes / (1024ULL * 1024ULL * 1024ULL));
+        error += std::to_string(size_bytes / (1024 * 1024 * 1024));
         error += "GB, limit: ";
         error += std::to_string(GetMaxGPUVRAMGB());
         error += "GB";

@@ -88,17 +88,17 @@ ShardResourceManager::ResourceSnapshot ShardResourceManager::ResourceSnapshot::f
     ResourceSnapshot snapshot;
     
     snapshot.cpu_usage_percent = j.value("cpu_usage_percent", 0.0f);
-    snapshot.ram_usage_bytes = j.value("ram_usage_bytes", 0ULL);
-    snapshot.ram_total_bytes = j.value("ram_total_bytes", 0ULL);
-    snapshot.vram_usage_bytes = j.value("vram_usage_bytes", 0ULL);
-    snapshot.vram_total_bytes = j.value("vram_total_bytes", 0ULL);
-    snapshot.disk_used_bytes = j.value("disk_used_bytes", 0ULL);
-    snapshot.disk_available_bytes = j.value("disk_available_bytes", 0ULL);
-    snapshot.network_in_bps = j.value("network_in_bps", 0ULL);
-    snapshot.network_out_bps = j.value("network_out_bps", 0ULL);
-    snapshot.active_queries = j.value("active_queries", 0U);
-    snapshot.pending_queries = j.value("pending_queries", 0U);
-    snapshot.active_transactions = j.value("active_transactions", 0U);
+    snapshot.ram_usage_bytes = j.value("ram_usage_bytes", 0);
+    snapshot.ram_total_bytes = j.value("ram_total_bytes", 0);
+    snapshot.vram_usage_bytes = j.value("vram_usage_bytes", 0);
+    snapshot.vram_total_bytes = j.value("vram_total_bytes", 0);
+    snapshot.disk_used_bytes = j.value("disk_used_bytes", 0);
+    snapshot.disk_available_bytes = j.value("disk_available_bytes", 0);
+    snapshot.network_in_bps = j.value("network_in_bps", 0);
+    snapshot.network_out_bps = j.value("network_out_bps", 0);
+    snapshot.active_queries = j.value("active_queries", 0);
+    snapshot.pending_queries = j.value("pending_queries", 0);
+    snapshot.active_transactions = j.value("active_transactions", 0);
     snapshot.avg_query_latency_ms = j.value("avg_query_latency_ms", 0.0f);
     snapshot.p99_query_latency_ms = j.value("p99_query_latency_ms", 0.0f);
     snapshot.health_score = j.value("health_score", 100.0f);
@@ -337,7 +337,7 @@ void ShardResourceManager::broadcastResourceUpdate() {
     // std::thread::hardware_concurrency() is the correct cross-platform approach
     // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
-    gossip_snapshot.available_cpu_cores = std::max(0U, 
+    gossip_snapshot.available_cpu_cores = std::max(0, 
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)
     );
     gossip_snapshot.available_disk_bytes = snapshot.disk_available_bytes;

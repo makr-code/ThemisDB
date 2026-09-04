@@ -286,8 +286,8 @@ void ShardTopology::loadFromMetadataStore() {
                 shard.primary_endpoint = shard_json.value("primary_endpoint", "");
                 shard.datacenter = shard_json.value("datacenter", "");
                 shard.rack = shard_json.value("rack", "");
-                shard.token_start = shard_json.value("token_start", 0ULL);
-                shard.token_end = shard_json.value("token_end", 0ULL);
+                shard.token_start = shard_json.value("token_start", 0);
+                shard.token_end = shard_json.value("token_end", 0);
                 shard.is_healthy = shard_json.value("is_healthy", true);
                 shard.certificate_serial = shard_json.value("certificate_serial", "");
                 

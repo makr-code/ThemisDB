@@ -31,8 +31,8 @@ uint64_t GPUKernelValidator::computeChecksum(const std::vector<uint8_t>& data) {
 
 uint64_t GPUKernelValidator::computeChecksum(const uint8_t* data,
                                                size_t length) {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME        = 1099511628211ULL;
+    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037;
+    constexpr uint64_t FNV_PRIME        = 1099511628211;
     uint64_t hash = FNV_OFFSET_BASIS;
     for (size_t i = 0; i < length; ++i) {
         hash ^= static_cast<uint64_t>(data[i]);

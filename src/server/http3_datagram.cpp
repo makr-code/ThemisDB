@@ -162,23 +162,23 @@ void Http3DatagramDispatcher::recordSent() {
 /* static */
 size_t Http3DatagramDispatcher::encodeVarint(uint64_t value, uint8_t* buf) {
     // RFC 9000 §16: max 2^62 - 1
-    if (value <= 63ULL) {                           // 6-bit range
+    if (value <= 63) {                           // 6-bit range
         buf[0] = static_cast<uint8_t>(value);       // prefix 00
         return 1;
     }
-    if (value <= 16383ULL) {                        // 14-bit range
+    if (value <= 16383) {                        // 14-bit range
         buf[0] = static_cast<uint8_t>(0x40 | (value >> 8));
         buf[1] = static_cast<uint8_t>(value & 0xFF);
         return 2;
     }
-    if (value <= 1073741823ULL) {                   // 30-bit range
+    if (value <= 1073741823) {                   // 30-bit range
         buf[0] = static_cast<uint8_t>(0x80 | (value >> 24));
         buf[1] = static_cast<uint8_t>((value >> 16) & 0xFF);
         buf[2] = static_cast<uint8_t>((value >>  8) & 0xFF);
         buf[3] = static_cast<uint8_t>(value & 0xFF);
         return 4;
     }
-    if (value <= 4611686018427387903ULL) {          // 62-bit range
+    if (value <= 4611686018427387903) {          // 62-bit range
         buf[0] = static_cast<uint8_t>(0xC0 | (value >> 56));
         buf[1] = static_cast<uint8_t>((value >> 48) & 0xFF);
         buf[2] = static_cast<uint8_t>((value >> 40) & 0xFF);

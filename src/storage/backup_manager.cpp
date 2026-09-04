@@ -957,7 +957,7 @@ Result<void> BackupManager::readManifest(const std::string& backup_dir, std::str
         in >> manifest;
         
         type = manifest.value("type", "unknown");
-        sequence_number = manifest.value("sequence_number", 0ULL);
+        sequence_number = manifest.value("sequence_number", 0);
         
         THEMIS_INFO("Read backup manifest: type={}, seq={}", type, sequence_number);
         return OkVoid();
@@ -3911,7 +3911,7 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
             info.relative_path = entry["path"].get<std::string>();
             info.checksum_sha256 = entry["checksum_sha256"].get<std::string>();
             info.original_size = entry["original_size"].get<uint64_t>();
-            info.compressed_size = entry.value("compressed_size", 0UL);
+            info.compressed_size = entry.value("compressed_size", 0);
             info.compression = static_cast<CompressionType>(entry.value("compression", 0));
             result.push_back(info);
         }

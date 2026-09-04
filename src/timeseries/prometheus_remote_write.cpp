@@ -360,7 +360,7 @@ Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, siz
     // 32 MB is chosen as a generous upper bound that accommodates very large
     // batches while preventing unbounded memory allocation from a hostile
     // compressed payload.
-    static constexpr size_t MAX_DECOMPRESSED_SIZE = 32ULL * 1024 * 1024; // 32 MB
+    static constexpr size_t MAX_DECOMPRESSED_SIZE = 32 * 1024 * 1024; // 32 MB
     if (uncompressed_len > MAX_DECOMPRESSED_SIZE) {
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                                     "Snappy decompression: payload exceeds 32 MB safety limit");

@@ -3082,7 +3082,7 @@ QueryEngine::executeAndEntitiesWithFallback(const ConjunctiveQuery& q, bool opti
 
 // ===== Range-aware Ausführung =====
 namespace {
-static inline size_t bigLimit() { return static_cast<size_t>(1000000000ULL); }
+static inline size_t bigLimit() { return static_cast<size_t>(1000000000); }
 }
 
 Result<std::vector<std::string>>

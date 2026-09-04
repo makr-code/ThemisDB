@@ -53,7 +53,7 @@ DeviceInfo MakeCPUFallback() {
     d.name             = "CPU Fallback";
     d.backend          = "CPU_FALLBACK";
     d.total_vram_bytes = edition::GPU_MAX_VRAM_GB > 0
-                             ? static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) * 1024ULL * 1024ULL * 1024ULL
+                             ? static_cast<uint64_t>(edition::GPU_MAX_VRAM_GB) * 1024 * 1024 * 1024
                              : 0;
     d.free_vram_bytes  = d.total_vram_bytes;
     d.compute_major    = 0;

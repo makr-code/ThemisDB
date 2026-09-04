@@ -772,7 +772,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
 
     const char delim = (fmt == FlatFileFormat::TSV) ? '\t' : delimiter_;
     const size_t row_limit  = options.max_row_size_bytes;
-    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024ULL;
+    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024;
 
     std::vector<std::string> columns;
     size_t line_number = 0;
@@ -982,7 +982,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     }
 
     const size_t row_limit  = options.max_row_size_bytes;
-    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024ULL;
+    const size_t line_limit = row_limit > 0 ? row_limit : 64 * 1024 * 1024;
 
     stats.tables_processed++;
     reportProgress(cb, "importing table " + table, 0, 0);

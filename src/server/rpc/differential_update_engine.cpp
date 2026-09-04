@@ -31,7 +31,7 @@ public:
         std::vector<uint64_t> boundaries;
         boundaries.push_back(0);  // Start
         
-        const uint64_t mask = (1ULL << 13) - 1;  // For ~8KB average chunks
+        const uint64_t mask = (1 << 13) - 1;  // For ~8KB average chunks
         uint64_t fingerprint = 0;
         
         for (size_t i = 0; i < data.size(); i++) {

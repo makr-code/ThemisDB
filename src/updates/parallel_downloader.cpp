@@ -226,7 +226,7 @@ void ParallelDownloader::refillTokens([[maybe_unused]] uint64_t /*bytes_needed*/
             return;
         }
         const uint64_t new_tokens =
-            (bandwidth_limit_bps_ * static_cast<uint64_t>(elapsed_ms)) / 1000ULL;
+            (bandwidth_limit_bps_ * static_cast<uint64_t>(elapsed_ms)) / 1000;
         // Cap at 2× the per-100ms slice to avoid burst accumulation
         const uint64_t max_tokens = bandwidth_limit_bps_ / 5;
         uint64_t current = token_bucket_.load(std::memory_order_relaxed);
@@ -264,7 +264,7 @@ void ParallelDownloader::consumeBandwidth([[maybe_unused]] uint64_t bytes) const
         const uint64_t deficit = bytes - avail;
         const auto sleep_ms =
             std::chrono::milliseconds(
-                static_cast<long>(deficit * 1000ULL / bandwidth_limit_bps_) + 1);
+                static_cast<long>(deficit * 1000 / bandwidth_limit_bps_) + 1);
         std::this_thread::sleep_for(sleep_ms);
     }
 }

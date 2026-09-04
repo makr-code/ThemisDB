@@ -53,7 +53,7 @@ constexpr int kL3InitRetryDelayMs     = 1000; // initial backoff
 constexpr int kL3InitMaxTotalDelayMs  = 3000; // sum of all sleep_for calls across retries
 
 // C4: AI/LLM safety constants — hard caps applied unconditionally in put().
-constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864ULL; // 64 MiB
+constexpr size_t  kAbsoluteMaxEntrySizeBytes = 67108864; // 64 MiB
 constexpr int     kAbsoluteMaxTTLSeconds      = 86400;       // 24 hours
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config &config) : config_(config) {

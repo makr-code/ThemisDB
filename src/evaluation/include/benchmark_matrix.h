@@ -484,7 +484,7 @@ private:
         std::size_t operator()(const Key& k) const noexcept {
             // Combine the two small integers with a Knuth multiplier.
             std::size_t h = static_cast<std::size_t>(k.scenario);
-            h ^= (static_cast<std::size_t>(k.dimension) * 2654435761ULL) + 0x9e3779b9ULL + (h << 6) + (h >> 2);
+            h ^= (static_cast<std::size_t>(k.dimension) * 2654435761) + 0x9e3779b9ULL + (h << 6) + (h >> 2);
             return h;
         }
     };

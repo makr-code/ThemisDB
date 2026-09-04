@@ -560,10 +560,10 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter([[maybe_unused]] double z_thr
         auto median = [](std::vector<double> values) -> double {
             std::sort(values.begin(), values.end());
             const size_t n = values.size();
-            if ((n % 2U) == 1U) {
-                return values[n / 2U];
+            if ((n % 2) == 1) {
+                return values[n / 2];
             }
-            return (values[(n / 2U) - 1U] + values[n / 2U]) / 2.0;
+            return (values[(n / 2) - 1] + values[n / 2]) / 2.0;
         };
 
         // Robust outlier detection using median + MAD, upper-tail only.

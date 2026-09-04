@@ -68,7 +68,7 @@ std::vector<PMemDeviceInfo> detect_pmem_devices() {
             struct stat st{};
             if (stat(mnt, &st) == 0) {
                 // Rough estimate: use block size * blocks (may be inaccurate for DAX)
-                info.size_bytes = static_cast<size_t>(st.st_blocks) * 512UL;
+                info.size_bytes = static_cast<size_t>(st.st_blocks) * 512;
             }
             devices.push_back(std::move(info));
         }

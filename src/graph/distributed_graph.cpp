@@ -58,7 +58,7 @@ std::optional<std::string> validateConstraintSet(const GraphQueryOptimizer::Quer
     std::unordered_set<std::string> forbidden(constraints.forbidden_vertices.begin(),
                                               constraints.forbidden_vertices.end());
     for (const auto &vertex : constraints.required_vertices) {
-        if (forbidden.count(vertex) > 0U) {
+        if (forbidden.count(vertex) > 0) {
             return "Query constraints conflict: vertex '" + vertex
                    + "' cannot be both required and forbidden";
         }
@@ -220,10 +220,10 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
         case PartitionStrategy::HASH:
         [[fallthrough]];\n        default: {
             // FNV-1a hash → uniform bucket assignment.
-            uint64_t h = 14695981039346656037ULL;
+            uint64_t h = 14695981039346656037;
             for (unsigned char c : local_vertex_id) {
                 h ^= static_cast<uint64_t>(c);
-                h *= 1099511628211ULL;
+                h *= 1099511628211;
             }
             return ordered[h % ordered.size()];
         }

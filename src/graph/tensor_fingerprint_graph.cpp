@@ -139,7 +139,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
 
     for (std::size_t h = 0; h < hash_count; ++h) {
-        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1ULL;
+        const uint64_t a = fnv1a64(&h, sizeof(h)) | 1;
         a_params[h]      = a;
         b_params[h]      = fnv1a64(&a, sizeof(a));
     }

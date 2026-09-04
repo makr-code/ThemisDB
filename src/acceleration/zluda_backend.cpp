@@ -571,7 +571,7 @@ private:
     ZludaStream stream_ = nullptr;
     /// Actual VRAM capacity queried via cuDeviceTotalMem during initialize().
     /// Sentinel 8 GiB used when the function is unavailable through ZLUDA.
-    size_t detected_memory_bytes_ = 8ULL * 1024 * 1024 * 1024;
+    size_t detected_memory_bytes_ = 8 * 1024 * 1024 * 1024;
     
     // Function pointers
     PFN_zludaGetDeviceCount fnGetDeviceCount_ = nullptr;

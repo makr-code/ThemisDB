@@ -617,14 +617,14 @@ static void writeU8(std::ostream &out, uint8_t v) {
 
 static void writeU16LE(std::ostream &out, uint16_t v) {
   out.put(static_cast<char>(v & 0xFFU));
-  out.put(static_cast<char>((v >> 8U) & 0xFFU));
+  out.put(static_cast<char>((v >> 8) & 0xFFU));
 }
 
 static void writeU32LE(std::ostream &out, uint32_t v) {
   out.put(static_cast<char>(v & 0xFFU));
-  out.put(static_cast<char>((v >> 8U) & 0xFFU));
-  out.put(static_cast<char>((v >> 16U) & 0xFFU));
-  out.put(static_cast<char>((v >> 24U) & 0xFFU));
+  out.put(static_cast<char>((v >> 8) & 0xFFU));
+  out.put(static_cast<char>((v >> 16) & 0xFFU));
+  out.put(static_cast<char>((v >> 24) & 0xFFU));
 }
 
 static bool readU8(std::istream &in, uint8_t &v) {
@@ -643,7 +643,7 @@ static bool readU16LE(std::istream &in, uint16_t &v) {
   }
   v = static_cast<uint16_t>(
       static_cast<uint8_t>(lo) |
-      (static_cast<uint16_t>(static_cast<uint8_t>(hi)) << 8U));
+      (static_cast<uint16_t>(static_cast<uint8_t>(hi)) << 8));
   return true;
 }
 
@@ -656,9 +656,9 @@ static bool readU32LE(std::istream &in, uint32_t &v) {
     }
     b[i] = static_cast<uint8_t>(c);
   }
-  v = static_cast<uint32_t>(b[0]) | (static_cast<uint32_t>(b[1]) << 8U) |
-      (static_cast<uint32_t>(b[2]) << 16U) |
-      (static_cast<uint32_t>(b[3]) << 24U);
+  v = static_cast<uint32_t>(b[0]) | (static_cast<uint32_t>(b[1]) << 8) |
+      (static_cast<uint32_t>(b[2]) << 16) |
+      (static_cast<uint32_t>(b[3]) << 24);
   return true;
 }
 

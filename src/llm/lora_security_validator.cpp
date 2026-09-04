@@ -663,7 +663,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     // ── Size guard: reject files that exceed max_adapter_size_bytes BEFORE
     //    any heap allocation that processes file content, to prevent
     //    integer-overflow-driven heap exhaustion (Phase 1.4 hardening).
-    const size_t max_bytes = config_.max_adapter_size_mb * 1024ULL * 1024ULL;
+    const size_t max_bytes = config_.max_adapter_size_mb * 1024 * 1024;
     if (data.size() > max_bytes) {
         spdlog::error("LoRASecurityValidator: file too large ({} bytes, max {})",
                       data.size(), max_bytes);
@@ -685,7 +685,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
         }
         // Sanity: header_size must be non-zero, not overflow the buffer, and
         // not be implausibly large (reject files claiming a > 100 MiB header).
-        constexpr uint64_t kMaxHeaderSize = 100ULL * 1024 * 1024;
+        constexpr uint64_t kMaxHeaderSize = 100 * 1024 * 1024;
         if (header_size > 0 && header_size <= kMaxHeaderSize &&
             8 + header_size <= static_cast<uint64_t>(data.size())) {
             try {
@@ -828,7 +828,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             }
             
             // Validate tensor size is reasonable (< 10GB)
-            if (end_offset - start_offset > 10ULL * 1024 * 1024 * 1024) {
+            if (end_offset - start_offset > 10 * 1024 * 1024 * 1024) {
                 spdlog::warn("Tensor size too large: {} bytes", end_offset - start_offset);
                 continue;
             }

@@ -782,7 +782,7 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     // Convert max age from days to milliseconds with overflow check
     // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
     // Check if multiplication would overflow uint64_t
-    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    constexpr uint64_t MS_PER_DAY = 86400000;
     if (max_age_days < 0) {
         validation_errors_.push_back("Maximum age must be non-negative");
         return false;

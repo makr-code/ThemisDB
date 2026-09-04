@@ -57,8 +57,8 @@ static std::string computeSHA256(const std::string& data) noexcept {
 
     // Placeholder: use a simple FNV-1a variant for determinism
     // Real implementation would use EVP_sha256 from OpenSSL
-    std::uint64_t hash = 14695981039346656037ULL;  // FNV offset basis
-    constexpr std::uint64_t prime = 1099511628211ULL;
+    std::uint64_t hash = 14695981039346656037;  // FNV offset basis
+    constexpr std::uint64_t prime = 1099511628211;
 
     for (unsigned char c : data) {
         hash ^= c;

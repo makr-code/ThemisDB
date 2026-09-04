@@ -31,10 +31,10 @@ namespace {
 // 64-bit FNV-1a hash with MurmurHash3 finalizer for good avalanche properties.
 uint64_t hashValue(const nlohmann::json& v) {
     const std::string s = v.is_string() ? v.get<std::string>() : v.dump();
-    uint64_t h = 14695981039346656037ULL;
+    uint64_t h = 14695981039346656037;
     for (unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211ULL;
+        h *= 1099511628211;
     }
     // MurmurHash3 64-bit finalizer: mix bits for uniform distribution.
     h ^= h >> 33;
@@ -51,7 +51,7 @@ uint8_t rho([[maybe_unused]] uint64_t value) {
       return 65;
     }
     uint8_t count = 1;
-    while ((value & (1ULL << 63)) == 0) {
+    while ((value & (1 << 63)) == 0) {
         ++count;
         value <<= 1;
     }
@@ -70,7 +70,7 @@ void ApproximateCountDistinct::add(const nlohmann::json& value) {
     // Use the top `precision_` bits as the register index.
     const int idx = static_cast<int>(h >> (64 - precision_));
     // Remaining bits determine the rho value.
-    const uint64_t w = (h << precision_) | ((1ULL << precision_) - 1);
+    const uint64_t w = (h << precision_) | ((1 << precision_) - 1);
     const uint8_t r  = rho(w);
     if (r > registers_[static_cast<size_t>(idx)]) {
         registers_[static_cast<size_t>(idx)] = r;

@@ -58,12 +58,12 @@ constexpr double kFragPctPerL0File       = 2.0;
 constexpr double kMaxFallbackFragPct     = 50.0;
 
 /// Bytes in one megabyte (used for orphan-entry estimation).
-constexpr uint64_t kBytesPerMB           = 1024ULL * 1024ULL;
+constexpr uint64_t kBytesPerMB           = 1024 * 1024;
 
 /// Estimated orphan entries per megabyte of pending-compaction bytes.
 /// This is a coarse heuristic; accurate tracking requires a dedicated
 /// metadata column family.
-constexpr uint64_t kEstimatedOrphansPerMB = 1000ULL;
+constexpr uint64_t kEstimatedOrphansPerMB = 1000;
 
 /// RocksDB key prefix used to persist per-index stats-update timestamps.
 /// Key format: "__ia_stats_ts__:<index_name>"  Value: decimal epoch seconds.

@@ -267,8 +267,8 @@ double ConsistentHashRing::getBalanceFactor() const {
 }
 
 uint64_t ConsistentHashRing::hash(const std::string& key) const {
-    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
-    constexpr uint64_t kFNVPrime = 1099511628211ULL;
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037;
+    constexpr uint64_t kFNVPrime = 1099511628211;
     uint64_t h = kFNVOffsetBasis;
     for (unsigned char c : key) {
         h ^= static_cast<uint64_t>(c);

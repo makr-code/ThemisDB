@@ -127,7 +127,7 @@ public:
             // Enable HALF_OPEN for testing
             state_.store(State::HALF_OPEN, std::memory_order_release);
             // Exponential backoff: 1s, 2s, 4s, 8s, 10s (capped)
-            std::uint32_t backoff_secs = std::min(1U << successes, 10U);
+            std::uint32_t backoff_secs = std::min(1 << successes, 10);
             const auto deadline = std::chrono::high_resolution_clock::now() +
                                   std::chrono::seconds(backoff_secs);
             backoff_deadline_.store(deadline, std::memory_order_release);

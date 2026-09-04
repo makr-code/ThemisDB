@@ -145,7 +145,7 @@ CongestionDiagnostics BbrCongestionController::getDiagnostics() const noexcept {
         // tcp_bbr_info.bbr_bw is in bytes/sec (64-bit, high and low words).
         const uint64_t bw_lo = cc_info.bbr.bbr_bw_lo;
         const uint64_t bw_hi = cc_info.bbr.bbr_bw_hi;
-        diag.bandwidth_bps = ((bw_hi << 32) | bw_lo) * 8ULL;
+        diag.bandwidth_bps = ((bw_hi << 32) | bw_lo) * 8;
         diag.min_rtt_us    = cc_info.bbr.bbr_min_rtt;
     }
 #  endif // TCP_CC_INFO

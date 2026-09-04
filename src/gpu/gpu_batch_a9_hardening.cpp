@@ -93,7 +93,7 @@ bool isAllocationValid([[maybe_unused]] size_t size_bytes) noexcept {
     }
     
     // Prevent allocations larger than 1GB
-    constexpr size_t MAX_ALLOCATION = 1ULL << 30;  // 1GB
+    constexpr size_t MAX_ALLOCATION = 1 << 30;  // 1GB
     if (size_bytes > MAX_ALLOCATION) {
         auto logger = spdlog::get("gpu");
         if (logger) {

@@ -140,10 +140,10 @@ std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
 
 std::string SDPlugin::sha256Hex(const std::string& input) {
     // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint
-    uint64_t hash = 14695981039346656037ULL;
+    uint64_t hash = 14695981039346656037;
     for (unsigned char c : input) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << hash;
@@ -188,7 +188,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
     uint64_t bits = 0u;
     for (size_t i = 0; i < luma.size(); ++i) {
         if (luma[i] >= avg) {
-            bits |= (1ULL << i);
+            bits |= (1 << i);
         }
     }
 

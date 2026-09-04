@@ -550,7 +550,7 @@ Result<FragmentationMetrics> IndexMaintenanceManager::calculateFragmentation(
         // ── Pending compaction bytes provide an additional signal ─────────────
         uint64_t pending_compact_bytes = 0;
         db->GetIntProperty("rocksdb.estimate-pending-compaction-bytes", &pending_compact_bytes);
-        static constexpr uint64_t kBytesPerMB = 1024ULL * 1024ULL;
+        static constexpr uint64_t kBytesPerMB = 1024 * 1024;
         static constexpr double kFragPctPerPendingMB = 0.1;
         const double pending_mb = static_cast<double>(pending_compact_bytes) / static_cast<double>(kBytesPerMB);
         frag_pct = std::min(100.0, frag_pct + pending_mb * kFragPctPerPendingMB);

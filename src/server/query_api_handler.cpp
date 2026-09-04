@@ -754,7 +754,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         query::QueryResourceLimits resource_limits;
         // GAP-022 fixed: when the user sends 0 OR omits max_memory_bytes, apply a
         // server-side default of 256 MiB so the check in aql_runner.cpp is never skipped.
-        static constexpr size_t kDefaultMaxMemoryBytes = 256ULL * 1024 * 1024; // 256 MiB
+        static constexpr size_t kDefaultMaxMemoryBytes = 256 * 1024 * 1024; // 256 MiB
         resource_limits.max_rows         = body.contains("max_rows")         ? body["max_rows"].get<size_t>()         : 0;
         {
             size_t user_mem = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;

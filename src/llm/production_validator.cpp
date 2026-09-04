@@ -944,7 +944,7 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
             const size_t page_size = static_cast<size_t>(
                 static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)));
 #endif
-            stats.memory_mb = (pages * page_size) / (1024UL * 1024UL);
+            stats.memory_mb = (pages * page_size) / (1024 * 1024);
         }
     }
 
@@ -1145,8 +1145,8 @@ bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
     // Verify that LazyModelLoader and GPUMemoryManager can be jointly constructed
     // and that VRAM budget queries are internally consistent.
     GPUMemoryManager::Config mem_cfg;
-    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;  // 4 GB test budget
-    mem_cfg.min_free_vram_bytes = 512ULL * 1024 * 1024;   // 512 MB reserve
+    mem_cfg.max_vram_bytes = 4 * 1024 * 1024 * 1024;  // 4 GB test budget
+    mem_cfg.min_free_vram_bytes = 512 * 1024 * 1024;   // 512 MB reserve
 
     GPUMemoryManager mgr(mem_cfg);
     auto stats = mgr.getStats();
@@ -1278,7 +1278,7 @@ bool IntegrationTestSuite::testFullPipelineE2E() {
     // and verify that all components initialise and interact without errors.
 
     GPUMemoryManager::Config mem_cfg;
-    mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;
+    mem_cfg.max_vram_bytes = 4 * 1024 * 1024 * 1024;
     GPUMemoryManager mgr(mem_cfg);
 
     LazyModelLoader::Config loader_cfg;

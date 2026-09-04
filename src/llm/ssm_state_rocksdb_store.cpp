@@ -301,7 +301,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
         int64_t logical = j["snapshot_ts_logical"].get<int64_t>();
         snapshot.snapshot_ts = HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
         snapshot.state_fingerprint = j.value("state_fingerprint", std::string());
-        snapshot.sequence_counter = j.value("sequence_counter", 0ULL);
+        snapshot.sequence_counter = j.value("sequence_counter", 0);
         std::string hex = j.value("state_data_hex", std::string());
         snapshot.state_data.clear();
         snapshot.state_data.reserve(hex.size() / 2);

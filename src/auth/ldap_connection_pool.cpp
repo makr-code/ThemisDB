@@ -272,7 +272,7 @@ LDAP *LDAPConnectionPool::createConnection() {
     return nullptr;
 #elif defined(_WIN32)
     LDAP *ld = ldap_init(const_cast<PCHAR>(config_.server_url.c_str()),
-                         config_.port > 0 ? static_cast<ULONG>(config_.port) : 389U);
+                         config_.port > 0 ? static_cast<ULONG>(config_.port) : 389);
     if (!ld) {
         spdlog::error("LDAPConnectionPool: ldap_init failed for server {}", config_.server_url);
         return nullptr;

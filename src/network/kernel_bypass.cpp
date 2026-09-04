@@ -272,7 +272,7 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
         if (numa_node >= 0 && NumaAllocator::isNumaAvailable()) {
             // mbind to preferred node.
-            unsigned long nodemask = (1UL << static_cast<unsigned>(numa_node));
+            unsigned long nodemask = (1 << static_cast<unsigned>(numa_node));
             ::syscall(__NR_mbind, p, aligned, /* MPOL_PREFERRED */ 1, &nodemask, sizeof(nodemask) * 8 + 1,
                       /* MPOL_MF_MOVE */ 2);
         }
@@ -376,7 +376,7 @@ std::vector<int> DPDKServer::coresFromMask([[maybe_unused]] uint64_t mask) noexc
     std::vector<int> cores = {};
 
     for (int i = 0; i < 64; ++i) {
-        if (mask & (1ULL << static_cast<unsigned>(i))) {
+        if (mask & (1 << static_cast<unsigned>(i))) {
             cores.push_back(i);
         }
     }
@@ -596,7 +596,7 @@ void DPDKServer::stop() {
 
 void DPDKServer::pollLoop([[maybe_unused]] int core_id, [[maybe_unused]] int queue_id) {
 #if defined(THEMIS_ENABLE_DPDK)
-    constexpr uint64_t kCyclesPerStatUpdate = 100000000ULL; // ~0.1 s at 1 GHz
+    constexpr uint64_t kCyclesPerStatUpdate = 100000000; // ~0.1 s at 1 GHz
     uint64_t last_stat_cycle                = rte_get_tsc_cycles();
 
     while (running_.load(std::memory_order_relaxed)) {

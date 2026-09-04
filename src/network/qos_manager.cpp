@@ -461,14 +461,14 @@ void QoSManager::clearTokenBucket([[maybe_unused]] uint64_t connection_id) {
 
 uint64_t QoSManager::effectiveMaxBandwidthBps() const {
     if (config_.max_bandwidth_mbps > 0) {
-        return config_.max_bandwidth_mbps * 1'000'000ULL;
+        return config_.max_bandwidth_mbps * 1'000'000;
     }
     return config_.max_bandwidth_bps;
 }
 
 uint64_t QoSManager::effectiveDefaultRateBps() const {
     if (config_.per_connection_limit_mbps > 0) {
-        return config_.per_connection_limit_mbps * 1'000'000ULL;
+        return config_.per_connection_limit_mbps * 1'000'000;
     }
     return config_.default_rate_bps;
 }

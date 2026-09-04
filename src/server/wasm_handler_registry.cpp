@@ -317,7 +317,7 @@ WasmInvokeResult WasmHandlerRegistry::invoke(
     // Build sandbox configuration.
     themis::modules::WasmPluginSandbox::Config sandbox_cfg;
     sandbox_cfg.linear_memory_pages   = config.linear_memory_pages;
-    sandbox_cfg.max_memory_mb         = config.memory_limit_bytes / (1024ULL * 1024);
+    sandbox_cfg.max_memory_mb         = config.memory_limit_bytes / (1024 * 1024);
     sandbox_cfg.max_cpu_time_seconds  = 0; // Wall-clock limit enforced via future::wait_until below.
     sandbox_cfg.allow_unregistered_imports = false;
 

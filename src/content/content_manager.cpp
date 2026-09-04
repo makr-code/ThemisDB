@@ -95,10 +95,10 @@ static std::string computeImageDedupHash(const std::string& blob) {
         return {};
     }
 
-    uint64_t hash = 1469598103934665603ULL;
+    uint64_t hash = 1469598103934665603;
     for (unsigned char byte : blob) {
         hash ^= static_cast<uint64_t>(byte);
-        hash *= 1099511628211ULL;
+        hash *= 1099511628211;
     }
 
     std::ostringstream oss = {};

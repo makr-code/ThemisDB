@@ -47,10 +47,10 @@ namespace performance {
 uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
                                                    uint64_t seed) noexcept {
     // FNV-1a with seed mixing
-    uint64_t h = 14695981039346656037ULL ^ seed;
+    uint64_t h = 14695981039346656037 ^ seed;
     for (unsigned char c : key) {
         h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211ULL;
+        h *= 1099511628211;
     }
     return h;
 }
@@ -58,7 +58,7 @@ uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
 void AdvancedCacheManager::BloomFilter::insert(const std::string& key) noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        bits[bit / 64] |= (1ULL << (bit % 64));
+        bits[bit / 64] |= (1 << (bit % 64));
     }
 }
 
@@ -66,7 +66,7 @@ bool AdvancedCacheManager::BloomFilter::maybe_contains(
         const std::string& key) const noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        if (!(bits[bit / 64] & (1ULL << (bit % 64)))) {
+        if (!(bits[bit / 64] & (1 << (bit % 64)))) {
           return false;
         }
     }
@@ -312,7 +312,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
 size_t AdvancedCacheManager::entries_for_mb(size_t mb) noexcept {
     // Assume average entry of ~256 bytes (key + value)
-    return (mb * 1024ULL * 1024ULL) / 256ULL;
+    return (mb * 1024 * 1024) / 256;
 }
 
 // ---------------------------------------------------------------------------

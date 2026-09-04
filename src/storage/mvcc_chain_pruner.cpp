@@ -73,7 +73,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     const uint32_t min_keep =
         (config.min_versions_to_keep > 0) ? config.min_versions_to_keep : 1u;
     const uint64_t max_deletable =
-        (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0ULL;
+        (total > min_keep) ? static_cast<uint64_t>(total - min_keep) : 0;
 
     // Count how many versions are strictly below the horizon.
     uint64_t eligible = 0;

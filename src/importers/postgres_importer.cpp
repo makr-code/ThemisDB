@@ -850,7 +850,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // (or a safe default of 64 MB) so a crafted dump with no newlines cannot OOM.
     const size_t line_read_limit = options.max_statement_size_bytes > 0
                                    ? options.max_statement_size_bytes
-                                   : 64 * 1024 * 1024ULL;  // 64 MB default cap
+                                   : 64 * 1024 * 1024;  // 64 MB default cap
 
     // Performance: pre-reserve buffers so common DDL/DML lines (≤4 KB) avoid
     // repeated reallocation inside the hot loop.
@@ -2183,7 +2183,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         bool trunc = false;
         const size_t skip_limit = options.max_row_size_bytes > 0
                                   ? options.max_row_size_bytes * 2
-                                  : 64 * 1024 * 1024ULL;
+                                  : 64 * 1024 * 1024;
         while (streamReadLinePg(file, line, skip_limit, trunc)) {
             if (line == "\\." || line.rfind("\\.", 0) == 0) {
               break;
@@ -2207,7 +2207,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
     // (or a safe default of 64 MB) to prevent OOM from adversarial dumps.
     const size_t row_read_limit = options.max_row_size_bytes > 0
                                   ? options.max_row_size_bytes
-                                  : 64 * 1024 * 1024ULL;  // 64 MB default cap
+                                  : 64 * 1024 * 1024;  // 64 MB default cap
 
     std::string line = {};
     size_t row_num = 0;

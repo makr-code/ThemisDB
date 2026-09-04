@@ -85,8 +85,8 @@
 #if defined(THEMIS_IS_LINUX)
 #  ifndef TDX_CMD_GET_REPORT0
 //   From linux/tdx-guest.h (kernel ≥ 6.2)
-#    define TDX_REPORTDATA_LEN  64U
-#    define TDX_REPORT_LEN     1024U
+#    define TDX_REPORTDATA_LEN  64
+#    define TDX_REPORT_LEN     1024
      struct tdx_report_req {
          uint8_t reportdata[TDX_REPORTDATA_LEN];
          uint8_t tdreport[TDX_REPORT_LEN];
@@ -96,8 +96,8 @@
 
 #  ifndef SNP_GET_REPORT
 //   From linux/sev-guest.h (kernel ≥ 5.19)
-#    define SNP_REPORT_DATA_SIZE 64U
-#    define SNP_REPORT_SIZE     1184U
+#    define SNP_REPORT_DATA_SIZE 64
+#    define SNP_REPORT_SIZE     1184
      struct snp_report_req {
          uint8_t user_data[SNP_REPORT_DATA_SIZE];
          uint32_t vmpl;
@@ -217,8 +217,8 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
         uint64_t msr_val = 0;
         off_t offset = static_cast<off_t>(0xC0010131ULL);
         if (::pread(fd.fd, &msr_val, sizeof(msr_val), offset) == sizeof(msr_val)) {
-            sev_active     = (msr_val & (1ULL << 0)) != 0; // SEV bit
-            sev_snp_active = (msr_val & (1ULL << 3)) != 0; // SNP bit
+            sev_active     = (msr_val & (1 << 0)) != 0; // SEV bit
+            sev_snp_active = (msr_val & (1 << 3)) != 0; // SNP bit
         }
     } else {
         // MSR not accessible (no root, container, etc.); trust CPUID alone.

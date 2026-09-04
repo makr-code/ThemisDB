@@ -21,7 +21,7 @@ namespace security {
 
 namespace {
 
-constexpr std::size_t kMaxXmlBlobSize = 256ULL * 1024ULL * 1024ULL;
+constexpr std::size_t kMaxXmlBlobSize = 256 * 1024 * 1024;
 constexpr int kMaxXmlDepth = 1024;
 
 std::string toLowerAscii(std::string value) {

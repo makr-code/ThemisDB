@@ -894,7 +894,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > 4ULL * 1024 * 1024 * 1024) {
+    if (orig_size == 0 || orig_size > 4 * 1024 * 1024 * 1024) {
         LOG_ERROR("Invalid orig_size in patch: {}", orig_size);
         return false;
     }
@@ -1086,7 +1086,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > 4ULL * 1024 * 1024 * 1024) {
+    if (orig_size == 0 || orig_size > 4 * 1024 * 1024 * 1024) {
         LOG_ERROR("Invalid orig_size in VCDIFF patch: {}", orig_size);
         return false;
     }

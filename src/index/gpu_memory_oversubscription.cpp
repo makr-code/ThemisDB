@@ -126,7 +126,7 @@ public:
 
     size_t vramBudgetBytes() const {
         return config.vram_budget_mb > 0
-                   ? config.vram_budget_mb * 1024ULL * 1024ULL
+                   ? config.vram_budget_mb * 1024 * 1024
                    : SIZE_MAX;
     }
 
@@ -674,7 +674,7 @@ void GPUMemoryOversubscriptionManager::setVRAMBudgetMB([[maybe_unused]] size_t m
 
     // Enforce the new (potentially smaller) budget.
     if (mb > 0) {
-        const size_t budget = mb * 1024ULL * 1024ULL;
+        const size_t budget = mb * 1024 * 1024;
         while (pImpl_->vram_used_bytes > budget && !pImpl_->lru_list.empty()) {
             pImpl_->evictLRULocked();
         }
@@ -688,7 +688,7 @@ void GPUMemoryOversubscriptionManager::setVRAMBudgetMB([[maybe_unused]] size_t m
 size_t GPUMemoryOversubscriptionManager::getVRAMBudgetBytes() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
     return pImpl_->config.vram_budget_mb > 0
-               ? pImpl_->config.vram_budget_mb * 1024ULL * 1024ULL
+               ? pImpl_->config.vram_budget_mb * 1024 * 1024
                : 0;  // 0 signals "unlimited" to callers.
 }
 
@@ -722,7 +722,7 @@ GPUMemoryOversubscriptionManager::getStats() const {
     s.vram_used_bytes     = pImpl_->vram_used_bytes;
     s.host_ram_used_bytes = pImpl_->host_ram_used_bytes;
     s.vram_budget_bytes   = pImpl_->config.vram_budget_mb > 0
-                                ? pImpl_->config.vram_budget_mb * 1024ULL * 1024ULL
+                                ? pImpl_->config.vram_budget_mb * 1024 * 1024
                                 : 0;
     s.evictions           = pImpl_->evictions;
     s.loads               = pImpl_->loads;

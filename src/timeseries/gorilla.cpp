@@ -70,7 +70,7 @@ void BitWriter::writeBit([[maybe_unused]] bool bit) {
 
 void BitWriter::writeBits(uint64_t value, int bits) {
     for (int i = 0; i < bits; ++i) {
-        writeBit((value >> i) & 1ULL);
+        writeBit((value >> i) & 1);
     }
 }
 

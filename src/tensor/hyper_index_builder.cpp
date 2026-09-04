@@ -44,7 +44,7 @@ std::size_t numericBucket(double value,
     }
     const auto it = std::upper_bound(thresholds.begin(), thresholds.end(), value);
     return std::min<std::size_t>(static_cast<std::size_t>(std::distance(thresholds.begin(), it)),
-                                 bucket_count - 1U);
+                                 bucket_count - 1);
 }
 
 /// Assign bucket index for a CATEGORY value given ordered category list.
@@ -53,16 +53,16 @@ std::size_t categoryBucket(const std::string&              value,
                              std::size_t                     bucket_count) {
     for (std::size_t i = 0; i < categories.size(); ++i) {
         if (categories[i] == value) {
-            return std::min(i, bucket_count - 1U);
+            return std::min(i, bucket_count - 1);
         }
     }
     // Unknown category → last bucket
-    return bucket_count - 1U;
+    return bucket_count - 1;
 }
 
 /// Assign bucket index for a BOOLEAN value (false=0, true=1).
 std::size_t boolBucket(bool value, std::size_t bucket_count) noexcept {
-    return value ? std::min(std::size_t{1}, bucket_count - 1U) : 0;
+    return value ? std::min(std::size_t{1}, bucket_count - 1) : 0;
 }
 
 // ============================================================================
@@ -149,7 +149,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
     for (std::size_t numeric_index = 0; numeric_index < numeric_cols; ++numeric_index) {
         auto& out = thresholds[numeric_index];
         out.clear();
-        out.reserve(bucket_count - 1U);
+        out.reserve(bucket_count - 1);
 
         if (strategy == HyperIndexConfig::NumericBucketStrategy::UNIFORM_RANGE) {
             std::size_t schema_numeric_idx = 0;
@@ -209,7 +209,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
                 quantile * value_count);
             const auto idx = std::min<std::size_t>(
                 quantile_index,
-                values.size() - 1U);
+                values.size() - 1);
             out.push_back(values[idx]);
         }
     }
@@ -287,11 +287,11 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
  */
 [[nodiscard]] std::size_t clampBucketFromSignal(double value, std::size_t bucket_count) {
     if (std::isnan(value) || value < 0.0) {
-        return 0U;
+        return 0;
     }
-    const auto max_bucket = static_cast<double>(bucket_count - 1U);
+    const auto max_bucket = static_cast<double>(bucket_count - 1);
     if (value >= max_bucket) {
-        return bucket_count - 1U;
+        return bucket_count - 1;
     }
     return static_cast<std::size_t>(std::llround(value));
 }
@@ -396,7 +396,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     }
 
     std::vector<std::vector<std::pair<std::size_t, double>>> adjacency(schema_size);
-    std::vector<std::size_t> indegree(schema_size, 0U);
+    std::vector<std::size_t> indegree(schema_size, 0);
     for (const auto& edge : resolved) {
         adjacency[edge.from].push_back({edge.to, edge.weight});
         ++indegree[edge.to];
@@ -405,7 +405,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     std::vector<std::size_t> roots;
     roots.reserve(schema_size);
     for (std::size_t node = 0; node < schema_size; ++node) {
-        if (!adjacency[node].empty() && indegree[node] == 0U) {
+        if (!adjacency[node].empty() && indegree[node] == 0) {
             roots.push_back(node);
         }
     }
@@ -418,7 +418,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
     }
 
     constexpr double kFullWeightMultiplier = 1.0;
-    const auto max_hops = std::max<std::size_t>(1U, fk_cfg.max_hops);
+    const auto max_hops = std::max<std::size_t>(1, fk_cfg.max_hops);
     const auto decay = std::clamp(fk_cfg.propagation_decay, 0.0, 1.0);
     const auto blend = std::clamp(fk_cfg.signal_blend_weight, 0.0, 1.0);
 
@@ -434,7 +434,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
 
         std::queue<NodeState> q;
         std::unordered_set<std::size_t> visited;
-        q.push({root, 0U, 1.0});
+        q.push({root, 0, 1.0});
         visited.insert(root);
         const auto source_bucket = static_cast<double>(buckets[root]);
 
@@ -452,7 +452,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
                 }
                 // First hop models direct FK linkage and keeps full edge weight.
                 // Additional hops apply configurable decay to attenuate distant joins.
-                const auto hop_decay = (cur.depth == 0U) ? kFullWeightMultiplier : decay;
+                const auto hop_decay = (cur.depth == 0) ? kFullWeightMultiplier : decay;
                 const auto next_weight = cur.path_weight * edge_weight * hop_decay;
                 if (std::isnan(next_weight) || next_weight <= 0.0) {
                     continue;
@@ -460,7 +460,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
 
                 signal_weight[next] += next_weight;
                 signal_bucket_sum[next] += source_bucket * next_weight;
-                q.push({next, cur.depth + 1U, next_weight});
+                q.push({next, cur.depth + 1, next_weight});
             }
         }
     }

@@ -195,8 +195,8 @@ std::string GeoDeviceDetector::ReportJson(const std::vector<GeoDeviceCapability>
         first = false;
 
         const auto &d           = cap.device;
-        const uint64_t total_mb = d.total_vram_bytes / (1024ULL * 1024ULL);
-        const uint64_t free_mb  = d.free_vram_bytes / (1024ULL * 1024ULL);
+        const uint64_t total_mb = d.total_vram_bytes / (1024 * 1024);
+        const uint64_t free_mb  = d.free_vram_bytes / (1024 * 1024);
 
         ss << "{"
            << "\"index\":" << d.index << ","

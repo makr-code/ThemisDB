@@ -569,7 +569,7 @@ bool ModuleSandbox::setupCgroupV2() {
             platform_->cgroup_path.clear();
             return false;
         }
-        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024ULL * 1024ULL) << "\n";
+        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024 * 1024) << "\n";
         if (!mem_max) {
             spdlog::warn("ModuleSandbox({}): write to memory.max failed – "
                          "falling back to RLIMIT_AS",

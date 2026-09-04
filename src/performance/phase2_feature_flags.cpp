@@ -54,22 +54,22 @@ static void detect_x86_capabilities(HardwareCapabilities& caps) {
     ebx = static_cast<unsigned int>(cpu_info[1]);
     ecx = static_cast<unsigned int>(cpu_info[2]);
     edx = static_cast<unsigned int>(cpu_info[3]);
-    caps.has_rdtsc      = (edx & (1U << 4))  != 0;   // RDTSC (bit 4)
-    caps.has_sse2       = (edx & (1U << 26)) != 0;   // SSE2 (bit 26)
-    caps.has_cmpxchg16b = (ecx & (1U << 13)) != 0;   // CMPXCHG16B (bit 13)
+    caps.has_rdtsc      = (edx & (1 << 4))  != 0;   // RDTSC (bit 4)
+    caps.has_sse2       = (edx & (1 << 26)) != 0;   // SSE2 (bit 26)
+    caps.has_cmpxchg16b = (ecx & (1 << 13)) != 0;   // CMPXCHG16B (bit 13)
 
     __cpuidex(cpu_info, 7, 0);
     ebx = static_cast<unsigned int>(cpu_info[1]);
-    caps.has_avx2 = (ebx & (1U << 5)) != 0;  // AVX2 (bit 5)
+    caps.has_avx2 = (ebx & (1 << 5)) != 0;  // AVX2 (bit 5)
 #else
     // GCC/Clang path
     if (__get_cpuid(1, &eax, &ebx, &ecx, &edx)) {
-        caps.has_rdtsc      = (edx & (1U << 4))  != 0;   // RDTSC (bit 4)
-        caps.has_sse2       = (edx & (1U << 26)) != 0;   // SSE2 (bit 26)
-        caps.has_cmpxchg16b = (ecx & (1U << 13)) != 0;   // CMPXCHG16B (bit 13)
+        caps.has_rdtsc      = (edx & (1 << 4))  != 0;   // RDTSC (bit 4)
+        caps.has_sse2       = (edx & (1 << 26)) != 0;   // SSE2 (bit 26)
+        caps.has_cmpxchg16b = (ecx & (1 << 13)) != 0;   // CMPXCHG16B (bit 13)
     }
     if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
-        caps.has_avx2 = (ebx & (1U << 5)) != 0;  // AVX2 (bit 5)
+        caps.has_avx2 = (ebx & (1 << 5)) != 0;  // AVX2 (bit 5)
     }
 #endif  // THEMIS_CPUID_MSVC
 #endif  // THEMIS_CPUID_SUPPORTED

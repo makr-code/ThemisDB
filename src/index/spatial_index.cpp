@@ -34,7 +34,7 @@ constexpr double Z_BUCKET_SIZE = 10.0;  // 10 meter buckets for elevation
 uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
     uint64_t result = 0;
     for (int i = 0; i < 32; ++i) {
-        result |= ((x & (1ULL << i)) << i) | ((y & (1ULL << i)) << (i + 1));
+        result |= ((x & (1 << i)) << i) | ((y & (1 << i)) << (i + 1));
     }
     return result;
 }
@@ -43,9 +43,9 @@ uint64_t MortonEncoder::interleaveBits2D(uint32_t x, uint32_t y) {
 uint64_t MortonEncoder::interleaveBits3D(uint32_t x, uint32_t y, uint32_t z) {
     uint64_t result = 0;
     for (int i = 0; i < 21; ++i) {
-        result |= ((x & (1ULL << i)) << (2 * i)) |
-                  ((y & (1ULL << i)) << (2 * i + 1)) |
-                  ((z & (1ULL << i)) << (2 * i + 2));
+        result |= ((x & (1 << i)) << (2 * i)) |
+                  ((y & (1 << i)) << (2 * i + 1)) |
+                  ((z & (1 << i)) << (2 * i + 2));
     }
     return result;
 }
@@ -170,7 +170,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
             hi = lo;
         } else {
             const uint64_t free_bits = 2u * static_cast<uint64_t>(n.bits);
-            const uint64_t mask = (free_bits < 64u) ? (1ULL << free_bits) - 1u : ~0ULL;
+            const uint64_t mask = (free_bits < 64u) ? (1 << free_bits) - 1u : ~0;
             hi = lo | mask;
         }
 

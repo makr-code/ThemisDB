@@ -966,7 +966,7 @@ uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiv
         return maxBackoffSeconds_;
     }
     
-    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
+    uint64_t backoff = 1 << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 

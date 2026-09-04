@@ -566,7 +566,7 @@ QuotaTracker::QuotaRemaining VisionResourceMonitor::getUserQuota(const std::stri
 
 std::string VisionResourceMonitor::exportMetrics() const {
     std::stringstream ss = {};
-    constexpr uint64_t kBytesPerMb = 1024ULL * 1024ULL;
+    constexpr uint64_t kBytesPerMb = 1024 * 1024;
     
     auto usage = getResourceUsage();
     // Prometheus format

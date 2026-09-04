@@ -50,8 +50,8 @@ bool PredictivePrefetcher::useToDWeighting(const std::string &tenant_id) const {
 
 uint64_t PredictivePrefetcher::fnv1aHash(const std::string &s) {
     // FNV-1a 64-bit – portable, stable across all platforms and compiler versions.
-    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ULL;
-    constexpr uint64_t kFNVPrime       = 1099511628211ULL;
+    constexpr uint64_t kFNVOffsetBasis = 14695981039346656037;
+    constexpr uint64_t kFNVPrime       = 1099511628211;
     uint64_t hash                      = kFNVOffsetBasis;
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);

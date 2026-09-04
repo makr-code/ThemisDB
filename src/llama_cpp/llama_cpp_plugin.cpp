@@ -709,7 +709,7 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     // SECURITY: Validate GGUF magic bytes and size bound before processing.
     // GGUF magic: 0x47 0x47 0x55 0x46 ('G','G','U','F')
     constexpr size_t kMinLoRASize = 8u;
-    constexpr size_t kMaxLoRASize = 2ULL * 1024ULL * 1024ULL * 1024ULL; // 2 GB
+    constexpr size_t kMaxLoRASize = 2 * 1024 * 1024 * 1024; // 2 GB
 
     if (data.size() < kMinLoRASize) {
         return false; // Too small — cannot contain a valid header

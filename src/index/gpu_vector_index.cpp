@@ -268,7 +268,7 @@ public:
             vramBudgetTag = "gpu_vector_index_" +
                             std::to_string(indexCounter.fetch_add(1, std::memory_order_relaxed));
             uint64_t budgetBytes =
-                static_cast<uint64_t>(config.maxVRAM_MB) * 1024ULL * 1024ULL;
+                static_cast<uint64_t>(config.maxVRAM_MB) * 1024 * 1024;
             // Cap the per-index budget at the edition limit to avoid setting an
             // unreachable quota.
             uint64_t editionLimit = themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes();
@@ -1427,7 +1427,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     // Sanity cap: reject files claiming more vectors than could reasonably fit
     // in 64 GiB at the stored dimension (4 bytes/float).
-    static constexpr uint64_t kMaxReasonableFileSizeBytes = 64ULL * 1024ULL * 1024ULL * 1024ULL;
+    static constexpr uint64_t kMaxReasonableFileSizeBytes = 64 * 1024 * 1024 * 1024;
     const size_t maxReasonableVectors =
         static_cast<size_t>(kMaxReasonableFileSizeBytes /
         (static_cast<size_t>(dim) * sizeof(float) + 1));

@@ -344,7 +344,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
                 metadata.signature.signingCertificate = sig.value("certificate", "");
                 metadata.signature.issuer             = sig.value("issuer", "");
                 metadata.signature.subject            = sig.value("subject", "");
-                metadata.signature.timestamp          = sig.value("timestamp", 0ULL);
+                metadata.signature.timestamp          = sig.value("timestamp", 0);
             }
 
             if (plugin.contains("permissions")) {

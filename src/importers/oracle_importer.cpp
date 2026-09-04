@@ -547,7 +547,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
     // Per-line read limit (default 64 MB, honoring max_statement_size_bytes)
     const size_t line_read_limit = options.max_statement_size_bytes > 0
                                    ? options.max_statement_size_bytes
-                                   : 64 * 1024 * 1024ULL;
+                                   : 64 * 1024 * 1024;
 
     std::string line = {};
     std::string current_sql = {};

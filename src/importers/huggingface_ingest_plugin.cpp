@@ -160,11 +160,11 @@ double HuggingFaceIngestPlugin::computeQualityScore(const json& raw_row, const L
 
 std::string HuggingFaceIngestPlugin::buildLeakageSensitiveSplit(const LegalDocument& document) const {
     const std::string leakage_group = document.jurisdiction + "|" + document.court + "|" + document.issued_at;
-    const auto bucket = std::hash<std::string>{}(leakage_group) % 10U;
-    if (bucket < 8U) {
+    const auto bucket = std::hash<std::string>{}(leakage_group) % 10;
+    if (bucket < 8) {
         return "train";
     }
-    if (bucket == 8U) {
+    if (bucket == 8) {
         return "val";
     }
     return "test";

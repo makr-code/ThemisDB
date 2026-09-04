@@ -391,7 +391,7 @@ private:
             }
 
             const auto compilation_elapsed_us = elapsedUs(t0);
-            const auto compilation_deadline_us = config_.compilation_timeout_ms * 1000ULL;
+            const auto compilation_deadline_us = config_.compilation_timeout_ms * 1000;
 
             // Check if compilation exceeded the timeout deadline.
             if (compilation_elapsed_us > compilation_deadline_us) {

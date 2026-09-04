@@ -322,9 +322,9 @@ bool HnswProductionDefaults::validateParams(
     // Warn about memory usage for large datasets with high M
     if (dataset_size > LARGE_DATASET && params.M > 32) {
         size_t estimated_mem = estimateMemoryUsage(params, dataset_size, 768);
-        if (estimated_mem > 100ULL * 1024 * 1024 * 1024) {  // 100 GB
+        if (estimated_mem > 100 * 1024 * 1024 * 1024) {  // 100 GB
             spdlog::warn("HNSW: Estimated memory usage {} GB may be excessive", 
-                        estimated_mem / (1024ULL * 1024 * 1024));
+                        estimated_mem / (1024 * 1024 * 1024));
         }
     }
     

@@ -147,7 +147,7 @@ bool EditionManager::checkVRAMLimit(int requested_vram_gb,
         std::lock_guard<std::mutex> lock(policy_mutex_);
         if (vram_policy_) {
             const size_t requested_bytes =
-                static_cast<size_t>(requested_vram_gb) * 1024ULL * 1024ULL * 1024ULL;
+                static_cast<size_t>(requested_vram_gb) * 1024 * 1024 * 1024;
             if (!vram_policy_->canAllocate(requested_bytes)) {
                 std::ostringstream msg = {};
                 msg << "Requested GPU VRAM (" << requested_vram_gb

@@ -119,7 +119,7 @@ TNSRReport TNSRTask::run(
         // Skip HISS for structurally trivial trains where topology search is
         // unlikely to produce meaningful non-chain mutations.
         const bool trivial_topology =
-            (recompressed.cores.size() < 3U) || (recompressed.maxRank() < 2U);
+            (recompressed.cores.size() < 3) || (recompressed.maxRank() < 2);
         if (trivial_topology) {
             ++report.topology_search_skipped_keys;
         } else {

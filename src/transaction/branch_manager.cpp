@@ -37,7 +37,7 @@ BranchManager::Branch BranchManager::Branch::fromJson(const json& j) {
     Branch branch;
     branch.branch_name = j.value("branch_name", "");
     branch.parent_branch = j.value("parent_branch", "");
-    branch.creation_sequence = j.value("creation_sequence", 0ULL);
+    branch.creation_sequence = j.value("creation_sequence", 0);
     branch.creation_timestamp_ms = j.value("creation_timestamp_ms", 0LL);
     branch.description = j.value("description", "");
     branch.created_by = j.value("created_by", "system");

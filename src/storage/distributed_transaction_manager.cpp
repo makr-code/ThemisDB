@@ -228,8 +228,8 @@ bool DistributedTransaction::commit() {
                     "DistributedTransaction [{}]: shard '{}' registration version changed during prepare "
                     "(expected={}, current={})",
                     txn_id_, shard_id,
-                    expected_it == expected_shard_versions_.end() ? 0ULL : expected_it->second,
-                    version_it == mgr_state_->shard_versions.end() ? 0ULL : version_it->second
+                    expected_it == expected_shard_versions_.end() ? 0 : expected_it->second,
+                    version_it == mgr_state_->shard_versions.end() ? 0 : version_it->second
                 );
                 all_prepared = false;
                 break;

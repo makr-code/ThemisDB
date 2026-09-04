@@ -325,8 +325,8 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
         // LCG constants from Numerical Recipes.
         uint64_t rng    = config.seed;
         auto nextDouble = [&]() -> double {
-            rng = rng * 6364136223846793005ULL + 1442695040888963407ULL;
-            return static_cast<double>(rng >> 33) / static_cast<double>(1ULL << 31);
+            rng = rng * 6364136223846793005 + 1442695040888963407;
+            return static_cast<double>(rng >> 33) / static_cast<double>(1 << 31);
         };
 
         // Choose the first centroid uniformly at random from valid points.

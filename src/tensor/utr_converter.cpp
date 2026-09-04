@@ -145,12 +145,12 @@ void hilbertRotate(std::size_t n, std::size_t& x, std::size_t& y, std::size_t rx
     std::size_t x = 0;
     std::size_t y = 0;
     for (std::size_t s = 1, t = d; s < n; s <<= 1) {
-        const std::size_t rx = (t >> 1U) & 1U;
-        const std::size_t ry = (t ^ rx) & 1U;
+        const std::size_t rx = (t >> 1) & 1;
+        const std::size_t ry = (t ^ rx) & 1;
         hilbertRotate(s, x, y, rx, ry);
         x += s * rx;
         y += s * ry;
-        t >>= 2U;
+        t >>= 2;
     }
     return {x, y};
 }
@@ -184,7 +184,7 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
         if (!seg.empty()) {
           segments.push_back(seg);
         }
-        start = (pos == std::string::npos) ? text.size() : (pos + 2U);
+        start = (pos == std::string::npos) ? text.size() : (pos + 2);
     }
     if (segments.empty()) {
       segments.push_back(text);
@@ -241,8 +241,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 
 /// FNV-1a 64-bit hash of a string view.
 static uint64_t fnv1a(std::string_view s) noexcept {
-    constexpr uint64_t kBasis = 14695981039346656037ULL;
-    constexpr uint64_t kPrime = 1099511628211ULL;
+    constexpr uint64_t kBasis = 14695981039346656037;
+    constexpr uint64_t kPrime = 1099511628211;
     uint64_t h = kBasis;
     for (const unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
@@ -272,10 +272,10 @@ static void scatterFeature(std::vector<float>& vec,
     if (embed_dim == 0) return; // guard: no-op for zero-dim vectors
     const uint64_t h = fnv1a(feature);
     for (std::size_t lane = 0; lane < 8 && lane < embed_dim; ++lane) {
-        const auto shift = (lane % 4) * 16U;
+        const auto shift = (lane % 4) * 16;
         const auto bits  = static_cast<uint16_t>((h >> shift) & 0xFFFFULL);
-        const auto dim   = static_cast<std::size_t>((bits + lane * 131U) % embed_dim);
-        const auto sign  = ((h >> (shift + 7U)) & 1ULL) ? 1.0f : -1.0f;
+        const auto dim   = static_cast<std::size_t>((bits + lane * 131) % embed_dim);
+        const auto sign  = ((h >> (shift + 7)) & 1) ? 1.0f : -1.0f;
         vec[dim] += sign * weight;
     }
 }
@@ -506,9 +506,9 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
     // Removal Plan:      Superseded when a plugin registers an IImageEncoder.
     const auto patch_h = clampPatchExtent(h);
     const auto patch_w = clampPatchExtent(w);
-    const auto patch_rows = (h + patch_h - 1U) / patch_h;
-    const auto patch_cols = (w + patch_w - 1U) / patch_w;
-    const auto patch_feature_dim = c * 2U; // mean + stddev per channel
+    const auto patch_rows = (h + patch_h - 1) / patch_h;
+    const auto patch_cols = (w + patch_w - 1) / patch_w;
+    const auto patch_feature_dim = c * 2; // mean + stddev per channel
 
     std::vector<float> patch_features;
     patch_features.reserve(patch_rows * patch_cols * patch_feature_dim);

@@ -33,7 +33,7 @@ static size_t validate_rabitq_dimension([[maybe_unused]] size_t dimension) {
     if (dimension == 0) {
         throw std::runtime_error("RaBitQ: dimension must be positive");
     }
-    if (dimension > (1ULL << 20)) {  // 1M dimensions max
+    if (dimension > (1 << 20)) {  // 1M dimensions max
         throw std::runtime_error("RaBitQ: dimension exceeds maximum (1M)");
     }
     if (!is_rabitq_hardware_supported()) {
