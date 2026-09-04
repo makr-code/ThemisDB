@@ -76,7 +76,7 @@ size_t RateLimiter::availableTokens() const {
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_refill_);
     if (elapsed.count() > 0) {
-        auto tokens_to_add = (refill_rate_ * elapsed.count()) / 60000;
+        auto tokens_to_add = static_cast<size_t>((refill_rate_ * elapsed.count()) / 60000);
         if (tokens_to_add > 0) {
             size_t current = tokens_.load(std::memory_order_relaxed);
             size_t new_tokens = std::min(capacity_, current + tokens_to_add);
@@ -116,7 +116,7 @@ void RateLimiter::refillTokens() {
     
     if (elapsed.count() > 0) {
         // Calculate tokens to add based on elapsed time
-        auto tokens_to_add = (refill_rate_ * elapsed.count()) / 60000; // 60000ms = 1 minute
+        auto tokens_to_add = static_cast<size_t>((refill_rate_ * elapsed.count()) / 60000); // 60000ms = 1 minute
         
         if (tokens_to_add > 0) {
             size_t current = tokens_.load();
