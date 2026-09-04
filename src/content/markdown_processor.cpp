@@ -119,9 +119,9 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             std::string item = {};
             while (std::getline(list_ss, item, ',')) {
                 std::string ti = trimCopy(item);
-                if (static_cast<int>(ti.size()) >= 2 &&
+                if ((static_cast<int>(ti.size()) >= 2 &&
                     ((ti.front() == '"' && ti.back() == '"') ||
-                     (ti.front() == '\'' && ti.back() == '\''))) {
+                     (ti.front() == '\'' && ti.back() == '\'')))) {
                     ti = ti.substr(1, static_cast<int>(ti.size()) - 2);
                 }
                 arr.push_back(ti);
@@ -129,9 +129,9 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
             fm[key] = arr;
         } else {
             // Scalar — strip optional surrounding quotes
-            if (static_cast<int>(value.size()) >= 2 &&
+            if ((static_cast<int>(value.size()) >= 2 &&
                 ((value.front() == '"' && value.back() == '"') ||
-                 (value.front() == '\'' && value.back() == '\''))) {
+                 (value.front() == '\'' && value.back() == '\'')))) {
                 value = value.substr(1, static_cast<int>(value.size()) - 2);
             }
             fm[key] = value;
@@ -294,9 +294,9 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             while (i <static_cast<int>(line.size()) && line[i] == ' ') {
               ++i;
             }
-            if (i <static_cast<int>(line.size()) &&
+            if ((i <static_cast<int>(line.size()) &&
                 (line[i] == '-' || line[i] == '*' || line[i] == '+') &&
-                i + 1 <static_cast<int>(line.size()) && line[i + 1] == ' ') {
+               i + 1 <static_cast<int>(line.size()) && line[i + 1] == ' ')) {
                 line = line.substr(i + 2);
             }
         }
@@ -382,8 +382,8 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 }
 
                 // Bold+italic: ***…*** or ___…___
-                if ((line[i] == '*' || line[i] == '_') &&
-                    i + 2 <static_cast<int>(line.size()) && line[i+1] == line[i] && line[i+2] == line[i]) {
+                if (((line[i] == '*' || line[i] == '_') &&
+                    i + 2 <static_cast<int>(line.size()) && line[i+1] == line[i] && line[i+2] == line[i])) {
                     char m = line[i];
                     std::string triple(3, m);
                     size_t close = line.find(triple, i + 3);
@@ -397,8 +397,8 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 }
 
                 // Bold: **…** or __…__
-                if ((line[i] == '*' || line[i] == '_') &&
-                    i + 1 <static_cast<int>(line.size()) && line[i+1] == line[i]) {
+                if (((line[i] == '*' || line[i] == '_') &&
+                    i + 1 <static_cast<int>(line.size()) && line[i+1] == line[i])) {
                     char m = line[i];
                     std::string pair(2, m);
                     size_t close = line.find(pair, i + 2);

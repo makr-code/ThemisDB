@@ -169,7 +169,7 @@ static bool simpleInsertFallback(const std::string& sql, std::string& out_table_
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
-    while (pos <static_cast<int>(upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+    while ((pos <static_cast<int>(upper_sql.size()) && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t')))
         ++pos;
     
     // Extract table name (stop at whitespace or '(')
@@ -491,7 +491,7 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
 
     while (std::getline(file, line)) {
         // Skip comments and empty lines
-        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
           continue;
         }
         // Skip MySQL conditional comments (/*!...*/)
@@ -670,7 +670,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
 
@@ -946,7 +946,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
             else if (c == ')') {
                 if (tdep > 0) { --tdep; col_type += c; }
                 else break;
-            } else if ((c == ' ' || c == '\t') && tdep == 0) {
+            } else if (((c == ' ' || c == '\t') && tdep == 0)) {
                 break;
             } else {
                 col_type += c;
@@ -1361,8 +1361,8 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
     size_t n = values_clause.size();
 
     auto skipWs = [&]() {
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
-                         values_clause[i] == '\r' || values_clause[i] == '\n')) ++i;
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+                         values_clause[i] == '\r' || values_clause[i] == '\n'))) ++i;
     };
 
     while (i < n) {

@@ -315,7 +315,7 @@ nlohmann::json LetEvaluator::applyArithmeticOp(
     const nlohmann::json& right
 ) const {
     // String concatenation for +
-    if (op == "+" && (left.is_string() || right.is_string())) {
+    if ((op == "+" && (left.is_string() || right.is_string()))) {
         std::string leftStr = left.is_string() ? left.get<std::string>() : left.dump();
         std::string rightStr = right.is_string() ? right.get<std::string>() : right.dump();
         return leftStr + rightStr;
@@ -567,7 +567,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         auto looksLikeDegrees = [](double lon, double lat) {
             return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0;
         };
-        if (looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
+        if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0))) {
             constexpr double kEarthRadiusKm = 6371.0;
             auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
             double lat1 = deg2rad(y1), lon1 = deg2rad(x1);
@@ -914,7 +914,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
                 return true;
             }
-            if ((type == "LineString" || type == "MultiPoint") && coords.is_array() && !coords.empty()) {
+            if (((type == "LineString" || type == "MultiPoint") && coords.is_array() && !coords.empty())) {
                 if (coords[0].is_array() && coords[0].size() >= 3) {
                     return true;
                 }
@@ -970,7 +970,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             return coords[2];
         }
         
-        if ((type == "LineString" || type == "MultiPoint") && coords.is_array()) {
+        if (((type == "LineString" || type == "MultiPoint") && coords.is_array())) {
             for (const auto& pt : coords) {
                 if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                     double z = pt[2].get<double>();
@@ -1019,7 +1019,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             return coords[2];
         }
         
-        if ((type == "LineString" || type == "MultiPoint") && coords.is_array()) {
+        if (((type == "LineString" || type == "MultiPoint") && coords.is_array())) {
             for (const auto& pt : coords) {
                 if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
                     double z = pt[2].get<double>();

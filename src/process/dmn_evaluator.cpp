@@ -127,8 +127,8 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // Range expressions: [a..b], (a..b], [a..b), (a..b)
-    if ((expr.front() == '[' || expr.front() == '(') &&
-        (expr.back() == ']' || expr.back() == ')') &&
+    if (((expr.front() == '[' || expr.front() == '(') &&
+        (expr.back() == ']' || expr.back() == ')')) &&
         expr.find("..") != std::string_view::npos) {
         return evaluateRange(expr, value);
     }
@@ -397,10 +397,10 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
             if (tag_lower == "inputentry" && in_rule) {
                 // Strip outer quotes from FEEL text  e.g. "\"high\"" → "high"
                 std::string expr = current_text;
-                while (!expr.empty() && (expr.front() == ' ' || expr.front() == '\t')) {
+                while ((!expr.empty() && (expr.front() == ' ' || expr.front() == '\t'))) {
                   expr.erase(expr.begin());
                 }
-                while (!expr.empty() && (expr.back()  == ' ' || expr.back()  == '\t')) {
+                while ((!expr.empty() && (expr.back()  == ' ' || expr.back()  == '\t'))) {
                   expr.pop_back();
                 }
                 current_rule.input_expressions.push_back(expr);

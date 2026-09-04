@@ -669,7 +669,7 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
             }
             // Reject code points > U+10FFFF: leading 0xF4 with second byte > 0x8F,
             // or leading bytes 0xF5–0xF7
-            if (byte > 0xF4 || (byte == 0xF4 && data[pos+1] > 0x8F)) {
+            if ((byte > 0xF4 || (byte == 0xF4 && data[pos+1] > 0x8F))) {
                 spdlog::warn("RegexDetectionEngine: Code point > U+10FFFF at position {}", pos);
                 return false;
             }
@@ -723,20 +723,20 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
     for (size_t i = 0; i <static_cast<int>(pattern.size()); ++i) {
         char c = pattern[i];
         
-        if (c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
+        if ((c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             paren_depth++;
             alt_count_in_group = 0;
-        } else if (c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
+        } else if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             if (paren_depth > 0) {
                 paren_depth--;
             }
             alt_count_in_group = 0;
-        } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
+        } else if ((c == '|' && paren_depth > 0 && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
             alt_count_in_group++;
         }
         
         // If group has 3+ alternations and is followed by quantifier, flag it
-        if (c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\') && 
+        if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) && 
             alt_count_in_group >= 2 && 
             i + 1 <static_cast<int>(pattern.size())) {
             char next = pattern[i+1];

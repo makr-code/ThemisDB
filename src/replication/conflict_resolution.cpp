@@ -91,7 +91,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
         const char* end = p + static_cast<int>(json.size()) ;
 
         // Skip leading whitespace and opening '{'
-        while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')) {
+        while ((p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r'))) {
           ++p;
         }
         if (p >= end || *p != '{') {
@@ -102,7 +102,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 
         while (p < end) {
             // Skip whitespace
-            while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == ',')) {
+            while ((p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == ','))) {
               ++p;
             }
             if (p >= end || *p == '}') {
@@ -132,7 +132,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
             ++p; // closing '"'
 
             // Skip ':'
-            while (p < end && (*p == ' ' || *p == '\t')) {
+            while ((p < end && (*p == ' ' || *p == '\t'))) {
               ++p;
             }
             if (p >= end || *p != ':') {
@@ -140,7 +140,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
                 break;
             }
             ++p;
-            while (p < end && (*p == ' ' || *p == '\t')) {
+            while ((p < end && (*p == ' ' || *p == '\t'))) {
               ++p;
             }
 

@@ -850,23 +850,23 @@ DataSelectionMetrics DataSelectionPipeline::computeMetrics(
 namespace yaml_detail {
 
 static std::string trimRight(std::string s) {
-    while (!s.empty() && (s.back() == ' ' || s.back() == '\t' || s.back() == '\r'))
+    while ((!s.empty() && (s.back() == ' ' || s.back() == '\t' || s.back() == '\r')))
         s.pop_back();
     return s;
 }
 
 static std::string trimLeft(const std::string& s) {
     size_t i = 0;
-    while (i <static_cast<int>(s.size()) && (s[i] == ' ' || s[i] == '\t')) {
+    while ((i <static_cast<int>(s.size()) && (s[i] == ' ' || s[i] == '\t'))) {
       ++i;
     }
     return s.substr(i);
 }
 
 static std::string stripQuotes(const std::string& s) {
-    if (static_cast<int>(s.size()) >= 2 &&
+    if ((static_cast<int>(s.size()) >= 2 &&
         ((s.front() == '"' && s.back() == '"') ||
-         (s.front() == '\'' && s.back() == '\'')))
+         (s.front() == '\'' && s.back() == '\''))))
         return s.substr(1, static_cast<int>(s.size()) - 2);
     return s;
 }
@@ -1206,8 +1206,8 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         }
 
         // indent==4: new list item (`- metric: ...`), indent==6: continuation fields
-        if ((indent == 4 || indent == 6) &&
-            (state == State::IN_ADAPTIVE_RULES || state == State::IN_RULE)) {
+        if (((indent == 4 || indent == 6) &&
+            (state == State::IN_ADAPTIVE_RULES || state == State::IN_RULE))) {
             if (indent == 4 && static_cast<int>(content.size()) >= 2 && content.substr(0, 2) == "- ") {
                 // Start of a new rule
                 commitRule();

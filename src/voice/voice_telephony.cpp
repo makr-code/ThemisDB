@@ -47,10 +47,10 @@ bool isRtpVersion2(const std::vector<uint8_t>& pkt) {
 }
 
 bool isValidDtmfDigit(char digit) {
-    return (digit >= '0' && digit <= '9') ||
-           digit == '*' ||
-           digit == '#' ||
-           (digit >= 'A' && digit <= 'D');
+    return ((digit >= '0' && digit <= '9') ||
+            digit == '*' ||
+            digit == '#' ||
+            (digit >= 'A' && digit <= 'D'));
 }
 
 int64_t telephonyNowMs() {
@@ -242,8 +242,8 @@ SipCallSession::SipCallSession(Config config)
 }
 
 SipCallSession::~SipCallSession() {
-    if (impl_ && (impl_->state == CallState::ACTIVE ||
-                  impl_->state == CallState::CONNECTING)) {
+    if (impl_ && ((impl_->state == CallState::ACTIVE ||
+                   impl_->state == CallState::CONNECTING))) {
         try {
             end();
         } catch (const std::string&) {
@@ -303,8 +303,8 @@ void SipCallSession::unhold() {
 }
 
 bool SipCallSession::isActive() const noexcept {
-    return impl_ && (impl_->state == CallState::ACTIVE ||
-                     impl_->state == CallState::CONNECTING);
+    return impl_ && ((impl_->state == CallState::ACTIVE ||
+                      impl_->state == CallState::CONNECTING));
 }
 
 CallState SipCallSession::state() const noexcept {
@@ -574,8 +574,8 @@ WebRtcCallSession::WebRtcCallSession(Config config)
 }
 
 WebRtcCallSession::~WebRtcCallSession() {
-    if (impl_ && (impl_->state == CallState::ACTIVE ||
-                  impl_->state == CallState::CONNECTING)) {
+    if (impl_ && ((impl_->state == CallState::ACTIVE ||
+                   impl_->state == CallState::CONNECTING))) {
         try {
             end();
         } catch (const std::string&) {
@@ -648,8 +648,8 @@ void WebRtcCallSession::end() {
 }
 
 bool WebRtcCallSession::isActive() const noexcept {
-    return impl_ && (impl_->state == CallState::ACTIVE ||
-                     impl_->state == CallState::CONNECTING);
+    return impl_ && ((impl_->state == CallState::ACTIVE ||
+                      impl_->state == CallState::CONNECTING));
 }
 
 CallState WebRtcCallSession::state() const noexcept {

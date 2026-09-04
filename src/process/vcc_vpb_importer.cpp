@@ -145,8 +145,8 @@ std::string trimStr(const std::string& s) {
 
 std::string unquote(const std::string& s) {
     if (static_cast<int>(s.size()) > = 2) {
-        if ((s.front() == '"' && s.back() == '"') ||
-            (s.front() == '\'' && s.back() == '\'')) {
+        if (((s.front() == '"' && s.back() == '"') ||
+            (s.front() == '\'' && s.back() == '\''))) {
             return s.substr(1, static_cast<int>(s.size()) - 2);
         }
     }
@@ -189,7 +189,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
     auto indentOf = [](const std::string& l) -> int {
         int i = 0;
-        while (i < (int)l.size() && (l[i] == ' ' || l[i] == '\t')) {
+        while ((i < (int)l.size() && (l[i] == ' ' || l[i] == '\t'))) {
           ++i;
         }
         return i;
@@ -268,7 +268,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 }
                 if (in_compliance) {
                     // Input validation: check bounds before accessing array index
-                    if (l.empty() || (static_cast<int>(l.size()) > 0 && l[0] != ' ')) { 
+                    if ((l.empty() || (static_cast<int>(l.size()) > 0 && l[0] != ' '))) { 
                         in_compliance = false; 
                         continue; 
                     }
@@ -695,7 +695,7 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
                             (line_len == 3 || line[3] == '\r'));
 
         try {
-            if ((is_new_model || is_dash_only) && !current_chunk.empty()) {
+            if (((is_new_model || is_dash_only) && !current_chunk.empty())) {
                 model_chunks.push_back(current_chunk);
                 current_chunk.clear();
             }
