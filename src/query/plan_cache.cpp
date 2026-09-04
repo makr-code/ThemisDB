@@ -130,11 +130,11 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         // Treat a leading '+' or '-' sign as part of a numeric literal when it
         // is not preceded by an identifier character (so "x-1" keeps its minus
         // but "x=-1" or "WHERE n=-1" normalises the sign away with the digit).
-        if ((ch == '+' || ch == '-') &&
+        if (((ch == '+' || ch == '-') &&
             (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
                         query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@')) &&
             i + 1 <static_cast<int>(query.size()) &&
-            std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0) {
+            std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0)) {
             // The sign is a numeric prefix; skip it so the following digit
             // handler collapses the whole signed literal into a single '?'.
             last_was_space = false;

@@ -143,9 +143,9 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     if (hintType == "USE_INDEX") {
         hint.type = SpatialHintType::USE_INDEX;
         // Remove quotes from index name if present
-        if (additionalArg.length() >= 2 && 
+        if ((additionalArg.length() >= 2 && 
             (additionalArg.front() == '"' && additionalArg.back() == '"' ||
-             additionalArg.front() == '\'' && additionalArg.back() == '\'')) {
+             additionalArg.front() == '\'' && additionalArg.back() == '\''))) {
             hint.indexName = additionalArg.substr(1, additionalArg.length() - 2);
         } else {
             hint.indexName = additionalArg;
@@ -163,9 +163,9 @@ SpatialHint SpatialHintParser::parseHint(const std::string& hintString) {
     } else if (hintType == "DISTANCE_ORDER") {
         hint.type = SpatialHintType::DISTANCE_ORDER;
         // Remove quotes
-        if (additionalArg.length() >= 2 && 
+        if ((additionalArg.length() >= 2 && 
             (additionalArg.front() == '"' && additionalArg.back() == '"' ||
-             additionalArg.front() == '\'' && additionalArg.back() == '\'')) {
+             additionalArg.front() == '\'' && additionalArg.back() == '\''))) {
             hint.orderDirection = additionalArg.substr(1, additionalArg.length() - 2);
         } else {
             hint.orderDirection = additionalArg;
@@ -212,8 +212,8 @@ std::string SpatialHintParser::getHintWarning(
     if (hint.type == SpatialHintType::FORCE_SCAN) {
         // Check if good index is available
         for (const auto& [indexName, indexType] : availableIndexes) {
-            if ((indexType == "SPATIAL" || indexType == "RTREE" || indexType == "QUADTREE") &&
-                indexName.find(hint.fieldName) != std::string::npos) {
+            if (((indexType == "SPATIAL" || indexType == "RTREE" || indexType == "QUADTREE") &&
+                indexName.find(hint.fieldName) != std::string::npos)) {
                 return "FORCE_SCAN specified but spatial index '" + indexName + 
                        "' is available and likely faster";
             }

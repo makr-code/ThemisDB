@@ -222,7 +222,7 @@ public:
             }
 
             // Numbers
-            if (std::isdigit(c) || (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) && std::isdigit(input_[pos_ + 1]))) {
+            if ((std::isdigit(c) || (c == '-' && pos_ + 1 <static_cast<int>(input_.size()) && std::isdigit(input_[pos_ + 1])))) {
                 tokens.push_back(readNumber(start));
                 continue;
             }
@@ -317,7 +317,7 @@ private:
         std::string val = {};
         if (input_[pos_] == '-') { val += '-'; ++pos_; }
         bool is_float = false;
-        while (pos_ <static_cast<int>(input_.size()) && (std::isdigit(input_[pos_]) || input_[pos_] == '.')) {
+        while ((pos_ <static_cast<int>(input_.size()) && (std::isdigit(input_[pos_]) || input_[pos_] == '.'))) {
             if (input_[pos_] == '.') {
               is_float = true;
             }
@@ -328,7 +328,7 @@ private:
 
     SQLToken readIdent([[maybe_unused]] size_t start) {
         std::string val = {};
-        while (pos_ <static_cast<int>(input_.size()) && (std::isalnum(input_[pos_]) || input_[pos_] == '_')) {
+        while ((pos_ <static_cast<int>(input_.size()) && (std::isalnum(input_[pos_]) || input_[pos_] == '_'))) {
             val += input_[pos_++];
         }
         // Uppercase for keyword lookup

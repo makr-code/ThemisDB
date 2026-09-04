@@ -922,7 +922,7 @@ bool KnowledgeGapDetector::verifyClaim(
         
         while (stream >> word && !found_any) {
             // Remove punctuation from word end for better matching
-            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                 word.pop_back();
             }
             if (term_set.count(word)) {
@@ -1423,7 +1423,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
         
         while (stream >> word && !found_any) {
             // Remove punctuation from word end for better matching
-            while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+            while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
                 word.pop_back();
             }
             if (term_set.count(word)) {
@@ -1576,7 +1576,7 @@ bool KnowledgeGapDetector::isEthicalQuery(const std::string& query) {
     
     while (stream >> word) {
         // Remove punctuation from word end for better matching
-        while (!word.empty() && (word.back() < 'a' || word.back() > 'z')) {
+        while ((!word.empty() && (word.back() < 'a' || word.back() > 'z'))) {
             word.pop_back();
         }
         if (ethical_keywords_set.count(word)) {
