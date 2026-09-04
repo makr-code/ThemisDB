@@ -301,7 +301,7 @@ TextClauseExtractor::extract(const std::string& text,
             continue;
         }
 
-        TrainingSample s;
+        TrainingSample s = TrainingSample();
         s.input      = std::move(sanitized_input);
         s.output     = "text_clause";
         s.category   = "legal_clause";
@@ -360,7 +360,7 @@ TableExtractor::extract(const std::string& text,
                                  + ",rows=" + std::to_string(blk.last_line - blk.first_line + 1)
                                  + "]";
 
-        TrainingSample s;
+        TrainingSample s = TrainingSample();
         s.input      = std::move(sanitized_input);
         s.output     = output_label;
         s.category   = "table";
@@ -411,7 +411,7 @@ CitationExtractor::extract(const std::string& text,
             return;
         }
 
-        TrainingSample s;
+        TrainingSample s = TrainingSample();
         s.input      = std::move(sanitized_input);
         s.output     = type;
         s.category   = "citation";
@@ -508,7 +508,7 @@ OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
         return samples;
     }
 
-    TrainingSample s;
+    TrainingSample s = TrainingSample();
     s.input      = std::move(sanitized_input); // real: replaced by OCR text
     s.output     = "ocr_image";
     s.category   = "ocr";
@@ -592,7 +592,7 @@ public:
                                       const std::string& document_id,
                                       const std::string& mime_hint) const
     {
-        ModalityParseResult result;
+        ModalityParseResult result = ModalityParseResult();
         result.document_id = document_id;
 
         auto t0 = std::chrono::steady_clock::now();
@@ -652,7 +652,7 @@ public:
         const std::vector<std::pair<std::string, std::string>>& documents,
         std::vector<TrainingSample>& out_samples) const
     {
-        ModalityParseStats total;
+        ModalityParseStats total = ModalityParseStats();
         auto t0 = std::chrono::steady_clock::now();
 
         for (const auto& [content, doc_id] : documents) {
