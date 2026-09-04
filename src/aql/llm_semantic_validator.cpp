@@ -218,11 +218,11 @@ static std::pair<bool, std::string> checkBinaryOpTypeCompatibility(
         // Allow same-type comparisons
         if (left_type == right_type) return {true, ""};
         // Allow numeric comparisons between int/double
-        if ((left_type == "number" || left_type == "unknown") &&
-            (right_type == "number" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "number" || left_type == "unknown") &&
+            (right_type == "number" || right_type == "unknown"))) return {true, ""};
         // Allow string/unknown comparisons
-        if ((left_type == "string" || left_type == "unknown") &&
-            (right_type == "string" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "string" || left_type == "unknown") &&
+            (right_type == "string" || right_type == "unknown"))) return {true, ""};
         return {false, fmt::format("Comparison of {} with {}", left_type, right_type)};
     }
     
@@ -234,8 +234,8 @@ static std::pair<bool, std::string> checkBinaryOpTypeCompatibility(
     
     // Arithmetic operators require numeric types
     if (op == Op::Add || op == Op::Sub || op == Op::Mul || op == Op::Div || op == Op::Mod) {
-        if ((left_type == "number" || left_type == "unknown") &&
-            (right_type == "number" || right_type == "unknown")) return {true, ""};
+        if (((left_type == "number" || left_type == "unknown") &&
+            (right_type == "number" || right_type == "unknown"))) return {true, ""};
         // ADD can also concatenate strings
         if (op == Op::Add && left_type == "string" && right_type == "string")
             return {true, ""};

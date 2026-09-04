@@ -745,9 +745,9 @@ nlohmann::json MockDatabase::graphTraverse(const std::string& datasource,
         if (!row.is_object()) {
             continue;
         }
-        if (start_node.is_null() || (row.contains("source") && row["source"] == start_node) ||
+        if (start_node.is_null() || ((row.contains("source") && row["source"] == start_node) ||
             (row.contains("from") && row["from"] == start_node) ||
-            (row.contains("sensor_id") && row["sensor_id"] == start_node)) {
+            (row.contains("sensor_id") && row["sensor_id"] == start_node))) {
             out.push_back(row);
         }
     }
@@ -838,7 +838,7 @@ nlohmann::json MockDatabase::timeSeriesQuery(const std::string& datasource,
             continue;
         }
         const auto ts = row["timestamp"].get<std::string>();
-        if ((!start_time.empty() && ts < start_time) || (!end_time.empty() && ts > end_time)) {
+        if (((!start_time.empty() && ts < start_time) || (!end_time.empty() && ts > end_time))) {
             continue;
         }
         filtered.push_back(row);

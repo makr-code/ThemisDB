@@ -1548,7 +1548,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 
 #ifdef THEMIS_HNSW_ENABLED
 	// Fall 1: HNSW-Suche ohne Whitelist
-	if (useHnsw_ && (!whitelist || whitelist->empty())) {
+	if ((useHnsw_ && (!whitelist || whitelist->empty()))) {
 		try {
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
@@ -1706,7 +1706,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	}
 #endif
 	// Alternative ANN backend (ScaNN / DiskANN)
-	if (ann_backend_ && (!whitelist || whitelist->empty())) {
+	if ((ann_backend_ && (!whitelist || whitelist->empty()))) {
 		auto* ann_backend = ann_backend_.get();
 		const auto id_to_pk_snapshot = idToPk_;
 		std::vector<float> q = query;
@@ -1731,7 +1731,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	auto results = bruteForceSearch_(query, k, whitelist);
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
-	if (static_cast<int>(results.size()) > = 10 || (whitelist && !whitelist->empty())) {
+	if ((static_cast<int>(results.size()) > = 10 || (whitelist && !whitelist->empty()))) {
 		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",static_cast<int>(results.size()));
 	}
 	

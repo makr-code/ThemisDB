@@ -301,7 +301,7 @@ private:
         }
         
         // Number
-        if (std::isdigit(ch) || (ch == '-' && std::isdigit(peek(1)))) {
+        if ((std::isdigit(ch) || (ch == '-' && std::isdigit(peek(1))))) {
             return readNumber(start_line, start_column);
         }
         
@@ -1394,7 +1394,7 @@ private:
         // Membership: left IN right (array or variable)
         // Debug: uncomment to trace tokens
         // std::cerr << "parseComparison current token: " << (int)current().type << " value='" << current().value << "'\n";
-        if (match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN")) {
+        if ((match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::In, left, right);
@@ -2236,7 +2236,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 }
 
                 // Only recognise statement/block boundaries at the top level
-                if (depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type))) {
+                if ((depth == 0 && (isSeparator(tok.type) || isStatementStart(tok.type) || isTerminator(tok.type)))) {
                     break;
                 }
                 ++end;

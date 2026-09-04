@@ -330,8 +330,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 const std::string var1 = static_cast<VariableExpr*>(fa1->object.get())->name;
                                 const std::string& bv0 = ast->for_nodes[0].variable;
                                 const std::string& bv1 = ast->for_nodes[1].variable;
-                                if ((var0 == bv0 && var1 == bv1) ||
-                                    (var0 == bv1 && var1 == bv0))
+                                if (((var0 == bv0 && var1 == bv1) ||
+                                    (var0 == bv1 && var1 == bv0)))
                                 {
                                     bool swapped = (var0 == bv1);
                                     sjq_candidate.outer_collection = ast->for_nodes[0].collection;
@@ -878,8 +878,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     std::string numericOnly = {};
                     numericOnly.reserve(text.size());
                     for (char c : text) {
-                        if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
-                            c == '.' || c == 'e' || c == 'E') {
+                        if (((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                            c == '.' || c == 'e' || c == 'E')) {
                             numericOnly.push_back(c);
                         } else {
                             numericOnly.push_back(' ');
@@ -1156,8 +1156,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         std::string numericOnly = {};
                         numericOnly.reserve(text.size());
                         for (char c : text) {
-                            if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
-                                c == '.' || c == 'e' || c == 'E') {
+                            if (((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                                c == '.' || c == 'e' || c == 'E')) {
                                 numericOnly.push_back(c);
                             } else {
                                 numericOnly.push_back(' ');

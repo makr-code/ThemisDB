@@ -962,7 +962,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         }
 
         // Skip blank lines and SQL comments
-        if (line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+        if ((line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
         
@@ -2482,7 +2482,7 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
 
     while (i < n) {
         // Skip leading whitespace
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) {
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '\t'))) {
           ++i;
         }
         if (i >= n) {
@@ -2518,8 +2518,8 @@ std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string
         }
 
         // Skip comma separator
-        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
-                          values_clause[i] == ',')) ++i;
+        while ((i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+                          values_clause[i] == ','))) ++i;
     }
 
     return result;

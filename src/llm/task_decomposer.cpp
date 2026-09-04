@@ -249,8 +249,8 @@ static json parseYamlScalar(const std::string& raw) {
     }
 
     // Quoted string
-    if ((s.front() == '"' && s.back() == '"') ||
-        (s.front() == '\'' && s.back() == '\''))
+    if (((s.front() == '"' && s.back() == '"') ||
+        (s.front() == '\'' && s.back() == '\'')))
         return s.substr(1, static_cast<int>(s.size()) - 2);
 
     // Number
@@ -310,7 +310,7 @@ json simpleYamlToJson(const std::string& yaml_text) {
             bool in_q = false;
             char q_char = 0;
             for (size_t i = 0; i < ci; ++i) {
-                if (!in_q && (line[i] == '"' || line[i] == '\'')) { in_q = true; q_char = line[i]; }
+                if ((!in_q && (line[i] == '"' || line[i] == '\''))) { in_q = true; q_char = line[i]; }
                 else if (in_q && line[i] == q_char)                   in_q = false;
             }
             if (!in_q) {
@@ -325,7 +325,7 @@ json simpleYamlToJson(const std::string& yaml_text) {
 
         // Determine indent level
         int indent = 0;
-        while (indent < static_cast<int>(line.size()) && (line[indent] == ' ' || line[indent] == '\t'))
+        while ((indent < static_cast<int>(line.size()) && (line[indent] == ' ' || line[indent] == '\t')))
             ++indent;
 
         // Multiline scalar continuation

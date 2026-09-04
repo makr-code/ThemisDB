@@ -38,14 +38,14 @@ bool ContentError::isRetryable() const {
 bool ContentError::isClientError() const {
     int c = static_cast<int>(code);
     // Validation, rate limiting, and authorization errors
-    return (c >= 1000 && c < 1200) || (c >= 1400 && c < 1500);
+    return ((c >= 1000 && c < 1200) || (c >= 1400 && c < 1500));
 }
 
 bool ContentError::isServerError() const {
     int c = static_cast<int>(code);
     // Processing, storage, resource, and internal errors
-    return (c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) || (c >= 1300 && c < 1400)
-           || (c >= 1500 && c < 1600) || (c >= 1900 && c < 2000);
+    return ((c >= 1100 && c < 1200 && code != ContentErrorCode::CONTENT_TIMEOUT) || (c >= 1300 && c < 1400)
+           || (c >= 1500 && c < 1600) || (c >= 1900 && c < 2000));
 }
 
 int ContentError::getHttpStatus() const {
