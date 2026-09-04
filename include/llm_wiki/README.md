@@ -22,11 +22,11 @@ Public interfaces and declarations for ThemisDB's LLM-powered knowledge base and
 
 | Header | Primary Class / Interface |
 |--------|--------------------------|
-| `llm_wiki_plugin_interface.h` | `LLMWikiPluginInterface` — core wiki integration interface |
-| `workspace_state_manager.h` | `WorkspaceStateManager` — knowledge base state and lifecycle |
-| `semantic_search.h` | `SemanticSearch` — embedding-based knowledge retrieval |
-| `wiki_index_store.h` | `WikiIndexStore` — persistent wiki index storage |
-| `knowledge_synthesizer.h` | `KnowledgeSynthesizer` — knowledge aggregation and synthesis |
+| `llm_wiki_plugin_interface.h` | `ILLMWikiPlugin` contract + request/response types |
+| `llm_wiki_status.h` | Lightweight `Status` type used across plugin APIs |
+| `workspace_state_manager.h` | `WorkspaceStateManager` state persistence + recovery |
+| `process_policy_manager.h` | YAML process policy loading + validation |
+| `rocksdb_wiki_store.h` | `RocksDbWikiStore` persistent key-value storage |
 
 ## Usage
 
@@ -48,10 +48,9 @@ For full runtime usage examples (workspace management, search, synthesis), see [
 
 Important configuration entry points are declared in:
 
-- `llm_wiki_plugin_interface.h` (`LLMWikiPluginInterface::Config` for plugin lifecycle)
-- `workspace_state_manager.h` (`WorkspaceStateManager::Config` for state management)
-- `semantic_search.h` (`SemanticSearch::Config` for retrieval strategy)
-- `wiki_index_store.h` (storage backend configuration)
+- `llm_wiki_plugin_interface.h` (`initialize(config_json)` contract)
+- `workspace_state_manager.h` (workspace state persistence contract)
+- `rocksdb_wiki_store.h` (RocksDB-backed persistence backend)
 
 ## Build
 

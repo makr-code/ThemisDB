@@ -1,8 +1,8 @@
 # LLM Wiki Module
 
-**Status:** HARDENING  
-**Phase:** 3-4 (Error handling & comprehensive tests)  
-**Last Updated:** 2026-08-10  
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 4 complete; Wave B hardening in progress  
+**Last Updated:** 2026-09-03  
 **Owner:** LLM Platform Team
 
 ---
@@ -31,8 +31,8 @@ The LLM Wiki module is a standalone ThemisDB core module for semantic wiki retri
 ### Phase Progress
 - [x] Phase 1 — Public SDK interface (ILLMWikiPlugin) + plugin manifest
 - [x] Phase 2 — Core implementation (LLMWikiPluginImpl) + Python MVP CLI
-- [~] Phase 3 — Error handling & edge cases (Guardrails, workspace state, edition gating) — COMPLETE
-- [~] Phase 4 — Comprehensive test suite (LWP-01..LWP-20 focused tests) — IN PROGRESS
+- [x] Phase 3 — Error handling & edge cases (Guardrails, workspace state, edition gating)
+- [x] Phase 4 — Comprehensive test suite (LWP-01..LWP-20 + Wave B focused tests)
 - [ ] Phase 5 — Performance hardening (p95 < 200ms target)
 - [ ] Phase 6 — Documentation finalization & GA acceptance
 
@@ -168,8 +168,9 @@ The module uses a **plugin-based architecture** with public SDK boundary and pri
 ## Gate Evidence & Testing
 
 **Focused Tests:**
-- `tests/llm_wiki/test_llm_wiki_plugin_phase3_phase4_focused.cpp` — LWP-01..LWP-08 (interface contracts)
-- `tests/llm_wiki/test_llm_wiki_phase3_edge_cases_focused.cpp` — LWP-09..LWP-20 (workspace lifecycle + guardrails)
+- `tests/llm/test_llm_wiki_phase4_roundtrip.cpp` — ingest/query roundtrip coverage
+- `tests/llm/test_llm_wiki_edition_gates.cpp` — edition/feature gate validation
+- `tests/llm/test_wave_next_llm_wiki_rocksdb.cpp` — RocksDB backend + fallback-path coverage
 - TIMEOUT 120s per test (standard Phase 4+ gate)
 
 **Test Categories (LWP-XX gates):**
@@ -208,10 +209,9 @@ The module uses a **plugin-based architecture** with public SDK boundary and pri
 
 **Reference:** See `FUTURE_ENHANCEMENTS.md` and `ROADMAP.md` Phase 5-6 sections
 
-**Phase 4 Pending:**
-- Full ingest+query roundtrip tests (awaiting private plugin finalization)
-- Edition-gate negative tests
-- Performance benchmarks (Phase 5)
+**Open Gate Items:**
+- Representative hardware performance baselines (p95/p99) for Wave B exit
+- Wikipedia ingest throughput evidence on CI/HW lanes
 
 **Out of Scope (Phase 2+):**
 - Custom NLP model training or fine-tuning
@@ -246,9 +246,10 @@ The module uses a **plugin-based architecture** with public SDK boundary and pri
 - Enterprise+: Full LLM Wiki with guardrails + workspace isolation
 
 **Feature Flags:**
-- `THEMISDB_WIKI_PHASE_B` — Enables persistent cache via RocksDB (Phase B; gated on RocksDB availability)
+- `THEMISDB_WIKI_PHASE_B` — Enables RocksDB-backed retrieval path when available
+- `fail_open=true` (config) — explicit test/degraded in-memory fallback when RocksDB init fails
 
 ---
 
-**Last Updated:** 2026-08-10  
-**Next Review:** 2026-08-31 (Phase 4 completion validation)
+**Last Updated:** 2026-09-03  
+**Next Review:** 2026-09-30 (Wave B gate validation)

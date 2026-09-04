@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 #include "index/gpu_vector_index.h"
 
+#include <algorithm>
 #include <vector>
 #include <string>
 
@@ -119,4 +120,43 @@ TEST(GpuVectorIndexLlmPathsFocused, GV8_GetAvailableBackends_IncludesCPU) {
         }
     }
     EXPECT_TRUE(has_cpu);
+}
+
+// ── GV9: Explicit fallback should activate CPU only when allowed ──────────────
+TEST(GpuVectorIndexLlmPathsFocused, GV9_VulkanFallbackEnabled_UsesCPUWhenUnavailable) {
+    GPUVectorIndex::Config cfg;
+    cfg.backend          = GPUVectorIndex::Backend::VULKAN;
+    cfg.allowCPUFallback = true;
+
+    GPUVectorIndex idx(cfg);
+    ASSERT_TRUE(idx.initialize(4));
+
+    const auto available = idx.getAvailableBackends();
+    const bool vulkan_available =
+        std::find(available.begin(), available.end(), GPUVectorIndex::Backend::VULKAN) !=
+        available.end();
+    if (!vulkan_available) {
+        EXPECT_EQ(idx.getActiveBackend(), GPUVectorIndex::Backend::CPU);
+    }
+}
+
+// ── GV10: With fallback disabled, unavailable Vulkan must fail closed ─────────
+TEST(GpuVectorIndexLlmPathsFocused, GV10_VulkanFallbackDisabled_FailsClosedWhenUnavailable) {
+    GPUVectorIndex::Config cfg;
+    cfg.backend          = GPUVectorIndex::Backend::VULKAN;
+    cfg.allowCPUFallback = false;
+
+    GPUVectorIndex probe(GPUVectorIndex::Config{});
+    ASSERT_TRUE(probe.initialize(4));
+    const auto available = probe.getAvailableBackends();
+    const bool vulkan_available =
+        std::find(available.begin(), available.end(), GPUVectorIndex::Backend::VULKAN) !=
+        available.end();
+    probe.shutdown();
+
+    GPUVectorIndex idx(cfg);
+    const bool ok = idx.initialize(4);
+    if (!vulkan_available) {
+        EXPECT_FALSE(ok);
+    }
 }

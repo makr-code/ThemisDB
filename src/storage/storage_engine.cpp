@@ -145,8 +145,9 @@ class DefaultIndexManager : public IIndexManager {
 public:
     DefaultIndexManager() {
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Using default (no-op) index manager in PRODUCTION mode. "
-                        "Indexes will not be functional. Provide a real implementation via dependency injection.");
+            throw std::runtime_error(
+                "StorageEngine: Cannot use default (no-op) index manager in PRODUCTION mode. "
+                "INDEXES WOULD NOT BE FUNCTIONAL! Provide a real IIndexManager implementation via dependency injection.");
         }
     }
 
@@ -258,7 +259,12 @@ StorageEngine::StorageEngine(
         throw std::invalid_argument("StorageEngine: key_provider cannot be null");
     }
     
-    // index_manager is optional, so we don't validate it
+    // In production mode, index manager is a hard prerequisite.
+    if (!index_manager_ && is_production_mode()) {
+        throw std::invalid_argument(
+            "StorageEngine: index_manager cannot be null in PRODUCTION mode. "
+            "Provide a real IIndexManager implementation via dependency injection.");
+    }
 }
 
 std::shared_ptr<StorageEngine> StorageEngine::createDefault() {

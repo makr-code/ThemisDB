@@ -80,10 +80,12 @@ public:
         /// RPC deadline in milliseconds (default: 1 000 ms).
         int rpc_timeout_ms = 1000;
 
-        /// TLS: set to true and provide CA cert path to use SSL credentials.
-        /// When false, insecure channel credentials are used (not recommended
-        /// for production).
+        /// TLS is required for production.  Insecure transport is only allowed
+        /// when a human explicitly opts into a local/test override.
         bool        tls_enabled   = false;
+        /// Explicit local/dev-only insecure override.  Must remain false in
+        /// production and is rejected by default.
+        bool        allow_insecure = false;
         std::string tls_ca_cert;  ///< PEM-encoded CA certificate (in-memory)
 
         Config() = default;
@@ -101,9 +103,11 @@ public:
     explicit GrpcRemoteCachePeer(Config config);
 
     /**
-     * @brief Convenience constructor: insecure peer at the given address.
+     * @brief Convenience constructor for a configured peer address.
      *
-     * Equivalent to GrpcRemoteCachePeer(Config(addr)).
+     * This does not opt into insecure transport; production callers must set
+     * `tls_enabled=true` or provide an explicit local/test override via
+     * `Config::allow_insecure`.
      */
     explicit GrpcRemoteCachePeer(const std::string& addr);
 
@@ -178,6 +182,7 @@ public:
         std::string address = {};
         int rpc_timeout_ms = 1000;
         bool        tls_enabled   = false;
+        bool        allow_insecure = false;
         std::string tls_ca_cert;
 
         Config() = default;

@@ -223,8 +223,15 @@ std::shared_ptr<grpc::Channel> GrpcChannelPool::createChannel(
     args.SetInt(GRPC_ARG_MIN_RECONNECT_BACKOFF_MS, 
                 static_cast<int>(config_.connect_timeout.count() * 1000));
     
-    // Use insecure credentials if none provided
+    // Fail closed by default: a channel without explicit credentials is a
+    // security bug unless the caller explicitly opted into a local/test
+    // insecure override.
     if (!credentials) {
+        if (!config_.allow_insecure) {
+            throw std::runtime_error(
+                "GrpcChannelPool: missing channel credentials is rejected by default; "
+                "set allow_insecure=true for an explicit local/test override");
+        }
         credentials = grpc::InsecureChannelCredentials();
     }
     

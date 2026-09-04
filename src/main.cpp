@@ -164,8 +164,9 @@ int main(int argc, char* argv[]) {
         //   1. Populate node_addresses from your cluster configuration source.
         //   2. Set prepare_timeout / commit_timeout to your SLA budget.
         //   3. Set THEMIS_GRPC_CA_CERT / THEMIS_GRPC_CLIENT_CERT /
-        //      THEMIS_GRPC_CLIENT_KEY env vars for mTLS (W10-A). When absent
-        //      the adapters log a warning and fall back to insecure channels.
+        //      THEMIS_GRPC_CLIENT_KEY env vars for mTLS (W10-A). When absent,
+        //      the adapters reject the insecure path and fail closed rather than
+        //      silently downgrading to plaintext transport.
         {
             // Node address map — populated from config / service-discovery at
             // real startup; left empty here so the demo path is a no-op.
@@ -176,8 +177,8 @@ int main(int argc, char* argv[]) {
             // W10-A: Read optional mTLS credential env vars.
             // Set THEMIS_GRPC_CA_CERT, THEMIS_GRPC_CLIENT_CERT, and
             // THEMIS_GRPC_CLIENT_KEY to PEM-encoded strings to enable mTLS.
-            // When any var is absent the adapters fall back to insecure
-            // channels and emit a warning.
+            // When any var is absent, the adapters reject the operation rather
+            // than silently downgrading to an insecure gRPC channel.
             auto getenv_safe = [](const char* name) -> std::string {
                 const char* v = std::getenv(name);
                 return v ? std::string(v) : std::string{};
@@ -198,7 +199,8 @@ int main(int argc, char* argv[]) {
                     mtls_cfg = std::move(cfg);
                     THEMIS_INFO("W10-A: mTLS credentials loaded from environment variables");
                 }
-                // else: mtls_cfg stays nullopt → adapters use insecure fallback
+                // else: mtls_cfg stays nullopt → adapters fail closed unless an
+                // explicit test override is configured via MtlsConfig.allow_insecure
             }
 
             themis::transaction::DistributedTransactionManager::setRpcPhase1Fn(
@@ -215,7 +217,7 @@ int main(int argc, char* argv[]) {
                         node_addresses.size(),
                         prepare_timeout.count(),
                         commit_timeout.count(),
-                        mtls_cfg.has_value() ? "enabled" : "insecure-fallback");
+                        mtls_cfg.has_value() ? "enabled" : "fail-closed");
         }
         // ────────────────────────────────────────────────────────────────────
         

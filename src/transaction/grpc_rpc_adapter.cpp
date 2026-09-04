@@ -70,12 +70,9 @@ constexpr int kMaxRetries = 3;
 /**
  * @brief Build gRPC channel credentials from an optional MtlsConfig.
  *
- * When @p mtls is present and all three PEM fields (ca_cert_pem,
- * client_cert_pem, client_key_pem) are non-empty, returns
- * `grpc::SslCredentials` configured with those PEM strings.
- *
- * Falls back to `grpc::InsecureChannelCredentials()` otherwise and logs a
- * warning so the insecure path is always visible in operator logs.
+ * The distributed transaction transport is fail-closed: valid mTLS material is
+ * required unless the caller explicitly opts into a local dev/test insecure
+ * override via `allow_insecure=true`.
  *
  * @param mtls  Optional mTLS credential bundle.
  * @return      Shared pointer to `grpc::ChannelCredentials`.
@@ -95,10 +92,15 @@ makeChannelCredentials(const std::optional<MtlsConfig>& mtls)
         return grpc::SslCredentials(ssl_opts);
     }
 
-    THEMIS_WARN("gRPC channel using insecure credentials — "
-                "provide THEMIS_GRPC_CA_CERT / THEMIS_GRPC_CLIENT_CERT / "
-                "THEMIS_GRPC_CLIENT_KEY for production deployments");
-    return grpc::InsecureChannelCredentials();
+    if (mtls.has_value() && mtls->allow_insecure) {
+        THEMIS_WARN("gRPC channel uses explicit dev/test insecure override; "
+                    "this is intentionally disabled for production traffic");
+        return grpc::InsecureChannelCredentials();
+    }
+
+    throw std::runtime_error(
+        "Distributed transaction RPC requires valid mTLS material before it can "
+        "open a secure channel; missing credentials are treated as a hard error.");
 }
 
 /**
@@ -151,8 +153,8 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
         const std::string& endpoint = it->second;
 
         // Build credentials and channel arguments from the mTLS config.
-        // makeChannelCredentials() falls back to InsecureChannelCredentials()
-        // with a warning when PEM fields are absent.
+        // makeChannelCredentials() is fail-closed: missing PEM fields throw
+        // unless the caller explicitly opts into a local test override.
         auto creds = makeChannelCredentials(mtls);
         auto args  = makeChannelArguments(mtls);
         auto channel = grpc::CreateCustomChannel(endpoint, creds, args);
@@ -247,8 +249,8 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
 
         for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
             // Build credentials and channel arguments from the mTLS config.
-            // makeChannelCredentials() falls back to InsecureChannelCredentials()
-            // with a warning when PEM fields are absent.
+            // makeChannelCredentials() is fail-closed: missing PEM fields throw
+            // unless the caller explicitly opts into a local test override.
             auto creds   = makeChannelCredentials(mtls);
             auto args    = makeChannelArguments(mtls);
             auto channel = grpc::CreateCustomChannel(endpoint, creds, args);

@@ -236,7 +236,7 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
     }
 
     // AC-9/AC-10: Check circuit breaker before attempting step
-    if (isCircuitBreakerOpen(step.name)) {
+    if (!tryAcquireCircuitBreakerExecution(step.name)) {
         journalWrite(saga_id, "circuit_breaker_open", 
                     "Circuit breaker is open for step: " + step.name);
         return StepState::FAILED;
@@ -247,10 +247,9 @@ StepState SAGAOrchestrator::executeStep(const SAGAStep& step,
 
     for (size_t attempt = 0; attempt <= step.max_retries; ++attempt) {
         // AC-9/AC-10: Check circuit breaker on each retry attempt
-        if (attempt > 0 && isCircuitBreakerOpen(step.name)) {
+        if (attempt > 0 && !tryAcquireCircuitBreakerExecution(step.name)) {
             journalWrite(saga_id, "circuit_breaker_open_on_retry",
                         "Circuit breaker opened during retries for: " + step.name);
-            recordCircuitBreakerFailure(step.name);
             return StepState::FAILED;
         }
 
@@ -654,6 +653,7 @@ void SAGAOrchestrator::recordCircuitBreakerFailure(const std::string& step_name)
     auto& count = consecutive_failures_[step_name];
     ++count;
     last_failure_time_[step_name] = std::chrono::system_clock::now();
+    half_open_probe_in_flight_[step_name] = false;
 }
 
 void SAGAOrchestrator::recordCircuitBreakerSuccess(const std::string& step_name) {
@@ -661,8 +661,36 @@ void SAGAOrchestrator::recordCircuitBreakerSuccess(const std::string& step_name)
     
     // Reset failure counter on success
     consecutive_failures_[step_name] = 0;
+    half_open_probe_in_flight_[step_name] = false;
+}
+
+bool SAGAOrchestrator::tryAcquireCircuitBreakerExecution(const std::string& step_name) {
+    std::lock_guard<std::mutex> lk(circuit_breaker_mutex_);
+
+    auto it = consecutive_failures_.find(step_name);
+    if (it == consecutive_failures_.end() || it->second < config_.circuit_breaker_threshold) {
+        return true;  // Circuit is CLOSED
+    }
+
+    auto time_it = last_failure_time_.find(step_name);
+    if (time_it == last_failure_time_.end()) {
+        return false;
+    }
+
+    const auto now = std::chrono::system_clock::now();
+    const auto elapsed = now - time_it->second;
+    if (elapsed < config_.circuit_breaker_timeout) {
+        return false;  // Still OPEN
+    }
+
+    // HALF_OPEN: allow only one probe at a time.
+    bool& probe_in_flight = half_open_probe_in_flight_[step_name];
+    if (probe_in_flight) {
+        return false;
+    }
+    probe_in_flight = true;
+    return true;
 }
 
 } // namespace themis
-
 

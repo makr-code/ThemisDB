@@ -21,6 +21,8 @@
 #include <cstring>
 #include <mutex>
 #include <stdexcept>
+#include <cstdlib>
+#include <string>
 #include <unordered_map>
 
 // Real ggml allocation API — available when THEMIS_HAS_GGML is defined.
@@ -39,6 +41,28 @@
 
 namespace themis {
 namespace storage {
+
+namespace {
+bool is_production_mode() {
+    const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
+    if (mode_env) {
+        const std::string mode(mode_env);
+        if (mode == "1" || mode == "true" || mode == "production") {
+            return true;
+        }
+    }
+    return env_env && std::string(env_env) == "production";
+}
+
+bool allow_test_only_fallbacks() {
+#if defined(THEMIS_UNIT_TEST)
+    return true;
+#else
+    return false;
+#endif
+}
+} // namespace
 
 // CRITICAL Line-0 uncategorized scanner alerts (×2, confidence band=very_high
 // score=0.85): the scanner emitted two phantom findings anchored to Line 0
@@ -319,6 +343,17 @@ struct GgmlTensorBridge::Impl {
                 allocGgmlTensor1d(ctx, handle.impl_->fake_tensor.n_elements);
         }
 
+        if (!handle.impl_->real_ggml_tensor &&
+            is_production_mode() &&
+            !allow_test_only_fallbacks()) {
+            THEMIS_ERROR(
+                "GgmlTensorBridge::map: missing production ggml allocator path "
+                "(no injected GgmlAllocFn and no usable ggml context/allocation). "
+                "Refusing to mark mapping valid.");
+            handle.impl_->valid = false;
+            return handle;
+        }
+
 #ifdef THEMIS_HAS_GGML
         if (handle.impl_->real_ggml_tensor && handle.impl_->real_ggml_tensor->data &&
             !handle.impl_->fake_tensor.data.empty()) {
@@ -465,6 +500,11 @@ void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
     // Behaviour: No-op — the OS demand-pager handles page faults normally.
     //            Enable -DTHEMIS_HAS_IO_URING=ON and link liburing to activate
     //            the async io_uring readahead path above.
+    if (is_production_mode() && !allow_test_only_fallbacks()) {
+        throw std::runtime_error(
+            "GgmlTensorBridge::prefetch: no production prefetch path available. "
+            "Build with THEMIS_HAS_IO_URING=ON or inject PrefetchFn at startup.");
+    }
     (void)key; (void)version;
 #endif
 }
@@ -523,6 +563,11 @@ int registerGgmlTypeTT() {
     // Activation: THEMIS_HAS_GGML is NOT defined (default build).
     // Production path: Build with -DTHEMIS_HAS_GGML=ON; the real
     //                  ggml_type_register() call above replaces this constant.
+    if (is_production_mode() && !allow_test_only_fallbacks()) {
+        throw std::runtime_error(
+            "registerGgmlTypeTT: ggml type registration unavailable in production. "
+            "Build with THEMIS_HAS_GGML=ON or inject TypeRegistrationFn at startup.");
+    }
     constexpr int kTTTypeIdPlaceholder = 9999;
     return kTTTypeIdPlaceholder;
 #endif

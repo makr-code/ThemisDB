@@ -166,7 +166,19 @@ Result<void> TensorCoreStorageBridge::write(
                    std::string("TensorCoreStorageBridge::write: ") + e.what());
     }
 
-    const bool ok = backend_->put(key, record.serialized_train);
+    bool ok = false;
+    try {
+        ok = backend_->put(key, record.serialized_train);
+    } catch (const std::exception& e) {
+        return ErrVoid(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "TensorCoreStorageBridge::write: backend put() threw for key=" + key +
+                " (" + e.what() + ")");
+    } catch (...) {
+        return ErrVoid(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "TensorCoreStorageBridge::write: backend put() threw for key=" + key);
+    }
     if (!ok) {
         return ErrVoid(
             errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
@@ -195,7 +207,11 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
     } catch (...) {
         return std::nullopt;
     }
-    return backend_->get(key);
+    try {
+        return backend_->get(key);
+    } catch (...) {
+        return std::nullopt;
+    }
 }
 
 #ifdef THEMIS_HAS_ROCKSDB_TENSOR
@@ -237,4 +253,3 @@ void TensorCoreStorageBridge::autoRegisterRocksDBBackend(const std::string& db_p
 
 } // namespace tensor
 } // namespace themis
-

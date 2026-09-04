@@ -86,9 +86,19 @@ void GrpcRemoteCachePeer::invalidateTenant(const std::string& tenant_id) {
 
 std::shared_ptr<grpc::ChannelCredentials>
 GrpcRemoteCachePeer::buildCredentials() const {
+    if (!config_.tls_enabled && !config_.allow_insecure) {
+        throw std::runtime_error(
+            "GrpcRemoteCachePeer: insecure transport is disabled by default; "
+            "set tls_enabled=true or allow_insecure=true for an explicit local/test override");
+    }
+
     if (!config_.tls_enabled) {
+        THEMIS_WARN("GrpcRemoteCachePeer: explicit insecure override enabled for {} — "
+                    "this is a local/test-only exception and must not be used in production",
+                    config_.address);
         return grpc::InsecureChannelCredentials();
     }
+
     grpc::SslCredentialsOptions ssl_opts;
     ssl_opts.pem_root_certs = config_.tls_ca_cert;
     return grpc::SslCredentials(ssl_opts);
