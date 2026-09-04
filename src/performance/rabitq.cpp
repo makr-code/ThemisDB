@@ -320,8 +320,8 @@ void ProductQuantizer::train(const std::vector<std::vector<float>>& training_dat
                 }
                 d2[i] = min_d2;
             }
-            std::discrete_distribution<size_t> weighted(d2.begin(), d2.end());
-            centroids.push_back(subvec_data[weighted(rng)]);
+            std::discrete_distribution<uint64_t> weighted(d2.begin(), d2.end());
+            centroids.push_back(subvec_data[static_cast<size_t>(weighted(rng))]);
         }
 
         // --- k-means Lloyd iterations (max 25) ---
