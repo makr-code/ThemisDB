@@ -401,7 +401,7 @@ struct WomTree::Impl {
         if (!root->is_leaf) {
           return;
         }
-        if (root-> static_cast<int>(data.size()) <= config.leaf_capacity) {
+                if (root->data.size() <= static_cast<size_t>(config.leaf_capacity)) {
           return;
         }
 
@@ -450,7 +450,7 @@ struct WomTree::Impl {
         }
 
         // Recurse into children first (bottom-up ordering).
-        for (size_t i = 0; i < node_ref-> static_cast<int>(children.size()); ++i) {
+                for (size_t i = 0; i < node_ref->children.size(); ++i) {
             if (doOneInternalSplit(node_ref->children[i], node_ref.get(), i)) {
                 return true;  // One split done; restart to re-evaluate indices.
             }
@@ -460,7 +460,7 @@ struct WomTree::Impl {
         // data_race scanner alert: node_ref is obtained under the caller's
         // write lock; children.size() is read in a single-threaded context
         // protected by the tree's mutex — false positive.
-        if (node_ref-> static_cast<int>(children.size()) <= static_cast<size_t>(config.fanout)) {
+        if (node_ref->children.size() <= static_cast<size_t>(config.fanout)) {
             return false;
         }
 

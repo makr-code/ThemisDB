@@ -31,8 +31,8 @@ static std::string getCurrentTimestamp() {
 // TensorErrorHandler implementation
 // ============================================================================
 
-void TensorErrorHandler::setErrorCallback([[maybe_unused]] ErrorCallback callback) {
-    error_callback_ = std::move([[maybe_unused]] callback);
+void TensorErrorHandler::setErrorCallback(ErrorCallback callback) {
+    error_callback_ = std::move(callback);
 }
 
 void TensorErrorHandler::registerRecoveryFn(
@@ -100,8 +100,8 @@ void TensorErrorHandler::logError(const ErrorContext& context) const noexcept {
         std::cerr << oss.str() << std::endl;
 
         // Call registered callback
-        if ([[maybe_unused]] error_callback_) {
-            error_callback_([[maybe_unused]] context);
+        if (error_callback_) {
+            error_callback_(context);
         }
     } catch (...) {
         // Ignore exceptions during error logging
@@ -149,14 +149,14 @@ CompressionGuard::CompressionGuard(
     std::shared_ptr<ICompressionStrategy> strategy,
     std::shared_ptr<TensorErrorHandler>   error_handler)
     : strategy_(std::move(strategy)),
-      error_handler_([[maybe_unused]] std::move(error_handler)) {
+      error_handler_(std::move(error_handler)) {
 
     result_.success = false;
     result_.error_message = "Not executed";
 }
 
 CompressionGuard::~CompressionGuard() {
-    if ([[maybe_unused]] error_handler_) {
+    if (error_handler_) {
         error_handler_->recordOperation(
             strategy_ ? strategy_->name() : "UNKNOWN",
             result_.success,
@@ -186,14 +186,14 @@ CompressionResult CompressionGuard::execute(
         result_.success = false;
         result_.error_message = std::string("Exception: ") + e.what();
         
-        if ([[maybe_unused]] error_handler_) {
+        if (error_handler_) {
             ErrorContext ctx;
             ctx.operation = "COMPRESSION";
             ctx.error_code = -1;
             ctx.error_message = result_.error_message;
             ctx.timestamp = getCurrentTimestamp();
             ctx.is_recoverable = true;
-            error_handler_->logError([[maybe_unused]] ctx);
+            error_handler_->logError(ctx);
         }
         
         return result_;
@@ -222,14 +222,14 @@ RoutingGuard::RoutingGuard(
     std::shared_ptr<IRoutingStrategy>     strategy,
     std::shared_ptr<TensorErrorHandler>   error_handler)
     : strategy_(std::move(strategy)),
-      error_handler_([[maybe_unused]] std::move(error_handler)) {
+      error_handler_(std::move(error_handler)) {
 
     result_.confidence = 0.0f;
     result_.reason = "Not executed";
 }
 
 RoutingGuard::~RoutingGuard() {
-    if ([[maybe_unused]] error_handler_) {
+    if (error_handler_) {
         error_handler_->recordOperation(
             strategy_ ? strategy_->name() : "ROUTING",
             result_.confidence > 0.0f,
@@ -263,14 +263,14 @@ RoutingDecision RoutingGuard::execute(
         result_.confidence = 0.0f;
         result_.reason = std::string("Exception: ") + e.what();
 
-        if ([[maybe_unused]] error_handler_) {
+        if (error_handler_) {
             ErrorContext ctx;
             ctx.operation = "ROUTING";
             ctx.error_code = -1;
             ctx.error_message = result_.reason;
             ctx.timestamp = getCurrentTimestamp();
             ctx.is_recoverable = true;
-            error_handler_->logError([[maybe_unused]] ctx);
+            error_handler_->logError(ctx);
         }
 
         return result_;
@@ -474,7 +474,7 @@ void ResilienceMonitor::recordResult(
     }
 }
 
-bool ResilienceMonitor::isHealthy([[maybe_unused]] float min_success_rate) const noexcept {
+bool ResilienceMonitor::isHealthy(float min_success_rate) const noexcept {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     return metrics_.success_rate >= min_success_rate;
 }
@@ -622,3 +622,4 @@ void emitDedupDiagnostic(
 
 } // namespace tensor
 } // namespace themis
+

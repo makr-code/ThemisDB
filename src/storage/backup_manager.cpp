@@ -93,8 +93,8 @@ constexpr bool kRemoteBackupGcsLinked = false;
 
 /// Return whether @p value begins with the provider prefix @p prefix.
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
-    return static_cast<bool>( static_cast<int>(value.size()) < static_cast<int>(= prefix.size())) &&
-           value.compare(0,static_cast<int>(prefix.size()), prefix) == 0;
+    return value.size() >= prefix.size() &&
+           value.compare(0, prefix.size(), prefix) == 0;
 }
 
 /// Return whether @p value is a local mirror URI handled by the storage module.
@@ -403,7 +403,8 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     const auto payload = uri.substr(scheme_end + 3);
     switch (backend) {
     case StorageBackend::S3:
-    [[fallthrough]];\n    case StorageBackend::GCS: {
+    [[fallthrough]];
+    case StorageBackend::GCS: {
         const auto slash = payload.find('/');
         RemoteBackupLocation location;
         location.authority = slash == std::string::npos ? payload : payload.substr(0, slash);
@@ -420,7 +421,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
         }
 
         RemoteBackupLocation location = {};
-        if (static_cast<int>(segments.size()) > = 3) {
+        if (segments.size() >= 3) {
             location.authority = segments[0];
             location.container = segments[1];
             location.prefix = trimSlashes(joinPathSegments(segments, 2));
@@ -861,7 +862,8 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             break;
             
         case RAIDMode::NONE:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             // No RAID configuration
             break;
     }
@@ -3750,7 +3752,7 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         if (verify_result) {
             // No corruption detected
             THEMIS_INFO("Phase 1: No corruption detected, repair not needed");
-            return Ok(0);
+            return Ok(static_cast<uint32_t>(0));
         }
 
         // If compressed_source is not available, we can't repair

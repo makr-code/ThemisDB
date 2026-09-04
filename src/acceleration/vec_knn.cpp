@@ -326,7 +326,7 @@ void DistanceCache::put(const std::string &pk_a, const std::string &pk_b, float 
         return;
     }
     // Evict oldest entry if at capacity (O(1) with std::deque)
-    if (static_cast<int>(map_.size()) > = max_entries_ && !order_.empty()) {
+    if (static_cast<int>(map_.size()) >= max_entries_ && !order_.empty()) {
         map_.erase(order_.front());
         order_.pop_front(); // O(1) for std::deque
     }
@@ -375,7 +375,7 @@ VecKnnInsertPipeline::VecKnnInsertPipeline(VecKnnPipelineConfig config)
         config_.batch_size = 32;
     }
     if (config_.num_threads == 0) {
-        config_.num_threads = std::max(1, std::thread::hardware_concurrency());
+        config_.num_threads = std::max<std::size_t>(1, static_cast<std::size_t>(std::thread::hardware_concurrency()));
     }
 }
 
@@ -386,10 +386,10 @@ void VecKnnInsertPipeline::setBatchSize(std::size_t sz) {
 }
 
 void VecKnnInsertPipeline::setThreadCount(std::size_t n) {
-    config_.num_threads = (n > 0) ? n : std::max(1, std::thread::hardware_concurrency());
+    config_.num_threads = (n > 0) ? n : std::max<std::size_t>(1, static_cast<std::size_t>(std::thread::hardware_concurrency()));
 }
 
-void VecKnnInsertPipeline::enableDistanceCache([[maybe_unused]] bool enable) {
+void VecKnnInsertPipeline::enableDistanceCache(bool enable) {
     config_.enable_cache = enable;
     if (!enable) {
         cache_->clear();
@@ -485,8 +485,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
             vectors.push_back(std::move(*vec));
         }
 
-        for (std::size_t i = 0; i <static_cast<int>(vectors.size()); ++i) {
-            for (std::size_t j = i + 1; j <static_cast<int>(vectors.size()); ++j) {
+        for (std::size_t i = 0; i  < vectors.size(); ++i) {
+            for (std::size_t j = i + 1; j  < vectors.size(); ++j) {
                 if (vectors[i].size() != vectors[j].size()) {
                     continue;
                 }
@@ -505,8 +505,8 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
     std::vector<std::future<void>> futures;
     futures.reserve((static_cast<int>(entities.size()) + batchSize - 1) / batchSize);
 
-    for (std::size_t begin = 0; begin <static_cast<int>(entities.size()); begin += batchSize) {
-        const std::size_t end = std::min(begin + batchSize,static_cast<int>(entities.size()));
+    for (std::size_t begin = 0; begin  < entities.size(); begin += batchSize) {
+        const std::size_t end = std::min(begin + batchSize, entities.size());
 
         auto worker = [&, begin, end]() {
             std::vector<BaseEntity> batch;
@@ -537,7 +537,7 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
         };
 
         futures.emplace_back(std::async(std::launch::async, worker));
-        if (static_cast<int>(futures.size()) > = maxWorkers) {
+        if (static_cast<int>(futures.size()) >= maxWorkers) {
             futures.front().get();
             futures.erase(futures.begin());
         }
@@ -561,3 +561,4 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
 } // namespace acceleration
 } // namespace themis
+

@@ -83,8 +83,8 @@ void TransactionRetryManager::resetStatistics() {
 }
 
 void TransactionRetryManager::setAlertCallback([[maybe_unused]] AlertCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-    alert_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    alert_callback_ = std::move(callback);
 }
 
 ErrorType TransactionRetryManager::classifyError(const std::string& error_message) {
@@ -168,20 +168,30 @@ bool TransactionRetryManager::isRetryable(ErrorType error_type) {
     switch (error_type) {
         // Retryable
         case ErrorType::WRITE_CONFLICT:
-        [[fallthrough]];\n        case ErrorType::TIMEOUT:
-        [[fallthrough]];\n        case ErrorType::NETWORK_ERROR:
-        [[fallthrough]];\n        case ErrorType::RESOURCE_EXHAUSTED:
-        [[fallthrough]];\n        case ErrorType::SERVICE_UNAVAILABLE:
+        [[fallthrough]];
+        case ErrorType::TIMEOUT:
+        [[fallthrough]];
+        case ErrorType::NETWORK_ERROR:
+        [[fallthrough]];
+        case ErrorType::RESOURCE_EXHAUSTED:
+        [[fallthrough]];
+        case ErrorType::SERVICE_UNAVAILABLE:
             return true;
         
         // Non-retryable
         case ErrorType::CONSTRAINT_VIOLATION:
-        [[fallthrough]];\n        case ErrorType::INVALID_ARGUMENT:
-        [[fallthrough]];\n        case ErrorType::NOT_FOUND:
-        [[fallthrough]];\n        case ErrorType::PERMISSION_DENIED:
-        [[fallthrough]];\n        case ErrorType::DATA_CORRUPTION:
-        [[fallthrough]];\n        case ErrorType::UNKNOWN:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case ErrorType::INVALID_ARGUMENT:
+        [[fallthrough]];
+        case ErrorType::NOT_FOUND:
+        [[fallthrough]];
+        case ErrorType::PERMISSION_DENIED:
+        [[fallthrough]];
+        case ErrorType::DATA_CORRUPTION:
+        [[fallthrough]];
+        case ErrorType::UNKNOWN:
+        [[fallthrough]];
+        default:
             return false;
     }
 }
@@ -370,11 +380,11 @@ bool TransactionRetryManager::transitionCircuitState(CircuitState new_state, std
 void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std::string& message) const {
     AlertCallback callback;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
+        std::lock_guard<std::mutex> lock(callback_mutex_);
         callback = alert_callback_;
     }
 
-    if ([[maybe_unused]] callback) {
+    if (callback) {
         try {
             callback(state, message);
         } catch (...) {

@@ -155,7 +155,7 @@ struct TensorRouter::Impl {
         std::vector<std::size_t> pilot_shape;
         std::size_t n_pilot = 64;
         // Use first two mode dimensions capped at sample_n
-        if (static_cast<int>(mode_sizes.size()) > = 2) {
+        if (static_cast<int>(mode_sizes.size()) >= 2) {
             std::size_t m = std::min(mode_sizes[0], (std::size_t)64);
             std::size_t n = sample_n / m;
             if (n < 1) {
@@ -213,9 +213,12 @@ struct TensorRouter::Impl {
         if (policy.force_lift_for_inference && hint.inference_use) {
             switch (hint.category) {
                 case Cat::LLM_WEIGHTS:
-                [[fallthrough]];\n                case Cat::LLM_ADAPTER:
-                [[fallthrough]];\n                case Cat::EMBEDDING:
-                [[fallthrough]];\n                case Cat::SIMULATION:
+                [[fallthrough]];
+        case Cat::LLM_ADAPTER:
+                [[fallthrough]];
+        case Cat::EMBEDDING:
+                [[fallthrough]];
+        case Cat::SIMULATION:
                     return TensorRouteDecision::LIFT;
                 default:
                     break;
@@ -504,4 +507,5 @@ TensorRouter::TemplateTopologyApplyFn TensorRouter::getTemplateTopologyApplyFn()
 
 } // namespace storage
 } // namespace themis
+
 

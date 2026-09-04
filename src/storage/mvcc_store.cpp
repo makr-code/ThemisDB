@@ -253,7 +253,7 @@ void MVCCStore::scanVersions(
             reinterpret_cast<const uint8_t*>(raw_val.data()),
             reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
         );
-        return callback([[maybe_unused]] entry);
+        return callback(entry);
     });
 }
 
@@ -341,7 +341,7 @@ void MVCCStore::scanBaseKeys([[maybe_unused]] std::function<bool(std::string_vie
     base_keys.erase(std::unique(base_keys.begin(), base_keys.end()), base_keys.end());
 
     for (const auto& bk : base_keys) {
-        if ([[maybe_unused]] !callback(bk)) {
+        if (!callback(bk)) {
             break;
         }
     }

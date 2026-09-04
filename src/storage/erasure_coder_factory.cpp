@@ -110,8 +110,8 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     for (uint32_t shard = 0; shard < data_shards; ++shard) {
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (static_cast<int>(data.size()) > offset) {
-            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
+        if (data.size() > offset) {
+            const size_t size = std::min(chunk_size, data.size() - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));
@@ -199,7 +199,7 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
     }
 
-    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
+    const size_t chunk_size = available_chunks.begin()->second.size();
     std::vector<std::vector<uint8_t>> recovered_data(data_shards,
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
@@ -428,8 +428,8 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     for (uint32_t shard = 0; shard < data_shards; ++shard) {
         const size_t offset = static_cast<size_t>(shard) * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (static_cast<int>(data.size()) > offset) {
-            const size_t size = std::min(chunk_size, static_cast<int>(data.size()) - offset);
+        if (data.size() > offset) {
+            const size_t size = std::min(chunk_size, data.size() - offset);
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(std::move(chunk));
@@ -485,7 +485,7 @@ std::vector<uint8_t> CauchyReedSolomonCoder::decode(
         return recovered;
     }
 
-    const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
+    const size_t chunk_size = available_chunks.begin()->second.size();
     const uint32_t total_shards = data_shards + parity_shards;
     std::vector<std::vector<uint8_t>> full_matrix(total_shards,
                                                   std::vector<uint8_t>(data_shards, 0));

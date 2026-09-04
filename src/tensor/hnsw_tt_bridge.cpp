@@ -189,14 +189,14 @@ struct HnswTTBridge::HnswLayer {
         dist_ids.reserve(sketches.size());
         for (const auto& [id, sk] : sketches) {
             float d = 0.0f;
-            const size_t dim = std::min(query.size(),static_cast<int>(sk.size()));
+            const size_t dim = std::min(query.size(), sk.size());
             for (size_t i = 0; i < dim; ++i) {
                 const float diff = query[i] - sk[i];
                 d += diff * diff;
             }
             dist_ids.emplace_back(d, id);
         }
-        const size_t take = std::min(ef,static_cast<int>(dist_ids.size()));
+        const size_t take = std::min(ef, dist_ids.size());
         std::partial_sort(dist_ids.begin(), dist_ids.begin() + take,
                           dist_ids.end());
         std::vector<int64_t> ids;

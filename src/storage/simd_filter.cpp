@@ -358,7 +358,7 @@ size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
 
 // Helper: collapse a uint32x4 predicate mask into a 4-bit integer where
 // bit i is set when lane i is all-ones (0xFFFFFFFF).
-static inline int neon_movemask_u32([[maybe_unused]] uint32x4_t mask) noexcept {
+static inline int neon_movemask_u32(uint32x4_t mask) noexcept {
     // Shift each lane to its sign bit position then OR together.
     const uint32x4_t shift = {0, 1, 2, 3};
     uint32x4_t bits = vshrq_n_u32(vshlq_u32(mask, vreinterpretq_s32_u32(
@@ -371,7 +371,7 @@ static inline int neon_movemask_u32([[maybe_unused]] uint32x4_t mask) noexcept {
 }
 
 // Helper: collapse a uint64x2 predicate mask into a 2-bit integer.
-static inline int neon_movemask_u64([[maybe_unused]] uint64x2_t mask) noexcept {
+static inline int neon_movemask_u64(uint64x2_t mask) noexcept {
     uint64_t lo = vgetq_lane_u64(mask, 0) & 1;
     uint64_t hi = vgetq_lane_u64(mask, 1) & 1;
     return static_cast<int>(lo | (hi << 1));
@@ -613,12 +613,14 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
 
     switch (pred.column_type) {
         case ColumnType::INT32:
-        [[fallthrough]];\n        case ColumnType::INT64: {
+        [[fallthrough]];
+        case ColumnType::INT64: {
             int64_t thr = (pred.column_type == ColumnType::INT32)
                 ? static_cast<int64_t>(pred.threshold.i32)
                 : pred.threshold.i64;
             switch (pred.op) {
-                [[fallthrough]];\n                case FilterOp::EQ: return zm.canSkipForInt(thr);
+                [[fallthrough]];
+        case FilterOp::EQ: return zm.canSkipForInt(thr);
                 case FilterOp::NE: return false; // may always match
                 case FilterOp::LT: return thr <= zm.min_int; // all >= min, need < thr
                 case FilterOp::LE: return thr <  zm.min_int;
@@ -629,12 +631,14 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
             break;
         }
         case ColumnType::FLOAT32:
-        [[fallthrough]];\n        case ColumnType::FLOAT64: {
+        [[fallthrough]];
+        case ColumnType::FLOAT64: {
             double thr = (pred.column_type == ColumnType::FLOAT32)
                 ? static_cast<double>(pred.threshold.f32)
                 : pred.threshold.f64;
             switch (pred.op) {
-                [[fallthrough]];\n                case FilterOp::EQ: return zm.canSkipForFloat(thr);
+                [[fallthrough]];
+        case FilterOp::EQ: return zm.canSkipForFloat(thr);
                 case FilterOp::NE: return false;
                 case FilterOp::LT: return thr <= zm.min_float;
                 case FilterOp::LE: return thr <  zm.min_float;
@@ -753,3 +757,4 @@ bool SIMDColumnFilter::canSkipSegment(const ColumnSegment& segment,
 
 } // namespace storage
 } // namespace themis
+

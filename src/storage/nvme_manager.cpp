@@ -639,8 +639,8 @@ uint32_t NVMeManager::recommendedBackgroundThreads() const {
     auto caps = detectCapabilities();
     // Heuristic: 2× hardware queues, bounded to [2, 16]
     uint32_t threads = caps.hw_queue_count * 2;
-    threads = std::max(threads, 2);
-    threads = std::min(threads, 16);
+    threads = std::max(threads, 2u);
+    threads = std::min(threads, 16u);
     return threads;
 }
 

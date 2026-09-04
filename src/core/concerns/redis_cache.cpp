@@ -112,14 +112,14 @@ RedisCacheConfig parseRedisUrl(const std::string &url) {
 }
 
 #if !defined(_WIN32)
-inline void closeSocketFd([[maybe_unused]] int &fd) noexcept {
+inline void closeSocketFd(int &fd) noexcept {
     if (fd >= 0) {
         ::close(fd);
         fd = -1;
     }
 }
 #else
-inline void closeSocketFd([[maybe_unused]] uintptr_t &fd) noexcept {
+inline void closeSocketFd(uintptr_t &fd) noexcept {
     if (fd != static_cast<uintptr_t>(~0)) {
         ::closesocket(static_cast<SOCKET>(fd));
         fd = static_cast<uintptr_t>(~0);
@@ -177,8 +177,8 @@ uint32_t RedisCache::fnv1a32(const char *data, size_t len) noexcept {
 
 void RedisCache::buildHashRing() {
     hash_ring_.clear();
-    for (size_t ni = 0; ni <static_cast<int>(nodes_.size()); ++ni) {
-        for (in[[maybe_unused]] t v = 0; v < config[[maybe_unused]] _.virtual_nodes_per_nod[[maybe_unused]] e; ++v) {
+    for (size_t ni = 0; ni  < nodes_.size(); ++ni) {
+        for (int v = 0; v < config_.virtual_nodes_per_node; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
             uint32_t pos     = fnv1a32(vkey.data(),static_cast<int>(vkey.size()));
             hash_ring_[pos]  = ni;
@@ -346,7 +346,7 @@ void RedisCache::closeSocket(SocketFd &fd) noexcept {
 /*static*/
 bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
     size_t total = 0;
-    while (static_cast<size_t>(total) <static_cast<int>(buf.size())) {
+    while (static_cast<size_t>(total)  < buf.size()) {
 #if defined(_WIN32)
         int sent = ::send(static_cast<SOCKET>(fd), buf.data() + total, static_cast<int>(buf.size() - total), 0);
         if (sent == SOCKET_ERROR) {
@@ -778,13 +778,13 @@ void RedisCache::publishInvalidation(const std::string &key_or_pattern) {
     }
 }
 
-void RedisCache::subscribeInvalidations([[maybe_unused]] InvalidationCallback cb) {
+void RedisCache::subscribeInvalidations(InvalidationCallback cb) {
     {
         std::lock_guard<std::mutex> lock(inv_cb_mutex_);
-        inv_callback_ = std::move([[maybe_unused]] cb);
+        inv_callback_ = std::move(cb);
     }
 
-    if ([[maybe_unused]] inv_callback_) {
+    if (inv_callback_) {
         ensureSubscriberLoopStarted();
     }
 }
@@ -806,7 +806,7 @@ void RedisCache::ensureSubscriberLoopStarted() {
 
 void RedisCache::subscriberLoop() {
     const int reconnect_sleep_ms = std::max(1, config_.reconnect_interval_ms);
-    auto sleepWithStop = [this]([[maybe_unused]] int total_ms) {
+    auto sleepWithStop = [this](int total_ms) {
         std::unique_lock<std::mutex> lk(sub_sleep_mutex_);
         sub_sleep_cv_.wait_for(lk, std::chrono::milliseconds(total_ms), [this] {
             return stop_.load(std::memory_order_acquire);
@@ -894,10 +894,10 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     // parts[0] = "message", parts[1] = channel, parts[2] = payload
-    if (static_cast<int>(parts.size()) > = 3 && parts[0] == "message") {
+    if (static_cast<int>(parts.size()) >= 3 && parts[0] == "message") {
         channel_out = parts[1];
         payload_out = parts[2];
-    } else if (static_cast<int>(parts.size()) > = 2) {
+    } else if (static_cast<int>(parts.size()) >= 2) {
         channel_out = (static_cast<int>(parts.size()) > 1) ? parts[1] : "";
     }
     return true;
@@ -905,8 +905,8 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
 
 void RedisCache::dispatchInvalidation(const std::string &payload) {
     std::lock_guard<std::mutex> lock(inv_cb_mutex_);
-    if ([[maybe_unused]] inv_callback_) {
-        inv_callback_([[maybe_unused]] payload);
+    if (inv_callback_) {
+        inv_callback_(payload);
     }
 }
 
@@ -950,12 +950,12 @@ double RedisCache::hitRate() const {
 // ICache – configuration
 // ---------------------------------------------------------------------------
 
-void RedisCache::setMaxSize([[maybe_unused]] size_t maxSize) {
+void RedisCache::setMaxSize(size_t maxSize) {
     max_size_.store(maxSize);
     config_.max_size = maxSize;
 }
 
-void RedisCache::setDefaultTTL([[maybe_unused]] uint64_t ttl_ms) {
+void RedisCache::setDefaultTTL(uint64_t ttl_ms) {
     default_ttl_ms_.store(ttl_ms);
     config_.default_ttl_ms = ttl_ms;
 }
@@ -1003,3 +1003,4 @@ bool RedisCache::isConnected() const {
 } // namespace concerns
 } // namespace core
 } // namespace themis
+

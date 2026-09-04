@@ -239,12 +239,12 @@ DiskSpaceMonitor::MonitorStats DiskSpaceMonitor::getStats() const {
 
 void DiskSpaceMonitor::setAlertCallback([[maybe_unused]] AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    alert_callback_ = std::move([[maybe_unused]] callback);
+    alert_callback_ = std::move(callback);
 }
 
 void DiskSpaceMonitor::setGCCallback([[maybe_unused]] GCCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    gc_callback_ = std::move([[maybe_unused]] callback);
+    gc_callback_ = std::move(callback);
 }
 
 void DiskSpaceMonitor::triggerGC() {

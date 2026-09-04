@@ -386,7 +386,7 @@ UpdateCheckResult UpdateChecker::checkNow() {
         if (update_callback_ && 
             (result.status == UpdateStatus::UPDATE_AVAILABLE || 
              result.status == UpdateStatus::CRITICAL_UPDATE)) {
-            update_callback_([[maybe_unused]] result);
+            update_callback_(result);
         }
     }
     
@@ -434,7 +434,7 @@ bool UpdateChecker::isRunning() const {
     return running_;
 }
 
-std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases([[maybe_unused]] int limit) {
+std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases(int limit) {
 #ifdef THEMIS_ENABLE_CURL
     // Build GitHub API URL
     std::string url = config_.github_api_url + "/repos/" + 
@@ -609,8 +609,9 @@ UpdateCheckResult UpdateChecker::analyzeReleases(const std::vector<ReleaseInfo>&
 
 void UpdateChecker::onUpdateAvailable(std::function<void(const UpdateCheckResult&)> callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    update_callback_ = std::move([[maybe_unused]] callback);
+    update_callback_ = std::move(callback);
 }
 
 } // namespace utils
 } // namespace themis
+

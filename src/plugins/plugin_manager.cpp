@@ -84,7 +84,7 @@ bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
     }
     const auto current = normalizeEditionName(std::string(edition::EDITION_STRING));
     return std::any_of(manifest.allowed_editions.begin(), manifest.allowed_editions.end(),
-                       [&]([[maybe_unused]] const std::string& allowed) {
+                       [&](const std::string& allowed) {
                            return normalizeEditionName(allowed) == current;
                        });
 }
@@ -273,7 +273,7 @@ bool PluginManager::verifyPlugin(const std::string& path, std::string& error_mes
  * @param error_message Output detail for failure reason.
  * @return true when signature checks pass (or are optional in current mode).
  */
-bool PluginManager::verifyManifestSignature(const std::string& manifest_path, [[maybe_unused]] std::string& error_message) {
+bool PluginManager::verifyManifestSignature(const std::string& manifest_path, std::string& error_message) {
     // Signature verification strategy:
     // 1. Check for manifest_path + ".sig" file (digital signature)
     // 2. Verify SHA256 hash matches signature file content
@@ -845,7 +845,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 if (!cycle_desc.empty()) {
                   cycle_desc += "; ";
                 }
-                for (size_t i = 0; i <static_cast<int>(cycle.size()); ++i) {
+                for (size_t i = 0; i  < cycle.size(); ++i) {
                     if (i > 0) {
                       cycle_desc += " -> ";
                     }
@@ -1699,7 +1699,7 @@ Result<size_t> PluginManager::autoLoadPlugins() {
                 if (!cycle_desc.empty()) {
                   cycle_desc += "; ";
                 }
-                for (size_t i = 0; i <static_cast<int>(cycle.size()); ++i) {
+                for (size_t i = 0; i  < cycle.size(); ++i) {
                     if (i > 0) {
                       cycle_desc += " -> ";
                     }
@@ -1944,9 +1944,9 @@ bool PluginManager::isHotPlugEnabled() const {
 // Reload Event Listeners
 // ============================================================================
 
-void PluginManager::registerReloadListener([[maybe_unused]] PluginReloadListener listener) {
+void PluginManager::registerReloadListener(PluginReloadListener listener) {
     std::lock_guard<std::mutex> lock(mutex_);
-    reload_listeners_.push_back([[maybe_unused]] std::move(listener));
+    reload_listeners_.push_back(std::move(listener));
 }
 
 void PluginManager::clearReloadListeners() {
@@ -1986,7 +1986,7 @@ void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhas
     }
     
     // Notify all listeners (outside of mutex lock)
-    for ([[maybe_unused]] const auto& listener : listeners_copy) {
+    for (const auto& listener : listeners_copy) {
         try {
             listener(name, phase);
         } catch (const std::exception& e) {
@@ -2369,7 +2369,7 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
         bool edition_allowed = std::any_of(
             manifest.allowed_editions.begin(),
             manifest.allowed_editions.end(),
-            [&]([[maybe_unused]] const std::string& allowed) {
+            [&](const std::string& allowed) {
                 return normalizeEditionName(allowed) == current;
             }
         );
@@ -2379,7 +2379,7 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
                           "'. Allowed editions: " + 
                           [&]() {
                               std::string result = {};
-                              for (size_t i = 0; i <static_cast<int>(manifest.allowed_editions.size()); ++i) {
+                              for (size_t i = 0; i  < manifest.allowed_editions.size(); ++i) {
                                   if (i > 0) {
                                     result += ", ";
                                   }
@@ -2512,3 +2512,4 @@ std::string PluginManager::formatDiagnosticMessage(
 
 } // namespace plugins
 } // namespace themis
+

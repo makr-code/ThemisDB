@@ -94,7 +94,7 @@ std::vector<uint8_t> HammingCoder::decode(
     // data_race scanner alert: available_chunks is a const reference parameter passed
     // by the caller on the same thread; it is not a shared member variable and therefore
     // carries no data-race risk.  The scanner misidentifies the parameter dereference.
-    const uint32_t shard_size = static_cast<uint32_t>(available_chunks.begin()-> static_cast<int>(second.size()));
+    const uint32_t shard_size = static_cast<uint32_t>(available_chunks.begin()->second.size());
 
     if (missing_indices.empty()) {
         std::vector<uint8_t> result;

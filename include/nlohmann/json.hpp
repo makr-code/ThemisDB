@@ -4391,7 +4391,7 @@ class exception : public std::exception
 
   private:
     /// an exception object as storage for error messages
-    std::runtime_error m = {};
+    std::runtime_error m = std::runtime_error("");
 };
 
 /// @brief exception indicating a parse error
@@ -8805,9 +8805,7 @@ scan_number_done:
         {
             get();
         }
-        while (current == ' ' || current == '\t' || current == '\n' || current == '\r') {
-          ;
-        }
+        while (current == ' ' || current == '\t' || current == '\n' || current == '\r');
     }
 
     token_type scan()
@@ -11845,9 +11843,7 @@ class binary_reader
         {
             get();
         }
-        while (current == 'N') {
-          ;
-        }
+        while (current == 'N');
 
         return current;
     }

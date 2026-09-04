@@ -106,8 +106,7 @@ HTTPClientPool::~HTTPClientPool() {
     clear();
 }
 
-std::future<HTTPResponse> HTTPClientPool::post(
-    [[maybe_unused]] const std::string& url,
+std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     [[maybe_unused]] const json& body,
     [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
 ) {
@@ -149,8 +148,7 @@ std::future<HTTPResponse> HTTPClientPool::post(
     return future;
 }
 
-std::future<HTTPResponse> HTTPClientPool::get(
-    [[maybe_unused]] const std::string& url,
+std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     [[maybe_unused]] const std::unordered_map<std::string, std::string>& headers
 ) {
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
@@ -341,7 +339,7 @@ size_t HTTPClientPool::getStripeIndex() const {
     return round_robin_.fetch_add(1, std::memory_order_relaxed) % stripes_.size();
 }
 
-void HTTPClientPool::warmup([[maybe_unused]] size_t num_connections) {
+void HTTPClientPool::warmup(size_t num_connections) {
     if (shutdown_.load()) {
         return;
     }
@@ -358,7 +356,7 @@ void HTTPClientPool::warmup([[maybe_unused]] size_t num_connections) {
         std::lock_guard<std::mutex> lock(stripe->mutex);
         
         size_t target_count = connections_per_stripe + (i < remainder ? 1 : 0);
-        size_t current_count = stripe-> static_cast<int>(connections.size());
+        size_t current_count = stripe->connections.size();
         
         // Create additional connections up to target
         for (size_t j = current_count; j < target_count; ++j) {
@@ -568,3 +566,4 @@ HTTPResponse BeastHTTPClient::execute(
 
 } // namespace utils
 } // namespace themis
+

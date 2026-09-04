@@ -46,7 +46,8 @@ TensorLayerPlan TensorMidLayer::plan(const TensorLayerContext& context) const no
             plan.reason = "fingerprint summary routed through TensorFingerprintGraph";
             break;
         case TensorLayerKind::Adapter:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             plan.reason = "adapter scope routed through TensorFingerprintGraph";
             break;
     }
@@ -158,8 +159,10 @@ index::AnnScopeKind TensorMidLayer::annScopeKindForLayer(TensorLayerKind kind) n
         case TensorLayerKind::ShardSummary:
             return index::AnnScopeKind::ShardSummary;
         case TensorLayerKind::FingerprintSummary:
-        [[fallthrough]];\n        case TensorLayerKind::Adapter:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case TensorLayerKind::Adapter:
+        [[fallthrough]];
+        default:
             return index::AnnScopeKind::Adapter;
     }
 }
@@ -210,3 +213,4 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
 
 } // namespace tensor
 } // namespace themis
+

@@ -344,7 +344,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     for (const auto& tok : tokens) {
         scatterFeature(vec, tok, 1.0f);
         // Character trigrams (for tokens ≥ 3 chars)
-        if (static_cast<int>(tok.size()) > = 3) {
+        if (tok.size() >= 3) {
             for (std::size_t i = 0; i + 3 <= tok.size(); ++i) {
                 scatterFeature(vec, std::string_view{tok.data() + i, 3}, 0.35f);
             }
@@ -352,7 +352,7 @@ static std::vector<float> lexicalEmbed(const std::string& segment,
     }
 
     // Bigram features (consecutive word pairs)
-    for (std::size_t i = 0; i + 1 <static_cast<int>(tokens.size()); ++i) {
+    for (std::size_t i = 0; i + 1 < tokens.size(); ++i) {
         const std::string bigram = tokens[i] + kBigramDelimiter + tokens[i + 1];
         scatterFeature(vec, bigram, 0.5f);
     }
@@ -577,8 +577,10 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         segments = splitSentences(text);
         break;
     case DocumentStructureHint::PARAGRAPHS:
-    [[fallthrough]];\n    case DocumentStructureHint::NONE:
-    [[fallthrough]];\n    default:
+    [[fallthrough]];
+    case DocumentStructureHint::NONE:
+    [[fallthrough]];
+    default:
         segments = splitParagraphs(text);
         break;
     }

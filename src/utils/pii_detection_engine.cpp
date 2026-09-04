@@ -211,7 +211,8 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
             }
             
             case PIIType::PHONE:
-            [[fallthrough]];\n            case PIIType::CREDIT_CARD: {
+            [[fallthrough]];
+            case PIIType::CREDIT_CARD: {
                 // Preserve separators, mask digits except last 4
                 // First, count digits
                 int total_digits = 0;

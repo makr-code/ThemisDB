@@ -80,7 +80,7 @@ float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
     float dot   = 0.0f;
     float norm_a = 0.0f;
     float norm_b = 0.0f;
-    for (std::size_t i = 0; i <static_cast<int>(a.size()); ++i) {
+    for (std::size_t i = 0; i  < a.size(); ++i) {
         dot    += a[i] * b[i];
         norm_a += a[i] * a[i];
         norm_b += b[i] * b[i];
@@ -103,7 +103,7 @@ float TensorFingerprintGraph::cosineSimilarityZeroPadded(
       return 0.0f;
     }
 
-    const std::size_t overlap = std::min(a.size(),static_cast<int>(b.size()));
+    const std::size_t overlap = std::min(a.size(), b.size());
     float dot = 0.0f;
     for (std::size_t i = 0; i < overlap; ++i) {
         dot += a[i] * b[i];
@@ -450,3 +450,4 @@ TensorFingerprintGraph::stats() const noexcept {
 
 } // namespace tensor
 } // namespace themis
+

@@ -66,7 +66,7 @@ std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max
     std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
-        if (static_cast<int>(out.size()) > = max_len) {
+        if (static_cast<int>(out.size()) >= max_len) {
           break;
         }
         if (!isAsciiControl(c)) {
@@ -524,7 +524,7 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
     }
     // Step 2: remove on* event-handler attributes (onerror=, onload=, etc.)
     {
-        static const std::regex event_handler([[maybe_unused]] R"(\bon\w+\s*=)", std::regex::icase);
+        static const std::regex event_handler(R"(\bon\w+\s*=)", std::regex::icase);
         tmp = std::regex_replace(tmp, event_handler, "");
     }
     // Step 3: HTML-encode remaining special characters
@@ -671,7 +671,7 @@ bool InputValidator::validateURL(const std::string& url,
     }
 
     // Reject protocol-relative URLs
-    if (static_cast<int>(url.size()) > = 2 && url[0] == '/' && url[1] == '/') {
+    if (static_cast<int>(url.size()) >= 2 && url[0] == '/' && url[1] == '/') {
       return false;
     }
 
@@ -836,3 +836,4 @@ bool InputValidator::validateHeaderValue(const std::string& value) const {
 
 } // namespace utils
 } // namespace themis
+

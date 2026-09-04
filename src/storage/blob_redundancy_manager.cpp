@@ -65,11 +65,14 @@ uint32_t BlobMetadata::healthyLocationCount() const {
 uint32_t BlobMetadata::requiredLocationCount() const {
     switch (config.mode) {
         case RedundancyMode::NONE:
-        [[fallthrough]];\n        case RedundancyMode::STRIPE:
+        [[fallthrough]];
+        case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::MIRROR:
-        [[fallthrough]];\n        case RedundancyMode::STRIPE_MIRROR:
-        [[fallthrough]];\n        case RedundancyMode::GEO_MIRROR:
+        [[fallthrough]];
+        case RedundancyMode::STRIPE_MIRROR:
+        [[fallthrough]];
+        case RedundancyMode::GEO_MIRROR:
             return config.replication_factor;
         case RedundancyMode::PARITY:
             return config.erasure_coding.data_shards;
@@ -1020,7 +1023,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
                 s.data          = std::move(*chunk_data);
                 available[i]    = std::move(s);
 
-                if (static_cast<int>(available.size()) > = static_cast<size_t>(ec_config.data_shards)) {
+                if (available.size() >= static_cast<size_t>(ec_config.data_shards)) {
                     // We have enough shards to reconstruct; stop reading further
                     // to save I/O when shards are on separate remote nodes.
                     break;
@@ -1382,8 +1385,8 @@ std::string BlobRedundancyManager::exportPrometheusMetrics() const {
 }
 
 Result<std::shared_ptr<rocksdb::EventListener>> BlobRedundancyManager::createRocksDBListener() {
-    auto listener = std::make_shared<RocksDBBlobListener>([[maybe_unused]] *this);
-    return themis::Ok([[maybe_unused]] std::static_pointer_cast<rocksdb::EventListener>(listener));
+    auto listener = std::make_shared<RocksDBBlobListener>(*this);
+    return themis::Ok(std::static_pointer_cast<rocksdb::EventListener>(listener));
 }
 
 void BlobRedundancyManager::notifySSTFileDeleted(const std::string& file_path) {

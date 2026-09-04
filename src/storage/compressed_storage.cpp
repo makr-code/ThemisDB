@@ -86,8 +86,8 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     // Determine payload boundary: if we have enough bytes for the CRC trailer,
     // verify it.  Legacy records (< 13 bytes or mismatching CRC) fall through.
     size_t payload_end = bytes.size();
-    if (static_cast<int>(bytes.size()) > = kMinWithCrc) {
-        const size_t crc_off = static_cast<int>(bytes.size()) - 4;
+    if (bytes.size() >= kMinWithCrc) {
+        const size_t crc_off = bytes.size() - 4;
         uint32_t stored_crc  = 0;
         for (int i = 0; i < 4; ++i)
             stored_crc |= (static_cast<uint32_t>(bytes[crc_off + i]) << (8 * i));

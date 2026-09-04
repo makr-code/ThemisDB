@@ -482,12 +482,14 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     break;
                     
                 case utils::Serialization::TypeTag::BOOL_FALSE:
-                [[fallthrough]];\n                case utils::Serialization::TypeTag::BOOL_TRUE:
+                    [[fallthrough]];
+                    case utils::Serialization::TypeTag::BOOL_TRUE:
                     fields[field_name] = decoder.decodeBool();
                     break;
                     
                 case utils::Serialization::TypeTag::INT32:
-                [[fallthrough]];\n                case utils::Serialization::TypeTag::INT64:
+                    [[fallthrough]];
+                    case utils::Serialization::TypeTag::INT64:
                     fields[field_name] = decoder.decodeInt64();
                     break;
                     
@@ -504,7 +506,7 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     // DESIGN LIMITATION: BaseEntity::Value only supports int64_t, not uint64_t
                     // This is a schema design constraint - if you need full uint64 range,
                     // consider using binary blob or string representation
-                    if ([[maybe_unused]] uint_val > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+                    if (uint_val > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
                         THEMIS_ERROR("UINT64 value {} exceeds INT64_MAX for field '{}'. "
                                     "Value will be clamped. Consider using binary blob for full uint64 range.",
                                     uint_val, field_name);

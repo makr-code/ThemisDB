@@ -537,8 +537,8 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
                                              access_model::TierLevel from_tier,
                                              uint64_t access_count,
                                              int64_t access_window_secs) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] promotion_listener_mutex_);
-    if ([[maybe_unused]] !promotion_listener_) {
+    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
+    if (!promotion_listener_) {
         return;  // No listener registered
     }
 
@@ -552,12 +552,12 @@ void TieredStorageManager::emitPromotionEvent(const std::string& key,
 // ─────────────────────────────────────────────────────────────────────────────
 
 void TieredStorageManager::setPromotionListener([[maybe_unused]] access_model::PromotionListener* listener) noexcept {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] promotion_listener_mutex_);
+    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
     promotion_listener_ = listener;
-    if ([[maybe_unused]] promotion_listener_) {
-        THEMIS_INFO([[maybe_unused]] "TieredStorageManager: promotion listener registered for AccessCoordinator");
+    if (promotion_listener_) {
+        THEMIS_INFO("TieredStorageManager: promotion listener registered for AccessCoordinator");
     } else {
-        THEMIS_INFO([[maybe_unused]] "TieredStorageManager: promotion listener unregistered");
+        THEMIS_INFO("TieredStorageManager: promotion listener unregistered");
     }
 }
 

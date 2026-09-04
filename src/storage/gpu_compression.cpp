@@ -1636,8 +1636,8 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 }
                 decompressed_chunk.resize(static_cast<size_t>(r));
                 break;
-            default: break;
             }
+            default: break;
         }
 
         if (decompressed_chunk.empty()) {

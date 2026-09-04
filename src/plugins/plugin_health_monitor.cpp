@@ -233,9 +233,9 @@ PluginHealthMonitor::GlobalStats PluginHealthMonitor::getGlobalStats() const {
 // Configuration & callbacks
 // ============================================================================
 
-void PluginHealthMonitor::registerEventCallback([[maybe_unused]] MonitoringEventCallback callback) {
+void PluginHealthMonitor::registerEventCallback(MonitoringEventCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    event_callbacks_.push_back([[maybe_unused]] std::move(callback));
+    event_callbacks_.push_back(std::move(callback));
 }
 
 void PluginHealthMonitor::clearEventCallbacks() {
@@ -573,7 +573,7 @@ RecoveryResult PluginHealthMonitor::attemptRecoveryWithBackoff(MonitoredPlugin& 
 // Private: helpers
 // ============================================================================
 
-std::chrono::seconds PluginHealthMonitor::calculateBackoff([[maybe_unused]] uint32_t attempt_count) const {
+std::chrono::seconds PluginHealthMonitor::calculateBackoff(uint32_t attempt_count) const {
     if (config_.backoff_strategy == "none") {
         return std::chrono::seconds{0};
     }
@@ -613,14 +613,14 @@ void PluginHealthMonitor::notifyAdministrators(
     });
 }
 
-void PluginHealthMonitor::emitEvent([[maybe_unused]] const MonitoringEventData& event) {
+void PluginHealthMonitor::emitEvent(const MonitoringEventData& event) {
     // mutex_ must be held by caller; copy callbacks to avoid deadlock if a
     // callback calls back into the monitor.
     auto callbacks_copy = event_callbacks_;
 
-    for ([[maybe_unused]] const auto& cb : callbacks_copy) {
+    for (const auto& cb : callbacks_copy) {
         try {
-            cb([[maybe_unused]] event);
+            cb(event);
         } catch (const std::exception& e) {
             THEMIS_WARN("PluginHealthMonitor: event callback threw: {}", e.what());
         }
@@ -659,7 +659,8 @@ double PluginHealthMonitor::computeHealthScore(const PluginDiagnostics& diag) no
         case PluginHealthStatus::UNHEALTHY:
             return std::max(0.0, 0.3 - error_rate * 0.2);
         case PluginHealthStatus::CRITICAL:
-        [[fallthrough]];\n        case PluginHealthStatus::RECOVERING:
+        [[fallthrough]];
+        case PluginHealthStatus::RECOVERING:
             return std::max(0.0, 0.1 - error_rate * 0.1);
         default:
             return 0.0;
@@ -681,4 +682,5 @@ void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noex
 
 } // namespace plugins
 } // namespace themis
+
 

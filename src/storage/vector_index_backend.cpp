@@ -163,7 +163,8 @@ float InMemoryVectorIndex::computeDistance(const std::vector<float>& a,
         break;
     }
     case DistanceMetric::DOT_PRODUCT:
-    [[fallthrough]];\n    case DistanceMetric::COSINE: {
+    [[fallthrough]];
+    case DistanceMetric::COSINE: {
         // For COSINE, vectors are pre-normalised; dot product == cosine.
         // We negate so that higher similarity → lower "distance" →
         // natural ascending sort gives best matches first.
@@ -209,7 +210,8 @@ float InMemoryVectorIndex::toScore([[maybe_unused]] float distance) const noexce
         return 1.0f / (1.0f + distance);
 
     case DistanceMetric::DOT_PRODUCT:
-    [[fallthrough]];\n    case DistanceMetric::COSINE: {
+    [[fallthrough]];
+    case DistanceMetric::COSINE: {
         // distance = -dot; dot ∈ [-1, 1] → score = (dot + 1) / 2 ∈ [0, 1]
         float dot = -distance;
         float s = (dot + 1.0f) * 0.5f;

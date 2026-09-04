@@ -191,7 +191,7 @@ static bool decodeHexString(const std::string &hexStr, std::vector<uint8_t> &out
     outBytes.reserve(hexStr.size() / 2);
 
     try {
-        for (size_t i = 0; i <static_cast<int>(hexStr.size()); i += 2) {
+        for (size_t i = 0; i  < hexStr.size(); i += 2) {
             std::string byteStr = hexStr.substr(i, 2);
             uint8_t byte        = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
             outBytes.push_back(byte);
@@ -354,7 +354,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
 
         return metadata;
 
-    } catch ([[maybe_unused]] const std::exception &e) {
+    } catch (const std::exception &e) {
         // Failed to parse metadata
         // Suppress unused variable warning
         return std::nullopt;
@@ -1070,33 +1070,33 @@ PluginSecurityAuditor &PluginSecurityAuditor::instance() {
     return instance;
 }
 
-void PluginSecurityAuditor::logEvent([[maybe_unused]] const PluginSecurityEvent &event) {
+void PluginSecurityAuditor::logEvent(const PluginSecurityEvent &event) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        events_.push_back([[maybe_unused]] event);
+        events_.push_back(event);
     }
 
     // Forward to the ThemisDB system logger
     const std::string msg
         = "[PluginSecurity] " + event.message + " | plugin=" + event.pluginPath + " | hash=" + event.pluginHash;
-    if ([[maybe_unused]] event.severity == "CRITICAL") {
+    if (event.severity == "CRITICAL") {
         THEMIS_CRITICAL("{}", msg);
-    } else if ([[maybe_unused]] event.severity == "ERROR") {
+    } else if (event.severity == "ERROR") {
         THEMIS_ERROR("{}", msg);
-    } else if ([[maybe_unused]] event.severity == "WARNING") {
+    } else if (event.severity == "WARNING") {
         THEMIS_WARN("{}", msg);
     } else {
         THEMIS_INFO("{}", msg);
     }
 }
 
-std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin([[maybe_unused]] const std::string &pluginPath) const {
+std::vector<PluginSecurityEvent> PluginSecurityAuditor::getEventsForPlugin(const std::string &pluginPath) const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<PluginSecurityEvent> result = {};
 
-    for ([[maybe_unused]] const auto &event : events_) {
-        if ([[maybe_unused]] event.pluginPath == pluginPath) {
-            result.push_back([[maybe_unused]] event);
+    for (const auto &event : events_) {
+        if (event.pluginPath == pluginPath) {
+            result.push_back(event);
         }
     }
     return result;
@@ -1112,7 +1112,7 @@ void PluginSecurityAuditor::clearEvents() {
     events_.clear();
 }
 
-bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &outputPath) const {
+bool PluginSecurityAuditor::exportEvents(const std::string &outputPath) const {
     // Validate output path against traversal and injection (CWE-22/23/24).
     if (outputPath.empty()) {
         return false;
@@ -1170,16 +1170,16 @@ bool PluginSecurityAuditor::exportEvents([[maybe_unused]] const std::string &out
         json j;
         j["events"] = json::array();
 
-        for ([[maybe_unused]] const auto &event : snapshot) {
+        for (const auto &event : snapshot) {
             json eventJson;
-            eventJson["type"]       = typeToString([[maybe_unused]] event.type);
+            eventJson["type"]       = typeToString(event.type);
             eventJson["pluginPath"] = event.pluginPath;
             eventJson["pluginHash"] = event.pluginHash;
             eventJson["message"]    = event.message;
             eventJson["timestamp"]  = event.timestamp;
             eventJson["severity"]   = event.severity;
 
-            j["events"].push_back([[maybe_unused]] eventJson);
+            j["events"].push_back(eventJson);
         }
 
         std::ofstream file(outputPath);
@@ -1759,7 +1759,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return static_cast<uint32_t>(p[0]) | (static_cast<uint32_t>(p[1]) << 8)
                    | (static_cast<uint32_t>(p[2]) << 16) | (static_cast<uint32_t>(p[3]) << 24);
         };
-        auto readU32 = [&]([[maybe_unused]] const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
+        auto readU32 = [&](const uint8_t *p) -> uint32_t { return macho_be ? readU32be(p) : readU32le(p); };
 
         // mach_header layout (32-bit): magic(4)+cputype(4)+cpusubtype(4)+
         //   filetype(4)+ncmds(4)+sizeofcmds(4)+flags(4) = 28 bytes.
@@ -2234,3 +2234,4 @@ void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy &po
 
 } // namespace acceleration
 } // namespace themis
+

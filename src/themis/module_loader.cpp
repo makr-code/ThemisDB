@@ -680,7 +680,8 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return "Unknown error";
     }
 }
@@ -691,33 +692,51 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
             return ErrorCategory::NONE;
 
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
-        [[fallthrough]];\n        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+        [[fallthrough]];
+        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
 
         case ModuleErrorCode::MODULE_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::VERSION_INCOMPATIBLE:
-        [[fallthrough]];\n        case ModuleErrorCode::ABI_INCOMPATIBLE:
-        [[fallthrough]];\n        case ModuleErrorCode::METADATA_MISSING:
+        [[fallthrough]];
+        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        [[fallthrough]];
+        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        [[fallthrough]];
+        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        [[fallthrough]];
+        case ModuleErrorCode::METADATA_MISSING:
             return ErrorCategory::RECOVERABLE;
 
         case ModuleErrorCode::VERIFICATION_FAILED:
-        [[fallthrough]];\n        case ModuleErrorCode::SIGNATURE_INVALID:
-        [[fallthrough]];\n        case ModuleErrorCode::HASH_MISMATCH:
-        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_REVOKED:
-        [[fallthrough]];\n        case ModuleErrorCode::CERTIFICATE_EXPIRED:
-        [[fallthrough]];\n        case ModuleErrorCode::UNTRUSTED_SIGNER:
-        [[fallthrough]];\n        case ModuleErrorCode::BLACKLISTED:
-        [[fallthrough]];\n        case ModuleErrorCode::QUARANTINED:
-        [[fallthrough]];\n        case ModuleErrorCode::ZONE_ID_BLOCKED:
-        [[fallthrough]];\n        case ModuleErrorCode::POLICY_VIOLATION:
+        [[fallthrough]];
+        case ModuleErrorCode::SIGNATURE_INVALID:
+        [[fallthrough]];
+        case ModuleErrorCode::HASH_MISMATCH:
+        [[fallthrough]];
+        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        [[fallthrough]];
+        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        [[fallthrough]];
+        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        [[fallthrough]];
+        case ModuleErrorCode::BLACKLISTED:
+        [[fallthrough]];
+        case ModuleErrorCode::QUARANTINED:
+        [[fallthrough]];
+        case ModuleErrorCode::ZONE_ID_BLOCKED:
+        [[fallthrough]];
+        case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
 
         case ModuleErrorCode::MODULE_ALREADY_LOADED:
-        [[fallthrough]];\n        case ModuleErrorCode::SYMBOL_NOT_FOUND:
-        [[fallthrough]];\n        case ModuleErrorCode::METADATA_CORRUPTED:
-        [[fallthrough]];\n        case ModuleErrorCode::INITIALIZATION_FAILED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        [[fallthrough]];
+        case ModuleErrorCode::METADATA_CORRUPTED:
+        [[fallthrough]];
+        case ModuleErrorCode::INITIALIZATION_FAILED:
+        [[fallthrough]];
+        default:
             return ErrorCategory::PERMANENT;
     }
 }
@@ -1786,7 +1805,7 @@ std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::str
         // A path of the form "C:filename" is a relative path on Windows and is
         // also blocked conservatively: any entry starting with "<letter>:" is
         // rejected regardless of whether a separator follows.
-        if (static_cast<int>(nameStr.size()) > = 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
+        if (static_cast<int>(nameStr.size()) >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
             nameStr[1] == ':') {
             zip_close(archive);
             error = "Bundle contains drive-letter entry '" + nameStr + "' (ZipSlip rejected)";
@@ -2002,4 +2021,5 @@ PluginBundleLoadResult PluginBundleLoader::loadBundle(const std::string& bundleP
 
 } // namespace modules
 } // namespace themis
+
 

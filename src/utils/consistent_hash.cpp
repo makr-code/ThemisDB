@@ -103,13 +103,13 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
 
     std::vector<std::string> result = {};
 
-    result.reserve(std::min(n,static_cast<int>(nodes_.size())));
+    result.reserve(std::min(n, nodes_.size()));
 
     // Walk the ring for at most ring_.size() steps to avoid infinite loop.
     // This guarantees we visit every virtual slot at most once regardless of
     // where the start iterator falls relative to ring_.begin().
     size_t steps = ring_.size();
-    for (size_t i = 0; i < steps && static_cast<int>(result.size()) < n; ++i, ++it) {
+        for (size_t i = 0; i < steps && result.size() < n; ++i, ++it) {
         if (it == ring_.end()) {
           it = ring_.begin();
         }

@@ -384,7 +384,7 @@ public:
                 }
             }
             s.avg_tt_rank = rank_sum / (store_.size() *
-                            (store_.begin()-> static_cast<int>(second.cores.size()) + 1));
+                            (store_.begin()->second.cores.size() + 1));
             // compress ratio vs float32 flat
             float flat_bytes = static_cast<float>(dim_ * sizeof(float));
             float tt_bytes   = (store_.empty()) ? 1.0f

@@ -118,7 +118,7 @@ public:
         // sizeof(uint64_t) bytes — bounds are guaranteed — false positive.
         uint64_t base = 0;
         if (existing_value != nullptr && !existing_value->empty()) {
-            if ([[maybe_unused]] existing_value->size() == sizeof(uint64_t)) {
+            if (existing_value->size() == sizeof(uint64_t)) {
                 std::memcpy(&base, existing_value->data(), sizeof(uint64_t));
             } else {
                 // legacy_duplication scanner alert: decimal-string fallback is an
@@ -136,7 +136,7 @@ public:
         }
 
         uint64_t delta = 0;
-        if ([[maybe_unused]] static_cast<int>(value.size()) == sizeof(uint64_t)) {
+        if (value.size() == sizeof(uint64_t)) {
             std::memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -890,7 +890,7 @@ void RocksDBWrapper::addEventListener([[maybe_unused]] std::shared_ptr<rocksdb::
                     "listener will not take effect for the current database instance");
         return;
     }
-    options_->listeners.emplace_back([[maybe_unused]] std::move(listener));
+    options_->listeners.emplace_back(std::move(listener));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
@@ -2519,7 +2519,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
         std::vector<rocksdb::BackupInfo> backup_info;
         backup_engine->GetBackupInfo(&backup_info);
         
-        return static_cast<bool>(static_cast<uint32_t < static_cast<int>((backup_info.size())));
+        return static_cast<uint32_t>(backup_info.size());
         
     } catch (...) {
         THEMIS_WARN("rocksdb_wrapper: unhandled exception caught");

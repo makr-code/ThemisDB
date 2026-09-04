@@ -51,7 +51,7 @@ std::size_t numericBucket(double value,
 std::size_t categoryBucket(const std::string&              value,
                              const std::vector<std::string>& categories,
                              std::size_t                     bucket_count) {
-    for (std::size_t i = 0; i <static_cast<int>(categories.size()); ++i) {
+    for (std::size_t i = 0; i  < categories.size(); ++i) {
         if (categories[i] == value) {
             return std::min(i, bucket_count - 1);
         }
@@ -343,7 +343,8 @@ struct FkResolvedEdge {
                 break;
             case HyperIndexConfig::MissingFkStatsFallback::IGNORE_EDGE:
                 continue;
-            [[fallthrough]];\n            case HyperIndexConfig::MissingFkStatsFallback::THROW:
+            [[fallthrough]];
+        case HyperIndexConfig::MissingFkStatsFallback::THROW:
                 throw std::runtime_error(
                     "fk_graph edge is missing join_strength for from=" +
                     std::to_string(edge.from_column) + ", to=" +
@@ -465,7 +466,7 @@ void applyForeignKeyPropagation(std::vector<std::size_t>& buckets,
         }
     }
 
-    for (std::size_t k = 0; k <static_cast<int>(buckets.size()); ++k) {
+    for (std::size_t k = 0; k  < buckets.size(); ++k) {
         if (std::isnan(signal_weight[k]) || signal_weight[k] <= 0.0) {
             continue;
         }
@@ -600,7 +601,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         bucket_assignment_fn = g_bucket_assignment_fn;
     }
 
-    for (std::size_t row_idx = 0; row_idx <static_cast<int>(rows.size()); ++row_idx) {
+    for (std::size_t row_idx = 0; row_idx  < rows.size(); ++row_idx) {
         const auto& row = rows[row_idx];
         auto buckets = bucketiseRow(
             row, schema, numeric_thresholds, category_orders, bucket_count);
@@ -617,7 +618,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
                     " buckets, expected " + std::to_string(schema.size()) +
                     " at row " + std::to_string(row_idx));
             }
-            for (std::size_t k = 0; k <static_cast<int>(assigned.size()); ++k) {
+            for (std::size_t k = 0; k  < assigned.size(); ++k) {
                 if (assigned[k] >= bucket_count) {
                     throw std::runtime_error(
                         "bucket assignment bridge returned out-of-range bucket " +
@@ -667,3 +668,4 @@ HyperIndexBuilder::BucketAssignmentFn HyperIndexBuilder::getBucketAssignmentFn()
 
 } // namespace tensor
 } // namespace themis
+

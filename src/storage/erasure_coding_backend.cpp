@@ -55,8 +55,10 @@ ErasureCodingBackend::ErasureCodingBackend(const ErasureCodingConfig& config)
             algo = themis::sharding::ErasureCodingAlgorithm::CAUCHY;
             break;
         case ErasureCodingAlgorithm::REED_SOLOMON:
-        [[fallthrough]];\n        case ErasureCodingAlgorithm::LRC:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case ErasureCodingAlgorithm::LRC:
+        [[fallthrough]];
+        default:
             algo = themis::sharding::ErasureCodingAlgorithm::REED_SOLOMON;
             break;
     }
@@ -301,7 +303,7 @@ uint32_t ErasureCodingBackend::availableShardCount(
     if (it == store_.end()) {
         return 0;
     }
-    return static_cast<bool>(static_cast<uint32_t>(it- < static_cast<int>(second.chunks.size())));
+    return static_cast<uint32_t>(it->second.chunks.size());
 }
 
 } // namespace storage

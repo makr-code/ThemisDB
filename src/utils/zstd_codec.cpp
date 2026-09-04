@@ -146,7 +146,7 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
         i += run;
     }
 
-    if (static_cast<int>(rle.size()) > = size + 5) {
+    if (static_cast<int>(rle.size()) >= size + 5) {
         std::vector<uint8_t> raw;
         raw.reserve(size + 5);
         raw.push_back(static_cast<uint8_t>('T'));
@@ -373,7 +373,7 @@ struct ZstdStreamCompressor::Impl {
     ZSTD_CStream* cstream = nullptr;
     int           level   = 3;
 
-    explicit Impl([[maybe_unused]] int lvl) : level(lvl) {
+    explicit Impl(int lvl) : level(lvl) {
         cstream = ZSTD_createCStream();
         if (cstream) {
           ZSTD_initCStream(cstream, level);
@@ -381,7 +381,7 @@ struct ZstdStreamCompressor::Impl {
     }
     ~Impl() { if (cstream) ZSTD_freeCStream(cstream); }
 
-    void reinit([[maybe_unused]] int new_level) {
+    void reinit(int new_level) {
         level = (new_level > 0) ? new_level : level;
         if (cstream) {
           ZSTD_initCStream(cstream, level);
@@ -392,7 +392,7 @@ struct ZstdStreamCompressor::Impl {
 #endif
 };
 
-ZstdStreamCompressor::ZstdStreamCompressor([[maybe_unused]] int level)
+ZstdStreamCompressor::ZstdStreamCompressor(int level)
     : impl_(std::make_unique<Impl>(level)) {}
 
 ZstdStreamCompressor::~ZstdStreamCompressor() = default;
@@ -461,7 +461,7 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::flush() {
 #endif
 }
 
-void ZstdStreamCompressor::reset([[maybe_unused]] int level) {
+void ZstdStreamCompressor::reset(int level) {
 #ifdef THEMIS_HAS_ZSTD
     if (impl_->cstream) {
       impl_->reinit(level);
@@ -557,3 +557,4 @@ void ZstdStreamDecompressor::reset() {
 
 } // namespace utils
 } // namespace themis
+

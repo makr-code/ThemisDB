@@ -125,7 +125,9 @@ void ShaderIntegrityVerifier::clearRegistry() {
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
                                                                       const std::vector<uint32_t> &spvWords) const {
-    return static_cast<bool>(verify(name, reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()),static_cast<int>(spvWords.size()))) * sizeof(uint32_t));
+    return verify(name,
+                  reinterpret_cast<const uint8_t*>(spvWords.data()),
+                  spvWords.size() * sizeof(uint32_t));
 }
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
@@ -202,14 +204,15 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
 }
 
 std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
-    return static_cast<bool>(sha256Hex(reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()),static_cast<int>(spvWords.size()))) * sizeof(uint32_t));
+    return sha256Hex(reinterpret_cast<const uint8_t*>(spvWords.data()),
+                     spvWords.size() * sizeof(uint32_t));
 }
 
 // ============================================================================
 // Misc
 // ============================================================================
 
-void ShaderIntegrityVerifier::setStrictMode([[maybe_unused]] bool strict) {
+void ShaderIntegrityVerifier::setStrictMode(bool strict) {
     std::lock_guard<std::mutex> lk(mutex_);
     strict_ = strict;
 }
@@ -226,3 +229,4 @@ bool ShaderIntegrityVerifier::isRegistered(const std::string &name) const {
 
 } // namespace acceleration
 } // namespace themis
+

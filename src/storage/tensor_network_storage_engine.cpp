@@ -32,7 +32,7 @@ void invokeObserverNoexcept(const char* observer_name,
                             const Observer& observer,
                             Args&&... args) noexcept {
     try {
-        observer([[maybe_unused]] std::forward<Args>(args)...);
+        observer(std::forward<Args>(args)...);
     } catch (const std::exception& ex) {
         THEMIS_WARN("{} observer callback failed: {}", observer_name, ex.what());
     } catch (...) {
@@ -62,7 +62,7 @@ std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
 
 std::size_t TensorFieldKeyHash::operator()(const TensorFieldKey& k) const noexcept {
     std::size_t h = 0xcbf29ce484222325ULL;
-    auto mix = [&]([[maybe_unused]] const std::string& s) {
+    auto mix = [&](const std::string& s) {
         // lock_in_loop scanner alert (line 32): this is a purely local FNV-1a
         // hash loop with no mutex, no shared state, and no lock acquisition —
         // false positive; the scanner misidentifies the loop body as a lock scope.
@@ -268,7 +268,7 @@ bool TensorNetworkStorageEngine::persistQuantizedTrain(
     // the scanner confuses the outer write-lock scope with per-iteration locking —
     // false positives.
     std::size_t persisted_core_count = 0;
-    for (std::size_t k = 0; k <static_cast<int>(qtrain.cores.size()); ++k) {
+    for (std::size_t k = 0; k  < qtrain.cores.size(); ++k) {
         auto cb = qtrain.cores[k].serialize();
         if (!backend_->put(makeCoreKey(key, k, version), cb)) {
             // Best-effort rollback to avoid partially persisted versions.
@@ -344,7 +344,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
         std::size_t oldest = ver - cfg_.version_retention;
         // Attempt removal of old meta key (best-effort)
         backend_->del(makeMetaKey(key, oldest));
-        for (std::size_t k = 0; k <static_cast<int>(qtrain.cores.size()); ++k)
+        for (std::size_t k = 0; k  < qtrain.cores.size(); ++k)
             backend_->del(makeCoreKey(key, k, oldest));
     }
 
@@ -352,8 +352,8 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
 
     // Notify write observer outside the write lock to avoid lock ordering issues.
     {
-        std::lock_guard<std::mutex> olk([[maybe_unused]] observer_mutex_);
-        if ([[maybe_unused]] write_observer_) {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (write_observer_) {
             invokeObserverNoexcept("TensorNetworkStorageEngine write", write_observer_, key, train);
         }
     }
@@ -365,14 +365,14 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
 // CDC observer setters
 // ============================================================================
 
-void TensorNetworkStorageEngine::setWriteObserverFn([[maybe_unused]] TensorWriteObserverFn fn) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
-    write_observer_ = std::move([[maybe_unused]] fn);
+void TensorNetworkStorageEngine::setWriteObserverFn(TensorWriteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    write_observer_ = std::move(fn);
 }
 
-void TensorNetworkStorageEngine::setDeleteObserverFn([[maybe_unused]] TensorDeleteObserverFn fn) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
-    delete_observer_ = std::move([[maybe_unused]] fn);
+void TensorNetworkStorageEngine::setDeleteObserverFn(TensorDeleteObserverFn fn) {
+    std::lock_guard<std::mutex> lk(observer_mutex_);
+    delete_observer_ = std::move(fn);
 }
 
 // ============================================================================
@@ -436,7 +436,7 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
         // lock_in_loop scanner alert (line 320): see persistQuantizedTrain above —
         // this deletion loop holds no independent mutex; it runs under the caller's
         // engine write lock — false positive.
-        for (std::size_t k = 0; k < oqt-> static_cast<int>(cores.size()); ++k)
+        for (std::size_t k = 0; k < oqt->cores.size(); ++k)
             backend_->del(makeCoreKey(key, k, ver));
     }
     eraseVersion(key);
@@ -444,8 +444,8 @@ bool TensorNetworkStorageEngine::remove(const TensorFieldKey& key) {
 
     // Notify delete observer outside the write lock.
     {
-        std::lock_guard<std::mutex> olk([[maybe_unused]] observer_mutex_);
-        if ([[maybe_unused]] delete_observer_) {
+        std::lock_guard<std::mutex> olk(observer_mutex_);
+        if (delete_observer_) {
             invokeObserverNoexcept("TensorNetworkStorageEngine delete", delete_observer_, key);
         }
     }
@@ -542,4 +542,5 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
+
 

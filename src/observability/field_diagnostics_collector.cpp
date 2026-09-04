@@ -86,7 +86,7 @@ void FieldDiagnosticsCollector::configure(const FieldDiagnosticsConfig& config) 
  * @return `true` if the event was buffered; `false` if collection is disabled
  *         or the buffer rejected the event (e.g. `max_buffer_size == 0`).
  */
-bool FieldDiagnosticsCollector::emitWithPIIMasking([[maybe_unused]] const DiagnosticEvent& event) {
+bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event) {
     bool enabled, pii_masking;
     {
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
@@ -101,11 +101,11 @@ bool FieldDiagnosticsCollector::emitWithPIIMasking([[maybe_unused]] const Diagno
     DiagnosticEvent sanitized_event = event;
     
     if (pii_masking) {
-        sanitizePII([[maybe_unused]] sanitized_event);
+        sanitizePII(sanitized_event);
         pii_sanitizations_++;
     }
 
-    return emitDiagnosticEvent([[maybe_unused]] sanitized_event);
+    return emitDiagnosticEvent(sanitized_event);
 }
 
 /**
@@ -121,7 +121,7 @@ bool FieldDiagnosticsCollector::emitWithPIIMasking([[maybe_unused]] const Diagno
  * @return `true` if the event was buffered; `false` if disabled or the buffer
  *         was full and the event was dropped (increments `events_dropped_`).
  */
-bool FieldDiagnosticsCollector::emitDiagnosticEvent([[maybe_unused]] const DiagnosticEvent& event) {
+bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event) {
     bool enabled, metrics_enabled;
     {
         std::shared_lock<std::shared_mutex> lock(buffer_mu_);
@@ -133,7 +133,7 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent([[maybe_unused]] const Diagn
         return false;
     }
 
-    if ([[maybe_unused]] !addEventToBuffer(event)) {
+    if (!addEventToBuffer(event)) {
         events_dropped_++;
         return false;
     }
@@ -142,11 +142,11 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent([[maybe_unused]] const Diagn
 
     // Update metrics
     if (metrics_enabled) {
-        updateMetricsForEvent([[maybe_unused]] event);
+        updateMetricsForEvent(event);
     }
 
     // Invoke callbacks
-    invokeCallbacks([[maybe_unused]] event);
+    invokeCallbacks(event);
 
     return true;
 }
@@ -163,7 +163,7 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent([[maybe_unused]] const Diagn
  * @return `true` if the event was inserted; `false` if the buffer is disabled
  *         (`max_buffer_size == 0`).
  */
-bool FieldDiagnosticsCollector::addEventToBuffer([[maybe_unused]] const DiagnosticEvent& event) {
+bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
 
     if (config_.max_buffer_size == 0) {
@@ -171,12 +171,12 @@ bool FieldDiagnosticsCollector::addEventToBuffer([[maybe_unused]] const Diagnost
     }
 
     // Buffer full: evict oldest event to make room; count the eviction as dropped
-    if ([[maybe_unused]] static_cast<int>(event_buffer_.size()) >= config_.max_buffer_size) {
+    if (static_cast<int>(event_buffer_.size()) >= config_.max_buffer_size) {
         event_buffer_.pop_front();
         events_dropped_++;
     }
 
-    event_buffer_.push_back([[maybe_unused]] event);
+    event_buffer_.push_back(event);
     return true;
 }
 
@@ -195,7 +195,7 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
 
     std::vector<DiagnosticEvent> result = {};
 
-    for ([[maybe_unused]] const auto& evt : event_buffer_) {
+    for (const auto& evt : event_buffer_) {
         if (evt.timestamp >= since_timestamp) {
             result.push_back(evt);
         }
@@ -214,7 +214,7 @@ std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getEventsSince(
  */
 std::vector<DiagnosticEvent> FieldDiagnosticsCollector::getAllEvents() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
-    return std::vector<DiagnosticEvent>([[maybe_unused]] event_buffer_.begin(), event_buffer_.end());
+    return std::vector<DiagnosticEvent>(event_buffer_.begin(), event_buffer_.end());
 }
 
 /**
@@ -232,7 +232,7 @@ FieldDiagnosticsCollector::getEventCountsByCategory() const {
 
     std::map<DiagnosticFailureCategory, size_t> counts = {};
 
-    for ([[maybe_unused]] const auto& evt : event_buffer_) {
+    for (const auto& evt : event_buffer_) {
         counts[evt.failure_category]++;
     }
     return counts;
@@ -273,7 +273,7 @@ size_t FieldDiagnosticsCollector::getBufferSize() const {
  * @param enabled `true` to enable collection; `false` to suppress all
  *                incoming events (they will be silently discarded).
  */
-void FieldDiagnosticsCollector::setEnabled([[maybe_unused]] bool enabled) {
+void FieldDiagnosticsCollector::setEnabled(bool enabled) {
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_.enabled = enabled;
 }
@@ -305,9 +305,9 @@ bool FieldDiagnosticsCollector::isEnabled() const {
  * @param callback Invocable `void(const DiagnosticEvent&)` to register.
  */
 void FieldDiagnosticsCollector::registerEmitCallback(
-    std::function<void([[maybe_unused]] const DiagnosticEvent&)> callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mu_);
-    emit_callbacks_.push_back([[maybe_unused]] callback);
+    std::function<void(const DiagnosticEvent&)> callback) {
+    std::lock_guard<std::mutex> lock(callback_mu_);
+    emit_callbacks_.push_back(callback);
 }
 
 /**
@@ -320,11 +320,11 @@ void FieldDiagnosticsCollector::registerEmitCallback(
  *
  * @param event The event that was just buffered (already PII-sanitized).
  */
-void FieldDiagnosticsCollector::invokeCallbacks([[maybe_unused]] const DiagnosticEvent& event) const {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mu_);
-    for ([[maybe_unused]] const auto& cb : emit_callbacks_) {
+void FieldDiagnosticsCollector::invokeCallbacks(const DiagnosticEvent& event) const {
+    std::lock_guard<std::mutex> lock(callback_mu_);
+    for (const auto& cb : emit_callbacks_) {
         try {
-            cb([[maybe_unused]] event);
+            cb(event);
         } catch (...) {
             // Suppress callback exceptions to prevent cascade failures
         }
@@ -344,7 +344,7 @@ nlohmann::json FieldDiagnosticsCollector::exportAsJSON() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
 
     nlohmann::json arr = nlohmann::json::array();
-    for ([[maybe_unused]] const auto& evt : event_buffer_) {
+    for (const auto& evt : event_buffer_) {
         arr.push_back(evt.toJson());
     }
     return arr;
@@ -430,7 +430,7 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
  *
  * @param event The buffered event whose metrics should be recorded.
  */
-void FieldDiagnosticsCollector::updateMetricsForEvent([[maybe_unused]] const DiagnosticEvent& event) {
+void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& event) {
     auto& metrics = MetricsCollector::getInstance();
 
     metrics.addCounter(
@@ -443,7 +443,7 @@ void FieldDiagnosticsCollector::updateMetricsForEvent([[maybe_unused]] const Dia
         });
 
     // Emit gauge for affected user count if present
-    if ([[maybe_unused]] event.affected_user_count >= 0) {
+    if (event.affected_user_count >= 0) {
         metrics.setGauge(
             "field_diagnostic_affected_users",
             static_cast<double>(event.affected_user_count),
@@ -456,3 +456,4 @@ void FieldDiagnosticsCollector::updateMetricsForEvent([[maybe_unused]] const Dia
 
 }  // namespace observability
 }  // namespace themis
+
