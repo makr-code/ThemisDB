@@ -193,7 +193,7 @@ bool AdvancedVectorIndex::initializeIndex() {
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -250,7 +250,7 @@ bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_u
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -301,7 +301,7 @@ bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unu
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -349,7 +349,7 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -370,7 +370,7 @@ bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[ma
 }
 
 AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] const float* query, [[maybe_unused]] size_t k) {
-    SearchResult result;
+    SearchResult result = SearchResult{};
     
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
@@ -403,7 +403,7 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
         return result;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -478,7 +478,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         return results;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -499,7 +499,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
 }
 
 AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
-    Stats stats;
+    Stats stats = Stats{};
     
 #ifdef THEMIS_HAS_FAISS
     if (index_) {
@@ -519,7 +519,7 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
             stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -557,7 +557,7 @@ bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -603,7 +603,7 @@ bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
         return false;
     }
 #else
-    StubCallbacks callbacks;
+    StubCallbacks callbacks = StubCallbacks();
     {
         std::lock_guard<std::mutex> lk([[maybe_unused]] AdvancedVectorIndex::stubCallbacksMutex());
         callbacks = AdvancedVectorIndex::stubCallbacksStorage();
@@ -628,7 +628,7 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
     size_t dimension,
     WorkloadType workload) {
     
-    Config config;
+    Config config = Config{};
     config.workload = workload;
     
     // Calculate optimal nlist (typically sqrt(N) to N/50)
