@@ -150,7 +150,7 @@ std::pair<TimeSeries, TimeSeries> TimeSeries::trainTestSplit(double ratio) const
         throw std::invalid_argument("train_ratio must be in (0, 1)");
     }
     size_t split = static_cast<size_t>(std::round(ratio * static_cast<double>(points_.size())));
-    split        = std::max(size_t{1}, std::min(split, static_cast<int>(points_.size()) - 1));
+    split        = std::max(size_t{1}, std::min(split, points_.size() - 1));
     TimeSeries train, test;
     train.points_.assign(points_.begin(), points_.begin() + static_cast<ptrdiff_t>(split));
     test.points_.assign(points_.begin() + static_cast<ptrdiff_t>(split), points_.end());
@@ -165,7 +165,7 @@ double TimeSeries::mean() const {
     for (const auto &p : points_) {
         s += p.value;
     }
-    return static_cast<bool>(s / static_cast<double < static_cast<int>((points_.size())));
+    return s / static_cast<double>(points_.size());
 }
 
 double TimeSeries::stddev() const {
@@ -178,7 +178,7 @@ double TimeSeries::stddev() const {
         double d = p.value - m;
         acc += d * d;
     }
-    return static_cast<bool>(std::sqrt(acc / static_cast<double < static_cast<int>((points_.size())) - 1));
+    return std::sqrt(acc / static_cast<double>(points_.size() - 1));
 }
 
 double TimeSeries::min() const {
@@ -209,7 +209,7 @@ double TimeSeries::max() const {
 
 ForecastMetrics computeMetrics(const std::vector<double> &actual, const std::vector<double> &predicted) {
     ForecastMetrics m;
-    size_t n = std::min(actual.size(),static_cast<int>(predicted.size()));
+    size_t n = std::min(actual.size(), predicted.size());
     if (n == 0) {
         return m;
     }
@@ -324,7 +324,7 @@ double computeForecastMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
     }
-    return static_cast<bool>(std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double < static_cast<int>((v.size())));
+    return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
 }
 
 // ---------------------------------------------------------------------------

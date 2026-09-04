@@ -100,7 +100,7 @@ double computeMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
     }
-    return static_cast<bool>(std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double < static_cast<int>((v.size())));
+    return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
 }
 
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
@@ -112,7 +112,7 @@ double computeVarianceFromMean(const std::vector<double> &v, double mean) {
         double d = x - mean;
         acc += d * d;
     }
-    return static_cast<bool>(acc / static_cast<double < static_cast<int>((v.size())));
+    return acc / static_cast<double>(v.size());
 }
 
 double computeStddev(const std::vector<double> &v, double mean) {
@@ -388,7 +388,7 @@ double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
 
 double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
     double sum = 0.0;
-    size_t n   = std::min(a.size(),static_cast<int>(b.size()));
+    size_t n   = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         sum += d * d;
@@ -487,7 +487,7 @@ struct AnomalyDetector::Impl {
     // ---- Per-feature anomaly scores ----
     std::vector<double> zscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(means.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
             c[i]      = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
@@ -496,7 +496,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> modZscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(medians.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
             c[i]       = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
@@ -505,7 +505,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> iqrContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(q1.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < q1.size(); ++i) {
             double fence_lo = q1[i] - 1.5 * iqr[i];
             double fence_hi = q3[i] + 1.5 * iqr[i];
             double range    = (iqr[i] > 1e-10) ? iqr[i] : 1.0;
@@ -813,7 +813,7 @@ struct AnomalyDetector::Impl {
             auto sub               = std::make_unique<AnomalyDetector>(sub_cfg);
             sub->train(data);
             sub_detectors.push_back(std::move(sub));
-            double w = (i <static_cast<int>(cfg.ensemble_weights.size())) ? cfg.ensemble_weights[i] : 1.0;
+            double w = (i < cfg.ensemble_weights.size()) ? cfg.ensemble_weights[i] : 1.0;
             sub_weights.push_back(w);
         }
     }
@@ -864,7 +864,7 @@ void AnomalyDetector::train(const std::vector<DataPoint> &data) {
 
     if (impl_->cfg.adaptive) {
         impl_->ring.insert(impl_->ring.end(), data.begin(), data.end());
-        while (impl_-> static_cast<int>(ring.size()) > impl_->ring_max) {
+        while (impl_->ring.size() > impl_->ring_max) {
             impl_->ring.pop_front();
         }
     }
@@ -946,8 +946,8 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
             if (!impl_->sub_detectors.empty()) {
                 contrib.assign(impl_->n_features, 0.0);
                 double total_w = 0.0;
-                for (size_t i = 0; i < impl_-> static_cast<int>(sub_detectors.size()); ++i) {
-                    double w   = (i < impl_-> static_cast<int>(sub_weights.size())) ? impl_->sub_weights[i] : 1.0;
+                for (size_t i = 0; i < impl_->sub_detectors.size(); ++i) {
+                    double w   = (i < impl_->sub_weights.size()) ? impl_->sub_weights[i] : 1.0;
                     auto sub_x = impl_->sub_detectors[i]->impl_->extractFeatures(point);
                     std::vector<double> sc;
                     switch (impl_->sub_detectors[i]->impl_->cfg.method) {
@@ -971,7 +971,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
                             sc = impl_->sub_detectors[i]->impl_->zscoreContributions(sub_x);
                             break;
                     }
-                    for (size_t f = 0; f < contrib.size()  && static_cast<size_t>(f) <static_cast<int>(sc.size()); ++f) {
+                    for (size_t f = 0; f < contrib.size() && f < sc.size(); ++f) {
                         contrib[f] += w * sc[f];
                     }
                     total_w += w;
@@ -989,7 +989,7 @@ AnomalyExplanation AnomalyDetector::explain(const DataPoint &point) const {
             break;
     }
 
-    for (size_t i = 0; i < contrib.size()  && static_cast<size_t>(i) < impl_-> static_cast<int>(feature_names.size()); ++i) {
+    for (size_t i = 0; i < contrib.size() && i < impl_->feature_names.size(); ++i) {
         exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
     }
 
@@ -1017,7 +1017,7 @@ void AnomalyDetector::update(const DataPoint &point) {
     }
 
     impl_->ring.push_back(point);
-    while (impl_-> static_cast<int>(ring.size()) > impl_->ring_max) {
+    while (impl_->ring.size() > impl_->ring_max) {
         impl_->ring.pop_front();
     }
 
@@ -1039,7 +1039,7 @@ std::string AnomalyDetector::serialize() const {
     ss << "n_features=" << impl_->n_features << "\n";
 
     ss << "feature_names=";
-    for (size_t i = 0; i < impl_-> static_cast<int>(feature_names.size()); ++i) {
+    for (size_t i = 0; i < impl_->feature_names.size(); ++i) {
         if (i) {
             ss << ",";
         }
