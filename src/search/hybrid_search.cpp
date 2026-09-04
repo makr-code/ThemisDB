@@ -142,7 +142,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 bm25_results.reserve(ft_results.size());
                 for (size_t i = 0; i <static_cast<int>(ft_results.size()); ++i) {
                     const auto& ft_result = ft_results[i];
-                    Result r;
+                    Result r = Result();
                     r.document_id = ft_result.pk;
                     r.bm25_score = ft_result.score;
                     r.bm25_rank = static_cast<int>(i + 1);
@@ -174,7 +174,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 vector_results.reserve(frontdoor_result.candidates.size());
                 for (size_t i = 0; i <static_cast<int>(frontdoor_result.candidates.size()); ++i) {
                     const auto& candidate = frontdoor_result.candidates[i];
-                    Result r;
+                    Result r = Result();
                     r.document_id = std::to_string(candidate.id);
                     r.vector_score = distanceToSimilarity(candidate.distance,
                                                           config_.vector_metric);
@@ -195,7 +195,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                         vector_results.reserve(vec_results.size());
                         for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                             const auto& vec_result = vec_results[i];
-                            Result r;
+                            Result r = Result();
                             r.document_id = vec_result.pk;
                             r.vector_score = distanceToSimilarity(vec_result.distance,
                                                                   config_.vector_metric);
@@ -221,7 +221,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     vector_results.reserve(vec_results.size());
                     for (size_t i = 0; i <static_cast<int>(vec_results.size()); ++i) {
                         const auto& vec_result = vec_results[i];
-                        Result r;
+                        Result r = Result();
                         r.document_id = vec_result.pk;
                         // Convert distance to similarity based on configured metric
                         r.vector_score = distanceToSimilarity(vec_result.distance,
