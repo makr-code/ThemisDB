@@ -1628,8 +1628,8 @@ void WireProtocolServer::Session::handleGet() {
             sendError(400, "Invalid GET payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in GET request");
             return;
         }
@@ -1702,8 +1702,8 @@ void WireProtocolServer::Session::handlePut() {
             sendError(400, "Invalid PUT payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in PUT request");
             return;
         }
@@ -1773,8 +1773,8 @@ void WireProtocolServer::Session::handleDelete() {
             sendError(400, "Invalid DELETE payload: expected JSON object");
             return;
         }
-        if ((request.contains("collection") && !request["collection"].is_string()) ||
-            (request.contains("key") && !request["key"].is_string())) {
+        if (((request.contains("collection") && !request["collection"].is_string()) ||
+            (request.contains("key") && !request["key"].is_string()))) {
             sendError(400, "Invalid 'collection' or 'key' type in DELETE request");
             return;
         }
@@ -2369,7 +2369,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         int limit     = request.value("limit", 100);
         std::string edge_type = request.value("edge_type", "");
 
-        if (!edge_type.empty() && (isBlankString(edge_type) || !isReasonableWireIdentifier(edge_type))) {
+        if ((!edge_type.empty()) && (isBlankString(edge_type) || !isReasonableWireIdentifier(edge_type))) {
             sendError(400, "Invalid 'edge_type' in GRAPH_TRAVERSE request");
             return;
         }

@@ -174,7 +174,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         if (code[pos] == '@') {
             std::string ident = {};
             ident += advance(); // @
-            while (pos <static_cast<int>(code.size()) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
             tokens.push_back({AQLTokenType::IDENTIFIER, ident, tl, tc});
@@ -182,8 +182,8 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         }
 
         // Number (integer or float)
-        if (std::isdigit(static_cast<unsigned char>(code[pos]))
-            || (code[pos] == '-' && pos + 1 <static_cast<int>(code.size()) && std::isdigit(static_cast<unsigned char>(code[pos + 1])))) {
+        if ((std::isdigit(static_cast<unsigned char>(code[pos])))
+            || ((code[pos] == '-') && ((pos + 1 < static_cast<int>(code.size())) && std::isdigit(static_cast<unsigned char>(code[pos + 1]))))) {
             std::string num = {};
             if (code[pos] == '-') {
                 num += advance();
@@ -204,7 +204,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         // Identifier or keyword
         if (std::isalpha(static_cast<unsigned char>(code[pos])) || code[pos] == '_') {
             std::string ident = {};
-            while (pos <static_cast<int>(code.size()) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
+            while ((pos < static_cast<int>(code.size())) && (std::isalnum(static_cast<unsigned char>(code[pos])) || code[pos] == '_')) {
                 ident += advance();
             }
 
@@ -335,7 +335,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
                 errors.push_back({tok.line, tok.column, std::string("Unmatched closing '") + c + "'"});
             } else {
                 char open = stack.back().ch;
-                bool ok   = (c == ')' && open == '(') || (c == '}' && open == '{') || (c == ']' && open == '[');
+                bool ok   = ((c == ')' && open == '(') || (c == '}' && open == '{') || (c == ']' && open == '['));
                 if (!ok) {
                     errors.push_back({tok.line, tok.column,
                                       std::string("Mismatched bracket: expected closing for '") + open
@@ -399,7 +399,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
 
     // Sort by (line, column) for a deterministic order
     std::stable_sort(errors.begin(), errors.end(), [](const AQLAnnotation &a, const AQLAnnotation &b) {
-        return a.line < b.line || (a.line == b.line && a.column < b.column);
+        return (a.line < b.line) || ((a.line == b.line) && (a.column < b.column));
     });
 
     return errors;

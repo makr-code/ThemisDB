@@ -664,7 +664,7 @@ HttpServer::HttpServer(
         const char* shard_id = std::getenv("THEMIS_SHARD_ID");
         const char* bootstrap_shard = std::getenv("THEMIS_BOOTSTRAP_SHARD");
         
-        if (sharding_enabled && (std::string(sharding_enabled) == "true" || std::string(sharding_enabled) == "1")) {
+        if ((sharding_enabled) && (std::string(sharding_enabled) == "true" || std::string(sharding_enabled) == "1")) {
             THEMIS_INFO("Sharding mode detected: preparing cluster context before AdaptiveIndexManager");
             
             // Set sharding context flags so AdaptiveIndexManager knows to coordinate with cluster
@@ -3239,7 +3239,7 @@ namespace {
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) {
       return Route::WalApplyPost;
     }
-    if (target == "/config" && (method == http::verb::get || method == http::verb::post)) {
+    if ((target == "/config") && (method == http::verb::get || method == http::verb::post)) {
       return Route::Config;
     }
     if (target == "/admin/backup" && method == http::verb::post) {
@@ -3985,13 +3985,13 @@ namespace {
     if (target == "/config/content-filters" && method == http::verb::get) {
       return Route::ContentFilterSchemaGet;
     }
-    if (target == "/config/content-filters" && (method == http::verb::put || method == http::verb::post)) {
+    if ((target == "/config/content-filters") && (method == http::verb::put || method == http::verb::post)) {
       return Route::ContentFilterSchemaPut;
     }
     if (target == "/config/edge-weights" && method == http::verb::get) {
       return Route::EdgeWeightConfigGet;
     }
-    if (target == "/config/edge-weights" && (method == http::verb::put || method == http::verb::post)) {
+    if ((target == "/config/edge-weights") && (method == http::verb::put || method == http::verb::post)) {
       return Route::EdgeWeightConfigPut;
     }
     
@@ -3999,7 +3999,7 @@ namespace {
     if (target == "/config/encryption-schema" && method == http::verb::get) {
       return Route::EncryptionSchemaGet;
     }
-    if (target == "/config/encryption-schema" && (method == http::verb::put || method == http::verb::post)) {
+    if ((target == "/config/encryption-schema") && (method == http::verb::put || method == http::verb::post)) {
       return Route::EncryptionSchemaPut;
     }
     
@@ -4110,9 +4110,9 @@ namespace {
     }
 
     // GraphQL endpoint
-    if ((path_only == "/graphql" || path_only == "/api/v1/graphql") &&
+    if (((path_only == "/graphql" || path_only == "/api/v1/graphql")) &&
         method == http::verb::post) return Route::GraphQLPost;
-    if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
+    if (((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema")) &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
 
     // gRPC-Web proxy (browser clients)

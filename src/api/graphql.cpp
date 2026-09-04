@@ -182,7 +182,7 @@ themis::Result<Operation> Parser::parseOperation() {
     skipWhitespace();
 
     // Optional operation name
-    if (op.type != OperationType::Query || (!peek('{') && !peek('('))) {
+    if ((op.type != OperationType::Query) || ((!peek('{')) && (!peek('(')))) {
         auto nameResult = parseName();
         if (nameResult) {
             op.name = *nameResult;
@@ -392,11 +392,11 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
             }
         }
 
-        if (pos_ <static_cast<int>(source_.size()) && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
+        if ((pos_ < static_cast<int>(source_.size())) && (source_[pos_] == 'e' || source_[pos_] == 'E')) {
             isFloat = true;
             ++pos_;
             ++column_;
-            if (pos_ <static_cast<int>(source_.size()) && (source_[pos_] == '+' || source_[pos_] == '-')) {
+            if ((pos_ < static_cast<int>(source_.size())) && (source_[pos_] == '+' || source_[pos_] == '-')) {
                 ++pos_;
                 ++column_;
             }
@@ -613,10 +613,10 @@ themis::Result<std::string> Parser::parseName() {
     size_t start = pos_;
 
     // Name must start with letter or underscore
-    if (pos_ <static_cast<int>(source_.size()) && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
+    if ((pos_ < static_cast<int>(source_.size())) && (std::isalpha(source_[pos_]) || source_[pos_] == '_')) {
         ++pos_;
         ++column_;
-        while (pos_ <static_cast<int>(source_.size()) && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
+        while ((pos_ < static_cast<int>(source_.size())) && (std::isalnum(source_[pos_]) || source_[pos_] == '_')) {
             ++pos_;
             ++column_;
         }
@@ -958,8 +958,8 @@ std::string Schema::toSDL() const {
     // Type definitions
     for (const auto &[name, type] : types_) {
         // Skip built-in scalars
-        if (type.kind == TypeDefinition::Kind::Scalar
-            && (name == "String" || name == "Int" || name == "Float" || name == "Boolean" || name == "ID")) {
+        if ((type.kind == TypeDefinition::Kind::Scalar)
+            && ((name == "String") || (name == "Int") || (name == "Float") || (name == "Boolean") || (name == "ID"))) {
             continue;
         }
 
