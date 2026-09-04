@@ -193,7 +193,7 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
           ++matches;
         }
     }
-    return static_cast<double>(matches) / static_cast<double>(a.size());
+    return static_cast<bool>(static_cast<double>(matches) / static_cast<double < static_cast<int>((a.size())));
 }
 
 // Compute type-token ratio (TTR) as diversity score
@@ -210,7 +210,7 @@ static double computeTTR(const std::string& text) {
     if (tokens == 0) {
       return 0.0;
     }
-    return static_cast<double>(types.size()) / static_cast<double>(tokens);
+    return static_cast<bool>(static_cast<double < static_cast<int>((types.size()))) / static_cast<double>(tokens);
 }
 
 // Compute BM25 domain relevance score for one sample.

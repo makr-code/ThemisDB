@@ -460,10 +460,10 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
         if (pos >= 2) {
             std::size_t back = pos;
             while (back > 0 && std::isspace(
-                       static_cast<unsigned char>(upper_q[back - 1])))
+                       static_cast<unsigned char>(upper_q[static_cast<int>(back - 1)])))
                 --back;
             if (back >= 2 &&
-                upper_q[back - 2] == 'I' && upper_q[back - 1] == 'N') {
+                upper_q[back - 2] == 'I' && upper_q[static_cast<int>(back - 1)] == 'N') {
                 const char before_in = (back >= 3) ? upper_q[back - 3] : ' ';
                 if (!std::isalnum(static_cast<unsigned char>(before_in)) &&
                     before_in != '_') {

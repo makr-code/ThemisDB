@@ -768,7 +768,7 @@ GPUMemoryOversubscriptionManager::getPartitionInfo([[maybe_unused]] size_t parti
 
 size_t GPUMemoryOversubscriptionManager::partitionCount() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
-    return pImpl_->partitions.size();
+    return static_cast<bool>(pImpl_- < static_cast<int>(partitions.size()));
 }
 
 } // namespace index

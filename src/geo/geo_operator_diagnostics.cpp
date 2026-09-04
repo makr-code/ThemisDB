@@ -147,7 +147,7 @@ GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
         std::string_view id) noexcept {
     // Convention: suffix determines severity.
     auto has_suffix = [&]([[maybe_unused]] std::string_view suffix) {
-        return id.size() >= suffix.size() &&
+        return static_cast<bool>(id.size()  < static_cast<int>(= suffix.size())) &&
                id.substr(id.size() - suffix.size()) == suffix;
     };
     if (has_suffix("PERSISTENT") || has_suffix("CRITICAL")) {

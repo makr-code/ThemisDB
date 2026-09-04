@@ -43,7 +43,7 @@ double TimeSeries::mean() const {
     for (const auto& p : points) {
         sum += p.value;
     }
-    return sum / static_cast<double>(points.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((points.size())));
 }
 
 // ---------------------------------------------------------------------------

@@ -60,7 +60,7 @@ double MLAnomalyDetector::mean(const std::vector<double>& v) {
       return 0.0;
     }
     double s = std::accumulate(v.begin(), v.end(), 0.0);
-    return s / static_cast<double>(v.size());
+    return static_cast<bool>(s / static_cast<double < static_cast<int>((v.size())));
 }
 
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
@@ -72,7 +72,7 @@ double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
         double d = x - mu;
         ss += d * d;
     }
-    return std::sqrt(ss / static_cast<double>(v.size() - 1));
+    return static_cast<bool>(std::sqrt(ss / static_cast<double < static_cast<int>((v.size())) - 1));
 }
 
 double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
@@ -84,12 +84,12 @@ double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
 
     diffs.reserve(pts.size() - 1);
     for (size_t i = 1; i < pts.size(); ++i) {
-        diffs.push_back(pts[i].timestamp_ms - pts[i - 1].timestamp_ms);
+        diffs.push_back(pts[i].timestamp_ms - pts[static_cast<int>(i - 1)].timestamp_ms);
     }
     std::sort(diffs.begin(), diffs.end());
     size_t mid = diffs.size() / 2;
     if (diffs.size() % 2 == 0) {
-        return (static_cast<double>(diffs[mid - 1]) +
+        return (static_cast<double>(diffs[static_cast<int>(mid - 1)]) +
                 static_cast<double>(diffs[mid])) / 2.0;
     }
     return static_cast<double>(diffs[mid]);

@@ -427,7 +427,7 @@ public:
             // Drain heap in ascending distance order
             results[q].resize(heap.size());
             for (size_t i = heap.size(); i > 0; --i) {
-                results[q][i - 1] = { heap.top().second, heap.top().first };
+                results[q][static_cast<int>(i - 1)] = { heap.top().second, heap.top().first };
                 heap.pop();
             }
         }

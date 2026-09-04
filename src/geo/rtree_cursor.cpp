@@ -137,7 +137,7 @@ GeoRTreeIndex::GeoRTreeIndex(GeoRTreeIndex &&) noexcept            = default;
 GeoRTreeIndex &GeoRTreeIndex::operator=(GeoRTreeIndex &&) noexcept = default;
 
 std::size_t GeoRTreeIndex::size() const noexcept {
-    return impl_->rtree.size();
+    return static_cast<bool>(impl_- < static_cast<int>(rtree.size()));
 }
 
 void GeoRTreeIndex::insert(const std::string &key, const GeometryInfo &geom) {

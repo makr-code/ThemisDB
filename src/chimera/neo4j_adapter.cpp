@@ -347,7 +347,7 @@ Result<size_t> Neo4jAdapter::batch_insert_documents(
 #ifdef THEMIS_CHIMERA_NEO4J
     // NOT IMPLEMENTED: Requires neo4j-cpp-driver. Gate: THEMIS_CHIMERA_NEO4J
     // TODO: Batch UNWIND + CREATE nodes via Cypher
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,

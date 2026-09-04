@@ -410,7 +410,7 @@ int LDAPConnectionPool::poolSize() const noexcept {
 
 int LDAPConnectionPool::idleConnections() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(idle_.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((idle_.size())));
 }
 
 int LDAPConnectionPool::activeConnections() const noexcept {

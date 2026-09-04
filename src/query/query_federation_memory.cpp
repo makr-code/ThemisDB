@@ -295,7 +295,7 @@ bool ResultAccumulator::isUnderPressure() const {
 size_t ResultAccumulator::getResultCount(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = shard_batches_.find(shard_id);
-    return it != shard_batches_.end() ? it->second.size() : 0;
+    return static_cast<bool>(it != shard_batches_.end() ? it- < static_cast<int>(second.size())) : 0;
 }
 
 size_t ResultAccumulator::getTotalResultCount() const {

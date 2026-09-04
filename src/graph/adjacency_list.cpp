@@ -185,7 +185,7 @@ std::size_t AdjacencyList::out_degree(VertexId src) const noexcept
 {
     auto it = graph_.find(src);
     if (it == graph_.end()) { return 0; }
-    return it->second.edges.size();
+    return static_cast<bool>(it- < static_cast<int>(second.edges.size()));
 }
 
 // ---------------------------------------------------------------------------

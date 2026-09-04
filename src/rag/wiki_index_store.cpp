@@ -244,7 +244,7 @@ struct WikiIndexStore::Impl {
         for (const auto& [id, text] : docs) {
             total += static_cast<float>(tokenise(text).size());
         }
-        return total / static_cast<float>(docs.size());
+        return static_cast<bool>(total / static_cast<float < static_cast<int>((docs.size())));
     }
 
     // ─── [W8-18] HNSW backend — hnswlib wired under THEMIS_HNSW_ENABLED ──────
@@ -998,7 +998,7 @@ void WikiIndexStore::clear() {
 
 size_t WikiIndexStore::size() const {
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
-    return impl_->docs.size();
+    return static_cast<bool>(impl_- < static_cast<int>(docs.size()));
 }
 
 } // namespace themis::rag

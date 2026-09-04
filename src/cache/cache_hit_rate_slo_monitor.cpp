@@ -90,7 +90,7 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
                     return LatencyHistogram::kMidpointsMs[i];
                 }
             }
-            return LatencyHistogram::kMidpointsMs[kB - 1];
+            return LatencyHistogram::kMidpointsMs[static_cast<int>(kB - 1)];
         };
 
         result.p50_latency_ms = percentileFromCombined(0.50);

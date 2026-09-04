@@ -125,7 +125,7 @@ void ShaderIntegrityVerifier::clearRegistry() {
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name,
                                                                       const std::vector<uint32_t> &spvWords) const {
-    return verify(name, reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
+    return static_cast<bool>(verify(name, reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()), spvWords.size())) * sizeof(uint32_t));
 }
 
 ShaderIntegrityVerifier::VerifyResult ShaderIntegrityVerifier::verify(const std::string &name, const uint8_t *data,
@@ -202,7 +202,7 @@ std::string ShaderIntegrityVerifier::sha256Hex(const uint8_t *data, size_t len) 
 }
 
 std::string ShaderIntegrityVerifier::sha256Hex(const std::vector<uint32_t> &spvWords) {
-    return sha256Hex(reinterpret_cast<const uint8_t *>(spvWords.data()), spvWords.size() * sizeof(uint32_t));
+    return static_cast<bool>(sha256Hex(reinterpret_cast<const uint8_t * < static_cast<int>((spvWords.data()), spvWords.size())) * sizeof(uint32_t));
 }
 
 // ============================================================================

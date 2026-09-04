@@ -196,7 +196,7 @@ double TimeSeriesAggregates::applyAggregate(
             return values[0];
         
         case AggregateFunction::LAST:
-            return values[count - 1];
+            return values[static_cast<int>(count - 1)];
         
         case AggregateFunction::PERCENTILE_50:
             return computePercentile(values, count, 0.50);

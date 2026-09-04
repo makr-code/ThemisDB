@@ -57,7 +57,7 @@ namespace {
         }
 
         size_t padding = 0;
-        for (size_t i = input.size(); i > 0 && input[i - 1] == '='; --i) {
+        for (size_t i = input.size(); i > 0 && input[static_cast<int>(i - 1)] == '='; --i) {
             ++padding;
         }
         if (padding > 2) {

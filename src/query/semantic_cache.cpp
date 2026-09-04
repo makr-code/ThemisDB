@@ -345,7 +345,7 @@ std::vector<float> SemanticQueryCache::computeQueryEmbedding_(std::string_view q
         
         // Add to adjacent positions for smoothing
         if (pos > 0) {
-            embedding[pos - 1] += value * 0.5f;
+            embedding[static_cast<int>(pos - 1)] += value * 0.5f;
         }
         if (pos < config_.embedding_dim - 1) {
             embedding[pos + 1] += value * 0.5f;

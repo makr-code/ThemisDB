@@ -56,7 +56,7 @@ namespace {
     using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 }
 
-// [E-1] key parameter removed: raw key bytes must never be passed into debug utilities.
+// [static_cast<int>(E - 1)] key parameter removed: raw key bytes must never be passed into debug utilities.
 // SECURITY: THEMIS_DEBUG_ENC_DIR must NEVER be set in production — it writes ciphertext blobs
 // (IV, tag, ciphertext) to disk in plaintext JSON.  Enforce absence of this variable via
 // your deployment's environment guard or startup validation.
@@ -82,7 +82,7 @@ static void write_debug_dump(const std::string& prefix, const EncryptedBlob& blo
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 
         nlohmann::json j = blob.toJson();
-        // [E-1] Do NOT include key material in debug dumps.
+        // [static_cast<int>(E - 1)] Do NOT include key material in debug dumps.
         // key_fingerprint_prefix was removed because it embeds the first 8 bytes
         // of the raw encryption key in a plain-text on-disk file, violating the
         // principle of minimum key exposure.  Use key_id/key_version (already

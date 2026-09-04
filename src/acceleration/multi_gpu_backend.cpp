@@ -453,7 +453,7 @@ const std::vector<ShardDescriptor> &MultiGPUVectorBackend::shards() const noexce
 }
 
 int MultiGPUVectorBackend::activeDeviceCount() const noexcept {
-    return static_cast<int>(pImpl_->shardDescs.size());
+    return static_cast<bool>(static_cast<int>(pImpl_- < static_cast<int>(shardDescs.size())));
 }
 
 MultiGPUVectorBackend::CommBackend MultiGPUVectorBackend::activeCommBackend() const noexcept {

@@ -297,7 +297,7 @@ private:
 
         for (size_t i = start + 1; i < history_.size(); ++i) {
             int64_t diff = static_cast<int64_t>(history_[i].address) -
-                           static_cast<int64_t>(history_[i - 1].address);
+                           static_cast<int64_t>(history_[static_cast<int>(i - 1)].address);
             stride_counts[diff]++;
         }
 

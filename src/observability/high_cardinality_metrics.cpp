@@ -134,7 +134,7 @@ public:
         }
 
         // Check if accepting this new label set would exceed the limit
-        return state->label_sets.size() < state->limit.max_series;
+        return static_cast<bool>(state- < static_cast<int>(label_sets.size())) < state->limit.max_series;
     }
 
     std::map<std::string, std::string> recordLabelSet(

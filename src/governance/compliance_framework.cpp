@@ -359,7 +359,7 @@ int ComplianceFrameworkRegistry::getRequirementCount(ComplianceFramework fw) con
     
     auto it = requirements_by_framework_.find(fw);
     if (it != requirements_by_framework_.end()) {
-        return it->second.size();
+        return static_cast<bool>(it- < static_cast<int>(second.size()));
     }
     return 0;
 }
@@ -369,7 +369,7 @@ int ComplianceFrameworkRegistry::getControlCount(ComplianceFramework fw) const {
     
     auto it = controls_by_framework_.find(fw);
     if (it != controls_by_framework_.end()) {
-        return it->second.size();
+        return static_cast<bool>(it- < static_cast<int>(second.size()));
     }
     return 0;
 }

@@ -234,7 +234,7 @@ float AudioPreprocessingPipeline::computeRMS(const std::vector<float>& samples) 
     for (float s : samples) {
       sum_sq += s * s;
     }
-    return std::sqrt(sum_sq / static_cast<float>(samples.size()));
+    return static_cast<bool>(std::sqrt(sum_sq / static_cast<float < static_cast<int>((samples.size()))));
 }
 
 float AudioPreprocessingPipeline::computeNoiseFloor(const std::vector<float>& samples) const {
@@ -254,7 +254,7 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
     const std::vector<float>& samples, float cutoff_hz, int sample_rate) const
 {
     if (samples.empty()) return {};
-    // Simple first-order high-pass IIR filter: y[n] = alpha * (y[n-1] + x[n] - x[n-1])
+    // Simple first-order high-pass IIR filter: y[n] = alpha * (y[static_cast<int>(n - 1)] + x[n] - x[static_cast<int>(n - 1)])
     float rc = 1.0f / (2.0f * std::numbers::pi_v<float> * cutoff_hz);
     float dt = 1.0f / static_cast<float>(sample_rate);
     float alpha = rc / (rc + dt);
@@ -262,7 +262,7 @@ std::vector<float> AudioPreprocessingPipeline::applyHighPassFilter(
     std::vector<float> output(samples.size());
     output[0] = samples[0];
     for (size_t i = 1; i < samples.size(); ++i) {
-        output[i] = alpha * (output[i - 1] + samples[i] - samples[i - 1]);
+        output[i] = alpha * (output[static_cast<int>(i - 1)] + samples[i] - samples[static_cast<int>(i - 1)]);
     }
     return output;
 }

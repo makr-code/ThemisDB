@@ -406,7 +406,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             const auto &ls = g2.coords;
             double px = g1.coords[0].x, py = g1.coords[0].y;
             for (std::size_t i = 1; i < ls.size(); ++i) {
-                if (segmentsIntersect(px, py, px, py, ls[i - 1].x, ls[i - 1].y, ls[i].x, ls[i].y)) {
+                if (segmentsIntersect(px, py, px, py, ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y)) {
                     return true;
                 }
             }
@@ -422,7 +422,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             const auto &ls2 = g2.coords;
             for (std::size_t i = 1; i < ls1.size(); ++i) {
                 for (std::size_t j = 1; j < ls2.size(); ++j) {
-                    if (segmentsIntersect(ls1[i - 1].x, ls1[i - 1].y, ls1[i].x, ls1[i].y, ls2[j - 1].x, ls2[j - 1].y,
+                    if (segmentsIntersect(ls1[static_cast<int>(i - 1)].x, ls1[static_cast<int>(i - 1)].y, ls1[i].x, ls1[i].y, ls2[static_cast<int>(j - 1)].x, ls2[static_cast<int>(j - 1)].y,
                                           ls2[j].x, ls2[j].y)) {
                         return true;
                     }
@@ -444,7 +444,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             // Any segment crosses a polygon edge?
             for (std::size_t i = 1; i < ls.size(); ++i) {
                 for (std::size_t k = 0, l = ring.size() - 1; k < ring.size(); l = k++) {
-                    if (segmentsIntersect(ls[i - 1].x, ls[i - 1].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
+                    if (segmentsIntersect(ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
                                           ring[k].y)) {
                         return true;
                     }

@@ -322,7 +322,7 @@ bool OrToInRewriteRule::applies(const nlohmann::json& plan,
           return false;
         }
         auto chain = collectOrChain(*cond_it);
-        return chain.has_value() && chain->values.size() >= ctx.or_to_in_threshold;
+        return static_cast<bool>(chain.has_value() && chain- < static_cast<int>(values.size())) >= ctx.or_to_in_threshold;
     }) > 0;
 }
 

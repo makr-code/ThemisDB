@@ -386,7 +386,7 @@ bool ProcessAuditLoggerImpl::VerifyIntegrity() const {
     }
 
     // Check monotonic timestamps
-    if (i > 0 && entry.timestamp_ms < entries_[i - 1].timestamp_ms) {
+    if (i > 0 && entry.timestamp_ms < entries_[static_cast<int>(i - 1)].timestamp_ms) {
       utils::Logger::Warn("Non-monotonic timestamps in audit trail");
     }
   }
@@ -408,7 +408,7 @@ std::vector<AuditTrailEntry> ProcessAuditLoggerImpl::QueryByModelId(
 
   for (uint64_t entry_id : it->second) {
     if (entry_id > 0 && entry_id <= entries_.size()) {
-      const auto& entry = entries_[entry_id - 1];
+      const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       AuditTrailEntry result;
       result.entry_id = entry.entry_id;
       result.model_id = entry.model_id;
@@ -456,7 +456,7 @@ std::string ProcessAuditLoggerImpl::GetModelStateAt(
   // Replay entries up to timestamp
   for (uint64_t entry_id : it->second) {
     if (entry_id > 0 && entry_id <= entries_.size()) {
-      const auto& entry = entries_[entry_id - 1];
+      const auto& entry = entries_[static_cast<int>(entry_id - 1)];
       if (entry.timestamp_ms <= timestamp_ms) {
         state = DeltaPatchCodec::Decode(state, entry.delta_patch);
       }

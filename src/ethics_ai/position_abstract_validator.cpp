@@ -29,7 +29,7 @@ bool PositionAbstractValidator::isValidVerdict(const std::string &v) noexcept {
 }
 
 int PositionAbstractValidator::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string PositionAbstractValidator::extractVerdictFromContent(const std::string &content) {

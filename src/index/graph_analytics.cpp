@@ -707,7 +707,7 @@ GraphAnalytics::kShortestPaths(
           break;
         }
         
-        const PathInfo& prev_path = A[k_idx - 1];
+        const PathInfo& prev_path = A[static_cast<int>(k_idx - 1)];
         
         // For each node in the previous shortest path (except the last)
         for (size_t spur_idx = 0; spur_idx < prev_path.vertices.size() - 1; ++spur_idx) {

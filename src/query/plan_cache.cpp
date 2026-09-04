@@ -131,8 +131,8 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         // is not preceded by an identifier character (so "x-1" keeps its minus
         // but "x=-1" or "WHERE n=-1" normalises the sign away with the digit).
         if ((ch == '+' || ch == '-') &&
-            (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
-                        query[i - 1] != '_' && query[i - 1] != '@')) &&
+            (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
+                        query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@')) &&
             i + 1 < query.size() &&
             std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0) {
             // The sign is a numeric prefix; skip it so the following digit
@@ -144,8 +144,8 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
         const bool numeric_literal =
             (std::isdigit(static_cast<unsigned char>(ch)) != 0) &&
             (i == 0 ||
-             (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
-              query[i - 1] != '_' && query[i - 1] != '@'));
+             (!std::isalnum(static_cast<unsigned char>(query[static_cast<int>(i - 1)])) &&
+              query[static_cast<int>(i - 1)] != '_' && query[static_cast<int>(i - 1)] != '@'));
         if (numeric_literal) {
             if (normalized.empty() || normalized.back() != '?') {
                 normalized.push_back('?');

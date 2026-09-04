@@ -61,7 +61,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
 
     diffs.reserve(ts.size() - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (size_t i = 1; i < ts.size(); ++i) {
-        diffs.push_back(ts[i] - ts[i - 1]);
+        diffs.push_back(ts[i] - ts[static_cast<int>(i - 1)]);
     }
 
     // Check that at least 80 % of differences are positive (monotonic majority)

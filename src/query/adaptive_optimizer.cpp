@@ -55,7 +55,7 @@ std::string toLowerCopy(const std::string& input) {
 }
 
 bool startsWith(const std::string& text, const std::string& prefix) {
-    return text.size() >= prefix.size() &&
+    return static_cast<bool>(text.size()  < static_cast<int>(= prefix.size())) &&
            std::equal(prefix.begin(), prefix.end(), text.begin());
 }
 

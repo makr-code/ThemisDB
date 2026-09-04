@@ -51,7 +51,7 @@ std::string toUpperTrim(const std::string &s) {
 bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
-        bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[p - 1])) && upper[p - 1] != '_'));
+        bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])) && upper[static_cast<int>(p - 1)] != '_'));
         size_t after   = p + kw.size();
         bool ok_after  = (after >= upper.size()
                           || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_'));
@@ -73,7 +73,7 @@ bool wordContains(const std::string &upper, const std::string &kw) {
 std::string extractCollection(const std::string &upper, const std::string &in_keyword) {
     size_t p = upper.find(in_keyword);
     while (p != std::string::npos) {
-        bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[p - 1])));
+        bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])));
         size_t after   = p + in_keyword.size();
         bool ok_after  = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
         if (ok_before && ok_after && after < upper.size() && upper[after] == ' ') {

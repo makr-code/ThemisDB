@@ -288,7 +288,7 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     block.base = sorted_values[0];
     block.deltas.reserve(sorted_values.size() - 1);
     for (size_t i = 1; i < sorted_values.size(); ++i) {
-        block.deltas.push_back(sorted_values[i] - sorted_values[i - 1]);
+        block.deltas.push_back(sorted_values[i] - sorted_values[static_cast<int>(i - 1)]);
     }
     return block;
 }

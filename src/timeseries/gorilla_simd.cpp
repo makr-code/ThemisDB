@@ -363,14 +363,14 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
         //
         // carry_dt must be saved BEFORE the second pass overwrites dods_buf.
         prefix_sum_i64(dods_buf, batch_size, carry_dt);
-        int64_t new_carry_dt = dods_buf[batch_size - 1];   // dt of last point
+        int64_t new_carry_dt = dods_buf[static_cast<int>(batch_size - 1)];   // dt of last point
 
         prefix_sum_i64(dods_buf, batch_size, carry_ts);
-        int64_t new_carry_ts = dods_buf[batch_size - 1];   // ts of last point
+        int64_t new_carry_ts = dods_buf[static_cast<int>(batch_size - 1)];   // ts of last point
 
         // ── Phase 2b: reconstruct vbits[] via prefix-XOR ─────────────────
         prefix_xor_u64(xors_buf, batch_size, carry_xor);
-        uint64_t new_carry_xor = xors_buf[batch_size - 1]; // vbits of last point
+        uint64_t new_carry_xor = xors_buf[static_cast<int>(batch_size - 1)]; // vbits of last point
 
         // ── Emit this batch ───────────────────────────────────────────────
         for (int b = 0; b < batch_size; ++b) {

@@ -51,7 +51,7 @@ double DataQualityFramework::QualityAssessor::computeCompleteness(const std::vec
             ++non_null;
         }
     }
-    return static_cast<double>(non_null) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((non_null) / rows.size()));
 }
 
 double DataQualityFramework::QualityAssessor::computeUniqueness(const std::vector<json> &rows,
@@ -66,7 +66,7 @@ double DataQualityFramework::QualityAssessor::computeUniqueness(const std::vecto
             seen.insert(row.at(column).dump());
         }
     }
-    return static_cast<double>(seen.size()) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((seen.size()) / rows.size()));
 }
 
 double DataQualityFramework::QualityAssessor::computeValidity(const std::vector<json> &rows, const std::string &column,
@@ -98,7 +98,7 @@ double DataQualityFramework::QualityAssessor::computeValidity(const std::vector<
             ++valid;
         }
     }
-    return static_cast<double>(valid) / rows.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((valid) / rows.size()));
 }
 
 // ---------------------------------------------------------------------------

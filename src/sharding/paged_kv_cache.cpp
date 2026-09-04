@@ -442,7 +442,7 @@ std::optional<uint32_t> PagedKVCache::findSharedPrefix(
             continue;
         }
 
-        const uint32_t candidate_block_id = candidate.block_ids[matched_blocks - 1];
+        const uint32_t candidate_block_id = candidate.block_ids[static_cast<int>(matched_blocks - 1)];
         if (blocks_.find(candidate_block_id) == blocks_.end()) {
             continue;
         }

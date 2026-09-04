@@ -342,7 +342,7 @@ std::vector<llm::ConstitutionalPrinciple> CAIEthicsIntegration::getPrinciples() 
 /// @return Number of principles (built-in: 21, plus any custom additions).
 std::size_t CAIEthicsIntegration::principleCount() const
 {
-    return cai_engine_->getPrinciples().size();
+    return static_cast<bool>(cai_engine_- < static_cast<int>(getPrinciples().size()));
 }
 
 // ---------------------------------------------------------------------------

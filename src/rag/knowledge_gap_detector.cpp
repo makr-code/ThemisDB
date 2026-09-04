@@ -1634,7 +1634,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
             size_t pos = 0;
             while ((pos = lower_content.find(framework, pos)) != std::string::npos) {
                 // Check word boundaries
-                bool word_start = (pos == 0 || !std::isalnum(lower_content[pos - 1]));
+                bool word_start = (pos == 0 || !std::isalnum(lower_content[static_cast<int>(pos - 1)]));
                 bool word_end = (pos + framework.length() >= lower_content.length() || 
                                 !std::isalnum(lower_content[pos + framework.length()]));
                 
@@ -1647,7 +1647,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         }
     }
 
-    return static_cast<int>(found_frameworks.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((found_frameworks.size())));
 }
 
 double KnowledgeGapDetector::calculatePerspectiveDiversity(

@@ -93,7 +93,7 @@ constexpr bool kRemoteBackupGcsLinked = false;
 
 /// Return whether @p value begins with the provider prefix @p prefix.
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
-    return value.size() >= prefix.size() &&
+    return static_cast<bool>(value.size()  < static_cast<int>(= prefix.size())) &&
            value.compare(0, prefix.size(), prefix) == 0;
 }
 
@@ -260,7 +260,7 @@ bool isValidRemoteCloudUri(const std::string& uri) {
     };
 
     return std::any_of(kSchemes.begin(), kSchemes.end(), [&uri](std::string_view scheme) {
-        return uri.size() > scheme.size() && hasUriPrefix(uri, scheme);
+        return static_cast<bool>(uri.size()  < static_cast<int>(scheme.size())) && hasUriPrefix(uri, scheme);
     });
 }
 

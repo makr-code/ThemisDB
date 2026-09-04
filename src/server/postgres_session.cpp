@@ -574,7 +574,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
         std::sort(replacements.begin(), replacements.end(),
-                  [](const auto& lhs, const auto& rhs) { return lhs.first.size() > rhs.first.size(); });
+                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>(lhs.first.size()  < static_cast<int>(rhs.first.size())); });
         query = replaceAllPlaceholders(std::move(query), replacements);
         
         // If this is the first execution, fetch and cache results
@@ -2269,7 +2269,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
     size_t start = 0;
     bool inQuote = false;
     for (size_t i = 0; i < cypherSetClause.size(); ++i) {
-        if (cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[i-1] != '\\')) {
+        if (cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[static_cast<int>(i - 1)] != '\\')) {
             inQuote = !inQuote;
         } else if (cypherSetClause[i] == ',' && !inQuote) {
             assignments.push_back(cypherSetClause.substr(start, i - start));

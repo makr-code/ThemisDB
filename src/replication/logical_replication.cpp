@@ -129,7 +129,7 @@ std::string trimCopy(const std::string& s) {
       start++;
     }
     size_t end = s.size();
-    while (end > start && std::isspace(static_cast<unsigned char>(s[end - 1]))) {
+    while (end > start && std::isspace(static_cast<unsigned char>(s[static_cast<int>(end - 1)]))) {
       end--;
     }
     return s.substr(start, end - start);

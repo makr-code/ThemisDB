@@ -85,7 +85,7 @@ std::vector<std::string> traceActivities(const ProcessTrace& trace) {
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace& trace) {
     std::set<std::pair<std::string, std::string>> edges;
     for (std::size_t i = 1; i < trace.events.size(); ++i) {
-        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
 }
@@ -104,7 +104,7 @@ double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
     if (union_values.empty()) {
         return 0.0;
     }
-    return static_cast<double>(intersection.size()) /
+    return static_cast<bool>(static_cast<double < static_cast<int>((intersection.size()))) /
            static_cast<double>(union_values.size());
 }
 
@@ -114,10 +114,10 @@ int longestCommonSubsequence(const std::vector<std::string>& lhs,
     std::vector<int> current(rhs.size() + 1, 0);
     for (std::size_t i = 1; i <= lhs.size(); ++i) {
         for (std::size_t j = 1; j <= rhs.size(); ++j) {
-            if (lhs[i - 1] == rhs[j - 1]) {
-                current[j] = previous[j - 1] + 1;
+            if (lhs[static_cast<int>(i - 1)] == rhs[static_cast<int>(j - 1)]) {
+                current[j] = previous[static_cast<int>(j - 1)] + 1;
             } else {
-                current[j] = std::max(previous[j], current[j - 1]);
+                current[j] = std::max(previous[j], current[static_cast<int>(j - 1)]);
             }
         }
         std::swap(previous, current);

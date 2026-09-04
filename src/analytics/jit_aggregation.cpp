@@ -144,7 +144,7 @@ static double finalizeAggJit(const JitAggState &st, AggregateSpec::Function fn) 
         case AggregateSpec::Function::Max:
             return st.count_nonnull > 0 ? st.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<double>(st.distinct_set.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((st.distinct_set.size())));
     }
     return 0.0;
 }

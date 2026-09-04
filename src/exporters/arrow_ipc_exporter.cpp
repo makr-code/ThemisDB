@@ -96,7 +96,7 @@ static constexpr int8_t kTypeUtf8                 = 5; // Type union discriminan
 class FBuf {
   public:
     uint32_t cursor() const {
-        return static_cast<uint32_t>(buf_.size());
+        return static_cast<bool>(static_cast<uint32_t < static_cast<int>((buf_.size())));
     }
 
     /// Align to n bytes (prepend zero bytes)

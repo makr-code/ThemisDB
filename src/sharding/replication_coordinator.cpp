@@ -194,7 +194,7 @@ size_t ReplicationCoordinator::getReplicaCount() const {
     if (!shipper_) {
       return 0;
     }
-    return shipper_->getReplicaInfo().size();
+    return static_cast<bool>(shipper_- < static_cast<int>(getReplicaInfo().size()));
 }
 
 /**

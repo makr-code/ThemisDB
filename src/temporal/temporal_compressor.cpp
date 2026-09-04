@@ -253,7 +253,7 @@ nlohmann::json TemporalCompressor::applyGorilla(
     nlohmann::json ts_arr = nlohmann::json::array();
     ts_arr.push_back(series[0].first);
     for (size_t i = 1; i < series.size(); ++i)
-        ts_arr.push_back(series[i].first - series[i-1].first);
+        ts_arr.push_back(series[i].first - series[static_cast<int>(i - 1)].first);
 
     // XOR-delta encode doubles (store as uint64 bit patterns)
     nlohmann::json val_arr = nlohmann::json::array();
@@ -488,7 +488,7 @@ CompressionStats TemporalCompressor::compressHistory(
         // ── DELTA ──────────────────────────────────────────────────────────
         case CompressionAlgorithm::DELTA: {
             for (size_t i = 1; i < sorted_versions.size(); ++i) {
-                const auto& base    = sorted_versions[i - 1];
+                const auto& base    = sorted_versions[static_cast<int>(i - 1)];
                 const auto& current = sorted_versions[i];
 
                 const std::string original_str = current.data.dump();

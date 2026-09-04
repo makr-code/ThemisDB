@@ -151,14 +151,14 @@ bool RaftV2ClusterConfig::hasQuorum(const std::set<std::string>& votes) const {
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++new_votes; }
         }
-        return old_votes >= majority(old_members_.size()) &&
+        return static_cast<bool>(old_votes  < static_cast<int>(= majority(old_members_.size()))) &&
                new_votes >= majority(new_members_.size());
     } else {
         size_t cnt = 0;
         for (const auto& v : votes) {
             if (new_members_.count(v) > 0) { ++cnt; }
         }
-        return cnt >= majority(new_members_.size());
+        return static_cast<bool>(cnt  < static_cast<int>(= majority(new_members_.size())));
     }
 }
 

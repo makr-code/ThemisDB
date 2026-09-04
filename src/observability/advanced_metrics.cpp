@@ -181,7 +181,7 @@ size_t AdvancedMetrics::getCardinalityEstimate(const std::string& name) const {
     if (it == cardinality_sets_.end()) {
       return 0;
     }
-    return it->second.size();
+    return static_cast<bool>(it- < static_cast<int>(second.size()));
 }
 
 // ============================================================================

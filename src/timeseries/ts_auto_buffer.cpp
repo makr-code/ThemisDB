@@ -539,7 +539,7 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
 
     THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
                 restored.size(), wal_path);
-    return static_cast<std::ptrdiff_t>(restored.size());
+    return static_cast<bool>(static_cast<std::ptrdiff_t < static_cast<int>((restored.size())));
 }
 
 bool TSAutoBuffer::removeWAL(const std::string& wal_path) {

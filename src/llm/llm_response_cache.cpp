@@ -536,7 +536,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
         
         // Add to neighboring dimensions for better distribution
         if (idx > 0) {
-            embedding[idx - 1] += static_cast<float>(count) * 0.5f;
+            embedding[static_cast<int>(idx - 1)] += static_cast<float>(count) * 0.5f;
         }
         if (idx + 1 < config_.embedding_dim) {
             embedding[idx + 1] += static_cast<float>(count) * 0.5f;
@@ -552,7 +552,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
         
         // Add to neighbors
         if (idx > 0) {
-            embedding[idx - 1] += static_cast<float>(count);
+            embedding[static_cast<int>(idx - 1)] += static_cast<float>(count);
         }
         if (idx + 1 < config_.embedding_dim) {
             embedding[idx + 1] += static_cast<float>(count);

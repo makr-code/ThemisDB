@@ -301,7 +301,7 @@ uint32_t ErasureCodingBackend::availableShardCount(
     if (it == store_.end()) {
         return 0u;
     }
-    return static_cast<uint32_t>(it->second.chunks.size());
+    return static_cast<bool>(static_cast<uint32_t>(it- < static_cast<int>(second.chunks.size())));
 }
 
 } // namespace storage

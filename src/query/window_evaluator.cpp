@@ -314,7 +314,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     for (size_t i = 0; i < sortedIndices.size(); ++i) {
         if (i > 0) {
             // Vergleiche mit vorheriger Row
-            const auto& prevRow = rows[sortedIndices[i - 1]];
+            const auto& prevRow = rows[sortedIndices[static_cast<int>(i - 1)]];
             const auto& currRow = rows[sortedIndices[i]];
             
             int cmp = compareRows(prevRow, currRow, orderBy, forVariable);
@@ -352,7 +352,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     for (size_t i = 0; i < sortedIndices.size(); ++i) {
         if (i > 0) {
             // Vergleiche mit vorheriger Row
-            const auto& prevRow = rows[sortedIndices[i - 1]];
+            const auto& prevRow = rows[sortedIndices[static_cast<int>(i - 1)]];
             const auto& currRow = rows[sortedIndices[i]];
             
             int cmp = compareRows(prevRow, currRow, orderBy, forVariable);

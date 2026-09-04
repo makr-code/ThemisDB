@@ -149,7 +149,7 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 }
                 break;
             case 'B':
-                if (i == 0 || upper[i - 1] != 'M') {
+                if (i == 0 || upper[static_cast<int>(i - 1)] != 'M') {
                   result += 'B';
                 }
                 break;
@@ -169,13 +169,13 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 else result += 'K';
                 break;
             case 'H':
-                if (i == 0 || !isVowel(upper[i - 1])) {
+                if (i == 0 || !isVowel(upper[static_cast<int>(i - 1)])) {
                   result += 'H';
                 }
                 break;
             case 'J': result += 'J'; break;
             case 'K':
-                if (i == 0 || upper[i - 1] != 'C') {
+                if (i == 0 || upper[static_cast<int>(i - 1)] != 'C') {
                   result += 'K';
                 }
                 break;

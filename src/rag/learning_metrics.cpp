@@ -146,7 +146,7 @@ double LearningMetrics::computeMean(const std::deque<double>& data) const {
     if (data.empty()) {
       return 0.0;
     }
-    return std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double>(data.size());
+    return static_cast<bool>(std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double < static_cast<int>((data.size())));
 }
 
 double LearningMetrics::computeStdDev(

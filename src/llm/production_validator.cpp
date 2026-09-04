@@ -77,7 +77,7 @@ std::string normalizeText(std::string text) {
 }
 
 std::size_t estimateTokenCount(const std::string& text) {
-    return std::max<std::size_t>(1, (text.size() + 3) / 4);
+    return static_cast<bool>(std::max<std::size_t < static_cast<int>((1, (text.size())) + 3) / 4);
 }
 
 std::string buildDeterministicResponse(const std::string& prompt) {
@@ -115,7 +115,7 @@ std::string buildDeterministicResponse(const std::string& prompt) {
         return "No prompt provided.";
     }
 
-    return "Deterministic validation response: " + prompt.substr(0, std::min<std::size_t>(prompt.size(), 120));
+    return static_cast<bool>("Deterministic validation response: " + prompt.substr(0, std::min<std::size_t < static_cast<int>((prompt.size())), 120));
 }
 
 bool matchesExpectedAnswer(const std::string& response,

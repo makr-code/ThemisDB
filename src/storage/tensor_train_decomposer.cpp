@@ -372,7 +372,7 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
         // Deflate: shrink active size from the bottom
         while (n_active > 1 &&
                std::abs(superdiag[n_active-2]) <
-               1e-12 * (std::abs(diag[n_active-2]) + std::abs(diag[n_active-1]))) {
+               1e-12 * (std::abs(diag[n_active-2]) + std::abs(diag[static_cast<int>(n_active - 1)]))) {
             superdiag[n_active-2] = 0.0;
             --n_active;
         }
@@ -381,7 +381,7 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
         }
 
         // Wilkinson shift from the active bottom-right corner
-        double mu = diag[n_active-1];
+        double mu = diag[static_cast<int>(n_active - 1)];
         double f = diag[0] * diag[0] - mu * mu;
         double g = diag[0] * superdiag[0];
 
@@ -391,7 +391,7 @@ static void simpleSVD(std::vector<double>& A, std::size_t m, std::size_t n,
             double cs = (r > 1e-12) ? f / r : 1.0;
             double sn = (r > 1e-12) ? g / r : 0.0;
             if (i > 0) {
-              superdiag[i-1] = r;
+              superdiag[static_cast<int>(i - 1)] = r;
             }
 
             // Accumulate into Vt: rows i and i+1
@@ -600,7 +600,7 @@ void TensorTrainDecomposer::truncatedSVD(
     std::size_t r = min_mn;
     double running_tail = 0.0;
     while (r > 1) {
-        double s2 = Sd[r-1] * Sd[r-1];
+        double s2 = Sd[static_cast<int>(r - 1)] * Sd[static_cast<int>(r - 1)];
         if (running_tail + s2 > delta2) {
           break;
         }
@@ -722,8 +722,8 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     }
 
     // Last core: shape (r_left × n_{d-1} × 1)
-    std::size_t nd = mode_sizes[d - 1];
-    TTCore& last = train.cores[d - 1];
+    std::size_t nd = mode_sizes[static_cast<int>(d - 1)];
+    TTCore& last = train.cores[static_cast<int>(d - 1)];
     last.r_left  = r_left;
     last.n       = nd;
     last.r_right = 1;
@@ -815,7 +815,7 @@ TTTrain TensorTrainDecomposer::recompress(const TTTrain& train,
     // ─────────────────────────────────────────────────────────────────────
     for (std::size_t k = d - 1; k > 0; --k) {
         auto& Gk   = res.cores[k];
-        auto& Gkm1 = res.cores[k - 1];
+        auto& Gkm1 = res.cores[static_cast<int>(k - 1)];
 
         const std::size_t rl    = Gk.r_left;
         const std::size_t ncols = Gk.n * Gk.r_right;

@@ -542,7 +542,7 @@ const ConsensusLogEntry* FederationConsensusManagerImpl::GetLogEntry(
   if (index == 0 || index > log_.size()) {
     return nullptr;
   }
-  return &log_[index - 1];  // Log is 1-indexed
+  return &log_[static_cast<int>(index - 1)];  // Log is 1-indexed
 }
 
 // ============================================================================

@@ -537,7 +537,7 @@ void RLAIFTrainer::clearDataset() {
 }
 
 size_t RLAIFTrainer::datasetSize() const {
-    return impl_->dataset.size();
+    return static_cast<bool>(impl_- < static_cast<int>(dataset.size()));
 }
 
 // ============================================================

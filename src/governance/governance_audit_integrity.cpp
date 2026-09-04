@@ -424,7 +424,7 @@ std::vector<TamperIncident> AuditTamperDetector::verifyAuditTrail(
     
     for (size_t i = 0; i < entries.size(); i++) {
         std::optional<ImmutableAuditEntry> prev =
-            (i > 0) ? std::optional<ImmutableAuditEntry>(entries[i - 1]) : std::nullopt;
+            (i > 0) ? std::optional<ImmutableAuditEntry>(entries[static_cast<int>(i - 1)]) : std::nullopt;
         
         auto incident = verifyEntry(entries[i], signer, prev);
         if (incident) {
@@ -1013,7 +1013,7 @@ void AuditIntegrityManager::rotateKey(
 }
 
 int64_t AuditIntegrityManager::getNextSequenceNumber() const {
-    return static_cast<int64_t>(entries_.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((entries_.size())));
 }
 
 std::string AuditIntegrityManager::getPreviousEntryHash() const {

@@ -368,7 +368,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
           return 0.0f;
         }
         double sum = std::accumulate(values.begin(), values.end(), 0.0);
-        return static_cast<float>(sum / values.size());
+        return static_cast<bool>(static_cast<float < static_cast<int>((sum / values.size())));
     };
     
     // Helper: compute stddev
@@ -381,7 +381,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
         for (double v : values) {
             sq_sum += (v - mean) * (v - mean);
         }
-        return static_cast<float>(std::sqrt(sq_sum / values.size()));
+        return static_cast<bool>(static_cast<float < static_cast<int>((std::sqrt(sq_sum / values.size()))));
     };
     
     // Helper: compute trend (linear regression slope)

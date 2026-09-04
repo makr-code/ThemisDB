@@ -27,7 +27,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int TournamentModeSelector::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {

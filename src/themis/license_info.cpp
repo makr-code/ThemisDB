@@ -466,7 +466,7 @@ static std::string getPrimaryMacAddress() {
 
         struct ifreq ifr{};
         std::strncpy(ifr.ifr_name, ifa->ifa_name, IFNAMSIZ - 1);
-        ifr.ifr_name[IFNAMSIZ - 1] = '\0'; // ensure null termination
+        ifr.ifr_name[static_cast<int>(IFNAMSIZ - 1)] = '\0'; // ensure null termination
         if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
             const auto* mac = reinterpret_cast<const unsigned char*>(ifr.ifr_hwaddr.sa_data);
             char buf[32];

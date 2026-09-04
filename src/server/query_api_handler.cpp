@@ -3523,7 +3523,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto it = fulltextScoreByPk.find(ent.getPrimaryKey());
                         if (it != fulltextScoreByPk.end()) return it->second; else return 0.0; // default 0.0 when not present
                     }
-                    auto evalArg = [&]([[maybe_unused]] size_t i)->nlohmann::json{ return (i<fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
+                    auto evalArg = [&]([[maybe_unused]] size_t i)->nlohmann::json{ return static_cast<bool>((i<fc- < static_cast<int>(arguments.size()))) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out = {};
                         for (const auto& arg : fc->arguments) {
@@ -3565,13 +3565,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (name == "length") {
                         auto s = evalArg(0);
                         if (s.is_string()) {
-                          return static_cast<int64_t>(s.get<std::string>().size());
+                          return static_cast<bool>(static_cast<int64_t>(s.get<std::string < static_cast<int>(().size())));
                         }
                         if (s.is_array()) {
-                          return static_cast<int64_t>(s.size());
+                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
                         }
                         if (s.is_object()) {
-                          return static_cast<int64_t>(s.size());
+                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
                         }
                         return 0;
                     }

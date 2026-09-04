@@ -94,7 +94,7 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string &pas
     if (config_.max_consecutive_identical > 0 && !password.empty()) {
         size_t run = 1;
         for (size_t i = 1; i < password.size(); ++i) {
-            if (password[i] == password[i - 1]) {
+            if (password[i] == password[static_cast<int>(i - 1)]) {
                 ++run;
                 if (run > config_.max_consecutive_identical) {
                     std::ostringstream msg = {};

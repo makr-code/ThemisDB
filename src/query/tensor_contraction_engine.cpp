@@ -271,7 +271,7 @@ TTTrain TensorContractionEngine::project(const TTTrain& train,
             result.cores.push_back(train.cores[k]);
             result.mode_sizes.push_back(train.mode_sizes[k]);
         }
-        const auto& prev = train.cores[mode - 1];
+        const auto& prev = train.cores[static_cast<int>(mode - 1)];
         TTCore ng;
         ng.r_left  = prev.r_left;
         ng.n       = prev.n;

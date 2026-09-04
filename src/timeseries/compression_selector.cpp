@@ -52,7 +52,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
 
         deltas.reserve(points.size() - 1);
         for (size_t i = 1; i < points.size(); ++i) {
-            deltas.push_back(points[i].timestamp_ms - points[i - 1].timestamp_ms);
+            deltas.push_back(points[i].timestamp_ms - points[static_cast<int>(i - 1)].timestamp_ms);
         }
 
         // timestamp regularity: fraction of deltas equal to the modal delta
@@ -71,7 +71,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
         if (static_cast<int>(deltas.size()) > = 2) {
             double dod_sum = 0.0;
             for (size_t i = 1; i < deltas.size(); ++i) {
-                dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[i - 1]));
+                dod_sum += std::abs(static_cast<double>(deltas[i] - deltas[static_cast<int>(i - 1)]));
             }
             p.dod_mean_abs = dod_sum / static_cast<double>(deltas.size() - 1);
         }
@@ -81,7 +81,7 @@ SeriesProfile profileSeries(const std::vector<TSStore::DataPoint>& points) {
     {
         size_t runs = 0;
         for (size_t i = 1; i < points.size(); ++i) {
-            if (points[i].value == points[i - 1].value) {
+            if (points[i].value == points[static_cast<int>(i - 1)].value) {
               ++runs;
             }
         }

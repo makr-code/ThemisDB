@@ -175,7 +175,7 @@ Result<size_t> QdrantAdapter::batch_insert_vectors(
         }
     }
 
-    return Result<size_t>::ok(vectors.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
 }
 
 Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(

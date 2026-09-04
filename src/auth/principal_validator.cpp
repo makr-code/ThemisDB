@@ -208,7 +208,7 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
             std::string prefix = pattern.substr(0, star_pos);
             std::string suffix = pattern.substr(star_pos + 1);
 
-            return p.size() >= (prefix.size() + suffix.size()) && p.substr(0, prefix.size()) == prefix
+            return static_cast<bool>(p.size()  < static_cast<int>(= (prefix.size() + suffix.size()) && p.substr(0, prefix.size()))) == prefix
                    && p.substr(p.size() - suffix.size()) == suffix;
         } else {
             // Exact match

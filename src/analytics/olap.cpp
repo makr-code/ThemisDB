@@ -1068,7 +1068,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
     switch (function) {
         case Measure::Function::Count:
-            return static_cast<double>(values.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((values.size())));
 
         case Measure::Function::Sum:
             return std::accumulate(values.begin(), values.end(), 0.0);
@@ -1106,7 +1106,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             std::sort(sorted.begin(), sorted.end());
             size_t mid = sorted.size() / 2;
             if (sorted.size() % 2 == 0) {
-                return (sorted[mid - 1] + sorted[mid]) / 2.0;
+                return (sorted[static_cast<int>(mid - 1)] + sorted[mid]) / 2.0;
             }
             return sorted[mid];
         }
@@ -1126,7 +1126,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
         case Measure::Function::CountDistinct: {
             std::unordered_set<double> unique(values.begin(), values.end());
-            return static_cast<double>(unique.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((unique.size())));
         }
 
         case Measure::Function::First:
@@ -1431,7 +1431,7 @@ int64_t ColumnarStore::countDistinct(std::string_view column) const {
             unique.insert(std::to_string(*i));
         }
     }
-    return static_cast<int64_t>(unique.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((unique.size())));
 }
 
 double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> &mask) const {
@@ -1993,7 +1993,7 @@ std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const 
 
 int64_t MaterializedView::rowCount() const {
     std::lock_guard<std::mutex> lk(impl_->view_mutex_);
-    return static_cast<int64_t>(impl_->cached_result.rows.size());
+    return static_cast<bool>(static_cast<int64_t>(impl_- < static_cast<int>(cached_result.rows.size())));
 }
 
 bool MaterializedView::isStale() const {

@@ -35,7 +35,7 @@ void CompensationLog::recordCompensationSuccess(
 
     auto it = entries_.find(step_name);
     if (it != entries_.end() && sequence_number <= static_cast<uint32_t>(it->second.size())) {
-        it->second[sequence_number - 1].succeeded = true;
+        it->second[static_cast<int>(sequence_number - 1)].succeeded = true;
     }
 }
 
@@ -47,8 +47,8 @@ void CompensationLog::recordCompensationFailure(
 
     auto it = entries_.find(step_name);
     if (it != entries_.end() && sequence_number <= static_cast<uint32_t>(it->second.size())) {
-        it->second[sequence_number - 1].succeeded = false;
-        it->second[sequence_number - 1].error_detail = error_detail;
+        it->second[static_cast<int>(sequence_number - 1)].succeeded = false;
+        it->second[static_cast<int>(sequence_number - 1)].error_detail = error_detail;
     }
 }
 

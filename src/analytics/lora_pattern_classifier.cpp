@@ -184,7 +184,7 @@ PatternResult LoRAPatternClassifier::automlFallback(const std::vector<DataPoint>
 
         if (i > 0) {
             ++step_count;
-            if (events[i - 1].timestamp_ms <= ev.timestamp_ms) {
+            if (events[static_cast<int>(i - 1)].timestamp_ms <= ev.timestamp_ms) {
                 ++monotonic_steps;
             }
         }

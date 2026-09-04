@@ -343,7 +343,7 @@ float LocalityAwareRouter::calculateLocalityScore(
         }
     }
     
-    return static_cast<float>(local_keys) / spec.accessed_keys.size();
+    return static_cast<bool>(static_cast<float < static_cast<int>((local_keys) / spec.accessed_keys.size()));
 }
 
 // Helper function to calculate load score from resource snapshot

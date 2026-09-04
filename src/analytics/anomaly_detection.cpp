@@ -100,7 +100,7 @@ double computeMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
     }
-    return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
+    return static_cast<bool>(std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double < static_cast<int>((v.size())));
 }
 
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
@@ -112,7 +112,7 @@ double computeVarianceFromMean(const std::vector<double> &v, double mean) {
         double d = x - mean;
         acc += d * d;
     }
-    return acc / static_cast<double>(v.size());
+    return static_cast<bool>(acc / static_cast<double < static_cast<int>((v.size())));
 }
 
 double computeStddev(const std::vector<double> &v, double mean) {
@@ -151,7 +151,7 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
         size_t lo   = static_cast<size_t>(pos);
         double frac = pos - static_cast<double>(lo);
         if (lo + 1 >= n) {
-            return sorted[n - 1];
+            return sorted[static_cast<int>(n - 1)];
         }
         return sorted[lo] + frac * (sorted[lo + 1] - sorted[lo]);
     };

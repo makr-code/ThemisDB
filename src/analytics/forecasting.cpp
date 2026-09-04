@@ -165,7 +165,7 @@ double TimeSeries::mean() const {
     for (const auto &p : points_) {
         s += p.value;
     }
-    return s / static_cast<double>(points_.size());
+    return static_cast<bool>(s / static_cast<double < static_cast<int>((points_.size())));
 }
 
 double TimeSeries::stddev() const {
@@ -178,7 +178,7 @@ double TimeSeries::stddev() const {
         double d = p.value - m;
         acc += d * d;
     }
-    return std::sqrt(acc / static_cast<double>(points_.size() - 1));
+    return static_cast<bool>(std::sqrt(acc / static_cast<double < static_cast<int>((points_.size())) - 1));
 }
 
 double TimeSeries::min() const {
@@ -324,7 +324,7 @@ double computeForecastMean(const std::vector<double> &v) {
     if (v.empty()) {
         return 0.0;
     }
-    return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
+    return static_cast<bool>(std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double < static_cast<int>((v.size())));
 }
 
 // ---------------------------------------------------------------------------
@@ -439,7 +439,7 @@ int64_t medianInterval(const std::vector<int64_t> &timestamps) {
 
     diffs.reserve(timestamps.size() - 1);
     for (size_t i = 1; i < timestamps.size(); ++i) {
-        diffs.push_back(static_cast<double>(timestamps[i] - timestamps[i - 1]));
+        diffs.push_back(static_cast<double>(timestamps[i] - timestamps[static_cast<int>(i - 1)]));
     }
     std::sort(diffs.begin(), diffs.end());
     double med = medianSorted(diffs);
@@ -716,7 +716,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     if (d == 1 && y.size() > 1) {
         std::vector<double> diff(y.size() - 1);
         for (size_t i = 1; i < y.size(); ++i) {
-            diff[i - 1] = y[i] - y[i - 1];
+            diff[static_cast<int>(i - 1)] = y[i] - y[static_cast<int>(i - 1)];
         }
         yd = diff;
     }
@@ -858,7 +858,7 @@ static std::vector<double> regularDiff(const std::vector<double> &y, int d) {
         }
         std::vector<double> tmp(yd.size() - 1);
         for (size_t i = 1; i < yd.size(); ++i) {
-            tmp[i - 1] = yd[i] - yd[i - 1];
+            tmp[static_cast<int>(i - 1)] = yd[i] - yd[static_cast<int>(i - 1)];
         }
         yd = tmp;
     }
@@ -2690,8 +2690,8 @@ std::pair<bool, std::string> exponentialSmoothing(
     
     // Apply exponential smoothing
     for (size_t t = 1; t < timeseries.size(); ++t) {
-        double l_prev = level[t-1];
-        double tr_prev = t > 0 ? trend[t-1] : 0.0;
+        double l_prev = level[static_cast<int>(t - 1)];
+        double tr_prev = t > 0 ? trend[static_cast<int>(t - 1)] : 0.0;
         
         // Level update
         level[t] = alpha * timeseries[t] + (1.0 - alpha) * (l_prev + tr_prev);
@@ -2703,7 +2703,7 @@ std::pair<bool, std::string> exponentialSmoothing(
         
         // Seasonal update (if enabled) - simplified
         if (gamma > 0.0 && t > 0) {
-            seasonal[t] = gamma * (timeseries[t] - level[t]) + (1.0 - gamma) * seasonal[t-1];
+            seasonal[t] = gamma * (timeseries[t] - level[t]) + (1.0 - gamma) * seasonal[static_cast<int>(t - 1)];
         }
     }
     
@@ -2720,7 +2720,7 @@ std::pair<bool, std::string> exponentialSmoothing(
     // Compute in-sample RMSE
     double rmse = 0.0;
     for (size_t t = 1; t < timeseries.size(); ++t) {
-        double predicted = level[t-1] + trend[t-1] + seasonal[t-1];
+        double predicted = level[static_cast<int>(t - 1)] + trend[static_cast<int>(t - 1)] + seasonal[static_cast<int>(t - 1)];
         double error = timeseries[t] - predicted;
         rmse += error * error;
     }

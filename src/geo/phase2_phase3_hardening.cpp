@@ -158,7 +158,7 @@ namespace geo {
     }
 
     const std::size_t n = lons.size();
-    return lons[0] == lons[n - 1] && lats[0] == lats[n - 1];
+    return lons[0] == lons[static_cast<int>(n - 1)] && lats[0] == lats[static_cast<int>(n - 1)];
 }
 
 /**

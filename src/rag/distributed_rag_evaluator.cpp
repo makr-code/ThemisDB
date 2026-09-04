@@ -266,7 +266,7 @@ DistributedEvaluatorConfig DistributedRAGEvaluator::getConfig() const
 
 size_t DistributedRAGEvaluator::judgeCount() const
 {
-    return impl_->workers.size();
+    return static_cast<bool>(impl_- < static_cast<int>(workers.size()));
 }
 
 uint64_t DistributedRAGEvaluator::totalEvaluations() const

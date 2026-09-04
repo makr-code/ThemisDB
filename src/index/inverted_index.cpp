@@ -560,9 +560,9 @@ int levenshtein(const std::string& s1, const std::string& s2) {
     }
     for (size_t i = 1; i <= m; ++i)
         for (size_t j = 1; j <= n; ++j) {
-            int cost      = (s1[i - 1] == s2[j - 1]) ? 0 : 1;
-            dp[i][j] = std::min({dp[i - 1][j] + 1, dp[i][j - 1] + 1,
-                                  dp[i - 1][j - 1] + cost});
+            int cost      = (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) ? 0 : 1;
+            dp[i][j] = std::min({dp[static_cast<int>(i - 1)][j] + 1, dp[i][static_cast<int>(j - 1)] + 1,
+                                  dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + cost});
         }
     return dp[m][n];
 }

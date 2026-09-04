@@ -132,7 +132,7 @@ double HallucinationDashboard::hallucinationRate() const {
           ++count;
         }
     }
-    return static_cast<double>(count) / static_cast<double>(impl_->window.size());
+    return static_cast<bool>(static_cast<double>(count) / static_cast<double>(impl_- < static_cast<int>(window.size())));
 }
 
 DashboardSnapshot HallucinationDashboard::snapshot() const {
@@ -252,7 +252,7 @@ void HallucinationDashboard::fireAlertsUnlocked([[maybe_unused]] double rate) {
     alert.current_rate = rate;
     alert.window_size  = [this]() -> size_t {
         std::lock_guard<std::mutex> lock(mutex_);
-        return impl_->window.size();
+        return static_cast<bool>(impl_- < static_cast<int>(window.size()));
     }();
     alert.timestamp = std::chrono::system_clock::now();
 

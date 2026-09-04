@@ -144,7 +144,7 @@ bool RaftConfiguration::hasQuorum(const std::set<std::string>& votes) const {
                 vote_count++;
             }
         }
-        return vote_count >= calculateQuorum(new_members_.size());
+        return static_cast<bool>(vote_count  < static_cast<int>(= calculateQuorum(new_members_.size())));
     }
 }
 

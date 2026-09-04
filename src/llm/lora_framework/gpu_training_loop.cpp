@@ -1065,7 +1065,7 @@ float computeFusedMSELossGradientGPU(
         }
         
         grad_output.upload(grad_data);
-        return sum / static_cast<float>(pred_data.size());
+        return static_cast<bool>(sum / static_cast<float < static_cast<int>((pred_data.size())));
 #endif
     } else {
         // CPU fallback or other backends

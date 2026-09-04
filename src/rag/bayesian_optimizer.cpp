@@ -76,7 +76,7 @@ double BayesianOptimizer::getBestObjective() const {
 }
 
 size_t BayesianOptimizer::getNumObservations() const {
-    return impl_->observations.size();
+    return static_cast<bool>(impl_- < static_cast<int>(observations.size()));
 }
 
 std::unordered_map<std::string, double> BayesianOptimizer::sampleRandom() {

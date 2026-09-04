@@ -416,7 +416,7 @@ void DataLoader::reset() {
 }
 
 bool DataLoader::hasNext() const {
-    return current_index_ < indices_.size();
+    return static_cast<bool>(current_index_  < static_cast<int>(indices_.size()));
 }
 
 void DataLoader::shuffle() {

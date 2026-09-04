@@ -80,7 +80,7 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
     for (size_t i = 1; i < trace.events.size(); ++i) {
-        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
 }
@@ -785,10 +785,10 @@ int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::strin
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
-            if (a[i - 1] == b[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
+            if (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1;
             } else {
-                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
+                dp[i][j] = std::max(dp[static_cast<int>(i - 1)][j], dp[i][static_cast<int>(j - 1)]);
             }
         }
     }

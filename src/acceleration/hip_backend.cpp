@@ -299,14 +299,14 @@ __global__ void topKSelectionKernel(
         // Sweep remaining elements via insertion into sorted prefix
         for (int i = k; i < numVectors; i++) {
             float dist = queryDistances[i];
-            if (dist < queryTopK[k - 1]) {
+            if (dist < queryTopK[static_cast<int>(k - 1)]) {
                 int pos = k - 1;
-                while (pos > 0 && dist < queryTopK[pos - 1]) {
+                while (pos > 0 && dist < queryTopK[static_cast<int>(pos - 1)]) {
                   pos--;
                 }
                 for (int j = k - 1; j > pos; j--) {
-                    queryTopK[j]   = queryTopK[j - 1];
-                    queryIndices[j] = queryIndices[j - 1];
+                    queryTopK[j]   = queryTopK[static_cast<int>(j - 1)];
+                    queryIndices[j] = queryIndices[static_cast<int>(j - 1)];
                 }
                 queryTopK[pos]   = dist;
                 queryIndices[pos] = static_cast<uint32_t>(i);

@@ -116,7 +116,7 @@ std::string::size_type findKeyword(const std::string& s, const std::string& keyw
     std::string::size_type pos = 0;
     while ((pos = lower_s.find(lower_kw, pos)) != std::string::npos) {
         // Check left boundary
-        bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[pos - 1]));
+        bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[static_cast<int>(pos - 1)]));
         // Check right boundary
         bool right_ok = ((pos + lower_kw.size()) >= s.size()) ||
                         !std::isalnum(static_cast<unsigned char>(s[pos + lower_kw.size()]));

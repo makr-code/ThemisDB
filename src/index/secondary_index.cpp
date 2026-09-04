@@ -1032,7 +1032,7 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 
 		// Ensure '=' match is not part of '>=' or '<=' or '!=' already handled above
 		if (op == "=" && pos > 0) {
-			char prev = expr[pos - 1];
+			char prev = expr[static_cast<int>(pos - 1)];
 			if (prev == '>' || prev == '<' || prev == '!') {
 			  continue;
 			}
@@ -2807,7 +2807,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
 	std::sort(tokenResults.begin(), tokenResults.end(),
-	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
+	          [](const auto& a, const auto& b) { return static_cast<bool>(a.size()  < static_cast<int>(b.size())); });
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
@@ -3144,11 +3144,11 @@ namespace {
 		
 		for (size_t i = 1; i <= m; ++i) {
 			for (size_t j = 1; j <= n; ++j) {
-				int cost = (s1[i-1] == s2[j-1]) ? 0 : 1;
+				int cost = (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) ? 0 : 1;
 				dp[i][j] = std::min({
-					dp[i-1][j] + 1,      // deletion
-					dp[i][j-1] + 1,      // insertion
-					dp[i-1][j-1] + cost  // substitution
+					dp[static_cast<int>(i - 1)][j] + 1,      // deletion
+					dp[i][static_cast<int>(j - 1)] + 1,      // insertion
+					dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + cost  // substitution
 				});
 			}
 		}

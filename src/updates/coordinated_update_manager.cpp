@@ -365,7 +365,7 @@ uint32_t CoordinatedUpdateManager::localSequenceNumber() const {
 }
 
 uint32_t CoordinatedUpdateManager::totalNodes() const {
-    return static_cast<uint32_t>(sorted_nodes_.size());
+    return static_cast<bool>(static_cast<uint32_t < static_cast<int>((sorted_nodes_.size())));
 }
 
 bool CoordinatedUpdateManager::isLeader() const {
@@ -519,7 +519,7 @@ bool CoordinatedUpdateManager::hasIsolatedNodes() const {
 
 uint32_t CoordinatedUpdateManager::isolatedNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<uint32_t>(isolated_nodes_.size());
+    return static_cast<bool>(static_cast<uint32_t < static_cast<int>((isolated_nodes_.size())));
 }
 
 } // namespace updates

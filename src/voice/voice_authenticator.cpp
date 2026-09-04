@@ -267,7 +267,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
             ++clipping_count;
         }
         if (i > 0) {
-            mean_abs_delta += std::abs(samples[i] - samples[i - 1]);
+            mean_abs_delta += std::abs(samples[i] - samples[static_cast<int>(i - 1)]);
         }
     }
     mean_abs /= static_cast<float>(samples.size());
@@ -331,12 +331,12 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     const size_t half = n / 2;
     size_t zcr1 = 0, zcr2 = 0;
     for (size_t i = 1; i < half; ++i) {
-        if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {
+        if ((samples[i] >= 0.0f) != (samples[static_cast<int>(i - 1)] >= 0.0f)) {
             ++zcr1;
         }
     }
     for (size_t i = half + 1; i < n; ++i) {
-        if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {
+        if ((samples[i] >= 0.0f) != (samples[static_cast<int>(i - 1)] >= 0.0f)) {
             ++zcr2;
         }
     }
@@ -668,7 +668,7 @@ std::vector<float> VoiceBiometricAuthenticator::extractFeatures(
         rms = std::sqrt(rms / static_cast<float>(len));
 
         for (size_t i = start + 1; i < end; ++i) {
-            if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {
+            if ((samples[i] >= 0.0f) != (samples[static_cast<int>(i - 1)] >= 0.0f)) {
                 ++zc;
             }
         }

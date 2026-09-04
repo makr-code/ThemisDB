@@ -273,7 +273,7 @@ double CoTEvaluator::extractFinalScore(
             }
         }
         
-        return static_cast<double>(positive_count) / steps.size();
+        return static_cast<bool>(static_cast<double < static_cast<int>((positive_count) / steps.size()));
     }
     
     return 0.5;  // Default neutral score

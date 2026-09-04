@@ -38,7 +38,7 @@ void PriorRoundCompressor::setLlmSummaryFn(LlmSummaryFn fn) {
 // ---------------------------------------------------------------------------
 
 int PriorRoundCompressor::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::vector<std::string> PriorRoundCompressor::extractPrincipleCitations(const std::string &content) {

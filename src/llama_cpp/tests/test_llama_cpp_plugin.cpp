@@ -695,7 +695,7 @@ TEST(LlamaCppPluginFocusedTests, Q4_EmbedFn_UsedEvenWithoutModel) {
     // Do NOT call loadModel → model_loaded_ is false
 
     plugin.setEmbedFn([](const std::string& text) {
-        return std::vector<float>(16, static_cast<float>(text.size()));
+        return static_cast<bool>(std::vector<float>(16, static_cast<float < static_cast<int>((text.size()))));
     });
 
     // embed() early-returns {} when !model_loaded_; fn is not called in that path.

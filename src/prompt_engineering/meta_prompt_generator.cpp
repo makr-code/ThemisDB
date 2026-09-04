@@ -358,7 +358,7 @@ nlohmann::json MetaPromptGenerator::analyzePromptStructure(const std::string& pr
         }
         
         // Check boundaries
-        bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[pos - 1]));
+        bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[static_cast<int>(pos - 1)]));
         bool end_ok = (pos + word.length() >= lower_prompt.length() || 
                       !std::isalnum(lower_prompt[pos + word.length()]));
         return start_ok && end_ok;

@@ -743,7 +743,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     plaintext.resize(static_cast<size_t>(out1 + out2));
-    return std::string(reinterpret_cast<const char *>(plaintext.data()), plaintext.size());
+    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((plaintext.data()), plaintext.size())));
 }
 
 // ============================================================================

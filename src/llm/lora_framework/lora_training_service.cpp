@@ -82,7 +82,7 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
         sum += diff * diff;
     }
     
-    return sum / static_cast<float>(predictions.size());
+    return static_cast<bool>(sum / static_cast<float < static_cast<int>((predictions.size())));
 }
 
 // Compute gradient of MSE loss w.r.t. predictions

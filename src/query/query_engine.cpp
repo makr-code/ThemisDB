@@ -1084,7 +1084,7 @@ QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) 
 		if (a.size() == b.size()) {
 			return a < b;
 		}
-		return a.size() < b.size();
+		return static_cast<bool>(a.size()  < static_cast<int>(b.size()));
 	});
 	if (lists.empty()) return {};
 	

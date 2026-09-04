@@ -142,8 +142,8 @@ int FuzzyMatcher::levenshtein(const std::string& a, const std::string& b) {
     for (size_t i = 1; i <= la; ++i) {
         curr[0] = static_cast<int>(i);
         for (size_t j = 1; j <= lb; ++j) {
-            int cost = (a[i-1] == b[j-1]) ? 0 : 1;
-            curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});
+            int cost = (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) ? 0 : 1;
+            curr[j] = std::min({prev[j] + 1, curr[static_cast<int>(j - 1)] + 1, prev[static_cast<int>(j - 1)] + cost});
         }
         std::swap(prev, curr);
     }
@@ -204,7 +204,7 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
     for (size_t i = 0; i < n; ++i) {
         char c = upper[i];
         char next = (i + 1 < n) ? upper[i + 1] : '\0';
-        char prev = (i > 0) ? upper[i - 1] : '\0';
+        char prev = (i > 0) ? upper[static_cast<int>(i - 1)] : '\0';
 
         if (i == 0 && (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')) {
             result += c; continue;

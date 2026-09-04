@@ -25,7 +25,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int DiscourseMemoryStore::countTokens(const std::string &text) noexcept {
-    return static_cast<int>((text.size() + 3) / 4);
+    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
 }
 
 std::string DiscourseMemoryStore::compressPosition(const std::string &position_abstract, int max_tokens) noexcept {
@@ -153,7 +153,7 @@ void DiscourseMemoryStore::clear() {
 size_t DiscourseMemoryStore::episodeCount(const std::string &school_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = episodes_.find(school_id);
-    return it == episodes_.end() ? 0u : it->second.size();
+    return static_cast<bool>(it == episodes_.end() ? 0u : it- < static_cast<int>(second.size()));
 }
 
 } // namespace ethics

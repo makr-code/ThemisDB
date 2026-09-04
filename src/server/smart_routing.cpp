@@ -409,7 +409,7 @@ double SmartRouter::computeAvg(const std::deque<double>& window) noexcept {
       return 0.0;
     }
     double sum = std::accumulate(window.begin(), window.end(), 0.0);
-    return sum / static_cast<double>(window.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((window.size())));
 }
 
 /* static */

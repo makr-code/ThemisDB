@@ -228,7 +228,7 @@ size_t SemanticMatcher::levenshteinDistance(const std::string &s1, const std::st
         dp[0]       = i;
         for (size_t j = 1; j <= m; ++j) {
             size_t tmp = dp[j];
-            dp[j]      = (s1[i - 1] == s2[j - 1]) ? prev : 1 + std::min({prev, dp[j], dp[j - 1]});
+            dp[j]      = (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) ? prev : 1 + std::min({prev, dp[j], dp[static_cast<int>(j - 1)]});
             prev       = tmp;
         }
     }

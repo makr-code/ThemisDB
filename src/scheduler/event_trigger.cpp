@@ -55,9 +55,9 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
     } else if (op == "!=") {
         return lhs != rhs;
     } else if (op == "STARTS_WITH") {
-        return lhs.size() >= rhs.size() && lhs.compare(0, rhs.size(), rhs) == 0;
+        return static_cast<bool>(lhs.size()  < static_cast<int>(= rhs.size() && lhs.compare(0, rhs.size())), rhs) == 0;
     } else if (op == "ENDS_WITH") {
-        return lhs.size() >= rhs.size() &&
+        return static_cast<bool>(lhs.size()  < static_cast<int>(= rhs.size())) &&
                lhs.compare(lhs.size() - rhs.size(), rhs.size(), rhs) == 0;
     } else if (op == "CONTAINS") {
         return lhs.find(rhs) != std::string::npos;

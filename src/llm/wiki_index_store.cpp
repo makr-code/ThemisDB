@@ -473,7 +473,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
                     ++hits;
                 }
             }
-            return static_cast<double>(hits) / static_cast<double>(rel_set.size());
+            return static_cast<bool>(static_cast<double>(hits) / static_cast<double < static_cast<int>((rel_set.size())));
         };
 
         // ── MRR ─────────────────────────────────────────────────────────────

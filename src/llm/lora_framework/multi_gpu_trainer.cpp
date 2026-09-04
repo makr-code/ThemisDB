@@ -156,7 +156,7 @@ float MultiGPULoRATrainer::eval_step(
         total_loss += compute_loss(outputs[i], targets[i]);
     }
     
-    return total_loss / static_cast<float>(outputs.size());
+    return static_cast<bool>(total_loss / static_cast<float < static_cast<int>((outputs.size())));
 }
 
 std::vector<GPUTensor> MultiGPULoRATrainer::shard_batch(
@@ -313,7 +313,7 @@ float MultiGPULoRATrainer::compute_loss(
         mse += diff * diff;
     }
     
-    return mse / static_cast<float>(output_data.size());
+    return static_cast<bool>(mse / static_cast<float < static_cast<int>((output_data.size())));
 }
 
 void MultiGPULoRATrainer::update_parameters(MultiGPULoRALayer& layer) {

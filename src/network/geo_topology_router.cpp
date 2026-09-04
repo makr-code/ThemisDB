@@ -126,7 +126,7 @@ const sharding::ShardInfo* GeoTopologyRouter::selectRoundRobin(
 
     const uint64_t idx =
         round_robin_counter_.fetch_add(1, std::memory_order_relaxed);
-    return &healthy[static_cast<std::size_t>(idx % healthy.size())];
+    return static_cast<bool>(&healthy[static_cast<std::size_t < static_cast<int>((idx % healthy.size())))];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

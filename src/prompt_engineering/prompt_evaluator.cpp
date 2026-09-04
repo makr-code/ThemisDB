@@ -227,7 +227,7 @@ double PromptEvaluator::computeRelevance(
         }
     }
     
-    return static_cast<double>(found) / tokens_expected.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((found) / tokens_expected.size()));
 }
 
 bool PromptEvaluator::isStatisticallySignificant(
@@ -464,13 +464,13 @@ size_t PromptEvaluator::levenshteinDistance(
     
     for (size_t i = 1; i <= m; ++i) {
         for (size_t j = 1; j <= n; ++j) {
-            if (s1[i - 1] == s2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1];
+            if (s1[static_cast<int>(i - 1)] == s2[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)];
             } else {
                 dp[i][j] = 1 + std::min({
-                    dp[i - 1][j],     // deletion
-                    dp[i][j - 1],     // insertion
-                    dp[i - 1][j - 1]  // substitution
+                    dp[static_cast<int>(i - 1)][j],     // deletion
+                    dp[i][static_cast<int>(j - 1)],     // insertion
+                    dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)]  // substitution
                 });
             }
         }

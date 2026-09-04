@@ -232,7 +232,7 @@ Result<size_t> ThemisDBAdapter::batch_insert(
         auto& store = table_store_[table_name];
         store.insert(store.end(), rows.begin(), rows.end());
     }
-    return Result<size_t>::ok(rows.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
 }
 
 Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
@@ -284,7 +284,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
             store.emplace_back(generate_id(), v);
         }
     }
-    return Result<size_t>::ok(vectors.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
 }
 
 Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
@@ -784,7 +784,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_documents(
             col[id]         = std::move(stored);
         }
     }
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 }
 
 Result<std::vector<Document>> ThemisDBAdapter::find_documents(
@@ -1559,7 +1559,7 @@ ThemisDBResultStream::ThemisDBResultStream(
 {}
 
 bool ThemisDBResultStream::has_more() const {
-    return !closed_ && cursor_ < table_.rows.size();
+    return static_cast<bool>(!closed_ && cursor_  < static_cast<int>(table_.rows.size()));
 }
 
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(

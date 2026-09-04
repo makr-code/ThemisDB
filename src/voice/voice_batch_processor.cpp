@@ -262,10 +262,10 @@ float VoiceBatchProcessor::computeWER(
 
     for (size_t i = 1; i <= R; ++i) {
         for (size_t j = 1; j <= H; ++j) {
-            if (ref_tokens[i - 1] == hyp_tokens[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1];
+            if (ref_tokens[static_cast<int>(i - 1)] == hyp_tokens[static_cast<int>(j - 1)]) {
+                dp[i][j] = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)];
             } else {
-                dp[i][j] = 1 + std::min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]});
+                dp[i][j] = 1 + std::min({dp[static_cast<int>(i - 1)][j], dp[i][static_cast<int>(j - 1)], dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)]});
             }
         }
     }
@@ -390,7 +390,7 @@ float VoiceBatchProcessor::computeRMS(const std::vector<float>& samples) const {
     for (float s : samples) {
       sum += s * s;
     }
-    return std::sqrt(sum / static_cast<float>(samples.size()));
+    return static_cast<bool>(std::sqrt(sum / static_cast<float < static_cast<int>((samples.size()))));
 }
 
 float VoiceBatchProcessor::computeNoiseFloor(

@@ -723,20 +723,20 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
     for (size_t i = 0; i < pattern.size(); ++i) {
         char c = pattern[i];
         
-        if (c == '(' && (i == 0 || pattern[i-1] != '\\')) {
+        if (c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
             paren_depth++;
             alt_count_in_group = 0;
-        } else if (c == ')' && (i == 0 || pattern[i-1] != '\\')) {
+        } else if (c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
             if (paren_depth > 0) {
                 paren_depth--;
             }
             alt_count_in_group = 0;
-        } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[i-1] != '\\')) {
+        } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) {
             alt_count_in_group++;
         }
         
         // If group has 3+ alternations and is followed by quantifier, flag it
-        if (c == ')' && (i == 0 || pattern[i-1] != '\\') && 
+        if (c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\') && 
             alt_count_in_group >= 2 && 
             i + 1 < pattern.size()) {
             char next = pattern[i+1];

@@ -185,7 +185,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     std::map<std::pair<std::string, std::string>, int> follows_freq;
     for (const auto &trace : log.traces) {
         for (size_t i = 1; i < trace.events.size(); ++i) {
-            auto edge = std::make_pair(trace.events[i-1].activity, trace.events[i].activity);
+            auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             follows_freq[edge]++;
         }
     }
@@ -236,7 +236,7 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
         }
         
         for (size_t i = 1; i < trace.events.size(); ++i) {
-            auto edge = std::make_pair(trace.events[i-1].activity, trace.events[i].activity);
+            auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             direct_follows[edge]++;
         }
     }
@@ -310,7 +310,7 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
     std::map<std::pair<std::string, std::string>, int> edge_freq;
     for (const auto &trace : log.traces) {
         for (size_t i = 1; i < trace.events.size(); ++i) {
-            auto edge = std::make_pair(trace.events[i-1].activity, trace.events[i].activity);
+            auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             edge_freq[edge]++;
         }
     }
@@ -663,7 +663,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
+                                       [](int sum, const Trace &t) { return static_cast<bool>(sum + static_cast<int < static_cast<int>((t.events.size()))); });
 
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -779,7 +779,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
+                                       [](int sum, const Trace &t) { return static_cast<bool>(sum + static_cast<int < static_cast<int>((t.events.size()))); });
 
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -2636,22 +2636,22 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
 
         // Fill first column: pure model moves (skip model activities, cost 1 each)
         for (int j = 1; j <= M; ++j) {
-            dp[0][j] = dp[0][j - 1] + 1.0;
+            dp[0][j] = dp[0][static_cast<int>(j - 1)] + 1.0;
         }
         // Fill first row: pure log moves (skip log events, cost 1 each)
         for (int i = 1; i <= N; ++i) {
-            dp[i][0] = dp[i - 1][0] + 1.0;
+            dp[i][0] = dp[static_cast<int>(i - 1)][0] + 1.0;
         }
 
         for (int i = 1; i <= N; ++i) {
             for (int j = 1; j <= M; ++j) {
                 // Sync move (cost 0 if activities match, else treat as log+model move)
-                double syncCost = (trace.events[i - 1].activity == modelOrder[j - 1]) ? 0.0 : 2.0;
-                double best     = dp[i - 1][j - 1] + syncCost;
+                double syncCost = (trace.events[static_cast<int>(i - 1)].activity == modelOrder[static_cast<int>(j - 1)]) ? 0.0 : 2.0;
+                double best     = dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + syncCost;
                 // Log move only (skip log event, keep model position)
-                best = std::min(best, dp[i - 1][j] + 1.0);
+                best = std::min(best, dp[static_cast<int>(i - 1)][j] + 1.0);
                 // Model move only (skip model activity, keep log position)
-                best     = std::min(best, dp[i][j - 1] + 1.0);
+                best     = std::min(best, dp[i][static_cast<int>(j - 1)] + 1.0);
                 dp[i][j] = best;
             }
         }
@@ -2664,10 +2664,10 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
         int i = N, j = M;
         while (i > 0 || j > 0) {
             if (i > 0 && j > 0) {
-                double syncCost = (trace.events[i - 1].activity == modelOrder[j - 1]) ? 0.0 : 2.0;
-                if (std::abs(dp[i][j] - (dp[i - 1][j - 1] + syncCost)) < 1e-9) {
+                double syncCost = (trace.events[static_cast<int>(i - 1)].activity == modelOrder[static_cast<int>(j - 1)]) ? 0.0 : 2.0;
+                if (std::abs(dp[i][j] - (dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + syncCost)) < 1e-9) {
                     AlignmentResult::Move m;
-                    m.activity = trace.events[i - 1].activity;
+                    m.activity = trace.events[static_cast<int>(i - 1)].activity;
                     m.cost     = syncCost;
                     // Use epsilon tolerance for floating-point comparison
                     m.type     = (std::abs(syncCost) < 1e-9) ? "sync" : "log+model";
@@ -2677,16 +2677,16 @@ ProcessMining::computeAlignment(const EventLog &log, const DiscoveredProcess &mo
                     continue;
                 }
             }
-            if (i > 0 && std::abs(dp[i][j] - (dp[i - 1][j] + 1.0)) < 1e-9) {
+            if (i > 0 && std::abs(dp[i][j] - (dp[static_cast<int>(i - 1)][j] + 1.0)) < 1e-9) {
                 AlignmentResult::Move m;
-                m.activity = trace.events[i - 1].activity;
+                m.activity = trace.events[static_cast<int>(i - 1)].activity;
                 m.cost     = 1.0;
                 m.type     = "log";
                 moves.push_back(m);
                 --i;
             } else if (j > 0) {
                 AlignmentResult::Move m;
-                m.activity = modelOrder[j - 1];
+                m.activity = modelOrder[static_cast<int>(j - 1)];
                 m.cost     = 1.0;
                 m.type     = "model";
                 moves.push_back(m);

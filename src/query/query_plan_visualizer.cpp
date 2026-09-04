@@ -70,8 +70,8 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
     // in the tree (closest to the scan).  Data flows bottom-up:
     //   Scan → Filter[most-selective] → … → Filter[least-selective] → Return
     //
-    // orderedPredicates is sorted ascending: [0] = most selective, [n-1] = least.
-    // Iterating from [n-1] down to [0] builds the chain in the correct display
+    // orderedPredicates is sorted ascending: [0] = most selective, [static_cast<int>(n - 1)] = least.
+    // Iterating from [static_cast<int>(n - 1)] down to [0] builds the chain in the correct display
     // order (top = least-selective child of Return, bottom = most-selective
     // parent of Scan).
     const size_t n = plan.orderedPredicates.size();

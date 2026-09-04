@@ -184,8 +184,8 @@ static std::vector<Coordinate> cpuExpandRing(const std::vector<Coordinate> &ring
         return ring;
     }
     std::size_t n_verts = n;
-    if (n > 1 && std::abs(ring[0].x - ring[n - 1].x) < kCpuEpsilon
-        && std::abs(ring[0].y - ring[n - 1].y) < kCpuEpsilon) {
+    if (n > 1 && std::abs(ring[0].x - ring[static_cast<int>(n - 1)].x) < kCpuEpsilon
+        && std::abs(ring[0].y - ring[static_cast<int>(n - 1)].y) < kCpuEpsilon) {
         n_verts = n - 1; // closed ring: ignore duplicate closing vertex
     }
     if (n_verts < 3) {
@@ -649,8 +649,8 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     // Build an open chain from a ring (drops the closing duplicate vertex).
     static std::vector<GHVert> ghChain(const std::vector<Coordinate> &ring) {
         std::size_t n = ring.size();
-        while (n > 1 && std::abs(ring[n - 1].x - ring[0].x) < kCpuEpsilon
-               && std::abs(ring[n - 1].y - ring[0].y) < kCpuEpsilon) {
+        while (n > 1 && std::abs(ring[static_cast<int>(n - 1)].x - ring[0].x) < kCpuEpsilon
+               && std::abs(ring[static_cast<int>(n - 1)].y - ring[0].y) < kCpuEpsilon) {
             --n;
         }
         std::vector<GHVert> v(n);

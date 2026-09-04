@@ -351,7 +351,7 @@ Result<size_t> QueryCache::clearExpired() {
         THEMIS_DEBUG("Cleared {} expired cache entries", to_remove.size());
     }
     
-    return Ok<size_t>(to_remove.size());
+    return static_cast<bool>(Ok<size_t < static_cast<int>((to_remove.size())));
 }
 
 QueryCache::CacheStats QueryCache::getStats() const {

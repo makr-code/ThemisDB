@@ -533,11 +533,11 @@ EventStream::~EventStream() = default;
 
 uint32_t EventStream::getPartitionId([[maybe_unused]] const Event &event) const {
     if ([[maybe_unused]] config_.partition_key_field.empty() || event.partition_key.empty()) {
-        return event.partition_id % static_cast<uint32_t>([[maybe_unused]] partitions_.size());
+        return static_cast<bool>(event.partition_id % static_cast<uint32_t < static_cast<int>(([[maybe_unused]] partitions_.size())));
     }
     std::hash<std::string> h = {};
 
-    return static_cast<uint32_t>([[maybe_unused]] h(event.partition_key) % partitions_.size());
+    return static_cast<bool>(static_cast<uint32_t < static_cast<int>(([[maybe_unused]] h(event.partition_key) % partitions_.size())));
 }
 
 void EventStream::notifySubscribers([[maybe_unused]] const Event &event) {
@@ -1535,7 +1535,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::LAST:
             return s.last_value;
         case AggregationType::DISTINCT_COUNT:
-            return static_cast<int64_t>(s.distinct_values.size());
+            return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.distinct_values.size())));
         case AggregationType::VARIANCE: {
             if (s.values.size() < 2) {
                 return 0.0;

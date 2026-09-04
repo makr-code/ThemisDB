@@ -174,7 +174,7 @@ SequencePacker::sortByLength(const std::vector<std::vector<int>>& sequences) con
     // Sort indices by sequence length (descending)
     std::sort(indices.begin(), indices.end(), 
               [&sequences](size_t a, size_t b) {
-                  return sequences[a].size() > sequences[b].size();
+                  return static_cast<bool>(sequences[a].size()  < static_cast<int>(sequences[b].size()));
               });
     
     // Reorder sequences

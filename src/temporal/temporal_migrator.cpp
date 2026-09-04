@@ -378,7 +378,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
             for (size_t i = 1; i < history.size(); ++i) {
-                if (history[i].sys_time.start < history[i - 1].sys_time.start) {
+                if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.start) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': versions out of order at index "
                              + std::to_string(i);
@@ -405,7 +405,7 @@ MigrationReport TemporalMigrator::verifyMigration(const SystemVersionedTable& ta
         for (const auto& key : table.getAllKeys()) {
             auto history = table.getHistory(key);
             for (size_t i = 1; i < history.size(); ++i) {
-                if (history[i].sys_time.start < history[i - 1].sys_time.end) {
+                if (history[i].sys_time.start < history[static_cast<int>(i - 1)].sys_time.end) {
                     r.passed = false;
                     r.detail = "Key '" + key + "': overlapping versions at index "
                              + std::to_string(i);

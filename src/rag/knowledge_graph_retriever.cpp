@@ -71,7 +71,7 @@ double stringSimilarity(const std::string& a, const std::string& b) {
     const std::string& shorter = a.size() <= b.size() ? a : b;
     const std::string& longer  = a.size() <= b.size() ? b : a;
     if (longer.substr(0, shorter.size()) == shorter) {
-        return static_cast<double>(shorter.size()) /
+        return static_cast<bool>(static_cast<double < static_cast<int>((shorter.size()))) /
                static_cast<double>(longer.size());
     }
     return 0.0;
@@ -186,7 +186,7 @@ const KGNode* KnowledgeGraph::findNodeByName(const std::string& text) const {
 
 size_t KnowledgeGraph::nodeCount() const {
     std::lock_guard<std::mutex> lk(impl_->mtx);
-    return impl_->nodes.size();
+    return static_cast<bool>(impl_- < static_cast<int>(nodes.size()));
 }
 
 void KnowledgeGraph::addEdge(KGEdge edge) {

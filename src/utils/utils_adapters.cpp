@@ -318,7 +318,7 @@ VectorReplayIterator::VectorReplayIterator(std::vector<SAGALogEntry> entries)
 {}
 
 bool VectorReplayIterator::hasNext() const {
-    return pos_ < entries_.size();
+    return static_cast<bool>(pos_  < static_cast<int>(entries_.size()));
 }
 
 SAGALogEntry VectorReplayIterator::next() {

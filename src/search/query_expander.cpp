@@ -472,8 +472,8 @@ int QueryExpander::editDistance(const std::string& a, const std::string& b) {
     for (size_t i = 1; i <= la; ++i) {
         curr[0] = static_cast<int>(i);
         for (size_t j = 1; j <= lb; ++j) {
-            int cost = (a[i-1] == b[j-1]) ? 0 : 1;
-            curr[j] = std::min({prev[j] + 1, curr[j-1] + 1, prev[j-1] + cost});
+            int cost = (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) ? 0 : 1;
+            curr[j] = std::min({prev[j] + 1, curr[static_cast<int>(j - 1)] + 1, prev[static_cast<int>(j - 1)] + cost});
         }
         std::swap(prev, curr);
     }

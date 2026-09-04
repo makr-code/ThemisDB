@@ -457,7 +457,7 @@ double GEvalEvaluator::aggregateScores(
             std::sort(sorted.begin(), sorted.end());
             size_t mid = sorted.size() / 2;
             if (sorted.size() % 2 == 0) {
-                return (sorted[mid-1] + sorted[mid]) / 2.0;
+                return (sorted[static_cast<int>(mid - 1)] + sorted[mid]) / 2.0;
             } else {
                 return sorted[mid];
             }

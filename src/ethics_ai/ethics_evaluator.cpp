@@ -205,7 +205,7 @@ double EthicsEvaluator::computeConfidence(const std::vector<EthicalArgument> &ar
     for (const auto &arg : arguments) {
         sum += strengthToScore(arg.strength);
     }
-    return sum / static_cast<double>(arguments.size());
+    return static_cast<bool>(sum / static_cast<double < static_cast<int>((arguments.size())));
 }
 
 double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arguments) {
@@ -247,7 +247,7 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
             ++agreeing;
         }
     }
-    return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
+    return static_cast<bool>(static_cast<double>(agreeing) / static_cast<double < static_cast<int>((school_votes.size())));
 }
 
 // ============================================================================

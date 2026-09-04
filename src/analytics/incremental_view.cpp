@@ -198,7 +198,7 @@ FieldValue IncrementalView::AggState::result(ViewAggFunc func) const {
         case ViewAggFunc::VARIANCE:
             return (count >= 2) ? welford_m2 / static_cast<double>(count - 1) : 0.0;
         case ViewAggFunc::COUNT_DISTINCT:
-            return static_cast<int64_t>(distinct_ref_counts.size());
+            return static_cast<bool>(static_cast<int64_t < static_cast<int>((distinct_ref_counts.size())));
         case ViewAggFunc::FIRST:
             return has_first ? first_val : FieldValue{nullptr};
         case ViewAggFunc::LAST:
@@ -527,7 +527,7 @@ void IncrementalView::clear() {
 
 int64_t IncrementalView::groupCount() const {
     std::shared_lock lk(rw_mutex_);
-    return static_cast<int64_t>(groups_.size());
+    return static_cast<bool>(static_cast<int64_t < static_cast<int>((groups_.size())));
 }
 
 bool IncrementalView::isStale() const {

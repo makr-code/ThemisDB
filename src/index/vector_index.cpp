@@ -1373,7 +1373,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		if (static_cast<int>(heap.size()) > = k && heap.size() % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
-			threshold = heap[k-1].distance;
+			threshold = heap[static_cast<int>(k - 1)].distance;
 			heap.resize(k);
 		}
 	};

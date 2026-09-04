@@ -793,7 +793,7 @@ nlohmann::json LoraLineageFunction::execute(
         for (size_t i = 0; i < versions.size() && i < static_cast<size_t>(depth); ++i) {
             json version;
             version["version"] = versions[i];
-            version["parent"] = (i > 0) ? json(versions[i - 1]) : json(nullptr);
+            version["parent"] = (i > 0) ? json(versions[static_cast<int>(i - 1)]) : json(nullptr);
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();

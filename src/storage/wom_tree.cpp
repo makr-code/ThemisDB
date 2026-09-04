@@ -197,8 +197,8 @@ NodePtr splitInternal(Node& node, std::string& out_pivot) {
     size_t n_children = node.children.size();
     size_t mid_child  = n_children / 2;
 
-    // The median pivot is pivot_keys[mid_child - 1] which rises to the parent.
-    out_pivot = node.pivot_keys[mid_child - 1];
+    // The median pivot is pivot_keys[static_cast<int>(mid_child - 1)] which rises to the parent.
+    out_pivot = node.pivot_keys[static_cast<int>(mid_child - 1)];
 
     auto right = std::make_unique<Node>(false);
     // Right gets children [mid_child .. end]

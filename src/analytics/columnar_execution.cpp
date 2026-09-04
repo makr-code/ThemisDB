@@ -864,7 +864,7 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
         case AggregateSpec::Function::Max:
             return state.count_nonnull > 0 ? state.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<double>(state.distinct_set.size());
+            return static_cast<bool>(static_cast<double < static_cast<int>((state.distinct_set.size())));
     }
     return 0.0;
 }

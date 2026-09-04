@@ -267,7 +267,7 @@ private:
     
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos_ + offset;
-        return (p < input_.size()) ? input_[p] : '\0';
+        return static_cast<bool>((p  < static_cast<int>(input_.size()))) ? input_[p] : '\0';
     }
     
     char advance() {
@@ -683,12 +683,12 @@ private:
     ParserScopeContext scope_context_;
     
     const Token& current() const {
-        return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
+        return static_cast<bool>((pos_  < static_cast<int>(tokens_.size()))) ? tokens_[pos_] : tokens_.back();
     }
     
     const Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t p = pos_ + offset;
-        return (p < tokens_.size()) ? tokens_[p] : tokens_.back();
+        return static_cast<bool>((p  < static_cast<int>(tokens_.size()))) ? tokens_[p] : tokens_.back();
     }
     
     void advance() {
@@ -2427,7 +2427,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     // Peek helper — returns empty string when out of range
     auto tok = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx] : empty;
+        return static_cast<bool>(idx  < static_cast<int>(tokens.size())) ? tokens[idx] : empty;
     };
 
     const std::string& kw0 = tok(0);
@@ -2586,7 +2586,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
               break;
             }
             // Check word boundary
-            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[found - 1]));
+            bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(found - 1)]));
             bool right_ok = (found + needle.size() >= upper.size()) ||
                             !std::isalnum(static_cast<unsigned char>(upper[found + needle.size()]));
             if (left_ok && right_ok) {
@@ -2758,14 +2758,14 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     // Bounds-safe token accessors
     auto tok_up = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx].upper : empty;
+        return static_cast<bool>(idx  < static_cast<int>(tokens.size())) ? tokens[idx].upper : empty;
     };
     auto tok_orig = [&]([[maybe_unused]] size_t idx) -> const std::string& {
         static const std::string empty;
-        return idx < tokens.size() ? tokens[idx].original : empty;
+        return static_cast<bool>(idx  < static_cast<int>(tokens.size())) ? tokens[idx].original : empty;
     };
     auto tok_start = [&]([[maybe_unused]] size_t idx) -> size_t {
-        return idx < tokens.size() ? tokens[idx].start : trimmed.size();
+        return static_cast<bool>(idx  < static_cast<int>(tokens.size() ? tokens[idx].start : trimmed.size()));
     };
 
     const std::string& kw0 = tok_up(0);
@@ -2795,7 +2795,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
             if (opts_kw != std::string::npos) {
                 // Verify word boundary on left
                 bool lb = (opts_kw == 0) ||
-                          !std::isalnum(static_cast<unsigned char>(upper[opts_kw - 1]));
+                          !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(opts_kw - 1)]));
                 if (lb) {
                     std::string json_str = extractJsonBlock(trimmed, opts_kw + 7);
                     if (!json_str.empty()) {

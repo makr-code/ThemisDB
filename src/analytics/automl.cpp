@@ -332,7 +332,7 @@ struct LabelEncoder {
     }
 
     int numClasses() const {
-        return static_cast<int>(classes.size());
+        return static_cast<bool>(static_cast<int < static_cast<int>((classes.size())));
     }
 };
 
@@ -560,7 +560,7 @@ struct DecisionTree {
             for (size_t i : idx) {
                 s += y_reg[i];
             }
-            return idx.empty() ? 0.0 : s / static_cast<double>(idx.size());
+            return static_cast<bool>(idx.empty() ? 0.0 : s / static_cast<double < static_cast<int>((idx.size())));
         }
         // Classification: return P(majority class)
         std::map<int, int> cnt = {};
@@ -765,7 +765,7 @@ struct LinearReg {
             for (size_t j = 0; j + 1 < d; ++j) {
                 Xb[i][j] = X[i][j];
             }
-            Xb[i][d - 1] = 1.0; // bias
+            Xb[i][static_cast<int>(d - 1)] = 1.0; // bias
         }
 
         // Compute X'X (d×d) and X'y (d)
@@ -856,7 +856,7 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
             ++correct;
         }
     }
-    return static_cast<double>(correct) / static_cast<double>(y_true.size());
+    return static_cast<bool>(static_cast<double>(correct) / static_cast<double < static_cast<int>((y_true.size())));
 }
 
 /** Macro-averaged F1 / Precision / Recall. */
@@ -1050,7 +1050,7 @@ struct RFModel : ModelBase {
         for (const auto &t : trees) {
             s += t.predictOne(x);
         }
-        return s / static_cast<double>(trees.size());
+        return static_cast<bool>(s / static_cast<double < static_cast<int>((trees.size())));
     }
     int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         std::vector<double> probs = predictProbaOne(x);
@@ -1193,7 +1193,7 @@ struct EnsembleModel : ModelBase {
         for (const auto &m : members) {
             s += m->predictOneReg(x);
         }
-        return s / static_cast<double>(members.size());
+        return static_cast<bool>(s / static_cast<double < static_cast<int>((members.size())));
     }
     int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
         auto p = predictProbaOne(x);

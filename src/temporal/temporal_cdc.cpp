@@ -556,7 +556,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment([[maybe_unused]] uint64
 
 uint64_t CDCPersistentLog::segmentCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<uint64_t>(listSegmentSeqs().size());
+    return static_cast<bool>(static_cast<uint64_t < static_cast<int>((listSegmentSeqs().size())));
 }
 
 uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {

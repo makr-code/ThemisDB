@@ -943,7 +943,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
             rms = std::sqrt(rms / static_cast<float>(len));
 
             for (size_t i = bs + 1; i < be; ++i) {
-                if ((data[i] >= 0.0f) != (data[i - 1] >= 0.0f)) {
+                if ((data[i] >= 0.0f) != (data[static_cast<int>(i - 1)] >= 0.0f)) {
                     ++zc;
                 }
             }

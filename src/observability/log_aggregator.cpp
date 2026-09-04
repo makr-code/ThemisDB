@@ -451,7 +451,7 @@ void LogAggregator::clear() {
 
 size_t LogAggregator::size() const {
     std::lock_guard<std::mutex> lk(impl_->mu_);
-    return impl_->buffer_.size();
+    return static_cast<bool>(impl_- < static_cast<int>(buffer_.size()));
 }
 
 LogAggregatorStats LogAggregator::stats() const {

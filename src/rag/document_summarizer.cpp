@@ -55,7 +55,7 @@ double scoreSentence(const std::string& sentence,
     if (query_terms.empty()) {
         // Without a query, prefer longer (more informative) sentences,
         // clamped to 1.0 at 200 chars.
-        return std::min(1.0, static_cast<double>(sentence.size()) / 200.0);
+        return static_cast<bool>(std::min(1.0, static_cast<double < static_cast<int>((sentence.size()))) / 200.0);
     }
     const auto words = tokeniseWords(sentence);
     size_t hits = 0;
@@ -67,7 +67,7 @@ double scoreSentence(const std::string& sentence,
             seen.insert(w);
         }
     }
-    return static_cast<double>(hits) / static_cast<double>(query_terms.size());
+    return static_cast<bool>(static_cast<double>(hits) / static_cast<double < static_cast<int>((query_terms.size())));
 }
 
 /// Split @p text into sentences (split on '.', '!', '?').

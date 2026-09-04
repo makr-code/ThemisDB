@@ -159,7 +159,7 @@ PagedBlockManager::Stats PagedBlockManager::getStats() const {
 
 int PagedBlockManager::getNumFreeBlocks() const {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
-    return static_cast<int>(free_list_.size());
+    return static_cast<bool>(static_cast<int < static_cast<int>((free_list_.size())));
 }
 
 void PagedBlockManager::reset() {

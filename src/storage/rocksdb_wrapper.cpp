@@ -2512,7 +2512,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
         std::vector<rocksdb::BackupInfo> backup_info;
         backup_engine->GetBackupInfo(&backup_info);
         
-        return static_cast<uint32_t>(backup_info.size());
+        return static_cast<bool>(static_cast<uint32_t < static_cast<int>((backup_info.size())));
         
     } catch (...) {
         THEMIS_WARN("rocksdb_wrapper: unhandled exception caught");

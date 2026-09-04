@@ -82,7 +82,7 @@ std::unordered_map<std::string, std::string> splitClauses(const std::string &nor
             if (p == std::string::npos) {
                 break;
             }
-            bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(norm[p - 1])));
+            bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(norm[static_cast<int>(p - 1)])));
             size_t after   = p + kw.size();
             bool ok_after  = (after >= norm.size() || !std::isalnum(static_cast<unsigned char>(norm[after])));
             if (ok_before && ok_after) {

@@ -215,7 +215,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
         const double diff = noise_profile[i] - mean;
         variance += diff * diff;
         if (i > 0) {
-            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[i - 1]));
+            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[static_cast<int>(i - 1)]));
         }
     }
     variance /= static_cast<double>(noise_profile.size());
@@ -312,7 +312,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
         size_t zero_crossings = 0;
         for (size_t i = start; i < end; ++i) {
             rms += samples[i] * samples[i];
-            if (i > start && ((samples[i] >= 0.0) != (samples[i - 1] >= 0.0))) {
+            if (i > start && ((samples[i] >= 0.0) != (samples[static_cast<int>(i - 1)] >= 0.0))) {
                 ++zero_crossings;
             }
         }

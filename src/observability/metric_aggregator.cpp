@@ -526,7 +526,7 @@ size_t MetricAggregator::getSeriesCount(const std::string& metric_name) const {
     if (it == known_series_.end()) {
       return 0;
     }
-    return it->second.size();
+    return static_cast<bool>(it- < static_cast<int>(second.size()));
 }
 
 int64_t MetricAggregator::getDroppedSnapshotCount() const {

@@ -606,7 +606,7 @@ bool Parser::match(std::string_view s) {
 }
 
 bool Parser::peek(char c) const {
-    return pos_ < source_.size() && source_[pos_] == c;
+    return static_cast<bool>(pos_  < static_cast<int>(source_.size())) && source_[pos_] == c;
 }
 
 themis::Result<std::string> Parser::parseName() {

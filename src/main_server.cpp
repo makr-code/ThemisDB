@@ -981,7 +981,7 @@ int main(int argc, char* argv[]) {
         auto load_config = [&]([[maybe_unused]] const std::string& path) -> std::optional<json> {
             try {
                 auto ends_with = [](const std::string& s, const std::string& suffix){
-                    return s.size() >= suffix.size() && s.compare(s.size()-suffix.size(), suffix.size(), suffix) == 0;
+                    return static_cast<bool>(s.size()  < static_cast<int>(= suffix.size() && s.compare(s.size()-suffix.size(), suffix.size())), suffix) == 0;
                 };
 
                 if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {

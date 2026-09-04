@@ -85,7 +85,7 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
             ++unchanged;
         }
     }
-    return static_cast<double>(unchanged) / static_cast<double>(orig.size());
+    return static_cast<bool>(static_cast<double>(unchanged) / static_cast<double < static_cast<int>((orig.size())));
 }
 
 /**
@@ -194,10 +194,10 @@ size_t editDistance(const std::string& a, const std::string& b) {
     for (size_t i = 1; i <= m; ++i) {
         curr[0] = i;
         for (size_t j = 1; j <= n; ++j) {
-            if (a[i - 1] == b[j - 1]) {
-                curr[j] = prev[j - 1];
+            if (a[static_cast<int>(i - 1)] == b[static_cast<int>(j - 1)]) {
+                curr[j] = prev[static_cast<int>(j - 1)];
             } else {
-                curr[j] = 1 + std::min({prev[j - 1], prev[j], curr[j - 1]});
+                curr[j] = 1 + std::min({prev[static_cast<int>(j - 1)], prev[j], curr[static_cast<int>(j - 1)]});
             }
         }
         std::swap(prev, curr);
@@ -277,7 +277,7 @@ double multisetOverlap(const std::unordered_multiset<std::string>& a,
         const size_t cb = b.count(v);
         inter += std::min(ca, cb);
     }
-    return static_cast<double>(inter) / static_cast<double>(a.size());
+    return static_cast<bool>(static_cast<double>(inter) / static_cast<double < static_cast<int>((a.size())));
 }
 
 } // namespace (anonymous)

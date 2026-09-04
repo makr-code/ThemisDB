@@ -299,7 +299,7 @@ std::vector<KeyRotationRecord> SecurityEvidenceCollector::collectKeyRotations(
 
             for (size_t i = 1; i < versions.size(); ++i) {
                 const auto& new_ver = versions[i];
-                const auto& old_ver = versions[i - 1];
+                const auto& old_ver = versions[static_cast<int>(i - 1)];
 
                 // The rotation timestamp is when the new version was created.
                 if (new_ver.created_at_ms >= from_ms &&

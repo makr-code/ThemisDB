@@ -326,7 +326,7 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     std::vector<double> intervals = {};
 
     for (size_t i = 1; i < stats.execution_times.size(); i++) {
-        auto interval = stats.execution_times[i] - stats.execution_times[i-1];
+        auto interval = stats.execution_times[i] - stats.execution_times[static_cast<int>(i - 1)];
         intervals.push_back(std::chrono::duration<double>(interval).count());
     }
     

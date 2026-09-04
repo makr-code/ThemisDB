@@ -452,7 +452,7 @@ double CapabilityMatcher::calculateTF(
         }
     }
     
-    return keywords.empty() ? 0.0 : static_cast<double>(count) / keywords.size();
+    return static_cast<bool>(keywords.empty() ? 0.0 : static_cast<double < static_cast<int>((count) / keywords.size()));
 }
 
 double CapabilityMatcher::getIDF(const std::string& term) const {
@@ -505,7 +505,7 @@ double CapabilityMatcher::jaccardSimilarity(
         std::inserter(union_set, union_set.begin())
     );
     
-    return static_cast<double>(intersection.size()) / union_set.size();
+    return static_cast<bool>(static_cast<double < static_cast<int>((intersection.size()) / union_set.size()));
 }
 
 } // namespace themis::sharding

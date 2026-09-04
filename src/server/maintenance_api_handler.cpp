@@ -121,7 +121,7 @@ json MaintenanceApiHandler::listSchedules([[maybe_unused]] const std::string& te
     for (auto& e : schedules) {
       arr.push_back(scheduleToResponse(e));
     }
-    return {{"schedules", arr}, {"count", static_cast<int>(schedules.size())}};
+    return static_cast<bool>({{"schedules", arr}, {"count", static_cast<int < static_cast<int>((schedules.size())))}};
 }
 
 json MaintenanceApiHandler::getSchedule([[maybe_unused]] const std::string& id) {
@@ -221,7 +221,7 @@ json MaintenanceApiHandler::listJobs([[maybe_unused]] bool active_only) {
     for (auto& j : jobs) {
       arr.push_back(jobToResponse(j));
     }
-    return {{"jobs", arr}, {"count", static_cast<int>(jobs.size())}};
+    return static_cast<bool>({{"jobs", arr}, {"count", static_cast<int < static_cast<int>((jobs.size())))}};
 }
 
 json MaintenanceApiHandler::getJob([[maybe_unused]] const std::string& id) {
@@ -313,7 +313,7 @@ json MaintenanceApiHandler::listTaskHandlers() {
     for (const auto& [task_type, handler_name] : handlers) {
         arr.push_back({{"task_type", task_type}, {"handler", handler_name}});
     }
-    return {{"task_handlers", arr}, {"count", static_cast<int>(handlers.size())}};
+    return static_cast<bool>({{"task_handlers", arr}, {"count", static_cast<int < static_cast<int>((handlers.size())))}};
 }
 
 } // namespace server

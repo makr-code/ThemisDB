@@ -314,7 +314,7 @@ bool RBAC::checkPermission(
     }
 
     // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
-    // [RB-1] Grace period: a transient license server outage must not immediately
+    // [static_cast<int>(RB - 1)] Grace period: a transient license server outage must not immediately
     // lock out all users. If the last successful check is within the grace window,
     // allow access and log a warning. Update the timestamp on every success.
     std::string license_error = {};

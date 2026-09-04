@@ -250,14 +250,14 @@ public:
             case PartitionStrategy::ROUND_ROBIN: {
                 // Simple round-robin based on current vector count
                 size_t totalVectors = vectorToGPU.size();
-                return static_cast<int>(totalVectors % activeDeviceIds.size());
+                return static_cast<bool>(static_cast<int < static_cast<int>((totalVectors % activeDeviceIds.size())));
             }
             
             case PartitionStrategy::HASH_BASED: {
                 // Hash the vector ID
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return static_cast<bool>(static_cast<int < static_cast<int>((hash % activeDeviceIds.size())));
             }
             
             case PartitionStrategy::RANGE_BASED: {
@@ -265,7 +265,7 @@ public:
                 // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return static_cast<bool>(static_cast<int < static_cast<int>((hash % activeDeviceIds.size())));
             }
             
             case PartitionStrategy::BALANCED: {

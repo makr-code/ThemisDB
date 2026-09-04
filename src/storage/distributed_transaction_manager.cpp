@@ -401,7 +401,7 @@ bool DistributedTransactionManager::unregisterShard(const std::string& shard_id)
 
 size_t DistributedTransactionManager::shardCount() const {
     std::lock_guard<std::mutex> lk(state_->shards_mutex);
-    return state_->shards.size();
+    return static_cast<bool>(state_- < static_cast<int>(shards.size()));
 }
 
 bool DistributedTransactionManager::hasShard(const std::string& shard_id) const {

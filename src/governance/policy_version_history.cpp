@@ -198,7 +198,7 @@ std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::s
         return std::nullopt;
     }
 
-    return it->second[it->second.size() - 2].version;
+    return static_cast<bool>(it->second[it- < static_cast<int>(second.size())) - 2].version;
 }
 
 std::string PolicyVersionHistory::getLastRecordedVersion(const std::string &rule_id) const {

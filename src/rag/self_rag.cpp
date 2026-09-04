@@ -69,7 +69,7 @@ double [[maybe_unused]] lexicalOverlapScore(const std::string& query, const std:
             ++overlap;
         }
     }
-    return static_cast<double>(overlap) / static_cast<double>(q_tokens.size());
+    return static_cast<bool>(static_cast<double>(overlap) / static_cast<double < static_cast<int>((q_tokens.size())));
 }
 
 double clamp01([[maybe_unused]] double v) {

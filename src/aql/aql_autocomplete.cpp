@@ -195,7 +195,7 @@ std::string AQLAutoComplete::extractPrefix(const std::string &text, std::size_t 
     }
     std::size_t end   = std::min(cursor, text.size());
     std::size_t start = end;
-    while (start > 0 && isIdentChar(text[start - 1])) {
+    while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
     }
     return text.substr(start, end - start);
@@ -211,7 +211,7 @@ std::size_t AQLAutoComplete::prefixStart(const std::string &text, std::size_t cu
     }
     std::size_t end   = std::min(cursor, text.size());
     std::size_t start = end;
-    while (start > 0 && isIdentChar(text[start - 1])) {
+    while (start > 0 && isIdentChar(text[static_cast<int>(start - 1)])) {
         --start;
     }
     return start;
@@ -228,10 +228,10 @@ bool AQLAutoComplete::isAfterDot(const std::string &text, std::size_t cursor) co
     std::size_t effective = std::min(cursor, text.size());
     // Skip backwards over current identifier chars
     std::size_t pos = effective;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
-    return (pos > 0 && text[pos - 1] == '.');
+    return (pos > 0 && text[static_cast<int>(pos - 1)] == '.');
 }
 
 // ============================================================================
@@ -245,17 +245,17 @@ std::string AQLAutoComplete::variableBeforeDot(const std::string &text, std::siz
     std::size_t effective = std::min(cursor, text.size());
     // Skip current identifier (attribute prefix)
     std::size_t pos = effective;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
     // Expect a dot
-    if (pos == 0 || text[pos - 1] != '.') {
+    if (pos == 0 || text[static_cast<int>(pos - 1)] != '.') {
         return "";
     }
     --pos; // skip dot
     // Skip variable name
     std::size_t var_end = pos;
-    while (pos > 0 && isIdentChar(text[pos - 1])) {
+    while (pos > 0 && isIdentChar(text[static_cast<int>(pos - 1)])) {
         --pos;
     }
     return text.substr(pos, var_end - pos);

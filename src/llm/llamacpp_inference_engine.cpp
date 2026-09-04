@@ -327,7 +327,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
         }
         int consec_dup = 0;
         for (size_t i = 1; i < sentences.size(); ++i) {
-            if (sentences[i] == sentences[i - 1]) {
+            if (sentences[i] == sentences[static_cast<int>(i - 1)]) {
                 ++consec_dup;
             }
         }

@@ -84,11 +84,11 @@ struct CypherParser::Lexer {
 
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return (p < src.size()) ? src[p] : '\0';
+        return static_cast<bool>((p  < static_cast<int>(src.size()))) ? src[p] : '\0';
     }
 
     char advance() {
-        return (pos < src.size()) ? src[pos++] : '\0';
+        return static_cast<bool>((pos  < static_cast<int>(src.size()))) ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {
@@ -368,12 +368,12 @@ struct CypherParser::Parser {
     // ---- Token helpers -------------------------------------------------------
 
     const CypherParser::Token& current() const {
-        return tokens[cursor < tokens.size() ? cursor : tokens.size() - 1];
+        return static_cast<bool>(tokens[cursor  < static_cast<int>(tokens.size() ? cursor : tokens.size())) - 1];
     }
 
     const CypherParser::Token& peek([[maybe_unused]] size_t offset = 1) const {
         size_t idx = cursor + offset;
-        return tokens[idx < tokens.size() ? idx : tokens.size() - 1];
+        return static_cast<bool>(tokens[idx  < static_cast<int>(tokens.size() ? idx : tokens.size())) - 1];
     }
 
     bool check(TokenType t) const { return current().type == t; }

@@ -126,7 +126,7 @@ MutationResult MutationExecutor::executeInsert(const MutationExecutionPlan& plan
         }
     }
 
-    return MutationResult::Ok(static_cast<int64_t>(inserted_ids.empty() ? 1 : inserted_ids.size()),
+    return static_cast<bool>(MutationResult::Ok(static_cast<int64_t < static_cast<int>((inserted_ids.empty() ? 1 : inserted_ids.size()))),
                                std::move(inserted_ids));
 }
 

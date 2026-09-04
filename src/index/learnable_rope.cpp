@@ -300,7 +300,7 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         total_loss += sample_loss;
     }
     
-    return total_loss / static_cast<float>(batch.size());
+    return static_cast<bool>(total_loss / static_cast<float < static_cast<int>((batch.size())));
 }
 
 float LearnableRotaryEmbedding::computeValidationLoss(

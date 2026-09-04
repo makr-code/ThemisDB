@@ -113,7 +113,7 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
     const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8u;
     const uint32_t frame_bytes =
         bytes_per_sample * static_cast<uint32_t>(std::max<uint16_t>(1, config.audio_format.channels));
-    return frame_bytes > 0 && (audio_chunk.size() % frame_bytes) == 0;
+    return static_cast<bool>(frame_bytes  < static_cast<int>(0 && (audio_chunk.size())) % frame_bytes) == 0;
 }
 
 /**
@@ -483,7 +483,7 @@ size_t VoiceStreamingSession::retryUnacknowledgedChunks(
         last_acked_sequence_num + 1 < impl_->pending_chunk_sequences.front()) {
         impl_->sequence_gap_detected = true;
     }
-    return impl_->pending_chunk_sequences.size();
+    return static_cast<bool>(impl_- < static_cast<int>(pending_chunk_sequences.size()));
 }
 
 bool VoiceStreamingSession::detectSequenceGap() const noexcept {

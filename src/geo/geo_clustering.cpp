@@ -342,7 +342,7 @@ GeoClusterResult kmeansCluster(const std::vector<GeometryInfo> &points, const KM
             double total = 0.0;
             for (std::size_t vi = 0; vi < valid_n; ++vi) {
                 const double dist = haversineDistanceM(coords[valid_idx[vi]].lon, coords[valid_idx[vi]].lat,
-                                                       centroids[c - 1].lon, centroids[c - 1].lat);
+                                                       centroids[static_cast<int>(c - 1)].lon, centroids[static_cast<int>(c - 1)].lat);
                 if (dist * dist < d2[vi])
                     d2[vi] = dist * dist;
                 total += d2[vi];

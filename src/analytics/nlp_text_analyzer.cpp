@@ -1078,7 +1078,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
     }
 
     auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
-        return len > suffix.size() + min_stem && lower.compare(len - suffix.size(), suffix.size(), suffix) == 0;
+        return static_cast<bool>(len  < static_cast<int>(suffix.size() + min_stem && lower.compare(len - suffix.size(), suffix.size())), suffix) == 0;
     };
     auto strip = [&](size_t n, std::string_view add = "") -> std::string {
         return lower.substr(0, len - n) + std::string(add);
@@ -1166,7 +1166,7 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
         size_t blen      = base.length();
 
         auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
-            return blen > suffix.size() + min_stem && base.compare(blen - suffix.size(), suffix.size(), suffix) == 0;
+            return static_cast<bool>(blen  < static_cast<int>(suffix.size() + min_stem && base.compare(blen - suffix.size(), suffix.size())), suffix) == 0;
         };
         auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
             return base.substr(0, blen - n) + std::string(add);

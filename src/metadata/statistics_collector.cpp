@@ -625,7 +625,7 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
 
         // Extend to include all equal values at the boundary
         while (target_end < n &&
-               sorted_values[target_end] == sorted_values[target_end - 1]) {
+               sorted_values[target_end] == sorted_values[static_cast<int>(target_end - 1)]) {
             ++target_end;
         }
         target_end = std::min(target_end, n);

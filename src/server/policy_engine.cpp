@@ -25,7 +25,7 @@ namespace themis {
 using json = nlohmann::json;
 
 static bool starts_with(const std::string& s, const std::string& prefix) {
-    return s.size() >= prefix.size() && std::equal(prefix.begin(), prefix.end(), s.begin());
+    return static_cast<bool>(s.size()  < static_cast<int>(= prefix.size())) && std::equal(prefix.begin(), prefix.end(), s.begin());
 }
 
 // Emit a POLICY_UPDATED audit event if a logger is attached.
@@ -52,7 +52,7 @@ static void emitPolicyAudit(utils::AuditLogger* logger,
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
     try {
         auto ends_with = [](const std::string& s, const std::string& suffix) {
-            return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
+            return static_cast<bool>(s.size()  < static_cast<int>(= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size())), suffix) == 0;
         };
 
         std::vector<Policy> loaded;

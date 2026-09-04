@@ -829,10 +829,10 @@ PromptDiff PromptVersionControl::computeDiff(
     std::vector<std::vector<size_t>> lcs(m + 1, std::vector<size_t>(n + 1, 0));
     for (size_t i = 1; i <= m; ++i) {
         for (size_t j = 1; j <= n; ++j) {
-            if (lines_a[i - 1] == lines_b[j - 1]) {
-                lcs[i][j] = lcs[i - 1][j - 1] + 1;
+            if (lines_a[static_cast<int>(i - 1)] == lines_b[static_cast<int>(j - 1)]) {
+                lcs[i][j] = lcs[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1;
             } else {
-                lcs[i][j] = std::max(lcs[i - 1][j], lcs[i][j - 1]);
+                lcs[i][j] = std::max(lcs[static_cast<int>(i - 1)][j], lcs[i][static_cast<int>(j - 1)]);
             }
         }
     }
@@ -845,15 +845,15 @@ PromptDiff PromptVersionControl::computeDiff(
     {
         size_t i = m, j = n;
         while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && lines_a[i - 1] == lines_b[j - 1]) {
-                edits.push_back({Op::KEEP, lines_a[i - 1]});
+            if (i > 0 && j > 0 && lines_a[static_cast<int>(i - 1)] == lines_b[static_cast<int>(j - 1)]) {
+                edits.push_back({Op::KEEP, lines_a[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
-                edits.push_back({Op::ADD, lines_b[j - 1]});
+            } else if (j > 0 && (i == 0 || lcs[i][static_cast<int>(j - 1)] >= lcs[static_cast<int>(i - 1)][j])) {
+                edits.push_back({Op::ADD, lines_b[static_cast<int>(j - 1)]});
                 --j;
             } else {
-                edits.push_back({Op::REMOVE, lines_a[i - 1]});
+                edits.push_back({Op::REMOVE, lines_a[static_cast<int>(i - 1)]});
                 --i;
             }
         }
@@ -992,22 +992,22 @@ MergeResult PromptVersionControl::autoMerge(
         std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1, 0));
         for (size_t i = 1; i <= m; ++i)
             for (size_t j = 1; j <= n; ++j)
-                dp[i][j] = (from[i-1] == to[j-1])
-                          ? dp[i-1][j-1] + 1
-                          : std::max(dp[i-1][j], dp[i][j-1]);
+                dp[i][j] = (from[static_cast<int>(i - 1)] == to[static_cast<int>(j - 1)])
+                          ? dp[static_cast<int>(i - 1)][static_cast<int>(j - 1)] + 1
+                          : std::max(dp[static_cast<int>(i - 1)][j], dp[i][static_cast<int>(j - 1)]);
 
         std::vector<std::pair<char, std::string>> edits;
         size_t i = m, j = n;
         while (i > 0 || j > 0) {
-            if (i > 0 && j > 0 && from[i-1] == to[j-1]) {
-                edits.push_back({' ', from[i-1]});
+            if (i > 0 && j > 0 && from[static_cast<int>(i - 1)] == to[static_cast<int>(j - 1)]) {
+                edits.push_back({' ', from[static_cast<int>(i - 1)]});
                 --i;
                 --j;
-            } else if (j > 0 && (i == 0 || dp[i][j-1] >= dp[i-1][j])) {
-                edits.push_back({'+', to[j-1]});
+            } else if (j > 0 && (i == 0 || dp[i][static_cast<int>(j - 1)] >= dp[static_cast<int>(i - 1)][j])) {
+                edits.push_back({'+', to[static_cast<int>(j - 1)]});
                 --j;
             } else {
-                edits.push_back({'-', from[i-1]});
+                edits.push_back({'-', from[static_cast<int>(i - 1)]});
                 --i;
             }
         }

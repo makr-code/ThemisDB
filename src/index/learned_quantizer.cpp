@@ -156,7 +156,7 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
                     centroids[b] = thresholds[num_bins_ - 2] + 1.0f;
                 } else {
                     // Middle bins: use midpoint between adjacent thresholds
-                    centroids[b] = (thresholds[b - 1] + thresholds[b]) / 2.0f;
+                    centroids[b] = (thresholds[static_cast<int>(b - 1)] + thresholds[b]) / 2.0f;
                 }
                 has_empty_bin = true;
             }

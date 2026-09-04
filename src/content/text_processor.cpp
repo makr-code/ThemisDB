@@ -162,7 +162,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             int overlap_tokens_counted = 0;
 
             for (size_t i = chunk_end_idx; i > chunk_start_idx && overlap_tokens_counted < overlap; i--) {
-                overlap_tokens_counted += countTokens(sentence_list[i - 1]);
+                overlap_tokens_counted += countTokens(sentence_list[static_cast<int>(i - 1)]);
                 overlap_sentences++;
             }
 

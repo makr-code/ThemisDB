@@ -147,7 +147,7 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
  */
 std::string JWTValidator::decodeBase64UrlToString(const std::string &input) {
     auto bytes = decodeBase64Url(input);
-    return std::string(reinterpret_cast<const char *>(bytes.data()), bytes.size());
+    return static_cast<bool>(std::string(reinterpret_cast<const char * < static_cast<int>((bytes.data()), bytes.size())));
 }
 
 /**

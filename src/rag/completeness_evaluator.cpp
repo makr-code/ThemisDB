@@ -87,7 +87,7 @@ struct CompletenessEvaluator::Impl {
         }
         
         // Consider covered if majority of key terms are present
-        return found_count >= (key_terms.size() * 0.6);
+        return static_cast<bool>(found_count  < static_cast<int>(= (key_terms.size())) * 0.6);
     }
     
     // Check if aspect is covered in answer
@@ -129,7 +129,7 @@ struct CompletenessEvaluator::Impl {
             }
         }
         
-        return static_cast<double>(found_count) / key_terms.size();
+        return static_cast<bool>(static_cast<double < static_cast<int>((found_count) / key_terms.size()));
     }
     
     // Calculate coverage score for an aspect

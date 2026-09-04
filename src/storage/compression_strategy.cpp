@@ -583,7 +583,7 @@ std::vector<uint8_t> DeltaCodec::compress(const uint8_t* data, size_t size) {
     
     // Store deltas
     for (size_t i = 1; i < size; ++i) {
-        int16_t delta = static_cast<int16_t>(data[i]) - static_cast<int16_t>(data[i-1]);
+        int16_t delta = static_cast<int16_t>(data[i]) - static_cast<int16_t>(data[static_cast<int>(i - 1)]);
         result.push_back(static_cast<uint8_t>(delta & 0xFF));
     }
     
@@ -606,7 +606,7 @@ std::vector<uint8_t> DeltaCodec::decompress(const std::vector<uint8_t>& data) {
     // Reconstruct from deltas
     for (size_t i = 1; i < data.size(); ++i) {
         int16_t delta = static_cast<int8_t>(data[i]);
-        uint8_t value = static_cast<uint8_t>(result[i-1] + delta);
+        uint8_t value = static_cast<uint8_t>(result[static_cast<int>(i - 1)] + delta);
         result.push_back(value);
     }
     

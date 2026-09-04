@@ -161,7 +161,7 @@ Result<size_t> MongoDBAdapter::batch_insert(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert documents into collection via bulk_write
-    return Result<size_t>::ok(rows.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -334,7 +334,7 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert BSON documents via insert_many
-    return Result<size_t>::ok(docs.size());
+    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,

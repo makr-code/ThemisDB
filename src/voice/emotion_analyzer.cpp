@@ -230,7 +230,7 @@ EmotionAnalyzer::AcousticFeatures EmotionAnalyzer::extractFeatures(
     // ---- Zero-crossing rate -----------------------------------------------
     size_t zc = 0;
     for (size_t i = 1; i < n; ++i) {
-        if ((samples[i] >= 0.0f) != (samples[i - 1] >= 0.0f)) {
+        if ((samples[i] >= 0.0f) != (samples[static_cast<int>(i - 1)] >= 0.0f)) {
             ++zc;
         }
     }
@@ -493,7 +493,7 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
 
     // Emotion switches: count transitions.
     for (size_t i = 1; i < entries.size(); ++i) {
-        if (entries[i].emotion != entries[i - 1].emotion) {
+        if (entries[i].emotion != entries[static_cast<int>(i - 1)].emotion) {
             ++stats.emotion_switches;
         }
     }

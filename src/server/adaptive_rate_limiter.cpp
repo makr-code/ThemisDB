@@ -215,7 +215,7 @@ double AdaptiveRateLimiter::computeErrorRate(
             samples.begin(), samples.end(),
             [](const TimedSample& s){ return s.is_error; }));
 
-    return static_cast<double>(errors) / static_cast<double>(samples.size());
+    return static_cast<bool>(static_cast<double>(errors) / static_cast<double < static_cast<int>((samples.size())));
 }
 
 } // namespace server

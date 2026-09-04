@@ -61,7 +61,7 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
         std::string::size_type pos = 0;
         while ((pos = labels_str.find(lbl, pos)) != std::string::npos) {
             // Verify it is a complete token (preceded by start-of-string or ',')
-            bool valid_start = (pos == 0) || (labels_str[pos - 1] == ',');
+            bool valid_start = (pos == 0) || (labels_str[static_cast<int>(pos - 1)] == ',');
             // Verify it is a complete token (followed by end-of-string or ',')
             std::string::size_type end = pos + lbl.size();
             bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
@@ -1619,7 +1619,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     std::optional<std::string> meeting_point;
     int best_distance = std::numeric_limits<int>::max();
     
-    // [GQ-1] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
+    // [static_cast<int>(GQ - 1)] Hard timeout for bidirectional BFS: unlike executeBFS/executeDFS, this
     // loop had no timeout check, causing indefinite blocking on dense or cyclic graphs.
     // Apply a 30-second default when the caller does not specify a timeout.
     constexpr int64_t BIDIRECTIONAL_BFS_DEFAULT_TIMEOUT_MS = 30'000;

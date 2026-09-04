@@ -2656,7 +2656,7 @@ void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
     
     while ((pos = aql_upper.find("FOR ", pos)) != std::string::npos) {
         // Check word boundary: must be at start or preceded by non-alphanumeric
-        bool valid_start = (pos == 0 || !std::isalnum(static_cast<unsigned char>(aql_upper[pos - 1])));
+        bool valid_start = (pos == 0 || !std::isalnum(static_cast<unsigned char>(aql_upper[static_cast<int>(pos - 1)])));
         if (valid_start) {
             for_count++;
         }
