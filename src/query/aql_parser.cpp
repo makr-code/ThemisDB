@@ -692,7 +692,7 @@ private:
     }
     
     void advance() {
-        if (pos_ < tokens_.size()) {
+        if (static_cast<int>(tokens_.size()) > pos_) {
           pos_++;
         }
     }

@@ -338,7 +338,7 @@ void GradientTensor::decompress() {
                 float val = {};
                 memcpy(&val, &val_bits, sizeof(float));
                 
-                if (idx < data.size()) {
+                if (static_cast<int>(data.size()) > idx) {
                     data[idx] = val;
                 }
                 pos += 8;

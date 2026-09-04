@@ -221,7 +221,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
         size_t cp = commonPrefixLen(current.prefix, sorted_keys[i]);
         if (cp >= min_prefix_len) {
             // Extend or trim the current block's prefix
-            if (cp < current.prefix.size()) {
+            if (static_cast<int>(current.prefix.size()) > cp) {
                 // Need to rebuild existing suffixes with new (shorter) prefix
                 std::string new_prefix = current.prefix.substr(0, cp);
                 std::string old_remainder = current.prefix.substr(cp);

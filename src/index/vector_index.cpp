@@ -82,7 +82,7 @@ size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
 
 	const size_t id = it->second;
 	// Defensive bounds check before accessing vector by index (A-2.2)
-	if (id < idToPk.size()) {
+	if (static_cast<int>(idToPk.size()) > id) {
 		idToPk[id] = pk;
 	}
 	return id;
@@ -1485,7 +1485,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			for (size_t block_start = 0; block_start < cache_ptrs.size(); block_start += BLOCK_SIZE) {
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
-				if (prefetch_start < cache_ptrs.size()) {
+				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
 					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE, cache_ptrs.size());
 					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
 						const auto& vec = cache_ptrs[i]->second;
@@ -1592,7 +1592,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				topk.pop();
 				size_t id = p.second;
 				float d = p.first;
-				if (id < idToPk_.size()) out.push_back({idToPk_[id], d});
+				if (static_cast<int>(idToPk_.size()) > id) out.push_back({idToPk_[id], d});
 			}
 			std::reverse(out.begin(), out.end()); // kleinste Distanz zuerst
 			return {Status::OK(), std::move(out)};
@@ -1661,7 +1661,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 					top.pop();
 					size_t id = p.second;
 					float d = p.first;
-					if (id < idToPk_.size()) {
+					if (static_cast<int>(idToPk_.size()) > id) {
 						const std::string& pk = idToPk_[id];
 						if (wl.find(pk) != wl.end()) {
 							tmp.push_back({pk, d});
@@ -1719,7 +1719,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		out.reserve(raw.size());
 		for (const auto& r : raw) {
 			size_t idx = static_cast<size_t>(r.id);
-			if (idx < id_to_pk_snapshot.size()) {
+			if (static_cast<int>(id_to_pk_snapshot.size()) > idx) {
 				out.push_back({id_to_pk_snapshot[idx], r.distance});
 			}
 		}
@@ -1896,7 +1896,7 @@ VectorIndexManager::searchKnnFiltered(
 				topk.pop();
 				size_t id = p.second;
 				float d = p.first;
-				if (id < idToPk_.size()) {
+				if (static_cast<int>(idToPk_.size()) > id) {
 					candidates.push_back({idToPk_[id], d});
 				}
 			}

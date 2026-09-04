@@ -89,7 +89,7 @@ Result<void> TsStreamCursor::advance() {
     ++page_pos_;
     ++rows_consumed_;
 
-    if (page_pos_ < page_.size()) {
+    if (static_cast<int>(page_.size()) > page_pos_) {
         // Still within the current page.
         return {};
     }

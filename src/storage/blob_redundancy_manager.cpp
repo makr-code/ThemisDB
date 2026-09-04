@@ -884,7 +884,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
 /// Uses the pre-assigned location if available, otherwise falls back to a
 /// deterministic "shard-<N>" name so each chunk can live on a distinct node.
 static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
-    if (chunk_index < meta.locations.size()) {
+    if (static_cast<int>(meta.locations.size()) > chunk_index) {
         return meta.locations[chunk_index].shard_id;
     }
     return "shard-" + std::to_string(chunk_index);

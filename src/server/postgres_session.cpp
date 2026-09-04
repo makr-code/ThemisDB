@@ -2276,7 +2276,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
             start = i + 1;
         }
     }
-    if (start < cypherSetClause.size()) {
+    if (static_cast<int>(cypherSetClause.size()) > start) {
         assignments.push_back(cypherSetClause.substr(start));
     }
     

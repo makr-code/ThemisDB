@@ -153,7 +153,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 
     // Timezone
     int offset_sec = 0;
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         char tz = s[pos];
         if (tz == 'Z') {
             ++pos;

@@ -466,7 +466,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
 
         // Yield between micro-batches so concurrent readers can acquire the
         // shared lock without waiting for the entire batch to complete.
-        if (batch_end < filtered.size()) {
+        if (static_cast<int>(filtered.size()) > batch_end) {
             std::this_thread::yield();
         }
     }

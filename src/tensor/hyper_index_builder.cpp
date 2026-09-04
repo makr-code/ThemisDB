@@ -185,7 +185,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
 
         values.reserve(rows.size());
         for (const auto& row : rows) {
-            if (numeric_index < row.numeric_values.size()) {
+            if (static_cast<int>(row.numeric_values.size()) > numeric_index) {
                 values.push_back(row.numeric_values[numeric_index]);
             }
         }
@@ -255,7 +255,7 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
         std::unordered_map<std::string, std::size_t> frequencies = {};
 
         for (const auto& row : rows) {
-            if (category_index < row.category_values.size()) {
+            if (static_cast<int>(row.category_values.size()) > category_index) {
                 ++frequencies[row.category_values[category_index]];
             }
         }

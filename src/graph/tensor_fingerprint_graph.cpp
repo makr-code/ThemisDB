@@ -170,7 +170,7 @@ uint64_t TensorFingerprintGraph::bandHash(const TensorFingerprint &fp, std::size
     uint64_t h = fnv1a64(&band_idx, sizeof(band_idx));
     for (std::size_t r = 0; r < rows_per_band; ++r) {
         std::size_t idx = band_start + r;
-        if (idx < fp.minhash.size()) {
+        if (static_cast<int>(fp.minhash.size()) > idx) {
             h ^= fp.minhash[idx];
             h *= 0x100000001b3ULL;
         }

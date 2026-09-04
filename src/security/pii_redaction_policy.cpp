@@ -115,7 +115,7 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
     }
 
     // Append any trailing non-PII content.
-    if (pos < text.size()) {
+    if (static_cast<int>(text.size()) > pos) {
         result.append(text, pos, text.size() - pos);
     }
 

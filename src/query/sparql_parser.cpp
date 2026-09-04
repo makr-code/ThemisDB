@@ -169,7 +169,7 @@ public:
                       ++pos_;
                     }
                     std::string uri = input_.substr(uri_start, pos_ - uri_start);
-                    if (pos_ < input_.size()) ++pos_;  // consume '>'
+                    if (static_cast<int>(input_.size()) > pos_) ++pos_;  // consume '>'
                     tokens.push_back({SPARQLTokenType::URI, uri, start});
                     continue;
                 } else if (next == '=') {
@@ -281,7 +281,7 @@ private:
                 val += input_[pos_++];
             }
         }
-        if (pos_ < input_.size()) ++pos_;  // skip closing quote
+        if (static_cast<int>(input_.size()) > pos_) ++pos_;  // skip closing quote
         return {SPARQLTokenType::STRING_LIT, val, start};
     }
 

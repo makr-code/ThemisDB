@@ -448,7 +448,7 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
         // identifier character (letter, digit, or underscore) so that we
         // don't accidentally match "sales_by_region_extended".
         const std::size_t after = pos + upper_name.size();
-        if (after < upper_q.size()) {
+        if (static_cast<int>(upper_q.size()) > after) {
             const char next = upper_q[after];
             if (std::isalnum(static_cast<unsigned char>(next)) || next == '_') {
                 pos = after;

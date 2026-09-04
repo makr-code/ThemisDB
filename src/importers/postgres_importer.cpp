@@ -2923,7 +2923,7 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
         auto it = schema_column_index.find(kc);
         if (it != schema_column_index.end()) {
             size_t idx = it->second;
-            if (idx < values.size()) {
+            if (static_cast<int>(values.size()) > idx) {
                 key_data += values[idx];
             }
         }

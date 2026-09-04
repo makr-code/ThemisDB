@@ -221,7 +221,7 @@ public:
                         // dL/d(head[k][j]) = grad_pred * hidden[k]
                         task_heads_[ti][k * in_dim + j] -= eff_lr * grad_pred * hidden[k];
                         // dL/d(B[j][k]) = grad_pred * head[k][j] * input[j]  (simplified)
-                        if (j < s.input.size()) {
+                        if (static_cast<int>(s.input.size()) > j) {
                             shared_B_[j * shared_rank + k] -= eff_lr * grad_pred
                                 * task_heads_[ti][k * in_dim + j] * s.input[j];
                         }

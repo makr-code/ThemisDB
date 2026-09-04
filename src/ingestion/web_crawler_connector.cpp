@@ -237,7 +237,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         auto href_pos = tag_lc.find("href=");
         if (href_pos != std::string::npos) {
             size_t val_start = href_pos + 5;
-            if (val_start < tag.size()) {
+            if (static_cast<int>(tag.size()) > val_start) {
                 char quote = tag[val_start];
                 if (quote == '"' || quote == '\'') {
                     ++val_start;

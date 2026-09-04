@@ -163,7 +163,7 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
     // Mark queue as inactive.
     {
         std::lock_guard<std::mutex> lk(queues_mutex_);
-        if (thread_idx < queues_.size()) {
+        if (static_cast<int>(queues_.size()) > thread_idx) {
             queues_[thread_idx]->active.store(false, std::memory_order_relaxed);
         }
     }

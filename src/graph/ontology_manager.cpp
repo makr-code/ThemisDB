@@ -98,7 +98,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         }
         ++pos;
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip closing '"'
     }
     return result;
@@ -124,7 +124,7 @@ static std::vector<std::string> parseStringArray(const std::string &s, std::size
         }
         skipWs(s, pos);
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip ']'
     }
     return result;
@@ -164,7 +164,7 @@ parseObject(const std::string &s, std::size_t &pos,
         }
         skipWs(s, pos);
     }
-    if (pos < s.size()) {
+    if (static_cast<int>(s.size()) > pos) {
         ++pos; // skip closing brace
     }
     return fields;

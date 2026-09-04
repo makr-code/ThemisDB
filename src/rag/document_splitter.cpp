@@ -98,7 +98,7 @@ splitSentences(const std::string& text) {
     }
 
     // Trailing fragment (no terminal punctuation)
-    if (start < text.size()) {
+    if (static_cast<int>(text.size()) > start) {
         std::string tail = text.substr(start);
         const size_t ltrim = tail.find_first_not_of(" \t\r\n");
         if (ltrim != std::string::npos) {

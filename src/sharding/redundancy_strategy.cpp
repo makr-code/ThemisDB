@@ -399,7 +399,7 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
         std::vector<uint8_t> chunk(chunk_size, 0);
-        if (offset < data.size()) {
+        if (static_cast<int>(data.size()) > offset) {
             size_t sz = std::min(chunk_size, data.size() - offset);
             std::memcpy(chunk.data(), data.data() + offset, sz);
         }
@@ -770,7 +770,7 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
         size_t size = std::min(chunk_size, data.size() - offset);
         
         std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
-        if (offset < data.size()) {
+        if (static_cast<int>(data.size()) > offset) {
             std::memcpy(chunk.data(), data.data() + offset, size);
         }
         chunks.push_back(chunk);

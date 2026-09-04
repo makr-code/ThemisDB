@@ -62,7 +62,7 @@ bool ResultStream<T>::hasNext() const {
     }
     
     // Check if we have buffered data
-    if (buffer_pos_ < buffer_.size()) {
+    if (static_cast<int>(buffer_.size()) > buffer_pos_) {
         return true;
     }
     

@@ -189,7 +189,7 @@ public:
         results.reserve(topK);
         for (size_t i = 0; i < topK; ++i) {
             const size_t idx = candidates[i].second;
-            if (idx < vectorIds.size()) {
+            if (static_cast<int>(vectorIds.size()) > idx) {
                 results.push_back({vectorIds[idx], candidates[i].first});
             }
         }
@@ -622,7 +622,7 @@ public:
 
                 results.reserve(indices.size());
                 for (const auto& [distance, index] : indices) {
-                    if (index < vectorIds.size()) {
+                    if (static_cast<int>(vectorIds.size()) > index) {
                         results.push_back({vectorIds[index], distance});
                     }
                 }
@@ -739,7 +739,7 @@ public:
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
-                if (idx < vectorIds.size()) {
+                if (static_cast<int>(vectorIds.size()) > idx) {
                     results.push_back({vectorIds[idx], dist});
                 }
             }
@@ -824,7 +824,7 @@ public:
 
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
-                if (idx < vectorIds.size()) {
+                if (static_cast<int>(vectorIds.size()) > idx) {
                     batch.push_back({vectorIds[idx], dist});
                 }
             }
@@ -887,7 +887,7 @@ public:
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
-                if (idx < vectorIds.size()) {
+                if (static_cast<int>(vectorIds.size()) > idx) {
                     results.push_back({vectorIds[idx], dist});
                 }
             }
@@ -955,7 +955,7 @@ public:
 
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
-                if (idx < vectorIds.size()) {
+                if (static_cast<int>(vectorIds.size()) > idx) {
                     batch.push_back({vectorIds[idx], dist});
                 }
             }

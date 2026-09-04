@@ -388,7 +388,7 @@ std::string sanitizeTagAttributes(
           ++ap;
         }
         std::string attr_value = attrs_str.substr(vs, ap - vs);
-        if (ap < attrs_str.size()) ++ap; // skip closing quote
+        if (static_cast<int>(attrs_str.size()) > ap) ++ap; // skip closing quote
 
         // Validate value safety
         if (!isAttrValueSafe(attr_value)) {

@@ -3678,7 +3678,7 @@ std::vector<float> MultiLoRAManager::computeStepWiseSchedule(
     size_t step_index = std::distance(schedule.step_times.begin(), it);
     
     // Return weights for current step
-    if (step_index < schedule.step_weights.size()) {
+    if (static_cast<int>(schedule.step_weights.size()) > step_index) {
         return schedule.step_weights[step_index];
     }
     

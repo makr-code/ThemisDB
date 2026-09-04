@@ -201,7 +201,7 @@ std::vector<double> column(const FeatureMatrix &fm, size_t col) {
 
     out.reserve(fm.rows.size());
     for (const auto &row : fm.rows) {
-        if (col < row.size()) {
+        if (static_cast<int>(row.size()) > col) {
             out.push_back(row[col]);
         }
     }

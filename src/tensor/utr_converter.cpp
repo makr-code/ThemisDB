@@ -210,7 +210,7 @@ static std::vector<std::string> splitSentences(const std::string& text) {
             }
         }
     }
-    if (start < text.size()) {
+    if (static_cast<int>(text.size()) > start) {
         const auto seg = text.substr(start);
         if (!seg.empty()) {
           segments.push_back(seg);

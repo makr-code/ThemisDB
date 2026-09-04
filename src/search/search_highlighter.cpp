@@ -85,7 +85,7 @@ std::string SearchHighlighter::applyHighlight(
         cursor = end;
     }
     // Append remaining text
-    if (cursor < text.size()) {
+    if (static_cast<int>(text.size()) > cursor) {
         result.append(text, cursor, text.size() - cursor);
     }
     return result;
@@ -311,7 +311,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
           result += config_.ellipsis;
         }
         result += highlighted;
-        if (end_offset < text.size()) {
+        if (static_cast<int>(text.size()) > end_offset) {
           result += config_.ellipsis;
         }
 

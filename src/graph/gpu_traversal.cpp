@@ -211,7 +211,7 @@ Result<bool> GPUGraphTraversal::load(const std::vector<std::string> &vertex_ids)
     for (uint32_t i = 0; i < vertex_count_; ++i) {
         row_offsets_.push_back(static_cast<uint32_t>(column_indices_.size()));
         // Ensure adj has a row for i (may be absent if vertex was added later)
-        if (i < adj.size()) {
+        if (static_cast<int>(adj.size()) > i) {
             for (uint32_t nb : adj[i]) {
                 column_indices_.push_back(nb);
             }

@@ -52,7 +52,7 @@ static constexpr const char* B64_CHARS =
         out += B64_CHARS[((p[i+1] & 0x0F) << 2) | (p[i+2] >> 6)];
         out += B64_CHARS[  p[i+2] & 0x3F];
     }
-    if (i < s.size()) {
+    if (static_cast<int>(s.size()) > i) {
         out += B64_CHARS[(p[i] >> 2)];
         if (i + 1 < s.size()) {
             out += B64_CHARS[((p[i] & 0x03) << 4) | (p[i+1] >> 4)];

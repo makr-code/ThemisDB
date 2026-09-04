@@ -250,7 +250,7 @@ std::string QueryMaskingPolicy::maskStringValue(
                 pos = f.end_offset;
             }
             // Remaining suffix.
-            if (pos < value.size()) {
+            if (static_cast<int>(value.size()) > pos) {
                 result.append(value, pos, value.size() - pos);
             }
             return result;

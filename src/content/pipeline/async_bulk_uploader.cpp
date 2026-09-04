@@ -95,7 +95,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
             UploadResult result;
             result.status = UploadStatus::FAILED;
             result.error_message = "Metadata count mismatch";
-            if (i < metadata_list.size()) {
+            if (static_cast<int>(metadata_list.size()) > i) {
                 result.content_id = metadata_list[i].content_id;
             }
             results.push_back(result);

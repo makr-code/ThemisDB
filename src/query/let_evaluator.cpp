@@ -236,7 +236,7 @@ nlohmann::json LetEvaluator::evaluateFieldAccess(
         if (numeric) {
             try {
                 size_t idx = static_cast<size_t>(std::stoull(f));
-                if (idx < baseValue.size()) {
+                if (static_cast<int>(baseValue.size()) > idx) {
                     return baseValue[idx];
                 }
             } catch (...) {
@@ -262,7 +262,7 @@ nlohmann::json LetEvaluator::getNestedValue(
             // Try to parse key as array index
             try {
                 size_t idx = std::stoull(key);
-                if (idx < current.size()) {
+                if (static_cast<int>(current.size()) > idx) {
                     current = current[idx];
                 } else {
                     return nlohmann::json(nullptr);

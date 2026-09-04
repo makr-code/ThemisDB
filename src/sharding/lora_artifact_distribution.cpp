@@ -303,7 +303,7 @@ public:
                 // Collect sibling for our proof path
                 if (i == idx || i + 1 == idx) {
                     size_t sibling_i = (idx % 2 == 0) ? idx + 1 : idx - 1;
-                    if (sibling_i < layer.size()) {
+                    if (static_cast<int>(layer.size()) > sibling_i) {
                         std::string position = (sibling_i > idx) ? "right" : "left";
                         proof_path.push_back({
                             {"hash",     layer[sibling_i]},

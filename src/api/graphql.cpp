@@ -636,7 +636,7 @@ themis::Result<std::string> Parser::parseString() {
         if (source_[pos_] == '\\') {
             ++pos_;
             ++column_;
-            if (pos_ < source_.size()) {
+            if (static_cast<int>(source_.size()) > pos_) {
                 switch (source_[pos_]) {
                     case 'n':
                         result += '\n';

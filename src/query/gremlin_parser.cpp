@@ -101,7 +101,7 @@ struct GremlinParser::Lexer {
             }
             ++pos;
         }
-        if (pos < src.size()) ++pos;  // skip closing delimiter
+        if (static_cast<int>(src.size()) > pos) ++pos;  // skip closing delimiter
         return buf;
     }
 

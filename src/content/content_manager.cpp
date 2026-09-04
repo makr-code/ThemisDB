@@ -3036,7 +3036,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
                 break;  // wait for more data
             size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);
             // Prefer to split on newline boundary when close
-            if (end < carry.size()) {
+            if (static_cast<int>(carry.size()) > end) {
                 size_t nl = carry.find('\n', end > 0 ? end - 1 : 0);
                 if (nl != std::string::npos && nl < pos + static_cast<size_t>(text_chunk_chars) * 2)
                     end = nl + 1;

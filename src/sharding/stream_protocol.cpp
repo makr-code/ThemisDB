@@ -1255,7 +1255,7 @@ void StreamTransferTask::abort() {
 void StreamTransferTask::onChunkAck([[maybe_unused]] uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(progress_mutex_);
-        if (chunk_index < chunks_acked_.size()) {
+        if (static_cast<int>(chunks_acked_.size()) > chunk_index) {
             chunks_acked_[chunk_index] = true;
         }
     }
@@ -1314,7 +1314,7 @@ void StreamTransferTask::transferLoop() {
         bool transfer_complete = false;
         {
             std::lock_guard<std::mutex> lock(progress_mutex_);
-            if (next_chunk_to_send_ < chunks_acked_.size()) {
+            if (static_cast<int>(chunks_acked_.size()) > next_chunk_to_send_) {
                 chunk_index = next_chunk_to_send_;
                 already_acked = chunks_acked_[chunk_index];
                 has_chunk = true;
@@ -1742,7 +1742,7 @@ void StreamReceiveTask::requestRetry([[maybe_unused]] uint32_t chunk_index) {
     // network_->sendMessage(config_.peer_address, retry_msg);
     
     // Mark chunk as not received so it can be processed again
-    if (chunk_index < chunks_received_.size()) {
+    if (static_cast<int>(chunks_received_.size()) > chunk_index) {
         std::lock_guard<std::mutex> lock(write_mutex_);
         chunks_received_[chunk_index] = false;
     }

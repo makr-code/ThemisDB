@@ -64,7 +64,7 @@ public:
             } else {
                 pool_.wasted_bytes_ = 0;
             }
-            if (slab_idx_ < pool_.slabs_.size()) {
+            if (static_cast<int>(pool_.slabs_.size()) > slab_idx_) {
                 pool_.slabs_[slab_idx_].is_free = true;
                 pool_.slabs_[slab_idx_].owner_tag.clear();
                 pool_.slabs_[slab_idx_].request_size = 0;

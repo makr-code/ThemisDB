@@ -241,7 +241,7 @@ std::vector<Token> tokenize(const std::string &expr) {
                 ++i;
             }
             tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
-            if (i < expr.size()) {
+            if (static_cast<int>(expr.size()) > i) {
                 ++i;
             }
         } else if (c == '(') {

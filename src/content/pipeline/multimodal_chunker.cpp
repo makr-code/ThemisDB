@@ -223,7 +223,7 @@ std::vector<size_t> MultiModalChunker::find_sentence_boundaries(const std::strin
                 while (boundary < text.size() && std::isspace(text[boundary])) {
                     ++boundary;
                 }
-                if (boundary < text.size()) {
+                if (static_cast<int>(text.size()) > boundary) {
                     boundaries.push_back(boundary);
                 }
             }
@@ -249,7 +249,7 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
             while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
-            if (boundary < text.size()) {
+            if (static_cast<int>(text.size()) > boundary) {
                 boundaries.push_back(boundary);
             }
             i = boundary;  // Skip processed area
@@ -263,7 +263,7 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
             while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
-            if (boundary < text.size()) {
+            if (static_cast<int>(text.size()) > boundary) {
                 boundaries.push_back(boundary);
             }
             i = boundary;  // Skip processed area

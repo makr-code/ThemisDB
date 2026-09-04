@@ -236,7 +236,7 @@ std::vector<std::string> LLMIntegration::generateMultipleSamples(
         LLMGenerationOptions sample_options = options;
         
         // Generate a unique seed for this sample
-        if (i < options.seeds.size()) {
+        if (static_cast<int>(options.seeds.size()) > i) {
             // Use provided seeds if available
             sample_options.seeds = {options.seeds[i]};
         } else {

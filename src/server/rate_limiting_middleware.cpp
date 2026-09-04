@@ -116,7 +116,7 @@ std::pair<size_t, double>
 RateLimitingMiddleware::limitForPath(const std::string& path) const {
     // config_mutex_ must be held by the caller.
     std::size_t idx = findOverrideIndex(path);
-    if (idx < config_.endpoint_overrides.size()) {
+    if (static_cast<int>(config_.endpoint_overrides.size()) > idx) {
         const auto& ep = config_.endpoint_overrides[idx];
         return {ep.capacity, ep.refill_rate};
     }
@@ -154,7 +154,7 @@ RateLimitingMiddleware::check(const std::string& client_key,
     // ── Select the appropriate limiter and effective limits ───────────────
     std::size_t override_idx = findOverrideIndex(path);
     double refill_rate = 0;
-    if (override_idx < config_.endpoint_overrides.size()) {
+    if (static_cast<int>(config_.endpoint_overrides.size()) > override_idx) {
         const auto& ep = config_.endpoint_overrides[override_idx];
         result.limit = ep.capacity;
         refill_rate  = ep.refill_rate;

@@ -367,7 +367,7 @@ public:
             auto gpuEnd = std::chrono::steady_clock::now();
 
             // Accumulate per-GPU active query time for utilization tracking
-            if (gpuIdx < perGpuQueryTimeUs.size()) {
+            if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
                 uint64_t gpuUs = static_cast<uint64_t>(
                     std::chrono::duration_cast<std::chrono::microseconds>(gpuEnd - gpuStart).count());
                 std::lock_guard<std::mutex> lock(statsMutex);
@@ -428,7 +428,7 @@ public:
                 auto gpuEnd = std::chrono::steady_clock::now();
 
                 // Record per-GPU active time
-                if (gpuIdx < perGpuQueryTimeUs.size()) {
+                if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
                     uint64_t gpuUs = static_cast<uint64_t>(
                         std::chrono::duration_cast<std::chrono::microseconds>(
                             gpuEnd - gpuStart).count());

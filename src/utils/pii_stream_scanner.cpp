@@ -218,7 +218,7 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         cursor = rel_end;
     }
     // Copy remaining text after last finding.
-    if (cursor < finalized_chunk.size()) {
+    if (static_cast<int>(finalized_chunk.size()) > cursor) {
         result.append(finalized_chunk.data() + cursor, finalized_chunk.size() - cursor);
     }
 

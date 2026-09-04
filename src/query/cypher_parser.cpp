@@ -217,7 +217,7 @@ struct CypherParser::Lexer {
                         s += c;
                     }
                 }
-                if (pos < src.size()) advance();  // closing delimiter
+                if (static_cast<int>(src.size()) > pos) advance();  // closing delimiter
                 tok.type  = TokenType::STRING_LIT;
                 tok.value = std::move(s);
                 tokens.push_back(std::move(tok));
@@ -281,7 +281,7 @@ struct CypherParser::Lexer {
                 std::string id = {};
                 while (pos < src.size() && peek() != '`')
                     id += advance();
-                if (pos < src.size()) {
+                if (static_cast<int>(src.size()) > pos) {
                   advance();
                 }
                 tok.type  = TokenType::IDENT;

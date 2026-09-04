@@ -489,7 +489,7 @@ ReloadResult CanaryDeployment::deploy() {
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
                     cb = stage_complete_cb_;
-                    if (completed_stage < stages_.size()) {
+                    if (static_cast<int>(stages_.size()) > completed_stage) {
                         stage_info = stages_[completed_stage];
                     }
                 }

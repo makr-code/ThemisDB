@@ -309,7 +309,7 @@ private:
             }
             ++pos_;
         }
-        if (pos_ < input_.size()) ++pos_; // skip closing delimiter
+        if (static_cast<int>(input_.size()) > pos_) ++pos_; // skip closing delimiter
         return {SQLTokenType::STRING_LIT, val, start};
     }
 

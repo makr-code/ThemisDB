@@ -4637,7 +4637,7 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     if (exp_pos != std::string::npos) {
         const std::string exp_prefix = "exp=";
         auto val_start = exp_pos + exp_prefix.size();
-        if (val_start < token.size()) {
+        if (static_cast<int>(token.size()) > val_start) {
             try {
                 int64_t expiry_ms = std::stoll(token.substr(val_start));
                 auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

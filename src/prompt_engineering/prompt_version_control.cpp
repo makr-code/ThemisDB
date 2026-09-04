@@ -1040,12 +1040,12 @@ MergeResult PromptVersionControl::autoMerge(
             if (e.first == ' ') {
                 ++base_idx;
             } else if (e.first == '-') {
-                if (base_idx < changes.size()) {
+                if (static_cast<int>(changes.size()) > base_idx) {
                     changes[base_idx].deleted = true;
                     ++base_idx;
                 }
             } else { // '+'
-                if (base_idx < changes.size()) {
+                if (static_cast<int>(changes.size()) > base_idx) {
                     changes[base_idx].insertions_before.push_back(e.second);
                 } else {
                     // Appended after the last base line
