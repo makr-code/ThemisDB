@@ -66,7 +66,7 @@ std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max
     std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
-        if (static_cast<int>(out.size()) > = max_len) {
+        if (static_cast<int>(out.size()) >= max_len) {
           break;
         }
         if (!isAsciiControl(c)) {
