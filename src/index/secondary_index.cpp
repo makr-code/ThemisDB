@@ -840,7 +840,7 @@ SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_vie
 std::unordered_set<std::string> SecondaryIndexManager::loadIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("idxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		// key = idxmeta:<table>:<column> oder idxmeta:<table>:col1+col2+...
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
@@ -852,7 +852,7 @@ std::unordered_set<std::string> SecondaryIndexManager::loadIndexedColumns_(std::
 std::unordered_set<std::string> SecondaryIndexManager::loadRangeIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("ridxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
 		return true;
@@ -863,7 +863,7 @@ std::unordered_set<std::string> SecondaryIndexManager::loadRangeIndexedColumns_(
 std::unordered_set<std::string> SecondaryIndexManager::loadSparseIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("sidxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
 		return true;
@@ -874,7 +874,7 @@ std::unordered_set<std::string> SecondaryIndexManager::loadSparseIndexedColumns_
 std::unordered_set<std::string> SecondaryIndexManager::loadGeoIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("gidxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
 		return true;
@@ -885,7 +885,7 @@ std::unordered_set<std::string> SecondaryIndexManager::loadGeoIndexedColumns_(st
 std::unordered_set<std::string> SecondaryIndexManager::loadTTLIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("ttlidxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
 		return true;
@@ -896,7 +896,7 @@ std::unordered_set<std::string> SecondaryIndexManager::loadTTLIndexedColumns_(st
 std::unordered_set<std::string> SecondaryIndexManager::loadFulltextIndexedColumns_(std::string_view table) const {
 	std::unordered_set<std::string> cols;
 	const std::string prefix = std::string("ftidxmeta:") + std::string(table) + ":";
-	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&cols, &prefix](std::string_view key, [[maybe_unused]] std::string_view value) {
 		std::string_view rest = key.substr(prefix.size());
 		cols.insert(std::string(rest));
 		return true;
@@ -1154,7 +1154,7 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
 	const std::string encodedVal = encodeKeyComponent(value);
 	const std::string prefix = makePartialIndexPrefix(table, column, encodedVal);
 	std::vector<std::string> pks;
-	db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
+	db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val) {
 		size_t lastColon = key.rfind(':');
 		if (lastColon != std::string_view::npos)
 			pks.emplace_back(key.substr(lastColon + 1));
@@ -1498,7 +1498,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
-				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 					// Extrahiere PK aus key: idx:table:column:value:PK
 					size_t lastColon = key.rfind(':');
 					if (lastColon != std::string_view::npos) {
@@ -1568,7 +1568,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				// Prüfe ob bereits ein anderer PK mit dieser Wertekombination existiert
 				std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 				bool conflict = false;
-				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 					// Extrahiere PK aus key (letztes Segment nach ':')
 					size_t lastColon = key.rfind(':');
 					if (lastColon != std::string_view::npos) {
@@ -1639,7 +1639,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		if (sparseUnique) {
 			std::string prefix = makeSparseIndexKey(table, scol, encodedVal, "");
 			bool conflict = false;
-			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view existingPK = key.substr(lastColon + 1);
@@ -1895,7 +1895,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			}
 			// W5: Snapshot pk locally; eliminate [this] capture to avoid manager state closure
 			const std::string_view pk_snapshot = pk;
-			db_.scanPrefix(prefix, [&pk_snapshot, &batch](std::string_view key, std::string_view /*val*/){
+			db_.scanPrefix(prefix, [&pk_snapshot, &batch](std::string_view key, [[maybe_unused]] std::string_view val){
 				// Prüfen, ob PK am Ende passt (endet mit :PK)
 				std::string_view keyView(key);
 				size_t lastColon = keyView.rfind(':');
@@ -1911,7 +1911,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
-			db_.scanPrefix(rprefix, [&pk, &batch](std::string_view key, std::string_view /*val*/){
+			db_.scanPrefix(rprefix, [&pk, &batch](std::string_view key, [[maybe_unused]] std::string_view val){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view existingPK = key.substr(lastColon + 1);
@@ -2052,7 +2052,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 			// Scan the TTL index prefix and delete matching PKs
 			std::string prefix = makeTTLIndexPrefix(table, tcol);
-			db_.scanPrefix(prefix, [&pk, &batch](std::string_view key, std::string_view /*val*/) {
+			db_.scanPrefix(prefix, [&pk, &batch](std::string_view key, [[maybe_unused]] std::string_view val) {
 				// Extract PK from ttlidx:table:column:timestamp:PK
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
@@ -2144,7 +2144,7 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 	// Scan regular index if exists
 	if (hasRegularIndex) {
 		const std::string prefix = KeySchema::makeSecondaryIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/){
+		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
 			pks.emplace_back(KeySchema::extractPrimaryKey(key));
 			return true;
 		});
@@ -2153,7 +2153,7 @@ SecondaryIndexManager::scanKeysEqual(std::string_view table,
 	// Scan sparse index if exists (and no regular index, or as fallback)
 	if (hasSparse && !hasRegularIndex) {
 		const std::string prefix = makeSparseIndexKey(table, column, encodedVal, "");
-		db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/){
+		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val){
 			// Extract PK from sidx:table:column:value:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
@@ -2206,7 +2206,7 @@ size_t SecondaryIndexManager::estimateCountEqual(std::string_view table,
 	const std::string encodedVal = encodeKeyComponent(value);
 	const std::string prefix = KeySchema::makeSecondaryIndexKey(table, column, encodedVal, "");
 	size_t count = 0;
-	db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view /*val*/){
+	db_.scanPrefix(prefix, [&]([[maybe_unused]] std::string_view key, [[maybe_unused]] std::string_view val){
 		++count;
 		if (count >= maxProbe) {
 			if (capped) {
@@ -2239,7 +2239,7 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 	
 	const std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 	std::vector<std::string> pks;
-	db_.scanPrefix(prefix, [&pks, &prefix](std::string_view key, std::string_view /*val*/){
+	db_.scanPrefix(prefix, [&pks, &prefix](std::string_view key, [[maybe_unused]] std::string_view val){
 		// key format: idx:table:col1+col2:val1:val2:PK
 		// Der PK folgt nach dem letzten ':'
 		std::string_view rest = key.substr(prefix.size());
@@ -2293,7 +2293,7 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 	
 	const std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 	size_t count = 0;
-	db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view /*val*/){
+	db_.scanPrefix(prefix, [&]([[maybe_unused]] std::string_view key, [[maybe_unused]] std::string_view val){
 		++count;
 		if (count >= maxProbe) {
 			if (capped) {
@@ -2346,7 +2346,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 
 	uint64_t steps = 0;
 	if (!reversed) {
-		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, std::string_view /*value*/){
+		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
             if (static_cast<int>(result.size()) > = limit) {
               return false;
             }
@@ -2359,7 +2359,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
         });
     } else {
         std::vector<std::string> tmp;
-		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, std::string_view /*value*/){
+		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
             size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
 			  tmp.emplace_back(key.substr(lastColon+1));
@@ -2415,7 +2415,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			std::string prefix = makeRangeIndexPrefix(table, column, anchorValue);
 			std::vector<std::string> sameValuePks;
 			sameValuePks.reserve(limit);
-			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, std::string_view /*val*/){
+			db_.scanPrefix(prefix, [&sameValuePks](std::string_view key, [[maybe_unused]] std::string_view val){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					sameValuePks.emplace_back(key.substr(lastColon+1));
@@ -2495,7 +2495,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 // Geo-Index: Geohash-Encoding und Geo-Queries
 // ────────────────────────────────────────────────────────────────────────────
 
-std::string SecondaryIndexManager::encodeGeohash(double lat, double lon, int /*precision*/) {
+std::string SecondaryIndexManager::encodeGeohash(double lat, double lon, [[maybe_unused]] int precision) {
 	// Normalize to [0, 1]
 	double lat_norm = (lat + 90.0) / 180.0;
 	double lon_norm = (lon + 180.0) / 360.0;
@@ -2566,7 +2566,7 @@ SecondaryIndexManager::scanGeoBox(
 	const std::string prefix = std::string("gidx:") + std::string(table) + ":" + std::string(column) + ":";
 	
 	size_t count = 0;
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view value) {
 		if (count >= limit) {
 		  return false;
 		}
@@ -2621,7 +2621,7 @@ SecondaryIndexManager::scanGeoRadius(
 	const std::string prefix = std::string("gidx:") + std::string(table) + ":" + std::string(column) + ":";
 	
 	size_t count = 0;
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
+	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view value) {
 		if (count >= limit) {
 		  return false;
 		}
@@ -2681,7 +2681,7 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 	std::vector<std::string> expiredPKs;
 	std::vector<std::string> ttlKeys;
 	
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
 		// Stop if key > upperBound
 		if (key > upperBound) {
 		  return false;
@@ -2788,7 +2788,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
 		
-		db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
+		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val) {
 			// Extract PK from ftidx:table:column:token:PK
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
@@ -3042,7 +3042,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 		std::string prefix = makeFulltextIndexPrefix(table, column, token);
 		std::unordered_set<std::string> pks;
 		
-		db_.scanPrefix(prefix, [&pks](std::string_view key, std::string_view /*val*/) {
+		db_.scanPrefix(prefix, [&pks](std::string_view key, [[maybe_unused]] std::string_view val) {
 			size_t lastColon = key.rfind(':');
 			if (lastColon != std::string_view::npos) {
 				pks.insert(std::string(key.substr(lastColon + 1)));
@@ -3191,7 +3191,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	std::string prefix = "ftidx:" + std::string(table) + ":" + std::string(column) + ":";
 	
 	// Single scan: collect similar tokens and their documents
-	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
 		// Extract token from ftidx:table:column:token:pk
 		std::string keyStr(key);
 		size_t thirdColon = keyStr.find(':',static_cast<int>(prefix.size()));
@@ -3320,7 +3320,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 	// Scan all meta-key prefixes and collect unique table:column combinations
 	auto scanMetaPrefix = [&]([[maybe_unused]] const std::string& metaPrefix) {
 		std::string prefix = metaPrefix + table + ":";
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+		db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
 			// Extract column from key (format: "prefix:table:column")
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
@@ -3438,7 +3438,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	// Step 3.0: Total entities under <table>:
 	const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
 	size_t total = 0;
-	db_.scanPrefix(entityPrefix, [&total](std::string_view /*k*/, std::string_view /*v*/) {
+	db_.scanPrefix(entityPrefix, [&total](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 		++total;
 		return true;
 	});
@@ -4026,7 +4026,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			}
 		}
 		stats.additional_info = colList;			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4043,7 +4043,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = std::string("ttl_seconds=") + *mv;
 
 			std::string prefix = std::string("ttlidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4060,7 +4060,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "inverted_index";
 
 			std::string prefix = std::string("ftidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4077,7 +4077,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "geohash";
 
 			std::string prefix = std::string("gidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4094,7 +4094,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = *mv;
 
 			std::string prefix = std::string("sidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4111,7 +4111,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "sorted";
 
 			std::string prefix = std::string("ridx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4128,7 +4128,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = *mv;
 
 			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4148,7 +4148,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "predicate=" + predicate;
 
 			std::string prefix = std::string("pidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::string_view /*k*/, std::string_view /*v*/) {
+			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4165,7 +4165,7 @@ void SecondaryIndexManager::reindexTable(const std::string& table) {
 	
 	auto scanMetaPrefix = [&]([[maybe_unused]] const std::string& metaPrefix) {
 		std::string prefix = metaPrefix + table + ":";
-		db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
+		db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
 			std::string keyStr(key);
 			size_t firstColon = keyStr.find(':');
 			if (firstColon != std::string::npos) {
@@ -4446,7 +4446,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// Prüfe ob bereits ein anderer PK mit diesem Wert existiert
 				std::string prefix = std::string("idx:") + std::string(table) + ":" + col + ":" + encodedVal + ":";
 				bool conflict = false;
-				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 					// Extrahiere PK aus key: idx:table:column:value:PK
 					size_t lastColon = key.rfind(':');
 					if (lastColon != std::string_view::npos) {
@@ -4528,7 +4528,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				// Prüfe ob bereits ein anderer PK mit dieser Wertekombination existiert
 				std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 				bool conflict = false;
-				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+				db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 					// Extrahiere PK aus key (letztes Segment nach ':')
 					size_t lastColon = key.rfind(':');
 					if (lastColon != std::string_view::npos) {
@@ -4597,7 +4597,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		if (sparseUnique) {
 			std::string prefix = makeSparseIndexKey(table, scol, encodedVal, "");
 			bool conflict = false;
-			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, std::string_view /*val*/) {
+			db_.scanPrefix(prefix, [&pk, &conflict](std::string_view key, [[maybe_unused]] std::string_view val) {
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view extractedPK = key.substr(lastColon + 1);
@@ -4849,7 +4849,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			}
 			// W5: Snapshot pk locally; eliminate [this] capture to avoid manager state closure
 			const std::string_view pk_snapshot = pk;
-			db_.scanPrefix(prefix, [&pk_snapshot, &txn](std::string_view key, std::string_view /*val*/){
+			db_.scanPrefix(prefix, [&pk_snapshot, &txn](std::string_view key, [[maybe_unused]] std::string_view val){
 				// Prüfen, ob PK am Ende passt (endet mit :PK)
 				std::string_view keyView(key);
 				size_t lastColon = keyView.rfind(':');
@@ -4865,7 +4865,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		// Auch alle Range-Index-Einträge mit diesem PK für diese Tabelle entfernen
 		for (const auto& rcol : rangeCols) {
 			std::string rprefix = std::string("ridx:") + std::string(table) + ":" + rcol + ":";
-			db_.scanPrefix(rprefix, [&pk, &txn](std::string_view key, std::string_view /*val*/){
+			db_.scanPrefix(rprefix, [&pk, &txn](std::string_view key, [[maybe_unused]] std::string_view val){
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
 					std::string_view existingPK = key.substr(lastColon + 1);
@@ -5006,7 +5006,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 			// Scan the TTL index prefix and delete matching PKs
 			std::string prefix = makeTTLIndexPrefix(table, tcol);
-			db_.scanPrefix(prefix, [&pk, &txn](std::string_view key, std::string_view /*val*/) {
+			db_.scanPrefix(prefix, [&pk, &txn](std::string_view key, [[maybe_unused]] std::string_view val) {
 				// Extract PK from ttlidx:table:column:timestamp:PK
 				size_t lastColon = key.rfind(':');
 				if (lastColon != std::string_view::npos) {
