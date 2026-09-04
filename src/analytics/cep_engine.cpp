@@ -198,8 +198,8 @@ std::vector<Token> tokenize(const std::string &expr) {
         }
         if (std::isalpha(static_cast<unsigned char>(c)) || c == '_') {
             size_t start = i;
-            while (i <static_cast<int>(expr.size())
-                   && (std::isalnum(static_cast<unsigned char>(expr[i])) || expr[i] == '_' || expr[i] == '.')) {
+            while ((i <static_cast<int>(expr.size())
+                   && (std::isalnum(static_cast<unsigned char>(expr[i])) || expr[i] == '_' || expr[i] == '.'))) {
                 ++i;
             }
             std::string word = expr.substr(start, i - start);
@@ -212,13 +212,13 @@ std::vector<Token> tokenize(const std::string &expr) {
                 t = TokType::NOT;
             }
             tokens.push_back({t, word});
-        } else if (std::isdigit(static_cast<unsigned char>(c))
-                   || (c == '-' && i + 1 <static_cast<int>(expr.size()) && std::isdigit(static_cast<unsigned char>(expr[i + 1])))) {
+        } else if ((std::isdigit(static_cast<unsigned char>(c))
+                  || (c == '-' && i + 1 <static_cast<int>(expr.size()) && std::isdigit(static_cast<unsigned char>(expr[i + 1]))))) {
             size_t start = i;
             if (c == '-') {
                 ++i;
             }
-            while (i <static_cast<int>(expr.size()) && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) {
+            while ((i <static_cast<int>(expr.size()) && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.'))) {
                 ++i;
             }
             std::string ns = expr.substr(start, i - start);
@@ -2932,7 +2932,7 @@ void CEPEngine::workerLoop() {
             // Nothing in the queue — sleep briefly to avoid busy-wait.
             std::unique_lock lk(mutex_);
             cv_.wait_for(lk, std::chrono::milliseconds(100),
-                         [this] { return ([[maybe_unused]] event_queue_ && !event_queue_->empty()) || !running_.load(); });
+                         [this] { return (([[maybe_unused]] event_queue_ && !event_queue_->empty()) || !running_.load()); });
             // Re-try the pop after waking.
             if ([[maybe_unused]] !event_queue_ || !event_queue_->pop(item)) {
                 continue;

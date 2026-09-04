@@ -77,7 +77,7 @@ static bool isPipeTableRow(const std::string& line) {
     if (t.empty()) {
       return false;
     }
-    return (t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2;
+    return ((t.front() == '|' || t.back() == '|') && countChar(t, '|') >= 2);
 }
 
 // Return true if the line consists primarily of dashes (table separator)
@@ -172,13 +172,13 @@ static std::vector<std::string> splitSentences(const std::string& text) {
         current += c;
 
         bool is_boundary = false;
-        if ((c == '.' || c == '!' || c == '?') && i + 1 <static_cast<int>(text.size())) {
+        if (((c == '.' || c == '!' || c == '?') && i + 1 <static_cast<int>(text.size()))) {
             char next = text[i + 1];
             // Sentence ends when followed by whitespace and uppercase or digit
-            if ((next == ' ' || next == '\n') &&
+            if (((next == ' ' || next == '\n') &&
                 i + 2 <static_cast<int>(text.size()) &&
                 (std::isupper(static_cast<unsigned char>(text[i + 2])) ||
-                 c == '!' || c == '?'))
+                 c == '!' || c == '?')))
             {
                 // Don't split on known abbreviations
                 std::string tail = themis::utils::trim(current);

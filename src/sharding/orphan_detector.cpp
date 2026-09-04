@@ -30,10 +30,10 @@ bool isOrphanableState(
     const OrphanDetector::Config& cfg)
 {
     using S = themisdb::sharding::TransactionState;
-    return (cfg.check_preparing  && txn.state == S::PREPARING)  ||
-           (cfg.check_prepared   && txn.state == S::PREPARED)    ||
-           (cfg.check_committing && txn.state == S::COMMITTING)  ||
-           (cfg.check_aborting   && txn.state == S::ABORTING);
+    return ((cfg.check_preparing  && txn.state == S::PREPARING)  ||
+            (cfg.check_prepared   && txn.state == S::PREPARED)    ||
+            (cfg.check_committing && txn.state == S::COMMITTING)  ||
+            (cfg.check_aborting   && txn.state == S::ABORTING));
 }
 
 } // anonymous namespace

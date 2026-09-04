@@ -50,19 +50,19 @@
 #endif
 
 // Feature guards for older distro RocksDB packages.
-#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 27))
+#if (defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 27)))
 #  define THEMIS_HAS_ROCKSDB_XXH3 1
 #else
 #  define THEMIS_HAS_ROCKSDB_XXH3 0
 #endif
 
-#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 22))
+#if (defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 6) || (ROCKSDB_MAJOR == 6 && ROCKSDB_MINOR >= 22)))
 #  define THEMIS_HAS_ROCKSDB_BLOBDB 1
 #else
 #  define THEMIS_HAS_ROCKSDB_BLOBDB 0
 #endif
 
-#if defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 8) || (ROCKSDB_MAJOR == 8 && ROCKSDB_MINOR >= 4))
+#if (defined(ROCKSDB_MAJOR) && ((ROCKSDB_MAJOR > 8) || (ROCKSDB_MAJOR == 8 && ROCKSDB_MINOR >= 4)))
 #  define THEMIS_HAS_ROCKSDB_ASYNC_IO 1
 #else
 #  define THEMIS_HAS_ROCKSDB_ASYNC_IO 0

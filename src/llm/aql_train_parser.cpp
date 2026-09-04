@@ -43,9 +43,9 @@ std::string toLower(const std::string& s) {
 
 /// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
-    if (static_cast<int>(s.size()) >= 2 &&
+    if ((static_cast<int>(s.size()) >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
-         (s.front() == '"'  && s.back() == '"'))) {
+         (s.front() == '"'  && s.back() == '"')))) {
         return s.substr(1, static_cast<int>(s.size()) - 2);
     }
     return s;
@@ -615,7 +615,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
 
     while (pos < n) {
         skipWhitespace(pos);
-        if (pos < n && (input[pos] == ',' || input[pos] == '{' || input[pos] == '}')) {
+        if ((pos < n && (input[pos] == ',' || input[pos] == '{' || input[pos] == '}'))) {
             ++pos;
             continue;
         }
@@ -639,14 +639,14 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
 
         std::string key = toLower(input.substr(keyStart, pos - keyStart));
         skipWhitespace(pos);
-        if (pos >= n || (input[pos] != '=' && input[pos] != ':')) {
+        if ((pos >= n || (input[pos] != '=' && input[pos] != ':'))) {
             continue;
         }
         ++pos;
         skipWhitespace(pos);
 
         std::string value = {};
-        if (pos < n && (input[pos] == '\'' || input[pos] == '"')) {
+        if ((pos < n && (input[pos] == '\'' || input[pos] == '"'))) {
             const char quote = input[pos++];
             const size_t valueStart = pos;
             while (pos < n && input[pos] != quote) {

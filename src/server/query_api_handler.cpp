@@ -856,7 +856,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 if (bin->op == BinaryOperator::Eq) {
                     std::string rvL, rvR; std::string colL = fieldFromFA(bin->left, rvL); std::string colR = fieldFromFA(bin->right, rvR);
-                    if (!colL.empty() && !colR.empty() && ((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1))) {
+                    if ((!colL.empty() && !colR.empty() && ((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1)))) {
                         if (!joinCols.has_value()) { if (rvL == var1) joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL); }
                         return;
                     }
@@ -1873,7 +1873,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                     colR = fieldFromFA(bin->right, rvR);
                                     if (!colL.empty() && !colR.empty()) {
                                         // beide Seiten FieldAccess
-                                        if ((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1)) {
+                                        if (((rvL == var1 && rvR == var2) || (rvL == var2 && rvR == var1))) {
                                             if (joinCols.has_value()) {
                                                 joinSpan.setStatus(false, "multiple_join_predicates_not_supported");
                                                 span.setStatus(false, "Only single equality-join supported");
@@ -3373,7 +3373,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             span.setStatus(false, "FULLTEXT_SCORE requires FULLTEXT() in FILTER");
             return makeErrorResponse(http::status::bad_request, "FULLTEXT_SCORE() requires a FULLTEXT(...) filter in the query", req);
         }
-        if ((usesScoreFn || sortByScoreFunction) && fulltextScoreByPk.empty() && q.fulltextPredicate.has_value()) {
+        if (((usesScoreFn || sortByScoreFunction) && fulltextScoreByPk.empty() && q.fulltextPredicate.has_value())) {
             const auto& ft = *q.fulltextPredicate;
             auto scoreSpan = Tracer::startSpan("aql.fulltext_scores_fetch");
             scoreSpan.setAttribute("table", q.table);

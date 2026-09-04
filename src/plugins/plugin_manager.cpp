@@ -1825,11 +1825,11 @@ Result<void> PluginManager::checkCapabilityEscalation(const std::string& name)
     // A capability escalation occurs when a flag that was false at load time
     // (i.e. not declared in the manifest capabilities snapshot) is now true.
     bool escalated =
-        (!frozen.supports_streaming    && current.supports_streaming)    ||
+        ((!frozen.supports_streaming    && current.supports_streaming)    ||
         (!frozen.supports_batching     && current.supports_batching)     ||
         (!frozen.supports_transactions && current.supports_transactions) ||
         (!frozen.thread_safe           && current.thread_safe)           ||
-        (!frozen.gpu_accelerated       && current.gpu_accelerated);
+        (!frozen.gpu_accelerated       && current.gpu_accelerated));
 
     if (!escalated) {
         return OkVoid();

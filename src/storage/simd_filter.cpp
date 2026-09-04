@@ -30,7 +30,7 @@
 #  include <arm_neon.h>
 #endif
 
-#if defined(_MSC_VER) && (defined(__AVX2__) || defined(__AVX512F__))
+#if (defined(_MSC_VER) && (defined(__AVX2__) || defined(__AVX512F__)))
 #  include <immintrin.h>
 #  ifndef THEMIS_SIMD_FILTER_AVX2
 #    define THEMIS_SIMD_FILTER_AVX2 1
@@ -79,7 +79,7 @@ SIMDLevel detectSIMDLevel() noexcept {
         // eax=7, ecx=0 → ebx bit 5 = AVX2
         // Use __get_cpuid_count (from <cpuid.h>) which handles PIC-safe
         // EBX save/restore on both 32-bit and 64-bit GCC/Clang targets.
-#if (defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER)
+#if ((defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER))
         unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
         if (__get_cpuid_count(7, 0, &eax, &ebx, &ecx, &edx)) {
             if (ebx & (1 << 5)) {

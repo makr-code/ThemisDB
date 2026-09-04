@@ -51,10 +51,10 @@ std::string toUpperTrim(const std::string &s) {
 bool wordContains(const std::string &upper, const std::string &kw) {
     size_t p = 0;
     while ((p = upper.find(kw, p)) != std::string::npos) {
-        bool ok_before = (p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])) && upper[static_cast<int>(p - 1)] != '_'));
+        bool ok_before = ((p == 0 || (!std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])) && upper[static_cast<int>(p - 1)] != '_')));
         size_t after   = p + static_cast<int>(kw.size()) ;
-        bool ok_after  = (after >= upper.size()
-                          || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_'));
+        bool ok_after  = ((after >= upper.size()
+                          || (!std::isalnum(static_cast<unsigned char>(upper[after])) && upper[after] != '_')));
         if (ok_before && ok_after) {
             return true;
         }
@@ -80,7 +80,7 @@ std::string extractCollection(const std::string &upper, const std::string &in_ke
             // Skip space, read word.
             size_t ws = after + 1;
             size_t we = ws;
-            while (we <static_cast<int>(upper.size()) && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_')) {
+            while ((we <static_cast<int>(upper.size()) && (std::isalnum(static_cast<unsigned char>(upper[we])) || upper[we] == '_'))) {
                 ++we;
             }
             if (we > ws) {
@@ -103,7 +103,7 @@ std::string extractLoopVar(const std::string &upper) {
     }
     size_t vs = p + 4;
     size_t ve = vs;
-    while (ve <static_cast<int>(upper.size()) && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_')) {
+    while ((ve <static_cast<int>(upper.size()) && (std::isalnum(static_cast<unsigned char>(upper[ve])) || upper[ve] == '_'))) {
         ++ve;
     }
     if (ve > vs) {

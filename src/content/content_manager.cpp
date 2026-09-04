@@ -451,7 +451,7 @@ static std::vector<std::string> buildChunkWhitelist(
                         for (const auto& c : cond) {
                             if (vptr->dump() == c.dump()) { match = true; break; }
                         }
-                    } else if (cond.is_object() && (cond.contains("min") || cond.contains("max"))) {
+                    } else if ((cond.is_object() && (cond.contains("min") || cond.contains("max")))) {
                         // RANGE semantics (numeric). Convert vptr to number if possible.
                         double numeric_val = 0.0; bool ok = false;
                         if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
@@ -1188,7 +1188,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                       continue;
                     }
                     try {
-                        if (target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty())) {
+                        if ((target->is_null() || (target->is_object() && target->empty()) || (target->is_array() && target->empty()))) {
                             continue; // nichts zu verschlüsseln
                         }
                         std::string plain = target->dump();
@@ -2433,7 +2433,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     std::string cached_phash = {};
     std::vector<uint32_t> cached_minhash;
 
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if ((dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text))) {
         metrics_.dedup_checks_total.fetch_add(1);
 
         std::optional<DuplicateOf> dup = {};
@@ -2741,7 +2741,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Register with the deduplication index after successful storage.
     // Reuse cached_phash / cached_minhash computed above (no redundant DCT/hash).
-    if (dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text)) {
+    if ((dedup_policy_enabled && dedup_checker_ && (dedup_is_image || dedup_is_text))) {
         if (dedup_is_image && !cached_phash.empty()) {
             dedup_checker_->registerImage(content_id, cached_phash);
             meta.extracted_metadata["phash_hex"] = cached_phash;
