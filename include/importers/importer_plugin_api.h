@@ -236,7 +236,9 @@ public:
     std::vector<std::string> getSupportedTypes() const override { return {}; }
 
     bool initialize(const std::string& config_json) override {
-        if (!instance_ || !desc_ || !desc_->initialize) return false;
+        if (!instance_ || !desc_ || !desc_->initialize) {
+          return false;
+        }
         return desc_->initialize(instance_, config_json.c_str()) == 0;
     }
 
@@ -246,7 +248,9 @@ public:
             errors.push_back("Plugin instance not created");
             return false;
         }
-        if (!desc_->validate_source) return true;
+        if (!desc_->validate_source) {
+          return true;
+        }
         char errbuf[1024] = {};
         int rc = desc_->validate_source(instance_, source_path.c_str(),
                                         errbuf, sizeof(errbuf));
@@ -276,7 +280,9 @@ public:
             auto status = future.wait_for(
                 std::chrono::milliseconds(sandbox_.timeout_ms));
             if (status == std::future_status::timeout) {
-                if (desc_->cancel) desc_->cancel(instance_);
+                if (desc_->cancel) {
+                  desc_->cancel(instance_);
+                }
                 future.wait();
                 ImportStats s;
                 s.errors.push_back("Plugin import timed out after "
@@ -311,9 +317,13 @@ public:
     }
 
     json getSourceSchema(const std::string& source_path) override {
-        if (!instance_ || !desc_ || !desc_->get_schema) return json::object();
+        if (!instance_ || !desc_ || !desc_->get_schema) {
+          return json::object();
+        }
         const char* s = desc_->get_schema(instance_, source_path.c_str());
-        if (!s || s[0] == '\0') return json::object();
+        if (!s || s[0] == '\0') {
+          return json::object();
+        }
         try {
             return json::parse(s);
         } catch (...) {
@@ -340,7 +350,9 @@ private:
 
     static void* sandboxAlloc(size_t bytes, void* user_data) {
         auto* ctx = static_cast<AllocContext*>(user_data);
-        if (ctx->limit_exceeded.load(std::memory_order_relaxed)) return nullptr;
+        if (ctx->limit_exceeded.load(std::memory_order_relaxed)) {
+          return nullptr;
+        }
         const size_t total = sizeof(AllocHeader) + bytes;
         if (ctx->memory_limit_bytes > 0) {
             size_t prev = ctx->bytes_used.fetch_add(total, std::memory_order_relaxed);
@@ -362,7 +374,9 @@ private:
     }
 
     static void sandboxFree(void* ptr, void* user_data) {
-        if (!ptr) return;
+        if (!ptr) {
+          return;
+        }
         auto* header = static_cast<AllocHeader*>(ptr) - 1;
         auto* ctx    = static_cast<AllocContext*>(user_data);
         if (ctx && ctx->memory_limit_bytes > 0) {
@@ -710,7 +724,9 @@ private:
     // Helpers
     // ----------------------------------------------------------------
     static void closeLibraryHandle(void* handle) {
-        if (!handle) return;
+        if (!handle) {
+          return;
+        }
 #if defined(_WIN32)
         ::FreeLibrary(static_cast<HMODULE>(handle));
 #elif defined(__unix__) || defined(__APPLE__)
@@ -890,7 +906,9 @@ public:
             loaded_name_,
             [captured_create, captured_destroy]() -> std::shared_ptr<IImporter> {
                 auto* plugin_ptr = captured_create();
-                if (!plugin_ptr) return nullptr;
+                if (!plugin_ptr) {
+                  return nullptr;
+                }
                 auto* importer_ptr = static_cast<IImporter*>(plugin_ptr->getInstance());
                 if (!importer_ptr) {
                     captured_destroy(plugin_ptr);
@@ -913,7 +931,9 @@ public:
      * Safe to call even when no library is loaded (no-op).
      */
     void unload() {
-        if (!handle_) return;
+        if (!handle_) {
+          return;
+        }
 
         // Remove from registry before closing the library so no dangling
         // function pointers remain in registered factories.
@@ -942,7 +962,9 @@ public:
 
 private:
     void closeHandle() {
-        if (!handle_) return;
+        if (!handle_) {
+          return;
+        }
 #if defined(_WIN32)
         ::FreeLibrary(static_cast<HMODULE>(handle_));
 #elif defined(__unix__) || defined(__APPLE__)

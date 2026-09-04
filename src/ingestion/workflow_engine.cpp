@@ -92,8 +92,12 @@ std::string getDynamicLibraryError() {
 #endif
 
 bool mimeMatches(const std::string& pattern, const std::string& mime) {
-    if (pattern.empty()) return true;
-    if (pattern == mime) return true;
+    if (pattern.empty()) {
+      return true;
+    }
+    if (pattern == mime) {
+      return true;
+    }
     // Simple prefix wildcard: "application/vnd.openxmlformats*"
     if (!pattern.empty() && pattern.back() == '*') {
         const auto prefix = pattern.substr(0, pattern.size() - 1);
@@ -110,8 +114,12 @@ bool filenameMatchesGlob(const std::string& pattern, const std::string& name) {
     std::transform(p.begin(), p.end(), p.begin(), ::tolower);
     std::transform(n.begin(), n.end(), n.begin(), ::tolower);
     // Remove leading/trailing '*'
-    if (!p.empty() && p.front() == '*') p = p.substr(1);
-    if (!p.empty() && p.back() == '*')  p = p.substr(0, p.size() - 1);
+    if (!p.empty() && p.front() == '*') {
+      p = p.substr(1);
+    }
+    if (!p.empty() && p.back() == '*') {
+      p = p.substr(0, p.size() - 1);
+    }
     return n.find(p) != std::string::npos;
 #else
     return ::fnmatch(pattern.c_str(), name.c_str(), FNM_CASEFOLD) == 0;
@@ -121,13 +129,17 @@ bool filenameMatchesGlob(const std::string& pattern, const std::string& name) {
 
 bool FilePattern::matches(const std::string& mime,
                            const std::string& filename) const {
-    if (mime_types.empty() && filename_patterns.empty()) return true;
+    if (mime_types.empty() && filename_patterns.empty()) {
+      return true;
+    }
 
     bool mime_ok = mime_types.empty();
     for (const auto& mp : mime_types) {
         if (mimeMatches(mp, mime)) { mime_ok = true; break; }
     }
-    if (!mime_ok) return false;
+    if (!mime_ok) {
+      return false;
+    }
 
     bool name_ok = filename_patterns.empty();
     for (const auto& fp : filename_patterns) {
@@ -162,7 +174,9 @@ StepRegistry::~StepRegistry() {
             using DestroyFn = void(*)(IIngestionStep*);
             auto* destroy = reinterpret_cast<DestroyFn>(
                 resolveDynamicSymbol(entry.dl_handle, "themis_destroy_step"));
-            if (destroy && entry.step) destroy(entry.step.get());
+            if (destroy && entry.step) {
+              destroy(entry.step.get());
+            }
             closeDynamicLibrary(entry.dl_handle);
         }
     }
@@ -303,7 +317,9 @@ std::vector<std::string> StepRegistry::listSteps() const {
     std::shared_lock<std::shared_mutex> lock(impl_->mutex_);
     std::vector<std::string> names;
     names.reserve(impl_->steps_.size());
-    for (const auto& [name, _] : impl_->steps_) names.push_back(name);
+    for (const auto& [name, _] : impl_->steps_) {
+      names.push_back(name);
+    }
     return names;
 }
 
@@ -330,12 +346,16 @@ namespace {
 
 std::string safeString(const json& obj, const std::string& key,
                         const std::string& def = "") {
-    if (obj.contains(key) && obj[key].is_string()) return obj[key];
+    if (obj.contains(key) && obj[key].is_string()) {
+      return obj[key];
+    }
     return def;
 }
 
 bool safeBool(const json& obj, const std::string& key, bool def = false) {
-    if (obj.contains(key) && obj[key].is_boolean()) return obj[key];
+    if (obj.contains(key) && obj[key].is_boolean()) {
+      return obj[key];
+    }
     return def;
 }
 
@@ -352,12 +372,16 @@ WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
         const auto& fp = doc["file_patterns"];
         if (fp.contains("mime_types") && fp["mime_types"].is_array()) {
             for (const auto& m : fp["mime_types"]) {
-                if (m.is_string()) p.file_patterns.mime_types.push_back(m);
+                if (m.is_string()) {
+                  p.file_patterns.mime_types.push_back(m);
+                }
             }
         }
         if (fp.contains("filename_patterns") && fp["filename_patterns"].is_array()) {
             for (const auto& fn : fp["filename_patterns"]) {
-                if (fn.is_string()) p.file_patterns.filename_patterns.push_back(fn);
+                if (fn.is_string()) {
+                  p.file_patterns.filename_patterns.push_back(fn);
+                }
             }
         }
     }
@@ -365,7 +389,9 @@ WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
     // steps
     if (doc.contains("steps") && doc["steps"].is_array()) {
         for (const auto& s : doc["steps"]) {
-            if (!s.is_object()) continue;
+            if (!s.is_object()) {
+              continue;
+            }
             StepConfig sc;
             sc.name       = safeString(s, "name");
             sc.plugin     = safeString(s, "plugin");
@@ -404,10 +430,14 @@ WorkflowProfile parseProfile(const json& doc, const std::string& source_path) {
  */
 static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
     nlohmann::json obj = nlohmann::json::object();
-    if (!node || !node.IsMap()) return obj;
+    if (!node || !node.IsMap()) {
+      return obj;
+    }
     for (const auto& kv : node) {
         const std::string key = kv.first.as<std::string>("");
-        if (key.empty()) continue;
+        if (key.empty()) {
+          continue;
+        }
         const YAML::Node& val = kv.second;
         if (val.IsScalar()) {
             try { obj[key] = val.as<bool>(); continue; } catch (...) {}
@@ -417,7 +447,9 @@ static nlohmann::json yamlNodeToJson(const YAML::Node& node) {
         } else if (val.IsSequence()) {
             auto arr = nlohmann::json::array();
             for (const auto& item : val) {
-                if (item.IsScalar()) arr.push_back(item.as<std::string>(""));
+                if (item.IsScalar()) {
+                  arr.push_back(item.as<std::string>(""));
+                }
             }
             obj[key] = arr;
         } else {
@@ -449,12 +481,16 @@ WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
         const auto& mt = fp["mime_types"];
         if (mt && mt.IsSequence()) {
             for (const auto& m : mt)
-                if (m.IsScalar()) p.file_patterns.mime_types.push_back(m.as<std::string>(""));
+                if (m.IsScalar()) {
+                  p.file_patterns.mime_types.push_back(m.as<std::string>(""));
+                }
         }
         const auto& fn = fp["filename_patterns"];
         if (fn && fn.IsSequence()) {
             for (const auto& f : fn)
-                if (f.IsScalar()) p.file_patterns.filename_patterns.push_back(f.as<std::string>(""));
+                if (f.IsScalar()) {
+                  p.file_patterns.filename_patterns.push_back(f.as<std::string>(""));
+                }
         }
     }
 
@@ -462,7 +498,9 @@ WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
     const auto& steps = root["steps"];
     if (steps && steps.IsSequence()) {
         for (const auto& s : steps) {
-            if (!s.IsMap()) continue;
+            if (!s.IsMap()) {
+              continue;
+            }
             StepConfig sc;
             sc.name       = asStr(s["name"]);
             sc.plugin     = asStr(s["plugin"]);
@@ -507,7 +545,9 @@ public:
 
     const WorkflowProfile* findProfileByName(const std::string& name) const {
         for (const auto& p : profiles_)
-            if (p.name == name) return &p;
+            if (p.name == name) {
+              return &p;
+            }
         return nullptr;
     }
 
@@ -568,7 +608,9 @@ public:
         if (!ctx.chunks.empty()) {
             std::size_t with_embed = 0;
             for (const auto& v : ctx.embeddings) {
-                if (!v.embedding.empty()) ++with_embed;
+                if (!v.embedding.empty()) {
+                  ++with_embed;
+                }
             }
             out.quality_score = static_cast<double>(with_embed)
                                 / static_cast<double>(ctx.chunks.size());
@@ -672,12 +714,20 @@ std::size_t WorkflowEngine::loadProfilesFromDirectory(
     namespace fs = std::filesystem;
     std::error_code ec;
     for (const auto& entry : fs::directory_iterator(directory_path, ec)) {
-        if (ec) break;
-        if (!entry.is_regular_file()) continue;
+        if (ec) {
+          break;
+        }
+        if (!entry.is_regular_file()) {
+          continue;
+        }
         const auto ext = entry.path().extension().string();
-        if (ext != ".yaml" && ext != ".yml" && ext != ".json") continue;
+        if (ext != ".yaml" && ext != ".yml" && ext != ".json") {
+          continue;
+        }
         auto result = loadProfile(entry.path().string());
-        if (result) ++count;
+        if (result) {
+          ++count;
+        }
     }
     return count;
 }
@@ -688,7 +738,9 @@ const WorkflowProfile* WorkflowEngine::selectProfile(
     std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);
     for (const auto& p : impl_->profiles_) {
         if (p.name == "default") continue;  // evaluated last
-        if (p.file_patterns.matches(mime, filename)) return &p;
+        if (p.file_patterns.matches(mime, filename)) {
+          return &p;
+        }
     }
     // Fall back to "default"
     return impl_->findProfileByName("default");
@@ -698,7 +750,9 @@ std::vector<std::string> WorkflowEngine::listProfiles() const {
     std::shared_lock<std::shared_mutex> lock(impl_->profiles_mutex_);
     std::vector<std::string> names;
     names.reserve(impl_->profiles_.size());
-    for (const auto& p : impl_->profiles_) names.push_back(p.name);
+    for (const auto& p : impl_->profiles_) {
+      names.push_back(p.name);
+    }
     return names;
 }
 

@@ -77,7 +77,9 @@ bool TieredIndexManager::registerIndex(const std::string&  name,
                                          IndexTierMeta::Tier tier,
                                          const std::string&  data_path,
                                          uint64_t            size_bytes) {
-    if (name.empty()) return false;
+    if (name.empty()) {
+      return false;
+    }
 
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     if (registry_.count(name)) return false;   // already registered
@@ -106,7 +108,9 @@ std::optional<IndexTierMeta> TieredIndexManager::getMetadata(
         const std::string& name) const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return std::nullopt;
+    if (it == registry_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -114,7 +118,9 @@ std::vector<std::string> TieredIndexManager::listIndexes() const {
     std::shared_lock<std::shared_mutex> lk(registry_mutex_);
     std::vector<std::string> names;
     names.reserve(registry_.size());
-    for (const auto& [k, _] : registry_) names.push_back(k);
+    for (const auto& [k, _] : registry_) {
+      names.push_back(k);
+    }
     // Sort for deterministic iteration order (registry_ is unordered_map)
     std::sort(names.begin(), names.end());
     return names;
@@ -126,7 +132,9 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
     std::vector<std::string> names;
     names.reserve(registry_.size());
     for (const auto& [k, v] : registry_) {
-        if (v.tier == tier) names.push_back(k);
+        if (v.tier == tier) {
+          names.push_back(k);
+        }
     }
     // Sort for deterministic iteration order (registry_ is unordered_map)
     std::sort(names.begin(), names.end());
@@ -140,7 +148,9 @@ std::vector<std::string> TieredIndexManager::listIndexesByTier(
 bool TieredIndexManager::recordAccess(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return false;
+    if (it == registry_.end()) {
+      return false;
+    }
     it->second.last_access = std::chrono::steady_clock::now();
     ++it->second.access_count;
     return true;
@@ -149,7 +159,9 @@ bool TieredIndexManager::recordAccess(const std::string& name) {
 bool TieredIndexManager::resetAccessCount(const std::string& name) {
     std::unique_lock<std::shared_mutex> lk(registry_mutex_);
     auto it = registry_.find(name);
-    if (it == registry_.end()) return false;
+    if (it == registry_.end()) {
+      return false;
+    }
     it->second.access_count = 0;
     return true;
 }
@@ -210,7 +222,9 @@ std::vector<MigrationResult> TieredIndexManager::runMigrationPass() {
         std::unique_lock<std::shared_mutex> lk(registry_mutex_);
         pol = policy_;
         snapshot.reserve(registry_.size());
-        for (const auto& [k, v] : registry_) snapshot.emplace_back(k, v);
+        for (const auto& [k, v] : registry_) {
+          snapshot.emplace_back(k, v);
+        }
     }
 
     const auto now = std::chrono::steady_clock::now();

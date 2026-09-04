@@ -122,7 +122,9 @@ public:
         
         double hit_ratio() const {
             size_t total = hits + misses;
-            if (total == 0) return 0.0;
+            if (total == 0) {
+              return 0.0;
+            }
             return static_cast<double>(hits) / static_cast<double>(total);
         }
     };

@@ -78,7 +78,9 @@ struct QueryRow {
 
     const QueryValue* get(const std::string& col) const {
         for (size_t i = 0; i < column_names.size(); ++i) {
-            if (column_names[i] == col) return &values[i];
+            if (column_names[i] == col) {
+              return &values[i];
+            }
         }
         return nullptr;
     }
@@ -116,7 +118,9 @@ struct TableSchema {
 
     ColumnType columnType(const std::string& col_name) const {
         for (const auto& c : columns) {
-            if (c.name == col_name) return c.type;
+            if (c.name == col_name) {
+              return c.type;
+            }
         }
         return ColumnType::Unknown;
     }

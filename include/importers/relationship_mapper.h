@@ -113,8 +113,12 @@ public:
 
         std::vector<RelationshipMapping> inverse;
         for (const auto& m : mappings) {
-            if (m.cardinality != "MANY_TO_ONE") continue;
-            if (m.is_self_referential) continue;
+            if (m.cardinality != "MANY_TO_ONE") {
+              continue;
+            }
+            if (m.is_self_referential) {
+              continue;
+            }
 
             RelationshipMapping inv;
             inv.source_table      = m.target_table;
@@ -148,11 +152,15 @@ public:
             const std::string& mode = "auto") {
 
         std::vector<RelationshipMapping> result;
-        if (mode != "auto") return result;
+        if (mode != "auto") {
+          return result;
+        }
 
         for (const auto& [tname, tschema] : schemas) {
             for (const auto& fk : tschema.foreign_keys) {
-                if (fk.target_table.empty()) continue;
+                if (fk.target_table.empty()) {
+                  continue;
+                }
 
                 RelationshipMapping m;
                 m.source_table       = tname;
@@ -284,14 +292,18 @@ public:
         for (char c : cols) {
             if (c == ',') {
                 auto s = trimStr(cur);
-                if (!s.empty()) result.push_back(s);
+                if (!s.empty()) {
+                  result.push_back(s);
+                }
                 cur.clear();
             } else {
                 cur += c;
             }
         }
         auto s = trimStr(cur);
-        if (!s.empty()) result.push_back(s);
+        if (!s.empty()) {
+          result.push_back(s);
+        }
         return result;
     }
 
@@ -328,7 +340,9 @@ private:
                     break;
                 }
             }
-            if (is_pk) return "ONE_TO_ONE";
+            if (is_pk) {
+              return "ONE_TO_ONE";
+            }
         }
 
         // Check if the target column is a primary key in the target table.
@@ -348,7 +362,9 @@ private:
                     }
                 }
             }
-            if (!tgt_is_pk) return "MANY_TO_MANY";
+            if (!tgt_is_pk) {
+              return "MANY_TO_MANY";
+            }
         }
 
         return "MANY_TO_ONE";
@@ -379,9 +395,13 @@ private:
                     std::string chain;
                     bool in_cycle = false;
                     for (const auto& n : path) {
-                        if (n == neighbour) in_cycle = true;
+                        if (n == neighbour) {
+                          in_cycle = true;
+                        }
                         if (in_cycle) {
-                            if (!chain.empty()) chain += " -> ";
+                            if (!chain.empty()) {
+                              chain += " -> ";
+                            }
                             chain += n;
                         }
                     }

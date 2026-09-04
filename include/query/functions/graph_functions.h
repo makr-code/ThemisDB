@@ -391,7 +391,9 @@ public:
             auto [current, depth] = queue.front();
             queue.pop();
             
-            if (depth >= maxDepth) continue;
+            if (depth >= maxDepth) {
+              continue;
+            }
             
             // Get neighbors based on direction
             std::vector<std::string> nextVertices;
@@ -634,7 +636,9 @@ public:
         auto graph = graph_helpers::buildGraph(args[1]);
         
         size_t n = graph.vertexCount();
-        if (n <= 1) return 0.0;
+        if (n <= 1) {
+          return 0.0;
+        }
         
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
         std::transform(direction.begin(), direction.end(), direction.begin(), ::tolower);
@@ -837,7 +841,9 @@ public:
         nlohmann::json components = nlohmann::json::array();
         
         for (const auto& start : vertices) {
-            if (visited.find(start) != visited.end()) continue;
+            if (visited.find(start) != visited.end()) {
+              continue;
+            }
             
             // BFS to find component
             nlohmann::json component = nlohmann::json::array();
@@ -909,7 +915,9 @@ public:
         }
         
         size_t k = neighbors.size();
-        if (k < 2) return 0.0;
+        if (k < 2) {
+          return 0.0;
+        }
         
         // Count edges between neighbors
         size_t edgeCount = 0;
@@ -962,7 +970,9 @@ public:
         nlohmann::json result = nlohmann::json::array();
         
         for (const auto& edge : args[1]) {
-            if (!graph_helpers::isEdge(edge)) continue;
+            if (!graph_helpers::isEdge(edge)) {
+              continue;
+            }
             
             std::string from = edge["_from"].get<std::string>();
             std::string to = edge["_to"].get<std::string>();
@@ -1076,7 +1086,9 @@ public:
         double min_modularity_gain = args.size() > 1 ? args[1].get<double>() : 0.000001;
         
         const auto& vertices = graph.vertices();
-        if (vertices.empty()) return nlohmann::json::object();
+        if (vertices.empty()) {
+          return nlohmann::json::object();
+        }
         
         // Convert vertex set to vector for consistent iteration
         std::vector<std::string> node_list(vertices.begin(), vertices.end());
@@ -1143,7 +1155,9 @@ public:
                 double best_delta_q = 0.0;
                 
                 for (const auto& [candidate_comm, edge_weight_to_comm] : neighbor_community_weights) {
-                    if (candidate_comm == current_comm) continue;
+                    if (candidate_comm == current_comm) {
+                      continue;
+                    }
                     
                     // Simplified modularity heuristic (not full modularity calculation)
                     // Full Louvain: Q = (e_in/m) - (k_total/(2m))^2
@@ -1220,7 +1234,9 @@ public:
         int max_iterations = args.size() > 1 ? args[1].get<int>() : 100;
         
         const auto& vertices = graph.vertices();
-        if (vertices.empty()) return nlohmann::json::object();
+        if (vertices.empty()) {
+          return nlohmann::json::object();
+        }
         
         // Convert vertex set to vector
         std::vector<std::string> node_list(vertices.begin(), vertices.end());

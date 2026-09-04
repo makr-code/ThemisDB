@@ -244,7 +244,9 @@ private:
  * @return Decibels SPL
  */
 [[nodiscard]] inline int8_t level_to_dbspl(double linear_level) noexcept {
-    if (linear_level <= 0) return -120;
+    if (linear_level <= 0) {
+      return -120;
+    }
     return static_cast<int8_t>(20.0 * std::log10(linear_level));
 }
 

@@ -136,8 +136,12 @@ public:
         std::string node_id;
 
         bool operator<(const Timestamp& other) const {
-            if (physical != other.physical) return physical < other.physical;
-            if (logical  != other.logical)  return logical  < other.logical;
+            if (physical != other.physical) {
+              return physical < other.physical;
+            }
+            if (logical  != other.logical) {
+              return logical  < other.logical;
+            }
             return node_id < other.node_id;
         }
         bool operator==(const Timestamp& other) const {

@@ -601,7 +601,9 @@ static std::string b64EncodeBench(const std::string& data) {
         buf <<= (6 - bits);
         out.push_back(kB64BenchChars[buf & 0x3F]);
     }
-    while (out.size() % 4 != 0) out.push_back('=');
+    while (out.size() % 4 != 0) {
+      out.push_back('=');
+    }
     return out;
 }
 
@@ -609,7 +611,9 @@ static std::string b64EncodeBench(const std::string& data) {
 static std::string makeHexKey64(int n) {
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');
-    for (int i = 0; i < 8; ++i) ss << std::setw(8) << n;
+    for (int i = 0; i < 8; ++i) {
+      ss << std::setw(8) << n;
+    }
     return ss.str();
 }
 

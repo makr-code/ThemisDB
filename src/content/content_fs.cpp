@@ -48,15 +48,23 @@ std::string ContentFS::sha256Hex(const std::vector<uint8_t> &data) {
     // RAII wrapper — EVP_MD_CTX_free() called automatically on all exit paths.
     using EvpCtxPtr = std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>;
     EvpCtxPtr mdctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
-    if (!mdctx) return "";
-
-    if (EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr) != 1) return "";
-
-    if (!data.empty()) {
-        if (EVP_DigestUpdate(mdctx.get(), data.data(), data.size()) != 1) return "";
+    if (!mdctx) {
+      return "";
     }
 
-    if (EVP_DigestFinal_ex(mdctx.get(), md, &mdLen) != 1) return "";
+    if (EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr) != 1) {
+      return "";
+    }
+
+    if (!data.empty()) {
+        if (EVP_DigestUpdate(mdctx.get(), data.data(), data.size()) != 1) {
+          return "";
+        }
+    }
+
+    if (EVP_DigestFinal_ex(mdctx.get(), md, &mdLen) != 1) {
+      return "";
+    }
 
     return toHex(md, mdLen);
 }
@@ -111,7 +119,9 @@ Result<void> ContentFS::put(const std::string &pk, const std::vector<uint8_t> &d
             try {
                 auto jm             = nlohmann::json::from_cbor(*oldMeta);
                 uint64_t old_chunks = jm.value("chunks", static_cast<uint64_t>(0));
-                for (uint64_t i = 0; i < old_chunks; ++i) db_.del(chunkKey(pk, i));
+                for (uint64_t i = 0; i < old_chunks; ++i) {
+                  db_.del(chunkKey(pk, i));
+                }
             } catch (const nlohmann::json::exception&) {
             } catch (...) {
             }

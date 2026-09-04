@@ -76,15 +76,21 @@ bool SchemaInferenceEngine::columnNameSimilar(const std::string& a,
 
 double SchemaInferenceEngine::jaccardSimilarity(const std::vector<std::string>& a,
                                                  const std::vector<std::string>& b) const {
-    if (a.empty() && b.empty()) return 1.0;
-    if (a.empty() || b.empty()) return 0.0;
+    if (a.empty() && b.empty()) {
+      return 1.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
 
     std::unordered_set<std::string> setA(a.begin(), a.end());
     std::unordered_set<std::string> setB(b.begin(), b.end());
 
     size_t intersection = 0;
     for (const auto& v : setA) {
-        if (setB.count(v)) ++intersection;
+        if (setB.count(v)) {
+          ++intersection;
+        }
     }
     size_t union_size = setA.size() + setB.size() - intersection;
     return union_size == 0 ? 0.0 : static_cast<double>(intersection) / union_size;
@@ -129,7 +135,9 @@ SchemaInferenceEngine::inferImplicitRelationships(
         for (const auto& col : schema.columns) {
             // Look for a matching column (by name stem) in another table's PKs
             for (const auto& other : schemas) {
-                if (other.name == schema.name) continue;
+                if (other.name == schema.name) {
+                  continue;
+                }
 
                 for (const auto& pk : other.primary_keys) {
                     if (columnNameSimilar(col, pk) || columnNameSimilar(col, other.name + "_id")) {
@@ -198,7 +206,9 @@ SchemaInferenceEngine::SemanticType
 SchemaInferenceEngine::detectSingleColumn(
     const std::vector<std::string>& values) const
 {
-    if (values.empty()) return SemanticType::UNKNOWN;
+    if (values.empty()) {
+      return SemanticType::UNKNOWN;
+    }
 
     // Simple regex patterns for common semantic types
     static const std::regex re_email(R"(^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$)");
@@ -226,7 +236,9 @@ SchemaInferenceEngine::detectSingleColumn(
         if (std::regex_match(v, re_currency)){ votes[SemanticType::CURRENCY]++; continue; }
     }
 
-    if (votes.empty()) return SemanticType::UNKNOWN;
+    if (votes.empty()) {
+      return SemanticType::UNKNOWN;
+    }
 
     auto best = std::max_element(votes.begin(), votes.end(),
         [](const auto& a, const auto& b){ return a.second < b.second; });
@@ -248,7 +260,9 @@ SchemaInferenceEngine::detectSemanticTypes(
     const std::vector<SampleData>& samples)
 {
     std::map<std::string, SemanticType> result;
-    if (!config_.enable_semantic_detection) return result;
+    if (!config_.enable_semantic_detection) {
+      return result;
+    }
 
     // ── I2: Bounds check ─────────────────────────────────────────────────────
     if (schemas.size() > kMaxTableCount) {

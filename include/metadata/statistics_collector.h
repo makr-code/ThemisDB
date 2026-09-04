@@ -103,7 +103,9 @@ struct ColumnStats {
                 matching_freq += static_cast<double>(b.frequency) * overlap_frac;
             }
         }
-        if (total_freq <= 0.0) return selectivity;
+        if (total_freq <= 0.0) {
+          return selectivity;
+        }
         return std::max(0.0, std::min(1.0, matching_freq / total_freq));
     }
 };

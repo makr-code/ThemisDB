@@ -31,7 +31,9 @@ EdgeTypeRegistry& EdgeTypeRegistry::instance() {
 EdgeTypeRegistry::EdgeTypeRegistry() = default;
 
 void EdgeTypeRegistry::initializeBuiltinTypes() {
-    if (initialized_) return;
+    if (initialized_) {
+      return;
+    }
 
     // ===== STRUCTURAL Category =====
     // Core hierarchical and containment relationships
@@ -438,13 +440,27 @@ std::string EdgeTypeRegistry::categoryToString(EdgeCategory category) {
 }
 
 std::optional<EdgeCategory> EdgeTypeRegistry::categoryFromString(std::string_view str) {
-    if (str == "STRUCTURAL") return EdgeCategory::STRUCTURAL;
-    if (str == "REFERENCE")  return EdgeCategory::REFERENCE;
-    if (str == "TEMPORAL")   return EdgeCategory::TEMPORAL;
-    if (str == "SEMANTIC")   return EdgeCategory::SEMANTIC;
-    if (str == "WORKFLOW")   return EdgeCategory::WORKFLOW;
-    if (str == "ACCESS")     return EdgeCategory::ACCESS;
-    if (str == "CUSTOM")     return EdgeCategory::CUSTOM;
+    if (str == "STRUCTURAL") {
+      return EdgeCategory::STRUCTURAL;
+    }
+    if (str == "REFERENCE") {
+      return EdgeCategory::REFERENCE;
+    }
+    if (str == "TEMPORAL") {
+      return EdgeCategory::TEMPORAL;
+    }
+    if (str == "SEMANTIC") {
+      return EdgeCategory::SEMANTIC;
+    }
+    if (str == "WORKFLOW") {
+      return EdgeCategory::WORKFLOW;
+    }
+    if (str == "ACCESS") {
+      return EdgeCategory::ACCESS;
+    }
+    if (str == "CUSTOM") {
+      return EdgeCategory::CUSTOM;
+    }
     return std::nullopt;
 }
 

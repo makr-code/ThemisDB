@@ -34,7 +34,9 @@ namespace {
 /// Maps Kafka/broker error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapDebeziumErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     const std::string lmsg = lower(error_msg);
@@ -165,10 +167,18 @@ std::string DebeziumCDCImporter::sanitiseBrokers(const std::string& brokers) {
 /*static*/
 DebeziumCDCImporter::ChangeOp DebeziumCDCImporter::mapOpChar(
     const std::string& op_str) {
-    if (op_str == "c") return ChangeOp::Create;
-    if (op_str == "u") return ChangeOp::Update;
-    if (op_str == "d") return ChangeOp::Delete;
-    if (op_str == "r") return ChangeOp::Read;
+    if (op_str == "c") {
+      return ChangeOp::Create;
+    }
+    if (op_str == "u") {
+      return ChangeOp::Update;
+    }
+    if (op_str == "d") {
+      return ChangeOp::Delete;
+    }
+    if (op_str == "r") {
+      return ChangeOp::Read;
+    }
     return ChangeOp::Unknown;
 }
 
@@ -209,7 +219,9 @@ DebeziumCDCImporter::CDCEvent DebeziumCDCImporter::parseDebeziumEnvelope(
 }
 
 bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
-    if (config_.table_filter.empty()) return true;
+    if (config_.table_filter.empty()) {
+      return true;
+    }
     return std::any_of(config_.table_filter.begin(), config_.table_filter.end(),
                        [&]([[maybe_unused]] const std::string& f) {
                            return table.find(f) != std::string::npos;
@@ -236,7 +248,9 @@ ImportStats DebeziumCDCImporter::importData(
     // unavailability correctly.
     return streamEvents(options,
         [&]([[maybe_unused]] const CDCEvent& event) -> bool {
-            if (cancelled_.load(std::memory_order_relaxed)) return false;
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              return false;
+            }
 
             ++stats.total_records;
 
@@ -277,8 +291,12 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
     // ---- Mock path (for unit tests) ----------------------------------------
     if ([[maybe_unused]] !mock_events_.empty()) {
         for ([[maybe_unused]] auto& event : mock_events_) {
-            if (cancelled_.load(std::memory_order_relaxed)) break;
-            if (deadline && std::chrono::steady_clock::now() >= *deadline) break;
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              break;
+            }
+            if (deadline && std::chrono::steady_clock::now() >= *deadline) {
+              break;
+            }
             ++stats.total_records;
 
             if ([[maybe_unused]] !tableAllowed(event.table)) {
@@ -286,7 +304,9 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
                 continue;
             }
 
-            if (!callback(event)) break;
+            if (!callback(event)) {
+              break;
+            }
             ++stats.imported_records;
         }
         mock_events_.clear();
@@ -425,7 +445,9 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 
         std::unique_ptr<RdKafka::Message> msg(
             consumer->consume(config_.poll_timeout_ms));
-        if (!msg) continue;
+        if (!msg) {
+          continue;
+        }
 
         switch (msg->err()) {
             case RdKafka::ERR_NO_ERROR: {
@@ -559,8 +581,12 @@ json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
     // Build a schema summary from the injected mock events.
     json schema = json::object();
     for ([[maybe_unused]] const auto& event : mock_events_) {
-        if (event.table.empty()) continue;
-        if (schema.contains(event.table)) continue;
+        if (event.table.empty()) {
+          continue;
+        }
+        if (schema.contains(event.table)) {
+          continue;
+        }
 
         json fields = json::array();
         const json& sample = event.after.is_null() ? event.before : event.after;

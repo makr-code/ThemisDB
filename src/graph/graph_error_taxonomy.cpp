@@ -165,7 +165,9 @@ ErrorContext::formatDiagnostic() const noexcept {
 
 [[nodiscard]] bool
 isValidErrorCode(GraphErrorCode code) noexcept {
-    if (code == GraphErrorCode::SUCCESS) return true;
+    if (code == GraphErrorCode::SUCCESS) {
+      return true;
+    }
     
     const auto c = static_cast<uint32_t>(code);
     

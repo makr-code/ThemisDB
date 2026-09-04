@@ -111,7 +111,9 @@ public:
     explicit CharDivisionCounter(size_t divisor = 4) : divisor_(divisor > 0 ? divisor : 1) {}
 
     size_t count(const std::string& text) const override {
-        if (text.empty()) return 0;
+        if (text.empty()) {
+          return 0;
+        }
         return std::max(size_t{1}, (text.size() + divisor_ - 1) / divisor_);
     }
 

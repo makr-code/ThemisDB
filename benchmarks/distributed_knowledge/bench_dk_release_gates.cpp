@@ -126,7 +126,9 @@ static std::set<std::string> bfsDepth3(const BenchGraph& g,
     std::vector<std::pair<std::string, int>> q = {{start, 0}};
     for (std::size_t i = 0; i < q.size(); ++i) {
         auto [node, depth] = q[i];
-        if (!visited.insert(node).second) continue;
+        if (!visited.insert(node).second) {
+          continue;
+        }
         if (depth < 3) {
             auto nb = getNeighbours(g, node);
             for (auto& n : nb) q.push_back({n, depth + 1});
@@ -264,8 +266,12 @@ BENCHMARK(BM_DKRG04_EntityMergeLww)
  */
 static void BM_DKRG05_FederationResultUnion(benchmark::State& state) {
     std::vector<std::string> node_a, node_b;
-    for (int i = 0; i < 100; ++i) node_a.push_back("e" + std::to_string(i));
-    for (int i = 50; i < 150; ++i) node_b.push_back("e" + std::to_string(i));
+    for (int i = 0; i < 100; ++i) {
+      node_a.push_back("e" + std::to_string(i));
+    }
+    for (int i = 50; i < 150; ++i) {
+      node_b.push_back("e" + std::to_string(i));
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i)
         benchmark::DoNotOptimize(federationUnion(node_a, node_b));

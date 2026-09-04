@@ -88,7 +88,9 @@ public:
          * compaction overhead relative to the user workload.
          */
         double writeAmplification() const noexcept {
-            if (user_bytes_written == 0) return 0.0;
+            if (user_bytes_written == 0) {
+              return 0.0;
+            }
             return static_cast<double>(compact_bytes_written + flush_bytes_written)
                    / static_cast<double>(user_bytes_written);
         }

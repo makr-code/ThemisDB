@@ -417,9 +417,13 @@ std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document&
     // Returns the string value of the "collection" argument on the `onChange`
     // field, or an empty string if not found.
     for (const auto& op : doc.operations) {
-        if (op.type != graphql::OperationType::Subscription) continue;
+        if (op.type != graphql::OperationType::Subscription) {
+          continue;
+        }
         for (const auto& field : op.selections) {
-            if (field.name != "onChange") continue;
+            if (field.name != "onChange") {
+              continue;
+            }
             const auto it = field.arguments.find("collection");
             if (it != field.arguments.end() && it->second && it->second->isString()) {
                 return it->second->asString();

@@ -64,7 +64,9 @@ public:
         
         for (const auto& policy : policies) {
             Effect effect = evaluate_policy(policy, ctx);
-            if (effect == Effect::ALLOW) allow_count++;
+            if (effect == Effect::ALLOW) {
+              allow_count++;
+            }
             else deny_count++;
         }
         
@@ -191,7 +193,9 @@ static void BM_CachingImpact(benchmark::State& state) {
     bool use_cache = state.range(0);
     
     PolicyEngine engine;
-    if (use_cache) engine.enable_cache();
+    if (use_cache) {
+      engine.enable_cache();
+    }
     else engine.disable_cache();
     
     PolicyEngine::Policy policy = create_simple_rbac_policy();

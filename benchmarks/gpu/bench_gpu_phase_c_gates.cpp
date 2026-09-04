@@ -338,7 +338,9 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_error_recording_concurrent)
 // Main function (required for benchmark runner)
 int main(int argc, char** argv) {
   ::benchmark::Initialize(&argc, argv);
-  if (::benchmark::ReportUnrecognizedArguments(argc, argv)) return 1;
+  if (::benchmark::ReportUnrecognizedArguments(argc, argv)) {
+    return 1;
+  }
   ::benchmark::RunSpecifiedBenchmarks();
   return 0;
 }

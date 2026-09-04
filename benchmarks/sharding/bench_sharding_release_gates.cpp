@@ -93,7 +93,9 @@ class StubHashRing {
 public:
     explicit StubHashRing(int num_shards) : num_shards_(num_shards) {}
     int lookup(const std::string& key) const noexcept {
-        if (num_shards_ == 0) return -1;
+        if (num_shards_ == 0) {
+          return -1;
+        }
         std::size_t h = std::hash<std::string>{}(key);
         return static_cast<int>(h % static_cast<std::size_t>(num_shards_));
     }
@@ -140,7 +142,9 @@ class StubShardHealth {
 public:
     explicit StubShardHealth(int num_shards) : health_(num_shards, true) {}
     bool isHealthy(int shard_id) const noexcept {
-        if (shard_id < 0 || shard_id >= static_cast<int>(health_.size())) return false;
+        if (shard_id < 0 || shard_id >= static_cast<int>(health_.size())) {
+          return false;
+        }
         return health_[static_cast<std::size_t>(shard_id)];
     }
 private:

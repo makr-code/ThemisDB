@@ -28,7 +28,9 @@ public:
         for (int t = 0; t < threads_; ++t) {
             workers.emplace_back([&, t]() { fn(t); });
         }
-        for (auto& w : workers) w.join();
+        for (auto& w : workers) {
+          w.join();
+        }
     }
 
 private:

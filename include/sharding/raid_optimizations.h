@@ -249,7 +249,9 @@ public:
      */
     static bool shouldCompress(const std::vector<uint8_t>& data) {
         // Don't compress if data is too small or already compressed
-        if (data.size() < 1024) return false;
+        if (data.size() < 1024) {
+          return false;
+        }
         
         // Simple entropy check: if data looks random, skip compression
         std::array<uint8_t, 256> histogram{};
@@ -260,7 +262,9 @@ public:
         // Count unique bytes
         size_t unique = 0;
         for (auto count : histogram) {
-            if (count > 0) unique++;
+            if (count > 0) {
+              unique++;
+            }
         }
         
         // If > 90% of possible bytes are used, data is likely incompressible

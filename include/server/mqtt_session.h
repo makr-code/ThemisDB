@@ -73,7 +73,9 @@ struct MqttMetrics {
         , startTime(other.startTime) {}
 
     MqttMetrics& operator=(const MqttMetrics& other) {
-        if (this == &other) return *this;
+        if (this == &other) {
+          return *this;
+        }
         messagesReceived.store(other.messagesReceived.load());
         messagesSent.store(other.messagesSent.load());
         bytesReceived.store(other.bytesReceived.load());

@@ -644,7 +644,9 @@ json discoveredProcessToJson(const DiscoveredProcess& proc) {
 // ---------------------------------------------------------------------------
 DiscoveredProcess parseDiscoveredProcess(const json& j) {
     DiscoveredProcess proc;
-    if (!j.is_object()) return proc;
+    if (!j.is_object()) {
+      return proc;
+    }
 
     proc.id             = j.value("id", std::string{});
     proc.name           = j.value("name", std::string{});
@@ -686,10 +688,14 @@ DiscoveredProcess parseDiscoveredProcess(const json& j) {
 // ---------------------------------------------------------------------------
 MiningConfig parseMiningConfig(const json& j) {
     MiningConfig cfg;
-    if (!j.is_object()) return cfg;
+    if (!j.is_object()) {
+      return cfg;
+    }
 
     const std::string algo = j.value("algorithm", std::string{"heuristic"});
-    if      (algo == "alpha")     cfg.algorithm = MiningAlgorithm::ALPHA;
+    if      (algo == "alpha") {
+      cfg.algorithm = MiningAlgorithm::ALPHA;
+    }
     else if (algo == "alpha_plus") cfg.algorithm = MiningAlgorithm::ALPHA_PLUS;
     else if (algo == "inductive") cfg.algorithm = MiningAlgorithm::INDUCTIVE;
     else if (algo == "split")     cfg.algorithm = MiningAlgorithm::SPLIT;
@@ -878,9 +884,15 @@ json PmExtractLogFunction::execute(
             e["case_id"]      = ev.case_id;
             e["activity"]     = ev.activity;
             e["timestamp_ms"] = ev.timestamp_ms;
-            if (ev.resource)  e["resource"]  = *ev.resource;
-            if (ev.lifecycle) e["lifecycle"] = *ev.lifecycle;
-            if (!ev.attributes.is_null()) e["attributes"] = ev.attributes;
+            if (ev.resource) {
+              e["resource"]  = *ev.resource;
+            }
+            if (ev.lifecycle) {
+              e["lifecycle"] = *ev.lifecycle;
+            }
+            if (!ev.attributes.is_null()) {
+              e["attributes"] = ev.attributes;
+            }
             evts.push_back(std::move(e));
         }
         t["events"] = std::move(evts);
@@ -1089,16 +1101,22 @@ json PmDeviationsFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.size() < 2) return json::array();
+    if (args.size() < 2) {
+      return json::array();
+    }
 
     ProcessMining* pm = ctx.getProcessMining();
-    if (!pm) return json::array();
+    if (!pm) {
+      return json::array();
+    }
 
     const EventLog log         = parseEventLog(args[0]);
     const DiscoveredProcess model = parseDiscoveredProcess(args[1]);
 
     auto [status, cr] = pm->checkConformance(log, model);
-    if (!status.ok) return json::array();
+    if (!status.ok) {
+      return json::array();
+    }
 
     json result = json::array();
     for (const auto& d : cr.deviations) {
@@ -1118,10 +1136,14 @@ json PmBottlenecksFunction::execute(
     const std::vector<json>& args,
     const FunctionContext& ctx) const {
 
-    if (args.empty() || !args[0].is_object()) return json::array();
+    if (args.empty() || !args[0].is_object()) {
+      return json::array();
+    }
 
     ProcessMining* pm = ctx.getProcessMining();
-    if (!pm) return json::array();
+    if (!pm) {
+      return json::array();
+    }
 
     // Derive a process model first, then enhance with performance, then detect bottlenecks.
     const EventLog log = parseEventLog(args[0]);
@@ -1129,13 +1151,19 @@ json PmBottlenecksFunction::execute(
                              ? args[1].get<double>() : 0.9;
 
     auto [dstatus, process] = pm->discoverProcess(log, MiningConfig{});
-    if (!dstatus.ok) return json::array();
+    if (!dstatus.ok) {
+      return json::array();
+    }
 
     auto [estatus, enhanced] = pm->enhanceWithPerformance(process, log);
-    if (!estatus.ok) return json::array();
+    if (!estatus.ok) {
+      return json::array();
+    }
 
     auto [bstatus, bottlenecks] = pm->detectBottlenecks(enhanced, threshold);
-    if (!bstatus.ok) return json::array();
+    if (!bstatus.ok) {
+      return json::array();
+    }
 
     json result = json::array();
     for (const auto& b : bottlenecks) {

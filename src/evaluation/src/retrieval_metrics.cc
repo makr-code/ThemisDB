@@ -132,7 +132,9 @@ RetrievalQualityMetrics computeRetrievalQuality(
     // --- Recall@k and Precision@k ---
     std::size_t hits = 0;
     for (std::size_t i = 0; i < k; ++i) {
-        if (gtSet.count(ranked[i].id)) ++hits;
+        if (gtSet.count(ranked[i].id)) {
+          ++hits;
+        }
     }
     const double recall_at_k    = static_cast<double>(hits) / static_cast<double>(gt_size);
     const double precision_at_k = static_cast<double>(hits) / static_cast<double>(k);
@@ -148,7 +150,9 @@ RetrievalQualityMetrics computeRetrievalQuality(
     // Ideal DCG: place all relevant items first.
     const std::size_t ideal_hits = std::min(k, gt_size);
     std::vector<double> ideal_gains(k, 0.0);
-    for (std::size_t i = 0; i < ideal_hits; ++i) ideal_gains[i] = 1.0;
+    for (std::size_t i = 0; i < ideal_hits; ++i) {
+      ideal_gains[i] = 1.0;
+    }
     const double ideal_dcg_val = dcg(ideal_gains, k);
 
     const double ndcg = (ideal_dcg_val > 0.0) ? (actual_dcg / ideal_dcg_val) : 0.0;
@@ -197,7 +201,9 @@ EvidenceQualityMetrics computeEvidenceQuality(
     // Coverage: fraction of required items that were returned.
     std::size_t covered = 0;
     for (const auto& id : required_set) {
-        if (returned_set.count(id)) ++covered;
+        if (returned_set.count(id)) {
+          ++covered;
+        }
     }
     const double coverage = static_cast<double>(covered) /
                             static_cast<double>(required_set.size());
@@ -207,7 +213,9 @@ EvidenceQualityMetrics computeEvidenceQuality(
     if (!returned_set.empty()) {
         std::size_t relevant = 0;
         for (const auto& id : returned_set) {
-            if (required_set.count(id)) ++relevant;
+            if (required_set.count(id)) {
+              ++relevant;
+            }
         }
         precision = static_cast<double>(relevant) / static_cast<double>(returned_set.size());
     }
@@ -281,11 +289,15 @@ ProvenanceQualityMetrics computeProvenanceQuality(
 
     // Source attribution completeness: fraction of GT claims covered.
     std::unordered_set<std::string> gt_claims;
-    for (const auto& a : ground_truth) gt_claims.insert(a.claim_id);
+    for (const auto& a : ground_truth) {
+      gt_claims.insert(a.claim_id);
+    }
 
     std::unordered_set<std::string> covered_claims;
     for (const auto& a : returned) {
-        if (gt_claims.count(a.claim_id)) covered_claims.insert(a.claim_id);
+        if (gt_claims.count(a.claim_id)) {
+          covered_claims.insert(a.claim_id);
+        }
     }
     const double completeness = static_cast<double>(covered_claims.size()) /
                                 static_cast<double>(gt_claims.size());
@@ -303,7 +315,9 @@ ProvenanceQualityMetrics computeProvenanceQuality(
         auto it = gt_confidence.find({a.claim_id, a.source_id});
         if (it != gt_confidence.end()) {
             ++trust_total;
-            if (std::abs(a.confidence - it->second) <= 0.10) ++trust_correct;
+            if (std::abs(a.confidence - it->second) <= 0.10) {
+              ++trust_correct;
+            }
         }
     }
     const double trust_correctness = (trust_total > 0)
@@ -480,7 +494,9 @@ DistributedEfficiencyMetrics computeDistributedEfficiency(
     // than total (i.e., did NOT fan out to all shards).
     std::size_t selective_count = 0;
     for (auto c : per_query_shard_counts) {
-        if (c < total_shards) ++selective_count;
+        if (c < total_shards) {
+          ++selective_count;
+        }
     }
     const double selective_load = static_cast<double>(selective_count) / n;
 
@@ -542,8 +558,12 @@ TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
         if (s.rank_cap_limit > 0 && s.rank_cap_used >= s.rank_cap_limit) {
             rank_growth_count += 1.0;
         }
-        if (s.rebuild_triggered)    rebuild_count += 1.0;
-        if (s.exact_fallback_used)  fallback_count += 1.0;
+        if (s.rebuild_triggered) {
+          rebuild_count += 1.0;
+        }
+        if (s.exact_fallback_used) {
+          fallback_count += 1.0;
+        }
 
         if (s.summary_first_routing_used) {
             summary_first_total += 1.0;
@@ -556,7 +576,9 @@ TensorGraphRuntimeMetrics computeTensorGraphRuntimeMetrics(
         // *could* have reached the graph stage (ANN+Tensor+Graph path).
         if (s.graph_finalization_passed || s.exact_fallback_used) {
             graph_eligible += 1.0;
-            if (s.graph_finalization_passed) graph_passed += 1.0;
+            if (s.graph_finalization_passed) {
+              graph_passed += 1.0;
+            }
         }
     }
 

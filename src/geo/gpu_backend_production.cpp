@@ -587,7 +587,9 @@ __kernel void pairwise_mbr_intersects(
     const int count)
 {
     int idx = get_global_id(0);
-    if (idx >= count) return;
+    if (idx >= count) {
+      return;
+    }
     int off = idx * 4;
     double a_minx = mbrs_a[off];
     double a_miny = mbrs_a[off + 1];

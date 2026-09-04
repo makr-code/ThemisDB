@@ -52,7 +52,9 @@ static void BM_ScanResult_BatchAlloc(benchmark::State& state) {
     const int N = static_cast<int>(state.range(0));
     for (auto _ : state) {
         std::vector<ScanResult> v(static_cast<size_t>(N));
-        for (auto& r : v) r.verdict = ScanVerdict::kAllow;
+        for (auto& r : v) {
+          r.verdict = ScanVerdict::kAllow;
+        }
         benchmark::DoNotOptimize(v.data());
     }
     state.SetItemsProcessed(state.iterations() * N);

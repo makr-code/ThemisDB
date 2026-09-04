@@ -200,8 +200,12 @@ public:
                            bool add_bos = true,
                            bool add_eos = false) override {
         std::vector<int> tokens(SEQ_LENGTH, 1);
-        if (add_bos) tokens[0] = bos_token_id();
-        if (add_eos) tokens[SEQ_LENGTH-1] = eos_token_id();
+        if (add_bos) {
+          tokens[0] = bos_token_id();
+        }
+        if (add_eos) {
+          tokens[SEQ_LENGTH-1] = eos_token_id();
+        }
         return tokens;
     }
     

@@ -56,7 +56,9 @@ PolyglotPersistenceMapper::inferModelFromSchema(
     size_t self_fk = 0;
     for (const auto& fk : schema.foreign_keys) {
         std::string ref_table = fk.second.substr(0, fk.second.find('.'));
-        if (ref_table == schema.name) ++self_fk;
+        if (ref_table == schema.name) {
+          ++self_fk;
+        }
     }
     if (self_fk >= 2 || schema.foreign_keys.size() >= 3) {
         return DataModel::GRAPH;
@@ -158,7 +160,9 @@ PolyglotPersistenceMapper::ModelTransformer::tableToGraph(
 
     // Determine which columns are FK columns
     std::set<std::string> fk_cols;
-    for (const auto& fk : schema.foreign_keys) fk_cols.insert(fk.first);
+    for (const auto& fk : schema.foreign_keys) {
+      fk_cols.insert(fk.first);
+    }
 
     for (const auto& row : rows) {
         // Build node id from primary key
@@ -168,7 +172,9 @@ PolyglotPersistenceMapper::ModelTransformer::tableToGraph(
                 node_id += row.at(pk).dump();
             }
         }
-        if (node_id.empty()) node_id = row.dump().substr(0, 16);
+        if (node_id.empty()) {
+          node_id = row.dump().substr(0, 16);
+        }
 
         GraphNode node;
         node.id    = node_id;

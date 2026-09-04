@@ -358,7 +358,9 @@ public:
     {
         double t_base  = estimate(p, baseline).total_ncu();
         double t_fast  = estimate(p, faster  ).total_ncu();
-        if (t_fast < 1.0) return 1.0;
+        if (t_fast < 1.0) {
+          return 1.0;
+        }
         return t_base / t_fast;
     }
 

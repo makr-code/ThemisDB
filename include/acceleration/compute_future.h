@@ -61,7 +61,9 @@ public:
      * observed.
      */
     void cancel() noexcept {
-        if (flag_) flag_->store(true, std::memory_order_release);
+        if (flag_) {
+          flag_->store(true, std::memory_order_release);
+        }
     }
 
     /**
@@ -261,7 +263,9 @@ public:
      * No-op if no continuation was registered.
      */
     void invoke_then(const T& result) {
-        if (then_) then_(result);
+        if (then_) {
+          then_(result);
+        }
     }
 
     // ── Cancellation ─────────────────────────────────────────────────────────

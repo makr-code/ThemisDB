@@ -81,7 +81,9 @@ struct LSN {
     
     /** @brief Strict ordering by segment first, then offset. */
     bool operator<(const LSN& other) const {
-        if (segment != other.segment) return segment < other.segment;
+        if (segment != other.segment) {
+          return segment < other.segment;
+        }
         return offset < other.offset;
     }
     

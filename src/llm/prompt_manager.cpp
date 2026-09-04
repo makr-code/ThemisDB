@@ -33,7 +33,9 @@ PromptManager::PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf
 
 PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::PromptTemplate t) {
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
-    if (t.id.empty()) t.id = generateId();
+    if (t.id.empty()) {
+      t.id = generateId();
+    }
     
     // Insert using TBB concurrent_hash_map (efficient single operation)
     StoreType::accessor acc;
@@ -70,7 +72,9 @@ std::optional<PromptManager::PromptTemplate> PromptManager::getTemplate(const st
                 t.name = j.value("name", "");
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 return t;
             } catch (const std::exception& e) {
@@ -101,7 +105,9 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
                 t.name = j.value("name", "");
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 out.push_back(t);
             } catch (const std::exception& e) {

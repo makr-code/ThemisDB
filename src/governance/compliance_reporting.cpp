@@ -321,7 +321,9 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     std::unordered_map<std::string, std::vector<std::string>> pattern_map;
     
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
         
         for (const auto& resource : rule.resources) {
             for (const auto& action : rule.actions) {
@@ -396,15 +398,33 @@ nlohmann::json ComplianceGapDetector::ComplianceRequirement::toJson() const {
 ComplianceGapDetector::ComplianceRequirement 
 ComplianceGapDetector::ComplianceRequirement::fromJson(const nlohmann::json& j) {
     ComplianceRequirement req;
-    if (j.contains("id")) req.id = j["id"].get<std::string>();
-    if (j.contains("name")) req.name = j["name"].get<std::string>();
-    if (j.contains("framework")) req.framework = j["framework"].get<std::string>();
-    if (j.contains("description")) req.description = j["description"].get<std::string>();
-    if (j.contains("required_resources")) req.required_resources = j["required_resources"].get<std::vector<std::string>>();
-    if (j.contains("requires_encryption")) req.requires_encryption = j["requires_encryption"].get<bool>();
-    if (j.contains("requires_signature")) req.requires_signature = j["requires_signature"].get<bool>();
-    if (j.contains("requires_audit")) req.requires_audit = j["requires_audit"].get<bool>();
-    if (j.contains("min_retention_days")) req.min_retention_days = j["min_retention_days"].get<int>();
+    if (j.contains("id")) {
+      req.id = j["id"].get<std::string>();
+    }
+    if (j.contains("name")) {
+      req.name = j["name"].get<std::string>();
+    }
+    if (j.contains("framework")) {
+      req.framework = j["framework"].get<std::string>();
+    }
+    if (j.contains("description")) {
+      req.description = j["description"].get<std::string>();
+    }
+    if (j.contains("required_resources")) {
+      req.required_resources = j["required_resources"].get<std::vector<std::string>>();
+    }
+    if (j.contains("requires_encryption")) {
+      req.requires_encryption = j["requires_encryption"].get<bool>();
+    }
+    if (j.contains("requires_signature")) {
+      req.requires_signature = j["requires_signature"].get<bool>();
+    }
+    if (j.contains("requires_audit")) {
+      req.requires_audit = j["requires_audit"].get<bool>();
+    }
+    if (j.contains("min_retention_days")) {
+      req.min_retention_days = j["min_retention_days"].get<int>();
+    }
     return req;
 }
 
@@ -510,7 +530,9 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
                                         [&]() {
                                             std::string s;
                                             for (size_t i = 0; i < missing_controls.size(); i++) {
-                                                if (i > 0) s += ", ";
+                                                if (i > 0) {
+                                                  s += ", ";
+                                                }
                                                 s += missing_controls[i];
                                             }
                                             return s;
@@ -810,7 +832,9 @@ std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
         csv << entry.resource << ",";
         csv << "\"";
         for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
-            if (i > 0) csv << ";";
+            if (i > 0) {
+              csv << ";";
+            }
             csv << entry.allowed_actions[i];
         }
         csv << "\",";
@@ -838,7 +862,9 @@ std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
         html << "<td>" << entry.resource << "</td>";
         html << "<td>";
         for (size_t i = 0; i < entry.allowed_actions.size(); i++) {
-            if (i > 0) html << ", ";
+            if (i > 0) {
+              html << ", ";
+            }
             html << entry.allowed_actions[i];
         }
         html << "</td>";
@@ -885,7 +911,9 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
         csv << "\"" << risk.description << "\",";
         csv << "\"";
         for (size_t i = 0; i < risk.affected_resources.size(); i++) {
-            if (i > 0) csv << ";";
+            if (i > 0) {
+              csv << ";";
+            }
             csv << risk.affected_resources[i];
         }
         csv << "\",";
@@ -928,7 +956,9 @@ std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
         html << "<td>" << risk.description << "</td>";
         html << "<td>";
         for (size_t i = 0; i < risk.affected_resources.size(); i++) {
-            if (i > 0) html << ", ";
+            if (i > 0) {
+              html << ", ";
+            }
             html << risk.affected_resources[i];
         }
         html << "</td>";
@@ -1112,7 +1142,9 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
     
     // Build matrix entries from policy rules
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
         
         for (const auto& resource : rule.resources) {
             for (const auto& role : rule.required_roles) {
@@ -1171,10 +1203,14 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
         if (rule.enabled) {
             bool is_permissive = false;
             for (const auto& resource : rule.resources) {
-                if (resource == "*") is_permissive = true;
+                if (resource == "*") {
+                  is_permissive = true;
+                }
             }
             for (const auto& action : rule.actions) {
-                if (action == "*") is_permissive = true;
+                if (action == "*") {
+                  is_permissive = true;
+                }
             }
             
             if (is_permissive && !rule.require_encryption && !rule.audit_access) {
@@ -1283,7 +1319,9 @@ std::string escapePDFString(const std::string& s) {
 /// Escape a value for CSV: wrap in double-quotes if it contains commas, quotes, or newlines.
 std::string csvEscape(const std::string& val) {
     bool needs_quoting = val.find_first_of(",\"\n\r") != std::string::npos;
-    if (!needs_quoting) return val;
+    if (!needs_quoting) {
+      return val;
+    }
     std::string out;
     out.reserve(val.size() + 2);
     out += '"';
@@ -1297,8 +1335,12 @@ std::string csvEscape(const std::string& val) {
 
 /// Convert a JSON scalar value to a plain string for CSV output.
 std::string jsonScalarToString(const nlohmann::json& v) {
-    if (v.is_string()) return v.get<std::string>();
-    if (v.is_null())   return "";
+    if (v.is_string()) {
+      return v.get<std::string>();
+    }
+    if (v.is_null()) {
+      return "";
+    }
     return v.dump();
 }
 
@@ -1722,7 +1764,9 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
     auto all_rules = policy_mgr.listRules();
 
     for (const auto& rule : all_rules) {
-        if (!rule.enabled) continue;
+        if (!rule.enabled) {
+          continue;
+        }
 
         // Collect data categories from classification levels
         if (!rule.classification_level.empty()) {

@@ -111,9 +111,15 @@ ReplicationEventStream::getEvents(
     std::lock_guard<std::mutex> lock(buffer_mutex_);
     std::vector<Event> result;
     for (const auto& ev : buffer_) {
-        if (ev.timestamp < start) continue;
-        if (ev.timestamp >= end)  continue;
-        if (filter && ev.type != *filter) continue;
+        if (ev.timestamp < start) {
+          continue;
+        }
+        if (ev.timestamp >= end) {
+          continue;
+        }
+        if (filter && ev.type != *filter) {
+          continue;
+        }
         result.push_back(ev);
     }
     return result;
@@ -291,7 +297,9 @@ void ReplicationEventStream::onNetworkPartitionDetected(
     ev.timestamp = std::chrono::system_clock::now();
     std::ostringstream nodes_stream;
     for (size_t i = 0; i < affected.size(); ++i) {
-        if (i > 0) nodes_stream << ',';
+        if (i > 0) {
+          nodes_stream << ',';
+        }
         nodes_stream << affected[i];
     }
     ev.data["affected_nodes"] = nodes_stream.str();

@@ -52,8 +52,12 @@ inline std::string generateSpanId() {
 
 /// Probabilistic sampling decision for a given rate in [0.0, 1.0].
 inline bool shouldSample(double rate) {
-    if (rate >= 1.0) return true;
-    if (rate <= 0.0) return false;
+    if (rate >= 1.0) {
+      return true;
+    }
+    if (rate <= 0.0) {
+      return false;
+    }
     thread_local std::mt19937_64 rng{std::random_device{}()};
     thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
     return dist(rng) < rate;
@@ -97,7 +101,9 @@ inline std::string findHeader(const std::map<std::string, std::string>& headers,
                        [](unsigned char c) {
                            return static_cast<char>(std::tolower(c));
                        });
-        if (lk == lower_key) return v;
+        if (lk == lower_key) {
+          return v;
+        }
     }
     return {};
 }

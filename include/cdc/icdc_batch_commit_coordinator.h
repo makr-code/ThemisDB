@@ -227,7 +227,9 @@ public:
 
     AddEventResult addEvent(const Changefeed::ChangeEvent& event) override {
         std::unique_lock<std::mutex> lk(mutex_);
-        if (status_ != BatchStatus::Open) return AddEventResult::NoBatchOpen;
+        if (status_ != BatchStatus::Open) {
+          return AddEventResult::NoBatchOpen;
+        }
         if (config_.max_batch_size > 0 &&
             pending_.size() >= config_.max_batch_size)
             return AddEventResult::BatchFull;
@@ -261,7 +263,9 @@ public:
 
     RollbackResult rollbackBatch() override {
         std::unique_lock<std::mutex> lk(mutex_);
-        if (status_ != BatchStatus::Open) return RollbackResult::NoBatchOpen;
+        if (status_ != BatchStatus::Open) {
+          return RollbackResult::NoBatchOpen;
+        }
         pending_.clear();
         status_ = BatchStatus::RolledBack;
         rolled_back_count_.fetch_add(1, std::memory_order_relaxed);

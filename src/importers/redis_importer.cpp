@@ -35,7 +35,9 @@ namespace {
 /// Maps Redis-specific error patterns to ImporterErrorCode.
 [[maybe_unused]] static ImportErrorCode mapRedisErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     const std::string lmsg = lower(error_msg);
@@ -176,11 +178,21 @@ std::string RedisImporter::sanitiseEndpoint(const std::string& host, int port) {
 /*static*/
 RedisImporter::RedisValueType RedisImporter::parseRedisType(
     const std::string& type_str) {
-    if (type_str == "string") return RedisValueType::String;
-    if (type_str == "hash")   return RedisValueType::Hash;
-    if (type_str == "list")   return RedisValueType::List;
-    if (type_str == "set")    return RedisValueType::Set;
-    if (type_str == "zset")   return RedisValueType::ZSet;
+    if (type_str == "string") {
+      return RedisValueType::String;
+    }
+    if (type_str == "hash") {
+      return RedisValueType::Hash;
+    }
+    if (type_str == "list") {
+      return RedisValueType::List;
+    }
+    if (type_str == "set") {
+      return RedisValueType::Set;
+    }
+    if (type_str == "zset") {
+      return RedisValueType::ZSet;
+    }
     return RedisValueType::Unknown;
 }
 
@@ -196,7 +208,9 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
     doc["_id"]   = key;
 
     auto sendCmd = [&]([[maybe_unused]] void* c, const std::vector<std::string>& cmd) -> std::string {
-    if (mock_command_fn_) return mock_command_fn_(cmd);
+    if (mock_command_fn_) {
+      return mock_command_fn_(cmd);
+    }
 #ifdef THEMIS_ENABLE_REDIS
     return executeHiredisCommand(c, cmd);
 #else
@@ -208,7 +222,9 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
     const std::string ttl_str = sendCmd(conn, {"PTTL", key});
     try {
         const int64_t pttl = std::stoll(ttl_str);
-        if (pttl > 0) doc["_ttl_ms"] = pttl;
+        if (pttl > 0) {
+          doc["_ttl_ms"] = pttl;
+        }
     } catch (...) {}
 
     switch (vtype) {
@@ -319,7 +335,9 @@ ImportStats RedisImporter::importData(
         : std::nullopt;
 
     auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
-        if (mock_command_fn_) return mock_command_fn_(cmd);
+        if (mock_command_fn_) {
+          return mock_command_fn_(cmd);
+        }
 #ifdef THEMIS_ENABLE_REDIS
         return ""; // Placeholder for real hiredis call.
 #else
@@ -330,7 +348,9 @@ ImportStats RedisImporter::importData(
     // SCAN loop (non-blocking, cursor-based).
     std::string cursor = "0";
     do {
-        if (cancelled_.load(std::memory_order_relaxed)) break;
+        if (cancelled_.load(std::memory_order_relaxed)) {
+          break;
+        }
         if (deadline && std::chrono::steady_clock::now() >= *deadline) {
             ImportError err;
             err.code     = ImportErrorCode::DEADLINE_EXCEEDED;
@@ -374,7 +394,9 @@ ImportStats RedisImporter::importData(
 
         // Fetch and process each key.
         for (const auto& key : keys) {
-            if (cancelled_.load(std::memory_order_relaxed)) break;
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              break;
+            }
             ++stats.total_records;
 
             // TYPE <key>
@@ -453,7 +475,9 @@ json RedisImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 
     auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
-        if (mock_command_fn_) return mock_command_fn_(cmd);
+        if (mock_command_fn_) {
+          return mock_command_fn_(cmd);
+        }
 #ifdef THEMIS_ENABLE_REDIS
         return "";
 #else

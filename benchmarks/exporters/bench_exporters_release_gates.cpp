@@ -91,8 +91,12 @@ static CsvRow makeCsvRow(int idx) {
 static std::string serializeCsvRow(const CsvRow& row) {
     std::ostringstream ss;
     for (std::size_t i = 0; i < row.size(); ++i) {
-        if (i > 0) ss << kCsvDefaultDelimiter;
-        if (row[i].has_value()) ss << *row[i];
+        if (i > 0) {
+          ss << kCsvDefaultDelimiter;
+        }
+        if (row[i].has_value()) {
+          ss << *row[i];
+        }
         // null → empty cell
     }
     ss << "\n";
@@ -149,7 +153,9 @@ struct IncomingRow {
 
 static bool validateSchema(const IncomingRow& row) noexcept {
     for (int i = 0; i < 10; ++i)
-        if (kSchema10[i].required && !row.present[i]) return false;
+        if (kSchema10[i].required && !row.present[i]) {
+          return false;
+        }
     return true;
 }
 
@@ -160,7 +166,9 @@ static bool validateSchema(const IncomingRow& row) noexcept {
 enum class NullTarget { Csv, Parquet, Arrow };
 
 static std::string handleNull(bool is_null, NullTarget target) {
-    if (!is_null) return "non-null";
+    if (!is_null) {
+      return "non-null";
+    }
     switch (target) {
         case NullTarget::Csv:     return "";          // empty cell
         case NullTarget::Parquet: return "<null-bit>"; // null bitmap
@@ -240,13 +248,17 @@ BENCHMARK(BM_ERRG01_CsvRowSerialize)
 static void BM_ERRG02_ParquetRowGroupWrite(benchmark::State& state) {
     for (int i = 0; i < kWarmupIterations; ++i) {
         ParquetRowGroup g;
-        for (int r = 0; r < 100; ++r) g.add(r);
+        for (int r = 0; r < 100; ++r) {
+          g.add(r);
+        }
         benchmark::DoNotOptimize(g.serialize());
     }
 
     for (auto _ : state) {
         ParquetRowGroup g;
-        for (int r = 0; r < 100; ++r) g.add(r);
+        for (int r = 0; r < 100; ++r) {
+          g.add(r);
+        }
         benchmark::DoNotOptimize(g.serialize());
     }
     state.SetLabel("GATE-ERRG-02: p99 <= 5 ms");

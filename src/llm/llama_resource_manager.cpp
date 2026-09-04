@@ -78,7 +78,9 @@ size_t LlamaModelHandle::n_embd() const {
 }
 
 std::string LlamaModelHandle::model_type() const {
-    if (!model_) return "none";
+    if (!model_) {
+      return "none";
+    }
     
     // Use larger buffer to accommodate long model descriptions
     // llama_model_desc() returns the number of bytes written
@@ -407,7 +409,9 @@ int BackendAwareLlamaModelHandle::determineOptimalGPULayers(
 void BackendAwareLlamaModelHandle::allocateGPUMemory(
     const GPUBackendConfig& config) {
     
-    if (!gpu_memory_manager_) return;
+    if (!gpu_memory_manager_) {
+      return;
+    }
     
     // Multi-GPU setup
     if (config.secondary_gpus.size() > 0) {

@@ -543,7 +543,9 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
             bfs_queue.pop();
 
             auto adj_it = adj_out_.find(cur);
-            if (adj_it == adj_out_.end()) continue;
+            if (adj_it == adj_out_.end()) {
+              continue;
+            }
 
             for (const auto& [eid, nxt] : adj_it->second) {
                 if (parent.count(nxt)) continue; // already visited
@@ -687,18 +689,26 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
             visited_nodes.push_back(nit->second);
         }
 
-        if (cur_depth >= max_depth) continue;
+        if (cur_depth >= max_depth) {
+          continue;
+        }
 
         auto adj_it = adj_out_.find(cur_id);
-        if (adj_it == adj_out_.end()) continue;
+        if (adj_it == adj_out_.end()) {
+          continue;
+        }
 
         for (const auto& [eid, nxt_id] : adj_it->second) {
-            if (visited.count(nxt_id)) continue;
+            if (visited.count(nxt_id)) {
+              continue;
+            }
 
             // Apply edge-label filter when labels are provided.
             if (!edge_labels.empty()) {
                 auto eit = graph_edges_.find(eid);
-                if (eit == graph_edges_.end()) continue;
+                if (eit == graph_edges_.end()) {
+                  continue;
+                }
                 const auto& lbl = eit->second.label;
                 if (std::find(edge_labels.begin(),
                               edge_labels.end(), lbl)
@@ -796,7 +806,9 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     for (const auto& [_id, doc] : col_it->second) {
-        if (matched.size() >= limit) break;
+        if (matched.size() >= limit) {
+          break;
+        }
 
         bool match = true;
         for (const auto& [key, expected] : filter) {
@@ -1705,7 +1717,9 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
                 std::string escaped;
                 escaped.reserve(v.size() + 2);
                 for (char c : v) {
-                    if (c == '\\') escaped += "\\\\";
+                    if (c == '\\') {
+                      escaped += "\\\\";
+                    }
                     else if (c == '\'') escaped += "\\'";
                     else escaped += c;
                 }

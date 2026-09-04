@@ -39,10 +39,14 @@ json MDMConfig::toJson() const {
 
 json MDMWorkflowResult::toJson() const {
     json link_arr = json::array();
-    for (const auto& l : created_links) link_arr.push_back(l.toJson());
+    for (const auto& l : created_links) {
+      link_arr.push_back(l.toJson());
+    }
 
     json gr_arr = json::array();
-    for (const auto& g : golden_records) gr_arr.push_back(g.toJson());
+    for (const auto& g : golden_records) {
+      gr_arr.push_back(g.toJson());
+    }
 
     return json{
         {"workflow_id",             workflow_id},
@@ -163,10 +167,14 @@ MDMEngine::executeLinkingPhase(
         const auto& incoming = incoming_entities[i];
         const auto& matches  = match_results[i];
 
-        if (matches.empty()) continue;
+        if (matches.empty()) {
+          continue;
+        }
 
         const std::string src_id = entityId(incoming);
-        if (src_id.empty()) continue;
+        if (src_id.empty()) {
+          continue;
+        }
 
         for (const auto& match : matches) {
             EntityLink link;
@@ -221,18 +229,24 @@ MDMEngine::executeResolutionPhase(
     std::map<std::string, const json*> incoming_map;
     for (const auto& e : incoming_entities) {
         const std::string id = entityId(e);
-        if (!id.empty()) incoming_map[id] = &e;
+        if (!id.empty()) {
+          incoming_map[id] = &e;
+        }
     }
     std::map<std::string, const json*> existing_map;
     for (const auto& e : existing_entities) {
         const std::string id = entityId(e);
-        if (!id.empty()) existing_map[id] = &e;
+        if (!id.empty()) {
+          existing_map[id] = &e;
+        }
     }
 
     // Group links by source entity.
     std::map<std::string, std::vector<std::string>> groups;
     for (const auto& link : links) {
-        if (link.metadata.contains("reverse") && link.metadata["reverse"] == true) continue;
+        if (link.metadata.contains("reverse") && link.metadata["reverse"] == true) {
+          continue;
+        }
         groups[link.source_id].push_back(link.target_id);
     }
 
@@ -252,7 +266,9 @@ MDMEngine::executeResolutionPhase(
             contributors.emplace_back(src_id, *(inc_it->second));
         }
 
-        if (contributors.empty()) continue;
+        if (contributors.empty()) {
+          continue;
+        }
 
         GoldenRecord gr = resolver_.createGoldenRecord(
             contributors, collection_name,

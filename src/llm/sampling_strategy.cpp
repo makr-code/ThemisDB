@@ -92,7 +92,9 @@ llama_token NucleusSampling::sample(
 
     // Apply temperature scaling
     if (temperature_ > 0.0f && std::abs(temperature_ - 1.0f) > 1e-6f) {
-        for (auto& s : scores) s /= temperature_;
+        for (auto& s : scores) {
+          s /= temperature_;
+        }
     }
 
     // Select top-k candidates
@@ -108,14 +110,18 @@ llama_token NucleusSampling::sample(
     std::vector<float> probs;
     probs.reserve(indices.size());
     float max_logit = -std::numeric_limits<float>::infinity();
-    for (int idx : indices) max_logit = std::max(max_logit, scores[idx]);
+    for (int idx : indices) {
+      max_logit = std::max(max_logit, scores[idx]);
+    }
     float sum = 0.0f;
     for (int idx : indices) {
         float p = std::exp(scores[idx] - max_logit);
         probs.push_back(p);
         sum += p;
     }
-    for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
+    for (auto& p : probs) {
+      p /= (sum > 0.f ? sum : 1.f);
+    }
 
     // Sort by probability desc for nucleus filtering
     std::vector<int> order(indices.size());
@@ -128,9 +134,13 @@ llama_token NucleusSampling::sample(
     for (int oi : order) {
         nucleus.push_back(indices[oi]);
         cum += probs[oi];
-        if (cum >= top_p_) break;
+        if (cum >= top_p_) {
+          break;
+        }
     }
-    if (nucleus.empty()) nucleus.push_back(indices[order.front()]);
+    if (nucleus.empty()) {
+      nucleus.push_back(indices[order.front()]);
+    }
 
     // Renormalize probabilities over nucleus and sample
     std::vector<float> nuc_probs;
@@ -144,7 +154,9 @@ llama_token NucleusSampling::sample(
         nuc_probs.push_back(p);
         nuc_sum += p;
     }
-    for (auto& p : nuc_probs) p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+    for (auto& p : nuc_probs) {
+      p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+    }
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -182,7 +194,9 @@ llama_token MirostatSampling::sample(
     std::vector<float> scores(logits, logits + n_vocab);
 
     // Apply temperature
-    for (auto& s : scores) s /= temp;
+    for (auto& s : scores) {
+      s /= temp;
+    }
 
     // Basic top-k/top-p sampling (reuse logic similar to nucleus)
     std::vector<int> indices(scores.size());
@@ -196,10 +210,14 @@ llama_token MirostatSampling::sample(
     std::vector<float> probs;
     probs.reserve(indices.size());
     float max_logit = -std::numeric_limits<float>::infinity();
-    for (int idx : indices) max_logit = std::max(max_logit, scores[idx]);
+    for (int idx : indices) {
+      max_logit = std::max(max_logit, scores[idx]);
+    }
     float sum = 0.0f;
     for (int idx : indices) { float p = std::exp(scores[idx] - max_logit); probs.push_back(p); sum += p; }
-    for (auto& p : probs) p /= (sum > 0.f ? sum : 1.f);
+    for (auto& p : probs) {
+      p /= (sum > 0.f ? sum : 1.f);
+    }
 
     // Nucleus filter
     std::vector<int> order(indices.size());
@@ -207,10 +225,14 @@ llama_token MirostatSampling::sample(
     std::sort([[maybe_unused]] order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
     float cum = 0.0f; std::vector<int> nucleus;
     for (int oi : order) { nucleus.push_back(indices[oi]); cum += probs[oi]; if (cum >= top_p) break; }
-    if (nucleus.empty()) nucleus.push_back(indices[order.front()]);
+    if (nucleus.empty()) {
+      nucleus.push_back(indices[order.front()]);
+    }
     std::vector<float> nuc_probs; nuc_probs.reserve(nucleus.size()); float nuc_sum = 0.0f;
     for (int id : nucleus) { auto it = std::find(indices.begin(), indices.end(), id); size_t pidx = std::distance(indices.begin(), it); float p = probs[pidx]; nuc_probs.push_back(p); nuc_sum += p; }
-    for (auto& p : nuc_probs) p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+    for (auto& p : nuc_probs) {
+      p /= (nuc_sum > 0.f ? nuc_sum : 1.f);
+    }
 
     std::random_device rd; std::mt19937 gen(rd());
     std::discrete_distribution<int> dist(nuc_probs.begin(), nuc_probs.end());

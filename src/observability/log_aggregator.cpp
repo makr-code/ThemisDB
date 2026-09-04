@@ -155,14 +155,18 @@ public:
 
     ~Impl() {
         stopWorker();
-        if (ofs_.is_open()) ofs_.close();
+        if (ofs_.is_open()) {
+          ofs_.close();
+        }
     }
 
     void accept(Level level,
                 const std::string& message,
                 const Fields& fields)
     {
-        if (shutdown_.load()) return;
+        if (shutdown_.load()) {
+          return;
+        }
         if (levelIndex(level) < levelIndex(config_.min_level)) {
             ++stats_.dropped_entries;
             return;
@@ -205,7 +209,9 @@ public:
     }
 
     void publishMetrics() const {
-        if (!config_.publish_metrics) return;
+        if (!config_.publish_metrics) {
+          return;
+        }
         auto& mc = MetricsCollector::getInstance();
         static const char* level_names[] = {
             "trace", "debug", "info", "warn", "error", "critical"

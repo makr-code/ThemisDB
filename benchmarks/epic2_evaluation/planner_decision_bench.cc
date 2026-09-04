@@ -128,9 +128,15 @@ public:
  * @return         The value at the given percentile.
  */
 double computePercentile(const std::vector<double>& values, double percentile) {
-    if (values.empty()) return 0.0;
-    if (percentile <= 0.0) return values.front();
-    if (percentile >= 100.0) return values.back();
+    if (values.empty()) {
+      return 0.0;
+    }
+    if (percentile <= 0.0) {
+      return values.front();
+    }
+    if (percentile >= 100.0) {
+      return values.back();
+    }
     
     const double pos = (percentile / 100.0) * static_cast<double>(values.size() - 1);
     const int low = static_cast<int>(pos);

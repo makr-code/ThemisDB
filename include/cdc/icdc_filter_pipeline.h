@@ -132,7 +132,9 @@ public:
     FilterResult evaluate(
         const Changefeed::ChangeEvent& event) const noexcept override
     {
-        if (prefix_.empty()) return FilterResult::Pass;
+        if (prefix_.empty()) {
+          return FilterResult::Pass;
+        }
         return (event.key.substr(0, prefix_.size()) == prefix_)
                ? FilterResult::Pass
                : FilterResult::Drop;
@@ -159,9 +161,13 @@ public:
     FilterResult evaluate(
         const Changefeed::ChangeEvent& event) const noexcept override
     {
-        if (types_.empty()) return FilterResult::Pass;
+        if (types_.empty()) {
+          return FilterResult::Pass;
+        }
         for (auto t : types_) {
-            if (event.type == t) return FilterResult::Pass;
+            if (event.type == t) {
+              return FilterResult::Pass;
+            }
         }
         return FilterResult::Drop;
     }
@@ -276,11 +282,15 @@ public:
     InMemoryFilterPipeline() = default;
 
     bool addFilter(std::unique_ptr<IEventFilter> filter) override {
-        if (!filter) return false;
+        if (!filter) {
+          return false;
+        }
         std::unique_lock<std::mutex> lk(mutex_);
         const std::string n = filter->name();
         for (const auto& entry : stages_) {
-            if (entry->name() == n) return false;
+            if (entry->name() == n) {
+              return false;
+            }
         }
         stages_.push_back(std::move(filter));
         return true;
@@ -300,7 +310,9 @@ public:
     bool hasFilter(const std::string& name) const override {
         std::unique_lock<std::mutex> lk(mutex_);
         for (const auto& entry : stages_) {
-            if (entry->name() == name) return true;
+            if (entry->name() == name) {
+              return true;
+            }
         }
         return false;
     }
@@ -320,7 +332,9 @@ public:
         {
             std::unique_lock<std::mutex> lk(mutex_);
             snapshot.reserve(stages_.size());
-            for (const auto& s : stages_) snapshot.push_back(s.get());
+            for (const auto& s : stages_) {
+              snapshot.push_back(s.get());
+            }
         }
         for (auto* f : snapshot) {
             if (f->evaluate(event) == FilterResult::Drop) {
@@ -338,7 +352,9 @@ public:
         std::vector<Changefeed::ChangeEvent> out;
         out.reserve(events.size());
         for (const auto& ev : events) {
-            if (apply(ev) == FilterResult::Pass) out.push_back(ev);
+            if (apply(ev) == FilterResult::Pass) {
+              out.push_back(ev);
+            }
         }
         return out;
     }
@@ -347,7 +363,9 @@ public:
         std::unique_lock<std::mutex> lk(mutex_);
         std::vector<std::string> names;
         names.reserve(stages_.size());
-        for (const auto& s : stages_) names.push_back(s->name());
+        for (const auto& s : stages_) {
+          names.push_back(s->name());
+        }
         return names;
     }
 

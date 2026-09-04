@@ -140,7 +140,9 @@ OpenAICompatAdapter::parseRequest(const json& body) {
     //   [{"type":"function","function":{"name":"...","description":"...","parameters":{...}}}]
     if (body.contains("tools") && body["tools"].is_array()) {
         for (const auto& tool_obj : body["tools"]) {
-            if (!tool_obj.is_object()) continue;
+            if (!tool_obj.is_object()) {
+              continue;
+            }
 
             // Unwrap the optional "function" wrapper
             const json* fn = nullptr;
@@ -243,7 +245,9 @@ std::string OpenAICompatAdapter::buildStreamChunk(
     const std::string& model_id,
     int64_t created) {
 
-    if (created == 0) created = nowUnix();
+    if (created == 0) {
+      created = nowUnix();
+    }
 
     json chunk{
         {"id",      completion_id},
@@ -269,7 +273,9 @@ std::string OpenAICompatAdapter::buildStreamFinalChunk(
     const std::string& model_id,
     int64_t created) {
 
-    if (created == 0) created = nowUnix();
+    if (created == 0) {
+      created = nowUnix();
+    }
 
     json chunk{
         {"id",      completion_id},

@@ -77,7 +77,9 @@ static constexpr std::string_view STATE_INITIAL_JSON = R"({
 })";
 
 void writeIfAbsent(const std::filesystem::path& path, std::string_view content) {
-    if (std::filesystem::exists(path)) return;
+    if (std::filesystem::exists(path)) {
+      return;
+    }
     std::ofstream ofs(path);
     if (ofs.is_open()) {
         ofs << content;
@@ -103,7 +105,9 @@ std::string WikiWorkspaceOrchestrator::slugify(const std::string& text) {
             }
         }
     }
-    while (!result.empty() && result.back() == '-') result.pop_back();
+    while (!result.empty() && result.back() == '-') {
+      result.pop_back();
+    }
     return result.empty() ? "page" : result;
 }
 
@@ -124,14 +128,20 @@ std::string WikiWorkspaceOrchestrator::isoTimestamp() {
 WikiState WikiWorkspaceOrchestrator::loadState(const std::string& root) {
     WikiState state;
     auto state_path = std::filesystem::path(root) / "wiki" / "state.json";
-    if (!std::filesystem::exists(state_path)) return state;
+    if (!std::filesystem::exists(state_path)) {
+      return state;
+    }
 
     std::ifstream ifs(state_path);
-    if (!ifs.is_open()) return state;
+    if (!ifs.is_open()) {
+      return state;
+    }
 
     try {
         auto j = nlohmann::json::parse(ifs, nullptr, false);
-        if (!j.is_object()) return state;
+        if (!j.is_object()) {
+          return state;
+        }
 
         state.version = j.value("version", std::string{"wiki-cpp-1"});
 
@@ -255,7 +265,9 @@ void WikiWorkspaceOrchestrator::appendLog(const std::string& root, const std::st
 void WikiWorkspaceOrchestrator::rebuildIndex(const std::string& root, const WikiState& state) {
     auto index_path = std::filesystem::path(root) / "wiki" / "index.md";
     std::ofstream ofs(index_path);
-    if (!ofs.is_open()) return;
+    if (!ofs.is_open()) {
+      return;
+    }
 
     ofs << "# Wiki Index\n\n";
     ofs << "| Page | Source | Updated |\n";
@@ -270,10 +282,14 @@ void WikiWorkspaceOrchestrator::rebuildIndex(const std::string& root, const Wiki
 bool WikiWorkspaceOrchestrator::hasContradictionCue(const std::string& text) {
     std::string lower;
     lower.reserve(text.size());
-    for (unsigned char c : text) lower += static_cast<char>(std::tolower(c));
+    for (unsigned char c : text) {
+      lower += static_cast<char>(std::tolower(c));
+    }
 
     for (std::string_view cue : CONTRADICTION_CUES) {
-        if (lower.find(cue) != std::string::npos) return true;
+        if (lower.find(cue) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
@@ -343,7 +359,9 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
                 ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title) << "\n\n";
                 const auto& txt = chunk.text;
                 ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                if (txt.size() > 300) ofs << "…";
+                if (txt.size() > 300) {
+                  ofs << "…";
+                }
                 ofs << "\n\n";
             }
         }
@@ -455,7 +473,9 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
                         << " (" << chunk.source_path << ")\n\n";
                     const auto& txt = chunk.text;
                     ofs << "> " << txt.substr(0, std::min<std::size_t>(300, txt.size()));
-                    if (txt.size() > 300) ofs << "…";
+                    if (txt.size() > 300) {
+                      ofs << "…";
+                    }
                     ofs << "\n\n---\n\n";
                 }
             }
@@ -487,7 +507,9 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     std::lock_guard<std::mutex> lock(mutex_);
     WikiLintResult result;
 
-    if (workspace_root.empty()) return result;
+    if (workspace_root.empty()) {
+      return result;
+    }
     WikiState state = loadState(workspace_root);
 
     std::unordered_set<std::string> link_targets;
@@ -516,7 +538,9 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
 
     const std::time_t now = std::time(nullptr);
     for (const auto& [slug, meta] : state.pages) {
-        if (meta.updated.empty()) continue;
+        if (meta.updated.empty()) {
+          continue;
+        }
         std::tm tm_val{};
 #ifdef _WIN32
         std::istringstream ss(meta.updated);
@@ -552,13 +576,17 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
 WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace_root) {
     std::lock_guard<std::mutex> lock(mutex_);
     WikiWorkspaceStats s;
-    if (workspace_root.empty()) return s;
+    if (workspace_root.empty()) {
+      return s;
+    }
 
     WikiState state = loadState(workspace_root);
     s.wiki_pages = static_cast<int>(state.pages.size());
 
     for (const auto& task : state.tasks) {
-        if (task.status == "open") s.open_tasks++;
+        if (task.status == "open") {
+          s.open_tasks++;
+        }
     }
 
     std::unordered_set<std::string> link_targets;

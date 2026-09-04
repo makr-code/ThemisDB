@@ -464,7 +464,9 @@ RoutingDecision LoRARouter::selectByLoadAware(
         if (gpu_id == -1) {
             // Not placed yet, select GPU
             auto adapter_meta = adapter_registry_->getAdapter(adapter_id);
-            if (!adapter_meta) continue;
+            if (!adapter_meta) {
+              continue;
+            }
             
             size_t vram_bytes = adapter_meta->file_size_bytes;
             gpu_id = load_balancer_->selectGPUForAdapter(adapter_id, vram_bytes, 1);

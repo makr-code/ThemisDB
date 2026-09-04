@@ -1637,8 +1637,12 @@ void ConfigPathResolver::setAggregationEnabled(bool enabled, int interval_second
 
 void ConfigPathResolver::setLegacyFallbackRateThreshold([[maybe_unused]] double threshold) {
     // Clamp to [0.0, 1.0]
-    if (threshold < 0.0) threshold = 0.0;
-    if (threshold > 1.0) threshold = 1.0;
+    if (threshold < 0.0) {
+      threshold = 0.0;
+    }
+    if (threshold > 1.0) {
+      threshold = 1.0;
+    }
     legacy_fallback_threshold_.store(threshold, std::memory_order_relaxed);
 }
 

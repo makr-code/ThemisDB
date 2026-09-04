@@ -208,7 +208,9 @@ std::string MetricsCollector::getPrometheusMetrics() const {
     
     // Histograms (simplified - show p50, p95, p99)
     for (const auto& [key, hist] : histograms_) {
-        if (!hist || hist->values.empty()) continue;
+        if (!hist || hist->values.empty()) {
+          continue;
+        }
         
         size_t pos = key.find('{');
         std::string name = (pos != std::string::npos) ? key.substr(0, pos) : key;
@@ -269,7 +271,9 @@ int64_t MetricsCollector::getDroppedSeriesCount() const {
 }
 
 bool MetricsCollector::checkCardinality(const std::string& name, const std::string& key) {
-    if (cardinality_limit_ == 0) return true;
+    if (cardinality_limit_ == 0) {
+      return true;
+    }
 
     // If the key already exists in one of the maps it's an existing series - allow it.
     if (counters_.count(key) || gauges_.count(key) || histograms_.count(key)) {
@@ -338,7 +342,9 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
     }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
     counters_[key] += delta;
 }
 
@@ -351,7 +357,9 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
     }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
     // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
     auto it = gauges_.find(key);
     double current = (it != gauges_.end()) ? it->second.load() : 0.0;
@@ -366,7 +374,9 @@ void MetricsCollector::incrementCounter(const std::string& name, const std::map<
     }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
     counters_[key]++;
 }
 
@@ -378,7 +388,9 @@ void MetricsCollector::setGauge(const std::string& name, double value, const std
     }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
     gauges_[key].store(value);
 }
 
@@ -390,7 +402,9 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
     }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
     
     if (histograms_.find(key) == histograms_.end()) {
         histograms_[key] = std::make_shared<Histogram>();
@@ -409,7 +423,9 @@ void MetricsCollector::observeHistogramWithExemplar(const std::string& name, dou
     }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
-    if (!checkCardinality(name, key)) return;
+    if (!checkCardinality(name, key)) {
+      return;
+    }
 
     if (histograms_.find(key) == histograms_.end()) {
         histograms_[key] = std::make_shared<Histogram>();
@@ -433,13 +449,17 @@ std::string MetricsCollector::makeKey(const std::string& name, const std::map<st
 }
 
 std::string MetricsCollector::formatLabels(const std::map<std::string, std::string>& labels) const {
-    if (labels.empty()) return "";
+    if (labels.empty()) {
+      return "";
+    }
     
     std::ostringstream oss;
     oss << "{";
     bool first = true;
     for (const auto& [key, value] : labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << key << "=\"" << value << "\"";
         first = false;
     }
@@ -454,7 +474,9 @@ std::string MetricsCollector::formatMetricLine(const std::string& name, const st
 }
 
 std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
-    if (exemplar.trace_id.empty()) return "";
+    if (exemplar.trace_id.empty()) {
+      return "";
+    }
 
     // Emit in Prometheus OpenMetrics exemplar format:
     // # {traceID="<id>"} <value> <unix_seconds_with_millis>
@@ -515,7 +537,9 @@ void MetricsCollector::Histogram::reset() {
 }
 
 double MetricsCollector::Histogram::percentile([[maybe_unused]] double p) const {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     
     std::vector<double> sorted = values;
     std::sort(sorted.begin(), sorted.end());
@@ -525,7 +549,9 @@ double MetricsCollector::Histogram::percentile([[maybe_unused]] double p) const 
 }
 
 double MetricsCollector::Histogram::mean() const {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     return std::accumulate(values.begin(), values.end(), 0.0) / values.size();
 }
 

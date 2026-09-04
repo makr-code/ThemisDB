@@ -69,7 +69,9 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
     
     while (std::getline(iss, line)) {
         // Skip empty lines
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         
         // Remove numbering (e.g., "1. ", "2. ", etc.)
         std::regex number_regex(R"(^\s*\d+\.\s*)");

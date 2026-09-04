@@ -67,7 +67,9 @@ public:
 
         // Mean
         double sum = 0;
-        for (double lat : sorted) sum += lat;
+        for (double lat : sorted) {
+          sum += lat;
+        }
         stats.mean_us = sum / sorted.size();
 
         // Percentiles
@@ -446,7 +448,9 @@ BENCHMARK_F(LatencyBenchFixture, CacheMissLatency)(benchmark::State& state) {
     int counter = 10000;
     for (auto _ : state) {
         std::string key = "entity:cold_" + std::to_string(counter++);
-        if (counter >= 20000) counter = 10000;
+        if (counter >= 20000) {
+          counter = 10000;
+        }
 
         auto start = high_resolution_clock::now();
         auto value = db_->get(key);

@@ -83,28 +83,56 @@ std::string_view toString(ProcessModelState s) {
 }
 
 ProcessNotation notationFromString(std::string_view s) {
-    if (s == "BPMN_2_0" || s == "BPMN") return ProcessNotation::BPMN_2_0;
-    if (s == "EPK")                       return ProcessNotation::EPK;
-    if (s == "VCC_VPB")                   return ProcessNotation::VCC_VPB;
-    if (s == "CMMN_1_1" || s == "CMMN")  return ProcessNotation::CMMN_1_1;
-    if (s == "DMN_1_5"  || s == "DMN")   return ProcessNotation::DMN_1_5;
+    if (s == "BPMN_2_0" || s == "BPMN") {
+      return ProcessNotation::BPMN_2_0;
+    }
+    if (s == "EPK") {
+      return ProcessNotation::EPK;
+    }
+    if (s == "VCC_VPB") {
+      return ProcessNotation::VCC_VPB;
+    }
+    if (s == "CMMN_1_1" || s == "CMMN") {
+      return ProcessNotation::CMMN_1_1;
+    }
+    if (s == "DMN_1_5"  || s == "DMN") {
+      return ProcessNotation::DMN_1_5;
+    }
     return ProcessNotation::BPMN_2_0;
 }
 
 ProcessDomain domainFromString(std::string_view s) {
-    if (s == "ADMINISTRATION") return ProcessDomain::ADMINISTRATION;
-    if (s == "BUSINESS")       return ProcessDomain::BUSINESS;
-    if (s == "IT_SERVICE")     return ProcessDomain::IT_SERVICE;
-    if (s == "HEALTHCARE")     return ProcessDomain::HEALTHCARE;
-    if (s == "FINANCE")        return ProcessDomain::FINANCE;
-    if (s == "CUSTOMER_SERVICE")return ProcessDomain::CUSTOMER_SERVICE;
+    if (s == "ADMINISTRATION") {
+      return ProcessDomain::ADMINISTRATION;
+    }
+    if (s == "BUSINESS") {
+      return ProcessDomain::BUSINESS;
+    }
+    if (s == "IT_SERVICE") {
+      return ProcessDomain::IT_SERVICE;
+    }
+    if (s == "HEALTHCARE") {
+      return ProcessDomain::HEALTHCARE;
+    }
+    if (s == "FINANCE") {
+      return ProcessDomain::FINANCE;
+    }
+    if (s == "CUSTOMER_SERVICE") {
+      return ProcessDomain::CUSTOMER_SERVICE;
+    }
     return ProcessDomain::CUSTOM;
 }
 
 ProcessModelState stateFromString(std::string_view s) {
-    if (s == "ACTIVE")     return ProcessModelState::ACTIVE;
-    if (s == "DEPRECATED") return ProcessModelState::DEPRECATED;
-    if (s == "ARCHIVED")   return ProcessModelState::ARCHIVED;
+    if (s == "ACTIVE") {
+      return ProcessModelState::ACTIVE;
+    }
+    if (s == "DEPRECATED") {
+      return ProcessModelState::DEPRECATED;
+    }
+    if (s == "ARCHIVED") {
+      return ProcessModelState::ARCHIVED;
+    }
     return ProcessModelState::DRAFT;
 }
 
@@ -376,8 +404,12 @@ ProcessModelResult ProcessModelManager::importBpmn(
     }
 
     ProcessModelRecord record = meta;
-    if (record.id.empty())   record.id   = result.process_id;
-    if (record.name.empty()) record.name = result.process_name;
+    if (record.id.empty()) {
+      record.id   = result.process_id;
+    }
+    if (record.name.empty()) {
+      record.name = result.process_name;
+    }
     record.notation    = ProcessNotation::BPMN_2_0;
     record.raw_payload = std::string(bpmn_xml);
     record.normalized  = buildNormalizedGraph_(result.nodes, result.edges, record);
@@ -395,8 +427,12 @@ ProcessModelResult ProcessModelManager::importEpk(
     }
 
     ProcessModelRecord record = meta;
-    if (record.id.empty())   record.id   = result.process_id;
-    if (record.name.empty()) record.name = result.process_name;
+    if (record.id.empty()) {
+      record.id   = result.process_id;
+    }
+    if (record.name.empty()) {
+      record.name = result.process_name;
+    }
     record.notation    = ProcessNotation::EPK;
     record.raw_payload = std::string(epk_text);
     record.normalized  = buildNormalizedGraph_(result.nodes, result.edges, record);
@@ -426,8 +462,12 @@ ProcessModelResult ProcessModelManager::importArisXml(
     }
 
     ProcessModelRecord record = meta;
-    if (record.id.empty())   record.id   = result.process_id;
-    if (record.name.empty()) record.name = result.process_name;
+    if (record.id.empty()) {
+      record.id   = result.process_id;
+    }
+    if (record.name.empty()) {
+      record.name = result.process_name;
+    }
     record.notation    = ProcessNotation::EPK;
     record.raw_payload = std::string(aml_xml);
     record.normalized  = buildNormalizedGraph_(result.nodes, result.edges, record);
@@ -583,8 +623,12 @@ std::vector<ProcessModelRecord> ProcessModelManager::list(
             if (!doc.contains("id")) return true; // continue
             auto r = ProcessModelRecord::fromDocument(doc);
 
-            if (domain && r.domain != *domain) return true;
-            if (state  && r.state  != *state)  return true;
+            if (domain && r.domain != *domain) {
+              return true;
+            }
+            if (state  && r.state  != *state) {
+              return true;
+            }
 
             results.push_back(std::move(r));
             if (limit > 0 && results.size() >= limit) return false; // stop
@@ -614,7 +658,9 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (rec) {
                 results.push_back(std::move(*rec));
             }
-            if (limit > 0 && results.size() >= limit) break;
+            if (limit > 0 && results.size() >= limit) {
+              break;
+            }
         }
         return results;
     }
@@ -628,7 +674,9 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
     db_.scanPrefix("proc:def:", [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(std::string(value));
-            if (!doc.contains("id")) return true;
+            if (!doc.contains("id")) {
+              return true;
+            }
             auto r = ProcessModelRecord::fromDocument(doc);
 
             auto match_field = [&]([[maybe_unused]] const std::string& field) {
@@ -640,7 +688,9 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (match_field(r.name) || match_field(r.name_en) ||
                 match_field(r.description) || match_field(r.description_en)) {
                 results.push_back(std::move(r));
-                if (limit > 0 && results.size() >= limit) return false;
+                if (limit > 0 && results.size() >= limit) {
+                  return false;
+                }
             }
         } catch (...) {}
         return true;
@@ -666,11 +716,17 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
             for (const auto& hit : hits) {
                 // VectorIndexManager returns distance (1 - cosine for COSINE metric).
                 const float sim = 1.0f - hit.distance;
-                if (sim < min_similarity) continue;
+                if (sim < min_similarity) {
+                  continue;
+                }
                 auto rec = load(hit.pk);
-                if (!rec) continue;
+                if (!rec) {
+                  continue;
+                }
                 candidates.emplace_back(std::move(*rec), sim);
-                if (k > 0 && candidates.size() >= k) break;
+                if (k > 0 && candidates.size() >= k) {
+                  break;
+                }
             }
             return candidates; // already ordered by distance ascending → sim descending
         }
@@ -681,7 +737,9 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
     db_.scanPrefix("proc:def:", [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(std::string(value));
-            if (!doc.contains("id") || !doc.contains("_embedding")) return true;
+            if (!doc.contains("id") || !doc.contains("_embedding")) {
+              return true;
+            }
             auto r = ProcessModelRecord::fromDocument(doc);
             if (r.embedding.empty() || r.embedding.size() != query_embedding.size())
                 return true;
@@ -795,7 +853,9 @@ ProcessModelResult ProcessModelManager::deployToEngine(
             std::string notation = jn.value("notation", "BPMN");
 
             if (notation == "EPK") {
-                if      (type_str == "EVENT")              node.node_type = EPKNodeType::EVENT;
+                if      (type_str == "EVENT") {
+                  node.node_type = EPKNodeType::EVENT;
+                }
                 else if (type_str == "FUNCTION")           node.node_type = EPKNodeType::FUNCTION;
                 else if (type_str == "AND_CONNECTOR")      node.node_type = EPKNodeType::AND_CONNECTOR;
                 else if (type_str == "OR_CONNECTOR")       node.node_type = EPKNodeType::OR_CONNECTOR;
@@ -807,7 +867,9 @@ ProcessModelResult ProcessModelManager::deployToEngine(
                 else                                       node.node_type = EPKNodeType::FUNCTION;
             } else {
                 // Default to BPMN
-                if      (type_str == "START_EVENT")         node.node_type = BPMNNodeType::START_EVENT;
+                if      (type_str == "START_EVENT") {
+                  node.node_type = BPMNNodeType::START_EVENT;
+                }
                 else if (type_str == "END_EVENT")           node.node_type = BPMNNodeType::END_EVENT;
                 else if (type_str == "INTERMEDIATE_EVENT")  node.node_type = BPMNNodeType::INTERMEDIATE_EVENT;
                 else if (type_str == "BOUNDARY_EVENT")      node.node_type = BPMNNodeType::BOUNDARY_EVENT;
@@ -844,10 +906,14 @@ ProcessModelResult ProcessModelManager::deployToEngine(
             edge.to_node   = je.value("to", "");
 
             std::string cond = je.value("condition", "");
-            if (!cond.empty()) edge.condition_expression = cond;
+            if (!cond.empty()) {
+              edge.condition_expression = cond;
+            }
 
             std::string et = je.value("type", "SEQUENCE_FLOW");
-            if      (et == "MESSAGE_FLOW")    edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;
+            if      (et == "MESSAGE_FLOW") {
+              edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;
+            }
             else if (et == "ASSOCIATION")     edge.edge_type = ProcessEdgeType::ASSOCIATION;
             else if (et == "DATA_ASSOCIATION")edge.edge_type = ProcessEdgeType::DATA_ASSOCIATION;
             else if (et == "CONTROL_FLOW")    edge.edge_type = ProcessEdgeType::CONTROL_FLOW;

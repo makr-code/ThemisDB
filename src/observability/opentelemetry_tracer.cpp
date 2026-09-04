@@ -51,8 +51,12 @@ ExporterType exporterFromString(const std::string& name) {
                    [](unsigned char c) {
                        return static_cast<char>(std::tolower(c));
                    });
-    if (lower == "jaeger") return ExporterType::JAEGER;
-    if (lower == "zipkin") return ExporterType::ZIPKIN;
+    if (lower == "jaeger") {
+      return ExporterType::JAEGER;
+    }
+    if (lower == "zipkin") {
+      return ExporterType::ZIPKIN;
+    }
     if (lower != "otlp") {
         MetricsCollector::getInstance().addCounter(
             "themis_otel_unknown_exporter_total",
@@ -106,8 +110,12 @@ public:
         , export_cb_(std::move(export_cb))
         , start_time_(std::chrono::system_clock::now())
     {
-        if (active_count_) ++(*active_count_);
-        if (total_count_)  ++(*total_count_);
+        if (active_count_) {
+          ++(*active_count_);
+        }
+        if (total_count_) {
+          ++(*total_count_);
+        }
     }
 
     ~OtelSpan() override { endSpan(); }
@@ -156,7 +164,9 @@ private:
         if (ended_.exchange(true)) return; // idempotent
 
         auto end_time = std::chrono::system_clock::now();
-        if (active_count_) --(*active_count_);
+        if (active_count_) {
+          --(*active_count_);
+        }
 
         SpanRecord rec;
         {
@@ -381,7 +391,9 @@ public:
     }
 
     void publishMetrics() const {
-        if (!config_.publish_metrics) return;
+        if (!config_.publish_metrics) {
+          return;
+        }
         auto& mc = MetricsCollector::getInstance();
         mc.setGauge("themis_otel_spans_total",
                     static_cast<double>(total_spans_.load()));

@@ -83,7 +83,9 @@ public:
         db_path_ = fs::temp_directory_path()
                  / ("bench_cdc_dlvgates_" + std::to_string(
                         std::atomic_fetch_add(&instance_counter_, 1)));
-        if (fs::exists(db_path_)) fs::remove_all(db_path_);
+        if (fs::exists(db_path_)) {
+          fs::remove_all(db_path_);
+        }
 
         RocksDBWrapper::Config cfg;
         cfg.db_path             = db_path_.string();
@@ -105,7 +107,9 @@ public:
         changefeed_.reset();
         db_->close();
         db_.reset();
-        if (fs::exists(db_path_)) fs::remove_all(db_path_);
+        if (fs::exists(db_path_)) {
+          fs::remove_all(db_path_);
+        }
     }
 
     void seedEvents(int n) {

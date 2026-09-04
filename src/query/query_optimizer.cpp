@@ -169,11 +169,15 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		auto vb = plan.details[b];
 		auto ea = va.capped ? maxProbePerPred : va.estimatedCount;
 		auto eb = vb.capped ? maxProbePerPred : vb.estimatedCount;
-		if (ea != eb) return ea < eb;
+		if (ea != eb) {
+		  return ea < eb;
+		}
 		return va.pred.column < vb.pred.column; // stabile Ordnung
 	});
 
-	for (auto i : idx) plan.orderedPredicates.push_back(plan.details[i].pred);
+	for (auto i : idx) {
+	  plan.orderedPredicates.push_back(plan.details[i].pred);
+	}
 
 	// Emit plan-selection metrics for Prometheus / observability.
 	if (metrics_collector_) {
@@ -448,10 +452,14 @@ QueryOptimizer::VectorGeoCostResult QueryOptimizer::chooseVectorGeoPlan(const Ve
 	double dimScale = static_cast<double>(safeDim) / 128.0;
 	double C_vec = C_vec_base * dimScale;
 	std::size_t universe = in.spatialIndexEntries ? in.spatialIndexEntries : 100000; // fallback
-	if (in.prefilterSize > 0 && in.prefilterSize < universe) universe = in.prefilterSize;
+	if (in.prefilterSize > 0 && in.prefilterSize < universe) {
+	  universe = in.prefilterSize;
+	}
 
 	std::size_t spatialCandidates = static_cast<std::size_t>(universe * in.bboxRatio);
-	if (spatialCandidates == 0) spatialCandidates = 1;
+	if (spatialCandidates == 0) {
+	  spatialCandidates = 1;
+	}
 
 	// Spatial-first cost
 	double spatialPhaseCost = in.hasSpatialIndex ? spatialCandidates * C_index_spatial : universe * C_spatial_eval;
@@ -487,7 +495,9 @@ QueryOptimizer::ContentGeoCostResult QueryOptimizer::estimateContentGeo(const Co
 	const double smallBBoxBoost = 0.7;       // discount when bboxRatio very small (<1%)
 
 	std::size_t hits = in.fulltextHits ? in.fulltextHits : in.limit; // fallback
-	if (hits == 0) hits = 1;
+	if (hits == 0) {
+	  hits = 1;
+	}
 
 	// Fulltext-first plan cost: FT scan + spatial evaluation of hits
 	double ftPhase = C_fulltext_base * std::log(static_cast<double>(hits) + 5.0);

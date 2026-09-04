@@ -30,9 +30,13 @@ struct VectorGenerator {
         }
         
         float norm = 0.0f;
-        for (float v : vec) norm += v * v;
+        for (float v : vec) {
+          norm += v * v;
+        }
         norm = std::sqrt(std::max(norm, 1e-12f));
-        for (float& v : vec) v /= norm;
+        for (float& v : vec) {
+          v /= norm;
+        }
         
         return vec;
     }
@@ -60,7 +64,9 @@ struct ResidualQuantizationEnv {
     }
     
     void initOnce(int num_training_vectors = 10000) {
-        if (initialized) return;
+        if (initialized) {
+          return;
+        }
         
         VectorGenerator gen(42);
         training_data = gen.generateDataset(num_training_vectors, dimension);

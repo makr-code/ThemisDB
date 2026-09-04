@@ -3680,7 +3680,9 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                         int n_batch_size = static_cast<int>(vision_request.max_tokens > 0
                                                              ? vision_request.max_tokens : 512);
                         for (auto& emb_vec : image_embeddings) {
-                            if (emb_vec.empty()) continue;
+                            if (emb_vec.empty()) {
+                              continue;
+                            }
                             int n_patches = vision_encoder->getNumPatches();
                             if (n_patches <= 0) {
                                 n_patches = static_cast<int>(emb_vec.size()) /

@@ -141,7 +141,9 @@ std::map<std::string, double> ContentMetrics::getLatencyPercentiles(const std::s
 }
 
 double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_samples, double percentile) const {
-    if (sorted_samples.empty()) return 0.0;
+    if (sorted_samples.empty()) {
+      return 0.0;
+    }
     
     double index = percentile * (sorted_samples.size() - 1);
     size_t lower = static_cast<size_t>(std::floor(index));
@@ -204,7 +206,9 @@ double ContentMetrics::getCacheHitRate() const {
     uint64_t misses = cache_misses_.load();
     uint64_t total = hits + misses;
     
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     return (static_cast<double>(hits) / total) * 100.0;
 }
 
@@ -229,7 +233,9 @@ std::map<std::string, uint64_t> ContentMetrics::getMimeTypeCounts() const {
 
 double ContentMetrics::getValidationSuccessRate() const {
     uint64_t total = total_validations_.load();
-    if (total == 0) return 100.0;
+    if (total == 0) {
+      return 100.0;
+    }
     
     uint64_t successful = successful_validations_.load();
     return (static_cast<double>(successful) / total) * 100.0;
@@ -237,7 +243,9 @@ double ContentMetrics::getValidationSuccessRate() const {
 
 double ContentMetrics::getProcessingSuccessRate() const {
     uint64_t total = total_processing_.load();
-    if (total == 0) return 100.0;
+    if (total == 0) {
+      return 100.0;
+    }
     
     uint64_t successful = successful_processing_.load();
     return (static_cast<double>(successful) / total) * 100.0;
@@ -452,7 +460,9 @@ std::string ContentMetrics::toPrometheusFormat() const {
     {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         for (const auto& [operation, stats] : latency_stats_) {
-            if (stats.samples.empty()) continue;
+            if (stats.samples.empty()) {
+              continue;
+            }
             
             auto sorted = stats.samples;
             std::sort(sorted.begin(), sorted.end());

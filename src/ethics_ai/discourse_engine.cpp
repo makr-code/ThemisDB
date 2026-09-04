@@ -124,7 +124,9 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
         decision.metadata["legal_grounding_retrieved_at_utc"] = legal_grounding.retrieval_timestamp_utc;
         std::stringstream norm_refs_csv;
         for (size_t i = 0; i < legal_grounding.norm_refs.size(); ++i) {
-            if (i > 0) norm_refs_csv << ",";
+            if (i > 0) {
+              norm_refs_csv << ",";
+            }
             norm_refs_csv << legal_grounding.norm_refs[i];
         }
         decision.metadata["norm_refs"] = norm_refs_csv.str();

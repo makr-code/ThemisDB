@@ -204,7 +204,9 @@ ReplicationObserver::calculateHealthScore() const
     int failed   = 0;
     int degraded = 0;
     for (const auto& r : replicas) {
-        if (r.health_status == HealthStatus::FAILED)   ++failed;
+        if (r.health_status == HealthStatus::FAILED) {
+          ++failed;
+        }
         else if (r.health_status == HealthStatus::DEGRADED) ++degraded;
     }
     const int total = static_cast<int>(replicas.size());

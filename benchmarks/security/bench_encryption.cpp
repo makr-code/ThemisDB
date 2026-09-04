@@ -29,7 +29,9 @@ std::string makeRandomString(size_t len) {
     static thread_local std::mt19937 rng{std::random_device{}()};
     static thread_local std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
     std::string s; s.reserve(len);
-    for (size_t i = 0; i < len; ++i) s.push_back(charset[dist(rng)]);
+    for (size_t i = 0; i < len; ++i) {
+      s.push_back(charset[dist(rng)]);
+    }
     return s;
 }
 
@@ -48,7 +50,9 @@ struct CryptoEnv {
     }
 
     void initOnce() {
-        if (enc) return;
+        if (enc) {
+          return;
+        }
         provider = std::make_shared<MockKeyProvider>();
         provider->createKey("user_pii", 1);
         provider->createKey("user_sensitive", 1);
@@ -329,11 +333,15 @@ static void BM_VectorFloat_Encryption(benchmark::State& state) {
     
     // 768-dim embedding (typical BERT size)
     std::vector<float> embedding(768);
-    for (size_t i = 0; i < 768; ++i) embedding[i] = static_cast<float>(i) * 0.001f;
+    for (size_t i = 0; i < 768; ++i) {
+      embedding[i] = static_cast<float>(i) * 0.001f;
+    }
     
     // Serialize to JSON
     nlohmann::json j_arr = nlohmann::json::array();
-    for (float val : embedding) j_arr.push_back(val);
+    for (float val : embedding) {
+      j_arr.push_back(val);
+    }
     std::string json_str = j_arr.dump();
     
     for (auto _ : state) {

@@ -536,11 +536,21 @@ private:
     void recordSyncMetrics(bool success, double duration_seconds, size_t bytes) {
 #ifdef THEMIS_HAS_PROMETHEUS
         if (config_.enable_metrics) {
-            if (sync_total_counter_) sync_total_counter_->Increment();
-            if (success && sync_success_counter_) sync_success_counter_->Increment();
-            if (!success && sync_failures_counter_) sync_failures_counter_->Increment();
-            if (bytes_transferred_counter_) bytes_transferred_counter_->Increment(bytes);
-            if (sync_duration_histogram_) sync_duration_histogram_->Observe(duration_seconds);
+            if (sync_total_counter_) {
+              sync_total_counter_->Increment();
+            }
+            if (success && sync_success_counter_) {
+              sync_success_counter_->Increment();
+            }
+            if (!success && sync_failures_counter_) {
+              sync_failures_counter_->Increment();
+            }
+            if (bytes_transferred_counter_) {
+              bytes_transferred_counter_->Increment(bytes);
+            }
+            if (sync_duration_histogram_) {
+              sync_duration_histogram_->Observe(duration_seconds);
+            }
         }
 #endif
     }

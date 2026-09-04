@@ -78,7 +78,9 @@ struct BinaryQuantizationEnv {
     }
     
     void initOnce(int num_training_vectors = 10000) {
-        if (initialized) return;
+        if (initialized) {
+          return;
+        }
         
         VectorGenerator gen(42);
         training_data = gen.generateDataset(num_training_vectors, dimension);

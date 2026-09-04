@@ -227,7 +227,9 @@ MptcpConnectionStats MptcpSubflowManager::getStats() const {
 
 bool MptcpSubflowManager::setPriority(uint32_t subflow_id, uint32_t priority) {
 #if defined(__linux__) && defined(THEMIS_ENABLE_MPTCP)
-    if (!mptcp_enabled_) return false;
+    if (!mptcp_enabled_) {
+      return false;
+    }
     // MPTCP_SUBFLOW_ATTR_BACKUP setsockopt (kernel ≥ 5.14).
     struct mptcp_subflow_addrs req{};
     req.sa_family = AF_UNSPEC;
@@ -249,7 +251,9 @@ bool MptcpSubflowManager::setPriority(uint32_t subflow_id, uint32_t priority) {
 
 bool MptcpSubflowManager::removeSubflow([[maybe_unused]] uint32_t subflow_id) {
 #if defined(__linux__) && defined(THEMIS_ENABLE_MPTCP)
-    if (!mptcp_enabled_) return false;
+    if (!mptcp_enabled_) {
+      return false;
+    }
     // Subflow removal via MPTCP_INFO requires kernel ≥ 5.19.
     // On older kernels we mark the subflow backup and let the kernel GC it.
     (void)subflow_id;

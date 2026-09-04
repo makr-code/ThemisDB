@@ -405,7 +405,9 @@ std::vector<BranchInfo> PromptVersionControl::listBranches(
         while (!current.empty()) {
             info.commit_count++;
             auto v_it = versions_.find(current);
-            if (v_it == versions_.end()) break;
+            if (v_it == versions_.end()) {
+              break;
+            }
             current = v_it->second.parent_version;
         }
         
@@ -498,7 +500,9 @@ MergeResult PromptVersionControl::merge(
             if (!visited.insert(cur).second) break;  // cycle detected
             ancestors.push_back(cur);
             auto it = versions_.find(cur);
-            if (it == versions_.end()) break;
+            if (it == versions_.end()) {
+              break;
+            }
             cur = it->second.parent_version;
         }
         return ancestors;
@@ -736,7 +740,9 @@ std::string PromptVersionControl::generateVersionId(
 }
 
 void PromptVersionControl::persistVersion(const PromptVersion& version) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX_VERSION) + version.version_id;
     std::string value = version.toJson().dump();
@@ -751,7 +757,9 @@ void PromptVersionControl::persistBranch(
     const std::string& prompt_id,
     const BranchInfo& branch
 ) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX_BRANCH) + prompt_id + ":" + branch.name;
     std::string value = branch.toJson().dump();
@@ -763,7 +771,9 @@ void PromptVersionControl::persistBranch(
 }
 
 void PromptVersionControl::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     size_t loaded_versions = 0;
     // Load versions
@@ -884,7 +894,9 @@ PromptDiff PromptVersionControl::computeDiff(
             for (size_t k = hunk_end; k < std::min(hunk_end + size_t(CONTEXT) * 2, N); ++k) {
                 if (edits[k].op != Op::KEEP) { found_change = true; break; }
             }
-            if (!found_change) break;
+            if (!found_change) {
+              break;
+            }
             hunk_end = std::min(hunk_end + size_t(CONTEXT) * 2, N);
         }
 
@@ -893,15 +905,23 @@ PromptDiff PromptVersionControl::computeDiff(
         // Count lines in A and B up to hunk_start
         int a_pos = 0, b_pos = 0;
         for (size_t k = 0; k < hunk_start; ++k) {
-            if (edits[k].op != Op::ADD) ++a_pos;
-            if (edits[k].op != Op::REMOVE) ++b_pos;
+            if (edits[k].op != Op::ADD) {
+              ++a_pos;
+            }
+            if (edits[k].op != Op::REMOVE) {
+              ++b_pos;
+            }
         }
         old_start = a_pos + 1;
         new_start = b_pos + 1;
 
         for (size_t k = hunk_start; k < hunk_end; ++k) {
-            if (edits[k].op != Op::ADD)    ++old_count;
-            if (edits[k].op != Op::REMOVE) ++new_count;
+            if (edits[k].op != Op::ADD) {
+              ++old_count;
+            }
+            if (edits[k].op != Op::REMOVE) {
+              ++new_count;
+            }
         }
 
         oss << "@@ -" << old_start << "," << old_count
@@ -952,7 +972,9 @@ MergeResult PromptVersionControl::autoMerge(
         std::vector<std::string> lines;
         std::istringstream iss(text);
         std::string line;
-        while (std::getline(iss, line)) lines.push_back(line);
+        while (std::getline(iss, line)) {
+          lines.push_back(line);
+        }
         return lines;
     };
 
@@ -1048,7 +1070,9 @@ MergeResult PromptVersionControl::autoMerge(
         // Build O(1) lookup set to avoid quadratic linear search.
         std::unordered_set<std::string> sc_ins_set(
             sc.insertions_before.begin(), sc.insertions_before.end());
-        for (const auto& ins : sc.insertions_before) merged.push_back(ins);
+        for (const auto& ins : sc.insertions_before) {
+          merged.push_back(ins);
+        }
         for (const auto& ins : tc.insertions_before) {
             if (!sc_ins_set.count(ins)) {
                 merged.push_back(ins);
@@ -1071,7 +1095,9 @@ MergeResult PromptVersionControl::autoMerge(
     // Use an unordered_set for O(1) lookup instead of O(n) linear search.
     std::unordered_set<std::string> src_eof_set(
         src_eof.insertions_before.begin(), src_eof.insertions_before.end());
-    for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);
+    for (const auto& ins : src_eof.insertions_before) {
+      merged.push_back(ins);
+    }
     for (const auto& ins : tgt_eof.insertions_before) {
         if (!src_eof_set.count(ins)) {
             merged.push_back(ins);

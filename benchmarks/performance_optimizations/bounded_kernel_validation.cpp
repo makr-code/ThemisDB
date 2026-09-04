@@ -270,7 +270,9 @@ TEST_F(BoundedKernelValidationTest, GeoContainmentOutputValidation) {
     // Validation function (POST-CONDITION)
     auto validateContainmentResult = [](const std::vector<uint8_t>& results) -> bool {
         for (uint8_t r : results) {
-            if (r != 0 && r != 1) return false;
+            if (r != 0 && r != 1) {
+              return false;
+            }
         }
         return true;
     };

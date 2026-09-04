@@ -250,7 +250,9 @@ static void GATE_MTL_06_TrainingOverheadComparison(benchmark::State& state) {
         
         std::vector<MTLSample> single_samples;
         for (const auto& s : mtl_samples) {
-            if (s.task_id == "task_a") single_samples.push_back(s);
+            if (s.task_id == "task_a") {
+              single_samples.push_back(s);
+            }
         }
         trainer.train(single_samples);
     }

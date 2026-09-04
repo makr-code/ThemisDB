@@ -76,11 +76,15 @@ constexpr int kPoolJoinTimeoutMs = 5000;
 static void timedJoin(std::thread& t,
                       std::string_view label,
                       int timeout_ms = kPoolJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -110,7 +114,9 @@ size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     [[maybe_unused]] size_t active_count,
     double load)
 {
-    if (current_count == 0) return 1;
+    if (current_count == 0) {
+      return 1;
+    }
 
     if (load > config_.scale_up_threshold) {
         return static_cast<size_t>(
@@ -129,8 +135,12 @@ bool AdaptivePoolingStrategy::shouldCreateConnection(
     size_t max_count,
     size_t available_count)
 {
-    if (current_count >= max_count) return false;
-    if (current_count == 0) return true;
+    if (current_count >= max_count) {
+      return false;
+    }
+    if (current_count == 0) {
+      return true;
+    }
     // Create when the fraction of available (idle) connections is below the low-water mark
     double available_ratio = static_cast<double>(available_count)
                            / static_cast<double>(current_count);
@@ -143,8 +153,12 @@ bool AdaptivePoolingStrategy::shouldRemoveConnection(
     size_t available_count,
     std::chrono::seconds idle_time)
 {
-    if (current_count <= min_count) return false;
-    if (available_count == 0) return false;
+    if (current_count <= min_count) {
+      return false;
+    }
+    if (available_count == 0) {
+      return false;
+    }
     // Only remove connections that have been idle long enough
     return idle_time >= config_.min_idle_time;
 }
@@ -636,7 +650,9 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
 }
 
 void WireProtocolConnectionPool::adaptPoolSize() {
-    if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) return;
+    if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) {
+      return;
+    }
 
     // Collect current target names (under lock) to avoid holding pools_mutex_
     // while performing potentially slow createConnection() calls.

@@ -136,11 +136,15 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     const std::string& llm_response)
 {
     std::vector<std::string> aspects;
-    if (llm_response.empty()) return aspects;
+    if (llm_response.empty()) {
+      return aspects;
+    }
 
     // A response of "NONE" (case-insensitive) means the answer is complete.
     std::string upper = llm_response;
-    for (auto& c : upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (auto& c : upper) {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     if (upper.find("NONE") != std::string::npos && llm_response.size() < 20u) {
         return aspects;
     }
@@ -171,7 +175,9 @@ std::string MultiStepRAGOrchestrator::buildMapPrompt(
     // Build context block: "Source: …\n<content>"
     std::ostringstream ctx;
     for (size_t i = 0; i < chunks.size(); ++i) {
-        if (i > 0) ctx << "\n\n---\n\n";
+        if (i > 0) {
+          ctx << "\n\n---\n\n";
+        }
         if (!chunks[i].source.empty()) {
             ctx << "[Source: " << chunks[i].source << "]\n";
         }
@@ -240,7 +246,9 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
             batches.push_back(std::move(current_batch));
             current_tokens = 0u;
 
-            if (batches.size() >= config_.max_map_steps) break;
+            if (batches.size() >= config_.max_map_steps) {
+              break;
+            }
         }
 
         current_batch.push_back(doc);
@@ -362,12 +370,18 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
                 result.steps.push_back(f.get());
                 ++result.steps_executed;
             } catch (const std::exception&) {
-                if (!first_exc) first_exc = std::current_exception();
+                if (!first_exc) {
+                  first_exc = std::current_exception();
+                }
             } catch (...) {
-                if (!first_exc) first_exc = std::current_exception();
+                if (!first_exc) {
+                  first_exc = std::current_exception();
+                }
             }
         }
-        if (first_exc) std::rethrow_exception(first_exc);
+        if (first_exc) {
+          std::rethrow_exception(first_exc);
+        }
     } else {
         // Sequential map phase (default).
         for (const auto& batch : batches) {
@@ -445,7 +459,9 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         config_.max_iterations,
         config_.retrieval_top_k);
 
-    if (!infer) return result;
+    if (!infer) {
+      return result;
+    }
 
     // Accumulate all documents across iterations.
     std::vector<RetrievedChunk> accumulated = documents;
@@ -455,7 +471,9 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         AssembledContext ctx = assembler_.assemble(
             accumulated, config_.system_prompt, query);
 
-        if (ctx.was_truncated) result.was_truncated = true;
+        if (ctx.was_truncated) {
+          result.was_truncated = true;
+        }
 
         const std::string prompt = buildMapPrompt(ctx.chunks_used, query);
         spdlog::info(
@@ -472,7 +490,9 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
         ++result.steps_executed;
 
         // Check for uncovered aspects unless no retriever is provided.
-        if (!retrieve) break;
+        if (!retrieve) {
+          break;
+        }
 
         std::string gap_prompt = config_.gap_detection_prompt;
         gap_prompt = substitute(gap_prompt, "query",  query);
@@ -522,7 +542,9 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
                 [&]([[maybe_unused]] const RetrievedChunk& c) {
                     return !c.source.empty() && c.source == nd.source;
                 });
-            if (!already_present) accumulated.push_back(nd);
+            if (!already_present) {
+              accumulated.push_back(nd);
+            }
         }
     }
 

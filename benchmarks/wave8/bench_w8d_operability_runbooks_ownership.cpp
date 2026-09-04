@@ -380,7 +380,9 @@ BENCHMARK_F(OperabilityFixture, ORP04_EscalationGateCounter)(benchmark::State& s
         state.PauseTiming();
         std::sort(latencies.begin(), latencies.end());
         const double p99 = latencies[static_cast<std::size_t>(kOps * 0.99)];
-        if (p99 > kP99Gate) ++gate_failures;
+        if (p99 > kP99Gate) {
+          ++gate_failures;
+        }
         state.counters["p99_us"] = p99;
         state.counters["p99_gate_us"] = kP99Gate;
         state.ResumeTiming();
@@ -415,7 +417,9 @@ static void ORP05_OwnerAssignmentValidation(benchmark::State& state) {
         int total   = 0;
         for (const auto& entry : HotPathRegistry()) {
             ++total;
-            if (entry.owner_team.empty()) ++unowned;
+            if (entry.owner_team.empty()) {
+              ++unowned;
+            }
         }
         state.counters["unowned_path_count"] = static_cast<double>(unowned);
         state.counters["owner_coverage"]     =
@@ -523,7 +527,9 @@ static void ORP08_GuardrailCoverageScore(benchmark::State& state) {
         int covered = 0;
         for (const auto& entry : HotPathRegistry()) {
             ++total;
-            if (entry.has_gate) ++covered;
+            if (entry.has_gate) {
+              ++covered;
+            }
         }
         const double score = (total > 0)
             ? covered / static_cast<double>(total)

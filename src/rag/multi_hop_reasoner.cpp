@@ -97,14 +97,18 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
     while (std::getline(ss, line)) {
         // Strip leading list markers: "1.", "2.", "-", "*"
         std::string t = themis::utils::trim(line);
-        if (t.empty()) continue;
+        if (t.empty()) {
+          continue;
+        }
         // Remove leading digit+dot or dash/star
         if (t.size() >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
              t[0] == '-' || t[0] == '*')) {
             t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
         }
-        if (!t.empty()) sub_queries.push_back(t);
+        if (!t.empty()) {
+          sub_queries.push_back(t);
+        }
     }
     // Cap at max_hops
     if (sub_queries.size() > config_.max_hops) {
@@ -119,7 +123,9 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     // Split on "and" / "," at the top level — very lightweight.
     std::vector<std::string> parts;
     const std::string q = themis::utils::trim(query);
-    if (q.empty()) return parts;
+    if (q.empty()) {
+      return parts;
+    }
 
     // Simple sentence boundary split on ". " or "? "
     std::vector<std::string> sentences;
@@ -130,12 +136,16 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
         if ((q[i] == '.' || q[i] == '?') &&
             i + 1 < q.size() && q[i + 1] == ' ') {
             const auto t = themis::utils::trim(acc);
-            if (!t.empty()) sentences.push_back(t);
+            if (!t.empty()) {
+              sentences.push_back(t);
+            }
             acc.clear();
         }
     }
     const auto t = themis::utils::trim(acc);
-    if (!t.empty()) sentences.push_back(t);
+    if (!t.empty()) {
+      sentences.push_back(t);
+    }
 
     // If only one sentence, return it as-is (single hop)
     if (sentences.size() <= 1u) {
@@ -145,7 +155,9 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (parts.size() >= config_.max_hops) break;
+        if (parts.size() >= config_.max_hops) {
+          break;
+        }
     }
     return parts;
 }
@@ -164,7 +176,9 @@ std::vector<std::string> MultiHopReasoner::decomposeQuery(
             inference_fn(prompt, config_.max_tokens_per_hop);
         if (!response.empty()) {
             auto sub_queries = parseDecompositionResponse(response);
-            if (!sub_queries.empty()) return sub_queries;
+            if (!sub_queries.empty()) {
+              return sub_queries;
+            }
         }
     }
     // Fallback: heuristic decomposition
@@ -232,7 +246,9 @@ std::string MultiHopReasoner::composeAnswer(
     if (partial_answers.empty()) return {};
 
     // If only one hop, its answer IS the final answer
-    if (partial_answers.size() == 1u) return hop_records[0].intermediate_answer;
+    if (partial_answers.size() == 1u) {
+      return hop_records[0].intermediate_answer;
+    }
 
     if (!inference_fn) {
         // Without LLM, concatenate partial answers
@@ -278,7 +294,9 @@ MultiHopResult MultiHopReasoner::reason(
     std::vector<std::string> sub_queries =
         decomposeQuery(query, inference_fn);
 
-    if (sub_queries.empty()) sub_queries.push_back(query);
+    if (sub_queries.empty()) {
+      sub_queries.push_back(query);
+    }
 
     // Cap sub-queries at max_hops
     if (sub_queries.size() > config_.max_hops) {

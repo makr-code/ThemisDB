@@ -36,7 +36,9 @@ template <typename T>
 {
     try {
         const auto it = j.find(key);
-        if (it == j.end()) return std::nullopt;
+        if (it == j.end()) {
+          return std::nullopt;
+        }
         return it->template get<T>();
     } catch (...) {
         return std::nullopt;
@@ -110,7 +112,9 @@ template <typename T>
         const nlohmann::json* cur = &j;
         for (auto&& k : keys) {
             const auto it = cur->find(k);
-            if (it == cur->end()) return default_value;
+            if (it == cur->end()) {
+              return default_value;
+            }
             cur = &(*it);
         }
         return cur->template get<T>();
@@ -151,7 +155,9 @@ template <typename T>
 {
     try {
         const auto it = j.find(key);
-        if (it != j.end() && it->is_object()) return *it;
+        if (it != j.end() && it->is_object()) {
+          return *it;
+        }
     } catch (...) {}
     return nlohmann::json::object();
 }
@@ -170,7 +176,9 @@ template <typename T>
 {
     try {
         const auto it = j.find(key);
-        if (it != j.end() && it->is_array()) return *it;
+        if (it != j.end() && it->is_array()) {
+          return *it;
+        }
     } catch (...) {}
     return nlohmann::json::array();
 }

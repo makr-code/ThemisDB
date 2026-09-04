@@ -242,8 +242,12 @@ void DirectXPipeline::bind_uav_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_
 void DirectXPipeline::bind_srv_table(uint32_t table_index, D3D12_GPU_DESCRIPTOR_HANDLE base_descriptor) {
     // SRV table is after root constants and UAV table
     uint32_t root_index = 0;
-    if (num_root_constants_ > 0) root_index++;
-    if (num_uavs_ > 0) root_index++;
+    if (num_root_constants_ > 0) {
+      root_index++;
+    }
+    if (num_uavs_ > 0) {
+      root_index++;
+    }
     // Ensure root signature is set before binding descriptor tables
     context_->command_list()->SetComputeRootSignature(root_signature_.Get());
     context_->command_list()->SetComputeRootDescriptorTable(root_index, base_descriptor);

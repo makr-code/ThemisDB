@@ -33,8 +33,12 @@ using themisdb::analytics::ForecastPoint;
 // ---------------------------------------------------------------------------
 
 double MLAnomalyDetector::clamp01([[maybe_unused]] double v) noexcept {
-    if (v < 0.0) return 0.0;
-    if (v > 1.0) return 1.0;
+    if (v < 0.0) {
+      return 0.0;
+    }
+    if (v > 1.0) {
+      return 1.0;
+    }
     return v;
 }
 
@@ -52,13 +56,17 @@ int64_t MLAnomalyDetector::toMs(std::chrono::system_clock::time_point tp) {
 }
 
 double MLAnomalyDetector::mean(const std::vector<double>& v) {
-    if (v.empty()) return 0.0;
+    if (v.empty()) {
+      return 0.0;
+    }
     double s = std::accumulate(v.begin(), v.end(), 0.0);
     return s / static_cast<double>(v.size());
 }
 
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
-    if (v.size() < 2) return 0.0;
+    if (v.size() < 2) {
+      return 0.0;
+    }
     double ss = 0.0;
     for (double x : v) {
         double d = x - mu;
@@ -69,7 +77,9 @@ double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
 
 double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     const auto& pts = series.points();
-    if (pts.size() < 2) return 0.0;
+    if (pts.size() < 2) {
+      return 0.0;
+    }
     std::vector<int64_t> diffs;
     diffs.reserve(pts.size() - 1);
     for (size_t i = 1; i < pts.size(); ++i) {
@@ -104,7 +114,9 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
     };
 
     for (size_t i = 0; i < values.size(); ++i) {
-        if (labels[i] != UNVISITED) continue;
+        if (labels[i] != UNVISITED) {
+          continue;
+        }
         auto neighbours = regionQuery(i);
         if (neighbours.size() < cfg_.dbscan_min_samples) {
             labels[i] = NOISE;
@@ -115,8 +127,12 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
         std::vector<size_t> queue(neighbours.begin(), neighbours.end());
         for (size_t qi = 0; qi < queue.size(); ++qi) {
             size_t nidx = queue[qi];
-            if (labels[nidx] == NOISE) labels[nidx] = label;
-            if (labels[nidx] != UNVISITED) continue;
+            if (labels[nidx] == NOISE) {
+              labels[nidx] = label;
+            }
+            if (labels[nidx] != UNVISITED) {
+              continue;
+            }
             labels[nidx] = label;
             auto nn = regionQuery(nidx);
             if (nn.size() >= cfg_.dbscan_min_samples) {
@@ -128,7 +144,9 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
 }
 
 double MLAnomalyDetector::changePointScore(const std::vector<double>& values) const {
-    if (values.size() < cfg_.min_training_points / 2) return 0.0;
+    if (values.size() < cfg_.min_training_points / 2) {
+      return 0.0;
+    }
     size_t mid = values.size() / 2;
     std::vector<double> left(values.begin(), values.begin() + static_cast<long>(mid));
     std::vector<double> right(values.begin() + static_cast<long>(mid), values.end());
@@ -143,9 +161,15 @@ double MLAnomalyDetector::changePointScore(const std::vector<double>& values) co
 }
 
 std::string MLAnomalyDetector::severityForScore([[maybe_unused]] double s) const {
-    if (s >= 0.9) return "critical";
-    if (s >= 0.75) return "high";
-    if (s >= 0.5) return "medium";
+    if (s >= 0.9) {
+      return "critical";
+    }
+    if (s >= 0.75) {
+      return "high";
+    }
+    if (s >= 0.5) {
+      return "medium";
+    }
     return "low";
 }
 
@@ -261,7 +285,9 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
     baseline_values_ = training_series_.values();
     baseline_mean_   = mean(baseline_values_);
     baseline_stddev_ = stddev(baseline_values_, baseline_mean_);
-    if (baseline_stddev_ < 1e-9) baseline_stddev_ = 1e-9;
+    if (baseline_stddev_ < 1e-9) {
+      baseline_stddev_ = 1e-9;
+    }
 
     // Configure forecast model with Prophet-style defaults if requested.
     auto fcfg = cfg_.forecast_config;
@@ -269,9 +295,15 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
         if (cfg_.seasonality_period > 0 && fcfg.seasonality == 0) {
             fcfg.seasonality = static_cast<int>(cfg_.seasonality_period);
         }
-        if (fcfg.alpha == 0.0) fcfg.alpha = 0.3;
-        if (fcfg.beta == 0.0)  fcfg.beta  = 0.1;
-        if (fcfg.gamma == 0.0) fcfg.gamma = 0.1;
+        if (fcfg.alpha == 0.0) {
+          fcfg.alpha = 0.3;
+        }
+        if (fcfg.beta == 0.0) {
+          fcfg.beta  = 0.1;
+        }
+        if (fcfg.gamma == 0.0) {
+          fcfg.gamma = 0.1;
+        }
     }
 
     forecast_model_ = themisdb::analytics::ForecastModel(
@@ -312,7 +344,9 @@ ForecastSeries MLAnomalyDetector::forecast(std::chrono::hours horizon) const {
         throw std::runtime_error("MLAnomalyDetector::forecast requires train() first");
     }
     double interval_ms = medianIntervalMs(training_series_);
-    if (interval_ms <= 0.0) interval_ms = 1000.0;
+    if (interval_ms <= 0.0) {
+      interval_ms = 1000.0;
+    }
     int steps = static_cast<int>(std::max<int64_t>(
         1, static_cast<int64_t>(
             std::llround(static_cast<double>(horizon.count()) * 3600.0 * 1000.0 / interval_ms))));
@@ -336,13 +370,17 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
     }
     std::vector<Anomaly> results;
     const auto& pts = current_data.points();
-    if (pts.empty()) return results;
+    if (pts.empty()) {
+      return results;
+    }
 
     // Forecast expected values for the same horizon.
     auto forecast_points = forecast_model_.predict(static_cast<int>(pts.size()));
     std::vector<double> values;
     values.reserve(pts.size());
-    for (const auto& p : pts) values.push_back(p.value);
+    for (const auto& p : pts) {
+      values.push_back(p.value);
+    }
 
     // Density labels via DBSCAN for local outliers.
     auto labels = dbscanLabels(values);

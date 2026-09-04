@@ -44,20 +44,28 @@ bool GeoReplicaPlacementManager::isEligible(
 {
     // Health filter
     if (c.healthy_only) {
-        if (candidate.health_status != HealthStatus::HEALTHY) return false;
+        if (candidate.health_status != HealthStatus::HEALTHY) {
+          return false;
+        }
     }
 
     // Voter filter
-    if (c.require_voter && !candidate.is_voting_member) return false;
+    if (c.require_voter && !candidate.is_voting_member) {
+      return false;
+    }
 
     // Forbidden DC filter
     for (const auto& forbidden : c.forbidden_datacenters) {
-        if (candidate.datacenter == forbidden) return false;
+        if (candidate.datacenter == forbidden) {
+          return false;
+        }
     }
 
     // Zone anti-affinity: exclude candidates in the anti-affinity zone
     if (!c.zone_anti_affinity_zone.empty()) {
-        if (zoneOf(candidate) == c.zone_anti_affinity_zone) return false;
+        if (zoneOf(candidate) == c.zone_anti_affinity_zone) {
+          return false;
+        }
     }
 
     return true;
@@ -73,7 +81,9 @@ int GeoReplicaPlacementManager::dcPreferenceScore(
 {
     const auto& pref = c.preferred_datacenters;
     for (int i = 0; i < static_cast<int>(pref.size()); ++i) {
-        if (pref[i] == datacenter) return i;
+        if (pref[i] == datacenter) {
+          return i;
+        }
     }
     // Not in preference list: rank after all explicit preferences
     return static_cast<int>(pref.size());
@@ -93,7 +103,9 @@ std::optional<ReplicaInfo> GeoReplicaPlacementManager::selectLeaderCandidate(
     uint64_t best_seq     = 0;
 
     for (const auto& r : replicas) {
-        if (!isEligible(r, constraints)) continue;
+        if (!isEligible(r, constraints)) {
+          continue;
+        }
 
         const int dc_score = dcPreferenceScore(r.datacenter, constraints);
 
@@ -154,7 +166,9 @@ std::optional<ReplicaInfo> GeoReplicaPlacementManager::selectFailoverCandidate(
     std::vector<ReplicaInfo> candidates;
     candidates.reserve(replicas.size());
     for (const auto& r : replicas) {
-        if (r.node_id != failed_node_id) candidates.push_back(r);
+        if (r.node_id != failed_node_id) {
+          candidates.push_back(r);
+        }
     }
     return selectLeaderCandidate(candidates, constraints);
 }

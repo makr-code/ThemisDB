@@ -132,7 +132,9 @@ static void BM_PM02_DiscoverInductiveProcess(benchmark::State& state) {
     
     auto computeFrequency = [](const std::vector<int>& log) {
         std::unordered_map<int, int> freq;
-        for (int task : log) freq[task]++;
+        for (int task : log) {
+          freq[task]++;
+        }
         return freq;
     };
     
@@ -172,7 +174,9 @@ static void BM_PM03_ConformanceCheck(benchmark::State& state) {
     auto checkTrace = [](const std::vector<int>& trace) {
         int prev = -1;
         for (int task : trace) {
-            if (prev != -1 && std::abs(task - prev) > 5) return false;
+            if (prev != -1 && std::abs(task - prev) > 5) {
+              return false;
+            }
             prev = task;
         }
         return true;
@@ -265,7 +269,9 @@ static void BM_AM02_Prediction(benchmark::State& state) {
         std::vector<double> predictions;
         for (const auto& sample : features) {
             double pred = 0.0;
-            for (double f : sample) pred += f;
+            for (double f : sample) {
+              pred += f;
+            }
             predictions.push_back(pred / sample.size());
         }
         return predictions;
@@ -306,13 +312,19 @@ static void BM_FC01_TimeSeriesFit(benchmark::State& state) {
     }
     
     auto fitSeries = [](const std::vector<double>& data) {
-        if (data.size() < 2) return 0.0;
+        if (data.size() < 2) {
+          return 0.0;
+        }
         double mean = 0.0;
-        for (double v : data) mean += v;
+        for (double v : data) {
+          mean += v;
+        }
         mean /= data.size();
         
         double var = 0.0;
-        for (double v : data) var += (v - mean) * (v - mean);
+        for (double v : data) {
+          var += (v - mean) * (v - mean);
+        }
         return var / data.size();
     };
     
@@ -476,7 +488,9 @@ static void BM_KB01_FactAssertion(benchmark::State& state) {
         kb.clear();
         for (std::size_t j = 0; j < kCapacity; ++j) {
             int id = id_dist(rng);
-            if (kb.size() >= kCapacity) kb.erase(kb.begin());
+            if (kb.size() >= kCapacity) {
+              kb.erase(kb.begin());
+            }
             kb.push_back({id, "fact_" + std::to_string(id)});
         }
         benchmark::DoNotOptimize(kb);
@@ -486,7 +500,9 @@ static void BM_KB01_FactAssertion(benchmark::State& state) {
         kb.clear();
         for (std::size_t j = 0; j < kCapacity; ++j) {
             int id = id_dist(rng);
-            if (kb.size() >= kCapacity) kb.erase(kb.begin());
+            if (kb.size() >= kCapacity) {
+              kb.erase(kb.begin());
+            }
             kb.push_back({id, "fact_" + std::to_string(id)});
         }
         benchmark::DoNotOptimize(kb);
@@ -517,7 +533,9 @@ static void BM_KB02_QueryFacts(benchmark::State& state) {
     auto queryKB = [](const std::vector<std::pair<int, std::string>>& kb, int pattern) {
         int matches = 0;
         for (const auto& fact : kb) {
-            if (fact.first % 10 == pattern % 10) matches++;
+            if (fact.first % 10 == pattern % 10) {
+              matches++;
+            }
         }
         return matches;
     };

@@ -31,7 +31,9 @@ nlohmann::json WindowEvalSpec::toJSON() const {
     
     nlohmann::json partBy = nlohmann::json::array();
     for (const auto& expr : partitionBy) {
-        if (expr) partBy.push_back(expr->toJSON());
+        if (expr) {
+          partBy.push_back(expr->toJSON());
+        }
     }
     j["partition_by"] = partBy;
     
@@ -60,9 +62,15 @@ nlohmann::json WindowFunctionCall::toJSON() const {
     }
     j["function"] = funcName;
     
-    if (argument) j["argument"] = argument->toJSON();
-    if (offset != 1) j["offset"] = offset;
-    if (defaultValue) j["default_value"] = defaultValue->toJSON();
+    if (argument) {
+      j["argument"] = argument->toJSON();
+    }
+    if (offset != 1) {
+      j["offset"] = offset;
+    }
+    if (defaultValue) {
+      j["default_value"] = defaultValue->toJSON();
+    }
     j["window"] = windowName;
     
     return j;
@@ -177,7 +185,9 @@ std::string WindowEvaluator::makePartitionKey(
     std::ostringstream oss;
     
     for (size_t i = 0; i < partitionBy.size(); ++i) {
-        if (i > 0) oss << "|";
+        if (i > 0) {
+          oss << "|";
+        }
         
         auto val = evaluateExpression(partitionBy[i], row, forVariable);
         oss << val.dump();
@@ -237,7 +247,9 @@ int WindowEvaluator::compareRows(
         } else if (val1.is_number() && val2.is_number()) {
             double d1 = val1.get<double>();
             double d2 = val2.get<double>();
-            if (d1 < d2) cmp = -1;
+            if (d1 < d2) {
+              cmp = -1;
+            }
             else if (d1 > d2) cmp = 1;
             else cmp = 0;
         } else if (val1.is_string() && val2.is_string()) {
@@ -247,7 +259,9 @@ int WindowEvaluator::compareRows(
         } else if (val1.is_boolean() && val2.is_boolean()) {
             bool b1 = val1.get<bool>();
             bool b2 = val2.get<bool>();
-            if (b1 == b2) cmp = 0;
+            if (b1 == b2) {
+              cmp = 0;
+            }
             else if (b1 < b2) cmp = -1;
             else cmp = 1;
         } else {
@@ -289,7 +303,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateRank(
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     int64_t currentRank = 1;
     int64_t rowNumber = 1;
@@ -325,7 +341,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateDenseRank(
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     int64_t currentDenseRank = 1;
     
@@ -439,7 +457,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     // FIRST_VALUE ist der Wert der ersten Row in der Partition
     size_t firstRowIdx = sortedIndices[0];
@@ -468,7 +488,9 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
     
-    if (sortedIndices.empty()) return results;
+    if (sortedIndices.empty()) {
+      return results;
+    }
     
     // LAST_VALUE hängt von Frame ab
     // Default Frame: RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
@@ -520,7 +542,9 @@ nlohmann::json WindowEvaluator::evaluateExpression(
     const nlohmann::json& row,
     [[maybe_unused]] const std::string& forVariable
 ) {
-    if (!expr) return nullptr;
+    if (!expr) {
+      return nullptr;
+    }
     
     // Nutze LetEvaluator für Expression-Evaluation
     // (LetEvaluator kann bereits Expressions evaluieren)

@@ -80,7 +80,9 @@ BreakEvenDecision BreakEvenValidator::ShouldUseGPU(const WorkloadProfile& profil
 BreakEvenDecision BreakEvenValidator::Profile(const WorkloadProfile& profile) {
     // Very simple synthetic profiling: GPU faster for very large inputs
     float speedup = 0.0f;
-    if (profile.input_size >= 1000000) speedup = 2.0f;
+    if (profile.input_size >= 1000000) {
+      speedup = 2.0f;
+    }
     else if (profile.input_size >= 100000) speedup = 1.2f;
     else speedup = 0.8f;
 
@@ -101,13 +103,17 @@ BreakEvenDecision BreakEvenValidator::Profile(const WorkloadProfile& profile) {
 
 void BreakEvenValidator::SetSpeedupThreshold(KernelType kernel, float threshold) {
     std::lock_guard<std::mutex> lock(g_impl.mu_);
-    if (threshold < 1.0f) threshold = 1.0f;
+    if (threshold < 1.0f) {
+      threshold = 1.0f;
+    }
     g_impl.thresholds_[(int)kernel] = threshold;
 }
 
 float BreakEvenValidator::GetSpeedupThreshold(KernelType kernel) const {
     auto it = g_impl.thresholds_.find((int)kernel);
-    if (it == g_impl.thresholds_.end()) return 1.0f;
+    if (it == g_impl.thresholds_.end()) {
+      return 1.0f;
+    }
     return it->second;
 }
 
@@ -118,7 +124,9 @@ void BreakEvenValidator::ClearCache() {
 
 float BreakEvenValidator::GetLatestBreakEvenRatio(KernelType kernel) const {
     auto it = g_impl.latest_ratios_.find((int)kernel);
-    if (it == g_impl.latest_ratios_.end()) return 0.0f;
+    if (it == g_impl.latest_ratios_.end()) {
+      return 0.0f;
+    }
     return it->second;
 }
 

@@ -247,7 +247,9 @@ public:
         
         double total_distance = calculateDistance(from.location, to.location);
         int num_segments = static_cast<int>(total_distance / 1000); // 1 km segments
-        if (num_segments < 1) num_segments = 1;
+        if (num_segments < 1) {
+          num_segments = 1;
+        }
         
         auto route_points = interpolateRoute(from.location, to.location, num_segments);
         

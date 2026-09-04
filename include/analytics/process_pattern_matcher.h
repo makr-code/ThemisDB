@@ -409,7 +409,9 @@ private:
      */
     template<typename T>
     double jaccardSimilarity(const std::set<T>& a, const std::set<T>& b) const {
-        if (a.empty() && b.empty()) return 1.0;
+        if (a.empty() && b.empty()) {
+          return 1.0;
+        }
         
         std::set<T> intersection;
         std::set_intersection(a.begin(), a.end(), b.begin(), b.end(),

@@ -82,7 +82,9 @@ __global__ void computeL2DistanceKernel(
     int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
     int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
     
-    if (qIdx >= numQueries || vIdx >= numVectors) return;
+    if (qIdx >= numQueries || vIdx >= numVectors) {
+      return;
+    }
     
     const float* query = queries + qIdx * dim;
     const float* vector = vectors + vIdx * dim;
@@ -111,7 +113,9 @@ __global__ void computeCosineDistanceKernel(
     int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
     int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
     
-    if (qIdx >= numQueries || vIdx >= numVectors) return;
+    if (qIdx >= numQueries || vIdx >= numVectors) {
+      return;
+    }
     
     const float* query = queries + qIdx * dim;
     const float* vector = vectors + vIdx * dim;
@@ -152,7 +156,9 @@ __global__ void computeInnerProductDistanceKernel(
     int qIdx = blockIdx.y * blockDim.y + threadIdx.y;
     int vIdx = blockIdx.x * blockDim.x + threadIdx.x;
     
-    if (qIdx >= numQueries || vIdx >= numVectors) return;
+    if (qIdx >= numQueries || vIdx >= numVectors) {
+      return;
+    }
     
     const float* query = queries + qIdx * dim;
     const float* vector = vectors + vIdx * dim;
@@ -186,9 +192,15 @@ __device__ __forceinline__ void hipHeapSiftDown(
         int largest = top;
         int left    = 2 * top + 1;
         int right   = 2 * top + 2;
-        if (left  < size && dists[left]  > dists[largest]) largest = left;
-        if (right < size && dists[right] > dists[largest]) largest = right;
-        if (largest == top) break;
+        if (left  < size && dists[left]  > dists[largest]) {
+          largest = left;
+        }
+        if (right < size && dists[right] > dists[largest]) {
+          largest = right;
+        }
+        if (largest == top) {
+          break;
+        }
         float    td = dists[top]; dists[top]  = dists[largest]; dists[largest]  = td;
         uint32_t ti = ids[top];   ids[top]    = ids[largest];   ids[largest]    = ti;
         top = largest;
@@ -258,7 +270,9 @@ __global__ void topKSelectionKernel(
 ) {
     int qIdx = blockIdx.x * blockDim.x + threadIdx.x;
     
-    if (qIdx >= numQueries) return;
+    if (qIdx >= numQueries) {
+      return;
+    }
     
     const float* queryDistances = distances + qIdx * numVectors;
     uint32_t* queryIndices = indices + qIdx * k;
@@ -287,7 +301,9 @@ __global__ void topKSelectionKernel(
             float dist = queryDistances[i];
             if (dist < queryTopK[k - 1]) {
                 int pos = k - 1;
-                while (pos > 0 && dist < queryTopK[pos - 1]) pos--;
+                while (pos > 0 && dist < queryTopK[pos - 1]) {
+                  pos--;
+                }
                 for (int j = k - 1; j > pos; j--) {
                     queryTopK[j]   = queryTopK[j - 1];
                     queryIndices[j] = queryIndices[j - 1];
@@ -516,7 +532,9 @@ bool HIPVectorBackend::initialize() {
         // Round down to the nearest multiple of warpSize (never go below it).
         const int warpSize = impl_->deviceProps.warpSize;
         tunedBlockSize = (tunedBlockSize / warpSize) * warpSize;
-        if (tunedBlockSize < warpSize) tunedBlockSize = warpSize;
+        if (tunedBlockSize < warpSize) {
+          tunedBlockSize = warpSize;
+        }
         impl_->occupancyTunedBlockSize = tunedBlockSize;
     } else {
         impl_->occupancyTunedBlockSize = baseBlockSize;
@@ -609,9 +627,15 @@ std::vector<float> HIPVectorBackend::computeDistances(
         return distances;
         
     } catch (const std::exception& e) {
-        if (d_queries) hipFree(d_queries);
-        if (d_vectors) hipFree(d_vectors);
-        if (d_distances) hipFree(d_distances);
+        if (d_queries) {
+          hipFree(d_queries);
+        }
+        if (d_vectors) {
+          hipFree(d_vectors);
+        }
+        if (d_distances) {
+          hipFree(d_distances);
+        }
         std::cerr << "HIP computeDistances error: " << e.what() << std::endl;
         return {};
     }
@@ -743,11 +767,21 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         return results;
         
     } catch (const std::exception& e) {
-        if (d_queries) hipFree(d_queries);
-        if (d_vectors) hipFree(d_vectors);
-        if (d_distances) hipFree(d_distances);
-        if (d_indices) hipFree(d_indices);
-        if (d_topKDistances) hipFree(d_topKDistances);
+        if (d_queries) {
+          hipFree(d_queries);
+        }
+        if (d_vectors) {
+          hipFree(d_vectors);
+        }
+        if (d_distances) {
+          hipFree(d_distances);
+        }
+        if (d_indices) {
+          hipFree(d_indices);
+        }
+        if (d_topKDistances) {
+          hipFree(d_topKDistances);
+        }
         std::cerr << "HIP batchKnnSearch error: " << e.what() << std::endl;
         return {};
     }
@@ -1022,11 +1056,21 @@ std::vector<float> HIPGeoBackend::batchDistances(
         return distances;
 
     } catch (const std::exception& e) {
-        if (d_lats1)     hipFree(d_lats1);
-        if (d_lons1)     hipFree(d_lons1);
-        if (d_lats2)     hipFree(d_lats2);
-        if (d_lons2)     hipFree(d_lons2);
-        if (d_distances) hipFree(d_distances);
+        if (d_lats1) {
+          hipFree(d_lats1);
+        }
+        if (d_lons1) {
+          hipFree(d_lons1);
+        }
+        if (d_lats2) {
+          hipFree(d_lats2);
+        }
+        if (d_lons2) {
+          hipFree(d_lons2);
+        }
+        if (d_distances) {
+          hipFree(d_distances);
+        }
         std::cerr << "HIP batchDistances error: " << e.what() << std::endl;
         return {};
     }
@@ -1092,10 +1136,18 @@ std::vector<bool> HIPGeoBackend::batchPointInPolygon(
         return results;
 
     } catch (const std::exception& e) {
-        if (d_point_lats)     hipFree(d_point_lats);
-        if (d_point_lons)     hipFree(d_point_lons);
-        if (d_polygon_coords) hipFree(d_polygon_coords);
-        if (d_results)        hipFree(d_results);
+        if (d_point_lats) {
+          hipFree(d_point_lats);
+        }
+        if (d_point_lons) {
+          hipFree(d_point_lons);
+        }
+        if (d_polygon_coords) {
+          hipFree(d_polygon_coords);
+        }
+        if (d_results) {
+          hipFree(d_results);
+        }
         std::cerr << "HIP batchPointInPolygon error: " << e.what() << std::endl;
         return {};
     }

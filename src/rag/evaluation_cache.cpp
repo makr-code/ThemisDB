@@ -53,7 +53,9 @@ bool EvaluationCache::isExpired(const CacheEntry& entry) const {
 }
 
 void EvaluationCache::evictLRU() {
-    if (lru_list_.empty()) return;
+    if (lru_list_.empty()) {
+      return;
+    }
 
     // The back of lru_list_ holds the least-recently-used key.
     const CacheKey& lru_key = lru_list_.back();
@@ -171,7 +173,9 @@ bool EvaluationCache::contains(
 
     const CacheKey key = computeKey(query, answer);
     auto it = cache_.find(key);
-    if (it == cache_.end()) return false;
+    if (it == cache_.end()) {
+      return false;
+    }
     if (isExpired(it->second)) {
         removeFromLRU(key);
         cache_.erase(it);
@@ -241,7 +245,9 @@ void EvaluationCache::warmCache(
 
     for (const auto& input : queries) {
         // Skip if already cached
-        if (contains(input.query, input.generated_answer)) continue;
+        if (contains(input.query, input.generated_answer)) {
+          continue;
+        }
 
         auto result = judge.evaluate(input);
         put(input.query, input.generated_answer, result);

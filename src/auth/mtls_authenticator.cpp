@@ -232,7 +232,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     // Step 5: runtime revocation set
     std::string serial_hex = serialToHex(const_cast<ASN1_INTEGER *>(X509_get0_serialNumber(cert.get())));
     if (config_.check_revocation && revoked_serials_.count(serial_hex)) {
-        if (audit_logger_) audit_logger_->logMTLSFailure("certificate_revoked:" + serial_hex);
+        if (audit_logger_) {
+          audit_logger_->logMTLSFailure("certificate_revoked:" + serial_hex);
+        }
         throw AuthException(AuthError(AuthErrorCode::MTLS_CERT_REVOKED, "Certificate has been revoked",
                                       "Certificate serial " + serial_hex + " is in the runtime revocation list"));
     }
@@ -251,7 +253,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
             }
             EXTENDED_KEY_USAGE_free(eku);
             if (!found_client_auth) {
-                if (audit_logger_) audit_logger_->logMTLSFailure("missing_id-kp-clientAuth_EKU");
+                if (audit_logger_) {
+                  audit_logger_->logMTLSFailure("missing_id-kp-clientAuth_EKU");
+                }
                 throw AuthException(AuthError(AuthErrorCode::MTLS_CERT_INVALID,
                                               "Certificate missing required Extended Key Usage",
                                               "Certificate does not have id-kp-clientAuth EKU"));
@@ -304,7 +308,9 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
     }
 
     spdlog::debug("MTLSAuthenticator: authenticated principal='{}' serial={}", claims.principal, claims.serial_number);
-    if (audit_logger_) audit_logger_->logMTLSSuccess(claims.principal, claims.serial_number);
+    if (audit_logger_) {
+      audit_logger_->logMTLSSuccess(claims.principal, claims.serial_number);
+    }
     return claims;
 }
 

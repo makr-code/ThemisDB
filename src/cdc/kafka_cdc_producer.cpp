@@ -115,29 +115,45 @@ bool KafkaCDCProducer::start() {
         return true;
     };
 
-    if (!set("bootstrap.servers", config_.brokers)) return false;
-    if (!set("acks", config_.acks)) return false;
+    if (!set("bootstrap.servers", config_.brokers)) {
+      return false;
+    }
+    if (!set("acks", config_.acks)) {
+      return false;
+    }
     if (!set("enable.idempotence",
              config_.enable_idempotence ? "true" : "false")) return false;
-    if (!set("linger.ms", std::to_string(config_.linger_ms))) return false;
+    if (!set("linger.ms", std::to_string(config_.linger_ms))) {
+      return false;
+    }
     if (!set("max.in.flight.requests.per.connection",
              std::to_string(config_.max_in_flight))) return false;
 
     if (!config_.security_protocol.empty()) {
-        if (!set("security.protocol", config_.security_protocol)) return false;
+        if (!set("security.protocol", config_.security_protocol)) {
+          return false;
+        }
     }
     if (!config_.sasl_mechanism.empty()) {
-        if (!set("sasl.mechanism", config_.sasl_mechanism)) return false;
+        if (!set("sasl.mechanism", config_.sasl_mechanism)) {
+          return false;
+        }
     }
     if (!config_.sasl_username.empty()) {
-        if (!set("sasl.username", config_.sasl_username)) return false;
+        if (!set("sasl.username", config_.sasl_username)) {
+          return false;
+        }
     }
     if (!config_.sasl_password.empty()) {
         // Password is set but never logged.
-        if (!set("sasl.password", config_.sasl_password)) return false;
+        if (!set("sasl.password", config_.sasl_password)) {
+          return false;
+        }
     }
     if (!config_.ssl_ca_location.empty()) {
-        if (!set("ssl.ca.location", config_.ssl_ca_location)) return false;
+        if (!set("ssl.ca.location", config_.ssl_ca_location)) {
+          return false;
+        }
     }
 
     // Register delivery-report callback.
@@ -287,7 +303,9 @@ bool KafkaCDCProducer::publish([[maybe_unused]] const Changefeed::ChangeEvent& e
             THEMIS_WARN("KafkaCDCProducer: produce failed for key='{}': {}",
                         key, RdKafka::err2str(rc));
             ++error_total_;
-            if (metrics_) ++metrics_->kafka_error_total;
+            if (metrics_) {
+              ++metrics_->kafka_error_total;
+            }
             return false;
         }
     }

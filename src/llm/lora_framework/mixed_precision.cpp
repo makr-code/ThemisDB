@@ -104,7 +104,9 @@ bool MixedPrecisionTrainer::unscale_gradients(std::vector<Tensor*>& gradients) {
 
 bool MixedPrecisionTrainer::has_overflow(const std::vector<Tensor*>& gradients) {
     for (const auto* grad_ptr : gradients) {
-        if (!grad_ptr) continue;
+        if (!grad_ptr) {
+          continue;
+        }
         
         const auto& data = grad_ptr->data();
         for (float val : data) {

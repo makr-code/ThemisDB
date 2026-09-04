@@ -326,7 +326,9 @@ static void BM_AQLValidationBatch(benchmark::State& state) {
         int valid_count = 0;
         for (const auto& q : batch) {
             auto r = MockAQLValidator::validateSimple(q);
-            if (r.valid) ++valid_count;
+            if (r.valid) {
+              ++valid_count;
+            }
         }
         benchmark::DoNotOptimize(valid_count);
     }

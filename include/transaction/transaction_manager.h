@@ -159,7 +159,9 @@ public:
          */
         bool isTimedOut() const {
             uint64_t tms = timeout_ms_.load(std::memory_order_relaxed);
-            if (tms == 0) return false;
+            if (tms == 0) {
+              return false;
+            }
             return getDurationMs() >= tms;
         }
 
@@ -579,7 +581,9 @@ public:
          * per-tenant namespace.
          */
         std::string makeNamespacedTable(std::string_view table) const {
-            if (tenant_id_.empty()) return std::string(table);
+            if (tenant_id_.empty()) {
+              return std::string(table);
+            }
             return "tenant:" + tenant_id_ + ":" + std::string(table);
         }
 
@@ -591,7 +595,9 @@ public:
          * Used to physically isolate MVCC keys between tenants.
          */
         std::string makeNamespacedKey(std::string_view key) const {
-            if (tenant_id_.empty()) return std::string(key);
+            if (tenant_id_.empty()) {
+              return std::string(key);
+            }
             return "tenant:" + tenant_id_ + ":" + std::string(key);
         }
 

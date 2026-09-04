@@ -86,7 +86,9 @@ void UDPFastPath::stop() {
     io_ctx_->stop();
 
     for (auto& t : threads_) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
     threads_.clear();
 

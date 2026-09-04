@@ -36,7 +36,9 @@ namespace {
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
     size_t len = std::min(a.size(), b.size());
     size_t i   = 0;
-    while (i < len && a[i] == b[i]) ++i;
+    while (i < len && a[i] == b[i]) {
+      ++i;
+    }
     return i;
 }
 
@@ -57,7 +59,9 @@ static uint64_t mixSeed([[maybe_unused]] uint64_t x) {
 // ============================================================================
 
 BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
-    if (expected_elements == 0) expected_elements = 1;
+    if (expected_elements == 0) {
+      expected_elements = 1;
+    }
     if (false_positive_rate <= 0.0 || false_positive_rate >= 1.0)
         false_positive_rate = 0.01;
 
@@ -67,7 +71,9 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
                    * std::log(false_positive_rate)
                    / (ln2 * ln2);
     m_ = static_cast<size_t>(std::ceil(m_dbl));
-    if (m_ == 0) m_ = 1;
+    if (m_ == 0) {
+      m_ = 1;
+    }
 
     // Optimal number of hashes: k = (m/n) * ln(2)
     double k_dbl = (static_cast<double>(m_) / static_cast<double>(expected_elements))
@@ -96,7 +102,9 @@ bool BloomFilter::mightContain(std::string_view key) const {
     auto [h1, h2] = hash2_(key);
     for (size_t i = 0; i < k_; ++i) {
         uint64_t combined = h1 + static_cast<uint64_t>(i) * h2;
-        if (!bits_[combined % m_]) return false;
+        if (!bits_[combined % m_]) {
+          return false;
+        }
     }
     return true;
 }
@@ -153,7 +161,9 @@ void DictionaryCodec::train(const std::vector<std::string>& corpus) {
 
 uint32_t DictionaryCodec::encode(std::string_view value) const {
     auto it = string_to_id_.find(std::string(value));
-    if (it == string_to_id_.end()) return kMissCode;
+    if (it == string_to_id_.end()) {
+      return kMissCode;
+    }
     return it->second;
 }
 
@@ -179,7 +189,9 @@ std::vector<std::string> PrefixBlock::decompress() const {
 }
 
 size_t PrefixBlock::savedBytes() const {
-    if (suffixes.size() <= 1) return 0;
+    if (suffixes.size() <= 1) {
+      return 0;
+    }
     // Each suffix avoids storing the prefix separately
     return prefix.size() * (suffixes.size() - 1);
 }
@@ -265,7 +277,9 @@ std::vector<std::string> PrefixCompressor::decompress(
 
 DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     DeltaBlock block;
-    if (sorted_values.empty()) return block;
+    if (sorted_values.empty()) {
+      return block;
+    }
 
     block.base = sorted_values[0];
     block.deltas.reserve(sorted_values.size() - 1);
@@ -306,7 +320,9 @@ std::vector<int64_t> DeltaBlock::decompress() const {
 
 RunLengthBlock RunLengthEncoder::encode(const std::vector<std::string>& values) {
     RunLengthBlock block;
-    if (values.empty()) return block;
+    if (values.empty()) {
+      return block;
+    }
 
     block.runs.push_back({values[0], 1});
     for (size_t i = 1; i < values.size(); ++i) {
@@ -334,7 +350,9 @@ std::vector<std::string> RunLengthBlock::decompress() const {
 }
 
 double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values) {
-    if (values.empty()) return 1.0;
+    if (values.empty()) {
+      return 1.0;
+    }
 
     size_t decoded_size = 0;
     for (const auto& v : values) decoded_size += v.size() + 1; // +1 separator
@@ -344,7 +362,9 @@ double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values
     for (const auto& run : block.runs) {
         encoded_size += run.value.size() + 1 + sizeof(uint32_t);
     }
-    if (encoded_size == 0) return 1.0;
+    if (encoded_size == 0) {
+      return 1.0;
+    }
     return static_cast<double>(decoded_size) / static_cast<double>(encoded_size);
 }
 
@@ -378,7 +398,9 @@ uint32_t IndexCompressionCodec::encodeValue(std::string_view value) const {
     }
     ++stats_.dict_encodes;
     uint32_t code = dict_codec_.encode(value);
-    if (code != DictionaryCodec::kMissCode) ++stats_.dict_hits;
+    if (code != DictionaryCodec::kMissCode) {
+      ++stats_.dict_hits;
+    }
     return code;
 }
 
@@ -387,7 +409,9 @@ std::string IndexCompressionCodec::decodeValue([[maybe_unused]] uint32_t code) c
 }
 
 void IndexCompressionCodec::bloomInsert(std::string_view key) {
-    if (!cfg_.enable_bloom_filter) return;
+    if (!cfg_.enable_bloom_filter) {
+      return;
+    }
     bloom_.insert(key);
     ++stats_.bloom_inserts;
 }

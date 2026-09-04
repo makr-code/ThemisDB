@@ -162,7 +162,9 @@ public:
      * @return Percentage 0-100
      */
     [[nodiscard]] double getUtilizationPercent(uint64_t current_bytes) const {
-        if (max_result_bytes_ == 0) return 0.0;
+        if (max_result_bytes_ == 0) {
+          return 0.0;
+        }
         return 100.0 * static_cast<double>(current_bytes) /
                static_cast<double>(max_result_bytes_);
     }

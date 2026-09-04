@@ -59,7 +59,9 @@ struct AdaLoraTTExport {
     /// Total active TT-rank (sum across layers).
     std::size_t totalActiveRank() const noexcept {
         std::size_t s = 0;
-        for (const auto& l : layers) s += l.active_rank;
+        for (const auto& l : layers) {
+          s += l.active_rank;
+        }
         return s;
     }
 

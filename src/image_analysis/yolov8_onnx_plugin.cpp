@@ -101,7 +101,9 @@ static float iouXYXY(float x1a, float y1a, float x2a, float y2a,
     const float ix2 = std::min(x2a, x2b);
     const float iy2 = std::min(y2a, y2b);
     const float inter = std::max(0.0f, ix2 - ix1) * std::max(0.0f, iy2 - iy1);
-    if (inter == 0.0f) return 0.0f;
+    if (inter == 0.0f) {
+      return 0.0f;
+    }
     const float areaA = (x2a - x1a) * (y2a - y1a);
     const float areaB = (x2b - x1b) * (y2b - y1b);
     return inter / (areaA + areaB - inter);
@@ -223,7 +225,9 @@ struct YOLOv8OnnxPlugin::Impl {
         cv::Mat encoded(1, static_cast<int>(image_data.size()), CV_8UC1,
                         const_cast<uint8_t*>(image_data.data()));
         cv::Mat img = cv::imdecode(encoded, cv::IMREAD_COLOR);
-        if (img.empty()) return false;
+        if (img.empty()) {
+          return false;
+        }
 
         orig_w = img.cols;
         orig_h = img.rows;
@@ -303,7 +307,9 @@ struct YOLOv8OnnxPlugin::Impl {
                 }
             }
 
-            if (best_conf < effective_conf) continue;
+            if (best_conf < effective_conf) {
+              continue;
+            }
 
             Candidate cand;
             cand.x1   = std::max(0.0f, cx - bw / 2.0f);
@@ -323,7 +329,9 @@ struct YOLOv8OnnxPlugin::Impl {
 
         std::vector<bool> suppressed(candidates.size(), false);
         for (size_t i = 0; i < candidates.size(); ++i) {
-            if (suppressed[i]) continue;
+            if (suppressed[i]) {
+              continue;
+            }
             auto& ci = candidates[i];
 
             DetectionResult::BoundingBox box;
@@ -343,8 +351,12 @@ struct YOLOv8OnnxPlugin::Impl {
             }
 
             for (size_t j = i + 1; j < candidates.size(); ++j) {
-                if (suppressed[j]) continue;
-                if (candidates[j].cls != ci.cls) continue;
+                if (suppressed[j]) {
+                  continue;
+                }
+                if (candidates[j].cls != ci.cls) {
+                  continue;
+                }
                 auto& cj = candidates[j];
                 if (iouXYXY(ci.x1, ci.y1, ci.x2, ci.y2,
                              cj.x1, cj.y1, cj.x2, cj.y2) >
@@ -406,7 +418,9 @@ struct YOLOv8OnnxPlugin::Impl {
         const float* raw = outputs[0].GetTensorData<float>();
         const auto& shape = outputs[0].GetTensorTypeAndShapeInfo().GetShape();
         size_t total = 1;
-        for (auto d : shape) total *= static_cast<size_t>(d);
+        for (auto d : shape) {
+          total *= static_cast<size_t>(d);
+        }
         std::vector<float> raw_vec(raw, raw + total);
 
         result = postprocess(raw_vec, orig_w, orig_h, effective_conf);
@@ -548,7 +562,9 @@ nlohmann::json YOLOv8OnnxPlugin::getStatistics() const {
         std::lock_guard<std::mutex> lk(impl_swap_mtx_);
         local = impl_;
     }
-    if (!local) return nlohmann::json::object();
+    if (!local) {
+      return nlohmann::json::object();
+    }
 
     const int64_t count = local->latency_ms_count.load(std::memory_order_relaxed);
     const double avg_ms = (count > 0)

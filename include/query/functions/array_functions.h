@@ -46,7 +46,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& arr = args[0];
-        if (arr.empty()) return nullptr;
+        if (arr.empty()) {
+          return nullptr;
+        }
         return arr[0];
     }
 };
@@ -72,7 +74,9 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& arr = args[0];
-        if (arr.empty()) return nullptr;
+        if (arr.empty()) {
+          return nullptr;
+        }
         return arr[arr.size() - 1];
     }
 };
@@ -103,8 +107,12 @@ public:
         const auto& arr = args[0];
         int64_t idx = args[1].get<int64_t>();
         
-        if (idx < 0) idx = static_cast<int64_t>(arr.size()) + idx;
-        if (idx < 0 || idx >= static_cast<int64_t>(arr.size())) return nullptr;
+        if (idx < 0) {
+          idx = static_cast<int64_t>(arr.size()) + idx;
+        }
+        if (idx < 0 || idx >= static_cast<int64_t>(arr.size())) {
+          return nullptr;
+        }
         
         return arr[static_cast<size_t>(idx)];
     }
@@ -143,7 +151,9 @@ public:
         
         if (unique) {
             for (const auto& elem : result) {
-                if (elem == value) return result;
+                if (elem == value) {
+                  return result;
+                }
             }
         }
         
@@ -274,7 +284,9 @@ public:
         // Handle negative indices
         int64_t size = static_cast<int64_t>(arr.size());
         if (start < 0) start = std::max(int64_t{0}, size + start);
-        if (end < 0) end = size + end;
+        if (end < 0) {
+          end = size + end;
+        }
         start = std::max(int64_t{0}, std::min(start, size));
         end = std::max(int64_t{0}, std::min(end, size));
         
@@ -403,7 +415,9 @@ public:
         
         std::sort(vec.begin(), vec.end(), [desc](const auto& a, const auto& b) {
             // Compare by dump for consistent ordering
-            if (desc) return a.dump() > b.dump();
+            if (desc) {
+              return a.dump() > b.dump();
+            }
             return a.dump() < b.dump();
         });
         
@@ -463,9 +477,13 @@ public:
     }
     
     void validateArgs(const std::vector<nlohmann::json>& args) const override {
-        if (args.empty()) throw std::runtime_error("UNION requires at least 1 array");
+        if (args.empty()) {
+          throw std::runtime_error("UNION requires at least 1 array");
+        }
         for (const auto& arg : args) {
-            if (!arg.is_array()) throw std::runtime_error("UNION: all arguments must be arrays");
+            if (!arg.is_array()) {
+              throw std::runtime_error("UNION: all arguments must be arrays");
+            }
         }
     }
     
@@ -506,16 +524,24 @@ public:
     }
     
     void validateArgs(const std::vector<nlohmann::json>& args) const override {
-        if (args.empty()) throw std::runtime_error("INTERSECTION requires at least 1 array");
+        if (args.empty()) {
+          throw std::runtime_error("INTERSECTION requires at least 1 array");
+        }
         for (const auto& arg : args) {
-            if (!arg.is_array()) throw std::runtime_error("INTERSECTION: all arguments must be arrays");
+            if (!arg.is_array()) {
+              throw std::runtime_error("INTERSECTION: all arguments must be arrays");
+            }
         }
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
-        if (args.empty()) return nlohmann::json::array();
-        if (args.size() == 1) return args[0];
+        if (args.empty()) {
+          return nlohmann::json::array();
+        }
+        if (args.size() == 1) {
+          return args[0];
+        }
         
         // Start with first array
         std::set<std::string> current;
@@ -617,7 +643,9 @@ public:
         const auto& value = args[1];
         
         for (size_t i = 0; i < arr.size(); i++) {
-            if (arr[i] == value) return static_cast<int64_t>(i);
+            if (arr[i] == value) {
+              return static_cast<int64_t>(i);
+            }
         }
         return static_cast<int64_t>(-1);
     }
@@ -648,8 +676,12 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& val = args[0];
-        if (val.is_null()) return static_cast<int64_t>(0);
-        if (val.is_array()) return static_cast<int64_t>(val.size());
+        if (val.is_null()) {
+          return static_cast<int64_t>(0);
+        }
+        if (val.is_array()) {
+          return static_cast<int64_t>(val.size());
+        }
         return static_cast<int64_t>(1);
     }
 };
@@ -685,7 +717,9 @@ public:
         int64_t end = args[1].get<int64_t>();
         int64_t step = args.size() > 2 ? args[2].get<int64_t>() : 1;
         
-        if (step == 0) throw std::runtime_error("RANGE: step cannot be 0");
+        if (step == 0) {
+          throw std::runtime_error("RANGE: step cannot be 0");
+        }
         
         nlohmann::json result = nlohmann::json::array();
         

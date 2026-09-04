@@ -181,7 +181,9 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
             for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
                 try {
                     fresh = createConnection();
-                    if (fresh) break;
+                    if (fresh) {
+                      break;
+                    }
                 } catch (const std::exception &e) {
                     if (attempt + 1 == kMaxRetries) {
                         spdlog::warn("LDAPConnectionPool: createConnection failed after {} attempts: {}",

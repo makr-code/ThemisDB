@@ -214,7 +214,9 @@ std::string MetricsStreamServer::labelsToJson(
     oss << '{';
     bool first = true;
     for (const auto& [k, v] : labels) {
-        if (!first) oss << ',';
+        if (!first) {
+          oss << ',';
+        }
         oss << '"' << jsonEscapeString(k) << "\":\"" << jsonEscapeString(v) << '"';
         first = false;
     }
@@ -280,7 +282,9 @@ bool MetricsStreamServer::matchesMetricNames(
         return true; // empty list → subscribe to all
     }
     for (const auto& name : sub.metric_names) {
-        if (name == update.metric_name) return true;
+        if (name == update.metric_name) {
+          return true;
+        }
     }
     return false;
 }

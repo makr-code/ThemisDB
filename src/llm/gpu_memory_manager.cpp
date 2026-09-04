@@ -89,7 +89,9 @@ public:
           gpu_device_id_(gpu_device_id) {}
     
     ~MemoryHolder() noexcept {
-        if (!ptr_) return;
+        if (!ptr_) {
+          return;
+        }
         
         try {
             switch (type_) {
@@ -871,7 +873,9 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
 }
 
 bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
-    if (!ptr) return false;
+    if (!ptr) {
+      return false;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -925,7 +929,9 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
 }
 
 bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
-    if (!ptr) return false;
+    if (!ptr) {
+      return false;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = allocations_.find(model_id);
@@ -2632,7 +2638,9 @@ void GPUMemoryManager::checkGPUHealth([[maybe_unused]] int gpu_device_id) {
         // Check utilization
         if (util_it != gpu_utilizations_.end() && util_it->second > 95.0f) {
             is_healthy = false;
-            if (!reason.empty()) reason += "; ";
+            if (!reason.empty()) {
+              reason += "; ";
+            }
             reason += "Utilization too high: " + std::to_string(util_it->second) + "%";
         }
     }

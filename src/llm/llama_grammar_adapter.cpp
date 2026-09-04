@@ -183,7 +183,9 @@ extern "C" {
  * @return true if all Grammar functions are available, false otherwise
  */
 bool themis_llama_grammar_available() {
-    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    if (!g_grammar_api_override_active) {
+      ensureGrammarAPIInitialized();
+    }
     return g_grammar_api_override_active
         ? (g_override_grammar_init != nullptr && g_override_grammar_free != nullptr &&
            g_override_grammar_sample != nullptr && g_override_grammar_accept != nullptr)
@@ -202,7 +204,9 @@ struct llama_grammar* llama_grammar_init(
     const char* grammar_str,
     const char* start_rule
 ) {
-    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    if (!g_grammar_api_override_active) {
+      ensureGrammarAPIInitialized();
+    }
     auto* fn        = g_grammar_api_override_active ? g_override_grammar_init : g_llama_grammar_init;
     const bool avail = g_grammar_api_override_active ? (g_override_grammar_ini[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_grammar_api_available;
 
@@ -219,7 +223,9 @@ struct llama_grammar* llama_grammar_init(
  * @param grammar Grammar handle to free
  */
 void llama_grammar_free(struct llama_grammar* grammar) {
-    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    if (!g_grammar_api_override_active) {
+      ensureGrammarAPIInitialized();
+    }
     auto* fn        = g_grammar_api_override_active ? g_override_grammar_free : g_llama_grammar_free;
     const bool avail = g_grammar_api_override_active ? (g_override_grammar_fre[[maybe_unused]] e != nullpt[[maybe_unused]] r) : g_grammar_api_available;
 
@@ -241,7 +247,9 @@ void llama_grammar_sample(
     const struct llama_context* ctx,
     struct llama_token_data_array* candidates
 ) {
-    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    if (!g_grammar_api_override_active) {
+      ensureGrammarAPIInitialized();
+    }
     auto* fn        = g_grammar_api_override_active ? g_override_grammar_sample : g_llama_grammar_sample;
     const bool avail = g_grammar_api_override_active ? (g_override_grammar_sampl[[maybe_unused]] e != nullpt[[maybe_unused]] r) : g_grammar_api_available;
 
@@ -263,7 +271,9 @@ void llama_grammar_accept(
     const struct llama_context* ctx,
     int token
 ) {
-    if (!g_grammar_api_override_active) ensureGrammarAPIInitialized();
+    if (!g_grammar_api_override_active) {
+      ensureGrammarAPIInitialized();
+    }
     auto* fn        = g_grammar_api_override_active ? g_override_grammar_accept : g_llama_grammar_accept;
     const bool avail = g_grammar_api_override_active ? (g_override_grammar_accep[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_grammar_api_available;
 

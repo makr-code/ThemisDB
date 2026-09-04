@@ -59,7 +59,9 @@ std::array<uint8_t, 32> sha256(const uint8_t* data, size_t len) {
     // Pre-processing: padding
     const uint64_t bit_len = static_cast<uint64_t>(len) * 8u;
     size_t padded_len = len + 1;
-    while (padded_len % 64 != 56) ++padded_len;
+    while (padded_len % 64 != 56) {
+      ++padded_len;
+    }
     padded_len += 8;
 
     std::vector<uint8_t> msg(padded_len, 0);
@@ -247,7 +249,9 @@ std::vector<AuditEvent> NetworkAuditLog::getEventsByType([[maybe_unused]] AuditE
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<AuditEvent> result;
     for (const auto& ev : buffer_) {
-        if (ev.type == type) result.push_back(ev);
+        if (ev.type == type) {
+          result.push_back(ev);
+        }
     }
     return result;
 }

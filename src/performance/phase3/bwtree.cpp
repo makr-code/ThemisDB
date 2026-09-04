@@ -341,7 +341,9 @@ size_t BwTree::count_delta_chain_length(BwTreePage* page) const {
 // ---------------------------------------------------------------------------
 
 void BwTree::retire_chain(BwTreePage* head) noexcept {
-    if (!head) return;
+    if (!head) {
+      return;
+    }
     std::lock_guard<std::mutex> lk(retired_mutex_);
     retired_chains_.push_back({head,
         consolidation_epoch_.load(std::memory_order_acquire)});

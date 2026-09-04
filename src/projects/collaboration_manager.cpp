@@ -64,9 +64,15 @@ const char* CollaborationManager::permissionToString(Permission p) noexcept {
 std::optional<Permission> CollaborationManager::permissionFromString(
     const std::string& s) noexcept
 {
-    if (s == kPermissionRead)  return Permission::READ;
-    if (s == kPermissionWrite) return Permission::WRITE;
-    if (s == kPermissionAdmin) return Permission::ADMIN;
+    if (s == kPermissionRead) {
+      return Permission::READ;
+    }
+    if (s == kPermissionWrite) {
+      return Permission::WRITE;
+    }
+    if (s == kPermissionAdmin) {
+      return Permission::ADMIN;
+    }
     return std::nullopt;
 }
 
@@ -114,7 +120,9 @@ std::optional<Permission> CollaborationManager::getUserPermission(
 {
     const std::string key = "collab_share:" + project_id + ":" + user_id;
     std::string val;
-    if (!storage_->get(key, val)) return std::nullopt;
+    if (!storage_->get(key, val)) {
+      return std::nullopt;
+    }
     return permissionFromString(val);
 }
 

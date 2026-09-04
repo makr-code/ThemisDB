@@ -554,7 +554,9 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     auto worker = [&]() {
         while (true) {
             size_t idx = completed.fetch_add(1);
-            if (idx >= total) break;
+            if (idx >= total) {
+              break;
+            }
 
             auto t0 = std::chrono::steady_clock::now();
             // Simulate one inference unit (wall-clock latency is what matters here)
@@ -596,7 +598,9 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double sum = 0;
-        for (double v : latencies) sum += v;
+        for (double v : latencies) {
+          sum += v;
+        }
         result.avg_latency_ms = sum / static_cast<double>(latencies.size());
         // Use consistent ceil-based percentile for p50, p95, p99
         auto pct_idx = [&]([[maybe_unused]] double p) -> size_t {
@@ -853,7 +857,9 @@ bool ProductionValidator::testContinuousBatching() {
         for (int i = 0; i < 4; ++i) {
             req.request_id = "test-req-" + std::to_string(i);
             auto id = scheduler.submitRequest(req);
-            if (!id.empty()) ++n_submitted;
+            if (!id.empty()) {
+              ++n_submitted;
+            }
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -1055,11 +1061,15 @@ bool PerformanceRegressionDetector::loadBaseline(
     std::string line;
     while (std::getline(file, line)) {
         auto sep = line.find('=');
-        if (sep == std::string::npos) continue;
+        if (sep == std::string::npos) {
+          continue;
+        }
         std::string key   = line.substr(0, sep);
         std::string value = line.substr(sep + 1);
         try {
-            if      (key == "version")    baseline.version                   = value;
+            if      (key == "version") {
+              baseline.version                   = value;
+            }
             else if (key == "avg_latency_ms") baseline.avg_latency_ms        = std::stod(value);
             else if (key == "p99_latency_ms") baseline.p99_latency_ms        = std::stod(value);
             else if (key == "throughput") baseline.throughput_tokens_per_sec = std::stod(value);
@@ -1510,7 +1520,9 @@ bool IntegrationTestSuite::testPreemption() {
     for (int i = 0; i < 3; ++i) {
         std::string id = scheduler.submitRequest(
             lo_req, ContinuousBatchScheduler::RequestPriority::LOW);
-        if (!id.empty()) lo_ids.push_back(id);
+        if (!id.empty()) {
+          lo_ids.push_back(id);
+        }
     }
 
     // Preempt them all in one shot.
@@ -1520,7 +1532,9 @@ bool IntegrationTestSuite::testPreemption() {
         scheduler.resumeRequests(lo_ids);
     }
 
-    for (const auto& id : lo_ids) scheduler.cancelRequest(id);
+    for (const auto& id : lo_ids) {
+      scheduler.cancelRequest(id);
+    }
     scheduler.stop();
 
     spdlog::info("  Preemption: ✓");
@@ -1576,7 +1590,9 @@ bool IntegrationTestSuite::testHighConcurrency() {
 
     {
         std::lock_guard<std::mutex> lock(id_mutex);
-        for (const auto& id : all_ids) scheduler.cancelRequest(id);
+        for (const auto& id : all_ids) {
+          scheduler.cancelRequest(id);
+        }
     }
     scheduler.stop();
 
@@ -1658,7 +1674,9 @@ bool IntegrationTestSuite::testBurstTraffic() {
 
     spdlog::info("  Burst: {} accepted, {} rejected (backpressure)", ids.size(), rejected);
 
-    for (const auto& id : ids) scheduler.cancelRequest(id);
+    for (const auto& id : ids) {
+      scheduler.cancelRequest(id);
+    }
     scheduler.stop();
 
     spdlog::info("  Burst Traffic: ✓");

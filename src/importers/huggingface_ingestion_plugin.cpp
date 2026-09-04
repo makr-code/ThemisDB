@@ -61,23 +61,45 @@ json HuggingFaceIngestionPlugin::Config::toJson() const {
 
 HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(const json& j) {
     Config config;
-    if (j.contains("dataset_name")) config.dataset_name = j["dataset_name"];
-    if (j.contains("split")) config.split = j["split"];
-    if (j.contains("streaming")) config.streaming = j["streaming"];
-    if (j.contains("chunk_size")) config.chunk_size = j["chunk_size"];
-    if (j.contains("auth_token")) config.auth_token = j["auth_token"];
-    if (j.contains("text_field")) config.text_field = j["text_field"];
-    if (j.contains("label_field")) config.label_field = j["label_field"];
+    if (j.contains("dataset_name")) {
+      config.dataset_name = j["dataset_name"];
+    }
+    if (j.contains("split")) {
+      config.split = j["split"];
+    }
+    if (j.contains("streaming")) {
+      config.streaming = j["streaming"];
+    }
+    if (j.contains("chunk_size")) {
+      config.chunk_size = j["chunk_size"];
+    }
+    if (j.contains("auth_token")) {
+      config.auth_token = j["auth_token"];
+    }
+    if (j.contains("text_field")) {
+      config.text_field = j["text_field"];
+    }
+    if (j.contains("label_field")) {
+      config.label_field = j["label_field"];
+    }
     if (j.contains("custom_fields")) {
         config.custom_fields = j["custom_fields"].get<std::map<std::string, std::string>>();
     }
-    if (j.contains("cache_dir")) config.cache_dir = j["cache_dir"];
-    if (j.contains("use_cache")) config.use_cache = j["use_cache"];
+    if (j.contains("cache_dir")) {
+      config.cache_dir = j["cache_dir"];
+    }
+    if (j.contains("use_cache")) {
+      config.use_cache = j["use_cache"];
+    }
     if (j.contains("max_requests_per_second")) {
         config.max_requests_per_second = j["max_requests_per_second"];
     }
-    if (j.contains("max_retries")) config.max_retries = j["max_retries"];
-    if (j.contains("retry_delay_ms")) config.retry_delay_ms = j["retry_delay_ms"];
+    if (j.contains("max_retries")) {
+      config.max_retries = j["max_retries"];
+    }
+    if (j.contains("retry_delay_ms")) {
+      config.retry_delay_ms = j["retry_delay_ms"];
+    }
     return config;
 }
 

@@ -39,8 +39,12 @@ namespace {
 /// Rejects leading '-' to prevent argument injection (e.g. "--help").
 /// This is a defence-in-depth guard; the primary protection is posix_spawn().
 static bool isValidInterfaceName(std::string_view iface) noexcept {
-    if (iface.empty() || iface.size() > 15) return false;
-    if (iface.front() == '-') return false;
+    if (iface.empty() || iface.size() > 15) {
+      return false;
+    }
+    if (iface.front() == '-') {
+      return false;
+    }
     return std::all_of(iface.begin(), iface.end(), [](char c) {
         return std::isalnum(static_cast<unsigned char>(c)) ||
                c == '-' || c == '_' || c == '.';
@@ -60,7 +64,9 @@ static bool runTcCommand(const char* tc_bin, char* const argv[]) noexcept {
     int status = 0;
     // Retry EINTR from waitpid (signal safety).
     while (::waitpid(pid, &status, 0) == -1) {
-        if (errno != EINTR) return false;
+        if (errno != EINTR) {
+          return false;
+        }
     }
     return WIFEXITED(status) && WEXITSTATUS(status) == 0;
 }

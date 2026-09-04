@@ -87,14 +87,18 @@ public:
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kAlpha.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kAlpha[d(eng_)];
+        for (auto& c : s) {
+          c = kAlpha[d(eng_)];
+        }
         return s;
     }
 
     std::vector<float> vec(std::size_t dim = kVectorDim) {
         std::uniform_real_distribution<float> d(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = d(eng_);
+        for (auto& x : v) {
+          x = d(eng_);
+        }
         return v;
     }
 

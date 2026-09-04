@@ -54,9 +54,15 @@ struct TrainingDataSample {
     
     static TrainingDataSample fromJSON(const json& j) {
         TrainingDataSample sample;
-        if (j.contains("input")) sample.input = j["input"];
-        if (j.contains("output")) sample.output = j["output"];
-        if (j.contains("metadata")) sample.metadata = j["metadata"];
+        if (j.contains("input")) {
+          sample.input = j["input"];
+        }
+        if (j.contains("output")) {
+          sample.output = j["output"];
+        }
+        if (j.contains("metadata")) {
+          sample.metadata = j["metadata"];
+        }
         return sample;
     }
 };
@@ -84,8 +90,12 @@ struct TrainingData {
     
     static TrainingData fromJSON(const json& j) {
         TrainingData data;
-        if (j.contains("dataset_name")) data.dataset_name = j["dataset_name"];
-        if (j.contains("metadata")) data.metadata = j["metadata"];
+        if (j.contains("dataset_name")) {
+          data.dataset_name = j["dataset_name"];
+        }
+        if (j.contains("metadata")) {
+          data.metadata = j["metadata"];
+        }
         if (j.contains("samples")) {
             for (const auto& sample_json : j["samples"]) {
                 data.samples.push_back(TrainingDataSample::fromJSON(sample_json));

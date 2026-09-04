@@ -246,7 +246,9 @@ public:
         bool first = true;
         
         for (const auto& [directive, value] : directives_) {
-            if (!first) csp += "; ";
+            if (!first) {
+              csp += "; ";
+            }
             csp += directive + " " + value;
             first = false;
         }

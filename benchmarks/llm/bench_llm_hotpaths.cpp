@@ -144,13 +144,17 @@ public:
         float norm = 0.f;
         for (auto& x : v) { x = static_cast<float>(rng() % 1000 + 1); norm += x * x; }
         norm = std::sqrt(norm);
-        for (auto& x : v) x /= norm;
+        for (auto& x : v) {
+          x /= norm;
+        }
         return v;
     }
     std::vector<std::vector<float>> embedBatch(const std::vector<std::string>& texts) {
         std::vector<std::vector<float>> out;
         out.reserve(texts.size());
-        for (const auto& t : texts) out.push_back(embed(t));
+        for (const auto& t : texts) {
+          out.push_back(embed(t));
+        }
         return out;
     }
 };

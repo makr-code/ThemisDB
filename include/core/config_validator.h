@@ -285,11 +285,15 @@ public:
                          const std::vector<std::string>& valid_values,
                          const std::string& field_name) {
             for (const auto& v : valid_values) {
-                if (value == v) return;
+                if (value == v) {
+                  return;
+                }
             }
             std::string allowed;
             for (size_t i = 0; i < valid_values.size(); ++i) {
-                if (i > 0) allowed += ", ";
+                if (i > 0) {
+                  allowed += ", ";
+                }
                 allowed += valid_values[i].empty() ? "(empty)" : valid_values[i];
             }
             result.addError("Unknown " + field_name + " adapter: '" + value +

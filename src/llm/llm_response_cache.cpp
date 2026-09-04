@@ -205,7 +205,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
                                       duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
-        if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
+        if (metrics_collector_) {
+          metrics_collector_->recordCacheHit(cache_name_);
+        }
         return exact_it->second.response;
     }
 
@@ -293,7 +295,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                 w.clear();
             }
         }
-        if (!w.empty()) words.insert(w);
+        if (!w.empty()) {
+          words.insert(w);
+        }
         return words;
     };
 
@@ -306,7 +310,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     static const std::unordered_set<std::string> stopwords = {
         "the","is","a","an","do","i","you","what","can","exactly","my","prompt"};
     for (const auto& [pk, entry] : response_store_) {
-        if (isExpired(entry) || entry.embedding.empty()) continue;
+        if (isExpired(entry) || entry.embedding.empty()) {
+          continue;
+        }
         // cosine similarity assuming normalized embeddings
         float dot = 0.0f;
         for (size_t i = 0; i < std::min(entry.embedding.size(), query_embedding.size()); ++i) {
@@ -317,7 +323,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         size_t intersect = 0;
         int meaningful_overlap = 0;
         for (const auto& w : query_words) {
-            if (entry_words.count(w)) intersect++;
+            if (entry_words.count(w)) {
+              intersect++;
+            }
             if (entry_words.count(w) && w.size() >= 4 && !stopwords.count(w)) {
                 meaningful_overlap++;
             }
@@ -339,7 +347,9 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
                                       duration.count() / 1000.0) / static_cast<double>(stats_.hits + stats_.misses);
-        if (metrics_collector_) metrics_collector_->recordCacheHit(cache_name_);
+        if (metrics_collector_) {
+          metrics_collector_->recordCacheHit(cache_name_);
+        }
         return best_response;
     }
     

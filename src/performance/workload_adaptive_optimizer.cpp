@@ -33,7 +33,9 @@ void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,
                                               const std::string& table_name,
                                               uint64_t latency_us) {
     std::unique_lock<std::shared_mutex> lk(obs_mutex_);
-    if (observations_.size() >= kWindowSize) observations_.erase(observations_.begin());
+    if (observations_.size() >= kWindowSize) {
+      observations_.erase(observations_.begin());
+    }
     observations_.push_back({is_write, complexity, result_rows, latency_us, table_name});
     lk.unlock();
     std::unique_lock<std::shared_mutex> slk(stats_mutex_);
@@ -51,7 +53,9 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
         std::shared_lock<std::shared_mutex> lk(obs_mutex_);
         obs_copy = observations_;
     }
-    if (obs_copy.empty()) return profile;
+    if (obs_copy.empty()) {
+      return profile;
+    }
 
     size_t writes = 0, reads = 0;
     double total_complexity = 0.0;
@@ -59,10 +63,14 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
     std::unordered_map<std::string, size_t> table_counts;
 
     for (const auto& o : obs_copy) {
-        if (o.is_write) ++writes; else ++reads;
+        if (o.is_write) {
+          ++writes; else ++reads;
+        }
         total_complexity += o.complexity;
         total_rows += o.result_rows;
-        if (!o.table_name.empty()) ++table_counts[o.table_name];
+        if (!o.table_name.empty()) {
+          ++table_counts[o.table_name];
+        }
     }
 
     size_t n = obs_copy.size();
@@ -173,7 +181,9 @@ void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strat
         ++stats_.total_adaptations;
         stats_.last_workload_type = new_profile.type;
     }
-    if ([[maybe_unused]] callback_) callback_(old_profile, new_profile, strategy);
+    if ([[maybe_unused]] callback_) {
+      callback_(old_profile, new_profile, strategy);
+    }
 }
 
 OptimizationStrategy WorkloadAdaptiveOptimizer::current_strategy() const {
@@ -182,20 +192,28 @@ OptimizationStrategy WorkloadAdaptiveOptimizer::current_strategy() const {
 }
 
 void WorkloadAdaptiveOptimizer::enable_auto_adapt(std::chrono::seconds interval) {
-    if (adapt_running_.exchange(true)) return;
+    if (adapt_running_.exchange(true)) {
+      return;
+    }
     adapt_interval_ = interval;
     adapt_thread_ = std::thread([this]() {
         while (adapt_running_.load(std::memory_order_relaxed)) {
             for (int i = 0; i < static_cast<int>(adapt_interval_.count()) * 10 && adapt_running_; ++i)
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            if (adapt_running_) adapt_once();
+            if (adapt_running_) {
+              adapt_once();
+            }
         }
     });
 }
 
 void WorkloadAdaptiveOptimizer::disable_auto_adapt() {
-    if (!adapt_running_.exchange(false)) return;
-    if (adapt_thread_.joinable()) adapt_thread_.join();
+    if (!adapt_running_.exchange(false)) {
+      return;
+    }
+    if (adapt_thread_.joinable()) {
+      adapt_thread_.join();
+    }
 }
 
 bool WorkloadAdaptiveOptimizer::is_auto_adapt_enabled() const noexcept {
@@ -227,7 +245,9 @@ double WorkloadAdaptiveOptimizer::getProfileDrift() const {
     // Drift is computed as a normalised distance between successive adaptation
     // snapshots.  With fewer than two adaptations recorded there is no baseline
     // to compare against, so drift is 0.
-    if (stats_.total_adaptations < 2) return 0.0;
+    if (stats_.total_adaptations < 2) {
+      return 0.0;
+    }
     // Proxy: each adaptation that changed strategy increments drift by 1/N.
     // A full workload type flip → drift = 1.0; no change → drift = 0.0.
     // Here we expose a stable, bounded value derived from recorded stats.

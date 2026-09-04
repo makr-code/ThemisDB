@@ -125,7 +125,9 @@ void GradientTensor::compress(GradientCompressionType type) {
             
         case GradientCompressionType::QUANTIZATION_8BIT: {
             // Simple 8-bit quantization: map float32 to uint8
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
             // Find min/max for scaling
             float min_val = *std::min_element(data.begin(), data.end());
@@ -162,7 +164,9 @@ void GradientTensor::compress(GradientCompressionType type) {
         
         case GradientCompressionType::QUANTIZATION_4BIT: {
             // 4-bit quantization: pack two values per byte
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
             float min_val = *std::min_element(data.begin(), data.end());
             float max_val = *std::max_element(data.begin(), data.end());
@@ -199,7 +203,9 @@ void GradientTensor::compress(GradientCompressionType type) {
         
         case GradientCompressionType::SPARSE_TOPK: {
             // Keep only top 10% of gradients by magnitude
-            if (data.empty()) break;
+            if (data.empty()) {
+              break;
+            }
             
             size_t k = std::max(size_t(1), data.size() / 10);
             
@@ -259,7 +265,9 @@ void GradientTensor::decompress() {
     
     switch (compression_type) {
         case GradientCompressionType::QUANTIZATION_8BIT: {
-            if (compressed.size() < 8) break;
+            if (compressed.size() < 8) {
+              break;
+            }
             
             // Extract scale and min
             uint32_t scale_bits = (compressed[0] << 24) | (compressed[1] << 16) | 
@@ -280,7 +288,9 @@ void GradientTensor::decompress() {
         }
         
         case GradientCompressionType::QUANTIZATION_4BIT: {
-            if (compressed.size() < 8) break;
+            if (compressed.size() < 8) {
+              break;
+            }
             
             // Extract metadata
             uint32_t scale_bits = (compressed[0] << 24) | (compressed[1] << 16) | 
@@ -305,7 +315,9 @@ void GradientTensor::decompress() {
         }
         
         case GradientCompressionType::SPARSE_TOPK: {
-            if (compressed.size() < 4) break;
+            if (compressed.size() < 4) {
+              break;
+            }
             
             // Extract count
             uint32_t count = (compressed[0] << 24) | (compressed[1] << 16) | 
@@ -360,11 +372,21 @@ json GradientTensor::toJSON() const {
 
 GradientTensor GradientTensor::fromJSON(const json& j) {
     GradientTensor tensor;
-    if (j.contains("layer_name")) tensor.layer_name = j["layer_name"].get<std::string>();
-    if (j.contains("shape")) tensor.shape = j["shape"].get<std::vector<int>>();
-    if (j.contains("source_shard")) tensor.source_shard = j["source_shard"].get<std::string>();
-    if (j.contains("timestamp_ms")) tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
-    if (j.contains("step_number")) tensor.step_number = j["step_number"].get<int>();
+    if (j.contains("layer_name")) {
+      tensor.layer_name = j["layer_name"].get<std::string>();
+    }
+    if (j.contains("shape")) {
+      tensor.shape = j["shape"].get<std::vector<int>>();
+    }
+    if (j.contains("source_shard")) {
+      tensor.source_shard = j["source_shard"].get<std::string>();
+    }
+    if (j.contains("timestamp_ms")) {
+      tensor.timestamp_ms = j["timestamp_ms"].get<int64_t>();
+    }
+    if (j.contains("step_number")) {
+      tensor.step_number = j["step_number"].get<int>();
+    }
     if (j.contains("compression_type")) 
         tensor.compression_type = static_cast<GradientCompressionType>(j["compression_type"].get<int>());
     
@@ -411,15 +433,29 @@ json GradientExchangeMessage::toJSON() const {
 
 GradientExchangeMessage GradientExchangeMessage::fromJSON(const json& j) {
     GradientExchangeMessage msg;
-    if (j.contains("message_id")) msg.message_id = j["message_id"].get<std::string>();
-    if (j.contains("source_shard")) msg.source_shard = j["source_shard"].get<std::string>();
-    if (j.contains("destination_shard")) msg.destination_shard = j["destination_shard"].get<std::string>();
-    if (j.contains("iteration_number")) msg.iteration_number = j["iteration_number"].get<int>();
-    if (j.contains("total_participants")) msg.total_participants = j["total_participants"].get<int>();
+    if (j.contains("message_id")) {
+      msg.message_id = j["message_id"].get<std::string>();
+    }
+    if (j.contains("source_shard")) {
+      msg.source_shard = j["source_shard"].get<std::string>();
+    }
+    if (j.contains("destination_shard")) {
+      msg.destination_shard = j["destination_shard"].get<std::string>();
+    }
+    if (j.contains("iteration_number")) {
+      msg.iteration_number = j["iteration_number"].get<int>();
+    }
+    if (j.contains("total_participants")) {
+      msg.total_participants = j["total_participants"].get<int>();
+    }
     if (j.contains("participants_seen")) 
         msg.participants_seen = j["participants_seen"].get<std::vector<std::string>>();
-    if (j.contains("sent_timestamp_ms")) msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
-    if (j.contains("received_timestamp_ms")) msg.received_timestamp_ms = j["received_timestamp_ms"].get<int64_t>();
+    if (j.contains("sent_timestamp_ms")) {
+      msg.sent_timestamp_ms = j["sent_timestamp_ms"].get<int64_t>();
+    }
+    if (j.contains("received_timestamp_ms")) {
+      msg.received_timestamp_ms = j["received_timestamp_ms"].get<int64_t>();
+    }
     
     if (j.contains("gradients")) {
         for (const auto& grad_json : j["gradients"]) {
@@ -465,19 +501,45 @@ json ShardTrainingState::toJSON() const {
 
 ShardTrainingState ShardTrainingState::fromJSON(const json& j) {
     ShardTrainingState state;
-    if (j.contains("shard_id")) state.shard_id = j["shard_id"].get<std::string>();
-    if (j.contains("current_epoch")) state.current_epoch = j["current_epoch"].get<int>();
-    if (j.contains("current_step")) state.current_step = j["current_step"].get<int>();
-    if (j.contains("total_steps")) state.total_steps = j["total_steps"].get<int>();
-    if (j.contains("current_loss")) state.current_loss = j["current_loss"].get<float>();
-    if (j.contains("avg_grad_norm")) state.avg_grad_norm = j["avg_grad_norm"].get<float>();
-    if (j.contains("samples_processed")) state.samples_processed = j["samples_processed"].get<int>();
-    if (j.contains("is_active")) state.is_active = j["is_active"].get<bool>();
-    if (j.contains("is_synchronized")) state.is_synchronized = j["is_synchronized"].get<bool>();
-    if (j.contains("last_heartbeat_ms")) state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
-    if (j.contains("consecutive_failures")) state.consecutive_failures = j["consecutive_failures"].get<int>();
-    if (j.contains("gpu_utilization")) state.gpu_utilization = j["gpu_utilization"].get<float>();
-    if (j.contains("memory_usage_gb")) state.memory_usage_gb = j["memory_usage_gb"].get<float>();
+    if (j.contains("shard_id")) {
+      state.shard_id = j["shard_id"].get<std::string>();
+    }
+    if (j.contains("current_epoch")) {
+      state.current_epoch = j["current_epoch"].get<int>();
+    }
+    if (j.contains("current_step")) {
+      state.current_step = j["current_step"].get<int>();
+    }
+    if (j.contains("total_steps")) {
+      state.total_steps = j["total_steps"].get<int>();
+    }
+    if (j.contains("current_loss")) {
+      state.current_loss = j["current_loss"].get<float>();
+    }
+    if (j.contains("avg_grad_norm")) {
+      state.avg_grad_norm = j["avg_grad_norm"].get<float>();
+    }
+    if (j.contains("samples_processed")) {
+      state.samples_processed = j["samples_processed"].get<int>();
+    }
+    if (j.contains("is_active")) {
+      state.is_active = j["is_active"].get<bool>();
+    }
+    if (j.contains("is_synchronized")) {
+      state.is_synchronized = j["is_synchronized"].get<bool>();
+    }
+    if (j.contains("last_heartbeat_ms")) {
+      state.last_heartbeat_ms = j["last_heartbeat_ms"].get<int64_t>();
+    }
+    if (j.contains("consecutive_failures")) {
+      state.consecutive_failures = j["consecutive_failures"].get<int>();
+    }
+    if (j.contains("gpu_utilization")) {
+      state.gpu_utilization = j["gpu_utilization"].get<float>();
+    }
+    if (j.contains("memory_usage_gb")) {
+      state.memory_usage_gb = j["memory_usage_gb"].get<float>();
+    }
     return state;
 }
 
@@ -540,7 +602,9 @@ std::vector<GradientTensor> AllReduceAggregator::aggregate(
         // Sum gradients from all shards
         int valid_shards = 0;
         for (const auto& shard_grad_list : shard_gradients) {
-            if (layer_idx >= shard_grad_list.size()) continue;
+            if (layer_idx >= shard_grad_list.size()) {
+              continue;
+            }
             
             const auto& grad = shard_grad_list[layer_idx];
             if (grad.data.size() != tensor_size) {
@@ -611,10 +675,14 @@ std::vector<GradientTensor> ParameterServerAggregator::aggregate(
         // Weighted sum
         for (size_t shard_idx = 0; shard_idx < shard_gradients.size(); ++shard_idx) {
             const auto& shard_grad_list = shard_gradients[shard_idx];
-            if (layer_idx >= shard_grad_list.size()) continue;
+            if (layer_idx >= shard_grad_list.size()) {
+              continue;
+            }
             
             const auto& grad = shard_grad_list[layer_idx];
-            if (grad.data.size() != tensor_size) continue;
+            if (grad.data.size() != tensor_size) {
+              continue;
+            }
             
             // Get weight for this shard
             float weight = 1.0f / static_cast<float>(shard_gradients.size());  // Default weight
@@ -1304,8 +1372,12 @@ bool DistributedTrainingCoordinator::resumeFromCheckpoint(const std::string& che
         file.close();
         
         // Restore state
-        if (checkpoint.contains("adapter_id")) adapter_id_ = checkpoint["adapter_id"];
-        if (checkpoint.contains("step_number")) current_step_ = checkpoint["step_number"];
+        if (checkpoint.contains("adapter_id")) {
+          adapter_id_ = checkpoint["adapter_id"];
+        }
+        if (checkpoint.contains("step_number")) {
+          current_step_ = checkpoint["step_number"];
+        }
         if (checkpoint.contains("stats")) {
             // Restore statistics (partial)
             auto stats_json = checkpoint["stats"];

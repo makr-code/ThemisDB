@@ -173,7 +173,9 @@ public:
         if (!diagnostic_hints_.empty()) {
             oss << " Hints=[";
             for (size_t i = 0; i < diagnostic_hints_.size(); ++i) {
-                if (i > 0) oss << "; ";
+                if (i > 0) {
+                  oss << "; ";
+                }
                 oss << diagnostic_hints_[i];
             }
             oss << "]";

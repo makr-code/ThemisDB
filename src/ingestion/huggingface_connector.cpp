@@ -73,7 +73,9 @@ static HttpResponse hfHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -91,7 +93,9 @@ static HttpResponse hfHttpGet(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -104,10 +108,16 @@ static size_t hfJsonExtractSizeT(const std::string& json,
                                   const std::string& key) {
     std::string needle = "\"" + key + "\":";
     auto pos = json.find(needle);
-    if (pos == std::string::npos) return 0;
+    if (pos == std::string::npos) {
+      return 0;
+    }
     pos += needle.size();
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) ++pos;
-    if (pos >= json.size()) return 0;
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
+      ++pos;
+    }
+    if (pos >= json.size()) {
+      return 0;
+    }
     size_t val = 0;
     bool found_digit = false;
     while (pos < json.size() && std::isdigit(static_cast<unsigned char>(json[pos]))) {
@@ -205,7 +215,9 @@ static HttpResponse hfHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -223,7 +235,9 @@ static HttpResponse hfHttpPost(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -233,7 +247,9 @@ static std::string hfJsonExtractStringValue(const std::string& json,
                                              const std::string& key) {
     std::string needle = "\"" + key + "\":\"";
     auto start = json.find(needle);
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     start += needle.size();
     std::string value;
     bool escape = false;
@@ -241,7 +257,9 @@ static std::string hfJsonExtractStringValue(const std::string& json,
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -337,7 +355,9 @@ public:
                 // datasets with exactly 0 rows would produce an empty ingest run
                 // regardless of which field is used.
                 size_t rows = hfJsonExtractSizeT(response.body, "rows");
-                if (rows == 0) rows = hfJsonExtractSizeT(response.body, "count");
+                if (rows == 0) {
+                  rows = hfJsonExtractSizeT(response.body, "count");
+                }
                 return rows;
             }
             
@@ -446,10 +466,14 @@ private:
             body += "&client_secret=" + urlEncode(oauth_config_.client_secret);
 
         auto resp = httpPost(oauth_config_.token_endpoint, body, timeout_ms);
-        if (resp.status_code != 200) return false;
+        if (resp.status_code != 200) {
+          return false;
+        }
 
         std::string new_token = hfJsonExtractStringValue(resp.body, "access_token");
-        if (new_token.empty()) return false;
+        if (new_token.empty()) {
+          return false;
+        }
 
         oauth_config_.access_token = std::move(new_token);
 

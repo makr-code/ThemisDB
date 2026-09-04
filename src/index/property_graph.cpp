@@ -499,7 +499,9 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos && lastColon >= prefix.size() - 1) {
             std::string edgeId = keyStr.substr(lastColon + 1);
-            if (edgeId.empty()) return true;
+            if (edgeId.empty()) {
+              return true;
+            }
             
             // Load edge entity to get _from, _to
             std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
@@ -567,7 +569,9 @@ PropertyGraphManager::getTypedOutEdges(
         // Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon == std::string::npos) return true;
+        if (lastColon == std::string::npos) {
+          return true;
+        }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
         std::string toPk(val);
@@ -575,7 +579,9 @@ PropertyGraphManager::getTypedOutEdges(
         // Load edge to check type
         std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
         auto blob = db_.get(edgeKey);
-        if (!blob.has_value()) return true;
+        if (!blob.has_value()) {
+          return true;
+        }
         
         BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
         std::optional<std::string> edgeTypeOpt = extractType_(edge);
@@ -1064,7 +1070,9 @@ PropertyGraphManager::getOutgoingEdges(
         // Extract edgeId from key: graph:out:<graph_id>:<from_pk>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon == std::string::npos) return true;
+        if (lastColon == std::string::npos) {
+          return true;
+        }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
         std::string toPk(val);
@@ -1072,7 +1080,9 @@ PropertyGraphManager::getOutgoingEdges(
         // Load edge to get type
         std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
         auto blob = db_.get(edgeKey);
-        if (!blob.has_value()) return true;
+        if (!blob.has_value()) {
+          return true;
+        }
         
         BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
         std::optional<std::string> typeOpt = extractType_(edge);
@@ -1108,7 +1118,9 @@ PropertyGraphManager::getIncomingEdges(
         // Extract edgeId from key: graph:in:<graph_id>:<to_pk>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon == std::string::npos) return true;
+        if (lastColon == std::string::npos) {
+          return true;
+        }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
         std::string fromPk(val);
@@ -1116,7 +1128,9 @@ PropertyGraphManager::getIncomingEdges(
         // Load edge to get type
         std::string edgeKey = makeEdgeKey_(graph_id, edgeId);
         auto blob = db_.get(edgeKey);
-        if (!blob.has_value()) return true;
+        if (!blob.has_value()) {
+          return true;
+        }
         
         BaseEntity edge = BaseEntity::deserialize(edgeId, *blob);
         std::optional<std::string> typeOpt = extractType_(edge);

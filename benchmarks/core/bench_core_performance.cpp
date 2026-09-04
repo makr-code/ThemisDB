@@ -46,7 +46,9 @@ protected:
         static thread_local std::mt19937 gen(std::random_device{}());
         std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = dis(gen);
+        for (auto& x : v) {
+          x = dis(gen);
+        }
         return v;
     }
 };
@@ -107,8 +109,12 @@ static void SIMDDistanceThroughput_PERFD3(benchmark::State& state) {
     std::uniform_real_distribution<float> dis(-1.f, 1.f);
 
     std::vector<float> query(DIM), db(N_DB * DIM);
-    for (auto& x : query) x = dis(rng);
-    for (auto& x : db)    x = dis(rng);
+    for (auto& x : query) {
+      x = dis(rng);
+    }
+    for (auto& x : db) {
+      x = dis(rng);
+    }
 
     std::vector<float> out(N_DB);
 

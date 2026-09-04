@@ -88,7 +88,9 @@ public:
         size_t line_count = 0;
         
         while (std::getline(file, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             std::istringstream iss(line);
             std::string word;
@@ -106,7 +108,9 @@ public:
             }
             
             // Limit to first 100k embeddings for memory efficiency
-            if (line_count >= 100000) break;
+            if (line_count >= 100000) {
+              break;
+            }
         }
         
         file.close();

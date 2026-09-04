@@ -76,11 +76,17 @@ public:
     // Stub: parse and validate – real implementation verifies signature,
     // expiry, issuer, and audience.
     void parseAndValidate(const std::string& token) {
-        if (token.empty()) throw std::runtime_error("empty token");
+        if (token.empty()) {
+          throw std::runtime_error("empty token");
+        }
         // Count dots
         int dots = 0;
-        for (char c : token) dots += (c == '.');
-        if (dots != 2) throw std::runtime_error("malformed token");
+        for (char c : token) {
+          dots += (c == '.');
+        }
+        if (dots != 2) {
+          throw std::runtime_error("malformed token");
+        }
         // In the real implementation this would base64url-decode, JSON-parse,
         // verify signature and claims.
     }
@@ -127,7 +133,9 @@ static themis::security::RBAC g_rbac(themis::security::RBACConfig{});
  *   1 → fuzz RBAC loadFromJson + checkPermission
  */
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
-    if (size < 2) return 0;
+    if (size < 2) {
+      return 0;
+    }
 
     const uint8_t selector = data[0] % 2;
     const std::string payload(reinterpret_cast<const char*>(data + 1), size - 1);

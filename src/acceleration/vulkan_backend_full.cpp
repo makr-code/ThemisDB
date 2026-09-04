@@ -126,7 +126,9 @@ static bool checkValidationLayerSupport(const std::vector<const char*>& layers) 
                 break;
             }
         }
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
     return true;
 }

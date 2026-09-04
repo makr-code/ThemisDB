@@ -92,7 +92,9 @@ void CalibrationManager::addGroundTruth(const GroundTruthAnnotation& annotation)
 // ---------------------------------------------------------------------------
 
 double CalibrationManager::applyTemperatureScaling(double score, double temperature) {
-    if (temperature <= 0.0) return score;
+    if (temperature <= 0.0) {
+      return score;
+    }
     // Guard against edge cases at 0 and 1
     const double eps = 1e-7;
     double s = std::clamp(score, eps, 1.0 - eps);
@@ -199,7 +201,9 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
         for (double t = 0.1; t <= 5.0; t += 0.1) {
             std::vector<double> scaled;
             scaled.reserve(preds.size());
-            for (double p : preds) scaled.push_back(applyTemperatureScaling(p, t));
+            for (double p : preds) {
+              scaled.push_back(applyTemperatureScaling(p, t));
+            }
             double ece = calculateECE(scaled, gts, confs);
             if (ece < best_ece) {
                 best_ece  = ece;
@@ -224,7 +228,9 @@ std::pair<CalibrationMetrics, CalibrationMetrics> CalibrationManager::train(
 // ---------------------------------------------------------------------------
 
 EvaluationResult CalibrationManager::calibrate(const EvaluationResult& result) {
-    if (config_.method == CalibrationMethod::NONE) return result;
+    if (config_.method == CalibrationMethod::NONE) {
+      return result;
+    }
 
     EvaluationResult calibrated = result;
 
@@ -268,7 +274,9 @@ CalibrationMetrics CalibrationManager::calculateMetrics(
     const std::vector<EvaluationResult>& predictions,
     const std::vector<GroundTruthAnnotation>& ground_truth) {
     CalibrationMetrics m{};
-    if (predictions.empty() || predictions.size() != ground_truth.size()) return m;
+    if (predictions.empty() || predictions.size() != ground_truth.size()) {
+      return m;
+    }
 
     const size_t n = predictions.size();
 
@@ -323,7 +331,9 @@ double CalibrationManager::calculateECE(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth,
     const std::vector<double>& /*confidences*/) {
-    if (predictions.empty()) return 0.0;
+    if (predictions.empty()) {
+      return 0.0;
+    }
 
     const int num_bins = config_.num_bins;
     const double bin_width = 1.0 / static_cast<double>(num_bins);
@@ -343,7 +353,9 @@ double CalibrationManager::calculateECE(
     double ece = 0.0;
     const double n = static_cast<double>(predictions.size());
     for (int b = 0; b < num_bins; ++b) {
-        if (bin_count[b] == 0) continue;
+        if (bin_count[b] == 0) {
+          continue;
+        }
         double avg_acc  = bin_accuracy[b]   / static_cast<double>(bin_count[b]);
         double avg_conf = bin_confidence[b] / static_cast<double>(bin_count[b]);
         ece += (static_cast<double>(bin_count[b]) / n) * std::abs(avg_acc - avg_conf);
@@ -354,7 +366,9 @@ double CalibrationManager::calculateECE(
 double CalibrationManager::calculateBrierScore(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth) {
-    if (predictions.empty()) return 0.0;
+    if (predictions.empty()) {
+      return 0.0;
+    }
 
     double sum = 0.0;
     for (size_t i = 0; i < predictions.size(); ++i) {
@@ -366,11 +380,15 @@ double CalibrationManager::calculateBrierScore(
 
 double CalibrationManager::calculateInterAnnotatorAgreement(
     const std::vector<std::vector<double>>& annotations) {
-    if (annotations.empty() || annotations[0].empty()) return 0.0;
+    if (annotations.empty() || annotations[0].empty()) {
+      return 0.0;
+    }
 
     const size_t num_items       = annotations[0].size();
     const size_t num_annotators  = annotations.size();
-    if (num_annotators < 2) return 1.0;
+    if (num_annotators < 2) {
+      return 1.0;
+    }
 
     // Krippendorff's Alpha (interval metric) – simplified version
     double sum_var_items = 0.0;
@@ -397,7 +415,9 @@ double CalibrationManager::calculateInterAnnotatorAgreement(
             ++total;
         }
     }
-    if (total > 0) grand_mean /= static_cast<double>(total);
+    if (total > 0) {
+      grand_mean /= static_cast<double>(total);
+    }
     for (size_t k = 0; k < num_annotators; ++k) {
         for (size_t j = 0; j < num_items; ++j) {
             double d = annotations[k][j] - grand_mean;

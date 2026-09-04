@@ -69,7 +69,9 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // Extract subprotocol (everything before first ':')
     auto colon = rest.find(':');
-    if (colon == std::string::npos) return result;
+    if (colon == std::string::npos) {
+      return result;
+    }
     result.subprotocol = rest.substr(0, colon);
 
     // Convert to lowercase for comparison
@@ -167,14 +169,24 @@ static std::string buildOdbcConnectionString(
     if (jdbc.subprotocol == "sqlite") {
         cs << "Database=" << jdbc.database << ";";
     } else {
-        if (!jdbc.host.empty()) cs << "SERVER=" << jdbc.host << ";";
-        if (jdbc.port > 0)      cs << "PORT=" << jdbc.port << ";";
-        if (!jdbc.database.empty()) cs << "DATABASE=" << jdbc.database << ";";
+        if (!jdbc.host.empty()) {
+          cs << "SERVER=" << jdbc.host << ";";
+        }
+        if (jdbc.port > 0) {
+          cs << "PORT=" << jdbc.port << ";";
+        }
+        if (!jdbc.database.empty()) {
+          cs << "DATABASE=" << jdbc.database << ";";
+        }
     }
 
-    if (!username.empty()) cs << "UID=" << username << ";";
+    if (!username.empty()) {
+      cs << "UID=" << username << ";";
+    }
     if (!password.empty()) cs << "PWD=" << password << ";";  // gitleaks:allow
-    if (timeout_s > 0)     cs << "TIMEOUT=" << timeout_s << ";";
+    if (timeout_s > 0) {
+      cs << "TIMEOUT=" << timeout_s << ";";
+    }
 
     return cs.str();
 }
@@ -190,7 +202,9 @@ static std::string buildOdbcConnectionString(
                               return std::tolower(static_cast<unsigned char>(a))
                                   == std::tolower(static_cast<unsigned char>(b));
                           });
-    if (it == cs.end()) return cs;
+    if (it == cs.end()) {
+      return cs;
+    }
 
     std::string result = cs;
     std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
@@ -209,7 +223,9 @@ static std::string rowToJson(const DatabaseConnector::DbRow& row) {
     js << '{';
     bool first = true;
     for (const auto& kv : row) {
-        if (!first) js << ',';
+        if (!first) {
+          js << ',';
+        }
         first = false;
         // Simple JSON string escaping
         auto escape = [](const std::string& s) -> std::string {
@@ -243,7 +259,9 @@ static std::string rowToText(const DatabaseConnector::DbRow& row,
     for (const auto& col : text_columns) {
         auto it = row.find(col);
         if (it != row.end() && !it->second.empty()) {
-            if (!text.empty()) text += ' ';
+            if (!text.empty()) {
+              text += ' ';
+            }
             text += it->second;
         }
     }
@@ -279,7 +297,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::DATABASE) return false;
+        if (config.type != SourceType::DATABASE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) {
@@ -300,7 +320,9 @@ public:
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
         catch (...) { batch_size_ = 500; }
-        if (batch_size_ == 0) batch_size_ = 500;
+        if (batch_size_ == 0) {
+          batch_size_ = 500;
+        }
 
         try { max_rows_ = static_cast<size_t>(std::stoull(opt("max_rows", "0"))); }
         catch (...) { max_rows_ = 0; }
@@ -353,7 +375,9 @@ public:
             SQL_DRIVER_NOPROMPT);
 
         bool ok = (rc == SQL_SUCCESS || rc == SQL_SUCCESS_WITH_INFO);
-        if (ok) SQLDisconnect(hdbc);
+        if (ok) {
+          SQLDisconnect(hdbc);
+        }
         SQLFreeHandle(SQL_HANDLE_DBC, hdbc);
         SQLFreeHandle(SQL_HANDLE_ENV, henv);
         return ok;
@@ -373,7 +397,9 @@ public:
         SQLHSTMT hstmt = SQL_NULL_HSTMT;
         size_t count = 0;
 
-        if (!openConnection(henv, hdbc)) return 0;
+        if (!openConnection(henv, hdbc)) {
+          return 0;
+        }
         if (SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt) != SQL_SUCCESS) {
             closeConnection(hdbc, henv);
             return 0;
@@ -462,13 +488,19 @@ private:
         size_t fetched = 0;
         try {
             while (true) {
-                if (max_rows_ > 0 && fetched >= max_rows_) break;
+                if (max_rows_ > 0 && fetched >= max_rows_) {
+                  break;
+                }
 
                 auto batch = row_fetch_fn_();
-                if (batch.empty()) break;
+                if (batch.empty()) {
+                  break;
+                }
 
                 for (const auto& row : batch) {
-                    if (max_rows_ > 0 && fetched >= max_rows_) break;
+                    if (max_rows_ > 0 && fetched >= max_rows_) {
+                      break;
+                    }
 
                     std::string text = rowToText(row, text_columns_);
                     std::string json = rowToJson(row);
@@ -618,10 +650,14 @@ private:
 
         try {
             while (true) {
-                if (max_rows_ > 0 && fetched >= max_rows_) break;
+                if (max_rows_ > 0 && fetched >= max_rows_) {
+                  break;
+                }
 
                 rc = SQLFetch(hstmt);
-                if (rc == SQL_NO_DATA) break;
+                if (rc == SQL_NO_DATA) {
+                  break;
+                }
                 if (rc != SQL_SUCCESS && rc != SQL_SUCCESS_WITH_INFO) {
                     stats.addError(IngestionErrorCode::PROCESSING_FAILED,
                                    IngestionErrorSeverity::WARNING,

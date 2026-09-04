@@ -432,7 +432,9 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             progress.phase_progress = 0.0;
             progress.overall_percent = 0.0;
             progress.status_msg = "Parsing GGUF file...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Check cancellation
             if (cancel_token.is_cancelled()) {
@@ -443,14 +445,18 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             // Report parsing phase progress
             progress.phase_progress = 1.0;
             progress.overall_percent = 20.0;
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Phase 2: ALLOCATING (20-70%)
             progress.phase = LoadPhase::ALLOCATING;
             progress.phase_progress = 0.0;
             progress.overall_percent = 20.0;
             progress.status_msg = "Allocating model weights...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Acquire lock for actual loading
             std::unique_lock<std::mutex> load_lock(mutex_);
@@ -488,21 +494,27 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
             // Report allocation phase complete
             progress.phase_progress = 1.0;
             progress.overall_percent = 70.0;
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Phase 3: INITIALIZING (70-100%)
             progress.phase = LoadPhase::INITIALIZING;
             progress.phase_progress = 0.0;
             progress.overall_percent = 70.0;
             progress.status_msg = "Initializing context...";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             // Complete
             progress.phase = LoadPhase::INITIALIZING;
             progress.phase_progress = 1.0;
             progress.overall_percent = 100.0;
             progress.status_msg = "Model load complete";
-            if (progress_cb) progress_cb(progress);
+            if (progress_cb) {
+              progress_cb(progress);
+            }
             
             if (model) {
                 spdlog::info("Async model load completed successfully: {}", model_id);

@@ -23,7 +23,9 @@ static std::string get_iso8601_timestamp() noexcept {
 // Helper: Simple hash computation (basic XOR-based hash for manifest structure).
 // In production, this would use a cryptographic hash like SHA-256.
 static std::string compute_simple_hash(const std::string& input) noexcept {
-  if (input.empty()) return "0000000000000000";
+  if (input.empty()) {
+    return "0000000000000000";
+  }
 
   // Simple hash: take first 16 bytes as hex string.
   uint64_t hash = 0;

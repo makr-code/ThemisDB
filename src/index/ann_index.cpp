@@ -98,7 +98,9 @@ void ScaNN::kmeans(const float* data, size_t n, size_t d,
                    size_t k, size_t iters,
                    std::vector<std::vector<float>>& centroids,
                    std::vector<size_t>& assignments) {
-    if (data == nullptr || n == 0 || d == 0 || k == 0) return;
+    if (data == nullptr || n == 0 || d == 0 || k == 0) {
+      return;
+    }
     k = std::min(k, n);
 
     // k-means++ initialisation
@@ -320,8 +322,12 @@ ScaNN::ScaNN(ScaNNConfig cfg) : cfg_(std::move(cfg)) {}
 
 bool ScaNN::build(const float* vectors, const int64_t* ids,
                   size_t count, size_t dim) {
-    if (vectors == nullptr || count == 0 || dim == 0 || cfg_.num_leaves == 0) return false;
-    if (cfg_.enable_ah && cfg_.pq_num_subspaces == 0) return false;
+    if (vectors == nullptr || count == 0 || dim == 0 || cfg_.num_leaves == 0) {
+      return false;
+    }
+    if (cfg_.enable_ah && cfg_.pq_num_subspaces == 0) {
+      return false;
+    }
     if (cfg_.pq_num_subspaces != 0 && dim % cfg_.pq_num_subspaces != 0) {
         // Adjust pq_num_subspaces to be a divisor of dim
         for (size_t s = cfg_.pq_num_subspaces; s >= 1; --s) {
@@ -384,7 +390,9 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
         }
         flat_ids_.push_back(id);
         flat_vectors_.emplace_back(vector, vector + dim);
-        if (dim_ == 0) dim_ = dim;
+        if (dim_ == 0) {
+          dim_ = dim;
+        }
         return true;
     }
 
@@ -512,7 +520,9 @@ size_t ScaNN::size() const {
 
 bool ScaNN::save(const std::string& path) const {
     std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
-    if (!ofs) return false;
+    if (!ofs) {
+      return false;
+    }
 
     // Write header
     ofs.write(reinterpret_cast<const char*>(&dim_), sizeof(dim_));
@@ -538,7 +548,9 @@ bool ScaNN::save(const std::string& path) const {
 
 bool ScaNN::load(const std::string& path) {
     std::ifstream ifs(path, std::ios::binary);
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     ifs.read(reinterpret_cast<char*>(&dim_), sizeof(dim_));
     size_t num_leaves = 0;

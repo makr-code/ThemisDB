@@ -46,12 +46,18 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
     auto ta = tokenize(a);
     auto tb = tokenize(b);
 
-    if (ta.empty() && tb.empty()) return 1.0;
-    if (ta.empty() || tb.empty()) return 0.0;
+    if (ta.empty() && tb.empty()) {
+      return 1.0;
+    }
+    if (ta.empty() || tb.empty()) {
+      return 0.0;
+    }
 
     size_t intersection = 0;
     for (const auto& t : ta) {
-        if (tb.count(t)) ++intersection;
+        if (tb.count(t)) {
+          ++intersection;
+        }
     }
     const size_t unionSize = ta.size() + tb.size() - intersection;
     return unionSize == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(unionSize);
@@ -69,7 +75,9 @@ ContextWindowFiller::ContextWindowFiller(size_t max_tokens, double chars_per_tok
 }
 
 size_t ContextWindowFiller::estimateTokens(const std::string& text) const {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     // Use pre-computed count if the caller set it to non-zero, otherwise
     // estimate from character count.
     const double estimated = static_cast<double>(text.size()) / chars_per_token_;
@@ -145,7 +153,9 @@ struct StreamingRetriever::Impl {
      */
     bool isDuplicate(const StreamedDocument& candidate,
                      const std::vector<StreamedDocument>& selected) const {
-        if (!config.enable_mmr_deduplication) return false;
+        if (!config.enable_mmr_deduplication) {
+          return false;
+        }
         for (const auto& doc : selected) {
             if (jaccardSimilarity(candidate.content, doc.content) >=
                 config.mmr_similarity_threshold) {

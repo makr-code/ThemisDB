@@ -100,7 +100,9 @@ static void disableCounter([[maybe_unused]] int fd) noexcept {
 
 /** Read the current absolute count from a perf fd.  Returns -1 on error. */
 static int64_t readCounter([[maybe_unused]] int fd) noexcept {
-    if (fd < 0) return -1;
+    if (fd < 0) {
+      return -1;
+    }
     uint64_t value = 0;
     ssize_t n = ::read(fd, &value, sizeof(value));
     return (n == static_cast<ssize_t>(sizeof(value)))
@@ -152,7 +154,9 @@ public:
     // -----------------------------------------------------------------------
     void start() {
         std::unique_lock<std::mutex> lk(mu_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
 
 #if THEMIS_EBPF_LINUX
         openCounters();
@@ -166,11 +170,15 @@ public:
     void stop() {
         {
             std::unique_lock<std::mutex> lk(mu_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
         cv_.notify_all();
-        if (thread_.joinable()) thread_.join();
+        if (thread_.joinable()) {
+          thread_.join();
+        }
 
 #if THEMIS_EBPF_LINUX
         closeCounters();
@@ -244,7 +252,9 @@ private:
             if (fd_ctx_sw_ >= 0) {
                 enableCounter(fd_ctx_sw_);
                 prev_ctx_sw_ = readCounter(fd_ctx_sw_);
-                if (prev_ctx_sw_ < 0) prev_ctx_sw_ = 0;
+                if (prev_ctx_sw_ < 0) {
+                  prev_ctx_sw_ = 0;
+                }
             }
         }
         if (config_.probe_page_faults) {
@@ -252,7 +262,9 @@ private:
             if (fd_pg_fault_ >= 0) {
                 enableCounter(fd_pg_fault_);
                 prev_pg_fault_ = readCounter(fd_pg_fault_);
-                if (prev_pg_fault_ < 0) prev_pg_fault_ = 0;
+                if (prev_pg_fault_ < 0) {
+                  prev_pg_fault_ = 0;
+                }
             }
         }
         if (config_.probe_cpu_migrations) {
@@ -260,7 +272,9 @@ private:
             if (fd_cpu_mig_ >= 0) {
                 enableCounter(fd_cpu_mig_);
                 prev_cpu_mig_ = readCounter(fd_cpu_mig_);
-                if (prev_cpu_mig_ < 0) prev_cpu_mig_ = 0;
+                if (prev_cpu_mig_ < 0) {
+                  prev_cpu_mig_ = 0;
+                }
             }
         }
         if (config_.probe_task_clock) {
@@ -268,7 +282,9 @@ private:
             if (fd_task_clk_ >= 0) {
                 enableCounter(fd_task_clk_);
                 prev_task_clk_ = readCounter(fd_task_clk_);
-                if (prev_task_clk_ < 0) prev_task_clk_ = 0;
+                if (prev_task_clk_ < 0) {
+                  prev_task_clk_ = 0;
+                }
             }
         }
     }
@@ -327,13 +343,19 @@ private:
 
         auto delta = [&](int fd, int64_t& prev, EbpfProbeType type,
                          const std::string& desc) {
-            if (fd < 0) return;
+            if (fd < 0) {
+              return;
+            }
             int64_t cur = readCounter(fd);
-            if (cur < 0) return;
+            if (cur < 0) {
+              return;
+            }
             int64_t d = cur - prev;
             if (d < 0) d = 0; // counter reset or wrap
             prev = cur;
-            if (d == 0) return;
+            if (d == 0) {
+              return;
+            }
             KernelEvent ev;
             ev.type        = type;
             ev.timestamp   = now;
@@ -375,7 +397,9 @@ private:
             {
                 std::unique_lock<std::mutex> wlk(mu_);
                 cv_.wait_for(wlk, interval, [this]{ return !running_; });
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
             }
 
             std::vector<KernelEvent> batch;

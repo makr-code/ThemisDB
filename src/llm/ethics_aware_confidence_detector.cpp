@@ -517,7 +517,9 @@ std::string EthicsAwareConfidenceDetector::toLowerCase(const std::string& text) 
 float EthicsAwareConfidenceDetector::calculateTokenEntropy(
     const std::vector<TokenConfidence>& tokens
 ) {
-    if (tokens.empty()) return 0.0f;
+    if (tokens.empty()) {
+      return 0.0f;
+    }
     
     float entropy = 0.0f;
     for (const auto& token : tokens) {
@@ -531,7 +533,9 @@ float EthicsAwareConfidenceDetector::calculateTokenEntropy(
 float EthicsAwareConfidenceDetector::calculatePerplexity(
     const std::vector<TokenConfidence>& tokens
 ) {
-    if (tokens.empty()) return 1.0f;
+    if (tokens.empty()) {
+      return 1.0f;
+    }
     
     float log_prob_sum = 0.0f;
     for (const auto& token : tokens) {

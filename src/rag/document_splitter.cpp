@@ -41,7 +41,9 @@ void validateConfig(const DocumentSplitterConfig& cfg) {
 
 /// Estimate token count for @p text using @p chars_per_token.
 inline size_t estimateTokenCount(const std::string& text, double chars_per_token) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     return static_cast<size_t>(
         std::ceil(static_cast<double>(text.size()) / chars_per_token));
 }
@@ -60,7 +62,9 @@ std::vector<std::pair<std::string, size_t>>
 splitSentences(const std::string& text) {
     std::vector<std::pair<std::string, size_t>> sentences;
 
-    if (text.empty()) return sentences;
+    if (text.empty()) {
+      return sentences;
+    }
 
     size_t start = 0;
     for (size_t i = 0; i < text.size(); ++i) {
@@ -115,7 +119,9 @@ std::string extractOverlapTail(const std::string& text,
     if (text.empty() || overlap_tokens == 0) return {};
     const size_t overlap_chars =
         static_cast<size_t>(static_cast<double>(overlap_tokens) * chars_per_token);
-    if (overlap_chars >= text.size()) return text;
+    if (overlap_chars >= text.size()) {
+      return text;
+    }
     return text.substr(text.size() - overlap_chars);
 }
 
@@ -148,7 +154,9 @@ std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitFixed(const std::string& text,
                                     const std::string& doc_id) const {
     std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    if (text.empty()) {
+      return chunks;
+    }
 
     const size_t chunk_chars =
         static_cast<size_t>(static_cast<double>(config.chunk_size) *
@@ -201,7 +209,9 @@ std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSliding(const std::string& text,
                                       const std::string& doc_id) const {
     std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    if (text.empty()) {
+      return chunks;
+    }
 
     const size_t chunk_chars =
         static_cast<size_t>(static_cast<double>(config.chunk_size) *
@@ -246,10 +256,14 @@ std::vector<DocumentChunk>
 DocumentSplitter::Impl::splitSentence(const std::string& text,
                                        const std::string& doc_id) const {
     std::vector<DocumentChunk> chunks;
-    if (text.empty()) return chunks;
+    if (text.empty()) {
+      return chunks;
+    }
 
     const auto sentences = splitSentences(text);
-    if (sentences.empty()) return chunks;
+    if (sentences.empty()) {
+      return chunks;
+    }
 
     size_t chunk_idx  = 0;
     std::string current;
@@ -257,7 +271,9 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
     size_t chunk_start_offset = sentences.front().second;
 
     auto flush = [&]([[maybe_unused]] size_t end_offset) {
-        if (current.empty()) return;
+        if (current.empty()) {
+          return;
+        }
         const size_t tok = estimateTokenCount(current, config.chars_per_token);
         if (tok >= config.min_chunk_size || config.min_chunk_size == 0) {
             DocumentChunk chunk;

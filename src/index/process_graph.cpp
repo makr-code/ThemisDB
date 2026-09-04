@@ -308,9 +308,15 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         // No operator found, treat as boolean variable
         if (variables.contains(expr)) {
             auto val = variables[expr];
-            if (val.is_boolean()) return val.get<bool>();
-            if (val.is_number()) return val.get<double>() != 0;
-            if (val.is_string()) return !val.get<std::string>().empty();
+            if (val.is_boolean()) {
+              return val.get<bool>();
+            }
+            if (val.is_number()) {
+              return val.get<double>() != 0;
+            }
+            if (val.is_string()) {
+              return !val.get<std::string>().empty();
+            }
         }
         return false;
     }
@@ -647,14 +653,18 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
             auto typeStr = entity.getFieldAsString("node_type").value_or("");
             
             if (category == "BPMN") {
-                if (typeStr == "START_EVENT") info.node_type = BPMNNodeType::START_EVENT;
+                if (typeStr == "START_EVENT") {
+                  info.node_type = BPMNNodeType::START_EVENT;
+                }
                 else if (typeStr == "END_EVENT") info.node_type = BPMNNodeType::END_EVENT;
                 else if (typeStr == "TASK") info.node_type = BPMNNodeType::TASK;
                 else if (typeStr == "EXCLUSIVE_GATEWAY") info.node_type = BPMNNodeType::EXCLUSIVE_GATEWAY;
                 else if (typeStr == "PARALLEL_GATEWAY") info.node_type = BPMNNodeType::PARALLEL_GATEWAY;
                 else info.node_type = BPMNNodeType::TASK; // Default
             } else {
-                if (typeStr == "EVENT") info.node_type = EPKNodeType::EVENT;
+                if (typeStr == "EVENT") {
+                  info.node_type = EPKNodeType::EVENT;
+                }
                 else if (typeStr == "FUNCTION") info.node_type = EPKNodeType::FUNCTION;
                 else if (typeStr == "AND_CONNECTOR") info.node_type = EPKNodeType::AND_CONNECTOR;
                 else if (typeStr == "OR_CONNECTOR") info.node_type = EPKNodeType::OR_CONNECTOR;
@@ -698,8 +708,12 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     bool hasStart = false;
     bool hasEnd = false;
     for (const auto& [id, node] : nodes) {
-        if (isStartNode(node)) hasStart = true;
-        if (isEndNode(node)) hasEnd = true;
+        if (isStartNode(node)) {
+          hasStart = true;
+        }
+        if (isEndNode(node)) {
+          hasEnd = true;
+        }
     }
     if (!hasStart) {
         result.errors.push_back([[maybe_unused]] "Process has no start event");
@@ -740,8 +754,12 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
             // Count incoming and outgoing edges
             int incoming = 0, outgoing = 0;
             for (const auto& edge : edges) {
-                if (edge.to_node == id) incoming++;
-                if (edge.from_node == id) outgoing++;
+                if (edge.to_node == id) {
+                  incoming++;
+                }
+                if (edge.from_node == id) {
+                  outgoing++;
+                }
             }
 
             if (std::holds_alternative<BPMNNodeType>(node.node_type)) {
@@ -878,7 +896,9 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
     instance.started_at_ms = entity.getFieldAsInt("started_at").value_or(0);
     
     auto stateStr = entity.getFieldAsString("state").value_or("CREATED");
-    if (stateStr == "RUNNING") instance.state = ProcessInstance::State::RUNNING;
+    if (stateStr == "RUNNING") {
+      instance.state = ProcessInstance::State::RUNNING;
+    }
     else if (stateStr == "COMPLETED") instance.state = ProcessInstance::State::COMPLETED;
     else if (stateStr == "SUSPENDED") instance.state = ProcessInstance::State::SUSPENDED;
     else if (stateStr == "TERMINATED") instance.state = ProcessInstance::State::TERMINATED;
@@ -910,7 +930,9 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
             token.created_at_ms = tokenEntity.getFieldAsInt("created_at").value_or(0);
             
             auto stateStr = tokenEntity.getFieldAsString("state").value_or("READY");
-            if (stateStr == "READY") token.state = ProcessToken::State::READY;
+            if (stateStr == "READY") {
+              token.state = ProcessToken::State::READY;
+            }
             else if (stateStr == "ACTIVE") token.state = ProcessToken::State::ACTIVE;
             else if (stateStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
             else if (stateStr == "WAITING") token.state = ProcessToken::State::WAITING;
@@ -940,7 +962,9 @@ ProcessGraphManager::getVisitTimestamp(
     std::string_view node_id
 ) const {
     auto [st, instance] = getProcessInstance(instance_id);
-    if (!st.ok) return std::nullopt;
+    if (!st.ok) {
+      return std::nullopt;
+    }
 
     std::optional<std::chrono::system_clock::time_point> result;
     for (const auto& token : instance.tokens) {
@@ -961,7 +985,9 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
 ) {
     // Load instance and token
     auto [st, instance] = getProcessInstance(instance_id);
-    if (!st.ok) return st;
+    if (!st.ok) {
+      return st;
+    }
 
     // Find the token
     ProcessToken* token = nullptr;
@@ -997,7 +1023,9 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
                 edge.is_default = entity.getFieldAsBool("is_default").value_or(false);
                 edge.priority = static_cast<int>(entity.getFieldAsInt("priority").value_or(0));
                 auto cond = entity.getFieldAsString("condition");
-                if (cond) edge.condition_expression = *cond;
+                if (cond) {
+                  edge.condition_expression = *cond;
+                }
                 outgoing.push_back(edge);
             }
         }
@@ -1155,7 +1183,9 @@ ProcessGraphManager::Status ProcessGraphManager::completeTask(
     const nlohmann::json& output_variables
 ) {
     auto [st, instance] = getProcessInstance(instance_id);
-    if (!st.ok) return st;
+    if (!st.ok) {
+      return st;
+    }
 
     // Find token at this task
     for (auto& token : instance.tokens) {
@@ -1241,7 +1271,9 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
 ) {
     // Get process instance
     auto [st, instance] = getProcessInstance(instance_id);
-    if (!st.ok) return st;
+    if (!st.ok) {
+      return st;
+    }
     
     // Find tokens waiting for this event
     // Note: We modify token fields but not the vector structure, so iteration is safe
@@ -1255,7 +1287,9 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
         // Get the current node to check if it's an event node
         std::string nodeKey = makeNodeKey_(instance.process_definition_id, token.current_node);
         auto nodeBlob = db_.get(nodeKey);
-        if (!nodeBlob) continue;
+        if (!nodeBlob) {
+          continue;
+        }
         
         BaseEntity nodeEntity = BaseEntity::deserialize(token.current_node, *nodeBlob);
         auto nodeTypeStr = nodeEntity.getFieldAsString("node_type").value_or("");
@@ -1271,7 +1305,9 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
             }
         }
         
-        if (!isMatchingEvent) continue;
+        if (!isMatchingEvent) {
+          continue;
+        }
         
         // Merge event payload into token variables
         for (auto& [key, val] : payload.items()) {
@@ -1309,7 +1345,9 @@ ProcessGraphManager::Status ProcessGraphManager::signalEvent(
 
 std::optional<std::pair<std::string, std::string>>
 ProcessGraphManager::findTokenByTokenId(std::string_view token_id) const {
-    if (!db_.isOpen() || token_id.empty()) return std::nullopt;
+    if (!db_.isOpen() || token_id.empty()) {
+      return std::nullopt;
+    }
 
     std::optional<std::pair<std::string, std::string>> found;
     const std::string token_id_str(token_id);
@@ -1322,16 +1360,22 @@ ProcessGraphManager::findTokenByTokenId(std::string_view token_id) const {
         // After "process:token:" (14 chars) find the colon separating instance from token
         const size_t prefix_len = 14; // strlen("process:token:")
         const size_t second_colon = keyStr.find(':', prefix_len);
-        if (second_colon == std::string::npos) return true;
+        if (second_colon == std::string::npos) {
+          return true;
+        }
 
         const std::string stored_token_id = keyStr.substr(second_colon + 1);
-        if (stored_token_id != token_id_str) return true;
+        if (stored_token_id != token_id_str) {
+          return true;
+        }
 
         // Found a key with matching token_id — check it's READY or ACTIVE
         std::vector<uint8_t> blob(val.begin(), val.end());
         BaseEntity tokenEntity = BaseEntity::deserialize(stored_token_id, blob);
         const auto stateStr = tokenEntity.getFieldAsString("state").value_or("");
-        if (stateStr != "READY" && stateStr != "ACTIVE") return true;
+        if (stateStr != "READY" && stateStr != "ACTIVE") {
+          return true;
+        }
 
         const std::string instance_id = keyStr.substr(prefix_len, second_colon - prefix_len);
         const std::string current_node =
@@ -1358,10 +1402,14 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
         
         // Parse instance_id and token_id from key: process:token:{instance_id}:{token_id}
         size_t secondColon = keyStr.find(':', 14); // After "process:token:"
-        if (secondColon == std::string::npos) return true;
+        if (secondColon == std::string::npos) {
+          return true;
+        }
         
         size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
+        if (thirdColon == std::string::npos) {
+          return true;
+        }
         
         std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
         std::string tokenId = keyStr.substr(thirdColon + 1);
@@ -1396,7 +1444,9 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
             token.current_node = tokenEntity.getFieldAsString("current_node").value_or("");
             token.created_at_ms = tokenEntity.getFieldAsInt("created_at").value_or(0);
             
-            if (stateStr == "READY") token.state = ProcessToken::State::READY;
+            if (stateStr == "READY") {
+              token.state = ProcessToken::State::READY;
+            }
             else if (stateStr == "ACTIVE") token.state = ProcessToken::State::ACTIVE;
             
             // Load variables if available
@@ -1437,10 +1487,14 @@ ProcessGraphManager::getNodeHistory(
         
         // Parse instance_id and token_id from key
         size_t secondColon = keyStr.find(':', 14);
-        if (secondColon == std::string::npos) return true;
+        if (secondColon == std::string::npos) {
+          return true;
+        }
         
         size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
+        if (thirdColon == std::string::npos) {
+          return true;
+        }
         
         std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
         std::string tokenId = keyStr.substr(thirdColon + 1);
@@ -1448,7 +1502,9 @@ ProcessGraphManager::getNodeHistory(
         // Get instance to check process_id
         std::string instanceKey = makeInstanceKey_(instanceId);
         auto instanceBlob = db_.get(instanceKey);
-        if (!instanceBlob) return true;
+        if (!instanceBlob) {
+          return true;
+        }
         
         BaseEntity instanceEntity = BaseEntity::deserialize(instanceId, *instanceBlob);
         auto instanceProcessId = instanceEntity.getFieldAsString("process_id").value_or("");
@@ -1482,7 +1538,9 @@ ProcessGraphManager::getNodeHistory(
             } catch (...) {}
         }
         
-        if (!visitedNode) return true;
+        if (!visitedNode) {
+          return true;
+        }
         
         // Check time filter
         auto createdAt = tokenEntity.getFieldAsInt("created_at").value_or(0);
@@ -1498,7 +1556,9 @@ ProcessGraphManager::getNodeHistory(
         token.created_at_ms = createdAt;
         
         auto stateStr = tokenEntity.getFieldAsString("state").value_or("READY");
-        if (stateStr == "READY") token.state = ProcessToken::State::READY;
+        if (stateStr == "READY") {
+          token.state = ProcessToken::State::READY;
+        }
         else if (stateStr == "ACTIVE") token.state = ProcessToken::State::ACTIVE;
         else if (stateStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
         else if (stateStr == "WAITING") token.state = ProcessToken::State::WAITING;
@@ -1506,10 +1566,14 @@ ProcessGraphManager::getNodeHistory(
         
         // Load timestamps
         auto startedAt = tokenEntity.getFieldAsInt("started_at");
-        if (startedAt) token.started_at_ms = *startedAt;
+        if (startedAt) {
+          token.started_at_ms = *startedAt;
+        }
         
         auto completedAt = tokenEntity.getFieldAsInt("completed_at");
-        if (completedAt) token.completed_at_ms = *completedAt;
+        if (completedAt) {
+          token.completed_at_ms = *completedAt;
+        }
         
         // Load variables
         auto varsStr = tokenEntity.getFieldAsString("variables");
@@ -1546,10 +1610,14 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
         
         // Parse instance_id and token_id
         size_t secondColon = keyStr.find(':', 14);
-        if (secondColon == std::string::npos) return true;
+        if (secondColon == std::string::npos) {
+          return true;
+        }
         
         size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
+        if (thirdColon == std::string::npos) {
+          return true;
+        }
         
         std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
         std::string tokenId = keyStr.substr(thirdColon + 1);
@@ -1557,7 +1625,9 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
         // Check if this instance belongs to the target process
         std::string instanceKey = makeInstanceKey_(instanceId);
         auto instanceBlob = db_.get(instanceKey);
-        if (!instanceBlob) return true;
+        if (!instanceBlob) {
+          return true;
+        }
         
         BaseEntity instanceEntity = BaseEntity::deserialize(instanceId, *instanceBlob);
         auto instanceProcessId = instanceEntity.getFieldAsString("process_id").value_or("");
@@ -1571,7 +1641,9 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
         BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, blob);
         
         auto currentNode = tokenEntity.getFieldAsString("current_node").value_or("");
-        if (currentNode.empty()) return true;
+        if (currentNode.empty()) {
+          return true;
+        }
         
         auto stateStr = tokenEntity.getFieldAsString("state").value_or("");
         auto createdAt = tokenEntity.getFieldAsInt("created_at").value_or(0);
@@ -1688,7 +1760,9 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     db_.scanPrefix(edgePrefix, [&adjacency](std::string_view key, std::string_view val) {
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon == std::string::npos) return true;
+        if (lastColon == std::string::npos) {
+          return true;
+        }
         
         std::string edgeId = keyStr.substr(lastColon + 1);
         std::vector<uint8_t> blob(val.begin(), val.end());
@@ -1710,7 +1784,9 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     db_.scanPrefix(nodePrefix, [&startNode](std::string_view key, std::string_view val) {
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon == std::string::npos) return true;
+        if (lastColon == std::string::npos) {
+          return true;
+        }
         
         std::string nodeId = keyStr.substr(lastColon + 1);
         std::vector<uint8_t> blob(val.begin(), val.end());
@@ -1848,7 +1924,9 @@ ProcessGraphManager::getHyperedgeStatus(std::string_view hyperedge_id) const {
         
         // Parse sync type
         auto syncTypeStr = entity.getFieldAsString("sync_type").value_or("AND_JOIN");
-        if (syncTypeStr == "AND_JOIN") hyperedge.sync_type = Hyperedge::SyncType::AND_JOIN;
+        if (syncTypeStr == "AND_JOIN") {
+          hyperedge.sync_type = Hyperedge::SyncType::AND_JOIN;
+        }
         else if (syncTypeStr == "AND_SPLIT") hyperedge.sync_type = Hyperedge::SyncType::AND_SPLIT;
         else if (syncTypeStr == "OR_JOIN") hyperedge.sync_type = Hyperedge::SyncType::OR_JOIN;
         else if (syncTypeStr == "N_OF_M_JOIN") hyperedge.sync_type = Hyperedge::SyncType::N_OF_M_JOIN;
@@ -1961,7 +2039,9 @@ ProcessGraphManager::queryTasksByFormData(
             if (row.contains("variables") && row["variables"].is_object())
                 token.variables = row["variables"];
             const auto stStr = row.value("state", std::string{"READY"});
-            if      (stStr == "ACTIVE")    token.state = ProcessToken::State::ACTIVE;
+            if      (stStr == "ACTIVE") {
+              token.state = ProcessToken::State::ACTIVE;
+            }
             else if (stStr == "WAITING")   token.state = ProcessToken::State::WAITING;
             else if (stStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
             else if (stStr == "FAILED")    token.state = ProcessToken::State::FAILED;
@@ -1975,14 +2055,20 @@ ProcessGraphManager::queryTasksByFormData(
         // Parse instance_id from key: "process:token:{instance_id}:{token_id}"
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 16); // skip "process:token:"
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string instanceId = keyStr.substr(14, p1 - 14);
 
         // Verify the instance belongs to the target process.
         const auto instBlob = db_.get(makeInstanceKey_(instanceId));
-        if (!instBlob) return true;
+        if (!instBlob) {
+          return true;
+        }
         const BaseEntity instEntity = BaseEntity::deserialize(instanceId, *instBlob);
-        if (instEntity.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (instEntity.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         // Deserialize token.
         const std::string tokenId = keyStr.substr(p1 + 1);
@@ -1996,7 +2082,9 @@ ProcessGraphManager::queryTasksByFormData(
         // Also check form_data field.
         const auto formStr = tokenEntity.getFieldAsString("form_data");
         const auto fd = parseJsonObjectOrEmpty(formStr, "queryTasksByFormData", "form_data");
-        for (auto& [k, v] : fd.items()) vars[k] = v;
+        for (auto& [k, v] : fd.items()) {
+          vars[k] = v;
+        }
 
         // Check all filter conditions (AND semantics).
         bool matches = true;
@@ -2008,7 +2096,9 @@ ProcessGraphManager::queryTasksByFormData(
                 }
             }
         }
-        if (!matches) return true;
+        if (!matches) {
+          return true;
+        }
 
         ProcessToken token;
         token.token_id               = tokenId;
@@ -2017,7 +2107,9 @@ ProcessGraphManager::queryTasksByFormData(
         token.created_at_ms          = tokenEntity.getFieldAsInt("created_at").value_or(0);
         token.variables              = vars;
         const auto stStr             = tokenEntity.getFieldAsString("state").value_or("READY");
-        if (stStr == "ACTIVE")     token.state = ProcessToken::State::ACTIVE;
+        if (stStr == "ACTIVE") {
+          token.state = ProcessToken::State::ACTIVE;
+        }
         else if (stStr == "WAITING") token.state = ProcessToken::State::WAITING;
         else if (stStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
         else if (stStr == "FAILED")  token.state = ProcessToken::State::FAILED;
@@ -2102,13 +2194,19 @@ ProcessGraphManager::joinWithCollection(
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string instanceId = keyStr.substr(14, p1 - 14);
 
         const auto instBlob = db_.get(makeInstanceKey_(instanceId));
-        if (!instBlob) return true;
+        if (!instBlob) {
+          return true;
+        }
         const BaseEntity instEntity = BaseEntity::deserialize(instanceId, *instBlob);
-        if (instEntity.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (instEntity.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         const std::string tokenId = keyStr.substr(p1 + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2118,12 +2216,16 @@ ProcessGraphManager::joinWithCollection(
             tokenEntity.getFieldAsString("variables"), "joinWithCollection", "variables");
 
         // Look up the local_field value.
-        if (!vars.contains(lf)) return true;
+        if (!vars.contains(lf)) {
+          return true;
+        }
         const std::string localVal = vars[lf].is_string() ? vars[lf].get<std::string>()
                                                           : vars[lf].dump();
 
         const auto it = foreignIndex.find(localVal);
-        if (it == foreignIndex.end()) return true;
+        if (it == foreignIndex.end()) {
+          return true;
+        }
 
         ProcessToken token;
         token.token_id            = tokenId;
@@ -2199,13 +2301,19 @@ ProcessGraphManager::aggregateByField(
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string instanceId = keyStr.substr(14, p1 - 14);
 
         const auto instBlob = db_.get(makeInstanceKey_(instanceId));
-        if (!instBlob) return true;
+        if (!instBlob) {
+          return true;
+        }
         const BaseEntity instEntity = BaseEntity::deserialize(instanceId, *instBlob);
-        if (instEntity.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (instEntity.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         const std::string tokenId = keyStr.substr(p1 + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2214,7 +2322,9 @@ ProcessGraphManager::aggregateByField(
         nlohmann::json vars = parseJsonObjectOrEmpty(
             tokenEntity.getFieldAsString("variables"), "aggregateTokensByField", "variables");
 
-        if (!vars.contains(gf)) return true;
+        if (!vars.contains(gf)) {
+          return true;
+        }
 
         const std::string groupKey = vars[gf].is_string() ? vars[gf].get<std::string>()
                                                           : vars[gf].dump();
@@ -2254,7 +2364,9 @@ namespace {
 
 float computeCosineSimilarity(const std::vector<float>& a,
                               const std::vector<float>& b) noexcept {
-    if (a.size() != b.size() || a.empty()) return 0.0f;
+    if (a.size() != b.size() || a.empty()) {
+      return 0.0f;
+    }
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
     for (size_t i = 0; i < a.size(); ++i) {
         dot += a[i] * b[i];
@@ -2273,7 +2385,9 @@ std::vector<float> parseEmbeddingJson(const std::string& s) {
         if (arr.is_array()) {
             emb.reserve(arr.size());
             for (const auto& v : arr) {
-                if (v.is_number()) emb.push_back(v.get<float>());
+                if (v.is_number()) {
+                  emb.push_back(v.get<float>());
+                }
             }
         }
     } catch (const std::exception& e) {
@@ -2303,13 +2417,19 @@ ProcessGraphManager::findSimilarProcesses(
         const BaseEntity ent = BaseEntity::deserialize(procId, blob);
 
         const auto embStr = ent.getFieldAsString("embedding");
-        if (!embStr) return true;
+        if (!embStr) {
+          return true;
+        }
 
         const auto emb = parseEmbeddingJson(*embStr);
-        if (emb.empty()) return true;
+        if (emb.empty()) {
+          return true;
+        }
 
         const float sim = computeCosineSimilarity(query_embedding, emb);
-        if (sim < min_similarity) return true;
+        if (sim < min_similarity) {
+          return true;
+        }
 
         SimilarProcess sp;
         sp.process_id = procId;
@@ -2324,7 +2444,9 @@ ProcessGraphManager::findSimilarProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (result.size() > k) result.resize(k);
+    if (result.size() > k) {
+      result.resize(k);
+    }
 
     return {Status::OK(), result};
 }
@@ -2348,13 +2470,19 @@ ProcessGraphManager::findSimilarTasks(
         if (!queryEmb.empty()) return false; // found already
         const std::string keyStr(key);
         const size_t p = keyStr.rfind(':');
-        if (p == std::string::npos) return true;
+        if (p == std::string::npos) {
+          return true;
+        }
         const std::string tid = keyStr.substr(p + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
         const BaseEntity te = BaseEntity::deserialize(tid, blob);
-        if (te.getFieldAsString("current_node").value_or("") != nodeId) return true;
+        if (te.getFieldAsString("current_node").value_or("") != nodeId) {
+          return true;
+        }
         const auto embStr = te.getFieldAsString("embedding");
-        if (embStr) queryEmb = parseEmbeddingJson(*embStr);
+        if (embStr) {
+          queryEmb = parseEmbeddingJson(*embStr);
+        }
         return true;
     });
 
@@ -2373,23 +2501,33 @@ ProcessGraphManager::findSimilarTasks(
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string iid = keyStr.substr(14, p1 - 14);
         if (iid == instId) return true; // skip the source instance itself
 
         const auto ib = db_.get(makeInstanceKey_(iid));
-        if (!ib) return true;
+        if (!ib) {
+          return true;
+        }
         const BaseEntity ie = BaseEntity::deserialize(iid, *ib);
-        if (ie.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (ie.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         const std::string tid = keyStr.substr(p1 + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
         const BaseEntity te = BaseEntity::deserialize(tid, blob);
 
         const auto embStr = te.getFieldAsString("embedding");
-        if (!embStr) return true;
+        if (!embStr) {
+          return true;
+        }
         const auto emb = parseEmbeddingJson(*embStr);
-        if (emb.empty()) return true;
+        if (emb.empty()) {
+          return true;
+        }
 
         [[maybe_unused]] const float sim = computeCosineSimilarity(queryEmb, emb);
 
@@ -2405,7 +2543,9 @@ ProcessGraphManager::findSimilarTasks(
     // Sort descending by similarity, take top k.
     std::sort(candidates.begin(), candidates.end(),
               [](const auto& a, const auto& b) { return a.first > b.first; });
-    if (candidates.size() > k) candidates.resize(k);
+    if (candidates.size() > k) {
+      candidates.resize(k);
+    }
     result.reserve(candidates.size());
     for (auto& [sim, tok] : candidates) {
         result.push_back(std::move(tok));
@@ -2434,7 +2574,9 @@ ProcessGraphManager::semanticSearchProcesses(
     {
         std::istringstream ss(queryLower);
         std::string word;
-        while (ss >> word) queryTokens.push_back(word);
+        while (ss >> word) {
+          queryTokens.push_back(word);
+        }
     }
     if (queryTokens.empty()) return {Status::Error("Empty query"), result};
 
@@ -2452,10 +2594,14 @@ ProcessGraphManager::semanticSearchProcesses(
         // Score = fraction of query tokens found in haystack.
         float hits = 0.0f;
         for (const auto& tok : queryTokens) {
-            if (haystack.find(tok) != std::string::npos) hits += 1.0f;
+            if (haystack.find(tok) != std::string::npos) {
+              hits += 1.0f;
+            }
         }
         const float sim = hits / static_cast<float>(queryTokens.size());
-        if (sim < 0.01f) return true;
+        if (sim < 0.01f) {
+          return true;
+        }
 
         SimilarProcess sp;
         sp.process_id = procId;
@@ -2469,7 +2615,9 @@ ProcessGraphManager::semanticSearchProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (result.size() > k) result.resize(k);
+    if (result.size() > k) {
+      result.resize(k);
+    }
 
     return {Status::OK(), result};
 }
@@ -2508,13 +2656,19 @@ ProcessGraphManager::detectAnomalies(
     db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string iid = keyStr.substr(14, p1 - 14);
 
         const auto ib = db_.get(makeInstanceKey_(iid));
-        if (!ib) return true;
+        if (!ib) {
+          return true;
+        }
         const BaseEntity ie = BaseEntity::deserialize(iid, *ib);
-        if (ie.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (ie.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         const std::string tid = keyStr.substr(p1 + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2533,7 +2687,9 @@ ProcessGraphManager::detectAnomalies(
         }
 
         const auto vnStr = te.getFieldAsString("visited_nodes");
-        if (vnStr) info.visitedPath = *vnStr;
+        if (vnStr) {
+          info.visitedPath = *vnStr;
+        }
 
         allTokens.push_back(std::move(info));
 
@@ -2554,12 +2710,18 @@ ProcessGraphManager::detectAnomalies(
     };
     std::unordered_map<std::string, NodeBaseline> baselines;
     for (auto& [node, stats] : nodeStats) {
-        if (stats.durations_ms.empty()) continue;
+        if (stats.durations_ms.empty()) {
+          continue;
+        }
         double sum = 0.0;
-        for (double d : stats.durations_ms) sum += d;
+        for (double d : stats.durations_ms) {
+          sum += d;
+        }
         const double mean = sum / static_cast<double>(stats.durations_ms.size());
         double varSum = 0.0;
-        for (double d : stats.durations_ms) varSum += (d - mean) * (d - mean);
+        for (double d : stats.durations_ms) {
+          varSum += (d - mean) * (d - mean);
+        }
         const double stddev = std::sqrt(varSum / static_cast<double>(stats.durations_ms.size()));
         baselines[node] = {mean, stddev};
     }
@@ -2573,7 +2735,9 @@ ProcessGraphManager::detectAnomalies(
 
     // Detect anomalies: only for active/running tokens.
     for (const auto& ti : allTokens) {
-        if (ti.state != "ACTIVE" && ti.state != "READY") continue;
+        if (ti.state != "ACTIVE" && ti.state != "READY") {
+          continue;
+        }
 
         // 1. Duration anomaly: current duration vs baseline.
         if (ti.durationMs > 0.0 && baselines.count(ti.currentNode)) {
@@ -2603,7 +2767,9 @@ ProcessGraphManager::detectAnomalies(
             const std::unordered_set<std::string> normalSet(normalNodes.begin(), normalNodes.end());
             size_t deviatedCount = 0;
             for (const auto& n : tokenNodes) {
-                if (!normalSet.count(n)) deviatedCount++;
+                if (!normalSet.count(n)) {
+                  deviatedCount++;
+                }
             }
             if (!tokenNodes.empty()) {
                 const float score = static_cast<float>(deviatedCount) /
@@ -2674,17 +2840,23 @@ std::vector<std::pair<double,double>> parseWktPolygon(const std::string& wkt) {
     std::vector<std::pair<double,double>> ring;
     const size_t start = wkt.find('(');
     const size_t end   = wkt.rfind(')');
-    if (start == std::string::npos || end == std::string::npos) return ring;
+    if (start == std::string::npos || end == std::string::npos) {
+      return ring;
+    }
     // Find the inner parenthesis for the outer ring.
     const size_t inner = wkt.find('(', start + 1);
     const size_t close = wkt.find(')', inner + 1);
-    if (inner == std::string::npos || close == std::string::npos) return ring;
+    if (inner == std::string::npos || close == std::string::npos) {
+      return ring;
+    }
     std::istringstream ss(wkt.substr(inner + 1, close - inner - 1));
     std::string pair;
     while (std::getline(ss, pair, ',')) {
         std::istringstream ps(pair);
         double x, y;
-        if (ps >> x >> y) ring.emplace_back(x, y);
+        if (ps >> x >> y) {
+          ring.emplace_back(x, y);
+        }
     }
     return ring;
 }
@@ -2705,14 +2877,20 @@ bool extractTokenGeo(const nlohmann::json& vars, double& lon, double& lat) {
     }
     // "_geometry" WKT POINT
     for (const auto& gk : {"_geometry", "geometry", "_geo"}) {
-        if (!vars.contains(gk) || !vars[gk].is_string()) continue;
+        if (!vars.contains(gk) || !vars[gk].is_string()) {
+          continue;
+        }
         const std::string geom = vars[gk].get<std::string>();
         // "POINT(lon lat)" or "POINT (lon lat)"
         const size_t p = geom.find('(');
         const size_t q = geom.find(')');
-        if (p == std::string::npos || q == std::string::npos) continue;
+        if (p == std::string::npos || q == std::string::npos) {
+          continue;
+        }
         std::istringstream ss(geom.substr(p + 1, q - p - 1));
-        if (ss >> lon >> lat) return true;
+        if (ss >> lon >> lat) {
+          return true;
+        }
     }
     return false;
 }
@@ -2730,13 +2908,19 @@ static void scanProcessTokens(
     db.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
         const std::string keyStr(key);
         const size_t p1 = keyStr.find(':', 14);
-        if (p1 == std::string::npos) return true;
+        if (p1 == std::string::npos) {
+          return true;
+        }
         const std::string iid = keyStr.substr(14, p1 - 14);
 
         const auto ib = db.get(makeInstanceKey(iid));
-        if (!ib) return true;
+        if (!ib) {
+          return true;
+        }
         const BaseEntity ie = BaseEntity::deserialize(iid, *ib);
-        if (ie.getFieldAsString("process_id").value_or("") != pid) return true;
+        if (ie.getFieldAsString("process_id").value_or("") != pid) {
+          return true;
+        }
 
         const std::string tid = keyStr.substr(p1 + 1);
         const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2764,10 +2948,14 @@ ProcessGraphManager::findTasksInArea(
                 te.getFieldAsString("variables"), "findTasksInArea", "variables");
 
             double lon, lat;
-            if (!extractTokenGeo(vars, lon, lat)) return true;
+            if (!extractTokenGeo(vars, lon, lat)) {
+              return true;
+            }
 
             const double dist = processGraphHaversineKm(center_lon, center_lat, lon, lat);
-            if (dist > radius_km) return true;
+            if (dist > radius_km) {
+              return true;
+            }
 
             ProcessToken token;
             token.token_id            = tid;
@@ -2803,8 +2991,12 @@ ProcessGraphManager::findTasksInGeofence(
                 te.getFieldAsString("variables"), "findTasksInGeofence", "variables");
 
             double lon, lat;
-            if (!extractTokenGeo(vars, lon, lat)) return true;
-            if (!pointInPolygon(lon, lat, ring)) return true;
+            if (!extractTokenGeo(vars, lon, lat)) {
+              return true;
+            }
+            if (!pointInPolygon(lon, lat, ring)) {
+              return true;
+            }
 
             ProcessToken token;
             token.token_id            = tid;
@@ -2846,10 +3038,14 @@ ProcessGraphManager::optimizeTaskRoute(
         Stop stop;
         bool found = false;
         db_.scanPrefix("process:token:", [&](std::string_view key, std::string_view val) {
-            if (found) return false;
+            if (found) {
+              return false;
+            }
             const std::string keyStr(key);
             const size_t p = keyStr.rfind(':');
-            if (p == std::string::npos || keyStr.substr(p + 1) != tid) return true;
+            if (p == std::string::npos || keyStr.substr(p + 1) != tid) {
+              return true;
+            }
 
             const std::string iid = keyStr.substr(14, p - 14 - 1);
             const std::vector<uint8_t> blob(val.begin(), val.end());
@@ -2867,7 +3063,9 @@ ProcessGraphManager::optimizeTaskRoute(
             found = true;
             return false;
         });
-        if (found) stops.push_back(std::move(stop));
+        if (found) {
+          stops.push_back(std::move(stop));
+        }
     }
 
     if (stops.empty()) return {Status::OK(), result};
@@ -2882,7 +3080,9 @@ ProcessGraphManager::optimizeTaskRoute(
         double bestDist = std::numeric_limits<double>::max();
         size_t bestIdx  = 0;
         for (size_t i = 0; i < stops.size(); ++i) {
-            if (visited[i]) continue;
+            if (visited[i]) {
+              continue;
+            }
             const double d = stops[i].has_geo
                 ? processGraphHaversineKm(curLon, curLat, stops[i].lon, stops[i].lat)
                 : 0.0;
@@ -2997,7 +3197,9 @@ ProcessGraphManager::getRegionalParameters(
                 const auto ring = parseWktPolygon(key);
                 if (ring.size() >= 3 && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
-                        for (auto& [pk, pv] : params.items()) merged[pk] = pv;
+                        for (auto& [pk, pv] : params.items()) {
+                          merged[pk] = pv;
+                        }
                     }
                 }
             }
@@ -3039,25 +3241,35 @@ ProcessGraphManager::executeMultiModelQuery(
         bfsQ.push({*query.start_node, 0});
         while (!bfsQ.empty()) {
             auto [node, depth] = bfsQ.front(); bfsQ.pop();
-            if (visited.count(node)) continue;
+            if (visited.count(node)) {
+              continue;
+            }
             visited.insert(node);
             allowedNodes.insert(node);
-            if (depth >= maxDepth) continue;
+            if (depth >= maxDepth) {
+              continue;
+            }
 
             const std::string edgePrefix = "process:edge:" + pid + ":";
             db_.scanPrefix(edgePrefix, [&](std::string_view ekey, std::string_view eval) {
                 const std::string ekStr(ekey);
                 const size_t ep = ekStr.rfind(':');
-                if (ep == std::string::npos) return true;
+                if (ep == std::string::npos) {
+                  return true;
+                }
                 const std::string eid = ekStr.substr(ep + 1);
                 const std::vector<uint8_t> eblob(eval.begin(), eval.end());
                 const BaseEntity ee = BaseEntity::deserialize(eid, eblob);
-                if (ee.getFieldAsString("_from").value_or("") != node) return true;
+                if (ee.getFieldAsString("_from").value_or("") != node) {
+                  return true;
+                }
 
                 // Check edge type filter.
                 if (!edgeTypeFilter.empty()) {
                     const std::string et = ee.getFieldAsString("_type").value_or("");
-                    if (!edgeTypeFilter.count(et)) return true;
+                    if (!edgeTypeFilter.count(et)) {
+                      return true;
+                    }
                 }
 
                 const std::string toNode = ee.getFieldAsString("_to").value_or("");
@@ -3075,7 +3287,9 @@ ProcessGraphManager::executeMultiModelQuery(
             const std::string curNode = te.getFieldAsString("current_node").value_or("");
 
             // 1. Graph filter: node must be in allowed set (if graph constraint active).
-            if (!allowedNodes.empty() && !allowedNodes.count(curNode)) return true;
+            if (!allowedNodes.empty() && !allowedNodes.count(curNode)) {
+              return true;
+            }
 
             // 2. Relational filter.
             nlohmann::json vars = parseJsonObjectOrEmpty(
@@ -3083,7 +3297,9 @@ ProcessGraphManager::executeMultiModelQuery(
 
             if (!query.filter_conditions.is_null() && query.filter_conditions.is_object()) {
                 for (auto& [field, expected] : query.filter_conditions.items()) {
-                    if (!vars.contains(field) || vars[field] != expected) return true;
+                    if (!vars.contains(field) || vars[field] != expected) {
+                      return true;
+                    }
                 }
             }
 
@@ -3092,14 +3308,18 @@ ProcessGraphManager::executeMultiModelQuery(
             bool hasGeo = extractTokenGeo(vars, tokenLon, tokenLat);
 
             if (!geofenceRing.empty()) {
-                if (!hasGeo || !pointInPolygon(tokenLon, tokenLat, geofenceRing)) return true;
+                if (!hasGeo || !pointInPolygon(tokenLon, tokenLat, geofenceRing)) {
+                  return true;
+                }
             }
             std::optional<double> distKm;
             if (query.from_location && hasGeo) {
                 const double d = processGraphHaversineKm(
                     query.from_location->first, query.from_location->second,
                     tokenLon, tokenLat);
-                if (query.max_distance_km && d > *query.max_distance_km) return true;
+                if (query.max_distance_km && d > *query.max_distance_km) {
+                  return true;
+                }
                 distKm = d;
             }
 
@@ -3107,11 +3327,17 @@ ProcessGraphManager::executeMultiModelQuery(
             std::optional<float> simScore;
             if (query.similarity_vector && !query.similarity_vector->empty()) {
                 const auto embStr = te.getFieldAsString("embedding");
-                if (!embStr) return true;
+                if (!embStr) {
+                  return true;
+                }
                 const auto emb = parseEmbeddingJson(*embStr);
-                if (emb.empty()) return true;
+                if (emb.empty()) {
+                  return true;
+                }
                 const float sim = computeCosineSimilarity(*query.similarity_vector, emb);
-                if (query.min_similarity && sim < *query.min_similarity) return true;
+                if (query.min_similarity && sim < *query.min_similarity) {
+                  return true;
+                }
                 simScore = sim;
             }
 
@@ -3126,7 +3352,9 @@ ProcessGraphManager::executeMultiModelQuery(
             // Extract selected fields.
             nlohmann::json selectedFields = nlohmann::json::object();
             for (const auto& field : query.select_fields) {
-                if (vars.contains(field)) selectedFields[field] = vars[field];
+                if (vars.contains(field)) {
+                  selectedFields[field] = vars[field];
+                }
             }
 
             MultiModelResult mmr;

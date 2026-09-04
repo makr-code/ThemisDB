@@ -66,7 +66,9 @@ bool AdvancedCacheManager::BloomFilter::maybe_contains(
         const std::string& key) const noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        if (!(bits[bit / 64] & (1ULL << (bit % 64)))) return false;
+        if (!(bits[bit / 64] & (1ULL << (bit % 64)))) {
+          return false;
+        }
     }
     return true;
 }
@@ -337,21 +339,27 @@ void AdvancedCacheManager::create_partitions(const CacheConfig& config) {
         auto ps             = std::make_unique<PartitionState>();
         ps->cfg             = pcfg;
         ps->capacity        = entries_for_mb(pcfg.size_mb);
-        if (ps->capacity == 0) ps->capacity = 16;
+        if (ps->capacity == 0) {
+          ps->capacity = 16;
+        }
         partitions_.push_back(std::move(ps));
     }
 }
 
 std::vector<std::string> AdvancedCacheManager::partition_names() const {
     std::vector<std::string> names;
-    for (const auto& p : partitions_) names.push_back(p->cfg.name);
+    for (const auto& p : partitions_) {
+      names.push_back(p->cfg.name);
+    }
     return names;
 }
 
 AdvancedCacheManager::PartitionState*
 AdvancedCacheManager::find_partition(const std::string& name) const noexcept {
     for (const auto& p : partitions_) {
-        if (p->cfg.name == name) return p.get();
+        if (p->cfg.name == name) {
+          return p.get();
+        }
     }
     return nullptr;
 }
@@ -359,7 +367,9 @@ AdvancedCacheManager::find_partition(const std::string& name) const noexcept {
 std::optional<std::string> AdvancedCacheManager::get(const std::string& key,
                                                        const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return std::nullopt;
+    if (!ps) {
+      return std::nullopt;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
 
@@ -397,7 +407,9 @@ void AdvancedCacheManager::put(const std::string& key,
                                 const std::string& value,
                                 const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return;
+    if (!ps) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
 
@@ -416,14 +428,18 @@ void AdvancedCacheManager::put(const std::string& key,
             auto& lru_entry = ps->lru_list.back();
             ps->index.erase(lru_entry.key);
             ps->lru_list.pop_back();
-            if (ps->stats.entries > 0) --ps->stats.entries;
+            if (ps->stats.entries > 0) {
+              --ps->stats.entries;
+            }
             ps->stats.bytes_used = ps->stats.bytes_used > lru_entry.value.size()
                 ? ps->stats.bytes_used - lru_entry.value.size() : 0;
         }
         ps->lru_list.push_front({key, std::move(stored_value)});
         ps->index[key] = ps->lru_list.begin();
         ++ps->stats.entries;
-        if (config_.enable_bloom_filters) ps->bloom.insert(key);
+        if (config_.enable_bloom_filters) {
+          ps->bloom.insert(key);
+        }
     }
     ps->stats.bytes_used += ps->lru_list.front().value.size();
 }
@@ -431,24 +447,32 @@ void AdvancedCacheManager::put(const std::string& key,
 bool AdvancedCacheManager::evict(const std::string& key,
                                   const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return false;
+    if (!ps) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lk(ps->mtx);
     auto it = ps->index.find(key);
-    if (it == ps->index.end()) return false;
+    if (it == ps->index.end()) {
+      return false;
+    }
 
     ps->stats.bytes_used = ps->stats.bytes_used > it->second->value.size()
         ? ps->stats.bytes_used - it->second->value.size() : 0;
     ps->lru_list.erase(it->second);
     ps->index.erase(it);
-    if (ps->stats.entries > 0) --ps->stats.entries;
+    if (ps->stats.entries > 0) {
+      --ps->stats.entries;
+    }
     return true;
 }
 
 bool AdvancedCacheManager::contains(const std::string& key,
                                      const std::string& partition) const {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return false;
+    if (!ps) {
+      return false;
+    }
     std::lock_guard<std::mutex> lk(ps->mtx);
     return ps->index.count(key) > 0;
 }
@@ -467,13 +491,17 @@ void AdvancedCacheManager::reset_stats() {
         p->stats = PartitionStats{};
         p->stats.entries   = p->index.size();
         p->stats.bytes_used = 0;
-        for (const auto& e : p->lru_list) p->stats.bytes_used += e.value.size();
+        for (const auto& e : p->lru_list) {
+          p->stats.bytes_used += e.value.size();
+        }
     }
 }
 
 void AdvancedCacheManager::flush_partition(const std::string& partition) {
     PartitionState* ps = find_partition(partition);
-    if (!ps) return;
+    if (!ps) {
+      return;
+    }
     std::lock_guard<std::mutex> lk(ps->mtx);
     ps->lru_list.clear();
     ps->index.clear();
@@ -482,7 +510,9 @@ void AdvancedCacheManager::flush_partition(const std::string& partition) {
 }
 
 void AdvancedCacheManager::flush_all() {
-    for (auto& p : partitions_) flush_partition(p->cfg.name);
+    for (auto& p : partitions_) {
+      flush_partition(p->cfg.name);
+    }
 }
 
 }  // namespace performance

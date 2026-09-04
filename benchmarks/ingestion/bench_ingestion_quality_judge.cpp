@@ -702,8 +702,12 @@ static void BM_QJ11_FeedbackLoopJudgeOnly(benchmark::State& state)
         double best = -1.0;
         for (int p = 0; p < kPasses; ++p) {
             auto report = judge.evaluate(ctx);
-            if (report.overall_score > best) best = report.overall_score;
-            if (report.passed) break;
+            if (report.overall_score > best) {
+              best = report.overall_score;
+            }
+            if (report.passed) {
+              break;
+            }
         }
         benchmark::DoNotOptimize(best);
     }

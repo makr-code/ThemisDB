@@ -89,11 +89,17 @@ std::unique_ptr<RocksDBWrapper> openDb(const std::string& path, bool wal) {
 std::vector<float> randomVec(int dim, std::mt19937& rng) {
     std::uniform_real_distribution<float> dis(-1.f, 1.f);
     std::vector<float> v(static_cast<std::size_t>(dim));
-    for (auto& x : v) x = dis(rng);
+    for (auto& x : v) {
+      x = dis(rng);
+    }
     float sq = 0.f;
-    for (float x : v) sq += x * x;
+    for (float x : v) {
+      sq += x * x;
+    }
     float inv = 1.f / std::sqrt(std::max(sq, 1e-12f));
-    for (auto& x : v) x *= inv;
+    for (auto& x : v) {
+      x *= inv;
+    }
     return v;
 }
 

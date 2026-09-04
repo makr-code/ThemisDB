@@ -90,7 +90,9 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         std::string body;
         bool first = true;
         for (const auto& elem : schema["enum"]) {
-            if (!first) body += " | ";
+            if (!first) {
+              body += " | ";
+            }
             first = false;
             if (elem.is_string()) {
                 body += "\"\\\"" + escapeGbnfString(elem.get<std::string>()) + "\\\"\"";
@@ -117,11 +119,21 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         // Note: array-of-types is not handled (uncommon in tool schemas)
     }
 
-    if (type_str == "string") return "string";
-    if (type_str == "integer") return "integer";
-    if (type_str == "number")  return "number";
-    if (type_str == "boolean") return "boolean";
-    if (type_str == "null")    return "null";
+    if (type_str == "string") {
+      return "string";
+    }
+    if (type_str == "integer") {
+      return "integer";
+    }
+    if (type_str == "number") {
+      return "number";
+    }
+    if (type_str == "boolean") {
+      return "boolean";
+    }
+    if (type_str == "null") {
+      return "null";
+    }
 
     if (type_str == "array") {
         if (schema.contains("items") && schema["items"].is_object()) {
@@ -152,7 +164,9 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         std::unordered_set<std::string> required_set;
         if (schema.contains("required") && schema["required"].is_array()) {
             for (const auto& r : schema["required"]) {
-                if (r.is_string()) required_set.insert(r.get<std::string>());
+                if (r.is_string()) {
+                  required_set.insert(r.get<std::string>());
+                }
             }
         }
 
@@ -196,7 +210,9 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
                 "\"\\\"" + escapeGbnfString(key) + "\\\"\" ws \":\" ws " + val_ref;
 
             if (required_set.count(key)) {
-                if (!required_part.empty()) required_part += " ws \",\" ws ";
+                if (!required_part.empty()) {
+                  required_part += " ws \",\" ws ";
+                }
                 required_part += pair_fragment;
             } else {
                 optional_part += " (ws \",\" ws " + pair_fragment + ")?";
@@ -296,7 +312,9 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 
         new_rules.emplace_back(call_rule_name, call_body);
 
-        if (!root_alternatives.empty()) root_alternatives += " | ";
+        if (!root_alternatives.empty()) {
+          root_alternatives += " | ";
+        }
         root_alternatives += call_rule_name;
     }
 
@@ -321,11 +339,15 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
 }
 
 std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& text) {
-    if (text.empty()) return std::nullopt;
+    if (text.empty()) {
+      return std::nullopt;
+    }
 
     // Find JSON boundaries: locate the first '{' and the matching '}'
     std::size_t start = text.find('{');
-    if (start == std::string::npos) return std::nullopt;
+    if (start == std::string::npos) {
+      return std::nullopt;
+    }
 
     // Find the matching closing brace
     int depth = 0;
@@ -337,14 +359,20 @@ std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& te
             if (depth == 0) { end = i; break; }
         }
     }
-    if (end == std::string::npos) return std::nullopt;
+    if (end == std::string::npos) {
+      return std::nullopt;
+    }
 
     std::string json_str = text.substr(start, end - start + 1);
     try {
         json obj = json::parse(json_str);
-        if (!obj.is_object()) return std::nullopt;
+        if (!obj.is_object()) {
+          return std::nullopt;
+        }
 
-        if (!obj.contains("name") || !obj["name"].is_string()) return std::nullopt;
+        if (!obj.contains("name") || !obj["name"].is_string()) {
+          return std::nullopt;
+        }
 
         ToolCall result;
         result.name = obj["name"].get<std::string>();

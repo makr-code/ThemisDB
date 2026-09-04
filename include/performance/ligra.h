@@ -65,7 +65,9 @@ public:
         if (dense_mode_) {
             size_t count = 0;
             for (bool active : dense_set_) {
-                if (active) count++;
+                if (active) {
+                  count++;
+                }
             }
             return count;
         } else {

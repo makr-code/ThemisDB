@@ -55,7 +55,9 @@ struct PrefixCacheStatistics {
     double avg_lookup_time_ms = 0.0;
     
     double getHitRate() const {
-        if (hits + misses == 0) return 0.0;
+        if (hits + misses == 0) {
+          return 0.0;
+        }
         return static_cast<double>(hits) / (hits + misses);
     }
 };

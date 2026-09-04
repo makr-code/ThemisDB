@@ -33,7 +33,9 @@ private:
 // ============================================================================
 
 bool PartitionHandle::isValid() const {
-    if (!manager_) return false;
+    if (!manager_) {
+      return false;
+    }
     return manager_->CurrentEpoch(partition_id_) == epoch_;
 }
 

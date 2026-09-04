@@ -458,7 +458,9 @@ size_t PlanCache::estimateCurrentMemoryBytes() const {
 // =============================================================================
 
 void PlanCache::evictLRU_locked() {
-    if (lru_list_.empty()) return;
+    if (lru_list_.empty()) {
+      return;
+    }
 
     const std::string& fp = lru_list_.back();
     auto it = cache_.find(fp);
@@ -518,7 +520,9 @@ bool PlanCache::isDriftExceeded(const Statistics& snapshot,
 
         if (snap_count == 0 || cur_count == 0) {
             // Zero vs non-zero is always drift; equal zeros are fine
-            if (snap_count != cur_count) return true;
+            if (snap_count != cur_count) {
+              return true;
+            }
             continue;
         }
 

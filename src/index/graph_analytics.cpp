@@ -245,7 +245,9 @@ GraphAnalytics::betweennessCentrality(const std::vector<std::string>& node_pks) 
             stack.push_back(v);
             
             auto out_it = topo.outgoing.find(v);
-            if (out_it == topo.outgoing.end()) continue;
+            if (out_it == topo.outgoing.end()) {
+              continue;
+            }
             
             for (const auto& w : out_it->second) {
                 // First time we see w?
@@ -321,7 +323,9 @@ GraphAnalytics::closenessCentrality(const std::vector<std::string>& node_pks) co
             q.pop();
             
             auto out_it = topo.outgoing.find(v);
-            if (out_it == topo.outgoing.end()) continue;
+            if (out_it == topo.outgoing.end()) {
+              continue;
+            }
             
             for (const auto& w : out_it->second) {
                 if (distance[w] < 0) {
@@ -396,8 +400,12 @@ GraphAnalytics::louvainCommunities(
     std::map<std::string, double> node_degree;
     for (const auto& pk : node_pks) {
         double deg = 0.0;
-        if (topo.outgoing.count(pk)) deg += topo.outgoing.at(pk).size();
-        if (topo.incoming.count(pk)) deg += topo.incoming.at(pk).size();
+        if (topo.outgoing.count(pk)) {
+          deg += topo.outgoing.at(pk).size();
+        }
+        if (topo.incoming.count(pk)) {
+          deg += topo.incoming.at(pk).size();
+        }
         node_degree[pk] = deg;
     }
 
@@ -436,7 +444,9 @@ GraphAnalytics::louvainCommunities(
                 double best_delta_q = 0.0;
 
                 for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
-                    if (candidate_comm == current_comm) continue;
+                    if (candidate_comm == current_comm) {
+                      continue;
+                    }
 
                     // Calculate modularity change (simplified):
                     // Delta Q = (edges_to_comm / m) - (k_i * Sigma_comm / (2*m*m))
@@ -631,7 +641,9 @@ GraphAnalytics::kShortestPaths(
             
             // Explore neighbors
             auto [st_out, neighbors] = graphMgr_.outNeighbors(state.node);
-            if (!st_out.ok) continue;
+            if (!st_out.ok) {
+              continue;
+            }
             
             for (const auto& neighbor : neighbors) {
                 // Skip excluded edges
@@ -689,7 +701,9 @@ GraphAnalytics::kShortestPaths(
     
     // Step 2: Find k-1 additional shortest paths
     for (int k_idx = 1; k_idx < k; ++k_idx) {
-        if (A.empty()) break;
+        if (A.empty()) {
+          break;
+        }
         
         const PathInfo& prev_path = A[k_idx - 1];
         

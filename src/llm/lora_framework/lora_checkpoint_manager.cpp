@@ -104,7 +104,9 @@ void atomicWrite(const fs::path& dest,
     tmp += ".tmp";
     {
         std::ofstream f(tmp, std::ios::binary | std::ios::trunc);
-        if (!f) throw std::runtime_error("atomicWrite: cannot open " + tmp.string());
+        if (!f) {
+          throw std::runtime_error("atomicWrite: cannot open " + tmp.string());
+        }
         f.write(reinterpret_cast<const char*>(data), static_cast<std::streamsize>(len));
     }
     fs::rename(tmp, dest);
@@ -113,7 +115,9 @@ void atomicWrite(const fs::path& dest,
 /** Read all bytes from a file. */
 std::vector<uint8_t> readFile(const fs::path& p) {
     std::ifstream f(p, std::ios::binary | std::ios::ate);
-    if (!f) throw std::runtime_error("readFile: cannot open " + p.string());
+    if (!f) {
+      throw std::runtime_error("readFile: cannot open " + p.string());
+    }
     auto size = static_cast<size_t>(f.tellg());
     f.seekg(0);
     std::vector<uint8_t> buf(size);
@@ -193,7 +197,9 @@ void LoRACheckpointManager::updateBestRecord(const std::string& adapter_id,
 std::optional<CheckpointMeta>
 LoRACheckpointManager::readBestMeta(const std::string& adapter_id) const {
     fs::path p = fs::path(adapterDir(adapter_id)) / "best.json";
-    if (!fs::exists(p)) return std::nullopt;
+    if (!fs::exists(p)) {
+      return std::nullopt;
+    }
     try {
         return readMeta(p.string());
     } catch (...) {
@@ -255,8 +261,12 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
     std::vector<CheckpointRef> refs;
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
-        if (fname.rfind("checkpoint-", 0) != 0) continue;
-        if (entry.path().extension() != ".bin") continue;
+        if (fname.rfind("checkpoint-", 0) != 0) {
+          continue;
+        }
+        if (entry.path().extension() != ".bin") {
+          continue;
+        }
 
         // Extract step from filename: "checkpoint-<step>.bin"
         uint64_t step = 0;
@@ -266,7 +276,9 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
         } catch (...) { continue; }
 
         std::string mpath = metaPath(adapter_id, step);
-        if (!fs::exists(mpath)) continue;
+        if (!fs::exists(mpath)) {
+          continue;
+        }
 
         try {
             CheckpointRef ref;
@@ -293,7 +305,9 @@ LoRACheckpointManager::listCheckpoints(const std::string& adapter_id) const {
 std::optional<CheckpointRef>
 LoRACheckpointManager::loadLatest(const std::string& adapter_id) const {
     auto refs = listCheckpoints(adapter_id);
-    if (refs.empty()) return std::nullopt;
+    if (refs.empty()) {
+      return std::nullopt;
+    }
     return refs.front(); // Already sorted newest-first
 }
 
@@ -301,13 +315,17 @@ std::optional<CheckpointRef>
 LoRACheckpointManager::loadBest(const std::string& adapter_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto best_meta = readBestMeta(adapter_id);
-    if (!best_meta) return std::nullopt;
+    if (!best_meta) {
+      return std::nullopt;
+    }
 
     CheckpointRef ref;
     ref.path    = weightPath(adapter_id, best_meta->step);
     ref.meta    = *best_meta;
     ref.is_best = true;
-    if (!fs::exists(ref.path)) return std::nullopt;
+    if (!fs::exists(ref.path)) {
+      return std::nullopt;
+    }
     return ref;
 }
 
@@ -317,7 +335,9 @@ LoRACheckpointManager::loadByStep(const std::string& adapter_id,
     std::lock_guard<std::mutex> lock(mutex_);
     std::string wpath = weightPath(adapter_id, step);
     std::string mpath = metaPath(adapter_id, step);
-    if (!fs::exists(wpath) || !fs::exists(mpath)) return std::nullopt;
+    if (!fs::exists(wpath) || !fs::exists(mpath)) {
+      return std::nullopt;
+    }
 
     CheckpointRef ref;
     ref.path = wpath;
@@ -369,24 +389,34 @@ bool LoRACheckpointManager::deleteCheckpoint(const std::string& adapter_id,
 void LoRACheckpointManager::deleteAll(const std::string& adapter_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     fs::path dir = fs::path(adapterDir(adapter_id));
-    if (fs::exists(dir)) fs::remove_all(dir);
+    if (fs::exists(dir)) {
+      fs::remove_all(dir);
+    }
 }
 
 void LoRACheckpointManager::prune(const std::string& adapter_id) {
     // Caller must already hold mutex_
-    if (config_.keep_last == 0) return;
+    if (config_.keep_last == 0) {
+      return;
+    }
 
     auto best_meta = readBestMeta(adapter_id);
 
     // Re-list without locking again (mutex_ already held by caller)
     fs::path dir = fs::path(adapterDir(adapter_id));
-    if (!fs::exists(dir)) return;
+    if (!fs::exists(dir)) {
+      return;
+    }
 
     std::vector<std::pair<uint64_t, std::string>> checkpoints; // (step, weight_path)
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
-        if (fname.rfind("checkpoint-", 0) != 0) continue;
-        if (entry.path().extension() != ".bin") continue;
+        if (fname.rfind("checkpoint-", 0) != 0) {
+          continue;
+        }
+        if (entry.path().extension() != ".bin") {
+          continue;
+        }
         try {
             std::string base = entry.path().stem().string();
             uint64_t step = std::stoull(base.substr(base.rfind('-') + 1));
@@ -406,7 +436,9 @@ void LoRACheckpointManager::prune(const std::string& adapter_id) {
     for (int64_t i = 0; i < delete_count; ++i) {
         uint64_t step = checkpoints[static_cast<size_t>(i)].first;
         // Never delete the best checkpoint
-        if (config_.keep_best && best_meta.has_value() && best_meta->step == step) continue;
+        if (config_.keep_best && best_meta.has_value() && best_meta->step == step) {
+          continue;
+        }
         fs::remove(fs::path(weightPath(adapter_id, step)));
         fs::remove(fs::path(metaPath(adapter_id, step)));
         THEMIS_INFO("LoRACheckpointManager: pruned checkpoint step={} adapter={}",

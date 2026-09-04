@@ -283,7 +283,9 @@ private:
     static std::string headerValueCI(const std::map<std::string, std::string>& headers,
                                      const std::string& name) {
         auto it = headers.find(name);
-        if (it != headers.end()) return it->second;
+        if (it != headers.end()) {
+          return it->second;
+        }
         for (const auto& [k, v] : headers) {
             if (k.size() == name.size() &&
                 std::equal(k.begin(), k.end(), name.begin(),
@@ -319,24 +321,34 @@ private:
         std::string::size_type start = 0;
         for (int i = 0; i < 3; ++i) {
             auto pos = value.find(':', start);
-            if (pos == std::string::npos) return false;
+            if (pos == std::string::npos) {
+              return false;
+            }
             parts.push_back(value.substr(start, pos - start));
             start = pos + 1;
         }
         parts.push_back(value.substr(start));
-        if (parts.size() != 4) return false;
+        if (parts.size() != 4) {
+          return false;
+        }
 
         // Validate each field is a non-empty hex string.
         auto isHex = [](const std::string& s) {
-            if (s.empty()) return false;
+            if (s.empty()) {
+              return false;
+            }
             return std::all_of(s.begin(), s.end(), [](unsigned char c) {
                 return std::isxdigit(c) != 0;
             });
         };
 
-        if (!isHex(parts[0]) || !isHex(parts[1]) || !isHex(parts[3])) return false;
+        if (!isHex(parts[0]) || !isHex(parts[1]) || !isHex(parts[3])) {
+          return false;
+        }
         // parentSpanId may be "0" (root span) – still valid.
-        if (parts[2] != "0" && !isHex(parts[2])) return false;
+        if (parts[2] != "0" && !isHex(parts[2])) {
+          return false;
+        }
 
         out.trace_id  = parts[0];
         out.span_id   = parts[1];

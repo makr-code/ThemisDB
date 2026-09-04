@@ -249,8 +249,12 @@ private:
 
     /// Clamp @p pos into [0, n-1].
     static size_t clamp(int64_t pos, size_t n) noexcept {
-        if (pos < 0) return 0;
-        if (pos >= static_cast<int64_t>(n)) return n - 1;
+        if (pos < 0) {
+          return 0;
+        }
+        if (pos >= static_cast<int64_t>(n)) {
+          return n - 1;
+        }
         return static_cast<size_t>(pos);
     }
 
@@ -259,8 +263,12 @@ private:
         const size_t ne = experts_.size();
         int64_t idx = static_cast<int64_t>(
             pred1 / static_cast<double>(n) * static_cast<double>(ne));
-        if (idx < 0) idx = 0;
-        if (idx >= static_cast<int64_t>(ne)) idx = static_cast<int64_t>(ne) - 1;
+        if (idx < 0) {
+          idx = 0;
+        }
+        if (idx >= static_cast<int64_t>(ne)) {
+          idx = static_cast<int64_t>(ne) - 1;
+        }
         return static_cast<size_t>(idx);
     }
 
@@ -341,7 +349,9 @@ LearnedIndex<KeyT>::train(const std::vector<KeyT>& sorted_keys) {
         double refined = experts_[selectExpert(pred, n)].predict(xs[i]);
         int64_t err = std::abs(static_cast<int64_t>(std::round(refined)) -
                                static_cast<int64_t>(i));
-        if (err > max_err) max_err = err;
+        if (err > max_err) {
+          max_err = err;
+        }
         sum_err += static_cast<double>(err);
     }
 
@@ -357,7 +367,9 @@ LearnedIndex<KeyT>::train(const std::vector<KeyT>& sorted_keys) {
 
 template <typename KeyT>
 int64_t LearnedIndex<KeyT>::lookup(const KeyT& key) const {
-    if (!trained_ || experts_.empty()) return -1;
+    if (!trained_ || experts_.empty()) {
+      return -1;
+    }
 
     const size_t n   = num_keys_;
     const double enc = encodeKey(key);
@@ -376,7 +388,9 @@ template <typename KeyT>
 std::optional<size_t>
 LearnedIndex<KeyT>::lookupKey(const KeyT& key,
                                const std::vector<KeyT>& keys) const {
-    if (!trained_ || keys.empty()) return std::nullopt;
+    if (!trained_ || keys.empty()) {
+      return std::nullopt;
+    }
 
     const size_t n           = keys.size();
     const int64_t pred        = lookup(key);
@@ -406,8 +420,12 @@ LearnedIndex<KeyT>::rangePositions(const KeyT& lo, const KeyT& hi,
 
     // Helper to clamp an upper-bound window (exclusive end) to [0, n]
     auto clampHi = [&](int64_t v) -> size_t {
-        if (v <= 0) return 0;
-        if (v >= static_cast<int64_t>(n)) return n;
+        if (v <= 0) {
+          return 0;
+        }
+        if (v >= static_cast<int64_t>(n)) {
+          return n;
+        }
         return static_cast<size_t>(v);
     };
 
@@ -441,7 +459,9 @@ LearnedIndex<KeyT>::rangePositions(const KeyT& lo, const KeyT& hi,
         range_hi = static_cast<size_t>(it - keys.begin());
     }
 
-    if (range_lo > range_hi) range_hi = range_lo;
+    if (range_lo > range_hi) {
+      range_hi = range_lo;
+    }
     return {range_lo, range_hi};
 }
 
@@ -529,12 +549,18 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
 
     auto need = [&](size_t bytes) { return (end - p) >= static_cast<ptrdiff_t>(bytes); };
 
-    if (!need(4)) return false;
+    if (!need(4)) {
+      return false;
+    }
     uint32_t magic;
     std::memcpy(&magic, p, 4); p += 4;
-    if (magic != 0x4C494458u) return false;
+    if (magic != 0x4C494458u) {
+      return false;
+    }
 
-    if (!need(8 * 4)) return false;
+    if (!need(8 * 4)) {
+      return false;
+    }
     uint64_t ne, nk, me_u;
     double   mean_err;
     std::memcpy(&ne,      p, 8); p += 8;
@@ -546,14 +572,20 @@ bool LearnedIndex<KeyT>::deserialize(const std::vector<uint8_t>& data) {
     // and against excessive memory allocation (DoS).
     // 1M experts is far beyond any practical use.
     static constexpr uint64_t kMaxExperts = 1u << 20;
-    if (ne > kMaxExperts) return false;
+    if (ne > kMaxExperts) {
+      return false;
+    }
 
-    if (!need(16)) return false;
+    if (!need(16)) {
+      return false;
+    }
     double rs, ri;
     std::memcpy(&rs, p, 8); p += 8;
     std::memcpy(&ri, p, 8); p += 8;
 
-    if (!need(ne * 16 + 2)) return false;
+    if (!need(ne * 16 + 2)) {
+      return false;
+    }
     std::vector<LinearModel> experts(ne);
     for (size_t i = 0; i < ne; ++i) {
         std::memcpy(&experts[i].slope,     p, 8); p += 8;

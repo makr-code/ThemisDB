@@ -470,7 +470,9 @@ void VisionEncoder::setUserContext(const std::string& user_id) {
 }
 
 bool VisionEncoder::validateImageSize(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     
@@ -487,7 +489,9 @@ bool VisionEncoder::validateImageSize(const std::string& image_path) const {
 }
 
 bool VisionEncoder::validateImageFormat(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     
@@ -512,7 +516,9 @@ bool VisionEncoder::validateImageFormat(const std::string& image_path) const {
 }
 
 bool VisionEncoder::validateImageResolution(const std::string& image_path) const {
-    if (!config_) return true;
+    if (!config_) {
+      return true;
+    }
     
     const auto& validation = config_->getSecurityConfig().validation;
     

@@ -77,7 +77,9 @@ public:
 
     bool hasProfile(const std::string& sid) const override {
         for (const auto& m : schools_) {
-            if (m.school_id == sid) return true;
+            if (m.school_id == sid) {
+              return true;
+            }
         }
         return false;
     }

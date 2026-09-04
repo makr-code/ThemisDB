@@ -118,11 +118,15 @@ constexpr int kShutdownJoinTimeoutMs = 5000;
 /// and the caller returns promptly.
 static void timedJoin(std::thread& t,
                       int timeout_ms = kShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();
@@ -779,7 +783,9 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     // Guard against spurious calls for sessions that were rejected before
     // registerConnection() could be called (client_ip_ == "unknown") and for
     // WebSocket-upgraded sessions whose client_ip_ was cleared prior to upgrade.
-    if (!was_registered) return;
+    if (!was_registered) {
+      return;
+    }
 
     const uint32_t prev = active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
     // Detect recovery: if we were overloaded and have now dropped below the
@@ -794,7 +800,9 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
 }
 
 void WireProtocolServer::doAccept() {
-    if (!running_.load(std::memory_order_acquire)) return;
+    if (!running_.load(std::memory_order_acquire)) {
+      return;
+    }
 
     auto session = std::make_shared<Session>(
         session_id_counter_.fetch_add(1, std::memory_order_acq_rel),
@@ -2383,7 +2391,9 @@ void WireProtocolServer::Session::handleGraphTraverse() {
         }
 
         themis::TraversalDirection direction = themis::TraversalDirection::OUTBOUND;
-        if (direction_str == "inbound")  direction = themis::TraversalDirection::INBOUND;
+        if (direction_str == "inbound") {
+          direction = themis::TraversalDirection::INBOUND;
+        }
         else if (direction_str == "any") direction = themis::TraversalDirection::ANY;
 
         auto trav_result = server_->query_engine_->executeGeneralTraversal(
@@ -2394,7 +2404,9 @@ void WireProtocolServer::Session::handleGraphTraverse() {
             json vertices = json::array();
             int count = 0;
             for (const auto& tr : trav_result.value()) {
-                if (count++ >= limit) break;
+                if (count++ >= limit) {
+                  break;
+                }
                 json v;
                 v["vertex_pk"] = tr.vertex_pk;
                 v["depth"]     = tr.depth;
@@ -3052,7 +3064,9 @@ void WireProtocolServer::Session::handleGeoQuery() {
         json results_arr = json::array();
         uint32_t count = 0;
         for (const auto& res : search_results) {
-            if (count++ >= limit) break;
+            if (count++ >= limit) {
+              break;
+            }
             json entry;
             entry["primary_key"] = res.primary_key;
             entry["mbr"] = {
@@ -3227,7 +3241,9 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 
                 // Create response buckets with aggregated values
                 for (const auto& [bucket_start_ms, values] : bucket_data) {
-                    if (values.empty()) continue;
+                    if (values.empty()) {
+                      continue;
+                    }
                     
                     TimeSeriesBucket bucket;
                     bucket.timestamp_ns = static_cast<uint64_t>(bucket_start_ms) * 1000000;

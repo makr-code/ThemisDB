@@ -45,7 +45,9 @@ CircuitBreaker::CircuitBreaker(CircuitBreaker&& other) noexcept {
 }
 
 CircuitBreaker& CircuitBreaker::operator=(CircuitBreaker&& other) noexcept {
-    if (this == &other) return *this;
+    if (this == &other) {
+      return *this;
+    }
     // Lock both to avoid TOCTOU during move.
     std::lock_guard<std::mutex> lk_self(mutex_);
     std::lock_guard<std::mutex> lk_other(other.mutex_);
@@ -205,7 +207,9 @@ void CircuitBreaker::setTransitionCallback(
 
 void CircuitBreaker::transitionTo(CircuitState next_state) {
     // Caller must hold mutex_.
-    if (next_state == state_) return;
+    if (next_state == state_) {
+      return;
+    }
     const CircuitState prev = state_;
     state_ = next_state;
     ++state_transitions_;

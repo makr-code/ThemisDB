@@ -70,7 +70,9 @@ public:
      * Target: < 500 ms (cold start, no caching).
      */
     void initialize() {
-        if (initialized_) return;
+        if (initialized_) {
+          return;
+        }
         // Simulate model deserialization overhead (~100-400 ms range)
         std::vector<float> dummy_weights(1024 * 1024);  // 4 MB allocation
         for (auto& w : dummy_weights) {

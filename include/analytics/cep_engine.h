@@ -251,7 +251,9 @@ struct Event {
     template<typename T>
     std::optional<T> getField(const std::string& name) const {
         auto it = fields.find(name);
-        if (it == fields.end()) return std::nullopt;
+        if (it == fields.end()) {
+          return std::nullopt;
+        }
         if (auto* val = std::get_if<T>(&it->second)) {
             return *val;
         }

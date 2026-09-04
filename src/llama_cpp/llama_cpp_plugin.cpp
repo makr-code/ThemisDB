@@ -137,11 +137,15 @@ void LlamaCppPlugin::unloadModel() {
 
 std::optional<llm::ModelInfo> LlamaCppPlugin::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (!model_loaded_) return std::nullopt;
+    if (!model_loaded_) {
+      return std::nullopt;
+    }
 #ifdef THEMIS_LLM_ENABLED
     if (wrapper_) {
         auto info = wrapper_->getModelInfo();
-        if (info) return info;
+        if (info) {
+          return info;
+        }
     }
 #endif
     llm::ModelInfo info;
@@ -582,7 +586,9 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
         if (embed_fn_) {
             try {
                 auto result = embed_fn_(text);
-                if (!result.empty()) return result;
+                if (!result.empty()) {
+                  return result;
+                }
             } catch (...) {
                 // fn must not throw; fall through to zero-vector stub
             }
@@ -716,7 +722,9 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
 
 #ifdef THEMIS_LLM_ENABLED
     std::lock_guard<std::mutex> lock(mutex_);
-    if (wrapper_) return wrapper_->importLoRA(lora_id, data);
+    if (wrapper_) {
+      return wrapper_->importLoRA(lora_id, data);
+    }
 #else
     (void)lora_id;
 #endif
@@ -733,7 +741,9 @@ std::string LlamaCppPlugin::computeFileDigest(const std::string& path) {
     // available.  The FNV-64 output is sufficient for correctness testing of
     // the opt-in integrity gate in loadModel().
     std::ifstream f(path, std::ios::binary);
-    if (!f) return "";
+    if (!f) {
+      return "";
+    }
     constexpr uint64_t kFnvPrime = 0x00000100000001B3ULL;
     uint64_t hash = 0xcbf29ce484222325ULL;
     char buf[4096];

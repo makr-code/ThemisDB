@@ -94,7 +94,9 @@ public:
         double getHitRate() const {
             size_t h = hits.load();
             size_t m = misses.load();
-            if (h + m == 0) return 0.0;
+            if (h + m == 0) {
+              return 0.0;
+            }
             return static_cast<double>(h) / (h + m);
         }
         

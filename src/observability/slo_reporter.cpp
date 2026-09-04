@@ -233,7 +233,9 @@ SloStatus SloReporter::computeStatus(const SloState& state) {
     s.total_requests = static_cast<uint64_t>(samples.size());
     uint64_t good = 0;
     for (const auto& sample : samples) {
-        if (sample.good) ++good;
+        if (sample.good) {
+          ++good;
+        }
     }
     s.error_requests = s.total_requests - good;
 
@@ -308,15 +310,23 @@ double SloReporter::computeBurnRate(const std::deque<Sample>& samples,
                                      std::chrono::seconds window,
                                      std::chrono::system_clock::time_point now,
                                      double allowed_error_rate) noexcept {
-    if (allowed_error_rate <= 0.0) return 0.0;
+    if (allowed_error_rate <= 0.0) {
+      return 0.0;
+    }
     const auto cutoff = now - window;
     uint64_t total = 0, good = 0;
     for (const auto& s : samples) {
-        if (s.ts < cutoff) continue;
+        if (s.ts < cutoff) {
+          continue;
+        }
         ++total;
-        if (s.good) ++good;
+        if (s.good) {
+          ++good;
+        }
     }
-    if (total == 0) return 0.0;
+    if (total == 0) {
+      return 0.0;
+    }
     double actual_error_rate = 1.0 -
         (static_cast<double>(good) / static_cast<double>(total));
     return actual_error_rate / allowed_error_rate;

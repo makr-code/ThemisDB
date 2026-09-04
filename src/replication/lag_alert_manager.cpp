@@ -127,7 +127,9 @@ bool LagAlertManager::checkReplicaLag(const std::string& replica_id)
     std::lock_guard<std::mutex> lock(state_mutex_);
 
     const auto it = replicas_.find(replica_id);
-    if (it == replicas_.end()) return false;
+    if (it == replicas_.end()) {
+      return false;
+    }
 
     evaluateReplicaAlerts(it->second, replica_id);
     return it->second.in_alert || it->second.in_critical;
@@ -168,7 +170,9 @@ std::vector<std::string> LagAlertManager::replicasEligibleForFailover() const
 
     for (const auto& [replica_id, state] : replicas_) {
         // Only replicas in sustained critical lag are eligible
-        if (!state.in_critical) continue;
+        if (!state.in_critical) {
+          continue;
+        }
 
         // Check if critical duration threshold is exceeded
         const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(

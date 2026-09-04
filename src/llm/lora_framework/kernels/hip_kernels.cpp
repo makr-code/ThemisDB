@@ -280,13 +280,27 @@ __global__ void mse_loss_reduction_kernel(
         // At this point, we have at most 128 values left (s=64 case)
         // Safely reduce the last wavefront without bounds checks since blockDim.x=256
         volatile float* smem = shared_sum;
-        if (blockDim.x >= 128) smem[tid] += smem[tid + 64];
-        if (blockDim.x >= 64)  smem[tid] += smem[tid + 32];
-        if (blockDim.x >= 32)  smem[tid] += smem[tid + 16];
-        if (blockDim.x >= 16)  smem[tid] += smem[tid + 8];
-        if (blockDim.x >= 8)   smem[tid] += smem[tid + 4];
-        if (blockDim.x >= 4)   smem[tid] += smem[tid + 2];
-        if (blockDim.x >= 2)   smem[tid] += smem[tid + 1];
+        if (blockDim.x >= 128) {
+          smem[tid] += smem[tid + 64];
+        }
+        if (blockDim.x >= 64) {
+          smem[tid] += smem[tid + 32];
+        }
+        if (blockDim.x >= 32) {
+          smem[tid] += smem[tid + 16];
+        }
+        if (blockDim.x >= 16) {
+          smem[tid] += smem[tid + 8];
+        }
+        if (blockDim.x >= 8) {
+          smem[tid] += smem[tid + 4];
+        }
+        if (blockDim.x >= 4) {
+          smem[tid] += smem[tid + 2];
+        }
+        if (blockDim.x >= 2) {
+          smem[tid] += smem[tid + 1];
+        }
     }
     
     // Write block result

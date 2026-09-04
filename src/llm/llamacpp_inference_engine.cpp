@@ -150,21 +150,39 @@ bool LLMOutputValidator::isValidUTF8(const std::string& text) {
             i++;
         } else if ((c & 0xE0) == 0xC0) {
             // 2-byte character
-            if (i + 1 >= len) return false;
-            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
+            if (i + 1 >= len) {
+              return false;
+            }
+            if ((bytes[i + 1] & 0xC0) != 0x80) {
+              return false;
+            }
             i += 2;
         } else if ((c & 0xF0) == 0xE0) {
             // 3-byte character
-            if (i + 2 >= len) return false;
-            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
-            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
+            if (i + 2 >= len) {
+              return false;
+            }
+            if ((bytes[i + 1] & 0xC0) != 0x80) {
+              return false;
+            }
+            if ((bytes[i + 2] & 0xC0) != 0x80) {
+              return false;
+            }
             i += 3;
         } else if ((c & 0xF8) == 0xF0) {
             // 4-byte character
-            if (i + 3 >= len) return false;
-            if ((bytes[i + 1] & 0xC0) != 0x80) return false;
-            if ((bytes[i + 2] & 0xC0) != 0x80) return false;
-            if ((bytes[i + 3] & 0xC0) != 0x80) return false;
+            if (i + 3 >= len) {
+              return false;
+            }
+            if ((bytes[i + 1] & 0xC0) != 0x80) {
+              return false;
+            }
+            if ((bytes[i + 2] & 0xC0) != 0x80) {
+              return false;
+            }
+            if ((bytes[i + 3] & 0xC0) != 0x80) {
+              return false;
+            }
             i += 4;
         } else {
             // Invalid UTF-8 start byte
@@ -180,7 +198,9 @@ bool LLMOutputValidator::isValidUTF8(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 bool LLMOutputValidator::detectTruncation(const std::string& text) {
-    if (text.empty()) return false;
+    if (text.empty()) {
+      return false;
+    }
     
     // Check last characters
     std::string last_chars = text.substr(std::max(0, static_cast<int>(text.length()) - 50));
@@ -221,10 +241,14 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
 
     double score = 1.0;
 
-    if (text.empty()) return 0.0;
+    if (text.empty()) {
+      return 0.0;
+    }
 
     int word_count = countWords(text);
-    if (word_count == 0) return 0.0;
+    if (word_count == 0) {
+      return 0.0;
+    }
 
     // Heuristic 1: Average word length (too short or too long is suspicious)
     double avg_word_len = calculateAvgWordLength(text);
@@ -326,7 +350,9 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
             std::istringstream ts(text);
             std::string tok;
             while (ts >> tok) {
-                for (char& c : tok) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                for (char& c : tok) {
+                  c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+                }
                 tokens.push_back(std::move(tok));
             }
         }
@@ -394,7 +420,9 @@ bool LLMOutputValidator::hasCommonErrors(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 bool LLMOutputValidator::hasRepeatingPatterns(const std::string& text) {
-    if (text.length() < 20) return false;
+    if (text.length() < 20) {
+      return false;
+    }
     
     // Check for exact repeated sequences of varying lengths
     for (size_t pattern_len = 5; pattern_len <= std::min(text.length() / 4, size_t(50)); ++pattern_len) {
@@ -448,7 +476,9 @@ bool LLMOutputValidator::hasInvalidControlChars(const std::string& text) {
 // ═══════════════════════════════════════════════════════════
 
 int LLMOutputValidator::countWords(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     
     int count = 0;
     bool in_word = false;
@@ -465,7 +495,9 @@ int LLMOutputValidator::countWords(const std::string& text) {
     }
     
     // Count last word if text doesn't end with whitespace
-    if (in_word) count++;
+    if (in_word) {
+      count++;
+    }
     
     return count;
 }
@@ -488,7 +520,9 @@ int LLMOutputValidator::countSentences(const std::string& text) {
 }
 
 double LLMOutputValidator::calculateAvgWordLength(const std::string& text) {
-    if (text.empty()) return 0.0;
+    if (text.empty()) {
+      return 0.0;
+    }
     
     int word_count = 0;
     int total_chars = 0;

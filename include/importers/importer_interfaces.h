@@ -628,7 +628,9 @@ public:
     }
 
     void registerPlugin(IImporterPlugin* plugin) override {
-        if (!plugin) return;
+        if (!plugin) {
+          return;
+        }
         std::unique_lock<std::shared_mutex> lk(mutex_);
         for (const auto& scheme : plugin->supportedSchemes()) {
             schemes_[scheme] = plugin;

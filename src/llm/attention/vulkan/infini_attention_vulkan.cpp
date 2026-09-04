@@ -282,7 +282,9 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
             }
         }
 
-        if (physical_device_) break;
+        if (physical_device_) {
+          break;
+        }
     }
 
     if (!physical_device_) {

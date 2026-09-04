@@ -112,11 +112,15 @@ struct Sha256State {
     std::array<uint8_t, 32> finalise() noexcept {
         buf[buflen++] = 0x80u;
         if (buflen > 56) {
-            while (buflen < 64) buf[buflen++] = 0;
+            while (buflen < 64) {
+              buf[buflen++] = 0;
+            }
             processBlock(buf);
             buflen = 0;
         }
-        while (buflen < 56) buf[buflen++] = 0;
+        while (buflen < 56) {
+          buf[buflen++] = 0;
+        }
         for (int i = 7; i >= 0; --i) {
             buf[buflen++] = static_cast<uint8_t>((bitlen >> (static_cast<unsigned>(i) * 8u)) & 0xffu);
         }
@@ -183,11 +187,21 @@ json AdapterUsagePolicy::to_json() const {
 
 AdapterUsagePolicy AdapterUsagePolicy::from_json(const json& j) {
     AdapterUsagePolicy p;
-    if (j.contains("license"))                    p.license = j.at("license").get<std::string>();
-    if (j.contains("restrictions"))               p.restrictions = j.at("restrictions").get<std::string>();
-    if (j.contains("allowed_base_models"))        p.allowed_base_models = j.at("allowed_base_models").get<std::vector<std::string>>();
-    if (j.contains("max_concurrent_deployments")) p.max_concurrent_deployments = j.at("max_concurrent_deployments").get<int>();
-    if (j.contains("expiry_date"))                p.expiry_date = j.at("expiry_date").get<std::string>();
+    if (j.contains("license")) {
+      p.license = j.at("license").get<std::string>();
+    }
+    if (j.contains("restrictions")) {
+      p.restrictions = j.at("restrictions").get<std::string>();
+    }
+    if (j.contains("allowed_base_models")) {
+      p.allowed_base_models = j.at("allowed_base_models").get<std::vector<std::string>>();
+    }
+    if (j.contains("max_concurrent_deployments")) {
+      p.max_concurrent_deployments = j.at("max_concurrent_deployments").get<int>();
+    }
+    if (j.contains("expiry_date")) {
+      p.expiry_date = j.at("expiry_date").get<std::string>();
+    }
     return p;
 }
 
@@ -213,17 +227,39 @@ json LoRAPackageProvenance::to_json() const {
 
 LoRAPackageProvenance LoRAPackageProvenance::from_json(const json& j) {
     LoRAPackageProvenance p;
-    if (j.contains("trainer_id"))            p.trainer_id           = j.at("trainer_id").get<std::string>();
-    if (j.contains("training_framework"))    p.training_framework   = j.at("training_framework").get<std::string>();
-    if (j.contains("dataset_id"))            p.dataset_id           = j.at("dataset_id").get<std::string>();
-    if (j.contains("dataset_hash"))          p.dataset_hash         = j.at("dataset_hash").get<std::string>();
-    if (j.contains("base_model_id"))         p.base_model_id        = j.at("base_model_id").get<std::string>();
-    if (j.contains("base_model_hash"))       p.base_model_hash      = j.at("base_model_hash").get<std::string>();
-    if (j.contains("hyperparameter_hash"))   p.hyperparameter_hash  = j.at("hyperparameter_hash").get<std::string>();
-    if (j.contains("training_duration_secs")) p.training_duration_secs = j.at("training_duration_secs").get<double>();
-    if (j.contains("created_at"))            p.created_at           = j.at("created_at").get<std::string>();
-    if (j.contains("hardware_info"))         p.hardware_info        = j.at("hardware_info");
-    if (j.contains("custom_metadata"))       p.custom_metadata      = j.at("custom_metadata");
+    if (j.contains("trainer_id")) {
+      p.trainer_id           = j.at("trainer_id").get<std::string>();
+    }
+    if (j.contains("training_framework")) {
+      p.training_framework   = j.at("training_framework").get<std::string>();
+    }
+    if (j.contains("dataset_id")) {
+      p.dataset_id           = j.at("dataset_id").get<std::string>();
+    }
+    if (j.contains("dataset_hash")) {
+      p.dataset_hash         = j.at("dataset_hash").get<std::string>();
+    }
+    if (j.contains("base_model_id")) {
+      p.base_model_id        = j.at("base_model_id").get<std::string>();
+    }
+    if (j.contains("base_model_hash")) {
+      p.base_model_hash      = j.at("base_model_hash").get<std::string>();
+    }
+    if (j.contains("hyperparameter_hash")) {
+      p.hyperparameter_hash  = j.at("hyperparameter_hash").get<std::string>();
+    }
+    if (j.contains("training_duration_secs")) {
+      p.training_duration_secs = j.at("training_duration_secs").get<double>();
+    }
+    if (j.contains("created_at")) {
+      p.created_at           = j.at("created_at").get<std::string>();
+    }
+    if (j.contains("hardware_info")) {
+      p.hardware_info        = j.at("hardware_info");
+    }
+    if (j.contains("custom_metadata")) {
+      p.custom_metadata      = j.at("custom_metadata");
+    }
     return p;
 }
 
@@ -245,12 +281,24 @@ json ArtifactIntegrity::to_json() const {
 
 ArtifactIntegrity ArtifactIntegrity::from_json(const json& j) {
     ArtifactIntegrity i;
-    if (j.contains("weights_hash"))        i.weights_hash        = j.at("weights_hash").get<std::string>();
-    if (j.contains("manifest_hash"))       i.manifest_hash       = j.at("manifest_hash").get<std::string>();
-    if (j.contains("signature"))           i.signature           = j.at("signature").get<std::string>();
-    if (j.contains("signature_algorithm")) i.signature_algorithm = j.at("signature_algorithm").get<std::string>();
-    if (j.contains("signer_id"))           i.signer_id           = j.at("signer_id").get<std::string>();
-    if (j.contains("signed_at"))           i.signed_at           = j.at("signed_at").get<std::string>();
+    if (j.contains("weights_hash")) {
+      i.weights_hash        = j.at("weights_hash").get<std::string>();
+    }
+    if (j.contains("manifest_hash")) {
+      i.manifest_hash       = j.at("manifest_hash").get<std::string>();
+    }
+    if (j.contains("signature")) {
+      i.signature           = j.at("signature").get<std::string>();
+    }
+    if (j.contains("signature_algorithm")) {
+      i.signature_algorithm = j.at("signature_algorithm").get<std::string>();
+    }
+    if (j.contains("signer_id")) {
+      i.signer_id           = j.at("signer_id").get<std::string>();
+    }
+    if (j.contains("signed_at")) {
+      i.signed_at           = j.at("signed_at").get<std::string>();
+    }
     return i;
 }
 
@@ -291,19 +339,45 @@ LoRAPackage LoRAPackage::from_json(const json& j) {
     p.package_id              = j.at("package_id").get<std::string>();
     p.name                    = j.at("name").get<std::string>();
     p.version                 = j.at("version").get<std::string>();
-    if (j.contains("description"))            p.description           = j.at("description").get<std::string>();
-    if (j.contains("supported_architectures")) p.supported_architectures = j.at("supported_architectures").get<std::vector<std::string>>();
-    if (j.contains("lora_rank"))              p.lora_rank             = j.at("lora_rank").get<int>();
-    if (j.contains("lora_alpha"))             p.lora_alpha            = j.at("lora_alpha").get<float>();
-    if (j.contains("target_modules"))         p.target_modules        = j.at("target_modules").get<std::vector<std::string>>();
-    if (j.contains("parent_package_id"))      p.parent_package_id     = j.at("parent_package_id").get<std::string>();
-    if (j.contains("provenance"))             p.provenance            = LoRAPackageProvenance::from_json(j.at("provenance"));
-    if (j.contains("policy"))                 p.policy                = AdapterUsagePolicy::from_json(j.at("policy"));
-    if (j.contains("weights_path"))           p.weights_path          = j.at("weights_path").get<std::string>();
-    if (j.contains("integrity"))              p.integrity             = ArtifactIntegrity::from_json(j.at("integrity"));
-    if (j.contains("status"))                 p.status                = statusFromString(j.at("status").get<std::string>());
-    if (j.contains("created_at"))             p.created_at            = j.at("created_at").get<std::string>();
-    if (j.contains("updated_at"))             p.updated_at            = j.at("updated_at").get<std::string>();
+    if (j.contains("description")) {
+      p.description           = j.at("description").get<std::string>();
+    }
+    if (j.contains("supported_architectures")) {
+      p.supported_architectures = j.at("supported_architectures").get<std::vector<std::string>>();
+    }
+    if (j.contains("lora_rank")) {
+      p.lora_rank             = j.at("lora_rank").get<int>();
+    }
+    if (j.contains("lora_alpha")) {
+      p.lora_alpha            = j.at("lora_alpha").get<float>();
+    }
+    if (j.contains("target_modules")) {
+      p.target_modules        = j.at("target_modules").get<std::vector<std::string>>();
+    }
+    if (j.contains("parent_package_id")) {
+      p.parent_package_id     = j.at("parent_package_id").get<std::string>();
+    }
+    if (j.contains("provenance")) {
+      p.provenance            = LoRAPackageProvenance::from_json(j.at("provenance"));
+    }
+    if (j.contains("policy")) {
+      p.policy                = AdapterUsagePolicy::from_json(j.at("policy"));
+    }
+    if (j.contains("weights_path")) {
+      p.weights_path          = j.at("weights_path").get<std::string>();
+    }
+    if (j.contains("integrity")) {
+      p.integrity             = ArtifactIntegrity::from_json(j.at("integrity"));
+    }
+    if (j.contains("status")) {
+      p.status                = statusFromString(j.at("status").get<std::string>());
+    }
+    if (j.contains("created_at")) {
+      p.created_at            = j.at("created_at").get<std::string>();
+    }
+    if (j.contains("updated_at")) {
+      p.updated_at            = j.at("updated_at").get<std::string>();
+    }
     return p;
 }
 
@@ -324,7 +398,9 @@ void LoRAPackage::computeManifestHash() {
 }
 
 bool LoRAPackage::supportsArchitecture(const std::string& arch) const {
-    if (supported_architectures.empty()) return true;
+    if (supported_architectures.empty()) {
+      return true;
+    }
     const std::string arch_lower = [&] {
         std::string s = arch;
         std::transform(s.begin(), s.end(), s.begin(),
@@ -351,10 +427,18 @@ std::string LoRAPackage::statusToString() const {
 }
 
 LoRAPackageStatus LoRAPackage::statusFromString(const std::string& s) {
-    if (s == "DRAFT")      return LoRAPackageStatus::DRAFT;
-    if (s == "VALIDATED")  return LoRAPackageStatus::VALIDATED;
-    if (s == "DEPRECATED") return LoRAPackageStatus::DEPRECATED;
-    if (s == "REVOKED")    return LoRAPackageStatus::REVOKED;
+    if (s == "DRAFT") {
+      return LoRAPackageStatus::DRAFT;
+    }
+    if (s == "VALIDATED") {
+      return LoRAPackageStatus::VALIDATED;
+    }
+    if (s == "DEPRECATED") {
+      return LoRAPackageStatus::DEPRECATED;
+    }
+    if (s == "REVOKED") {
+      return LoRAPackageStatus::REVOKED;
+    }
     throw std::invalid_argument("LoRAPackage::statusFromString: unknown status '" + s + "'");
 }
 
@@ -396,21 +480,51 @@ PortableAdapterProduct PortableAdapterProduct::from_json(const json& j) {
     p.product_id                = j.at("product_id").get<std::string>();
     p.source_package_id         = j.at("source_package_id").get<std::string>();
     p.target_base_model_id      = j.at("target_base_model_id").get<std::string>();
-    if (j.contains("name"))                      p.name = j.at("name").get<std::string>();
-    if (j.contains("version"))                   p.version = j.at("version").get<std::string>();
-    if (j.contains("target_model_architecture")) p.target_model_architecture = j.at("target_model_architecture").get<std::string>();
-    if (j.contains("quantization"))              p.quantization = j.at("quantization").get<std::string>();
-    if (j.contains("format"))                    p.format = j.at("format").get<std::string>();
-    if (j.contains("file_path"))                 p.file_path = j.at("file_path").get<std::string>();
-    if (j.contains("file_size_bytes"))           p.file_size_bytes = j.at("file_size_bytes").get<size_t>();
-    if (j.contains("max_context_length"))        p.max_context_length = j.at("max_context_length").get<int>();
-    if (j.contains("memory_requirement_mb"))     p.memory_requirement_mb = j.at("memory_requirement_mb").get<size_t>();
-    if (j.contains("compatible_model_versions")) p.compatible_model_versions = j.at("compatible_model_versions").get<std::vector<std::string>>();
-    if (j.contains("integrity"))                 p.integrity = ArtifactIntegrity::from_json(j.at("integrity"));
-    if (j.contains("status"))                    p.status = statusFromString(j.at("status").get<std::string>());
-    if (j.contains("created_at"))                p.created_at = j.at("created_at").get<std::string>();
-    if (j.contains("updated_at"))                p.updated_at = j.at("updated_at").get<std::string>();
-    if (j.contains("deployed_at"))               p.deployed_at = j.at("deployed_at").get<std::string>();
+    if (j.contains("name")) {
+      p.name = j.at("name").get<std::string>();
+    }
+    if (j.contains("version")) {
+      p.version = j.at("version").get<std::string>();
+    }
+    if (j.contains("target_model_architecture")) {
+      p.target_model_architecture = j.at("target_model_architecture").get<std::string>();
+    }
+    if (j.contains("quantization")) {
+      p.quantization = j.at("quantization").get<std::string>();
+    }
+    if (j.contains("format")) {
+      p.format = j.at("format").get<std::string>();
+    }
+    if (j.contains("file_path")) {
+      p.file_path = j.at("file_path").get<std::string>();
+    }
+    if (j.contains("file_size_bytes")) {
+      p.file_size_bytes = j.at("file_size_bytes").get<size_t>();
+    }
+    if (j.contains("max_context_length")) {
+      p.max_context_length = j.at("max_context_length").get<int>();
+    }
+    if (j.contains("memory_requirement_mb")) {
+      p.memory_requirement_mb = j.at("memory_requirement_mb").get<size_t>();
+    }
+    if (j.contains("compatible_model_versions")) {
+      p.compatible_model_versions = j.at("compatible_model_versions").get<std::vector<std::string>>();
+    }
+    if (j.contains("integrity")) {
+      p.integrity = ArtifactIntegrity::from_json(j.at("integrity"));
+    }
+    if (j.contains("status")) {
+      p.status = statusFromString(j.at("status").get<std::string>());
+    }
+    if (j.contains("created_at")) {
+      p.created_at = j.at("created_at").get<std::string>();
+    }
+    if (j.contains("updated_at")) {
+      p.updated_at = j.at("updated_at").get<std::string>();
+    }
+    if (j.contains("deployed_at")) {
+      p.deployed_at = j.at("deployed_at").get<std::string>();
+    }
     return p;
 }
 
@@ -438,11 +552,21 @@ std::string PortableAdapterProduct::statusToString() const {
 }
 
 AdapterProductStatus PortableAdapterProduct::statusFromString(const std::string& s) {
-    if (s == "BUILDING")  return AdapterProductStatus::BUILDING;
-    if (s == "READY")     return AdapterProductStatus::READY;
-    if (s == "DEPLOYED")  return AdapterProductStatus::DEPLOYED;
-    if (s == "RETIRED")   return AdapterProductStatus::RETIRED;
-    if (s == "FAILED")    return AdapterProductStatus::FAILED;
+    if (s == "BUILDING") {
+      return AdapterProductStatus::BUILDING;
+    }
+    if (s == "READY") {
+      return AdapterProductStatus::READY;
+    }
+    if (s == "DEPLOYED") {
+      return AdapterProductStatus::DEPLOYED;
+    }
+    if (s == "RETIRED") {
+      return AdapterProductStatus::RETIRED;
+    }
+    if (s == "FAILED") {
+      return AdapterProductStatus::FAILED;
+    }
     throw std::invalid_argument(
         "PortableAdapterProduct::statusFromString: unknown status '" + s + "'");
 }
@@ -459,7 +583,9 @@ void LoRAManifestStore::setSignatureVerifier(SignatureVerifier verifier) {
 // ── LoRAPackage CRUD ──────────────────────────────────────────────────────────
 
 bool LoRAManifestStore::storePackage(const LoRAPackage& pkg) {
-    if (pkg.package_id.empty()) return false;
+    if (pkg.package_id.empty()) {
+      return false;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     packages_[pkg.package_id] = pkg;
     return true;
@@ -469,7 +595,9 @@ std::optional<LoRAPackage> LoRAManifestStore::loadPackage(
     const std::string& package_id) const {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = packages_.find(package_id);
-    if (it == packages_.end()) return std::nullopt;
+    if (it == packages_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -482,7 +610,9 @@ std::vector<std::string> LoRAManifestStore::listPackageIds() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::string> ids;
     ids.reserve(packages_.size());
-    for (const auto& kv : packages_) ids.push_back(kv.first);
+    for (const auto& kv : packages_) {
+      ids.push_back(kv.first);
+    }
     return ids;
 }
 
@@ -491,7 +621,9 @@ std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<LoRAPackage> out;
     for (const auto& kv : packages_) {
-        if (kv.second.status == status) out.push_back(kv.second);
+        if (kv.second.status == status) {
+          out.push_back(kv.second);
+        }
     }
     return out;
 }
@@ -499,7 +631,9 @@ std::vector<LoRAPackage> LoRAManifestStore::listPackagesByStatus(
 // ── PortableAdapterProduct CRUD ───────────────────────────────────────────────
 
 bool LoRAManifestStore::storeProduct(const PortableAdapterProduct& product) {
-    if (product.product_id.empty() || product.source_package_id.empty()) return false;
+    if (product.product_id.empty() || product.source_package_id.empty()) {
+      return false;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     products_[product.product_id] = product;
     return true;
@@ -509,7 +643,9 @@ std::optional<PortableAdapterProduct> LoRAManifestStore::loadProduct(
     const std::string& product_id) const {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = products_.find(product_id);
-    if (it == products_.end()) return std::nullopt;
+    if (it == products_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 
@@ -522,7 +658,9 @@ std::vector<std::string> LoRAManifestStore::listProductIds() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<std::string> ids;
     ids.reserve(products_.size());
-    for (const auto& kv : products_) ids.push_back(kv.first);
+    for (const auto& kv : products_) {
+      ids.push_back(kv.first);
+    }
     return ids;
 }
 
@@ -531,7 +669,9 @@ std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByPackage(
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<PortableAdapterProduct> out;
     for (const auto& kv : products_) {
-        if (kv.second.source_package_id == package_id) out.push_back(kv.second);
+        if (kv.second.source_package_id == package_id) {
+          out.push_back(kv.second);
+        }
     }
     return out;
 }
@@ -541,7 +681,9 @@ std::vector<PortableAdapterProduct> LoRAManifestStore::listProductsByStatus(
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<PortableAdapterProduct> out;
     for (const auto& kv : products_) {
-        if (kv.second.status == status) out.push_back(kv.second);
+        if (kv.second.status == status) {
+          out.push_back(kv.second);
+        }
     }
     return out;
 }
@@ -556,7 +698,9 @@ bool LoRAManifestStore::verifyPackageIntegrity(
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = packages_.find(package_id);
-        if (it == packages_.end()) return false;
+        if (it == packages_.end()) {
+          return false;
+        }
         maybe    = it->second;
         verifier = signature_verifier_;
     }
@@ -573,7 +717,9 @@ bool LoRAManifestStore::verifyPackageIntegrity(
     pkg.integrity.signed_at           = "";
     const std::string canonical = pkg.to_json().dump();
     const std::string computed  = IntegrityHelper::sha256Hex(canonical);
-    if (computed != stored_hash) return false;
+    if (computed != stored_hash) {
+      return false;
+    }
 
     // Signature check: use the original (non-cleared) signature from the copy.
     const std::string sig        = maybe->integrity.signature;
@@ -591,14 +737,18 @@ bool LoRAManifestStore::verifyProductIntegrity(
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = products_.find(product_id);
-        if (it == products_.end()) return false;
+        if (it == products_.end()) {
+          return false;
+        }
         maybe    = it->second;
         verifier = signature_verifier_;
     }
     PortableAdapterProduct prod = *maybe;
 
     const std::string stored_hash = prod.integrity.manifest_hash;
-    if (stored_hash.empty()) return false;
+    if (stored_hash.empty()) {
+      return false;
+    }
 
     // Reproduce canonical bytes — clear manifest_hash and all signature fields.
     prod.integrity.manifest_hash       = "";
@@ -608,7 +758,9 @@ bool LoRAManifestStore::verifyProductIntegrity(
     prod.integrity.signed_at           = "";
     const std::string canonical = prod.to_json().dump();
     const std::string computed  = IntegrityHelper::sha256Hex(canonical);
-    if (computed != stored_hash) return false;
+    if (computed != stored_hash) {
+      return false;
+    }
 
     const std::string sig       = maybe->integrity.signature;
     const std::string signer_id = maybe->integrity.signer_id;
@@ -625,15 +777,21 @@ json LoRAManifestStore::exportPackages() const {
     // Collect keys and sort for stable, deterministic output order.
     std::vector<std::string> keys;
     keys.reserve(packages_.size());
-    for (const auto& kv : packages_) keys.push_back(kv.first);
+    for (const auto& kv : packages_) {
+      keys.push_back(kv.first);
+    }
     std::sort(keys.begin(), keys.end());
     json arr = json::array();
-    for (const auto& k : keys) arr.push_back(packages_.at(k).to_json());
+    for (const auto& k : keys) {
+      arr.push_back(packages_.at(k).to_json());
+    }
     return arr;
 }
 
 size_t LoRAManifestStore::importPackages(const json& j) {
-    if (!j.is_array()) return 0;
+    if (!j.is_array()) {
+      return 0;
+    }
     size_t count = 0;
     for (const auto& item : j) {
         try {
@@ -653,15 +811,21 @@ json LoRAManifestStore::exportProducts() const {
     // Collect keys and sort for stable, deterministic output order.
     std::vector<std::string> keys;
     keys.reserve(products_.size());
-    for (const auto& kv : products_) keys.push_back(kv.first);
+    for (const auto& kv : products_) {
+      keys.push_back(kv.first);
+    }
     std::sort(keys.begin(), keys.end());
     json arr = json::array();
-    for (const auto& k : keys) arr.push_back(products_.at(k).to_json());
+    for (const auto& k : keys) {
+      arr.push_back(products_.at(k).to_json());
+    }
     return arr;
 }
 
 size_t LoRAManifestStore::importProducts(const json& j) {
-    if (!j.is_array()) return 0;
+    if (!j.is_array()) {
+      return 0;
+    }
     size_t count = 0;
     for (const auto& item : j) {
         try {

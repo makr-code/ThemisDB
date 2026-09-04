@@ -284,7 +284,9 @@ public:
             return true; // absent header → use default version
         }
         for (const auto& v : kSupportedApiVersions) {
-            if (v == version) return true;
+            if (v == version) {
+              return true;
+            }
         }
         return false;
     }

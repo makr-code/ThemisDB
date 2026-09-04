@@ -74,7 +74,9 @@ public:
 
     void initialize() {
         std::lock_guard<std::mutex> lock(init_mutex_);
-        if (initialized_) return;
+        if (initialized_) {
+          return;
+        }
 
         db_path_ = std::filesystem::temp_directory_path() / ("bench_multithread_" + std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
         std::filesystem::remove_all(db_path_);
@@ -112,7 +114,9 @@ public:
     }
 
     std::shared_ptr<RocksDBWrapper> getDB() {
-        if (!initialized_) initialize();
+        if (!initialized_) {
+          initialize();
+        }
         return db_;
     }
 

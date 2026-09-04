@@ -102,18 +102,24 @@ public:
     }
     
     double getMemoryGrowthPercentage() const {
-        if (stats_.memory_snapshots.size() < 2) return 0.0;
+        if (stats_.memory_snapshots.size() < 2) {
+          return 0.0;
+        }
         
         double initial = stats_.memory_snapshots.front();
         double final = stats_.memory_snapshots.back();
         
-        if (initial == 0) return 0.0;
+        if (initial == 0) {
+          return 0.0;
+        }
         return ((final - initial) / initial) * 100.0;
     }
     
     double getErrorRate() const {
         uint64_t total = stats_.successful_operations + stats_.failed_operations;
-        if (total == 0) return 0.0;
+        if (total == 0) {
+          return 0.0;
+        }
         return (static_cast<double>(stats_.failed_operations) / total) * 100.0;
     }
     
@@ -127,7 +133,9 @@ public:
     
     double getThroughputOpsPerSecond() const {
         auto elapsed = getElapsedTime();
-        if (elapsed.count() == 0) return 0.0;
+        if (elapsed.count() == 0) {
+          return 0.0;
+        }
         return getTotalOperations() / elapsed.count();
     }
     

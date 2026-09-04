@@ -114,27 +114,45 @@ bool SerializerInputValidator::isValidUtf8Sequence(
 
     // 2-byte sequence: 110xxxxx 10xxxxxx
     if ((byte & 0xE0) == 0xC0) {
-        if (remaining_bytes < 2) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 2) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 2;
         return true;
     }
 
     // 3-byte sequence: 1110xxxx 10xxxxxx 10xxxxxx
     if ((byte & 0xF0) == 0xE0) {
-        if (remaining_bytes < 3) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
-        if ((data[2] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 3) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[2] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 3;
         return true;
     }
 
     // 4-byte sequence: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
     if ((byte & 0xF8) == 0xF0) {
-        if (remaining_bytes < 4) return false;
-        if ((data[1] & 0xC0) != 0x80) return false;
-        if ((data[2] & 0xC0) != 0x80) return false;
-        if ((data[3] & 0xC0) != 0x80) return false;
+        if (remaining_bytes < 4) {
+          return false;
+        }
+        if ((data[1] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[2] & 0xC0) != 0x80) {
+          return false;
+        }
+        if ((data[3] & 0xC0) != 0x80) {
+          return false;
+        }
         sequence_length = 4;
         return true;
     }

@@ -62,7 +62,9 @@ json ObjectCentricTracer::buildOcelLog(std::string_view instance_id) const {
     json global_log;
     global_log["ocel:attribute-names"] = json::array();
     json obj_types_arr = json::array();
-    for (const auto& ot : object_types_set) obj_types_arr.push_back(ot);
+    for (const auto& ot : object_types_set) {
+      obj_types_arr.push_back(ot);
+    }
     global_log["ocel:object-types"] = std::move(obj_types_arr);
     result["ocel:global-log"] = std::move(global_log);
 
@@ -128,7 +130,9 @@ json ObjectCentricTracer::computeDfmg(
     std::set<std::string> node_set;
     for (const auto& n : normalized["nodes"]) {
         const std::string id = n.value("id", "");
-        if (!id.empty()) node_set.insert(id);
+        if (!id.empty()) {
+          node_set.insert(id);
+        }
     }
 
     // Build arc frequency map: (from→to) → frequency
@@ -141,7 +145,9 @@ json ObjectCentricTracer::computeDfmg(
     for (const auto& e : normalized["edges"]) {
         const std::string from = e.value("from", e.value("source", ""));
         const std::string to   = e.value("to",   e.value("target", ""));
-        if (from.empty() || to.empty()) continue;
+        if (from.empty() || to.empty()) {
+          continue;
+        }
 
         // Include arc if object_type is referenced in the edge metadata / label,
         // or if object_type is empty (include all).
@@ -169,7 +175,9 @@ json ObjectCentricTracer::computeDfmg(
 
     // Build nodes array
     json nodes_arr = json::array();
-    for (const auto& nid : node_set) nodes_arr.push_back(nid);
+    for (const auto& nid : node_set) {
+      nodes_arr.push_back(nid);
+    }
     result["nodes"] = std::move(nodes_arr);
 
     // Build arcs array (unique arcs only)
@@ -202,7 +210,9 @@ ObjectCentricTracer::analyze(std::string_view model_id) const
     }
 
     const auto& normalized = opt->normalized;
-    if (!normalized.contains("edges")) return result;
+    if (!normalized.contains("edges")) {
+      return result;
+    }
 
     // in_degree_by_type[node][obj_type]  and  out_degree_by_type[node][obj_type]
     std::map<std::string, std::map<std::string, int>> in_deg;
@@ -211,7 +221,9 @@ ObjectCentricTracer::analyze(std::string_view model_id) const
     for (const auto& e : normalized["edges"]) {
         const std::string from = e.value("from", e.value("source", ""));
         const std::string to   = e.value("to",   e.value("target", ""));
-        if (from.empty() || to.empty()) continue;
+        if (from.empty() || to.empty()) {
+          continue;
+        }
 
         // Determine object type from edge metadata or default
         std::string obj_type = "default";

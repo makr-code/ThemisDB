@@ -38,10 +38,16 @@
           ComPtr(T* p) : ptr(p) { if (ptr) ptr->AddRef(); }
           ComPtr(const ComPtr& other) { ptr = other.ptr; if (ptr) ptr->AddRef(); }
           ComPtr& operator=(const ComPtr& other) {
-            if (this == &other) return *this;
-            if (ptr) ptr->Release();
+            if (this == &other) {
+              return *this;
+            }
+            if (ptr) {
+              ptr->Release();
+            }
             ptr = other.ptr;
-            if (ptr) ptr->AddRef();
+            if (ptr) {
+              ptr->AddRef();
+            }
             return *this;
           }
           T* Get() const { return ptr; }
@@ -55,9 +61,13 @@
           explicit operator bool() const { return ptr != nullptr; }
           void Reset() { if (ptr) { ptr->Release(); ptr = nullptr; } }
           ComPtr& operator=(T* p) {
-            if (ptr) ptr->Release();
+            if (ptr) {
+              ptr->Release();
+            }
             ptr = p;
-            if (ptr) ptr->AddRef();
+            if (ptr) {
+              ptr->AddRef();
+            }
             return *this;
           }
         };

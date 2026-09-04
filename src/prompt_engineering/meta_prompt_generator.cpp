@@ -353,7 +353,9 @@ nlohmann::json MetaPromptGenerator::analyzePromptStructure(const std::string& pr
         std::string lower_prompt = prompt;
         std::transform(lower_prompt.begin(), lower_prompt.end(), lower_prompt.begin(), ::tolower);
         size_t pos = lower_prompt.find(word);
-        if (pos == std::string::npos) return false;
+        if (pos == std::string::npos) {
+          return false;
+        }
         
         // Check boundaries
         bool start_ok = (pos == 0 || !std::isalnum(lower_prompt[pos - 1]));

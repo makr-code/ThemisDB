@@ -60,13 +60,21 @@ std::string ValidationReport::summary() const {
     std::ostringstream oss;
     for (const auto& e : entries) {
         oss << backendTypeName(e.backend) << "  ";
-        if (e.hasANN)    oss << "ANN="    << (e.annComplete    ? "\u2713" : "\u2717") << " ";
-        if (e.hasGeo)    oss << "Geo="    << (e.geoComplete    ? "\u2713" : "\u2717") << " ";
-        if (e.hasMatrix) oss << "Matrix=" << (e.matrixComplete ? "\u2713" : "\u2717") << " ";
+        if (e.hasANN) {
+          oss << "ANN="    << (e.annComplete    ? "\u2713" : "\u2717") << " ";
+        }
+        if (e.hasGeo) {
+          oss << "Geo="    << (e.geoComplete    ? "\u2713" : "\u2717") << " ";
+        }
+        if (e.hasMatrix) {
+          oss << "Matrix=" << (e.matrixComplete ? "\u2713" : "\u2717") << " ";
+        }
         if (!e.missingSlots.empty()) {
             oss << "[";
             for (size_t i = 0; i < e.missingSlots.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << e.missingSlots[i];
             }
             oss << "]";
@@ -85,10 +93,18 @@ ANNKernelDispatch KernelRegistry::lookupANNWithFallback(BackendType primary) con
 
     if (primary != BackendType::CPU) {
         const ANNKernelDispatch cpu = getANNDispatch(BackendType::CPU);
-        if (!result.launchL2Distance)   result.launchL2Distance   = cpu.launchL2Distance;
-        if (!result.launchCosine)       result.launchCosine       = cpu.launchCosine;
-        if (!result.launchInnerProduct) result.launchInnerProduct = cpu.launchInnerProduct;
-        if (!result.launchTopK)         result.launchTopK         = cpu.launchTopK;
+        if (!result.launchL2Distance) {
+          result.launchL2Distance   = cpu.launchL2Distance;
+        }
+        if (!result.launchCosine) {
+          result.launchCosine       = cpu.launchCosine;
+        }
+        if (!result.launchInnerProduct) {
+          result.launchInnerProduct = cpu.launchInnerProduct;
+        }
+        if (!result.launchTopK) {
+          result.launchTopK         = cpu.launchTopK;
+        }
     }
 
     return result;
@@ -103,8 +119,12 @@ GeoKernelDispatch KernelRegistry::lookupGeoWithFallback(BackendType primary) con
 
     if (primary != BackendType::CPU) {
         const GeoKernelDispatch cpu = getGeoDispatch(BackendType::CPU);
-        if (!result.launchDistance)    result.launchDistance    = cpu.launchDistance;
-        if (!result.launchContainment) result.launchContainment = cpu.launchContainment;
+        if (!result.launchDistance) {
+          result.launchDistance    = cpu.launchDistance;
+        }
+        if (!result.launchContainment) {
+          result.launchContainment = cpu.launchContainment;
+        }
     }
 
     return result;
@@ -119,14 +139,22 @@ std::vector<BackendType> KernelRegistry::registeredBackends() const {
 
     auto addIfAbsent = [&]([[maybe_unused]] BackendType t) {
         for (const auto b : result) {
-            if (b == t) return;
+            if (b == t) {
+              return;
+            }
         }
         result.push_back(t);
     };
 
-    for (const auto& [bt, _] : annDispatch_)    addIfAbsent(bt);
-    for (const auto& [bt, _] : geoDispatch_)    addIfAbsent(bt);
-    for (const auto& [bt, _] : matrixDispatch_) addIfAbsent(bt);
+    for (const auto& [bt, _] : annDispatch_) {
+      addIfAbsent(bt);
+    }
+    for (const auto& [bt, _] : geoDispatch_) {
+      addIfAbsent(bt);
+    }
+    for (const auto& [bt, _] : matrixDispatch_) {
+      addIfAbsent(bt);
+    }
 
     return result;
 }
@@ -174,7 +202,9 @@ ValidationReport KernelRegistry::validate() const {
         if (matIt != matrixDispatch_.end()) {
             cov.hasMatrix = true;
             bool ok = (matIt->second.launchMatmul != nullptr);
-            if (!ok) cov.missingSlots.push_back("Matrix::launchMatmul");
+            if (!ok) {
+              cov.missingSlots.push_back("Matrix::launchMatmul");
+            }
             cov.matrixComplete = ok;
         }
 

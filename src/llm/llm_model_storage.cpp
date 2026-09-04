@@ -775,11 +775,15 @@ public:
                 // Key format after edge_prefix: from:to:type
                 std::string key_suffix(key.substr(edge_prefix.size()));
                 auto first_colon = key_suffix.find(':');
-                if (first_colon == std::string::npos) return true;
+                if (first_colon == std::string::npos) {
+                  return true;
+                }
                 std::string from_id = key_suffix.substr(0, first_colon);
                 auto remaining = key_suffix.substr(first_colon + 1);
                 auto second_colon = remaining.find(':');
-                if (second_colon == std::string::npos) return true;
+                if (second_colon == std::string::npos) {
+                  return true;
+                }
                 std::string to_id = remaining.substr(0, second_colon);
                 
                 // Check if this edge involves the requested model

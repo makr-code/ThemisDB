@@ -154,8 +154,12 @@ void TenantMetricsNamespace::setGauge(
     std::unique_lock lock(mutex_);
 
     if (!stores_.count(tenant_id)) {
-        if (config_.strict_tenant_registration) return;
-        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) return;
+        if (config_.strict_tenant_registration) {
+          return;
+        }
+        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+          return;
+        }
         auto s = std::make_unique<TenantStore>();
         s->tenant_id = tenant_id;
         stores_.emplace(tenant_id, std::move(s));
@@ -182,8 +186,12 @@ void TenantMetricsNamespace::observeHistogram(
     std::unique_lock lock(mutex_);
 
     if (!stores_.count(tenant_id)) {
-        if (config_.strict_tenant_registration) return;
-        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) return;
+        if (config_.strict_tenant_registration) {
+          return;
+        }
+        if (config_.max_tenants > 0 && stores_.size() >= config_.max_tenants) {
+          return;
+        }
         auto s = std::make_unique<TenantStore>();
         s->tenant_id = tenant_id;
         stores_.emplace(tenant_id, std::move(s));
@@ -219,7 +227,9 @@ std::string TenantMetricsNamespace::formatLine(
         ss << '{';
         bool first = true;
         for (const auto& kv : labels) {
-            if (!first) ss << ',';
+            if (!first) {
+              ss << ',';
+            }
             ss << kv.first << "=\"" << kv.second << '"';
             first = false;
         }
@@ -255,7 +265,9 @@ std::string TenantMetricsNamespace::exportStore(const TenantStore& store) const 
     for (const auto& kv : store.histograms) {
         const auto& samples = kv.second.samples;
         double sum = 0.0;
-        for (double s : samples) sum += s;
+        for (double s : samples) {
+          sum += s;
+        }
         out << "# TYPE " << prefix << "histogram histogram\n";
         out << prefix << kv.first
             << "_sum{tenant_id=\"" << store.tenant_id << "\"} "

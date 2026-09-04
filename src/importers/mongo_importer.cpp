@@ -33,7 +33,9 @@ namespace {
 [[maybe_unused]] static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -404,7 +406,9 @@ void MongoDBImporter::cancel() {
 
 json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     std::ifstream file(source_path);
-    if (!file) return json::array();
+    if (!file) {
+      return json::array();
+    }
 
     // PHASE-2-HARDENING: Sample up to 100 documents to infer the schema with graceful degradation
     std::map<std::string, std::string> field_types;
@@ -413,7 +417,9 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     const int max_sample = 100;
 
     auto processDoc = [&]([[maybe_unused]] const json& raw_doc) {
-        if (!raw_doc.is_object()) return;
+        if (!raw_doc.is_object()) {
+          return;
+        }
         json doc = unwrapDocument(raw_doc);
         for (auto it = doc.begin(); it != doc.end(); ++it) {
             const std::string& key = it.key();
@@ -451,7 +457,9 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
             try {
                 json arr = json::parse(file);
                 for (auto& doc : arr) {
-                    if (docs_sampled >= max_sample) break;
+                    if (docs_sampled >= max_sample) {
+                      break;
+                    }
                     processDoc(doc);
                 }
             } catch (const json::parse_error& e) {
@@ -467,7 +475,9 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 std::string line;
                 while (std::getline(file, line) && docs_sampled < max_sample) {
                     size_t f = line.find_first_not_of(" \t\r\n");
-                    if (f == std::string::npos || line[f] == '#') continue;
+                    if (f == std::string::npos || line[f] == '#') {
+                      continue;
+                    }
                     line = line.substr(f);
                     if (line.empty() || line[0] != '{') continue;
                     try {
@@ -485,7 +495,9 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
             while (std::getline(file, line) && docs_sampled < max_sample) {
                 // Trim
                 size_t f = line.find_first_not_of(" \t\r\n");
-                if (f == std::string::npos || line[f] == '#') continue;
+                if (f == std::string::npos || line[f] == '#') {
+                  continue;
+                }
                 line = line.substr(f);
                 if (line.empty() || line[0] != '{') continue;
                 try {
@@ -564,9 +576,13 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
     while (std::getline(file, line) && !cancelled_) {
         // Trim leading whitespace
         size_t f = line.find_first_not_of(" \t\r\n");
-        if (f == std::string::npos) continue;
+        if (f == std::string::npos) {
+          continue;
+        }
         // Skip comment lines
-        if (line[f] == '#') continue;
+        if (line[f] == '#') {
+          continue;
+        }
         // Skip empty or non-JSON lines
         if (line[f] != '{') continue;
 
@@ -581,7 +597,9 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
                                      std::to_string(doc_index));
             stats.failed_records++;
             doc_index++;  // keep index in sync even when skipping
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -595,7 +613,9 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
             stats.warnings.push_back("Parse error at document " +
                                      std::to_string(doc_index + 1));
             stats.failed_records++;
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             doc_index++;
             continue;
         }
@@ -750,29 +770,65 @@ bool MongoDBImporter::importDocument(const json& doc,
 // ============================================================================
 
 std::string MongoDBImporter::inferThemisType(const json& value) {
-    if (value.is_null())    return "string";
-    if (value.is_boolean()) return "boolean";
-    if (value.is_number_integer()) return "long";
-    if (value.is_number_float())   return "double";
-    if (value.is_string())         return "string";
-    if (value.is_array())          return "array";
+    if (value.is_null()) {
+      return "string";
+    }
+    if (value.is_boolean()) {
+      return "boolean";
+    }
+    if (value.is_number_integer()) {
+      return "long";
+    }
+    if (value.is_number_float()) {
+      return "double";
+    }
+    if (value.is_string()) {
+      return "string";
+    }
+    if (value.is_array()) {
+      return "array";
+    }
 
     if (value.is_object()) {
         // BSON extended JSON v2 type wrappers
         if (value.contains("$oid"))           return "string";   // ObjectId as hex string
-        if (value.contains("$date"))          return "datetime";
-        if (value.contains("$numberDecimal")) return "double";
-        if (value.contains("$numberLong"))    return "long";
-        if (value.contains("$numberInt"))     return "integer";
-        if (value.contains("$numberDouble"))  return "double";
-        if (value.contains("$binary"))        return "binary";
-        if (value.contains("$timestamp"))     return "datetime";
-        if (value.contains("$regex"))         return "string";
+        if (value.contains("$date")) {
+          return "datetime";
+        }
+        if (value.contains("$numberDecimal")) {
+          return "double";
+        }
+        if (value.contains("$numberLong")) {
+          return "long";
+        }
+        if (value.contains("$numberInt")) {
+          return "integer";
+        }
+        if (value.contains("$numberDouble")) {
+          return "double";
+        }
+        if (value.contains("$binary")) {
+          return "binary";
+        }
+        if (value.contains("$timestamp")) {
+          return "datetime";
+        }
+        if (value.contains("$regex")) {
+          return "string";
+        }
         if (value.contains("$ref"))           return "string";   // DBRef
-        if (value.contains("$code"))          return "string";
-        if (value.contains("$undefined"))     return "string";
-        if (value.contains("$minKey"))        return "string";
-        if (value.contains("$maxKey"))        return "string";
+        if (value.contains("$code")) {
+          return "string";
+        }
+        if (value.contains("$undefined")) {
+          return "string";
+        }
+        if (value.contains("$minKey")) {
+          return "string";
+        }
+        if (value.contains("$maxKey")) {
+          return "string";
+        }
         return "object";
     }
 
@@ -780,7 +836,9 @@ std::string MongoDBImporter::inferThemisType(const json& value) {
 }
 
 json MongoDBImporter::unwrapBsonValue(const json& value) {
-    if (!value.is_object()) return value;
+    if (!value.is_object()) {
+      return value;
+    }
 
     // $oid  -> string
     if (value.contains("$oid") && value["$oid"].is_string()) {
@@ -790,12 +848,16 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
     // $date  -> ISO-8601 string or epoch ms
     if (value.contains("$date")) {
         const json& d = value["$date"];
-        if (d.is_string())  return d.get<std::string>();
+        if (d.is_string()) {
+          return d.get<std::string>();
+        }
         // { "$numberLong": "..." }
         if (d.is_object() && d.contains("$numberLong") && d["$numberLong"].is_string()) {
             return d["$numberLong"].get<std::string>();
         }
-        if (d.is_number()) return d;
+        if (d.is_number()) {
+          return d;
+        }
         return d.dump();
     }
 
@@ -815,7 +877,9 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
         if (n.is_string()) {
             try { return std::stoi(n.get<std::string>()); } catch (...) {}
         }
-        if (n.is_number()) return n;
+        if (n.is_number()) {
+          return n;
+        }
     }
 
     // $numberDouble -> double
@@ -824,7 +888,9 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
         if (n.is_string()) {
             try { return std::stod(n.get<std::string>()); } catch (...) {}
         }
-        if (n.is_number()) return n;
+        if (n.is_number()) {
+          return n;
+        }
     }
 
     // $binary -> base64 sub-type string representation
@@ -833,7 +899,9 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
         if (b.is_object() && b.contains("base64") && b["base64"].is_string()) {
             return b["base64"].get<std::string>();
         }
-        if (b.is_string()) return b.get<std::string>();
+        if (b.is_string()) {
+          return b.get<std::string>();
+        }
     }
 
     // $timestamp -> { t: <sec>, i: <inc> } -> string representation
@@ -871,7 +939,9 @@ json MongoDBImporter::unwrapBsonValue(const json& value) {
 }
 
 json MongoDBImporter::unwrapDocument(const json& doc) {
-    if (!doc.is_object()) return doc;
+    if (!doc.is_object()) {
+      return doc;
+    }
 
     json result = json::object();
     for (auto it = doc.begin(); it != doc.end(); ++it) {
@@ -921,7 +991,9 @@ std::string MongoDBImporter::collectionFromPath(const std::string& path) {
     size_t sep = path.find_last_of("/\\");
     std::string basename = (sep == std::string::npos) ? path : path.substr(sep + 1);
     size_t dot = basename.rfind('.');
-    if (dot != std::string::npos) basename = basename.substr(0, dot);
+    if (dot != std::string::npos) {
+      basename = basename.substr(0, dot);
+    }
     return basename.empty() ? "documents" : basename;
 }
 
@@ -1001,12 +1073,16 @@ plugins::PluginCapabilities MongoDBImporterPlugin::getCapabilities() const {
 }
 
 bool MongoDBImporterPlugin::initialize(const char* config_json) {
-    if (!importer_) return false;
+    if (!importer_) {
+      return false;
+    }
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
 void MongoDBImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

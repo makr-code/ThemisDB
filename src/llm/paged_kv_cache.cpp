@@ -304,7 +304,9 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             
             // Quantization parameters
             float scale = (max_val - min_val) / 255.0f;
-            if (scale < 1e-6f) scale = 1.0f;
+            if (scale < 1e-6f) {
+              scale = 1.0f;
+            }
             
             std::vector<uint8_t> result;
             result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
@@ -452,7 +454,9 @@ uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
     // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
     // Range: [-448, +448], ~4-5% precision loss vs FP16
     
-    if (value == 0.0f) return 0x00;
+    if (value == 0.0f) {
+      return 0x00;
+    }
     
     uint32_t bits = std::bit_cast<uint32_t>(value);
     uint32_t sign = (bits >> 31) & 0x1;
@@ -471,7 +475,9 @@ uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
 float PagedKVCache::dequantizeFromNVFP4([[maybe_unused]] uint8_t packed) {
     // NVFP4: [s1e2m1] format — reconstruct to FP32
     
-    if (packed == 0x00) return 0.0f;
+    if (packed == 0x00) {
+      return 0.0f;
+    }
     
     uint32_t sign = (packed >> 7) & 0x1;
     uint32_t exp_2bit = (packed >> 5) & 0x3;
@@ -505,7 +511,9 @@ std::vector<int8_t> PagedKVCache::quantizeToINT8(
     }
     
     scale = (max_val - min_val) / 255.0f;
-    if (scale < 1e-6f) scale = 1.0f;
+    if (scale < 1e-6f) {
+      scale = 1.0f;
+    }
     
     zero_point = static_cast<int8_t>(std::round(-min_val / scale));
     

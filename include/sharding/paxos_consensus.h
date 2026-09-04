@@ -46,7 +46,9 @@ struct ProposalNumber {
     std::string node_id;   // Proposer node ID
     
     bool operator<(const ProposalNumber& other) const {
-        if (round != other.round) return round < other.round;
+        if (round != other.round) {
+          return round < other.round;
+        }
         return node_id < other.node_id;
     }
     

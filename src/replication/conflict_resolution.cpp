@@ -91,7 +91,9 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
         const char* end = p + json.size();
 
         // Skip leading whitespace and opening '{'
-        while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')) ++p;
+        while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')) {
+          ++p;
+        }
         if (p >= end || *p != '{') {
             THEMIS_DEBUG("parseTopLevelFields: JSON does not start with '{{'");
             return fields;
@@ -100,8 +102,12 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 
         while (p < end) {
             // Skip whitespace
-            while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == ',')) ++p;
-            if (p >= end || *p == '}') break;
+            while (p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r' || *p == ',')) {
+              ++p;
+            }
+            if (p >= end || *p == '}') {
+              break;
+            }
 
             // Parse key (expect '"')
             if (*p != '"') {
@@ -126,13 +132,17 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
             ++p; // closing '"'
 
             // Skip ':'
-            while (p < end && (*p == ' ' || *p == '\t')) ++p;
+            while (p < end && (*p == ' ' || *p == '\t')) {
+              ++p;
+            }
             if (p >= end || *p != ':') {
                 THEMIS_DEBUG("parseTopLevelFields: expected ':' after key");
                 break;
             }
             ++p;
-            while (p < end && (*p == ' ' || *p == '\t')) ++p;
+            while (p < end && (*p == ' ' || *p == '\t')) {
+              ++p;
+            }
 
             // Parse value — capture raw token/object/array
             std::string value;
@@ -164,7 +174,9 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
                 char close = (open == '{') ? '}' : ']';
                 int depth  = 0;
                 while (p < end) {
-                    if (*p == open)  ++depth;
+                    if (*p == open) {
+                      ++depth;
+                    }
                     else if (*p == close) { 
                         --depth;
                         if (depth == 0) { 
@@ -237,7 +249,9 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
                 continue;
             }
             
-            if (!first) oss << ',';
+            if (!first) {
+              oss << ',';
+            }
             first = false;
             
             // BATCH 4 (Agent 3) OPTIMIZATION: Avoid unnecessary string copies.
@@ -369,7 +383,9 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
         throw std::invalid_argument("ThreeWayMergeResolver::selectBase requires non-empty writes vector");
     }
     
-    if (writes.size() == 1) return writes[0];
+    if (writes.size() == 1) {
+      return writes[0];
+    }
 
     int   best_score = -1;
     size_t best_idx  = 0;
@@ -377,7 +393,9 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
     for (size_t i = 0; i < writes.size(); ++i) {
         int dominated_by = 0;
         for (size_t j = 0; j < writes.size(); ++j) {
-            if (i == j) continue;
+            if (i == j) {
+              continue;
+            }
             // writes[i] dominated by writes[j] iff writes[i].vc < writes[j].vc
             if (writes[i].vector_clock.happensBefore(writes[j].vector_clock))
                 ++dominated_by;
@@ -413,9 +431,15 @@ std::string ThreeWayMergeResolver::mergeJson(
         std::map<std::string, std::string> merged;
 
         // Collect all keys
-        for (const auto& kv : base_f)  merged[kv.first] = kv.second;
-        for (const auto& kv : left_f)  merged[kv.first] = kv.second;
-        for (const auto& kv : right_f) merged[kv.first] = kv.second;
+        for (const auto& kv : base_f) {
+          merged[kv.first] = kv.second;
+        }
+        for (const auto& kv : left_f) {
+          merged[kv.first] = kv.second;
+        }
+        for (const auto& kv : right_f) {
+          merged[kv.first] = kv.second;
+        }
 
         for (auto& kv : merged) {
             const std::string& key = kv.first;
@@ -480,7 +504,9 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
     }
-    if (conflicting_writes.size() == 1) return conflicting_writes[0];
+    if (conflicting_writes.size() == 1) {
+      return conflicting_writes[0];
+    }
 
     const MMWriteEntry base = selectBase(conflicting_writes);
 
@@ -491,7 +517,9 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
         for (size_t i = 0; i < conflicting_writes.size(); ++i) {
             int dominated = 0;
             for (size_t j = 0; j < conflicting_writes.size(); ++j) {
-                if (i == j) continue;
+                if (i == j) {
+                  continue;
+                }
                 if (conflicting_writes[i].vector_clock.happensBefore(
                         conflicting_writes[j].vector_clock))
                     ++dominated;
@@ -505,10 +533,16 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     size_t right_idx = base_idx;
     bool   first     = true;
     for (size_t i = 0; i < conflicting_writes.size(); ++i) {
-        if (i == base_idx) continue;
+        if (i == base_idx) {
+          continue;
+        }
         if (first) { left_idx = right_idx = i; first = false; continue; }
-        if (conflicting_writes[i].hlc < conflicting_writes[left_idx].hlc)  left_idx  = i;
-        if (conflicting_writes[right_idx].hlc < conflicting_writes[i].hlc) right_idx = i;
+        if (conflicting_writes[i].hlc < conflicting_writes[left_idx].hlc) {
+          left_idx  = i;
+        }
+        if (conflicting_writes[right_idx].hlc < conflicting_writes[i].hlc) {
+          right_idx = i;
+        }
     }
 
     if (first) return conflicting_writes[base_idx]; // no non-base entries
@@ -581,9 +615,13 @@ std::string FieldLevelMergeResolver::mergeFields(
 
             if (strategy_ == MergeStrategy::INTERSECT) {
                 // Only include if all writes have the key
-                if (present_indices.size() != writes.size()) continue;
+                if (present_indices.size() != writes.size()) {
+                  continue;
+                }
             }
-            if (present_indices.empty()) continue;
+            if (present_indices.empty()) {
+              continue;
+            }
 
             // BATCH D FIX: Bounds check before accessing present_indices
             if (present_indices.empty()) {
@@ -663,7 +701,9 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
     }
-    if (conflicting_writes.size() == 1) return conflicting_writes[0];
+    if (conflicting_writes.size() == 1) {
+      return conflicting_writes[0];
+    }
 
     MMWriteEntry winner = pickLatestHlc(conflicting_writes);
     winner.data = mergeFields(conflicting_writes);

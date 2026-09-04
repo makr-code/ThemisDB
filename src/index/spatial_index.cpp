@@ -52,7 +52,9 @@ uint64_t MortonEncoder::interleaveBits3D(uint32_t x, uint32_t y, uint32_t z) {
 
 // Normalize coordinate to [0, 2^32-1]
 uint32_t MortonEncoder::normalizeCoord(double coord, double min_val, double max_val) {
-    if (max_val <= min_val) return 0;
+    if (max_val <= min_val) {
+      return 0;
+    }
     
     double normalized = (coord - min_val) / (max_val - min_val);
     normalized = std::clamp(normalized, 0.0, 1.0);
@@ -120,7 +122,9 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& total_bounds,
     int max_ranges)
 {
-    if (max_ranges <= 0) max_ranges = 8;
+    if (max_ranges <= 0) {
+      max_ranges = 8;
+    }
 
     // Clip query to the declared total bounds and normalize to [0, 2^32-1].
     uint32_t qx_lo = normalizeCoord(
@@ -153,7 +157,9 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
         uint32_t y1 = (n.bits < 32) ? n.y0 + (1u << n.bits) - 1u : 0xFFFFFFFFu;
 
         // Skip nodes that do not overlap the query bbox.
-        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) continue;
+        if (x1 < qx_lo || n.x0 > qx_hi || y1 < qy_lo || n.y0 > qy_hi) {
+          continue;
+        }
 
         // Morton range for this power-of-2-aligned quadtree node.
         // lo = code of (x0, y0) with all free bits set to 0.
@@ -271,14 +277,18 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     {
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
-        if (rtree_built_.count(table_str)) return;
+        if (rtree_built_.count(table_str)) {
+          return;
+        }
     }
 
     // Slow path: acquire exclusive write lock and build.
     // LOCK: Tier 1 (Global R-tree protection) — Phase 3 A-5
     std::unique_lock<std::shared_mutex> lock(rtree_mutex_);
     // Double-check after acquiring write lock to avoid redundant work.
-    if (rtree_built_.count(table_str)) return;
+    if (rtree_built_.count(table_str)) {
+      return;
+    }
 
     // Mark as built before populating to block concurrent callers.
     rtree_built_.insert(table_str);
@@ -335,7 +345,9 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
 // Config persistence
 std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table) const {
     auto value = db_.get(getConfigKey(table));
-    if (!value) return std::nullopt;
+    if (!value) {
+      return std::nullopt;
+    }
     
     try {
         std::string s(reinterpret_cast<const char*>(value->data()), value->size());
@@ -742,7 +754,9 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     metrics_.remove_count++;
     
     auto config = getConfig(table);
-    if (!config) return Status::OK();
+    if (!config) {
+      return Status::OK();
+    }
     
     uint64_t morton = MortonEncoder::encode2D(
         sidecar.centroid.x,
@@ -818,7 +832,9 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     metrics_.remove_count++;
     
     auto config = getConfig(table);
-    if (!config) return Status::OK();
+    if (!config) {
+      return Status::OK();
+    }
     
     uint64_t morton = MortonEncoder::encode2D(
         sidecar.centroid.x,
@@ -829,7 +845,9 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string key = makeSpatialKey(table, morton);
     auto value = db_.get(key);
     
-    if (!value) return Status::OK();
+    if (!value) {
+      return Status::OK();
+    }
     
     std::string s(reinterpret_cast<const char*>(value->data()), value->size());
     auto entries = parseSidecarList(s);
@@ -893,7 +911,9 @@ SpatialIndexManager::Status SpatialIndexManager::update(
     metrics_.update_count++;
     
     auto status = remove(table, primary_key, old_sidecar);
-    if (!status) return status;
+    if (!status) {
+      return status;
+    }
     
     return insert(table, primary_key, new_sidecar);
 }
@@ -1006,7 +1026,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                     geo::Coordinate(query_bbox.minx, query_bbox.miny)
                                 };
                                 exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
-                                if (exact_match) exact_passed_this_query++;
+                                if (exact_match) {
+                                  exact_passed_this_query++;
+                                }
                             }
                         } catch (...) { exact_match = true; }
                     }
@@ -1054,7 +1076,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
             auto entries = parseSidecarList(value);
 
             for (const auto& entry : entries) {
-                if (!entry.sidecar.mbr.intersects(query_bbox)) continue;
+                if (!entry.sidecar.mbr.intersects(query_bbox)) {
+                  continue;
+                }
 
                 mbr_candidates_this_query++;
 
@@ -1080,7 +1104,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
                                         geo::Coordinate(query_bbox.minx, query_bbox.miny)
                                     };
                                     exact_match = exact_backend_->exactIntersects(entity_geom, query_geom);
-                                    if (exact_match) exact_passed_this_query++;
+                                    if (exact_match) {
+                                      exact_passed_this_query++;
+                                    }
                                 }
                             } catch (...) { exact_match = true; }
                         }
@@ -1192,7 +1218,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
             SpatialResult result;
             result.primary_key = pk;
             auto it = candidate_mbrs.find(pk);
-            if (it != candidate_mbrs.end()) result.mbr = it->second;
+            if (it != candidate_mbrs.end()) {
+              result.mbr = it->second;
+            }
             results.push_back(std::move(result));
         }
         return results;
@@ -1348,17 +1376,25 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
             constexpr std::size_t kMortonChars = 16;
             const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
             // Validate key length and the expected ':' separator between morton code and PK.
-            if (k.size() <= pk_strip) return true;
-            if (k[pk_prefix.size() + kMortonChars] != ':') return true;
+            if (k.size() <= pk_strip) {
+              return true;
+            }
+            if (k[pk_prefix.size() + kMortonChars] != ':') {
+              return true;
+            }
             std::string pk(k.substr(pk_strip));
             try {
                 auto j = json::parse(std::string(value));
                 // Only process entries that carry Z data.
-                if (!j.contains("z_min") || !j.contains("z_max")) return true;
+                if (!j.contains("z_min") || !j.contains("z_max")) {
+                  return true;
+                }
                 double e_min = j["z_min"].get<double>();
                 double e_max = j["z_max"].get<double>();
                 // Skip entries whose Z range does not overlap [z_min, z_max].
-                if (e_max < z_min || e_min > z_max) return true;
+                if (e_max < z_min || e_min > z_max) {
+                  return true;
+                }
 
                 SpatialResult result;
                 result.primary_key = pk;
@@ -1451,7 +1487,9 @@ SpatialIndexManager::IndexStats SpatialIndexManager::getStats(std::string_view t
     IndexStats stats;
     
     auto config = getConfig(table);
-    if (!config) return stats;
+    if (!config) {
+      return stats;
+    }
     
     stats.total_bounds = config->total_bounds;
     

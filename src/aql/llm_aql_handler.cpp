@@ -1652,7 +1652,9 @@ static std::pair<bool, std::string> validateAQLWithParser(
             if (!parse_result.diagnostics.suggestions.empty()) {
                 error_msg += ". Suggestions: ";
                 for (size_t i = 0; i < parse_result.diagnostics.suggestions.size() && i < 2; ++i) {
-                    if (i > 0) error_msg += "; ";
+                    if (i > 0) {
+                      error_msg += "; ";
+                    }
                     error_msg += parse_result.diagnostics.suggestions[i];
                 }
             }

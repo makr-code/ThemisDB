@@ -120,8 +120,12 @@ std::vector<LegalReference> AgenticReferenceValidator::extractRegex(
             LegalReference ref;
             ref.raw_text   = m.str();
             ref.section    = m[1].str();
-            if (m[2].matched) ref.subsection = m[2].str();
-            if (m[4].matched) ref.item       = m[4].str();
+            if (m[2].matched) {
+              ref.subsection = m[2].str();
+            }
+            if (m[4].matched) {
+              ref.item       = m[4].str();
+            }
             // law_id is empty → same-document reference
 
             // Deduplicate
@@ -129,7 +133,9 @@ std::vector<LegalReference> AgenticReferenceValidator::extractRegex(
             for (const auto& r : refs) {
                 if (r.raw_text == ref.raw_text) { dup = true; break; }
             }
-            if (!dup) refs.push_back(std::move(ref));
+            if (!dup) {
+              refs.push_back(std::move(ref));
+            }
         }
     }
 
@@ -160,13 +166,17 @@ std::vector<LegalReference> AgenticReferenceValidator::extractRegex(
             LegalReference ref;
             ref.raw_text   = m.str();
             ref.section    = m[1].str();
-            if (m[2].matched) ref.subsection = m[2].str();
+            if (m[2].matched) {
+              ref.subsection = m[2].str();
+            }
 
             bool dup = false;
             for (const auto& r : refs) {
                 if (r.raw_text == ref.raw_text) { dup = true; break; }
             }
-            if (!dup) refs.push_back(std::move(ref));
+            if (!dup) {
+              refs.push_back(std::move(ref));
+            }
         }
     }
 
@@ -183,7 +193,9 @@ std::vector<LegalReference> AgenticReferenceValidator::extractRegex(
             for (const auto& r : refs) {
                 if (r.raw_text == ref.raw_text) { dup = true; break; }
             }
-            if (!dup) refs.push_back(std::move(ref));
+            if (!dup) {
+              refs.push_back(std::move(ref));
+            }
         }
     }
 

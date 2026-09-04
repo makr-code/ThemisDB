@@ -361,7 +361,9 @@ nlohmann::json LoraSimilarFunction::execute(
         json results = json::array();
         for (const auto& adapter : similar_adapters) {
             const std::string cand_id = adapter.value("adapter_id", std::string());
-            if (cand_id == adapter_id) continue;
+            if (cand_id == adapter_id) {
+              continue;
+            }
 
             json result;
             result["adapter_id"] = cand_id;
@@ -397,14 +399,18 @@ nlohmann::json LoraSimilarFunction::execute(
                     std::unordered_set<std::string> ws;
                     std::istringstream iss(s);
                     std::string w;
-                    while (iss >> w) ws.insert(w);
+                    while (iss >> w) {
+                      ws.insert(w);
+                    }
                     return ws;
                 };
                 auto ws1 = words(src_desc);
                 auto ws2 = words(cand_desc);
                 size_t inter = 0;
                 for (const auto& w : ws1) {
-                    if (ws2.count(w)) ++inter;
+                    if (ws2.count(w)) {
+                      ++inter;
+                    }
                 }
                 size_t uni = ws1.size() + ws2.size() - inter;
                 double jaccard = uni > 0 ? static_cast<double>(inter) / uni : 0.0;
@@ -413,7 +419,9 @@ nlohmann::json LoraSimilarFunction::execute(
 
             similarity = std::min(similarity, 1.0);
 
-            if (similarity < threshold) continue;
+            if (similarity < threshold) {
+              continue;
+            }
 
             result["score"] = similarity;
             result["base_model"] = adapter.value("base_model", std::string());
@@ -908,7 +916,9 @@ nlohmann::json LoraAuditLogFunction::execute(
         json result = json::array();
         int count = 0;
         for (const auto& e : entries) {
-            if (count >= limit) break;
+            if (count >= limit) {
+              break;
+            }
             result.push_back(e);
             ++count;
         }

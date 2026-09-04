@@ -128,7 +128,9 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
     std::string basename;
     auto slash = key.rfind('/');
     basename = (slash == std::string::npos) ? key : key.substr(slash + 1);
-    if (basename.empty()) basename = "object";
+    if (basename.empty()) {
+      basename = "object";
+    }
 
     // Sanitise the basename: keep only safe characters.
     std::string safe_name;
@@ -136,7 +138,9 @@ static fs::path writeToTempFile(const fs::path& tmp_dir,
         safe_name += (std::isalnum(static_cast<unsigned char>(c)) ||
                       c == '-' || c == '_' || c == '.') ? c : '_';
     }
-    if (safe_name.empty()) safe_name = "object";
+    if (safe_name.empty()) {
+      safe_name = "object";
+    }
 
     fs::path dest = tmp_dir / safe_name;
     std::ofstream out(dest, std::ios::binary | std::ios::trunc);
@@ -202,7 +206,9 @@ static std::string s3JsonExtractField(const std::string& body,
         char c = body[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -221,7 +227,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::OBJECT_STORAGE) return false;
+        if (config.type != SourceType::OBJECT_STORAGE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) -> std::string {
@@ -259,7 +267,9 @@ public:
         try {
             max_concurrent_downloads_ = static_cast<size_t>(
                 std::stoull(opt("max_concurrent_downloads", "4")));
-            if (max_concurrent_downloads_ == 0) max_concurrent_downloads_ = 1;
+            if (max_concurrent_downloads_ == 0) {
+              max_concurrent_downloads_ = 1;
+            }
         } catch (...) {
             max_concurrent_downloads_ = 4;
         }
@@ -268,7 +278,9 @@ public:
     }
 
     bool isAvailable() const {
-        if (list_fn_ && fetch_fn_) return true;
+        if (list_fn_ && fetch_fn_) {
+          return true;
+        }
 
 #ifdef THEMIS_ENABLE_S3
         return checkAvailableS3();
@@ -396,13 +408,17 @@ private:
             // Delegate to FileSystemIngester format readers via a temp file.
             std::string text = extractViaFileSystemIngester(tmp_dir, key, body,
                                                             config_.source_id);
-            if (!text.empty()) return text;
+            if (!text.empty()) {
+              return text;
+            }
         }
 
         // Fallback for .json: extract the configured text_field.
         if (ext == ".json") {
             std::string field_val = s3JsonExtractField(body, text_field_);
-            if (!field_val.empty()) return field_val;
+            if (!field_val.empty()) {
+              return field_val;
+            }
         }
 
         // Final fallback: return raw body.
@@ -497,7 +513,9 @@ private:
             std::string marker = start_after;
             while (true) {
                 auto keys = list_fn_(marker);
-                if (keys.empty()) break;
+                if (keys.empty()) {
+                  break;
+                }
 
                 // Safety check on keys before we build the batch.
                 std::vector<std::string> safe_keys;
@@ -575,7 +593,9 @@ private:
             Aws::S3::Model::ListObjectsV2Request req;
             req.SetBucket(bucket_);
             req.SetMaxKeys(1);
-            if (!prefix_.empty()) req.SetPrefix(prefix_);
+            if (!prefix_.empty()) {
+              req.SetPrefix(prefix_);
+            }
             return s3->ListObjectsV2(req).IsSuccess();
         } catch (...) {
             return false;
@@ -597,7 +617,9 @@ private:
             do {
                 Aws::S3::Model::ListObjectsV2Request list_req;
                 list_req.SetBucket(bucket_);
-                if (!prefix_.empty()) list_req.SetPrefix(prefix_);
+                if (!prefix_.empty()) {
+                  list_req.SetPrefix(prefix_);
+                }
                 list_req.SetMaxKeys(max_keys_per_list_);
 
                 if (!continuation_token.empty()) {

@@ -111,12 +111,16 @@ public:
         int64_t end_time_ms = 0;
         
         double getProgressPercent() const {
-            if (total_events == 0) return 0.0;
+            if (total_events == 0) {
+              return 0.0;
+            }
             return (static_cast<double>(events_processed) / total_events) * 100.0;
         }
         
         int64_t getElapsedMs() const {
-            if (start_time_ms == 0) return 0;
+            if (start_time_ms == 0) {
+              return 0;
+            }
             int64_t end = (end_time_ms > 0) ? end_time_ms : getCurrentTimeMs();
             return end - start_time_ms;
         }

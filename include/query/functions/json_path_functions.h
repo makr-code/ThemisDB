@@ -486,13 +486,27 @@ public:
                            const FunctionContext&) const override {
         try {
             auto value = JSONPath::extract(args[0], args[1].get<std::string>());
-            if (value.is_null()) return "null";
-            if (value.is_boolean()) return "boolean";
-            if (value.is_number_integer()) return "integer";
-            if (value.is_number_float()) return "number";
-            if (value.is_string()) return "string";
-            if (value.is_array()) return "array";
-            if (value.is_object()) return "object";
+            if (value.is_null()) {
+              return "null";
+            }
+            if (value.is_boolean()) {
+              return "boolean";
+            }
+            if (value.is_number_integer()) {
+              return "integer";
+            }
+            if (value.is_number_float()) {
+              return "number";
+            }
+            if (value.is_string()) {
+              return "string";
+            }
+            if (value.is_array()) {
+              return "array";
+            }
+            if (value.is_object()) {
+              return "object";
+            }
             return "unknown";
         } catch (const std::exception& e) {
             throw std::runtime_error(std::string("JSON_TYPE: ") + e.what());

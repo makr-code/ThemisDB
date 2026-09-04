@@ -76,7 +76,9 @@ AuthWorkerThreadPool::~AuthWorkerThreadPool() {
 void AuthWorkerThreadPool::shutdown() {
     {
         std::unique_lock lock(queue_mutex_);
-        if (shutdown_) return;
+        if (shutdown_) {
+          return;
+        }
         shutdown_ = true;
     }
     queue_cv_.notify_all();

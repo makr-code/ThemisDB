@@ -44,8 +44,12 @@ static std::string feedbackTypeToString(FeedbackType type) {
 }
 
 static FeedbackType feedbackTypeFromString(const std::string& str) {
-    if (str == "positive") return FeedbackType::POSITIVE;
-    if (str == "negative") return FeedbackType::NEGATIVE;
+    if (str == "positive") {
+      return FeedbackType::POSITIVE;
+    }
+    if (str == "negative") {
+      return FeedbackType::NEGATIVE;
+    }
     throw std::invalid_argument("Invalid feedback type: " + str + " (must be 'positive' or 'negative')");
 }
 
@@ -60,10 +64,18 @@ static std::string validationStatusToString(ValidationStatus status) {
 }
 
 static ValidationStatus validationStatusFromString(const std::string& str) {
-    if (str == "pending") return ValidationStatus::PENDING;
-    if (str == "approved") return ValidationStatus::APPROVED;
-    if (str == "rejected") return ValidationStatus::REJECTED;
-    if (str == "flagged") return ValidationStatus::FLAGGED;
+    if (str == "pending") {
+      return ValidationStatus::PENDING;
+    }
+    if (str == "approved") {
+      return ValidationStatus::APPROVED;
+    }
+    if (str == "rejected") {
+      return ValidationStatus::REJECTED;
+    }
+    if (str == "flagged") {
+      return ValidationStatus::FLAGGED;
+    }
     throw std::invalid_argument("Invalid validation status: " + str);
 }
 

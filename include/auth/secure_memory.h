@@ -44,7 +44,9 @@ namespace detail {
  *              Local Policies → User Rights Assignment → Lock pages in memory.
  */
 inline void secure_mlock(void* ptr, std::size_t len) noexcept {
-    if (!ptr || len == 0) return;
+    if (!ptr || len == 0) {
+      return;
+    }
 #if defined(THEMIS_HAS_MLOCK)
     ::mlock(ptr, len);          // failure is non-fatal; data is still allocated
 #elif defined(THEMIS_HAS_VIRTUALLOCK)
@@ -54,7 +56,9 @@ inline void secure_mlock(void* ptr, std::size_t len) noexcept {
 
 /// Unlock a previously locked memory region.
 inline void secure_munlock(void* ptr, std::size_t len) noexcept {
-    if (!ptr || len == 0) return;
+    if (!ptr || len == 0) {
+      return;
+    }
 #if defined(THEMIS_HAS_MLOCK)
     ::munlock(ptr, len);
 #elif defined(THEMIS_HAS_VIRTUALLOCK)
@@ -70,7 +74,9 @@ inline void secure_munlock(void* ptr, std::size_t len) noexcept {
  */
 template<typename T>
 void secure_release(T* ptr, std::size_t count) noexcept {
-    if (!ptr || count == 0) return;
+    if (!ptr || count == 0) {
+      return;
+    }
     const std::size_t byte_len = count * sizeof(T);
     OPENSSL_cleanse(ptr, byte_len);
     secure_munlock(ptr, byte_len);
@@ -103,7 +109,9 @@ public:
     SecureString() noexcept = default;
 
     explicit SecureString(const char* s) {
-        if (s) assign(s, std::strlen(s));
+        if (s) {
+          assign(s, std::strlen(s));
+        }
     }
 
     explicit SecureString(const std::string& s) {
@@ -125,7 +133,9 @@ public:
 
     SecureString& operator=(const char* s) {
         release();
-        if (s) assign(s, std::strlen(s));
+        if (s) {
+          assign(s, std::strlen(s));
+        }
         return *this;
     }
 
@@ -161,17 +171,25 @@ public:
     bool        empty() const noexcept { return size_ == 0; }
 
     bool operator==(const char*        rhs) const noexcept {
-        if (!rhs)       return empty();
+        if (!rhs) {
+          return empty();
+        }
         const std::size_t rlen = std::strlen(rhs);
-        if (size_ != rlen) return false;
+        if (size_ != rlen) {
+          return false;
+        }
         return size_ == 0 || CRYPTO_memcmp(data_, rhs, size_) == 0;
     }
     bool operator==(const std::string& rhs) const noexcept {
-        if (size_ != rhs.size()) return false;
+        if (size_ != rhs.size()) {
+          return false;
+        }
         return size_ == 0 || CRYPTO_memcmp(data_, rhs.data(), size_) == 0;
     }
     bool operator==(const SecureString& rhs) const noexcept {
-        if (size_ != rhs.size_) return false;
+        if (size_ != rhs.size_) {
+          return false;
+        }
         return size_ == 0 || CRYPTO_memcmp(data_, rhs.data_, size_) == 0;
     }
 
@@ -184,7 +202,9 @@ private:
     std::size_t size_ = 0;
 
     void assign(const char* src, std::size_t len) {
-        if (len == 0) return;
+        if (len == 0) {
+          return;
+        }
         data_ = new char[len + 1];
         std::memcpy(data_, src, len);
         data_[len] = '\0';
@@ -227,7 +247,9 @@ public:
 
     /// Construct \p n elements initialised to \p val (mirrors std::vector(n, val)).
     SecureBuffer(std::size_t n, T val = T{}) {
-        if (n == 0) return;
+        if (n == 0) {
+          return;
+        }
         data_ = new T[n];
         std::fill(data_, data_ + n, val);
         size_ = n;
@@ -280,14 +302,18 @@ public:
     const T& operator[](std::size_t i) const noexcept { return data_[i]; }
 
     bool operator==(const SecureBuffer& o) const noexcept {
-        if (size_ != o.size_) return false;
+        if (size_ != o.size_) {
+          return false;
+        }
         return size_ == 0 ||
                CRYPTO_memcmp(static_cast<const void*>(data_),
                              static_cast<const void*>(o.data_),
                              size_ * sizeof(T)) == 0;
     }
     bool operator==(const std::vector<T>& v) const noexcept {
-        if (size_ != v.size()) return false;
+        if (size_ != v.size()) {
+          return false;
+        }
         return size_ == 0 ||
                CRYPTO_memcmp(static_cast<const void*>(data_),
                              static_cast<const void*>(v.data()),
@@ -301,9 +327,13 @@ private:
     std::size_t size_ = 0;
 
     void assign(const T* src, std::size_t n) {
-        if (n == 0) return;
+        if (n == 0) {
+          return;
+        }
         data_ = new T[n];
-        if (src) std::memcpy(data_, src, n * sizeof(T));
+        if (src) {
+          std::memcpy(data_, src, n * sizeof(T));
+        }
         size_ = n;
         detail::secure_mlock(data_, n * sizeof(T));
     }

@@ -387,7 +387,9 @@ protected:
                 if (stock_opt) {
                     int64_t quantity = stock_opt->getFieldAsInt("S_QUANTITY").value_or(50);
                     quantity -= 5;
-                    if (quantity < 10) quantity += 91;
+                    if (quantity < 10) {
+                      quantity += 91;
+                    }
                     stock_opt->setField("S_QUANTITY", quantity);
                     secondary_->put("STOCK", *stock_opt);
                 }

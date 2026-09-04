@@ -137,7 +137,9 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         // Support both "OtherField:" and "OtherField :" as boundary markers.
         size_t value_end = response.size();
         for (const auto& other : outputs_) {
-            if (other.name == field.name) continue;
+            if (other.name == field.name) {
+              continue;
+            }
             // Check "OtherField:" and "OtherField :" variants
             for (const auto& suffix : {std::string(":"), std::string(" :")}) {
                 std::string other_marker = other.name + suffix;
@@ -175,15 +177,21 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
     while (std::getline(iss, line)) {
         // Strip leading spaces
         size_t start = 0;
-        while (start < line.size() && line[start] == ' ') ++start;
+        while (start < line.size() && line[start] == ' ') {
+          ++start;
+        }
         line = line.substr(start);
 
         // Detect "FieldName:" or "FieldName: # description"
-        if (line.empty() || line.back() == '\n') continue;
+        if (line.empty() || line.back() == '\n') {
+          continue;
+        }
 
         // Look for a colon that is not inside a comment marker
         auto colon_pos = line.find(':');
-        if (colon_pos == std::string::npos) continue;
+        if (colon_pos == std::string::npos) {
+          continue;
+        }
 
         // The token before the colon must look like an identifier
         std::string token = line.substr(0, colon_pos);
@@ -194,7 +202,9 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
                 break;
             }
         }
-        if (!looks_like_field) continue;
+        if (!looks_like_field) {
+          continue;
+        }
 
         // Check if it's in a "# description" context (it's an output label)
         bool is_output = (line.find("# ") != std::string::npos ||

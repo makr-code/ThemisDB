@@ -56,11 +56,21 @@ ModelFormat ModelMetadata::string_to_format(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     
-    if (lower == "gguf") return ModelFormat::GGUF;
-    if (lower == "safetensors") return ModelFormat::SAFETENSORS;
-    if (lower == "pytorch" || lower == "pt" || lower == "pth") return ModelFormat::PYTORCH;
-    if (lower == "onnx") return ModelFormat::ONNX;
-    if (lower == "tensorflow") return ModelFormat::TENSORFLOW;
+    if (lower == "gguf") {
+      return ModelFormat::GGUF;
+    }
+    if (lower == "safetensors") {
+      return ModelFormat::SAFETENSORS;
+    }
+    if (lower == "pytorch" || lower == "pt" || lower == "pth") {
+      return ModelFormat::PYTORCH;
+    }
+    if (lower == "onnx") {
+      return ModelFormat::ONNX;
+    }
+    if (lower == "tensorflow") {
+      return ModelFormat::TENSORFLOW;
+    }
     
     return ModelFormat::UNKNOWN;
 }
@@ -69,20 +79,36 @@ ModelArchitecture ModelMetadata::string_to_architecture(const std::string& str) 
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     
-    if (lower.find("llama") != std::string::npos) return ModelArchitecture::LLAMA;
-    if (lower.find("mistral") != std::string::npos) return ModelArchitecture::MISTRAL;
-    if (lower.find("mixtral") != std::string::npos) return ModelArchitecture::MIXTRAL;
+    if (lower.find("llama") != std::string::npos) {
+      return ModelArchitecture::LLAMA;
+    }
+    if (lower.find("mistral") != std::string::npos) {
+      return ModelArchitecture::MISTRAL;
+    }
+    if (lower.find("mixtral") != std::string::npos) {
+      return ModelArchitecture::MIXTRAL;
+    }
     if (lower.find("gpt-2") != std::string::npos || lower.find("gpt2") != std::string::npos) 
         return ModelArchitecture::GPT2;
     if (lower.find("gpt-j") != std::string::npos || lower.find("gptj") != std::string::npos) 
         return ModelArchitecture::GPTJ;
     if (lower.find("gpt-neox") != std::string::npos || lower.find("gptneox") != std::string::npos) 
         return ModelArchitecture::GPTNEOX;
-    if (lower.find("mpt") != std::string::npos) return ModelArchitecture::MPT;
-    if (lower.find("falcon") != std::string::npos) return ModelArchitecture::FALCON;
-    if (lower.find("baichuan") != std::string::npos) return ModelArchitecture::BAICHUAN;
-    if (lower.find("qwen") != std::string::npos) return ModelArchitecture::QWEN;
-    if (lower.find("stablelm") != std::string::npos) return ModelArchitecture::STABLELM;
+    if (lower.find("mpt") != std::string::npos) {
+      return ModelArchitecture::MPT;
+    }
+    if (lower.find("falcon") != std::string::npos) {
+      return ModelArchitecture::FALCON;
+    }
+    if (lower.find("baichuan") != std::string::npos) {
+      return ModelArchitecture::BAICHUAN;
+    }
+    if (lower.find("qwen") != std::string::npos) {
+      return ModelArchitecture::QWEN;
+    }
+    if (lower.find("stablelm") != std::string::npos) {
+      return ModelArchitecture::STABLELM;
+    }
     
     return ModelArchitecture::UNKNOWN;
 }

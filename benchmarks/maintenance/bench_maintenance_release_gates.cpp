@@ -308,7 +308,9 @@ static void BM_MTN07_RingBufferWrite(benchmark::State& state) {
         {
             std::lock_guard<std::mutex> lock(mu);
             ring.push_back(std::move(o));
-            if (static_cast<int>(ring.size()) > kCap) ring.pop_front();
+            if (static_cast<int>(ring.size()) > kCap) {
+              ring.pop_front();
+            }
         }
         benchmark::DoNotOptimize(ring.size());
     }

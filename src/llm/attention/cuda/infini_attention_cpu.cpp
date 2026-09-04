@@ -205,8 +205,12 @@ private:
         
         // Normalize
         float count = (float)(batch_size * seq_len);
-        for (auto& v : agg_k) v /= count;
-        for (auto& v : agg_v) v /= count;
+        for (auto& v : agg_k) {
+          v /= count;
+        }
+        for (auto& v : agg_v) {
+          v /= count;
+        }
         
         // Update memory: M[i,j] += α * σ(agg_k[i]) * σ(agg_v[j])
         for (size_t i = 0; i < config_.memory_dim; ++i) {

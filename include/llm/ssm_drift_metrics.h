@@ -98,7 +98,9 @@ inline void SSMDriftMetrics::recordSSMStateCheckpoint(const std::string& /*sessi
 }
 
 inline void SSMDriftMetrics::recordHybridRouterDecision(const std::string& architecture_path) {
-    if (architecture_path == "transformer") router_transformer_count_.fetch_add(1);
+    if (architecture_path == "transformer") {
+      router_transformer_count_.fetch_add(1);
+    }
     else if (architecture_path == "infini") router_infini_count_.fetch_add(1);
     else if (architecture_path == "ssm") router_ssm_count_.fetch_add(1);
 }

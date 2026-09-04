@@ -157,9 +157,15 @@ struct LoRAVectorEmbedding {
      */
     static LoRAVectorEmbedding fromJSON(const json& j) {
         LoRAVectorEmbedding emb;
-        if (j.contains("adapter_id"))      emb.adapter_id      = j["adapter_id"].get<std::string>();
-        if (j.contains("embedding_model")) emb.embedding_model = j["embedding_model"].get<std::string>();
-        if (j.contains("source_text"))     emb.source_text     = j["source_text"].get<std::string>();
+        if (j.contains("adapter_id")) {
+          emb.adapter_id      = j["adapter_id"].get<std::string>();
+        }
+        if (j.contains("embedding_model")) {
+          emb.embedding_model = j["embedding_model"].get<std::string>();
+        }
+        if (j.contains("source_text")) {
+          emb.source_text     = j["source_text"].get<std::string>();
+        }
         if (j.contains("embedding") && j["embedding"].is_array()) {
             emb.embedding = j["embedding"].get<std::vector<float>>();
         }
@@ -214,7 +220,9 @@ struct LoRAGraphPath {
      * @brief Get path as string
      */
     std::string toString() const {
-        if (edges.empty()) return adapter_id;
+        if (edges.empty()) {
+          return adapter_id;
+        }
         
         std::string result = edges[0].from_id;
         for (const auto& edge : edges) {
@@ -290,10 +298,18 @@ struct AdapterMetadataEnhanced : public AdapterMetadata {
         AdapterMetadataEnhanced metadata;
         
         // Base metadata
-        if (j.contains("adapter_id")) metadata.adapter_id = j["adapter_id"];
-        if (j.contains("version")) metadata.version = j["version"];
-        if (j.contains("base_model")) metadata.base_model = j["base_model"];
-        if (j.contains("description")) metadata.description = j["description"];
+        if (j.contains("adapter_id")) {
+          metadata.adapter_id = j["adapter_id"];
+        }
+        if (j.contains("version")) {
+          metadata.version = j["version"];
+        }
+        if (j.contains("base_model")) {
+          metadata.base_model = j["base_model"];
+        }
+        if (j.contains("description")) {
+          metadata.description = j["description"];
+        }
         
         // Graph info
         if (j.contains("edges")) {

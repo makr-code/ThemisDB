@@ -41,7 +41,9 @@ uint64_t fnv1a64(std::string_view data) noexcept {
 }
 
 std::vector<float> hashEmbed(const std::string& text, int dim) {
-    if (dim <= 0) dim = 128;
+    if (dim <= 0) {
+      dim = 128;
+    }
     std::vector<float> vec(static_cast<std::size_t>(dim), 0.0f);
 
     static const std::regex tok_re("[A-Za-z0-9_\\-]+");
@@ -59,10 +61,14 @@ std::vector<float> hashEmbed(const std::string& text, int dim) {
     }
 
     float norm = 0.0f;
-    for (float v : vec) norm += v * v;
+    for (float v : vec) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-9f) {
-        for (float& v : vec) v /= norm;
+        for (float& v : vec) {
+          v /= norm;
+        }
     }
     return vec;
 }
@@ -84,15 +90,21 @@ static const std::vector<std::string_view> UNSAFE_PATTERNS = {
 bool containsUnsafePattern(const std::string& text) {
     std::string lower;
     lower.reserve(text.size());
-    for (unsigned char c : text) lower += static_cast<char>(std::tolower(c));
+    for (unsigned char c : text) {
+      lower += static_cast<char>(std::tolower(c));
+    }
     for (std::string_view pattern : UNSAFE_PATTERNS) {
-        if (lower.find(pattern) != std::string::npos) return true;
+        if (lower.find(pattern) != std::string::npos) {
+          return true;
+        }
     }
     return false;
 }
 
 bool matchGlob(const std::filesystem::path& path, const std::string& glob) {
-    if (glob.empty() || glob == "*") return true;
+    if (glob.empty() || glob == "*") {
+      return true;
+    }
     if (glob.size() > 2 && glob[0] == '*' && glob[1] == '.') {
         std::string ext = glob.substr(1);
         return path.extension().string() == ext;
@@ -127,7 +139,9 @@ void LLMWikiPluginImpl::shutdown() noexcept {
 
 #ifdef THEMISDB_WIKI_PHASE_B
         if (phase_b_active_) {
-            if (wiki_store_) wiki_store_->flush();
+            if (wiki_store_) {
+              wiki_store_->flush();
+            }
             wiki_store_.reset();
             llm_b_.reset();
             vim_.reset();
@@ -158,14 +172,30 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
 
     try {
         const auto j = nlohmann::json::parse(config_json);
-        if (j.contains("embedding_provider")) embedding_provider_ = j["embedding_provider"].get<std::string>();
-        if (j.contains("embedding_dim")) embedding_dim_ = j["embedding_dim"].get<int>();
-        if (j.contains("splitter_max_tokens")) splitter_max_tokens_ = j["splitter_max_tokens"].get<int>();
-        if (j.contains("splitter_overlap_tokens")) splitter_overlap_tokens_ = j["splitter_overlap_tokens"].get<int>();
-        if (j.contains("workspace_root")) workspace_root_ = j["workspace_root"].get<std::string>();
-        if (j.contains("fail_open")) fail_open_ = j["fail_open"].get<bool>();
-        if (j.contains("llm_wiki_wikipedia")) llm_wiki_wikipedia_ = j["llm_wiki_wikipedia"].get<bool>();
-        if (j.contains("json_index_path")) json_index_path_ = j["json_index_path"].get<std::string>();
+        if (j.contains("embedding_provider")) {
+          embedding_provider_ = j["embedding_provider"].get<std::string>();
+        }
+        if (j.contains("embedding_dim")) {
+          embedding_dim_ = j["embedding_dim"].get<int>();
+        }
+        if (j.contains("splitter_max_tokens")) {
+          splitter_max_tokens_ = j["splitter_max_tokens"].get<int>();
+        }
+        if (j.contains("splitter_overlap_tokens")) {
+          splitter_overlap_tokens_ = j["splitter_overlap_tokens"].get<int>();
+        }
+        if (j.contains("workspace_root")) {
+          workspace_root_ = j["workspace_root"].get<std::string>();
+        }
+        if (j.contains("fail_open")) {
+          fail_open_ = j["fail_open"].get<bool>();
+        }
+        if (j.contains("llm_wiki_wikipedia")) {
+          llm_wiki_wikipedia_ = j["llm_wiki_wikipedia"].get<bool>();
+        }
+        if (j.contains("json_index_path")) {
+          json_index_path_ = j["json_index_path"].get<std::string>();
+        }
         initialized_ = true;
         return Status::Ok();
     } catch (const std::exception& e) {
@@ -244,7 +274,9 @@ WikiQueryResult LLMWikiPluginImpl::query(
 Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     workspace_root_ = workspace_root;
-    if (!workspace_) workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
+    if (!workspace_) {
+      workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
+    }
     return workspace_->init(workspace_root_);
 }
 
@@ -266,7 +298,9 @@ WikiLintResult LLMWikiPluginImpl::wikiLint(
     const std::string& workspace_root,
     int max_staleness_days)
 {
-    if (!workspace_) workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
+    if (!workspace_) {
+      workspace_ = std::make_unique<WikiWorkspaceOrchestrator>();
+    }
     return workspace_->lint(workspace_root, max_staleness_days);
 }
 

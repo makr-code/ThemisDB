@@ -69,7 +69,9 @@ __global__ void rotateKernelHIP(
     
     // Total work items: batch_size * num_pairs (one per coordinate pair)
     int total_pairs = batch_size * num_pairs;
-    if (idx >= total_pairs) return;
+    if (idx >= total_pairs) {
+      return;
+    }
     
     // Decode which embedding and which pair
     int batch_idx = idx / num_pairs;
@@ -90,7 +92,9 @@ __global__ void rotateKernelHIP(
     int offset = batch_idx * hidden_dim + pair_idx * 2;
     
     // Check bounds
-    if (offset + 1 >= batch_size * hidden_dim) return;
+    if (offset + 1 >= batch_size * hidden_dim) {
+      return;
+    }
     
     // Load coordinate pair
     float x = embeddings[offset];
@@ -116,10 +120,18 @@ struct RotaryEmbeddingGPU::GPUResources {
     size_t allocated_batch_size = 0;
     
     ~GPUResources() {
-        if (d_theta_cache) hipFree(d_theta_cache);
-        if (d_embeddings) hipFree(d_embeddings);
-        if (d_positions) hipFree(d_positions);
-        if (d_output) hipFree(d_output);
+        if (d_theta_cache) {
+          hipFree(d_theta_cache);
+        }
+        if (d_embeddings) {
+          hipFree(d_embeddings);
+        }
+        if (d_positions) {
+          hipFree(d_positions);
+        }
+        if (d_output) {
+          hipFree(d_output);
+        }
     }
 };
 

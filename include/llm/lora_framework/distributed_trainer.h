@@ -62,13 +62,27 @@ struct DistributedConfig {
     
     static DistributedConfig fromJSON(const json& j) {
         DistributedConfig config;
-        if (j.contains("backend")) config.backend = static_cast<DistributedBackend>(j["backend"].get<int>());
-        if (j.contains("world_size")) config.world_size = j["world_size"];
-        if (j.contains("rank")) config.rank = j["rank"];
-        if (j.contains("master_addr")) config.master_addr = j["master_addr"];
-        if (j.contains("master_port")) config.master_port = j["master_port"];
-        if (j.contains("gradient_as_bucket_view")) config.gradient_as_bucket_view = j["gradient_as_bucket_view"];
-        if (j.contains("bucket_cap_mb")) config.bucket_cap_mb = j["bucket_cap_mb"];
+        if (j.contains("backend")) {
+          config.backend = static_cast<DistributedBackend>(j["backend"].get<int>());
+        }
+        if (j.contains("world_size")) {
+          config.world_size = j["world_size"];
+        }
+        if (j.contains("rank")) {
+          config.rank = j["rank"];
+        }
+        if (j.contains("master_addr")) {
+          config.master_addr = j["master_addr"];
+        }
+        if (j.contains("master_port")) {
+          config.master_port = j["master_port"];
+        }
+        if (j.contains("gradient_as_bucket_view")) {
+          config.gradient_as_bucket_view = j["gradient_as_bucket_view"];
+        }
+        if (j.contains("bucket_cap_mb")) {
+          config.bucket_cap_mb = j["bucket_cap_mb"];
+        }
         return config;
     }
 };

@@ -286,7 +286,9 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
             if (rule_node["id"]) {
                 hc.id = rule_node["id"].as<std::string>("");
             }
-            if (hc.id.empty()) continue;
+            if (hc.id.empty()) {
+              continue;
+            }
 
             if (rule_node["priority"]) {
                 hc.priority = rule_node["priority"].as<int>(0);
@@ -301,7 +303,9 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 
             auto parseTripleSeq = [](const YAML::Node& seq) {
                 std::vector<TriplePattern> triples;
-                if (!seq || !seq.IsSequence()) return triples;
+                if (!seq || !seq.IsSequence()) {
+                  return triples;
+                }
                 for (const auto& item : seq) {
                     TriplePattern tp;
                     if (item.IsSequence() && item.size() >= 3) {

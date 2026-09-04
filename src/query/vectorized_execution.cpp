@@ -269,7 +269,9 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
 
     for (size_t i = offset; i < end; ++i) {
         const auto& row = rows[i];
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
         for (const auto& [key, _] : row.items()) {
             if (col_index.emplace(key, static_cast<int>(col_names.size())).second) {
                 col_names.push_back(key);
@@ -283,9 +285,13 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
         const std::string& name = col_names[ci];
         for (size_t i = offset; i < end; ++i) {
             const auto& row = rows[i];
-            if (!row.is_object() || !row.contains(name)) continue;
+            if (!row.is_object() || !row.contains(name)) {
+              continue;
+            }
             const auto& val = row[name];
-            if (val.is_null()) continue;
+            if (val.is_null()) {
+              continue;
+            }
             if (val.is_boolean()) {
                 col_types[ci] = ColumnType::Bool;
             } else if (val.is_number_integer()) {
@@ -414,11 +420,21 @@ std::vector<nlohmann::json> VectorizedExecutionEngine::columnBatchToJson(
 
 ColumnValue VectorizedExecutionEngine::jsonToColumnValue(
     const nlohmann::json& val) {
-    if (val.is_null())    return nullptr;
-    if (val.is_boolean()) return val.get<bool>();
-    if (val.is_number_integer()) return val.get<int64_t>();
-    if (val.is_number_float())   return val.get<double>();
-    if (val.is_string())         return val.get<std::string>();
+    if (val.is_null()) {
+      return nullptr;
+    }
+    if (val.is_boolean()) {
+      return val.get<bool>();
+    }
+    if (val.is_number_integer()) {
+      return val.get<int64_t>();
+    }
+    if (val.is_number_float()) {
+      return val.get<double>();
+    }
+    if (val.is_string()) {
+      return val.get<std::string>();
+    }
     // Fallback: serialize to string
     return val.dump();
 }

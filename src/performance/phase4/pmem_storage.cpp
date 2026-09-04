@@ -133,7 +133,9 @@ PMemPool& PMemPool::operator=(PMemPool&& o) noexcept {
     if (this != &o) {
         unmap_region();
 #ifndef _WIN32
-        if (fd_ >= 0) ::close(fd_);
+        if (fd_ >= 0) {
+          ::close(fd_);
+        }
 #endif
         base_        = o.base_;
         mapped_size_ = o.mapped_size_;

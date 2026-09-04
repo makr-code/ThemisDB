@@ -329,7 +329,9 @@ BENCHMARK_F(WriteStormFixture, IRS02_WriteStormThroughput)(benchmark::State& sta
                 ops_completed_.fetch_add(kWritesPerThread, std::memory_order_relaxed);
             });
         }
-        for (auto& w : writers) w.join();
+        for (auto& w : writers) {
+          w.join();
+        }
     }
     state.SetItemsProcessed(ops_completed_.load(std::memory_order_relaxed));
 }

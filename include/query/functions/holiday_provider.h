@@ -101,7 +101,9 @@ public:
      */
     void initialize() {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (initialized_) return;
+        if (initialized_) {
+          return;
+        }
         
         registerBuiltinCalendars();
         initialized_ = true;

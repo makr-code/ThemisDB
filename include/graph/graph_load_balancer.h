@@ -115,7 +115,9 @@ public:
         if (block) {
             cv_.wait(lock, [this] { return !queue_.empty() || stopped_; });
         }
-        if (queue_.empty()) return std::nullopt;
+        if (queue_.empty()) {
+          return std::nullopt;
+        }
         QueryTask task = std::move(const_cast<QueryTask&>(queue_.top()));
         queue_.pop();
         ++dispatched_count_;
@@ -130,8 +132,12 @@ public:
      */
     bool executeNext(bool block = false) {
         auto task = next(block);
-        if (!task) return false;
-        if (task->work) task->work();
+        if (!task) {
+          return false;
+        }
+        if (task->work) {
+          task->work();
+        }
         ++completed_count_;
         return true;
     }
@@ -187,7 +193,9 @@ public:
     size_t clearPending() {
         std::lock_guard<std::mutex> lock(mutex_);
         size_t count = queue_.size();
-        while (!queue_.empty()) queue_.pop();
+        while (!queue_.empty()) {
+          queue_.pop();
+        }
         return count;
     }
 
@@ -307,7 +315,9 @@ public:
     void onQueryStarted(const std::string& shard_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
-        if (it == stats_.end()) return;
+        if (it == stats_.end()) {
+          return;
+        }
         ++it->second.inflight;
         ++it->second.total_routed;
     }
@@ -323,8 +333,12 @@ public:
     void onQueryCompleted(const std::string& shard_id, double latency_ms) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
-        if (it == stats_.end()) return;
-        if (it->second.inflight > 0) --it->second.inflight;
+        if (it == stats_.end()) {
+          return;
+        }
+        if (it->second.inflight > 0) {
+          --it->second.inflight;
+        }
         it->second.recordLatency(latency_ms);
     }
 
@@ -339,7 +353,9 @@ public:
     void setShardHealth(const std::string& shard_id, bool healthy) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
-        if (it != stats_.end()) it->second.healthy = healthy;
+        if (it != stats_.end()) {
+          it->second.healthy = healthy;
+        }
     }
 
     /**
@@ -349,7 +365,9 @@ public:
      */
     void addShard(const std::string& shard_id) {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (stats_.count(shard_id)) return;
+        if (stats_.count(shard_id)) {
+          return;
+        }
         shard_order_.push_back(shard_id);
         stats_[shard_id].shard_id = shard_id;
     }
@@ -363,13 +381,17 @@ public:
     bool removeShard(const std::string& shard_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
-        if (it == stats_.end()) return false;
+        if (it == stats_.end()) {
+          return false;
+        }
         shard_order_.erase(
             std::remove(shard_order_.begin(), shard_order_.end(), shard_id),
             shard_order_.end());
         stats_.erase(it);
         // Reset round-robin index if it's now out of range.
-        if (rr_index_ >= shard_order_.size()) rr_index_ = 0;
+        if (rr_index_ >= shard_order_.size()) {
+          rr_index_ = 0;
+        }
         return true;
     }
 
@@ -383,7 +405,9 @@ public:
         out.reserve(stats_.size());
         for (const auto& id : shard_order_) {
             auto it = stats_.find(id);
-            if (it != stats_.end()) out.push_back(it->second);
+            if (it != stats_.end()) {
+              out.push_back(it->second);
+            }
         }
         return out;
     }
@@ -397,7 +421,9 @@ public:
     std::optional<ShardStats> shardStats(const std::string& shard_id) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = stats_.find(shard_id);
-        if (it == stats_.end()) return std::nullopt;
+        if (it == stats_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -430,7 +456,9 @@ private:
             size_t idx     = rr_index_ % shard_order_.size();
             rr_index_      = (rr_index_ + 1) % shard_order_.size();
             const auto& id = shard_order_[idx];
-            if (stats_.at(id).healthy) return id;
+            if (stats_.at(id).healthy) {
+              return id;
+            }
         }
         return {};
     }
@@ -440,7 +468,9 @@ private:
         uint64_t    min_load = UINT64_MAX;
         for (const auto& id : shard_order_) {
             const auto& s = stats_.at(id);
-            if (!s.healthy) continue;
+            if (!s.healthy) {
+              continue;
+            }
             if (s.inflight < min_load) {
                 min_load = s.inflight;
                 best     = id;
@@ -454,7 +484,9 @@ private:
         double      min_latency = std::numeric_limits<double>::max();
         for (const auto& id : shard_order_) {
             const auto& s = stats_.at(id);
-            if (!s.healthy) continue;
+            if (!s.healthy) {
+              continue;
+            }
             const double lat = (s.total_routed == 0) ? 0.0 : s.ema_latency_ms;
             if (lat < min_latency) {
                 min_latency = lat;

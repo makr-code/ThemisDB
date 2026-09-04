@@ -1155,7 +1155,9 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
         
         for (auto& [id, tracked] : tracked_requests_) {
             // Skip requests that are already cancelled
-            if (tracked->cancel_token->load(std::memory_order_acquire)) continue;
+            if (tracked->cancel_token->load(std::memory_order_acquire)) {
+              continue;
+            }
             if (now >= tracked->deadline) {
                 timed_out.push_back(id);
             }
@@ -1320,7 +1322,9 @@ void InferenceEngineEnhanced::processBatch(
                 auto original_cb = std::move([[maybe_unused]] effective_request.stream_callback);
                 effective_request.stream_callback =
                     [original_cb, cancel_token = tracked->cancel_token, deadline](const std::string& token) {
-                    if (cancel_token->load(std::memory_order_acquire)) return;
+                    if (cancel_token->load(std::memory_order_acquire)) {
+                      return;
+                    }
                     if (deadline != std::chrono::steady_clock::time_point{} &&
                         std::chrono::steady_clock::now() >= deadline) {
                         cancel_token->store(true, std::memory_order_release);
@@ -1915,7 +1919,9 @@ std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest&
     // Get available models (is_available and within concurrency quota)
     std::vector<std::string> available;
     for (const auto& [id, info] : models_) {
-        if (!info.is_available) continue;
+        if (!info.is_available) {
+          continue;
+        }
         if (info.quota.max_concurrent_requests > 0 &&
             info.active_requests >= info.quota.max_concurrent_requests) {
             continue;  // model at concurrency limit

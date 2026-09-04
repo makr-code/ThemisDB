@@ -147,7 +147,9 @@ ProcessRagContext ProcessAgenticRag::mergeDocuments(
 
     for (const auto& doc : extra_docs) {
         auto type_it = doc.metadata.find("type");
-        if (type_it == doc.metadata.end()) continue;
+        if (type_it == doc.metadata.end()) {
+          continue;
+        }
 
         const std::string& t = type_it->second;
         if (t == "attachment" || t == "similar_case") {
@@ -224,7 +226,9 @@ ProcessAgenticResult ProcessAgenticRag::runLoop(
             for (const auto& sid : seen_ids) {
                 if (d.id == sid) { already_seen = true; break; }
             }
-            if (!already_seen) fresh.push_back(std::move(d));
+            if (!already_seen) {
+              fresh.push_back(std::move(d));
+            }
         }
         return fresh;
     };

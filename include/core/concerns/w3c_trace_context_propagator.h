@@ -167,7 +167,9 @@ private:
         // Exact match first (common case: lowercase headers).
         {
             auto it = headers.find(std::string(name));
-            if (it != headers.end()) return it->second;
+            if (it != headers.end()) {
+              return it->second;
+            }
         }
         // Fallback: case-insensitive linear scan.
         for (const auto& [k, v] : headers) {
@@ -185,11 +187,17 @@ private:
     /// Return true iff @p s consists of exactly @p expected_len hex
     /// characters and is not all zeros.
     static bool isValidHex(const std::string& s, std::size_t expected_len) {
-        if (s.size() != expected_len) return false;
+        if (s.size() != expected_len) {
+          return false;
+        }
         bool non_zero = false;
         for (unsigned char c : s) {
-            if (!std::isxdigit(c)) return false;
-            if (c != '0') non_zero = true;
+            if (!std::isxdigit(c)) {
+              return false;
+            }
+            if (c != '0') {
+              non_zero = true;
+            }
         }
         return non_zero;
     }
@@ -217,21 +225,31 @@ private:
             std::string& parent_id) {
 
         // Minimum length: 2+1+32+1+16+1+2 = 55
-        if (value.size() < 55) return false;
-        if (value[2] != '-' || value[35] != '-' || value[52] != '-') return false;
+        if (value.size() < 55) {
+          return false;
+        }
+        if (value[2] != '-' || value[35] != '-' || value[52] != '-') {
+          return false;
+        }
 
         // Parse version byte (2 hex chars).
         uint8_t ver_hi, ver_lo;
-        if (!fromHexDigit(value[0], ver_hi) || !fromHexDigit(value[1], ver_lo)) return false;
+        if (!fromHexDigit(value[0], ver_hi) || !fromHexDigit(value[1], ver_lo)) {
+          return false;
+        }
         uint8_t version = static_cast<uint8_t>((ver_hi << 4) | ver_lo);
 
         // version "ff" is explicitly reserved as invalid per the W3C spec.
-        if (version == 0xff) return false;
+        if (version == 0xff) {
+          return false;
+        }
 
         std::string tid = value.substr(3, 32);
         std::string pid = value.substr(36, 16);
 
-        if (!isValidHex(tid, 32) || !isValidHex(pid, 16)) return false;
+        if (!isValidHex(tid, 32) || !isValidHex(pid, 16)) {
+          return false;
+        }
 
         trace_id  = std::move(tid);
         parent_id = std::move(pid);

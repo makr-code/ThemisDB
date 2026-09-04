@@ -191,7 +191,9 @@ bool EmbeddingProvider::buildEmbeddingCache(
 }
 
 size_t EmbeddingProvider::getEmbeddingDim() const {
-    if (!model_) return 0;
+    if (!model_) {
+      return 0;
+    }
     
     // Get embedding dimension from model
     // For llama models, this is typically:

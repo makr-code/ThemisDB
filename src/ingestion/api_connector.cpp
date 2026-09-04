@@ -78,7 +78,9 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -96,7 +98,9 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -129,7 +133,9 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
     if (!ca_bundle_path.empty()) {
         if (!std::ifstream(ca_bundle_path).good()) {
-            if (headers) curl_slist_free_all(headers);
+            if (headers) {
+              curl_slist_free_all(headers);
+            }
             curl_easy_cleanup(curl);
             r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
             return r;
@@ -147,7 +153,9 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
         r.status_code = static_cast<int>(http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
     return r;
 }
@@ -164,7 +172,9 @@ static ApiHttpResponse apiGetWithRetry(const std::string& url,
     for (int attempt = 1; attempt <= cfg.max_attempts; ++attempt) {
         response = http_get(url, auth, cfg.timeout_ms);
 
-        if (response.status_code == 200) return response;
+        if (response.status_code == 200) {
+          return response;
+        }
 
         IngestionErrorCode code = IngestionErrorCode::HTTP_REQUEST_FAILED;
         if (response.status_code == 401 || response.status_code == 403)
@@ -184,7 +194,9 @@ static ApiHttpResponse apiGetWithRetry(const std::string& url,
         stats.errors.push_back(err);
         stats.metrics.error_count++;
 
-        if (!retryable || attempt == cfg.max_attempts) break;
+        if (!retryable || attempt == cfg.max_attempts) {
+          break;
+        }
 
         stats.metrics.retry_count++;
         std::this_thread::sleep_for(
@@ -199,11 +211,17 @@ static size_t jsonExtractSizeT(const std::string& json,
                                 const std::string& key) {
     std::string needle = "\"" + key + "\":";
     auto pos = json.find(needle);
-    if (pos == std::string::npos) return 0;
+    if (pos == std::string::npos) {
+      return 0;
+    }
     pos += needle.size();
     // Skip optional whitespace
-    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) ++pos;
-    if (pos >= json.size()) return 0;
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
+      ++pos;
+    }
+    if (pos >= json.size()) {
+      return 0;
+    }
     // Parse digits
     size_t value = 0;
     bool found = false;
@@ -223,7 +241,9 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
     size_t search_pos = 0;
     while (true) {
         auto start = json.find(needle, search_pos);
-        if (start == std::string::npos) break;
+        if (start == std::string::npos) {
+          break;
+        }
         start += needle.size();
         // Collect until unescaped closing quote
         std::string value;
@@ -232,10 +252,14 @@ static std::vector<std::string> jsonExtractStringList(const std::string& json,
             char c = json[i];
             if (escape) { value += c; escape = false; continue; }
             if (c == '\\') { escape = true; continue; }
-            if (c == '"') break;
+            if (c == '"') {
+              break;
+            }
             value += c;
         }
-        if (!value.empty()) results.push_back(std::move(value));
+        if (!value.empty()) {
+          results.push_back(std::move(value));
+        }
         search_pos = start;
     }
     return results;
@@ -262,7 +286,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::API) return false;
+        if (config.type != SourceType::API) {
+          return false;
+        }
         config_     = config;
         endpoint_   = config.location;
 
@@ -330,7 +356,9 @@ public:
     }
 
     bool isAvailable() const {
-        if (endpoint_.empty()) return false;
+        if (endpoint_.empty()) {
+          return false;
+        }
         try {
             auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             return r.status_code == 200;
@@ -340,14 +368,20 @@ public:
     }
 
     size_t getDocumentCount() const {
-        if (endpoint_.empty()) return 0;
+        if (endpoint_.empty()) {
+          return 0;
+        }
         try {
             auto r = httpGet(endpoint_, buildAuthHeader(), retry_config_.timeout_ms);
             if (r.status_code == 200) {
                 // Try common total-count fields
                 size_t total = jsonExtractSizeT(r.body, "total");
-                if (total == 0) total = jsonExtractSizeT(r.body, "count");
-                if (total == 0) total = jsonExtractSizeT(r.body, "totalResults");
+                if (total == 0) {
+                  total = jsonExtractSizeT(r.body, "count");
+                }
+                if (total == 0) {
+                  total = jsonExtractSizeT(r.body, "totalResults");
+                }
                 return total;
             }
         } catch (...) {}
@@ -382,7 +416,9 @@ public:
 
         try {
             while (true) {
-                if (max_pages_ > 0 && page_num >= max_pages_) break;
+                if (max_pages_ > 0 && page_num >= max_pages_) {
+                  break;
+                }
 
                 // Build paginated URL
                 std::string url = endpoint_;
@@ -487,12 +523,16 @@ public:
                     // Advance cursor; stop when the response carries no next cursor
                     current_cursor = jsonExtractStringValue(response.body,
                                                             cursor_response_field_);
-                    if (current_cursor.empty()) break;
+                    if (current_cursor.empty()) {
+                      break;
+                    }
                 } else {
                     // Advance offset; keep paging until the API returns an empty
                     // page or an explicit total has been reached.
                     offset += docs.size();
-                    if (total_hint > 0 && offset >= total_hint) break;
+                    if (total_hint > 0 && offset >= total_hint) {
+                      break;
+                    }
                 }
             }
         } catch (const std::exception& e) {
@@ -558,10 +598,14 @@ private:
             body += "&client_secret=" + urlEncode(oauth_config_.client_secret);
 
         auto resp = httpPost(oauth_config_.token_endpoint, body, timeout_ms);
-        if (resp.status_code != 200) return false;
+        if (resp.status_code != 200) {
+          return false;
+        }
 
         std::string new_token = jsonExtractStringValue(resp.body, "access_token");
-        if (new_token.empty()) return false;
+        if (new_token.empty()) {
+          return false;
+        }
 
         oauth_config_.access_token = std::move(new_token);
 

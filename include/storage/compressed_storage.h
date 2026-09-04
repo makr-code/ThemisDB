@@ -114,7 +114,9 @@ public:
      */
     std::optional<std::string> get_string(const std::string& key) {
         auto bytes = get(key);
-        if (!bytes) return std::nullopt;
+        if (!bytes) {
+          return std::nullopt;
+        }
         return std::string(bytes->begin(), bytes->end());
     }
     

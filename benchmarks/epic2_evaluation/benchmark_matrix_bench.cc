@@ -114,7 +114,9 @@ syntheticHnswSearch(const std::vector<float>& query,
 
 /// Simulate a tensor compression step: compute mean of a float vector.
 float syntheticTensorSummary(const std::vector<float>& v) {
-    if (v.empty()) return 0.f;
+    if (v.empty()) {
+      return 0.f;
+    }
     float sum = std::accumulate(v.begin(), v.end(), 0.f);
     return sum / static_cast<float>(v.size());
 }
@@ -146,9 +148,13 @@ std::vector<float> makeVector(int dim, float seed_val) {
     }
     // Normalise.
     float norm = 0.f;
-    for (auto e : v) norm += e * e;
+    for (auto e : v) {
+      norm += e * e;
+    }
     norm = std::sqrt(std::max(norm, 1e-6f));
-    for (auto& e : v) e /= norm;
+    for (auto& e : v) {
+      e /= norm;
+    }
     return v;
 }
 
@@ -362,7 +368,9 @@ static void BM_ANN_DiskANN_Simulation(benchmark::State& state) {
         }
         std::sort(merged.begin(), merged.end());
         merged.erase(std::unique(merged.begin(), merged.end()), merged.end());
-        if (merged.size() > static_cast<std::size_t>(K)) merged.resize(K);
+        if (merged.size() > static_cast<std::size_t>(K)) {
+          merged.resize(K);
+        }
         benchmark::DoNotOptimize(merged);
     }
 

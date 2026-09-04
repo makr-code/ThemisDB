@@ -125,7 +125,9 @@ std::vector<double> GunrockProcessor::gpu_pagerank(int num_iterations, double da
         
         // Add contributions from incoming edges
         for (size_t src = 0; src < n; ++src) {
-            if (out_degree[src] == 0) continue;
+            if (out_degree[src] == 0) {
+              continue;
+            }
             
             double contribution = damping * ranks[src] / out_degree[src];
             for (NodeID dst : impl_->adj_list[src]) {

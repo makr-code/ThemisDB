@@ -135,7 +135,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                     return TranslationResult::Error("SIMILARITY() k must be int");
                                 }
                                 { int64_t _kv = std::get<int64_t>(kLit->value);
-                                  if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  if (_kv < 1) {
+                                    return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                                  }
                                   k = static_cast<size_t>(_kv); }
                             } else if (ast->limit) {
                                 k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
@@ -246,7 +248,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                             auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                             if (std::holds_alternative<int64_t>(lim->value)) {
                                                 { int64_t _lv = std::get<int64_t>(lim->value);
-                                                  if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  if (_lv < 0) {
+                                                    return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                                  }
                                                   fulltextLimit = static_cast<size_t>(_lv); }
                                             }
                                         }
@@ -405,7 +409,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         return TranslationResult::Error("SIMILARITY() k must be integer literal");
                     }
                     { int64_t _kv = std::get<int64_t>(kLit->value);
-                      if (_kv < 1) return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      if (_kv < 1) {
+                        return TranslationResult::Error("SIMILARITY() k must be >= 1");
+                      }
                       k = static_cast<size_t>(_kv); }
                 } else if (ast->limit) {
                     k = static_cast<size_t>(std::max<int64_t>(0, ast->limit->count));
@@ -517,7 +523,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                                 auto lim = std::static_pointer_cast<LiteralExpr>(fc->arguments[2]);
                                 if (std::holds_alternative<int64_t>(lim->value)) {
                                     { int64_t _lv = std::get<int64_t>(lim->value);
-                                      if (_lv < 0) return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      if (_lv < 0) {
+                                        return TranslationResult::Error("FULLTEXT() limit must be non-negative");
+                                      }
                                       fulltextLimit = static_cast<size_t>(_lv); }
                                 }
                             }
@@ -674,7 +682,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                         { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          if (_lv < 0) {
+                            return TranslationResult::Error("limit must be non-negative");
+                          }
                           limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("FULLTEXT() limit must be an integer");
@@ -718,7 +728,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     auto limitLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
                     if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                         { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                          if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                          if (_lv < 0) {
+                            return TranslationResult::Error("limit must be non-negative");
+                          }
                           limit = static_cast<size_t>(_lv); }
                     } else {
                         return TranslationResult::Error("PHRASE() limit must be an integer");
@@ -922,20 +934,26 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Helper to recursively find FULLTEXT in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findFulltext;
         findFulltext = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
-            if (!e) return nullptr;
+            if (!e) {
+              return nullptr;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
                 std::string name = fc->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                if (name == "fulltext") return fc;
+                if (name == "fulltext") {
+                  return fc;
+                }
             }
             
             if (e->getType() == ASTNodeType::BinaryOp) {
                 auto bo = std::static_pointer_cast<BinaryOpExpr>(e);
                 if (bo->op == BinaryOperator::And) {
                     auto left = findFulltext(bo->left);
-                    if (left) return left;
+                    if (left) {
+                      return left;
+                    }
                     return findFulltext(bo->right);
                 }
             }
@@ -946,20 +964,26 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Helper to recursively find ST_* spatial function in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findSpatial;
         findSpatial = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
-            if (!e) return nullptr;
+            if (!e) {
+              return nullptr;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
                 std::string name = fc->name;
                 std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-                if (name.compare(0, 3, "st_") == 0) return fc;
+                if (name.compare(0, 3, "st_") == 0) {
+                  return fc;
+                }
             }
             
             if (e->getType() == ASTNodeType::BinaryOp) {
                 auto bo = std::static_pointer_cast<BinaryOpExpr>(e);
                 if (bo->op == BinaryOperator::And) {
                     auto left = findSpatial(bo->left);
-                    if (left) return left;
+                    if (left) {
+                      return left;
+                    }
                     return findSpatial(bo->right);
                 }
             }
@@ -970,7 +994,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Helper to collect all non-FULLTEXT and non-spatial predicates from AND tree
         std::function<void(const std::shared_ptr<Expression>&, std::vector<std::shared_ptr<Expression>>&)> collectNonFulltext;
         collectNonFulltext = [&](const std::shared_ptr<Expression>& e, std::vector<std::shared_ptr<Expression>>& preds) {
-            if (!e) return;
+            if (!e) {
+              return;
+            }
             
             if (e->getType() == ASTNodeType::FunctionCall) {
                 auto fc = std::static_pointer_cast<FunctionCallExpr>(e);
@@ -1030,7 +1056,9 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         auto limitLiteral = std::static_pointer_cast<LiteralExpr>(fulltextFunc->arguments[2]);
                         if (std::holds_alternative<int64_t>(limitLiteral->value)) {
                             { int64_t _lv = std::get<int64_t>(limitLiteral->value);
-                              if (_lv < 0) return TranslationResult::Error("limit must be non-negative");
+                              if (_lv < 0) {
+                                return TranslationResult::Error("limit must be non-negative");
+                              }
                               limit = static_cast<size_t>(_lv); }
                         } else {
                             return TranslationResult::Error("FULLTEXT() limit must be an integer");
@@ -1403,7 +1431,9 @@ std::optional<OrderBy> AQLTranslator::extractOrderBy(
 }
 
 bool AQLTranslator::containsOr(const std::shared_ptr<Expression>& expr) {
-    if (!expr) return false;
+    if (!expr) {
+      return false;
+    }
     
     if (expr->getType() == ASTNodeType::BinaryOp) {
         auto binOp = std::static_pointer_cast<BinaryOpExpr>(expr);

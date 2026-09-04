@@ -81,9 +81,13 @@ namespace {
 
 bool ContentHash::isValid() const {
     // SHA-256 produces 32 bytes = 64 hex characters (lowercase)
-    if (value.size() != 64) return false;
+    if (value.size() != 64) {
+      return false;
+    }
     for (char c : value) {
-        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) {
+          return false;
+        }
     }
     return true;
 }
@@ -332,12 +336,16 @@ std::vector<VerificationReceipt> ReceiptChain::getAllReceipts() const {
 }
 
 std::optional<VerificationReceipt> ReceiptChain::getHeadReceipt() const {
-    if (receipts_.empty()) return std::nullopt;
+    if (receipts_.empty()) {
+      return std::nullopt;
+    }
     return receipts_.back();
 }
 
 std::optional<VerificationReceipt> ReceiptChain::getGenesisReceipt() const {
-    if (receipts_.empty()) return std::nullopt;
+    if (receipts_.empty()) {
+      return std::nullopt;
+    }
     return receipts_.front();
 }
 
@@ -463,11 +471,21 @@ std::string verificationStateToString(VerificationState state) {
 
 std::optional<VerificationState> stringToVerificationState(
     const std::string& s) {
-    if (s == "UNVERIFIED") return VerificationState::UNVERIFIED;
-    if (s == "VERIFIED") return VerificationState::VERIFIED;
-    if (s == "VERIFIED_FRAGMENTS") return VerificationState::VERIFIED_FRAGMENTS;
-    if (s == "CORRUPT") return VerificationState::CORRUPT;
-    if (s == "STALE") return VerificationState::STALE;
+    if (s == "UNVERIFIED") {
+      return VerificationState::UNVERIFIED;
+    }
+    if (s == "VERIFIED") {
+      return VerificationState::VERIFIED;
+    }
+    if (s == "VERIFIED_FRAGMENTS") {
+      return VerificationState::VERIFIED_FRAGMENTS;
+    }
+    if (s == "CORRUPT") {
+      return VerificationState::CORRUPT;
+    }
+    if (s == "STALE") {
+      return VerificationState::STALE;
+    }
     return std::nullopt;
 }
 
@@ -871,7 +889,9 @@ std::string computeSHA256(std::string_view data) {
 }
 
 std::string computeSHA256(const char* data) {
-    if (data == nullptr) return std::string();
+    if (data == nullptr) {
+      return std::string();
+    }
     return computeSHA256(std::string_view(data));
 }
 
@@ -889,10 +909,14 @@ std::string computeJSONHash(const json& j) {
 
 bool isValidSHA256Hex(std::string_view hex_str) {
     // SHA-256 produces 32 bytes = 64 hex characters
-    if (hex_str.size() != 64) return false;
+    if (hex_str.size() != 64) {
+      return false;
+    }
 
     for (char c : hex_str) {
-        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) return false;
+        if (!isLowercaseHexCharacter(static_cast<unsigned char>(c))) {
+          return false;
+        }
     }
 
     return true;

@@ -50,7 +50,9 @@ void runWalStress(benchmark::State& state, bool sync_on) {
                 }
             });
         }
-        for (auto& w : workers) w.join();
+        for (auto& w : workers) {
+          w.join();
+        }
     }
 
     state.SetItemsProcessed(state.iterations() * threads * batch);

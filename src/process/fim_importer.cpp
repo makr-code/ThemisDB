@@ -70,7 +70,9 @@ static std::string unescapeXml(std::string_view s) {
         size_t semi = s.find(';', i + 1);
         if (semi == std::string_view::npos) { out += s[i++]; continue; }
         std::string_view ent = s.substr(i, semi - i + 1);
-        if      (ent == "&amp;")  out += '&';
+        if      (ent == "&amp;") {
+          out += '&';
+        }
         else if (ent == "<")   out += '<';
         else if (ent == ">")   out += '>';
         else if (ent == "&quot;") out += '"';
@@ -98,35 +100,55 @@ static void parseAttrs(std::string_view src,
     size_t i = 0;
     const size_t n = src.size();
     while (i < n) {
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n || src[i] == '/' || src[i] == '>') break;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n || src[i] == '/' || src[i] == '>') {
+          break;
+        }
         size_t ns = i;
         while (i < n && src[i] != '=' && src[i] != '/' && src[i] != '>' &&
                !std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i <= ns) break;
+        if (i <= ns) {
+          break;
+        }
         std::string attr_name = std::string(stripNs(src.substr(ns, i - ns)));
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
         if (i >= n || src[i] != '=') {
-            if (!attr_name.empty()) out.emplace(std::move(attr_name), "true");
+            if (!attr_name.empty()) {
+              out.emplace(std::move(attr_name), "true");
+            }
             continue;
         }
         ++i;
-        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(src[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
         std::string attr_val;
         if (src[i] == '"' || src[i] == '\'') {
             char q = src[i++];
             size_t vs = i;
-            while (i < n && src[i] != q) ++i;
+            while (i < n && src[i] != q) {
+              ++i;
+            }
             attr_val = unescapeXml(src.substr(vs, i - vs));
-            if (i < n) ++i;
+            if (i < n) {
+              ++i;
+            }
         } else {
             size_t vs = i;
             while (i < n && !std::isspace(static_cast<unsigned char>(src[i])) &&
                    src[i] != '>' && src[i] != '/') ++i;
             attr_val = std::string(src.substr(vs, i - vs));
         }
-        if (!attr_name.empty()) out.emplace(std::move(attr_name), std::move(attr_val));
+        if (!attr_name.empty()) {
+          out.emplace(std::move(attr_name), std::move(attr_val));
+        }
     }
 }
 
@@ -135,43 +157,67 @@ static void parseAttrs(std::string_view src,
 template<typename TagCb, typename TextCb>
 bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     constexpr size_t kMaxSize = 50u * 1024u * 1024u;
-    if (xml.size() > kMaxSize) return false;
+    if (xml.size() > kMaxSize) {
+      return false;
+    }
 
     size_t i = 0;
     const size_t n = xml.size();
 
     while (i < n) {
         size_t ts = i;
-        while (i < n && xml[i] != '<') ++i;
-        if (i > ts) text_cb(xml.substr(ts, i - ts));
-        if (i >= n) break;
+        while (i < n && xml[i] != '<') {
+          ++i;
+        }
+        if (i > ts) {
+          text_cb(xml.substr(ts, i - ts));
+        }
+        if (i >= n) {
+          break;
+        }
         ++i;
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         // comments / CDATA / PI / DOCTYPE
         if (i + 2 < n && xml[i] == '!' && xml[i+1] == '-' && xml[i+2] == '-') {
             i += 3;
-            while (i + 2 < n && !(xml[i]=='-' && xml[i+1]=='-' && xml[i+2]=='>')) ++i;
-            if (i + 2 < n) i += 3;
+            while (i + 2 < n && !(xml[i]=='-' && xml[i+1]=='-' && xml[i+2]=='>')) {
+              ++i;
+            }
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         if (i + 7 < n && xml.substr(i, 8) == "![CDATA[") {
             i += 8;
             size_t cs = i;
-            while (i + 2 < n && !(xml[i]==']' && xml[i+1]==']' && xml[i+2]=='>')) ++i;
+            while (i + 2 < n && !(xml[i]==']' && xml[i+1]==']' && xml[i+2]=='>')) {
+              ++i;
+            }
             text_cb(xml.substr(cs, i - cs));
-            if (i + 2 < n) i += 3;
+            if (i + 2 < n) {
+              i += 3;
+            }
             continue;
         }
         if (xml[i] == '?') {
-            while (i + 1 < n && !(xml[i]=='?' && xml[i+1]=='>')) ++i;
-            if (i + 1 < n) i += 2;
+            while (i + 1 < n && !(xml[i]=='?' && xml[i+1]=='>')) {
+              ++i;
+            }
+            if (i + 1 < n) {
+              i += 2;
+            }
             continue;
         }
         if (xml[i] == '!') {
             int depth = 1; ++i;
             while (i < n && depth > 0) {
-                if (xml[i] == '<') ++depth;
+                if (xml[i] == '<') {
+                  ++depth;
+                }
                 else if (xml[i] == '>') --depth;
                 ++i;
             }
@@ -185,15 +231,23 @@ bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
         while (i < n && xml[i] != '>' && xml[i] != '/' &&
                !std::isspace(static_cast<unsigned char>(xml[i]))) ++i;
         if (i <= name_s) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             continue;
         }
         std::string local_name = std::string(stripNs(xml.substr(name_s, i - name_s)));
 
         if (is_close) {
-            while (i < n && xml[i] != '>') ++i;
-            if (i < n) ++i;
+            while (i < n && xml[i] != '>') {
+              ++i;
+            }
+            if (i < n) {
+              ++i;
+            }
             XmlTag t; t.name = std::move(local_name); t.is_close = true;
             tag_cb(t);
             continue;
@@ -220,7 +274,9 @@ bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
         tag.self_closing = self_close;
         parseAttrs(xml.substr(attr_s, tag_end - attr_s), tag.attrs);
 
-        if (self_close) i += 2;
+        if (self_close) {
+          i += 2;
+        }
         else if (i < n) ++i;
 
         tag_cb(tag);

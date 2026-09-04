@@ -30,7 +30,9 @@ namespace {
 std::string makeJsonDoc(size_t num_fields) {
     std::string doc = "{";
     for (size_t i = 0; i < num_fields; ++i) {
-        if (i > 0) doc += ',';
+        if (i > 0) {
+          doc += ',';
+        }
         doc += "\"field" + std::to_string(i) + "\":\"value" + std::to_string(i) + "\"";
     }
     doc += "}";

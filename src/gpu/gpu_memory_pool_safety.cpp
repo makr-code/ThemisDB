@@ -206,7 +206,9 @@ GPUMemoryPool::Block* GPUMemoryPool::findBlock(void* ptr) {
 }
 
 void GPUMemoryPool::coalesceAdjacentBlocks() {
-    if (!head_) return;
+    if (!head_) {
+      return;
+    }
 
     Block* current = head_;
     while (current && current->next) {

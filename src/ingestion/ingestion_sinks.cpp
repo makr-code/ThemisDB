@@ -83,7 +83,9 @@ themis::BaseEntity toVectorEntity(const VectorRecord& record) {
 
 Result<void> IGraphWriter::write(const BaseEntitySet& entity_set) {
     auto r1 = writeEntities(entity_set.nodes);
-    if (!r1) return r1;
+    if (!r1) {
+      return r1;
+    }
     return writeRelations(entity_set.edges);
 }
 
@@ -258,11 +260,15 @@ Result<void> IngestionSinkBundle::writeAll(const BaseEntitySet& entity_set,
                                             const std::string& collection) const {
     if (graph) {
         auto r = graph->write(entity_set);
-        if (!r) return r;
+        if (!r) {
+          return r;
+        }
     }
     if (vector && !entity_set.chunks.empty()) {
         auto r = vector->writeVectors(entity_set.chunks);
-        if (!r) return r;
+        if (!r) {
+          return r;
+        }
     }
     if (doc) {
         auto r = doc->writeDocument(entity_set, collection);
@@ -305,7 +311,9 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
             {"extracted_at", e.provenance.extracted_at}
         };
         nlohmann::json props;
-        for (const auto& [k, v] : e.properties) props[k] = v;
+        for (const auto& [k, v] : e.properties) {
+          props[k] = v;
+        }
         ej["properties"] = std::move(props);
         nodes.push_back(std::move(ej));
     }
@@ -322,7 +330,9 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
             rj["weight"] = weight_it->second;
         }
         nlohmann::json rprops;
-        for (const auto& [k, v] : r.properties) rprops[k] = v;
+        for (const auto& [k, v] : r.properties) {
+          rprops[k] = v;
+        }
         rj["properties"] = std::move(rprops);
         edges.push_back(std::move(rj));
     }
@@ -365,7 +375,9 @@ Result<std::string> DocumentStoreSinkAdapter::writeDocument(
         // If already exists, attempt update
         if (result.error().code() == errors::ErrorCode::ERR_DOC_ALREADY_EXISTS) {
             auto upd = store_->update(collection, doc_id, rec.body);
-            if (!upd) return tl::make_unexpected(upd.error());
+            if (!upd) {
+              return tl::make_unexpected(upd.error());
+            }
         } else {
             return tl::make_unexpected(result.error());
         }

@@ -399,7 +399,9 @@ int main(int argc, char* argv[]) {
             } else {
                 std::string path;
                 for (size_t i = 0; i < order.size(); ++i) {
-                    if (i) path += " -> ";
+                    if (i) {
+                      path += " -> ";
+                    }
                     path += order[i];
                 }
                 THEMIS_INFO("BFS order (depth<=2): {}", path);
@@ -426,7 +428,9 @@ int main(int argc, char* argv[]) {
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
             std::string orderStr;
             for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {
-                if (i) orderStr += ", ";
+                if (i) {
+                  orderStr += ", ";
+                }
                 orderStr += plan.orderedPredicates[i].column + "=" + plan.orderedPredicates[i].value;
             }
             THEMIS_INFO("Optimized predicate order: [{}]", orderStr);

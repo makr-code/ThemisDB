@@ -216,11 +216,15 @@ RewriteResult DictionaryRewriteRule::apply(
     const uint32_t limit = (max_replacements_ == 0) ? UINT32_MAX : max_replacements_;
 
     for (const auto& [source, target] : mappings_) {
-        if (replacements >= limit) break;
+        if (replacements >= limit) {
+          break;
+        }
 
         size_t pos = 0;
         while ((pos = transformed.find(source, pos)) != std::string::npos) {
-            if (replacements >= limit) break;
+            if (replacements >= limit) {
+              break;
+            }
 
             if (trace.match_count == 0) {
                 trace.matched_text = source.substr(0, 1024);
@@ -295,7 +299,9 @@ uint8_t PolicyRewriteRule::priority() const {
 }
 
 bool PolicyRewriteRule::matches(const RewriteDocument& doc, const RewriteContext& ctx) const {
-    if (!match_fn_) return false;
+    if (!match_fn_) {
+      return false;
+    }
     return match_fn_(doc, ctx);
 }
 

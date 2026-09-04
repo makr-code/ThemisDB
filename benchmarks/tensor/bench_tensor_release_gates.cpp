@@ -117,12 +117,16 @@ static TensorShape mockReshape(const float* data,
 
 /// Element-wise add: out[i] = a[i] + b[i].
 static void elementWiseAdd(const float* a, const float* b, float* out, std::size_t n) {
-    for (std::size_t i = 0; i < n; ++i) out[i] = a[i] + b[i];
+    for (std::size_t i = 0; i < n; ++i) {
+      out[i] = a[i] + b[i];
+    }
 }
 
 /// Dtype conversion: float32 → float16.
 static void convertF32ToF16(const float* src, Float16* dst, std::size_t n) {
-    for (std::size_t i = 0; i < n; ++i) dst[i] = f32ToF16(src[i]);
+    for (std::size_t i = 0; i < n; ++i) {
+      dst[i] = f32ToF16(src[i]);
+    }
 }
 
 enum class MockDevice { CPU, GPU };
@@ -155,8 +159,12 @@ static void BM_TRNRG01_MatMul128(benchmark::State& state) {
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
     std::vector<float> A(N * N), B(N * N), C(N * N, 0.0f);
-    for (auto& v : A) v = dist(rng);
-    for (auto& v : B) v = dist(rng);
+    for (auto& v : A) {
+      v = dist(rng);
+    }
+    for (auto& v : B) {
+      v = dist(rng);
+    }
 
     // Warmup (single pass)
     matMul128(A, B, C);
@@ -245,7 +253,9 @@ static void BM_TRNRG04_DtypeConversion(benchmark::State& state) {
     std::uniform_real_distribution<float> dist(-100.0f, 100.0f);
     std::vector<float>   src(kN);
     std::vector<Float16> dst(kN);
-    for (auto& v : src) v = dist(rng);
+    for (auto& v : src) {
+      v = dist(rng);
+    }
 
     // Warmup
     for (int i = 0; i < kWarmupIterations; ++i) {

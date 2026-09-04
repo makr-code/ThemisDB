@@ -244,11 +244,15 @@ bool PromptEvaluator::isStatisticallySignificant(
 
     // Compute means
     double mean1 = 0.0;
-    for (double s : baseline_scores) mean1 += s;
+    for (double s : baseline_scores) {
+      mean1 += s;
+    }
     mean1 /= n1;
 
     double mean2 = 0.0;
-    for (double s : new_scores) mean2 += s;
+    for (double s : new_scores) {
+      mean2 += s;
+    }
     mean2 /= n2;
 
     // No improvement at all
@@ -289,7 +293,9 @@ bool PromptEvaluator::isStatisticallySignificant(
     double df_denom = (n1 > 1 ? se1_sq / (n1 - 1) : 0.0) +
                       (n2 > 1 ? se2_sq / (n2 - 1) : 0.0);
     double df = (df_denom > 1e-14) ? (se_total * se_total) / df_denom : 1.0;
-    if (df < 1.0) df = 1.0;
+    if (df < 1.0) {
+      df = 1.0;
+    }
 
     // Two-sample one-tailed p-value via the regularised incomplete beta function.
     // For a one-tailed test at confidence_level (e.g. 0.95), we need p < (1 - confidence_level).
@@ -299,9 +305,15 @@ bool PromptEvaluator::isStatisticallySignificant(
     // method (Numerical Recipes §6.4), which converges uniformly across all df values.
     auto incomplete_beta_regularized = [](double x, double a, double b) -> double {
         // Lentz continued-fraction method (Numerical Recipes §6.4)
-        if (x < 0.0 || x > 1.0) return (x <= 0.0) ? 0.0 : 1.0;
-        if (x == 0.0) return 0.0;
-        if (x == 1.0) return 1.0;
+        if (x < 0.0 || x > 1.0) {
+          return (x <= 0.0) ? 0.0 : 1.0;
+        }
+        if (x == 0.0) {
+          return 0.0;
+        }
+        if (x == 1.0) {
+          return 1.0;
+        }
 
         // Use symmetry: I(x, a, b) = 1 - I(1-x, b, a) when x > (a+1)/(a+b+2)
         bool use_sym = (x > (a + 1.0) / (a + b + 2.0));
@@ -328,7 +340,9 @@ bool PromptEvaluator::isStatisticallySignificant(
         double qap = aa + 1.0;
         double qam = aa - 1.0;
         double c = 1.0, d = 1.0 - qab * xx / qap;
-        if (std::abs(d) < 1e-30) d = 1e-30;
+        if (std::abs(d) < 1e-30) {
+          d = 1e-30;
+        }
         d = 1.0 / d;
         double h = d;
         for (int m = 1; m <= MAX_ITER; ++m) {
@@ -336,21 +350,31 @@ bool PromptEvaluator::isStatisticallySignificant(
             // Even step
             double dm = m * (bb - m) * xx / ((qam + m2) * (aa + m2));
             d = 1.0 + dm * d;
-            if (std::abs(d) < 1e-30) d = 1e-30;
+            if (std::abs(d) < 1e-30) {
+              d = 1e-30;
+            }
             c = 1.0 + dm / c;
-            if (std::abs(c) < 1e-30) c = 1e-30;
+            if (std::abs(c) < 1e-30) {
+              c = 1e-30;
+            }
             d = 1.0 / d;
             h *= d * c;
             // Odd step
             dm = -(aa + m) * (qab + m) * xx / ((aa + m2) * (qap + m2));
             d = 1.0 + dm * d;
-            if (std::abs(d) < 1e-30) d = 1e-30;
+            if (std::abs(d) < 1e-30) {
+              d = 1e-30;
+            }
             c = 1.0 + dm / c;
-            if (std::abs(c) < 1e-30) c = 1e-30;
+            if (std::abs(c) < 1e-30) {
+              c = 1e-30;
+            }
             d = 1.0 / d;
             double delta = d * c;
             h *= delta;
-            if (std::abs(delta - 1.0) < EPS) break;
+            if (std::abs(delta - 1.0) < EPS) {
+              break;
+            }
         }
         double result = front * h;
         return use_sym ? (1.0 - result) : result;
@@ -421,8 +445,12 @@ size_t PromptEvaluator::levenshteinDistance(
     const size_t m = s1.length();
     const size_t n = s2.length();
     
-    if (m == 0) return n;
-    if (n == 0) return m;
+    if (m == 0) {
+      return n;
+    }
+    if (n == 0) {
+      return m;
+    }
     
     std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1));
     

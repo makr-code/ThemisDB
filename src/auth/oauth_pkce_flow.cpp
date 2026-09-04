@@ -187,7 +187,9 @@ OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &auth
                 const bool retryable   = (what.find("HTTP 429") != std::string::npos)
                                        || (what.find("HTTP 503") != std::string::npos)
                                        || (what.find("libcurl") != std::string::npos);
-                if (!retryable || attempt + 1 == kMaxRetries) break;
+                if (!retryable || attempt + 1 == kMaxRetries) {
+                  break;
+                }
                 const int delay_ms = kBaseDelayMs * (1 << attempt);
                 spdlog::warn("OAuthPKCEFlow: token exchange attempt {} failed ({}), retrying in {}ms",
                              attempt + 1, what, delay_ms);

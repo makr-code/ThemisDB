@@ -237,7 +237,9 @@ std::vector<ColumnAccess> IndexRecommender::getAccessStats(std::string_view tabl
     std::vector<ColumnAccess> result;
 
     auto t_it = stats_.find(std::string(table_name));
-    if (t_it == stats_.end()) return result;
+    if (t_it == stats_.end()) {
+      return result;
+    }
 
     for (const auto& [_, ca] : t_it->second) {
         result.push_back(ca);
@@ -288,7 +290,9 @@ json IndexRecommender::toJSON() const {
 // ============================================================================
 
 void IndexRecommender::persistStats() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
 
     // Snapshot stats under the lock, then write outside the lock
     std::map<std::string, std::map<std::string, ColumnAccess>> snapshot;
@@ -328,7 +332,9 @@ void IndexRecommender::persistStats() {
 }
 
 void IndexRecommender::loadStats() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
 
     static constexpr std::string_view PREFIX = "meta_idx_stats::";
 
@@ -342,7 +348,9 @@ void IndexRecommender::loadStats() {
         std::lock_guard<std::mutex> lock(mutex_);
         db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
-                if (key.size() <= PREFIX.size()) return true;
+                if (key.size() <= PREFIX.size()) {
+                  return true;
+                }
                 std::string table_name(key.substr(PREFIX.size()));
 
                 // Skip the total_queries pseudo-table
@@ -358,7 +366,9 @@ void IndexRecommender::loadStats() {
 
                 try {
                     auto arr = json::parse(value);
-                    if (!arr.is_array()) return true;
+                    if (!arr.is_array()) {
+                      return true;
+                    }
 
                     for (const auto& item : arr) {
                         ColumnAccess ca;
@@ -368,7 +378,9 @@ void IndexRecommender::loadStats() {
                         ca.sort_count      = item.value("sort_count",      uint64_t{0});
                         ca.avg_selectivity = item.value("avg_selectivity", 1.0);
 
-                        if (ca.column_name.empty()) continue;
+                        if (ca.column_name.empty()) {
+                          continue;
+                        }
 
                         // Merge: accumulated counts from persisted state + any in-memory
                         auto& slot = stats_[table_name][ca.column_name];
@@ -387,8 +399,12 @@ void IndexRecommender::loadStats() {
                             }
                             slot.filter_count += ca.filter_count;
                             slot.sort_count   += ca.sort_count;
-                            if (slot.table_name.empty())  slot.table_name  = table_name;
-                            if (slot.column_name.empty()) slot.column_name = ca.column_name;
+                            if (slot.table_name.empty()) {
+                              slot.table_name  = table_name;
+                            }
+                            if (slot.column_name.empty()) {
+                              slot.column_name = ca.column_name;
+                            }
                         }
                     }
                 } catch (const std::exception& e) {
@@ -412,7 +428,9 @@ void IndexRecommender::persistLoop_() {
         std::unique_lock<std::mutex> lk(persist_mutex_);
         persist_cv_.wait_for(lk, persist_interval_,
                              [this] { return stop_persist_.load(); });
-        if (stop_persist_.load()) break;
+        if (stop_persist_.load()) {
+          break;
+        }
         persistStats();
     }
 }

@@ -140,12 +140,16 @@ public:
     void shutdown() noexcept {
         {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (stop_) return;
+            if (stop_) {
+              return;
+            }
             stop_ = true;
         }
         cv_.notify_all();
         for (auto& t : workers_) {
-            if (t.joinable()) t.join();
+            if (t.joinable()) {
+              t.join();
+            }
         }
         workers_.clear();
     }
@@ -175,7 +179,9 @@ private:
                     ++idle_count_;
                     cv_.wait(lock, [this] { return stop_ || !tasks_.empty(); });
                     --idle_count_;
-                    if (stop_ && tasks_.empty()) return;
+                    if (stop_ && tasks_.empty()) {
+                      return;
+                    }
                     task = std::move(tasks_.front());
                     tasks_.pop();
                 }

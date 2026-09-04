@@ -65,7 +65,9 @@ public:
 
     bool loadFromJson(const std::string& json_blob) {
         // Stub: accept blobs that look like a JSON array
-        if (json_blob.size() < 2) return false;
+        if (json_blob.size() < 2) {
+          return false;
+        }
         return json_blob.front() == '[' && json_blob.back() == ']';
     }
 
@@ -100,7 +102,9 @@ static themis::PolicyEngine g_engine;
  * AFL will discover this structure from the seed corpus.
  */
 static int fuzz_one_input(const uint8_t* data, size_t size) {
-    if (!data || size < 2) return 0;
+    if (!data || size < 2) {
+      return 0;
+    }
 
     uint8_t selector = data[0] % 2;
     const char* payload = reinterpret_cast<const char*>(data + 1);
@@ -126,7 +130,9 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
 
         auto [user_id,  p1] = find_field(payload, payload_len);
         size_t p1_offset    = static_cast<size_t>(p1 - payload);
-        if (p1_offset >= payload_len) return 0;
+        if (p1_offset >= payload_len) {
+          return 0;
+        }
         auto [action,   p2] = find_field(p1, payload_len - p1_offset);
         size_t p2_offset    = static_cast<size_t>(p2 - payload);
         std::string resource;

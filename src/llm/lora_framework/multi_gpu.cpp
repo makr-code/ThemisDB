@@ -51,8 +51,12 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
             auto backends = GPUMemoryManager::detect_backends();
             bool has_cuda = false, has_hip = false;
             for (const auto& backend : backends) {
-                if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
-                if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+                if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+                  has_cuda = true;
+                }
+                if (backend.type == acceleration::BackendType::HIP && backend.available) {
+                  has_hip = true;
+                }
             }
             
             // Try CUDA first
@@ -93,8 +97,12 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     auto backends = GPUMemoryManager::detect_backends();
     bool has_cuda = false, has_hip = false;
     for (const auto& backend : backends) {
-        if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
-        if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+        if (backend.type == acceleration::BackendType::CUDA && backend.available) {
+          has_cuda = true;
+        }
+        if (backend.type == acceleration::BackendType::HIP && backend.available) {
+          has_hip = true;
+        }
     }
     
     if (has_cuda) {

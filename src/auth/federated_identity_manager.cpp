@@ -749,7 +749,9 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
         if (last_exc) {
             try { std::rethrow_exception(last_exc); }
             catch (const std::exception &ex) {
-                if (audit_logger_) audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                if (audit_logger_) {
+                  audit_logger_->logJWTFailure("token_exchange_http_error: " + std::string(ex.what()));
+                }
                 spdlog::error("FederatedIdentityManager::exchangeToken: "
                               "HTTP POST failed after retries: {}",
                               ex.what());

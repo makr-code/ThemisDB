@@ -75,7 +75,9 @@ Result<bool> ParserScopeContext::validateCollectionAccess(
             std::ostringstream ss;
             bool first = true;
             for (const auto& c : registered_collections_) {
-                if (!first) ss << ", ";
+                if (!first) {
+                  ss << ", ";
+                }
                 ss << c;
                 first = false;
             }
@@ -236,7 +238,9 @@ public:
         
         while (pos_ < input_.size()) {
             skipWhitespace();
-            if (pos_ >= input_.size()) break;
+            if (pos_ >= input_.size()) {
+              break;
+            }
             
             Token token = nextToken();
             if (token.type != TokenType::INVALID) {
@@ -267,7 +271,9 @@ private:
     }
     
     char advance() {
-        if (pos_ >= input_.size()) return '\0';
+        if (pos_ >= input_.size()) {
+          return '\0';
+        }
         char ch = input_[pos_++];
         if (ch == '\n') {
             line_++;
@@ -382,68 +388,166 @@ private:
         std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
         
         // Check keywords
-        if (lower == "for") return Token(TokenType::FOR, value, line, col);
-        if (lower == "in") return Token(TokenType::IN, value, line, col);
-        if (lower == "filter") return Token(TokenType::FILTER, value, line, col);
-        if (lower == "sort") return Token(TokenType::SORT, value, line, col);
-        if (lower == "limit") return Token(TokenType::LIMIT, value, line, col);
-    if (lower == "return") return Token(TokenType::RETURN, value, line, col);
-    if (lower == "let") return Token(TokenType::LET, value, line, col);
-        if (lower == "asc") return Token(TokenType::ASC, value, line, col);
-        if (lower == "desc") return Token(TokenType::DESC, value, line, col);
-    if (lower == "and") return Token(TokenType::AND, value, line, col);
-    if (lower == "or") return Token(TokenType::OR, value, line, col);
-    if (lower == "xor") return Token(TokenType::XOR, value, line, col);
-        if (lower == "not") return Token(TokenType::NOT, value, line, col);
-        if (lower == "true") return Token(TokenType::TRUE, value, line, col);
-        if (lower == "false") return Token(TokenType::FALSE, value, line, col);
-        if (lower == "null") return Token(TokenType::NULL_LITERAL, value, line, col);
-        if (lower == "graph") return Token(TokenType::GRAPH, value, line, col);
-        if (lower == "outbound") return Token(TokenType::OUTBOUND, value, line, col);
-        if (lower == "inbound") return Token(TokenType::INBOUND, value, line, col);
-        if (lower == "any") return Token(TokenType::ANY, value, line, col);
-    if (lower == "type") return Token(TokenType::TYPE, value, line, col);
-        if (lower == "collect") return Token(TokenType::COLLECT, value, line, col);
-        if (lower == "aggregate") return Token(TokenType::AGGREGATE, value, line, col);
+        if (lower == "for") {
+          return Token(TokenType::FOR, value, line, col);
+        }
+        if (lower == "in") {
+          return Token(TokenType::IN, value, line, col);
+        }
+        if (lower == "filter") {
+          return Token(TokenType::FILTER, value, line, col);
+        }
+        if (lower == "sort") {
+          return Token(TokenType::SORT, value, line, col);
+        }
+        if (lower == "limit") {
+          return Token(TokenType::LIMIT, value, line, col);
+        }
+    if (lower == "return") {
+      return Token(TokenType::RETURN, value, line, col);
+    }
+    if (lower == "let") {
+      return Token(TokenType::LET, value, line, col);
+    }
+        if (lower == "asc") {
+          return Token(TokenType::ASC, value, line, col);
+        }
+        if (lower == "desc") {
+          return Token(TokenType::DESC, value, line, col);
+        }
+    if (lower == "and") {
+      return Token(TokenType::AND, value, line, col);
+    }
+    if (lower == "or") {
+      return Token(TokenType::OR, value, line, col);
+    }
+    if (lower == "xor") {
+      return Token(TokenType::XOR, value, line, col);
+    }
+        if (lower == "not") {
+          return Token(TokenType::NOT, value, line, col);
+        }
+        if (lower == "true") {
+          return Token(TokenType::TRUE, value, line, col);
+        }
+        if (lower == "false") {
+          return Token(TokenType::FALSE, value, line, col);
+        }
+        if (lower == "null") {
+          return Token(TokenType::NULL_LITERAL, value, line, col);
+        }
+        if (lower == "graph") {
+          return Token(TokenType::GRAPH, value, line, col);
+        }
+        if (lower == "outbound") {
+          return Token(TokenType::OUTBOUND, value, line, col);
+        }
+        if (lower == "inbound") {
+          return Token(TokenType::INBOUND, value, line, col);
+        }
+        if (lower == "any") {
+          return Token(TokenType::ANY, value, line, col);
+        }
+    if (lower == "type") {
+      return Token(TokenType::TYPE, value, line, col);
+    }
+        if (lower == "collect") {
+          return Token(TokenType::COLLECT, value, line, col);
+        }
+        if (lower == "aggregate") {
+          return Token(TokenType::AGGREGATE, value, line, col);
+        }
         
             // Phase 2: Hybrid Query Keywords
             // Note: SIMILARITY and PROXIMITY are function names, not keywords - should remain as IDENTIFIER
             // if (lower == "similarity") return Token(TokenType::SIMILARITY, value, line, col);
             // if (lower == "proximity") return Token(TokenType::PROXIMITY, value, line, col);
-            if (lower == "shortest_path") return Token(TokenType::SHORTEST_PATH, value, line, col);
-            if (lower == "to") return Token(TokenType::TO, value, line, col);
+            if (lower == "shortest_path") {
+              return Token(TokenType::SHORTEST_PATH, value, line, col);
+            }
+            if (lower == "to") {
+              return Token(TokenType::TO, value, line, col);
+            }
         
         // Phase 3: Subqueries & CTEs
-        if (lower == "with") return Token(TokenType::WITH, value, line, col);
-        if (lower == "as") return Token(TokenType::AS, value, line, col);
-        if (lower == "all") return Token(TokenType::ALL, value, line, col);
-        if (lower == "satisfies") return Token(TokenType::SATISFIES, value, line, col);
+        if (lower == "with") {
+          return Token(TokenType::WITH, value, line, col);
+        }
+        if (lower == "as") {
+          return Token(TokenType::AS, value, line, col);
+        }
+        if (lower == "all") {
+          return Token(TokenType::ALL, value, line, col);
+        }
+        if (lower == "satisfies") {
+          return Token(TokenType::SATISFIES, value, line, col);
+        }
 
         // Phase 4: Multi-statement transaction AQL
-        if (lower == "begin") return Token(TokenType::BEGIN, value, line, col);
-        if (lower == "commit") return Token(TokenType::COMMIT, value, line, col);
-        if (lower == "rollback") return Token(TokenType::ROLLBACK, value, line, col);
+        if (lower == "begin") {
+          return Token(TokenType::BEGIN, value, line, col);
+        }
+        if (lower == "commit") {
+          return Token(TokenType::COMMIT, value, line, col);
+        }
+        if (lower == "rollback") {
+          return Token(TokenType::ROLLBACK, value, line, col);
+        }
 
         // Phase 5: DML mutation keywords (EPIC-004)
-        if (lower == "insert")  return Token(TokenType::INSERT,  value, line, col);
-        if (lower == "update")  return Token(TokenType::UPDATE,  value, line, col);
-        if (lower == "delete")  return Token(TokenType::DELETE,  value, line, col);
-        if (lower == "remove")  return Token(TokenType::REMOVE,  value, line, col);
-        if (lower == "replace") return Token(TokenType::REPLACE, value, line, col);
-        if (lower == "upsert")  return Token(TokenType::UPSERT,  value, line, col);
-        if (lower == "into")    return Token(TokenType::INTO,    value, line, col);
-        if (lower == "set")     return Token(TokenType::SET,     value, line, col);
-        if (lower == "values")  return Token(TokenType::VALUES,  value, line, col);
-        if (lower == "from")    return Token(TokenType::FROM,    value, line, col);
-        if (lower == "where")   return Token(TokenType::WHERE,   value, line, col);
+        if (lower == "insert") {
+          return Token(TokenType::INSERT,  value, line, col);
+        }
+        if (lower == "update") {
+          return Token(TokenType::UPDATE,  value, line, col);
+        }
+        if (lower == "delete") {
+          return Token(TokenType::DELETE,  value, line, col);
+        }
+        if (lower == "remove") {
+          return Token(TokenType::REMOVE,  value, line, col);
+        }
+        if (lower == "replace") {
+          return Token(TokenType::REPLACE, value, line, col);
+        }
+        if (lower == "upsert") {
+          return Token(TokenType::UPSERT,  value, line, col);
+        }
+        if (lower == "into") {
+          return Token(TokenType::INTO,    value, line, col);
+        }
+        if (lower == "set") {
+          return Token(TokenType::SET,     value, line, col);
+        }
+        if (lower == "values") {
+          return Token(TokenType::VALUES,  value, line, col);
+        }
+        if (lower == "from") {
+          return Token(TokenType::FROM,    value, line, col);
+        }
+        if (lower == "where") {
+          return Token(TokenType::WHERE,   value, line, col);
+        }
 
         // Phase 6: FTS / SEARCH clause keywords
-        if (lower == "search")      return Token(TokenType::SEARCH,      value, line, col);
-        if (lower == "phrase")      return Token(TokenType::PHRASE,       value, line, col);
-        if (lower == "near")        return Token(TokenType::NEAR,         value, line, col);
-        if (lower == "starts_with") return Token(TokenType::STARTS_WITH,  value, line, col);
-        if (lower == "boost")       return Token(TokenType::BOOST,        value, line, col);
-        if (lower == "analyzer")    return Token(TokenType::ANALYZER,     value, line, col);
+        if (lower == "search") {
+          return Token(TokenType::SEARCH,      value, line, col);
+        }
+        if (lower == "phrase") {
+          return Token(TokenType::PHRASE,       value, line, col);
+        }
+        if (lower == "near") {
+          return Token(TokenType::NEAR,         value, line, col);
+        }
+        if (lower == "starts_with") {
+          return Token(TokenType::STARTS_WITH,  value, line, col);
+        }
+        if (lower == "boost") {
+          return Token(TokenType::BOOST,        value, line, col);
+        }
+        if (lower == "analyzer") {
+          return Token(TokenType::ANALYZER,     value, line, col);
+        }
 
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
@@ -588,7 +692,9 @@ private:
     }
     
     void advance() {
-        if (pos_ < tokens_.size()) pos_++;
+        if (pos_ < tokens_.size()) {
+          pos_++;
+        }
     }
     
     bool match(TokenType type) const {
@@ -1038,8 +1144,12 @@ private:
             // Build traversal node and stash it for parseQuery
             auto trav = std::make_shared<Query::TraversalNode>();
             trav->varVertex = varVertex;
-            if (varEdge) trav->varEdge = *varEdge;
-            if (varPath) trav->varPath = *varPath;
+            if (varEdge) {
+              trav->varEdge = *varEdge;
+            }
+            if (varPath) {
+              trav->varPath = *varPath;
+            }
             trav->minDepth = minDepth;
             trav->maxDepth = maxDepth;
             trav->direction = dir;
@@ -1208,7 +1318,9 @@ private:
             // Parse list: var = FUNC(expr?) [, var = FUNC(expr?)]*
             bool first = true;
             while (first || match(TokenType::COMMA)) {
-                if (!first) advance();
+                if (!first) {
+                  advance();
+                }
                 first = false;
                 if (!match(TokenType::IDENTIFIER)) {
                     throw std::runtime_error("Expected aggregation variable name after AGGREGATE");
@@ -1552,7 +1664,9 @@ private:
                 std::vector<std::shared_ptr<Expression>> args;
                 if (!match(TokenType::RPAREN)) {
                     do {
-                        if (!args.empty()) expect(TokenType::COMMA, "Expected comma");
+                        if (!args.empty()) {
+                          expect(TokenType::COMMA, "Expected comma");
+                        }
                         args.push_back(parseExpression());
                     } while (match(TokenType::COMMA));
                 }
@@ -1635,7 +1749,9 @@ public:
             }
 
             // Consume optional trailing semicolons.
-            while (match(TokenType::SEMICOLON)) advance();
+            while (match(TokenType::SEMICOLON)) {
+              advance();
+            }
 
             if (!match(TokenType::END_OF_FILE)) {
                 return Err<std::shared_ptr<MutationNode>>(
@@ -1691,7 +1807,9 @@ private:
     /// @brief Parse optional `RETURN NEW` or `RETURN OLD` clause.
     ///        Sets *return_new / *return_old to true when detected.
     void parseReturnClause(bool& return_new, bool& return_old) {
-        if (!match(TokenType::RETURN)) return;
+        if (!match(TokenType::RETURN)) {
+          return;
+        }
         advance(); // consume RETURN
         const std::string val = [&](){
             std::string s = current().value;
@@ -1732,7 +1850,9 @@ private:
             // Parse one or more comma-separated document expressions.
             do {
                 if (!node->documents.empty()) {
-                    if (!match(TokenType::COMMA)) break;
+                    if (!match(TokenType::COMMA)) {
+                      break;
+                    }
                     advance();
                 }
                 node->documents.push_back(parseExpression());
@@ -1780,7 +1900,9 @@ private:
             // Parse k=v pairs.
             do {
                 if (!node->set_clauses.empty()) {
-                    if (!match(TokenType::COMMA)) break;
+                    if (!match(TokenType::COMMA)) {
+                      break;
+                    }
                     advance();
                 }
                 SetClause sc;
@@ -1966,21 +2088,51 @@ std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string&
 }
 
 BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
-    if (op_str == "==") return BinaryOperator::Eq;
-    if (op_str == "!=") return BinaryOperator::Neq;
-    if (op_str == "<") return BinaryOperator::Lt;
-    if (op_str == "<=") return BinaryOperator::Lte;
-    if (op_str == ">") return BinaryOperator::Gt;
-    if (op_str == ">=") return BinaryOperator::Gte;
-    if (op_str == "AND") return BinaryOperator::And;
-    if (op_str == "OR") return BinaryOperator::Or;
-    if (op_str == "XOR") return BinaryOperator::Xor;
-    if (op_str == "+") return BinaryOperator::Add;
-    if (op_str == "-") return BinaryOperator::Sub;
-    if (op_str == "*") return BinaryOperator::Mul;
-    if (op_str == "/") return BinaryOperator::Div;
-    if (op_str == "%") return BinaryOperator::Mod;
-    if (op_str == "IN") return BinaryOperator::In;
+    if (op_str == "==") {
+      return BinaryOperator::Eq;
+    }
+    if (op_str == "!=") {
+      return BinaryOperator::Neq;
+    }
+    if (op_str == "<") {
+      return BinaryOperator::Lt;
+    }
+    if (op_str == "<=") {
+      return BinaryOperator::Lte;
+    }
+    if (op_str == ">") {
+      return BinaryOperator::Gt;
+    }
+    if (op_str == ">=") {
+      return BinaryOperator::Gte;
+    }
+    if (op_str == "AND") {
+      return BinaryOperator::And;
+    }
+    if (op_str == "OR") {
+      return BinaryOperator::Or;
+    }
+    if (op_str == "XOR") {
+      return BinaryOperator::Xor;
+    }
+    if (op_str == "+") {
+      return BinaryOperator::Add;
+    }
+    if (op_str == "-") {
+      return BinaryOperator::Sub;
+    }
+    if (op_str == "*") {
+      return BinaryOperator::Mul;
+    }
+    if (op_str == "/") {
+      return BinaryOperator::Div;
+    }
+    if (op_str == "%") {
+      return BinaryOperator::Mod;
+    }
+    if (op_str == "IN") {
+      return BinaryOperator::In;
+    }
     throw std::runtime_error("Unknown operator: " + op_str);
 }
 
@@ -2069,7 +2221,9 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     // Clamp to 0: an extra ')' at top level means the
                     // statement is malformed, which the sub-parser will
                     // report when we hand it the slice below.
-                    if (depth > 0) --depth;
+                    if (depth > 0) {
+                      --depth;
+                    }
                 }
                 // WITH-statements must include their first top-level FOR
                 if (depth == 0 && startsWithClause && tok.type == TokenType::FOR && !consumedTopLevelForAfterWith) {
@@ -2198,8 +2352,12 @@ static std::vector<std::string> tokeniseDdl(const std::string& input) {
     // Convert the part before RETURN to uppercase tokens; capture RETURN body.
     while (i < n) {
         // Skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         char ch = input[i];
 
@@ -2421,7 +2579,9 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
         size_t search_from = 0;
         while (true) {
             size_t found = upper.find(needle, search_from);
-            if (found == std::string::npos) break;
+            if (found == std::string::npos) {
+              break;
+            }
             // Check word boundary
             bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[found - 1]));
             bool right_ok = (found + needle.size() >= upper.size()) ||
@@ -2497,8 +2657,12 @@ static std::vector<SchemaDdlToken> tokeniseSchemaDdl(const std::string& input) {
 
     while (i < n) {
         // Skip whitespace
-        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
-        if (i >= n) break;
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
+          ++i;
+        }
+        if (i >= n) {
+          break;
+        }
 
         char ch = input[i];
 
@@ -2545,7 +2709,9 @@ static std::string extractJsonBlock(const std::string& source, size_t from_pos) 
         if (source[i] == '{')      ++depth;
         else if (source[i] == '}') {
             --depth;
-            if (depth == 0) return source.substr(brace_open, i - brace_open + 1);
+            if (depth == 0) {
+              return source.substr(brace_open, i - brace_open + 1);
+            }
         }
     }
     return {}; // unbalanced
@@ -2568,7 +2734,9 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     std::string trimmed = input;
     {
         size_t s = trimmed.find_first_not_of(" \t\n\r");
-        if (s == std::string::npos) return make_err("Empty Schema DDL statement");
+        if (s == std::string::npos) {
+          return make_err("Empty Schema DDL statement");
+        }
         size_t e = trimmed.find_last_not_of(" \t\n\r");
         trimmed = trimmed.substr(s, e - s + 1);
     }
@@ -2580,7 +2748,9 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
     // ── tokenise ──────────────────────────────────────────────────────────────
     const auto tokens = tokeniseSchemaDdl(trimmed);
-    if (tokens.empty()) return make_err("Empty Schema DDL statement");
+    if (tokens.empty()) {
+      return make_err("Empty Schema DDL statement");
+    }
 
     // Bounds-safe token accessors
     auto tok_up = [&]([[maybe_unused]] size_t idx) -> const std::string& {
@@ -2677,7 +2847,9 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
                 if (tok_up(fi) == ",") { ++fi; continue; }
                 FieldDef f;
                 f.name = tok_orig(fi);
-                if (f.name.empty()) break;
+                if (f.name.empty()) {
+                  break;
+                }
                 fields.push_back(std::move(f));
                 ++fi;
             }

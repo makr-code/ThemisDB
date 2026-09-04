@@ -183,7 +183,9 @@ std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
     if (ctx.has_uncertain_claims) {
         out << "Your previous response contained uncertainty markers (";
         for (size_t i = 0; i < ctx.uncertainty_markers.size(); ++i) {
-            if (i > 0) out << ", ";
+            if (i > 0) {
+              out << ", ";
+            }
             out << '"' << ctx.uncertainty_markers[i] << '"';
         }
         out << "). Pay special attention to verifying factual claims.\n";
@@ -381,7 +383,9 @@ bool ReflectionHallucinationGuard::isDiverging(
 bool ReflectionHallucinationGuard::shouldHalt(
     const std::vector<ReflectionStep>& steps) const {
 
-    if (steps.empty()) return false;
+    if (steps.empty()) {
+      return false;
+    }
 
     if (steps.back().hallucination_suspected) {
         return true;
@@ -440,14 +444,20 @@ ReflectionTuner::getHallucinationGuard() const noexcept {
 
 double ReflectionTuner::computeHeuristicScore(const std::string& /*prompt*/,
                                                const std::string& response) const {
-    if (response.empty()) return 0.0;
+    if (response.empty()) {
+      return 0.0;
+    }
 
     double score = 0.5;
 
     // Reward longer, more complete responses.
     const size_t len = response.size();
-    if (len > 200) score += 0.1;
-    if (len > 500) score += 0.1;
+    if (len > 200) {
+      score += 0.1;
+    }
+    if (len > 500) {
+      score += 0.1;
+    }
 
     // Penalise hallucination markers found in the response text.
     const std::string lower = toLower(response);
@@ -514,7 +524,9 @@ ReflectionStep ReflectionTuner::runIteration(
         if (ctx.has_uncertain_claims) {
             crit_out << "The response contains uncertainty markers (";
             for (size_t i = 0; i < ctx.uncertainty_markers.size(); ++i) {
-                if (i > 0) crit_out << ", ";
+                if (i > 0) {
+                  crit_out << ", ";
+                }
                 crit_out << '"' << ctx.uncertainty_markers[i] << '"';
             }
             crit_out << "). Consider providing more definitive statements or "

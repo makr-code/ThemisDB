@@ -80,7 +80,9 @@ public:
      */
     bool wait() {
         ++attempt_;
-        if (attempt_ >= cfg_.max_attempts) return false;
+        if (attempt_ >= cfg_.max_attempts) {
+          return false;
+        }
 
         // Compute jitter: uniform in [0, jitter_fraction * current_ms]
         double jitter = 0.0;

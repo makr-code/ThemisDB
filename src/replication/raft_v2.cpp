@@ -208,14 +208,18 @@ MembershipChangeEntry MembershipChangeManager::proposeAdd(
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : entry.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
@@ -265,14 +269,18 @@ MembershipChangeEntry MembershipChangeManager::proposeRemove(
         oss << "{\"phase\":\"joint\",\"old\":[";
         bool first = true;
         for (const auto& m : entry.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : entry.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
@@ -320,14 +328,18 @@ void MembershipChangeManager::onJointCommitted([[maybe_unused]] uint64_t log_ind
         oss << "{\"phase\":\"commit\",\"old\":[";
         bool first = true;
         for (const auto& m : commit.old_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }
         oss << "],\"new\":[";
         first = true;
         for (const auto& m : commit.new_members) {
-            if (!first) oss << ",";
+            if (!first) {
+              oss << ",";
+            }
             oss << "\"" << m << "\"";
             first = false;
         }

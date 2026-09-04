@@ -195,40 +195,54 @@ bool TimeSeriesQueryRequest::parse(const std::vector<uint8_t>& data, TimeSeriesQ
         switch (field_number) {
             case 1:  // collection
                 if (wire_type != 2) return false;  // Must be length-delimited
-                if (!parser.readString(request.collection)) return false;
+                if (!parser.readString(request.collection)) {
+                  return false;
+                }
                 break;
                 
             case 2:  // start_time_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.start_time_ns)) return false;
+                if (!parser.readVarint(request.start_time_ns)) {
+                  return false;
+                }
                 break;
                 
             case 3:  // end_time_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.end_time_ns)) return false;
+                if (!parser.readVarint(request.end_time_ns)) {
+                  return false;
+                }
                 break;
                 
             case 4:  // aggregation
                 if (wire_type != 0) return false;  // Must be varint
                 {
                     uint64_t agg_value = 0;
-                    if (!parser.readVarint(agg_value)) return false;
+                    if (!parser.readVarint(agg_value)) {
+                      return false;
+                    }
                     request.aggregation = static_cast<uint32_t>(agg_value);
                 }
                 break;
                 
             case 5:  // bucket_size_ns
                 if (wire_type != 0) return false;  // Must be varint
-                if (!parser.readVarint(request.bucket_size_ns)) return false;
+                if (!parser.readVarint(request.bucket_size_ns)) {
+                  return false;
+                }
                 break;
                 
             case 6:  // filters (skip for now - complex map type)
-                if (!parser.skipField(wire_type)) return false;
+                if (!parser.skipField(wire_type)) {
+                  return false;
+                }
                 break;
                 
             default:
                 // Unknown field - skip it
-                if (!parser.skipField(wire_type)) return false;
+                if (!parser.skipField(wire_type)) {
+                  return false;
+                }
                 break;
         }
     }

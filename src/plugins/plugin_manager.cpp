@@ -45,7 +45,9 @@ namespace {
 
 // Platform-specific library handle unloading function
 inline void unloadLibraryHandle(void* handle) noexcept {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
 #else
@@ -174,7 +176,9 @@ void* PluginManager::getSymbol(void* handle, const std::string& symbolName) {
  * @param handle Native module handle. nullptr is ignored.
  */
 void PluginManager::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
     
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
@@ -532,9 +536,15 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         // Legacy manifest compatibility: single library field
         if (j.contains("library") && j["library"].is_string()) {
             std::string lib = j["library"].get<std::string>();
-            if (manifest.binary_windows.empty()) manifest.binary_windows = lib;
-            if (manifest.binary_linux.empty()) manifest.binary_linux = lib;
-            if (manifest.binary_macos.empty()) manifest.binary_macos = lib;
+            if (manifest.binary_windows.empty()) {
+              manifest.binary_windows = lib;
+            }
+            if (manifest.binary_linux.empty()) {
+              manifest.binary_linux = lib;
+            }
+            if (manifest.binary_macos.empty()) {
+              manifest.binary_macos = lib;
+            }
         }
         
         // Parse dependencies
@@ -608,7 +618,9 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     
     // Recursively scan for manifest JSON files
     for (const auto& entry : fs::recursive_directory_iterator(directory)) {
-        if (!entry.is_regular_file()) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
         
         std::string filename = entry.path().filename().string();
         if (entry.path().extension() == ".json") {
@@ -629,7 +641,9 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                         legacy.type = static_cast<PluginType>(j["type"].get<int>());
                     } else {
                         std::string type_str = j.value("type", "custom");
-                        if (type_str == "compute_backend") legacy.type = PluginType::COMPUTE_BACKEND;
+                        if (type_str == "compute_backend") {
+                          legacy.type = PluginType::COMPUTE_BACKEND;
+                        }
                         else if (type_str == "blob_storage") legacy.type = PluginType::BLOB_STORAGE;
                         else if (type_str == "importer") legacy.type = PluginType::IMPORTER;
                         else if (type_str == "exporter") legacy.type = PluginType::EXPORTER;
@@ -673,7 +687,9 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                 fallback.binary_macos = lib;
                 manifest = fallback;
             }
-            if (!manifest) continue;
+            if (!manifest) {
+              continue;
+            }
             
             // Determine binary path based on platform
             std::string binary_name;
@@ -826,9 +842,13 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         if (!cycles.empty()) {
             std::string cycle_desc;
             for (const auto& cycle : cycles) {
-                if (!cycle_desc.empty()) cycle_desc += "; ";
+                if (!cycle_desc.empty()) {
+                  cycle_desc += "; ";
+                }
                 for (size_t i = 0; i < cycle.size(); ++i) {
-                    if (i > 0) cycle_desc += " -> ";
+                    if (i > 0) {
+                      cycle_desc += " -> ";
+                    }
                     cycle_desc += cycle[i];
                 }
             }
@@ -1219,7 +1239,9 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
     if (!dependents.empty()) {
         std::string dep_list;
         for (const auto& dep : dependents) {
-            if (!dep_list.empty()) dep_list += ", ";
+            if (!dep_list.empty()) {
+              dep_list += ", ";
+            }
             dep_list += dep;
         }
         auto error_msg = fmt::format(
@@ -1276,7 +1298,9 @@ Result<void> PluginManager::unloadAllPlugins() {
     
     // Unload all loaded plugins
     for (auto& pair : plugins_) {
-        if (!pair.second.loaded) continue;
+        if (!pair.second.loaded) {
+          continue;
+        }
         
         auto& entry = pair.second;
         
@@ -1392,7 +1416,9 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         if (!dependents.empty()) {
             std::string dep_list;
             for (const auto& dep : dependents) {
-                if (!dep_list.empty()) dep_list += ", ";
+                if (!dep_list.empty()) {
+                  dep_list += ", ";
+                }
                 dep_list += dep;
             }
             auto error_msg = fmt::format(
@@ -1668,9 +1694,13 @@ Result<size_t> PluginManager::autoLoadPlugins() {
         if (!cycles.empty()) {
             std::string cycle_desc;
             for (const auto& cycle : cycles) {
-                if (!cycle_desc.empty()) cycle_desc += "; ";
+                if (!cycle_desc.empty()) {
+                  cycle_desc += "; ";
+                }
                 for (size_t i = 0; i < cycle.size(); ++i) {
-                    if (i > 0) cycle_desc += " -> ";
+                    if (i > 0) {
+                      cycle_desc += " -> ";
+                    }
                     cycle_desc += cycle[i];
                 }
             }
@@ -1684,7 +1714,9 @@ Result<size_t> PluginManager::autoLoadPlugins() {
         if (!missing_deps.empty()) {
             std::string missing_desc;
             for (const auto& [plugin, dep] : missing_deps) {
-                if (!missing_desc.empty()) missing_desc += "; ";
+                if (!missing_desc.empty()) {
+                  missing_desc += "; ";
+                }
                 missing_desc += fmt::format("'{}' requires unregistered '{}'", plugin, dep);
             }
             auto error_msg = fmt::format("Unregistered plugin dependencies: {}", missing_desc);
@@ -1928,7 +1960,9 @@ std::vector<std::string> PluginManager::findDependentPlugins(const std::string& 
     std::vector<std::string> dependents;
     
     for (const auto& [plugin_name, entry] : plugins_) {
-        if (plugin_name == name || !entry.loaded) continue;
+        if (plugin_name == name || !entry.loaded) {
+          continue;
+        }
         
         for (const auto& dep : entry.manifest.dependencies) {
             if (dep == name) {
@@ -1970,7 +2004,9 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
 
     // Register all currently loaded self-healing plugins with the new monitor
     for (const auto& [name, entry] : plugins_) {
-        if (!entry.loaded || !entry.instance) continue;
+        if (!entry.loaded || !entry.instance) {
+          continue;
+        }
         auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(entry.instance.get());
         if (self_healing) {
             health_monitor_->registerPlugin(name, self_healing);
@@ -2342,7 +2378,9 @@ ManifestErrorCode PluginManager::validateManifestEditionRestrictions(
                           [&]() {
                               std::string result;
                               for (size_t i = 0; i < manifest.allowed_editions.size(); ++i) {
-                                  if (i > 0) result += ", ";
+                                  if (i > 0) {
+                                    result += ", ";
+                                  }
                                   result += manifest.allowed_editions[i];
                               }
                               return result;

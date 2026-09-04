@@ -333,9 +333,15 @@ private:
     }
 
     static CacheLevel confidence_to_level([[maybe_unused]] double confidence) noexcept {
-        if (confidence >= 0.90) return CacheLevel::L1;
-        if (confidence >= 0.75) return CacheLevel::L2;
-        if (confidence >= 0.60) return CacheLevel::L3;
+        if (confidence >= 0.90) {
+          return CacheLevel::L1;
+        }
+        if (confidence >= 0.75) {
+          return CacheLevel::L2;
+        }
+        if (confidence >= 0.60) {
+          return CacheLevel::L3;
+        }
         return CacheLevel::DRAM;
     }
 

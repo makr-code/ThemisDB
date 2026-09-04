@@ -69,7 +69,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.size() < 2) return nlohmann::json::array();
+        if (args.size() < 2) {
+          return nlohmann::json::array();
+        }
         
         std::string startVertex = toString(args[0]);
         std::string endVertex = toString(args[1]);
@@ -81,9 +83,15 @@ public:
         
         if (args.size() > 2 && args[2].is_object()) {
             auto opts = args[2];
-            if (opts.contains("edgeCollection")) edgeCollection = opts["edgeCollection"].get<std::string>();
-            if (opts.contains("direction")) direction = opts["direction"].get<std::string>();
-            if (opts.contains("maxDepth")) maxDepth = static_cast<int>(toNumber(opts["maxDepth"]));
+            if (opts.contains("edgeCollection")) {
+              edgeCollection = opts["edgeCollection"].get<std::string>();
+            }
+            if (opts.contains("direction")) {
+              direction = opts["direction"].get<std::string>();
+            }
+            if (opts.contains("maxDepth")) {
+              maxDepth = static_cast<int>(toNumber(opts["maxDepth"]));
+            }
         }
         
         // BFS to find all shortest paths
@@ -273,7 +281,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return 0;
+        if (args.empty() || !args[0].is_object()) {
+          return 0;
+        }
         
         auto path = args[0];
         if (path.contains("edges") && path["edges"].is_array()) {
@@ -312,7 +322,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return nlohmann::json::array();
+        if (args.empty() || !args[0].is_object()) {
+          return nlohmann::json::array();
+        }
         
         auto path = args[0];
         if (path.contains("vertices") && path["vertices"].is_array()) {
@@ -347,7 +359,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.empty() || !args[0].is_object()) return nlohmann::json::array();
+        if (args.empty() || !args[0].is_object()) {
+          return nlohmann::json::array();
+        }
         
         auto path = args[0];
         if (path.contains("edges") && path["edges"].is_array()) {
@@ -385,12 +399,16 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.size() < 2 || !args[0].is_object()) return 0.0;
+        if (args.size() < 2 || !args[0].is_object()) {
+          return 0.0;
+        }
         
         auto path = args[0];
         std::string weightAttr = toString(args[1]);
         
-        if (!path.contains("edges") || !path["edges"].is_array()) return 0.0;
+        if (!path.contains("edges") || !path["edges"].is_array()) {
+          return 0.0;
+        }
         
         double totalWeight = 0.0;
         for (const auto& edge : path["edges"]) {
@@ -427,7 +445,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.empty()) return nlohmann::json::object();
+        if (args.empty()) {
+          return nlohmann::json::object();
+        }
         
         // Brandes' algorithm implementation would go here
         return nlohmann::json::object();
@@ -458,7 +478,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args, 
                           const FunctionContext& ctx) const override {
-        if (args.empty()) return nlohmann::json::object();
+        if (args.empty()) {
+          return nlohmann::json::object();
+        }
         
         // BFS-based closeness calculation
         return nlohmann::json::object();
@@ -512,7 +534,9 @@ public:
 
         auto graph = graph_helpers::buildGraph(args[0]);
         const auto& vertices = graph.vertices();
-        if (vertices.empty()) return nlohmann::json::object();
+        if (vertices.empty()) {
+          return nlohmann::json::object();
+        }
 
         bool normalize = false;
         if (args.size() > 1 && args[1].is_object() && args[1].contains("normalize")) {
@@ -662,11 +686,15 @@ public:
 
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || !args[0].is_array()) return emptyResult();
+        if (args.empty() || !args[0].is_array()) {
+          return emptyResult();
+        }
 
         auto graph = graph_helpers::buildGraph(args[0]);
         const auto& vertices = graph.vertices();
-        if (vertices.empty()) return emptyResult();
+        if (vertices.empty()) {
+          return emptyResult();
+        }
 
         // Parse options: accept either an object {min_modularity_gain: N} or a scalar N
         double min_modularity_gain = 0.000001;
@@ -721,7 +749,9 @@ public:
         for (const auto& node : node_list) {
             m_directed += static_cast<double>(graph.outNeighbors(node).size());
         }
-        if (m_directed == 0.0) m_directed = 1.0;
+        if (m_directed == 0.0) {
+          m_directed = 1.0;
+        }
 
         // Louvain optimization: greedy modularity maximization
         bool improved = true;
@@ -748,13 +778,17 @@ public:
                     }
                 }
 
-                if (neighbor_community_weights.empty()) continue;
+                if (neighbor_community_weights.empty()) {
+                  continue;
+                }
 
                 int best_comm = current_comm;
                 double best_delta_q = 0.0;
 
                 for (const auto& [candidate_comm, edge_weight] : neighbor_community_weights) {
-                    if (candidate_comm == current_comm) continue;
+                    if (candidate_comm == current_comm) {
+                      continue;
+                    }
                     double delta_q = edge_weight / m;
                     if (delta_q > best_delta_q) {
                         best_delta_q = delta_q;
@@ -790,7 +824,9 @@ public:
             double total_in_degree = 0.0;
             for (const auto& node : members) {
                 for (const auto& [nb, weight] : graph.outNeighbors(node)) {
-                    if (member_set.count(nb)) internal_edges += weight;
+                    if (member_set.count(nb)) {
+                      internal_edges += weight;
+                    }
                     total_out_degree += weight;
                 }
                 for (const auto& [nb, weight] : graph.inNeighbors(node)) {
@@ -803,7 +839,9 @@ public:
             double density = 0.0;
             if (n_c > 1) {
                 density = internal_edges / static_cast<double>(n_c * (n_c - 1));
-                if (density > 1.0) density = 1.0;
+                if (density > 1.0) {
+                  density = 1.0;
+                }
             }
 
             // Directed modularity contribution (Newman 2016):
@@ -880,11 +918,15 @@ public:
 
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || !args[0].is_array()) return emptyResult();
+        if (args.empty() || !args[0].is_array()) {
+          return emptyResult();
+        }
 
         auto graph = graph_helpers::buildGraph(args[0]);
         const auto& vertices = graph.vertices();
-        if (vertices.empty()) return emptyResult();
+        if (vertices.empty()) {
+          return emptyResult();
+        }
 
         // Parse options: accept either an object {max_iterations: N} or a scalar N
         int max_iterations = 100;
@@ -918,14 +960,20 @@ public:
 
                 for (const auto& [nb, weight] : graph.outNeighbors(node)) {
                     auto it = labels.find(nb);
-                    if (it != labels.end()) label_votes[it->second] += weight;
+                    if (it != labels.end()) {
+                      label_votes[it->second] += weight;
+                    }
                 }
                 for (const auto& [nb, weight] : graph.inNeighbors(node)) {
                     auto it = labels.find(nb);
-                    if (it != labels.end()) label_votes[it->second] += weight;
+                    if (it != labels.end()) {
+                      label_votes[it->second] += weight;
+                    }
                 }
 
-                if (label_votes.empty()) continue;
+                if (label_votes.empty()) {
+                  continue;
+                }
 
                 int best_label = labels[node];
                 double best_votes = 0.0;

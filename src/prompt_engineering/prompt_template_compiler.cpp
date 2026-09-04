@@ -55,7 +55,9 @@ std::string PromptContextValue::toString() const {
         case SlotType::LIST: {
             std::ostringstream oss;
             for (std::size_t i = 0; i < list_val.size(); ++i) {
-                if (i > 0) oss << '\n';
+                if (i > 0) {
+                  oss << '\n';
+                }
                 oss << list_val[i];
             }
             return oss.str();
@@ -63,7 +65,9 @@ std::string PromptContextValue::toString() const {
         case SlotType::DOCUMENT_CHUNK: {
             std::ostringstream oss;
             for (std::size_t i = 0; i < chunks.size(); ++i) {
-                if (i > 0) oss << '\n';
+                if (i > 0) {
+                  oss << '\n';
+                }
                 oss << chunks[i].first;
             }
             return oss.str();
@@ -430,7 +434,9 @@ static void validateNodes(
 
                 case detail::ASTNode::Kind::SLOT: {
                     const std::string& name = node->text;
-                    if (!item_var.empty() && name == item_var) break;
+                    if (!item_var.empty() && name == item_var) {
+                      break;
+                    }
                     if (node->required && ctx.find(name) == ctx.end()) {
                         errors.push_back("Missing required slot: " + name);
                     }

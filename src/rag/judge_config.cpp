@@ -53,7 +53,9 @@ bool JudgeConfigManager::loadFromYAML(const std::string& filepath) {
         
         // Detect section headers (indentation-based)
         size_t indent = line.find_first_not_of(" \t");
-        if (indent == std::string::npos) continue;
+        if (indent == std::string::npos) {
+          continue;
+        }
         
         line = line.substr(indent);
         

@@ -813,7 +813,9 @@ bool MultiGPUVectorIndex::isCollectiveOpsAvailable() const {
 
 bool MultiGPUVectorIndex::isP2PTransferAvailable() const {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
-    if (!pImpl->config.enableP2P) return false;
+    if (!pImpl->config.enableP2P) {
+      return false;
+    }
     
 #ifdef THEMIS_ENABLE_NCCL
     if (pImpl->activeCommBackend == CommBackend::NCCL && pImpl->ncclBackend) {

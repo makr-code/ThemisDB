@@ -152,10 +152,18 @@ GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
     if (has_suffix("PERSISTENT") || has_suffix("CRITICAL")) {
         return GeoIncidentSeverity::CRITICAL;
     }
-    if (has_suffix("DRIFT"))     return GeoIncidentSeverity::WARNING;
-    if (has_suffix("FALLBACK"))  return GeoIncidentSeverity::WARNING;
-    if (has_suffix("INVALID"))   return GeoIncidentSeverity::ERROR;
-    if (has_suffix("ERROR"))     return GeoIncidentSeverity::ERROR;
+    if (has_suffix("DRIFT")) {
+      return GeoIncidentSeverity::WARNING;
+    }
+    if (has_suffix("FALLBACK")) {
+      return GeoIncidentSeverity::WARNING;
+    }
+    if (has_suffix("INVALID")) {
+      return GeoIncidentSeverity::ERROR;
+    }
+    if (has_suffix("ERROR")) {
+      return GeoIncidentSeverity::ERROR;
+    }
     return GeoIncidentSeverity::INFO;
 }
 

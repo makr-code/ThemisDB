@@ -125,15 +125,21 @@ bool lrm_executeWithTimeout(uint32_t timeout_ms, Func&& op) {
 namespace {
 std::string trimCopy(const std::string& s) {
     size_t start = 0;
-    while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) start++;
+    while (start < s.size() && std::isspace(static_cast<unsigned char>(s[start]))) {
+      start++;
+    }
     size_t end = s.size();
-    while (end > start && std::isspace(static_cast<unsigned char>(s[end - 1]))) end--;
+    while (end > start && std::isspace(static_cast<unsigned char>(s[end - 1]))) {
+      end--;
+    }
     return s.substr(start, end - start);
 }
 
 bool isSupportedRowFilter(const std::string& expr) {
     const auto trimmed = trimCopy(expr);
-    if (trimmed.empty()) return true;
+    if (trimmed.empty()) {
+      return true;
+    }
     return trimmed.find("==") != std::string::npos || trimmed.find("!=") != std::string::npos;
 }
 }  // namespace
@@ -229,7 +235,9 @@ void LogicalReplicationManager::advanceSlot(const std::string& slot_name, uint64
     {
         std::shared_lock<std::shared_mutex> lock(slots_mutex_);
         auto it = slots_.find(slot_name);
-        if (it == slots_.end()) return;
+        if (it == slots_.end()) {
+          return;
+        }
         runtime = it->second;
     }
 
@@ -272,7 +280,9 @@ std::vector<LogicalChange> LogicalReplicationManager::readChanges(
     {
         std::shared_lock<std::shared_mutex> lock(slots_mutex_);
         auto it = slots_.find(slot_name);
-        if (it == slots_.end()) return out;
+        if (it == slots_.end()) {
+          return out;
+        }
         runtime = it->second;
     }
 
@@ -411,7 +421,9 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
             try {
                 while (true) {
                     const size_t idx = next_index.fetch_add(1);
-                    if (idx >= slots_copy.size()) break;
+                    if (idx >= slots_copy.size()) {
+                      break;
+                    }
                     auto [f, e] = process_slot(slots_copy[idx]);
                     local_filtered += f;
                     local_enqueued += e;
@@ -424,11 +436,15 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
             } catch (const std::exception& ex) {
                 THEMIS_ERROR("Parallel decoding worker failed: {}", ex.what());
                 std::lock_guard<std::mutex> elock(worker_err_mutex);
-                if (!worker_error) worker_error = std::current_exception();
+                if (!worker_error) {
+                  worker_error = std::current_exception();
+                }
             } catch (...) {
                 THEMIS_ERROR("Parallel decoding worker failed with unknown exception");
                 std::lock_guard<std::mutex> elock(worker_err_mutex);
-                if (!worker_error) worker_error = std::current_exception();
+                if (!worker_error) {
+                  worker_error = std::current_exception();
+                }
             }
         });
     }
@@ -443,7 +459,9 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
 LogicalChange LogicalReplicationManager::makeLogicalChange(const WALEntry& entry) const {
     LogicalChange change;
     const std::string op = entry.operation;
-    if (op == "INSERT") change.type = LogicalChange::Type::INSERT;
+    if (op == "INSERT") {
+      change.type = LogicalChange::Type::INSERT;
+    }
     else if (op == "UPDATE") change.type = LogicalChange::Type::UPDATE;
     else if (op == "DELETE") change.type = LogicalChange::Type::DELETE;
     else if (op == "TRUNCATE") change.type = LogicalChange::Type::TRUNCATE;
@@ -488,7 +506,9 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
         const bool included = std::find(filter.include_collections.begin(),
                                         filter.include_collections.end(),
                                         change.collection) != filter.include_collections.end();
-        if (!included) return false;
+        if (!included) {
+          return false;
+        }
     }
 
     if (std::find(filter.exclude_collections.begin(),
@@ -503,7 +523,9 @@ bool LogicalReplicationManager::matchesFilter(const LogicalChange& change,
 
     if (!filter.row_filter_expression.empty()) {
         const auto& payload = change.new_data.is_null() ? change.old_data : change.new_data;
-        if (!payload.is_object()) return false;
+        if (!payload.is_object()) {
+          return false;
+        }
         return evaluateRowFilter(filter.row_filter_expression, payload);
     }
 
@@ -537,7 +559,9 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
     }
 
     auto it = payload.find(field);
-    if (it == payload.end()) return false;
+    if (it == payload.end()) {
+      return false;
+    }
 
     std::string actual;
     if (it->is_string()) {
@@ -838,7 +862,9 @@ std::string LogicalReplicationManager::slotStatePath(const std::string& slot_nam
         THEMIS_WARN("LogicalReplicationManager::slotStatePath: wal_directory not configured; returning empty path");
         return {};  // Production behavior: empty string signals "configuration incomplete"
     }
-    if (slot_name.empty()) return base.string();
+    if (slot_name.empty()) {
+      return base.string();
+    }
     return (base / (slot_name + ".json")).string();
 }
 

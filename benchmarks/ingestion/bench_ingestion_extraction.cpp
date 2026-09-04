@@ -230,7 +230,9 @@ BENCHMARK_F(LlmAdapterFixture, ExtractorFn_Throughput)(benchmark::State& state) 
         uint64_t matched = 0;
         for (int i = 0; i < kN; ++i) {
             auto result = extractor.extract(kLegalSentences[i % kLegalSentences.size()]);
-            if (result.hasCategory()) ++matched;
+            if (result.hasCategory()) {
+              ++matched;
+            }
         }
         benchmark::DoNotOptimize(matched);
     }

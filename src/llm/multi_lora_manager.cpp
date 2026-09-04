@@ -904,7 +904,9 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
                     }
                 }
 
-                if (next_token == eos_token) break;
+                if (next_token == eos_token) {
+                  break;
+                }
 
                 generated.push_back(next_token);
 
@@ -1179,7 +1181,9 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_
 std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = loras_.find(lora_id);
-    if (it == loras_.end()) return std::nullopt;
+    if (it == loras_.end()) {
+      return std::nullopt;
+    }
     const auto* const slot = it->second.get();
     if (!slot) {
         return std::nullopt;
@@ -1707,7 +1711,9 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
         // Quantize weights
         for (size_t ch = 0; ch < num_channels; ++ch) {
             float scale = lora->scale_factors[ch];
-            if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;
+            if (scale < MIN_SCALE_EPSILON) {
+              scale = MIN_SCALE_EPSILON;
+            }
             
             size_t offset = ch * weights_per_channel;
             
@@ -2060,7 +2066,9 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 }
             }
         }
-        if (moved >= 5) break;
+        if (moved >= 5) {
+          break;
+        }
     }
     
     if (moved > 0) {

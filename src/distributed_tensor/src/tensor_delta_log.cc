@@ -56,7 +56,9 @@ std::optional<std::string> extractJsonString(const std::string& json,
                                               size_t& start) {
   const std::string search = "\"" + key + "\":\"";
   size_t pos = json.find(search, start);
-  if (pos == std::string::npos) return std::nullopt;
+  if (pos == std::string::npos) {
+    return std::nullopt;
+  }
   pos += search.size();
 
   std::string result;
@@ -528,7 +530,9 @@ std::string DeltaWindow::toJSON() const {
       << "\"entries\":[";
 
   for (size_t i = 0; i < entries.size(); ++i) {
-    if (i > 0) oss << ",";
+    if (i > 0) {
+      oss << ",";
+    }
     const auto& entry = entries[i];
     oss << "{\"sequence_number\":" << entry.sequence_number << ","
         << "\"mutation_type\":" << static_cast<int>(entry.mutation_type) << ","
@@ -551,42 +555,58 @@ std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
 
     // Extract artifact_id (string field)
     auto artifact_id_val = extractJsonString(json_str, "artifact_id", cursor);
-    if (!artifact_id_val) return std::nullopt;
+    if (!artifact_id_val) {
+      return std::nullopt;
+    }
     window.artifact_id = *artifact_id_val;
 
     // Extract numeric fields – search from start to handle any ordering
     auto findUint64 = [&](const std::string& key) -> std::optional<uint64_t> {
       const std::string search = "\"" + key + "\":";
       size_t pos = json_str.find(search);
-      if (pos == std::string::npos) return std::nullopt;
+      if (pos == std::string::npos) {
+        return std::nullopt;
+      }
       return std::stoull(json_str.substr(pos + search.size()));
     };
     auto findInt64 = [&](const std::string& key) -> std::optional<int64_t> {
       const std::string search = "\"" + key + "\":";
       size_t pos = json_str.find(search);
-      if (pos == std::string::npos) return std::nullopt;
+      if (pos == std::string::npos) {
+        return std::nullopt;
+      }
       return std::stoll(json_str.substr(pos + search.size()));
     };
 
     auto seq_start = findUint64("sequence_start");
-    if (!seq_start) return std::nullopt;
+    if (!seq_start) {
+      return std::nullopt;
+    }
     window.sequence_start = *seq_start;
 
     auto seq_end = findUint64("sequence_end");
-    if (!seq_end) return std::nullopt;
+    if (!seq_end) {
+      return std::nullopt;
+    }
     window.sequence_end = *seq_end;
 
     auto ext_ms = findInt64("extracted_at_ms");
-    if (!ext_ms) return std::nullopt;
+    if (!ext_ms) {
+      return std::nullopt;
+    }
     window.extracted_at_ms = *ext_ms;
 
     auto payload_sz = findUint64("total_payload_size_bytes");
-    if (!payload_sz) return std::nullopt;
+    if (!payload_sz) {
+      return std::nullopt;
+    }
     window.total_payload_size_bytes = *payload_sz;
 
     // Parse entries array
     size_t entries_pos = json_str.find("\"entries\":[");
-    if (entries_pos == std::string::npos) return std::nullopt;
+    if (entries_pos == std::string::npos) {
+      return std::nullopt;
+    }
     entries_pos += 11;  // Skip past "entries":[
 
     // Scan for entry objects: each starts with '{'
@@ -625,13 +645,17 @@ std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
       auto findEntryUint64 = [&](const std::string& key) -> std::optional<uint64_t> {
         const std::string search = "\"" + key + "\":";
         size_t p = entry_json.find(search);
-        if (p == std::string::npos) return std::nullopt;
+        if (p == std::string::npos) {
+          return std::nullopt;
+        }
         return std::stoull(entry_json.substr(p + search.size()));
       };
       auto findEntryInt64 = [&](const std::string& key) -> std::optional<int64_t> {
         const std::string search = "\"" + key + "\":";
         size_t p = entry_json.find(search);
-        if (p == std::string::npos) return std::nullopt;
+        if (p == std::string::npos) {
+          return std::nullopt;
+        }
         return std::stoll(entry_json.substr(p + search.size()));
       };
       auto findEntryString = [&](const std::string& key) -> std::optional<std::string> {
@@ -640,19 +664,27 @@ std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
       };
 
       auto seq_num = findEntryUint64("sequence_number");
-      if (!seq_num) return std::nullopt;
+      if (!seq_num) {
+        return std::nullopt;
+      }
       entry.sequence_number = *seq_num;
 
       auto mut_type = findEntryInt64("mutation_type");
-      if (!mut_type) return std::nullopt;
+      if (!mut_type) {
+        return std::nullopt;
+      }
       entry.mutation_type = static_cast<DeltaMutationType>(*mut_type);
 
       auto entity_id = findEntryString("affected_entity_id");
-      if (!entity_id) return std::nullopt;
+      if (!entity_id) {
+        return std::nullopt;
+      }
       entry.affected_entity_id = *entity_id;
 
       auto rec_ms = findEntryInt64("recorded_at_ms");
-      if (!rec_ms) return std::nullopt;
+      if (!rec_ms) {
+        return std::nullopt;
+      }
       entry.recorded_at_ms = *rec_ms;
 
       auto tx_id = findEntryString("source_transaction_id");

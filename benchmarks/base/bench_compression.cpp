@@ -37,7 +37,9 @@ public:
         // Extract compression type from state range
         int compression_id = static_cast<int>(state.range(0));
         std::string comp_type;
-        if (compression_id == 0) comp_type = "none";
+        if (compression_id == 0) {
+          comp_type = "none";
+        }
         else if (compression_id == 1) comp_type = "lz4";
         else if (compression_id == 2) comp_type = "zstd";
         else comp_type = "none";

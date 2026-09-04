@@ -45,7 +45,9 @@ std::vector<std::string> PromptQualityEvaluator::tokenize(const std::string& tex
 
 bool PromptQualityEvaluator::containsIgnoreCase(const std::string& haystack,
                                                  const std::string& needle) {
-    if (needle.empty()) return false;
+    if (needle.empty()) {
+      return false;
+    }
     auto it = std::search(
         haystack.begin(), haystack.end(),
         needle.begin(),   needle.end(),

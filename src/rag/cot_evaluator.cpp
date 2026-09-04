@@ -194,8 +194,12 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
             bool j_has_negation = false;
             
             for (const auto& neg : negations) {
-                if (conclusion_i.find(neg) != std::string::npos) i_has_negation = true;
-                if (conclusion_j.find(neg) != std::string::npos) j_has_negation = true;
+                if (conclusion_i.find(neg) != std::string::npos) {
+                  i_has_negation = true;
+                }
+                if (conclusion_j.find(neg) != std::string::npos) {
+                  j_has_negation = true;
+                }
             }
             
             // If one is negated and other isn't, check for common key terms
@@ -206,10 +210,14 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                 std::string word;
                 
                 while (stream_i >> word) {
-                    if (word.length() > 4) terms_i.insert(word);
+                    if (word.length() > 4) {
+                      terms_i.insert(word);
+                    }
                 }
                 while (stream_j >> word) {
-                    if (word.length() > 4) terms_j.insert(word);
+                    if (word.length() > 4) {
+                      terms_j.insert(word);
+                    }
                 }
                 
                 std::set<std::string> common;

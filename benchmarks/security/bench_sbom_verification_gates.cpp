@@ -28,7 +28,9 @@ public:
         std::stringstream ss;
         ss << std::hex << (hash & 0xFFFFFFFFFFFFFFFFUL);
         std::string result = ss.str();
-        while (result.length() < 64) result = "0" + result;
+        while (result.length() < 64) {
+          result = "0" + result;
+        }
         return result.substr(result.length() - 64);
     }
 };
@@ -107,7 +109,9 @@ static void BM_SBOMParsing_100Dependencies(benchmark::State& state) {
   "components": [)";
     
     for (int i = 0; i < 100; i++) {
-        if (i > 0) sbom_json += ",";
+        if (i > 0) {
+          sbom_json += ",";
+        }
         sbom_json += R"({
     "name": "dependency_)" + std::to_string(i) + R"(",
     "version": "1.0.0",
@@ -133,7 +137,9 @@ static void BM_SBOMParsing_500Dependencies(benchmark::State& state) {
   "components": [)";
     
     for (int i = 0; i < 500; i++) {
-        if (i > 0) sbom_json += ",";
+        if (i > 0) {
+          sbom_json += ",";
+        }
         sbom_json += R"({
     "name": "dependency_)" + std::to_string(i) + R"(",
     "version": "2.0.0",
@@ -200,7 +206,9 @@ static void BM_FullSBOMVerification_100Dependencies(benchmark::State& state) {
   "components": [)";
     
     for (int i = 0; i < 100; i++) {
-        if (i > 0) sbom_json += ",";
+        if (i > 0) {
+          sbom_json += ",";
+        }
         sbom_json += R"({
     "name": "dependency_)" + std::to_string(i) + R"(",
     "version": "1.0.0",
@@ -224,7 +232,9 @@ static void BM_FullSBOMVerification_100Dependencies(benchmark::State& state) {
         
         // Compute overall SBOM hash
         std::string all_hashes;
-        for (const auto& h : artifact_hashes) all_hashes += h + "\n";
+        for (const auto& h : artifact_hashes) {
+          all_hashes += h + "\n";
+        }
         auto sbom_hash = HashComputer::compute_sha256(all_hashes);
         
         benchmark::DoNotOptimize(sbom_hash);
@@ -241,7 +251,9 @@ static void BM_FullSBOMVerification_500Dependencies(benchmark::State& state) {
   "components": [)";
     
     for (int i = 0; i < 500; i++) {
-        if (i > 0) sbom_json += ",";
+        if (i > 0) {
+          sbom_json += ",";
+        }
         sbom_json += R"({
     "name": "dependency_)" + std::to_string(i) + R"(",
     "version": "2.0.0",
@@ -265,7 +277,9 @@ static void BM_FullSBOMVerification_500Dependencies(benchmark::State& state) {
         
         // Compute overall SBOM hash
         std::string all_hashes;
-        for (const auto& h : artifact_hashes) all_hashes += h + "\n";
+        for (const auto& h : artifact_hashes) {
+          all_hashes += h + "\n";
+        }
         auto sbom_hash = HashComputer::compute_sha256(all_hashes);
         
         benchmark::DoNotOptimize(sbom_hash);

@@ -81,7 +81,9 @@ public:
             "abcdefghijklmnopqrstuvwxyz0123456789";
         std::uniform_int_distribution<std::size_t> d(0, kC.size() - 1);
         std::string s(len, ' ');
-        for (auto& c : s) c = kC[d(eng_)];
+        for (auto& c : s) {
+          c = kC[d(eng_)];
+        }
         return s;
     }
     int64_t integer(int64_t lo, int64_t hi) {
@@ -98,7 +100,9 @@ public:
     void record(double us) { samples_.push_back(us); }
 
     double percentile(double p) {
-        if (samples_.empty()) return 0.0;
+        if (samples_.empty()) {
+          return 0.0;
+        }
         auto& s = samples_;
         std::sort(s.begin(), s.end());
         const std::size_t idx =

@@ -255,7 +255,9 @@ MultiVectorSearch::search(
                 break;
             case FusionStrategy::AVG_SCORE: {
                 float sum = 0.0f;
-                for (float s : scores) sum += s;
+                for (float s : scores) {
+                  sum += s;
+                }
                 result.fused_score = sum / scores.size();
                 break;
             }
@@ -458,7 +460,9 @@ MultiVectorSearch::hybridSearch(
                 break;
             case FusionStrategy::AVG_SCORE: {
                 float sum = 0.0f;
-                for (float s : fusion_scores) sum += s;
+                for (float s : fusion_scores) {
+                  sum += s;
+                }
                 result.fused_score = sum / fusion_scores.size();
                 break;
             }

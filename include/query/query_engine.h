@@ -917,7 +917,9 @@ struct QueryEngine::EvaluationContext {
     std::optional<nlohmann::json> get(const std::string& var) const {
         // First check local bindings
         auto it = bindings.find(var);
-        if (it != bindings.end()) return std::make_optional(it->second);
+        if (it != bindings.end()) {
+          return std::make_optional(it->second);
+        }
         
         // Phase 3.4: Check parent context for correlated variables
         if (parent) {
@@ -931,9 +933,13 @@ struct QueryEngine::EvaluationContext {
         bm25_scores = std::move(scores);
     }
     double getBm25ScoreForPk(const std::string& pk) const {
-        if (!bm25_scores) return 0.0;
+        if (!bm25_scores) {
+          return 0.0;
+        }
         auto it = bm25_scores->find(pk);
-        if (it == bm25_scores->end()) return 0.0;
+        if (it == bm25_scores->end()) {
+          return 0.0;
+        }
         return it->second;
     }
     

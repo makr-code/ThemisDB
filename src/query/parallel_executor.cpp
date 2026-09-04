@@ -158,8 +158,12 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
 
 // static
 void ParallelExecutor::validateConfig(ParallelConfig& cfg) noexcept {
-    if (cfg.max_threads == 0) cfg.max_threads = 1;
-    if (cfg.morsel_size  == 0) cfg.morsel_size  = 1;
+    if (cfg.max_threads == 0) {
+      cfg.max_threads = 1;
+    }
+    if (cfg.morsel_size  == 0) {
+      cfg.morsel_size  = 1;
+    }
 }
 
 ParallelExecutor::ParallelExecutor()
@@ -189,7 +193,9 @@ std::string ParallelExecutor::groupKey(
     // values contain the '|' separator character.
     std::string key;
     for (const auto& field : group_by) {
-        if (!key.empty()) key += '|';
+        if (!key.empty()) {
+          key += '|';
+        }
         auto v = e.getFieldAsString(field);
         const std::string& sv = v.value_or("");
         key += std::to_string(sv.size());
@@ -235,7 +241,9 @@ ParallelExecutor::Table ParallelExecutor::sequentialScan(
     Table out;
     out.reserve(input.size());
     for (const auto& e : input) {
-        if (filter(e)) out.push_back(e);
+        if (filter(e)) {
+          out.push_back(e);
+        }
     }
     return out;
 }
@@ -248,13 +256,17 @@ std::vector<ParallelExecutor::JoinTuple> ParallelExecutor::sequentialHashJoin(
     ht.reserve(right.size());
     for (const auto& r : right) {
         auto key = r.getFieldAsString(spec.right_key);
-        if (key) ht.emplace(std::move(*key), &r);
+        if (key) {
+          ht.emplace(std::move(*key), &r);
+        }
     }
     // Probe phase.
     std::vector<JoinTuple> out;
     for (const auto& l : left) {
         auto lkey = l.getFieldAsString(spec.left_key);
-        if (!lkey) continue;
+        if (!lkey) {
+          continue;
+        }
         auto [beg, end] = ht.equal_range(*lkey);
         for (auto it = beg; it != end; ++it) {
             // [W9-10-FIX: null_dereference — parallel_executor.cpp:201]
@@ -282,7 +294,9 @@ ParallelExecutor::AggregateResult ParallelExecutor::sequentialAggregate(
             p.count += 1.0;
         } else {
             auto v = e.getFieldAsDouble(spec.field);
-            if (!v) continue;
+            if (!v) {
+              continue;
+            }
             p.sum   += *v;
             p.count += 1.0;
             p.min    = std::min(p.min, *v);
@@ -343,7 +357,9 @@ Result<ParallelExecutor::Table> ParallelExecutor::parallelScan(
                 Table local;
                 local.reserve(end - start);
                 for (size_t i = start; i < end; ++i) {
-                    if (filter(input[i])) local.push_back(input[i]);
+                    if (filter(input[i])) {
+                      local.push_back(input[i]);
+                    }
                 }
                 buckets[m] = std::move(local);
             });
@@ -399,7 +415,9 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
         -> std::vector<Table>
     {
         std::vector<Table> parts(P);
-        if (rows.empty()) return parts;
+        if (rows.empty()) {
+          return parts;
+        }
 
         const size_t n     = rows.size();
         const size_t nmors = (n + morsel - 1) / morsel;
@@ -414,7 +432,9 @@ Result<std::vector<ParallelExecutor::JoinTuple>> ParallelExecutor::parallelHashJ
                 const size_t end   = std::min(start + morsel, n);
                 for (size_t i = start; i < end; ++i) {
                     auto k = rows[i].getFieldAsString(key_field);
-                    if (!k) continue;
+                    if (!k) {
+                      continue;
+                    }
                     const size_t slot = std::hash<std::string>{}(*k) % P;
                     morsel_partitions[m][slot].push_back(rows[i]);
                 }
@@ -516,7 +536,9 @@ Result<ParallelExecutor::AggregateResult> ParallelExecutor::parallelAggregate(
                         p.count += 1.0;
                     } else {
                         auto v = e.getFieldAsDouble(spec.field);
-                        if (!v) continue;
+                        if (!v) {
+                          continue;
+                        }
                         p.sum   += *v;
                         p.count += 1.0;
                         p.min    = std::min(p.min, *v);

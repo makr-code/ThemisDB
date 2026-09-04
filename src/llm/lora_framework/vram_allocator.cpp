@@ -306,13 +306,23 @@ namespace {
     static void vk_shutdown(VulkanAllocContext* ctx) {
         // Unmap and free any remaining allocations.
         for (auto& e : ctx->entries) {
-            if (e.mapped) vkUnmapMemory(ctx->device, e.memory);
-            if (e.memory != VK_NULL_HANDLE) vkFreeMemory(ctx->device, e.memory, nullptr);
-            if (e.buffer != VK_NULL_HANDLE) vkDestroyBuffer(ctx->device, e.buffer, nullptr);
+            if (e.mapped) {
+              vkUnmapMemory(ctx->device, e.memory);
+            }
+            if (e.memory != VK_NULL_HANDLE) {
+              vkFreeMemory(ctx->device, e.memory, nullptr);
+            }
+            if (e.buffer != VK_NULL_HANDLE) {
+              vkDestroyBuffer(ctx->device, e.buffer, nullptr);
+            }
         }
         ctx->entries.clear();
-        if (ctx->device   != VK_NULL_HANDLE) vkDestroyDevice(ctx->device, nullptr);
-        if (ctx->instance != VK_NULL_HANDLE) vkDestroyInstance(ctx->instance, nullptr);
+        if (ctx->device   != VK_NULL_HANDLE) {
+          vkDestroyDevice(ctx->device, nullptr);
+        }
+        if (ctx->instance != VK_NULL_HANDLE) {
+          vkDestroyInstance(ctx->instance, nullptr);
+        }
         ctx->device   = VK_NULL_HANDLE;
         ctx->instance = VK_NULL_HANDLE;
     }
@@ -836,7 +846,9 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
 void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept {
     // Performs the actual backend-specific free without holding mutex_.
     // Callers are responsible for any pool bookkeeping.
-    if (ptr == nullptr) return;
+    if (ptr == nullptr) {
+      return;
+    }
 
     switch (backend_) {
 #ifdef THEMIS_ENABLE_CUDA

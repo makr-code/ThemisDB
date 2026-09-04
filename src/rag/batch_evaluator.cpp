@@ -137,13 +137,17 @@ double extractCost(const EvaluationInput& input) {
 // ---------------------------------------------------------------------------
 
 bool AsyncEvaluationHandle::isDone() const {
-    if (cancelled_.load()) return true;
+    if (cancelled_.load()) {
+      return true;
+    }
     // Check if future is ready without blocking
     return future_.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
 }
 
 bool AsyncEvaluationHandle::wait(std::chrono::milliseconds timeout) {
-    if (cancelled_.load()) return true;
+    if (cancelled_.load()) {
+      return true;
+    }
     if (timeout == std::chrono::milliseconds::max()) {
         future_.wait();
         return true;
@@ -236,15 +240,23 @@ void BatchEvaluator::workerThread() {
                    (!paused_.load() && !eval_queue_.empty());
         });
 
-        if (stop_requested_.load() && eval_queue_.empty()) break;
-        if (paused_.load()) continue;
-        if (eval_queue_.empty()) continue;
+        if (stop_requested_.load() && eval_queue_.empty()) {
+          break;
+        }
+        if (paused_.load()) {
+          continue;
+        }
+        if (eval_queue_.empty()) {
+          continue;
+        }
 
         QueuedEvaluation item = std::move(eval_queue_.front());
         eval_queue_.pop();
         lock.unlock();
 
-        if (!item.has_promise && !item.callback) continue;
+        if (!item.has_promise && !item.callback) {
+          continue;
+        }
 
         try {
             auto result = processEvaluation(item.input);
@@ -438,7 +450,9 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
         } catch (const std::exception& e) {
             ++failed;
             THEMIS_WARN("BatchEvaluator::evaluateBatch: item failed: {}", e.what());
-            if (config_.fail_fast) break;
+            if (config_.fail_fast) {
+              break;
+            }
             // Push empty result as sentinel
             results.push_back(EvaluationResult{});
         }
@@ -697,7 +711,9 @@ bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {
     while (true) {
         {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (eval_queue_.empty()) return true;
+            if (eval_queue_.empty()) {
+              return true;
+            }
         }
         if (timeout != std::chrono::milliseconds::max() &&
             std::chrono::steady_clock::now() >= deadline) {
@@ -776,7 +792,9 @@ BatchEvaluationResult BatchEvaluator::aggregateResults(
         sum_coh     += r.coherence_score;
         sum_overall += r.overall_score;
 
-        if (r.passed_quality_threshold) ++passed;
+        if (r.passed_quality_threshold) {
+          ++passed;
+        }
         else ++failed_q;
     }
 

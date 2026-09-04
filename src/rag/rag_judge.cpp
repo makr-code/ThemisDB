@@ -657,7 +657,9 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         double mean = std::accumulate(dim_scores.begin(), dim_scores.end(), 0.0)
                       / dim_scores.size();
         double variance = 0.0;
-        for (double s : dim_scores) variance += (s - mean) * (s - mean);
+        for (double s : dim_scores) {
+          variance += (s - mean) * (s - mean);
+        }
         variance /= dim_scores.size();
         double std_dev = std::sqrt(variance);
 
@@ -1808,7 +1810,9 @@ double calculateCalibrationError(
 
     double ece = 0.0;
     for (const auto& bin : bins) {
-        if (bin.count == 0) continue;
+        if (bin.count == 0) {
+          continue;
+        }
         double avg_conf  = bin.sum_conf  / bin.count;
         double avg_truth = bin.sum_truth / bin.count;
         ece += (static_cast<double>(bin.count) / n) *

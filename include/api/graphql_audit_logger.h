@@ -139,7 +139,9 @@ struct AuditLogEntry {
             oss << ",\"metadata\":{";
             bool first = true;
             for (const auto& [key, value] : metadata) {
-                if (!first) oss << ",";
+                if (!first) {
+                  oss << ",";
+                }
                 oss << "\"" << key << "\":\"" << value << "\"";
                 first = false;
             }

@@ -84,7 +84,9 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
         
         // Find R nearest neighbors
         for (size_t j = 0; j < nodes.size(); j++) {
-            if (i == j) continue;
+            if (i == j) {
+              continue;
+            }
             
             const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
             
@@ -230,7 +232,9 @@ bool DiskANNIndex::load(const std::string& path) {
 
 bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
     std::ofstream ofs(meta_path, std::ios::binary | std::ios::trunc);
-    if (!ofs) return false;
+    if (!ofs) {
+      return false;
+    }
 
     // Write dimension (needed to correctly reconstruct the index on load)
     ofs.write(reinterpret_cast<const char*>(&dimension_), sizeof(dimension_));
@@ -253,7 +257,9 @@ bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
 
 bool DiskANNIndex::load_metadata(const std::string& meta_path) {
     std::ifstream ifs(meta_path, std::ios::binary);
-    if (!ifs) return false;
+    if (!ifs) {
+      return false;
+    }
 
     // Read dimension
     size_t dim = 0;

@@ -12,7 +12,9 @@ namespace {
         static std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
         std::string s;
         s.reserve(len);
-        for (size_t i = 0; i < len; ++i) s += charset[dist(rng)];
+        for (size_t i = 0; i < len; ++i) {
+          s += charset[dist(rng)];
+        }
         return s;
     }
 
@@ -104,7 +106,9 @@ BENCHMARK_REGISTER_F(OptimizedInsertBenchmark, V133_SingleInsert)->Unit(benchmar
 BENCHMARK_DEFINE_F(OptimizedInsertBenchmark, V134_BatchedInserts_100)(benchmark::State& state) {
     for (auto _ : state) {
         auto batch = db_->createWriteBatch();
-        if (!batch) continue;
+        if (!batch) {
+          continue;
+        }
         
         for (size_t i = 0; i < 100; ++i) {
             themis::BaseEntity entity("v134_batch_" + std::to_string(counter_++));

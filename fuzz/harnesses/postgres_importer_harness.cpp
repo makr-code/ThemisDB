@@ -92,7 +92,9 @@ static constexpr size_t kMaxRowBytes    = 16  * 1024;   //  16 KB
  * four parsers.
  */
 static int fuzz_one_input(const uint8_t* data, size_t size) {
-    if (data == nullptr || size == 0 || size > kMaxInputBytes) return 0;
+    if (data == nullptr || size == 0 || size > kMaxInputBytes) {
+      return 0;
+    }
 
     using namespace themis::importers;
 
@@ -131,7 +133,9 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
         // Write to a temp file
         char tmp[] = "/tmp/pg_fuzz_XXXXXX";
         int fd = mkstemp(tmp);
-        if (fd < 0) return 0;
+        if (fd < 0) {
+          return 0;
+        }
         (void)write(fd, dump.data(), dump.size());
         close(fd);
 
@@ -160,7 +164,9 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
 
         char tmp[] = "/tmp/pg_fuzz_XXXXXX";
         int fd = mkstemp(tmp);
-        if (fd < 0) return 0;
+        if (fd < 0) {
+          return 0;
+        }
         (void)write(fd, dump.data(), dump.size());
         close(fd);
 
@@ -185,7 +191,9 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
 
         char tmp[] = "/tmp/pg_fuzz_XXXXXX";
         int fd = mkstemp(tmp);
-        if (fd < 0) return 0;
+        if (fd < 0) {
+          return 0;
+        }
         (void)write(fd, dump.data(), dump.size());
         close(fd);
 
@@ -213,7 +221,9 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
 
         char tmp[] = "/tmp/pg_fuzz_XXXXXX";
         int fd = mkstemp(tmp);
-        if (fd < 0) return 0;
+        if (fd < 0) {
+          return 0;
+        }
         (void)write(fd, dump.data(), dump.size());
         close(fd);
 
@@ -255,7 +265,9 @@ unsigned char* __AFL_FUZZ_TESTCASE_BUF = nullptr;
 
 int main(int /*argc*/, char** /*argv*/) {
     while (AFL_LOOP(10000)) {
-        if (__AFL_FUZZ_TESTCASE_BUF == nullptr) break;
+        if (__AFL_FUZZ_TESTCASE_BUF == nullptr) {
+          break;
+        }
         size_t len = *reinterpret_cast<const size_t*>(__AFL_FUZZ_TESTCASE_BUF);
         const uint8_t* buf = __AFL_FUZZ_TESTCASE_BUF + sizeof(size_t);
         fuzz_one_input(buf, len);

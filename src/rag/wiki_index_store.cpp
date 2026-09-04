@@ -161,7 +161,9 @@ std::vector<IndexResult> rrfFusion(
     // Sort descending by RRF score, then ascending by doc_id for stable ties.
     std::sort(results.begin(), results.end(),
               [](const IndexResult& a, const IndexResult& b) {
-                  if (a.score != b.score) return a.score > b.score;
+                  if (a.score != b.score) {
+                    return a.score > b.score;
+                  }
                   return a.doc_id < b.doc_id;
               });
 
@@ -231,7 +233,9 @@ struct WikiIndexStore::Impl {
 
     /// Compute corpus average document length (call under idx_mutex held).
     float computeAvgDocLen() const {
-        if (docs.empty()) return config.avg_doc_len;
+        if (docs.empty()) {
+          return config.avg_doc_len;
+        }
         float total = 0.0f;
         for (const auto& [id, text] : docs) {
             total += static_cast<float>(tokenise(text).size());
@@ -270,19 +274,27 @@ struct WikiIndexStore::Impl {
                             const std::vector<float>& b) {
         float dot = 0.0f;
         const size_t n = a.size();
-        for (size_t i = 0; i < n; ++i) dot += a[i] * b[i];
+        for (size_t i = 0; i < n; ++i) {
+          dot += a[i] * b[i];
+        }
         return dot;
     }
 
     /// Return a unit-norm copy of @p v (safe: returns @p v if near-zero norm).
     static std::vector<float> unitNorm(const std::vector<float>& v) {
         float norm = 0.0f;
-        for (float x : v) norm += x * x;
+        for (float x : v) {
+          norm += x * x;
+        }
         norm = std::sqrt(norm);
-        if (norm < 1e-9f) return v;
+        if (norm < 1e-9f) {
+          return v;
+        }
         std::vector<float> out;
         out.reserve(v.size());
-        for (float x : v) out.push_back(x / norm);
+        for (float x : v) {
+          out.push_back(x / norm);
+        }
         return out;
     }
 
@@ -308,8 +320,12 @@ struct WikiIndexStore::Impl {
     /// Open (or create) the RocksDB embedding cache at config.cache_dir.
     /// Called lazily on first cacheEmbedding() call with a non-empty cache_dir.
     bool openCacheDB() {
-        if (cache_db != nullptr) return true;
-        if (config.cache_dir.empty()) return false;
+        if (cache_db != nullptr) {
+          return true;
+        }
+        if (config.cache_dir.empty()) {
+          return false;
+        }
 
         rocksdb::Options opts;
         opts.create_if_missing                = true;
@@ -457,9 +473,13 @@ static bool termsWithinWindow(
     term_pos_lists.reserve(query_terms.size());
     for (const auto& term : query_terms) {
         auto it_term = pos_idx.find(term);
-        if (it_term == pos_idx.end()) return false;
+        if (it_term == pos_idx.end()) {
+          return false;
+        }
         auto it_doc = it_term->second.find(doc_id);
-        if (it_doc == it_term->second.end()) return false;
+        if (it_doc == it_term->second.end()) {
+          return false;
+        }
         term_pos_lists.push_back(&it_doc->second);
     }
 
@@ -477,7 +497,9 @@ static bool termsWithinWindow(
             }
             if (!found) { all_in_window = false; break; }
         }
-        if (all_in_window) return true;
+        if (all_in_window) {
+          return true;
+        }
     }
     return false;
 }
@@ -571,7 +593,9 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
             }
             if (consecutive) { phrase_found = true; break; }
         }
-        if (!phrase_found) continue;
+        if (!phrase_found) {
+          continue;
+        }
 
         const float score = bm25PlusScore(
             phrase_terms, impl_->docs.at(doc_id), avg_len, impl_->idf_cache);
@@ -624,7 +648,9 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
 
     for (const auto& [doc_id, pos_list1] : posting1) {
         auto it_doc2 = posting2.find(doc_id);
-        if (it_doc2 == posting2.end()) continue;
+        if (it_doc2 == posting2.end()) {
+          continue;
+        }
         const auto& pos_list2 = it_doc2->second;
 
         // Find minimum distance between any pair of positions.
@@ -632,7 +658,9 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         if (term1 == term2) {
             // Same term: need ≥2 positions within distance of each other.
             for (size_t i = 0; i + 1 < pos_list1.size() && !within; ++i) {
-                if (pos_list1[i + 1] - pos_list1[i] <= distance) within = true;
+                if (pos_list1[i + 1] - pos_list1[i] <= distance) {
+                  within = true;
+                }
             }
         } else {
             // Two-pointer scan (both lists are sorted).
@@ -645,7 +673,9 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
                 else if (p1 < p2) { ++i; } else { ++j; }
             }
         }
-        if (!within) continue;
+        if (!within) {
+          continue;
+        }
 
         const std::vector<std::string> query_terms{term1, term2};
         const float score = computePositionalBM25Score(
@@ -824,7 +854,9 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
 void WikiIndexStore::cacheEmbedding(const std::string& key,
                                      const std::vector<float>& embedding)
 {
-    if (key.empty() || embedding.empty()) return;
+    if (key.empty() || embedding.empty()) {
+      return;
+    }
     if (impl_->config.max_cache_size == 0) return; // cache disabled
 
     const auto unit    = Impl::unitNorm(embedding);
@@ -912,7 +944,9 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
 
     std::vector<std::string> bm25_ids;
     bm25_ids.reserve(bm25_results.size());
-    for (const auto& r : bm25_results) bm25_ids.push_back(r.doc_id);
+    for (const auto& r : bm25_results) {
+      bm25_ids.push_back(r.doc_id);
+    }
 
     // HNSW semantic list (only when backend is enabled and query has a vector).
     if (!impl_->config.enable_hnsw || query_embedding.empty()) {
@@ -920,7 +954,9 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
         THEMIS_DEBUG("WikiIndexStore::searchHybrid: HNSW disabled/no-embedding — "
                      "falling back to BM25+");
         auto results = bm25_results;
-        if (results.size() > top_k) results.resize(top_k);
+        if (results.size() > top_k) {
+          results.resize(top_k);
+        }
         return results;
     }
 
@@ -928,12 +964,16 @@ std::vector<IndexResult> WikiIndexStore::searchHybrid(
 
     std::vector<std::string> hnsw_ids;
     hnsw_ids.reserve(hnsw_results.size());
-    for (const auto& r : hnsw_results) hnsw_ids.push_back(r.doc_id);
+    for (const auto& r : hnsw_results) {
+      hnsw_ids.push_back(r.doc_id);
+    }
 
     // Fuse both ranked lists with RRF.
     auto fused = fuseRRF({bm25_ids, hnsw_ids});
 
-    if (fused.size() > top_k) fused.resize(top_k);
+    if (fused.size() > top_k) {
+      fused.resize(top_k);
+    }
     THEMIS_INFO("WikiIndexStore::searchHybrid: bm25={} hnsw={} fused={}",
                 bm25_ids.size(), hnsw_ids.size(), fused.size());
     return fused;

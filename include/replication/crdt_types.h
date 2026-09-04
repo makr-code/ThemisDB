@@ -39,7 +39,9 @@ struct Dot {
         return node_id == o.node_id && counter == o.counter;
     }
     bool operator<(const Dot& o) const noexcept {
-        if (node_id != o.node_id) return node_id < o.node_id;
+        if (node_id != o.node_id) {
+          return node_id < o.node_id;
+        }
         return counter < o.counter;
     }
 };
@@ -76,7 +78,9 @@ public:
     void merge(const GrowOnlyCounter& other) {
         for (const auto& [nid, cnt] : other.state_) {
             auto& local = state_[nid];
-            if (cnt > local) local = cnt;
+            if (cnt > local) {
+              local = cnt;
+            }
         }
     }
 
@@ -162,7 +166,9 @@ public:
     uint64_t timestamp() const { return ts_; }
 
     void merge(const LWWRegister<T>& other) {
-        if (!other.value_) return;
+        if (!other.value_) {
+          return;
+        }
         if (other.ts_ > ts_ ||
             (other.ts_ == ts_ && other.winning_node_ > winning_node_)) {
             value_        = other.value_;
@@ -336,7 +342,9 @@ public:
      */
     void remove(const T& element) {
         auto it = entries_.find(element);
-        if (it == entries_.end()) return;
+        if (it == entries_.end()) {
+          return;
+        }
         for (const auto& dot : it->second) {
             tombstones_.insert(dot);
         }
@@ -345,9 +353,13 @@ public:
 
     bool contains(const T& element) const {
         auto it = entries_.find(element);
-        if (it == entries_.end()) return false;
+        if (it == entries_.end()) {
+          return false;
+        }
         for (const auto& dot : it->second) {
-            if (!tombstones_.count(dot)) return true;
+            if (!tombstones_.count(dot)) {
+              return true;
+            }
         }
         return false;
     }
@@ -374,13 +386,17 @@ public:
         // Remove live dots that are now tombstoned
         for (auto& [elem, dots] : entries_) {
             for (auto it = dots.begin(); it != dots.end(); ) {
-                if (tombstones_.count(*it)) it = dots.erase(it);
+                if (tombstones_.count(*it)) {
+                  it = dots.erase(it);
+                }
                 else ++it;
             }
         }
         // Prune empty entries
         for (auto it = entries_.begin(); it != entries_.end(); ) {
-            if (it->second.empty()) it = entries_.erase(it);
+            if (it->second.empty()) {
+              it = entries_.erase(it);
+            }
             else ++it;
         }
         // Advance counter past any seen dots from this node
@@ -529,14 +545,18 @@ public:
     /** @brief Delete the element identified by @p dot. */
     void remove(const Dot& dot) {
         auto it = findDot(dot);
-        if (it != elements_.end()) it->tombstoned = true;
+        if (it != elements_.end()) {
+          it->tombstoned = true;
+        }
     }
 
     /** @brief Returns all live (non-tombstoned) elements in order. */
     std::vector<T> read() const {
         std::vector<T> result;
         for (const auto& e : elements_) {
-            if (!e.tombstoned) result.push_back(e.value);
+            if (!e.tombstoned) {
+              result.push_back(e.value);
+            }
         }
         return result;
     }
@@ -554,13 +574,17 @@ public:
                 it->tombstoned = true;
             }
         }
-        if (other.counter_ > counter_) counter_ = other.counter_;
+        if (other.counter_ > counter_) {
+          counter_ = other.counter_;
+        }
     }
 
     size_t size() const {
         size_t cnt = 0;
         for (const auto& e : elements_) {
-            if (!e.tombstoned) ++cnt;
+            if (!e.tombstoned) {
+              ++cnt;
+            }
         }
         return cnt;
     }
@@ -576,7 +600,9 @@ private:
 
     It findDot(const Dot& dot) {
         for (auto it = elements_.begin(); it != elements_.end(); ++it) {
-            if (it->dot == dot) return it;
+            if (it->dot == dot) {
+              return it;
+            }
         }
         return elements_.end();
     }

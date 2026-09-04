@@ -311,7 +311,9 @@ std::string MimeDetector::computeDeterministicHash() const {
     }
     std::sort(ext_lines.begin(), ext_lines.end());
     buffer += "[extensions]\n";
-    for (const auto& line : ext_lines) buffer += line + "\n";
+    for (const auto& line : ext_lines) {
+      buffer += line + "\n";
+    }
     
     // Magic signatures
     std::vector<std::string> magic_lines;
@@ -329,7 +331,9 @@ std::string MimeDetector::computeDeterministicHash() const {
             wildcards += ":";
             bool first = true;
             for (auto pos : sig.wildcard_positions) {
-                if (!first) wildcards += ",";
+                if (!first) {
+                  wildcards += ",";
+                }
                 wildcards += std::to_string(pos);
                 first = false;
             }
@@ -338,7 +342,9 @@ std::string MimeDetector::computeDeterministicHash() const {
     }
     std::sort(magic_lines.begin(), magic_lines.end());
     buffer += "[magic]\n";
-    for (const auto& line : magic_lines) buffer += line + "\n";
+    for (const auto& line : magic_lines) {
+      buffer += line + "\n";
+    }
     
     // Categories
     std::vector<std::string> category_lines;
@@ -348,14 +354,18 @@ std::string MimeDetector::computeDeterministicHash() const {
         std::sort(mimes.begin(), mimes.end());
         std::string joined;
         for (size_t i = 0; i < mimes.size(); ++i) {
-            if (i) joined += ",";
+            if (i) {
+              joined += ",";
+            }
             joined += mimes[i];
         }
         category_lines.push_back(cat.first + "=" + joined);
     }
     std::sort(category_lines.begin(), category_lines.end());
     buffer += "[categories]\n";
-    for (const auto& line : category_lines) buffer += line + "\n";
+    for (const auto& line : category_lines) {
+      buffer += line + "\n";
+    }
     
     // SHA256
     unsigned char digest[SHA256_DIGEST_LENGTH];

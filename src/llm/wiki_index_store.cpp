@@ -397,15 +397,21 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         for (const auto& meta_entry : doc.metadata) {
             const auto& meta_key = meta_entry.first;
             const auto& meta_value = meta_entry.second;
-            if      (meta_key == "doc_id")        c.doc_id        = meta_value;
+            if      (meta_key == "doc_id") {
+              c.doc_id        = meta_value;
+            }
             else if (meta_key == "section_title") c.section_title = meta_value;
             else if (meta_key == "source_path")   c.source_path   = meta_value;
             else if (meta_key == "content")       c.text          = meta_value;
         }
-        if (c.text.empty()) c.text = doc.content;
+        if (c.text.empty()) {
+          c.text = doc.content;
+        }
 
         out.push_back(std::move(c));
-        if (static_cast<int>(out.size()) >= k) break;
+        if (static_cast<int>(out.size()) >= k) {
+          break;
+        }
     }
 
     // ── Record query latency ───────────────────────────────────────────────

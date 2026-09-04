@@ -56,14 +56,30 @@ std::string_view toString(ProcessLinkType t) {
 }
 
 ProcessLinkType processLinkTypeFromString(std::string_view s) {
-    if (s == "HAS_DOCUMENT")      return ProcessLinkType::HAS_DOCUMENT;
-    if (s == "HAS_METADATA")      return ProcessLinkType::HAS_METADATA;
-    if (s == "REQUIRES_DOCUMENT") return ProcessLinkType::REQUIRES_DOCUMENT;
-    if (s == "IS_INSTANCE_OF")    return ProcessLinkType::IS_INSTANCE_OF;
-    if (s == "SUB_PROCESS")       return ProcessLinkType::SUB_PROCESS;
-    if (s == "CROSS_REFERENCE")   return ProcessLinkType::CROSS_REFERENCE;
-    if (s == "TRIGGERS")          return ProcessLinkType::TRIGGERS;
-    if (s == "EVIDENCE_FOR")      return ProcessLinkType::EVIDENCE_FOR;
+    if (s == "HAS_DOCUMENT") {
+      return ProcessLinkType::HAS_DOCUMENT;
+    }
+    if (s == "HAS_METADATA") {
+      return ProcessLinkType::HAS_METADATA;
+    }
+    if (s == "REQUIRES_DOCUMENT") {
+      return ProcessLinkType::REQUIRES_DOCUMENT;
+    }
+    if (s == "IS_INSTANCE_OF") {
+      return ProcessLinkType::IS_INSTANCE_OF;
+    }
+    if (s == "SUB_PROCESS") {
+      return ProcessLinkType::SUB_PROCESS;
+    }
+    if (s == "CROSS_REFERENCE") {
+      return ProcessLinkType::CROSS_REFERENCE;
+    }
+    if (s == "TRIGGERS") {
+      return ProcessLinkType::TRIGGERS;
+    }
+    if (s == "EVIDENCE_FOR") {
+      return ProcessLinkType::EVIDENCE_FOR;
+    }
     return ProcessLinkType::HAS_DOCUMENT;
 }
 
@@ -275,7 +291,9 @@ std::vector<ProcessAttachment> ProcessLinker::getAttachments(
     db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(value);
-            if (doc.value("deleted", false)) return true;
+            if (doc.value("deleted", false)) {
+              return true;
+            }
             auto att = ProcessAttachment::fromDocument(doc);
             if (!filter_type.has_value() || att.link_type == *filter_type) {
                 results.push_back(std::move(att));
@@ -412,7 +430,9 @@ std::vector<ProcessLink> ProcessLinker::getLinks(
     db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto doc = json::parse(value);
-            if (doc.value("deleted", false)) return true;
+            if (doc.value("deleted", false)) {
+              return true;
+            }
             auto lnk = ProcessLink::fromDocument(doc);
             if (!filter_type.has_value() || lnk.link_type == *filter_type) {
                 results.push_back(std::move(lnk));
@@ -511,7 +531,9 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
     std::vector<std::string> missing;
     missing.reserve(required.size());
     for (const auto& req : required) {
-        if (!req.value("mandatory", false)) continue;
+        if (!req.value("mandatory", false)) {
+          continue;
+        }
         std::string dtype = req.value("doc_type", "");
         if (!dtype.empty() && present_types.find(dtype) == present_types.end()) {
             missing.push_back(dtype);

@@ -58,7 +58,9 @@ std::mutex& wasmPluginLoadFnMutex() {
 // RAII wrapper for WasmtimeBundle to ensure all wasmtime resources are cleaned up
 struct WasmtimeBundleDeleter {
     void operator()(void* bundle_ptr) const noexcept {
-        if (!bundle_ptr) return;
+        if (!bundle_ptr) {
+          return;
+        }
         
         // Re-define the bundle struct for cleanup purposes
         struct WasmtimeBundle {
@@ -371,7 +373,9 @@ WasmHostAPI::WasmHostAPI(WasmPluginRuntime runtime, std::string module_name)
     : runtime_(runtime), module_name_(std::move(module_name)) {}
 
 WasmHostAPI::~WasmHostAPI() {
-    if (!wasm_instance_) return;
+    if (!wasm_instance_) {
+      return;
+    }
 
     switch (runtime_) {
 #ifdef THEMIS_WASM_WASMTIME
@@ -510,18 +514,24 @@ std::unique_ptr<IThemisPlugin> loadWasmPlugin(
 
 extern "C" {
 uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len) {
-    if (buf && buf_len > 0) buf[0] = '\0';
+    if (buf && buf_len > 0) {
+      buf[0] = '\0';
+    }
     return 0;
 }
 uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
-    if (buf && buf_len > 0) buf[0] = '\0';
+    if (buf && buf_len > 0) {
+      buf[0] = '\0';
+    }
     return 0;
 }
 int32_t themis_plugin_initialize(const char* /*config_json*/) { return 0; }
 void    themis_plugin_shutdown(void) {}
 void*   themis_plugin_get_instance(int32_t /*capability_id*/) { return nullptr; }
 int32_t themis_plugin_save_state(char* buf, uint32_t buf_len) {
-    if (buf && buf_len > 0) buf[0] = '\0';
+    if (buf && buf_len > 0) {
+      buf[0] = '\0';
+    }
     return 0;
 }
 int32_t themis_plugin_restore_state(const char* /*state_json*/) { return 0; }

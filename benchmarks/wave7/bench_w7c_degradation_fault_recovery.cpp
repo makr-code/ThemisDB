@@ -242,7 +242,9 @@ BENCHMARK_F(DegradationBaseFixture, DFR03_SaturationConcurrency)(benchmark::Stat
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         state.SetItemsProcessed(total_ops.load());
     }
 }
@@ -294,7 +296,9 @@ public:
         {
             RocksDBWrapper::Config cfg = DefaultCfg(db_path_);
             RocksDBWrapper warm_db(cfg);
-            if (!warm_db.open()) throw std::runtime_error("W7C DFR-05: warm open failed");
+            if (!warm_db.open()) {
+              throw std::runtime_error("W7C DFR-05: warm open failed");
+            }
             for (int i = 0; i < kDatasetSize; ++i) {
                 warm_db.put("k_" + std::to_string(i), "v_" + std::to_string(i));
             }
@@ -304,7 +308,9 @@ public:
         RocksDBWrapper::Config cold_cfg = DefaultCfg(db_path_);
         cold_cfg.block_cache_size_mb = 1;
         db_ = std::make_unique<RocksDBWrapper>(cold_cfg);
-        if (!db_->open()) throw std::runtime_error("W7C DFR-05: cold open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7C DFR-05: cold open failed");
+        }
     }
 
     void TearDown(const ::benchmark::State&) override {
@@ -352,7 +358,9 @@ BENCHMARK_F(DegradationBaseFixture, DFR06_HalfThreadsResourceReduction)(benchmar
                 }
             });
         }
-        for (auto& w : workers) w.join();
+        for (auto& w : workers) {
+          w.join();
+        }
     }
     state.SetItemsProcessed(
         static_cast<int64_t>(state.iterations()) * kConstrainedThreads * kOpsPerWorker);

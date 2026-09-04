@@ -36,7 +36,9 @@ std::string DiagnosticIncident::toJson() const {
 
     bool first = true;
     for (const auto& kv : metrics) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << kv.first << "\":" << kv.second;
         first = false;
     }

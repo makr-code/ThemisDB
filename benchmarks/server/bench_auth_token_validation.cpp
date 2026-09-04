@@ -79,10 +79,14 @@ static std::string b64url(const std::vector<uint8_t>& in) {
         out += '=';
     }
     for (char& c : out) {
-        if (c == '+') c = '-';
+        if (c == '+') {
+          c = '-';
+        }
         else if (c == '/') c = '_';
     }
-    while (!out.empty() && out.back() == '=') out.pop_back();
+    while (!out.empty() && out.back() == '=') {
+      out.pop_back();
+    }
     return out;
 }
 
@@ -93,7 +97,9 @@ struct RSAKeyPair {
 
     RSAKeyPair() {
         BIGNUM* bn = BN_new();
-        if (!bn) throw std::runtime_error("BN_new failed");
+        if (!bn) {
+          throw std::runtime_error("BN_new failed");
+        }
         BN_set_word(bn, RSA_F4);
         rsa = RSA_new();
         if (!rsa) { BN_free(bn); throw std::runtime_error("RSA_new failed"); }
@@ -113,7 +119,9 @@ struct RSAKeyPair {
 // Sign header.payload with RS256
 static std::string signRS256(EVP_PKEY* pkey, const std::string& header_payload) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) throw std::runtime_error("EVP_MD_CTX_new failed");
+    if (!ctx) {
+      throw std::runtime_error("EVP_MD_CTX_new failed");
+    }
     EVP_DigestSignInit(ctx, nullptr, EVP_sha256(), nullptr, pkey);
     EVP_DigestSignUpdate(ctx, header_payload.data(), header_payload.size());
     size_t siglen = 0;

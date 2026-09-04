@@ -71,13 +71,27 @@ std::string transformationTypeToString(TransformationType t) {
 TransformationType transformationTypeFromString(const std::string& s) {
     std::string upper = s;
     std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
-    if (upper == "DIRECT_COPY")   return TransformationType::DIRECT_COPY;
-    if (upper == "RENAME")        return TransformationType::RENAME;
-    if (upper == "CAST")          return TransformationType::CAST;
-    if (upper == "COMPUTED")      return TransformationType::COMPUTED;
-    if (upper == "AGGREGATION")   return TransformationType::AGGREGATION;
-    if (upper == "ANONYMIZATION") return TransformationType::ANONYMIZATION;
-    if (upper == "ENRICHMENT")    return TransformationType::ENRICHMENT;
+    if (upper == "DIRECT_COPY") {
+      return TransformationType::DIRECT_COPY;
+    }
+    if (upper == "RENAME") {
+      return TransformationType::RENAME;
+    }
+    if (upper == "CAST") {
+      return TransformationType::CAST;
+    }
+    if (upper == "COMPUTED") {
+      return TransformationType::COMPUTED;
+    }
+    if (upper == "AGGREGATION") {
+      return TransformationType::AGGREGATION;
+    }
+    if (upper == "ANONYMIZATION") {
+      return TransformationType::ANONYMIZATION;
+    }
+    if (upper == "ENRICHMENT") {
+      return TransformationType::ENRICHMENT;
+    }
     return TransformationType::CUSTOM;
 }
 
@@ -193,7 +207,9 @@ std::vector<ColumnRef> ColumnLineageTracker::getUpstreamColumns(const ColumnRef&
         frontier.pop();
 
         auto it = entries_by_target_.find(current);
-        if (it == entries_by_target_.end()) continue;
+        if (it == entries_by_target_.end()) {
+          continue;
+        }
 
         for (const auto& entry : it->second) {
             for (const auto& src : entry.source_columns) {
@@ -225,7 +241,9 @@ std::vector<ColumnRef> ColumnLineageTracker::getDownstreamColumns(const ColumnRe
         frontier.pop();
 
         auto it = targets_by_source_.find(current);
-        if (it == targets_by_source_.end()) continue;
+        if (it == targets_by_source_.end()) {
+          continue;
+        }
 
         for (const auto& target : it->second) {
             if (visited.find(target) == visited.end()) {
@@ -275,7 +293,9 @@ nlohmann::json ColumnLineageTracker::exportTableLineage(const std::string& table
 
     nlohmann::json result = nlohmann::json::array();
     for (const auto& [col_ref, entries] : entries_by_target_) {
-        if (col_ref.table_name != table_name) continue;
+        if (col_ref.table_name != table_name) {
+          continue;
+        }
         ColumnLineageRecord record;
         record.column   = col_ref;
         record.entries  = entries;

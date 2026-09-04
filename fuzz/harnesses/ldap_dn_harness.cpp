@@ -43,7 +43,9 @@ namespace {
 
 static std::string escapeLDAPDNComponent(const std::string& value)
 {
-    if (value.empty()) return value;
+    if (value.empty()) {
+      return value;
+    }
     std::string out;
     out.reserve(value.size() * 2);
     for (std::size_t i = 0; i < value.size(); ++i) {

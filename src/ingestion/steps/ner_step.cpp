@@ -34,11 +34,21 @@ namespace {
 
 /// Map entity-type string (from config) to EntityType enum.
 EntityType entityTypeFromString(const std::string& s) {
-    if (s == "PER" || s == "PERSON")   return EntityType::PERSON;
-    if (s == "ORG")                    return EntityType::ORGANIZATION;
-    if (s == "LOC" || s == "LOCATION") return EntityType::LOCATION;
-    if (s == "DATE")                   return EntityType::DATE;
-    if (s == "LAW")                    return EntityType::LEGAL_NORM_REFERENCE;
+    if (s == "PER" || s == "PERSON") {
+      return EntityType::PERSON;
+    }
+    if (s == "ORG") {
+      return EntityType::ORGANIZATION;
+    }
+    if (s == "LOC" || s == "LOCATION") {
+      return EntityType::LOCATION;
+    }
+    if (s == "DATE") {
+      return EntityType::DATE;
+    }
+    if (s == "LAW") {
+      return EntityType::LEGAL_NORM_REFERENCE;
+    }
     return EntityType::UNKNOWN;
 }
 
@@ -105,13 +115,17 @@ std::vector<RegexMatch> parseNerJson(const std::string& json_str) {
     std::vector<RegexMatch> out;
     try {
         auto arr = json::parse(json_str);
-        if (!arr.is_array()) return out;
+        if (!arr.is_array()) {
+          return out;
+        }
         for (const auto& item : arr) {
             RegexMatch m;
             m.text   = item.value("text",   "");
             m.etype  = item.value("type",   "UNKNOWN");
             m.offset = static_cast<std::size_t>(item.value("offset", 0));
-            if (!m.text.empty()) out.push_back(std::move(m));
+            if (!m.text.empty()) {
+              out.push_back(std::move(m));
+            }
         }
     } catch (...) {}
     return out;
@@ -122,8 +136,12 @@ std::string buildNerPrompt(const std::string& text,
                             const std::string& language,
                             const std::vector<std::string>& types) {
     std::string type_list;
-    for (const auto& t : types) type_list += t + ", ";
-    if (type_list.size() > 2) type_list.resize(type_list.size() - 2);
+    for (const auto& t : types) {
+      type_list += t + ", ";
+    }
+    if (type_list.size() > 2) {
+      type_list.resize(type_list.size() - 2);
+    }
 
     return "Extract named entities from the following " + language
            + " text. Return a JSON array with objects containing "
@@ -248,7 +266,9 @@ private:
                       const std::string& section_ref,
                       double confidence,
                       const std::string& source_tag) const {
-        if (text.empty()) return;
+        if (text.empty()) {
+          return;
+        }
 
         BaseEntity ent;
         ent.entity_type    = entityTypeFromString(etype_str);

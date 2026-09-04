@@ -431,8 +431,12 @@ static void BM_OLAP_Sort_MultiColumn(benchmark::State& state) {
         
         std::sort(data.begin(), data.end(), 
             [](const SalesRecord& a, const SalesRecord& b) {
-                if (a.region != b.region) return a.region < b.region;
-                if (a.category != b.category) return a.category < b.category;
+                if (a.region != b.region) {
+                  return a.region < b.region;
+                }
+                if (a.category != b.category) {
+                  return a.category < b.category;
+                }
                 return a.amount < b.amount;
             });
         

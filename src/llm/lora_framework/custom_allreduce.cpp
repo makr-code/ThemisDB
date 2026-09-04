@@ -142,7 +142,9 @@ bool CustomAllReduce::broadcast(GPUTensor& tensor, int root) {
     if (rank_ == root) {
         // Root broadcasts to all other GPUs
         for (int i = 0; i < world_size_; ++i) {
-            if (i == root) continue;
+            if (i == root) {
+              continue;
+            }
             
             Device target_device = ctx_.get_device(i);
             GPUTensor target_tensor({tensor.size()}, target_device);
@@ -209,7 +211,9 @@ void CustomAllReduce::enable_p2p_access() {
         // Enable P2P access between all GPU pairs
         for (int i = 0; i < world_size_; ++i) {
             for (int j = 0; j < world_size_; ++j) {
-                if (i == j) continue;
+                if (i == j) {
+                  continue;
+                }
                 
                 int can_access = 0;
                 if (cudaDeviceCanAccessPeer(&can_access,
@@ -250,7 +254,9 @@ void CustomAllReduce::enable_p2p_access() {
         // Enable P2P access between all GPU pairs
         for (int i = 0; i < world_size_; ++i) {
             for (int j = 0; j < world_size_; ++j) {
-                if (i == j) continue;
+                if (i == j) {
+                  continue;
+                }
                 
                 int can_access = 0;
                 if (hipDeviceCanAccessPeer(&can_access,

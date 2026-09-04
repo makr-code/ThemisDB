@@ -125,7 +125,9 @@ PagedBuffer PagedMemoryManager::allocate(size_t size, const Device& device) {
 }
 
 void PagedMemoryManager::deallocate(PagedBuffer& buffer) {
-    if (buffer.id == 0) return;
+    if (buffer.id == 0) {
+      return;
+    }
     
     // Remove from cache
     page_cache_.remove(buffer.id);
@@ -255,7 +257,9 @@ size_t PagedMemoryManager::evictLRU(size_t num_pages, void* stream) {
     size_t evicted = 0;
     for (PageID page_id : lru_pages) {
         auto it = pages_.find(page_id);
-        if (it == pages_.end()) continue;
+        if (it == pages_.end()) {
+          continue;
+        }
         
         PagedBuffer& buffer = it->second;
         

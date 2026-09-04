@@ -72,7 +72,9 @@ int GeoTopologyRouter::localityScore(const sharding::ShardInfo& shard) const {
 const sharding::ShardInfo* GeoTopologyRouter::selectPreferLocal(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     const sharding::ShardInfo* best       = nullptr;
     int                        best_score = -1;
@@ -90,7 +92,9 @@ const sharding::ShardInfo* GeoTopologyRouter::selectPreferLocal(
 const sharding::ShardInfo* GeoTopologyRouter::selectLowestLatency(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     // Fall back to PREFER_LOCAL when no latency hints are available.
     if (config_.region_latency_hints.empty()) {
@@ -116,7 +120,9 @@ const sharding::ShardInfo* GeoTopologyRouter::selectLowestLatency(
 const sharding::ShardInfo* GeoTopologyRouter::selectRoundRobin(
     const std::vector<sharding::ShardInfo>& healthy) const
 {
-    if (healthy.empty()) return nullptr;
+    if (healthy.empty()) {
+      return nullptr;
+    }
 
     const uint64_t idx =
         round_robin_counter_.fetch_add(1, std::memory_order_relaxed);

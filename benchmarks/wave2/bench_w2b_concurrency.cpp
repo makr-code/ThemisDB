@@ -93,11 +93,17 @@ std::unique_ptr<RocksDBWrapper> openBenchDb(const std::string& path) {
 std::vector<float> randomVec(int dim, std::mt19937& rng) {
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     std::vector<float> v(static_cast<std::size_t>(dim));
-    for (auto& x : v) x = dis(rng);
+    for (auto& x : v) {
+      x = dis(rng);
+    }
     float sq = 0.f;
-    for (float x : v) sq += x * x;
+    for (float x : v) {
+      sq += x * x;
+    }
     float inv = 1.f / std::sqrt(std::max(sq, 1e-12f));
-    for (auto& x : v) x *= inv;
+    for (auto& x : v) {
+      x *= inv;
+    }
     return v;
 }
 
@@ -118,7 +124,9 @@ public:
     static constexpr int kWarmupKeys = 5'000;
 
     void SetUp(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         dbPath_ = uniqueDbPath("kv");
         db_     = openBenchDb(dbPath_);
         // Pre-populate warm data
@@ -129,7 +137,9 @@ public:
     }
 
     void TearDown(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         db_->close();
         db_.reset();
         fs::remove_all(dbPath_);
@@ -267,7 +277,9 @@ public:
     static constexpr int kTopK          = 10;
 
     void SetUp(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         dbPath_ = uniqueDbPath("vec");
         db_     = openBenchDb(dbPath_);
         vix_    = std::make_unique<VectorIndexManager>(*db_);
@@ -288,7 +300,9 @@ public:
     }
 
     void TearDown(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         vix_.reset();
         db_->close();
         db_.reset();
@@ -400,7 +414,9 @@ static void BM_W2B_ReaderWriterFanout(benchmark::State& state) {
     }
 
     stop.store(true, std::memory_order_release);
-    for (auto& t : readers) t.join();
+    for (auto& t : readers) {
+      t.join();
+    }
 
     state.SetItemsProcessed(writeOps.load());
     state.counters["write_ops_per_sec"] = benchmark::Counter(

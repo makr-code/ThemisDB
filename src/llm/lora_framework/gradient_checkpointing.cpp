@@ -56,13 +56,17 @@ bool GradientCheckpointer::shouldCheckpoint(int layer_id, LayerType layer_type) 
             // Checkpoint every √n layers (optimal for deep networks)
             // For 32 layers: checkpoint at 0, 6, 12, 18, 24, 30
             int interval = calculateSqrtNInterval();
-            if (interval <= 0) return false;
+            if (interval <= 0) {
+              return false;
+            }
             return (layer_id % interval) == 0;
         }
         
         case CheckpointStrategy::UNIFORM:
             // Checkpoint every N layers
-            if (config_.checkpoint_frequency <= 0) return false;
+            if (config_.checkpoint_frequency <= 0) {
+              return false;
+            }
             return (layer_id % config_.checkpoint_frequency) == 0;
         
         case CheckpointStrategy::ATTENTION_ONLY: {

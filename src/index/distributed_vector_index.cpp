@@ -142,7 +142,9 @@ void DistributedVectorIndex::buildRing_() {
             const std::string token = "shard:" + std::to_string(s) + ":vn:" + std::to_string(v);
             uint64_t h = hashString(token);
             // Resolve rare collision by linear probing on the ring
-            while (ring_.count(h)) ++h;
+            while (ring_.count(h)) {
+              ++h;
+            }
             ring_[h] = s;
         }
     }
@@ -157,7 +159,9 @@ uint64_t DistributedVectorIndex::hashKey_(const std::string& key) const noexcept
 }
 
 size_t DistributedVectorIndex::shardFor_(const std::string& key) const noexcept {
-    if (config_.num_shards == 1) return 0;
+    if (config_.num_shards == 1) {
+      return 0;
+    }
     const uint64_t h = hashKey_(key);
     switch (config_.strategy) {
     case ShardingStrategy::HASH:
@@ -166,9 +170,13 @@ size_t DistributedVectorIndex::shardFor_(const std::string& key) const noexcept 
         // Proper lexicographic range partitioning is deferred.
         return static_cast<size_t>(h % config_.num_shards);
     case ShardingStrategy::CONSISTENT_HASH: {
-        if (ring_.empty()) return 0;
+        if (ring_.empty()) {
+          return 0;
+        }
         auto it = ring_.lower_bound(h);
-        if (it == ring_.end()) it = ring_.begin();
+        if (it == ring_.end()) {
+          it = ring_.begin();
+        }
         return it->second;
     }
     }
@@ -202,7 +210,9 @@ std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::
 
 bool DistributedVectorIndex::insert(const std::string& pk,
                                     const float* vec, size_t dim) {
-    if (!vec || dim == 0) return false;
+    if (!vec || dim == 0) {
+      return false;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -291,7 +301,9 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = pk_to_shard_.find(pk);
-    if (it == pk_to_shard_.end()) return false;
+    if (it == pk_to_shard_.end()) {
+      return false;
+    }
 
     const size_t shard_idx = it->second.first;
     const int64_t id       = it->second.second;

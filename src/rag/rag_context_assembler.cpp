@@ -47,7 +47,9 @@ void RAGContextAssembler::setConfig(const RAGContextAssemblerConfig& cfg)
 std::string RAGContextAssembler::truncateContent(const std::string& content,
                                                   size_t             max_chars) const
 {
-    if (content.size() <= max_chars) return content;
+    if (content.size() <= max_chars) {
+      return content;
+    }
 
     const std::string& marker = config_.truncation_marker;
     if (max_chars <= marker.size()) {
@@ -114,7 +116,9 @@ AssembledContext RAGContextAssembler::assemble(
     // enabling reliable reproducibility and testing.
     std::vector<const RetrievedChunk*> ordered;
     ordered.reserve(chunks.size());
-    for (const auto& c : chunks) ordered.push_back(&c);
+    for (const auto& c : chunks) {
+      ordered.push_back(&c);
+    }
 
     std::sort(ordered.begin(), ordered.end(),
         [](const RetrievedChunk* a, const RetrievedChunk* b) {
@@ -200,7 +204,9 @@ int RAGContextAssembler::computeMaxTokens(
         static_cast<size_t>(std::numeric_limits<int>::max());
     const size_t clamped = std::min(budget.reserved_response_tokens, kIntMaxAsSizeT);
     int computed = static_cast<int>(clamped);
-    if (computed <= 0) computed = 1;
+    if (computed <= 0) {
+      computed = 1;
+    }
 
     if (user_max > 0) {
         return std::min(computed, user_max);

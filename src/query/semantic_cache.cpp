@@ -397,13 +397,19 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     CacheEntry entry;
     
     auto queryOpt = entity.getFieldAsString("query");
-    if (queryOpt.has_value()) entry.query = *queryOpt;
+    if (queryOpt.has_value()) {
+      entry.query = *queryOpt;
+    }
     
     auto resultOpt = entity.getFieldAsString("result_json");
-    if (resultOpt.has_value()) entry.result_json = *resultOpt;
+    if (resultOpt.has_value()) {
+      entry.result_json = *resultOpt;
+    }
     
     auto embOpt = entity.getFieldAsVector("embedding");
-    if (embOpt.has_value()) entry.embedding = *embOpt;
+    if (embOpt.has_value()) {
+      entry.embedding = *embOpt;
+    }
     
     auto createdOpt = entity.getFieldAsInt("created_at");
     if (createdOpt.has_value()) {
@@ -418,10 +424,14 @@ SemanticQueryCache::loadCacheEntry_(std::string_view query) const {
     }
     
     auto hitOpt = entity.getFieldAsInt("hit_count");
-    if (hitOpt.has_value()) entry.hit_count = static_cast<int>(*hitOpt);
+    if (hitOpt.has_value()) {
+      entry.hit_count = static_cast<int>(*hitOpt);
+    }
     
     auto sizeOpt = entity.getFieldAsInt("result_size");
-    if (sizeOpt.has_value()) entry.result_size = static_cast<int>(*sizeOpt);
+    if (sizeOpt.has_value()) {
+      entry.result_size = static_cast<int>(*sizeOpt);
+    }
     
     return entry;
 }

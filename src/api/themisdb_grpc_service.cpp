@@ -1672,7 +1672,9 @@ private:
                         const auto json = nlohmann::json::parse(*result);
                         if (json.is_array()) {
                             for (const auto& element : json) {
-                                if (!element.is_object()) continue;
+                                if (!element.is_object()) {
+                                  continue;
+                                }
                                 auto* h = resp->add_hits();
                                 h->set_collection(req->collection());
                                 if (element.contains("_key")) {

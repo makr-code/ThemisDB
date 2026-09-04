@@ -219,7 +219,9 @@ public:
         int gpu_device_id)
     {
         auto result = allocate(bytes, owner_id, gpu_device_id);
-        if (result) return result;
+        if (result) {
+          return result;
+        }
 
         spdlog::info("[ActiveVRAMAllocator] Triggering OOM recovery for '{}' ({} bytes)",
                      owner_id, bytes);
@@ -256,7 +258,9 @@ public:
     // ------------------------------------------------------------------
 
     void touch(AllocationHandle& handle) {
-        if (!handle.valid) return;
+        if (!handle.valid) {
+          return;
+        }
         std::lock_guard<std::mutex> lock(mu_);
         handle.last_used_at_ms = nowMs();
         auto it = allocations_.find(handle.id);
@@ -300,7 +304,9 @@ public:
 
         for (uint64_t id : to_evict) {
             auto it = allocations_.find(id);
-            if (it == allocations_.end()) continue;
+            if (it == allocations_.end()) {
+              continue;
+            }
             AllocationHandle& h = it->second;
             freed += h.allocated_bytes;
             freeHandleLocked(h);
@@ -478,7 +484,9 @@ public:
     // ------------------------------------------------------------------
 
     bool allocateWithFragmentation(size_t bytes, void** ptr) {
-        if (!ptr) return false;
+        if (!ptr) {
+          return false;
+        }
 
         auto handle = allocateOrRecover(bytes, "__bridge__", -1);
         if (!handle) {
@@ -572,7 +580,9 @@ private:
     }
 
     size_t evictLRULocked() {
-        if (allocations_.empty()) return 0;
+        if (allocations_.empty()) {
+          return 0;
+        }
 
         // Find the non-spilled, non-external allocation with the smallest last_used_at_ms.
         // External allocations are owned by the inference runtime and must not be evicted.
@@ -589,7 +599,9 @@ private:
         if (lru_id == 0) return 0;  // nothing evictable
 
         auto it = allocations_.find(lru_id);
-        if (it == allocations_.end()) return 0;
+        if (it == allocations_.end()) {
+          return 0;
+        }
 
         AllocationHandle& h = it->second;
         size_t freed = h.allocated_bytes;
@@ -605,7 +617,9 @@ private:
     }
 
     size_t spillLRUToCPULocked() {
-        if (allocations_.empty()) return 0;
+        if (allocations_.empty()) {
+          return 0;
+        }
 
         // Check CPU spill budget
         if (stats_.spilled_cpu_bytes >= cfg_.max_cpu_spill_bytes) {
@@ -626,10 +640,14 @@ private:
             }
         }
 
-        if (lru_id == 0) return 0;
+        if (lru_id == 0) {
+          return 0;
+        }
 
         auto it = allocations_.find(lru_id);
-        if (it == allocations_.end()) return 0;
+        if (it == allocations_.end()) {
+          return 0;
+        }
 
         AllocationHandle& h = it->second;
         size_t bytes = h.allocated_bytes;
@@ -670,7 +688,9 @@ private:
     }
 
     bool freeHandleLocked(AllocationHandle& handle) {
-        if (!handle.valid) return false;
+        if (!handle.valid) {
+          return false;
+        }
 
         const std::string key = makeModelKey(handle.owner_id, handle.id);
 

@@ -223,7 +223,9 @@ void WorkloadPredictor::reset() noexcept {
 // ---------------------------------------------------------------------------
 
 double WorkloadPredictor::compute_ema(const std::vector<double>& values) const noexcept {
-    if (values.empty()) return 0.0;
+    if (values.empty()) {
+      return 0.0;
+    }
     double ema = values[0];
     for (size_t i = 1; i < values.size(); ++i) {
         ema = config_.ema_alpha * values[i] + (1.0 - config_.ema_alpha) * ema;
@@ -262,7 +264,9 @@ std::pair<double, double> WorkloadPredictor::linear_regression(
 
 double WorkloadPredictor::compute_confidence(const std::vector<double>& values) const noexcept {
     const size_t n = values.size();
-    if (n < 2) return 0.0;
+    if (n < 2) {
+      return 0.0;
+    }
 
     const double mean = std::accumulate(values.begin(), values.end(), 0.0) / static_cast<double>(n);
     if (std::abs(mean) < 1e-12) {
@@ -285,8 +289,12 @@ double WorkloadPredictor::compute_confidence(const std::vector<double>& values) 
 }
 
 double WorkloadPredictor::clamp(double v, double lo, double hi) noexcept {
-    if (v < lo) return lo;
-    if (v > hi) return hi;
+    if (v < lo) {
+      return lo;
+    }
+    if (v > hi) {
+      return hi;
+    }
     return v;
 }
 

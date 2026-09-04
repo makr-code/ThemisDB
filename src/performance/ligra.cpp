@@ -137,7 +137,9 @@ Frontier LigraProcessor::process_edges(
         }
         
         process_vertices(frontier, [&]([[maybe_unused]] NodeID src) {
-            if (src >= adj_list.size()) return;
+            if (src >= adj_list.size()) {
+              return;
+            }
             
             for (NodeID dst : adj_list[src]) {
                 if (func(src, dst)) {
@@ -174,7 +176,9 @@ Frontier LigraProcessor::process_edges(
             threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {
                 for (auto v_it = it; v_it != chunk_end; ++v_it) {
                     NodeID src = *v_it;
-                    if (src >= adj_list.size()) continue;
+                    if (src >= adj_list.size()) {
+                      continue;
+                    }
                     
                     for (NodeID dst : adj_list[src]) {
                         if (func(src, dst)) {
@@ -248,7 +252,9 @@ std::vector<double> LigraProcessor::parallel_pagerank(
         
         // Distribute rank from each vertex
         for (NodeID v = 0; v < adj_list.size(); v++) {
-            if (adj_list[v].empty()) continue;
+            if (adj_list[v].empty()) {
+              continue;
+            }
             
             double rank_contrib = damping * ranks[v] / adj_list[v].size();
             for (NodeID neighbor : adj_list[v]) {
@@ -275,7 +281,9 @@ bool WorkStealingQueue::try_pop(std::function<void()>& task) {
     size_t b = bottom_.load(std::memory_order_relaxed);
     size_t t = top_.load(std::memory_order_relaxed);
     
-    if (b <= t) return false;
+    if (b <= t) {
+      return false;
+    }
     
     b--;
     bottom_.store(b, std::memory_order_relaxed);
@@ -288,7 +296,9 @@ bool WorkStealingQueue::try_steal(std::function<void()>& task) {
     size_t t = top_.load(std::memory_order_relaxed);
     size_t b = bottom_.load(std::memory_order_relaxed);
     
-    if (t >= b) return false;
+    if (t >= b) {
+      return false;
+    }
     
     task = tasks_[t];
     top_.store(t + 1, std::memory_order_relaxed);

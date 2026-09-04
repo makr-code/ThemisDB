@@ -40,7 +40,9 @@ __kernel void computeL2Distance(
     size_t q = get_global_id(0);
     size_t v = get_global_id(1);
     
-    if (q >= numQueries || v >= numVectors) return;
+    if (q >= numQueries || v >= numVectors) {
+      return;
+    }
     
     float sum = 0.0f;
     for (unsigned int d = 0; d < dimension; d++) {
@@ -63,7 +65,9 @@ __kernel void computeCosineDistance(
     size_t q = get_global_id(0);
     size_t v = get_global_id(1);
     
-    if (q >= numQueries || v >= numVectors) return;
+    if (q >= numQueries || v >= numVectors) {
+      return;
+    }
     
     float dotProduct = 0.0f;
     float normQ = 0.0f;

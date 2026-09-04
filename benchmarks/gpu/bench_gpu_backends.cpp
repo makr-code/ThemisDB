@@ -49,8 +49,12 @@ struct BenchmarkData {
         queries.resize(num_queries * dim);
         vectors.resize(num_vectors * dim);
         
-        for (auto& v : queries) v = dist(rng);
-        for (auto& v : vectors) v = dist(rng);
+        for (auto& v : queries) {
+          v = dist(rng);
+        }
+        for (auto& v : vectors) {
+          v = dist(rng);
+        }
         
         // Normalize vectors
         for (size_t i = 0; i < num_queries; i++) {

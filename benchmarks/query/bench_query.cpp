@@ -47,7 +47,9 @@ struct BenchEnv {
     // Wrapped init with explicit error propagation so benchmark failures are visible.
     // NOTE: Reduced N from 100k to 1k for bench_query to avoid long initialization.
     bool ensureInit(benchmark::State& state, size_t N = 1000) {
-        if (ready && initializedN == N) return true;
+        if (ready && initializedN == N) {
+          return true;
+        }
         try {
             const std::string db_path = std::string("data/themis_bench_query_") + std::to_string(N);
             if (std::filesystem::exists(db_path)) {
@@ -131,7 +133,9 @@ static void BM_Pagination_Offset(benchmark::State& state) {
     const int pageSize = static_cast<int>(state.range(0));
     const int pages = static_cast<int>(state.range(1));
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -164,7 +168,9 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
     const int pageSize = static_cast<int>(state.range(0));
     const int pages = static_cast<int>(state.range(1));
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     std::optional<std::string> anchorValue;
@@ -192,9 +198,13 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
                 anchorPk = last.getPrimaryKey();
                 // Know the age because it is a field; extractField returns optional<string>
                 auto v = last.extractField("age");
-                if (v) anchorValue = *v; else anchorValue.reset();
+                if (v) {
+                  anchorValue = *v; else anchorValue.reset();
+                }
             }
-            if (!has_more) break;
+            if (!has_more) {
+              break;
+            }
         }
         state.counters["pages"] = pages;
         state.counters["page_size"] = pageSize;
@@ -204,7 +214,9 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
 
 static void BM_SimpleWhere(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -224,7 +236,9 @@ static void BM_SimpleWhere(benchmark::State& state) {
 
 static void BM_ComplexWhere(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -245,7 +259,9 @@ static void BM_ComplexWhere(benchmark::State& state) {
 
 static void BM_JoinUsersPosts(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -291,7 +307,9 @@ static bool run_join_users_posts_index_keys(QueryEngine& engine,
 static void BM_SimpleWhere_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, N)) return;
+    if (!env.ensureInit(state, N)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -309,7 +327,9 @@ static void BM_SimpleWhere_Scaled(benchmark::State& state) {
 static void BM_ComplexWhere_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, N)) return;
+    if (!env.ensureInit(state, N)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -327,7 +347,9 @@ static void BM_ComplexWhere_Scaled(benchmark::State& state) {
 static void BM_JoinUsersPosts_Scaled(benchmark::State& state) {
     const size_t N = static_cast<size_t>(state.range(0));
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, N)) return;
+    if (!env.ensureInit(state, N)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (auto _ : state) {
@@ -494,7 +516,9 @@ static bool run_join_users_posts_index_keys(QueryEngine& engine,
 
 static void BM_SimpleWhere_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     constexpr size_t kSamples = 300;
@@ -529,7 +553,9 @@ static void BM_SimpleWhere_P99(benchmark::State& state) {
 
 static void BM_ComplexWhere_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     constexpr size_t kSamples = 300;
@@ -564,7 +590,9 @@ static void BM_ComplexWhere_P99(benchmark::State& state) {
 
 static void BM_JoinUsersPosts_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     constexpr size_t kSamples = 150;
@@ -601,7 +629,9 @@ static void BM_JoinUsersPosts_P99(benchmark::State& state) {
 
 static void BM_JoinUsersPosts_Batched_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     constexpr size_t kSamples = 150;
@@ -638,7 +668,9 @@ static void BM_JoinUsersPosts_Batched_P99(benchmark::State& state) {
 
 static void BM_JoinUsersPosts_IndexKeys_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     constexpr size_t kSamples = 150;
@@ -683,7 +715,9 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
     constexpr size_t kDatasetN    = 10000;
     constexpr size_t kWarmupIters = 50;
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, kDatasetN)) return;
+    if (!env.ensureInit(state, kDatasetN)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     // Warmup: populate index/cache paths before timing starts.
@@ -703,7 +737,9 @@ static void BM_QueryMix_Historical(benchmark::State& state) {
         bool ok;
         // Deterministic round-robin mix: 6 Simple, 3 Complex, 1 JOIN per 10 iters.
         const size_t slot = iter_count % 10;
-        if      (slot < 6) ok = run_simple_where(engine, mu, err);
+        if      (slot < 6) {
+          ok = run_simple_where(engine, mu, err);
+        }
         else if (slot < 9) ok = run_complex_where(engine, mu, err);
         else               ok = run_join_users_posts(engine, mu, jr, err);
         if (!ok) { state.SkipWithError(err.c_str()); return; }
@@ -718,7 +754,9 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
     constexpr size_t kWarmupIters = 50;
     constexpr size_t kSamples     = 300;
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, kDatasetN)) return;
+    if (!env.ensureInit(state, kDatasetN)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
@@ -747,7 +785,9 @@ static void BM_QueryMix_Historical_P99(benchmark::State& state) {
             bool ok;
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
-            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            if      (slot < 6) {
+              ok = run_simple_where(engine, mu, err);
+            }
             else if (slot < 9) ok = run_complex_where(engine, mu, err);
             else               ok = run_join_users_posts(engine, mu, jr, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -789,7 +829,9 @@ static void BM_QueryMix_Historical_P99_Batched(benchmark::State& state) {
     constexpr size_t kWarmupIters = 50;
     constexpr size_t kSamples     = 300;
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, kDatasetN)) return;
+    if (!env.ensureInit(state, kDatasetN)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
@@ -818,7 +860,9 @@ static void BM_QueryMix_Historical_P99_Batched(benchmark::State& state) {
             bool ok;
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
-            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            if      (slot < 6) {
+              ok = run_simple_where(engine, mu, err);
+            }
             else if (slot < 9) ok = run_complex_where(engine, mu, err);
             else               ok = run_join_users_posts_batched(engine, mu, jr, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -859,7 +903,9 @@ static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
     constexpr size_t kWarmupIters = 50;
     constexpr size_t kSamples     = 300;
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state, kDatasetN)) return;
+    if (!env.ensureInit(state, kDatasetN)) {
+      return;
+    }
     QueryEngine engine(*env.storage, *env.secIdx);
 
     for (size_t w = 0; w < kWarmupIters; ++w) {
@@ -888,7 +934,9 @@ static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
             bool ok;
             const size_t slot = i % 10;
             auto t0 = std::chrono::high_resolution_clock::now();
-            if      (slot < 6) ok = run_simple_where(engine, mu, err);
+            if      (slot < 6) {
+              ok = run_simple_where(engine, mu, err);
+            }
             else if (slot < 9) ok = run_complex_where(engine, mu, err);
             else               ok = run_join_users_posts_index_keys(engine, mu, jr, err);
             auto t1 = std::chrono::high_resolution_clock::now();
@@ -932,7 +980,9 @@ static void BM_QueryMix_Historical_P99_IndexKeys(benchmark::State& state) {
 
 static void BM_PointLookup(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
 
     // Pre-build the lookup keys for all N entities so the hot loop only does
     // the storage get and no string construction per iteration.
@@ -956,7 +1006,9 @@ static void BM_PointLookup(benchmark::State& state) {
 
 static void BM_PointLookup_WithDeserialize(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
 
     const size_t N = env.initializedN;
     std::vector<std::pair<std::string, std::string>> lookup_pairs; // (key, pk)
@@ -982,7 +1034,9 @@ static void BM_PointLookup_WithDeserialize(benchmark::State& state) {
 
 static void BM_PointLookup_P99(benchmark::State& state) {
     auto& env = BenchEnv::instance();
-    if (!env.ensureInit(state)) return;
+    if (!env.ensureInit(state)) {
+      return;
+    }
 
     const size_t N = env.initializedN;
     std::vector<std::pair<std::string, std::string>> lookup_pairs;

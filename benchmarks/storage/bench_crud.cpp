@@ -15,7 +15,9 @@ namespace {
         static std::uniform_int_distribution<size_t> dist(0, sizeof(charset) - 2);
         std::string s;
         s.reserve(len);
-        for (size_t i = 0; i < len; ++i) s += charset[dist(rng)];
+        for (size_t i = 0; i < len; ++i) {
+          s += charset[dist(rng)];
+        }
         return s;
     }
 

@@ -320,7 +320,9 @@ namespace {
         const std::shared_ptr<query::Expression>& expr,
         const std::unordered_set<std::string>& vars
     ) {
-        if (!expr) return false;
+        if (!expr) {
+          return false;
+        }
         switch (expr->getType()) {
             case query::ASTNodeType::Variable: {
                 auto v = std::static_pointer_cast<query::VariableExpr>(expr);
@@ -341,21 +343,27 @@ namespace {
             case query::ASTNodeType::FunctionCall: {
                 auto fn = std::static_pointer_cast<query::FunctionCallExpr>(expr);
                 for (const auto& arg : fn->arguments) {
-                    if (expressionReferencesVariables(arg, vars)) return true;
+                    if (expressionReferencesVariables(arg, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             case query::ASTNodeType::ArrayLiteral: {
                 auto arr = std::static_pointer_cast<query::ArrayLiteralExpr>(expr);
                 for (const auto& elem : arr->elements) {
-                    if (expressionReferencesVariables(elem, vars)) return true;
+                    if (expressionReferencesVariables(elem, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             case query::ASTNodeType::ObjectConstruct: {
                 auto obj = std::static_pointer_cast<query::ObjectConstructExpr>(expr);
                 for (const auto& [key, val] : obj->fields) {
-                    if (expressionReferencesVariables(val, vars)) return true;
+                    if (expressionReferencesVariables(val, vars)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -370,7 +378,9 @@ namespace {
         const std::shared_ptr<query::Query>& subquery,
         const std::unordered_set<std::string>& outerVarNames
     ) {
-        if (!subquery || outerVarNames.empty()) return false;
+        if (!subquery || outerVarNames.empty()) {
+          return false;
+        }
 
         for (const auto& filter : subquery->filters) {
             if (filter && expressionReferencesVariables(filter->condition, outerVarNames)) {
@@ -381,7 +391,9 @@ namespace {
             return true;
         }
         for (const auto& let : subquery->let_nodes) {
-            if (expressionReferencesVariables(let.expression, outerVarNames)) return true;
+            if (expressionReferencesVariables(let.expression, outerVarNames)) {
+              return true;
+            }
         }
         return false;
     }

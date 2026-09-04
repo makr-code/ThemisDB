@@ -638,7 +638,9 @@ int LLMDeploymentPlugin::cleanupOldModels() {
                   });
         
         for (const auto& status : sorted_models) {
-            if (status.is_loaded) continue;
+            if (status.is_loaded) {
+              continue;
+            }
             
             if (removeModel(status.model_id, false)) {
                 removed_count++;
@@ -674,7 +676,9 @@ json LLMDeploymentPlugin::getCacheStats() const {
     
     int loaded_count = 0;
     for (const auto& status : model_registry_) {
-        if (status.is_loaded) loaded_count++;
+        if (status.is_loaded) {
+          loaded_count++;
+        }
     }
     stats["loaded_models"] = loaded_count;
     

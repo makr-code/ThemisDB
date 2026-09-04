@@ -606,9 +606,15 @@ struct MetaVerdict {
  */
 [[nodiscard]] constexpr MetaVerdict::ConvergenceVerdict
 MetaVerdictThreshold(double score) noexcept {
-    if (score > 0.75) return MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS;
-    if (score > 0.60) return MetaVerdict::ConvergenceVerdict::TENDENCY;
-    if (score > 0.40) return MetaVerdict::ConvergenceVerdict::CONTESTED;
+    if (score > 0.75) {
+      return MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS;
+    }
+    if (score > 0.60) {
+      return MetaVerdict::ConvergenceVerdict::TENDENCY;
+    }
+    if (score > 0.40) {
+      return MetaVerdict::ConvergenceVerdict::CONTESTED;
+    }
     return MetaVerdict::ConvergenceVerdict::DISSENT;
 }
 
@@ -1014,8 +1020,12 @@ public:
             if (it != adapters_.end()) { factor = it->second; }
         }
         const double corrected = factor * raw_score;
-        if (corrected < 0.0) return 0.0;
-        if (corrected > 1.0) return 1.0;
+        if (corrected < 0.0) {
+          return 0.0;
+        }
+        if (corrected > 1.0) {
+          return 1.0;
+        }
         return corrected;
     }
 

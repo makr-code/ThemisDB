@@ -240,9 +240,13 @@ CitationHighlighter::highlight(const std::string&              answer,
 
             size_t added = 0;
             for (const auto& cs : scored) {
-                if (added >= cfg.max_secondary_citations) break;
+                if (added >= cfg.max_secondary_citations) {
+                  break;
+                }
                 if (cs.idx == best_ci) continue; // already primary
-                if (cs.score < cfg.secondary_similarity_threshold) break;
+                if (cs.score < cfg.secondary_similarity_threshold) {
+                  break;
+                }
 
                 SentenceCitationMapping::SecondarySource sec;
                 sec.doc_id          = chunks[cs.idx].doc_id;

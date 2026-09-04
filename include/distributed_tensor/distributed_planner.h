@@ -202,7 +202,9 @@ class DistributedTensorPlanner {
 		(void)correlation_id;
 		std::vector<FragmentLoadRequest> reqs;
 		for (const auto& r : routing_summaries) {
-			if (r.rejected_as_stale || r.rejected_as_unhealthy) continue;
+			if (r.rejected_as_stale || r.rejected_as_unhealthy) {
+			  continue;
+			}
 			FragmentLoadRequest req;
 			req.shard_id = r.shard_id;
 			req.artifact_id = "";
@@ -223,7 +225,9 @@ class DistributedTensorPlanner {
 		plan.routing_summaries = planSummaryFirstRouting(summaries, correlation_id, config_.max_summary_ttl_seconds);
 		plan.fragment_requests = planExactOnDemandLoading(plan.routing_summaries, query_context, correlation_id);
 		plan.stale_shards_rejected = 0;
-		for (const auto& r : plan.routing_summaries) if (r.rejected_as_stale) ++plan.stale_shards_rejected;
+		for (const auto& r : plan.routing_summaries) {
+		  if (r.rejected_as_stale) ++plan.stale_shards_rejected;
+		}
 		plan.plan_reason = "Built by DistributedTensorPlanner";
 		return plan;
 	}
@@ -258,8 +262,12 @@ class DistributedTensorPlanner {
 	}
 
 	bool isValidFinalPlan(const TensorRetrievalPlan& plan) const noexcept {
-		if (plan.fragment_results.empty()) return false;
-		if (config_.strict_graph_validation && !plan.passed_graph_validation) return false;
+		if (plan.fragment_results.empty()) {
+		  return false;
+		}
+		if (config_.strict_graph_validation && !plan.passed_graph_validation) {
+		  return false;
+		}
 		return true;
 	}
 

@@ -683,7 +683,9 @@ void hsmSecurityWarningLoop() {
             std::this_thread::sleep_for(seconds(1));
         }
         
-        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) break;
+        if (!g_hsm_warning_thread_running.load(std::memory_order_relaxed)) {
+          break;
+        }
         
         // Perform HSM security check
         if (g_hsm_provider) {
@@ -923,8 +925,12 @@ int main(int argc, char* argv[]) {
         // and THEMIS_LICENSE_API_KEY in their environment / config.
         const char* ls_url = std::getenv("THEMIS_LICENSE_SERVER_URL");
         const char* ls_key = std::getenv("THEMIS_LICENSE_API_KEY");
-        if (ls_url) lc_cfg.server_url = ls_url;
-        if (ls_key) lc_cfg.api_key    = ls_key;
+        if (ls_url) {
+          lc_cfg.server_url = ls_url;
+        }
+        if (ls_key) {
+          lc_cfg.api_key    = ls_key;
+        }
         lc_cfg.allow_offline = true;
 
         themis::license::LicenseClient lc(lc_cfg);
@@ -985,7 +991,9 @@ int main(int argc, char* argv[]) {
                     YAML::Node root = YAML::LoadFile(path);
                     // recursive conversion YAML -> JSON
                     std::function<json(const YAML::Node&)> to_json = [&]([[maybe_unused]] const YAML::Node& n) -> json {
-                        if (!n) return nullptr;
+                        if (!n) {
+                          return nullptr;
+                        }
                         if (n.IsScalar()) {
                             // Try boolean
                             try { return n.as<bool>(); } catch (...) {}
@@ -997,7 +1005,9 @@ int main(int argc, char* argv[]) {
                             return n.as<std::string>("");
                         } else if (n.IsSequence()) {
                             json arr = json::array();
-                            for (const auto& it : n) arr.push_back(to_json(it));
+                            for (const auto& it : n) {
+                              arr.push_back(to_json(it));
+                            }
                             return arr;
                         } else if (n.IsMap()) {
                             json obj = json::object();
@@ -1119,24 +1129,46 @@ int main(int argc, char* argv[]) {
             // storage
             if (cfg->contains("storage")) {
                 const auto& s = (*cfg)["storage"];
-                if (s.contains("rocksdb_path")) db_config.db_path = s["rocksdb_path"].get<std::string>();
-                if (s.contains("memtable_size_mb")) db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
-                if (s.contains("block_cache_size_mb")) db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
-                if (s.contains("enable_blobdb")) db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
-                if (s.contains("enable_high_parallel_tuning")) db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
-                if (s.contains("high_parallel_thread_threshold")) db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
+                if (s.contains("rocksdb_path")) {
+                  db_config.db_path = s["rocksdb_path"].get<std::string>();
+                }
+                if (s.contains("memtable_size_mb")) {
+                  db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
+                }
+                if (s.contains("block_cache_size_mb")) {
+                  db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
+                }
+                if (s.contains("enable_blobdb")) {
+                  db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
+                }
+                if (s.contains("enable_high_parallel_tuning")) {
+                  db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
+                }
+                if (s.contains("high_parallel_thread_threshold")) {
+                  db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
+                }
                 if (s.contains("compression")) {
                     const auto& c = s["compression"];
-                    if (c.contains("default")) db_config.compression_default = c["default"].get<std::string>();
-                    if (c.contains("bottommost")) db_config.compression_bottommost = c["bottommost"].get<std::string>();
+                    if (c.contains("default")) {
+                      db_config.compression_default = c["default"].get<std::string>();
+                    }
+                    if (c.contains("bottommost")) {
+                      db_config.compression_bottommost = c["bottommost"].get<std::string>();
+                    }
                 }
             }
             // server
             if (cfg->contains("server")) {
                 const auto& sv = (*cfg)["server"];
-                if (sv.contains("host")) host = sv["host"].get<std::string>();
-                if (sv.contains("port")) port = static_cast<uint16_t>(sv["port"].get<int>());
-                if (sv.contains("worker_threads")) num_threads = sv["worker_threads"].get<size_t>();
+                if (sv.contains("host")) {
+                  host = sv["host"].get<std::string>();
+                }
+                if (sv.contains("port")) {
+                  port = static_cast<uint16_t>(sv["port"].get<int>());
+                }
+                if (sv.contains("worker_threads")) {
+                  num_threads = sv["worker_threads"].get<size_t>();
+                }
             }
             // features (beta)
             if (cfg->contains("features")) {
@@ -1625,7 +1657,9 @@ int main(int argc, char* argv[]) {
                     const std::string user_key = entry.data.value("key", std::string());
                     switch (entry.type) {
                         case themis::sharding::WALEntryType::DELETE:
-                            if (!db->del(user_key)) data_ok = false;
+                            if (!db->del(user_key)) {
+                              data_ok = false;
+                            }
                             break;
                         default: {
                             // Value may be any JSON; store serialized
@@ -1635,7 +1669,9 @@ int main(int argc, char* argv[]) {
                             } else {
                                 value_str = entry.data.dump();
                             }
-                            if (!db->put(user_key, value_str)) data_ok = false;
+                            if (!db->put(user_key, value_str)) {
+                              data_ok = false;
+                            }
                             break;
                         }
                     }
@@ -1681,9 +1717,15 @@ int main(int argc, char* argv[]) {
             shipper_cfg.compression_level = repl.value("compression_level", 3);
             
             // mTLS paths (optional; dev can skip)
-            if (repl.contains("cert_path")) shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
-            if (repl.contains("key_path")) shipper_cfg.key_path = repl["key_path"].get<std::string>();
-            if (repl.contains("ca_cert_path")) shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+            if (repl.contains("cert_path")) {
+              shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
+            }
+            if (repl.contains("key_path")) {
+              shipper_cfg.key_path = repl["key_path"].get<std::string>();
+            }
+            if (repl.contains("ca_cert_path")) {
+              shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+            }
 
             // Replica endpoints
             if (repl.contains("replicas")) {
@@ -1862,7 +1904,9 @@ int main(int argc, char* argv[]) {
                 
                 // Parse mode
                 std::string mode_str = def.value("mode", std::string("MIRROR"));
-                if (mode_str == "NONE") default_config.mode = themis::sharding::RedundancyMode::NONE;
+                if (mode_str == "NONE") {
+                  default_config.mode = themis::sharding::RedundancyMode::NONE;
+                }
                 else if (mode_str == "MIRROR") default_config.mode = themis::sharding::RedundancyMode::MIRROR;
                 else if (mode_str == "STRIPE") default_config.mode = themis::sharding::RedundancyMode::STRIPE;
                 else if (mode_str == "STRIPE_MIRROR") default_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
@@ -1874,7 +1918,9 @@ int main(int argc, char* argv[]) {
                 
                 // Parse write concern
                 std::string wc_str = def.value("write_concern", std::string("MAJORITY"));
-                if (wc_str == "ONE") default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                if (wc_str == "ONE") {
+                  default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                }
                 else if (wc_str == "MAJORITY") default_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
                 else if (wc_str == "ALL") default_config.write_concern = themis::sharding::WriteConcern::ALL;
                 else if (wc_str == "QUORUM") default_config.write_concern = themis::sharding::WriteConcern::QUORUM;
@@ -1894,7 +1940,9 @@ int main(int argc, char* argv[]) {
                     
                     // Parse mode
                     std::string mode_str = coll_config.value("mode", std::string("MIRROR"));
-                    if (mode_str == "NONE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    if (mode_str == "NONE") {
+                      coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    }
                     else if (mode_str == "MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::MIRROR;
                     else if (mode_str == "STRIPE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE;
                     else if (mode_str == "STRIPE_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
@@ -1906,7 +1954,9 @@ int main(int argc, char* argv[]) {
                     
                     // Parse write concern
                     std::string wc_str = coll_config.value("write_concern", std::string("MAJORITY"));
-                    if (wc_str == "ONE") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    if (wc_str == "ONE") {
+                      coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    }
                     else if (wc_str == "MAJORITY") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
                     else if (wc_str == "ALL") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ALL;
                     else if (wc_str == "QUORUM") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::QUORUM;
@@ -1958,10 +2008,14 @@ int main(int argc, char* argv[]) {
                 themis::sharding::RedundancyStrategy::ReadHandler read_handler =
                     [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id)
                     -> std::optional<std::vector<uint8_t>> {
-                        if (!db_local) return std::nullopt;
+                        if (!db_local) {
+                          return std::nullopt;
+                        }
                         try {
                             auto val = db_local->get(doc_id);
-                            if (!val) return std::nullopt;
+                            if (!val) {
+                              return std::nullopt;
+                            }
                             return std::vector<uint8_t>(val->begin(), val->end());
                         } catch (...) {
                             return std::nullopt;
@@ -1973,7 +2027,9 @@ int main(int argc, char* argv[]) {
                 themis::sharding::RedundancyStrategy::WriteHandler write_handler =
                     [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id,
                                     const std::vector<uint8_t>& data) -> bool {
-                        if (!db_local) return false;
+                        if (!db_local) {
+                          return false;
+                        }
                         try {
                             std::string str_data(data.begin(), data.end());
                             return db_local->put(doc_id, str_data);
@@ -2351,7 +2407,9 @@ int main(int argc, char* argv[]) {
 
             std::string grpc_host = "0.0.0.0";
             int grpc_port = 50051;
-            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
+            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) {
+              grpc_host = h;
+            }
             if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
                 try { grpc_port = std::stoi(p); } catch (...) {}
             }
@@ -3071,7 +3129,9 @@ int main(int argc, char* argv[]) {
             for (const auto& ep : endpoints) {
                 // Extract category from path (e.g., "/cache/*" → "Cache", "/api/v1/schema" → "Schema")
                 std::string category = "Core";
-                if (ep.path.find("/cache/") != std::string::npos) category = "Cache (Feature)";
+                if (ep.path.find("/cache/") != std::string::npos) {
+                  category = "Cache (Feature)";
+                }
                 else if (ep.path.find("/llm/") != std::string::npos) category = "LLM (Feature)";
                 else if (ep.path.find("/changefeed") != std::string::npos) category = "CDC (Feature)";
                 else if (ep.path.find("/ts/") != std::string::npos) category = "TimeSeries (Feature)";
@@ -3185,7 +3245,9 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("[1/5] Stopping retention worker...");
         try {
             retention_stop.store(true, std::memory_order_relaxed);
-            if (retention_thread.joinable()) retention_thread.join();
+            if (retention_thread.joinable()) {
+              retention_thread.join();
+            }
             THEMIS_INFO("Retention worker stopped");
         } catch (...) {
             THEMIS_WARN("Error stopping retention worker (continuing shutdown)");

@@ -78,7 +78,9 @@ BENCHMARK_F(FaultInjectorFixture, InjectFault_Throughput)(benchmark::State& stat
             makeSpec(node, FaultType::NODE_FAILURE));
         benchmark::DoNotOptimize(ok);
         // Clear to avoid saturating the map.
-        if (n % 64 == 0) injector->clearAllFaults();
+        if (n % 64 == 0) {
+          injector->clearAllFaults();
+        }
     }
 
     state.SetItemsProcessed(state.iterations());
@@ -95,7 +97,9 @@ BENCHMARK_F(FaultInjectorFixture, InjectFault_AllTypes)(benchmark::State& state)
         bool ok = injector->injectFault(makeSpec(node, type));
         benchmark::DoNotOptimize(ok);
         ++n;
-        if (n % 64 == 0) injector->clearAllFaults();
+        if (n % 64 == 0) {
+          injector->clearAllFaults();
+        }
     }
 
     state.SetItemsProcessed(state.iterations());
@@ -205,7 +209,9 @@ static void BM_CallbackDispatch(benchmark::State& state) {
     for (auto _ : state) {
         const std::string node = "cb_node_" + std::to_string(n++);
         injector.injectFault(makeSpec(node, FaultType::NODE_FAILURE));
-        if (n % 64 == 0) injector.clearAllFaults();
+        if (n % 64 == 0) {
+          injector.clearAllFaults();
+        }
     }
 
     benchmark::DoNotOptimize(fired.load());
@@ -243,7 +249,9 @@ static void BM_ConcurrentStress(benchmark::State& state) {
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         injector.clearAllFaults();
         benchmark::DoNotOptimize(ops.load());
     }

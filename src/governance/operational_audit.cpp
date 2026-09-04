@@ -57,7 +57,9 @@ static std::string generateUUID() {
     
     std::ostringstream oss;
     for (int i = 0; i < 16; ++i) {
-        if (i == 4 || i == 6 || i == 8 || i == 10) oss << '-';
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+          oss << '-';
+        }
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)bytes[i];
     }
     return oss.str();
@@ -73,7 +75,9 @@ static std::string computeSHA256(const std::string& data) {
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hash_len;
     
-    if (!mdctx) return "";
+    if (!mdctx) {
+      return "";
+    }
     
     if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
         EVP_MD_CTX_free(mdctx);
@@ -145,21 +149,51 @@ nlohmann::json OperationalEvent::toJson() const {
 OperationalEvent OperationalEvent::fromJson(const nlohmann::json& j) {
     OperationalEvent event;
     
-    if (j.contains("event_id")) event.event_id = j["event_id"];
-    if (j.contains("event_code")) event.event_type = static_cast<OperationalEventType>(j["event_code"].get<int>());
-    if (j.contains("correlation_id")) event.correlation_id = j["correlation_id"];
-    if (j.contains("causality_parent_id")) event.causality_parent_id = j["causality_parent_id"];
-    if (j.contains("timestamp_ms")) event.timestamp_ms = j["timestamp_ms"];
-    if (j.contains("sequence_number")) event.sequence_number = j["sequence_number"];
-    if (j.contains("actor_id")) event.actor_id = j["actor_id"];
-    if (j.contains("actor_type")) event.actor_type = j["actor_type"];
-    if (j.contains("module_name")) event.module_name = j["module_name"];
-    if (j.contains("operation_name")) event.operation_name = j["operation_name"];
-    if (j.contains("resource_id")) event.resource_id = j["resource_id"];
-    if (j.contains("resource_type")) event.resource_type = j["resource_type"];
-    if (j.contains("action")) event.action = j["action"];
-    if (j.contains("result")) event.result = j["result"];
-    if (j.contains("classification")) event.classification = j["classification"];
+    if (j.contains("event_id")) {
+      event.event_id = j["event_id"];
+    }
+    if (j.contains("event_code")) {
+      event.event_type = static_cast<OperationalEventType>(j["event_code"].get<int>());
+    }
+    if (j.contains("correlation_id")) {
+      event.correlation_id = j["correlation_id"];
+    }
+    if (j.contains("causality_parent_id")) {
+      event.causality_parent_id = j["causality_parent_id"];
+    }
+    if (j.contains("timestamp_ms")) {
+      event.timestamp_ms = j["timestamp_ms"];
+    }
+    if (j.contains("sequence_number")) {
+      event.sequence_number = j["sequence_number"];
+    }
+    if (j.contains("actor_id")) {
+      event.actor_id = j["actor_id"];
+    }
+    if (j.contains("actor_type")) {
+      event.actor_type = j["actor_type"];
+    }
+    if (j.contains("module_name")) {
+      event.module_name = j["module_name"];
+    }
+    if (j.contains("operation_name")) {
+      event.operation_name = j["operation_name"];
+    }
+    if (j.contains("resource_id")) {
+      event.resource_id = j["resource_id"];
+    }
+    if (j.contains("resource_type")) {
+      event.resource_type = j["resource_type"];
+    }
+    if (j.contains("action")) {
+      event.action = j["action"];
+    }
+    if (j.contains("result")) {
+      event.result = j["result"];
+    }
+    if (j.contains("classification")) {
+      event.classification = j["classification"];
+    }
     
     if (j.contains("compliance_tags") && j["compliance_tags"].is_array()) {
         for (const auto& tag : j["compliance_tags"]) {
@@ -167,11 +201,21 @@ OperationalEvent OperationalEvent::fromJson(const nlohmann::json& j) {
         }
     }
     
-    if (j.contains("operation_duration_us")) event.operation_duration_us = j["operation_duration_us"];
-    if (j.contains("logging_duration_us")) event.logging_duration_us = j["logging_duration_us"];
-    if (j.contains("context")) event.context = j["context"];
-    if (j.contains("error_message")) event.error_message = j["error_message"];
-    if (j.contains("event_payload")) event.event_payload = j["event_payload"];
+    if (j.contains("operation_duration_us")) {
+      event.operation_duration_us = j["operation_duration_us"];
+    }
+    if (j.contains("logging_duration_us")) {
+      event.logging_duration_us = j["logging_duration_us"];
+    }
+    if (j.contains("context")) {
+      event.context = j["context"];
+    }
+    if (j.contains("error_message")) {
+      event.error_message = j["error_message"];
+    }
+    if (j.contains("event_payload")) {
+      event.event_payload = j["event_payload"];
+    }
     
     if (j.contains("evidence_ids") && j["evidence_ids"].is_array()) {
         for (const auto& eid : j["evidence_ids"]) {
@@ -207,18 +251,42 @@ nlohmann::json ComplianceEvidence::toJson() const {
 ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
     ComplianceEvidence evidence;
     
-    if (j.contains("evidence_id")) evidence.evidence_id = j["evidence_id"];
-    if (j.contains("requirement_id")) evidence.requirement_id = j["requirement_id"];
-    if (j.contains("requirement_type")) evidence.requirement_type = j["requirement_type"];
-    if (j.contains("collected_at_ms")) evidence.collected_at_ms = j["collected_at_ms"];
-    if (j.contains("evidence_type")) evidence.evidence_type = j["evidence_type"];
-    if (j.contains("description")) evidence.description = j["description"];
-    if (j.contains("source_event_id")) evidence.source_event_id = j["source_event_id"];
-    if (j.contains("fingerprint")) evidence.fingerprint = j["fingerprint"];
-    if (j.contains("data_summary")) evidence.data_summary = j["data_summary"];
-    if (j.contains("retention_until_ms")) evidence.retention_until_ms = j["retention_until_ms"];
-    if (j.contains("audit_classification")) evidence.audit_classification = j["audit_classification"];
-    if (j.contains("metadata")) evidence.metadata = j["metadata"];
+    if (j.contains("evidence_id")) {
+      evidence.evidence_id = j["evidence_id"];
+    }
+    if (j.contains("requirement_id")) {
+      evidence.requirement_id = j["requirement_id"];
+    }
+    if (j.contains("requirement_type")) {
+      evidence.requirement_type = j["requirement_type"];
+    }
+    if (j.contains("collected_at_ms")) {
+      evidence.collected_at_ms = j["collected_at_ms"];
+    }
+    if (j.contains("evidence_type")) {
+      evidence.evidence_type = j["evidence_type"];
+    }
+    if (j.contains("description")) {
+      evidence.description = j["description"];
+    }
+    if (j.contains("source_event_id")) {
+      evidence.source_event_id = j["source_event_id"];
+    }
+    if (j.contains("fingerprint")) {
+      evidence.fingerprint = j["fingerprint"];
+    }
+    if (j.contains("data_summary")) {
+      evidence.data_summary = j["data_summary"];
+    }
+    if (j.contains("retention_until_ms")) {
+      evidence.retention_until_ms = j["retention_until_ms"];
+    }
+    if (j.contains("audit_classification")) {
+      evidence.audit_classification = j["audit_classification"];
+    }
+    if (j.contains("metadata")) {
+      evidence.metadata = j["metadata"];
+    }
     
     return evidence;
 }
@@ -450,7 +518,9 @@ void OperationalAuditLogger::logPolicyLifecycle(
     const nlohmann::json& details) {
     
     OperationalEventType event_type = OperationalEventType::POLICY_CREATED;
-    if (lifecycle_event == "update") event_type = OperationalEventType::POLICY_UPDATED;
+    if (lifecycle_event == "update") {
+      event_type = OperationalEventType::POLICY_UPDATED;
+    }
     else if (lifecycle_event == "delete") event_type = OperationalEventType::POLICY_DELETED;
     else if (lifecycle_event == "activate") event_type = OperationalEventType::POLICY_ACTIVATED;
     else if (lifecycle_event == "deactivate") event_type = OperationalEventType::POLICY_DEACTIVATED;
@@ -507,7 +577,9 @@ std::vector<OperationalEvent> OperationalAuditLogger::queryEventsByTimeRange(
     
     // Collect events in time range
     for (auto it = start_it; it != timeline_index_.end(); ++it) {
-        if (it->first > end_ms) break;
+        if (it->first > end_ms) {
+          break;
+        }
         
         auto event_it = event_map_.find(it->second);
         if (event_it != event_map_.end()) {
@@ -597,7 +669,9 @@ std::vector<std::string> OperationalAuditLogger::getCausalityChain(
             }
         }
         
-        if (!found_parent) break;
+        if (!found_parent) {
+          break;
+        }
     }
     
     std::reverse(chain.begin(), chain.end());
@@ -776,7 +850,9 @@ std::vector<CorrelationGroup> EventCorrelationEngine::queryCorrelationsByTimeRan
     
     // Collect correlations in time range
     for (auto it = start_it; it != timeline_index_.end(); ++it) {
-        if (it->first > end_ms) break;
+        if (it->first > end_ms) {
+          break;
+        }
         
         auto corr_it = correlations_.find(it->second);
         if (corr_it != correlations_.end()) {
@@ -936,7 +1012,9 @@ void ComplianceEvidenceCollector::recordEvidence(
 void ComplianceEvidenceCollector::collectEvidence(
     const std::string& requirement_type) {
     
-    if (!audit_logger_) return;
+    if (!audit_logger_) {
+      return;
+    }
     
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -990,7 +1068,9 @@ void ComplianceEvidenceCollector::linkEvidenceToEvent(
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = evidence_map_.find(evidence_id);
-    if (it == evidence_map_.end()) return;
+    if (it == evidence_map_.end()) {
+      return;
+    }
     
     auto& evidence = evidence_list_[it->second];
     evidence.source_event_id = event_id;

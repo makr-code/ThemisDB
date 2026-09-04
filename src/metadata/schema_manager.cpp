@@ -360,7 +360,9 @@ std::chrono::seconds SchemaManager::computeAdaptiveTTL() const {
             log.pop_front();
         }
         double rate = (window_secs > 0.0) ? static_cast<double>(log.size()) / window_secs : 0.0;
-        if (rate > max_rate) max_rate = rate;
+        if (rate > max_rate) {
+          max_rate = rate;
+        }
     }
 
     // effective_ttl = base_ttl / (1 + scale * max_rate), clamped to [min_ttl, max_ttl]
@@ -997,7 +999,9 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
         }
         
         for (const auto& upd_prop : updates["properties"]) {
-            if (!upd_prop.contains("name")) continue;
+            if (!upd_prop.contains("name")) {
+              continue;
+            }
             
             std::string prop_name = upd_prop["name"].get<std::string>();
             PropertyInfo& info = prop_map[prop_name];
@@ -1031,7 +1035,9 @@ bool SchemaManager::patchTableSchema(std::string_view table_name, const json& up
         }
         
         for (const auto& upd_idx : updates["indexes"]) {
-            if (!upd_idx.contains("name")) continue;
+            if (!upd_idx.contains("name")) {
+              continue;
+            }
             
             std::string idx_name = upd_idx["name"].get<std::string>();
             IndexInfo& info = idx_map[idx_name];

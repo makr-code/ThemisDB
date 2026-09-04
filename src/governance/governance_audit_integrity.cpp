@@ -37,20 +37,28 @@ static std::string base64_encode(const unsigned char* data, size_t len) {
             char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
             char_array_4[3] = char_array_3[2] & 0x3f;
             
-            for (i = 0; i < 4; i++) ret += base64_chars[char_array_4[i]];
+            for (i = 0; i < 4; i++) {
+              ret += base64_chars[char_array_4[i]];
+            }
             i = 0;
         }
     }
     
     if (i > 0) {
-        for (int j = i; j < 3; j++) char_array_3[j] = '\0';
+        for (int j = i; j < 3; j++) {
+          char_array_3[j] = '\0';
+        }
         
         char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
         char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
         char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
         
-        for (int j = 0; j <= i; j++) ret += base64_chars[char_array_4[j]];
-        while (i++ < 3) ret += '=';
+        for (int j = 0; j <= i; j++) {
+          ret += base64_chars[char_array_4[j]];
+        }
+        while (i++ < 3) {
+          ret += '=';
+        }
     }
     
     return ret;
@@ -76,12 +84,24 @@ nlohmann::json SignatureInfo::toJson() const {
 
 SignatureInfo SignatureInfo::fromJson(const nlohmann::json& j) {
     SignatureInfo info;
-    if (j.contains("signature")) info.signature = j["signature"];
-    if (j.contains("algorithm")) info.algorithm = j["algorithm"];
-    if (j.contains("signed_at_ms")) info.signed_at_ms = j["signed_at_ms"];
-    if (j.contains("key_id")) info.key_id = j["key_id"];
-    if (j.contains("previous_entry_hash")) info.previous_entry_hash = j["previous_entry_hash"];
-    if (j.contains("entry_hash")) info.entry_hash = j["entry_hash"];
+    if (j.contains("signature")) {
+      info.signature = j["signature"];
+    }
+    if (j.contains("algorithm")) {
+      info.algorithm = j["algorithm"];
+    }
+    if (j.contains("signed_at_ms")) {
+      info.signed_at_ms = j["signed_at_ms"];
+    }
+    if (j.contains("key_id")) {
+      info.key_id = j["key_id"];
+    }
+    if (j.contains("previous_entry_hash")) {
+      info.previous_entry_hash = j["previous_entry_hash"];
+    }
+    if (j.contains("entry_hash")) {
+      info.entry_hash = j["entry_hash"];
+    }
     return info;
 }
 
@@ -107,17 +127,39 @@ nlohmann::json ImmutableAuditEntry::toJson() const {
 
 ImmutableAuditEntry ImmutableAuditEntry::fromJson(const nlohmann::json& j) {
     ImmutableAuditEntry entry;
-    if (j.contains("entry_id")) entry.entry_id = j["entry_id"];
-    if (j.contains("rule_id")) entry.rule_id = j["rule_id"];
-    if (j.contains("operation")) entry.operation = j["operation"];
-    if (j.contains("user")) entry.user = j["user"];
-    if (j.contains("timestamp_ms")) entry.timestamp_ms = j["timestamp_ms"];
-    if (j.contains("details")) entry.details = j["details"];
-    if (j.contains("signature_info")) entry.signature_info = SignatureInfo::fromJson(j["signature_info"]);
-    if (j.contains("entry_sequence_number")) entry.entry_sequence_number = j["entry_sequence_number"];
-    if (j.contains("is_archived")) entry.is_archived = j["is_archived"];
-    if (j.contains("archive_timestamp_ms")) entry.archive_timestamp_ms = j["archive_timestamp_ms"];
-    if (j.contains("archive_hash")) entry.archive_hash = j["archive_hash"];
+    if (j.contains("entry_id")) {
+      entry.entry_id = j["entry_id"];
+    }
+    if (j.contains("rule_id")) {
+      entry.rule_id = j["rule_id"];
+    }
+    if (j.contains("operation")) {
+      entry.operation = j["operation"];
+    }
+    if (j.contains("user")) {
+      entry.user = j["user"];
+    }
+    if (j.contains("timestamp_ms")) {
+      entry.timestamp_ms = j["timestamp_ms"];
+    }
+    if (j.contains("details")) {
+      entry.details = j["details"];
+    }
+    if (j.contains("signature_info")) {
+      entry.signature_info = SignatureInfo::fromJson(j["signature_info"]);
+    }
+    if (j.contains("entry_sequence_number")) {
+      entry.entry_sequence_number = j["entry_sequence_number"];
+    }
+    if (j.contains("is_archived")) {
+      entry.is_archived = j["is_archived"];
+    }
+    if (j.contains("archive_timestamp_ms")) {
+      entry.archive_timestamp_ms = j["archive_timestamp_ms"];
+    }
+    if (j.contains("archive_hash")) {
+      entry.archive_hash = j["archive_hash"];
+    }
     return entry;
 }
 
@@ -311,14 +353,30 @@ nlohmann::json TamperIncident::toJson() const {
 
 TamperIncident TamperIncident::fromJson(const nlohmann::json& j) {
     TamperIncident incident;
-    if (j.contains("incident_id")) incident.incident_id = j["incident_id"];
-    if (j.contains("type")) incident.type = static_cast<TamperType>(j["type"].get<int>());
-    if (j.contains("detected_at_ms")) incident.detected_at_ms = j["detected_at_ms"];
-    if (j.contains("tamper_entry_sequence")) incident.tamper_entry_sequence = j["tamper_entry_sequence"];
-    if (j.contains("tamper_entry_id")) incident.tamper_entry_id = j["tamper_entry_id"];
-    if (j.contains("evidence")) incident.evidence = j["evidence"];
-    if (j.contains("affected_entry_count")) incident.affected_entry_count = j["affected_entry_count"];
-    if (j.contains("is_critical")) incident.is_critical = j["is_critical"];
+    if (j.contains("incident_id")) {
+      incident.incident_id = j["incident_id"];
+    }
+    if (j.contains("type")) {
+      incident.type = static_cast<TamperType>(j["type"].get<int>());
+    }
+    if (j.contains("detected_at_ms")) {
+      incident.detected_at_ms = j["detected_at_ms"];
+    }
+    if (j.contains("tamper_entry_sequence")) {
+      incident.tamper_entry_sequence = j["tamper_entry_sequence"];
+    }
+    if (j.contains("tamper_entry_id")) {
+      incident.tamper_entry_id = j["tamper_entry_id"];
+    }
+    if (j.contains("evidence")) {
+      incident.evidence = j["evidence"];
+    }
+    if (j.contains("affected_entry_count")) {
+      incident.affected_entry_count = j["affected_entry_count"];
+    }
+    if (j.contains("is_critical")) {
+      incident.is_critical = j["is_critical"];
+    }
     return incident;
 }
 
@@ -333,18 +391,26 @@ std::optional<TamperIncident> AuditTamperDetector::verifyEntry(
 ) {
     // Check signature validity
     auto sig_incident = checkSignatureValidity(entry, signer);
-    if (sig_incident) return sig_incident;
+    if (sig_incident) {
+      return sig_incident;
+    }
     
     // Check chain of custody if previous entry exists
     if (previous_entry) {
         auto chain_incident = checkChainOfCustody(entry, previous_entry.value());
-        if (chain_incident) return chain_incident;
+        if (chain_incident) {
+          return chain_incident;
+        }
         
         auto seq_incident = checkSequenceValidity(entry, previous_entry.value());
-        if (seq_incident) return seq_incident;
+        if (seq_incident) {
+          return seq_incident;
+        }
         
         auto time_incident = checkTimestampValidity(entry, previous_entry.value());
-        if (time_incident) return time_incident;
+        if (time_incident) {
+          return time_incident;
+        }
     }
     
     return std::nullopt;
@@ -414,7 +480,9 @@ nlohmann::json AuditTamperDetector::generateTamperReport(
     
     for (const auto& incident : incidents) {
         incident_details.push_back(incident.toJson());
-        if (incident.is_critical) critical_count++;
+        if (incident.is_critical) {
+          critical_count++;
+        }
     }
     
     report["incidents"] = incident_details;
@@ -528,15 +596,33 @@ nlohmann::json AuditRetentionPolicy::toJson() const {
 
 AuditRetentionPolicy AuditRetentionPolicy::fromJson(const nlohmann::json& j) {
     AuditRetentionPolicy policy;
-    if (j.contains("policy_id")) policy.policy_id = j["policy_id"];
-    if (j.contains("retention_period_days")) policy.retention_period_days = j["retention_period_days"];
-    if (j.contains("archive_after_days")) policy.archive_after_days = j["archive_after_days"];
-    if (j.contains("enable_legal_hold")) policy.enable_legal_hold = j["enable_legal_hold"];
-    if (j.contains("compress_on_archive")) policy.compress_on_archive = j["compress_on_archive"];
-    if (j.contains("archive_destination")) policy.archive_destination = j["archive_destination"];
-    if (j.contains("created_at_ms")) policy.created_at_ms = j["created_at_ms"];
-    if (j.contains("modified_at_ms")) policy.modified_at_ms = j["modified_at_ms"];
-    if (j.contains("metadata")) policy.metadata = j["metadata"];
+    if (j.contains("policy_id")) {
+      policy.policy_id = j["policy_id"];
+    }
+    if (j.contains("retention_period_days")) {
+      policy.retention_period_days = j["retention_period_days"];
+    }
+    if (j.contains("archive_after_days")) {
+      policy.archive_after_days = j["archive_after_days"];
+    }
+    if (j.contains("enable_legal_hold")) {
+      policy.enable_legal_hold = j["enable_legal_hold"];
+    }
+    if (j.contains("compress_on_archive")) {
+      policy.compress_on_archive = j["compress_on_archive"];
+    }
+    if (j.contains("archive_destination")) {
+      policy.archive_destination = j["archive_destination"];
+    }
+    if (j.contains("created_at_ms")) {
+      policy.created_at_ms = j["created_at_ms"];
+    }
+    if (j.contains("modified_at_ms")) {
+      policy.modified_at_ms = j["modified_at_ms"];
+    }
+    if (j.contains("metadata")) {
+      policy.metadata = j["metadata"];
+    }
     return policy;
 }
 
@@ -558,13 +644,27 @@ nlohmann::json LegalHold::toJson() const {
 
 LegalHold LegalHold::fromJson(const nlohmann::json& j) {
     LegalHold hold;
-    if (j.contains("hold_id")) hold.hold_id = j["hold_id"];
-    if (j.contains("rule_id")) hold.rule_id = j["rule_id"];
-    if (j.contains("initiated_by")) hold.initiated_by = j["initiated_by"];
-    if (j.contains("initiated_at_ms")) hold.initiated_at_ms = j["initiated_at_ms"];
-    if (j.contains("expire_at_ms")) hold.expire_at_ms = j["expire_at_ms"];
-    if (j.contains("reason")) hold.reason = j["reason"];
-    if (j.contains("status")) hold.status = j["status"];
+    if (j.contains("hold_id")) {
+      hold.hold_id = j["hold_id"];
+    }
+    if (j.contains("rule_id")) {
+      hold.rule_id = j["rule_id"];
+    }
+    if (j.contains("initiated_by")) {
+      hold.initiated_by = j["initiated_by"];
+    }
+    if (j.contains("initiated_at_ms")) {
+      hold.initiated_at_ms = j["initiated_at_ms"];
+    }
+    if (j.contains("expire_at_ms")) {
+      hold.expire_at_ms = j["expire_at_ms"];
+    }
+    if (j.contains("reason")) {
+      hold.reason = j["reason"];
+    }
+    if (j.contains("status")) {
+      hold.status = j["status"];
+    }
     return hold;
 }
 
@@ -758,10 +858,18 @@ std::vector<ImmutableAuditEntry> AuditIntegrityManager::queryEntries(
     
     for (const auto& entry : entries_) {
         // Apply filters
-        if (rule_id && entry.rule_id != rule_id.value()) continue;
-        if (user && entry.user != user.value()) continue;
-        if (start_time_ms && entry.timestamp_ms < start_time_ms.value()) continue;
-        if (end_time_ms && entry.timestamp_ms > end_time_ms.value()) continue;
+        if (rule_id && entry.rule_id != rule_id.value()) {
+          continue;
+        }
+        if (user && entry.user != user.value()) {
+          continue;
+        }
+        if (start_time_ms && entry.timestamp_ms < start_time_ms.value()) {
+          continue;
+        }
+        if (end_time_ms && entry.timestamp_ms > end_time_ms.value()) {
+          continue;
+        }
         
         results.push_back(entry);
     }
@@ -820,7 +928,9 @@ nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
     double avg_signing_us = 0;
     if (!metrics_.signing_times_us.empty()) {
         int64_t sum = 0;
-        for (auto t : metrics_.signing_times_us) sum += t;
+        for (auto t : metrics_.signing_times_us) {
+          sum += t;
+        }
         avg_signing_us = static_cast<double>(sum) / metrics_.signing_times_us.size();
     }
     metrics["avg_signing_us"] = avg_signing_us;
@@ -830,7 +940,9 @@ nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
     double avg_verification_us = 0;
     if (!metrics_.verification_times_us.empty()) {
         int64_t sum = 0;
-        for (auto t : metrics_.verification_times_us) sum += t;
+        for (auto t : metrics_.verification_times_us) {
+          sum += t;
+        }
         avg_verification_us = static_cast<double>(sum) / metrics_.verification_times_us.size();
     }
     metrics["avg_verification_us"] = avg_verification_us;

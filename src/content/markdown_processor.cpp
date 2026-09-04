@@ -55,11 +55,15 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
         return fm;
     }
     size_t first_nl = markdown.find('\n');
-    if (first_nl == std::string::npos) return fm;
+    if (first_nl == std::string::npos) {
+      return fm;
+    }
 
     // Characters between "---" and first newline must be spaces/tabs only
     for (size_t i = 3; i < first_nl; ++i) {
-        if (markdown[i] != ' ' && markdown[i] != '\t') return fm;
+        if (markdown[i] != ' ' && markdown[i] != '\t') {
+          return fm;
+        }
     }
 
     // Search for closing delimiter: "---" or "..." on its own line
@@ -67,7 +71,9 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     size_t close_pos    = std::string::npos;
     while (search_start < markdown.size()) {
         size_t line_end = markdown.find('\n', search_start);
-        if (line_end == std::string::npos) line_end = markdown.size();
+        if (line_end == std::string::npos) {
+          line_end = markdown.size();
+        }
 
         std::string trimmed = trimCopy(markdown.substr(search_start, line_end - search_start));
         if (trimmed == "---" || trimmed == "...") {
@@ -89,15 +95,21 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     std::string line;
     while (std::getline(ss, line)) {
         std::string tline = trimCopy(line);
-        if (tline.empty() || tline[0] == '#') continue;
+        if (tline.empty() || tline[0] == '#') {
+          continue;
+        }
 
         size_t colon = line.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
 
         std::string key   = trimCopy(line.substr(0, colon));
         std::string value = trimCopy(line.substr(colon + 1));
 
-        if (key.empty()) continue;
+        if (key.empty()) {
+          continue;
+        }
 
         // Inline YAML list: key: [a, b, c]
         if (!value.empty() && value.front() == '[' && value.back() == ']') {
@@ -204,15 +216,21 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') ++i;
+            while (i < line.size() && line[i] == ' ') {
+              ++i;
+            }
             if (i < line.size() && line[i] == '>') {
                 std::string rest = line;
                 while (!rest.empty()) {
                     size_t j = 0;
-                    while (j < rest.size() && rest[j] == ' ') ++j;
+                    while (j < rest.size() && rest[j] == ' ') {
+                      ++j;
+                    }
                     if (j < rest.size() && rest[j] == '>') {
                         rest = rest.substr(j + 1);
-                        if (!rest.empty() && rest[0] == ' ') rest = rest.substr(1);
+                        if (!rest.empty() && rest[0] == ' ') {
+                          rest = rest.substr(1);
+                        }
                     } else {
                         break;
                     }
@@ -231,9 +249,13 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 for (char c : tl) {
                     if (c != '|' && c != '-' && c != ':' && c != ' ') { is_sep = false; break; }
                 }
-                if (is_sep) continue;
+                if (is_sep) {
+                  continue;
+                }
                 std::string row;
-                for (char c : tl) row += (c == '|') ? ' ' : c;
+                for (char c : tl) {
+                  row += (c == '|') ? ' ' : c;
+                }
                 line = trimCopy(row);
             }
         }
@@ -243,13 +265,17 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t hashes = 0;
-            while (hashes < line.size() && line[hashes] == '#') ++hashes;
+            while (hashes < line.size() && line[hashes] == '#') {
+              ++hashes;
+            }
             if (hashes >= 1 && hashes <= 6 &&
                 hashes < line.size() && line[hashes] == ' ') {
                 std::string text = line.substr(hashes + 1);
                 // Strip trailing closing hashes
                 auto rend = text.find_last_not_of("# \t");
-                if (rend != std::string::npos) text = text.substr(0, rend + 1);
+                if (rend != std::string::npos) {
+                  text = text.substr(0, rend + 1);
+                }
 
                 if (preserve_headings) {
                     out << std::string(hashes, '#') << ' ' << text << '\n';
@@ -265,7 +291,9 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') ++i;
+            while (i < line.size() && line[i] == ' ') {
+              ++i;
+            }
             if (i < line.size() &&
                 (line[i] == '-' || line[i] == '*' || line[i] == '+') &&
                 i + 1 < line.size() && line[i + 1] == ' ') {
@@ -278,9 +306,13 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             size_t i = 0;
-            while (i < line.size() && line[i] == ' ') ++i;
+            while (i < line.size() && line[i] == ' ') {
+              ++i;
+            }
             size_t j = i;
-            while (j < line.size() && std::isdigit(static_cast<unsigned char>(line[j]))) ++j;
+            while (j < line.size() && std::isdigit(static_cast<unsigned char>(line[j]))) {
+              ++j;
+            }
             if (j > i && j < line.size() && line[j] == '.' &&
                 j + 1 < line.size() && line[j + 1] == ' ') {
                 line = line.substr(j + 2);
@@ -332,12 +364,16 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 // Inline code: `...` or ``...``
                 if (line[i] == '`') {
                     size_t n = 0;
-                    while (i + n < line.size() && line[i + n] == '`') ++n;
+                    while (i + n < line.size() && line[i + n] == '`') {
+                      ++n;
+                    }
                     std::string ticks(n, '`');
                     size_t cs = i + n;
                     size_t ce = line.find(ticks, cs);
                     if (ce != std::string::npos) {
-                        if (!strip_code) result += line.substr(cs, ce - cs);
+                        if (!strip_code) {
+                          result += line.substr(cs, ce - cs);
+                        }
                         i = ce + n;
                         continue;
                     }
@@ -426,14 +462,18 @@ std::string MarkdownProcessor::normalizeWhitespace(const std::string& text) {
     for (char c : text) {
         if (c == '\n') {
             ++consecutive_nl;
-            if (consecutive_nl <= 2) result += '\n';
+            if (consecutive_nl <= 2) {
+              result += '\n';
+            }
             last_was_space   = false;
             last_was_newline = true;
         } else if (c == '\r') {
             // ignore
         } else if (c == ' ' || c == '\t') {
             consecutive_nl = 0;
-            if (!last_was_space && !last_was_newline) result += ' ';
+            if (!last_was_space && !last_was_newline) {
+              result += ' ';
+            }
             last_was_space = true;
         } else {
             consecutive_nl   = 0;
@@ -445,16 +485,22 @@ std::string MarkdownProcessor::normalizeWhitespace(const std::string& text) {
 
     auto start = result.find_first_not_of(" \t\n\r");
     auto end   = result.find_last_not_of(" \t\n\r");
-    if (start == std::string::npos) return "";
+    if (start == std::string::npos) {
+      return "";
+    }
     return result.substr(start, end - start + 1);
 }
 
 int MarkdownProcessor::countTokens(const std::string& text) {
-    if (text.empty()) return 0;
+    if (text.empty()) {
+      return 0;
+    }
     std::istringstream iss(text);
     std::string tok;
     int n = 0;
-    while (iss >> tok) ++n;
+    while (iss >> tok) {
+      ++n;
+    }
     return n;
 }
 
@@ -516,7 +562,9 @@ std::vector<json> MarkdownProcessor::chunk(
     std::vector<json> chunks;
 
     const std::string& text = extraction_result.text;
-    if (text.empty()) return chunks;
+    if (text.empty()) {
+      return chunks;
+    }
 
     // Split into paragraphs on blank-line and heading boundaries
     std::vector<std::string> paragraphs;
@@ -535,11 +583,15 @@ std::vector<json> MarkdownProcessor::chunk(
             } else if (is_blank) {
                 if (!para.empty()) { paragraphs.push_back(para); para.clear(); }
             } else {
-                if (!para.empty()) para += '\n';
+                if (!para.empty()) {
+                  para += '\n';
+                }
                 para += line;
             }
         }
-        if (!para.empty()) paragraphs.push_back(para);
+        if (!para.empty()) {
+          paragraphs.push_back(para);
+        }
     }
 
     int seq = 0;
@@ -547,7 +599,9 @@ std::vector<json> MarkdownProcessor::chunk(
     int current_tokens = 0;
 
     auto flushChunk = [&]([[maybe_unused]] const std::string& text_chunk) {
-        if (text_chunk.empty()) return;
+        if (text_chunk.empty()) {
+          return;
+        }
         json c = json::object();
         c["seq_num"]     = seq++;
         c["chunk_type"]  = "text";
@@ -560,7 +614,9 @@ std::vector<json> MarkdownProcessor::chunk(
         int para_tokens = countTokens(para);
 
         if (current_tokens + para_tokens <= chunk_size || current_chunk.empty()) {
-            if (!current_chunk.empty()) current_chunk += "\n\n";
+            if (!current_chunk.empty()) {
+              current_chunk += "\n\n";
+            }
             current_chunk  += para;
             current_tokens += para_tokens;
         } else {
@@ -571,11 +627,15 @@ std::vector<json> MarkdownProcessor::chunk(
                 std::istringstream iss(current_chunk);
                 std::vector<std::string> tokens;
                 std::string tok;
-                while (iss >> tok) tokens.push_back(tok);
+                while (iss >> tok) {
+                  tokens.push_back(tok);
+                }
                 int take = std::min(overlap, static_cast<int>(tokens.size()));
                 for (int i = static_cast<int>(tokens.size()) - take;
                      i < static_cast<int>(tokens.size()); ++i) {
-                    if (!overlap_text.empty()) overlap_text += ' ';
+                    if (!overlap_text.empty()) {
+                      overlap_text += ' ';
+                    }
                     overlap_text += tokens[i];
                 }
             }
@@ -595,15 +655,21 @@ std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk
     const int DIM = 768;
     std::vector<float> embedding(DIM, 0.0f);
 
-    if (chunk_data.empty()) return embedding;
+    if (chunk_data.empty()) {
+      return embedding;
+    }
 
     std::hash<std::string> hasher;
     std::istringstream iss(chunk_data);
     std::vector<std::string> tokens;
     std::string token;
-    while (iss >> token) tokens.push_back(token);
+    while (iss >> token) {
+      tokens.push_back(token);
+    }
 
-    if (tokens.empty()) return embedding;
+    if (tokens.empty()) {
+      return embedding;
+    }
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         size_t token_hash = hasher(tokens[i]);
@@ -621,10 +687,14 @@ std::vector<float> MarkdownProcessor::generateEmbedding(const std::string& chunk
 
     // L2 normalize
     float norm = 0.0f;
-    for (float v : embedding) norm += v * v;
+    for (float v : embedding) {
+      norm += v * v;
+    }
     norm = std::sqrt(norm);
     if (norm > 1e-6f) {
-        for (float& v : embedding) v /= norm;
+        for (float& v : embedding) {
+          v /= norm;
+        }
     }
 
     return embedding;

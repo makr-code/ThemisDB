@@ -163,12 +163,16 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
         std::size_t searchFrom = 0;
         while (true) {
             const std::size_t limitPos = upper.find("LIMIT ", searchFrom);
-            if (limitPos == std::string::npos) break;
+            if (limitPos == std::string::npos) {
+              break;
+            }
             searchFrom = limitPos + 6;
 
             // Skip whitespace after LIMIT
             std::size_t numStart = limitPos + 6;
-            while (numStart < upper.size() && upper[numStart] == ' ') ++numStart;
+            while (numStart < upper.size() && upper[numStart] == ' ') {
+              ++numStart;
+            }
 
             // Parse the number
             std::size_t numEnd = numStart;

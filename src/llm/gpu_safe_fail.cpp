@@ -229,7 +229,9 @@ void GPUSafeFailManager::tryResetCircuit() {
 
 float GPUSafeFailManager::getErrorRate() const {
     size_t total = total_operations_.load(std::memory_order_acquire);
-    if (total == 0) return 0.0f;
+    if (total == 0) {
+      return 0.0f;
+    }
     
     size_t failures = total_failures_.load(std::memory_order_acquire);
     return static_cast<float>(failures) / static_cast<float>(total);

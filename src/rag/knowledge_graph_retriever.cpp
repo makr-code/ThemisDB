@@ -57,9 +57,15 @@ std::string normaliseText(const std::string& s) {
 /// Compute normalised string similarity: exact = 1.0; prefix scaled by
 /// length ratio; otherwise 0.0.  Both inputs should already be normalised.
 double stringSimilarity(const std::string& a, const std::string& b) {
-    if (a.empty() && b.empty()) return 1.0;
-    if (a.empty() || b.empty()) return 0.0;
-    if (a == b) return 1.0;
+    if (a.empty() && b.empty()) {
+      return 1.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
+    if (a == b) {
+      return 1.0;
+    }
 
     // Prefix match: shorter is prefix of longer → score = |shorter|/|longer|
     const std::string& shorter = a.size() <= b.size() ? a : b;
@@ -74,12 +80,18 @@ double stringSimilarity(const std::string& a, const std::string& b) {
 /// Normalised Jaccard similarity between two sets of strings.
 double jaccardSets(const std::unordered_set<std::string>& A,
                    const std::unordered_set<std::string>& B) {
-    if (A.empty() && B.empty()) return 1.0;
-    if (A.empty() || B.empty()) return 0.0;
+    if (A.empty() && B.empty()) {
+      return 1.0;
+    }
+    if (A.empty() || B.empty()) {
+      return 0.0;
+    }
 
     size_t intersection = 0;
     for (const auto& elem : A) {
-        if (B.count(elem)) ++intersection;
+        if (B.count(elem)) {
+          ++intersection;
+        }
     }
     const size_t unionSize = A.size() + B.size() - intersection;
     return unionSize == 0 ? 0.0
@@ -119,7 +131,9 @@ void KnowledgeGraph::addNode(KGNode node) {
 
 bool KnowledgeGraph::removeNode(const std::string& node_id) {
     std::lock_guard<std::mutex> lk(impl_->mtx);
-    if (!impl_->nodes.count(node_id)) return false;
+    if (!impl_->nodes.count(node_id)) {
+      return false;
+    }
 
     impl_->nodes.erase(node_id);
 
@@ -188,7 +202,9 @@ bool KnowledgeGraph::removeEdge(const std::string& from_id,
                                  RelationType       relation) {
     std::lock_guard<std::mutex> lk(impl_->mtx);
     auto it = impl_->adj.find(from_id);
-    if (it == impl_->adj.end()) return false;
+    if (it == impl_->adj.end()) {
+      return false;
+    }
 
     auto& edges = it->second;
     const size_t before = edges.size();
@@ -216,7 +232,9 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
     std::lock_guard<std::mutex> lk(impl_->mtx);
 
     std::unordered_set<std::string> visited;
-    if (!impl_->nodes.count(start_id)) return visited;
+    if (!impl_->nodes.count(start_id)) {
+      return visited;
+    }
 
     // GAP-010: BFS is capped at max_nodes to prevent unbounded traversal
     // (DoS) on densely-connected graphs.  The caller can raise the cap
@@ -240,16 +258,28 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         auto [cur_id, depth] = q.front();
         q.pop();
 
-        if (depth >= max_depth) continue;
+        if (depth >= max_depth) {
+          continue;
+        }
 
         auto adj_it = impl_->adj.find(cur_id);
-        if (adj_it == impl_->adj.end()) continue;
+        if (adj_it == impl_->adj.end()) {
+          continue;
+        }
 
         for (const auto& edge : adj_it->second) {
-            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) break;
-            if (edge.weight < min_edge_weight) continue;
-            if (visited.count(edge.to_id))     continue;
-            if (!impl_->nodes.count(edge.to_id)) continue;
+            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) {
+              break;
+            }
+            if (edge.weight < min_edge_weight) {
+              continue;
+            }
+            if (visited.count(edge.to_id)) {
+              continue;
+            }
+            if (!impl_->nodes.count(edge.to_id)) {
+              continue;
+            }
 
             visited.insert(edge.to_id);
             q.push({edge.to_id, depth + 1});
@@ -302,7 +332,9 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
     size_t      span_end   = 0;
 
     auto flushSpan = [&]() {
-        if (span_buf.empty()) return;
+        if (span_buf.empty()) {
+          return;
+        }
         const std::string trimmed = [&]() {
             size_t s = span_buf.find_first_not_of(' ');
             size_t e = span_buf.find_last_not_of(' ');
@@ -351,8 +383,12 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
         const bool allow_lower_single = config_.extract_single_word_entities && clean.size() >= config_.min_entity_length;
 
         if (is_cap && clean.size() >= config_.min_entity_length) {
-            if (span_start == std::string::npos) span_start = pos;
-            if (!span_buf.empty()) span_buf += ' ';
+            if (span_start == std::string::npos) {
+              span_start = pos;
+            }
+            if (!span_buf.empty()) {
+              span_buf += ' ';
+            }
             span_buf += clean;
             span_end = word_end;
         } else if (!is_cap && allow_lower_single && clean.size() >= config_.min_entity_length) {
@@ -367,7 +403,9 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
             flushSpan();
         }
 
-        if (pos != std::string::npos) pos = word_end;
+        if (pos != std::string::npos) {
+          pos = word_end;
+        }
     }
     flushSpan();
 
@@ -388,7 +426,9 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
         std::optional<KGNode> candidate_node_opt;
         if (raw_graph_) {
             const KGNode* p = raw_graph_->findNodeByName(entity.text);
-            if (p) candidate_node_opt = *p;
+            if (p) {
+              candidate_node_opt = *p;
+            }
         } else if (graph_iface_) {
             candidate_node_opt = graph_iface_->findNodeByName(entity.text);
         }
@@ -398,7 +438,9 @@ std::vector<EntityLinkingMatch> EntityLinker::link(const std::string& text) cons
             best_sim = stringSimilarity(norm_text, normalise(candidate_node.canonical_name));
             for (const auto& alias : candidate_node.aliases) {
                 const double s = stringSimilarity(norm_text, normalise(alias));
-                if (s > best_sim) best_sim = s;
+                if (s > best_sim) {
+                  best_sim = s;
+                }
             }
             // We don't keep a pointer into optional; store id via node_id later.
         }
@@ -494,7 +536,9 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
     size_t linked_count = 0;
     for (const auto& m : result.query_entity_links) {
-        if (m.is_linked) ++linked_count;
+        if (m.is_linked) {
+          ++linked_count;
+        }
     }
     result.entity_linking_coverage =
         result.query_entity_links.empty()
@@ -511,8 +555,12 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
     size_t nodes_visited = 0;
 
     for (const auto& match : result.query_entity_links) {
-        if (!match.is_linked) continue;
-        if (nodes_visited >= cfg.max_nodes_visited) break;
+        if (!match.is_linked) {
+          continue;
+        }
+        if (nodes_visited >= cfg.max_nodes_visited) {
+          break;
+        }
 
         auto nbrs = impl_->graph->neighbours(match.node_id,
                                              cfg.max_traversal_depth,
@@ -520,7 +568,9 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         query_neighbourhood.insert(match.node_id);
         for (auto& nb : nbrs) {
             query_neighbourhood.insert(nb);
-            if (++nodes_visited >= cfg.max_nodes_visited) break;
+            if (++nodes_visited >= cfg.max_nodes_visited) {
+              break;
+            }
         }
     }
     result.visited_nodes = query_neighbourhood;
@@ -534,7 +584,9 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         const auto r_start = std::chrono::steady_clock::now();
 
         for (const auto& match : result.query_entity_links) {
-            if (!match.is_linked) continue;
+            if (!match.is_linked) {
+              continue;
+            }
 
             // Guard against reasoning timeout using wall-clock budget.
             const auto now = std::chrono::steady_clock::now();
@@ -588,7 +640,9 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
         // Build set of node IDs from this document's linked entities
         std::unordered_set<std::string> doc_node_ids;
         for (const auto& match : aug_doc.entity_links) {
-            if (!match.is_linked) continue;
+            if (!match.is_linked) {
+              continue;
+            }
             doc_node_ids.insert(match.node_id);
 
             // Also add 1-hop neighbours of document entities
@@ -639,8 +693,12 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
                             break;
                         }
                     }
-                    if (!relevant) continue;
-                    if (!first) chain_builder << "; ";
+                    if (!relevant) {
+                      continue;
+                    }
+                    if (!first) {
+                      chain_builder << "; ";
+                    }
                     chain_builder << edge.fact.subject << " -[" << edge.fact.predicate << "]-> "
                                   << edge.fact.object << " (rule=" << edge.rule_id << ")";
                     first = false;

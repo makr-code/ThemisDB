@@ -93,7 +93,9 @@ public:
     std::vector<float> genVec(std::size_t dim) {
         std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = dis(rng_);
+        for (auto& x : v) {
+          x = dis(rng_);
+        }
         return v;
     }
 
@@ -103,7 +105,9 @@ public:
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<std::size_t> dis(0, sizeof(kChars) - 2);
         std::string s(len, ' ');
-        for (auto& c : s) c = kChars[dis(rng_)];
+        for (auto& c : s) {
+          c = kChars[dis(rng_)];
+        }
         return s;
     }
 
@@ -261,7 +265,9 @@ public:
             for (std::size_t e = 0; e < kEdgesPerNode; ++e) {
                 std::size_t j = static_cast<std::size_t>(
                     rng_.genInt(0, static_cast<int64_t>(n) - 1));
-                if (j == i) continue;
+                if (j == i) {
+                  continue;
+                }
                 std::string eid =
                     "e_" + std::to_string(i) + "_" + std::to_string(j);
                 themis::BaseEntity edge(eid);

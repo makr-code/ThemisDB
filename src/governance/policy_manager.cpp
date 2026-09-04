@@ -1004,8 +1004,12 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
     std::vector<std::string> conflicts;
     
     for (const auto& [id, existing_rule] : rules_) {
-        if (id == rule.id) continue;
-        if (existing_rule.lifecycle.current_state != PolicyState::ACTIVE) continue;
+        if (id == rule.id) {
+          continue;
+        }
+        if (existing_rule.lifecycle.current_state != PolicyState::ACTIVE) {
+          continue;
+        }
         
         // Check for resource/action overlap
         bool has_resource_overlap = false;
@@ -1016,10 +1020,14 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
                     break;
                 }
             }
-            if (has_resource_overlap) break;
+            if (has_resource_overlap) {
+              break;
+            }
         }
         
-        if (!has_resource_overlap) continue;
+        if (!has_resource_overlap) {
+          continue;
+        }
         
         bool has_action_overlap = false;
         for (const auto& act : rule.actions) {
@@ -1029,7 +1037,9 @@ std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& 
                     break;
                 }
             }
-            if (has_action_overlap) break;
+            if (has_action_overlap) {
+              break;
+            }
         }
         
         // Only flag as conflict if effects are contradictory

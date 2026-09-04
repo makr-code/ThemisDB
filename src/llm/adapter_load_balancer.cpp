@@ -280,7 +280,9 @@ bool AdapterLoadBalancer::rebalance() {
     // Migrate adapters from overloaded to underloaded GPUs
     int migrations = 0;
     for (int overloaded_gpu : overloaded_gpus) {
-        if (underloaded_gpus.empty()) break;
+        if (underloaded_gpus.empty()) {
+          break;
+        }
         
         auto& adapters = gpu_to_adapters_[overloaded_gpu];
         
@@ -301,7 +303,9 @@ bool AdapterLoadBalancer::rebalance() {
         
         // Migrate candidates
         for (const auto& adapter_id : candidates) {
-            if (underloaded_gpus.empty()) break;
+            if (underloaded_gpus.empty()) {
+              break;
+            }
             
             int target_gpu = underloaded_gpus[0];
             

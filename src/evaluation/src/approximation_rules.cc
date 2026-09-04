@@ -102,7 +102,9 @@ constexpr std::array<ApproximationBoundary, 4> kCanonicalBoundaries = {{
     ApproximationBoundary& out) noexcept
 {
     const auto idx = static_cast<size_t>(layer);
-    if (idx < 1 || idx > kCanonicalBoundaries.size()) return false;
+    if (idx < 1 || idx > kCanonicalBoundaries.size()) {
+      return false;
+    }
     out = kCanonicalBoundaries[idx - 1];
     return true;
 }
@@ -491,7 +493,9 @@ public:
         RetrievalLayer layer) const noexcept override
     {
         ApproximationBoundary b{};
-        if (lookupCanonical(layer, b)) return b;
+        if (lookupCanonical(layer, b)) {
+          return b;
+        }
         // Safe default for unknown layers: fail-closed Exact.
         return ApproximationBoundary{
             layer,

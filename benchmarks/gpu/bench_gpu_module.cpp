@@ -46,7 +46,9 @@ static void BM_MemoryManager_TryAllocate(benchmark::State& state) {
     for (auto _ : state) {
         bool ok = mgr.TryAllocateGPU(kAllocBytes, "bench");
         benchmark::DoNotOptimize(ok);
-        if (ok) mgr.DeallocateGPU(kAllocBytes);
+        if (ok) {
+          mgr.DeallocateGPU(kAllocBytes);
+        }
     }
     state.SetItemsProcessed(state.iterations());
     state.SetBytesProcessed(static_cast<int64_t>(state.iterations()) *
@@ -143,7 +145,9 @@ BENCHMARK(BM_Metrics_RecordFallback)->Unit(benchmark::kNanosecond);
 static void BM_Metrics_Snapshot(benchmark::State& state) {
     auto& met = GPUMetrics::GetInstance();
     // Warm up some counters.
-    for (int i = 0; i < 100; ++i) met.recordAllocSuccess(kAllocBytes);
+    for (int i = 0; i < 100; ++i) {
+      met.recordAllocSuccess(kAllocBytes);
+    }
     for (auto _ : state) {
         auto snap = met.snapshot();
         benchmark::DoNotOptimize(snap);
@@ -246,7 +250,9 @@ static void BM_MemoryManager_ConcurrentAlloc(benchmark::State& state) {
     for (auto _ : state) {
         bool ok = mgr.TryAllocateGPU(4096, "concurrent_bench");
         benchmark::DoNotOptimize(ok);
-        if (ok) mgr.DeallocateGPU(4096);
+        if (ok) {
+          mgr.DeallocateGPU(4096);
+        }
     }
     state.SetItemsProcessed(state.iterations());
 }

@@ -63,11 +63,21 @@ std::string EpkSerializer::epkNodeTypeToLabel_(EPKNodeType t) {
 }
 
 EPKNodeType EpkSerializer::labelToEpkNodeType_(std::string_view label) {
-    if (label == "EVENT"  || label == "Ereignis")       return EPKNodeType::EVENT;
-    if (label == "FUNCTION" || label == "Funktion")     return EPKNodeType::FUNCTION;
-    if (label == "AND")                                  return EPKNodeType::AND_CONNECTOR;
-    if (label == "OR")                                   return EPKNodeType::OR_CONNECTOR;
-    if (label == "XOR")                                  return EPKNodeType::XOR_CONNECTOR;
+    if (label == "EVENT"  || label == "Ereignis") {
+      return EPKNodeType::EVENT;
+    }
+    if (label == "FUNCTION" || label == "Funktion") {
+      return EPKNodeType::FUNCTION;
+    }
+    if (label == "AND") {
+      return EPKNodeType::AND_CONNECTOR;
+    }
+    if (label == "OR") {
+      return EPKNodeType::OR_CONNECTOR;
+    }
+    if (label == "XOR") {
+      return EPKNodeType::XOR_CONNECTOR;
+    }
     if (label == "ORG_UNIT" || label == "Organisationseinheit")
                                                          return EPKNodeType::ORGANIZATIONAL_UNIT;
     if (label == "INFO_OBJ" || label == "Informationsobjekt")
@@ -132,7 +142,9 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         // Trim
         line.erase(0, line.find_first_not_of(" \t"));
         line.erase(line.find_last_not_of(" \t\r\n") + 1);
-        if (line.empty() || line[0] == '#') continue;
+        if (line.empty() || line[0] == '#') {
+          continue;
+        }
 
         bool is_edge = false;
         if (line.substr(0, 2) == "->") {
@@ -144,7 +156,9 @@ EpkSerializer::ImportResult EpkSerializer::importText(
         // Parse TYPE: "name" or TYPE: name
         std::regex node_re(R"((\w+)\s*:\s*["\']?([^"\'\[\n]+)["\']?\s*(?:\[([^\]]*)\])?)");
         std::smatch m;
-        if (!std::regex_search(line, m, node_re)) continue;
+        if (!std::regex_search(line, m, node_re)) {
+          continue;
+        }
 
         std::string type_str = m[1].str();
         std::string name_str = m[2].str();
@@ -320,11 +334,15 @@ std::string EpkSerializer::exportText(
     bool first = true;
     while (!q.empty()) {
         auto id = q.front(); q.pop();
-        if (visited.count(id)) continue;
+        if (visited.count(id)) {
+          continue;
+        }
         visited.insert(id);
 
         auto it = node_map.find(id);
-        if (it == node_map.end()) continue;
+        if (it == node_map.end()) {
+          continue;
+        }
         const auto& n = *it->second;
 
         std::string type_label;
@@ -334,7 +352,9 @@ std::string EpkSerializer::exportText(
             type_label = "FUNCTION";
         }
 
-        if (!first) out << "-> ";
+        if (!first) {
+          out << "-> ";
+        }
         out << type_label << ": \"" << n.name << "\"";
         if (!n.description.empty()) {
             out << " # " << n.description;

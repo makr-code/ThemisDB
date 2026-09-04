@@ -51,7 +51,9 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.size() < 4) return JsonValue::array();
+        if (args.size() < 4) {
+          return JsonValue::array();
+        }
         
         std::string collection = args[0].as_string();
         std::string query = args[1].as_string();
@@ -65,8 +67,12 @@ public:
         
         if (args.size() > 4 && args[4].is_object()) {
             auto opts = args[4].as_object();
-            if (opts.count("vectorWeight")) vectorWeight = opts["vectorWeight"].as_number();
-            if (opts.count("textWeight")) textWeight = opts["textWeight"].as_number();
+            if (opts.count("vectorWeight")) {
+              vectorWeight = opts["vectorWeight"].as_number();
+            }
+            if (opts.count("textWeight")) {
+              textWeight = opts["textWeight"].as_number();
+            }
             if (opts.count("limit")) {
                 limit = clampPositiveIntFromDouble(opts["limit"].as_number(), limit);
             }
@@ -109,7 +115,9 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue::array();
+        if (args.empty()) {
+          return JsonValue::array();
+        }
         
         std::string text = args[0].as_string();
         std::string model = args.size() > 1 ? args[1].as_string() : "default";
@@ -144,8 +152,12 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.size() < 2) return JsonValue::array();
-        if (!args[0].is_array()) return args[0];
+        if (args.size() < 2) {
+          return JsonValue::array();
+        }
+        if (!args[0].is_array()) {
+          return args[0];
+        }
         
         auto results = args[0].as_array();
         std::string query = args[1].as_string();
@@ -235,7 +247,9 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue::array();
+        if (args.empty()) {
+          return JsonValue::array();
+        }
         
         std::string text = args[0].as_string();
         
@@ -255,9 +269,13 @@ public:
         if (atPos != std::string::npos) {
             // Find word boundaries
             size_t start = atPos;
-            while (start > 0 && !std::isspace(text[start - 1])) start--;
+            while (start > 0 && !std::isspace(text[start - 1])) {
+              start--;
+            }
             size_t end = atPos;
-            while (end < text.length() && !std::isspace(text[end])) end++;
+            while (end < text.length() && !std::isspace(text[end])) {
+              end++;
+            }
             
             std::string email = text.substr(start, end - start);
             entities.push_back(JsonValue::object({
@@ -295,7 +313,9 @@ public:
     }
     
     JsonValue execute(const std::vector<JsonValue>& args, ExecutionContext& ctx) const override {
-        if (args.empty()) return JsonValue("");
+        if (args.empty()) {
+          return JsonValue("");
+        }
         
         std::string text = args[0].as_string();
         int maxLength = args.size() > 1

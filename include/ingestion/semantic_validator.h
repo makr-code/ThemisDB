@@ -125,7 +125,9 @@ struct SemanticValidationResult {
     std::vector<QualityGateResult> failedGates() const {
         std::vector<QualityGateResult> out;
         for (const auto& g : gate_results) {
-            if (!g.passed) out.push_back(g);
+            if (!g.passed) {
+              out.push_back(g);
+            }
         }
         return out;
     }
@@ -134,7 +136,9 @@ struct SemanticValidationResult {
     std::vector<QualityGateResult> passedGates() const {
         std::vector<QualityGateResult> out;
         for (const auto& g : gate_results) {
-            if (g.passed) out.push_back(g);
+            if (g.passed) {
+              out.push_back(g);
+            }
         }
         return out;
     }

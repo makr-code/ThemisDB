@@ -39,18 +39,28 @@ static bool valueIsBoolean(const std::string& s) {
 }
 
 static bool valueIsInteger(const std::string& s) {
-    if (s.empty()) return false;
+    if (s.empty()) {
+      return false;
+    }
     size_t start = 0;
-    if (s[0] == '+' || s[0] == '-') ++start;
-    if (start == s.size()) return false;
+    if (s[0] == '+' || s[0] == '-') {
+      ++start;
+    }
+    if (start == s.size()) {
+      return false;
+    }
     for (size_t i = start; i < s.size(); ++i) {
-        if (!std::isdigit(static_cast<unsigned char>(s[i]))) return false;
+        if (!std::isdigit(static_cast<unsigned char>(s[i]))) {
+          return false;
+        }
     }
     return true;
 }
 
 static bool valueIsDouble(const std::string& s) {
-    if (s.empty()) return false;
+    if (s.empty()) {
+      return false;
+    }
     try {
         size_t pos = 0;
         (void)std::stod(s, &pos);
@@ -75,10 +85,18 @@ int SchemaAutoDetector::typeRank(DetectedFieldType t) {
 }
 
 DetectedFieldType SchemaAutoDetector::inferType(const std::string& value) {
-    if (value.empty())          return DetectedFieldType::STRING;
-    if (valueIsBoolean(value))  return DetectedFieldType::BOOLEAN;
-    if (valueIsInteger(value))  return DetectedFieldType::INTEGER;
-    if (valueIsDouble(value))   return DetectedFieldType::DOUBLE;
+    if (value.empty()) {
+      return DetectedFieldType::STRING;
+    }
+    if (valueIsBoolean(value)) {
+      return DetectedFieldType::BOOLEAN;
+    }
+    if (valueIsInteger(value)) {
+      return DetectedFieldType::INTEGER;
+    }
+    if (valueIsDouble(value)) {
+      return DetectedFieldType::DOUBLE;
+    }
     return DetectedFieldType::STRING;
 }
 
@@ -99,8 +117,12 @@ std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
 
 DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
     std::string lower = toLowerSchema(name);
-    if (lower == "boolean" || lower == "bool") return DetectedFieldType::BOOLEAN;
-    if (lower == "integer" || lower == "int")  return DetectedFieldType::INTEGER;
+    if (lower == "boolean" || lower == "bool") {
+      return DetectedFieldType::BOOLEAN;
+    }
+    if (lower == "integer" || lower == "int") {
+      return DetectedFieldType::INTEGER;
+    }
     if (lower == "double"  || lower == "float" ||
         lower == "number"  || lower == "real")  return DetectedFieldType::DOUBLE;
     return DetectedFieldType::STRING;

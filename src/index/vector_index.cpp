@@ -151,7 +151,9 @@ VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const Adva
 // Helper: Log audit event if audit logger is configured
 void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
                                         const std::string& operation, size_t count) const {
-	if (!audit_logger_) return;
+	if (!audit_logger_) {
+	  return;
+	}
 	
 	try {
 		nlohmann::json details = {
@@ -424,7 +426,9 @@ void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled)
 }
 
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
-	if (a.size() != b.size()) return std::numeric_limits<float>::infinity();
+	if (a.size() != b.size()) {
+	  return std::numeric_limits<float>::infinity();
+	}
 	// Return squared L2 to match existing distance semantics (lower is better)
 	return simd::l2_distance_sq(a.data(), b.data(), a.size());
 }
@@ -486,15 +490,25 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 // Note: Currently unused, kept for future implementation
 #if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
-	if (a.size() != b.size() || a.empty()) return 1.0f;
+	if (a.size() != b.size() || a.empty()) {
+	  return 1.0f;
+	}
 	std::vector<float> ac(a), bc(b);
 	float meanA = 0.0f, meanB = 0.0f;
-	for (float x : ac) meanA += x;
+	for (float x : ac) {
+	  meanA += x;
+	}
 	meanA /= static_cast<float>(ac.size());
-	for (float y : bc) meanB += y;
+	for (float y : bc) {
+	  meanB += y;
+	}
 	meanB /= static_cast<float>(bc.size());
-	for (float& x : ac) x -= meanA;
-	for (float& y : bc) y -= meanB;
+	for (float& x : ac) {
+	  x -= meanA;
+	}
+	for (float& y : bc) {
+	  y -= meanB;
+	}
 	// Compute cosine directly
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
 	for (size_t i = 0; i < ac.size(); ++i) {
@@ -510,16 +524,24 @@ static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::
 
 void VectorIndexManager::normalizeL2(std::vector<float>& v) {
 	float n2 = 0.0f;
-	for (float x : v) n2 += x * x;
+	for (float x : v) {
+	  n2 += x * x;
+	}
 	float n = std::sqrt(std::max(n2, 1e-12f));
 	if (n > 0.f) {
-		for (float& x : v) x /= n;
+		for (float& x : v) {
+		  x /= n;
+		}
 	}
 }
 
 float VectorIndexManager::distance(const std::vector<float>& a, const std::vector<float>& b) const {
-	if (metric_ == Metric::L2) return l2(a, b);
-	if (metric_ == Metric::DOT) return dotProduct(a, b);
+	if (metric_ == Metric::L2) {
+	  return l2(a, b);
+	}
+	if (metric_ == Metric::DOT) {
+	  return dotProduct(a, b);
+	}
 	// COSINE
 	if (metric_ == Metric::COSINE) {
 		// Under vector encryption, detrend candidate vector by removing linear positional bias
@@ -556,8 +578,12 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 													int M, int efConstruction, int efSearch,
 													const std::string& savePath) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (objectName.empty()) return Status::Error("init: objectName darf nicht leer sein");
-	if (dim <= 0) return Status::Error("init: dim muss > 0 sein");
+	if (objectName.empty()) {
+	  return Status::Error("init: objectName darf nicht leer sein");
+	}
+	if (dim <= 0) {
+	  return Status::Error("init: dim muss > 0 sein");
+	}
 	objectName_ = std::string(objectName);
 	dim_ = dim;
 	metric_ = metric;
@@ -741,7 +767,9 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 }
 
 	VectorIndexManager::Status VectorIndexManager::setEfSearch([[maybe_unused]] int efSearch) {
-		if (efSearch <= 0) return Status::Error("setEfSearch: efSearch muss > 0 sein");
+		if (efSearch <= 0) {
+		  return Status::Error("setEfSearch: efSearch muss > 0 sein");
+		}
 		efSearch_ = efSearch;
 	#ifdef THEMIS_HNSW_ENABLED
 		if (useHnsw_) {
@@ -758,7 +786,9 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 
 VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (objectName_.empty() || dim_ <= 0) return Status::Error("rebuildFromStorage: Manager nicht initialisiert");
+	if (objectName_.empty() || dim_ <= 0) {
+	  return Status::Error("rebuildFromStorage: Manager nicht initialisiert");
+	}
 	cache_.clear();
 	pkToId_.clear();
 	idToPk_.clear();
@@ -807,9 +837,13 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 					// Try SQ8-coded embedding (EXISTING)
 					auto qbufOpt = e.getField("embedding_q");
 					auto scaleOpt = e.getFieldAsDouble("embedding_scale");
-					if (!qbufOpt || !scaleOpt) return true;
+					if (!qbufOpt || !scaleOpt) {
+					  return true;
+					}
 					const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
-					if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
+					if (!qv || qv->size() != static_cast<size_t>(dim_)) {
+					  return true;
+					}
 					v.resize(dim_);
 					float s = static_cast<float>(*scaleOpt);
 					for (size_t i = 0; i < qv->size(); ++i) {
@@ -820,7 +854,9 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 			}
 			
 			// Normalize for COSINE unless encryption is enabled
-			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
+			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+			  normalizeL2(v);
+			}
 			cache_[pk] = v;
 			if (useHnsw_) {
 #ifdef THEMIS_HNSW_ENABLED
@@ -891,9 +927,13 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				} else {
 					auto qbufOpt  = e.getField("embedding_q");
 					auto scaleOpt = e.getFieldAsDouble("embedding_scale");
-					if (!qbufOpt || !scaleOpt) return true;
+					if (!qbufOpt || !scaleOpt) {
+					  return true;
+					}
 					const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
-					if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
+					if (!qv || qv->size() != static_cast<size_t>(dim_)) {
+					  return true;
+					}
 					v.resize(dim_);
 					float s = static_cast<float>(*scaleOpt);
 					for (size_t i = 0; i < qv->size(); ++i) {
@@ -903,8 +943,12 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				}
 			}
 
-			if (v.empty() || v.size() != static_cast<size_t>(dim_)) return true;
-			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
+			if (v.empty() || v.size() != static_cast<size_t>(dim_)) {
+			  return true;
+			}
+			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+			  normalizeL2(v);
+			}
 			storage_vectors.emplace(std::move(pk), std::move(v));
 			++stats.total_scanned;
 		} catch (...) {
@@ -997,10 +1041,14 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (objectName_.empty()) return Status::Error("addEntity: Manager nicht initialisiert");
+	if (objectName_.empty()) {
+	  return Status::Error("addEntity: Manager nicht initialisiert");
+	}
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
-	if (!v) return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
+	if (!v) {
+	  return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
+	}
 	
 	// Phase 1: Check if encryption is enabled
 	bool encryptVectors = isVectorEncryptionEnabled();
@@ -1034,8 +1082,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false;
-		if (mode == "sq8") return true;
+		if (mode == "none") {
+		  return false;
+		}
+		if (mode == "sq8") {
+		  return true;
+		}
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 
@@ -1118,7 +1170,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 
 	// In-Memory Cache aktualisieren (nur COSINE normalisiert; DOT/L2 bleiben raw)
 	std::vector<float> vv = *v;
-	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
+	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+	  normalizeL2(vv);
+	}
 	cache_[pk] = vv;
 	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
@@ -1140,11 +1194,17 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::WriteBatchWrapper& batch,
                                                           std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (objectName_.empty()) return Status::Error("addEntity: Manager nicht initialisiert");
+	if (objectName_.empty()) {
+	  return Status::Error("addEntity: Manager nicht initialisiert");
+	}
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
-	if (!v) return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
-	if (v->size() != static_cast<size_t>(dim_)) return Status::Error("addEntity: Vektordimension passt nicht");
+	if (!v) {
+	  return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
+	}
+	if (v->size() != static_cast<size_t>(dim_)) {
+	  return Status::Error("addEntity: Vektordimension passt nicht");
+	}
 
 	// Persistenz via WriteBatch (für Transaktionen)
 	auto shouldQuantize = [&]() -> bool {
@@ -1157,8 +1217,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false;
-		if (mode == "sq8") return true;
+		if (mode == "none") {
+		  return false;
+		}
+		if (mode == "sq8") {
+		  return true;
+		}
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::string key = makeObjectKey(pk);
@@ -1185,7 +1249,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 
 	// In-Memory Cache aktualisieren (nur COSINE normalisiert; DOT/L2 bleiben raw)
 	std::vector<float> vv = *v;
-	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
+	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+	  normalizeL2(vv);
+	}
 	cache_[pk] = vv;
 	const auto* vector_data = vv.data();
 #ifdef THEMIS_HNSW_ENABLED
@@ -1318,7 +1384,9 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			} else {
 				// Lade aus Storage on-demand
 				auto blob = db_.get(makeObjectKey(pk));
-				if (!blob) continue;
+				if (!blob) {
+				  continue;
+				}
 				try {
 					BaseEntity e = BaseEntity::deserialize(pk, *blob);
 					auto vec = e.extractVector("embedding");
@@ -1370,7 +1438,9 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						v = std::move(*losslessVec);
 					}
 					else if (auto vecOpt = e.extractVector("embedding")) {
-						if (vecOpt->size() == expected_dim) v = *vecOpt;
+						if (vecOpt->size() == expected_dim) {
+						  v = *vecOpt;
+						}
 					}
 					else {
 						auto qbufOpt = e.getField("embedding_q");
@@ -1420,9 +1490,15 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							// Use prefetch lambda defined earlier in this function
 							prefetch(&vec.front());
 							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
-							if (vec.size() > 384) prefetch(&vec[384]);
-							if (vec.size() > 768) prefetch(&vec[768]);
-							if (vec.size() > 1152) prefetch(&vec[1152]);
+							if (vec.size() > 384) {
+							  prefetch(&vec[384]);
+							}
+							if (vec.size() > 768) {
+							  prefetch(&vec[768]);
+							}
+							if (vec.size() > 1152) {
+							  prefetch(&vec[1152]);
+							}
 						}
 					}
 				}
@@ -1473,7 +1549,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		try {
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
-			if (metric_ == Metric::COSINE) normalizeL2(q);
+			if (metric_ == Metric::COSINE) {
+			  normalizeL2(q);
+			}
 			
 			// Phase 4: Use adaptive ef parameter if optimizer is enabled
 			int ef_to_use = efSearch_;
@@ -1524,7 +1602,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		try {
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
-			if (metric_ == Metric::COSINE) normalizeL2(q);
+			if (metric_ == Metric::COSINE) {
+			  normalizeL2(q);
+			}
 
 			std::unordered_set<std::string> wl(whitelist->begin(), whitelist->end());
 			// Optimierte Prefilter-Parameter für Memory-Bandwidth-Constraints
@@ -1594,7 +1674,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				for (const auto& r : tmp) {
 					if (seen.insert(r.pk).second) {
 						filtered.push_back(r);
-						if (filtered.size() >= k) break;
+						if (filtered.size() >= k) {
+						  break;
+						}
 					}
 				}
 
@@ -1603,7 +1685,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			}
 
 			if (filtered.size() >= k) {
-				if (filtered.size() > k) filtered.resize(k);
+				if (filtered.size() > k) {
+				  filtered.resize(k);
+				}
 				return {Status::OK(), std::move(filtered)};
 			}
 			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
@@ -1621,7 +1705,9 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		auto* ann_backend = ann_backend_.get();
 		const auto id_to_pk_snapshot = idToPk_;
 		std::vector<float> q = query;
-		if (metric_ == Metric::COSINE) normalizeL2(q);
+		if (metric_ == Metric::COSINE) {
+		  normalizeL2(q);
+		}
 		auto raw = ann_backend->search(q.data(), expected_dim, static_cast<int>(k));
 		std::vector<Result> out;
 		out.reserve(raw.size());
@@ -1788,7 +1874,9 @@ VectorIndexManager::searchKnnFiltered(
 		try {
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
 			std::vector<float> q = query;
-			if (metric_ == Metric::COSINE) normalizeL2(q);
+			if (metric_ == Metric::COSINE) {
+			  normalizeL2(q);
+			}
 			
 			auto topk = appr->searchKnn(q.data(), candidateCount);
 			std::vector<Result> candidates;
@@ -1810,7 +1898,9 @@ VectorIndexManager::searchKnnFiltered(
 			for (const auto& candidate : candidates) {
 				std::string objKey = makeObjectKey(candidate.pk);
 				auto entity_opt = db_.get(objKey);
-				if (!entity_opt) continue;
+				if (!entity_opt) {
+				  continue;
+				}
 				
 				BaseEntity entity = BaseEntity::deserialize(candidate.pk, entity_opt.value());
 				
@@ -1827,22 +1917,32 @@ VectorIndexManager::searchKnnFiltered(
 					
 					switch (filter.op) {
 						case AttributeFilter::Op::EQUALS:
-							if (fieldValue != filter.value) passes = false;
+							if (fieldValue != filter.value) {
+							  passes = false;
+							}
 							break;
 						case AttributeFilter::Op::NOT_EQUALS:
-							if (fieldValue == filter.value) passes = false;
+							if (fieldValue == filter.value) {
+							  passes = false;
+							}
 							break;
 						case AttributeFilter::Op::CONTAINS:
-							if (fieldValue.find(filter.value) == std::string::npos) passes = false;
+							if (fieldValue.find(filter.value) == std::string::npos) {
+							  passes = false;
+							}
 							break;
 					}
 					
-					if (!passes) break;
+					if (!passes) {
+					  break;
+					}
 				}
 				
 				if (passes) {
 					filtered.push_back(candidate);
-					if (filtered.size() >= k) break;
+					if (filtered.size() >= k) {
+					  break;
+					}
 				}
 			}
 			
@@ -1862,7 +1962,9 @@ VectorIndexManager::searchKnnFiltered(
 	for (const auto& candidate : allResults) {
 		std::string objKey = makeObjectKey(candidate.pk);
 		auto entity_opt = db_.get(objKey);
-		if (!entity_opt) continue;
+		if (!entity_opt) {
+		  continue;
+		}
 		
 		BaseEntity entity = BaseEntity::deserialize(candidate.pk, entity_opt.value());
 		
@@ -1878,22 +1980,32 @@ VectorIndexManager::searchKnnFiltered(
 			
 			switch (filter.op) {
 				case AttributeFilter::Op::EQUALS:
-					if (fieldValue != filter.value) passes = false;
+					if (fieldValue != filter.value) {
+					  passes = false;
+					}
 					break;
 				case AttributeFilter::Op::NOT_EQUALS:
-					if (fieldValue == filter.value) passes = false;
+					if (fieldValue == filter.value) {
+					  passes = false;
+					}
 					break;
 				case AttributeFilter::Op::CONTAINS:
-					if (fieldValue.find(filter.value) == std::string::npos) passes = false;
+					if (fieldValue.find(filter.value) == std::string::npos) {
+					  passes = false;
+					}
 					break;
 			}
 			
-			if (!passes) break;
+			if (!passes) {
+			  break;
+			}
 		}
 		
 		if (passes) {
 			filtered.push_back(candidate);
-			if (filtered.size() >= k) break;
+			if (filtered.size() >= k) {
+			  break;
+			}
 		}
 	}
 	
@@ -2114,7 +2226,9 @@ VectorIndexManager::searchKnnRadius(
 		for (const auto& c : candidates) {
 			if (c.distance <= epsilon) {
 				results.push_back(c);
-				if (max_results > 0 && results.size() >= max_results) break;
+				if (max_results > 0 && results.size() >= max_results) {
+				  break;
+				}
 			}
 		}
 		return {Status::OK(), results};
@@ -2131,7 +2245,9 @@ VectorIndexManager::searchKnnRadius(
 			float dist = distance(query, vec);
 			if (dist <= epsilon) {
 				results.push_back({pk, dist});
-				if (max_results > 0 && results.size() >= max_results) break;
+				if (max_results > 0 && results.size() >= max_results) {
+				  break;
+				}
 			}
 		}
 	} else {
@@ -2142,11 +2258,15 @@ VectorIndexManager::searchKnnRadius(
 				// Lade aus Storage
 				std::string key = makeObjectKey(pk);
 				auto blob = db_.get(key);
-				if (!blob) continue;
+				if (!blob) {
+				  continue;
+				}
 				try {
 					BaseEntity e = BaseEntity::deserialize(pk, *blob);
 					auto vecOpt = e.extractVector("embedding");
-					if (!vecOpt) continue;
+					if (!vecOpt) {
+					  continue;
+					}
 					cache_[pk] = *vecOpt;
 					it = cache_.find(pk);
 				} catch (...) { continue; }
@@ -2155,7 +2275,9 @@ VectorIndexManager::searchKnnRadius(
 				float dist = distance(query, it->second);
 				if (dist <= epsilon) {
 					results.push_back({pk, dist});
-					if (max_results > 0 && results.size() >= max_results) break;
+					if (max_results > 0 && results.size() >= max_results) {
+					  break;
+					}
 				}
 			}
 		}
@@ -2211,7 +2333,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		switch (filter.op) {
 			case AttributeFilterV2::Op::EQUALS: {
 				auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, filter.value);
-				if (st.ok) filterResults = std::move(pks);
+				if (st.ok) {
+				  filterResults = std::move(pks);
+				}
 				break;
 			}
 			case AttributeFilterV2::Op::RANGE: {
@@ -2221,14 +2345,18 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					std::optional<std::string>(filter.value_max),
 					true, true, maxFilterScanSize
 				);
-				if (st.ok) filterResults = std::move(pks);
+				if (st.ok) {
+				  filterResults = std::move(pks);
+				}
 				break;
 			}
 			case AttributeFilterV2::Op::IN: {
 				std::unordered_set<std::string> inResults;
 				for (const auto& val : filter.values) {
 					auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, val);
-					if (st.ok) inResults.insert(pks.begin(), pks.end());
+					if (st.ok) {
+					  inResults.insert(pks.begin(), pks.end());
+					}
 				}
 				filterResults.assign(inResults.begin(), inResults.end());
 				break;
@@ -2252,7 +2380,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					objectName_, filter.field, lower, upper,
 					includeLower, includeUpper, maxFilterScanSize
 				);
-				if (st.ok) filterResults = std::move(pks);
+				if (st.ok) {
+				  filterResults = std::move(pks);
+				}
 				break;
 			}
 			default:
@@ -2266,7 +2396,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		} else {
 			std::unordered_set<std::string> intersection;
 			for (const auto& pk : filterResults) {
-				if (whitelistSet.count(pk)) intersection.insert(pk);
+				if (whitelistSet.count(pk)) {
+				  intersection.insert(pk);
+				}
 			}
 			whitelistSet = std::move(intersection);
 		}
@@ -2300,7 +2432,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Speichere Mapping (id -> pk)
 			{
 				std::ofstream mapFile(fs::path(directory) / "labels.txt", std::ios::binary | std::ios::trunc);
-				if (!mapFile) return Status::Error("saveIndex: labels.txt nicht schreibbar");
+				if (!mapFile) {
+				  return Status::Error("saveIndex: labels.txt nicht schreibbar");
+				}
 				for (const auto& pk : idToPk_) {
 					mapFile << pk << "\n";
 				}
@@ -2308,7 +2442,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Speichere Meta
 			{
 				std::ofstream metaFile(fs::path(directory) / "meta.txt", std::ios::binary | std::ios::trunc);
-				if (!metaFile) return Status::Error("saveIndex: meta.txt nicht schreibbar");
+				if (!metaFile) {
+				  return Status::Error("saveIndex: meta.txt nicht schreibbar");
+				}
 				metaFile << objectName_ << "\n" << dim_ << "\n" << (metric_ == Metric::L2 ? "L2" : "COSINE")
 						 << "\n" << efSearch_ << "\n" << m_ << "\n" << efConstruction_ << "\n";
 				// Add encryption flag to metadata
@@ -2380,7 +2516,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		try {
 			// Lade Meta
 			std::ifstream metaFile(fs::path(directory) / "meta.txt", std::ios::binary);
-			if (!metaFile) return Status::Error("loadIndex: meta.txt nicht lesbar");
+			if (!metaFile) {
+			  return Status::Error("loadIndex: meta.txt nicht lesbar");
+			}
 			std::string obj; std::string metricStr; int dim; int ef, m, efc;
 			std::getline(metaFile, obj);
 			metaFile >> dim; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -2394,8 +2532,12 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			std::getline(metaFile, encryptionFlag);
 			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
-			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
-			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");
+			if (obj != objectName_) {
+			  return Status::Error("loadIndex: objectName passt nicht zum Manager");
+			}
+			if (dim_ != 0 && dim_ != dim) {
+			  return Status::Error("loadIndex: Dimension passt nicht zum Manager");
+			}
 			dim_ = dim;
 			metric_ = (metricStr == "L2") ? Metric::L2 : Metric::COSINE;
 			efSearch_ = ef; m_ = m; efConstruction_ = efc;
@@ -2407,7 +2549,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 
 			// Initialisiere Space
 			std::unique_ptr<hnswlib::SpaceInterface<float>> space;
-			if (metric_ == Metric::L2) space = std::make_unique<hnswlib::L2Space>(dim_);
+			if (metric_ == Metric::L2) {
+			  space = std::make_unique<hnswlib::L2Space>(dim_);
+			}
 			else space = std::make_unique<hnswlib::InnerProductSpace>(dim_);
 
 			std::string indexPath;
@@ -2485,7 +2629,9 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			pkToId_.clear(); idToPk_.clear();
 			{
 				std::ifstream mapFile(fs::path(directory) / "labels.txt", std::ios::binary);
-				if (!mapFile) return Status::Error("loadIndex: labels.txt nicht lesbar");
+				if (!mapFile) {
+				  return Status::Error("loadIndex: labels.txt nicht lesbar");
+				}
 				std::string line; size_t id = 0;
 				while (std::getline(mapFile, line)) {
 					if (line.empty()) { ++id; continue; }
@@ -2531,13 +2677,21 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, RocksDBWrapper::TransactionWrapper& txn,
                                                           std::string_view vectorField) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (objectName_.empty()) return Status::Error("addEntity(mvcc): Manager nicht initialisiert");
-	if (!txn.isActive()) return Status::Error("addEntity(mvcc): Transaction ist nicht aktiv");
+	if (objectName_.empty()) {
+	  return Status::Error("addEntity(mvcc): Manager nicht initialisiert");
+	}
+	if (!txn.isActive()) {
+	  return Status::Error("addEntity(mvcc): Transaction ist nicht aktiv");
+	}
 	
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
-	if (!v) return Status::Error("addEntity(mvcc): Vektor-Feld fehlt oder hat falsches Format");
-	if (v->size() != static_cast<size_t>(dim_)) return Status::Error("addEntity(mvcc): Vektordimension passt nicht");
+	if (!v) {
+	  return Status::Error("addEntity(mvcc): Vektor-Feld fehlt oder hat falsches Format");
+	}
+	if (v->size() != static_cast<size_t>(dim_)) {
+	  return Status::Error("addEntity(mvcc): Vektordimension passt nicht");
+	}
 
 	// Persistenz via MVCC Transaction (optional: SQ8-Quantisierung)
 	std::string key = makeObjectKey(pk);
@@ -2552,8 +2706,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 				threshold = j.value("auto_threshold", 1000000);
 			}
 		} catch (...) {}
-		if (mode == "none") return false;
-		if (mode == "sq8") return true;
+		if (mode == "none") {
+		  return false;
+		}
+		if (mode == "sq8") {
+		  return true;
+		}
 		return static_cast<int64_t>(getVectorCount()) >= threshold;
 	}();
 	std::vector<uint8_t> serialized;
@@ -2579,7 +2737,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, Ro
 
 	// In-Memory Cache aktualisieren (nur COSINE normalisiert; DOT/L2 bleiben raw)
 	std::vector<float> vv = *v;
-	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
+	if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+	  normalizeL2(vv);
+	}
 	cache_[pk] = vv;
 #ifdef THEMIS_HNSW_ENABLED
 	if (useHnsw_ && !isHnswEncryptionEnabled()) {
@@ -2602,7 +2762,9 @@ VectorIndexManager::Status VectorIndexManager::updateEntity(const BaseEntity& e,
 
 VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, RocksDBWrapper::TransactionWrapper& txn) {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (!txn.isActive()) return Status::Error("removeByPk(mvcc): Transaction ist nicht aktiv");
+	if (!txn.isActive()) {
+	  return Status::Error("removeByPk(mvcc): Transaction ist nicht aktiv");
+	}
 	
 	// RocksDB löschen via Transaction
 	std::string key = makeObjectKey(pk);
@@ -2677,7 +2839,9 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 		std::vector<uint8_t> serialized;
 		if (shouldQuantize) {
 			float amax = 0.0f;
-			for (float x : *v) amax = std::max(amax, std::fabs(x));
+			for (float x : *v) {
+			  amax = std::max(amax, std::fabs(x));
+			}
 			float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 			std::vector<uint8_t> codes(v->size());
 			for (size_t i = 0; i < v->size(); ++i) {
@@ -2717,7 +2881,9 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 		auto v = entity.extractVector(vectorField);
 		if (v) {
 			std::vector<float> vv = *v;
-			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(vv);
+			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
+			  normalizeL2(vv);
+			}
 			cache_[entity.getPrimaryKey()] = vv;
 		}
 	}

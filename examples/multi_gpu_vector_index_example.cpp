@@ -100,7 +100,9 @@ int main() {
     std::cout << "  Devices:       [";
     for (size_t i = 0; i < config.deviceIds.size(); ++i) {
         std::cout << config.deviceIds[i];
-        if (i < config.deviceIds.size() - 1) std::cout << ", ";
+        if (i < config.deviceIds.size() - 1) {
+          std::cout << ", ";
+        }
     }
     std::cout << "]\n";
     std::cout << "  Strategy:      Round-Robin\n";
@@ -207,7 +209,9 @@ int main() {
     std::cout << "Active GPUs: [";
     for (size_t i = 0; i < activeGPUs.size(); ++i) {
         std::cout << activeGPUs[i];
-        if (i < activeGPUs.size() - 1) std::cout << ", ";
+        if (i < activeGPUs.size() - 1) {
+          std::cout << ", ";
+        }
     }
     std::cout << "]\n\n";
     

@@ -29,7 +29,9 @@ namespace {
 
 /// Normalise scores in-place to [0, 1].  No-op when all values are equal.
 void normaliseScores(std::vector<double>& scores) {
-    if (scores.empty()) return;
+    if (scores.empty()) {
+      return;
+    }
 
     const auto [min_it, max_it] =
         std::minmax_element(scores.begin(), scores.end());

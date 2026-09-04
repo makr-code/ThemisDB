@@ -551,22 +551,44 @@ std::string BreakEvenValidator::DeviceTypeToString(DeviceType device) {
 
 KernelType BreakEvenValidator::StringToKernelType(
     const std::string& s) {
-    if (s == "distance") return KernelType::kDistance;
-    if (s == "topk") return KernelType::kTopK;
-    if (s == "bfs") return KernelType::kBFS;
-    if (s == "dijkstra") return KernelType::kDijkstra;
-    if (s == "geo_distance") return KernelType::kGeoDistance;
-    if (s == "geo_containment") return KernelType::kGeoContainment;
+    if (s == "distance") {
+      return KernelType::kDistance;
+    }
+    if (s == "topk") {
+      return KernelType::kTopK;
+    }
+    if (s == "bfs") {
+      return KernelType::kBFS;
+    }
+    if (s == "dijkstra") {
+      return KernelType::kDijkstra;
+    }
+    if (s == "geo_distance") {
+      return KernelType::kGeoDistance;
+    }
+    if (s == "geo_containment") {
+      return KernelType::kGeoContainment;
+    }
     return KernelType::kUnknown;
 }
 
 DeviceType BreakEvenValidator::StringToDeviceType(
     const std::string& s) {
-    if (s == "nvidia_rtx") return DeviceType::kNVIDIA_RTX;
-    if (s == "nvidia_t4") return DeviceType::kNVIDIA_T4;
-    if (s == "amd_mi210") return DeviceType::kAMD_MI210;
-    if (s == "intel_arc") return DeviceType::kIntel_Arc;
-    if (s == "cpu") return DeviceType::kCPU;
+    if (s == "nvidia_rtx") {
+      return DeviceType::kNVIDIA_RTX;
+    }
+    if (s == "nvidia_t4") {
+      return DeviceType::kNVIDIA_T4;
+    }
+    if (s == "amd_mi210") {
+      return DeviceType::kAMD_MI210;
+    }
+    if (s == "intel_arc") {
+      return DeviceType::kIntel_Arc;
+    }
+    if (s == "cpu") {
+      return DeviceType::kCPU;
+    }
     return DeviceType::kUnknown;
 }
 

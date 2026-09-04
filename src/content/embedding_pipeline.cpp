@@ -30,11 +30,17 @@ EmbeddingPipeline::EmbeddingPipeline(const EmbeddingPipelineConfig& config)
     : config_(config)
 {
     // Clamp batch_size to the [1, 32] range documented in FUTURE_ENHANCEMENTS.
-    if (config_.batch_size < 1)  config_.batch_size = 1;
-    if (config_.batch_size > 32) config_.batch_size = 32;
+    if (config_.batch_size < 1) {
+      config_.batch_size = 1;
+    }
+    if (config_.batch_size > 32) {
+      config_.batch_size = 32;
+    }
 
     // Minimum meaningful timeout is 100 ms.
-    if (config_.timeout_ms < 100) config_.timeout_ms = 100;
+    if (config_.timeout_ms < 100) {
+      config_.timeout_ms = 100;
+    }
 
     if (config_.embedding_dim > 0) {
         embedding_dim_.store(config_.embedding_dim);

@@ -71,11 +71,15 @@ constexpr int kUdpShutdownJoinTimeoutMs = 5000;
 /// @param timeout_ms Maximum wait time in milliseconds (default 5 s).
 static void timedJoin(std::thread& t,
                       int timeout_ms = kUdpShutdownJoinTimeoutMs) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
     std::promise<void> done;
     auto fut = done.get_future();
     std::thread watcher([inner = std::move(t), p = std::move(done)]() mutable {
-        if (inner.joinable()) inner.join();
+        if (inner.joinable()) {
+          inner.join();
+        }
         p.set_value();
     });
     watcher.detach();

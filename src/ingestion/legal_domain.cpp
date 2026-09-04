@@ -101,14 +101,18 @@ std::string parseGermanMonth(const std::string& month) {
     }};
     const auto lo = toLower(month);
     for (const auto& [name, num] : months) {
-        if (lo == name || lo.substr(0, strlen(name)) == name) return num;
+        if (lo == name || lo.substr(0, strlen(name)) == name) {
+          return num;
+        }
     }
     return "";
 }
 
 /// Zero-pad a 1-2 digit number string to 2 digits.
 std::string pad2(const std::string& s) {
-    if (s.size() == 1) return "0" + s;
+    if (s.size() == 1) {
+      return "0" + s;
+    }
     return s;
 }
 
@@ -340,9 +344,13 @@ std::vector<BaseEntity> GesetzParser::toEntities(
             // Strip "§" prefix and whitespace
             std::string n = raw_num;
             const auto pos = n.find_first_of("0123456789");
-            if (pos != std::string::npos) n = n.substr(pos);
+            if (pos != std::string::npos) {
+              n = n.substr(pos);
+            }
             const auto end = n.find_first_not_of("0123456789abcdefghijklmnopqrstuvwxyz");
-            if (end != std::string::npos) n = n.substr(0, end);
+            if (end != std::string::npos) {
+              n = n.substr(0, end);
+            }
 
             BaseEntity e;
             e.id         = "law:" + norm + ":§" + n;
@@ -435,7 +443,9 @@ TemporalValidity TemporalExtractor::extract(const std::string& text) const {
     }
     if (std::regex_search(text, m, re_to)) {
         tv.effective_to   = normaliseDate(m[1].str());
-        if (tv.source_hint.empty()) tv.source_hint = m[0].str();
+        if (tv.source_hint.empty()) {
+          tv.source_hint = m[0].str();
+        }
     }
 
     return tv;
@@ -515,16 +525,22 @@ std::optional<std::string> BehoerdenMapper::lookupAuthority(
 {
     // Custom overrides first
     auto it = custom_.find(norm);
-    if (it != custom_.end()) return it->second;
+    if (it != custom_.end()) {
+      return it->second;
+    }
 
     // Built-in
     it = builtin_.find(norm);
-    if (it != builtin_.end()) return it->second;
+    if (it != builtin_.end()) {
+      return it->second;
+    }
 
     // Fallback function
     if (fallback_) {
         const std::string r = fallback_(norm);
-        if (!r.empty()) return r;
+        if (!r.empty()) {
+          return r;
+        }
     }
 
     return std::nullopt;
@@ -580,11 +596,17 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
 
     std::smatch m;
 
-    if (std::regex_search(text, m, re_az))  be.aktenzeichen  = themis::utils::trim(m[1].str());
-    if (std::regex_search(text, m, re_ant)) be.antragsteller = themis::utils::trim(m[1].str());
+    if (std::regex_search(text, m, re_az)) {
+      be.aktenzeichen  = themis::utils::trim(m[1].str());
+    }
+    if (std::regex_search(text, m, re_ant)) {
+      be.antragsteller = themis::utils::trim(m[1].str());
+    }
     if (std::regex_search(text, m, re_dat))
         be.bescheid_datum = TemporalExtractor::normaliseDate(m[1].str());
-    if (std::regex_search(text, m, re_beh)) be.behoerde = themis::utils::trim(m[1].str());
+    if (std::regex_search(text, m, re_beh)) {
+      be.behoerde = themis::utils::trim(m[1].str());
+    }
 
     // Extract Auflagen section
     if (std::regex_search(text, m, re_aufl_header)) {
@@ -594,7 +616,9 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
         auto ai = std::sregex_iterator(section.begin(), section.end(), re_aufl_item);
         for (auto ae = std::sregex_iterator(); ai != ae; ++ai) {
             const std::string item = themis::utils::trim((*ai)[1].str());
-            if (!item.empty()) be.auflagen.push_back(item);
+            if (!item.empty()) {
+              be.auflagen.push_back(item);
+            }
         }
     }
 
@@ -602,7 +626,9 @@ BescheidEntity BescheidExtractor::extract(const std::string& text) const {
     auto ni = std::sregex_iterator(text.begin(), text.end(), re_neben);
     for (auto ne = std::sregex_iterator(); ni != ne; ++ni) {
         const std::string nb = themis::utils::trim((*ni)[1].str());
-        if (!nb.empty()) be.nebenbestimmungen.push_back(nb);
+        if (!nb.empty()) {
+          be.nebenbestimmungen.push_back(nb);
+        }
     }
 
     return be;
@@ -629,7 +655,9 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
         // Serialize auflagen list as a semicolon-delimited string
         std::string auflagen_str;
         for (std::size_t i = 0; i < be.auflagen.size(); ++i) {
-            if (i > 0) auflagen_str += "; ";
+            if (i > 0) {
+              auflagen_str += "; ";
+            }
             auflagen_str += be.auflagen[i];
         }
         e.properties["auflagen"] = auflagen_str;
@@ -647,7 +675,9 @@ namespace {
 std::string normId(const std::string& id) {
     std::string s = toLower(themis::utils::trim(id));
     // Remove trailing colon
-    while (!s.empty() && s.back() == ':') s.pop_back();
+    while (!s.empty() && s.back() == ':') {
+      s.pop_back();
+    }
     return s;
 }
 
@@ -690,7 +720,9 @@ std::vector<EntityRelation> CrossDocumentLinker::linkDocuments(
 
         // Secondary: match by label suffix
         for (const auto& e2 : entities2) {
-            if (normId(e2.id) == normId(e1.id)) continue;
+            if (normId(e2.id) == normId(e1.id)) {
+              continue;
+            }
             const auto label2 = toLower(entityDisplayLabel(e2));
             const auto id1    = normId(e1.id);
             const auto colon  = id1.rfind(':');
@@ -919,8 +951,12 @@ std::string LegalEntityExport::exportRdf(
     const BaseEntitySet& es, RdfFormat format,
     const std::string& base_iri) const
 {
-    if (format == RdfFormat::TURTLE)   return buildTurtle(es, base_iri);
-    if (format == RdfFormat::N_TRIPLES) return buildNTriples(es, base_iri);
+    if (format == RdfFormat::TURTLE) {
+      return buildTurtle(es, base_iri);
+    }
+    if (format == RdfFormat::N_TRIPLES) {
+      return buildNTriples(es, base_iri);
+    }
     return {};
 }
 

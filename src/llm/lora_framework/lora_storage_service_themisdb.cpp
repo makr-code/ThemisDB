@@ -224,7 +224,9 @@ public:
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
-                if (!key.starts_with(prefix)) break;
+                if (!key.starts_with(prefix)) {
+                  break;
+                }
                 
                 // Extract adapter_id from key
                 std::string adapter_id = key.substr(prefix.length());
@@ -357,7 +359,9 @@ public:
             
             for (it->Seek(prefix); it->Valid(); it->Next()) {
                 std::string key(it->key().data(), it->key().size());
-                if (!key.starts_with(prefix)) break;
+                if (!key.starts_with(prefix)) {
+                  break;
+                }
                 
                 // Extract version from key
                 size_t version_pos = key.rfind(":v");

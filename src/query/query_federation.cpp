@@ -593,7 +593,9 @@ nlohmann::json QueryFederation::executeJoin(
         // Trim whitespace.
         size_t start = expr.find_first_not_of(" \t");
         size_t end   = expr.find_last_not_of(" \t");
-        if (start == std::string::npos) return expr;
+        if (start == std::string::npos) {
+          return expr;
+        }
         std::string trimmed = expr.substr(start, end - start + 1);
         // If "alias.field", keep only the part after the last '.'.
         auto dot = trimmed.rfind('.');
@@ -648,7 +650,9 @@ nlohmann::json QueryFederation::executeJoin(
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
         if (!small_rows.empty()) {
             for (const auto& row : small_rows) {
-                if (!row.contains(small_field)) continue;
+                if (!row.contains(small_field)) {
+                  continue;
+                }
                 std::string key = row[small_field].is_string()
                     ? row[small_field].get<std::string>()
                     : row[small_field].dump();
@@ -667,12 +671,16 @@ nlohmann::json QueryFederation::executeJoin(
         result = nlohmann::json::array();
         if (!large_rows.empty()) {
             for (const auto& large_row : large_rows) {
-                if (!large_row.contains(large_field)) continue;
+                if (!large_row.contains(large_field)) {
+                  continue;
+                }
                 const std::string key = large_row[large_field].is_string()
                     ? large_row[large_field].get<std::string>()
                     : large_row[large_field].dump();
                 auto it = hash_table.find(key);
-                if (it == hash_table.end()) continue;
+                if (it == hash_table.end()) {
+                  continue;
+                }
 
                 for (const auto& small_row : it->second) {
                     nlohmann::json merged = nlohmann::json::object();
@@ -690,7 +698,9 @@ nlohmann::json QueryFederation::executeJoin(
                     }
                     for (const auto& [k, v] : large_row.items()) {
                         const std::string rk = large_pfx_sep + k;
-                        if (!merged.contains(rk)) merged[rk] = v;
+                        if (!merged.contains(rk)) {
+                          merged[rk] = v;
+                        }
                     }
                     estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
                     enforceAccumulatedSizeLimit(
@@ -726,7 +736,9 @@ nlohmann::json QueryFederation::executeJoin(
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
         if (!left_rows.empty()) {
             for (const auto& row : left_rows) {
-                if (!row.contains(left_field)) continue;
+                if (!row.contains(left_field)) {
+                  continue;
+                }
                 std::string key = row[left_field].is_string()
                     ? row[left_field].get<std::string>()
                     : row[left_field].dump();
@@ -737,12 +749,16 @@ nlohmann::json QueryFederation::executeJoin(
         result = nlohmann::json::array();
         if (!right_rows.empty()) {
             for (const auto& right_row : right_rows) {
-                if (!right_row.contains(right_field)) continue;
+                if (!right_row.contains(right_field)) {
+                  continue;
+                }
                 const std::string key = right_row[right_field].is_string()
                     ? right_row[right_field].get<std::string>()
                     : right_row[right_field].dump();
                 auto it = hash_table.find(key);
-                if (it == hash_table.end()) continue;
+                if (it == hash_table.end()) {
+                  continue;
+                }
                 for (const auto& left_row : it->second) {
                     nlohmann::json merged = nlohmann::json::object();
                     for (const auto& [k, v] : left_row.items()) {
@@ -750,7 +766,9 @@ nlohmann::json QueryFederation::executeJoin(
                     }
                     for (const auto& [k, v] : right_row.items()) {
                         const std::string rk = right_collection + "_" + k;
-                        if (!merged.contains(rk)) merged[rk] = v;
+                        if (!merged.contains(rk)) {
+                          merged[rk] = v;
+                        }
                     }
                     estimated_result_bytes += static_cast<uint64_t>(merged.dump().size());
                     enforceAccumulatedSizeLimit(
@@ -931,7 +949,9 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                 && in_pos > for_pos) {
             size_t start = in_pos + 4;
             size_t end   = query.find_first_of(" \n\t", start);
-            if (end == std::string::npos) end = query.size();
+            if (end == std::string::npos) {
+              end = query.size();
+            }
             if (end > start) {
                 push_unique(metadata.tables, query.substr(start, end - start));
             }

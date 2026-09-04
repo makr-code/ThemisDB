@@ -82,7 +82,9 @@ uint64_t mockFingerprintHash(double vec_frac, double rw_ratio, uint64_t qps) {
 }
 
 double jaccardDistance(uint64_t h1, uint64_t h2) {
-    if (h1 == h2) return 0.0;
+    if (h1 == h2) {
+      return 0.0;
+    }
     // Simplified: distance based on bit difference ratio
     uint64_t diff = h1 ^ h2;
     int bits = __builtin_popcountll(diff);

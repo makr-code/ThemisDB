@@ -80,7 +80,9 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= rotated.size()) {
+          break;
+        }
         
         auto [cos_theta, sin_theta] = computeLearnableRotationAngles(position, pair_idx);
         
@@ -457,7 +459,9 @@ bool LearnableRotaryEmbedding::saveParameters(const std::string& path) const {
         file << "  \"learnable_theta\": [";
         
         for (size_t i = 0; i < learnable_theta_.size(); ++i) {
-            if (i > 0) file << ", ";
+            if (i > 0) {
+              file << ", ";
+            }
             file << learnable_theta_[i];
         }
         

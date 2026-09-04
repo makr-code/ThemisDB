@@ -18,7 +18,9 @@ namespace query {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) return false;
+    if (name.empty() || name.size() > 256) {
+      return false;
+    }
 
     // First character: letter or underscore
     const char first = name[0];
@@ -41,7 +43,9 @@ bool AqlMutationValidator::isValidCollectionName(std::string_view name) const {
 // ---------------------------------------------------------------------------
 
 bool AqlMutationValidator::isValidFieldName(std::string_view name) const {
-    if (name.empty() || name.size() > 256) return false;
+    if (name.empty() || name.size() > 256) {
+      return false;
+    }
 
     // First character must not be a digit
     const char first = name[0];

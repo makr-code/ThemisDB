@@ -714,7 +714,9 @@ void StatisticsManager::refreshStaleStatistics() {
     constexpr int64_t kStaleThresholdSeconds = 3600;  // 1 hour
     int64_t now = getCurrentTimestamp();
     for (auto& [tableName, stats] : tableStats_) {
-        if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) continue;
+        if (!areStatisticsStale(tableName, kStaleThresholdSeconds)) {
+          continue;
+        }
         if (table_scan_provider_) {
             auto live = (*table_scan_provider_)(tableName);
             stats.rowCount = live.rowCount;

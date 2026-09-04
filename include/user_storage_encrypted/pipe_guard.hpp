@@ -179,7 +179,9 @@ public:
      * @return File descriptor at index 0
      */
     int operator[](size_t index) const noexcept {
-        if (index >= 2) return -1;
+        if (index >= 2) {
+          return -1;
+        }
         return fds_[index];
     }
 
@@ -242,7 +244,9 @@ public:
      * @note After calling this, the caller is responsible for closing the fd
      */
     int detach(size_t index) noexcept {
-        if (index >= 2) return -1;
+        if (index >= 2) {
+          return -1;
+        }
         int fd = fds_[index];
         fds_[index] = -1;
         return fd;
@@ -255,9 +259,15 @@ public:
      */
     std::string status() const noexcept {
         std::string s;
-        if (fds_[0] >= 0) s += 'r';
-        if (fds_[1] >= 0) s += 'w';
-        if (s.empty()) s = '-';
+        if (fds_[0] >= 0) {
+          s += 'r';
+        }
+        if (fds_[1] >= 0) {
+          s += 'w';
+        }
+        if (s.empty()) {
+          s = '-';
+        }
         return s;
     }
 

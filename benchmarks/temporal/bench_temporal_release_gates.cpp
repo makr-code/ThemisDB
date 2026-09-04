@@ -91,7 +91,9 @@ static std::size_t intervalQuery(const std::vector<BiTemporalEntry>& store,
                                   std::int64_t point) {
     std::size_t count = 0;
     for (const auto& e : store) {
-        if (e.valid_start <= point && point <= e.valid_end) ++count;
+        if (e.valid_start <= point && point <= e.valid_end) {
+          ++count;
+        }
     }
     return count;
 }
@@ -101,7 +103,9 @@ static std::size_t snapshotRead(const std::vector<BiTemporalEntry>& store,
                                  std::int64_t t, std::int64_t snapshot_tx) {
     std::size_t count = 0;
     for (const auto& e : store) {
-        if (e.tx_time <= snapshot_tx && e.valid_start <= t && t <= e.valid_end) ++count;
+        if (e.tx_time <= snapshot_tx && e.valid_start <= t && t <= e.valid_end) {
+          ++count;
+        }
     }
     return count;
 }
@@ -116,7 +120,9 @@ static std::size_t pitrRestore(const std::vector<BiTemporalEntry>& history,
                                 std::int64_t target_tx) {
     std::size_t count = 0;
     for (const auto& e : history) {
-        if (e.tx_time <= target_tx) ++count;
+        if (e.tx_time <= target_tx) {
+          ++count;
+        }
     }
     return count;
 }

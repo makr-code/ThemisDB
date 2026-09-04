@@ -448,7 +448,9 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
         int layer_count = dataset->GetLayerCount();
         for (int i = 0; i < layer_count; ++i) {
             OGRLayer* layer = dataset->GetLayer(i);
-            if (!layer) continue;
+            if (!layer) {
+              continue;
+            }
             
             // Apply spatial filter if provided (10-100x speedup for selective queries)
             if (options.use_spatial_filter) {
@@ -626,7 +628,9 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
         int layer_count = dataset->GetLayerCount();
         for (int i = 0; i < layer_count && i < 1; ++i) {  // Process first layer
             OGRLayer* layer = dataset->GetLayer(i);
-            if (!layer) continue;
+            if (!layer) {
+              continue;
+            }
             
             // Apply spatial filter if provided (10-100x speedup for selective queries)
             if (options.use_spatial_filter) {

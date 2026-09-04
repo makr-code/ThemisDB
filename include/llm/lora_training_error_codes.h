@@ -294,9 +294,15 @@ public:
     /// Get formatted error message with full context
     std::string getFormattedMessage() const {
         std::string msg = "LoRA Training Error [" + getErrorCodeString(error_code_) + "]: " + what();
-        if (!adapter_id_.empty()) msg += " (adapter=" + adapter_id_ + ")";
-        if (!stage_.empty()) msg += " (stage=" + stage_ + ")";
-        if (!recovery_hint_.empty()) msg += " -> " + recovery_hint_;
+        if (!adapter_id_.empty()) {
+          msg += " (adapter=" + adapter_id_ + ")";
+        }
+        if (!stage_.empty()) {
+          msg += " (stage=" + stage_ + ")";
+        }
+        if (!recovery_hint_.empty()) {
+          msg += " -> " + recovery_hint_;
+        }
         return msg;
     }
 

@@ -631,8 +631,12 @@ bool AutoFailoverManager::selectAndPromoteReplica(const std::string& failed_node
 
     std::vector<std::string> candidates;
     for (const auto& [node_id, status] : health) {
-        if (status != themisdb::replication::HealthStatus::HEALTHY) continue;
-        if (node_id == failed_node_id) continue;
+        if (status != themisdb::replication::HealthStatus::HEALTHY) {
+          continue;
+        }
+        if (node_id == failed_node_id) {
+          continue;
+        }
         for (const auto& replica : replicas) {
             if (replica.node_id == node_id &&
                 replica.role != themisdb::replication::ReplicationRole::WITNESS) {

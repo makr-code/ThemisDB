@@ -101,7 +101,9 @@ struct GeoFaissKnn::Impl {
 
         for (std::size_t i = 0; i < dataset.size(); ++i) {
             const auto& g = dataset[i];
-            if (!g.isPoint() || g.coords.empty()) continue;
+            if (!g.isPoint() || g.coords.empty()) {
+              continue;
+            }
             float x, y, z;
             wgs84ToEcef(g.coords[0].x, g.coords[0].y, x, y, z);
             ecef_data.push_back(x);
@@ -157,8 +159,12 @@ struct GeoFaissKnn::Impl {
     std::vector<GeoKnnResult> knnSearch(const GeometryInfo& query,
                                         std::size_t k) const {
         std::vector<GeoKnnResult> results;
-        if (!built || indexed_count == 0) return results;
-        if (!query.isPoint() || query.coords.empty()) return results;
+        if (!built || indexed_count == 0) {
+          return results;
+        }
+        if (!query.isPoint() || query.coords.empty()) {
+          return results;
+        }
 
         float qx, qy, qz;
         wgs84ToEcef(query.coords[0].x, query.coords[0].y, qx, qy, qz);
@@ -192,9 +198,13 @@ struct GeoFaissKnn::Impl {
 
         results.reserve(keff);
         for (std::size_t i = 0; i < keff; ++i) {
-            if (idx[i] < 0) continue;
+            if (idx[i] < 0) {
+              continue;
+            }
             const auto fi = static_cast<std::size_t>(idx[i]);
-            if (fi >= dataset_map.size()) continue;
+            if (fi >= dataset_map.size()) {
+              continue;
+            }
             GeoKnnResult r;
             r.index  = dataset_map[fi];
             r.dist_m = chordToDistanceM(std::sqrt(dists[i]));
@@ -243,7 +253,9 @@ struct GeoFaissKnn::Impl {
         for (const auto& c : candidates) {
             if (c.dist_m > radius_m) break; // sorted ascending
             results.push_back(c);
-            if (max_results > 0 && results.size() >= max_results) break;
+            if (max_results > 0 && results.size() >= max_results) {
+              break;
+            }
         }
         return results;
     }
@@ -283,7 +295,9 @@ std::size_t GeoFaissKnn::size() const noexcept {
 }
 
 const char* GeoFaissKnn::getBackendName() const noexcept {
-    if (!impl_ || !impl_->built) return "not_built";
+    if (!impl_ || !impl_->built) {
+      return "not_built";
+    }
     return impl_->use_gpu ? "faiss_gpu" : "faiss_cpu";
 }
 

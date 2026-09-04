@@ -74,7 +74,9 @@ class StreamingResultCollector {
                           std::chrono::milliseconds recovery_time) {
     std::lock_guard<std::mutex> lock(mu_);
     faults_injected_++;
-    if (recovery_success) faults_recovered_++;
+    if (recovery_success) {
+      faults_recovered_++;
+    }
     recovery_latency_sum_ms_ += recovery_time.count();
   }
   
@@ -85,7 +87,9 @@ class StreamingResultCollector {
   }
   
   void FlushToFile() {
-    if (!output_file_.is_open()) return;
+    if (!output_file_.is_open()) {
+      return;
+    }
     
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);

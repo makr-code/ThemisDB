@@ -21,12 +21,20 @@ std::vector<float> genVec(size_t dim, int seed = 0) {
     static thread_local std::mt19937 gen(std::random_device{}() + seed);
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     std::vector<float> v(dim);
-    for (auto& x : v) x = dis(gen);
+    for (auto& x : v) {
+      x = dis(gen);
+    }
     // Normalize to unit vector
     float norm = 0.0f;
-    for (auto x : v) norm += x * x;
+    for (auto x : v) {
+      norm += x * x;
+    }
     norm = std::sqrt(norm);
-    if (norm > 0.001f) for (auto& x : v) x /= norm;
+    if (norm > 0.001f) {
+      for (auto& x : v) {
+        x /= norm;
+      }
+    }
     return v;
 }
 

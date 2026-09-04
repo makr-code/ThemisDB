@@ -250,7 +250,9 @@ public:
 
         int count = 0;
         for (const auto& [activity, freq] : activity_freq) {
-            if (count++ >= 3) break;
+            if (count++ >= 3) {
+              break;
+            }
             oss << activity << " (" << freq << " times), ";
         }
 

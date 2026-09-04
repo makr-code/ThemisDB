@@ -53,11 +53,21 @@ std::string domainToStr(ProcessDomain d) {
 }
 
 ProcessDomain strToDomain(const std::string& s) {
-    if (s == "ADMINISTRATION")   return ProcessDomain::ADMINISTRATION;
-    if (s == "IT_SERVICE")       return ProcessDomain::IT_SERVICE;
-    if (s == "HEALTHCARE")       return ProcessDomain::HEALTHCARE;
-    if (s == "FINANCE")          return ProcessDomain::FINANCE;
-    if (s == "CUSTOMER_SERVICE") return ProcessDomain::CUSTOMER_SERVICE;
+    if (s == "ADMINISTRATION") {
+      return ProcessDomain::ADMINISTRATION;
+    }
+    if (s == "IT_SERVICE") {
+      return ProcessDomain::IT_SERVICE;
+    }
+    if (s == "HEALTHCARE") {
+      return ProcessDomain::HEALTHCARE;
+    }
+    if (s == "FINANCE") {
+      return ProcessDomain::FINANCE;
+    }
+    if (s == "CUSTOMER_SERVICE") {
+      return ProcessDomain::CUSTOMER_SERVICE;
+    }
     return ProcessDomain::BUSINESS;
 }
 
@@ -72,14 +82,30 @@ std::string normalizeNodeType(const std::string& t) {
         return t;
     }
     // LLM camelCase → canonical uppercase
-    if (t == "startEvent")        return "START_EVENT";
-    if (t == "endEvent")          return "END_EVENT";
-    if (t == "exclusiveGateway")  return "EXCLUSIVE_GATEWAY";
-    if (t == "parallelGateway")   return "PARALLEL_GATEWAY";
-    if (t == "inclusiveGateway")  return "INCLUSIVE_GATEWAY";
-    if (t == "intermediateEvent") return "INTERMEDIATE_EVENT";
-    if (t == "subProcess")        return "SUBPROCESS";
-    if (t == "callActivity")      return "CALL_ACTIVITY";
+    if (t == "startEvent") {
+      return "START_EVENT";
+    }
+    if (t == "endEvent") {
+      return "END_EVENT";
+    }
+    if (t == "exclusiveGateway") {
+      return "EXCLUSIVE_GATEWAY";
+    }
+    if (t == "parallelGateway") {
+      return "PARALLEL_GATEWAY";
+    }
+    if (t == "inclusiveGateway") {
+      return "INCLUSIVE_GATEWAY";
+    }
+    if (t == "intermediateEvent") {
+      return "INTERMEDIATE_EVENT";
+    }
+    if (t == "subProcess") {
+      return "SUBPROCESS";
+    }
+    if (t == "callActivity") {
+      return "CALL_ACTIVITY";
+    }
     // userTask, serviceTask, scriptTask, etc. → TASK
     return "TASK";
 }
@@ -175,7 +201,9 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
         (language == "de") ? "Korrigiere folgende Fehler im Prozessmodell:"
                            : "Fix the following errors in the process model:";
     oss << err_prefix << "\n";
-    for (const auto& e : errors) oss << "  - " << e << "\n";
+    for (const auto& e : errors) {
+      oss << "  - " << e << "\n";
+    }
     oss << "\nAktuelles Modell:\n" << current_json.dump(2) << "\n\n"
         << "Ausgabe NUR als valides JSON-Objekt (gleiche Struktur, Fehler behoben).\n";
     return oss.str();
@@ -229,22 +257,32 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
     for (const auto& n : normalized_graph["nodes"]) {
         std::string nid   = n.value("id", "");
         std::string ntype = n.value("type", "");
-        if (nid.empty()) continue;
+        if (nid.empty()) {
+          continue;
+        }
         all_node_ids.insert(nid);
         node_types[nid] = ntype;
         out_degree[nid]  = 0;
         in_degree[nid]   = 0;
 
         // Check both canonical (START_EVENT) and LLM camelCase (startEvent) forms
-        if (ntype == "startEvent" || ntype == "START_EVENT")  has_start = true;
-        if (ntype == "endEvent"   || ntype == "END_EVENT")    has_end   = true;
+        if (ntype == "startEvent" || ntype == "START_EVENT") {
+          has_start = true;
+        }
+        if (ntype == "endEvent"   || ntype == "END_EVENT") {
+          has_end   = true;
+        }
     }
 
     for (const auto& e : normalized_graph["edges"]) {
         std::string from = e.value("from", "");
         std::string to   = e.value("to", "");
-        if (all_node_ids.count(from)) ++out_degree[from];
-        if (all_node_ids.count(to))   ++in_degree[to];
+        if (all_node_ids.count(from)) {
+          ++out_degree[from];
+        }
+        if (all_node_ids.count(to)) {
+          ++in_degree[to];
+        }
     }
 
     if (!has_start) {
@@ -317,7 +355,9 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
             node["id"]   = act.value("id", "");
             node["name"] = act.value("name", "");
             node["type"] = normalizeNodeType(act.value("type", "userTask"));
-            if (act.contains("sla_hours")) node["sla_hours"] = act["sla_hours"];
+            if (act.contains("sla_hours")) {
+              node["sla_hours"] = act["sla_hours"];
+            }
             norm_nodes.push_back(node);
         }
     }
@@ -435,7 +475,9 @@ std::pair<bool, ProcessModelRecord> ProcessModelGenerator::refine(
 
     for (int attempt = 0; attempt < cfg.max_retries; ++attempt) {
         const std::string llm_response = llm_backend_(prompt);
-        if (llm_response.empty()) continue;
+        if (llm_response.empty()) {
+          continue;
+        }
 
         current_json = extractJson_(llm_response);
         if (current_json.empty()) {

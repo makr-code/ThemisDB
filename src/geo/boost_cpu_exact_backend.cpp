@@ -127,17 +127,23 @@ public:
                 auto poly2 = toBoostPolygon(geom2);
                 return bg::intersects(poly1, poly2);
             } else if (geom1.isPoint() && geom2.isPolygon()) {
-                if (geom1.coords.empty()) return false;
+                if (geom1.coords.empty()) {
+                  return false;
+                }
                 Point pt(geom1.coords[0].x, geom1.coords[0].y);
                 auto poly = toBoostPolygon(geom2);
                 return bg::within(pt, poly) || bg::touches(pt, poly);
             } else if (geom1.isPolygon() && geom2.isPoint()) {
-                if (geom2.coords.empty()) return false;
+                if (geom2.coords.empty()) {
+                  return false;
+                }
                 Point pt(geom2.coords[0].x, geom2.coords[0].y);
                 auto poly = toBoostPolygon(geom1);
                 return bg::within(pt, poly) || bg::touches(pt, poly);
             } else if (geom1.isPoint() && geom2.isPoint()) {
-                if (geom1.coords.empty() || geom2.coords.empty()) return false;
+                if (geom1.coords.empty() || geom2.coords.empty()) {
+                  return false;
+                }
                 Point pt1(geom1.coords[0].x, geom1.coords[0].y);
                 Point pt2(geom2.coords[0].x, geom2.coords[0].y);
                 return bg::equals(pt1, pt2);
@@ -146,13 +152,17 @@ public:
             // MultiPolygon: intersects if any constituent polygon intersects
             if (geom1.isMultiPolygon()) {
                 for (const auto& sub : geom1.geometries) {
-                    if (exactIntersects(sub, geom2)) return true;
+                    if (exactIntersects(sub, geom2)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             if (geom2.isMultiPolygon()) {
                 for (const auto& sub : geom2.geometries) {
-                    if (exactIntersects(geom1, sub)) return true;
+                    if (exactIntersects(geom1, sub)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -160,13 +170,17 @@ public:
             // GeometryCollection: intersects if any member intersects
             if (geom1.isGeometryCollection()) {
                 for (const auto& sub : geom1.geometries) {
-                    if (exactIntersects(sub, geom2)) return true;
+                    if (exactIntersects(sub, geom2)) {
+                      return true;
+                    }
                 }
                 return false;
             }
             if (geom2.isGeometryCollection()) {
                 for (const auto& sub : geom2.geometries) {
-                    if (exactIntersects(geom1, sub)) return true;
+                    if (exactIntersects(geom1, sub)) {
+                      return true;
+                    }
                 }
                 return false;
             }
@@ -190,7 +204,9 @@ public:
     // with round join and round end strategies for smooth output polygons.
     GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
                           int arc_points) override {
-        if (arc_points < 3) arc_points = 3;
+        if (arc_points < 3) {
+          arc_points = 3;
+        }
         if (distance_m <= 0.0) {
             THEMIS_WARN("Boost stBuffer: distance_m ({}) must be positive", distance_m);
             return GeometryInfo{};

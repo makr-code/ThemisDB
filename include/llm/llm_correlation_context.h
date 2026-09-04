@@ -90,20 +90,30 @@ struct LLMCorrelationContext {
      * the all-zero value is explicitly forbidden as an invalid sentinel.
      */
     [[nodiscard]] bool isValid() const noexcept {
-        if (trace_id.size() != 32 || span_id.size() != 16) return false;
+        if (trace_id.size() != 32 || span_id.size() != 16) {
+          return false;
+        }
         auto isLowerHexChar = [](unsigned char c) noexcept -> bool {
             return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');
         };
         bool any_nonzero_trace = false;
         for (unsigned char c : trace_id) {
-            if (!isLowerHexChar(c)) return false;
-            if (c != '0') any_nonzero_trace = true;
+            if (!isLowerHexChar(c)) {
+              return false;
+            }
+            if (c != '0') {
+              any_nonzero_trace = true;
+            }
         }
         if (!any_nonzero_trace) return false;  // all-zero trace_id is invalid per W3C spec
         bool any_nonzero_span = false;
         for (unsigned char c : span_id) {
-            if (!isLowerHexChar(c)) return false;
-            if (c != '0') any_nonzero_span = true;
+            if (!isLowerHexChar(c)) {
+              return false;
+            }
+            if (c != '0') {
+              any_nonzero_span = true;
+            }
         }
         if (!any_nonzero_span) return false;   // all-zero span_id is invalid per W3C spec
         return true;
@@ -130,11 +140,17 @@ struct LLMCorrelationContext {
         LLMCorrelationContext ctx;
         if (traceparent.size() < 55) return ctx;  // minimal valid length
         const auto p1 = traceparent.find('-');
-        if (p1 == std::string::npos) return ctx;
+        if (p1 == std::string::npos) {
+          return ctx;
+        }
         const auto p2 = traceparent.find('-', p1 + 1);
-        if (p2 == std::string::npos) return ctx;
+        if (p2 == std::string::npos) {
+          return ctx;
+        }
         const auto p3 = traceparent.find('-', p2 + 1);
-        if (p3 == std::string::npos) return ctx;
+        if (p3 == std::string::npos) {
+          return ctx;
+        }
 
         ctx.trace_id = traceparent.substr(p1 + 1, p2 - p1 - 1);
         ctx.span_id  = traceparent.substr(p2 + 1, p3 - p2 - 1);
@@ -165,8 +181,12 @@ struct LLMCorrelationContext {
 
             // Guarantee non-zero IDs per W3C Trace Context spec (all-zero is invalid).
             // The probability of a collision is ~5.4e-20, but we must be deterministic.
-            if (hi == 0 && lo == 0) lo = 1;
-            if (sp == 0)            sp = 1;
+            if (hi == 0 && lo == 0) {
+              lo = 1;
+            }
+            if (sp == 0) {
+              sp = 1;
+            }
 
             auto toHex = [](uint64_t v, int width) {
                 std::ostringstream ss;

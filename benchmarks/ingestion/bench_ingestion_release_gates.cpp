@@ -207,7 +207,9 @@ BENCHMARK(BM_INRG01_SingleWriteThroughput)
 static void BM_INRG02_BatchCommit(benchmark::State& state) {
     std::vector<IngestRow> batch;
     batch.reserve(100);
-    for (int i = 0; i < 100; ++i) batch.push_back(makeRow(i));
+    for (int i = 0; i < 100; ++i) {
+      batch.push_back(makeRow(i));
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i)
         benchmark::DoNotOptimize(commitBatch(batch));

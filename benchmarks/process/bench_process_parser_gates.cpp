@@ -392,7 +392,9 @@ static std::string generateOcelJson(int log_idx) {
     int num_events = 50 + (log_idx % 50);
     for (int i = 0; i < num_events; ++i) {
         oss << R"({"ocel:event": {"id": "event_)" << i << R"(", "type": "activity"}))";
-        if (i < num_events - 1) oss << ",";
+        if (i < num_events - 1) {
+          oss << ",";
+        }
     }
     
     oss << R"(],)";
@@ -401,7 +403,9 @@ static std::string generateOcelJson(int log_idx) {
     int num_objects = 10 + (log_idx % 10);
     for (int i = 0; i < num_objects; ++i) {
         oss << R"({"ocel:object": {"id": "obj_)" << i << R"(", "type": "order"}))";
-        if (i < num_objects - 1) oss << ",";
+        if (i < num_objects - 1) {
+          oss << ",";
+        }
     }
     
     oss << R"(]})";

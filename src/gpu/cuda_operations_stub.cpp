@@ -36,7 +36,9 @@ CudaStream::CudaStream(CudaStream&& other) noexcept
 }
 
 CudaStream& CudaStream::operator=(CudaStream&& other) noexcept {
-    if (this == &other) return *this;
+    if (this == &other) {
+      return *this;
+    }
     stream_handle_ = other.stream_handle_;
     device_id_ = other.device_id_;
     is_moved_from_ = false;
@@ -47,17 +49,23 @@ CudaStream& CudaStream::operator=(CudaStream&& other) noexcept {
 }
 
 void* CudaStream::get_handle() const {
-    if (is_moved_from_) throw std::logic_error("Cannot get handle from moved-from stream");
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot get handle from moved-from stream");
+    }
     return stream_handle_;
 }
 
 void CudaStream::synchronize() const {
-    if (is_moved_from_) throw std::logic_error("Cannot synchronize moved-from stream");
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot synchronize moved-from stream");
+    }
     // no-op in stub
 }
 
 bool CudaStream::is_ready() const noexcept {
-    if (is_moved_from_ || !stream_handle_) return true;
+    if (is_moved_from_ || !stream_handle_) {
+      return true;
+    }
     return true;
 }
 
@@ -88,7 +96,9 @@ CudaOperation::CudaOperation(CudaOperation&& other) noexcept
 }
 
 CudaOperation& CudaOperation::operator=(CudaOperation&& other) noexcept {
-    if (this == &other) return *this;
+    if (this == &other) {
+      return *this;
+    }
     event_handle_ = other.event_handle_;
     stream_ = other.stream_;
     name_ = std::move(other.name_);
@@ -103,15 +113,21 @@ CudaOperation& CudaOperation::operator=(CudaOperation&& other) noexcept {
 }
 
 void CudaOperation::record_event() {
-    if (is_moved_from_) throw std::logic_error("Cannot record event on moved-from operation");
-    if (!stream_ || !stream_->is_valid()) throw std::logic_error("Invalid stream for event recording");
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot record event on moved-from operation");
+    }
+    if (!stream_ || !stream_->is_valid()) {
+      throw std::logic_error("Invalid stream for event recording");
+    }
     status_ = Status::RUNNING;
     // immediate completion in stub
     status_ = Status::COMPLETED;
 }
 
 bool CudaOperation::wait(std::chrono::milliseconds timeout) {
-    if (is_moved_from_) throw std::logic_error("Cannot wait on moved-from operation");
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot wait on moved-from operation");
+    }
     status_ = Status::COMPLETED;
     return true;
 }
@@ -150,7 +166,9 @@ CudaOperationBatch::CudaOperationBatch(CudaOperationBatch&& other) noexcept
 }
 
 CudaOperationBatch& CudaOperationBatch::operator=(CudaOperationBatch&& other) noexcept {
-    if (this == &other) return *this;
+    if (this == &other) {
+      return *this;
+    }
     stream_ = other.stream_;
     operations_ = std::move(other.operations_);
     is_moved_from_ = false;
@@ -160,14 +178,22 @@ CudaOperationBatch& CudaOperationBatch::operator=(CudaOperationBatch&& other) no
 }
 
 void CudaOperationBatch::add_operation(CudaOperation&& op) {
-    if (is_moved_from_) throw std::logic_error("Cannot add operation to moved-from batch");
-    if (op.is_moved_from()) throw std::invalid_argument("Cannot add moved-from operation to batch");
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot add operation to moved-from batch");
+    }
+    if (op.is_moved_from()) {
+      throw std::invalid_argument("Cannot add moved-from operation to batch");
+    }
     operations_.push_back(std::move(op));
 }
 
 bool CudaOperationBatch::wait_all(std::chrono::milliseconds timeout) {
-    if (is_moved_from_) throw std::logic_error("Cannot wait on moved-from batch");
-    for (auto& op : operations_) op.mark_completed();
+    if (is_moved_from_) {
+      throw std::logic_error("Cannot wait on moved-from batch");
+    }
+    for (auto& op : operations_) {
+      op.mark_completed();
+    }
     return true;
 }
 

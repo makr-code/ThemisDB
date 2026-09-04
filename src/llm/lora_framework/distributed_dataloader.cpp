@@ -110,7 +110,9 @@ std::vector<GPUTensor> DistributedDataLoader::load_batch([[maybe_unused]] size_t
         // warning so that one corrupt sample does not abort the entire mini-batch.
         std::vector<float> batch_data;
         size_t per_sample_size = 1;
-        for (size_t d : sample_shape) per_sample_size *= d;
+        for (size_t d : sample_shape) {
+          per_sample_size *= d;
+        }
         batch_data.reserve(per_sample_size * num_samples);
 
         for (size_t i = gpu_start; i < gpu_end; ++i) {

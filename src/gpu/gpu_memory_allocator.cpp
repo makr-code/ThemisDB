@@ -187,8 +187,12 @@ MemoryAllocation GPUMemoryAllocator::allocate([[maybe_unused]] size_t size) {
         return alloc;
 
     } catch (...) {
-        if (device_ptr) cudaFree(device_ptr);
-        if (host_ptr) cudaFreeHost(host_ptr);
+        if (device_ptr) {
+          cudaFree(device_ptr);
+        }
+        if (host_ptr) {
+          cudaFreeHost(host_ptr);
+        }
         throw;
     }
 }
@@ -205,8 +209,12 @@ void GPUMemoryAllocator::deallocate(const MemoryAllocation& alloc) noexcept {
                           });
 
     if (it != allocations_.end()) {
-        if (it->device_ptr) cudaFree(it->device_ptr);
-        if (it->host_ptr) cudaFreeHost(it->host_ptr);
+        if (it->device_ptr) {
+          cudaFree(it->device_ptr);
+        }
+        if (it->host_ptr) {
+          cudaFreeHost(it->host_ptr);
+        }
         allocations_.erase(it);
     }
 }

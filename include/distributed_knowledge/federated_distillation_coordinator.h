@@ -75,7 +75,9 @@ struct DistillationRound {
 
     [[nodiscard]] nlohmann::json toJson() const {
         nlohmann::json js_labels = nlohmann::json::array();
-        for (const auto& l : labels) js_labels.push_back(l.toJson());
+        for (const auto& l : labels) {
+          js_labels.push_back(l.toJson());
+        }
         return {{"round",         round},
                 {"teacher_id",    teacher_id},
                 {"labels",        js_labels},

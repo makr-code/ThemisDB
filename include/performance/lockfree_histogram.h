@@ -208,7 +208,9 @@ public:
             return static_cast<double>(idx) * width;
         } else {
             // Exponential: bucket 0 → 0, bucket i → 2^(i-1)
-            if (idx == 0) return 0.0;
+            if (idx == 0) {
+              return 0.0;
+            }
             return static_cast<double>(uint64_t{1} << (idx - 1));
         }
     }
@@ -242,7 +244,9 @@ private:
         } else {
             // Exponential: bucket = floor(log2(value + 1))
             uint64_t v = static_cast<uint64_t>(value);
-            if (v == 0) return 0;
+            if (v == 0) {
+              return 0;
+            }
             // Count leading zeros to compute floor(log2(v))
             std::size_t bit = 63u - static_cast<std::size_t>(std::countl_zero(v));
             std::size_t idx = bit + 1; // bucket i covers [2^(i-1), 2^i)

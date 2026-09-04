@@ -36,10 +36,18 @@ WorkflowStepMode workflowStepModeFromString(const std::string& s) {
     std::string lc = s;
     std::transform(lc.begin(), lc.end(), lc.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    if (lc == "ask")     return WorkflowStepMode::Ask;
-    if (lc == "rag")     return WorkflowStepMode::Rag;
-    if (lc == "agentic") return WorkflowStepMode::Agentic;
-    if (lc == "ethics")  return WorkflowStepMode::Ethics;
+    if (lc == "ask") {
+      return WorkflowStepMode::Ask;
+    }
+    if (lc == "rag") {
+      return WorkflowStepMode::Rag;
+    }
+    if (lc == "agentic") {
+      return WorkflowStepMode::Agentic;
+    }
+    if (lc == "ethics") {
+      return WorkflowStepMode::Ethics;
+    }
     return WorkflowStepMode::Custom;
 }
 
@@ -59,7 +67,9 @@ std::string workflowStepModeToString(WorkflowStepMode m) {
 
 const WorkflowStep& WorkflowDefinition::stepById(const std::string& step_id) const {
     for (const auto& step : steps) {
-        if (step.id == step_id) return step;
+        if (step.id == step_id) {
+          return step;
+        }
     }
     throw std::out_of_range("WorkflowDefinition::stepById: unknown step id '" + step_id + "'");
 }
@@ -70,7 +80,9 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
     std::unordered_map<std::string, std::vector<std::string>> adjacency;
 
     for (const auto& step : steps) {
-        if (!in_degree.count(step.id)) in_degree[step.id] = 0;
+        if (!in_degree.count(step.id)) {
+          in_degree[step.id] = 0;
+        }
         for (const auto& dep : step.depends_on) {
             adjacency[dep].push_back(step.id);
             ++in_degree[step.id];
@@ -81,7 +93,9 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
     for (const auto& entry : in_degree) {
         const std::string& node_id = entry.first;
         const int degree = entry.second;
-        if (degree == 0) queue.push_back(node_id);
+        if (degree == 0) {
+          queue.push_back(node_id);
+        }
     }
 
     std::vector<const WorkflowStep*> result;
@@ -95,7 +109,9 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
         }
         if (adjacency.count(cur)) {
             for (const auto& next : adjacency.at(cur)) {
-                if (--in_degree[next] == 0) queue.push_back(next);
+                if (--in_degree[next] == 0) {
+                  queue.push_back(next);
+                }
             }
         }
     }
@@ -114,10 +130,14 @@ json WorkflowLoader::toJson(const WorkflowDefinition& def) {
     j["description"]   = def.description;
     j["default_mode"]  = workflowStepModeToString(def.default_mode);
     j["source_format"] = def.source_format;
-    if (!def.extensions.is_null()) j["extensions"] = def.extensions;
+    if (!def.extensions.is_null()) {
+      j["extensions"] = def.extensions;
+    }
 
     json ctx = json::object();
-    for (const auto& [k, v] : def.initial_context) ctx[k] = v;
+    for (const auto& [k, v] : def.initial_context) {
+      ctx[k] = v;
+    }
     j["initial_context"] = ctx;
 
     json steps_arr = json::array();
@@ -130,8 +150,12 @@ json WorkflowLoader::toJson(const WorkflowDefinition& def) {
         s["depends_on"]      = step.depends_on;
         s["max_tokens"]      = step.max_tokens;
         s["temperature"]     = step.temperature;
-        if (step.output_schema.has_value()) s["output_schema"] = *step.output_schema;
-        if (!step.extensions.is_null()) s["extensions"] = step.extensions;
+        if (step.output_schema.has_value()) {
+          s["output_schema"] = *step.output_schema;
+        }
+        if (!step.extensions.is_null()) {
+          s["extensions"] = step.extensions;
+        }
         steps_arr.push_back(s);
     }
     j["steps"] = steps_arr;
@@ -159,7 +183,9 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
         }
     }
 
-    if (j.contains("extensions")) def.extensions = j["extensions"];
+    if (j.contains("extensions")) {
+      def.extensions = j["extensions"];
+    }
 
     if (j.contains("steps") && j["steps"].is_array()) {
         for (const auto& s : j["steps"]) {
@@ -173,8 +199,12 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
                 step.depends_on = s["depends_on"].get<std::vector<std::string>>();
             step.max_tokens  = s.value("max_tokens", 0);
             step.temperature = s.value("temperature", -1.0f);
-            if (s.contains("output_schema")) step.output_schema = s["output_schema"];
-            if (s.contains("extensions"))    step.extensions    = s["extensions"];
+            if (s.contains("output_schema")) {
+              step.output_schema = s["output_schema"];
+            }
+            if (s.contains("extensions")) {
+              step.extensions    = s["extensions"];
+            }
             def.steps.push_back(std::move(step));
         }
     }
@@ -203,10 +233,18 @@ static std::string trim(const std::string& s) {
 
 static json parseYamlScalar(const std::string& raw) {
     const std::string s = trim(raw);
-    if (s.empty()) return nullptr;
-    if (s == "true"  || s == "yes") return true;
-    if (s == "false" || s == "no")  return false;
-    if (s == "null"  || s == "~")   return nullptr;
+    if (s.empty()) {
+      return nullptr;
+    }
+    if (s == "true"  || s == "yes") {
+      return true;
+    }
+    if (s == "false" || s == "no") {
+      return false;
+    }
+    if (s == "null"  || s == "~") {
+      return nullptr;
+    }
 
     // Quoted string
     if ((s.front() == '"' && s.back() == '"') ||
@@ -217,12 +255,16 @@ static json parseYamlScalar(const std::string& raw) {
     try {
         size_t pos = 0;
         long long iv = std::stoll(s, &pos);
-        if (pos == s.size()) return iv;
+        if (pos == s.size()) {
+          return iv;
+        }
     } catch (...) {}
     try {
         size_t pos = 0;
         double dv = std::stod(s, &pos);
-        if (pos == s.size()) return dv;
+        if (pos == s.size()) {
+          return dv;
+        }
     } catch (...) {}
 
     return s; // plain string
@@ -269,11 +311,15 @@ json simpleYamlToJson(const std::string& yaml_text) {
                 if (!in_q && (line[i] == '"' || line[i] == '\'')) { in_q = true; q_char = line[i]; }
                 else if (in_q && line[i] == q_char)                   in_q = false;
             }
-            if (!in_q) line = line.substr(0, ci);
+            if (!in_q) {
+              line = line.substr(0, ci);
+            }
         }
 
         const std::string trimmed = trim(line);
-        if (trimmed.empty()) continue;
+        if (trimmed.empty()) {
+          continue;
+        }
 
         // Determine indent level
         int indent = 0;
@@ -310,7 +356,9 @@ json simpleYamlToJson(const std::string& yaml_text) {
 
         // Key: value pair
         auto colon = trimmed.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
 
         const std::string key   = trim(trimmed.substr(0, colon));
         const std::string value = trim(trimmed.substr(colon + 1));
@@ -334,10 +382,14 @@ json simpleYamlToJson(const std::string& yaml_text) {
             // Inline sequence
             json arr = json::array();
             std::string inner = trim(value.substr(1));
-            if (!inner.empty() && inner.back() == ']') inner.pop_back();
+            if (!inner.empty() && inner.back() == ']') {
+              inner.pop_back();
+            }
             std::istringstream ss(inner);
             std::string tok;
-            while (std::getline(ss, tok, ',')) arr.push_back(parseYamlScalar(trim(tok)));
+            while (std::getline(ss, tok, ',')) {
+              arr.push_back(parseYamlScalar(trim(tok)));
+            }
             (*target)[key] = arr;
         } else if (value == "|" || value == ">") {
             // Block scalar — collect continuation lines
@@ -410,9 +462,13 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
     size_t pos = 0;
     while (pos < content.size()) {
         size_t tag_start = content.find('<', pos);
-        if (tag_start == std::string::npos) break;
+        if (tag_start == std::string::npos) {
+          break;
+        }
         size_t tag_end = content.find('>', tag_start);
-        if (tag_end == std::string::npos) break;
+        if (tag_end == std::string::npos) {
+          break;
+        }
 
         const std::string tag = content.substr(tag_start + 1, tag_end - tag_start - 1);
 
@@ -428,19 +484,27 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
             if (ext_start != std::string::npos && ext_end != std::string::npos) {
                 const std::string ext = content.substr(ext_start, ext_end - ext_start);
                 std::string pt = extractAttr(ext, 0, "prompt");
-                if (!pt.empty()) step.prompt_template = pt;
+                if (!pt.empty()) {
+                  step.prompt_template = pt;
+                }
                 std::string mode_str = extractAttr(ext, 0, "mode");
-                if (!mode_str.empty()) step.mode = workflowStepModeFromString(mode_str);
+                if (!mode_str.empty()) {
+                  step.mode = workflowStepModeFromString(mode_str);
+                }
             }
 
             if (step.prompt_template.empty())
                 step.prompt_template = "{input}"; // fallback: pass input through
 
-            if (!step.id.empty()) def.steps.push_back(std::move(step));
+            if (!step.id.empty()) {
+              def.steps.push_back(std::move(step));
+            }
         } else if (tag.find("sequenceFlow") != std::string::npos) {
             const std::string src = extractAttr(tag, 0, "sourceRef");
             const std::string tgt = extractAttr(tag, 0, "targetRef");
-            if (!src.empty() && !tgt.empty()) deps[tgt].push_back(src);
+            if (!src.empty() && !tgt.empty()) {
+              deps[tgt].push_back(src);
+            }
         }
 
         pos = tag_end + 1;
@@ -448,11 +512,17 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
 
     // Apply dependency edges
     for (auto& step : def.steps) {
-        if (deps.count(step.id)) step.depends_on = deps.at(step.id);
+        if (deps.count(step.id)) {
+          step.depends_on = deps.at(step.id);
+        }
     }
 
-    if (def.id.empty()) def.id = label;
-    if (def.name.empty()) def.name = label;
+    if (def.id.empty()) {
+      def.id = label;
+    }
+    if (def.name.empty()) {
+      def.name = label;
+    }
     return def;
 }
 
@@ -463,15 +533,23 @@ WorkflowDefinition WorkflowLoader::loadFromString(const std::string& content,
     std::transform(fmt.begin(), fmt.end(), fmt.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
-    if (fmt == "yaml" || fmt == "yml")              return parseYaml(content, source_label);
-    if (fmt == "json")                              return parseJson(content, source_label);
-    if (fmt == "bpmn" || fmt == "xml")              return parseBpmn(content, source_label);
+    if (fmt == "yaml" || fmt == "yml") {
+      return parseYaml(content, source_label);
+    }
+    if (fmt == "json") {
+      return parseJson(content, source_label);
+    }
+    if (fmt == "bpmn" || fmt == "xml") {
+      return parseBpmn(content, source_label);
+    }
     throw std::runtime_error("WorkflowLoader: unsupported format hint '" + format_hint + "'");
 }
 
 WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
     std::ifstream f(path, std::ios::in);
-    if (!f) throw std::runtime_error("WorkflowLoader: cannot open file '" + path + "'");
+    if (!f) {
+      throw std::runtime_error("WorkflowLoader: cannot open file '" + path + "'");
+    }
     std::ostringstream ss;
     ss << f.rdbuf();
     const std::string content = ss.str();
@@ -479,12 +557,16 @@ WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
     // Detect format from extension
     std::string ext;
     const size_t dot = path.rfind('.');
-    if (dot != std::string::npos) ext = path.substr(dot + 1);
+    if (dot != std::string::npos) {
+      ext = path.substr(dot + 1);
+    }
     std::transform(ext.begin(), ext.end(), ext.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
 
     std::string fmt = "yaml";
-    if (ext == "json")              fmt = "json";
+    if (ext == "json") {
+      fmt = "json";
+    }
     else if (ext == "bpmn" || ext == "xml") fmt = "bpmn";
 
     return loadFromString(content, fmt, path);
@@ -497,7 +579,9 @@ WorkflowDefinition WorkflowLoader::loadFromFile(const std::string& path) {
 WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def) {
     WorkflowValidationResult result;
 
-    if (def.id.empty()) result.addError("", "workflow 'id' must not be empty");
+    if (def.id.empty()) {
+      result.addError("", "workflow 'id' must not be empty");
+    }
 
     std::unordered_set<std::string> ids;
     for (const auto& step : def.steps) {
@@ -591,7 +675,9 @@ std::string TaskDecomposer::buildChainOfThoughtPrompt(
     const auto& cfg = impl_->config;
     std::ostringstream p;
     p << "You are a task-planning assistant";
-    if (!cfg.domain_context.empty()) p << " specialising in " << cfg.domain_context;
+    if (!cfg.domain_context.empty()) {
+      p << " specialising in " << cfg.domain_context;
+    }
     p << ".\n\n";
     p << "Think step by step, then break the following task into at most "
       << (cfg.max_subtasks > 0 ? cfg.max_subtasks : 8) << " concrete, independently "
@@ -600,7 +686,9 @@ std::string TaskDecomposer::buildChainOfThoughtPrompt(
     if (!cfg.output_language.empty())
         p << "Write subtask descriptions in " << cfg.output_language << ".\n";
     p << "\nTask: " << task;
-    if (!extra_ctx.empty()) p << "\n\nAdditional context: " << extra_ctx;
+    if (!extra_ctx.empty()) {
+      p << "\n\nAdditional context: " << extra_ctx;
+    }
     p << "\n\nAfter your reasoning, output " << kJsonSchema;
     return p.str();
 }
@@ -611,9 +699,13 @@ std::string TaskDecomposer::buildDirectJsonPrompt(
     std::ostringstream p;
     p << "Decompose the following task into at most "
       << (cfg.max_subtasks > 0 ? cfg.max_subtasks : 8) << " subtasks";
-    if (!cfg.domain_context.empty()) p << " (domain: " << cfg.domain_context << ")";
+    if (!cfg.domain_context.empty()) {
+      p << " (domain: " << cfg.domain_context << ")";
+    }
     p << ".\n\nTask: " << task;
-    if (!extra_ctx.empty()) p << "\nContext: " << extra_ctx;
+    if (!extra_ctx.empty()) {
+      p << "\nContext: " << extra_ctx;
+    }
     p << "\n" << kJsonSchema;
     return p.str();
 }
@@ -623,13 +715,17 @@ std::string TaskDecomposer::buildFewShotPrompt(
     const auto& cfg = impl_->config;
     std::ostringstream p;
     p << "You are a task-planning assistant";
-    if (!cfg.domain_context.empty()) p << " specialising in " << cfg.domain_context;
+    if (!cfg.domain_context.empty()) {
+      p << " specialising in " << cfg.domain_context;
+    }
     p << ". Here are examples of task decompositions:\n\n";
 
     for (const auto& ex : cfg.few_shot_examples) {
         p << "Task: " << ex.task << "\n";
         json arr = json::array();
-        for (const auto& s : ex.steps) arr.push_back(s);
+        for (const auto& s : ex.steps) {
+          arr.push_back(s);
+        }
         p << arr.dump(2) << "\n\n";
     }
 
@@ -638,7 +734,9 @@ std::string TaskDecomposer::buildFewShotPrompt(
     if (!cfg.output_language.empty())
         p << "Write descriptions in " << cfg.output_language << ".\n";
     p << "\nTask: " << task;
-    if (!extra_ctx.empty()) p << "\nContext: " << extra_ctx;
+    if (!extra_ctx.empty()) {
+      p << "\nContext: " << extra_ctx;
+    }
     p << "\n" << kJsonSchema;
     return p.str();
 }
@@ -663,7 +761,9 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
     const auto& cfg = impl_->config;
 
     for (const auto& item : arr) {
-        if (!item.is_object()) continue;
+        if (!item.is_object()) {
+          continue;
+        }
         SubTask sub;
         sub.id          = item.value("id", std::string{});
         sub.description = item.value("description", std::string{});
@@ -676,7 +776,9 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
         if (sub.id.empty())
             sub.id = "step_" + std::to_string(result.size() + 1);
         // Use description as prompt fallback
-        if (sub.prompt.empty()) sub.prompt = sub.description;
+        if (sub.prompt.empty()) {
+          sub.prompt = sub.description;
+        }
 
         result.push_back(std::move(sub));
         if (cfg.max_subtasks > 0 && static_cast<int>(result.size()) >= cfg.max_subtasks)
@@ -767,7 +869,9 @@ TaskDecompositionResult TaskDecomposer::decompose(
         final_result.llm_calls_made    = attempts;
         final_result.tokens_consumed  += static_cast<size_t>(resp.tokens_generated);
 
-        if (final_result.success) break;
+        if (final_result.success) {
+          break;
+        }
         // retry
     }
 

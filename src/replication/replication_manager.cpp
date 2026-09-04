@@ -171,7 +171,9 @@ bool executeWithTimeout(uint32_t timeout_ms, Func&& operation) {
  * @param timeout_ms Unused legacy timeout parameter.
  */
 static void timedJoin(std::thread& t, int timeout_ms = 5000) noexcept {
-    if (!t.joinable()) return;
+    if (!t.joinable()) {
+      return;
+    }
 
     (void)timeout_ms;
 
@@ -555,7 +557,9 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
                 while (seg_entries->size() < limit) {
                     uint32_t len = 0;
                     ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
-                    if (ifs.eof() || len == 0) break;
+                    if (ifs.eof() || len == 0) {
+                      break;
+                    }
                     
                     // BATCH D FIX: Guard against oversized or corrupt length fields
                     // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
@@ -670,7 +674,9 @@ void WALManager::sync() {
             THEMIS_WARN("WALManager::sync: directory iteration error: {}", ec.message());
             break;
         }
-        if (entry.path().extension() != ".log") continue;
+        if (entry.path().extension() != ".log") {
+          continue;
+        }
 
         // Open file descriptor and fsync it
 #ifdef _WIN32
@@ -739,11 +745,15 @@ void WALManager::loadFromDisk() {
             while (true) {
                 uint32_t len = 0;
                 ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
-                if (ifs.eof() || len == 0) break;
+                if (ifs.eof() || len == 0) {
+                  break;
+                }
                 
                 std::vector<uint8_t> data(len);
                 ifs.read(reinterpret_cast<char*>(data.data()), len);
-                if (ifs.eof()) break;
+                if (ifs.eof()) {
+                  break;
+                }
                 
                 auto wal_entry = WALEntry::deserialize(data);
                 if (wal_entry) {
@@ -810,10 +820,14 @@ void LeaderElection::electionLoop() {
             }
         }
 
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
         // Skip if we are already the leader
-        if (role_.load() == ReplicationRole::LEADER) continue;
+        if (role_.load() == ReplicationRole::LEADER) {
+          continue;
+        }
 
         // Check whether the election timeout has actually elapsed since the
         // last heartbeat (a heartbeat could have arrived just after the cv
@@ -834,7 +848,9 @@ void LeaderElection::startElection() {
     std::lock_guard<std::mutex> lock(election_mutex_);
     
     // Guard: do not start an election if we are already the leader
-    if (role_.load() == ReplicationRole::LEADER) return;
+    if (role_.load() == ReplicationRole::LEADER) {
+      return;
+    }
     
     // Increment term and become candidate
     current_term_ = wal_->incrementTerm();
@@ -1126,7 +1142,9 @@ void ReplicationStream::streamLoop() {
 
 uint32_t ReplicationStream::computeBackoffMs() const {
     uint32_t failures = consecutive_failures_.load();
-    if (failures == 0) return 0;
+    if (failures == 0) {
+      return 0;
+    }
     // Exponential backoff: base * 2^(failures-1), capped at max
     uint32_t backoff = kBaseBackoffMs;
     for (uint32_t i = 1; i < failures && backoff < kMaxBackoffMs; ++i) {
@@ -1668,7 +1686,9 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     
     uint32_t healthy_count = 0;
     for (const auto& [node_id, is_healthy] : health) {
-        if (is_healthy) healthy_count++;
+        if (is_healthy) {
+          healthy_count++;
+        }
     }
     
     oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
@@ -2270,14 +2290,20 @@ std::string CRDTConflictResolver::resolve(
         while (p < doc.size()) {
             // Find next key (starts with '"')
             auto kstart = doc.find('"', p);
-            if (kstart == std::string::npos) break;
+            if (kstart == std::string::npos) {
+              break;
+            }
             auto kend = doc.find('"', kstart + 1);
-            if (kend == std::string::npos) break;
+            if (kend == std::string::npos) {
+              break;
+            }
             std::string key = doc.substr(kstart + 1, kend - kstart - 1);
             
             // Skip past colon and whitespace
             size_t vp = kend + 1;
-            while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) ++vp;
+            while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) {
+              ++vp;
+            }
             
             // Check if value is numeric (starts with digit, or '-' followed by a digit)
             if (vp < doc.size() &&
@@ -2307,7 +2333,9 @@ std::string CRDTConflictResolver::resolve(
     // Instead of repeated find() + substr() in loop, build result in single pass
     for (const auto& [key, remote_val] : remote_fields) {
         auto it = local_fields.find(key);
-        if (it == local_fields.end()) continue;
+        if (it == local_fields.end()) {
+          continue;
+        }
         
         int64_t max_val = std::max(it->second, remote_val);
         int64_t cur_val = (base == local) ? it->second : remote_val;
@@ -2322,11 +2350,15 @@ std::string CRDTConflictResolver::resolve(
             while ((pos = merged.find(search, pos)) != std::string::npos) {
                 // Skip to value
                 size_t vp = pos + search.size();
-                while (vp < merged.size() && (merged[vp] == ' ' || merged[vp] == ':')) ++vp;
+                while (vp < merged.size() && (merged[vp] == ' ' || merged[vp] == ':')) {
+                  ++vp;
+                }
                 
                 size_t vend = vp;
                 // Accept an optional leading '-', then only digits
-                if (vend < merged.size() && merged[vend] == '-') ++vend;
+                if (vend < merged.size() && merged[vend] == '-') {
+                  ++vend;
+                }
                 while (vend < merged.size() &&
                        std::isdigit(static_cast<unsigned char>(merged[vend]))) {
                     ++vend;
@@ -2459,7 +2491,9 @@ void VectorClock::increment(const std::string& node_id) {
 }
 
 void VectorClock::merge(const VectorClock& other) {
-    if (this == &other) return;
+    if (this == &other) {
+      return;
+    }
 
     // Acquire locks in consistent address order to prevent ABBA deadlock when
     // two threads concurrently call A.merge(B) and B.merge(A).
@@ -2470,7 +2504,9 @@ void VectorClock::merge(const VectorClock& other) {
 
     for (const auto& [node, ts] : other.clocks_) {
         auto& mine = clocks_[node];
-        if (ts > mine) mine = ts;
+        if (ts > mine) {
+          mine = ts;
+        }
     }
 }
 
@@ -2497,8 +2533,12 @@ int VectorClock::compare(const VectorClock& other) const {
     for (const auto& [node, ts] : clocks_) {
         auto it = other.clocks_.find(node);
         uint64_t other_ts = (it != other.clocks_.end()) ? it->second : 0;
-        if (ts  > other_ts) this_greater  = true;
-        if (ts  < other_ts) other_greater = true;
+        if (ts  > other_ts) {
+          this_greater  = true;
+        }
+        if (ts  < other_ts) {
+          other_greater = true;
+        }
     }
     // Check entries present only in the other clock
     for (const auto& [node, ts] : other.clocks_) {
@@ -2527,7 +2567,9 @@ std::string VectorClock::toJson() const {
     oss << "{";
     bool first = true;
     for (const auto& [node, ts] : clocks_) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << node << "\":" << ts;
         first = false;
     }
@@ -2561,14 +2603,20 @@ VectorClock VectorClock::fromJson(const std::string& json) {
     size_t p = 0;
     while (p < json.size()) {
         auto kstart = json.find('"', p);
-        if (kstart == std::string::npos) break;
+        if (kstart == std::string::npos) {
+          break;
+        }
         auto kend = json.find('"', kstart + 1);
-        if (kend == std::string::npos) break;
+        if (kend == std::string::npos) {
+          break;
+        }
         std::string key = json.substr(kstart + 1, kend - kstart - 1);
 
         // Skip ':' and whitespace
         size_t vp = kend + 1;
-        while (vp < json.size() && (json[vp] == ' ' || json[vp] == ':')) ++vp;
+        while (vp < json.size() && (json[vp] == ' ' || json[vp] == ':')) {
+          ++vp;
+        }
 
         if (vp < json.size() && std::isdigit(static_cast<unsigned char>(json[vp]))) {
             try {
@@ -2765,7 +2813,9 @@ std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>&
     // Last-write-wins: select entry with latest HLC timestamp
     const MMWriteEntry* latest = &writes[0];
     for (const auto& w : writes) {
-        if (latest->hlc < w.hlc) latest = &w;
+        if (latest->hlc < w.hlc) {
+          latest = &w;
+        }
     }
     return latest->data;
 }
@@ -2776,7 +2826,9 @@ std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& 
     oss << "[";
     bool first = true;
     for (const auto& w : writes) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << w.data;
         first = false;
     }
@@ -2811,12 +2863,18 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     size_t p = 0;
     while (p < doc.size()) {
         auto ks = doc.find('"', p);
-        if (ks == std::string::npos) break;
+        if (ks == std::string::npos) {
+          break;
+        }
         auto ke = doc.find('"', ks + 1);
-        if (ke == std::string::npos) break;
+        if (ke == std::string::npos) {
+          break;
+        }
         std::string key = doc.substr(ks + 1, ke - ks - 1);
         size_t vp = ke + 1;
-        while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) ++vp;
+        while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) {
+          ++vp;
+        }
         if (vp < doc.size() &&
             (std::isdigit(static_cast<unsigned char>(doc[vp])) ||
              (doc[vp] == '-' && vp + 1 < doc.size() &&
@@ -2841,9 +2899,13 @@ static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
 static std::string extractSubObject(const std::string& doc, const std::string& key) {
     std::string search = "\"" + key + "\"";
     auto pos = doc.find(search);
-    if (pos == std::string::npos) return "";
+    if (pos == std::string::npos) {
+      return "";
+    }
     pos += search.size();
-    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) {
+      ++pos;
+    }
     if (pos >= doc.size() || doc[pos] != '{') return "";
     size_t depth = 0, start = pos;
     while (pos < doc.size()) {
@@ -2894,13 +2956,21 @@ static std::set<std::string> extractJsonArrayStrings(const std::string& arr) {
 static std::string extractSubArray(const std::string& doc, const std::string& key) {
     std::string search = "\"" + key + "\"";
     auto pos = doc.find(search);
-    if (pos == std::string::npos) return "";
+    if (pos == std::string::npos) {
+      return "";
+    }
     pos += search.size();
-    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) ++pos;
-    if (pos >= doc.size() || doc[pos] != '[') return "";
+    while (pos < doc.size() && (doc[pos] == ' ' || doc[pos] == ':')) {
+      ++pos;
+    }
+    if (pos >= doc.size() || doc[pos] != '[') {
+      return "";
+    }
     size_t depth = 0, start = pos;
     while (pos < doc.size()) {
-        if (doc[pos] == '[') ++depth;
+        if (doc[pos] == '[') {
+          ++depth;
+        }
         else if (doc[pos] == ']') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
         ++pos;
     }
@@ -2920,7 +2990,9 @@ std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& wr
     oss << "{";
     bool first = true;
     for (const auto& [k, v] : merged) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << k << "\":" << v;
         first = false;
     }
@@ -2951,7 +3023,9 @@ std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& w
         o << "{";
         bool first = true;
         for (const auto& [k, v] : m) {
-            if (!first) o << ",";
+            if (!first) {
+              o << ",";
+            }
             o << "\"" << k << "\":" << v;
             first = false;
         }
@@ -2970,9 +3044,13 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
         size_t p = 0;
         while (p < w.data.size()) {
             auto qs = w.data.find('"', p);
-            if (qs == std::string::npos) break;
+            if (qs == std::string::npos) {
+              break;
+            }
             auto qe = w.data.find('"', qs + 1);
-            if (qe == std::string::npos) break;
+            if (qe == std::string::npos) {
+              break;
+            }
             seen.insert(w.data.substr(qs + 1, qe - qs - 1));
             p = qe + 1;
         }
@@ -2981,7 +3059,9 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
     oss << "[";
     bool first = true;
     for (const auto& s : seen) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << s << "\"";
         first = false;
     }
@@ -3015,9 +3095,13 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
         size_t p = 0;
         while (p < addArr.size()) {
             auto lb = addArr.find('[', p);
-            if (lb == std::string::npos) break;
+            if (lb == std::string::npos) {
+              break;
+            }
             auto rb = addArr.find(']', lb + 1);
-            if (rb == std::string::npos) break;
+            if (rb == std::string::npos) {
+              break;
+            }
             std::string pair = addArr.substr(lb + 1, rb - lb - 1);
             auto tokens = extractJsonArrayStrings("[" + pair + "]");
             if (tokens.size() == 2) {
@@ -3045,7 +3129,9 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
     oss << "[";
     bool first = true;
     for (const auto& e : liveElements) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << e << "\"";
         first = false;
     }
@@ -3069,7 +3155,9 @@ std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writ
     oss << "{";
     bool first = true;
     for (const auto& [k, p] : best) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << k << "\":" << p.second;
         first = false;
     }
@@ -3088,16 +3176,24 @@ std::string CRDTMergeResolver::mergeTwoPSet(const std::vector<MMWriteEntry>& wri
     for (const auto& w : writes) {
         auto addArr    = extractSubArray(w.data, "add");
         auto removeArr = extractSubArray(w.data, "remove");
-        for (const auto& e : extractJsonArrayStrings(addArr))    addSet.insert(e);
-        for (const auto& e : extractJsonArrayStrings(removeArr)) removeSet.insert(e);
+        for (const auto& e : extractJsonArrayStrings(addArr)) {
+          addSet.insert(e);
+        }
+        for (const auto& e : extractJsonArrayStrings(removeArr)) {
+          removeSet.insert(e);
+        }
     }
     // Build result: elements in addSet not in removeSet
     std::ostringstream oss;
     oss << "[";
     bool first = true;
     for (const auto& e : addSet) {
-        if (removeSet.count(e)) continue;
-        if (!first) oss << ",";
+        if (removeSet.count(e)) {
+          continue;
+        }
+        if (!first) {
+          oss << ",";
+        }
         oss << "\"" << e << "\"";
         first = false;
     }
@@ -3133,7 +3229,9 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
         while (p < src.size() && src[p] != '{') ++p;
         while (p < src.size()) {
             auto ob = src.find('{', p);
-            if (ob == std::string::npos) break;
+            if (ob == std::string::npos) {
+              break;
+            }
             // Find matching '}'
             size_t depth = 0, oe = ob;
             while (oe < src.size()) {
@@ -3176,7 +3274,9 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
                 auto kp = obj.find("\"del\"");
                 if (kp != std::string::npos) {
                     auto vp = kp + 5;
-                    while (vp < obj.size() && (obj[vp] == ' ' || obj[vp] == ':')) ++vp;
+                    while (vp < obj.size() && (obj[vp] == ' ' || obj[vp] == ':')) {
+                      ++vp;
+                    }
                     elem.deleted = (obj.substr(vp, 4) == "true");
                 }
             }
@@ -3186,7 +3286,9 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
             if (it == byId.end()) {
                 byId[elem.id] = std::move(elem);
             } else {
-                if (elem.deleted) it->second.deleted = true;
+                if (elem.deleted) {
+                  it->second.deleted = true;
+                }
                 // Keep the value from the first observed insert (already stored)
             }
             p = oe + 1;
@@ -3198,7 +3300,9 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
     oss << "[";
     bool first = true;
     for (const auto& [id, elem] : byId) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << "{\"id\":\"" << elem.id << "\","
             << "\"v\":\"" << elem.value << "\","
             << "\"del\":" << (elem.deleted ? "true" : "false") << "}";
@@ -3298,7 +3402,9 @@ std::vector<uint8_t> MMWriteEntry::serialize() const {
 }
 
 std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>& raw) {
-    if (raw.size() < 4) return std::nullopt;
+    if (raw.size() < 4) {
+      return std::nullopt;
+    }
     size_t pos = 0;
 
     auto readUint64 = [&]() -> uint64_t {
@@ -3869,7 +3975,9 @@ void MultiMasterReplicationManager::replicationLoop() {
 void MultiMasterReplicationManager::heartbeatLoop() {
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
         auto now_ts = hlc_->now();
         // Use unique_lock because we mutate peer.last_heartbeat_hlc
@@ -3885,7 +3993,9 @@ void MultiMasterReplicationManager::heartbeatLoop() {
 void MultiMasterReplicationManager::syncLoop() {
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
 
         std::vector<std::string> peer_ids;
         {
@@ -3896,7 +4006,9 @@ void MultiMasterReplicationManager::syncLoop() {
         }
 
         for (const auto& peer_id : peer_ids) {
-            if (!running_.load()) break;
+            if (!running_.load()) {
+              break;
+            }
             antiEntropySync(peer_id);
         }
 
@@ -3953,7 +4065,9 @@ bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
         if (sendToPeer(node_id, entry)) {
             ++acked;
         }
-        if (acked >= quorum) break;
+        if (acked >= quorum) {
+          break;
+        }
     }
 
     return acked >= quorum;
@@ -3968,7 +4082,9 @@ bool MultiMasterReplicationManager::sendToPeer(
     // for ACTIVE peers and record bytes_sent.
     std::shared_lock<std::shared_mutex> lock(peers_mutex_);
     auto it = peers_.find(node_id);
-    if (it == peers_.end()) return false;
+    if (it == peers_.end()) {
+      return false;
+    }
 
     if (it->second.state == MMNodeState::OFFLINE ||
         it->second.state == MMNodeState::PARTITIONED) {
@@ -4041,7 +4157,9 @@ void MultiMasterReplicationManager::handleConflict(
     const std::string& document_id,
     const std::vector<MMWriteEntry>& conflicting_writes)
 {
-    if (conflicting_writes.empty()) return;
+    if (conflicting_writes.empty()) {
+      return;
+    }
 
     const std::string& collection = conflicting_writes[0].collection;
 
@@ -4091,7 +4209,9 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
     {
         std::shared_lock<std::shared_mutex> lock(peers_mutex_);
         auto it = peers_.find(peer_id);
-        if (it == peers_.end()) return;
+        if (it == peers_.end()) {
+          return;
+        }
         if (it->second.state == MMNodeState::OFFLINE ||
             it->second.state == MMNodeState::PARTITIONED) {
             return;
@@ -4204,7 +4324,9 @@ void ParallelReplicationWorker::sync() {
     while (true) {
         {
             std::lock_guard<std::mutex> lock(queue_mutex_);
-            if (work_queue_.empty() && in_flight_count_.load() == 0) break;
+            if (work_queue_.empty() && in_flight_count_.load() == 0) {
+              break;
+            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
@@ -4242,7 +4364,9 @@ void ParallelReplicationWorker::workerLoop() {
             queue_cv_.wait_for(lock,
                 std::chrono::milliseconds(config_.idle_poll_interval_ms),
                 [this] { return !running_.load() || !work_queue_.empty(); });
-            if (work_queue_.empty()) continue;
+            if (work_queue_.empty()) {
+              continue;
+            }
 
             if (config_.group_transactions) {
                 // Drain all currently available entries into the batch
@@ -4385,15 +4509,21 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
     std::vector<ReplicaResponse> responses;
     for (auto& fut : futures) {
         auto remaining = deadline - std::chrono::steady_clock::now();
-        if (remaining.count() <= 0) break;
+        if (remaining.count() <= 0) {
+          break;
+        }
         if (fut.wait_for(remaining) == std::future_status::ready) {
             auto resp = fut.get();
-            if (resp.ok) responses.push_back(std::move(resp));
+            if (resp.ok) {
+              responses.push_back(std::move(resp));
+            }
         }
         // Without a session token a plain quorum check suffices, so we can
         // stop as soon as we have enough responses.  With a session token we
         // need the full picture to correctly count qualifying replicas.
-        if (session_token.empty() && responses.size() >= required) break;
+        if (session_token.empty() && responses.size() >= required) {
+          break;
+        }
     }
 
     if (responses.size() < required) {
@@ -4427,15 +4557,21 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         reconcile_set = responses;
     } else {
         reconcile_set.reserve(qualifying.size());
-        for (const auto* p : qualifying) reconcile_set.push_back(*p);
+        for (const auto* p : qualifying) {
+          reconcile_set.push_back(*p);
+        }
     }
 
     // Reconcile: pick the response with the highest version
     const ReplicaResponse* best = &reconcile_set[0];
     bool had_conflicts = false;
     for (const auto& r : reconcile_set) {
-        if (r.version != best->version) had_conflicts = true;
-        if (r.version > best->version)  best = &r;
+        if (r.version != best->version) {
+          had_conflicts = true;
+        }
+        if (r.version > best->version) {
+          best = &r;
+        }
     }
 
     // Read-repair: if divergence is detected and repair_on_read is enabled,
@@ -4481,7 +4617,9 @@ std::string QuorumReadManager::generateSessionToken([[maybe_unused]] uint64_t ve
 }
 
 uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
-    if (token.empty()) return 0;
+    if (token.empty()) {
+      return 0;
+    }
 
     // Check expiry
     auto exp_pos = token.find("exp=");
@@ -4505,7 +4643,9 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     }
 
     auto seq_pos = token.find("seq=");
-    if (seq_pos == std::string::npos) return 0;
+    if (seq_pos == std::string::npos) {
+      return 0;
+    }
     auto semi = token.find(';', seq_pos);
     std::string seq_str = token.substr(
         seq_pos + 4,
@@ -4610,15 +4750,21 @@ PersistentReplicationState::State PersistentReplicationState::load() const {
     }
     try {
         std::ifstream ifs(path_);
-        if (!ifs.is_open()) return state;
+        if (!ifs.is_open()) {
+          return state;
+        }
 
         std::string line;
         while (std::getline(ifs, line)) {
             auto eq = line.find('=');
-            if (eq == std::string::npos) continue;
+            if (eq == std::string::npos) {
+              continue;
+            }
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
-            if (val.empty()) continue;
+            if (val.empty()) {
+              continue;
+            }
             try {
                 if      (key == "last_applied_sequence")
                     state.last_applied_sequence = std::stoull(val);
@@ -4850,7 +4996,9 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
 }
 
 bool CompressedReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    if (entries.empty()) return true;
+    if (entries.empty()) {
+      return true;
+    }
 
     auto raw = serializeEntries(entries);
     uint64_t uncompressed_size = raw.size();
@@ -4924,7 +5072,9 @@ void BatchedAckTracker::recordApplied([[maybe_unused]] uint64_t sequence_number)
 
 std::optional<BatchedAckTracker::AckBatch> BatchedAckTracker::dequeuePendingAcks() {
     std::lock_guard<std::mutex> lock(ready_mutex_);
-    if (ready_batches_.empty()) return std::nullopt;
+    if (ready_batches_.empty()) {
+      return std::nullopt;
+    }
     auto batch = std::move(ready_batches_.front());
     ready_batches_.pop();
     return batch;
@@ -4937,7 +5087,9 @@ void BatchedAckTracker::forceFlush() {
 
 void BatchedAckTracker::flushPending() {
     // Called with pending_mutex_ held
-    if (pending_.empty()) return;
+    if (pending_.empty()) {
+      return;
+    }
 
     AckBatch batch;
     batch.sequences   = std::move(pending_);
@@ -5001,7 +5153,9 @@ void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_
 }
 
 int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, double p) {
-    if (sorted.empty()) return 0;
+    if (sorted.empty()) {
+      return 0;
+    }
     // Caller must pass a sorted vector; index is clamped to valid range.
     size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
     return sorted[std::min(idx, sorted.size() - 1)];
@@ -5015,7 +5169,9 @@ ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
     LagHistory result;
 
     auto it = lag_history_.find(replica_id);
-    if (it == lag_history_.end()) return result;
+    if (it == lag_history_.end()) {
+      return result;
+    }
 
     auto cutoff = std::chrono::system_clock::now() - duration;
     std::vector<int64_t> values;
@@ -5026,7 +5182,9 @@ ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
         }
     }
 
-    if (values.empty()) return result;
+    if (values.empty()) {
+      return result;
+    }
 
     std::sort(values.begin(), values.end());  // Sort once; reused by all percentile calls
     result.max_lag_ms = values.back();
@@ -5043,7 +5201,9 @@ std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() c
     auto now = std::chrono::system_clock::now();
 
     for (const auto& [replica_id, history] : lag_history_) {
-        if (history.empty()) continue;
+        if (history.empty()) {
+          continue;
+        }
 
         // Check last data point for spike
         int64_t last_lag = history.back().lag_ms;
@@ -5063,7 +5223,9 @@ std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() c
         // Check rolling average for slow replica
         std::vector<int64_t> values;
         values.reserve(history.size());
-        for (const auto& dp : history) values.push_back(dp.lag_ms);
+        for (const auto& dp : history) {
+          values.push_back(dp.lag_ms);
+        }
         int64_t avg = std::accumulate(values.begin(), values.end(), int64_t{0}) /
                       static_cast<int64_t>(values.size());
 
@@ -5087,7 +5249,9 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
     std::vector<Bottleneck> bottlenecks;
 
     for (const auto& [replica_id, history] : lag_history_) {
-        if (history.size() < 2) continue;
+        if (history.size() < 2) {
+          continue;
+        }
 
         // Compute variance in lag as a proxy for the bottleneck type:
         //  High variance + high avg → NETWORK jitter
@@ -5095,13 +5259,17 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
         //  Very high avg              → CPU
         std::vector<int64_t> values;
         values.reserve(history.size());
-        for (const auto& dp : history) values.push_back(dp.lag_ms);
+        for (const auto& dp : history) {
+          values.push_back(dp.lag_ms);
+        }
 
         int64_t avg = std::accumulate(values.begin(), values.end(), int64_t{0}) /
                       static_cast<int64_t>(values.size());
         int64_t max_val = *std::max_element(values.begin(), values.end());
 
-        if (avg <= 0) continue;
+        if (avg <= 0) {
+          continue;
+        }
 
         // normalized_range = (max - mean) / mean
         // A high value indicates large relative spread (typical of network jitter).
@@ -5204,11 +5372,17 @@ LagBasedReadRouter::RoutingDecision LagBasedReadRouter::selectReplica(
     int64_t best_lag = std::numeric_limits<int64_t>::max();
 
     for (const auto& r : replicas) {
-        if (r.role != ReplicationRole::FOLLOWER) continue;
-        if (r.health_status == HealthStatus::FAILED)  continue;
+        if (r.role != ReplicationRole::FOLLOWER) {
+          continue;
+        }
+        if (r.health_status == HealthStatus::FAILED) {
+          continue;
+        }
 
         int64_t lag = r.replicationLagMs();
-        if (lag > config_.lag_threshold_ms) continue;
+        if (lag > config_.lag_threshold_ms) {
+          continue;
+        }
 
         if (lag < best_lag) {
             best_lag = lag;
@@ -5255,7 +5429,9 @@ std::string LagBasedReadRouter::exportPrometheusMetrics(
         << "themisdb_lag_router_threshold_ms "
         << config_.lag_threshold_ms << "\n";
     for (const auto& r : replicas) {
-        if (r.role != ReplicationRole::FOLLOWER) continue;
+        if (r.role != ReplicationRole::FOLLOWER) {
+          continue;
+        }
         int64_t lag     = r.replicationLagMs();
         int     eligible = (r.health_status != HealthStatus::FAILED &&
                             lag <= config_.lag_threshold_ms) ? 1 : 0;
@@ -5345,7 +5521,9 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
     // Compute percentiles
     std::sort(latencies_us.begin(), latencies_us.end());
     auto pct = [&]([[maybe_unused]] double p) -> int64_t {
-        if (latencies_us.empty()) return 0;
+        if (latencies_us.empty()) {
+          return 0;
+        }
         size_t idx = static_cast<size_t>(
             p / 100.0 * static_cast<double>(latencies_us.size() - 1));
         return latencies_us[std::min(idx, latencies_us.size() - 1)];
@@ -5434,14 +5612,18 @@ bool PublicationFilter::matches(const WALEntry& entry) const {
         for (const auto& col : include_collections) {
             if (col == entry.collection) { found = true; break; }
         }
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
     if (!include_operations.empty()) {
         bool found = false;
         for (const auto& op : include_operations) {
             if (op == entry.operation) { found = true; break; }
         }
-        if (!found) return false;
+        if (!found) {
+          return false;
+        }
     }
     return true;
 }
@@ -5494,7 +5676,9 @@ uint64_t CrossClusterPublication::publishedCount() const {
 void CrossClusterPublication::publish(const WALEntry& entry) {
     {
         std::shared_lock<std::shared_mutex> lock(filter_mutex_);
-        if (!filter_.matches(entry)) return;
+        if (!filter_.matches(entry)) {
+          return;
+        }
     }
     published_count_.fetch_add(1);
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
@@ -5623,11 +5807,15 @@ std::string WALArchivalManager::archivePath([[maybe_unused]] uint64_t segment_id
     //   .zst     – ZSTD-compressed (applied before encryption so encrypted bytes
     //              cannot be compressed further)
     //   .enc     – AES-256-GCM encrypted (outermost wrapper)
-    if (config_.compress_before_archive) oss << ".wal.zst";
+    if (config_.compress_before_archive) {
+      oss << ".wal.zst";
+    }
     else                                  oss << ".wal";
     // Append .enc when encryption at rest is configured (invalid/empty keys are
     // rejected before this path is ever computed, so encrypt_at_rest alone suffices).
-    if (config_.encrypt_at_rest) oss << ".enc";
+    if (config_.encrypt_at_rest) {
+      oss << ".enc";
+    }
     return oss.str();
 }
 
@@ -5762,7 +5950,9 @@ void WALArchivalManager::saveIndex() const {
     //   segment_id start_sequence end_sequence size_bytes compressed ts archive_path storage_tier encrypted
     std::string index_path = config_.archive_directory + "/index.txt";
     std::ofstream f(index_path);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     for (const auto& seg : index_) {
         auto ts = std::chrono::duration_cast<std::chrono::seconds>(
             seg.archived_at.time_since_epoch()).count();
@@ -5781,10 +5971,14 @@ void WALArchivalManager::saveIndex() const {
 void WALArchivalManager::loadIndex() {
     std::string index_path = config_.archive_directory + "/index.txt";
     std::ifstream f(index_path);
-    if (!f) return;
+    if (!f) {
+      return;
+    }
     std::string line;
     while (std::getline(f, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         std::istringstream iss(line);
         ArchivedSegment seg;
         int64_t ts = 0;
@@ -5804,8 +5998,12 @@ void WALArchivalManager::loadIndex() {
         seg.encrypted    = false;
         std::string tier_field;
         int encrypted_field = 0;
-        if (iss >> tier_field)      seg.storage_tier = tier_field;
-        if (iss >> encrypted_field) seg.encrypted    = (encrypted_field != 0);
+        if (iss >> tier_field) {
+          seg.storage_tier = tier_field;
+        }
+        if (iss >> encrypted_field) {
+          seg.encrypted    = (encrypted_field != 0);
+        }
         index_.push_back(seg);
     }
 }
@@ -5922,7 +6120,9 @@ uint32_t WALArchivalManager::archiveSegments(
                     meta.compressed, meta.encrypted);
     }
 
-    if (archived > 0) saveIndex();
+    if (archived > 0) {
+      saveIndex();
+    }
     return archived;
 }
 
@@ -5986,7 +6186,9 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
         raw = std::move(*decrypted);
     }
 
-    if (!it->compressed) return raw;
+    if (!it->compressed) {
+      return raw;
+    }
 
     // Decompress with ZSTD
     uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(), raw.size());
@@ -6044,7 +6246,9 @@ uint32_t WALArchivalManager::purgeExpired() {
             ++it;
         }
     }
-    if (purged > 0) saveIndex();
+    if (purged > 0) {
+      saveIndex();
+    }
     return purged;
 }
 
@@ -6080,7 +6284,9 @@ uint32_t WALArchivalManager::transitionStorageTiers() {
             ++transitioned;
         }
     }
-    if (transitioned > 0) saveIndex();
+    if (transitioned > 0) {
+      saveIndex();
+    }
     return transitioned;
 }
 
@@ -6096,11 +6302,15 @@ uint32_t WALArchivalManager::runArchivalCycle() {
     // Collect segment files from the WAL directory older than the retention limit
     std::vector<std::string> candidates;
     std::error_code ec;
-    if (!std::filesystem::exists(config_.wal_directory, ec)) return 0;
+    if (!std::filesystem::exists(config_.wal_directory, ec)) {
+      return 0;
+    }
 
     for (const auto& entry :
          std::filesystem::directory_iterator(config_.wal_directory, ec)) {
-        if (ec) break;
+        if (ec) {
+          break;
+        }
         if (std::chrono::steady_clock::now() >= scan_deadline) {
             THEMIS_ERROR("WALArchivalManager::runArchivalCycle: directory scan "
                          "exceeded deadline ({}ms) – archival skipped this cycle",
@@ -6114,7 +6324,9 @@ uint32_t WALArchivalManager::runArchivalCycle() {
 
     // Archive everything beyond the local_retention_segments threshold
     std::sort(candidates.begin(), candidates.end());
-    if (candidates.size() <= config_.local_retention_segments) return 0;
+    if (candidates.size() <= config_.local_retention_segments) {
+      return 0;
+    }
 
     candidates.resize(candidates.size() - config_.local_retention_segments);
     uint32_t archived = archiveSegments(candidates);
@@ -6182,7 +6394,9 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
     const std::string& token) const {
     // Expected format: "seq=<N>;region=<R>;exp=<epoch_ms>"
     auto seq_pos = token.find("seq=");
-    if (seq_pos == std::string::npos) return 0;
+    if (seq_pos == std::string::npos) {
+      return 0;
+    }
     auto semi = token.find(';', seq_pos);
     std::string seq_str = token.substr(
         seq_pos + 4, (semi == std::string::npos) ? std::string::npos : semi - seq_pos - 4);
@@ -6344,7 +6558,9 @@ bool MultiRegionActiveActiveManager::validateSessionToken(
     const std::string& token,
     uint64_t           required_sequence) const
 {
-    if (token.empty()) return false;
+    if (token.empty()) {
+      return false;
+    }
 
     // Check expiry embedded in token
     auto exp_pos = token.find("exp=");
@@ -6423,8 +6639,12 @@ ConsistencyLevel MultiRegionActiveActiveManager::getEffectiveConsistency(
 
 bool MultiRegionActiveActiveManager::isSplitBrain() const
 {
-    if (!config_.split_brain_detection_enabled) return false;
-    if (config_.peer_region_ids.empty()) return false;
+    if (!config_.split_brain_detection_enabled) {
+      return false;
+    }
+    if (config_.peer_region_ids.empty()) {
+      return false;
+    }
 
     std::shared_lock<std::shared_mutex> lock(staleness_mutex_);
     for (const auto& peer_id : config_.peer_region_ids) {
@@ -6949,7 +7169,9 @@ GeoReplicationManager::GeoReplicationManager(const GeoConfig& config)
     // Sub-millisecond for any realistic region count. No deadline required.
     // Initialise all other regions as unknown (very high lag).
     for (const auto& r : config_.regions) {
-        if (r == config_.local_region) continue;
+        if (r == config_.local_region) {
+          continue;
+        }
         RegionStalenessInfo info;
         info.region_id             = r;
         info.staleness_ms           = std::numeric_limits<int64_t>::max();
@@ -6974,7 +7196,9 @@ std::string GeoReplicationManager::generateSessionToken([[maybe_unused]] uint64_
 
 uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) const
 {
-    if (token.empty()) return 0;
+    if (token.empty()) {
+      return 0;
+    }
     // Check expiry
     auto exp_pos = token.find("exp=");
     if (exp_pos != std::string::npos) {
@@ -6993,7 +7217,9 @@ uint64_t GeoReplicationManager::parseSessionToken(const std::string& token) cons
         }
     }
     auto seq_pos = token.find("seq=");
-    if (seq_pos == std::string::npos) return 0;
+    if (seq_pos == std::string::npos) {
+      return 0;
+    }
     try {
         return std::stoull(token.substr(seq_pos + 4));
     } catch (...) {
@@ -7050,7 +7276,9 @@ std::string GeoReplicationManager::selectReadRegion(
             }
             // Fall back: find any region with zero lag.
             for (const auto& [rid, info] : region_staleness_) {
-                if (info.staleness_ms == 0 && info.is_healthy) return rid;
+                if (info.staleness_ms == 0 && info.is_healthy) {
+                  return rid;
+                }
             }
             return "";  // No eligible region
         }

@@ -191,7 +191,9 @@ public:
             normA = std::sqrt(normA);
             normB = std::sqrt(normB);
             
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
+            if (normA < 1e-10f || normB < 1e-10f) {
+              return 1.0f;
+            }
             
             float cosine = dotProduct / (normA * normB);
             return 1.0f - cosine;
@@ -224,7 +226,9 @@ public:
             normA = std::sqrt(normA);
             normB = std::sqrt(normB);
             
-            if (normA < 1e-10f || normB < 1e-10f) return 1.0f;
+            if (normA < 1e-10f || normB < 1e-10f) {
+              return 1.0f;
+            }
             
             float cosine = dotProduct / (normA * normB);
             return 1.0f - cosine;

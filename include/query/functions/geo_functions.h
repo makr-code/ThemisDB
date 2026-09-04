@@ -1021,7 +1021,9 @@ public:
             std::ostringstream oss;
             oss << "LINESTRING(";
             for (size_t i = 0; i < coords.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << coords[i][0].get<double>() << " " << coords[i][1].get<double>();
             }
             oss << ")";
@@ -1033,7 +1035,9 @@ public:
             oss << "POLYGON((";
             const auto& ring = coords[0];
             for (size_t i = 0; i < ring.size(); ++i) {
-                if (i > 0) oss << ", ";
+                if (i > 0) {
+                  oss << ", ";
+                }
                 oss << ring[i][0].get<double>() << " " << ring[i][1].get<double>();
             }
             oss << "))";

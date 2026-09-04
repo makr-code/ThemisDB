@@ -44,7 +44,9 @@ public:
         // safe – the wrapped sink is responsible for its own thread-safety
         // (e.g., stdout_color_sink_mt uses its own mutex).
         if (in_redaction_) {
-            if (wrapped_) wrapped_->log(msg);
+            if (wrapped_) {
+              wrapped_->log(msg);
+            }
             return;
         }
 
@@ -64,7 +66,9 @@ public:
             // (heap allocation + metadata copy) for the common case where no
             // PII is present.  Most log messages do not contain PII so this
             // branch is taken the overwhelming majority of the time.
-            if (wrapped_) wrapped_->log(msg);
+            if (wrapped_) {
+              wrapped_->log(msg);
+            }
         } else {
             // Rebuild a log_msg with the redacted payload.  Keep `redacted`
             // alive on the stack for the entire duration of the wrapped log()
@@ -81,21 +85,29 @@ public:
             redacted_msg.color_range_end = msg.color_range_end;
             // `redacted` (owning the data behind string_view_t) is still in
             // scope here; it outlives the wrapped_->log() call below.
-            if (wrapped_) wrapped_->log(redacted_msg);
+            if (wrapped_) {
+              wrapped_->log(redacted_msg);
+            }
             // `redacted` is destroyed here, after wrapped_->log() returns.
         }
     }
 
     void flush() override {
-        if (wrapped_) wrapped_->flush();
+        if (wrapped_) {
+          wrapped_->flush();
+        }
     }
 
     void set_pattern(const std::string& pattern) override {
-        if (wrapped_) wrapped_->set_pattern(pattern);
+        if (wrapped_) {
+          wrapped_->set_pattern(pattern);
+        }
     }
 
     void set_formatter(std::unique_ptr<spdlog::formatter> sink_formatter) override {
-        if (wrapped_) wrapped_->set_formatter(std::move(sink_formatter));
+        if (wrapped_) {
+          wrapped_->set_formatter(std::move(sink_formatter));
+        }
     }
 
 private:

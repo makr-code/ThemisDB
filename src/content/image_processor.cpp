@@ -299,7 +299,9 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     width = 0;
     height = 0;
     
-    if (blob.size() < 24) return;
+    if (blob.size() < 24) {
+      return;
+    }
     
     // JPEG: SOI + APP0 or SOF0
     if (blob[0] == 0xFF && blob[1] == 0xD8) {
@@ -482,7 +484,9 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     size_t start     = std::min(static_cast<size_t>(20), blob.size());
     size_t data_size = blob.size() - start;
     for (int i = 0; i < 1024; ++i) {
-        if (data_size == 0) break;
+        if (data_size == 0) {
+          break;
+        }
         size_t idx = start + (static_cast<size_t>(i) * data_size) / 1024;
         samples[i] = static_cast<double>(blob[idx]);
     }

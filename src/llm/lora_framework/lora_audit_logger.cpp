@@ -50,7 +50,9 @@ public:
     }
     
     void logInference(const LoRAInferenceAudit& audit) {
-        if (!enabled_) return;
+        if (!enabled_) {
+          return;
+        }
         
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -107,7 +109,9 @@ public:
         const std::string& adapter_id,
         const json& details
     ) {
-        if (!enabled_) return;
+        if (!enabled_) {
+          return;
+        }
         
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -210,7 +214,9 @@ public:
             
             std::string line;
             while (std::getline(file, line)) {
-                if (line.empty()) continue;
+                if (line.empty()) {
+                  continue;
+                }
                 
                 try {
                     json entry = json::parse(line);
@@ -261,13 +267,27 @@ public:
                 LoRAInferenceAudit audit;
                 
                 // Parse log entry back to audit structure
-                if (log.contains("request_id")) audit.request_id = log["request_id"];
-                if (log.contains("base_model_id")) audit.base_model_id = log["base_model_id"];
-                if (log.contains("adapter_id")) audit.adapter_id = log["adapter_id"];
-                if (log.contains("adapter_version")) audit.adapter_version = log["adapter_version"];
-                if (log.contains("prompt")) audit.prompt = log["prompt"];
-                if (log.contains("response")) audit.response = log["response"];
-                if (log.contains("success")) audit.success = log["success"];
+                if (log.contains("request_id")) {
+                  audit.request_id = log["request_id"];
+                }
+                if (log.contains("base_model_id")) {
+                  audit.base_model_id = log["base_model_id"];
+                }
+                if (log.contains("adapter_id")) {
+                  audit.adapter_id = log["adapter_id"];
+                }
+                if (log.contains("adapter_version")) {
+                  audit.adapter_version = log["adapter_version"];
+                }
+                if (log.contains("prompt")) {
+                  audit.prompt = log["prompt"];
+                }
+                if (log.contains("response")) {
+                  audit.response = log["response"];
+                }
+                if (log.contains("success")) {
+                  audit.success = log["success"];
+                }
                 
                 results.push_back(audit);
                 
@@ -303,10 +323,18 @@ public:
             
             if (log.contains("event_type")) {
                 std::string event_type = log["event_type"];
-                if (event_type == "TRAINING_COMPLETED") trainings++;
-                if (event_type == "FEEDBACK_POSITIVE") positive_feedback++;
-                if (event_type == "FEEDBACK_NEGATIVE") negative_feedback++;
-                if (event_type == "VERSION_CREATED") versions++;
+                if (event_type == "TRAINING_COMPLETED") {
+                  trainings++;
+                }
+                if (event_type == "FEEDBACK_POSITIVE") {
+                  positive_feedback++;
+                }
+                if (event_type == "FEEDBACK_NEGATIVE") {
+                  negative_feedback++;
+                }
+                if (event_type == "VERSION_CREATED") {
+                  versions++;
+                }
             }
         }
         

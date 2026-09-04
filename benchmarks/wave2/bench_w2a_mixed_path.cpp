@@ -73,11 +73,17 @@ std::string uniqueDbPath(const char* tag) {
 std::vector<float> randomVec(std::size_t dim, std::mt19937& rng) {
     std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
     std::vector<float> v(dim);
-    for (auto& x : v) x = dis(rng);
+    for (auto& x : v) {
+      x = dis(rng);
+    }
     float sq = 0.f;
-    for (float x : v) sq += x * x;
+    for (float x : v) {
+      sq += x * x;
+    }
     float inv = 1.f / std::sqrt(std::max(sq, 1e-12f));
-    for (auto& x : v) x *= inv;
+    for (auto& x : v) {
+      x *= inv;
+    }
     return v;
 }
 
@@ -120,7 +126,9 @@ public:
     static constexpr char const* kCol        = "category";
 
     void SetUp(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         dbPath_ = uniqueDbPath("sec");
         db_     = openBenchDb(dbPath_);
         idx_    = std::make_unique<SecondaryIndexManager>(*db_);
@@ -141,7 +149,9 @@ public:
     }
 
     void TearDown(::benchmark::State& state) override {
-        if (state.thread_index() != 0) return;
+        if (state.thread_index() != 0) {
+          return;
+        }
         idx_.reset();
         db_->close();
         db_.reset();

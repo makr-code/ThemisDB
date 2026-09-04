@@ -253,7 +253,9 @@ void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
 
 bool WorkStealingPool::tryPopOwn(size_t idx, SourceConfig& out) {
     std::lock_guard<std::mutex> lock(deques_[idx].mtx);
-    if (deques_[idx].tasks.empty()) return false;
+    if (deques_[idx].tasks.empty()) {
+      return false;
+    }
     out = std::move(deques_[idx].tasks.front());
     deques_[idx].tasks.pop_front();
     return true;
@@ -264,7 +266,9 @@ bool WorkStealingPool::trySteal(size_t thief_idx, SourceConfig& out) {
     for (size_t i = 1; i < n; ++i) {
         size_t victim = (thief_idx + i) % n;
         std::unique_lock<std::mutex> lock(deques_[victim].mtx, std::try_to_lock);
-        if (!lock || deques_[victim].tasks.empty()) continue;
+        if (!lock || deques_[victim].tasks.empty()) {
+          continue;
+        }
         // Steal from the back (classic work-stealing pattern).
         out = std::move(deques_[victim].tasks.back());
         deques_[victim].tasks.pop_back();
@@ -278,17 +282,25 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     while (true) {
         // Try own queue first, then steal from another worker.
         bool got = tryPopOwn(my_idx, src);
-        if (!got) got = trySteal(my_idx, src);
+        if (!got) {
+          got = trySteal(my_idx, src);
+        }
 
         if (!got) {
             // No task found.  If remaining is 0 all work is done; otherwise
             // another worker might push nothing new so we check once more
             // after a brief yield to avoid a tight spin loop.
-            if (remaining_.load(std::memory_order_acquire) == 0) break;
+            if (remaining_.load(std::memory_order_acquire) == 0) {
+              break;
+            }
             std::this_thread::yield();
             got = tryPopOwn(my_idx, src);
-            if (!got) got = trySteal(my_idx, src);
-            if (!got) continue;
+            if (!got) {
+              got = trySteal(my_idx, src);
+            }
+            if (!got) {
+              continue;
+            }
         }
 
         // We own `src` — decrement the global remaining count.
@@ -325,7 +337,9 @@ std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCall
         threads.emplace_back(&WorkStealingPool::workerFn, this, i, cb);
     }
     for (auto& t : threads) {
-        if (t.joinable()) t.join();
+        if (t.joinable()) {
+          t.join();
+        }
     }
 
     std::lock_guard<std::mutex> lock(results_mtx_);
@@ -425,7 +439,9 @@ void IngestionCoordinator::stop() {
 // ============================================================================
 
 void IngestionCoordinator::registerNode(std::shared_ptr<IIngestionWorkerNode> node) {
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(nodes_mutex_);
     // Avoid duplicate registration.
     for (const auto& existing : nodes_) {

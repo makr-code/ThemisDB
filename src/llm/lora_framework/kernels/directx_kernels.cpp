@@ -44,9 +44,15 @@ static std::string get_shader_path(const std::string& shader_name) {
     std::vector<fs::path> roots;
     fs::path cur = fs::current_path();
     roots.push_back(cur);
-    if (cur.has_parent_path()) roots.push_back(cur.parent_path());
-    if (cur.parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path());
-    if (cur.parent_path().parent_path().has_parent_path()) roots.push_back(cur.parent_path().parent_path().parent_path());
+    if (cur.has_parent_path()) {
+      roots.push_back(cur.parent_path());
+    }
+    if (cur.parent_path().has_parent_path()) {
+      roots.push_back(cur.parent_path().parent_path());
+    }
+    if (cur.parent_path().parent_path().has_parent_path()) {
+      roots.push_back(cur.parent_path().parent_path().parent_path());
+    }
 
     for (const auto& root : roots) {
         std::cout << "DirectX Debug: probing root: " << root.string() << "\n";

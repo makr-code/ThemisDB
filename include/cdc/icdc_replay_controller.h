@@ -343,7 +343,9 @@ private:
                 for (auto t : opts.event_types) {
                     if (ev.type == t) { found = true; break; }
                 }
-                if (!found) continue;
+                if (!found) {
+                  continue;
+                }
             }
             if (opts.max_events_per_session > 0 &&
                 out.size() >= opts.max_events_per_session) break;

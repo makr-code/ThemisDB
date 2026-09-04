@@ -47,12 +47,16 @@ public:
     bool isError() const { return !success_; }
     
     const T& value() const { 
-        if (!success_) throw std::runtime_error("Accessing value of failed Result");
+        if (!success_) {
+          throw std::runtime_error("Accessing value of failed Result");
+        }
         return value_; 
     }
     
     T& value() { 
-        if (!success_) throw std::runtime_error("Accessing value of failed Result");
+        if (!success_) {
+          throw std::runtime_error("Accessing value of failed Result");
+        }
         return value_; 
     }
     

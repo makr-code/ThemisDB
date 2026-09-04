@@ -232,7 +232,9 @@ std::string PrometheusExporter::makeMetricKey(const std::string& name,
     std::map<std::string, std::string> sorted_labels(labels.begin(), labels.end());
     
     for (const auto& [key, value] : sorted_labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << key << "=\"" << value << "\"";
         first = false;
     }

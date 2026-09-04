@@ -125,18 +125,24 @@ TemporalDatabaseSupport::TemporalQueryBuilder::buildPointInTimeQuery(
         first = false;
     }
     if (!temporal.valid_to_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << "(" << temporal.valid_to_column << " IS NULL"
             << " OR " << temporal.valid_to_column << " > '" << timestamp << "')";
         first = false;
     }
     if (!temporal.transaction_from_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << temporal.transaction_from_column << " <= '" << timestamp << "'";
         first = false;
     }
     if (!temporal.transaction_to_column.empty()) {
-        if (!first) sql << "\n  AND ";
+        if (!first) {
+          sql << "\n  AND ";
+        }
         sql << "(" << temporal.transaction_to_column << " IS NULL"
             << " OR " << temporal.transaction_to_column << " > '" << timestamp << "')";
     }

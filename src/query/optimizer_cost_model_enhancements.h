@@ -84,7 +84,9 @@ struct EstimateValidation {
         std::string operationType;  // "scan", "filter", "join", "agg"
         
         double getError() const {
-            if (actualRows == 0) return 0.0;
+            if (actualRows == 0) {
+              return 0.0;
+            }
             if (estimatedRows == 0) return 1.0;  // 100% error
             return std::abs(static_cast<double>(estimatedRows) - static_cast<double>(actualRows)) /
                    static_cast<double>(actualRows);

@@ -152,7 +152,9 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) key += "+";
+		if (i > 0) {
+		  key += "+";
+		}
 		key += columns[i];
 	}
 	return key;
@@ -185,7 +187,9 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) key += "+";
+		if (i > 0) {
+		  key += "+";
+		}
 		key += columns[i];
 	}
 	key += ":";
@@ -219,7 +223,9 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) key += "+";
+		if (i > 0) {
+		  key += "+";
+		}
 		key += columns[i];
 	}
 	key += ":";
@@ -270,7 +276,9 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 	key += table;
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) key += "+";
+		if (i > 0) {
+		  key += "+";
+		}
 		key += columns[i];
 	}
 	for (const auto& ev : encodedVals) {
@@ -292,7 +300,9 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	if (all_digits && raw.size() <= 20) {
 		// Pad to 20 characters (large enough for typical integers)
 		const size_t width = 20;
-		if (raw.size() < width) out.append(width - raw.size(), '0');
+		if (raw.size() < width) {
+		  out.append(width - raw.size(), '0');
+		}
 		out.append(raw.data(), raw.size());
 		return out;
 	}
@@ -512,7 +522,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	SecondaryIndexMetadataCache::instance().invalidate(std::string(table));
 	std::string colList;
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) colList += ", ";
+		if (i > 0) {
+		  colList += ", ";
+		}
 		colList += columns[i];
 	}
 	THEMIS_INFO("Composite Index erstellt: {}.{{{}}} (unique={})", table, colList, unique);
@@ -549,7 +561,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropCompositeIndex(std::str
 	
 	std::string colList;
 	for (size_t i = 0; i < columns.size(); ++i) {
-		if (i > 0) colList += ", ";
+		if (i > 0) {
+		  colList += ", ";
+		}
 		colList += columns[i];
 	}
 	THEMIS_INFO("Composite Index gelöscht: {}.{{{}}}", table, colList);
@@ -567,22 +581,30 @@ bool SecondaryIndexManager::hasCompositeIndex(std::string_view table, const std:
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::createRangeIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("createRangeIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("createRangeIndex: table/column darf nicht leer sein");
+	}
 	if (std::string(table).find(':') != std::string::npos || std::string(column).find(':') != std::string::npos) {
 		return Status::Error("createRangeIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
 	std::vector<uint8_t> marker = {1};
-	if (!db_.put(metaKey, marker)) return Status::Error("createRangeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.put(metaKey, marker)) {
+	  return Status::Error("createRangeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Range Index erstellt: {}.{}", table, column);
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::dropRangeIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("dropRangeIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("dropRangeIndex: table/column darf nicht leer sein");
+	}
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) return Status::Error("dropRangeIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.del(metaKey)) {
+	  return Status::Error("dropRangeIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Range Index gelöscht: {}.{}", table, column);
 	return Status::OK();
@@ -598,23 +620,31 @@ bool SecondaryIndexManager::hasRangeIndex(std::string_view table, std::string_vi
 // ────────────────────────────────────────────────────────────────────────────
 
 SecondaryIndexManager::Status SecondaryIndexManager::createSparseIndex(std::string_view table, std::string_view column, bool unique) {
-	if (table.empty() || column.empty()) return Status::Error("createSparseIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("createSparseIndex: table/column darf nicht leer sein");
+	}
 	if (table.find(':') != std::string::npos || column.find(':') != std::string::npos) {
 		return Status::Error("createSparseIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeSparseIndexMetaKey(table, column);
 	std::string marker = unique ? "unique" : "regular";
 	std::vector<uint8_t> markerBytes(marker.begin(), marker.end());
-	if (!db_.put(metaKey, markerBytes)) return Status::Error("createSparseIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.put(metaKey, markerBytes)) {
+	  return Status::Error("createSparseIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Sparse Index erstellt: {}.{} (unique={})", table, column, unique);
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::dropSparseIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("dropSparseIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("dropSparseIndex: table/column darf nicht leer sein");
+	}
 	std::string metaKey = makeSparseIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) return Status::Error("dropSparseIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.del(metaKey)) {
+	  return Status::Error("dropSparseIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Sparse Index gelöscht: {}.{}", table, column);
 	return Status::OK();
@@ -630,23 +660,31 @@ bool SecondaryIndexManager::hasSparseIndex(std::string_view table, std::string_v
 // ────────────────────────────────────────────────────────────────────────────
 
 SecondaryIndexManager::Status SecondaryIndexManager::createGeoIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("createGeoIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("createGeoIndex: table/column darf nicht leer sein");
+	}
 	if (table.find(':') != std::string::npos || column.find(':') != std::string::npos) {
 		return Status::Error("createGeoIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeGeoIndexMetaKey(table, column);
 	std::string marker = "geo";
 	std::vector<uint8_t> markerBytes(marker.begin(), marker.end());
-	if (!db_.put(metaKey, markerBytes)) return Status::Error("createGeoIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.put(metaKey, markerBytes)) {
+	  return Status::Error("createGeoIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Geo Index erstellt: {}.{}", table, column);
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::dropGeoIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("dropGeoIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("dropGeoIndex: table/column darf nicht leer sein");
+	}
 	std::string metaKey = makeGeoIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) return Status::Error("dropGeoIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.del(metaKey)) {
+	  return Status::Error("dropGeoIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Geo Index gelöscht: {}.{}", table, column);
 	return Status::OK();
@@ -662,24 +700,34 @@ bool SecondaryIndexManager::hasGeoIndex(std::string_view table, std::string_view
 // ────────────────────────────────────────────────────────────────────────────
 
 SecondaryIndexManager::Status SecondaryIndexManager::createTTLIndex(std::string_view table, std::string_view column, int64_t ttl_seconds) {
-	if (table.empty() || column.empty()) return Status::Error("createTTLIndex: table/column darf nicht leer sein");
-	if (ttl_seconds <= 0) return Status::Error("createTTLIndex: ttl_seconds muss > 0 sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("createTTLIndex: table/column darf nicht leer sein");
+	}
+	if (ttl_seconds <= 0) {
+	  return Status::Error("createTTLIndex: ttl_seconds muss > 0 sein");
+	}
 	if (table.find(':') != std::string::npos || column.find(':') != std::string::npos) {
 		return Status::Error("createTTLIndex: ':' ist in table/column nicht erlaubt");
 	}
 	std::string metaKey = makeTTLIndexMetaKey(table, column);
 	std::string ttlValue = std::to_string(ttl_seconds);
 	std::vector<uint8_t> ttlBytes(ttlValue.begin(), ttlValue.end());
-	if (!db_.put(metaKey, ttlBytes)) return Status::Error("createTTLIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.put(metaKey, ttlBytes)) {
+	  return Status::Error("createTTLIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("TTL Index erstellt: {}.{} (TTL={}s)", table, column, ttl_seconds);
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::dropTTLIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("dropTTLIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("dropTTLIndex: table/column darf nicht leer sein");
+	}
 	std::string metaKey = makeTTLIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) return Status::Error("dropTTLIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.del(metaKey)) {
+	  return Status::Error("dropTTLIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("TTL Index gelöscht: {}.{}", table, column);
 	return Status::OK();
@@ -699,7 +747,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 	std::string_view column,
 	const FulltextConfig& config
 ) {
-	if (table.empty() || column.empty()) return Status::Error("createFulltextIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("createFulltextIndex: table/column darf nicht leer sein");
+	}
 	if (table.find(':') != std::string::npos || column.find(':') != std::string::npos) {
 		return Status::Error("createFulltextIndex: ':' ist in table/column nicht erlaubt");
 	}
@@ -734,9 +784,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(std::st
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::dropFulltextIndex(std::string_view table, std::string_view column) {
-	if (table.empty() || column.empty()) return Status::Error("dropFulltextIndex: table/column darf nicht leer sein");
+	if (table.empty() || column.empty()) {
+	  return Status::Error("dropFulltextIndex: table/column darf nicht leer sein");
+	}
 	std::string metaKey = makeFulltextIndexMetaKey(table, column);
-	if (!db_.del(metaKey)) return Status::Error("dropFulltextIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	if (!db_.del(metaKey)) {
+	  return Status::Error("dropFulltextIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	}
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Fulltext Index gelöscht: {}.{}", table, column);
 	return Status::OK();
@@ -751,7 +805,9 @@ std::optional<SecondaryIndexManager::FulltextConfig>
 SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeFulltextIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
-	if (!val) return std::nullopt;
+	if (!val) {
+	  return std::nullopt;
+	}
 	
 	try {
 		std::string configStr(val->begin(), val->end());
@@ -764,7 +820,9 @@ SecondaryIndexManager::getFulltextConfig(std::string_view table, std::string_vie
 		if (configJson.contains("stopwords") && configJson["stopwords"].is_array()) {
 			config.stopwords.clear();
 			for (const auto& s : configJson["stopwords"]) {
-				if (s.is_string()) config.stopwords.emplace_back(s.get<std::string>());
+				if (s.is_string()) {
+				  config.stopwords.emplace_back(s.get<std::string>());
+				}
 			}
 		}
 		config.normalize_umlauts = configJson.value("normalize_umlauts", false);
@@ -861,7 +919,9 @@ std::unordered_map<std::string, std::string> SecondaryIndexManager::loadPartialI
 int64_t SecondaryIndexManager::getTTLSeconds_(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeTTLIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
-	if (!val) return 0;
+	if (!val) {
+	  return 0;
+	}
 	std::string ttlStr(val->begin(), val->end());
 	try {
 		return std::stoll(ttlStr);
@@ -873,7 +933,9 @@ int64_t SecondaryIndexManager::getTTLSeconds_(std::string_view table, std::strin
 bool SecondaryIndexManager::isUniqueIndex_(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
-	if (!val) return false;
+	if (!val) {
+	  return false;
+	}
 	std::string metaValue(val->begin(), val->end());
 	return metaValue == "unique";
 }
@@ -881,7 +943,9 @@ bool SecondaryIndexManager::isUniqueIndex_(std::string_view table, std::string_v
 bool SecondaryIndexManager::isUniqueCompositeIndex_(std::string_view table, const std::vector<std::string>& columns) const {
 	std::string metaKey = makeCompositeIndexMetaKey(table, columns);
 	auto val = db_.get(metaKey);
-	if (!val) return false;
+	if (!val) {
+	  return false;
+	}
 	std::string metaValue(val->begin(), val->end());
 	return metaValue == "unique";
 }
@@ -889,7 +953,9 @@ bool SecondaryIndexManager::isUniqueCompositeIndex_(std::string_view table, cons
 bool SecondaryIndexManager::isSparseIndexUnique_(std::string_view table, std::string_view column) const {
 	std::string metaKey = makeSparseIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
-	if (!val) return false;
+	if (!val) {
+	  return false;
+	}
 	std::string metaValue(val->begin(), val->end());
 	return metaValue == "unique";
 }
@@ -897,7 +963,9 @@ bool SecondaryIndexManager::isSparseIndexUnique_(std::string_view table, std::st
 bool SecondaryIndexManager::isPartialIndexUnique_(std::string_view table, std::string_view column) const {
 	std::string metaKey = makePartialIndexMetaKey(table, column);
 	auto val = db_.get(metaKey);
-	if (!val) return false;
+	if (!val) {
+	  return false;
+	}
 	std::string metaValue(val->begin(), val->end());
 	return metaValue.find("|unique") != std::string::npos;
 }
@@ -911,7 +979,9 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 	// Trim whitespace helper
 	auto trim = [](std::string s) -> std::string {
 		size_t start = s.find_first_not_of(" \t\r\n");
-		if (start == std::string::npos) return "";
+		if (start == std::string::npos) {
+		  return "";
+		}
 		size_t end = s.find_last_not_of(" \t\r\n");
 		return s.substr(start, end - start + 1);
 	};
@@ -922,7 +992,9 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 	// Build uppercase copy for keyword matching
 	std::string upper;
 	upper.reserve(expr.size());
-	for (unsigned char c : expr) upper += static_cast<char>(std::toupper(c));
+	for (unsigned char c : expr) {
+	  upper += static_cast<char>(std::toupper(c));
+	}
 
 	// IS NOT NULL check
 	{
@@ -951,18 +1023,24 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 
 	for (const auto& [op, kind] : ops) {
 		auto pos = expr.find(op);
-		if (pos == std::string::npos) continue;
+		if (pos == std::string::npos) {
+		  continue;
+		}
 
 		// Ensure '=' match is not part of '>=' or '<=' or '!=' already handled above
 		if (op == "=" && pos > 0) {
 			char prev = expr[pos - 1];
-			if (prev == '>' || prev == '<' || prev == '!') continue;
+			if (prev == '>' || prev == '<' || prev == '!') {
+			  continue;
+			}
 		}
 
 		std::string field = trim(expr.substr(0, pos));
 		std::string rhs   = trim(expr.substr(pos + op.size()));
 
-		if (field.empty()) continue;
+		if (field.empty()) {
+		  continue;
+		}
 
 		// Strip surrounding quotes from string literals
 		if (rhs.size() >= 2 &&
@@ -1017,7 +1095,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::createPartialIndex(
 
 	// Store as "predicate" or "predicate|unique"
 	std::string metaValue(predicate);
-	if (unique) metaValue += "|unique";
+	if (unique) {
+	  metaValue += "|unique";
+	}
 	std::string metaKey = makePartialIndexMetaKey(table, column);
 	std::vector<uint8_t> marker(metaValue.begin(), metaValue.end());
 	if (!db_.put(metaKey, marker))
@@ -1048,11 +1128,15 @@ bool SecondaryIndexManager::hasPartialIndex(std::string_view table, std::string_
 std::optional<std::string> SecondaryIndexManager::getPartialIndexPredicate(
 		std::string_view table, std::string_view column) const {
 	auto val = db_.get(makePartialIndexMetaKey(table, column));
-	if (!val) return std::nullopt;
+	if (!val) {
+	  return std::nullopt;
+	}
 	std::string metaVal(val->begin(), val->end());
 	// Strip "|unique" suffix
 	auto pipePos = metaVal.find('|');
-	if (pipePos != std::string::npos) metaVal.resize(pipePos);
+	if (pipePos != std::string::npos) {
+	  metaVal.resize(pipePos);
+	}
 	return metaVal;
 }
 
@@ -1077,39 +1161,65 @@ SecondaryIndexManager::scanKeysEqualPartial(std::string_view table,
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table, const BaseEntity& entity) {
-	if (table.empty()) return Status::Error("put: table darf nicht leer sein");
+	if (table.empty()) {
+	  return Status::Error("put: table darf nicht leer sein");
+	}
 	const std::string& pk = entity.getPrimaryKey();
-	if (pk.empty()) return Status::Error("put: Entity hat keinen Primary Key");
-	if (!db_.isOpen()) return Status::Error("put: Datenbank ist nicht geöffnet");
+	if (pk.empty()) {
+	  return Status::Error("put: Entity hat keinen Primary Key");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("put: Datenbank ist nicht geöffnet");
+	}
 
 	// Atomare Batch-Operation (old-entity read is done inside put(batch) for index cleanup)
 	auto batch = db_.createWriteBatch();
-	if (!batch) return Status::Error("put: Konnte WriteBatch nicht erstellen");
+	if (!batch) {
+	  return Status::Error("put: Konnte WriteBatch nicht erstellen");
+	}
 	auto st = put(table, entity, *batch);
 	if (!st.ok) { batch->rollback(); return st; }
-	if (!batch->commit()) return Status::Error("put: Commit des Batches fehlgeschlagen (atomare Aktualisierung)");
+	if (!batch->commit()) {
+	  return Status::Error("put: Commit des Batches fehlgeschlagen (atomare Aktualisierung)");
+	}
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view table, std::string_view pk) {
-	if (table.empty()) return Status::Error("erase: table darf nicht leer sein");
-	if (pk.empty()) return Status::Error("erase: pk darf nicht leer sein");
-	if (!db_.isOpen()) return Status::Error("erase: Datenbank ist nicht geöffnet");
+	if (table.empty()) {
+	  return Status::Error("erase: table darf nicht leer sein");
+	}
+	if (pk.empty()) {
+	  return Status::Error("erase: pk darf nicht leer sein");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("erase: Datenbank ist nicht geöffnet");
+	}
 
 	// old-entity read is done inside erase(batch) for index cleanup
 	auto batch = db_.createWriteBatch();
-	if (!batch) return Status::Error("erase: Konnte WriteBatch nicht erstellen");
+	if (!batch) {
+	  return Status::Error("erase: Konnte WriteBatch nicht erstellen");
+	}
 	auto st = erase(table, pk, *batch);
 	if (!st.ok) { batch->rollback(); return st; }
-	if (!batch->commit()) return Status::Error("erase: Commit des Batches fehlgeschlagen (atomare Löschung)");
+	if (!batch->commit()) {
+	  return Status::Error("erase: Commit des Batches fehlgeschlagen (atomare Löschung)");
+	}
 	return Status::OK();
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch) {
-	if (table.empty()) return Status::Error("put(tx): table darf nicht leer sein");
+	if (table.empty()) {
+	  return Status::Error("put(tx): table darf nicht leer sein");
+	}
 	const std::string& pk = entity.getPrimaryKey();
-	if (pk.empty()) return Status::Error("put(tx): Entity hat keinen Primary Key");
-	if (!db_.isOpen()) return Status::Error("put(tx): Datenbank ist nicht geöffnet");
+	if (pk.empty()) {
+	  return Status::Error("put(tx): Entity hat keinen Primary Key");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("put(tx): Datenbank ist nicht geöffnet");
+	}
 
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
 	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
@@ -1125,7 +1235,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 
 	if (oldEntity) {
 		auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
-		if (!st.ok) return st;
+		if (!st.ok) {
+		  return st;
+		}
 	}
 	
 	// Phase 2: Atomic geo index update if spatial index manager is available
@@ -1139,9 +1251,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch) {
-	if (table.empty()) return Status::Error("erase(tx): table darf nicht leer sein");
-	if (pk.empty()) return Status::Error("erase(tx): pk darf nicht leer sein");
-	if (!db_.isOpen()) return Status::Error("erase(tx): Datenbank ist nicht geöffnet");
+	if (table.empty()) {
+	  return Status::Error("erase(tx): table darf nicht leer sein");
+	}
+	if (pk.empty()) {
+	  return Status::Error("erase(tx): pk darf nicht leer sein");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("erase(tx): Datenbank ist nicht geöffnet");
+	}
 
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
 	std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
@@ -1165,15 +1283,23 @@ void SecondaryIndexManager::setTransactionalPutBatchSize([[maybe_unused]] size_t
 }
 
 SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size) {
-	if (table.empty()) return Status::Error("putBatch: table darf nicht leer sein");
+	if (table.empty()) {
+	  return Status::Error("putBatch: table darf nicht leer sein");
+	}
 	if (entities.empty()) return Status::OK(); // Nothing to do
-	if (!db_.isOpen()) return Status::Error("putBatch: Datenbank ist nicht geöffnet");
-	if (transaction_batch_size == 0) return Status::Error("putBatch: transaction_batch_size darf nicht 0 sein");
+	if (!db_.isOpen()) {
+	  return Status::Error("putBatch: Datenbank ist nicht geöffnet");
+	}
+	if (transaction_batch_size == 0) {
+	  return Status::Error("putBatch: transaction_batch_size darf nicht 0 sein");
+	}
 
 	for (size_t chunk_begin = 0; chunk_begin < entities.size(); chunk_begin += transaction_batch_size) {
 		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size, entities.size());
 		auto batch = db_.createWriteBatch();
-		if (!batch) return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
+		if (!batch) {
+		  return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
+		}
 
 		for (size_t i = chunk_begin; i < chunk_end; ++i) {
 			const auto& entity = entities[i];
@@ -1349,7 +1475,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
 			auto maybe = newEntity.extractField(col);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			
 			// Unique-Constraint prüfen
@@ -1448,7 +1576,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				if (conflict) {
 					std::string valueStr;
 					for (size_t i = 0; i < values.size(); ++i) {
-						if (i > 0) valueStr += ", ";
+						if (i > 0) {
+						  valueStr += ", ";
+						}
 						valueStr += columns[i] + "=" + values[i];
 					}
 					return Status::Error("Unique constraint violation: " + std::string(table) + ".{" + valueStr + "}");
@@ -1463,10 +1593,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	// Zusätzlich: Range-Indizes pflegen, die keine Equality-Indizes haben
 	for (const auto& rcol : rangeCols) {
 		// Wenn diese Spalte bereits im obigen Loop gepflegt wurde (weil Equality-Index existiert), überspringen
-		if (indexedCols.find(rcol) != indexedCols.end()) continue;
+		if (indexedCols.find(rcol) != indexedCols.end()) {
+		  continue;
+		}
 		// Nur Single-Column Range-Indizes unterstützen (Composite-Range-Indizes sind nicht implementiert)
 		auto maybe = newEntity.extractField(rcol);
-		if (!maybe) continue;
+		if (!maybe) {
+		  continue;
+		}
 		const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 		batch.put(rkey, pkBytes);
 	}
@@ -1566,16 +1700,22 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 
 	for (const auto& tcol : ttlCols) {
 		auto maybeValue = newEntity.extractField(tcol);
-		if (!maybeValue) continue;
+		if (!maybeValue) {
+		  continue;
+		}
 		// Use cached TTL seconds to avoid db.get on every insert (v1.3.5)
 		int64_t ttlSeconds = 0;
 		if (hasCachedMetadata) {
 			auto it = ttlSecondsCache.find(tcol);
-			if (it != ttlSecondsCache.end()) ttlSeconds = it->second;
+			if (it != ttlSecondsCache.end()) {
+			  ttlSeconds = it->second;
+			}
 		} else {
 			ttlSeconds = getTTLSeconds_(table, tcol);
 		}
-		if (ttlSeconds <= 0) continue;
+		if (ttlSeconds <= 0) {
+		  continue;
+		}
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
 		const std::string ttlKey = makeTTLIndexKey(table, tcol, expireTimestamp, pk);
@@ -1592,7 +1732,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 	}
 	for (const auto& fcol : fulltextCols) {
 		auto maybeText = newEntity.extractField(fcol);
-		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
+		if (!maybeText || isNullOrEmpty_(maybeText)) {
+		  continue;
+		}
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
 		FulltextConfig config;
@@ -1645,9 +1787,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 		for (const auto& [pcol, ppred] : partialCols) {
 			// Only index if entity satisfies the predicate
-			if (!evaluatePartialPredicate_(newEntity, ppred)) continue;
+			if (!evaluatePartialPredicate_(newEntity, ppred)) {
+			  continue;
+			}
 			auto maybe = newEntity.extractField(pcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 
 			// Unique-Constraint prüfen
@@ -1783,7 +1929,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
 			auto maybe = oldEntityOpt->extractField(col);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
 			batch.del(idxKey);
@@ -1818,7 +1966,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 				values.emplace_back(*maybe);
 			}
 			
-			if (!allPresent) continue;
+			if (!allPresent) {
+			  continue;
+			}
 			
 			const std::string idxKey = makeCompositeIndexKey(table, columns, values, pk);
 			batch.del(idxKey);
@@ -1830,7 +1980,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 		for (const auto& rcol : rangeCols) {
 			if (indexedCols.find(rcol) != indexedCols.end()) continue; // bereits oben behandelt
 			auto maybe = oldEntityOpt->extractField(rcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 			batch.del(rkey);
 		}
@@ -1856,7 +2008,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			auto maybeLat = oldEntityOpt->extractField(latField);
 			auto maybeLon = oldEntityOpt->extractField(lonField);
 			
-			if (!maybeLat || !maybeLon) continue;
+			if (!maybeLat || !maybeLon) {
+			  continue;
+			}
 			
 			try {
 				double lat = std::stod(*maybeLat);
@@ -1876,7 +2030,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	{
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
-			if (!maybeValue) continue;
+			if (!maybeValue) {
+			  continue;
+			}
 			
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 			// Scan the TTL index prefix and delete matching PKs
@@ -1900,7 +2056,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	{
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
-			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
+			if (!maybeText || isNullOrEmpty_(maybeText)) {
+			  continue;
+			}
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
@@ -1921,7 +2079,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			
 			std::unordered_set<std::string> uniqueTokens(tokens.begin(), tokens.end());
 			for (const auto& token : uniqueTokens) {
-				if (token.empty()) continue;
+				if (token.empty()) {
+				  continue;
+				}
 				const std::string ftKey = makeFulltextIndexKey(table, fcol, token, pk);
 				batch.del(ftKey);
 				const std::string tfKey = makeFulltextTFKey(table, fcol, token, pk);
@@ -1937,7 +2097,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 	{
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			// Only the entry was added if the predicate matched at insert time.
 			// We attempt to delete it regardless (idempotent).
 			const std::string encodedVal = encodeKeyComponent(*maybe);
@@ -2019,15 +2181,21 @@ size_t SecondaryIndexManager::estimateCountEqual(std::string_view table,
 												 std::string_view value,
 												 size_t maxProbe,
 												 bool* capped) const {
-	if (capped) *capped = false;
-	if (!hasIndex(table, column)) return 0;
+	if (capped) {
+	  *capped = false;
+	}
+	if (!hasIndex(table, column)) {
+	  return 0;
+	}
 	const std::string encodedVal = encodeKeyComponent(value);
 	const std::string prefix = KeySchema::makeSecondaryIndexKey(table, column, encodedVal, "");
 	size_t count = 0;
 	db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view /*val*/){
 		++count;
 		if (count >= maxProbe) {
-			if (capped) *capped = true;
+			if (capped) {
+			  *capped = true;
+			}
 			return false; // stop early
 		}
 		return true;
@@ -2045,7 +2213,9 @@ SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 	if (!hasCompositeIndex(table, columns)) {
 		std::string colList;
 		for (size_t i = 0; i < columns.size(); ++i) {
-			if (i > 0) colList += ", ";
+			if (i > 0) {
+			  colList += ", ";
+			}
 			colList += columns[i];
 		}
 		return {Status::Error("scanKeysEqualComposite: kein Composite Index für " + std::string(table) + ".{" + colList + "}"), std::vector<std::string>()};
@@ -2094,16 +2264,24 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 											  const std::vector<std::string>& values,
 											  size_t maxProbe,
 											  bool* capped) const {
-	if (capped) *capped = false;
-	if (columns.size() != values.size()) return 0;
-	if (!hasCompositeIndex(table, columns)) return 0;
+	if (capped) {
+	  *capped = false;
+	}
+	if (columns.size() != values.size()) {
+	  return 0;
+	}
+	if (!hasCompositeIndex(table, columns)) {
+	  return 0;
+	}
 	
 	const std::string prefix = makeCompositeIndexPrefix(table, columns, values);
 	size_t count = 0;
 	db_.scanPrefix(prefix, [&](std::string_view /*key*/, std::string_view /*val*/){
 		++count;
 		if (count >= maxProbe) {
-			if (capped) *capped = true;
+			if (capped) {
+			  *capped = true;
+			}
 			return false;
 		}
 		return true;
@@ -2152,7 +2330,9 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 	uint64_t steps = 0;
 	if (!reversed) {
 		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, std::string_view /*value*/){
-            if (result.size() >= limit) return false;
+            if (result.size() >= limit) {
+              return false;
+            }
             size_t lastColon = key.rfind(':');
             if (lastColon != std::string_view::npos) {
 				result.emplace_back(key.substr(lastColon+1));
@@ -2164,12 +2344,16 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
         std::vector<std::string> tmp;
 		db_.scanRange(startKey, endKey, [&tmp, &steps](std::string_view key, std::string_view /*value*/){
             size_t lastColon = key.rfind(':');
-			if (lastColon != std::string_view::npos) tmp.emplace_back(key.substr(lastColon+1));
+			if (lastColon != std::string_view::npos) {
+			  tmp.emplace_back(key.substr(lastColon+1));
+			}
 			++steps;
             return true;
         });
         std::reverse(tmp.begin(), tmp.end());
-        if (tmp.size() > limit) tmp.resize(limit);
+        if (tmp.size() > limit) {
+          tmp.resize(limit);
+        }
         result = std::move(tmp);
     }
 
@@ -2281,7 +2465,9 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			// Anhängen
 			for (const auto& pk : more) {
 				out.emplace_back(pk);
-				if (out.size() >= limit) break;
+				if (out.size() >= limit) {
+				  break;
+				}
 			}
 		}
 
@@ -2322,8 +2508,12 @@ std::pair<double, double> SecondaryIndexManager::decodeGeohash(std::string_view 
 	
 	uint64_t lat_bits = 0, lon_bits = 0;
 	for (int i = 0; i < 32; ++i) {
-		if (morton & (1ULL << (i * 2))) lat_bits |= (1ULL << i);
-		if (morton & (1ULL << (i * 2 + 1))) lon_bits |= (1ULL << i);
+		if (morton & (1ULL << (i * 2))) {
+		  lat_bits |= (1ULL << i);
+		}
+		if (morton & (1ULL << (i * 2 + 1))) {
+		  lon_bits |= (1ULL << i);
+		}
 	}
 	
 	double lat_norm = static_cast<double>(lat_bits) / 0xFFFFFFFFULL;
@@ -2360,14 +2550,20 @@ SecondaryIndexManager::scanGeoBox(
 	
 	size_t count = 0;
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
-		if (count >= limit) return false;
+		if (count >= limit) {
+		  return false;
+		}
 		
 		// Extract PK from key: gidx:table:column:geohash:PK
 		size_t lastColon = key.rfind(':');
-		if (lastColon == std::string_view::npos) return true;
+		if (lastColon == std::string_view::npos) {
+		  return true;
+		}
 		
 		size_t secondLastColon = key.rfind(':', lastColon - 1);
-		if (secondLastColon == std::string_view::npos) return true;
+		if (secondLastColon == std::string_view::npos) {
+		  return true;
+		}
 		
 		std::string_view geohash = key.substr(secondLastColon + 1, lastColon - secondLastColon - 1);
 		auto [lat, lon] = decodeGeohash(geohash);
@@ -2409,20 +2605,28 @@ SecondaryIndexManager::scanGeoRadius(
 	
 	size_t count = 0;
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
-		if (count >= limit) return false;
+		if (count >= limit) {
+		  return false;
+		}
 		
 		// Extract geohash and PK
 		size_t lastColon = key.rfind(':');
-		if (lastColon == std::string_view::npos) return true;
+		if (lastColon == std::string_view::npos) {
+		  return true;
+		}
 		
 		size_t secondLastColon = key.rfind(':', lastColon - 1);
-		if (secondLastColon == std::string_view::npos) return true;
+		if (secondLastColon == std::string_view::npos) {
+		  return true;
+		}
 		
 		std::string_view geohash = key.substr(secondLastColon + 1, lastColon - secondLastColon - 1);
 		auto [lat, lon] = decodeGeohash(geohash);
 		
 		// Check if in bounding box first (fast filter)
-		if (lat < minLat || lat > maxLat || lon < minLon || lon > maxLon) return true;
+		if (lat < minLat || lat > maxLat || lon < minLon || lon > maxLon) {
+		  return true;
+		}
 		
 		// Precise distance check
 		double dist = haversineDistance(centerLat, centerLon, lat, lon);
@@ -2462,7 +2666,9 @@ SecondaryIndexManager::cleanupExpiredEntities(std::string_view table, std::strin
 	
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*val*/) {
 		// Stop if key > upperBound
-		if (key > upperBound) return false;
+		if (key > upperBound) {
+		  return false;
+		}
 		
 		// Extract PK from ttlidx:table:column:timestamp:PK
 		size_t lastColon = key.rfind(':');
@@ -2531,7 +2737,9 @@ SecondaryIndexManager::computeBM25Scores_(
 				}
 				continue;
 			}
-			if (in_quotes) current.push_back(c); else cleaned.push_back(c);
+			if (in_quotes) {
+			  current.push_back(c); else cleaned.push_back(c);
+			}
 		}
 		return std::pair{phrases, cleaned};
 	};
@@ -2544,7 +2752,9 @@ SecondaryIndexManager::computeBM25Scores_(
 		std::string concat;
 		concat.reserve(cleanedQuery.size() + query.size());
 		for (size_t i = 0; i < phrases.size(); ++i) {
-			if (i) concat.push_back(' ');
+			if (i) {
+			  concat.push_back(' ');
+			}
 			concat += phrases[i];
 		}
 		tokens = tokenize(concat, config);
@@ -2603,7 +2813,9 @@ SecondaryIndexManager::computeBM25Scores_(
 		std::vector<std::string> normalizedPhrases;
 		normalizedPhrases.reserve(phrases.size());
 		for (auto ph : phrases) {
-			if (config.normalize_umlauts) ph = utils::Normalizer::normalizeUmlauts(ph);
+			if (config.normalize_umlauts) {
+			  ph = utils::Normalizer::normalizeUmlauts(ph);
+			}
 			std::transform(ph.begin(), ph.end(), ph.begin(), [](unsigned char c){ return std::tolower(c); });
 			normalizedPhrases.push_back(std::move(ph));
 		}
@@ -2622,7 +2834,9 @@ SecondaryIndexManager::computeBM25Scores_(
 					auto maybeVal = entity.extractField(column);
 					if (maybeVal.has_value()) {
 						std::string field = *maybeVal;
-						if (config.normalize_umlauts) field = utils::Normalizer::normalizeUmlauts(field);
+						if (config.normalize_umlauts) {
+						  field = utils::Normalizer::normalizeUmlauts(field);
+						}
 						std::transform(field.begin(), field.end(), field.begin(), [](unsigned char c){ return std::tolower(c); });
 						bool allFound = true;
 						for (const auto& ph : normalizedPhrases) {
@@ -2634,9 +2848,13 @@ SecondaryIndexManager::computeBM25Scores_(
 					keep = false;
 				}
 			}
-			if (!keep) toErase.emplace_back(pk);
+			if (!keep) {
+			  toErase.emplace_back(pk);
+			}
 		}
-		for (const auto& pk : toErase) intersectionSet.erase(pk);
+		for (const auto& pk : toErase) {
+		  intersectionSet.erase(pk);
+		}
 		if (intersectionSet.empty()) return {Status::OK(), std::vector<FulltextResult>()};
 	}
 
@@ -2651,7 +2869,9 @@ SecondaryIndexManager::computeBM25Scores_(
 	}
 	universe.reserve(universe_hint);
 	for (const auto& s : tokenResults) {
-		for (const auto& pk : s) universe.insert(pk);
+		for (const auto& pk : s) {
+		  universe.insert(pk);
+		}
 	}
 	const double N = static_cast<double>(std::max<size_t>(1, universe.size()));
 
@@ -2675,7 +2895,9 @@ SecondaryIndexManager::computeBM25Scores_(
 	// Vorbereiten: df je Token
 	std::vector<double> dfs;
 	dfs.reserve(tokens.size());
-	for (const auto& s : tokenResults) dfs.emplace_back(static_cast<double>(s.size()));
+	for (const auto& s : tokenResults) {
+	  dfs.emplace_back(static_cast<double>(s.size()));
+	}
 
 	// BM25 Parameter
 	const double k1 = 1.2;
@@ -2877,13 +3099,21 @@ namespace {
 		const size_t m = s1.size();
 		const size_t n = s2.size();
 		
-		if (m == 0) return static_cast<int>(n);
-		if (n == 0) return static_cast<int>(m);
+		if (m == 0) {
+		  return static_cast<int>(n);
+		}
+		if (n == 0) {
+		  return static_cast<int>(m);
+		}
 		
 		std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
 		
-		for (size_t i = 0; i <= m; ++i) dp[i][0] = static_cast<int>(i);
-		for (size_t j = 0; j <= n; ++j) dp[0][j] = static_cast<int>(j);
+		for (size_t i = 0; i <= m; ++i) {
+		  dp[i][0] = static_cast<int>(i);
+		}
+		for (size_t j = 0; j <= n; ++j) {
+		  dp[0][j] = static_cast<int>(j);
+		}
 		
 		for (size_t i = 1; i <= m; ++i) {
 			for (size_t j = 1; j <= n; ++j) {
@@ -3143,7 +3373,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		size_t pos = 0;
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
-			if (p == std::string::npos) p = column.size();
+			if (p == std::string::npos) {
+			  p = column.size();
+			}
 			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
@@ -3184,7 +3416,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	size_t done = 0;
 	auto advance = [&]() -> bool {
 		++done;
-		if (progress) return progress(done, total);
+		if (progress) {
+		  return progress(done, total);
+		}
 		return true;
 	};
 
@@ -3197,7 +3431,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3211,7 +3447,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "fulltext") {
 		// Get index config for consistent tokenization
 		auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
@@ -3219,7 +3457,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3235,12 +3475,16 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "geo") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3264,12 +3508,16 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "sparse") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3283,12 +3531,16 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "range") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3301,14 +3553,18 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "composite") {
 		// Parse columns
 		std::vector<std::string> columns;
 		size_t pos = 0;
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
-			if (p == std::string::npos) p = column.size();
+			if (p == std::string::npos) {
+			  p = column.size();
+			}
 			columns.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
@@ -3316,7 +3572,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3335,12 +3593,16 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "regular") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3354,7 +3616,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "partial") {
 		// Load predicate for this partial index
 		auto predOpt = getPartialIndexPredicate(table, column);
@@ -3364,7 +3628,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lastColon = key.rfind(':');
-			if (lastColon == std::string::npos) return true;
+			if (lastColon == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lastColon + 1));
 
 			BaseEntity::Blob blob(val.begin(), val.end());
@@ -3385,7 +3651,9 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	}
 	
 	// Update metrics at the end
@@ -3430,7 +3698,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		size_t pos = 0;
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
-			if (p == std::string::npos) p = column.size();
+			if (p == std::string::npos) {
+			  p = column.size();
+			}
 			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
@@ -3457,7 +3727,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			stale.emplace_back(k);
 			return true;
 		});
-		for (const auto& k : stale) db_.del(k);
+		for (const auto& k : stale) {
+		  db_.del(k);
+		}
 	}
 
 	// Step 4: Count entities for progress reporting
@@ -3470,7 +3742,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		++done;
 		if (throttle_us > 0 && done % 100 == 0)
 			std::this_thread::sleep_for(std::chrono::microseconds(throttle_us));
-		if (progress) return progress(done, total);
+		if (progress) {
+		  return progress(done, total);
+		}
 		return true;
 	};
 
@@ -3489,7 +3763,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeVal = entity.extractField(column);
@@ -3499,13 +3775,17 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "fulltext") {
 		auto config = getFulltextConfig(table, column).value_or(FulltextConfig{});
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeVal = entity.extractField(column);
@@ -3515,12 +3795,16 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "geo") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeLat = entity.extractField(column + "_lat");
@@ -3533,12 +3817,16 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "sparse") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeVal = entity.extractField(column);
@@ -3547,12 +3835,16 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "range") {
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeVal = entity.extractField(column);
@@ -3561,20 +3853,26 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else if (indexType == "composite") {
 		std::vector<std::string> cols;
 		size_t pos = 0;
 		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
-			if (p == std::string::npos) p = column.size();
+			if (p == std::string::npos) {
+			  p = column.size();
+			}
 			cols.emplace_back(column.substr(pos, p - pos));
 			pos = p + 1;
 		}
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			std::vector<std::string> values;
@@ -3588,12 +3886,16 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	} else { // regular
 		bool aborted = false;
 		db_.scanPrefix(entityPrefix, [&](std::string_view key, std::string_view val) {
 			size_t lc = key.rfind(':');
-			if (lc == std::string::npos) return true;
+			if (lc == std::string::npos) {
+			  return true;
+			}
 			std::string pk(key.substr(lc + 1));
 			BaseEntity entity = BaseEntity::deserialize(pk, BaseEntity::Blob(val.begin(), val.end()));
 			auto maybeVal = entity.extractField(column);
@@ -3602,7 +3904,9 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 			if (!advance()) { aborted = true; return false; }
 			return true;
 		});
-		if (aborted) return;
+		if (aborted) {
+		  return;
+		}
 	}
 
 	// Step 6: Atomic swap – in one WriteBatch:
@@ -3650,7 +3954,9 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 	// Helper to read meta value using RocksDBWrapper::get()
 	auto readMeta = [&]([[maybe_unused]] const std::string& key)->std::optional<std::string> {
 		auto opt = db_.get(key);
-		if (!opt) return std::nullopt;
+		if (!opt) {
+		  return std::nullopt;
+		}
 		return std::string(opt->begin(), opt->end());
 	};
 
@@ -3662,7 +3968,9 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		size_t pos = 0;
 		while (pos < columnStr.size()) {
 			size_t p = columnStr.find('+', pos);
-			if (p == std::string::npos) p = columnStr.size();
+			if (p == std::string::npos) {
+			  p = columnStr.size();
+			}
 			cols.emplace_back(columnStr.substr(pos, p - pos));
 			pos = p + 1;
 		}
@@ -3674,11 +3982,15 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 		std::string colList;
 		if (!cols.empty()) {
 			size_t totalLen = 0;
-			for (const auto& c : cols) totalLen += c.size();
+			for (const auto& c : cols) {
+			  totalLen += c.size();
+			}
 			totalLen += (cols.size() - 1) * 2; // ", " separators
 			colList.reserve(totalLen);
 			for (size_t i = 0; i < cols.size(); ++i) {
-				if (i > 0) colList += ", ";
+				if (i > 0) {
+				  colList += ", ";
+				}
 				colList += cols[i];
 			}
 		}
@@ -3863,10 +4175,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 	const BaseEntity& entity, 
 	RocksDBWrapper::TransactionWrapper& txn) {
 	
-	if (table.empty()) return Status::Error("put(mvcc): table darf nicht leer sein");
-	if (entity.getPrimaryKey().empty()) return Status::Error("put(mvcc): pk darf nicht leer sein");
-	if (!db_.isOpen()) return Status::Error("put(mvcc): Datenbank ist nicht geöffnet");
-	if (!txn.isActive()) return Status::Error("put(mvcc): Transaction ist nicht aktiv");
+	if (table.empty()) {
+	  return Status::Error("put(mvcc): table darf nicht leer sein");
+	}
+	if (entity.getPrimaryKey().empty()) {
+	  return Status::Error("put(mvcc): pk darf nicht leer sein");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("put(mvcc): Datenbank ist nicht geöffnet");
+	}
+	if (!txn.isActive()) {
+	  return Status::Error("put(mvcc): Transaction ist nicht aktiv");
+	}
 
 	const std::string& pk = entity.getPrimaryKey();
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
@@ -3889,7 +4209,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(
 	// Indexes aktualisieren
 	if (oldEntity) {
 		auto delStatus = updateIndexesForDelete_(table, pk, oldEntity.get(), txn);
-		if (!delStatus.ok) return delStatus;
+		if (!delStatus.ok) {
+		  return delStatus;
+		}
 	}
 	return updateIndexesForPut_(table, pk, entity, txn);
 }
@@ -3899,10 +4221,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(
 	std::string_view pk, 
 	RocksDBWrapper::TransactionWrapper& txn) {
 	
-	if (table.empty()) return Status::Error("erase(mvcc): table darf nicht leer sein");
-	if (pk.empty()) return Status::Error("erase(mvcc): pk darf nicht leer sein");
-	if (!db_.isOpen()) return Status::Error("erase(mvcc): Datenbank ist nicht geöffnet");
-	if (!txn.isActive()) return Status::Error("erase(mvcc): Transaction ist nicht aktiv");
+	if (table.empty()) {
+	  return Status::Error("erase(mvcc): table darf nicht leer sein");
+	}
+	if (pk.empty()) {
+	  return Status::Error("erase(mvcc): pk darf nicht leer sein");
+	}
+	if (!db_.isOpen()) {
+	  return Status::Error("erase(mvcc): Datenbank ist nicht geöffnet");
+	}
+	if (!txn.isActive()) {
+	  return Status::Error("erase(mvcc): Transaction ist nicht aktiv");
+	}
 
 	const std::string relKey = KeySchema::makeRelationalKey(table, pk);
 	
@@ -4057,7 +4387,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
 			auto maybe = newEntity.extractField(col);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			
 			// Unique-Constraint prüfen
@@ -4152,7 +4484,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				if (!txn.getForUpdate(makeCompositeUniqueSentinelKey_(table, columns, values))) {
 					std::string valueStr;
 					for (size_t i = 0; i < values.size(); ++i) {
-						if (i > 0) valueStr += ", ";
+						if (i > 0) {
+						  valueStr += ", ";
+						}
 						valueStr += columns[i] + "=" + values[i];
 					}
 					return Status::Error("Unique constraint write conflict: " + std::string(table) + ".{" + valueStr + "} (concurrent transaction holds lock)");
@@ -4175,7 +4509,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				if (conflict) {
 					std::string valueStr;
 					for (size_t i = 0; i < values.size(); ++i) {
-						if (i > 0) valueStr += ", ";
+						if (i > 0) {
+						  valueStr += ", ";
+						}
 						valueStr += columns[i] + "=" + values[i];
 					}
 					return Status::Error("Unique constraint violation: " + std::string(table) + ".{" + valueStr + "}");
@@ -4190,10 +4526,14 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	// Zusätzlich: Range-Indizes pflegen, die keine Equality-Indizes haben
 	for (const auto& rcol : rangeCols) {
 		// Wenn diese Spalte bereits im obigen Loop gepflegt wurde (weil Equality-Index existiert), überspringen
-		if (indexedCols.find(rcol) != indexedCols.end()) continue;
+		if (indexedCols.find(rcol) != indexedCols.end()) {
+		  continue;
+		}
 		// Nur Single-Column Range-Indizes unterstützen (Composite-Range-Indizes sind nicht implementiert)
 		auto maybe = newEntity.extractField(rcol);
-		if (!maybe) continue;
+		if (!maybe) {
+		  continue;
+		}
 		const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 		txn.put(rkey, pkBytes);
 	}
@@ -4283,7 +4623,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 	for (const auto& tcol : ttlCols) {
 		auto maybeValue = newEntity.extractField(tcol);
-		if (!maybeValue) continue;
+		if (!maybeValue) {
+		  continue;
+		}
 		
 		// Calculate expire timestamp: now + TTL seconds (use cached TTL to avoid db.get, v1.3.5)
 		auto now = std::chrono::system_clock::now();
@@ -4292,11 +4634,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		int64_t ttlSeconds = 0;
 		if (hasCachedMetadata) {
 			auto it = ttlSecondsCache.find(tcol);
-			if (it != ttlSecondsCache.end()) ttlSeconds = it->second;
+			if (it != ttlSecondsCache.end()) {
+			  ttlSeconds = it->second;
+			}
 		} else {
 			ttlSeconds = getTTLSeconds_(table, tcol);
 		}
-		if (ttlSeconds <= 0) continue;
+		if (ttlSeconds <= 0) {
+		  continue;
+		}
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
 		const std::string ttlKey = makeTTLIndexKey(table, tcol, expireTimestamp, pk);
@@ -4312,7 +4658,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	}
 	for (const auto& fcol : fulltextCols) {
 		auto maybeText = newEntity.extractField(fcol);
-		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
+		if (!maybeText || isNullOrEmpty_(maybeText)) {
+		  continue;
+		}
 		
 		// Use cached fulltext config to avoid db.get + JSON parse on every insert (v1.3.5)
 		FulltextConfig config;
@@ -4363,9 +4711,13 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 		for (const auto& [pcol, ppred] : partialCols) {
 			// Only index if entity satisfies the predicate
-			if (!evaluatePartialPredicate_(newEntity, ppred)) continue;
+			if (!evaluatePartialPredicate_(newEntity, ppred)) {
+			  continue;
+			}
 			auto maybe = newEntity.extractField(pcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 
 			// Unique-Constraint prüfen
@@ -4504,7 +4856,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		if (col.find('+') == std::string::npos) {
 			// Single-Column
 			auto maybe = oldEntityOpt->extractField(col);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
 			txn.del(idxKey);
@@ -4539,7 +4893,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 				values.emplace_back(*maybe);
 			}
 			
-			if (!allPresent) continue;
+			if (!allPresent) {
+			  continue;
+			}
 			
 			const std::string idxKey = makeCompositeIndexKey(table, columns, values, pk);
 			txn.del(idxKey);
@@ -4551,7 +4907,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 		for (const auto& rcol : rangeCols) {
 			if (indexedCols.find(rcol) != indexedCols.end()) continue; // bereits oben behandelt
 			auto maybe = oldEntityOpt->extractField(rcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 			txn.del(rkey);
 		}
@@ -4577,7 +4935,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			auto maybeLat = oldEntityOpt->extractField(latField);
 			auto maybeLon = oldEntityOpt->extractField(lonField);
 			
-			if (!maybeLat || !maybeLon) continue;
+			if (!maybeLat || !maybeLon) {
+			  continue;
+			}
 			
 			try {
 				double lat = std::stod(*maybeLat);
@@ -4597,7 +4957,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	{
 		for (const auto& tcol : ttlCols) {
 			auto maybeValue = oldEntityOpt->extractField(tcol);
-			if (!maybeValue) continue;
+			if (!maybeValue) {
+			  continue;
+			}
 			
 			// We need to find the TTL index entry, but we don't know the exact timestamp
 			// Scan the TTL index prefix and delete matching PKs
@@ -4621,7 +4983,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	{
 		for (const auto& fcol : fulltextCols) {
 			auto maybeText = oldEntityOpt->extractField(fcol);
-			if (!maybeText || isNullOrEmpty_(maybeText)) continue;
+			if (!maybeText || isNullOrEmpty_(maybeText)) {
+			  continue;
+			}
 			
 			// Use cached fulltext config to avoid db.get + JSON parse on every upsert/delete (v1.3.5)
 			FulltextConfig config;
@@ -4642,7 +5006,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			
 			std::unordered_set<std::string> uniqueTokens(tokens.begin(), tokens.end());
 			for (const auto& token : uniqueTokens) {
-				if (token.empty()) continue;
+				if (token.empty()) {
+				  continue;
+				}
 				const std::string ftKey = makeFulltextIndexKey(table, fcol, token, pk);
 				txn.del(ftKey);
 				const std::string tfKey = makeFulltextTFKey(table, fcol, token, pk);
@@ -4658,7 +5024,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 	{
 		for (const auto& [pcol, ppred] : partialCols) {
 			auto maybe = oldEntityOpt->extractField(pcol);
-			if (!maybe) continue;
+			if (!maybe) {
+			  continue;
+			}
 			const std::string encodedVal = encodeKeyComponent(*maybe);
 			const std::string pidxKey = makePartialIndexKey(table, pcol, encodedVal, pk);
 			txn.del(pidxKey);

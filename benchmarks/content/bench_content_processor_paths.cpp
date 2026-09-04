@@ -25,8 +25,12 @@ std::string makeOfficePayload(std::size_t size) {
     payload += "<?xml version=\"1.0\"?><document><body>";
     for (std::size_t i = 0; i < size; ++i) {
         payload.push_back(static_cast<char>('a' + (i % 26)));
-        if (i % 97 == 0) payload += "<w:p>";
-        if (i % 131 == 0) payload += "</w:p>";
+        if (i % 97 == 0) {
+          payload += "<w:p>";
+        }
+        if (i % 131 == 0) {
+          payload += "</w:p>";
+        }
     }
     payload += "</body></document>";
     return payload;

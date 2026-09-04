@@ -69,13 +69,17 @@ inline float cosineDistance(const float* a, const float* b, uint32_t dim) {
         nb  += b[i] * b[i];
     }
     float denom = std::sqrt(na) * std::sqrt(nb);
-    if (denom < 1e-9f) return 1.0f;
+    if (denom < 1e-9f) {
+      return 1.0f;
+    }
     return 1.0f - dot / denom;
 }
 
 inline float dotDistance(const float* a, const float* b, uint32_t dim) {
     float dot = 0.0f;
-    for (uint32_t i = 0; i < dim; ++i) dot += a[i] * b[i];
+    for (uint32_t i = 0; i < dim; ++i) {
+      dot += a[i] * b[i];
+    }
     return -dot;  // Negate so that "smaller = more similar" invariant holds
 }
 
@@ -116,7 +120,9 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     // Traverse upper layers with ef=1
     for (int layer = num_layers - 1; layer > 0; --layer) {
         const HnswLayerGraph& g = layers[static_cast<size_t>(layer)];
-        if (g.num_nodes == 0) continue;
+        if (g.num_nodes == 0) {
+          continue;
+        }
 
         float best_dist = computeDistance(query,
                                           flat_vectors.data() + static_cast<size_t>(entry) * dim,
@@ -128,7 +134,9 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
             int32_t end   = g.offsets[static_cast<size_t>(entry) + 1];
             for (int32_t ni = start; ni < end; ++ni) {
                 int32_t nb = g.neighbours[static_cast<size_t>(ni)];
-                if (nb < 0 || static_cast<uint32_t>(nb) >= g.num_nodes) continue;
+                if (nb < 0 || static_cast<uint32_t>(nb) >= g.num_nodes) {
+                  continue;
+                }
                 float d = computeDistance(query,
                                           flat_vectors.data() + static_cast<size_t>(nb) * dim,
                                           dim, metric);
@@ -168,7 +176,9 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
                                   dim, metric);
         candidates.push({d, node_id});
         results.push({d, node_id});
-        if (results.size() > ef) results.pop();
+        if (results.size() > ef) {
+          results.pop();
+        }
     };
 
     visited[static_cast<size_t>(entry)] = true;
@@ -182,8 +192,12 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
         int32_t end   = bottom.offsets[static_cast<size_t>(cn) + 1];
         for (int32_t ni = start; ni < end; ++ni) {
             int32_t nb = bottom.neighbours[static_cast<size_t>(ni)];
-            if (nb < 0 || static_cast<uint32_t>(nb) >= bottom.num_nodes) continue;
-            if (visited[static_cast<size_t>(nb)]) continue;
+            if (nb < 0 || static_cast<uint32_t>(nb) >= bottom.num_nodes) {
+              continue;
+            }
+            if (visited[static_cast<size_t>(nb)]) {
+              continue;
+            }
             visited[static_cast<size_t>(nb)] = true;
             enqueue(nb);
         }
@@ -198,7 +212,9 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     }
     std::sort(out.begin(), out.end(),
               [](const auto& a, const auto& b){ return a.score < b.score; });
-    if (out.size() > k) out.resize(k);
+    if (out.size() > k) {
+      out.resize(k);
+    }
     return out;
 }
 
@@ -326,7 +342,9 @@ CudaHnswTraversalEngine& CudaHnswTraversalEngine::operator=(CudaHnswTraversalEng
 bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& layers,
                                           const float*                        vectors,
                                           size_t                              num_vectors) {
-    if (layers.empty() || vectors == nullptr || num_vectors == 0) return false;
+    if (layers.empty() || vectors == nullptr || num_vectors == 0) {
+      return false;
+    }
 
     // Always keep a host copy for CPU fallback
     impl_->layers.clear();
@@ -465,14 +483,22 @@ CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) con
                     impl_->index_built.load(), impl_->flat_vectors.size());
         return {};
     }
-    if (ef == 0) ef = config_.ef_search;
-    if (k == 0)  k  = 1;
-    if (ef < k) ef = k;
+    if (ef == 0) {
+      ef = config_.ef_search;
+    }
+    if (k == 0) {
+      k  = 1;
+    }
+    if (ef < k) {
+      ef = k;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
         auto batch = batchSearch(query, 1, k, ef);
-        if (!batch.empty()) return batch[0];
+        if (!batch.empty()) {
+          return batch[0];
+        }
     }
 #endif
 
@@ -492,9 +518,15 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     impl_->index_built.load(), queries == nullptr, num_queries);
         return {};
     }
-    if (ef == 0) ef = config_.ef_search;
-    if (k  == 0) k  = 1;
-    if (ef < k) ef = k;
+    if (ef == 0) {
+      ef = config_.ef_search;
+    }
+    if (k  == 0) {
+      k  = 1;
+    }
+    if (ef < k) {
+      ef = k;
+    }
 
     std::vector<std::vector<HnswTraversalResult>> results(num_queries);
 
@@ -630,9 +662,13 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                 gpu_path_ok = all_ok;
             }
 
-            if (gpu_path_ok) return results;
+            if (gpu_path_ok) {
+              return results;
+            }
             // Reset results before falling through to multi-pass / CPU
-            for (auto& r : results) r.clear();
+            for (auto& r : results) {
+              r.clear();
+            }
         }
 
         // ── Multi-pass GPU path (k > kHnswKernelMaxK) ────────────────────────
@@ -790,7 +826,9 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
             }
         }
 
-        if (gpu_path_ok) return results;
+        if (gpu_path_ok) {
+          return results;
+        }
         // Fall through to CPU if all GPU paths failed
     }
 #endif
@@ -839,7 +877,9 @@ std::string CudaHnswTraversalEngine::deviceInfo() const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void CudaHnswTraversalEngine::setMaxBatchSize([[maybe_unused]] size_t n) {
-    if (n == 0) n = 1;
+    if (n == 0) {
+      n = 1;
+    }
     impl_->max_batch_size = n;
     // Note: the pool is (re)allocated on the next buildIndex() call.
     // If the index has already been built and the caller wants the new batch

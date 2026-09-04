@@ -121,8 +121,12 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
     out.reserve((bytes.size() + 2) / 3 * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
-        if (i + 1 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 1]) << 8;
-        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 2]);
+        if (i + 1 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i + 1]) << 8;
+        }
+        if (i + 2 < bytes.size()) {
+          b |= static_cast<uint32_t>(bytes[i + 2]);
+        }
         out += kTable[(b >> 18) & 0x3f];
         out += kTable[(b >> 12) & 0x3f];
         out += (i + 1 < bytes.size()) ? kTable[(b >> 6) & 0x3f] : '=';
@@ -137,9 +141,13 @@ std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::istringstream stream(text);
     std::string line;
     while (std::getline(stream, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         auto space = line.rfind(' ');
-        if (space == std::string::npos) continue;
+        if (space == std::string::npos) {
+          continue;
+        }
         std::string stack = line.substr(0, space);
         uint64_t count = 0;
         try {
@@ -240,7 +248,9 @@ public:
 
     void start() {
         std::unique_lock<std::mutex> lock(mutex_);
-        if (running_ || !enabled_) return;
+        if (running_ || !enabled_) {
+          return;
+        }
         running_ = true;
         worker_ = std::thread(&Impl::workerLoop, this);
     }
@@ -269,7 +279,9 @@ public:
                 auto frames = captureStack(64);
                 std::string key;
                 for (size_t i = 0; i < frames.size(); ++i) {
-                    if (i > 0) key += ';';
+                    if (i > 0) {
+                      key += ';';
+                    }
                     key += frames[i];
                 }
                 cpu_stacks_[key]++;
@@ -299,7 +311,9 @@ public:
         std::unique_lock<std::mutex> lock(mutex_);
         std::vector<ProfileSnapshot> result;
         auto it = history_.find(type);
-        if (it == history_.end()) return result;
+        if (it == history_.end()) {
+          return result;
+        }
         for (const auto& s : it->second) {
             if (s.timestamp >= from && s.timestamp < to) {
                 result.push_back(s);
@@ -319,8 +333,12 @@ public:
         auto curMap  = parseFolded(current.dataAsString());
 
         uint64_t baseTotal = 0, curTotal = 0;
-        for (auto& [k, v] : baseMap) baseTotal += v;
-        for (auto& [k, v] : curMap)  curTotal  += v;
+        for (auto& [k, v] : baseMap) {
+          baseTotal += v;
+        }
+        for (auto& [k, v] : curMap) {
+          curTotal  += v;
+        }
 
         if (baseTotal > 0 && curTotal > 0) {
             diff.cpu_regression_percent =
@@ -354,7 +372,9 @@ public:
 
         // Deduplicate lists (they may be long; cap at 20 entries for usability)
         auto trim = [](std::vector<std::string>& v) {
-            if (v.size() > 20) v.resize(20);
+            if (v.size() > 20) {
+              v.resize(20);
+            }
         };
         trim(diff.new_hotspots);
         trim(diff.removed_hotspots);
@@ -396,11 +416,19 @@ private:
         // cpu_sample_rate = desired overhead fraction → sample period ≈ 1/rate ms
         // Clamp to [1 ms, 1000 ms] to stay practical.
         double rate = config_.cpu_sample_rate;
-        if (rate <= 0.0) rate = 0.01;
-        if (rate > 1.0)  rate = 1.0;
+        if (rate <= 0.0) {
+          rate = 0.01;
+        }
+        if (rate > 1.0) {
+          rate = 1.0;
+        }
         auto sample_period_ms = static_cast<int64_t>(1.0 / rate);
-        if (sample_period_ms < 1)    sample_period_ms = 1;
-        if (sample_period_ms > 1000) sample_period_ms = 1000;
+        if (sample_period_ms < 1) {
+          sample_period_ms = 1;
+        }
+        if (sample_period_ms > 1000) {
+          sample_period_ms = 1000;
+        }
         const auto sample_period = std::chrono::milliseconds(sample_period_ms);
 
         auto next_flush = std::chrono::steady_clock::now() + config_.snapshot_interval;
@@ -412,7 +440,9 @@ private:
             {
                 std::unique_lock<std::mutex> lk(mutex_);
                 cv_.wait_for(lk, sample_period, [this] { return !running_; });
-                if (!running_) break;
+                if (!running_) {
+                  break;
+                }
             }
 
             if (!enabled_.load(std::memory_order_acquire)) {
@@ -425,7 +455,9 @@ private:
                 // Build the folded key (semicolon-joined frames, no count suffix)
                 std::string key;
                 for (size_t i = 0; i < frames.size(); ++i) {
-                    if (i > 0) key += ';';
+                    if (i > 0) {
+                      key += ';';
+                    }
                     key += frames[i];
                 }
                 std::unique_lock<std::mutex> lk(mutex_);
@@ -518,7 +550,9 @@ private:
     void stopInternal() {
         {
             std::unique_lock<std::mutex> lock(mutex_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
         cv_.notify_all();

@@ -64,17 +64,35 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
         // Load configuration settings
         if (config["config"]) {
             auto cfg = config["config"];
-            if (cfg["enabled"]) config_.enabled = cfg["enabled"].as<bool>();
-            if (cfg["detection_threshold"]) config_.detection_threshold = cfg["detection_threshold"].as<float>();
-            if (cfg["enable_logging"]) config_.enable_logging = cfg["enable_logging"].as<bool>();
-            if (cfg["always_apply_default"]) config_.always_apply_default = cfg["always_apply_default"].as<bool>();
-            if (cfg["show_disclaimers"]) config_.show_disclaimers = cfg["show_disclaimers"].as<bool>();
-            if (cfg["language_mode"]) config_.language_mode = cfg["language_mode"].as<std::string>();
+            if (cfg["enabled"]) {
+              config_.enabled = cfg["enabled"].as<bool>();
+            }
+            if (cfg["detection_threshold"]) {
+              config_.detection_threshold = cfg["detection_threshold"].as<float>();
+            }
+            if (cfg["enable_logging"]) {
+              config_.enable_logging = cfg["enable_logging"].as<bool>();
+            }
+            if (cfg["always_apply_default"]) {
+              config_.always_apply_default = cfg["always_apply_default"].as<bool>();
+            }
+            if (cfg["show_disclaimers"]) {
+              config_.show_disclaimers = cfg["show_disclaimers"].as<bool>();
+            }
+            if (cfg["language_mode"]) {
+              config_.language_mode = cfg["language_mode"].as<std::string>();
+            }
             
             // LLM-as-judge configuration
-            if (cfg["use_llm_as_judge"]) config_.use_llm_as_judge = cfg["use_llm_as_judge"].as<bool>();
-            if (cfg["llm_judge_threshold"]) config_.llm_judge_threshold = cfg["llm_judge_threshold"].as<float>();
-            if (cfg["combine_with_keywords"]) config_.combine_with_keywords = cfg["combine_with_keywords"].as<bool>();
+            if (cfg["use_llm_as_judge"]) {
+              config_.use_llm_as_judge = cfg["use_llm_as_judge"].as<bool>();
+            }
+            if (cfg["llm_judge_threshold"]) {
+              config_.llm_judge_threshold = cfg["llm_judge_threshold"].as<float>();
+            }
+            if (cfg["combine_with_keywords"]) {
+              config_.combine_with_keywords = cfg["combine_with_keywords"].as<bool>();
+            }
         }
         
         // Load core principles
@@ -85,7 +103,9 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
                 principle.id = p["id"].as<std::string>();
                 principle.name = p["name"].as<std::string>();
                 principle.description = p["description"].as<std::string>();
-                if (p["description_en"]) principle.description_en = p["description_en"].as<std::string>();
+                if (p["description_en"]) {
+                  principle.description_en = p["description_en"].as<std::string>();
+                }
                 principle.priority = p["priority"].as<int>();
                 principles_.push_back(principle);
             }
@@ -150,9 +170,15 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
                 std::string domain_name = domain.first.as<std::string>();
                 DomainGuideline guideline;
                 
-                if (domain.second["name"]) guideline.name = domain.second["name"].as<std::string>();
-                if (domain.second["augmentation"]) guideline.augmentation = domain.second["augmentation"].as<std::string>();
-                if (domain.second["additional_notes"]) guideline.additional_notes = domain.second["additional_notes"].as<std::string>();
+                if (domain.second["name"]) {
+                  guideline.name = domain.second["name"].as<std::string>();
+                }
+                if (domain.second["augmentation"]) {
+                  guideline.augmentation = domain.second["augmentation"].as<std::string>();
+                }
+                if (domain.second["additional_notes"]) {
+                  guideline.additional_notes = domain.second["additional_notes"].as<std::string>();
+                }
                 
                 if (domain.second["applies_to"]) {
                     for (const auto& keyword : domain.second["applies_to"]) {
@@ -447,13 +473,17 @@ std::string EthicalGuidelinesManager::detectLanguage(const std::string& text) co
     // Check for common German words
     std::vector<std::string> de_words = {"und", "der", "die", "das", "ist", "mit", "für"};
     for (const auto& word : de_words) {
-        if (text.find(word) != std::string::npos) de_score++;
+        if (text.find(word) != std::string::npos) {
+          de_score++;
+        }
     }
     
     // Check for common English words
     std::vector<std::string> en_words = {"the", "and", "is", "are", "with", "for", "this"};
     for (const auto& word : en_words) {
-        if (text.find(word) != std::string::npos) en_score++;
+        if (text.find(word) != std::string::npos) {
+          en_score++;
+        }
     }
     
     return (de_score > en_score) ? "de" : "en";

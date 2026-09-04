@@ -744,10 +744,16 @@ struct ImportHandle {
     ImportHandle& operator=(const ImportHandle&) = delete;
 
     ImportStatus getStatus() const {
-        if (running.load()) return ImportStatus::RUNNING;
-        if (!future.valid()) return ImportStatus::PENDING;
+        if (running.load()) {
+          return ImportStatus::RUNNING;
+        }
+        if (!future.valid()) {
+          return ImportStatus::PENDING;
+        }
         using fs = std::future_status;
-        if (future.wait_for(std::chrono::seconds(0)) != fs::ready) return ImportStatus::RUNNING;
+        if (future.wait_for(std::chrono::seconds(0)) != fs::ready) {
+          return ImportStatus::RUNNING;
+        }
         return ImportStatus::COMPLETED;
     }
 
@@ -814,7 +820,9 @@ public:
         std::lock_guard<std::mutex> lk(mutex_);
         std::vector<std::shared_ptr<ImportHandle>> out;
         out.reserve(jobs_.size());
-        for (auto& [k, v] : jobs_) out.push_back(v);
+        for (auto& [k, v] : jobs_) {
+          out.push_back(v);
+        }
         return out;
     }
 

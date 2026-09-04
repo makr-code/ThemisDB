@@ -79,7 +79,9 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
     int bridged = 0;
     for (const auto& t : tools_array) {
         const std::string name = t.value("name", "");
-        if (name.empty()) continue;
+        if (name.empty()) {
+          continue;
+        }
 
         const std::string alias       = prefix + name;
         const std::string description = t.value("description", "");

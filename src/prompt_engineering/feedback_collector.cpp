@@ -663,7 +663,9 @@ std::string FeedbackCollector::formatTimestampKey(
 }
 
 void FeedbackCollector::persist(const FeedbackEntry& entry) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     // Primary record: feedback:{prompt_id}:{entry_id} → JSON
     std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
@@ -688,7 +690,9 @@ void FeedbackCollector::persist(const FeedbackEntry& entry) {
 }
 
 void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
 
     std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
     db_->del(primary_key);
@@ -701,7 +705,9 @@ void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
 }
 
 void FeedbackCollector::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
@@ -841,11 +847,15 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     // becomes the representative for the pattern.
     auto best_keyword = [&]([[maybe_unused]] size_t entry_idx) -> std::string {
         const auto& tokens = per_entry_tokens[entry_idx];
-        if (tokens.empty()) return "[empty]";
+        if (tokens.empty()) {
+          return "[empty]";
+        }
 
         // TF: raw count within this query
         std::unordered_map<std::string, size_t> tf;
-        for (const auto& t : tokens) tf[t]++;
+        for (const auto& t : tokens) {
+          tf[t]++;
+        }
 
         std::string best_term;
         double best_score = -1.0;

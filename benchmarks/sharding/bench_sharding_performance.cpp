@@ -589,7 +589,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchSerializationThroughput)(benchmark::
         
         size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
         for (size_t i = 0; i < max_items; i++) {
-            if (i > 0) batch_payload += ",";
+            if (i > 0) {
+              batch_payload += ",";
+            }
             batch_payload += entities_[i];
         }
         batch_payload += "]";
@@ -617,7 +619,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark
     std::string batch_payload = "[";
     size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
     for (size_t i = 0; i < max_items; i++) {
-        if (i > 0) batch_payload += ",";
+        if (i > 0) {
+          batch_payload += ",";
+        }
         batch_payload += entities_[i];
     }
     batch_payload += "]";
@@ -629,7 +633,9 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark
         
         for (char c : batch_payload) {
             if (c == '{') {
-                if (depth == 1) entity_count++;
+                if (depth == 1) {
+                  entity_count++;
+                }
                 depth++;
             } else if (c == '}') {
                 depth--;
@@ -1186,7 +1192,9 @@ public:
             R"(,"peers":[)";
         
         for (int i = 0; i < num_peers_; i++) {
-            if (i > 0) gossip_message_ += ",";
+            if (i > 0) {
+              gossip_message_ += ",";
+            }
             gossip_message_ += R"({"id":"peer_)" + std::to_string(i) + 
                 R"(","endpoint":")" + peers_[i] + 
                 R"(","dc":"dc)" + std::to_string(i % 3) + 

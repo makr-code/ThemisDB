@@ -90,7 +90,9 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
         return true;
         
     } catch (const std::exception& e) {
-        if (bio) BIO_free_all(bio);
+        if (bio) {
+          BIO_free_all(bio);
+        }
         spdlog::error("Base64 decode exception: {}", e.what());
         return false;
     }
@@ -550,8 +552,12 @@ std::vector<std::string> LoRASecurityValidator::detectWeightAnomalies(
     size_t near_zero_count = 0;
     size_t large_count = 0;
     for (float w : weights) {
-        if (std::abs(w) < 1e-6f) near_zero_count++;
-        if (std::abs(w) > 100.0f) large_count++;
+        if (std::abs(w) < 1e-6f) {
+          near_zero_count++;
+        }
+        if (std::abs(w) > 100.0f) {
+          large_count++;
+        }
     }
     
     float near_zero_ratio = static_cast<float>(near_zero_count) / weights.size();
@@ -774,7 +780,9 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
         size_t data_offset = 8 + header_size;
         
         for (auto& [tensor_name, tensor_info] : header.items()) {
-            if (!tensor_info.is_object()) continue;
+            if (!tensor_info.is_object()) {
+              continue;
+            }
             
             // Get tensor metadata
             if (!tensor_info.contains("data_offsets") || !tensor_info.contains("dtype")) {
@@ -784,7 +792,9 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             auto dtype = tensor_info["dtype"].get<std::string>();
             auto offsets = tensor_info["data_offsets"].get<std::vector<uint64_t>>();
             
-            if (offsets.size() != 2) continue;
+            if (offsets.size() != 2) {
+              continue;
+            }
             
             // Validate offsets to prevent overflow and out-of-bounds access
             if (offsets[0] > offsets[1]) {
@@ -862,14 +872,18 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
 }
 
 float LoRASecurityValidator::calculateMean(const std::vector<float>& values) {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     float sum = std::accumulate(values.begin(), values.end(), 0.0f);
     return sum / values.size();
 }
 
 float LoRASecurityValidator::calculateStdDev(const std::vector<float>& values, 
                                             float mean) {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     float sum = 0.0f;
     for (float v : values) {
         float diff = v - mean;
@@ -1157,7 +1171,9 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (a.size() != b.size()) return 0.0f;
+    if (a.size() != b.size()) {
+      return 0.0f;
+    }
     
     float dot = 0.0f, norm_a = 0.0f, norm_b = 0.0f;
     for (size_t i = 0; i < a.size(); i++) {
@@ -1173,7 +1189,9 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (a.size() != b.size()) return std::numeric_limits<float>::max();
+    if (a.size() != b.size()) {
+      return std::numeric_limits<float>::max();
+    }
     
     float sum = 0.0f;
     for (size_t i = 0; i < a.size(); i++) {
@@ -1185,7 +1203,9 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
 }
 
 bool EmbeddingAnomalyDetector::isOutlier(const std::vector<float>& embedding) {
-    if (sample_count_ < config_.min_samples) return false;
+    if (sample_count_ < config_.min_samples) {
+      return false;
+    }
     
     // Check if any dimension is outlier
     for (size_t i = 0; i < embedding.size(); i++) {

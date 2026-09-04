@@ -129,9 +129,13 @@ std::string extractiveSummary(
     std::vector<size_t> selected_indices;
     size_t chars_used = 0;
     for (const auto& [score, idx] : scored) {
-        if (selected_indices.size() >= max_sentences) break;
+        if (selected_indices.size() >= max_sentences) {
+          break;
+        }
         const size_t len = all_sentences[idx].size();
-        if (budget_chars > 0 && chars_used + len > budget_chars) continue;
+        if (budget_chars > 0 && chars_used + len > budget_chars) {
+          continue;
+        }
         selected_indices.push_back(idx);
         chars_used += len + 1; // +1 for separator space
     }
@@ -144,7 +148,9 @@ std::string extractiveSummary(
     std::ostringstream ss;
     bool first = true;
     for (size_t idx : selected_indices) {
-        if (!first) ss << ' ';
+        if (!first) {
+          ss << ' ';
+        }
         ss << all_sentences[idx];
         first = false;
     }

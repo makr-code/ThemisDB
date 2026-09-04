@@ -126,7 +126,9 @@ bool ReplicationSlot::pause()
     SlotState state_copy;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (state_.status != SlotStatus::ACTIVE) return false;
+        if (state_.status != SlotStatus::ACTIVE) {
+          return false;
+        }
         state_.status        = SlotStatus::PAUSED;
         state_.last_activity = std::chrono::system_clock::now();
         state_copy = state_;  // Copy state while holding lock
@@ -140,7 +142,9 @@ bool ReplicationSlot::resume()
     SlotState state_copy;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (state_.status != SlotStatus::PAUSED) return false;
+        if (state_.status != SlotStatus::PAUSED) {
+          return false;
+        }
         state_.status        = SlotStatus::ACTIVE;
         state_.last_activity = std::chrono::system_clock::now();
         state_copy = state_;  // Copy state while holding lock
@@ -154,7 +158,9 @@ bool ReplicationSlot::drop()
     SlotState state_copy;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (state_.status == SlotStatus::DROPPED) return false;
+        if (state_.status == SlotStatus::DROPPED) {
+          return false;
+        }
         state_.status        = SlotStatus::DROPPED;
         state_.last_activity = std::chrono::system_clock::now();
         state_copy = state_;  // Copy state while holding lock
@@ -172,7 +178,9 @@ bool ReplicationSlot::advance([[maybe_unused]] uint64_t confirmed_lsn)
     SlotState state_copy;
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
-        if (state_.status != SlotStatus::ACTIVE) return false;
+        if (state_.status != SlotStatus::ACTIVE) {
+          return false;
+        }
         if (confirmed_lsn < state_.confirmed_lsn) return false; // do not go backwards
         state_.confirmed_lsn = confirmed_lsn;
         state_.restart_lsn   = confirmed_lsn; // restart from acked position
@@ -227,7 +235,9 @@ uint64_t ReplicationSlot::lag() const
         confirmed_lsn_copy = state_.confirmed_lsn;
     }  // Lock released; call external component outside lock
     const uint64_t leader_seq = wal_manager_->getCurrentSequence();
-    if (leader_seq <= confirmed_lsn_copy) return 0;
+    if (leader_seq <= confirmed_lsn_copy) {
+      return 0;
+    }
     return leader_seq - confirmed_lsn_copy;
 }
 
@@ -244,7 +254,9 @@ void ReplicationSlot::persistStateImpl(const SlotState& state) const
         std::filesystem::path(state_file_path_).parent_path());
 
     std::ofstream ofs(state_file_path_, std::ios::out | std::ios::trunc);
-    if (!ofs.is_open()) return;
+    if (!ofs.is_open()) {
+      return;
+    }
 
     auto tp_to_ms = [](const std::chrono::system_clock::time_point& tp) -> int64_t {
         return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -283,22 +295,32 @@ void ReplicationSlot::loadState()
 {
     // Load state from JSON file (called at construction, without lock)
     std::ifstream ifs(state_file_path_);
-    if (!ifs.is_open()) return;
+    if (!ifs.is_open()) {
+      return;
+    }
 
     std::string line;
     while (std::getline(ifs, line)) {
         auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
             const std::string search = "\"" + key + "\": ";
             auto pos = line.find(search);
-            if (pos == std::string::npos) return "";
+            if (pos == std::string::npos) {
+              return "";
+            }
             pos += search.size();
             // Remove quotes if present
             auto end = line.find(',', pos);
-            if (end == std::string::npos) end = line.find('}', pos);
+            if (end == std::string::npos) {
+              end = line.find('}', pos);
+            }
             std::string val = line.substr(pos, (end != std::string::npos) ? end - pos : std::string::npos);
             // Trim quotes
-            if (!val.empty() && val.front() == '"') val = val.substr(1);
-            if (!val.empty() && val.back()  == '"') val.pop_back();
+            if (!val.empty() && val.front() == '"') {
+              val = val.substr(1);
+            }
+            if (!val.empty() && val.back()  == '"') {
+              val.pop_back();
+            }
             return val;
         };
 
@@ -314,10 +336,14 @@ void ReplicationSlot::loadState()
             }
         } else if (line.find("\"confirmed_lsn\"") != std::string::npos) {
             const std::string v = extract("confirmed_lsn");
-            if (!v.empty()) state_.confirmed_lsn = std::stoull(v);
+            if (!v.empty()) {
+              state_.confirmed_lsn = std::stoull(v);
+            }
         } else if (line.find("\"restart_lsn\"") != std::string::npos) {
             const std::string v = extract("restart_lsn");
-            if (!v.empty()) state_.restart_lsn = std::stoull(v);
+            if (!v.empty()) {
+              state_.restart_lsn = std::stoull(v);
+            }
         }
     }
 }
@@ -363,7 +389,9 @@ bool ReplicationSlotManager::dropSlot(const std::string& name)
 {
     std::lock_guard<std::mutex> lock(slots_mutex_);
     const auto it = slots_.find(name);
-    if (it == slots_.end()) return false;
+    if (it == slots_.end()) {
+      return false;
+    }
     it->second->drop();
     slots_.erase(it);
     return true;
@@ -406,12 +434,16 @@ uint64_t ReplicationSlotManager::minConfirmedLsn() const
 void ReplicationSlotManager::loadPersistedSlots()
 {
     const std::string slots_dir = config_.wal_directory + "/slots";
-    if (!std::filesystem::exists(slots_dir)) return;
+    if (!std::filesystem::exists(slots_dir)) {
+      return;
+    }
 
     // First pass: collect slot file paths and names without holding lock
     std::vector<std::pair<std::string, std::string>> slot_entries;  // (name, path)
     for (const auto& entry : std::filesystem::directory_iterator(slots_dir)) {
-        if (entry.path().extension() != ".json") continue;
+        if (entry.path().extension() != ".json") {
+          continue;
+        }
         const std::string slot_name = entry.path().stem().string();
         slot_entries.emplace_back(slot_name, entry.path().string());
     }

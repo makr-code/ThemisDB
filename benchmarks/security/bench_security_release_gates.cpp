@@ -88,7 +88,9 @@ public:
     SecurityErrorCode evaluate(const std::string& principal,
                                const std::string& resource) const {
         auto it = allow_.find(principal + ":" + resource);
-        if (it == allow_.end()) return SecurityErrorCode::POLICY_NOT_FOUND;
+        if (it == allow_.end()) {
+          return SecurityErrorCode::POLICY_NOT_FOUND;
+        }
         return it->second ? SecurityErrorCode::OK : SecurityErrorCode::POLICY_DENY;
     }
 
@@ -104,9 +106,13 @@ static const std::string kBenchJwt =
 
 /// Structural JWT parse (header+payload split, no crypto).
 static bool validateJwtStructure(const std::string& token) {
-    if (token.size() > kMaxJwtTokenBytes) return false;
+    if (token.size() > kMaxJwtTokenBytes) {
+      return false;
+    }
     auto d1 = token.find('.');
-    if (d1 == std::string::npos) return false;
+    if (d1 == std::string::npos) {
+      return false;
+    }
     auto d2 = token.find('.', d1 + 1);
     return d2 != std::string::npos;
 }
@@ -123,7 +129,9 @@ public:
 
     const std::string* lookup(const std::string& id) const {
         auto it = keys_.find(id);
-        if (it == keys_.end()) return nullptr;
+        if (it == keys_.end()) {
+          return nullptr;
+        }
         return &it->second;
     }
 
@@ -163,10 +171,14 @@ public:
 
     SecurityErrorCode check(const std::string& role, const std::string& resource) const {
         auto it = allowed_.find(role);
-        if (it == allowed_.end()) return SecurityErrorCode::RBAC_ROLE_MISSING;
+        if (it == allowed_.end()) {
+          return SecurityErrorCode::RBAC_ROLE_MISSING;
+        }
         const auto& perms = it->second;
         for (const auto& p : perms) {
-            if (p == resource) return SecurityErrorCode::OK;
+            if (p == resource) {
+              return SecurityErrorCode::OK;
+            }
         }
         return SecurityErrorCode::POLICY_DENY;
     }

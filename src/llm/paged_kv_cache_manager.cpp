@@ -301,7 +301,9 @@ double PagedKVCacheManager::calculatePrefixSavings() const {
     size_t total_allocated = total_blocks_allocated_.load(std::memory_order_acquire);
     size_t shared = total_blocks_shared_.load(std::memory_order_acquire);
     
-    if (total_allocated == 0) return 0.0;
+    if (total_allocated == 0) {
+      return 0.0;
+    }
     
     return (static_cast<double>(shared) / total_allocated) * 100.0;
 }

@@ -83,20 +83,48 @@ struct LRSchedulerConfig {
     
     static LRSchedulerConfig fromJSON(const json& j) {
         LRSchedulerConfig config;
-        if (j.contains("type")) config.type = static_cast<SchedulerType>(j["type"].get<int>());
-        if (j.contains("base_lr")) config.base_lr = j["base_lr"];
-        if (j.contains("min_lr")) config.min_lr = j["min_lr"];
-        if (j.contains("max_lr")) config.max_lr = j["max_lr"];
-        if (j.contains("warmup_steps")) config.warmup_steps = j["warmup_steps"];
-        if (j.contains("total_steps")) config.total_steps = j["total_steps"];
-        if (j.contains("decay_power")) config.decay_power = j["decay_power"];
-        if (j.contains("step_size")) config.step_size = j["step_size"];
-        if (j.contains("gamma")) config.gamma = j["gamma"];
-        if (j.contains("num_cycles")) config.num_cycles = j["num_cycles"];
-        if (j.contains("step_size_up")) config.step_size_up = j["step_size_up"];
-        if (j.contains("step_size_down")) config.step_size_down = j["step_size_down"];
-        if (j.contains("pct_start")) config.pct_start = j["pct_start"];
-        if (j.contains("final_div_factor")) config.final_div_factor = j["final_div_factor"];
+        if (j.contains("type")) {
+          config.type = static_cast<SchedulerType>(j["type"].get<int>());
+        }
+        if (j.contains("base_lr")) {
+          config.base_lr = j["base_lr"];
+        }
+        if (j.contains("min_lr")) {
+          config.min_lr = j["min_lr"];
+        }
+        if (j.contains("max_lr")) {
+          config.max_lr = j["max_lr"];
+        }
+        if (j.contains("warmup_steps")) {
+          config.warmup_steps = j["warmup_steps"];
+        }
+        if (j.contains("total_steps")) {
+          config.total_steps = j["total_steps"];
+        }
+        if (j.contains("decay_power")) {
+          config.decay_power = j["decay_power"];
+        }
+        if (j.contains("step_size")) {
+          config.step_size = j["step_size"];
+        }
+        if (j.contains("gamma")) {
+          config.gamma = j["gamma"];
+        }
+        if (j.contains("num_cycles")) {
+          config.num_cycles = j["num_cycles"];
+        }
+        if (j.contains("step_size_up")) {
+          config.step_size_up = j["step_size_up"];
+        }
+        if (j.contains("step_size_down")) {
+          config.step_size_down = j["step_size_down"];
+        }
+        if (j.contains("pct_start")) {
+          config.pct_start = j["pct_start"];
+        }
+        if (j.contains("final_div_factor")) {
+          config.final_div_factor = j["final_div_factor"];
+        }
         return config;
     }
 };

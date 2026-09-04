@@ -340,9 +340,13 @@ void example_participant_setup() {
             // by a different active transaction (mimics row-level locking).
             for (const auto& op : ops) {
                 std::string key = op.value("key", "");
-                if (key.empty()) continue;
+                if (key.empty()) {
+                  continue;
+                }
                 for (const auto& [other_txn, locked_keys] : lock_table) {
-                    if (other_txn == txn_id) continue;
+                    if (other_txn == txn_id) {
+                      continue;
+                    }
                     for (const auto& lk : locked_keys) {
                         if (lk == key) {
                             std::cout << "  CONFLICT: key '" << key

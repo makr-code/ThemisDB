@@ -237,7 +237,9 @@ public:
     std::optional<SchemaInfo> getById(int32_t id) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = id_map_.find(id);
-        if (it == id_map_.end()) return std::nullopt;
+        if (it == id_map_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 
@@ -245,9 +247,13 @@ public:
         const std::string& subject) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         auto sit = subject_latest_.find(subject);
-        if (sit == subject_latest_.end()) return std::nullopt;
+        if (sit == subject_latest_.end()) {
+          return std::nullopt;
+        }
         auto iit = id_map_.find(sit->second);
-        if (iit == id_map_.end()) return std::nullopt;
+        if (iit == id_map_.end()) {
+          return std::nullopt;
+        }
         return iit->second;
     }
 
@@ -700,8 +706,12 @@ message CdcEvent {
      */
     std::optional<nlohmann::json> decodeToJson(
         const std::vector<uint8_t>& wire_bytes) const {
-        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) return std::nullopt;
-        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE)    return std::nullopt;
+        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) {
+          return std::nullopt;
+        }
+        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE) {
+          return std::nullopt;
+        }
 
         const auto payload_begin = wire_bytes.begin() + SCHEMA_REGISTRY_HEADER_SIZE;
         const std::string json_str(payload_begin, wire_bytes.end());
@@ -719,8 +729,12 @@ message CdcEvent {
      * @return Schema ID or -1 when the header is invalid.
      */
     static int32_t extractSchemaId(const std::vector<uint8_t>& wire_bytes) {
-        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) return -1;
-        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE)    return -1;
+        if (wire_bytes.size() < SCHEMA_REGISTRY_HEADER_SIZE) {
+          return -1;
+        }
+        if (wire_bytes[0] != SCHEMA_REGISTRY_MAGIC_BYTE) {
+          return -1;
+        }
         // Schema ID is stored big-endian at bytes 1–4.
         return static_cast<int32_t>(
             (static_cast<uint32_t>(wire_bytes[1]) << 24) |
@@ -744,7 +758,9 @@ message CdcEvent {
         {
             std::lock_guard<std::mutex> lock(local_cache_mutex_);
             auto it = local_schema_id_cache_.find(collection);
-            if (it != local_schema_id_cache_.end()) return it->second;
+            if (it != local_schema_id_cache_.end()) {
+              return it->second;
+            }
         }
 
         const std::string subject = subjectForCollection(collection);

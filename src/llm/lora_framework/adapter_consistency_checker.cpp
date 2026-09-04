@@ -81,10 +81,14 @@ public:
         // When a PEM public key is provided, use Ed25519 / RSA EVP verification.
         if (!public_key.empty()) {
             BIO* bio = BIO_new_mem_buf(public_key.data(), static_cast<int>(public_key.size()));
-            if (!bio) return false;
+            if (!bio) {
+              return false;
+            }
             EVP_PKEY* pkey = PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr);
             BIO_free(bio);
-            if (!pkey) return false;
+            if (!pkey) {
+              return false;
+            }
 
             EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
             bool ok = false;

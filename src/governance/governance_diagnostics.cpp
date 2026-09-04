@@ -288,10 +288,18 @@ bool ConflictDiagnosticHelper::detectPrivilegeEscalation(
 ) const {
     // Tier hierarchy: read_only (0) < editor (1) < auditor (2) < admin (3)
     auto getTierLevel = [](const std::string& tier) -> int {
-        if (tier == "read_only") return 0;
-        if (tier == "editor") return 1;
-        if (tier == "auditor") return 2;
-        if (tier == "admin") return 3;
+        if (tier == "read_only") {
+          return 0;
+        }
+        if (tier == "editor") {
+          return 1;
+        }
+        if (tier == "auditor") {
+          return 2;
+        }
+        if (tier == "admin") {
+          return 3;
+        }
         return -1;  // Unknown tier
     };
     

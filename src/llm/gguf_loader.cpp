@@ -438,14 +438,18 @@ bool GGUFLoader::parseHeader() {
 }
 
 bool GGUFLoader::readString(size_t& offset, std::string& out) {
-    if (offset + 8 > mmap_size_) return false;
+    if (offset + 8 > mmap_size_) {
+      return false;
+    }
     
     const char* data = static_cast<const char*>(mmap_base_);
     uint64_t len;
     std::memcpy(&len, data + offset, sizeof(uint64_t));
     offset += 8;
     
-    if (len > 1000000 || offset + len > mmap_size_) return false;
+    if (len > 1000000 || offset + len > mmap_size_) {
+      return false;
+    }
     
     out.assign(data + offset, len);
     offset += len;
@@ -461,7 +465,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
         case GGUFValueType::INT8:
         [[fallthrough]];
         case GGUFValueType::BOOL: {
-            if (offset + 1 > mmap_size_) return false;
+            if (offset + 1 > mmap_size_) {
+              return false;
+            }
             uint8_t val;
             std::memcpy(&val, data + offset, 1);
             offset += 1;
@@ -471,7 +477,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
         case GGUFValueType::UINT16:
         [[fallthrough]];
         case GGUFValueType::INT16: {
-            if (offset + 2 > mmap_size_) return false;
+            if (offset + 2 > mmap_size_) {
+              return false;
+            }
             uint16_t val;
             std::memcpy(&val, data + offset, 2);
             offset += 2;
@@ -483,7 +491,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
         case GGUFValueType::INT32:
         [[fallthrough]];
         case GGUFValueType::FLOAT32: {
-            if (offset + 4 > mmap_size_) return false;
+            if (offset + 4 > mmap_size_) {
+              return false;
+            }
             uint32_t val;
             std::memcpy(&val, data + offset, 4);
             offset += 4;
@@ -495,7 +505,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
         case GGUFValueType::INT64:
         [[fallthrough]];
         case GGUFValueType::FLOAT64: {
-            if (offset + 8 > mmap_size_) return false;
+            if (offset + 8 > mmap_size_) {
+              return false;
+            }
             uint64_t val;
             std::memcpy(&val, data + offset, 8);
             offset += 8;
@@ -507,7 +519,9 @@ bool GGUFLoader::readMetadataValue(size_t& offset, GGUFValueType type, std::stri
         }
         case GGUFValueType::ARRAY: {
             // For arrays, just skip for now (simplified)
-            if (offset + 12 > mmap_size_) return false;
+            if (offset + 12 > mmap_size_) {
+              return false;
+            }
             uint32_t arr_type;
             uint64_t arr_len;
             std::memcpy(&arr_type, data + offset, 4);
@@ -543,10 +557,14 @@ bool GGUFLoader::parseMetadataKV() {
     // Parse each key-value pair
     for (uint64_t i = 0; i < kv_count; ++i) {
         std::string key;
-        if (!readString(offset, key)) return false;
+        if (!readString(offset, key)) {
+          return false;
+        }
         
         // Read value type
-        if (offset + 4 > mmap_size_) return false;
+        if (offset + 4 > mmap_size_) {
+          return false;
+        }
         uint32_t value_type_raw;
         std::memcpy(&value_type_raw, data + offset, 4);
         offset += 4;
@@ -555,7 +573,9 @@ bool GGUFLoader::parseMetadataKV() {
         
         // Read value
         std::string value;
-        if (!readMetadataValue(offset, value_type, value)) return false;
+        if (!readMetadataValue(offset, value_type, value)) {
+          return false;
+        }
         
         // Store important metadata
         metadata_.config[key] = value;
@@ -587,9 +607,13 @@ bool GGUFLoader::parseTensorInfo() {
     offset = 24;
     for (uint64_t i = 0; i < kv_count; ++i) {
         std::string key, value;
-        if (!readString(offset, key)) return false;
+        if (!readString(offset, key)) {
+          return false;
+        }
         
-        if (offset + 4 > mmap_size_) return false;
+        if (offset + 4 > mmap_size_) {
+          return false;
+        }
         uint32_t value_type_raw;
         std::memcpy(&value_type_raw, data + offset, 4);
         offset += 4;
@@ -610,16 +634,22 @@ bool GGUFLoader::parseTensorInfo() {
         TensorMetadata tensor;
         
         // Read tensor name
-        if (!readString(offset, tensor.name)) return false;
+        if (!readString(offset, tensor.name)) {
+          return false;
+        }
         
         // Read n_dims
-        if (offset + 4 > mmap_size_) return false;
+        if (offset + 4 > mmap_size_) {
+          return false;
+        }
         uint32_t n_dims;
         std::memcpy(&n_dims, data + offset, 4);
         offset += 4;
         
         // Read dimensions
-        if (offset + n_dims * 8 > mmap_size_) return false;
+        if (offset + n_dims * 8 > mmap_size_) {
+          return false;
+        }
         tensor.shape.resize(n_dims);
         for (uint32_t j = 0; j < n_dims; ++j) {
             uint64_t dim;
@@ -629,7 +659,9 @@ bool GGUFLoader::parseTensorInfo() {
         }
         
         // Read tensor type
-        if (offset + 4 > mmap_size_) return false;
+        if (offset + 4 > mmap_size_) {
+          return false;
+        }
         uint32_t type_raw;
         std::memcpy(&type_raw, data + offset, 4);
         offset += 4;
@@ -648,7 +680,9 @@ bool GGUFLoader::parseTensorInfo() {
         }
         
         // Read tensor offset
-        if (offset + 8 > mmap_size_) return false;
+        if (offset + 8 > mmap_size_) {
+          return false;
+        }
         uint64_t tensor_offset;
         std::memcpy(&tensor_offset, data + offset, 8);
         offset += 8;
@@ -750,7 +784,9 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     
     bool first = true;
     for (const auto& [key, value] : metadata_.config) {
-        if (!first) metadata_json << ",";
+        if (!first) {
+          metadata_json << ",";
+        }
         metadata_json << "\"" << escapeJson(key) << "\":\"" << escapeJson(value) << "\"";
         first = false;
     }
@@ -758,7 +794,9 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
     
     first = true;
     for (const auto& tensor : metadata_.tensors) {
-        if (!first) metadata_json << ",";
+        if (!first) {
+          metadata_json << ",";
+        }
         metadata_json << "{"
                      << "\"name\":\"" << escapeJson(tensor.name) << "\","
                      << "\"dtype\":\"" << escapeJson(tensor.type_string()) << "\","
@@ -766,7 +804,9 @@ std::string GGUFLoader::loadToThemisDB(const std::string& model_name) {
                      << "\"offset\":" << tensor.offset << ","
                      << "\"shape\":[";
         for (size_t i = 0; i < tensor.shape.size(); ++i) {
-            if (i > 0) metadata_json << ",";
+            if (i > 0) {
+              metadata_json << ",";
+            }
             metadata_json << tensor.shape[i];
         }
         metadata_json << "]}";
@@ -1051,10 +1091,18 @@ bool GGUFLoader::validateQuantizationMetadata(const std::string& tensor_name) co
 }
 
 size_t GGUFLoader::getDtypeSize(const std::string& dtype) const {
-    if (dtype == "float32") return 4;
-    if (dtype == "float16") return 2;
-    if (dtype == "int8") return 1;
-    if (dtype == "int32") return 4;
+    if (dtype == "float32") {
+      return 4;
+    }
+    if (dtype == "float16") {
+      return 2;
+    }
+    if (dtype == "int8") {
+      return 1;
+    }
+    if (dtype == "int32") {
+      return 4;
+    }
     return 0;
 }
 

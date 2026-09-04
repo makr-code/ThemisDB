@@ -78,7 +78,9 @@ struct RelevanceEvaluator::Impl {
             na  += a[i] * a[i];
             nb  += b[i] * b[i];
         }
-        if (na < 1e-9 || nb < 1e-9) return 0.0;
+        if (na < 1e-9 || nb < 1e-9) {
+          return 0.0;
+        }
         return dot / (std::sqrt(na) * std::sqrt(nb));
     }
 

@@ -87,7 +87,9 @@ PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::Promp
     }
 
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
-    if (t.id.empty()) t.id = generateId();
+    if (t.id.empty()) {
+      t.id = generateId();
+    }
     
     // Insert using TBB concurrent_hash_map (efficient single operation)
     StoreType::accessor acc;
@@ -125,7 +127,9 @@ std::optional<PromptManager::PromptTemplate> PromptManager::getTemplate(const st
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
                 t.description = j.value("description", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 if (j.contains("images") && j["images"].is_array()) {
                     for (const auto& img_j : j["images"]) {
@@ -163,7 +167,9 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
                 t.version = j.value("version", "");
                 t.content = j.value("content", "");
                 t.description = j.value("description", "");
-                if (j.contains("metadata")) t.metadata = j["metadata"];
+                if (j.contains("metadata")) {
+                  t.metadata = j["metadata"];
+                }
                 t.active = j.value("active", true);
                 if (j.contains("images") && j["images"].is_array()) {
                     for (const auto& img_j : j["images"]) {

@@ -179,7 +179,9 @@ json LLMPluginManager::getAggregatedCapabilities() const {
     // Collect sorted plugin names for deterministic output (plugins_ is unordered_map)
     std::vector<std::string> sorted_names;
     sorted_names.reserve(plugins_.size());
-    for (const auto& [name, _] : plugins_) sorted_names.push_back(name);
+    for (const auto& [name, _] : plugins_) {
+      sorted_names.push_back(name);
+    }
     std::sort(sorted_names.begin(), sorted_names.end());
 
     json result = json::array();
@@ -578,7 +580,9 @@ std::optional<ModelInfo> LLMPluginManager::getModelInfo(const std::string& model
     }
     auto info = plugin->getModelInfo();
     if (info) {
-        if (info->model_id.empty()) info->model_id = model_id;
+        if (info->model_id.empty()) {
+          info->model_id = model_id;
+        }
         info->is_loaded = plugin->isModelLoaded();
     }
     return info;

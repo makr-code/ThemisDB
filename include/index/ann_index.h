@@ -238,7 +238,9 @@ public:
 
     /// Flush graph file and persist the offset metadata sidecar (<path>.meta).
     bool save(const std::string& path) const override {
-        if (!impl_) return false;
+        if (!impl_) {
+          return false;
+        }
         impl_->flush();
         return impl_->save(path);
     }
@@ -262,7 +264,9 @@ public:
             impl_ = std::make_unique<performance::phase3::DiskANNIndex>(
                 dim_ > 0 ? dim_ : 1, index_path_, cache_mb_);
         }
-        if (!impl_->load(path)) return false;
+        if (!impl_->load(path)) {
+          return false;
+        }
         count_ = impl_->get_stats().num_vectors;
         return true;
     }

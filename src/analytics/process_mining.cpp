@@ -342,7 +342,9 @@ std::string ProcessMining::computeVariantSignature(const std::vector<std::string
     // Create a deterministic string signature from activities
     std::ostringstream oss;
     for (size_t i = 0; i < activities.size(); ++i) {
-        if (i > 0) oss << ",";
+        if (i > 0) {
+          oss << ",";
+        }
         oss << activities[i];
     }
     return oss.str();

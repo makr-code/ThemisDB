@@ -8804,7 +8804,9 @@ scan_number_done:
         {
             get();
         }
-        while (current == ' ' || current == '\t' || current == '\n' || current == '\r');
+        while (current == ' ' || current == '\t' || current == '\n' || current == '\r') {
+          ;
+        }
     }
 
     token_type scan()
@@ -11838,7 +11840,9 @@ class binary_reader
         {
             get();
         }
-        while (current == 'N');
+        while (current == 'N') {
+          ;
+        }
 
         return current;
     }

@@ -416,7 +416,9 @@ CompletenessResult CompletenessEvaluator::evaluate(
     if (!result.missing_information.empty()) {
         explanation << "Missing aspects: ";
         for (size_t i = 0; i < std::min(result.missing_information.size(), size_t(3)); ++i) {
-            if (i > 0) explanation << ", ";
+            if (i > 0) {
+              explanation << ", ";
+            }
             explanation << result.missing_information[i];
         }
         if (result.missing_information.size() > 3) {

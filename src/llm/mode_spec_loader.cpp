@@ -28,12 +28,24 @@ namespace themis::llm {
 ModeId modeIdFromString(const std::string& s) {
     std::string lower = s;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-    if (lower == "ask")         return ModeId::Ask;
-    if (lower == "edit")        return ModeId::Edit;
-    if (lower == "rag")         return ModeId::Rag;
-    if (lower == "agentic")     return ModeId::Agentic;
-    if (lower == "multi_agent" || lower == "multiagent") return ModeId::MultiAgent;
-    if (lower == "ethics")      return ModeId::Ethics;
+    if (lower == "ask") {
+      return ModeId::Ask;
+    }
+    if (lower == "edit") {
+      return ModeId::Edit;
+    }
+    if (lower == "rag") {
+      return ModeId::Rag;
+    }
+    if (lower == "agentic") {
+      return ModeId::Agentic;
+    }
+    if (lower == "multi_agent" || lower == "multiagent") {
+      return ModeId::MultiAgent;
+    }
+    if (lower == "ethics") {
+      return ModeId::Ethics;
+    }
     return ModeId::Custom;
 }
 
@@ -68,7 +80,9 @@ T safeAs(const YAML::Node& n, const T& def) {
 
 RetrievalSpec parseRetrieval(const YAML::Node& node) {
     RetrievalSpec spec;
-    if (!node || !node.IsMap()) return spec;
+    if (!node || !node.IsMap()) {
+      return spec;
+    }
 
     spec.enabled   = safeAs<bool>(node["enabled"],   false);
     spec.strategy  = safeAs<std::string>(node["strategy"],  "hybrid");
@@ -89,7 +103,9 @@ RetrievalSpec parseRetrieval(const YAML::Node& node) {
 
 OutputSpec parseOutput(const YAML::Node& node) {
     OutputSpec spec;
-    if (!node || !node.IsMap()) return spec;
+    if (!node || !node.IsMap()) {
+      return spec;
+    }
 
     spec.format = safeAs<std::string>(node["format"], "text");
     if (node["json_schema"] && !node["json_schema"].IsNull()) {
@@ -103,7 +119,9 @@ OutputSpec parseOutput(const YAML::Node& node) {
 
 BudgetSpec parseBudgets(const YAML::Node& node) {
     BudgetSpec spec;
-    if (!node || !node.IsMap()) return spec;
+    if (!node || !node.IsMap()) {
+      return spec;
+    }
 
     spec.max_tokens  = safeAs<int>(node["max_tokens"],   512);
     spec.timeout_ms  = safeAs<int>(node["timeout_ms"],   30000);
@@ -116,7 +134,9 @@ BudgetSpec parseBudgets(const YAML::Node& node) {
 
 ObservabilitySpec parseObservability(const YAML::Node& node) {
     ObservabilitySpec spec;
-    if (!node || !node.IsMap()) return spec;
+    if (!node || !node.IsMap()) {
+      return spec;
+    }
 
     spec.log_requests  = safeAs<bool>(node["log_requests"],  true);
     spec.log_responses = safeAs<bool>(node["log_responses"], false);
@@ -146,7 +166,9 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
 
 std::vector<std::string> parseStringList(const YAML::Node& node) {
     std::vector<std::string> result;
-    if (!node || !node.IsSequence()) return result;
+    if (!node || !node.IsSequence()) {
+      return result;
+    }
     for (const auto& item : node) {
         result.push_back(item.as<std::string>());
     }
@@ -164,10 +186,18 @@ ModeSpec parseModeSpec(const YAML::Node& node) {
     spec.tools_allowed = parseStringList(node["tools_allowed"]);
     spec.tools_denied  = parseStringList(node["tools_denied"]);
 
-    if (node["retrieval"])    spec.retrieval    = parseRetrieval(node["retrieval"]);
-    if (node["output"])       spec.output       = parseOutput(node["output"]);
-    if (node["budgets"])      spec.budgets      = parseBudgets(node["budgets"]);
-    if (node["observability"]) spec.observability = parseObservability(node["observability"]);
+    if (node["retrieval"]) {
+      spec.retrieval    = parseRetrieval(node["retrieval"]);
+    }
+    if (node["output"]) {
+      spec.output       = parseOutput(node["output"]);
+    }
+    if (node["budgets"]) {
+      spec.budgets      = parseBudgets(node["budgets"]);
+    }
+    if (node["observability"]) {
+      spec.observability = parseObservability(node["observability"]);
+    }
 
     if (node["judge"] && node["judge"].IsMap()) {
         const auto& j = node["judge"];
@@ -249,18 +279,24 @@ ModePack ModeSpecLoader::loadFromFile(const std::string& path,
         local.ok = false;
         local.errors.push_back("Cannot open file '" + path + "': " + e.what());
         spdlog::error("[AIOrchestrator] ModeSpecLoader: {}", local.errors.back());
-        if (result_out) *result_out = local;
+        if (result_out) {
+          *result_out = local;
+        }
         return pack;
     } catch (const YAML::Exception& e) {
         local.ok = false;
         local.errors.push_back("YAML parse error in '" + path + "': " + e.what());
         spdlog::error("[AIOrchestrator] ModeSpecLoader: {}", local.errors.back());
-        if (result_out) *result_out = local;
+        if (result_out) {
+          *result_out = local;
+        }
         return pack;
     }
 
     local = validate(pack);
-    if (result_out) *result_out = local;
+    if (result_out) {
+      *result_out = local;
+    }
 
     if (local.ok) {
         spdlog::info("[AIOrchestrator] Loaded ModePack '{}' v{} ({} modes) from '{}'",
@@ -281,12 +317,16 @@ ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
         local.ok = false;
         local.errors.push_back(std::string("YAML parse error: ") + e.what());
         spdlog::error("[AIOrchestrator] ModeSpecLoader: {}", local.errors.back());
-        if (result_out) *result_out = local;
+        if (result_out) {
+          *result_out = local;
+        }
         return pack;
     }
 
     local = validate(pack);
-    if (result_out) *result_out = local;
+    if (result_out) {
+      *result_out = local;
+    }
     return pack;
 }
 

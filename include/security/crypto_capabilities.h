@@ -99,7 +99,9 @@ double benchmarkEncryption() {
     unsigned char tag[16] = {};
 
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
-    if (!ctx) return 0.0;
+    if (!ctx) {
+      return 0.0;
+    }
 
     using clock = std::chrono::steady_clock;
     const auto deadline = clock::now() + std::chrono::seconds(1);
@@ -107,10 +109,16 @@ double benchmarkEncryption() {
 
     while (clock::now() < deadline) {
         int len = 0;
-        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, key, iv) != 1) break;
-        if (EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, payload_size) != 1) break;
+        if (EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr, key, iv) != 1) {
+          break;
+        }
+        if (EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, payload_size) != 1) {
+          break;
+        }
         int final_len = 0;
-        if (EVP_EncryptFinal_ex(ctx, ciphertext + len, &final_len) != 1) break;
+        if (EVP_EncryptFinal_ex(ctx, ciphertext + len, &final_len) != 1) {
+          break;
+        }
         EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag);
         ++ops;
     }

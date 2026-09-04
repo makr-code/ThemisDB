@@ -242,7 +242,9 @@ double GeospatialIndexSelector::calculateSelectivityGain(
     
     // Selectivity gain: full scan cost / index cost
     // Higher gain = more benefit from indexing
-    if (indexCost <= 0) indexCost = 1.0;
+    if (indexCost <= 0) {
+      indexCost = 1.0;
+    }
     
     return fullScanCost / indexCost;
 }

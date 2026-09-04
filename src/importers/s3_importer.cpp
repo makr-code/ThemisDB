@@ -48,7 +48,9 @@ namespace {
 static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for S3
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -181,7 +183,9 @@ bool S3Importer::initialize(const std::string& config) {
         json flat_cfg = json::object();
         for (const char* key : {"format", "delimiter", "quote_char",
                                  "has_header", "table_name"}) {
-            if (cfg.contains(key)) flat_cfg[key] = cfg[key];
+            if (cfg.contains(key)) {
+              flat_cfg[key] = cfg[key];
+            }
         }
         flat_config_json_ = flat_cfg.dump();
 
@@ -444,7 +448,9 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
             }
             oss.write(buffer, to_write);
             bytes_read += to_write;
-            if (bytes_read >= kMaxSchemaProbeSize) break;
+            if (bytes_read >= kMaxSchemaProbeSize) {
+              break;
+            }
         }
         std::string content = oss.str();
 
@@ -463,7 +469,9 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
 
         {
             std::ofstream tmp(tmp_path, std::ios::binary);
-            if (!tmp) return json::array();
+            if (!tmp) {
+              return json::array();
+            }
             tmp.write(content.data(),
                       static_cast<std::streamsize>(content.size()));
         }
@@ -498,7 +506,9 @@ void S3Importer::importSingleObject(const std::string& bucket,
                                      const ImportOptions& options,
                                      ImportStats& stats,
                                      ProgressCallback& progress_cb) {
-    if (cancelled_.load()) return;
+    if (cancelled_.load()) {
+      return;
+    }
 
     THEMIS_INFO("S3 import: downloading object {}/{}",
                 sanitisedConnectionId(s3_config_, bucket), key);
@@ -538,7 +548,9 @@ void S3Importer::importSingleObject(const std::string& bucket,
     // the file extension.
     std::string key_basename = key;
     auto slash = key.rfind('/');
-    if (slash != std::string::npos) key_basename = key.substr(slash + 1);
+    if (slash != std::string::npos) {
+      key_basename = key.substr(slash + 1);
+    }
 
     std::string tmp_path = std::string("/tmp/themis_s3_") +
                            std::to_string(
@@ -574,8 +586,12 @@ void S3Importer::importSingleObject(const std::string& bucket,
     stats.failed_records    += obj_stats.failed_records;
     stats.skipped_records   += obj_stats.skipped_records;
     stats.tables_processed  += obj_stats.tables_processed;
-    for (const auto& w : obj_stats.warnings)   stats.warnings.push_back(w);
-    for (const auto& e : obj_stats.errors)     stats.errors.push_back(e);
+    for (const auto& w : obj_stats.warnings) {
+      stats.warnings.push_back(w);
+    }
+    for (const auto& e : obj_stats.errors) {
+      stats.errors.push_back(e);
+    }
     for (const auto& e : obj_stats.structured_errors)
         stats.structured_errors.push_back(e);
 
@@ -610,7 +626,9 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                 if (use_v2_api) {
                     Aws::S3::Model::ListObjectsV2Request req;
                     req.SetBucket(bucket);
-                    if (!prefix.empty()) req.SetPrefix(prefix);
+                    if (!prefix.empty()) {
+                      req.SetPrefix(prefix);
+                    }
                     if (!continuation_token.empty())
                         req.SetContinuationToken(continuation_token);
                     req.SetMaxKeys(1000);  // Enforce pagination limits
@@ -630,18 +648,26 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                     for (const auto& obj : result.GetContents()) {
                         const std::string& k = obj.GetKey();
                         // Skip keys that are themselves "directory" markers.
-                        if (!k.empty() && k.back() == '/') continue;
+                        if (!k.empty() && k.back() == '/') {
+                          continue;
+                        }
                         keys.push_back(k);
-                        if (keys.size() >= MAX_OBJECTS) break;
+                        if (keys.size() >= MAX_OBJECTS) {
+                          break;
+                        }
                     }
 
                     has_more = result.GetIsTruncated();
-                    if (has_more) continuation_token = result.GetNextContinuationToken();
+                    if (has_more) {
+                      continuation_token = result.GetNextContinuationToken();
+                    }
                 } else {
                     // PHASE-2-HARDENING: ListObjects V1 API fallback
                     Aws::S3::Model::ListObjectsRequest req;
                     req.SetBucket(bucket);
-                    if (!prefix.empty()) req.SetPrefix(prefix);
+                    if (!prefix.empty()) {
+                      req.SetPrefix(prefix);
+                    }
                     if (!continuation_token.empty())
                         req.SetMarker(continuation_token);
                     req.SetMaxKeys(1000);  // Enforce pagination limits
@@ -661,13 +687,19 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                     for (const auto& obj : result.GetContents()) {
                         const std::string& k = obj.GetKey();
                         // Skip keys that are themselves "directory" markers.
-                        if (!k.empty() && k.back() == '/') continue;
+                        if (!k.empty() && k.back() == '/') {
+                          continue;
+                        }
                         keys.push_back(k);
-                        if (keys.size() >= MAX_OBJECTS) break;
+                        if (keys.size() >= MAX_OBJECTS) {
+                          break;
+                        }
                     }
 
                     has_more = result.GetIsTruncated();
-                    if (has_more) continuation_token = result.GetNextMarker();
+                    if (has_more) {
+                      continuation_token = result.GetNextMarker();
+                    }
                 }
             } catch (const std::exception& e) {
                 // If both APIs fail, report error
@@ -710,7 +742,9 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                 keys.size(), prefix, MAX_OBJECTS);
 
     for (const auto& k : keys) {
-        if (cancelled_.load()) break;
+        if (cancelled_.load()) {
+          break;
+        }
         importSingleObject(bucket, k, options, stats, progress_cb);
     }
 }
@@ -767,12 +801,16 @@ plugins::PluginCapabilities S3ImporterPlugin::getCapabilities() const {
 }
 
 bool S3ImporterPlugin::initialize(const char* config_json) {
-    if (!importer_) return false;
+    if (!importer_) {
+      return false;
+    }
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
 void S3ImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

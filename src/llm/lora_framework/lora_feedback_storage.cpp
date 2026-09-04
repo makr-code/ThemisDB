@@ -312,7 +312,9 @@ json FeedbackStorageService::getStatistics(const std::optional<std::string>& ada
     
     for (const auto& fb : feedback_list) {
         sum_rating += fb.rating;
-        if (fb.flagged_for_training) flagged_count++;
+        if (fb.flagged_for_training) {
+          flagged_count++;
+        }
         rating_counts[fb.rating]++;
         if (!fb.training_category.empty()) {
             category_counts[fb.training_category]++;

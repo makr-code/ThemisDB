@@ -190,8 +190,12 @@ static void BM_ScanTree_1K(benchmark::State& state) {
     for (auto _ : state) {
         std::vector<cms::ScanMatch> all_matches;
         for (const auto& entry : fs::recursive_directory_iterator(root)) {
-            if (!entry.is_regular_file()) continue;
-            if (!cms::shouldScanFile(entry.path())) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
+            if (!cms::shouldScanFile(entry.path())) {
+              continue;
+            }
             auto m = cms::scanFile(entry.path());
             all_matches.insert(all_matches.end(), m.begin(), m.end());
         }
@@ -216,8 +220,12 @@ static void BM_ScanTree_10K(benchmark::State& state) {
     for (auto _ : state) {
         std::vector<cms::ScanMatch> all_matches;
         for (const auto& entry : fs::recursive_directory_iterator(root)) {
-            if (!entry.is_regular_file()) continue;
-            if (!cms::shouldScanFile(entry.path())) continue;
+            if (!entry.is_regular_file()) {
+              continue;
+            }
+            if (!cms::shouldScanFile(entry.path())) {
+              continue;
+            }
             auto m = cms::scanFile(entry.path());
             all_matches.insert(all_matches.end(), m.begin(), m.end());
         }

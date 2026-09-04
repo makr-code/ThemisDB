@@ -48,7 +48,9 @@ std::string toLower(const std::string& str) {
 }
 
 bool isValidHexString(const std::string& str) {
-    if (str.empty()) return false;
+    if (str.empty()) {
+      return false;
+    }
     for (char c : str) {
         if (!std::isxdigit(static_cast<unsigned char>(c))) {
             return false;
@@ -259,7 +261,9 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
             if (!baggage_.empty()) {
                 std::string baggage_str;
                 for (size_t i = 0; i < baggage_.size(); ++i) {
-                    if (i > 0) baggage_str += ",";
+                    if (i > 0) {
+                      baggage_str += ",";
+                    }
                     baggage_str += baggage_[i].key + "=" + baggage_[i].value;
                 }
                 headers["jaeger-baggage"] = baggage_str;

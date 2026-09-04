@@ -155,7 +155,9 @@ struct BenchSloWindow {
 
     void recordRequest(bool good) noexcept {
         ++total_count;
-        if (good) ++good_count;
+        if (good) {
+          ++good_count;
+        }
     }
 
     double sli() const noexcept {
@@ -227,7 +229,9 @@ static void BM_ORG02_HistogramRecord(benchmark::State& state) {
     std::mt19937_64 rng(kObservabilityCanonicalSeed);
     std::uniform_real_distribution<double> dist(0.0, 5000.0);
 
-    for (int i = 0; i < kWarmupIterations; ++i) h.record(dist(rng));
+    for (int i = 0; i < kWarmupIterations; ++i) {
+      h.record(dist(rng));
+    }
 
     for (auto _ : state) {
         h.record(dist(rng));
@@ -323,7 +327,9 @@ static void BM_ORG05_SloComputation(benchmark::State& state) {
     std::bernoulli_distribution good_dist(0.995);
 
     // Pre-fill window
-    for (int i = 0; i < 1000; ++i) w.recordRequest(good_dist(rng));
+    for (int i = 0; i < 1000; ++i) {
+      w.recordRequest(good_dist(rng));
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i) {
         benchmark::DoNotOptimize(w.sli());

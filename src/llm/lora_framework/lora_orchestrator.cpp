@@ -553,7 +553,9 @@ AdapterSnapshot LoRAOrchestrator::createAdapterSnapshot(
     // Load current provenance (if any) as the snapshot's provenance
     LoRAProvenanceRecord prov;
     auto opt_prov = impl_->provenance_mgr.getProvenance(adapter_id);
-    if (opt_prov) prov = *opt_prov;
+    if (opt_prov) {
+      prov = *opt_prov;
+    }
     return impl_->provenance_mgr.createSnapshot(adapter_id, version, weights_hash, prov);
 }
 

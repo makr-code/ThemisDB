@@ -280,7 +280,9 @@ struct SimilarityCallExpr : Expression {
     ASTNodeType getType() const override { return ASTNodeType::SimilarityCall; }
     nlohmann::json toJSON() const override {
         nlohmann::json arr = nlohmann::json::array();
-        for (auto &a : arguments) arr.push_back(a->toJSON());
+        for (auto &a : arguments) {
+          arr.push_back(a->toJSON());
+        }
         return {{"type","similarity_call"},{"arguments",arr}};
     }
 };
@@ -291,7 +293,9 @@ struct ProximityCallExpr : Expression {
     ASTNodeType getType() const override { return ASTNodeType::ProximityCall; }
     nlohmann::json toJSON() const override {
         nlohmann::json arr = nlohmann::json::array();
-        for (auto &a : arguments) arr.push_back(a->toJSON());
+        for (auto &a : arguments) {
+          arr.push_back(a->toJSON());
+        }
         return {{"type","proximity_call"},{"arguments",arr}};
     }
 };
@@ -415,7 +419,9 @@ struct InsertNode : MutationNode {
     ASTNodeType getType() const override { return ASTNodeType::Insert; }
     nlohmann::json toJSON() const override {
         nlohmann::json docs = nlohmann::json::array();
-        for (const auto& d : documents) docs.push_back(d ? d->toJSON() : nlohmann::json());
+        for (const auto& d : documents) {
+          docs.push_back(d ? d->toJSON() : nlohmann::json());
+        }
         return {{"type", "INSERT"},
                 {"collection", collection},
                 {"documents", docs},
@@ -442,17 +448,27 @@ struct UpdateNode : MutationNode {
     ASTNodeType getType() const override { return ASTNodeType::Update; }
     nlohmann::json toJSON() const override {
         nlohmann::json j{{"type", "UPDATE"}, {"collection", collection}};
-        if (filter) j["filter"] = filter->toJSON();
+        if (filter) {
+          j["filter"] = filter->toJSON();
+        }
         if (!set_clauses.empty()) {
             nlohmann::json sc = nlohmann::json::array();
-            for (const auto& c : set_clauses) sc.push_back(c.toJSON());
+            for (const auto& c : set_clauses) {
+              sc.push_back(c.toJSON());
+            }
             j["set_clauses"] = sc;
         }
-        if (search_expr) j["search_expr"] = search_expr->toJSON();
-        if (update_expr)  j["update_expr"]  = update_expr->toJSON();
+        if (search_expr) {
+          j["search_expr"] = search_expr->toJSON();
+        }
+        if (update_expr) {
+          j["update_expr"]  = update_expr->toJSON();
+        }
         j["return_new"] = return_new;
         j["return_old"] = return_old;
-        if (limit.has_value()) j["limit"] = *limit;
+        if (limit.has_value()) {
+          j["limit"] = *limit;
+        }
         return j;
     }
 };
@@ -473,10 +489,16 @@ struct RemoveNode : MutationNode {
     ASTNodeType getType() const override { return ASTNodeType::Remove; }
     nlohmann::json toJSON() const override {
         nlohmann::json j{{"type", "REMOVE"}, {"collection", collection}};
-        if (filter)   j["filter"]   = filter->toJSON();
-        if (doc_expr) j["doc_expr"] = doc_expr->toJSON();
+        if (filter) {
+          j["filter"]   = filter->toJSON();
+        }
+        if (doc_expr) {
+          j["doc_expr"] = doc_expr->toJSON();
+        }
         j["return_removed"] = return_removed;
-        if (limit.has_value()) j["limit"] = *limit;
+        if (limit.has_value()) {
+          j["limit"] = *limit;
+        }
         return j;
     }
 };
@@ -496,8 +518,12 @@ struct ReplaceNode : MutationNode {
     ASTNodeType getType() const override { return ASTNodeType::Replace; }
     nlohmann::json toJSON() const override {
         nlohmann::json j{{"type", "REPLACE"}, {"collection", collection}};
-        if (search_expr)  j["search_expr"]  = search_expr->toJSON();
-        if (replacement)   j["replacement"]   = replacement->toJSON();
+        if (search_expr) {
+          j["search_expr"]  = search_expr->toJSON();
+        }
+        if (replacement) {
+          j["replacement"]   = replacement->toJSON();
+        }
         j["return_new"] = return_new;
         j["return_old"] = return_old;
         return j;
@@ -520,9 +546,15 @@ struct UpsertNode : MutationNode {
     ASTNodeType getType() const override { return ASTNodeType::Upsert; }
     nlohmann::json toJSON() const override {
         nlohmann::json j{{"type", "UPSERT"}, {"collection", collection}};
-        if (search_expr) j["search_expr"] = search_expr->toJSON();
-        if (insert_doc)  j["insert_doc"]  = insert_doc->toJSON();
-        if (update_doc)  j["update_doc"]  = update_doc->toJSON();
+        if (search_expr) {
+          j["search_expr"] = search_expr->toJSON();
+        }
+        if (insert_doc) {
+          j["insert_doc"]  = insert_doc->toJSON();
+        }
+        if (update_doc) {
+          j["update_doc"]  = update_doc->toJSON();
+        }
         j["return_new"] = return_new;
         j["return_old"] = return_old;
         return j;
@@ -835,7 +867,9 @@ struct Query {
         
         if (!for_nodes.empty()) {
             nlohmann::json fors = nlohmann::json::array();
-            for (const auto& f : for_nodes) fors.push_back(f.toJSON());
+            for (const auto& f : for_nodes) {
+              fors.push_back(f.toJSON());
+            }
             j["fors"] = std::move(fors);
         }
         
@@ -860,7 +894,9 @@ struct Query {
         }
         if (!let_nodes.empty()) {
             nlohmann::json lets = nlohmann::json::array();
-            for (const auto& l : let_nodes) lets.push_back(l.toJSON());
+            for (const auto& l : let_nodes) {
+              lets.push_back(l.toJSON());
+            }
             j["lets"] = std::move(lets);
         }
         if (collect) {
@@ -1348,7 +1384,9 @@ struct CompatFunctionCallExpr : Expression {
     ASTNodeType getType() const override { return ASTNodeType::FunctionCall; }
     nlohmann::json toJSON() const override {
         nlohmann::json arr = nlohmann::json::array();
-        for (auto &a : arguments) arr.push_back(a? a->toJSON(): nlohmann::json());
+        for (auto &a : arguments) {
+          arr.push_back(a? a->toJSON(): nlohmann::json());
+        }
         return {{"type","function_call"},{"name", functionName},{"arguments", arr}};
     }
 };

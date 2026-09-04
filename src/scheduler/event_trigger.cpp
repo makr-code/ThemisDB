@@ -483,23 +483,33 @@ void EventTrigger::rebuildConditionCache_() const {
     }
 
     for (const auto& raw : raw_clauses) {
-        if (raw.empty()) continue;
+        if (raw.empty()) {
+          continue;
+        }
 
         // Tokenise the clause
         std::vector<std::string> tokens;
         size_t i = 0;
         const size_t n = raw.size();
         while (i < n) {
-            while (i < n && std::isspace(static_cast<unsigned char>(raw[i]))) ++i;
-            if (i >= n) break;
+            while (i < n && std::isspace(static_cast<unsigned char>(raw[i]))) {
+              ++i;
+            }
+            if (i >= n) {
+              break;
+            }
             if (raw[i] == '"') {
                 size_t j = i + 1;
-                while (j < n && raw[j] != '"') ++j;
+                while (j < n && raw[j] != '"') {
+                  ++j;
+                }
                 tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));
                 i = j + 1;
             } else {
                 size_t j = i;
-                while (j < n && !std::isspace(static_cast<unsigned char>(raw[j]))) ++j;
+                while (j < n && !std::isspace(static_cast<unsigned char>(raw[j]))) {
+                  ++j;
+                }
                 tokens.push_back(raw.substr(i, j - i));
                 i = j;
             }
@@ -515,7 +525,9 @@ void EventTrigger::rebuildConditionCache_() const {
         pc.op    = tokens[1];
         std::string rhs;
         for (size_t k = 2; k < tokens.size(); ++k) {
-            if (k > 2) rhs += " ";
+            if (k > 2) {
+              rhs += " ";
+            }
             rhs += tokens[k];
         }
         pc.rhs = stripQuotes(rhs);

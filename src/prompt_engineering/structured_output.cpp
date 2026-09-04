@@ -47,7 +47,9 @@ std::string StructuredOutputEnforcer::repairJson(const std::string& text) {
 
     // Trim leading / trailing whitespace
     const auto first = result.find_first_not_of(" \t\r\n");
-    if (first == std::string::npos) return result;
+    if (first == std::string::npos) {
+      return result;
+    }
     const auto last  = result.find_last_not_of(" \t\r\n");
     return result.substr(first, last - first + 1);
 }
@@ -90,7 +92,9 @@ bool StructuredOutputEnforcer::checkJsonStructure(const std::string& text,
             in_string = !in_string;
             continue;
         }
-        if (in_string) continue;
+        if (in_string) {
+          continue;
+        }
 
         switch (c) {
             case '{': ++brace_depth;   break;
@@ -134,14 +138,20 @@ std::vector<std::string> StructuredOutputEnforcer::extractStringArray(
     // Find the key
     const std::string search = "\"" + key + "\"";
     const auto key_pos = json.find(search);
-    if (key_pos == std::string::npos) return result;
+    if (key_pos == std::string::npos) {
+      return result;
+    }
 
     // Find the opening '[' after the key
     const auto arr_start = json.find('[', key_pos + search.size());
-    if (arr_start == std::string::npos) return result;
+    if (arr_start == std::string::npos) {
+      return result;
+    }
 
     const auto arr_end = json.find(']', arr_start);
-    if (arr_end == std::string::npos) return result;
+    if (arr_end == std::string::npos) {
+      return result;
+    }
 
     const std::string arr_content = json.substr(arr_start + 1,
                                                  arr_end - arr_start - 1);
@@ -165,10 +175,14 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
 
     const std::string prop_key = "\"properties\"";
     const auto prop_pos = schema.find(prop_key);
-    if (prop_pos == std::string::npos) return names;
+    if (prop_pos == std::string::npos) {
+      return names;
+    }
 
     const auto obj_start = schema.find('{', prop_pos + prop_key.size());
-    if (obj_start == std::string::npos) return names;
+    if (obj_start == std::string::npos) {
+      return names;
+    }
 
     // Find matching closing '}'
     int depth = 0;
@@ -180,11 +194,15 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
         if (escaped) { escaped = false; continue; }
         if (c == '\\' && in_string) { escaped = true; continue; }
         if (c == '"') { in_string = !in_string; continue; }
-        if (in_string) continue;
+        if (in_string) {
+          continue;
+        }
         if (c == '{') ++depth;
         else if (c == '}') { --depth; if (depth == 0) { obj_end = i; break; } }
     }
-    if (obj_end == std::string::npos) return names;
+    if (obj_end == std::string::npos) {
+      return names;
+    }
 
     const std::string props_block = schema.substr(obj_start + 1,
                                                     obj_end - obj_start - 1);
@@ -210,7 +228,9 @@ std::vector<std::string> StructuredOutputEnforcer::extractPropertyNames(
                 if (dep == 0 && reading_key) {
                     // confirm next non-space char is ':'
                     size_t j = i + 1;
-                    while (j < flat.size() && flat[j] == ' ') ++j;
+                    while (j < flat.size() && flat[j] == ' ') {
+                      ++j;
+                    }
                     if (j < flat.size() && flat[j] == ':') {
                         names.push_back(cur_key);
                     }
@@ -248,7 +268,9 @@ std::vector<std::string> StructuredOutputEnforcer::extractTopLevelKeys(
         const char c = json[i];
         if (escaped) {
             escaped = false;
-            if (reading_key) cur_key += c;
+            if (reading_key) {
+              cur_key += c;
+            }
             continue;
         }
         if (c == '\\' && in_string) { escaped = true; continue; }
@@ -290,7 +312,9 @@ bool StructuredOutputEnforcer::validateJsonSchema(
     std::vector<std::string>&   errors) {
 
     // Step 1: structural validity
-    if (!checkJsonStructure(output, errors)) return false;
+    if (!checkJsonStructure(output, errors)) {
+      return false;
+    }
 
     // Step 2: required fields
     const auto required = extractStringArray(schema.schema_json, "required");
@@ -394,7 +418,9 @@ StructuredOutputResult StructuredOutputEnforcer::enforce(
         : 1;
 
     std::string working = raw_output;
-    if (config.strip_markdown) working = stripMarkdownFences(working);
+    if (config.strip_markdown) {
+      working = stripMarkdownFences(working);
+    }
 
     for (int attempt = 1; attempt <= max_attempts; ++attempt) {
         result.attempts_used = attempt;

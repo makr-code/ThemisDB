@@ -324,9 +324,15 @@ nlohmann::json LetEvaluator::applyArithmeticOp(
     double leftNum = toNumber(left);
     double rightNum = toNumber(right);
 
-    if (op == "+") return leftNum + rightNum;
-    if (op == "-") return leftNum - rightNum;
-    if (op == "*") return leftNum * rightNum;
+    if (op == "+") {
+      return leftNum + rightNum;
+    }
+    if (op == "-") {
+      return leftNum - rightNum;
+    }
+    if (op == "*") {
+      return leftNum * rightNum;
+    }
     if (op == "/") {
         if (rightNum == 0.0) {
             throw std::runtime_error("Division by zero");
@@ -348,27 +354,47 @@ nlohmann::json LetEvaluator::applyComparisonOp(
     const nlohmann::json& left,
     const nlohmann::json& right
 ) const {
-    if (op == "==") return left == right;
-    if (op == "!=") return left != right;
+    if (op == "==") {
+      return left == right;
+    }
+    if (op == "!=") {
+      return left != right;
+    }
 
     // Numeric comparisons
     if (left.is_number() && right.is_number()) {
         double leftNum = left.get<double>();
         double rightNum = right.get<double>();
-        if (op == "<") return leftNum < rightNum;
-        if (op == ">") return leftNum > rightNum;
-        if (op == "<=") return leftNum <= rightNum;
-        if (op == ">=") return leftNum >= rightNum;
+        if (op == "<") {
+          return leftNum < rightNum;
+        }
+        if (op == ">") {
+          return leftNum > rightNum;
+        }
+        if (op == "<=") {
+          return leftNum <= rightNum;
+        }
+        if (op == ">=") {
+          return leftNum >= rightNum;
+        }
     }
 
     // String comparisons
     if (left.is_string() && right.is_string()) {
         std::string leftStr = left.get<std::string>();
         std::string rightStr = right.get<std::string>();
-        if (op == "<") return leftStr < rightStr;
-        if (op == ">") return leftStr > rightStr;
-        if (op == "<=") return leftStr <= rightStr;
-        if (op == ">=") return leftStr >= rightStr;
+        if (op == "<") {
+          return leftStr < rightStr;
+        }
+        if (op == ">") {
+          return leftStr > rightStr;
+        }
+        if (op == "<=") {
+          return leftStr <= rightStr;
+        }
+        if (op == ">=") {
+          return leftStr >= rightStr;
+        }
     }
 
     // Type mismatch or unsupported comparison
@@ -383,8 +409,12 @@ nlohmann::json LetEvaluator::applyLogicalOp(
     bool leftBool = toBool(left);
     bool rightBool = toBool(right);
 
-    if (op == "AND") return leftBool && rightBool;
-    if (op == "OR") return leftBool || rightBool;
+    if (op == "AND") {
+      return leftBool && rightBool;
+    }
+    if (op == "OR") {
+      return leftBool || rightBool;
+    }
 
     throw std::runtime_error("Unknown logical operator: " + op);
 }
@@ -631,34 +661,48 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         // Uses the horizontal ray cast to the right; boundary crossings are counted.
         auto pointInRing = [](double px, double py,
                                const nlohmann::json& ring) -> bool {
-            if (!ring.is_array() || ring.size() < 3) return false;
+            if (!ring.is_array() || ring.size() < 3) {
+              return false;
+            }
             const std::size_t n = ring.size();
 
             // Explicit boundary check: a point that lies exactly on any ring edge
             // (including vertices) is considered inside (inclusive semantics).
             for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
-                if (!ring[i].is_array() || ring[i].size() < 2) continue;
-                if (!ring[j].is_array() || ring[j].size() < 2) continue;
+                if (!ring[i].is_array() || ring[i].size() < 2) {
+                  continue;
+                }
+                if (!ring[j].is_array() || ring[j].size() < 2) {
+                  continue;
+                }
                 const double xi = ring[i][0].get<double>();
                 const double yi = ring[i][1].get<double>();
                 const double xj = ring[j][0].get<double>();
                 const double yj = ring[j][1].get<double>();
                 // Check if point is on vertex.
-                if (px == xi && py == yi) return true;
+                if (px == xi && py == yi) {
+                  return true;
+                }
                 // Check if point is on the segment [j→i] via cross-product + bounding-box.
                 const double cross = (xi - xj) * (py - yj) - (yi - yj) * (px - xj);
                 if (cross == 0.0) {
                     // Collinear: check bounding box containment.
                     const double minX = std::min(xi, xj), maxX = std::max(xi, xj);
                     const double minY = std::min(yi, yj), maxY = std::max(yi, yj);
-                    if (px >= minX && px <= maxX && py >= minY && py <= maxY) return true;
+                    if (px >= minX && px <= maxX && py >= minY && py <= maxY) {
+                      return true;
+                    }
                 }
             }
 
             int crossings = 0;
             for (std::size_t i = 0, j = n - 1; i < n; j = i++) {
-                if (!ring[i].is_array() || ring[i].size() < 2) continue;
-                if (!ring[j].is_array() || ring[j].size() < 2) continue;
+                if (!ring[i].is_array() || ring[i].size() < 2) {
+                  continue;
+                }
+                if (!ring[j].is_array() || ring[j].size() < 2) {
+                  continue;
+                }
                 const double xi = ring[i][0].get<double>();
                 const double yi = ring[i][1].get<double>();
                 const double xj = ring[j][0].get<double>();
@@ -667,7 +711,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 const bool yStraddle = ((yi > py) != (yj > py));
                 if (yStraddle) {
                     const double xIntersect = (xj - xi) * (py - yi) / (yj - yi) + xi;
-                    if (px <= xIntersect) ++crossings;
+                    if (px <= xIntersect) {
+                      ++crossings;
+                    }
                 }
             }
             return (crossings % 2) != 0;
@@ -686,10 +732,14 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     return false;
                 const auto& rings = g2j["coordinates"];
                 // Must be inside exterior ring …
-                if (!pointInRing(px, py, rings[0])) return false;
+                if (!pointInRing(px, py, rings[0])) {
+                  return false;
+                }
                 // … and outside every hole ring.
                 for (std::size_t h = 1; h < rings.size(); ++h) {
-                    if (pointInRing(px, py, rings[h])) return false;
+                    if (pointInRing(px, py, rings[h])) {
+                      return false;
+                    }
                 }
                 return true;
             }
@@ -1074,7 +1124,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 // trim token
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
-                if (lpos != std::string::npos) token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                if (lpos != std::string::npos) {
+                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                }
                 if (!token.empty()) {
                     std::istringstream tss(token);
                     double x, y, z;
@@ -1087,7 +1139,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         coords.push_back({x, y});
                     }
                 }
-                if (comma == std::string::npos) break; else pos = comma + 1;
+                if (comma == std::string::npos) {
+                  break; else pos = comma + 1;
+                }
             }
 
             geojson["type"] = "LineString";
@@ -1114,7 +1168,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 // trim token
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
-                if (lpos != std::string::npos) token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                if (lpos != std::string::npos) {
+                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                }
                 if (!token.empty()) {
                     std::istringstream tss(token);
                     double x, y, z;
@@ -1127,7 +1183,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         ring.push_back({x, y});
                     }
                 }
-                if (comma == std::string::npos) break; else start = comma + 1;
+                if (comma == std::string::npos) {
+                  break; else start = comma + 1;
+                }
             }
 
             // Ensure closed ring: first == last
@@ -1183,7 +1241,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             wkt << "LINESTRING(";
             for (size_t i = 0; i < coords.size(); ++i) {
-                if (i > 0) wkt << ", ";
+                if (i > 0) {
+                  wkt << ", ";
+                }
                 const auto& pt = coords[i];
                 if (pt.is_array() && pt.size() >= 2) {
                     wkt << pt[0].get<double>() << " " << pt[1].get<double>();
@@ -1201,12 +1261,16 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             
             wkt << "POLYGON(";
             for (size_t ringIdx = 0; ringIdx < coords.size(); ++ringIdx) {
-                if (ringIdx > 0) wkt << ",";
+                if (ringIdx > 0) {
+                  wkt << ",";
+                }
                 wkt << "(";
                 const auto& ring = coords[ringIdx];
                 if (ring.is_array()) {
                     for (size_t i = 0; i < ring.size(); ++i) {
-                        if (i > 0) wkt << ", ";
+                        if (i > 0) {
+                          wkt << ", ";
+                        }
                         const auto& pt = ring[i];
                         if (pt.is_array() && pt.size() >= 2) {
                             wkt << pt[0].get<double>() << " " << pt[1].get<double>();
@@ -1348,7 +1412,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 for (const auto& pt : coords) {
                     if (pt.is_array() && pt.size() >= 3) {
                         double z = pt[2].get<double>();
-                        if (inRange(z)) return true;
+                        if (inRange(z)) {
+                          return true;
+                        }
                     }
                 }
             }
@@ -1361,7 +1427,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         for (const auto& pt : ring) {
                             if (pt.is_array() && pt.size() >= 3) {
                                 double z = pt[2].get<double>();
-                                if (inRange(z)) return true;
+                                if (inRange(z)) {
+                                  return true;
+                                }
                             }
                         }
                     }
@@ -1386,7 +1454,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         if (type == "Point") {
             const auto& c = geom["coordinates"];
-            if (!c.is_array() || c.size() < 2) throw std::runtime_error("ST_Buffer: invalid Point");
+            if (!c.is_array() || c.size() < 2) {
+              throw std::runtime_error("ST_Buffer: invalid Point");
+            }
             double x=c[0].get<double>(), y=c[1].get<double>();
             // Square buffer around point (x±d, y±d)
             nlohmann::json ring = nlohmann::json::array({
@@ -1402,7 +1472,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         if (type == "Polygon") {
             // Expand exterior ring's MBR by distance
             const auto& rings = geom["coordinates"];
-            if (!rings.is_array() || rings.empty()) throw std::runtime_error("ST_Buffer: invalid Polygon");
+            if (!rings.is_array() || rings.empty()) {
+              throw std::runtime_error("ST_Buffer: invalid Polygon");
+            }
             const auto& ext = rings[0];
             double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
             double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();

@@ -232,7 +232,9 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
     storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view) {
         // Extract snap_uuid from key  "snap_idx:<proj>:<uuid>"
         const auto pos = key.rfind(':');
-        if (pos == std::string_view::npos) return true;
+        if (pos == std::string_view::npos) {
+          return true;
+        }
         const std::string snap_id = "snap:" + std::string(key.substr(pos + 1));
         std::string val;
         if (storage_->get(snap_id, val)) {

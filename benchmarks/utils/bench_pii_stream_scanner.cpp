@@ -79,7 +79,9 @@ static std::string build_corpus(size_t target_bytes) {
     const std::string block = make_text_block();
     std::string corpus;
     corpus.reserve(target_bytes + block.size());
-    while (corpus.size() < target_bytes) corpus += block;
+    while (corpus.size() < target_bytes) {
+      corpus += block;
+    }
     corpus.resize(target_bytes);
     return corpus;
 }
@@ -97,7 +99,9 @@ static std::string hmac_pseudonym(const std::string& key, const std::string& val
          digest, &dlen);
     std::ostringstream oss;
     oss << std::hex << std::setfill('0');
-    for (int i = 0; i < 4; ++i) oss << std::setw(2) << static_cast<int>(digest[i]);
+    for (int i = 0; i < 4; ++i) {
+      oss << std::setw(2) << static_cast<int>(digest[i]);
+    }
     return oss.str();
 }
 

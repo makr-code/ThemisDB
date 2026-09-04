@@ -128,8 +128,12 @@ void StreamWriter::initCompression() {
     }
     // Clamp level to valid zstd range [1, 22]
     int level = config_.compression_level;
-    if (level < 1) level = 1;
-    if (level > 22) level = 22;
+    if (level < 1) {
+      level = 1;
+    }
+    if (level > 22) {
+      level = 22;
+    }
     size_t init_result = ZSTD_initCStream(cstream, level);
     if (ZSTD_isError(init_result)) {
         ZSTD_freeCStream(cstream);

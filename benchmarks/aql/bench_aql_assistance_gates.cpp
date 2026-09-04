@@ -150,7 +150,9 @@ public:
 
     bool validateBatch(const std::vector<std::string>& queries) {
         for (const auto& q : queries) {
-            if (!validateSimple(q)) return false;
+            if (!validateSimple(q)) {
+              return false;
+            }
         }
         return true;
     }

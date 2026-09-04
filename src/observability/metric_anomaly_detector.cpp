@@ -81,7 +81,9 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
 {
     std::unique_lock<std::mutex> lk(mutex_);
     auto it = streams_.find(metric_name);
-    if (it == streams_.end()) return std::nullopt;
+    if (it == streams_.end()) {
+      return std::nullopt;
+    }
 
     StreamState& state = *it->second;
     ++state.points_seen;
@@ -96,7 +98,9 @@ std::optional<MetricAnomaly> MetricAnomalyDetector::observe(
 
     auto raw = state.sad.process(dp);  // may return nullopt during warm-up
 
-    if (!raw) return std::nullopt;
+    if (!raw) {
+      return std::nullopt;
+    }
 
     // Enrich the result into a MetricAnomaly.
     MetricAnomaly ma;
@@ -317,9 +321,15 @@ std::vector<std::string> MetricAnomalyDetector::monitoredNames() const {
 
 /*static*/
 std::string MetricAnomalyDetector::scoreSeverity([[maybe_unused]] double score) noexcept {
-    if (score >= 0.9) return "critical";
-    if (score >= 0.75) return "high";
-    if (score >= 0.6) return "medium";
+    if (score >= 0.9) {
+      return "critical";
+    }
+    if (score >= 0.75) {
+      return "high";
+    }
+    if (score >= 0.6) {
+      return "medium";
+    }
     return "low";
 }
 

@@ -375,14 +375,18 @@ void GRPCServer::recordRPC(const std::string& method, bool success,
         std::lock_guard<std::mutex> lock(metrics_mutex_);
         auto& m = methodMetricsLocked(method);
         ++m.requests;
-        if (!success) ++m.errors;
+        if (!success) {
+          ++m.errors;
+        }
         m.latency_ms += duration_ms;
     }
 
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         ++stats_.total_requests;
-        if (success) ++stats_.successful_requests;
+        if (success) {
+          ++stats_.successful_requests;
+        }
         else         ++stats_.failed_requests;
     }
 
@@ -409,7 +413,9 @@ std::string GRPCServer::getMetricsText() const {
         }
     }
 
-    if (reqs.empty()) return "";
+    if (reqs.empty()) {
+      return "";
+    }
 
     // grpc_server_requests_total
     out << "# HELP grpc_server_requests_total Total gRPC requests received.\n";
@@ -461,7 +467,9 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
     std::function<void(const std::string&)> sink_copy;
     {
         std::lock_guard<std::mutex> lock(log_sink_mutex_);
-        if (!access_log_sink_) return;
+        if (!access_log_sink_) {
+          return;
+        }
         sink_copy = access_log_sink_;
     }
 
@@ -471,7 +479,9 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
         out.reserve(s.size() + 2);
         out += '"';
         for (char c : s) {
-            if      (c == '"')  out += "\\\"";
+            if      (c == '"') {
+              out += "\\\"";
+            }
             else if (c == '\\') out += "\\\\";
             else if (c == '\n') out += "\\n";
             else                out += c;
@@ -499,7 +509,9 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
 
 std::string GRPCServer::loadFile(const std::string& path) {
     std::ifstream file(path);
-    if (!file) throw std::runtime_error("Failed to open file: " + path);
+    if (!file) {
+      throw std::runtime_error("Failed to open file: " + path);
+    }
     std::ostringstream buf;
     buf << file.rdbuf();
     return buf.str();

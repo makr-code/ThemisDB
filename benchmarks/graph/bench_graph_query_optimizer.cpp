@@ -81,7 +81,9 @@ public:
                 std::string to_id = "node_" + std::to_string(to_idx);
                 
                 // Skip self-loops
-                if (to_idx == i) continue;
+                if (to_idx == i) {
+                  continue;
+                }
                 
                 themis::BaseEntity edge("edge_" + std::to_string(edge_id++));
                 edge.setField("id", "edge_" + std::to_string(edge_id));

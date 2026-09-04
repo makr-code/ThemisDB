@@ -27,12 +27,16 @@ namespace observability {
 std::string MetricAggregator::makeSeriesKey(
     const std::string& name,
     const std::map<std::string, std::string>& labels) {
-    if (labels.empty()) return name;
+    if (labels.empty()) {
+      return name;
+    }
     std::ostringstream oss;
     oss << name << "{";
     bool first = true;
     for (const auto& [k, v] : labels) {
-        if (!first) oss << ",";
+        if (!first) {
+          oss << ",";
+        }
         oss << k << "=\"" << v << "\"";
         first = false;
     }
@@ -49,7 +53,9 @@ std::string MetricAggregator::makeLabelFingerprint(
 std::map<std::string, std::string> MetricAggregator::applyDropLabels(
     const std::map<std::string, std::string>& labels,
     const std::vector<std::string>& drop) {
-    if (drop.empty()) return labels;
+    if (drop.empty()) {
+      return labels;
+    }
     std::map<std::string, std::string> result;
     for (const auto& [k, v] : labels) {
         if (std::find(drop.begin(), drop.end(), k) == drop.end()) {
@@ -60,7 +66,9 @@ std::map<std::string, std::string> MetricAggregator::applyDropLabels(
 }
 
 double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) {
-    if (vals.empty()) return 0.0;
+    if (vals.empty()) {
+      return 0.0;
+    }
 
     switch (type) {
         case AggregationType::SUM:
@@ -80,7 +88,9 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
         [[fallthrough]];\n        case AggregationType::P95:
         [[fallthrough]];\n        case AggregationType::P99: {
             // Guard: already checked above, but be explicit for static analysis.
-            if (vals.empty()) return 0.0;
+            if (vals.empty()) {
+              return 0.0;
+            }
             std::sort(vals.begin(), vals.end());
             double p = (type == AggregationType::P50) ? 0.50
                      : (type == AggregationType::P95) ? 0.95
@@ -160,12 +170,16 @@ double MetricAggregator::calculateRate(
     auto elapsed_s = std::chrono::duration<double>(
                          newest.timestamp - oldest.timestamp)
                          .count();
-    if (elapsed_s <= 0.0) return 0.0;
+    if (elapsed_s <= 0.0) {
+      return 0.0;
+    }
 
     int64_t delta = newest.value - oldest.value;
     // Guard against counter resets (monotonically increasing counter that was
     // reset — treat as 0 rather than returning a negative rate).
-    if (delta < 0) return 0.0;
+    if (delta < 0) {
+      return 0.0;
+    }
 
     return static_cast<double>(delta) / elapsed_s;
 }
@@ -203,7 +217,9 @@ AggregatedMetric MetricAggregator::aggregateHistograms(
     std::vector<double> all_values;
     for (const auto& [key, snapshots] : snapshots_) {
         for (const auto& snap : snapshots) {
-            if (snap.metric_name != metric_name) continue;
+            if (snap.metric_name != metric_name) {
+              continue;
+            }
 
             // Apply label filter.
             bool match = true;
@@ -214,7 +230,9 @@ AggregatedMetric MetricAggregator::aggregateHistograms(
                     break;
                 }
             }
-            if (!match) continue;
+            if (!match) {
+              continue;
+            }
 
             all_values.insert(all_values.end(),
                                snap.values.begin(), snap.values.end());
@@ -272,18 +290,28 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
                 // Extract metric name from the key (up to first '{' or end)
                 std::string kname = key;
                 auto brace = key.find('{');
-                if (brace != std::string::npos) kname = key.substr(0, brace);
-                if (kname != metric_name) continue;
-                if (deque.size() < 2) continue;
+                if (brace != std::string::npos) {
+                  kname = key.substr(0, brace);
+                }
+                if (kname != metric_name) {
+                  continue;
+                }
+                if (deque.size() < 2) {
+                  continue;
+                }
 
                 const auto& oldest = deque.front();
                 const auto& newest = deque.back();
                 auto elapsed_s = std::chrono::duration<double>(
                                      newest.timestamp - oldest.timestamp)
                                      .count();
-                if (elapsed_s <= 0.0) continue;
+                if (elapsed_s <= 0.0) {
+                  continue;
+                }
                 int64_t delta = newest.value - oldest.value;
-                if (delta < 0) continue;
+                if (delta < 0) {
+                  continue;
+                }
 
                 AggregatedMetric r;
                 r.metric_name = metric_name;
@@ -301,7 +329,9 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
 
         for (const auto& [key, snapshots] : snapshots_) {
             for (const auto& snap : snapshots) {
-                if (snap.metric_name != metric_name) continue;
+                if (snap.metric_name != metric_name) {
+                  continue;
+                }
 
                 // Drop high-cardinality labels.
                 auto effective_labels =
@@ -324,7 +354,9 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
             }
         }
 
-        if (grouped.empty()) continue;
+        if (grouped.empty()) {
+          continue;
+        }
 
         for (auto& [gk, vals] : grouped) {
             AggregatedMetric r;
@@ -387,7 +419,9 @@ ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
 
         for (const auto& [key, snapshots] : transient_snapshots) {
             for (const auto& snap : snapshots) {
-                if (snap.metric_name != metric_name) continue;
+                if (snap.metric_name != metric_name) {
+                  continue;
+                }
 
                 auto effective_labels =
                     applyDropLabels(snap.labels, rule.drop_labels);
@@ -408,7 +442,9 @@ ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
             }
         }
 
-        if (grouped.empty()) continue;
+        if (grouped.empty()) {
+          continue;
+        }
 
         for (auto& [gk, vals] : grouped) {
             AggregatedMetric r;
@@ -482,7 +518,9 @@ void MetricAggregator::setMetricCardinalityLimit(const std::string& metric_name,
 size_t MetricAggregator::getSeriesCount(const std::string& metric_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = known_series_.find(metric_name);
-    if (it == known_series_.end()) return 0;
+    if (it == known_series_.end()) {
+      return 0;
+    }
     return it->second.size();
 }
 

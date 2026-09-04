@@ -58,7 +58,9 @@ void LookupDecoder::buildFromPrompt(const std::vector<int>& tokens) {
 }
 
 void LookupDecoder::updateFromTokens(const std::vector<int>& new_tokens) {
-    if (new_tokens.empty()) return;
+    if (new_tokens.empty()) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(mutex_);
     indexTokens(new_tokens);
 }
@@ -95,7 +97,9 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
     size_t                  max_draft
 ) const
 {
-    if (max_draft == 0) max_draft = config_.max_draft_tokens;
+    if (max_draft == 0) {
+      max_draft = config_.max_draft_tokens;
+    }
     max_draft = std::min(max_draft, config_.max_draft_tokens);
 
     std::lock_guard<std::mutex> lock(mutex_);
@@ -107,7 +111,9 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
 
     // Probe from longest to shortest n-gram (greedy longest match).
     for (size_t n = config_.ngram_max; n >= config_.ngram_min; --n) {
-        if (context_tokens.size() < n) continue;
+        if (context_tokens.size() < n) {
+          continue;
+        }
 
         // Extract the last `n` tokens as query key.
         std::vector<int> key(

@@ -123,9 +123,13 @@ private:
 
 /// Compute coefficient of variation (%) from a vector of samples.
 double cv_percent(const std::vector<double>& v) {
-    if (v.size() < 2) return 0.0;
+    if (v.size() < 2) {
+      return 0.0;
+    }
     const double mean = std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
-    if (std::abs(mean) < 1e-12) return 0.0;
+    if (std::abs(mean) < 1e-12) {
+      return 0.0;
+    }
     double sq_sum = 0.0;
     for (double x : v) {
         const double d = x - mean;
@@ -137,7 +141,9 @@ double cv_percent(const std::vector<double>& v) {
 
 /// Simple linear trend slope (ops/segment).
 double trend_slope(const std::vector<double>& v) {
-    if (v.size() < 2) return 0.0;
+    if (v.size() < 2) {
+      return 0.0;
+    }
     const int n = static_cast<int>(v.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sxx = 0.0;
     for (int i = 0; i < n; ++i) {
@@ -147,7 +153,9 @@ double trend_slope(const std::vector<double>& v) {
         sxx += static_cast<double>(i) * i;
     }
     const double denom = n * sxx - sx * sx;
-    if (std::abs(denom) < 1e-12) return 0.0;
+    if (std::abs(denom) < 1e-12) {
+      return 0.0;
+    }
     return (n * sxy - sx * sy) / denom;
 }
 

@@ -272,7 +272,9 @@ AlertingEngine::AlertingEngine(std::shared_ptr<Alertmanager> backend)
 // --- Channel management ------------------------------------------------------
 
 void AlertingEngine::addChannel(std::shared_ptr<INotificationChannel> channel) {
-    if (!channel) return;
+    if (!channel) {
+      return;
+    }
     std::lock_guard<std::mutex> lock(channels_mutex_);
     channels_.push_back(std::move(channel));
 }
@@ -382,7 +384,9 @@ void AlertingEngine::loadDefaultRules() {
 
     for (const auto& def : kDefaults) {
         // Skip if already registered (idempotent).
-        if (rule_manager_.getRule(def.rule_id).has_value()) continue;
+        if (rule_manager_.getRule(def.rule_id).has_value()) {
+          continue;
+        }
 
         AlertRule rule;
         rule.rule_id          = def.rule_id;

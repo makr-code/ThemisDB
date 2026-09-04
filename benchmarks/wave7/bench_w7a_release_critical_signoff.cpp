@@ -122,12 +122,18 @@ public:
     std::vector<float> NextVec(std::size_t dim) {
         std::normal_distribution<float> nd(0.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = nd(rng_);
+        for (auto& x : v) {
+          x = nd(rng_);
+        }
         // L2-normalize
         float norm = 0.0f;
-        for (float x : v) norm += x * x;
+        for (float x : v) {
+          norm += x * x;
+        }
         norm = std::sqrt(norm + 1e-12f);
-        for (auto& x : v) x /= norm;
+        for (auto& x : v) {
+          x /= norm;
+        }
         return v;
     }
 

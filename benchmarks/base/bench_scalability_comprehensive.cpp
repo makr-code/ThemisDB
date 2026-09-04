@@ -336,7 +336,9 @@ static void BM_FullScanScaling(benchmark::State& state) {
         // Simulate full scan by reading all keys
         for (size_t i = 0; i < dataset_size; ++i) {
             auto value = db.get("entity:scan_" + std::to_string(i));
-            if (value.has_value()) count++;
+            if (value.has_value()) {
+              count++;
+            }
         }
         benchmark::DoNotOptimize(count);
     }

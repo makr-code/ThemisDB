@@ -336,7 +336,9 @@ WorkspaceStatus WorkspaceStateManager::recoverFromLog(
         int valid_entries = 0;
         
         while (std::getline(ifs, line)) {
-            if (line.empty()) continue;
+            if (line.empty()) {
+              continue;
+            }
             
             try {
                 json j = json::parse(line);

@@ -38,18 +38,42 @@ nlohmann::json ComplianceRequirement::toJson() const {
 
 ComplianceRequirement ComplianceRequirement::fromJson(const nlohmann::json& j) {
     ComplianceRequirement req;
-    if (j.contains("requirement_id")) req.requirement_id = j["requirement_id"].get<std::string>();
-    if (j.contains("framework")) req.framework = static_cast<ComplianceFramework>(j["framework"].get<int>());
-    if (j.contains("requirement_text")) req.requirement_text = j["requirement_text"].get<std::string>();
-    if (j.contains("regulatory_section")) req.regulatory_section = j["regulatory_section"].get<std::string>();
-    if (j.contains("severity")) req.severity = static_cast<ComplianceSeverity>(j["severity"].get<int>());
-    if (j.contains("control_ids")) req.control_ids = j["control_ids"].get<std::vector<std::string>>();
-    if (j.contains("category")) req.category = j["category"].get<std::string>();
-    if (j.contains("is_mandatory")) req.is_mandatory = j["is_mandatory"].get<bool>();
-    if (j.contains("version")) req.version = j["version"].get<std::string>();
-    if (j.contains("created_at_ms")) req.created_at_ms = j["created_at_ms"].get<int64_t>();
-    if (j.contains("updated_at_ms")) req.updated_at_ms = j["updated_at_ms"].get<int64_t>();
-    if (j.contains("metadata")) req.metadata = j["metadata"].get<std::map<std::string, std::string>>();
+    if (j.contains("requirement_id")) {
+      req.requirement_id = j["requirement_id"].get<std::string>();
+    }
+    if (j.contains("framework")) {
+      req.framework = static_cast<ComplianceFramework>(j["framework"].get<int>());
+    }
+    if (j.contains("requirement_text")) {
+      req.requirement_text = j["requirement_text"].get<std::string>();
+    }
+    if (j.contains("regulatory_section")) {
+      req.regulatory_section = j["regulatory_section"].get<std::string>();
+    }
+    if (j.contains("severity")) {
+      req.severity = static_cast<ComplianceSeverity>(j["severity"].get<int>());
+    }
+    if (j.contains("control_ids")) {
+      req.control_ids = j["control_ids"].get<std::vector<std::string>>();
+    }
+    if (j.contains("category")) {
+      req.category = j["category"].get<std::string>();
+    }
+    if (j.contains("is_mandatory")) {
+      req.is_mandatory = j["is_mandatory"].get<bool>();
+    }
+    if (j.contains("version")) {
+      req.version = j["version"].get<std::string>();
+    }
+    if (j.contains("created_at_ms")) {
+      req.created_at_ms = j["created_at_ms"].get<int64_t>();
+    }
+    if (j.contains("updated_at_ms")) {
+      req.updated_at_ms = j["updated_at_ms"].get<int64_t>();
+    }
+    if (j.contains("metadata")) {
+      req.metadata = j["metadata"].get<std::map<std::string, std::string>>();
+    }
     return req;
 }
 
@@ -74,16 +98,36 @@ nlohmann::json ComplianceControl::toJson() const {
 
 ComplianceControl ComplianceControl::fromJson(const nlohmann::json& j) {
     ComplianceControl ctl;
-    if (j.contains("control_id")) ctl.control_id = j["control_id"].get<std::string>();
-    if (j.contains("framework")) ctl.framework = static_cast<ComplianceFramework>(j["framework"].get<int>());
-    if (j.contains("control_name")) ctl.control_name = j["control_name"].get<std::string>();
-    if (j.contains("description")) ctl.description = j["description"].get<std::string>();
-    if (j.contains("implementation_detail")) ctl.implementation_detail = j["implementation_detail"].get<std::string>();
-    if (j.contains("is_automated")) ctl.is_automated = j["is_automated"].get<bool>();
-    if (j.contains("policy_rules")) ctl.policy_rules = j["policy_rules"].get<std::vector<std::string>>();
-    if (j.contains("evidence_types")) ctl.evidence_types = j["evidence_types"].get<std::vector<std::string>>();
-    if (j.contains("version")) ctl.version = j["version"].get<std::string>();
-    if (j.contains("created_at_ms")) ctl.created_at_ms = j["created_at_ms"].get<int64_t>();
+    if (j.contains("control_id")) {
+      ctl.control_id = j["control_id"].get<std::string>();
+    }
+    if (j.contains("framework")) {
+      ctl.framework = static_cast<ComplianceFramework>(j["framework"].get<int>());
+    }
+    if (j.contains("control_name")) {
+      ctl.control_name = j["control_name"].get<std::string>();
+    }
+    if (j.contains("description")) {
+      ctl.description = j["description"].get<std::string>();
+    }
+    if (j.contains("implementation_detail")) {
+      ctl.implementation_detail = j["implementation_detail"].get<std::string>();
+    }
+    if (j.contains("is_automated")) {
+      ctl.is_automated = j["is_automated"].get<bool>();
+    }
+    if (j.contains("policy_rules")) {
+      ctl.policy_rules = j["policy_rules"].get<std::vector<std::string>>();
+    }
+    if (j.contains("evidence_types")) {
+      ctl.evidence_types = j["evidence_types"].get<std::vector<std::string>>();
+    }
+    if (j.contains("version")) {
+      ctl.version = j["version"].get<std::string>();
+    }
+    if (j.contains("created_at_ms")) {
+      ctl.created_at_ms = j["created_at_ms"].get<int64_t>();
+    }
     return ctl;
 }
 

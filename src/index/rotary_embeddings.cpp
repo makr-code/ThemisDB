@@ -88,7 +88,9 @@ std::vector<float> RotaryEmbedding::rotateImpl(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= rotated.size()) {
+          break;
+        }
         
         auto [cos_theta, sin_theta] = computeRotationAngles(position, pair_idx);
         rotateCoordinatePair(rotated[idx_0], rotated[idx_1], cos_theta, sin_theta);
@@ -132,7 +134,9 @@ std::vector<float> RotaryEmbedding::rotateInverse(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= rotated.size()) {
+          break;
+        }
         
         auto [cos_theta, sin_theta] = computeRotationAngles(position, pair_idx);
         // Inverse rotation: negate sine component

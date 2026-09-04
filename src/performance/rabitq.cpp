@@ -58,7 +58,9 @@ RaBitQEncoder::RaBitQEncoder(size_t dimension)
 }
 
 void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) {
-    if (training_data.empty()) return;
+    if (training_data.empty()) {
+      return;
+    }
     
     // Validate training data consistency
     for (const auto& vec : training_data) {
@@ -152,7 +154,9 @@ uint8_t RaBitQEncoder::quantize_value(float value, size_t dim) const {
     
     // Quantize to 2 bits (4 levels)
     const auto& thresh = thresholds_[dim];
-    if (normalized < thresh[0]) return 0;
+    if (normalized < thresh[0]) {
+      return 0;
+    }
     else if (normalized < thresh[1]) return 1;
     else if (normalized < thresh[2]) return 2;
     else return 3;

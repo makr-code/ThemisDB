@@ -66,19 +66,33 @@ std::vector<std::string> generateNgrams(const std::string& s, int n) {
 
 // Soundex encoding
 std::string soundex(const std::string& s) {
-    if (s.empty()) return "";
+    if (s.empty()) {
+      return "";
+    }
     
     std::string result;
     result += static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
     
     auto getCode = [](char c) -> char {
         c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-        if (c == 'B' || c == 'F' || c == 'P' || c == 'V') return '1';
-        if (c == 'C' || c == 'G' || c == 'J' || c == 'K' || c == 'Q' || c == 'S' || c == 'X' || c == 'Z') return '2';
-        if (c == 'D' || c == 'T') return '3';
-        if (c == 'L') return '4';
-        if (c == 'M' || c == 'N') return '5';
-        if (c == 'R') return '6';
+        if (c == 'B' || c == 'F' || c == 'P' || c == 'V') {
+          return '1';
+        }
+        if (c == 'C' || c == 'G' || c == 'J' || c == 'K' || c == 'Q' || c == 'S' || c == 'X' || c == 'Z') {
+          return '2';
+        }
+        if (c == 'D' || c == 'T') {
+          return '3';
+        }
+        if (c == 'L') {
+          return '4';
+        }
+        if (c == 'M' || c == 'N') {
+          return '5';
+        }
+        if (c == 'R') {
+          return '6';
+        }
         return '0';
     };
     
@@ -91,17 +105,23 @@ std::string soundex(const std::string& s) {
         lastCode = code;
     }
     
-    while (result.length() < 4) result += '0';
+    while (result.length() < 4) {
+      result += '0';
+    }
     return result;
 }
 
 // Simplified Metaphone encoding
 std::string metaphone(const std::string& word, int maxLen = 6) {
-    if (word.empty()) return "";
+    if (word.empty()) {
+      return "";
+    }
     
     std::string result;
     std::string upper;
-    for (char c : word) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char c : word) {
+      upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     
     size_t i = 0;
     
@@ -123,10 +143,14 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
         
         switch (c) {
             case 'A': case 'E': case 'I': case 'O': case 'U':
-                if (i == 0) result += c;
+                if (i == 0) {
+                  result += c;
+                }
                 break;
             case 'B':
-                if (i == 0 || upper[i - 1] != 'M') result += 'B';
+                if (i == 0 || upper[i - 1] != 'M') {
+                  result += 'B';
+                }
                 break;
             case 'C':
                 if (next == 'H') { result += 'X'; i++; }
@@ -144,11 +168,15 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 else result += 'K';
                 break;
             case 'H':
-                if (i == 0 || !isVowel(upper[i - 1])) result += 'H';
+                if (i == 0 || !isVowel(upper[i - 1])) {
+                  result += 'H';
+                }
                 break;
             case 'J': result += 'J'; break;
             case 'K':
-                if (i == 0 || upper[i - 1] != 'C') result += 'K';
+                if (i == 0 || upper[i - 1] != 'C') {
+                  result += 'K';
+                }
                 break;
             case 'L': result += 'L'; break;
             case 'M': result += 'M'; break;
@@ -169,7 +197,9 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 break;
             case 'V': result += 'F'; break;
             case 'W': case 'Y':
-                if (next != '\0' && isVowel(next)) result += c;
+                if (next != '\0' && isVowel(next)) {
+                  result += c;
+                }
                 break;
             case 'X': result += "KS"; break;
             case 'Z': result += 'S'; break;
@@ -193,11 +223,15 @@ std::unordered_set<std::string> queryTermSet(const json& queryArg) {
                 std::string t = item.get<std::string>();
                 std::transform(t.begin(), t.end(), t.begin(),
                                [](unsigned char c){ return std::tolower(c); });
-                if (!t.empty()) terms.insert(std::move(t));
+                if (!t.empty()) {
+                  terms.insert(std::move(t));
+                }
             }
     } else if (queryArg.is_string()) {
         for (auto& t : tokenize(queryArg.get<std::string>()))
-            if (!t.empty()) terms.insert(std::move(t));
+            if (!t.empty()) {
+              terms.insert(std::move(t));
+            }
     }
     return terms;
 }
@@ -209,7 +243,9 @@ std::string applyHighlight(const std::string& text,
                            const std::unordered_set<std::string>& terms,
                            const std::string& openTag,
                            const std::string& closeTag) {
-    if (terms.empty() || text.empty()) return text;
+    if (terms.empty() || text.empty()) {
+      return text;
+    }
 
     // Build a lower-case shadow for scanning
     std::string lower(text.size(), '\0');
@@ -250,7 +286,9 @@ std::string applyHighlight(const std::string& text,
 size_t bestSnippetOffset(const std::string& lower,
                          const std::unordered_set<std::string>& terms,
                          size_t windowSize) {
-    if (lower.size() <= windowSize) return 0;
+    if (lower.size() <= windowSize) {
+      return 0;
+    }
 
     // Collect all match start positions
     std::vector<size_t> positions;
@@ -260,17 +298,23 @@ size_t bestSnippetOffset(const std::string& lower,
         size_t end = i;
         while (end < lower.size() &&
                std::isalnum(static_cast<unsigned char>(lower[end]))) ++end;
-        if (terms.count(lower.substr(i, end - i))) positions.push_back(i);
+        if (terms.count(lower.substr(i, end - i))) {
+          positions.push_back(i);
+        }
         i = end;
     }
 
-    if (positions.empty()) return 0;
+    if (positions.empty()) {
+      return 0;
+    }
 
     // Sliding-window: maximise term density
     size_t bestStart = 0, bestCount = 0;
     size_t lo = 0;
     for (size_t hi = 0; hi < positions.size(); ++hi) {
-        while (positions[hi] - positions[lo] >= windowSize) ++lo;
+        while (positions[hi] - positions[lo] >= windowSize) {
+          ++lo;
+        }
         size_t count = hi - lo + 1;
         if (count > bestCount) {
             bestCount = count;
@@ -325,7 +369,9 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) return json::array();
+        if (args.size() < 3) {
+          return json::array();
+        }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
@@ -334,7 +380,9 @@ public:
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
-                if (raw > 0) limit = static_cast<size_t>(raw);
+                if (raw > 0) {
+                  limit = static_cast<size_t>(raw);
+                }
             }
         }
 
@@ -386,7 +434,9 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) return json::array();
+        if (args.size() < 3) {
+          return json::array();
+        }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto phrase     = args[2].get<std::string>();
@@ -395,7 +445,9 @@ public:
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
-                if (raw > 0) limit = static_cast<size_t>(raw);
+                if (raw > 0) {
+                  limit = static_cast<size_t>(raw);
+                }
             }
         }
 
@@ -447,19 +499,25 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (args.size() < 3) return json::array();
+        if (args.size() < 3) {
+          return json::array();
+        }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
         int maxDistance = 2;
         if (args.size() > 3 && args[3].is_number_integer()) {
             maxDistance = args[3].get<int>();
-            if (maxDistance < 0) maxDistance = 0;
+            if (maxDistance < 0) {
+              maxDistance = 0;
+            }
         }
         size_t limit = 1000;
         if (args.size() > 4 && args[4].is_number_integer()) {
             int raw = args[4].get<int>();
-            if (raw > 0) limit = static_cast<size_t>(raw);
+            if (raw > 0) {
+              limit = static_cast<size_t>(raw);
+            }
         }
 
         auto* idx = ctx.getSecondaryIndexManager();
@@ -523,8 +581,12 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) return "";
-        if (!args[0].is_string()) return args[0];
+        if (args.size() < 2) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return args[0];
+        }
 
         const std::string text  = args[0].get<std::string>();
         std::string openTag     = "<em>";
@@ -584,8 +646,12 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) return "";
-        if (!args[0].is_string()) return "";
+        if (args.size() < 2) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return "";
+        }
 
         const std::string text  = args[0].get<std::string>();
         size_t windowSize       = 200;
@@ -597,7 +663,9 @@ public:
             const auto& opts = args[2];
             if (opts.contains("windowSize") && opts["windowSize"].is_number_integer()) {
                 int raw = opts["windowSize"].get<int>();
-                if (raw > 0) windowSize = static_cast<size_t>(raw);
+                if (raw > 0) {
+                  windowSize = static_cast<size_t>(raw);
+                }
             }
             if (opts.contains("openTag")   && opts["openTag"].is_string())
                 openTag    = opts["openTag"].get<std::string>();
@@ -627,9 +695,13 @@ public:
 
         std::string highlighted = applyHighlight(excerpt, terms, openTag, closeTag);
         std::string result;
-        if (truncLeft)  result += separator;
+        if (truncLeft) {
+          result += separator;
+        }
         result += highlighted;
-        if (truncRight) result += separator;
+        if (truncRight) {
+          result += separator;
+        }
         return result;
     }
 };
@@ -659,21 +731,31 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.size() < 2) return 0.0;
+        if (args.size() < 2) {
+          return 0.0;
+        }
         
         std::string s1 = args[0].get<std::string>();
         std::string s2 = args[1].get<std::string>();
         int n = args.size() > 2 ? args[2].get<int>() : 2;
         
-        if (s1.empty() || s2.empty()) return 0.0;
-        if (n < 1) n = 2;
+        if (s1.empty() || s2.empty()) {
+          return 0.0;
+        }
+        if (n < 1) {
+          n = 2;
+        }
         
         auto ngrams1 = generateNgrams(s1, n);
         auto ngrams2 = generateNgrams(s2, n);
         
         std::unordered_map<std::string, int> count1, count2;
-        for (const auto& ng : ngrams1) count1[ng]++;
-        for (const auto& ng : ngrams2) count2[ng]++;
+        for (const auto& ng : ngrams1) {
+          count1[ng]++;
+        }
+        for (const auto& ng : ngrams2) {
+          count2[ng]++;
+        }
         
         int intersection = 0;
         for (const auto& [ng, c] : count1) {
@@ -683,7 +765,9 @@ public:
         }
         
         const size_t totalSz = ngrams1.size() + ngrams2.size();
-        if (totalSz == 0) return 0.0;
+        if (totalSz == 0) {
+          return 0.0;
+        }
         
         return 2.0 * static_cast<double>(intersection) / static_cast<double>(totalSz);
     }
@@ -713,7 +797,9 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.empty()) return json::array();
+        if (args.empty()) {
+          return json::array();
+        }
         
         std::string text = args[0].get<std::string>();
         // analyzer parameter is currently ignored
@@ -746,7 +832,9 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.empty()) return "";
+        if (args.empty()) {
+          return "";
+        }
         
         std::string s = args[0].get<std::string>();
         return soundex(s);
@@ -777,7 +865,9 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (args.empty()) return "";
+        if (args.empty()) {
+          return "";
+        }
         
         std::string word = args[0].get<std::string>();
         int maxLen = args.size() > 1 ? args[1].get<int>() : 6;

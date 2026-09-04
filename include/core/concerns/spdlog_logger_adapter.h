@@ -54,27 +54,39 @@ public:
     }
 
     void trace(const std::string& message) override {
-        if (logger_) logger_->trace(message);
+        if (logger_) {
+          logger_->trace(message);
+        }
     }
 
     void debug(const std::string& message) override {
-        if (logger_) logger_->debug(message);
+        if (logger_) {
+          logger_->debug(message);
+        }
     }
 
     void info(const std::string& message) override {
-        if (logger_) logger_->info(message);
+        if (logger_) {
+          logger_->info(message);
+        }
     }
 
     void warn(const std::string& message) override {
-        if (logger_) logger_->warn(message);
+        if (logger_) {
+          logger_->warn(message);
+        }
     }
 
     void error(const std::string& message) override {
-        if (logger_) logger_->error(message);
+        if (logger_) {
+          logger_->error(message);
+        }
     }
 
     void critical(const std::string& message) override {
-        if (logger_) logger_->critical(message);
+        if (logger_) {
+          logger_->critical(message);
+        }
     }
 
     /**
@@ -88,7 +100,9 @@ public:
     void logStructured(Level level,
                        const std::string& message,
                        const Fields& fields = {}) override {
-        if (!logger_) return;
+        if (!logger_) {
+          return;
+        }
         if (json_mode_) {
             std::string json = buildJsonLine(level, message, fields);
             // Use the raw (no-format) log call to avoid double-escaping
@@ -119,14 +133,22 @@ public:
                         const std::string& message,
                         const TraceContext& ctx,
                         const Fields& fields = {}) override {
-        if (!logger_) return;
+        if (!logger_) {
+          return;
+        }
         if (json_mode_) {
             // Merge correlation IDs first so they appear before user fields
             // when iterating a sorted map in buildJsonLine().
             Fields merged;
-            if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
-            if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
-            if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+            if (!ctx.trace_id.empty()) {
+              merged["trace_id"]   = ctx.trace_id;
+            }
+            if (!ctx.span_id.empty()) {
+              merged["span_id"]    = ctx.span_id;
+            }
+            if (!ctx.request_id.empty()) {
+              merged["request_id"] = ctx.request_id;
+            }
             // User-supplied fields may override the above if they share a key.
             merged.insert(fields.begin(), fields.end());
             std::string json = buildJsonLine(level, message, merged);
@@ -151,12 +173,16 @@ public:
     }
 
     void setLevel(Level level) override {
-        if (!logger_) return;
+        if (!logger_) {
+          return;
+        }
         logger_->set_level(toSpdlogLevel(level));
     }
 
     Level getLevel() const override {
-        if (!logger_) return Level::INFO;
+        if (!logger_) {
+          return Level::INFO;
+        }
         switch (logger_->level()) {
             case spdlog::level::trace: return Level::TRACE;
             case spdlog::level::debug: return Level::DEBUG;
@@ -169,12 +195,16 @@ public:
     }
 
     void setPattern(const std::string& pattern) override {
-        if (logger_) logger_->set_pattern(pattern);
+        if (logger_) {
+          logger_->set_pattern(pattern);
+        }
     }
 
     // Lifecycle hooks
     void flush() noexcept override {
-        if (logger_) logger_->flush();
+        if (logger_) {
+          logger_->flush();
+        }
     }
 
     void shutdown() noexcept override {

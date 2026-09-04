@@ -419,7 +419,9 @@ public:
         output += "  \"counters\": {\n";
         bool first = true;
         for (const auto& [name, counter] : counters_) {
-            if (!first) output += ",\n";
+            if (!first) {
+              output += ",\n";
+            }
             output += "    \"" + name + "\": " + std::to_string(counter->value());
             first = false;
         }
@@ -428,7 +430,9 @@ public:
         output += "  \"gauges\": {\n";
         first = true;
         for (const auto& [name, gauge] : gauges_) {
-            if (!first) output += ",\n";
+            if (!first) {
+              output += ",\n";
+            }
             output += "    \"" + name + "\": " + std::to_string(gauge->value());
             first = false;
         }
@@ -437,7 +441,9 @@ public:
         output += "  \"histograms\": {\n";
         first = true;
         for (const auto& [name, histogram] : histograms_) {
-            if (!first) output += ",\n";
+            if (!first) {
+              output += ",\n";
+            }
             output += "    \"" + name + "\": {";
             output += "\"count\": " + std::to_string(histogram->count()) + ", ";
             output += "\"sum\": " + std::to_string(histogram->sum()) + ", ";

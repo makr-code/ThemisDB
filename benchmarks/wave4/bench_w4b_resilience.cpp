@@ -191,7 +191,9 @@ static void BM_W4B_03_VectorSearchUnderContention(benchmark::State& state) {
         contender_threads.emplace_back([&stop_contenders] {
             volatile double acc = 0.0;
             while (!stop_contenders.load(std::memory_order_relaxed)) {
-                for (int i = 0; i < 10000; ++i) acc += static_cast<double>(i);
+                for (int i = 0; i < 10000; ++i) {
+                  acc += static_cast<double>(i);
+                }
             }
             benchmark::DoNotOptimize(acc);
         });
@@ -211,7 +213,9 @@ static void BM_W4B_03_VectorSearchUnderContention(benchmark::State& state) {
     }
 
     stop_contenders.store(true, std::memory_order_relaxed);
-    for (auto& th : contender_threads) th.join();
+    for (auto& th : contender_threads) {
+      th.join();
+    }
 
     state.SetItemsProcessed(total_queries);
     vt.publishCounters(state);
@@ -262,7 +266,9 @@ static void BM_W4B_04_WriteThroughputUnderBackpressure(benchmark::State& state) 
 
     int64_t total_ops = 0;
     for (auto _ : state) {
-        if (bp) bp->acquire();
+        if (bp) {
+          bp->acquire();
+        }
 
         db->put(rng.genKey(16), rng.genKey(64));
         ++total_ops;
@@ -309,10 +315,14 @@ static void BM_W4B_05_GraphTraversalPartialFailure(benchmark::State& state) {
     // Simulate partial failure: skip (failure_pct)% of node IDs when adding edges.
     for (std::size_t i = 0; i < kNodes; ++i) {
         const bool available = rng.genInt(0, 99) >= failure_pct;
-        if (!available) continue;
+        if (!available) {
+          continue;
+        }
         for (int e = 0; e < 3; ++e) {
             auto j = static_cast<std::size_t>(rng.genInt(0, static_cast<int64_t>(kNodes) - 1));
-            if (j == i) continue;
+            if (j == i) {
+              continue;
+            }
             std::string edge_id =
                 "e_" + std::to_string(i) + "_" + std::to_string(j);
             themis::BaseEntity edge(edge_id);

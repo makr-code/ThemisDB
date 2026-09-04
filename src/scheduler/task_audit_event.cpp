@@ -112,23 +112,57 @@ std::string taskSecurityEventTypeToString([[maybe_unused]] TaskSecurityEventType
 }
 
 TaskEventType taskEventTypeFromString([[maybe_unused]] const std::string& s) {
-    if (s == "TASK_REGISTERED") return TaskEventType::TASK_REGISTERED;
-    if (s == "TASK_UNREGISTERED") return TaskEventType::TASK_UNREGISTERED;
-    if (s == "TASK_ENABLED") return TaskEventType::TASK_ENABLED;
-    if (s == "TASK_DISABLED") return TaskEventType::TASK_DISABLED;
-    if (s == "TASK_UPDATED") return TaskEventType::TASK_UPDATED;
-    if (s == "TASK_STARTED") return TaskEventType::TASK_STARTED;
-    if (s == "TASK_COMPLETED") return TaskEventType::TASK_COMPLETED;
-    if (s == "TASK_FAILED") return TaskEventType::TASK_FAILED;
-    if (s == "TASK_TIMEOUT") return TaskEventType::TASK_TIMEOUT;
-    if (s == "TASK_RETRY") return TaskEventType::TASK_RETRY;
-    if (s == "TASK_QUEUED") return TaskEventType::TASK_QUEUED;
-    if (s == "TASK_DEQUEUED") return TaskEventType::TASK_DEQUEUED;
-    if (s == "MANUAL_EXECUTION") return TaskEventType::MANUAL_EXECUTION;
-    if (s == "CRON_TRIGGERED") return TaskEventType::CRON_TRIGGERED;
-    if (s == "CDC_TRIGGERED") return TaskEventType::CDC_TRIGGERED;
-    if (s == "INTERVAL_TRIGGERED") return TaskEventType::INTERVAL_TRIGGERED;
-    if (s == "WEBHOOK_TRIGGERED") return TaskEventType::WEBHOOK_TRIGGERED;
+    if (s == "TASK_REGISTERED") {
+      return TaskEventType::TASK_REGISTERED;
+    }
+    if (s == "TASK_UNREGISTERED") {
+      return TaskEventType::TASK_UNREGISTERED;
+    }
+    if (s == "TASK_ENABLED") {
+      return TaskEventType::TASK_ENABLED;
+    }
+    if (s == "TASK_DISABLED") {
+      return TaskEventType::TASK_DISABLED;
+    }
+    if (s == "TASK_UPDATED") {
+      return TaskEventType::TASK_UPDATED;
+    }
+    if (s == "TASK_STARTED") {
+      return TaskEventType::TASK_STARTED;
+    }
+    if (s == "TASK_COMPLETED") {
+      return TaskEventType::TASK_COMPLETED;
+    }
+    if (s == "TASK_FAILED") {
+      return TaskEventType::TASK_FAILED;
+    }
+    if (s == "TASK_TIMEOUT") {
+      return TaskEventType::TASK_TIMEOUT;
+    }
+    if (s == "TASK_RETRY") {
+      return TaskEventType::TASK_RETRY;
+    }
+    if (s == "TASK_QUEUED") {
+      return TaskEventType::TASK_QUEUED;
+    }
+    if (s == "TASK_DEQUEUED") {
+      return TaskEventType::TASK_DEQUEUED;
+    }
+    if (s == "MANUAL_EXECUTION") {
+      return TaskEventType::MANUAL_EXECUTION;
+    }
+    if (s == "CRON_TRIGGERED") {
+      return TaskEventType::CRON_TRIGGERED;
+    }
+    if (s == "CDC_TRIGGERED") {
+      return TaskEventType::CDC_TRIGGERED;
+    }
+    if (s == "INTERVAL_TRIGGERED") {
+      return TaskEventType::INTERVAL_TRIGGERED;
+    }
+    if (s == "WEBHOOK_TRIGGERED") {
+      return TaskEventType::WEBHOOK_TRIGGERED;
+    }
     return TaskEventType::TASK_COMPLETED; // default for unknown values
 }
 
@@ -342,7 +376,9 @@ std::string TaskSecurityEvent::toCEF() const {
     
     // Map severity to CEF severity (0-10)
     int cef_severity = 5; // default medium
-    if (severity == "LOW") cef_severity = 3;
+    if (severity == "LOW") {
+      cef_severity = 3;
+    }
     else if (severity == "MEDIUM") cef_severity = 5;
     else if (severity == "HIGH") cef_severity = 8;
     else if (severity == "CRITICAL") cef_severity = 10;

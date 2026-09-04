@@ -102,7 +102,9 @@ public:
 
         for (const auto& doc : docs) {
             std::string status = doc.value("status", "pending");
-            if (status == "reached")      ++reached;
+            if (status == "reached") {
+              ++reached;
+            }
             else if (status == "skipped") ++skipped;
             else if (status == "overdue" ||
                      (status == "pending" && doc.value("due_date", int64_t{0}) < now_ms &&
@@ -240,7 +242,9 @@ public:
                     return false;
                 }
                 std::string st = doc.value("status", "pending");
-                if (st == "overdue") return true;
+                if (st == "overdue") {
+                  return true;
+                }
                 // Also treat pending milestones with a passed due_date as overdue.
                 int64_t due = doc.value("due_date", int64_t{0});
                 return st == "pending" && due > 0 && due < now_ms;

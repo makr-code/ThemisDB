@@ -38,25 +38,39 @@ public:
         try {
             // Start JSON
             oss << "{\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             // Timestamp
             auto now = std::time(nullptr);
             oss << "  \"timestamp\": " << now << ",\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             auto* gm_time = std::gmtime(&now);
-            if (!gm_time) return "";
+            if (!gm_time) {
+              return "";
+            }
             oss << "  \"timestamp_iso\": \"" << std::put_time(gm_time, "%Y-%m-%dT%H:%M:%SZ") << "\",\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             // System info
             oss << "  \"system\": {\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "    \"cpu_model\": \"" << HardwareCycleCounter::cpu_model() << "\",\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "    \"cpu_frequency_hz\": " << HardwareCycleCounter::cpu_frequency_hz() << ",\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "    \"architecture\": \"";
 #if defined(__x86_64__) || defined(_M_X64)
             oss << "x86_64";
@@ -66,13 +80,19 @@ public:
             oss << "unknown";
 #endif
             oss << "\"\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "  },\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             // Metrics by operation
             oss << "  \"operations\": [\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             // Aggregate by operation name
             std::map<std::string, std::vector<const OperationCycleMetrics*>> aggregated;
@@ -84,11 +104,15 @@ public:
             for (const auto& [operation, metrics_vec] : aggregated) {
                 if (!first_op) {
                     oss << ",\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                 }
                 first_op = false;
                 
-                if (metrics_vec.empty()) continue;
+                if (metrics_vec.empty()) {
+                  continue;
+                }
                 
                 // Calculate statistics
                 uint64_t avg_hnsw = 0;
@@ -104,7 +128,9 @@ public:
                 }
                 
                 size_t count = metrics_vec.size();
-                if (count == 0) continue;
+                if (count == 0) {
+                  continue;
+                }
                 
                 avg_hnsw /= count;
                 avg_pointer /= count;
@@ -112,67 +138,115 @@ public:
                 avg_total /= count;
                 
                 oss << "    {\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      \"name\": \"" << operation << "\",\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      \"count\": " << count << ",\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      \"cycles\": {\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"hnsw_search\": " << avg_hnsw << ",\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"pointer_passing\": " << avg_pointer << ",\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"llm_inference\": " << avg_llm << ",\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"total\": " << avg_total << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      },\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 
                 // Expected values and deviations
                 oss << "      \"expected\": {\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"pointer_passing\": " << ExpectedCycles::POINTER_PASSING << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      },\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      \"deviation_percent\": {\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "        \"pointer_passing\": " << std::fixed << std::setprecision(2) 
                     << ExpectedCycles::deviation_percent(avg_pointer, ExpectedCycles::POINTER_PASSING) << "\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 oss << "      },\n";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
                 
                 // Breakdown percentages
                 if (avg_total > 0) {
                     oss << "      \"breakdown_percent\": {\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                     oss << "        \"hnsw_search\": " << std::fixed << std::setprecision(2) 
                         << ((double)avg_hnsw / avg_total * 100.0) << ",\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                     oss << "        \"pointer_passing\": " << std::fixed << std::setprecision(6) 
                         << ((double)avg_pointer / avg_total * 100.0) << ",\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                     oss << "        \"llm_inference\": " << std::fixed << std::setprecision(2) 
                         << ((double)avg_llm / avg_total * 100.0) << "\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                     oss << "      }\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                 } else {
                     oss << "      \"breakdown_percent\": {}\n";
-                    if (!oss.good()) return "";
+                    if (!oss.good()) {
+                      return "";
+                    }
                 }
                 
                 oss << "    }";
-                if (!oss.good()) return "";
+                if (!oss.good()) {
+                  return "";
+                }
             }
             
             oss << "\n  ]\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             oss << "}\n";
-            if (!oss.good()) return "";
+            if (!oss.good()) {
+              return "";
+            }
             
             return oss.str();
         } catch (const std::exception&) {

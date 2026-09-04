@@ -185,7 +185,9 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         oss << "Synthesized " << result.perspectives.size() << " perspectives: ";
         for (size_t i = 0; i < result.perspectives.size(); ++i) {
             oss << result.perspectives[i].perspective.tradition;
-            if (i < result.perspectives.size() - 1) oss << ", ";
+            if (i < result.perspectives.size() - 1) {
+              oss << ", ";
+            }
         }
         oss << ". Diversity score: " << result.perspective_diversity_score;
         result.synthesis_reasoning = oss.str();
@@ -314,7 +316,9 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
             oss << "**Common themes**: ";
             for (size_t i = 0; i < common.size(); ++i) {
                 oss << common[i];
-                if (i < common.size() - 1) oss << "; ";
+                if (i < common.size() - 1) {
+                  oss << "; ";
+                }
             }
             oss << "\n\n";
         }
@@ -327,7 +331,9 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
             oss << "**Areas of tension**: ";
             for (size_t i = 0; i < disagreements.size(); ++i) {
                 oss << disagreements[i];
-                if (i < disagreements.size() - 1) oss << "; ";
+                if (i < disagreements.size() - 1) {
+                  oss << "; ";
+                }
             }
             oss << "\n\n";
         }

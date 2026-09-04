@@ -35,9 +35,13 @@ namespace {
     std::istringstream stream(text);
     std::string line;
     while (std::getline(stream, line)) {
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         auto space = line.rfind(' ');
-        if (space == std::string::npos) continue;
+        if (space == std::string::npos) {
+          continue;
+        }
         std::string stack = line.substr(0, space);
         uint64_t count = 0;
         try {
@@ -149,8 +153,12 @@ public:
         auto curMap  = parseFolded(current_text);
 
         uint64_t baseTotal = 0, curTotal = 0;
-        for (const auto& [k, v] : baseMap) baseTotal += v;
-        for (const auto& [k, v] : curMap)  curTotal  += v;
+        for (const auto& [k, v] : baseMap) {
+          baseTotal += v;
+        }
+        for (const auto& [k, v] : curMap) {
+          curTotal  += v;
+        }
 
         if (baseTotal > 0 && curTotal > 0) {
             result.cpu_regression_percent =
@@ -188,7 +196,9 @@ public:
         // Cap list sizes for usability
         const auto limit = config_.max_diff_hotspots;
         auto trim = [limit](std::vector<std::string>& v) {
-            if (v.size() > limit) v.resize(limit);
+            if (v.size() > limit) {
+              v.resize(limit);
+            }
         };
         trim(result.new_hotspots);
         trim(result.removed_hotspots);
@@ -242,9 +252,13 @@ private:
 
         for (const auto& id : sortedUniqueIds(ids)) {
             auto it = snapshot.find(id);
-            if (it == snapshot.end()) continue;
+            if (it == snapshot.end()) {
+              continue;
+            }
             const NodeProfile& np = it->second;
-            if (np.snapshot.type != ProfileType::CPU) continue;
+            if (np.snapshot.type != ProfileType::CPU) {
+              continue;
+            }
 
             result.node_ids.push_back(id);
             result.node_versions[id] = np.version;
@@ -254,8 +268,12 @@ private:
             if (config_.normalize_per_node) {
                 // Compute total samples for this node
                 uint64_t node_total = 0;
-                for (const auto& [s, c] : stacks) node_total += c;
-                if (node_total == 0) continue;
+                for (const auto& [s, c] : stacks) {
+                  node_total += c;
+                }
+                if (node_total == 0) {
+                  continue;
+                }
 
                 // Scale each stack's count to its proportional share of this
                 // node's total samples, expressed as parts-per-million (0 –

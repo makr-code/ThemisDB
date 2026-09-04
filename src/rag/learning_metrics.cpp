@@ -143,7 +143,9 @@ void LearningMetrics::printReport(std::ostream& os) const {
 }
 
 double LearningMetrics::computeMean(const std::deque<double>& data) const {
-    if (data.empty()) return 0.0;
+    if (data.empty()) {
+      return 0.0;
+    }
     return std::accumulate(data.begin(), data.end(), 0.0) / static_cast<double>(data.size());
 }
 
@@ -151,7 +153,9 @@ double LearningMetrics::computeStdDev(
     const std::deque<double>& data,
     double mean
 ) const {
-    if (data.size() < 2) return 0.0;
+    if (data.size() < 2) {
+      return 0.0;
+    }
     double variance = 0.0;
     for (const auto& v : data) {
         double diff = v - mean;
@@ -162,7 +166,9 @@ double LearningMetrics::computeStdDev(
 }
 
 double LearningMetrics::computeTrend(const std::deque<double>& data) const {
-    if (data.size() < 2) return 0.0;
+    if (data.size() < 2) {
+      return 0.0;
+    }
     double n  = static_cast<double>(data.size());
     double sx = 0.0, sy = 0.0, sxy = 0.0, sx2 = 0.0;
     for (size_t i = 0; i < data.size(); ++i) {
@@ -174,7 +180,9 @@ double LearningMetrics::computeTrend(const std::deque<double>& data) const {
         sx2 += x * x;
     }
     double denom = n * sx2 - sx * sx;
-    if (std::abs(denom) < 1e-9) return 0.0;
+    if (std::abs(denom) < 1e-9) {
+      return 0.0;
+    }
     return (n * sxy - sx * sy) / denom;
 }
 

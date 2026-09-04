@@ -73,11 +73,17 @@ public:
 
     // canHandle: delegate to extractor's MIME list
     bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
-        if (!extractor_) return false;
+        if (!extractor_) {
+          return false;
+        }
         const auto& mimes = extractor_->supportedMimeTypes();
-        if (mimes.empty()) return true;
+        if (mimes.empty()) {
+          return true;
+        }
         for (const auto& m : mimes) {
-            if (m == ctx.manifest.detected_mime) return true;
+            if (m == ctx.manifest.detected_mime) {
+              return true;
+            }
         }
         return false;
     }

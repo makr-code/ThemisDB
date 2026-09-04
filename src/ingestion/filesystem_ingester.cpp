@@ -37,7 +37,9 @@ namespace fs = std::filesystem;
 // ---------------------------------------------------------------------------
 
 BinaryMimeType detectBinaryMimeType(const std::string& raw) {
-    if (raw.size() < 4) return BinaryMimeType::UNKNOWN;
+    if (raw.size() < 4) {
+      return BinaryMimeType::UNKNOWN;
+    }
 
     // PDF: magic bytes "%PDF"
     if (raw[0] == '%' && raw[1] == 'P' && raw[2] == 'D' && raw[3] == 'F') {
@@ -86,10 +88,14 @@ bool isConverterSafe(const std::string& converter) {
 // ---------------------------------------------------------------------------
 
 bool isPathTraversalSafe(const std::string& path) {
-    if (path.empty()) return true;
+    if (path.empty()) {
+      return true;
+    }
     // Iterate over each component of the path and reject any ".." segment.
     for (const auto& component : fs::path(path)) {
-        if (component == "..") return false;
+        if (component == "..") {
+          return false;
+        }
     }
     return true;
 }
@@ -180,13 +186,17 @@ static std::string extractJsonText(const std::string& raw) {
     for (size_t i = 0; i < raw.size(); ++i) {
         char c = raw[i];
         if (escape) {
-            if (in_string) token += c;
+            if (in_string) {
+              token += c;
+            }
             escape = false;
             continue;
         }
         if (c == '\\') {
             escape = true;
-            if (in_string) token += c;
+            if (in_string) {
+              token += c;
+            }
             continue;
         }
         if (c == '"') {
@@ -220,7 +230,9 @@ static std::string runExternalConverter(const std::string& cmd) {
 #else
     FILE* pipe = popen(cmd.c_str(), "r");  // NOLINT(cert-env33-c)
 #endif
-    if (!pipe) return "";
+    if (!pipe) {
+      return "";
+    }
     std::string result;
     std::array<char, 4096> buf;
     while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
@@ -242,7 +254,9 @@ static std::string shellEscapePath(const std::string& path) {
     // Double-quote escaping for cmd.exe / PowerShell
     std::string escaped = "\"";
     for (char c : path) {
-        if (c == '"') escaped += "\\\"";
+        if (c == '"') {
+          escaped += "\\\"";
+        }
         else          escaped += c;
     }
     escaped += '"';
@@ -253,7 +267,9 @@ static std::string shellEscapePath(const std::string& path) {
     escaped.reserve(path.size() + 2);
     escaped += '\'';
     for (char c : path) {
-        if (c == '\'') escaped += "'\"'\"'";
+        if (c == '\'') {
+          escaped += "'\"'\"'";
+        }
         else           escaped += c;
     }
     escaped += '\'';
@@ -277,8 +293,12 @@ static const char* stderrRedirect() {
 /// @return Extracted plain text, or empty string on failure/unavailability.
 static std::string extractPdfWithConverter(const std::string& file_path,
                                            const std::string& converter) {
-    if (converter.empty()) return "";
-    if (!isConverterSafe(converter)) return "";
+    if (converter.empty()) {
+      return "";
+    }
+    if (!isConverterSafe(converter)) {
+      return "";
+    }
     // pdftotext syntax: pdftotext <input> - (dash = stdout)
     std::string cmd = converter + " " + shellEscapePath(file_path) + " -" + stderrRedirect();
     return runExternalConverter(cmd);
@@ -291,8 +311,12 @@ static std::string extractPdfWithConverter(const std::string& file_path,
 /// @return Extracted plain text, or empty string on failure/unavailability.
 static std::string extractDocxWithConverter(const std::string& file_path,
                                             const std::string& converter) {
-    if (converter.empty()) return "";
-    if (!isConverterSafe(converter)) return "";
+    if (converter.empty()) {
+      return "";
+    }
+    if (!isConverterSafe(converter)) {
+      return "";
+    }
     // pandoc syntax: pandoc -f docx -t plain <input>
     std::string cmd = converter + " -f docx -t plain " + shellEscapePath(file_path) + stderrRedirect();
     return runExternalConverter(cmd);
@@ -330,7 +354,9 @@ public:
         auto it = config.options.find("format");
         if (it != config.options.end()) {
             // Parse format string
-            if (it->second == "pdf") format_ = FileFormat::PDF;
+            if (it->second == "pdf") {
+              format_ = FileFormat::PDF;
+            }
             else if (it->second == "docx") format_ = FileFormat::DOCX;
             else if (it->second == "txt") format_ = FileFormat::TXT;
             else if (it->second == "html") format_ = FileFormat::HTML;

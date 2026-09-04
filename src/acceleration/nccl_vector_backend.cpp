@@ -133,7 +133,9 @@ public:
     }
     
     bool enableAllP2PAccess() {
-        if (config.deviceIds.empty()) return true;
+        if (config.deviceIds.empty()) {
+          return true;
+        }
         
         for (size_t i = 0; i < config.deviceIds.size(); ++i) {
             for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
@@ -170,7 +172,9 @@ public:
     
     bool checkNVLinkAvailable() {
         // Simple check: if P2P is available between any two devices, assume NVLink
-        if (config.deviceIds.size() < 2) return false;
+        if (config.deviceIds.size() < 2) {
+          return false;
+        }
         
         int canAccess = 0;
         cudaDeviceCanAccessPeer(&canAccess, config.deviceIds[0], config.deviceIds[1]);
@@ -184,7 +188,9 @@ public:
             for (size_t j = i + 1; j < config.deviceIds.size(); ++j) {
                 int canAccess = 0;
                 cudaDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
-                if (canAccess) count++;
+                if (canAccess) {
+                  count++;
+                }
             }
         }
         return count;
@@ -255,7 +261,9 @@ bool NCCLVectorBackend::isP2PEnabled() const {
 
 bool NCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t count,
                                    ReductionOp op, cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -277,7 +285,9 @@ bool NCCLVectorBackend::allReduce(const float* sendBuf, float* recvBuf, size_t c
 
 bool NCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
                                    cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     NCCL_CHECK(ncclBroadcast(buffer, buffer, count, ncclFloat, root, 
@@ -288,7 +298,9 @@ bool NCCLVectorBackend::broadcast(float* buffer, size_t count, int root,
 
 bool NCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t sendCount,
                                    cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     NCCL_CHECK(ncclAllGather(sendBuf, recvBuf, sendCount, ncclFloat, 
@@ -299,7 +311,9 @@ bool NCCLVectorBackend::allGather(const float* sendBuf, float* recvBuf, size_t s
 
 bool NCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t count,
                                 ReductionOp op, int root, cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -320,7 +334,9 @@ bool NCCLVectorBackend::reduce(const float* sendBuf, float* recvBuf, size_t coun
 
 bool NCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size_t recvCount,
                                        ReductionOp op, cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     
@@ -341,7 +357,9 @@ bool NCCLVectorBackend::reduceScatter(const float* sendBuf, float* recvBuf, size
 
 bool NCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
                                  cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     NCCL_CHECK(ncclSend(buffer, count, ncclFloat, peerRank, pImpl->comm, stream));
@@ -351,7 +369,9 @@ bool NCCLVectorBackend::p2pSend(const float* buffer, size_t count, int peerRank,
 
 bool NCCLVectorBackend::p2pRecv(float* buffer, size_t count, int peerRank,
                                  cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     pImpl->startTiming();
     NCCL_CHECK(ncclRecv(buffer, count, ncclFloat, peerRank, pImpl->comm, stream));
@@ -381,7 +401,9 @@ bool NCCLVectorBackend::canAccessPeer(int deviceId1, int deviceId2) {
 }
 
 bool NCCLVectorBackend::synchronize(cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     // Use a barrier via AllReduce of a dummy value
     float dummy = 0.0f;
@@ -389,7 +411,9 @@ bool NCCLVectorBackend::synchronize(cudaStream_t stream) {
 }
 
 bool NCCLVectorBackend::waitAll() {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     CUDA_CHECK(cudaDeviceSynchronize());
     return true;
 }
@@ -397,7 +421,9 @@ bool NCCLVectorBackend::waitAll() {
 bool NCCLVectorBackend::mergeTopK(const uint32_t* localIndices, const float* localDistances,
                                    size_t localK, uint32_t* globalIndices, float* globalDistances,
                                    size_t k, int root, cudaStream_t stream) {
-    if (!pImpl->initialized) return false;
+    if (!pImpl->initialized) {
+      return false;
+    }
     
     int rank = pImpl->config.rank;
     size_t worldSize = pImpl->config.worldSize;
@@ -546,14 +572,18 @@ std::string NCCLVectorBackend::getNCCLVersionString() {
 }
 
 bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
-    if (deviceIds.size() < 2) return false;
+    if (deviceIds.size() < 2) {
+      return false;
+    }
     
     // Check if P2P is available between devices (simplified NVLink check)
     for (size_t i = 0; i < deviceIds.size(); ++i) {
         for (size_t j = i + 1; j < deviceIds.size(); ++j) {
             int canAccess = 0;
             cudaDeviceCanAccessPeer(&canAccess, deviceIds[i], deviceIds[j]);
-            if (canAccess) return true;
+            if (canAccess) {
+              return true;
+            }
         }
     }
     

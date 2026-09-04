@@ -23,7 +23,9 @@ TokenDistributionAnalyzer::TokenDistributionAnalyzer(uint32_t vocab_size,
 TokenStats TokenDistributionAnalyzer::analyze_tokens(
     const std::vector<uint32_t>& token_ids) {
   TokenStats stats;
-  if (token_ids.empty()) return stats;
+  if (token_ids.empty()) {
+    return stats;
+  }
 
   stats.total_tokens = token_ids.size();
 
@@ -61,7 +63,9 @@ TokenStats TokenDistributionAnalyzer::analyze_tokens(
 float TokenDistributionAnalyzer::estimate_claude_watermark(
     const std::vector<uint32_t>& token_ids,
     uint64_t text_length_chars) {
-  if (token_ids.empty()) return 0.5f;
+  if (token_ids.empty()) {
+    return 0.5f;
+  }
 
   // Count green tokens
   uint64_t green_count = 0;
@@ -80,7 +84,9 @@ float TokenDistributionAnalyzer::estimate_claude_watermark(
   double std_dev = std::sqrt(token_ids.size() * green_list_fraction_ *
                               (1.0 - green_list_fraction_));
 
-  if (std_dev < 1e-6) return 0.5f;
+  if (std_dev < 1e-6) {
+    return 0.5f;
+  }
   double z_score = deviation / std_dev;
 
   // Convert z-score to confidence [0.0, 1.0]
@@ -103,7 +109,9 @@ float TokenDistributionAnalyzer::estimate_claude_watermark(
 float TokenDistributionAnalyzer::compute_ngram_entrenchment(
     const std::vector<uint32_t>& token_ids,
     uint32_t n) {
-  if (token_ids.size() < n) return 0.5f;
+  if (token_ids.size() < n) {
+    return 0.5f;
+  }
 
   // Extract n-grams
   std::unordered_map<size_t, uint64_t> ngram_counts;
@@ -138,7 +146,9 @@ float TokenDistributionAnalyzer::compute_ngram_entrenchment(
 float TokenDistributionAnalyzer::compute_kl_divergence(
     const std::vector<uint32_t>& token_ids,
     const std::vector<uint32_t>& reference_token_ids) {
-  if (token_ids.empty()) return 0.0f;
+  if (token_ids.empty()) {
+    return 0.0f;
+  }
 
   // Compute probability distributions
   std::unordered_map<uint32_t, uint64_t> p_counts, q_counts;
@@ -225,7 +235,9 @@ float TokenDistributionAnalyzer::get_green_list_fraction() const {
 
 double TokenDistributionAnalyzer::compute_entropy(
     const std::unordered_map<uint32_t, uint64_t>& frequencies) const {
-  if (frequencies.empty()) return 0.0;
+  if (frequencies.empty()) {
+    return 0.0;
+  }
 
   uint64_t total = 0;
   for (const auto& [token, freq] : frequencies) {

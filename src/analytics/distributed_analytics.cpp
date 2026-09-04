@@ -85,10 +85,18 @@ constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
  * Handles NaN and Inf values correctly.
  */
 inline bool isClose(double a, double b, double tol = EPSILON) {
-    if (std::isnan(a) && std::isnan(b)) return true;
-    if (std::isnan(a) || std::isnan(b)) return false;
-    if (std::isinf(a) && std::isinf(b)) return (a > 0) == (b > 0);
-    if (std::isinf(a) || std::isinf(b)) return false;
+    if (std::isnan(a) && std::isnan(b)) {
+      return true;
+    }
+    if (std::isnan(a) || std::isnan(b)) {
+      return false;
+    }
+    if (std::isinf(a) && std::isinf(b)) {
+      return (a > 0) == (b > 0);
+    }
+    if (std::isinf(a) || std::isinf(b)) {
+      return false;
+    }
     return std::abs(a - b) <= tol * std::max(1.0, std::max(std::abs(a), std::abs(b)));
 }
 
@@ -1110,7 +1118,9 @@ OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
 // ============================================================================
 
 void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
-    if (!config_.enable_circuit_breaker) return;
+    if (!config_.enable_circuit_breaker) {
+      return;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
@@ -1132,7 +1142,9 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
 }
 
 bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::string& error_msg) {
-    if (!config_.enable_circuit_breaker) return true;
+    if (!config_.enable_circuit_breaker) {
+      return true;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
@@ -1185,7 +1197,9 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
 }
 
 DistributedAnalyticsSharding::CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
-    if (!config_.enable_circuit_breaker) return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
+    if (!config_.enable_circuit_breaker) {
+      return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
+    }
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;

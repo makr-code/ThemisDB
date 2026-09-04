@@ -87,8 +87,12 @@ Winner:)";
             
             if (j.contains("winner")) {
                 std::string winner_str = j["winner"].get<std::string>();
-                if (winner_str == "A") return ComparisonWinner::ANSWER_A;
-                if (winner_str == "B") return ComparisonWinner::ANSWER_B;
+                if (winner_str == "A") {
+                  return ComparisonWinner::ANSWER_A;
+                }
+                if (winner_str == "B") {
+                  return ComparisonWinner::ANSWER_B;
+                }
                 return ComparisonWinner::TIE;
             }
         } catch (const std::exception& e) {
@@ -294,7 +298,9 @@ PairwiseComparisonResult PairwiseComparator::compare(
             // Count votes
             int a_votes = 0, b_votes = 0, tie_votes = 0;
             for (auto winner : results) {
-                if (winner == ComparisonWinner::ANSWER_A) a_votes++;
+                if (winner == ComparisonWinner::ANSWER_A) {
+                  a_votes++;
+                }
                 else if (winner == ComparisonWinner::ANSWER_B) b_votes++;
                 else tie_votes++;
             }

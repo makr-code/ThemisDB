@@ -67,7 +67,9 @@ public:
         : conf_(other.release()) {}
     RDKafkaConfWrapper& operator=(RDKafkaConfWrapper&& other) noexcept {
         if (this != &other) {
-            if (conf_) rd_kafka_conf_destroy(conf_);
+            if (conf_) {
+              rd_kafka_conf_destroy(conf_);
+            }
             conf_ = other.release();
         }
         return *this;
@@ -151,7 +153,9 @@ public:
         : tpl_(other.release()) {}
     RDKafkaTopicPartitionListWrapper& operator=(RDKafkaTopicPartitionListWrapper&& other) noexcept {
         if (this != &other) {
-            if (tpl_) rd_kafka_topic_partition_list_destroy(tpl_);
+            if (tpl_) {
+              rd_kafka_topic_partition_list_destroy(tpl_);
+            }
             tpl_ = other.release();
         }
         return *this;
@@ -178,7 +182,9 @@ private:
 [[maybe_unused]] static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for Kafka
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -208,9 +214,13 @@ struct KafkaStreamPosition {
     std::string checkpoint_file;
     
     bool loadFromCheckpoint() {
-        if (checkpoint_file.empty()) return false;
+        if (checkpoint_file.empty()) {
+          return false;
+        }
         std::ifstream f(checkpoint_file);
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         try {
             std::string content((std::istreambuf_iterator<char>(f)),
                                std::istreambuf_iterator<char>());
@@ -226,9 +236,13 @@ struct KafkaStreamPosition {
     }
     
     void saveToCheckpoint() {
-        if (checkpoint_file.empty()) return;
+        if (checkpoint_file.empty()) {
+          return;
+        }
         std::ofstream f(checkpoint_file, std::ios::trunc);
-        if (!f) return;
+        if (!f) {
+          return;
+        }
         try {
             auto doc = nlohmann::json::object();
             doc["offset"] = last_committed_offset;
@@ -359,7 +373,9 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     rd_kafka_resp_err_t err = rd_kafka_metadata(rk, 1, nullptr, &meta,
                                                 poll_timeout_ms_);
     bool ok = (err == RD_KAFKA_RESP_ERR_NO_ERROR);
-    if (meta) rd_kafka_metadata_destroy(meta);
+    if (meta) {
+      rd_kafka_metadata_destroy(meta);
+    }
     rd_kafka_destroy(rk);
 
     if (!ok) {
@@ -399,7 +415,9 @@ ImportStats KafkaImporter::importData(
         return stats;
     }
 
-    if (brokers.empty()) brokers = default_brokers_;
+    if (brokers.empty()) {
+      brokers = default_brokers_;
+    }
 
     if (brokers.empty() && !message_fn_) {
         addError(stats, ImportErrorCode::FILE_NOT_FOUND,
@@ -556,7 +574,9 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
     brokers.clear();
     topic.clear();
 
-    if (url.empty()) return false;
+    if (url.empty()) {
+      return false;
+    }
 
     const std::string prefix = "kafka://";
     if (url.substr(0, prefix.size()) == prefix) {
@@ -592,7 +612,9 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
     
     try {
         while (!cancelled_.load() && !abort_requested) {
-            if (max_messages_ > 0 && consumed >= max_messages_) break;
+            if (max_messages_ > 0 && consumed >= max_messages_) {
+              break;
+            }
 
             // PHASE-2-HARDENING: Check if buffer is full
             if (buffer_size >= max_buffer_messages_) {
@@ -617,11 +639,17 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
             }
 
             auto batch = message_fn_();
-            if (batch.empty()) break;
+            if (batch.empty()) {
+              break;
+            }
 
             for (auto& payload : batch) {
-                if (cancelled_.load() || abort_requested) break;
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (cancelled_.load() || abort_requested) {
+                  break;
+                }
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 // PHASE-2-HARDENING: Track buffer size
                 buffer_size++;
@@ -828,7 +856,9 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
 
         try {
             while (!cancelled_.load()) {
-                if (max_messages_ > 0 && consumed >= max_messages_) break;
+                if (max_messages_ > 0 && consumed >= max_messages_) {
+                  break;
+                }
 
                 // PHASE-2-HARDENING: Check if buffer is full
                 if (buffer_size >= max_buffer_messages_) {
@@ -856,7 +886,9 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                     rd_kafka_consumer_poll(rk, poll_timeout_ms_);
 
                 if (!msg) {
-                    if (++consecutive_timeouts >= kMaxTimeouts) break;
+                    if (++consecutive_timeouts >= kMaxTimeouts) {
+                      break;
+                    }
                     continue;
                 }
                 consecutive_timeouts = 0;
@@ -974,14 +1006,18 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
 // ============================================================================
 
 json KafkaImporter::extractEntity(const std::string& payload) const {
-    if (payload.empty()) return json(nullptr);
+    if (payload.empty()) {
+      return json(nullptr);
+    }
 
     if (message_format_ == "avro") {
         // Confluent wire format: magic byte (0x00) + 4-byte schema ID + JSON/bytes
         if (payload.size() > 5 &&
             static_cast<unsigned char>(payload[0]) == 0x00) {
             std::string content = payload.substr(5);
-            if (content.empty()) return json(nullptr);
+            if (content.empty()) {
+              return json(nullptr);
+            }
             try {
                 return json::parse(content);
             } catch (...) {
@@ -1079,7 +1115,9 @@ bool KafkaImporterPlugin::initialize(const char* config_json) {
 }
 
 void KafkaImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

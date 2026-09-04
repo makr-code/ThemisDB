@@ -57,7 +57,9 @@ static std::string makeProvisionId(const std::string& doc_id,
     std::string id = doc_id + "_" + section_ref;
     // Replace spaces and special chars with underscores
     for (char& c : id) {
-        if (c == ' ' || c == '/' || c == '\\') c = '_';
+        if (c == ' ' || c == '/' || c == '\\') {
+          c = '_';
+        }
     }
     return id;
 }

@@ -121,7 +121,9 @@ public:
         
         bool first = true;
         for (const auto& val : args[0]) {
-            if (!first) result += sep;
+            if (!first) {
+              result += sep;
+            }
             if (val.is_string()) {
                 result += val.get<std::string>();
             } else {
@@ -204,10 +206,14 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
-            if (v.is_number()) values.push_back(v.get<double>());
+            if (v.is_number()) {
+              values.push_back(v.get<double>());
+            }
         }
         
-        if (values.empty()) return 0.0;
+        if (values.empty()) {
+          return 0.0;
+        }
         
         double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
         double sqSum = 0.0;
@@ -244,10 +250,14 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
-            if (v.is_number()) values.push_back(v.get<double>());
+            if (v.is_number()) {
+              values.push_back(v.get<double>());
+            }
         }
         
-        if (values.size() < 2) return 0.0;
+        if (values.size() < 2) {
+          return 0.0;
+        }
         
         double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
         double sqSum = 0.0;
@@ -284,10 +294,14 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
-            if (v.is_number()) values.push_back(v.get<double>());
+            if (v.is_number()) {
+              values.push_back(v.get<double>());
+            }
         }
         
-        if (values.empty()) return 0.0;
+        if (values.empty()) {
+          return 0.0;
+        }
         
         double mean = std::accumulate(values.begin(), values.end(), 0.0) / values.size();
         double sqSum = 0.0;
@@ -324,10 +338,14 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
-            if (v.is_number()) values.push_back(v.get<double>());
+            if (v.is_number()) {
+              values.push_back(v.get<double>());
+            }
         }
         
-        if (values.empty()) return nullptr;
+        if (values.empty()) {
+          return nullptr;
+        }
         
         std::sort(values.begin(), values.end());
         size_t n = values.size();
@@ -366,10 +384,14 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
-            if (v.is_number()) values.push_back(v.get<double>());
+            if (v.is_number()) {
+              values.push_back(v.get<double>());
+            }
         }
         
-        if (values.empty()) return nullptr;
+        if (values.empty()) {
+          return nullptr;
+        }
         
         double p = args[1].get<double>() / 100.0;
         p = std::max(0.0, std::min(1.0, p));
@@ -978,7 +1000,9 @@ public:
         const auto& arr = args[0];
         int n = args[1].get<int>();
         
-        if (n <= 0) throw std::runtime_error("NTILE: n must be positive");
+        if (n <= 0) {
+          throw std::runtime_error("NTILE: n must be positive");
+        }
         
         nlohmann::json result = nlohmann::json::array();
         size_t total = arr.size();

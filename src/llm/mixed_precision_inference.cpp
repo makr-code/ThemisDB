@@ -205,13 +205,27 @@ float MixedPrecisionInference::calculateMemoryReduction(PrecisionMode precision)
 }
 
 PrecisionMode MixedPrecisionInference::fromString(const std::string& str) {
-    if (str == "FP32") return PrecisionMode::FP32;
-    if (str == "FP16") return PrecisionMode::FP16;
-    if (str == "BFLOAT16" || str == "BF16") return PrecisionMode::BFLOAT16;
-    if (str == "INT8") return PrecisionMode::INT8;
-    if (str == "Q4") return PrecisionMode::Q4;
-    if (str == "Q3") return PrecisionMode::Q3;
-    if (str == "AUTO") return PrecisionMode::AUTO;
+    if (str == "FP32") {
+      return PrecisionMode::FP32;
+    }
+    if (str == "FP16") {
+      return PrecisionMode::FP16;
+    }
+    if (str == "BFLOAT16" || str == "BF16") {
+      return PrecisionMode::BFLOAT16;
+    }
+    if (str == "INT8") {
+      return PrecisionMode::INT8;
+    }
+    if (str == "Q4") {
+      return PrecisionMode::Q4;
+    }
+    if (str == "Q3") {
+      return PrecisionMode::Q3;
+    }
+    if (str == "AUTO") {
+      return PrecisionMode::AUTO;
+    }
     
     throw std::invalid_argument("Unknown precision mode: " + str);
 }

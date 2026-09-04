@@ -156,7 +156,9 @@ __global__ void fused_lora_backward_kernel(
         int r = blockIdx.y * blockDim.y + threadIdx.y;
         int o = blockIdx.x * blockDim.x + threadIdx.x;
         
-        if (r >= rank || o >= out_dim) return;
+        if (r >= rank || o >= out_dim) {
+          return;
+        }
         
         float sum = 0.0f;
         for (size_t b = 0; b < batch_size; b++) {
@@ -175,7 +177,9 @@ __global__ void fused_lora_backward_kernel(
         int i = blockIdx.y * blockDim.y + threadIdx.y;
         int r = blockIdx.x * blockDim.x + threadIdx.x;
         
-        if (i >= in_dim || r >= rank) return;
+        if (i >= in_dim || r >= rank) {
+          return;
+        }
         
         float sum = 0.0f;
         for (size_t b = 0; b < batch_size; b++) {
@@ -194,7 +198,9 @@ __global__ void fused_lora_backward_kernel(
         int b = blockIdx.y * blockDim.y + threadIdx.y;
         int i = blockIdx.x * blockDim.x + threadIdx.x;
         
-        if (b >= batch_size || i >= in_dim) return;
+        if (b >= batch_size || i >= in_dim) {
+          return;
+        }
         
         float sum = 0.0f;
         for (size_t r = 0; r < rank; r++) {
@@ -233,7 +239,9 @@ __global__ void fused_sgd_step_kernel(
 ) {
     size_t idx = blockIdx.x * blockDim.x + threadIdx.x;
     
-    if (idx >= size) return;
+    if (idx >= size) {
+      return;
+    }
     
     float p = params[idx];
     float g = grads[idx];
@@ -305,13 +313,27 @@ __global__ void fused_mse_loss_gradient_kernel(
     // Final wavefront reduction (no sync needed, wavefront size = 64 for AMD)
     if (tid < 64) {
         volatile float* smem = shared_loss;
-        if (blockDim.x >= 128) smem[tid] += smem[tid + 64];
-        if (blockDim.x >= 64)  smem[tid] += smem[tid + 32];
-        if (blockDim.x >= 32)  smem[tid] += smem[tid + 16];
-        if (blockDim.x >= 16)  smem[tid] += smem[tid + 8];
-        if (blockDim.x >= 8)   smem[tid] += smem[tid + 4];
-        if (blockDim.x >= 4)   smem[tid] += smem[tid + 2];
-        if (blockDim.x >= 2)   smem[tid] += smem[tid + 1];
+        if (blockDim.x >= 128) {
+          smem[tid] += smem[tid + 64];
+        }
+        if (blockDim.x >= 64) {
+          smem[tid] += smem[tid + 32];
+        }
+        if (blockDim.x >= 32) {
+          smem[tid] += smem[tid + 16];
+        }
+        if (blockDim.x >= 16) {
+          smem[tid] += smem[tid + 8];
+        }
+        if (blockDim.x >= 8) {
+          smem[tid] += smem[tid + 4];
+        }
+        if (blockDim.x >= 4) {
+          smem[tid] += smem[tid + 2];
+        }
+        if (blockDim.x >= 2) {
+          smem[tid] += smem[tid + 1];
+        }
     }
     
     // Write block result

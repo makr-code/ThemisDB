@@ -77,7 +77,9 @@ static const char* kBlocklistPatterns[] = {
 };
 
 bool containsIgnoreCase(const std::string& haystack, const std::string& needle) {
-    if (needle.empty()) return false;
+    if (needle.empty()) {
+      return false;
+    }
     return std::search(
                haystack.begin(), haystack.end(),
                needle.begin(),   needle.end(),
@@ -110,7 +112,9 @@ SimpleAdversarialTester::SimpleAdversarialTester()
     : detector_fn_(&SimpleAdversarialTester::defaultDetect) {}
 
 void SimpleAdversarialTester::setDetectorFn(DetectorFn fn) {
-    if (fn) detector_fn_ = std::move(fn);
+    if (fn) {
+      detector_fn_ = std::move(fn);
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -245,8 +249,12 @@ AdversarialTestReport SimpleAdversarialTester::runAll() const {
         r.detection_ms =
             std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
-        if (blocked)     ++report.blocked_count;
-        if (r.passed())  ++report.passed_count;
+        if (blocked) {
+          ++report.blocked_count;
+        }
+        if (r.passed()) {
+          ++report.passed_count;
+        }
 
         report.results.push_back(std::move(r));
     }

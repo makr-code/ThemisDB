@@ -91,7 +91,9 @@ struct MetadataSnapshot {
      */
     const SchemaManager::TableSchema* findTable(std::string_view name) const {
         for (const auto& t : tables) {
-            if (t.name == name) return &t;
+            if (t.name == name) {
+              return &t;
+            }
         }
         return nullptr;
     }
@@ -240,7 +242,9 @@ public:
     std::optional<MetadataSnapshot> load(std::string_view id) override {
         std::unique_lock<std::mutex> lk(mutex_);
         auto it = snapshots_.find(std::string(id));
-        if (it == snapshots_.end()) return std::nullopt;
+        if (it == snapshots_.end()) {
+          return std::nullopt;
+        }
         return it->second;
     }
 

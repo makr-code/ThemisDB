@@ -299,8 +299,12 @@ size_t PromptEvaluator::levenshteinDistance(
     const size_t m = s1.length();
     const size_t n = s2.length();
     
-    if (m == 0) return n;
-    if (n == 0) return m;
+    if (m == 0) {
+      return n;
+    }
+    if (n == 0) {
+      return m;
+    }
     
     std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1));
     

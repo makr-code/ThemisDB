@@ -985,7 +985,9 @@ void MLModelManager::updateInstanceMetrics(
     float latency_ms,
     bool success
 ) {
-    if (!instance) return;
+    if (!instance) {
+      return;
+    }
 
     // Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access
     // metrics_lock_ guards per-instance mutable statistics (total_requests,

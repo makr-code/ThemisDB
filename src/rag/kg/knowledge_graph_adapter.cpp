@@ -9,13 +9,17 @@ public:
 
     std::optional<KGNode> findNode(const std::string& node_id) const override {
         const KGNode* p = kg_.findNode(node_id);
-        if (!p) return std::nullopt;
+        if (!p) {
+          return std::nullopt;
+        }
         return *p;
     }
 
     std::optional<KGNode> findNodeByName(const std::string& text) const override {
         const KGNode* p = kg_.findNodeByName(text);
-        if (!p) return std::nullopt;
+        if (!p) {
+          return std::nullopt;
+        }
         return *p;
     }
 

@@ -52,10 +52,18 @@ struct GradientClippingConfig {
     
     static GradientClippingConfig fromJSON(const json& j) {
         GradientClippingConfig config;
-        if (j.contains("method")) config.method = static_cast<ClippingMethod>(j["method"].get<int>());
-        if (j.contains("max_norm")) config.max_norm = j["max_norm"];
-        if (j.contains("clip_value")) config.clip_value = j["clip_value"];
-        if (j.contains("adaptive")) config.adaptive = j["adaptive"];
+        if (j.contains("method")) {
+          config.method = static_cast<ClippingMethod>(j["method"].get<int>());
+        }
+        if (j.contains("max_norm")) {
+          config.max_norm = j["max_norm"];
+        }
+        if (j.contains("clip_value")) {
+          config.clip_value = j["clip_value"];
+        }
+        if (j.contains("adaptive")) {
+          config.adaptive = j["adaptive"];
+        }
         return config;
     }
 };
@@ -76,8 +84,12 @@ struct GradientAccumulationConfig {
     
     static GradientAccumulationConfig fromJSON(const json& j) {
         GradientAccumulationConfig config;
-        if (j.contains("accumulation_steps")) config.accumulation_steps = j["accumulation_steps"];
-        if (j.contains("normalize")) config.normalize = j["normalize"];
+        if (j.contains("accumulation_steps")) {
+          config.accumulation_steps = j["accumulation_steps"];
+        }
+        if (j.contains("normalize")) {
+          config.normalize = j["normalize"];
+        }
         return config;
     }
 };

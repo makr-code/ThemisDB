@@ -289,32 +289,44 @@ public:
 
     /// @brief Delegate to ISpan::setAttribute(string).
     void setAttribute(const std::string& key, const std::string& value) {
-        if (span_) span_->setAttribute(key, value);
+        if (span_) {
+          span_->setAttribute(key, value);
+        }
     }
 
     /// @brief Delegate to ISpan::setAttribute(int64_t).
     void setAttribute(const std::string& key, int64_t value) {
-        if (span_) span_->setAttribute(key, value);
+        if (span_) {
+          span_->setAttribute(key, value);
+        }
     }
 
     /// @brief Delegate to ISpan::setAttribute(double).
     void setAttribute(const std::string& key, double value) {
-        if (span_) span_->setAttribute(key, value);
+        if (span_) {
+          span_->setAttribute(key, value);
+        }
     }
 
     /// @brief Delegate to ISpan::setAttribute(bool).
     void setAttribute(const std::string& key, bool value) {
-        if (span_) span_->setAttribute(key, value);
+        if (span_) {
+          span_->setAttribute(key, value);
+        }
     }
 
     /// @brief Delegate to ISpan::recordError().
     void recordError(const std::string& errorMessage) {
-        if (span_) span_->recordError(errorMessage);
+        if (span_) {
+          span_->recordError(errorMessage);
+        }
     }
 
     /// @brief Delegate to ISpan::setStatus().
     void setStatus(bool ok, const std::string& description = "") {
-        if (span_) span_->setStatus(ok, description);
+        if (span_) {
+          span_->setStatus(ok, description);
+        }
     }
 
     /// @brief Return a raw pointer to the underlying ISpan (may be null for no-op).
@@ -322,7 +334,9 @@ public:
 
     /// @brief End the span and release it (idempotent – safe to call after end()).
     ~ScopedSpan() {
-        if (span_) span_->end();
+        if (span_) {
+          span_->end();
+        }
     }
 
 private:

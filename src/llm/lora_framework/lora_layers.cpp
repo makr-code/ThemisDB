@@ -48,7 +48,9 @@ Tensor::Tensor(const std::vector<size_t>& shape, float value)
 
 size_t Tensor::size() const {
     size_t s = 1;
-    for (auto dim : shape_) s *= dim;
+    for (auto dim : shape_) {
+      s *= dim;
+    }
     return s;
 }
 
@@ -426,10 +428,18 @@ std::vector<Tensor*> AttentionLoRA::parameters() {
 
 size_t AttentionLoRA::parameter_count() const {
     size_t count = 0;
-    if (apply_to_q_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_k_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_v_) count += (dim_ * rank_) + (rank_ * dim_);
-    if (apply_to_o_) count += (dim_ * rank_) + (rank_ * dim_);
+    if (apply_to_q_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_k_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_v_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
+    if (apply_to_o_) {
+      count += (dim_ * rank_) + (rank_ * dim_);
+    }
     return count;
 }
 

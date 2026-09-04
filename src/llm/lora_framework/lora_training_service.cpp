@@ -135,13 +135,27 @@ struct TrainingCheckpoint {
     // Deserialize from JSON
     static TrainingCheckpoint fromJSON(const json& j) {
         TrainingCheckpoint checkpoint;
-        if (j.contains("current_epoch")) checkpoint.current_epoch = j["current_epoch"];
-        if (j.contains("current_step")) checkpoint.current_step = j["current_step"];
-        if (j.contains("current_loss")) checkpoint.current_loss = j["current_loss"];
-        if (j.contains("loss_history")) checkpoint.loss_history = j["loss_history"].get<std::vector<float>>();
-        if (j.contains("hyperparameters")) checkpoint.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
-        if (j.contains("adapter_id")) checkpoint.adapter_id = j["adapter_id"];
-        if (j.contains("version")) checkpoint.version = j["version"];
+        if (j.contains("current_epoch")) {
+          checkpoint.current_epoch = j["current_epoch"];
+        }
+        if (j.contains("current_step")) {
+          checkpoint.current_step = j["current_step"];
+        }
+        if (j.contains("current_loss")) {
+          checkpoint.current_loss = j["current_loss"];
+        }
+        if (j.contains("loss_history")) {
+          checkpoint.loss_history = j["loss_history"].get<std::vector<float>>();
+        }
+        if (j.contains("hyperparameters")) {
+          checkpoint.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
+        }
+        if (j.contains("adapter_id")) {
+          checkpoint.adapter_id = j["adapter_id"];
+        }
+        if (j.contains("version")) {
+          checkpoint.version = j["version"];
+        }
         if (j.contains("saved_at")) {
             std::time_t saved = j["saved_at"];
             checkpoint.saved_at = std::chrono::system_clock::from_time_t(saved);
@@ -2389,7 +2403,9 @@ TrainingResult LoRATrainingService::trainDistributed(
                     while (retry_count < max_retries) {
                         spdlog::info("Retrying step {} (attempt {})", step, retry_count + 1);
                         step_result = coord->executeStep();
-                        if (step_result.success) break;
+                        if (step_result.success) {
+                          break;
+                        }
                         retry_count++;
                     }
                     if (!step_result.success) {

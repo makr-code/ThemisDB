@@ -89,7 +89,9 @@ bool sameKey(const nlohmann::json& a, const nlohmann::json& b) {
 
 /// Convert AQL source string to upper-case for case-insensitive matching.
 std::string toUpper(std::string s) {
-    for (char& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char& c : s) {
+      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     return s;
 }
 
@@ -109,7 +111,9 @@ MaterializedView::MaterializedView(const Definition& def, Config config)
                 [&]() -> std::string {
                     std::string s;
                     for (const auto& t : def_.base_tables) {
-                        if (!s.empty()) s += ',';
+                        if (!s.empty()) {
+                          s += ',';
+                        }
                         s += t;
                     }
                     return s;
@@ -218,12 +222,16 @@ void MaterializedView::markStale() {
 
 bool MaterializedView::isStale() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (stale_) return true;
+    if (stale_) {
+      return true;
+    }
     return isStaleByAge_locked();
 }
 
 bool MaterializedView::isStaleByAge_locked() const {
-    if (def_.staleness_tolerance.count() == 0) return false;
+    if (def_.staleness_tolerance.count() == 0) {
+      return false;
+    }
     const auto age = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now() - stats_.last_refresh);
     return age >= def_.staleness_tolerance;
@@ -319,7 +327,9 @@ void MaterializedView::applyAggregateDelta(DeltaOp           op,
                                            double&            aggregate_ref)
 {
     auto field_val = entity.getFieldAsDouble(field_name);
-    if (!field_val.has_value()) return;
+    if (!field_val.has_value()) {
+      return;
+    }
 
     const double delta = *field_val;
     switch (op) {
@@ -397,7 +407,9 @@ std::vector<nlohmann::json> MaterializedView::queryRows(
 
     std::vector<nlohmann::json> result;
     for (const auto& row : rows_) {
-        if (!row.is_object()) continue;
+        if (!row.is_object()) {
+          continue;
+        }
         auto it = row.find(filter_field);
         if (it != row.end() && *it == filter_value) {
             result.push_back(row);
@@ -423,7 +435,9 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
     const std::string upper_q    = toUpper(query_aql);
     const std::string upper_name = toUpper(view.def_.name);
 
-    if (upper_name.empty()) return false;
+    if (upper_name.empty()) {
+      return false;
+    }
 
     // Find every occurrence of the view name in the query and confirm it is
     // preceded by "IN" (with at least one whitespace separator).
@@ -543,7 +557,9 @@ std::shared_ptr<MaterializedView> MaterializedViewRegistry::getView(
 bool MaterializedViewRegistry::removeView(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = views_.find(name);
-    if (it == views_.end()) return false;
+    if (it == views_.end()) {
+      return false;
+    }
 
     // Remove from table index.
     for (const auto& table : it->second->getDefinition().base_tables) {
@@ -560,7 +576,9 @@ std::vector<std::string> MaterializedViewRegistry::listViews() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> names;
     names.reserve(views_.size());
-    for (const auto& [n, _] : views_) names.push_back(n);
+    for (const auto& [n, _] : views_) {
+      names.push_back(n);
+    }
     return names;
 }
 
@@ -583,14 +601,18 @@ void MaterializedViewRegistry::onInsert(const std::string& table,
             else if constexpr (std::is_same_v<T, std::vector<float>>) row[field] = v;
         }, value);
     }
-    if (!entity.getPrimaryKey().empty()) row["_key"] = entity.getPrimaryKey();
+    if (!entity.getPrimaryKey().empty()) {
+      row["_key"] = entity.getPrimaryKey();
+    }
     onInsertJson(table, row);
 }
 
 void MaterializedViewRegistry::onDelete(const std::string& table,
                                         const BaseEntity&  entity) {
     nlohmann::json row = nlohmann::json::object();
-    if (!entity.getPrimaryKey().empty()) row["_key"] = entity.getPrimaryKey();
+    if (!entity.getPrimaryKey().empty()) {
+      row["_key"] = entity.getPrimaryKey();
+    }
     onDeleteJson(table, row);
 }
 
@@ -608,7 +630,9 @@ void MaterializedViewRegistry::onUpdate(const std::string& table,
             else if constexpr (std::is_same_v<T, std::vector<float>>) row[field] = v;
         }, value);
     }
-    if (!entity.getPrimaryKey().empty()) row["_key"] = entity.getPrimaryKey();
+    if (!entity.getPrimaryKey().empty()) {
+      row["_key"] = entity.getPrimaryKey();
+    }
     onUpdateJson(table, row);
 }
 
@@ -636,7 +660,9 @@ void MaterializedViewRegistry::propagateDeltaJson_locked(
     const nlohmann::json& row)
 {
     auto tit = table_index_.find(table);
-    if (tit == table_index_.end()) return;
+    if (tit == table_index_.end()) {
+      return;
+    }
 
     for (const auto& view_name : tit->second) {
         auto vit = views_.find(view_name);

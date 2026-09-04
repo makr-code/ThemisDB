@@ -105,11 +105,21 @@ bool DirectXContext::initialize() {
     }
     
     // Create device and other resources
-    if (!create_device()) return false;
-    if (!create_command_queue()) return false;
-    if (!create_command_allocator()) return false;
-    if (!create_command_list()) return false;
-    if (!create_fence()) return false;
+    if (!create_device()) {
+      return false;
+    }
+    if (!create_command_queue()) {
+      return false;
+    }
+    if (!create_command_allocator()) {
+      return false;
+    }
+    if (!create_command_list()) {
+      return false;
+    }
+    if (!create_fence()) {
+      return false;
+    }
     
     initialized_ = true;
     return true;

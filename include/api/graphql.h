@@ -454,7 +454,9 @@ struct MaskedError {
         if (!path.empty()) {
             result += " at path: ";
             for (size_t i = 0; i < path.size(); ++i) {
-                if (i > 0) result += ".";
+                if (i > 0) {
+                  result += ".";
+                }
                 result += path[i];
             }
         }

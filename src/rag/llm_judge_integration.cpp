@@ -105,7 +105,9 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
         [&]() -> std::optional<std::string> {
             try {
                 auto r = callLLM(prompt);
-                if (!r.empty()) return r;
+                if (!r.empty()) {
+                  return r;
+                }
             } catch (const std::exception& e) {
                 THEMIS_WARN("LLM call failed: {}", e.what());
             }
@@ -152,7 +154,9 @@ std::string LLMJudgeIntegration::evaluateDimension(
         [&]() -> std::optional<std::string> {
             try {
                 auto r = callLLM(prompt);
-                if (!r.empty()) return r;
+                if (!r.empty()) {
+                  return r;
+                }
             } catch (const std::exception& e) {
                 THEMIS_WARN("LLM call failed (dim={}): {}", static_cast<int>(dimension), e.what());
             }
@@ -160,7 +164,9 @@ std::string LLMJudgeIntegration::evaluateDimension(
         },
         dim_retry_cfg);
 
-    if (dim_result) return *dim_result;
+    if (dim_result) {
+      return *dim_result;
+    }
 
     THEMIS_ERROR("LLM failed to respond for dimension {}", static_cast<int>(dimension));
     return makeUnavailableJudgeJson("llm_unavailable");

@@ -53,10 +53,18 @@ public:
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                            const FunctionContext&) const override {
         const auto& val = args[0];
-        if (val.is_string()) return static_cast<int64_t>(val.get<std::string>().length());
-        if (val.is_array()) return static_cast<int64_t>(val.size());
-        if (val.is_object()) return static_cast<int64_t>(val.size());
-        if (val.is_null()) return 0;
+        if (val.is_string()) {
+          return static_cast<int64_t>(val.get<std::string>().length());
+        }
+        if (val.is_array()) {
+          return static_cast<int64_t>(val.size());
+        }
+        if (val.is_object()) {
+          return static_cast<int64_t>(val.size());
+        }
+        if (val.is_null()) {
+          return 0;
+        }
         return 0;
     }
 };
@@ -131,7 +139,9 @@ public:
         const int64_t rawStart = args[1].get<int64_t>();
         size_t start = (rawStart <= 0) ? 0 : static_cast<size_t>(rawStart);
         
-        if (start >= str.length()) return "";
+        if (start >= str.length()) {
+          return "";
+        }
         
         if (args.size() > 2) {
             const int64_t rawLen = args[2].get<int64_t>();
@@ -231,7 +241,9 @@ public:
         std::string chars = args.size() > 1 ? args[1].get<std::string>() : " \t\n\r";
         
         size_t start = str.find_first_not_of(chars);
-        if (start == std::string::npos) return "";
+        if (start == std::string::npos) {
+          return "";
+        }
         
         size_t end = str.find_last_not_of(chars);
         return str.substr(start, end - start + 1);
@@ -266,7 +278,9 @@ public:
         std::string chars = args.size() > 1 ? args[1].get<std::string>() : " \t\n\r";
         
         size_t start = str.find_first_not_of(chars);
-        if (start == std::string::npos) return "";
+        if (start == std::string::npos) {
+          return "";
+        }
         return str.substr(start);
     }
 };
@@ -299,7 +313,9 @@ public:
         std::string chars = args.size() > 1 ? args[1].get<std::string>() : " \t\n\r";
         
         size_t end = str.find_last_not_of(chars);
-        if (end == std::string::npos) return "";
+        if (end == std::string::npos) {
+          return "";
+        }
         return str.substr(0, end + 1);
     }
 };
@@ -339,7 +355,9 @@ public:
         int64_t count = 0;
         
         while ((end = str.find(sep, start)) != std::string::npos) {
-            if (limit >= 0 && count >= limit - 1) break;
+            if (limit >= 0 && count >= limit - 1) {
+              break;
+            }
             result.push_back(str.substr(start, end - start));
             start = end + sep.length();
             count++;
@@ -436,7 +454,9 @@ public:
                            const FunctionContext&) const override {
         std::string str = args[0].get<std::string>();
         std::string suffix = args[1].get<std::string>();
-        if (suffix.length() > str.length()) return false;
+        if (suffix.length() > str.length()) {
+          return false;
+        }
         return str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0;
     }
 };
@@ -470,7 +490,9 @@ public:
         std::string search = args[1].get<std::string>();
         std::string replace = args[2].get<std::string>();
         
-        if (search.empty()) return str;
+        if (search.empty()) {
+          return str;
+        }
         
         size_t pos = 0;
         while ((pos = str.find(search, pos)) != std::string::npos) {
@@ -608,11 +630,17 @@ private:
         const size_t m = s1.length();
         const size_t n = s2.length();
         
-        if (m == 0) return n;
-        if (n == 0) return m;
+        if (m == 0) {
+          return n;
+        }
+        if (n == 0) {
+          return m;
+        }
         
         std::vector<size_t> d(n + 1);
-        for (size_t i = 0; i <= n; i++) d[i] = i;
+        for (size_t i = 0; i <= n; i++) {
+          d[i] = i;
+        }
         
         for (size_t i = 1; i <= m; i++) {
             size_t prev = d[0];

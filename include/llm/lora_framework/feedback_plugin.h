@@ -81,9 +81,15 @@ public:
 
     bool validate(const Feedback& feedback) const override {
         // Basic validation: check required fields
-        if (feedback.adapter_id.empty()) return false;
-        if (feedback.user_id.empty()) return false;
-        if (feedback.rating < 1 || feedback.rating > 5) return false;
+        if (feedback.adapter_id.empty()) {
+          return false;
+        }
+        if (feedback.user_id.empty()) {
+          return false;
+        }
+        if (feedback.rating < 1 || feedback.rating > 5) {
+          return false;
+        }
         return true;
     }
 

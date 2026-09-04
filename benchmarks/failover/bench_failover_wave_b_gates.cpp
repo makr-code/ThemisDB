@@ -376,7 +376,9 @@ static void BM_FWB08_ConcurrentQueueEnqueue(benchmark::State& state) {
         // Drain to avoid unbounded growth in benchmark loop
         if (q.size() >= max_size) {
             std::lock_guard<std::mutex> lock(q_mutex);
-            while (!q.empty()) q.pop();
+            while (!q.empty()) {
+              q.pop();
+            }
         }
         benchmark::DoNotOptimize(enqueued);
     }

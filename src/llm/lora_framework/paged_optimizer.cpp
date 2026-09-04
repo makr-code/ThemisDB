@@ -43,7 +43,9 @@ PagedAdamWOptimizer::PagedAdamWOptimizer(
 
 void PagedAdamWOptimizer::add_parameters(const std::vector<Tensor*>& params) {
     for (Tensor* param : params) {
-        if (!param) continue;
+        if (!param) {
+          continue;
+        }
         
         parameters_.push_back(param);
         
@@ -100,7 +102,9 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
     std::vector<float>& param_data = param->data();
     std::vector<float>& grad_data = param->grad->data();
     
-    if (param_data.empty() || grad_data.empty()) return;
+    if (param_data.empty() || grad_data.empty()) {
+      return;
+    }
     
     size_t size = param->size();
     
@@ -167,10 +171,14 @@ void PagedAdamWOptimizer::step() {
     
     // Phase 2: Optimizer step
     for (Tensor* param : parameters_) {
-        if (!param) continue;
+        if (!param) {
+          continue;
+        }
         
         auto it = states_.find(param);
-        if (it == states_.end()) continue;
+        if (it == states_.end()) {
+          continue;
+        }
         
         PagedOptimizerState& state = it->second;
         

@@ -62,7 +62,9 @@ inline void* allocate(size_t size) {
  * @param ptr Pointer to memory to deallocate
  */
 inline void deallocate(void* ptr) {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     
     #ifdef THEMIS_ENABLE_JEMALLOC
     je_free(ptr);
@@ -97,7 +99,9 @@ inline void* allocate_aligned(size_t size, size_t alignment) {
  * @param alignment Alignment that was used for allocation
  */
 inline void deallocate_aligned(void* ptr, [[maybe_unused]] size_t alignment) {
-    if (!ptr) return;
+    if (!ptr) {
+      return;
+    }
     
     #ifdef THEMIS_ENABLE_JEMALLOC
     je_free(ptr);

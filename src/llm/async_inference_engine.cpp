@@ -471,7 +471,9 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
                 try {
                     auto response = processRequest(*async_req, submit_time);
                     stats_.total_completed++;
-                    if ([[maybe_unused]] async_req->callback) async_req->callback(response);
+                    if ([[maybe_unused]] async_req->callback) {
+                      async_req->callback(response);
+                    }
                     try { promise->set_value(response); } catch (...) {}
                 } catch (...) {
                     THEMIS_WARN("async_inference_engine: unhandled exception caught");
@@ -585,9 +587,13 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         for (size_t i = 0; i < rag_context.documents.size(); ++i) {
             const auto& doc = rag_context.documents[i];
             context_block << "[" << (i + 1) << "] ";
-            if (!doc.source.empty()) context_block << "(" << doc.source << ") ";
+            if (!doc.source.empty()) {
+              context_block << "(" << doc.source << ") ";
+            }
             context_block << doc.content;
-            if (i + 1 < rag_context.documents.size()) context_block << "\n\n";
+            if (i + 1 < rag_context.documents.size()) {
+              context_block << "\n\n";
+            }
         }
 
         auto replaceAll = [](std::string s, const std::string& from, const std::string& to) {
@@ -1148,8 +1154,12 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
     std::lock_guard<std::mutex> lock(tracking_mutex_);
     for (auto& [id, req] : active_requests_) {
         // Skip requests with no deadline or already cancelled
-        if (req->deadline == zero_tp) continue;
-        if (req->cancel_token->load(std::memory_order_acquire)) continue;
+        if (req->deadline == zero_tp) {
+          continue;
+        }
+        if (req->cancel_token->load(std::memory_order_acquire)) {
+          continue;
+        }
 
         if (now >= req->deadline) {
             spdlog::warn("Request {} exceeded per-request timeout, marking cancelled", id);

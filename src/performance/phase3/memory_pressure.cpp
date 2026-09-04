@@ -139,7 +139,9 @@ SystemMemoryPressureMonitor::read_os_memory() const {
         } else if (line.rfind("MemAvailable:", 0) == 0) {
             mem_available_kb = std::stoull(line.substr(13));
         }
-        if (mem_total_kb && mem_available_kb) break;
+        if (mem_total_kb && mem_available_kb) {
+          break;
+        }
     }
     snap.total_bytes     = mem_total_kb * 1024;
     snap.available_bytes = mem_available_kb * 1024;
@@ -202,9 +204,15 @@ SystemMemoryPressureMonitor::read_os_memory() const {
 SystemMemoryPressureMonitor::PressureLevel
 SystemMemoryPressureMonitor::classify([[maybe_unused]] double usage_percent) const noexcept {
     const auto& t = config_.thresholds;
-    if (usage_percent >= t.critical_threshold) return PressureLevel::CRITICAL;
-    if (usage_percent >= t.high_threshold)     return PressureLevel::HIGH;
-    if (usage_percent >= t.moderate_threshold) return PressureLevel::MODERATE;
+    if (usage_percent >= t.critical_threshold) {
+      return PressureLevel::CRITICAL;
+    }
+    if (usage_percent >= t.high_threshold) {
+      return PressureLevel::HIGH;
+    }
+    if (usage_percent >= t.moderate_threshold) {
+      return PressureLevel::MODERATE;
+    }
     return PressureLevel::NORMAL;
 }
 

@@ -174,7 +174,9 @@ DefaultAlertmanager::DefaultAlertmanager(const AlertmanagerConfig& config) {
 }
 
 void DefaultAlertmanager::ensureHttpPool() {
-    if (http_pool_) return;
+    if (http_pool_) {
+      return;
+    }
     utils::HTTPClientPool::Config pool_cfg;
     pool_cfg.max_connections = 4;
     pool_cfg.connect_timeout = std::chrono::seconds(config_.timeout_seconds);
@@ -495,7 +497,9 @@ std::string AlertRuleManager::expandMessage(const std::string& tmpl,
     auto dot_pos = value_str.find('.');
     if (dot_pos != std::string::npos) {
         value_str.erase(value_str.find_last_not_of('0') + 1);
-        if (value_str.back() == '.') value_str.pop_back();
+        if (value_str.back() == '.') {
+          value_str.pop_back();
+        }
     }
     for (std::string::size_type pos = result.find(value_token);
          pos != std::string::npos;
@@ -630,7 +634,9 @@ int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics
         std::lock_guard<std::mutex> lock(mutex_);
 
         for (const auto& [rule_id, rule] : rules_) {
-            if (!rule.enabled) continue;
+            if (!rule.enabled) {
+              continue;
+            }
 
             auto metric_it = metrics.find(rule.metric_name);
             if (metric_it == metrics.end()) {

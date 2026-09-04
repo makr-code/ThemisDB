@@ -184,7 +184,9 @@ std::vector<ThesisInjection> ContextWindowBudgetManager::selectThesesForRound(
             (std::find(t.activation_rounds.begin(),
                        t.activation_rounds.end(),
                        round_number) != t.activation_rounds.end());
-        if (is_active) active.push_back(&t);
+        if (is_active) {
+          active.push_back(&t);
+        }
         else           inactive.push_back(&t);
     }
 

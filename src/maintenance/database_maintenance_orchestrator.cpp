@@ -164,7 +164,9 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
 }
 
 void DatabaseMaintenanceOrchestrator::stop() {
-    if (!running_.exchange(false)) return;
+    if (!running_.exchange(false)) {
+      return;
+    }
 
     // Deregister all schedules from the scheduler.
     std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
@@ -590,7 +592,9 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         total = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
-            if (e.enabled) ++enabled;
+            if (e.enabled) {
+              ++enabled;
+            }
         }
     }
     j["total_schedules"]   = total;
@@ -620,7 +624,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         report.total_schedules = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
-            if (e.enabled) ++report.enabled_schedules;
+            if (e.enabled) {
+              ++report.enabled_schedules;
+            }
         }
     }
 
@@ -628,7 +634,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     {
         std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
-            if (job.started_at_ms < cutoff) continue;
+            if (job.started_at_ms < cutoff) {
+              continue;
+            }
             if (job.state == MaintenanceJobState::RUNNING ||
                 job.state == MaintenanceJobState::PENDING) {
                 ++report.active_jobs;
@@ -647,7 +655,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
         for (auto& [name, probe] : health_probes_) {
             try {
                 ModuleHealthSignal sig = probe();
-                if (sig.status > worst) worst = sig.status;
+                if (sig.status > worst) {
+                  worst = sig.status;
+                }
                 report.module_signals.push_back(std::move(sig));
             } catch (const std::exception& ex) {
                 ModuleHealthSignal sig;
@@ -655,7 +665,9 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
                 sig.status        = ModuleHealthStatus::UNKNOWN;
                 sig.message       = std::string("probe threw: ") + ex.what();
                 sig.checked_at_ms = nowMs();
-                if (worst < ModuleHealthStatus::DEGRADED) worst = ModuleHealthStatus::DEGRADED;
+                if (worst < ModuleHealthStatus::DEGRADED) {
+                  worst = ModuleHealthStatus::DEGRADED;
+                }
                 report.module_signals.push_back(std::move(sig));
             }
         }
@@ -774,7 +786,9 @@ std::string DatabaseMaintenanceOrchestrator::schedulerTaskId(
 void DatabaseMaintenanceOrchestrator::registerWithScheduler(
     const MaintenanceScheduleEntry& entry)
 {
-    if (!scheduler_) return;
+    if (!scheduler_) {
+      return;
+    }
 
     ScheduledTask task;
     task.id             = schedulerTaskId(entry.id);
@@ -833,7 +847,9 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
 void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
     const std::string& schedule_id)
 {
-    if (!scheduler_) return;
+    if (!scheduler_) {
+      return;
+    }
     const std::string tid = schedulerTaskId(schedule_id);
     scheduler_->unregisterTask(tid);
     scheduler_->unregisterFunction(tid);
@@ -1139,7 +1155,9 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             MetricsCollector::getInstance().addCounter(
                 "maintenance_tasks_failed_total", 1,
                 {{"task_type", taskTypeToString(task_type)}});
-            if (entry.halt_on_task_failure) break;
+            if (entry.halt_on_task_failure) {
+              break;
+            }
         } else {
             MetricsCollector::getInstance().addCounter(
                 "maintenance_tasks_succeeded_total", 1,

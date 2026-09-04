@@ -83,7 +83,9 @@ std::vector<DiscourseRoundOutput> MirrorSchoolHandler::runMirror(
                    // forwarded for context but not consumed directly here.
 
     std::vector<DiscourseRoundOutput> results;
-    if (mirror_school_ids.empty()) return results;
+    if (mirror_school_ids.empty()) {
+      return results;
+    }
 
     const auto infer      = inference_fn_ ? inference_fn_ : stubMirrorInference;
     const int  timeout_ms = timeout_ms_;

@@ -86,7 +86,9 @@ size_t curlHeaderCallback(char* buffer, size_t size, size_t nitems, void* userp)
         std::transform(key.begin(), key.end(), key.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
         // Trim leading spaces from value
-        while (!val.empty() && val.front() == ' ') val.erase(val.begin());
+        while (!val.empty() && val.front() == ' ') {
+          val.erase(val.begin());
+        }
         (*headers)[key] = val;
     }
     return size * nitems;
@@ -208,8 +210,12 @@ Result<OciReference> OciReference::parse(const std::string& raw) {
 
 std::string OciReference::toString() const {
     std::string s = registry + "/" + name;
-    if (!tag.empty())    s += ":" + tag;
-    if (!digest.empty()) s += "@" + digest;
+    if (!tag.empty()) {
+      s += ":" + tag;
+    }
+    if (!digest.empty()) {
+      s += "@" + digest;
+    }
     return s;
 }
 
@@ -431,7 +437,9 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
         std::regex re(key + "=\"([^\"]*)\"");
         std::smatch m;
-        if (std::regex_search(www_auth, m, re)) return m[1].str();
+        if (std::regex_search(www_auth, m, re)) {
+          return m[1].str();
+        }
         return {};
     };
 
@@ -452,7 +460,9 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto ait = auth_configs_.find(registry);
-        if (ait != auth_configs_.end()) auth = ait->second;
+        if (ait != auth_configs_.end()) {
+          auth = ait->second;
+        }
     }
 
     CURL* token_curl = curl_easy_init();
@@ -491,8 +501,12 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     try {
         auto tj = json::parse(token_body);
         // Docker Hub returns "token"; ECR/GHCR return "access_token"
-        if (tj.contains("token"))        return Ok(tj["token"].get<std::string>());
-        if (tj.contains("access_token")) return Ok(tj["access_token"].get<std::string>());
+        if (tj.contains("token")) {
+          return Ok(tj["token"].get<std::string>());
+        }
+        if (tj.contains("access_token")) {
+          return Ok(tj["access_token"].get<std::string>());
+        }
     } catch (...) {}
 
     return Err<std::string>(ErrorCode::ERR_PLUGIN_OCI_PULL_FAILED,
@@ -535,7 +549,9 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = auth_configs_.find(ref.registry);
-        if (it != auth_configs_.end()) auth = it->second;
+        if (it != auth_configs_.end()) {
+          auth = it->second;
+        }
     }
 
     if (!auth.bearer_token.empty()) {
@@ -650,7 +666,9 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
     // Use only the last path component as the base filename.
     {
         auto slash = plugin_name.rfind('/');
-        if (slash != std::string::npos) plugin_name = plugin_name.substr(slash + 1);
+        if (slash != std::string::npos) {
+          plugin_name = plugin_name.substr(slash + 1);
+        }
     }
 
     std::string dest_path = dest_dir + "/" + plugin_name + "_" +
@@ -672,7 +690,9 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
         {
             std::lock_guard<std::mutex> lk(mutex_);
             auto it = auth_configs_.find(ref.registry);
-            if (it != auth_configs_.end()) auth = it->second;
+            if (it != auth_configs_.end()) {
+              auth = it->second;
+            }
         }
         if (!auth.bearer_token.empty()) {
             auth_headers.push_back("Authorization: Bearer " + auth.bearer_token);

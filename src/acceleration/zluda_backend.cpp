@@ -32,11 +32,15 @@ static inline void* dlopen(const char* name, int /*flags*/) {
     return reinterpret_cast<void*>(::LoadLibraryA(name));
 }
 static inline void* dlsym(void* handle, const char* name) {
-    if (!handle) return nullptr;
+    if (!handle) {
+      return nullptr;
+    }
     return reinterpret_cast<void*>(::GetProcAddress(reinterpret_cast<HMODULE>(handle), name));
 }
 static inline int dlclose(void* handle) {
-    if (!handle) return 0;
+    if (!handle) {
+      return 0;
+    }
     return ::FreeLibrary(reinterpret_cast<HMODULE>(handle)) ? 0 : -1;
 }
 #define RTLD_NOW 0
@@ -147,7 +151,9 @@ public:
         void* handle = dlopen("libcuda.so.zluda", RTLD_NOW | RTLD_LOCAL);
         if (!handle) {
             handle = dlopen("libcuda.so", RTLD_NOW | RTLD_LOCAL);
-            if (!handle) return false;
+            if (!handle) {
+              return false;
+            }
             
             // Check if this is actually ZLUDA and not NVIDIA CUDA
             // ZLUDA sets a special environment variable or has specific version strings
@@ -187,7 +193,9 @@ public:
     }
     
     bool initialize() override {
-        if (initialized_) return true;
+        if (initialized_) {
+          return true;
+        }
         
         THEMIS_INFO("ZLUDA Backend: Initializing...");
         THEMIS_INFO("ZLUDA: CUDA compatibility layer for AMD GPUs");
@@ -245,8 +253,12 @@ public:
     
     void shutdown() override {
         if (initialized_) {
-            if (stream_) fnStreamDestroy_(stream_);
-            if (zludaLib_) dlclose(zludaLib_);
+            if (stream_) {
+              fnStreamDestroy_(stream_);
+            }
+            if (zludaLib_) {
+              dlclose(zludaLib_);
+            }
             initialized_ = false;
         }
     }
@@ -297,7 +309,9 @@ public:
                 input.insert(input.end(), vectors, vectors + numVectors * dim);
                 try {
                     auto result = kfn(input);
-                    if (!result.empty()) return result;
+                    if (!result.empty()) {
+                      return result;
+                    }
                 } catch (const std::exception& e) {
                     THEMIS_WARN("ZLUDA: ZludaKernelFn threw in computeDistances: {} "
                                 "-- falling back to CPU", e.what());
@@ -361,7 +375,9 @@ public:
                                         blockX, 1u, 1u, 0u,
                                         stream_, args, nullptr) == ZLUDA_SUCCESS) {
 
-                        if (fnStreamSynchronize_) fnStreamSynchronize_(stream_);
+                        if (fnStreamSynchronize_) {
+                          fnStreamSynchronize_(stream_);
+                        }
 
                         std::vector<float> output(numQueries * numVectors);
                         fnMemcpyDtoHV2_(output.data(), d_output, output_bytes);
@@ -369,15 +385,25 @@ public:
                         fnMemFreeV2_(d_queries);
                         fnMemFreeV2_(d_vectors);
                         fnMemFreeV2_(d_output);
-                        if (fnModuleUnload_) fnModuleUnload_(cu_module);
+                        if (fnModuleUnload_) {
+                          fnModuleUnload_(cu_module);
+                        }
                         return output;
                     }
                 }
-                if (d_queries) fnMemFreeV2_(d_queries);
-                if (d_vectors) fnMemFreeV2_(d_vectors);
-                if (d_output)  fnMemFreeV2_(d_output);
+                if (d_queries) {
+                  fnMemFreeV2_(d_queries);
+                }
+                if (d_vectors) {
+                  fnMemFreeV2_(d_vectors);
+                }
+                if (d_output) {
+                  fnMemFreeV2_(d_output);
+                }
             }
-            if (fnModuleUnload_) fnModuleUnload_(cu_module);
+            if (fnModuleUnload_) {
+              fnModuleUnload_(cu_module);
+            }
         }
         THEMIS_WARN("ZLUDA: PTX computeDistances launch failed -- falling back to CPU");
     } else {

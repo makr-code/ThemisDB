@@ -64,7 +64,9 @@ bool DirectXShader::load() {
         }
         std::streamsize size = file.tellg();
         file.seekg(0, std::ios::beg);
-        if (size <= 0) return false;
+        if (size <= 0) {
+          return false;
+        }
         bytecode_.resize(static_cast<size_t>(size));
         if (!file.read(reinterpret_cast<char*>(bytecode_.data()), size)) {
             bytecode_.clear();
@@ -115,7 +117,9 @@ bool DirectXShader::load() {
             return true;
         }
         // Attempt to read as compiled bytecode
-        if (try_read_bytecode(p)) return true;
+        if (try_read_bytecode(p)) {
+          return true;
+        }
     }
 
     // 2) If file not found or not readable, attempt to switch extensions.

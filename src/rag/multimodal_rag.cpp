@@ -146,8 +146,12 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     bool want_image = false;
 
     for (const Modality m : mq.modalities) {
-        if (m == Modality::TEXT)  want_text  = true;
-        if (m == Modality::IMAGE) want_image = true;
+        if (m == Modality::TEXT) {
+          want_text  = true;
+        }
+        if (m == Modality::IMAGE) {
+          want_image = true;
+        }
     }
 
     // ── Step 1: Text retrieval ────────────────────────────────────────────────
@@ -223,7 +227,9 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
     std::unordered_set<std::string> used_ids;
 
     for (const auto& [doc_id, rrf_score] : fused) {
-        if (used_ids.count(doc_id)) continue;
+        if (used_ids.count(doc_id)) {
+          continue;
+        }
         used_ids.insert(doc_id);
 
         // Prefer image source if available (image modality was requested and
@@ -300,7 +306,9 @@ std::string MultiModalRAG::buildContext(
     std::vector<const MultiModalSource*> table_sources;
 
     for (const auto& src : sources) {
-        if      (src.modality == Modality::TEXT)  text_sources.push_back(&src);
+        if      (src.modality == Modality::TEXT) {
+          text_sources.push_back(&src);
+        }
         else if (src.modality == Modality::IMAGE) image_sources.push_back(&src);
         else if (src.modality == Modality::TABLE) table_sources.push_back(&src);
     }

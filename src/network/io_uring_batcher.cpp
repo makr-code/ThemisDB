@@ -81,7 +81,9 @@ IoUringBatchedSender::~IoUringBatchedSender() {
 // ============================================================================
 
 bool IoUringBatchedSender::enqueue(WireProtocolBatcher& batcher) {
-    if (!batcher.pending()) return true;
+    if (!batcher.pending()) {
+      return true;
+    }
 
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     if (ring_fd_ >= 0) {
@@ -209,7 +211,9 @@ size_t IoUringBatchedSender::submitAndWait() {
 bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] const ::iovec* iovs,
                                        [[maybe_unused]] size_t iov_cnt, [[maybe_unused]] uint64_t user_data) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
-    if (ring_fd_ < 0 || !sqe_base_) return false;
+    if (ring_fd_ < 0 || !sqe_base_) {
+      return false;
+    }
 
     uint32_t tail = *sq_.tail;
     uint32_t next = tail + 1;

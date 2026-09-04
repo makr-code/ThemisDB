@@ -23,7 +23,9 @@ namespace query {
 // =============================================================================
 
 bool SpatialHint::isValid() const {
-    if (fieldName.empty()) return false;
+    if (fieldName.empty()) {
+      return false;
+    }
     
     switch (type) {
         case SpatialHintType::USE_INDEX:
@@ -293,7 +295,9 @@ bool SpatialHintContext::shouldUseIndex(const std::string& predicateId) const {
 
 std::string SpatialHintContext::getRecommendedIndex(const std::string& predicateId) const {
     const auto* plan = getPlanForPredicate(predicateId);
-    if (!plan) return "";
+    if (!plan) {
+      return "";
+    }
     
     const auto* useIndexHint = plan->getHint(SpatialHintType::USE_INDEX);
     if (useIndexHint) {

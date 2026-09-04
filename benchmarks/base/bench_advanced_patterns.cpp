@@ -57,7 +57,9 @@ public:
     std::vector<float> genVec(size_t dim) {
         std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
         std::vector<float> v(dim);
-        for (auto& x : v) x = dis(rng_);
+        for (auto& x : v) {
+          x = dis(rng_);
+        }
         return v;
     }
     
@@ -66,7 +68,9 @@ public:
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         std::uniform_int_distribution<size_t> dis(0, charset.length() - 1);
         std::string s(len, ' ');
-        for (char& c : s) c = charset[dis(rng_)];
+        for (char& c : s) {
+          c = charset[dis(rng_)];
+        }
         return s;
     }
     

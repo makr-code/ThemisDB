@@ -69,9 +69,15 @@ namespace {
     const TensorArtifactFreshness& f,
     const PlannerConfig&           cfg) noexcept
 {
-    if (!f.isFresh(cfg.max_staleness_ms, cfg.min_residual_threshold)) return false;
-    if (f.delta_lag > cfg.max_delta_lag)                               return false;
-    if (f.rank_cap > cfg.max_rank_cap)                                 return false;
+    if (!f.isFresh(cfg.max_staleness_ms, cfg.min_residual_threshold)) {
+      return false;
+    }
+    if (f.delta_lag > cfg.max_delta_lag) {
+      return false;
+    }
+    if (f.rank_cap > cfg.max_rank_cap) {
+      return false;
+    }
     return true;
 }
 
@@ -92,9 +98,15 @@ namespace {
     const PlannerConfig&           cfg) noexcept
 {
     const FallbackReason core = f.staleness_reason(cfg.max_staleness_ms, cfg.min_residual_threshold);
-    if (core != FallbackReason::None) return core;
-    if (f.delta_lag > cfg.max_delta_lag) return FallbackReason::TensorArtifactStale;
-    if (f.rank_cap > cfg.max_rank_cap)   return FallbackReason::TensorRankCapExceeded;
+    if (core != FallbackReason::None) {
+      return core;
+    }
+    if (f.delta_lag > cfg.max_delta_lag) {
+      return FallbackReason::TensorArtifactStale;
+    }
+    if (f.rank_cap > cfg.max_rank_cap) {
+      return FallbackReason::TensorRankCapExceeded;
+    }
     return FallbackReason::None;
 }
 

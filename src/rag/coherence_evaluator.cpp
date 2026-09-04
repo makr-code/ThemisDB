@@ -33,7 +33,9 @@ struct CoherenceEvaluator::Impl {
     
     // Calculate readability score (Flesch-like metric)
     double calculateReadability(const std::string& text) {
-        if (text.empty()) return 0.0;
+        if (text.empty()) {
+          return 0.0;
+        }
         
         // Count sentences
         std::regex sentence_regex(R"([^.!?]+[.!?])");
@@ -41,7 +43,9 @@ struct CoherenceEvaluator::Impl {
         auto sentences_end = std::sregex_iterator();
         size_t sentence_count = std::distance(sentences_begin, sentences_end);
         
-        if (sentence_count == 0) return 0.5;
+        if (sentence_count == 0) {
+          return 0.5;
+        }
         
         // Count words
         std::istringstream stream(text);
@@ -55,7 +59,9 @@ struct CoherenceEvaluator::Impl {
             syllable_count += std::max(1, static_cast<int>(word.length() / 3));
         }
         
-        if (word_count == 0) return 0.5;
+        if (word_count == 0) {
+          return 0.5;
+        }
         
         // Average sentence length
         double avg_sentence_length = static_cast<double>(word_count) / sentence_count;
@@ -250,7 +256,9 @@ double CoherenceEvaluator::evaluateLinguisticQuality(const std::string& answer) 
         std::istringstream sent_stream(sentence);
         size_t word_count = 0;
         std::string w;
-        while (sent_stream >> w) word_count++;
+        while (sent_stream >> w) {
+          word_count++;
+        }
         
         if (word_count > 40) {
             issue_count++;
@@ -361,10 +369,14 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                 std::string word;
                 
                 while (stream_i >> word) {
-                    if (word.length() > 4) terms_i.insert(word);
+                    if (word.length() > 4) {
+                      terms_i.insert(word);
+                    }
                 }
                 while (stream_j >> word) {
-                    if (word.length() > 4) terms_j.insert(word);
+                    if (word.length() > 4) {
+                      terms_j.insert(word);
+                    }
                 }
                 
                 std::set<std::string> common;

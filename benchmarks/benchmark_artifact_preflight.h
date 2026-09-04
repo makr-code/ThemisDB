@@ -145,7 +145,9 @@ inline std::string modelBaseDir() {
  */
 inline bool stubModelsEnabled() {
     const char* env = std::getenv("THEMIS_LLM_STUB_MODELS");
-    if (!env || *env == '\0') return false;
+    if (!env || *env == '\0') {
+      return false;
+    }
     std::string val(env);
     std::transform(val.begin(), val.end(), val.begin(),
                    [](unsigned char c) { return static_cast<char>(std::toupper(c)); });

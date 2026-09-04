@@ -22,7 +22,9 @@ namespace query {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const OperatorProfile* QueryProfile::slowestOperator() const {
-    if (operators.empty()) return nullptr;
+    if (operators.empty()) {
+      return nullptr;
+    }
     const OperatorProfile* slowest = &operators[0];
     for (const auto& op : operators) {
         if (op.duration_ns > slowest->duration_ns) {

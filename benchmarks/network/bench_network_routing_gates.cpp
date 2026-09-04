@@ -184,7 +184,9 @@ public:
     explicit BenchQueueGate(int capacity) : capacity_(capacity), depth_(0) {}
 
     NetworkErrorCode admit() noexcept {
-        if (depth_ >= capacity_) return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        if (depth_ >= capacity_) {
+          return NetworkErrorCode::BACKPRESSURE_EXCEEDED;
+        }
         ++depth_;
         return NetworkErrorCode::OK;
     }
@@ -209,9 +211,13 @@ public:
     }
 
     NetworkErrorCode evaluate(const std::string& token) const noexcept {
-        if (token.empty()) return NetworkErrorCode::AUTH_REQUIRED;
+        if (token.empty()) {
+          return NetworkErrorCode::AUTH_REQUIRED;
+        }
         auto it = sessions_.find(token);
-        if (it == sessions_.end()) return NetworkErrorCode::SESSION_MALFORMED;
+        if (it == sessions_.end()) {
+          return NetworkErrorCode::SESSION_MALFORMED;
+        }
         return NetworkErrorCode::OK;
     }
 

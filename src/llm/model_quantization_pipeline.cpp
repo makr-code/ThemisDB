@@ -99,8 +99,12 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     // Normalize to lowercase
                     std::transform(qtype.begin(), qtype.end(), qtype.begin(),
                                    [](unsigned char c){ return static_cast<unsigned char>(std::tolower(c)); });
-                    if (qtype == "awq") return ModelFormat::AWQ;
-                    if (qtype == "gptq") return ModelFormat::GPTQ;
+                    if (qtype == "awq") {
+                      return ModelFormat::AWQ;
+                    }
+                    if (qtype == "gptq") {
+                      return ModelFormat::GPTQ;
+                    }
                 }
             } catch (...) {
                 THEMIS_WARN("model_quantization_pipeline: unhandled exception caught");
@@ -223,7 +227,9 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     result.data = std::move(data);
 
     for (auto it = hdr.begin(); it != hdr.end(); ++it) {
-        if (it.key() == "__metadata__") continue;
+        if (it.key() == "__metadata__") {
+          continue;
+        }
 
         SafeTensorDesc desc;
         const auto& val = it.value();
@@ -482,9 +488,15 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("w_bit"))     bits       = qcfg["w_bit"].get<int>();
-                if (qcfg.contains("bits"))      bits       = qcfg["bits"].get<int>();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
+                if (qcfg.contains("w_bit")) {
+                  bits       = qcfg["w_bit"].get<int>();
+                }
+                if (qcfg.contains("bits")) {
+                  bits       = qcfg["bits"].get<int>();
+                }
+                if (qcfg.contains("group_size")) {
+                  group_size = qcfg["group_size"].get<int>();
+                }
             }
         }
     }
@@ -548,7 +560,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
         }
 
         for (auto& [base_name, bufs] : layers) {
-            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) break;
+            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) {
+              break;
+            }
             if (!bufs.weight || !bufs.scales || !bufs.zeros) {
                 spdlog::debug("AWQ: skipping incomplete layer '{}'", base_name);
                 continue;
@@ -558,7 +572,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             const auto& sd = *bufs.scales;
             const auto& zd = *bufs.zeros;
 
-            if (wd.shape.size() < 2) continue;
+            if (wd.shape.size() < 2) {
+              continue;
+            }
 
             // AWQ qweight shape: [in_features, out_features / vpw]
             // (AutoAWQ packs along the output dimension)
@@ -623,8 +639,12 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             auto j = nlohmann::json::parse(f, nullptr, /*exceptions=*/false);
             if (!j.is_discarded() && j.contains("quantization_config")) {
                 const auto& qcfg = j["quantization_config"];
-                if (qcfg.contains("bits"))       bits       = qcfg["bits"].get<int>();
-                if (qcfg.contains("group_size")) group_size = qcfg["group_size"].get<int>();
+                if (qcfg.contains("bits")) {
+                  bits       = qcfg["bits"].get<int>();
+                }
+                if (qcfg.contains("group_size")) {
+                  group_size = qcfg["group_size"].get<int>();
+                }
             }
         }
     }
@@ -676,7 +696,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
         }
 
         for (auto& [base_name, bufs] : layers) {
-            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) break;
+            if (cfg.max_tensors > 0 && loaded >= cfg.max_tensors) {
+              break;
+            }
             if (!bufs.qweight || !bufs.qzeros || !bufs.scales) {
                 spdlog::debug("GPTQ: skipping incomplete layer '{}'", base_name);
                 continue;
@@ -686,7 +708,9 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             const auto& zd = *bufs.qzeros;
             const auto& sd = *bufs.scales;
 
-            if (wd.shape.size() < 2) continue;
+            if (wd.shape.size() < 2) {
+              continue;
+            }
 
             // GPTQ qweight shape: [in_features / vpw, out_features]
             const int vpw        = 32 / bits;

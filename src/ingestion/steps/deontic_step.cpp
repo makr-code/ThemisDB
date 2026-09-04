@@ -72,13 +72,17 @@ public:
         if (use_llm && backend_ && backend_->isAvailable()) {
             LegalLlmAdapter adapter(backend_);
             const auto fn = adapter.buildExtractorFn();
-            if (fn) extractor.setExtractorFn(fn);
+            if (fn) {
+              extractor.setExtractorFn(fn);
+            }
         }
 
         auto process = [&](const std::string& text,
                            const std::string& section_ref) {
             const auto result = extractor.extract(text);
-            if (result.overall_confidence < threshold) return;
+            if (result.overall_confidence < threshold) {
+              return;
+            }
 
             // Determine primary entity type from deontic categories
             EntityType et = EntityType::LEGAL_OBLIGATION;

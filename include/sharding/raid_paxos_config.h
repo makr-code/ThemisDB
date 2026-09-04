@@ -110,10 +110,18 @@ inline std::string raidModeToString(RAIDMode mode) {
  * @brief Convert string to RAID mode
  */
 inline RAIDMode stringToRAIDMode(const std::string& mode_str) {
-    if (mode_str == "RAID_0" || mode_str == "STRIPE" || mode_str == "0") return RAIDMode::STRIPE;
-    if (mode_str == "RAID_1" || mode_str == "MIRROR" || mode_str == "1") return RAIDMode::MIRROR;
-    if (mode_str == "RAID_5" || mode_str == "PARITY" || mode_str == "5") return RAIDMode::PARITY;
-    if (mode_str == "RAID_10" || mode_str == "HYBRID" || mode_str == "10") return RAIDMode::HYBRID;
+    if (mode_str == "RAID_0" || mode_str == "STRIPE" || mode_str == "0") {
+      return RAIDMode::STRIPE;
+    }
+    if (mode_str == "RAID_1" || mode_str == "MIRROR" || mode_str == "1") {
+      return RAIDMode::MIRROR;
+    }
+    if (mode_str == "RAID_5" || mode_str == "PARITY" || mode_str == "5") {
+      return RAIDMode::PARITY;
+    }
+    if (mode_str == "RAID_10" || mode_str == "HYBRID" || mode_str == "10") {
+      return RAIDMode::HYBRID;
+    }
     return RAIDMode::MIRROR;  // Default to safe mode
 }
 

@@ -126,7 +126,9 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
     result.model_name = parts[3];
     // entity_id might contain colons, so join remaining parts
     for (size_t i = 4; i < parts.size(); ++i) {
-        if (i > 4) result.entity_id += ":";
+        if (i > 4) {
+          result.entity_id += ":";
+        }
         result.entity_id += parts[i];
     }
     
@@ -139,7 +141,9 @@ std::vector<std::string> GNNEmbeddingManager::getNeighbors_(
     int hop_count
 ) const {
     // Multi-hop neighbor collection with BFS
-    if (hop_count <= 0) hop_count = 1;
+    if (hop_count <= 0) {
+      hop_count = 1;
+    }
     if (hop_count > 5) hop_count = 5;  // Cap at 5 hops to prevent explosion
     
     std::vector<std::string> all_neighbors;
@@ -232,10 +236,14 @@ GNNEmbeddingManager::computeEmbedding_(
             std::string nodeKey = nodeKeyOss.str();
             
             auto blob = db_.get(nodeKey);
-            if (!blob.has_value()) continue;
+            if (!blob.has_value()) {
+              continue;
+            }
 
             auto neighborEntity = deserializeEntitySafe(neighbor_ids[i], *blob);
-            if (!neighborEntity.has_value()) continue;
+            if (!neighborEntity.has_value()) {
+              continue;
+            }
 
             BaseEntity neighbor = std::move(*neighborEntity);
             std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
@@ -550,8 +558,12 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateEdgeEmbedding(
     auto toOpt = edge.getFieldAsString("_to");
     std::vector<std::string> neighbors;
     neighbors.reserve(2);
-    if (fromOpt.has_value()) neighbors.push_back(*fromOpt);
-    if (toOpt.has_value()) neighbors.push_back(*toOpt);
+    if (fromOpt.has_value()) {
+      neighbors.push_back(*fromOpt);
+    }
+    if (toOpt.has_value()) {
+      neighbors.push_back(*toOpt);
+    }
     
     // Compute embedding
     auto [st, embedding] = computeEmbedding_(model_name, features, neighbors, graph_id);
@@ -762,13 +774,19 @@ GNNEmbeddingManager::findSimilarNodes(
     for (const auto& res : results) {
         // Parse embedding key to get entity info
         auto parts = parseEmbeddingKey_(res.pk);
-        if (!parts.has_value()) continue;
+        if (!parts.has_value()) {
+          continue;
+        }
         
         // Skip self
-        if (parts->entity_id == node_pk) continue;
+        if (parts->entity_id == node_pk) {
+          continue;
+        }
         
         // Filter by graph and model
-        if (parts->graph_id != graph_id || parts->model_name != model_name) continue;
+        if (parts->graph_id != graph_id || parts->model_name != model_name) {
+          continue;
+        }
         
         SimilarityResult simRes;
         simRes.entity_id = parts->entity_id;
@@ -778,7 +796,9 @@ GNNEmbeddingManager::findSimilarNodes(
         
         similar.push_back(simRes);
         
-        if (similar.size() >= static_cast<size_t>(k)) break;
+        if (similar.size() >= static_cast<size_t>(k)) {
+          break;
+        }
     }
     
     return {Status::OK(), similar};
@@ -808,9 +828,15 @@ GNNEmbeddingManager::findSimilarEdges(
     similar.reserve(std::min(results.size(), static_cast<size_t>(std::max(0, k))));
     for (const auto& res : results) {
         auto parts = parseEmbeddingKey_(res.pk);
-        if (!parts.has_value()) continue;
-        if (parts->entity_id == edge_id) continue;
-        if (parts->graph_id != graph_id || parts->model_name != model_name) continue;
+        if (!parts.has_value()) {
+          continue;
+        }
+        if (parts->entity_id == edge_id) {
+          continue;
+        }
+        if (parts->graph_id != graph_id || parts->model_name != model_name) {
+          continue;
+        }
         
         SimilarityResult simRes;
         simRes.entity_id = parts->entity_id;
@@ -819,7 +845,9 @@ GNNEmbeddingManager::findSimilarEdges(
         simRes.graph_id = parts->graph_id;
         
         similar.push_back(simRes);
-        if (similar.size() >= static_cast<size_t>(k)) break;
+        if (similar.size() >= static_cast<size_t>(k)) {
+          break;
+        }
     }
     
     return {Status::OK(), similar};

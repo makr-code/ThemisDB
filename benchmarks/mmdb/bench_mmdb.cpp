@@ -323,7 +323,9 @@ BENCHMARK_DEFINE_F(MMDBFixture, GraphTraversal)(benchmark::State& state) {
             auto edge = getEntity(edges_, "edge_similar_" + std::to_string(start_product) + "_" + std::to_string(i));
             if (edge) {
                 auto to_id = edge->getFieldAsInt("to_id");
-                if (to_id) hop1_products.push_back(*to_id);
+                if (to_id) {
+                  hop1_products.push_back(*to_id);
+                }
             }
         }
         

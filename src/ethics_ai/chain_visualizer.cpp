@@ -50,7 +50,9 @@ std::string ChainVisualizer::makeLabel(const EthicalArgument& arg) {
 std::string ChainVisualizer::dotEscape(const std::string& s) {
     std::ostringstream out;
     for (char c : s) {
-        if (c == '"')       out << "\\\"";
+        if (c == '"') {
+          out << "\\\"";
+        }
         else if (c == '\\') out << "\\\\";
         else                out << c;
     }
@@ -61,7 +63,9 @@ std::string ChainVisualizer::mermaidEscape(const std::string& s) {
     // Mermaid node labels are wrapped in quotes; replace special chars.
     std::ostringstream out;
     for (char c : s) {
-        if (c == '"')  out << "'";
+        if (c == '"') {
+          out << "'";
+        }
         else if (c == '\n') out << "<br/>";
         else           out << c;
     }

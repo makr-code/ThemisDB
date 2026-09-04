@@ -96,7 +96,9 @@ static std::string regexEscape(const std::string& s) {
     std::string out;
     out.reserve(s.size() * 2);
     for (char c : s) {
-        if (kMeta.find(c) != std::string::npos) out += '\\';
+        if (kMeta.find(c) != std::string::npos) {
+          out += '\\';
+        }
         out += c;
     }
     return out;
@@ -115,13 +117,17 @@ static bool findJsonStringValueRe(const std::string& json,
                                    const std::regex& key_re,
                                    std::string& value) {
     std::smatch m;
-    if (!std::regex_search(json, m, key_re)) return false;
+    if (!std::regex_search(json, m, key_re)) {
+      return false;
+    }
     auto pos = static_cast<std::string::size_type>(m.position() + m.length());
     // Skip whitespace before the value token
     while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
                                   json[pos] == '\r' || json[pos] == '\n'))
         ++pos;
-    if (pos >= json.size() || json[pos] != '"') return false;
+    if (pos >= json.size() || json[pos] != '"') {
+      return false;
+    }
     ++pos;
     value.clear();
     bool esc = false;
@@ -140,7 +146,9 @@ static bool findJsonStringValueRe(const std::string& json,
             continue;
         }
         if (c == '\\') { esc = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return true;
@@ -149,7 +157,9 @@ static bool findJsonStringValueRe(const std::string& json,
 /// Returns true when the document looks like a JSON object or array.
 static bool looksLikeJson(const std::string& content) {
     for (char c : content) {
-        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+          continue;
+        }
         return c == '{' || c == '[';
     }
     return false;
@@ -356,7 +366,9 @@ bool CheckpointStore::write(const IngestionCheckpoint& cp) {
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         std::ofstream f(checkpointPath(cp.source_id), std::ios::trunc);
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         f << "source_id="       << cp.source_id       << '\n'
           << "processed_count=" << cp.processed_count  << '\n'
           << "byte_offset="     << cp.byte_offset       << '\n'
@@ -373,15 +385,21 @@ bool CheckpointStore::read(const std::string& source_id,
     std::lock_guard<std::mutex> lock(mutex_);
     try {
         std::ifstream f(checkpointPath(source_id));
-        if (!f) return false;
+        if (!f) {
+          return false;
+        }
         out = IngestionCheckpoint{};
         std::string line;
         while (std::getline(f, line)) {
             auto eq = line.find('=');
-            if (eq == std::string::npos) continue;
+            if (eq == std::string::npos) {
+              continue;
+            }
             std::string key = line.substr(0, eq);
             std::string val = line.substr(eq + 1);
-            if (key == "source_id")       out.source_id       = val;
+            if (key == "source_id") {
+              out.source_id       = val;
+            }
             else if (key == "processed_count") {
                 try { out.processed_count = std::stoull(val); } catch (...) {}
             } else if (key == "byte_offset") {
@@ -491,7 +509,9 @@ public:
                            const SourceConfig& new_config) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         // Preserve the canonical source_id from the registry key
         SourceConfig updated = new_config;
         updated.source_id = source_id;
@@ -883,7 +903,9 @@ public:
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
                     for (const auto& q : quarantine_) {
-                        if (q.source_id != source_id) continue;
+                        if (q.source_id != source_id) {
+                          continue;
+                        }
                         IngestionLineageRecord rq;
                         rq.run_correlation_id  = stats.correlation_id;
                         rq.source_id           = source_id;
@@ -1052,7 +1074,9 @@ public:
     bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = schema_configs_.find(source_id);
-        if (it == schema_configs_.end()) return false;
+        if (it == schema_configs_.end()) {
+          return false;
+        }
         out = it->second;
         return true;
     }
@@ -1071,7 +1095,9 @@ public:
                                   LegalIngestionConfig& out) const {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = legal_ingestion_configs_.find(source_id);
-        if (it == legal_ingestion_configs_.end()) return false;
+        if (it == legal_ingestion_configs_.end()) {
+          return false;
+        }
         out = it->second;
         return true;
     }
@@ -1114,7 +1140,9 @@ public:
             [&updated](const QuarantineEntry& e) {
                 return e.item_path == updated.item_path;
             });
-        if (it == quarantine_.end()) return false;
+        if (it == quarantine_.end()) {
+          return false;
+        }
         *it = updated;
         return true;
     }
@@ -1144,7 +1172,9 @@ public:
     bool pauseSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         it->second.enabled = false;
         return true;
     }
@@ -1152,7 +1182,9 @@ public:
     bool resumeSource(const std::string& source_id) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = sources_.find(source_id);
-        if (it == sources_.end()) return false;
+        if (it == sources_.end()) {
+          return false;
+        }
         it->second.enabled = true;
         return true;
     }
@@ -1170,7 +1202,9 @@ public:
         {
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = sources_.find(source_id);
-            if (it == sources_.end()) return preview;
+            if (it == sources_.end()) {
+              return preview;
+            }
             config = it->second;
         }
 
@@ -1182,11 +1216,15 @@ public:
 
         namespace fs = std::filesystem;
         const fs::path root(config.location);
-        if (!fs::exists(root)) return preview;
+        if (!fs::exists(root)) {
+          return preview;
+        }
 
         auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
             std::ifstream f(p, std::ios::binary);
-            if (!f) return;
+            if (!f) {
+              return;
+            }
             std::string content{std::istreambuf_iterator<char>(f),
                                  std::istreambuf_iterator<char>()};
             if (!content.empty()) {
@@ -1200,7 +1238,9 @@ public:
         } else if (fs::is_directory(root)) {
             // Single pass: count all files and collect up to max_documents.
             for (auto& entry : fs::recursive_directory_iterator(root)) {
-                if (!entry.is_regular_file()) continue;
+                if (!entry.is_regular_file()) {
+                  continue;
+                }
                 ++preview.total_available;
                 if (preview.documents.size() < max_documents) {
                     addDoc(entry.path());
@@ -1237,7 +1277,9 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             cs = checkpoint_store_shared_;
         }
-        if (!cs) return false;
+        if (!cs) {
+          return false;
+        }
         return cs->read(source_id, out);
     }
 
@@ -1247,7 +1289,9 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             cs = checkpoint_store_shared_;
         }
-        if (!cs) return false;
+        if (!cs) {
+          return false;
+        }
         return cs->clear(source_id);
     }
 
@@ -1312,7 +1356,9 @@ public:
     bool checkRateLimit(const std::string& source_id,
                         size_t bytes_this_call,
                         IngestionStats& stats) {
-        if (!rate_limit_config_.enabled) return true;
+        if (!rate_limit_config_.enabled) {
+          return true;
+        }
 
         // Per-source token bucket.
         // A shared_ptr is used so that after unlocking the mutex the bucket
@@ -1437,7 +1483,9 @@ std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
         const std::string& plugin_name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = factories_.find(plugin_name);
-    if (it == factories_.end()) return nullptr;
+    if (it == factories_.end()) {
+      return nullptr;
+    }
     return it->second();
 }
 
@@ -1730,7 +1778,9 @@ static std::string promEscapeLabel(const std::string& s) {
     std::string out;
     out.reserve(s.size());
     for (char c : s) {
-        if (c == '\\') out += "\\\\";
+        if (c == '\\') {
+          out += "\\\\";
+        }
         else if (c == '"')  out += "\\\"";
         else if (c == '\n') out += "\\n";
         else out += c;
@@ -1747,7 +1797,9 @@ static void writeMetricMultiLabel(
     os << name << '{';
     bool first = true;
     for (const auto& [k, v] : labels) {
-        if (!first) os << ',';
+        if (!first) {
+          os << ',';
+        }
         os << k << "=\"" << promEscapeLabel(v) << '"';
         first = false;
     }
@@ -1807,7 +1859,9 @@ std::string IngestionMetricsExporter::exportText(
     // Count permanently-failed entries for the dedicated metric
     size_t perm_failed = 0;
     for (const auto& e : report.quarantine) {
-        if (e.permanently_failed) ++perm_failed;
+        if (e.permanently_failed) {
+          ++perm_failed;
+        }
     }
     os << "# HELP " << prefix_ << "_quarantine_permanently_failed_total "
        << "Items in quarantine that exceeded max retry attempts\n"
@@ -2207,10 +2261,14 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
         [&item_path](const QuarantineEntry& e) {
             return e.item_path == item_path;
         });
-    if (it == items.end()) return false;
+    if (it == items.end()) {
+      return false;
+    }
 
     // Do not retry entries that have been permanently failed
-    if (it->permanently_failed) return false;
+    if (it->permanently_failed) {
+      return false;
+    }
 
     RetryConfig cfg = mgr_.getRetryConfig();
     QuarantineEntry entry = *it;
@@ -2303,15 +2361,21 @@ std::string IngestionAdminApi::healthJson() const {
     size_t total     = sources.size();
     size_t enabled   = 0;
     for (const auto& s : sources) {
-        if (s.enabled) ++enabled;
+        if (s.enabled) {
+          ++enabled;
+        }
     }
     size_t qsize          = quarantine.size();
     size_t retry_successes = mgr_.getQuarantineRetrySuccessCount();
 
     // Determine overall status
     std::string status = "healthy";
-    if (qsize > 0) status = "degraded";
-    if (enabled == 0 && total > 0) status = "unhealthy";
+    if (qsize > 0) {
+      status = "degraded";
+    }
+    if (enabled == 0 && total > 0) {
+      status = "unhealthy";
+    }
 
     std::ostringstream os;
     os << "{"

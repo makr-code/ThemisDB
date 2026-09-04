@@ -78,8 +78,12 @@ void FlareRetrieval::notifyTokenEmitted(const std::string& token_text,
         stats_.min_log_prob = log_prob;
         stats_.max_log_prob = log_prob;
     } else {
-        if (log_prob < stats_.min_log_prob) stats_.min_log_prob = log_prob;
-        if (log_prob > stats_.max_log_prob) stats_.max_log_prob = log_prob;
+        if (log_prob < stats_.min_log_prob) {
+          stats_.min_log_prob = log_prob;
+        }
+        if (log_prob > stats_.max_log_prob) {
+          stats_.max_log_prob = log_prob;
+        }
     }
 
     // ── Uncertainty tracking ─────────────────────────────────────────────
@@ -156,7 +160,9 @@ std::string FlareRetrieval::buildQuery() const {
     std::ostringstream oss;
     bool first = true;
     for (const auto& entry : window_) {
-        if (!first) oss << ' ';
+        if (!first) {
+          oss << ' ';
+        }
         first = false;
         if (cfg_.mask_uncertain_tokens && entry.uncertain) {
             oss << cfg_.mask_token;

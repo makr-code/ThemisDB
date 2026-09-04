@@ -48,7 +48,9 @@ inline std::string aqlEscapeLiteral(const std::string& raw) {
 ///
 /// Returns `true` if the name is safe to embed as a bare AQL identifier.
 inline bool isValidAqlIdentifier(const std::string& name) {
-    if (name.empty()) return false;
+    if (name.empty()) {
+      return false;
+    }
     // Check underscore before isalpha to avoid UB on negative char values.
     if (name[0] != '_' && !std::isalpha(static_cast<unsigned char>(name[0])))
         return false;

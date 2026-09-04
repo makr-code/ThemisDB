@@ -45,7 +45,9 @@ namespace performance {
 int NumaTopology::node_of_cpu([[maybe_unused]] int cpu_id) const noexcept {
     for (const auto& node : nodes) {
         for (int c : node.cpu_ids) {
-            if (c == cpu_id) return node.node_id;
+            if (c == cpu_id) {
+              return node.node_id;
+            }
         }
     }
     return -1;
@@ -63,7 +65,9 @@ int NumaTopology::local_node() const noexcept {
 #   endif
     // Fallback: derive from sched_getcpu
     int c = sched_getcpu();
-    if (c >= 0) return node_of_cpu(c);
+    if (c >= 0) {
+      return node_of_cpu(c);
+    }
 #endif
     return (num_nodes > 0) ? nodes[0].node_id : 0;
 }
@@ -87,7 +91,9 @@ static std::vector<int> parse_cpu_list(const std::string& list_str) {
             try {
                 int lo = std::stoi(token.substr(0, dash));
                 int hi = std::stoi(token.substr(dash + 1));
-                for (int c = lo; c <= hi; ++c) cpus.push_back(c);
+                for (int c = lo; c <= hi; ++c) {
+                  cpus.push_back(c);
+                }
             } catch (...) {}
         }
     }
@@ -115,8 +121,12 @@ static NumaTopology detect_linux() noexcept {
         NumaNode node0;
         node0.node_id = 0;
         long nproc = sysconf(_SC_NPROCESSORS_ONLN);
-        if (nproc < 0) nproc = 1;
-        for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);
+        if (nproc < 0) {
+          nproc = 1;
+        }
+        for (int i = 0; i < static_cast<int>(nproc); ++i) {
+          node0.cpu_ids.push_back(i);
+        }
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
@@ -145,7 +155,9 @@ static NumaTopology detect_linux() noexcept {
 
         // CPU list
         std::string cpu_list_str = read_sysfs_file(base + "/cpulist");
-        if (!cpu_list_str.empty()) node.cpu_ids = parse_cpu_list(cpu_list_str);
+        if (!cpu_list_str.empty()) {
+          node.cpu_ids = parse_cpu_list(cpu_list_str);
+        }
 
         // Memory (meminfo)
         std::ifstream meminfo(base + "/meminfo");
@@ -171,7 +183,9 @@ static NumaTopology detect_linux() noexcept {
         if (!dist_str.empty()) {
             std::istringstream iss(dist_str);
             int d;
-            while (iss >> d) node.distances.push_back(d);
+            while (iss >> d) {
+              node.distances.push_back(d);
+            }
         }
 
         topo.num_cpus += static_cast<int>(node.cpu_ids.size());
@@ -182,10 +196,14 @@ static NumaTopology detect_linux() noexcept {
     if (topo.num_nodes == 0) {
         // Fallback
         long nproc = sysconf(_SC_NPROCESSORS_ONLN);
-        if (nproc < 0) nproc = 1;
+        if (nproc < 0) {
+          nproc = 1;
+        }
         NumaNode node0;
         node0.node_id = 0;
-        for (int i = 0; i < static_cast<int>(nproc); ++i) node0.cpu_ids.push_back(i);
+        for (int i = 0; i < static_cast<int>(nproc); ++i) {
+          node0.cpu_ids.push_back(i);
+        }
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
@@ -211,7 +229,9 @@ static NumaTopology detect_windows() noexcept {
         node0.node_id = 0;
         SYSTEM_INFO si;
         GetSystemInfo(&si);
-        for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) node0.cpu_ids.push_back(static_cast<int>(i));
+        for (DWORD i = 0; i < si.dwNumberOfProcessors; ++i) {
+          node0.cpu_ids.push_back(static_cast<int>(i));
+        }
         node0.distances = {10};
         topo.nodes.push_back(node0);
         topo.num_nodes = 1;
@@ -286,8 +306,12 @@ NumaTopology NumaTopologyDetector::detect_impl() noexcept {
     NumaNode node0;
     node0.node_id = 0;
     unsigned int nproc = std::thread::hardware_concurrency();
-    if (nproc == 0) nproc = 1;
-    for (unsigned int i = 0; i < nproc; ++i) node0.cpu_ids.push_back(static_cast<int>(i));
+    if (nproc == 0) {
+      nproc = 1;
+    }
+    for (unsigned int i = 0; i < nproc; ++i) {
+      node0.cpu_ids.push_back(static_cast<int>(i));
+    }
     node0.distances = {10};
     topo.nodes.push_back(node0);
     topo.num_nodes = 1;
@@ -307,7 +331,9 @@ static bool set_affinity_from_cpu_set(cpu_set_t* cs) noexcept {
 }
 
 bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
-    if (cpu_id < 0) return false;
+    if (cpu_id < 0) {
+      return false;
+    }
     cpu_set_t cs;
     CPU_ZERO(&cs);
     CPU_SET(static_cast<unsigned int>(cpu_id), &cs);
@@ -325,11 +351,15 @@ bool ThreadPinner::pin_to_node([[maybe_unused]] int node_id) noexcept {
 }
 
 bool ThreadPinner::pin_to_cpus(const std::vector<int>& cpu_ids) noexcept {
-    if (cpu_ids.empty()) return false;
+    if (cpu_ids.empty()) {
+      return false;
+    }
     cpu_set_t cs;
     CPU_ZERO(&cs);
     for (int c : cpu_ids) {
-        if (c >= 0) CPU_SET(static_cast<unsigned int>(c), &cs);
+        if (c >= 0) {
+          CPU_SET(static_cast<unsigned int>(c), &cs);
+        }
     }
     return set_affinity_from_cpu_set(&cs);
 }
@@ -337,10 +367,14 @@ bool ThreadPinner::pin_to_cpus(const std::vector<int>& cpu_ids) noexcept {
 bool ThreadPinner::unpin() noexcept {
     // Set affinity to all online CPUs
     long nproc = sysconf(_SC_NPROCESSORS_ONLN);
-    if (nproc <= 0) nproc = 1;
+    if (nproc <= 0) {
+      nproc = 1;
+    }
     cpu_set_t cs;
     CPU_ZERO(&cs);
-    for (long i = 0; i < nproc; ++i) CPU_SET(static_cast<unsigned int>(i), &cs);
+    for (long i = 0; i < nproc; ++i) {
+      CPU_SET(static_cast<unsigned int>(i), &cs);
+    }
     return set_affinity_from_cpu_set(&cs);
 }
 
@@ -350,21 +384,27 @@ std::vector<int> ThreadPinner::current_affinity() noexcept {
     if (pthread_getaffinity_np(pthread_self(), sizeof(cpu_set_t), &cs) != 0) return {};
     std::vector<int> cpus;
     for (int i = 0; i < CPU_SETSIZE; ++i) {
-        if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) cpus.push_back(i);
+        if (CPU_ISSET(static_cast<unsigned int>(i), &cs)) {
+          cpus.push_back(i);
+        }
     }
     return cpus;
 }
 
 int ThreadPinner::current_node() noexcept {
     int cpu = sched_getcpu();
-    if (cpu < 0) return -1;
+    if (cpu < 0) {
+      return -1;
+    }
     return NumaTopologyDetector::detect().node_of_cpu(cpu);
 }
 
 #elif defined(_WIN32)
 
 bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
-    if (cpu_id < 0) return false;
+    if (cpu_id < 0) {
+      return false;
+    }
     GROUP_AFFINITY affinity{};
     affinity.Group = static_cast<WORD>(cpu_id / 64);
     affinity.Mask  = static_cast<KAFFINITY>(1) << (cpu_id % 64);
@@ -372,14 +412,20 @@ bool ThreadPinner::pin_to_cpu([[maybe_unused]] int cpu_id) noexcept {
 }
 
 bool ThreadPinner::pin_to_node([[maybe_unused]] int node_id) noexcept {
-    if (node_id < 0) return false;
+    if (node_id < 0) {
+      return false;
+    }
     GROUP_AFFINITY affinity{};
-    if (!GetNumaNodeProcessorMaskEx(static_cast<USHORT>(node_id), &affinity)) return false;
+    if (!GetNumaNodeProcessorMaskEx(static_cast<USHORT>(node_id), &affinity)) {
+      return false;
+    }
     return SetThreadGroupAffinity(GetCurrentThread(), &affinity, nullptr) != 0;
 }
 
 bool ThreadPinner::pin_to_cpus(const std::vector<int>& cpu_ids) noexcept {
-    if (cpu_ids.empty()) return false;
+    if (cpu_ids.empty()) {
+      return false;
+    }
     // All CPUs must be in the same processor group for SetThreadGroupAffinity
     WORD group = static_cast<WORD>(cpu_ids[0] / 64);
     KAFFINITY mask = 0;
@@ -417,7 +463,9 @@ std::vector<int> ThreadPinner::current_affinity() noexcept {
 
 int ThreadPinner::current_node() noexcept {
     GROUP_AFFINITY affinity{};
-    if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) return -1;
+    if (!GetThreadGroupAffinity(GetCurrentThread(), &affinity)) {
+      return -1;
+    }
     // Find the first set bit
     for (int bit = 0; bit < 64; ++bit) {
         if (affinity.Mask & (static_cast<KAFFINITY>(1) << bit)) {
@@ -438,9 +486,13 @@ bool ThreadPinner::unpin() noexcept { return false; }
 std::vector<int> ThreadPinner::current_affinity() noexcept {
     // Return all logical CPUs as a best-effort fallback
     unsigned int nproc = std::thread::hardware_concurrency();
-    if (nproc == 0) nproc = 1;
+    if (nproc == 0) {
+      nproc = 1;
+    }
     std::vector<int> cpus;
-    for (unsigned int i = 0; i < nproc; ++i) cpus.push_back(static_cast<int>(i));
+    for (unsigned int i = 0; i < nproc; ++i) {
+      cpus.push_back(static_cast<int>(i));
+    }
     return cpus;
 }
 

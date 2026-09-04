@@ -63,8 +63,12 @@ public:
      */
     bool shouldMeasure() noexcept {
         const uint32_t rate = sampling_rate_.load(std::memory_order_relaxed);
-        if (rate == 0) return false;
-        if (rate == 1) return true;
+        if (rate == 0) {
+          return false;
+        }
+        if (rate == 1) {
+          return true;
+        }
         
         const uint32_t count = static_cast<uint32_t>(operation_counter_.fetch_add(1, std::memory_order_relaxed));
         return (count % rate) == 0;
@@ -96,7 +100,9 @@ public:
     bool isOperationEnabled(const std::string& operation_name) const {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         // If no specific operations are enabled, all are enabled
-        if (enabled_operations_.empty()) return true;
+        if (enabled_operations_.empty()) {
+          return true;
+        }
         return enabled_operations_.find(operation_name) != enabled_operations_.end();
     }
 

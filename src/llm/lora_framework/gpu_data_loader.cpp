@@ -171,7 +171,9 @@ void GPUDataLoader::reset() {
 }
 
 size_t GPUDataLoader::num_batches() const {
-    if (samples_.empty()) return 0;
+    if (samples_.empty()) {
+      return 0;
+    }
     return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
 }
 

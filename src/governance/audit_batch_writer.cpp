@@ -37,15 +37,33 @@ nlohmann::json AuditBatchCheckpoint::toJson() const {
 
 AuditBatchCheckpoint AuditBatchCheckpoint::fromJson(const nlohmann::json& j) {
     AuditBatchCheckpoint cp;
-    if (j.contains("checkpoint_id")) cp.checkpoint_id = j["checkpoint_id"];
-    if (j.contains("batch_sequence_number")) cp.batch_sequence_number = j["batch_sequence_number"];
-    if (j.contains("first_entry_sequence")) cp.first_entry_sequence = j["first_entry_sequence"];
-    if (j.contains("last_entry_sequence")) cp.last_entry_sequence = j["last_entry_sequence"];
-    if (j.contains("entry_count")) cp.entry_count = j["entry_count"];
-    if (j.contains("batch_hash")) cp.batch_hash = j["batch_hash"];
-    if (j.contains("checkpoint_time_ms")) cp.checkpoint_time_ms = j["checkpoint_time_ms"];
-    if (j.contains("state")) cp.state = j["state"];
-    if (j.contains("error_message")) cp.error_message = j["error_message"];
+    if (j.contains("checkpoint_id")) {
+      cp.checkpoint_id = j["checkpoint_id"];
+    }
+    if (j.contains("batch_sequence_number")) {
+      cp.batch_sequence_number = j["batch_sequence_number"];
+    }
+    if (j.contains("first_entry_sequence")) {
+      cp.first_entry_sequence = j["first_entry_sequence"];
+    }
+    if (j.contains("last_entry_sequence")) {
+      cp.last_entry_sequence = j["last_entry_sequence"];
+    }
+    if (j.contains("entry_count")) {
+      cp.entry_count = j["entry_count"];
+    }
+    if (j.contains("batch_hash")) {
+      cp.batch_hash = j["batch_hash"];
+    }
+    if (j.contains("checkpoint_time_ms")) {
+      cp.checkpoint_time_ms = j["checkpoint_time_ms"];
+    }
+    if (j.contains("state")) {
+      cp.state = j["state"];
+    }
+    if (j.contains("error_message")) {
+      cp.error_message = j["error_message"];
+    }
     return cp;
 }
 
@@ -60,10 +78,18 @@ nlohmann::json IdempotencyToken::toJson() const {
 
 IdempotencyToken IdempotencyToken::fromJson(const nlohmann::json& j) {
     IdempotencyToken t;
-    if (j.contains("token")) t.token = j["token"];
-    if (j.contains("entry_id")) t.entry_id = j["entry_id"];
-    if (j.contains("submitted_at_ms")) t.submitted_at_ms = j["submitted_at_ms"];
-    if (j.contains("state")) t.state = j["state"];
+    if (j.contains("token")) {
+      t.token = j["token"];
+    }
+    if (j.contains("entry_id")) {
+      t.entry_id = j["entry_id"];
+    }
+    if (j.contains("submitted_at_ms")) {
+      t.submitted_at_ms = j["submitted_at_ms"];
+    }
+    if (j.contains("state")) {
+      t.state = j["state"];
+    }
     return t;
 }
 

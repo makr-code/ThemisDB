@@ -113,7 +113,9 @@ std::string QueryProfile::toSummary() const {
     if (used_index) {
         oss << "Indexes used: ";
         for (size_t i = 0; i < indexes_used.size(); ++i) {
-            if (i > 0) oss << ", ";
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << indexes_used[i];
         }
         oss << "\n";
@@ -428,8 +430,12 @@ json QueryProfiler::get_statistics() const {
     for (const auto& [_, profile] : impl_->profiles) {
         total_duration += profile->total_duration;
         total_rows += profile->result_rows;
-        if (profile->used_index) queries_with_index++;
-        if (profile->used_cache) queries_with_cache++;
+        if (profile->used_index) {
+          queries_with_index++;
+        }
+        if (profile->used_cache) {
+          queries_with_cache++;
+        }
     }
     
     double avg_duration = total_queries > 0 ? 

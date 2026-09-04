@@ -163,7 +163,9 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution([[maybe_unused]] const TaskA
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
             for (size_t i = 0; i < anomalies.size(); i++) {
-                if (i > 0) metrics.description += ", ";
+                if (i > 0) {
+                  metrics.description += ", ";
+                }
                 metrics.description += anomalies[i];
             }
         }
@@ -492,7 +494,9 @@ AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) con
         if (!anomalies.empty()) {
             metrics.description = "Detected: ";
             for (size_t i = 0; i < anomalies.size(); i++) {
-                if (i > 0) metrics.description += ", ";
+                if (i > 0) {
+                  metrics.description += ", ";
+                }
                 metrics.description += anomalies[i];
             }
         }
@@ -620,7 +624,9 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
         // Persist raw deque data so baseline survives restarts
         auto dequeToJson = [](const std::deque<double>& d) {
             nlohmann::json arr = nlohmann::json::array();
-            for (double v : d) arr.push_back(v);
+            for (double v : d) {
+              arr.push_back(v);
+            }
             return arr;
         };
         task_json["execution_durations"] = dequeToJson(stats.execution_durations);
@@ -637,7 +643,9 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
 
         // Persist execution results (success/failure booleans)
         nlohmann::json res_arr = nlohmann::json::array();
-        for (bool b : stats.execution_results) res_arr.push_back(b);
+        for (bool b : stats.execution_results) {
+          res_arr.push_back(b);
+        }
         task_json["execution_results"] = res_arr;
 
         j["tasks"][task_id] = task_json;
@@ -667,7 +675,9 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
     }
 
     // Restore per-task statistics including the raw deque data for baseline detection
-    if (!data.contains("tasks")) return;
+    if (!data.contains("tasks")) {
+      return;
+    }
 
     for (const auto& [task_id, task_json] : data["tasks"].items()) {
         TaskStatistics& stats = task_stats_[task_id];
@@ -698,7 +708,9 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
         // Restore raw deques
         auto jsonToDequeDouble = [](const nlohmann::json& arr) {
             std::deque<double> d;
-            for (const auto& v : arr) d.push_back(v.get<double>());
+            for (const auto& v : arr) {
+              d.push_back(v.get<double>());
+            }
             return d;
         };
 

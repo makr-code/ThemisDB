@@ -302,9 +302,15 @@ private:
 
         // Collect all keys
         std::vector<std::string> all_keys;
-        for (const auto& [k, _] : base.items())   all_keys.push_back(k);
-        for (const auto& [k, _] : ours.items())   all_keys.push_back(k);
-        for (const auto& [k, _] : theirs.items()) all_keys.push_back(k);
+        for (const auto& [k, _] : base.items()) {
+          all_keys.push_back(k);
+        }
+        for (const auto& [k, _] : ours.items()) {
+          all_keys.push_back(k);
+        }
+        for (const auto& [k, _] : theirs.items()) {
+          all_keys.push_back(k);
+        }
         // Deduplicate
         std::sort(all_keys.begin(), all_keys.end());
         all_keys.erase(std::unique(all_keys.begin(), all_keys.end()),

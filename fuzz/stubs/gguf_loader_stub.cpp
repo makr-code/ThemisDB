@@ -60,7 +60,9 @@ struct ParseContext {
      * @return false if insufficient bytes remain (buffer not modified).
      */
     bool read(void* out, size_t n) noexcept {
-        if (!can_read(n)) return false;
+        if (!can_read(n)) {
+          return false;
+        }
         std::memcpy(out, buf + pos, n);
         pos += n;
         return true;
@@ -68,7 +70,9 @@ struct ParseContext {
 
     /** @brief Skip @p n bytes without reading. */
     bool skip(size_t n) noexcept {
-        if (!can_read(n)) return false;
+        if (!can_read(n)) {
+          return false;
+        }
         pos += n;
         return true;
     }
@@ -97,9 +101,13 @@ static bool read_f64(ParseContext& ctx, double& v) {
  */
 static bool read_gguf_string(ParseContext& ctx, std::string& out) {
     uint64_t len = 0;
-    if (!read_u64(ctx, len)) return false;
+    if (!read_u64(ctx, len)) {
+      return false;
+    }
     if (len > kMaxStringLen)  return false;   // cap — treat as format error
-    if (!ctx.can_read(static_cast<size_t>(len))) return false;
+    if (!ctx.can_read(static_cast<size_t>(len))) {
+      return false;
+    }
     out.assign(reinterpret_cast<const char*>(ctx.buf + ctx.pos),
                static_cast<size_t>(len));
     ctx.pos += static_cast<size_t>(len);
@@ -144,12 +152,20 @@ static bool skip_gguf_value(ParseContext& ctx, uint32_t vtype,
     case GGUFValueType::ARRAY: {
         uint32_t elem_type{};
         uint64_t count{};
-        if (!read_u32(ctx, elem_type)) return false;
-        if (!read_u64(ctx, count))     return false;
+        if (!read_u32(ctx, elem_type)) {
+          return false;
+        }
+        if (!read_u64(ctx, count)) {
+          return false;
+        }
         static constexpr uint64_t kMaxArrayElems = 8192;
-        if (count > kMaxArrayElems) return false;
+        if (count > kMaxArrayElems) {
+          return false;
+        }
         for (uint64_t i = 0; i < count; ++i) {
-            if (!skip_gguf_value(ctx, elem_type, depth + 1)) return false;
+            if (!skip_gguf_value(ctx, elem_type, depth + 1)) {
+              return false;
+            }
         }
         return true;
     }
@@ -377,7 +393,9 @@ bool GGUFLoader::storeTensorInChunks(const std::string&,
 }
 
 size_t GGUFLoader::alignOffset(size_t offset, size_t alignment) {
-    if (alignment == 0) return offset;
+    if (alignment == 0) {
+      return offset;
+    }
     return (offset + alignment - 1) & ~(alignment - 1);
 }
 

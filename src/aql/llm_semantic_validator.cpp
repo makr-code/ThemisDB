@@ -110,13 +110,17 @@ static std::unordered_map<std::string, std::string> extractVariableBindings(
     const query::ASTNode* ast)
 {
     std::unordered_map<std::string, std::string> bindings;
-    if (!ast) return bindings;
+    if (!ast) {
+      return bindings;
+    }
     
     // Try to cast ast to Query*
     // Note: In the semantic validator context, ast should be a Query struct
     auto query_ptr = reinterpret_cast<const query::Query*>(ast);
     
-    if (!query_ptr) return bindings;
+    if (!query_ptr) {
+      return bindings;
+    }
     
     // Extract FOR bindings: FOR var IN collection
     for (const auto& for_node : query_ptr->for_nodes) {
@@ -138,21 +142,31 @@ static std::unordered_map<std::string, std::string> extractVariableBindings(
  */
 static std::string inferTypeFromExpression(const std::shared_ptr<query::Expression>& expr)
 {
-    if (!expr) return "unknown";
+    if (!expr) {
+      return "unknown";
+    }
     
     auto type = expr->getType();
     switch (type) {
         case query::ASTNodeType::Literal: {
             auto lit = std::dynamic_pointer_cast<query::LiteralExpr>(expr);
             if (lit) {
-                if (std::holds_alternative<std::string>(lit->value)) return "string";
-                if (std::holds_alternative<bool>(lit->value)) return "boolean";
+                if (std::holds_alternative<std::string>(lit->value)) {
+                  return "string";
+                }
+                if (std::holds_alternative<bool>(lit->value)) {
+                  return "boolean";
+                }
                 if (std::holds_alternative<int64_t>(lit->value) ||
                     std::holds_alternative<double>(lit->value)) return "number";
                 if (std::holds_alternative<nlohmann::json>(lit->value)) {
                     auto& j = std::get<nlohmann::json>(lit->value);
-                    if (j.is_array()) return "array";
-                    if (j.is_object()) return "object";
+                    if (j.is_array()) {
+                      return "array";
+                    }
+                    if (j.is_object()) {
+                      return "object";
+                    }
                 }
                 return "unknown";
             }
@@ -171,7 +185,9 @@ static std::string inferTypeFromExpression(const std::shared_ptr<query::Expressi
                 if (fc->name == "SUM" || fc->name == "AVG" || fc->name == "COUNT" ||
                     fc->name == "MIN" || fc->name == "MAX" || fc->name == "FLOOR" ||
                     fc->name == "CEIL" || fc->name == "ROUND") return "number";
-                if (fc->name == "LENGTH" || fc->name == "SIZE") return "number";
+                if (fc->name == "LENGTH" || fc->name == "SIZE") {
+                  return "number";
+                }
                 // Default: unknown
             }
             return "unknown";
@@ -247,7 +263,9 @@ static void walkExpressionForTypeChecks(
     const std::shared_ptr<SemanticSchemaContext>& schema_context,
     const std::unordered_map<std::string, std::string>& variable_bindings)
 {
-    if (!expr) return;
+    if (!expr) {
+      return;
+    }
     
     auto type = expr->getType();
     
@@ -502,7 +520,9 @@ void LLMSemanticValidator::validateJoins(
     bool join_condition_found = false;
     
     for (const auto& filter_node : query_ptr->filters) {
-        if (!filter_node || !filter_node->condition) continue;
+        if (!filter_node || !filter_node->condition) {
+          continue;
+        }
         
         // Check if filter references multiple FOR variables
         std::unordered_set<std::string> referenced_vars = extractVariablesFromExpression(filter_node->condition);
@@ -538,7 +558,9 @@ static std::unordered_set<std::string> extractVariablesFromExpression(
 {
     std::unordered_set<std::string> variables;
     
-    if (!expr) return variables;
+    if (!expr) {
+      return variables;
+    }
     
     // Recursively traverse expression tree
     auto expr_type = expr->getType();
@@ -794,7 +816,9 @@ void LLMSemanticValidator::validateFunctionSignatures(
     
     // Validate each function call
     for (const auto& func_call : function_calls) {
-        if (!func_call) continue;
+        if (!func_call) {
+          continue;
+        }
         
         const std::string& func_name = func_call->name;
         size_t param_count = func_call->arguments.size();
@@ -887,7 +911,9 @@ static std::vector<std::shared_ptr<query::FunctionCallExpr>> extractFunctionCall
 {
     std::vector<std::shared_ptr<query::FunctionCallExpr>> calls;
     
-    if (!expr) return calls;
+    if (!expr) {
+      return calls;
+    }
     
     auto expr_type = expr->getType();
     

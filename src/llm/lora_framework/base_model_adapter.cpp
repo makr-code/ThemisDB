@@ -584,7 +584,9 @@ bool LoRAEnhancedModel::initialize() {
     if (active_layers_.empty()) {
         std::string modules_str;
         for (size_t i = 0; i < config_.target_modules.size(); ++i) {
-            if (i > 0) modules_str += ", ";
+            if (i > 0) {
+              modules_str += ", ";
+            }
             modules_str += config_.target_modules[i];
         }
         spdlog::error("No layers matched target modules: {}", modules_str);

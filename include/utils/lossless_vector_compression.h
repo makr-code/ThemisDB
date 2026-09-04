@@ -83,13 +83,17 @@ struct SparseVectorCSR {
     // Deserialize from bytes
     static SparseVectorCSR deserialize(const std::vector<uint8_t>& data) {
         SparseVectorCSR result;
-        if (data.size() < 12) return result;
+        if (data.size() < 12) {
+          return result;
+        }
         
         const uint8_t* ptr = data.data();
         
         // Check magic
         uint32_t magic = *reinterpret_cast<const uint32_t*>(ptr);
-        if (magic != 0x43535200) return result;
+        if (magic != 0x43535200) {
+          return result;
+        }
         ptr += 4;
         
         // Dimension
@@ -146,7 +150,9 @@ public:
     static float compute_sparsity(const std::vector<float>& vec, float epsilon = 1e-9f) {
         size_t zero_count = 0;
         for (float v : vec) {
-            if (std::abs(v) < epsilon) ++zero_count;
+            if (std::abs(v) < epsilon) {
+              ++zero_count;
+            }
         }
         return static_cast<float>(zero_count) / vec.size();
     }
@@ -202,7 +208,9 @@ public:
         while (true) {
             uint8_t byte = *ptr++;
             result |= static_cast<uint32_t>(byte & 0x7F) << shift;
-            if ((byte & 0x80) == 0) break;
+            if ((byte & 0x80) == 0) {
+              break;
+            }
             shift += 7;
         }
         
@@ -213,7 +221,9 @@ public:
     static std::vector<uint8_t> compress_delta(const std::vector<int32_t>& values) {
         std::vector<uint8_t> result;
         
-        if (values.empty()) return result;
+        if (values.empty()) {
+          return result;
+        }
         
         // First value
         encode(result, zigzag_encode(values[0]));
@@ -230,7 +240,9 @@ public:
     static std::vector<int32_t> decompress_delta(const std::vector<uint8_t>& data) {
         std::vector<int32_t> result;
         
-        if (data.empty()) return result;
+        if (data.empty()) {
+          return result;
+        }
         
         const uint8_t* ptr = data.data();
         const uint8_t* end = ptr + data.size();
@@ -335,7 +347,9 @@ public:
         // Integer check
         size_t int_count = 0;
         for (float v : vec) {
-            if (std::abs(v - std::round(v)) < 1e-6f) ++int_count;
+            if (std::abs(v - std::round(v)) < 1e-6f) {
+              ++int_count;
+            }
         }
         if (int_count > vec.size() * 0.9) { // 90%+ integers
             return LosslessCompressionMethod::DELTA_VARINT;

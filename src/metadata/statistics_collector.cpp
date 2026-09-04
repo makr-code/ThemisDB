@@ -175,7 +175,9 @@ void StatisticsCollector::refreshLoop_() {
         // refresh_mutex_ released before acquiring cache_mutex_ to prevent
         // circular lock ordering between refresh_mutex_ and cache_mutex_.
 
-        if (stop_refresh_.load()) break;
+        if (stop_refresh_.load()) {
+          break;
+        }
 
         // Collect the set of known table names (read lock)
         std::vector<std::string> tables;
@@ -188,7 +190,9 @@ void StatisticsCollector::refreshLoop_() {
         }
 
         for (const auto& table : tables) {
-            if (stop_refresh_.load()) break;
+            if (stop_refresh_.load()) {
+              break;
+            }
             auto result = collectStats(table);
             if (!result.ok) {
                 spdlog::warn("StatisticsCollector: auto-refresh failed for '{}': {}",
@@ -208,7 +212,9 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     size_t sample_size)
 {
     if (table_name.empty()) {
-        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
+        if (metrics_hook_) {
+          metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
+        }
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -301,7 +307,9 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     size_t total_rows = row_count;
     while (it->Valid()) {
         std::string key = it->key().ToString();
-        if (key.rfind(prefix, 0) != 0) break;
+        if (key.rfind(prefix, 0) != 0) {
+          break;
+        }
         ++total_rows;
         it->Next();
     }
@@ -341,7 +349,9 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
 StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_name) {
     if (table_name.empty()) {
-        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
+        if (metrics_hook_) {
+          metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
+        }
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -351,13 +361,17 @@ StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_nam
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         auto it = stats_cache_.find(std::string(table_name));
         if (it != stats_cache_.end()) {
-            if (metrics_hook_) metrics_hook_->onCacheHit(table_name);
+            if (metrics_hook_) {
+              metrics_hook_->onCacheHit(table_name);
+            }
             return StatsResult<TableStats>::success(it->second);
         }
     }
 
     // Cache miss – try to load from RocksDB
-    if (metrics_hook_) metrics_hook_->onCacheMiss(table_name);
+    if (metrics_hook_) {
+      metrics_hook_->onCacheMiss(table_name);
+    }
 
     auto maybe_stats = loadStats(table_name);
     if (!maybe_stats.has_value()) {
@@ -547,7 +561,9 @@ ColumnStats StatisticsCollector::buildColumnStats(
     std::vector<double> numeric_vals;
     numeric_vals.reserve(values.size());
     for (const auto& v : values) {
-        if (v.empty()) continue;
+        if (v.empty()) {
+          continue;
+        }
         try {
             numeric_vals.push_back(std::stod(v));
         } catch (...) {
@@ -602,7 +618,9 @@ std::vector<HistogramBucket> StatisticsCollector::buildHistogram(
         // Integer division: (b+1)*n/num_buckets distributes n values evenly
         // across num_buckets, ensuring approximately equal bucket heights.
         size_t target_end = (b + 1) * n / num_buckets;
-        if (target_end <= i) target_end = i + 1;
+        if (target_end <= i) {
+          target_end = i + 1;
+        }
 
         // Extend to include all equal values at the boundary
         while (target_end < n &&

@@ -56,7 +56,9 @@ static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
 [[maybe_unused]] static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string lower_msg = msg_lower(error_msg);
@@ -106,13 +108,17 @@ static thread_local SQLiteConnectionPoolState g_sqlite_connection_pool;
 static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_table_name) {
     // Very simple fallback: find "INTO" and extract table name
     const auto sql_upper = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     std::string upper_sql = sql_upper(sql);
     
     size_t pos = upper_sql.find("INTO");
-    if (pos == std::string::npos) return false;
+    if (pos == std::string::npos) {
+      return false;
+    }
     
     pos += 4;  // Skip "INTO"
     // Skip whitespace
@@ -354,7 +360,9 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
     schemas_.clear();
 
     std::ifstream file(source_path);
-    if (!file) return json::array();
+    if (!file) {
+      return json::array();
+    }
 
     std::string line;
     std::string current_sql;
@@ -523,7 +531,9 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
             stats.warnings.push_back("Line truncated at " +
                                      std::to_string(line_number));
             current_sql.clear();
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
@@ -547,12 +557,16 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
             stats.warnings.push_back("Statement too large near line " +
                                      std::to_string(line_number));
             current_sql.clear();
-            if (!options.continue_on_error) return false;
+            if (!options.continue_on_error) {
+              return false;
+            }
             continue;
         }
 
         // Complete statement ends with ';'
-        if (line.find(';') == std::string::npos) continue;
+        if (line.find(';') == std::string::npos) {
+          continue;
+        }
 
         // Build a short upper-case prefix for keyword matching
         std::string prefix;
@@ -634,16 +648,22 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         std::regex_constants::icase);
     std::smatch match;
 
-    if (!std::regex_search(sql, match, table_regex)) return false;
+    if (!std::regex_search(sql, match, table_regex)) {
+      return false;
+    }
 
     schema.name = match[4].matched ? match[4].str()
                 : match[5].matched ? match[5].str()
                 : match[6].matched ? match[6].str() : "";
-    if (schema.name.empty()) return false;
+    if (schema.name.empty()) {
+      return false;
+    }
 
     // Find the outer parentheses wrapping the column definitions.
     size_t open_pos = sql.find('(', match.position());
-    if (open_pos == std::string::npos) return false;
+    if (open_pos == std::string::npos) {
+      return false;
+    }
 
     // Find matching ')' using a depth counter (respects quotes).
     int depth = 0;
@@ -653,7 +673,9 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
     for (size_t k = open_pos; k < sql.size(); ++k) {
         char c = sql[k];
         if (in_string) {
-            if (c == str_char) in_string = false;
+            if (c == str_char) {
+              in_string = false;
+            }
         } else if (c == '\'' || c == '"') {
             in_string = true;
             str_char  = c;
@@ -664,7 +686,9 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
             if (depth == 0) { close_pos = k; break; }
         }
     }
-    if (close_pos == std::string::npos) return false;
+    if (close_pos == std::string::npos) {
+      return false;
+    }
 
     std::string cols_str =
         sql.substr(open_pos + 1, close_pos - open_pos - 1);
@@ -680,7 +704,9 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
             char c = cols_str[i];
             if (inq) {
                 cur += c;
-                if (c == qc) inq = false;
+                if (c == qc) {
+                  inq = false;
+                }
             } else if (c == '\'' || c == '"' || c == '`') {
                 inq = true; qc = c; cur += c;
             } else if (c == '(') {
@@ -694,21 +720,29 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
                 cur += c;
             }
         }
-        if (!cur.empty()) col_defs.push_back(cur);
+        if (!cur.empty()) {
+          col_defs.push_back(cur);
+        }
     }
 
     for (auto& col_def : col_defs) {
         // Trim whitespace
         {
             size_t f = col_def.find_first_not_of(" \t\n\r");
-            if (f == std::string::npos) continue;
+            if (f == std::string::npos) {
+              continue;
+            }
             col_def = col_def.substr(f);
         }
         {
             size_t l = col_def.find_last_not_of(" \t\n\r");
-            if (l != std::string::npos) col_def = col_def.substr(0, l + 1);
+            if (l != std::string::npos) {
+              col_def = col_def.substr(0, l + 1);
+            }
         }
-        if (col_def.empty()) continue;
+        if (col_def.empty()) {
+          continue;
+        }
 
         // Build an upper-case prefix for constraint detection
         std::string upper_def;
@@ -736,7 +770,9 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
             (col_def[0] == '"' || col_def[0] == '`')) {
             char q = col_def[0];
             size_t end_q = col_def.find(q, 1);
-            if (end_q == std::string::npos) continue;
+            if (end_q == std::string::npos) {
+              continue;
+            }
             col_name   = col_def.substr(1, end_q - 1);
             type_start = end_q + 1;
         } else {
@@ -751,7 +787,9 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
                 type_start = sp;
             }
         }
-        if (col_name.empty()) continue;
+        if (col_name.empty()) {
+          continue;
+        }
 
         // Skip leading whitespace before type
         while (type_start < col_def.size() &&
@@ -841,7 +879,9 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
             // Strip quotes from column names
             col.erase(0, col.find_first_not_of(" \t\"` "));
             col.erase(col.find_last_not_of(" \t\"` ") + 1);
-            if (!col.empty()) col_list.push_back(col);
+            if (!col.empty()) {
+              col_list.push_back(col);
+            }
         }
     } else if (schemas_.count(table_name)) {
         col_list = schemas_[table_name].columns;
@@ -850,8 +890,12 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
     // Build effective schema
     TableSchema eff_schema;
     eff_schema.name = table_name;
-    if (schemas_.count(table_name)) eff_schema = schemas_[table_name];
-    if (!col_list.empty()) eff_schema.columns = col_list;
+    if (schemas_.count(table_name)) {
+      eff_schema = schemas_[table_name];
+    }
+    if (!col_list.empty()) {
+      eff_schema.columns = col_list;
+    }
 
     // Parse multi-row tuple list: (v1,...),(v2,...), ...
     std::string values_payload = match[5].str();
@@ -865,7 +909,9 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= values_payload.size()) break;
+        if (pos >= values_payload.size()) {
+          break;
+        }
         if (values_payload[pos] != '(') { ++pos; continue; }
 
         // Find matching ')' for this tuple
@@ -896,7 +942,9 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
             ++k;
         }
         size_t tuple_end = k - 1;
-        if (dep != 0) break;
+        if (dep != 0) {
+          break;
+        }
 
         std::string tuple_str =
             values_payload.substr(tuple_start, tuple_end - tuple_start);
@@ -947,12 +995,16 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
     const ImportOptions& options) const {
     // User-configurable overrides take priority
     auto it = options.type_overrides.find(sqlite_typ[[maybe_unused]] e);
-    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) return it->second;
+    if (i[[maybe_unused]] t != option[[maybe_unused]] s.type_override[[maybe_unused]] s.en[[maybe_unused]] d()) {
+      return it->second;
+    }
 
     // Normalise: strip size specifier, e.g. "varchar(255)" -> "varchar"
     std::string base_type = sqlite_type;
     size_t paren = base_type.find('(');
-    if (paren != std::string::npos) base_type = base_type.substr(0, paren);
+    if (paren != std::string::npos) {
+      base_type = base_type.substr(0, paren);
+    }
     std::string lower = toLower(base_type);
     // Trim trailing whitespace
     while (!lower.empty() && (lower.back() == ' ' || lower.back() == '\t'))
@@ -960,7 +1012,9 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
 
     // SQLite type affinity rules (§3.1 of the SQLite documentation):
     // "INT" affinity
-    if (lower.find("int") != std::string::npos) return "integer";
+    if (lower.find("int") != std::string::npos) {
+      return "integer";
+    }
 
     // "TEXT" affinity
     if (lower.find("char")  != std::string::npos ||
@@ -968,7 +1022,9 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
         lower.find("text")  != std::string::npos) return "string";
 
     // "BLOB" affinity (no type or "blob")
-    if (lower.empty() || lower == "blob") return "binary";
+    if (lower.empty() || lower == "blob") {
+      return "binary";
+    }
 
     // "REAL" affinity
     if (lower.find("real")   != std::string::npos ||
@@ -981,20 +1037,32 @@ std::string SQLiteImporter::mapSQLiteTypeToThemis(
         lower == "number"    ||
         lower == "boolean"   ||
         lower == "bool") {
-        if (lower == "boolean" || lower == "bool") return "boolean";
+        if (lower == "boolean" || lower == "bool") {
+          return "boolean";
+        }
         return "double";
     }
 
     // Common explicit types used in SQLite schemas
-    if (lower == "date")      return "date";
-    if (lower == "time")      return "time";
+    if (lower == "date") {
+      return "date";
+    }
+    if (lower == "time") {
+      return "time";
+    }
     if (lower == "datetime"   ||
         lower == "timestamp") return "datetime";
-    if (lower == "json")      return "json";
+    if (lower == "json") {
+      return "json";
+    }
 
     // Prefix-based fallbacks for the NUMERIC affinity bucket
-    if (lower.find("date") != std::string::npos) return "datetime";
-    if (lower.find("time") != std::string::npos) return "datetime";
+    if (lower.find("date") != std::string::npos) {
+      return "datetime";
+    }
+    if (lower.find("time") != std::string::npos) {
+      return "datetime";
+    }
 
     // Default: NUMERIC affinity → string
     return "string";
@@ -1047,7 +1115,9 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
 
     while (i < n) {
         skipWs();
-        if (i >= n) break;
+        if (i >= n) {
+          break;
+        }
 
         char c = values_clause[i];
 
@@ -1117,7 +1187,9 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
             {
                 size_t f = token.find_first_not_of(" \t\r\n");
                 size_t l = token.find_last_not_of(" \t\r\n");
-                if (f == std::string::npos) token.clear();
+                if (f == std::string::npos) {
+                  token.clear();
+                }
                 else token = token.substr(f, l - f + 1);
             }
             // NULL → empty string sentinel
@@ -1126,7 +1198,9 @@ std::vector<std::string> SQLiteImporter::parseInsertValues(
                 for (char ch : token)
                     upper_tok += static_cast<char>(
                         std::toupper(static_cast<unsigned char>(ch)));
-                if (upper_tok == "NULL") token.clear();
+                if (upper_tok == "NULL") {
+                  token.clear();
+                }
             }
             result.push_back(token);
         }
@@ -1203,12 +1277,16 @@ plugins::PluginCapabilities SQLiteImporterPlugin::getCapabilities() const {
 }
 
 bool SQLiteImporterPlugin::initialize(const char* config_json) {
-    if (!importer_) return false;
+    if (!importer_) {
+      return false;
+    }
     return importer_->initialize(config_json ? config_json : "{}");
 }
 
 void SQLiteImporterPlugin::shutdown() {
-    if (importer_) importer_->cancel();
+    if (importer_) {
+      importer_->cancel();
+    }
 }
 
 } // namespace importers

@@ -47,7 +47,9 @@ inline int setSockOptInt(int fd, int level, int optname, const int* value) {
 NagleController::NagleController([[maybe_unused]] int fd) noexcept : fd_(fd) {}
 
 bool NagleController::setMode(Mode mode) noexcept {
-    if (fd_ < 0) return false;
+    if (fd_ < 0) {
+      return false;
+    }
 
     // Reset both flags first so we reach a clean state.
     int on  = 1;
@@ -56,7 +58,9 @@ bool NagleController::setMode(Mode mode) noexcept {
     switch (mode) {
     case Mode::NODELAY: {
         // Enable TCP_NODELAY, disable TCP_CORK.
-        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &on) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &on) != 0) {
+          return false;
+        }
 #ifdef TCP_CORK
         setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off);
 #elif defined(TCP_NOPUSH)
@@ -70,9 +74,13 @@ bool NagleController::setMode(Mode mode) noexcept {
         // Disable TCP_NODELAY, enable TCP_CORK/TCP_NOPUSH.
         setSockOptInt(fd_, IPPROTO_TCP, TCP_NODELAY, &off);
 #ifdef TCP_CORK
-        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &on) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &on) != 0) {
+          return false;
+        }
 #elif defined(TCP_NOPUSH)
-        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &on) != 0) return false;
+        if (setSockOptInt(fd_, IPPROTO_TCP, TCP_NOPUSH, &on) != 0) {
+          return false;
+        }
 #else
         // Platform has neither TCP_CORK nor TCP_NOPUSH; cork is a no-op.
         return false;
@@ -98,7 +106,9 @@ bool NagleController::setMode(Mode mode) noexcept {
 }
 
 bool NagleController::uncork() noexcept {
-    if (fd_ < 0) return false;
+    if (fd_ < 0) {
+      return false;
+    }
 
     // Clearing TCP_CORK/TCP_NOPUSH triggers an immediate flush of any
     // data held in the kernel's send buffer.
@@ -137,12 +147,16 @@ bool WireProtocolBatcher::add(const void* data, size_t size) {
     const bool bytes_limit = (pending_bytes_ + size > cfg_.max_bytes_per_batch);
 
     if ((count_limit || bytes_limit) && cfg_.auto_flush_on_limit) {
-        if (flush() < 0) return false;
+        if (flush() < 0) {
+          return false;
+        }
         ++stats_.forced_flushes;
     }
 
     // Guard against iov list overflow (should not happen after auto-flush).
-    if (iov_count_ >= MAX_IOV) return false;
+    if (iov_count_ >= MAX_IOV) {
+      return false;
+    }
 
     iov_[iov_count_].iov_base = const_cast<void*>(data);
     iov_[iov_count_].iov_len  = size;
@@ -154,7 +168,9 @@ bool WireProtocolBatcher::add(const void* data, size_t size) {
 }
 
 ssize_t WireProtocolBatcher::flush() {
-    if (iov_count_ == 0) return 0;
+    if (iov_count_ == 0) {
+      return 0;
+    }
 
     ssize_t written = -1;
 #ifdef _WIN32

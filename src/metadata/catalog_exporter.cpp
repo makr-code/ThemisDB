@@ -251,7 +251,9 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
             auto resp = json::parse(response_body);
             if (resp.contains("mutatedEntities")) {
                 for (const auto& [op, arr] : resp["mutatedEntities"].items()) {
-                    if (arr.is_array()) count += static_cast<int>(arr.size());
+                    if (arr.is_array()) {
+                      count += static_cast<int>(arr.size());
+                    }
                 }
             }
         } catch (...) { /* count stays at 0 */ }
@@ -259,7 +261,9 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
         // Use entity array size as lower-bound count when response is empty
         const int sent = static_cast<int>(
             payload.contains("entities") ? payload["entities"].size() : 0u);
-        if (count == 0) count = sent;
+        if (count == 0) {
+          count = sent;
+        }
 
         spdlog::info("CatalogExporter: Atlas accepted {} entities (HTTP {})",
                      count, status);

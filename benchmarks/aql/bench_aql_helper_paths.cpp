@@ -80,7 +80,9 @@ private:
                 if (!cur.empty()) { tokens.push_back(cur); cur.clear(); }
             }
         }
-        if (!cur.empty()) tokens.push_back(cur);
+        if (!cur.empty()) {
+          tokens.push_back(cur);
+        }
         return tokens;
     }
 };
@@ -143,12 +145,18 @@ private:
     static float jaccardScore(const std::string& a, const std::string& b) {
         auto ta = tokenSet(a);
         auto tb = tokenSet(b);
-        if (ta.empty() && tb.empty()) return 1.0f;
-        if (ta.empty() || tb.empty()) return 0.0f;
+        if (ta.empty() && tb.empty()) {
+          return 1.0f;
+        }
+        if (ta.empty() || tb.empty()) {
+          return 0.0f;
+        }
 
         int intersection = 0;
         for (const auto& t : ta) {
-            if (std::find(tb.begin(), tb.end(), t) != tb.end()) ++intersection;
+            if (std::find(tb.begin(), tb.end(), t) != tb.end()) {
+              ++intersection;
+            }
         }
         int union_size = static_cast<int>(ta.size() + tb.size()) - intersection;
         return static_cast<float>(intersection) / static_cast<float>(union_size);

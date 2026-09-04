@@ -35,7 +35,9 @@ namespace {
 /// Maps Elasticsearch-specific error patterns to ImporterErrorCode.
 static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        for (auto& c : s) {
+          c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
         return s;
     };
     const std::string lmsg = lower(error_msg);
@@ -149,7 +151,9 @@ std::pair<long, std::string> ElasticsearchImporter::performHttp(
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
     }
 
-    if (headers) curl_slist_free_all(headers);
+    if (headers) {
+      curl_slist_free_all(headers);
+    }
     curl_easy_cleanup(curl);
 
     return {http_code, response_body};
@@ -407,7 +411,9 @@ std::vector<json> ElasticsearchImporter::fetchScrollPage(
 }
 
 void ElasticsearchImporter::clearScroll(const std::string& scroll_id) noexcept {
-    if (scroll_id.empty()) return;
+    if (scroll_id.empty()) {
+      return;
+    }
     try {
         const std::string url = config_.host + "/_search/scroll";
         const json body{{"scroll_id", {scroll_id}}};
@@ -479,7 +485,9 @@ ImportStats ElasticsearchImporter::importData(
 
     auto processPage = [&]([[maybe_unused]] const std::vector<json>& page) {
         for (const auto& doc : page) {
-            if (cancelled_.load(std::memory_order_relaxed)) break;
+            if (cancelled_.load(std::memory_order_relaxed)) {
+              break;
+            }
             ++stats.total_records;
 
             // Conflict resolution.
@@ -578,7 +586,9 @@ void ElasticsearchImporter::cancel() {
 
 json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
     const std::string index = source_path.empty() ? config_.index : source_path;
-    if (index.empty()) return json::object();
+    if (index.empty()) {
+      return json::object();
+    }
 
     const std::string url = config_.host + "/" + index + "/_mapping";
     std::string response_str;
@@ -603,7 +613,9 @@ json ElasticsearchImporter::getSourceSchema(const std::string& source_path) {
 
         // Traverse: { "<index>": { "mappings": { "properties": { ... } } } }
         for (auto& [idx_name, idx_val] : mapping.items()) {
-            if (!idx_val.contains("mappings")) continue;
+            if (!idx_val.contains("mappings")) {
+              continue;
+            }
             const auto& props = idx_val["mappings"].value("properties", json::object());
             json fields = json::array();
             for (auto& [field_name, field_val] : props.items()) {

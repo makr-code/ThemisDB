@@ -85,7 +85,9 @@ static bool validate_ebnf_structure(const std::string& text,
             }
         }
         if (in_comment) {
-            if (c == '\n') in_comment = false;
+            if (c == '\n') {
+              in_comment = false;
+            }
             continue;
         }
 

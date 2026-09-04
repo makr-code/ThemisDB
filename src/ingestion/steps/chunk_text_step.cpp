@@ -88,7 +88,9 @@ private:
 
         auto emit = [&](std::size_t start, std::size_t end_pos,
                         const std::string& ref) {
-            if (end_pos <= start) return;
+            if (end_pos <= start) {
+              return;
+            }
             TextChunk c;
             c.seq         = seq++;
             c.text        = text.substr(start, end_pos - start);
@@ -120,7 +122,9 @@ private:
         std::size_t current_start = 0;
 
         auto emit = [&]() {
-            if (current.empty()) return;
+            if (current.empty()) {
+              return;
+            }
             TextChunk c;
             c.seq        = seq++;
             c.text       = current;
@@ -176,7 +180,9 @@ private:
             c.char_start = static_cast<std::uint64_t>(start);
             c.char_end   = static_cast<std::uint64_t>(end);
             ctx.chunks.push_back(std::move(c));
-            if (end == text.size()) break;
+            if (end == text.size()) {
+              break;
+            }
         }
     }
 };

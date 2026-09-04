@@ -46,13 +46,17 @@ namespace {
 /// Parse a numeric literal from a string view.
 std::optional<double> parseNumber(std::string_view sv) {
     sv = themis::utils::trim_view(sv);
-    if (sv.empty()) return std::nullopt;
+    if (sv.empty()) {
+      return std::nullopt;
+    }
     // Use stod for broadest compiler support (from_chars<double> is late C++17)
     try {
         const std::string s(sv);
         size_t pos = 0;
         double result = std::stod(s, &pos);
-        if (pos == s.size()) return result;
+        if (pos == s.size()) {
+          return result;
+        }
         return std::nullopt;
     } catch (...) {
         return std::nullopt;
@@ -62,19 +66,27 @@ std::optional<double> parseNumber(std::string_view sv) {
 /// Evaluate a FEEL range expression like [a..b], (a..b], [a..b), (a..b)
 /// against a numeric JSON value.
 bool evaluateRange(std::string_view expr, const json& value) {
-    if (expr.size() < 4) return false;
+    if (expr.size() < 4) {
+      return false;
+    }
     const bool left_closed  = (expr.front() == '[');
     const bool right_closed = (expr.back() == ']');
     const std::string_view inner = expr.substr(1, expr.size() - 2);
 
     const auto dot_pos = inner.find("..");
-    if (dot_pos == std::string_view::npos) return false;
+    if (dot_pos == std::string_view::npos) {
+      return false;
+    }
 
     auto low_opt  = parseNumber(inner.substr(0, dot_pos));
     auto high_opt = parseNumber(inner.substr(dot_pos + 2));
-    if (!low_opt || !high_opt) return false;
+    if (!low_opt || !high_opt) {
+      return false;
+    }
 
-    if (!value.is_number()) return false;
+    if (!value.is_number()) {
+      return false;
+    }
     const double num = value.get<double>();
 
     const bool low_ok  = left_closed  ? (num >= *low_opt)  : (num > *low_opt);
@@ -94,15 +106,25 @@ bool evaluateRange(std::string_view expr, const json& value) {
     const std::string_view expr = themis::utils::trim_view(feel_expr);
 
     // Wildcard / any
-    if (expr == "-") return true;
+    if (expr == "-") {
+      return true;
+    }
 
     // Null checks
-    if (expr == "null")       return value.is_null();
-    if (expr == "not(null)")  return !value.is_null();
+    if (expr == "null") {
+      return value.is_null();
+    }
+    if (expr == "not(null)") {
+      return !value.is_null();
+    }
 
     // Boolean literals
-    if (expr == "true")  return value.is_boolean() && value.get<bool>();
-    if (expr == "false") return value.is_boolean() && !value.get<bool>();
+    if (expr == "true") {
+      return value.is_boolean() && value.get<bool>();
+    }
+    if (expr == "false") {
+      return value.is_boolean() && !value.get<bool>();
+    }
 
     // Range expressions: [a..b], (a..b], [a..b), (a..b)
     if ((expr.front() == '[' || expr.front() == '(') &&
@@ -114,7 +136,9 @@ bool evaluateRange(std::string_view expr, const json& value) {
     // String literal: "value"
     if (expr.size() >= 2 && expr.front() == '"' && expr.back() == '"') {
         const std::string expected(expr.substr(1, expr.size() - 2));
-        if (value.is_string()) return value.get<std::string>() == expected;
+        if (value.is_string()) {
+          return value.get<std::string>() == expected;
+        }
         return false;
     }
 
@@ -136,12 +160,24 @@ bool evaluateRange(std::string_view expr, const json& value) {
             auto rhs = parseNumber(rhs_sv);
             if (rhs && value.is_number()) {
                 const double lhs = value.get<double>();
-                if (op == ">")  return lhs >  *rhs;
-                if (op == ">=") return lhs >= *rhs;
-                if (op == "<")  return lhs <  *rhs;
-                if (op == "<=") return lhs <= *rhs;
-                if (op == "=")  return lhs == *rhs;
-                if (op == "!=") return lhs != *rhs;
+                if (op == ">") {
+                  return lhs >  *rhs;
+                }
+                if (op == ">=") {
+                  return lhs >= *rhs;
+                }
+                if (op == "<") {
+                  return lhs <  *rhs;
+                }
+                if (op == "<=") {
+                  return lhs <= *rhs;
+                }
+                if (op == "=") {
+                  return lhs == *rhs;
+                }
+                if (op == "!=") {
+                  return lhs != *rhs;
+                }
             }
             // String equality via "=" operator
             if (op == "=" && value.is_string()) {
@@ -153,7 +189,9 @@ bool evaluateRange(std::string_view expr, const json& value) {
 
     // Bare numeric literal (implied equality)
     if (auto num = parseNumber(expr)) {
-        if (value.is_number()) return value.get<double>() == *num;
+        if (value.is_number()) {
+          return value.get<double>() == *num;
+        }
         return false;
     }
 
@@ -180,7 +218,9 @@ bool evaluateRange(std::string_view expr, const json& value) {
         const json& col_value = input_context.contains(input_columns[i])
                               ? input_context[input_columns[i]]
                               : json{};
-        if (!evaluateFeel(rule.input_expressions[i], col_value)) return false;
+        if (!evaluateFeel(rule.input_expressions[i], col_value)) {
+          return false;
+        }
     }
     return true;
 }
@@ -197,10 +237,14 @@ bool DmnEvaluator::loadFromJson(const json& dmn_json) {
         dt.hit_policy = dmn_json.value("hit_policy", "UNIQUE");
 
         if (dmn_json.contains("input_columns") && dmn_json["input_columns"].is_array()) {
-            for (const auto& c : dmn_json["input_columns"]) dt.input_columns.push_back(c);
+            for (const auto& c : dmn_json["input_columns"]) {
+              dt.input_columns.push_back(c);
+            }
         }
         if (dmn_json.contains("output_columns") && dmn_json["output_columns"].is_array()) {
-            for (const auto& c : dmn_json["output_columns"]) dt.output_columns.push_back(c);
+            for (const auto& c : dmn_json["output_columns"]) {
+              dt.output_columns.push_back(c);
+            }
         }
 
         if (dmn_json.contains("rules") && dmn_json["rules"].is_array()) {
@@ -257,7 +301,9 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     // Strategy: extract text content of relevant attributes and build
     // a JSON representation for loadFromJson.
 
-    if (dmn_xml.empty()) return false;
+    if (dmn_xml.empty()) {
+      return false;
+    }
 
     // Security guard: 10 MiB
     // Use explicit unsigned multiplication to avoid overflow warnings
@@ -276,7 +322,9 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
 
     // Thread-safe: pure function, no captures, no shared state access
     auto toLower = [](std::string s) {
-       for (char& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+       for (char& c : s) {
+         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+       }
        return s;
     };
 
@@ -312,21 +360,29 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
                 in_decision_table = true;
                 if (attrs.count("hitpolicy")) {
                     std::string hp = attrs["hitpolicy"];
-                    for (char& c : hp) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+                    for (char& c : hp) {
+                      c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+                    }
                     dt.hit_policy = hp;
                 }
             } else if (tag_lower == "input" && in_decision_table) {
-                if (attrs.count("label")) dt.input_columns.push_back(attrs["label"]);
+                if (attrs.count("label")) {
+                  dt.input_columns.push_back(attrs["label"]);
+                }
                 else if (attrs.count("id")) dt.input_columns.push_back(attrs["id"]);
             } else if (tag_lower == "output" && in_decision_table) {
                 output_col_name = attrs.count("label") ? attrs["label"]
                                 : attrs.count("name")  ? attrs["name"]
                                 : attrs.count("id")    ? attrs["id"] : "";
-                if (!output_col_name.empty()) dt.output_columns.push_back(output_col_name);
+                if (!output_col_name.empty()) {
+                  dt.output_columns.push_back(output_col_name);
+                }
             } else if (tag_lower == "rule") {
                 in_rule = true;
                 current_rule = DmnRule{};
-                if (attrs.count("id")) current_rule.id = attrs["id"];
+                if (attrs.count("id")) {
+                  current_rule.id = attrs["id"];
+                }
                 input_entry_idx = 0;
             } else if (tag_lower == "inputentry") {
                 in_input_entry  = true;
@@ -341,8 +397,12 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
             if (tag_lower == "inputentry" && in_rule) {
                 // Strip outer quotes from FEEL text  e.g. "\"high\"" → "high"
                 std::string expr = current_text;
-                while (!expr.empty() && (expr.front() == ' ' || expr.front() == '\t')) expr.erase(expr.begin());
-                while (!expr.empty() && (expr.back()  == ' ' || expr.back()  == '\t')) expr.pop_back();
+                while (!expr.empty() && (expr.front() == ' ' || expr.front() == '\t')) {
+                  expr.erase(expr.begin());
+                }
+                while (!expr.empty() && (expr.back()  == ' ' || expr.back()  == '\t')) {
+                  expr.pop_back();
+                }
                 current_rule.input_expressions.push_back(expr);
                 ++input_entry_idx;
                 in_input_entry = false;
@@ -387,12 +447,18 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
         case State::TAG: {
             if (c == '>') {
                 bool closing = (!cur_tag.empty() && cur_tag.front() == '/');
-                if (closing) cur_tag.erase(cur_tag.begin());
+                if (closing) {
+                  cur_tag.erase(cur_tag.begin());
+                }
                 // Self-closing: ends with /
                 bool self_close = (!cur_tag.empty() && cur_tag.back() == '/');
-                if (self_close) cur_tag.pop_back();
+                if (self_close) {
+                  cur_tag.pop_back();
+                }
                 flushTag(cur_tag, closing);
-                if (self_close) flushTag(cur_tag, true);
+                if (self_close) {
+                  flushTag(cur_tag, true);
+                }
                 st = State::TEXT;
             } else if (std::isspace(static_cast<unsigned char>(c)) && !cur_tag.empty()) {
                 // Start attribute parsing
@@ -409,7 +475,9 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
                 attr_val.clear();
             } else if (c == '>') {
                 bool closing = (!cur_tag.empty() && cur_tag.front() == '/');
-                if (closing) cur_tag.erase(cur_tag.begin());
+                if (closing) {
+                  cur_tag.erase(cur_tag.begin());
+                }
                 flushTag(cur_tag, closing);
                 st = State::TEXT;
             } else if (!std::isspace(static_cast<unsigned char>(c))) {
@@ -424,7 +492,9 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
             break;
         case State::ATTR_VAL_Q2:
             if (c == '"') {
-                for (char& ac : attr_name) ac = static_cast<char>(std::tolower(static_cast<unsigned char>(ac)));
+                for (char& ac : attr_name) {
+                  ac = static_cast<char>(std::tolower(static_cast<unsigned char>(ac)));
+                }
                 attrs[attr_name] = attr_val;
                 attr_name.clear();
                 st = State::ATTR_NAME;
@@ -495,7 +565,9 @@ std::vector<std::string> DmnEvaluator::listDecisions() const {
     
     std::vector<std::string> ids;
     ids.reserve(tables_.size());
-    for (const auto& [id, _] : tables_) ids.push_back(id);
+    for (const auto& [id, _] : tables_) {
+      ids.push_back(id);
+    }
     return ids;
 }
 
@@ -504,7 +576,9 @@ std::optional<DecisionTable> DmnEvaluator::getDecision(std::string_view decision
     std::lock_guard<std::mutex> lock(tables_mutex_);
     
     const auto it = tables_.find(std::string(decision_id));
-    if (it == tables_.end()) return std::nullopt;
+    if (it == tables_.end()) {
+      return std::nullopt;
+    }
     return it->second;
 }
 

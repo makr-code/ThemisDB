@@ -93,7 +93,9 @@ struct AllocationStats {
     
     double getSuccessRate() const {
         uint64_t total = total_allocations.load();
-        if (total == 0) return 1.0;
+        if (total == 0) {
+          return 1.0;
+        }
         uint64_t failures = allocation_failures.load();
         return 1.0 - (static_cast<double>(failures) / total);
     }

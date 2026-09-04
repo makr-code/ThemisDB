@@ -49,7 +49,9 @@ inline size_t estimateTokens(
     TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
 {
     (void)method;
-    if (text.empty()) return 0u;
+    if (text.empty()) {
+      return 0u;
+    }
     return static_cast<size_t>(
         std::ceil(static_cast<double>(text.size()) / kCharsPerTokenHeuristic));
 }
@@ -62,7 +64,9 @@ inline size_t estimateTokens(
     TokenEstimationMethod method = TokenEstimationMethod::CHAR_HEURISTIC)
 {
     (void)method;
-    if (char_count == 0u) return 0u;
+    if (char_count == 0u) {
+      return 0u;
+    }
     return static_cast<size_t>(
         std::ceil(static_cast<double>(char_count) / kCharsPerTokenHeuristic));
 }
@@ -200,7 +204,9 @@ struct ContextWindowBudget {
     {
         const size_t used =
             system_prompt_tokens + query_tokens + context_tokens_used;
-        if (used >= model_max_tokens) return reserved_response_tokens;
+        if (used >= model_max_tokens) {
+          return reserved_response_tokens;
+        }
         return model_max_tokens - used;
     }
 };

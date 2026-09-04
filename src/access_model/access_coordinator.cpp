@@ -65,7 +65,9 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     void start() override {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (running_) return;
+        if (running_) {
+          return;
+        }
 
         running_ = true;
         worker_threads_.clear();
@@ -91,7 +93,9 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     void shutdown() override {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!running_) return;
+            if (!running_) {
+              return;
+            }
             running_ = false;
         }
 
@@ -490,9 +494,13 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             condition_.wait(lock,
                            [this] { return !pending_tasks_.empty() || !running_; });
 
-            if (!running_) break;
+            if (!running_) {
+              break;
+            }
 
-            if (pending_tasks_.empty()) continue;
+            if (pending_tasks_.empty()) {
+              continue;
+            }
 
             DemotionEvent task = pending_tasks_.front();
             pending_tasks_.pop();

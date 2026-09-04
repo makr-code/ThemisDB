@@ -97,7 +97,9 @@ static std::vector<std::int64_t> makeRows(std::size_t n, uint64_t seed) {
     std::uniform_int_distribution<std::int64_t> dist(0, 1000);
     std::vector<std::int64_t> rows;
     rows.reserve(n);
-    for (std::size_t i = 0; i < n; ++i) rows.push_back(dist(rng));
+    for (std::size_t i = 0; i < n; ++i) {
+      rows.push_back(dist(rng));
+    }
     return rows;
 }
 
@@ -117,7 +119,9 @@ static std::optional<analytics::AnalyticsErrorCode> sumRows(
 /// Simulates a tumbling window boundary evaluation.
 static std::size_t evalTumblingWindow(const std::vector<int>& events, std::size_t window_size) {
     std::size_t fired = 0;
-    for (std::size_t i = window_size; i <= events.size(); i += window_size) ++fired;
+    for (std::size_t i = window_size; i <= events.size(); i += window_size) {
+      ++fired;
+    }
     return fired;
 }
 
@@ -125,7 +129,9 @@ static std::size_t evalTumblingWindow(const std::vector<int>& events, std::size_
 static std::unordered_map<std::uint64_t, double> buildPlanCache(std::size_t n) {
     std::unordered_map<std::uint64_t, double> cache;
     cache.reserve(n);
-    for (std::size_t i = 0; i < n; ++i) cache[i] = 42.0 + static_cast<double>(i);
+    for (std::size_t i = 0; i < n; ++i) {
+      cache[i] = 42.0 + static_cast<double>(i);
+    }
     return cache;
 }
 
@@ -283,11 +289,15 @@ static void BM_ARG06_ForecastInferenceStub(benchmark::State& state) {
     std::mt19937_64 rng(kAnalyticsCanonicalSeed);
     std::uniform_real_distribution<double> dist(-1000.0, 1000.0);
     std::vector<double> series(100);
-    for (auto& v : series) v = dist(rng);
+    for (auto& v : series) {
+      v = dist(rng);
+    }
 
     auto validate = [](const std::vector<double>& s) -> bool {
         for (double v : s) {
-            if (std::isnan(v) || std::isinf(v)) return false;
+            if (std::isnan(v) || std::isinf(v)) {
+              return false;
+            }
         }
         return true;
     };

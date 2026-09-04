@@ -62,11 +62,21 @@ std::string SystemPromptManager::roleToString(Role role) {
 }
 
 Role SystemPromptManager::stringToRole(const std::string& role_str) {
-    if (role_str == "USER")      return Role::USER;
-    if (role_str == "ASSISTANT") return Role::ASSISTANT;
-    if (role_str == "ADMIN")     return Role::ADMIN;
-    if (role_str == "SYSTEM")    return Role::SYSTEM;
-    if (role_str == "CUSTOM")    return Role::CUSTOM;
+    if (role_str == "USER") {
+      return Role::USER;
+    }
+    if (role_str == "ASSISTANT") {
+      return Role::ASSISTANT;
+    }
+    if (role_str == "ADMIN") {
+      return Role::ADMIN;
+    }
+    if (role_str == "SYSTEM") {
+      return Role::SYSTEM;
+    }
+    if (role_str == "CUSTOM") {
+      return Role::CUSTOM;
+    }
     return Role::DEFAULT;
 }
 

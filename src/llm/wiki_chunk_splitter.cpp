@@ -120,7 +120,9 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
         // to is exclusive
         std::string text;
         for (std::size_t k = from; k < to; ++k) {
-            if (!text.empty()) text += '\n';
+            if (!text.empty()) {
+              text += '\n';
+            }
             text += lines[k];
         }
         WikiChunk c;

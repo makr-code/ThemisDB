@@ -272,7 +272,9 @@ private:
             auto [h1, h2] = hashes(key);
             for (size_t i = 0; i < kNumHashes; ++i) {
                 size_t bit = (h1 + i * h2) % bit_count_;
-                if (!(bits_[bit >> 3] & (1u << (bit & 7u)))) return false;
+                if (!(bits_[bit >> 3] & (1u << (bit & 7u)))) {
+                  return false;
+                }
             }
             return true;
         }

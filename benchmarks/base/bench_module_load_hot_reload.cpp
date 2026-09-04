@@ -205,7 +205,9 @@ BENCHMARK_F(HotReloadLoadFixture, ConcurrentReload_Scalability)(benchmark::State
                 }
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         benchmark::DoNotOptimize(attempts.load());
     }
 

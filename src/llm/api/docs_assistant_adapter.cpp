@@ -14,7 +14,9 @@ struct DocsAssistant::Impl {
     bool isReady() const { return impl ? impl->isReady() : false; }
     DocsQueryResult queryResult(const std::string& q) {
         DocsQueryResult res;
-        if (!impl) return res;
+        if (!impl) {
+          return res;
+        }
         res.generated_answer = impl->query(q);
         res.total_docs_searched = 0;
         return res;
@@ -28,12 +30,16 @@ struct DocsAssistant::Impl {
     void clearCache() { if (impl) impl->clearCache(); }
     DocsQueryResult getConfigHelp(const std::string& topic) {
         DocsQueryResult res;
-        if (!impl) return res;
+        if (!impl) {
+          return res;
+        }
         return impl->getConfigHelp(topic);
     }
     DocsQueryResult getTroubleshootingHelp(const std::string& topic) {
         DocsQueryResult res;
-        if (!impl) return res;
+        if (!impl) {
+          return res;
+        }
         return impl->getTroubleshootingHelp(topic);
     }
     nlohmann::json getStats() const { return impl ? impl->getStats() : nlohmann::json::object(); }

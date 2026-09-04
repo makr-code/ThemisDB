@@ -70,8 +70,12 @@ public:
     }
 
     bool ready() const {
-        if (!stub_) return false;
-        if (use_compressed_ && compressed_request_.entries_compressed().empty()) return false;
+        if (!stub_) {
+          return false;
+        }
+        if (use_compressed_ && compressed_request_.entries_compressed().empty()) {
+          return false;
+        }
         return true;
     }
 

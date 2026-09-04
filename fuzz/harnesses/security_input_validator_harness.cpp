@@ -75,9 +75,13 @@ public:
         };
         std::string upper;
         upper.reserve(input.size());
-        for (char c : input) upper += static_cast<char>(::toupper(c));
+        for (char c : input) {
+          upper += static_cast<char>(::toupper(c));
+        }
         for (auto& p : patterns) {
-            if (upper.find(p) != std::string::npos) return true;
+            if (upper.find(p) != std::string::npos) {
+              return true;
+            }
         }
         return false;
     }
@@ -104,7 +108,9 @@ static themis::utils::InputValidator g_validator;
  * @brief Core fuzz target — called for each AFL input.
  */
 static int fuzz_one_input(const uint8_t* data, size_t size) {
-    if (!data || size == 0) return 0;
+    if (!data || size == 0) {
+      return 0;
+    }
 
     // Interpret first byte as a dispatch selector so AFL explores
     // multiple code paths with the same corpus.

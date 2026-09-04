@@ -184,7 +184,9 @@ struct GEvalEvaluator::Impl {
             probs[i] = std::exp(-0.5 * diff * diff);  // Gaussian, variance=1 (σ²=1)
             sum += probs[i];
         }
-        for (auto& p : probs) p /= sum;
+        for (auto& p : probs) {
+          p /= sum;
+        }
         return probs;
     }
 

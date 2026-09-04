@@ -94,7 +94,9 @@ public:
     }
     
     void updateStats(bool success, int64_t execution_time_ms) {
-        if (!metrics_enabled) return;
+        if (!metrics_enabled) {
+          return;
+        }
         
         stats.total_executions++;
         if (success) {

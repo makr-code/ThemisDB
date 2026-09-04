@@ -93,7 +93,9 @@ static std::size_t rangeQuery(const std::vector<TimePoint>& series,
                                std::int64_t start, std::int64_t end) {
     std::size_t count = 0;
     for (const auto& p : series) {
-        if (p.ts_ns >= start && p.ts_ns <= end) ++count;
+        if (p.ts_ns >= start && p.ts_ns <= end) {
+          ++count;
+        }
     }
     return count;
 }
@@ -115,7 +117,9 @@ static double gorillaDecode(std::uint64_t bits) {
 /// Downsampling: bucket average over resolution_ns intervals.
 static std::size_t downsample(const std::vector<TimePoint>& input,
                                std::int64_t resolution_ns) {
-    if (input.empty() || resolution_ns <= 0) return 0;
+    if (input.empty() || resolution_ns <= 0) {
+      return 0;
+    }
     std::map<std::int64_t, double> buckets;
     std::map<std::int64_t, int>    counts;
     for (const auto& p : input) {
@@ -219,7 +223,9 @@ static void BM_TSRG03_GorillaRoundTrip(benchmark::State& state) {
     std::mt19937_64 rng(kTimeseriesCanonicalSeed);
     std::uniform_real_distribution<double> dist(-1e15, 1e15);
     std::vector<double> values(100);
-    for (auto& v : values) v = dist(rng);
+    for (auto& v : values) {
+      v = dist(rng);
+    }
 
     // Warmup
     for (int i = 0; i < kWarmupIterations; ++i) {

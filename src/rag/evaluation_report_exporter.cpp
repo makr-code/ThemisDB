@@ -142,7 +142,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
            << "\"similarity_score\": " << doc.similarity_score << ","
            << "\"content\": \""  << escapeJSON(doc.content) << "\""
            << "}";
-        if (i + 1 < inp.documents.size()) os << ",";
+        if (i + 1 < inp.documents.size()) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -154,7 +156,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
         for (const auto& kv : inp.metadata) {
             os << "    \"" << escapeJSON(kv.first)
                << "\": \""  << escapeJSON(kv.second) << "\"";
-            if (++idx < inp.metadata.size()) os << ",";
+            if (++idx < inp.metadata.size()) {
+              os << ",";
+            }
             os << "\n";
         }
     }
@@ -182,7 +186,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     os << "  \"verified_claims\": [\n";
     for (size_t i = 0; i < res.verified_claims.size(); ++i) {
         os << "    \"" << escapeJSON(res.verified_claims[i]) << "\"";
-        if (i + 1 < res.verified_claims.size()) os << ",";
+        if (i + 1 < res.verified_claims.size()) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -191,7 +197,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     os << "  \"unverified_claims\": [\n";
     for (size_t i = 0; i < res.unverified_claims.size(); ++i) {
         os << "    \"" << escapeJSON(res.unverified_claims[i]) << "\"";
-        if (i + 1 < res.unverified_claims.size()) os << ",";
+        if (i + 1 < res.unverified_claims.size()) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -200,7 +208,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     os << "  \"improvements\": [\n";
     for (size_t i = 0; i < res.improvements.size(); ++i) {
         os << "    \"" << escapeJSON(res.improvements[i]) << "\"";
-        if (i + 1 < res.improvements.size()) os << ",";
+        if (i + 1 < res.improvements.size()) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "  ],\n";
@@ -210,7 +220,9 @@ std::string EvaluationReportExporter::toJSON(const PerQueryReport& report) const
     os << "    \"violations\": [\n";
     for (size_t i = 0; i < res.ethical_violations.size(); ++i) {
         os << "      \"" << escapeJSON(res.ethical_violations[i]) << "\"";
-        if (i + 1 < res.ethical_violations.size()) os << ",";
+        if (i + 1 < res.ethical_violations.size()) {
+          os << ",";
+        }
         os << "\n";
     }
     os << "    ],\n";

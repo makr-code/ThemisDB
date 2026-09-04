@@ -136,7 +136,9 @@ public:
      */
     std::optional<ScopedResource> tryAcquire() {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (free_.empty()) return std::nullopt;
+        if (free_.empty()) {
+          return std::nullopt;
+        }
         auto res = std::move(free_.front());
         free_.pop();
         ++acquired_count_;
@@ -230,7 +232,9 @@ public:
         auto future  = task->get_future();
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (stopped_) throw std::runtime_error("GraphThreadPool: pool is stopped");
+            if (stopped_) {
+              throw std::runtime_error("GraphThreadPool: pool is stopped");
+            }
             tasks_.emplace([task] { (*task)(); });
             ++queued_count_;
         }
@@ -269,12 +273,16 @@ public:
     void shutdown() {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (stopped_) return;
+            if (stopped_) {
+              return;
+            }
             stopped_ = true;
         }
         cv_.notify_all();
         for (auto& t : workers_) {
-            if (t.joinable()) t.join();
+            if (t.joinable()) {
+              t.join();
+            }
         }
     }
 
@@ -294,7 +302,9 @@ private:
             {
                 std::unique_lock<std::mutex> lock(mutex_);
                 cv_.wait(lock, [this] { return stopped_ || !tasks_.empty(); });
-                if (stopped_ && tasks_.empty()) return;
+                if (stopped_ && tasks_.empty()) {
+                  return;
+                }
                 task = std::move(tasks_.front());
                 tasks_.pop();
             }
@@ -415,7 +425,9 @@ public:
      */
     std::optional<ScopedBuffer> tryAcquire() {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (free_.empty()) return std::nullopt;
+        if (free_.empty()) {
+          return std::nullopt;
+        }
         auto buf = std::move(free_.front());
         free_.pop();
         ++acquired_count_;

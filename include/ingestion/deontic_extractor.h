@@ -64,13 +64,27 @@ inline std::string deonticCategoryToString(DeonticCategory c) {
 
 /// Parse a string into a DeonticCategory (case-insensitive).
 inline DeonticCategory deonticCategoryFromString(const std::string& s) {
-    if (s == "obligation")  return DeonticCategory::OBLIGATION;
-    if (s == "permission")  return DeonticCategory::PERMISSION;
-    if (s == "prohibition") return DeonticCategory::PROHIBITION;
-    if (s == "definition")  return DeonticCategory::DEFINITION;
-    if (s == "condition")   return DeonticCategory::CONDITION;
-    if (s == "exception")   return DeonticCategory::EXCEPTION;
-    if (s == "reference")   return DeonticCategory::REFERENCE;
+    if (s == "obligation") {
+      return DeonticCategory::OBLIGATION;
+    }
+    if (s == "permission") {
+      return DeonticCategory::PERMISSION;
+    }
+    if (s == "prohibition") {
+      return DeonticCategory::PROHIBITION;
+    }
+    if (s == "definition") {
+      return DeonticCategory::DEFINITION;
+    }
+    if (s == "condition") {
+      return DeonticCategory::CONDITION;
+    }
+    if (s == "exception") {
+      return DeonticCategory::EXCEPTION;
+    }
+    if (s == "reference") {
+      return DeonticCategory::REFERENCE;
+    }
     return DeonticCategory::UNKNOWN;
 }
 

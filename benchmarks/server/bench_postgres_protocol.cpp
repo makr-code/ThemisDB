@@ -204,7 +204,9 @@ static std::string bindParameterValue(const std::string& param, int32_t paramTyp
         bool hasDot = false;
         for (size_t i = 0; i < param.size(); ++i) {
             char c = param[i];
-            if (i == 0 && (c == '-' || c == '+')) continue;
+            if (i == 0 && (c == '-' || c == '+')) {
+              continue;
+            }
             if (c == '.' && !hasDot) {
                 hasDot = true;
                 continue;
@@ -267,7 +269,9 @@ static void BM_ParameterSubstitution(benchmark::State& state) {
     std::string query = "SELECT * FROM users WHERE ";
     
     for (int i = 0; i < num_params; ++i) {
-        if (i > 0) query += " AND ";
+        if (i > 0) {
+          query += " AND ";
+        }
         query += "field" + std::to_string(i) + " = $" + std::to_string(i + 1);
     }
     

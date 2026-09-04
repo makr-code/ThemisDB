@@ -62,8 +62,12 @@ size_t mergeDocuments(
 {
     size_t added = 0;
     for (const auto& doc : new_docs) {
-        if (accumulator.size() >= max_total) break;
-        if (seen_ids.count(doc.id)) continue;
+        if (accumulator.size() >= max_total) {
+          break;
+        }
+        if (seen_ids.count(doc.id)) {
+          continue;
+        }
         seen_ids.insert(doc.id);
         accumulator.push_back(doc);
         ++added;
@@ -411,7 +415,9 @@ AgenticRAGResult AgenticRAG::run(
                 std::string seed;
                 seed.reserve(total_size);
                 for (const auto& doc : result.final_documents) {
-                    if (!seed.empty()) seed += '\n';
+                    if (!seed.empty()) {
+                      seed += '\n';
+                    }
                     seed += doc.content;
                 }
 

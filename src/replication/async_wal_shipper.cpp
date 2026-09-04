@@ -69,7 +69,9 @@ std::vector<double> AsyncWalShipper::buildHistogramBounds(
     // Generate a geometric series of bucket upper bounds.
     // Smallest bucket: 1 ms.  Largest bucket: 10× max_lag_ms.
     // +Inf is implicit (not stored).
-    if (buckets < 2) buckets = 2;
+    if (buckets < 2) {
+      buckets = 2;
+    }
     const double lower = 1.0;
     const double upper = static_cast<double>(max_lag_ms) * 10.0;
     const double ratio = std::pow(upper / lower, 1.0 / (buckets - 1));
@@ -169,7 +171,9 @@ WalShippingStats AsyncWalShipper::stats() const
 int64_t AsyncWalShipper::currentLagMs() const
 {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    if (segment_queue_.empty()) return 0;
+    if (segment_queue_.empty()) {
+      return 0;
+    }
 
     const auto& front = segment_queue_.front();
     const auto now    = std::chrono::steady_clock::now();
@@ -256,7 +260,9 @@ void AsyncWalShipper::stop()
     }
     queue_cv_.notify_all();
 
-    if (worker_.joinable()) worker_.join();
+    if (worker_.joinable()) {
+      worker_.join();
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -281,7 +287,9 @@ void AsyncWalShipper::workerLoop()
 
             if (segment_queue_.empty()) {
                 // stop requested and queue empty: exit
-                if (stop_requested_.load(std::memory_order_relaxed)) break;
+                if (stop_requested_.load(std::memory_order_relaxed)) {
+                  break;
+                }
                 continue;
             }
 

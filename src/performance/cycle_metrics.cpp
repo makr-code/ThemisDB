@@ -143,7 +143,9 @@ void* HardwareCycleCounter::gpu_cycles_start() noexcept {
 }
 
 uint64_t HardwareCycleCounter::gpu_cycles_end(void* event) noexcept {
-    if (!event) return 0;
+    if (!event) {
+      return 0;
+    }
     
     cudaEvent_t start_event = reinterpret_cast<cudaEvent_t>(event);
     cudaEvent_t end_event;

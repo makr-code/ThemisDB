@@ -116,7 +116,9 @@ public:
     void writeLine(LLMModelAuditEventType event_type,
                    const std::string& model_id,
                    const json& details) {
-        if (!enabled) return;
+        if (!enabled) {
+          return;
+        }
 
         const std::string ts = nowISO8601();
         json record = {
@@ -136,7 +138,9 @@ public:
 
     void flushFile() {
         std::lock_guard<std::mutex> lk(mu);
-        if (ofs.is_open()) ofs.flush();
+        if (ofs.is_open()) {
+          ofs.flush();
+        }
     }
 
     utils::AuditLoggerConfig config;
@@ -176,7 +180,9 @@ static void appendRecord(LLMModelAuditLogger::Impl* impl,
                          LLMModelAuditEventType event_type,
                          const std::string& model_id,
                          const json& details) {
-    if (!impl->enabled) return;
+    if (!impl->enabled) {
+      return;
+    }
 
     // 1. Persist to JSONL file
     impl->writeLine(event_type, model_id, details);
@@ -295,9 +301,15 @@ std::vector<json> LLMModelAuditLogger::queryLogs(
     std::lock_guard<std::mutex> lk(impl_->mu);
     std::vector<json> result;
     for (const auto& r : impl_->records) {
-        if (!model_id.empty() && r.model_id != model_id) continue;
-        if (start_time && r.ts < *start_time)             continue;
-        if (end_time   && r.ts >= *end_time)              continue;
+        if (!model_id.empty() && r.model_id != model_id) {
+          continue;
+        }
+        if (start_time && r.ts < *start_time) {
+          continue;
+        }
+        if (end_time   && r.ts >= *end_time) {
+          continue;
+        }
 
         json entry = r.details;
         entry["event_type"]       = eventTypeName(r.event_type);
@@ -331,9 +343,15 @@ size_t LLMModelAuditLogger::exportAnalytics(
     size_t count = 0;
 
     for (const auto& r : impl_->records) {
-        if (!model_id.empty() && r.model_id != model_id) continue;
-        if (start_time && r.ts < *start_time)             continue;
-        if (end_time   && r.ts >= *end_time)              continue;
+        if (!model_id.empty() && r.model_id != model_id) {
+          continue;
+        }
+        if (start_time && r.ts < *start_time) {
+          continue;
+        }
+        if (end_time   && r.ts >= *end_time) {
+          continue;
+        }
 
         // Build a canonical JSONL record
         auto t = std::chrono::system_clock::to_time_t(r.ts);
@@ -377,11 +395,19 @@ json LLMModelAuditLogger::getModelStats(const std::string& model_id) {
     std::lock_guard<std::mutex> lk(impl_->mu);
     size_t total = 0, inferences = 0, failures = 0, policy_blocks = 0;
     for (const auto& r : impl_->records) {
-        if (!model_id.empty() && r.model_id != model_id) continue;
+        if (!model_id.empty() && r.model_id != model_id) {
+          continue;
+        }
         ++total;
-        if (r.event_type == LLMModelAuditEventType::INFERENCE_COMPLETED) ++inferences;
-        if (r.event_type == LLMModelAuditEventType::INFERENCE_FAILED)    ++failures;
-        if (r.event_type == LLMModelAuditEventType::PROMPT_BLOCKED)      ++policy_blocks;
+        if (r.event_type == LLMModelAuditEventType::INFERENCE_COMPLETED) {
+          ++inferences;
+        }
+        if (r.event_type == LLMModelAuditEventType::INFERENCE_FAILED) {
+          ++failures;
+        }
+        if (r.event_type == LLMModelAuditEventType::PROMPT_BLOCKED) {
+          ++policy_blocks;
+        }
     }
     return json{
         {"model_id",      model_id},

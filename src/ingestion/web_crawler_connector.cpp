@@ -59,8 +59,12 @@ static std::string urlOrigin(const std::string& url) {
 /// Returns true if the URL scheme is http or https (the only schemes this
 /// crawler is permitted to fetch, preventing SSRF via file://, ftp://, etc.).
 static bool isAllowedScheme(const std::string& url) {
-    if (url.find("http://") == 0)  return true;
-    if (url.find("https://") == 0) return true;
+    if (url.find("http://") == 0) {
+      return true;
+    }
+    if (url.find("https://") == 0) {
+      return true;
+    }
     return false;
 }
 
@@ -121,7 +125,9 @@ static std::string htmlToText(const std::string& html) {
 
     auto startsWithCI = [&](size_t pos, const char* needle) {
         size_t n = std::strlen(needle);
-        if (pos + n > html.size()) return false;
+        if (pos + n > html.size()) {
+          return false;
+        }
         for (size_t i = 0; i < n; ++i) {
             if (std::tolower(static_cast<unsigned char>(html[pos + i])) !=
                 std::tolower(static_cast<unsigned char>(needle[i])))
@@ -135,7 +141,9 @@ static std::string htmlToText(const std::string& html) {
         if (c == '<') {
             // Check for <script or <style blocks to skip entirely
             if (!in_tag) {
-                if (startsWithCI(i + 1, "script")) in_script = true;
+                if (startsWithCI(i + 1, "script")) {
+                  in_script = true;
+                }
                 else if (startsWithCI(i + 1, "/script")) in_script = false;
                 else if (startsWithCI(i + 1, "style")) in_style = true;
                 else if (startsWithCI(i + 1, "/style")) in_style = false;
@@ -146,10 +154,14 @@ static std::string htmlToText(const std::string& html) {
         if (c == '>') {
             in_tag = false;
             // Insert a space between tags to avoid word-merging
-            if (!text.empty() && text.back() != ' ') text += ' ';
+            if (!text.empty() && text.back() != ' ') {
+              text += ' ';
+            }
             continue;
         }
-        if (in_tag || in_script || in_style) continue;
+        if (in_tag || in_script || in_style) {
+          continue;
+        }
 
         // Basic entity decoding
         if (c == '&') {
@@ -177,7 +189,9 @@ static std::string htmlToText(const std::string& html) {
         }
     }
     // Trim trailing space
-    if (!result.empty() && result.back() == ' ') result.pop_back();
+    if (!result.empty() && result.back() == ' ') {
+      result.pop_back();
+    }
     return result;
 }
 
@@ -188,11 +202,15 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
     while (pos < html.size()) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
-        if (a_pos == std::string::npos) break;
+        if (a_pos == std::string::npos) {
+          break;
+        }
         // Check "a " or "a\t" or "a>"
         size_t tag_start = a_pos + 1;
         // Skip whitespace after <
-        while (tag_start < html.size() && html[tag_start] == ' ') ++tag_start;
+        while (tag_start < html.size() && html[tag_start] == ' ') {
+          ++tag_start;
+        }
         if (tag_start >= html.size()) { pos = a_pos + 1; continue; }
         char t0 = static_cast<char>(std::tolower(static_cast<unsigned char>(html[tag_start])));
         if (t0 != 'a') { pos = a_pos + 1; continue; }
@@ -206,7 +224,9 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
 
         // Find end of this tag
         auto tag_end = html.find('>', a_pos);
-        if (tag_end == std::string::npos) break;
+        if (tag_end == std::string::npos) {
+          break;
+        }
         std::string tag = html.substr(a_pos, tag_end - a_pos + 1);
 
         // Find href= in the tag (case-insensitive)
@@ -249,15 +269,25 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     const std::string close = "</loc>";
     while (pos < xml.size()) {
         auto start = xml.find(open, pos);
-        if (start == std::string::npos) break;
+        if (start == std::string::npos) {
+          break;
+        }
         auto val_start = start + open.size();
         auto end = xml.find(close, val_start);
-        if (end == std::string::npos) break;
+        if (end == std::string::npos) {
+          break;
+        }
         std::string loc = xml.substr(val_start, end - val_start);
         // Trim whitespace
-        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.front()))) loc.erase(loc.begin());
-        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.back())))  loc.pop_back();
-        if (!loc.empty()) locs.push_back(loc);
+        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.front()))) {
+          loc.erase(loc.begin());
+        }
+        while (!loc.empty() && std::isspace(static_cast<unsigned char>(loc.back()))) {
+          loc.pop_back();
+        }
+        if (!loc.empty()) {
+          locs.push_back(loc);
+        }
         pos = end + close.size();
     }
     return locs;
@@ -286,11 +316,17 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 
     while (std::getline(ss, line)) {
         // Strip carriage return and comments
-        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (!line.empty() && line.back() == '\r') {
+          line.pop_back();
+        }
         auto hash = line.find('#');
-        if (hash != std::string::npos) line = line.substr(0, hash);
+        if (hash != std::string::npos) {
+          line = line.substr(0, hash);
+        }
         // Trim trailing space
-        while (!line.empty() && std::isspace(static_cast<unsigned char>(line.back()))) line.pop_back();
+        while (!line.empty() && std::isspace(static_cast<unsigned char>(line.back()))) {
+          line.pop_back();
+        }
         if (line.empty()) {
             in_matching_agent = false;
             in_wildcard_agent = false;
@@ -299,12 +335,18 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
 
         // Parse "Key: value"
         auto colon = line.find(':');
-        if (colon == std::string::npos) continue;
+        if (colon == std::string::npos) {
+          continue;
+        }
         std::string key = line.substr(0, colon);
         std::string val = line.substr(colon + 1);
         // Trim key and value
-        while (!key.empty() && std::isspace(static_cast<unsigned char>(key.back()))) key.pop_back();
-        while (!val.empty() && std::isspace(static_cast<unsigned char>(val.front()))) val.erase(val.begin());
+        while (!key.empty() && std::isspace(static_cast<unsigned char>(key.back()))) {
+          key.pop_back();
+        }
+        while (!val.empty() && std::isspace(static_cast<unsigned char>(val.front()))) {
+          val.erase(val.begin());
+        }
 
         std::string key_lc = key;
         std::transform(key_lc.begin(), key_lc.end(), key_lc.begin(),
@@ -317,8 +359,12 @@ static std::vector<std::string> parseRobotsTxt(const std::string& body,
             in_matching_agent = (agent_lc == ua_lc || agent_lc.find(ua_lc) != std::string::npos);
             in_wildcard_agent = (agent_lc == "*");
         } else if (key_lc == "disallow") {
-            if (in_matching_agent && !val.empty()) disallowed_specific.push_back(val);
-            if (in_wildcard_agent && !val.empty()) disallowed_wildcard.push_back(val);
+            if (in_matching_agent && !val.empty()) {
+              disallowed_specific.push_back(val);
+            }
+            if (in_wildcard_agent && !val.empty()) {
+              disallowed_wildcard.push_back(val);
+            }
         }
     }
 
@@ -345,7 +391,9 @@ static bool isDisallowedByRobots(const std::string& url,
     }
 
     for (const auto& rule : disallow_rules) {
-        if (path.find(rule) == 0) return true;
+        if (path.find(rule) == 0) {
+          return true;
+        }
     }
     return false;
 }
@@ -371,10 +419,16 @@ public:
     Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::WEB_CRAWLER) return false;
-        if (config.location.empty()) return false;
+        if (config.type != SourceType::WEB_CRAWLER) {
+          return false;
+        }
+        if (config.location.empty()) {
+          return false;
+        }
         // Only allow http/https seed URLs to prevent SSRF
-        if (!isAllowedScheme(config.location)) return false;
+        if (!isAllowedScheme(config.location)) {
+          return false;
+        }
         config_   = config;
         seed_url_ = config.location;
 
@@ -398,7 +452,9 @@ public:
     }
 
     bool isAvailable() const {
-        if (!initialized_ || seed_url_.empty()) return false;
+        if (!initialized_ || seed_url_.empty()) {
+          return false;
+        }
         // Quick reachability check
         auto [status, body] = fetchUrl(seed_url_);
         return (status >= 200 && status < 400);
@@ -436,12 +492,20 @@ public:
 
         auto enqueue = [&](const std::string& url, int depth) {
             std::string norm = normaliseUrl(url);
-            if (norm.empty()) return;
-            if (visited.count(norm)) return;
+            if (norm.empty()) {
+              return;
+            }
+            if (visited.count(norm)) {
+              return;
+            }
             if (same_domain_only_ && !origin.empty() &&
                 urlOrigin(norm) != origin) return;
-            if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) return;
-            if (max_pages_ > 0 && visited.size() + queue.size() >= max_pages_) return;
+            if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
+              return;
+            }
+            if (max_pages_ > 0 && visited.size() + queue.size() >= max_pages_) {
+              return;
+            }
             visited.insert(norm);
             queue.push({norm, depth});
         };
@@ -457,7 +521,9 @@ public:
                 std::string smap_url = sitemap_queue.front();
                 sitemap_queue.pop();
                 auto [scode, sbody] = fetchUrl(smap_url);
-                if (scode != 200) continue;
+                if (scode != 200) {
+                  continue;
+                }
 
                 if (isSitemapIndex(sbody)) {
                     // Nested sitemaps
@@ -481,7 +547,9 @@ public:
         auto start_time = std::chrono::steady_clock::now();
 
         while (!queue.empty()) {
-            if (max_pages_ > 0 && stats.documents_processed >= max_pages_) break;
+            if (max_pages_ > 0 && stats.documents_processed >= max_pages_) {
+              break;
+            }
 
             auto [url, depth] = queue.front();
             queue.pop();
@@ -570,7 +638,9 @@ public:
 private:
     std::pair<int, std::string> fetchUrl(const std::string& url) const {
         // Use mock if injected
-        if (mock_fetch_) return mock_fetch_(url);
+        if (mock_fetch_) {
+          return mock_fetch_(url);
+        }
 
 #ifdef THEMIS_ENABLE_CURL
         CURL* curl = curl_easy_init();

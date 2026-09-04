@@ -169,7 +169,9 @@ static float bm25Score(const std::string& doc,
         ++tf;
         ++pos;
     }
-    if (tf == 0) return 0.0f;
+    if (tf == 0) {
+      return 0.0f;
+    }
 
     const float dl  = static_cast<float>(doc.size());
     const float idf = std::log(1.0f + 100.0f / (1.0f + static_cast<float>(tf)));
@@ -321,7 +323,9 @@ static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
             << ",\"_embedding\":[";
 
         for (int i = 0; i < dims; ++i) {
-            if (i > 0) oss << ',';
+            if (i > 0) {
+              oss << ',';
+            }
             oss << model.embedding[static_cast<size_t>(i)];
         }
         oss << "]}";

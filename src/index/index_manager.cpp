@@ -223,9 +223,13 @@ namespace {
 ///
 /// @return true when the component is safe to embed in a tenant key.
 static bool isValidTenantComponent(std::string_view s) noexcept {
-    if (s.empty() || s.size() > 512) return false;
+    if (s.empty() || s.size() > 512) {
+      return false;
+    }
     for (char c : s) {
-        if (c == ':' || c == '\0') return false;
+        if (c == ':' || c == '\0') {
+          return false;
+        }
     }
     return true;
 }
@@ -252,7 +256,9 @@ std::shared_ptr<IndexManager> IndexManager::createDefault() {
 }
 
 void IndexManager::propagateEvaluatorToManagers() {
-    if (!evaluator_) return;
+    if (!evaluator_) {
+      return;
+    }
     
     if (vector_manager_) {
         vector_manager_->setExpressionEvaluator(evaluator_);

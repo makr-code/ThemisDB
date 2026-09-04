@@ -89,7 +89,9 @@ bool TensorAwareQueryOptimizer::isTensorFunction(const std::string& name) noexce
     // Accept both upper and mixed case.
     std::string upper;
     upper.reserve(name.size());
-    for (char c : name) upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    for (char c : name) {
+      upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+    }
     return kTensorFunctions.count(upper) > 0;
 }
 
@@ -111,7 +113,9 @@ namespace {
     /// Returns the product, clamped to DBL_MAX if overflow would occur.
     inline double safeMul(double a, double b) noexcept {
         constexpr double kMaxDouble = std::numeric_limits<double>::max();
-        if (a == 0.0 || b == 0.0) return 0.0;
+        if (a == 0.0 || b == 0.0) {
+          return 0.0;
+        }
         if (a > 0.0 && b > 0.0 && a > kMaxDouble / b) {
             return kMaxDouble;
         }
@@ -214,7 +218,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
                     // Recurse into children and return early.
                     for (auto& child : node.children) {
-                        if (child) rewriteNode(*child);
+                        if (child) {
+                          rewriteNode(*child);
+                        }
                     }
                     return;
                 }
@@ -288,7 +294,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 
     // Recurse into children.
     for (auto& child : node.children) {
-        if (child) rewriteNode(*child);
+        if (child) {
+          rewriteNode(*child);
+        }
     }
 
     // Invoke the injected AST visitor (bridge injected; fn-based path available).
@@ -304,7 +312,9 @@ void TensorAwareQueryOptimizer::rewriteNode(QueryPlanNode& node) {
 std::shared_ptr<QueryPlanNode>
 TensorAwareQueryOptimizer::rewrite(std::shared_ptr<QueryPlanNode> root) {
     last_stats_ = {};
-    if (root) rewriteNode(*root);
+    if (root) {
+      rewriteNode(*root);
+    }
     return root;
 }
 

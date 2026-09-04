@@ -41,7 +41,9 @@ std::unordered_set<std::string> tokeniseSet(const std::string& text) {
             }
         }
     }
-    if (!tok.empty()) tokens.insert(tok);
+    if (!tok.empty()) {
+      tokens.insert(tok);
+    }
     return tokens;
 }
 
@@ -49,12 +51,18 @@ std::unordered_set<std::string> tokeniseSet(const std::string& text) {
 double jaccardTokenSets(const std::unordered_set<std::string>& A,
                         const std::unordered_set<std::string>& B)
 {
-    if (A.empty() && B.empty()) return 1.0;
-    if (A.empty() || B.empty()) return 0.0;
+    if (A.empty() && B.empty()) {
+      return 1.0;
+    }
+    if (A.empty() || B.empty()) {
+      return 0.0;
+    }
 
     std::size_t inter = 0;
     for (const auto& t : A) {
-        if (B.count(t)) ++inter;
+        if (B.count(t)) {
+          ++inter;
+        }
     }
     const std::size_t uni = A.size() + B.size() - inter;
     return uni == 0 ? 0.0 : static_cast<double>(inter) / static_cast<double>(uni);
@@ -154,7 +162,9 @@ LoRAEnhancedRetriever::rerank(
             to_rerank.begin(), to_rerank.end(),
             [&]([[maybe_unused]] const judge::RetrievedDocument& d) {
                 auto it = d.metadata.find("lora_score");
-                if (it == d.metadata.end()) return true;
+                if (it == d.metadata.end()) {
+                  return true;
+                }
                 try {
                     return std::stod(it->second) >= config_.min_lora_score;
                 } catch (...) {

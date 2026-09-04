@@ -72,7 +72,9 @@ bool validateArchiveMember(
     // GUARD 4: Check directory nesting depth
     size_t depth = 0;
     for (char c : member.path) {
-        if (c == '/' || c == '\\') depth++;
+        if (c == '/' || c == '\\') {
+          depth++;
+        }
     }
     if (depth > config.max_path_depth) {
         error_msg = "Directory nesting depth " + std::to_string(depth) +

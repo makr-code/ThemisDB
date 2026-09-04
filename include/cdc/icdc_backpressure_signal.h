@@ -116,7 +116,9 @@ public:
         BackpressureLevel prev = level_.exchange(level, std::memory_order_acq_rel);
         if (prev != level && callback_) {
             std::unique_lock<std::mutex> lk(cb_mutex_);
-            if (callback_) callback_(level);
+            if (callback_) {
+              callback_(level);
+            }
         }
     }
 

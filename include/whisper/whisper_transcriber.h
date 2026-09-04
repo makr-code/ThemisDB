@@ -287,7 +287,9 @@ private:
     std::string last_error_;
     struct WhisperContextDeleter {
         void operator()(void* ctx) const noexcept {
-            if (ctx) whisper_free(static_cast<whisper_context*>(ctx));
+            if (ctx) {
+              whisper_free(static_cast<whisper_context*>(ctx));
+            }
         }
     };
     std::unique_ptr<void, WhisperContextDeleter> ctx_;  // whisper_context* (opaque to avoid header dep)

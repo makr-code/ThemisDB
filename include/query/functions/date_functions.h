@@ -648,8 +648,12 @@ public:
         int64_t d1 = args[0].get<int64_t>();
         int64_t d2 = args[1].get<int64_t>();
         
-        if (d1 < d2) return -1;
-        if (d1 > d2) return 1;
+        if (d1 < d2) {
+          return -1;
+        }
+        if (d1 > d2) {
+          return 1;
+        }
         return 0;
     }
 };
@@ -1882,7 +1886,9 @@ public:
         // February in leap year
         if (month == 2) {
             bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-            if (isLeap) days = 29;
+            if (isLeap) {
+              days = 29;
+            }
         }
         
         return days;
@@ -1924,7 +1930,9 @@ public:
         // Calculate days to subtract
         int currentDay = tm->tm_wday;
         int diff = currentDay - startDay;
-        if (diff < 0) diff += 7;
+        if (diff < 0) {
+          diff += 7;
+        }
         
         // Set to start of day
         tm->tm_hour = 0;
@@ -1971,7 +1979,9 @@ public:
         int days = daysPerMonth[month - 1];
         if (month == 2) {
             bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-            if (isLeap) days = 29;
+            if (isLeap) {
+              days = 29;
+            }
         }
         
         tm->tm_mday = days;

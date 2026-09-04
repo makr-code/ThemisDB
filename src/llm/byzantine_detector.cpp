@@ -106,14 +106,18 @@ float MedianDetector::computeL2Norm(const std::vector<GradientTensor>& gradients
 }
 
 float MedianDetector::computeMean(const std::vector<float>& values) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
     float sum = std::accumulate(values.begin(), values.end(), 0.0f);
     return sum / values.size();
 }
 
 float MedianDetector::computeMedian(std::vector<float> values) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
     size_t n = values.size();
     std::nth_element(values.begin(), values.begin() + n / 2, values.end());
@@ -129,7 +133,9 @@ float MedianDetector::computeMedian(std::vector<float> values) const {
 }
 
 float MedianDetector::computeMAD(const std::vector<float>& values, float median) const {
-    if (values.empty()) return 0.0f;
+    if (values.empty()) {
+      return 0.0f;
+    }
     
     std::vector<float> deviations;
     deviations.reserve(values.size());

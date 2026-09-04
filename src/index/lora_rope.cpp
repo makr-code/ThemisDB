@@ -247,7 +247,9 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= rotated.size()) break;
+        if (idx_1 >= rotated.size()) {
+          break;
+        }
         
         // Compute additional rotation from LoRA delta
         double delta_theta = delta_features[pair_idx] * static_cast<double>(position);
@@ -344,7 +346,9 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
     // Weighted average of all adapter rotations
     // Note: adapter rotations already include base rotation, so we blend them directly
     for (size_t i = 0; i < adapter_names.size(); ++i) {
-        if (normalized_weights[i] <= 0.0f) continue;
+        if (normalized_weights[i] <= 0.0f) {
+          continue;
+        }
         
         auto adapter_rotation = (i == 0) ? first_rotation : rotateWithAdapter(embedding, position, adapter_names[i]);
         for (size_t j = 0; j < result.size(); ++j) {

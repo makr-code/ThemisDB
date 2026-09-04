@@ -189,7 +189,9 @@ struct NLIFaithfulnessVerifier::Impl {
                 std::vector<int64_t> token_type_ids(seq_len, 0);
                 // Mark hypothesis tokens as segment 1
                 const int64_t sep1 = static_cast<int64_t>(premise_ids.size()) - 1;
-                for (int64_t i = sep1; i < seq_len; ++i) token_type_ids[i] = 1;
+                for (int64_t i = sep1; i < seq_len; ++i) {
+                  token_type_ids[i] = 1;
+                }
 
                 const std::array<int64_t, 2> shape{1, seq_len};
                 Ort::MemoryInfo mem_info =
@@ -273,7 +275,9 @@ struct NLIFaithfulnessVerifier::Impl {
         std::vector<std::string> hyp_words;
         std::string word;
         while (hyp_stream >> word) {
-            if (word.length() > 3) hyp_words.push_back(word);
+            if (word.length() > 3) {
+              hyp_words.push_back(word);
+            }
         }
 
         if (hyp_words.empty()) {
@@ -285,7 +289,9 @@ struct NLIFaithfulnessVerifier::Impl {
         } else {
             std::size_t matches = 0;
             for (const auto& w : hyp_words) {
-                if (premise_lower.find(w) != std::string::npos) ++matches;
+                if (premise_lower.find(w) != std::string::npos) {
+                  ++matches;
+                }
             }
             const double match_ratio = static_cast<double>(matches) / hyp_words.size();
             if (match_ratio >= 0.8) {

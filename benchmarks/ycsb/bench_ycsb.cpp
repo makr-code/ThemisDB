@@ -85,8 +85,12 @@ namespace {
             double u = dist(rng);
             double uz = u * zeta_n_;
             
-            if (uz < 1.0) return 0;
-            if (uz < 1.0 + std::pow(0.5, theta_)) return 1;
+            if (uz < 1.0) {
+              return 0;
+            }
+            if (uz < 1.0 + std::pow(0.5, theta_)) {
+              return 1;
+            }
             
             int64_t ret = static_cast<int64_t>(num_items_ * std::pow(eta_ * u - eta_ + 1.0, alpha_));
             return std::min(ret, num_items_ - 1);

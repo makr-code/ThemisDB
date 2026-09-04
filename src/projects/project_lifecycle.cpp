@@ -33,10 +33,18 @@ const char* projectStateToString(ProjectState state) noexcept {
 }
 
 std::optional<ProjectState> projectStateFromString(const std::string& s) noexcept {
-    if (s == "created")  return ProjectState::CREATED;
-    if (s == "active")   return ProjectState::ACTIVE;
-    if (s == "archived") return ProjectState::ARCHIVED;
-    if (s == "deleted")  return ProjectState::DELETED;
+    if (s == "created") {
+      return ProjectState::CREATED;
+    }
+    if (s == "active") {
+      return ProjectState::ACTIVE;
+    }
+    if (s == "archived") {
+      return ProjectState::ARCHIVED;
+    }
+    if (s == "deleted") {
+      return ProjectState::DELETED;
+    }
     return std::nullopt;
 }
 
@@ -79,7 +87,9 @@ bool ProjectLifecycle::isValidTransition(
     ProjectState from, ProjectState to) noexcept
 {
     // DELETED is a terminal state — no outgoing transitions
-    if (from == ProjectState::DELETED) return false;
+    if (from == ProjectState::DELETED) {
+      return false;
+    }
 
     switch (to) {
         case ProjectState::ACTIVE:

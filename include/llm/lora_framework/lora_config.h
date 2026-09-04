@@ -78,24 +78,60 @@ struct LoRAHyperparameters {
     
     static LoRAHyperparameters fromJSON(const json& j) {
         LoRAHyperparameters params;
-        if (j.contains("rank")) params.rank = j["rank"];
-        if (j.contains("alpha")) params.alpha = j["alpha"];
-        if (j.contains("dropout")) params.dropout = j["dropout"];
-        if (j.contains("learning_rate")) params.learning_rate = j["learning_rate"];
-        if (j.contains("batch_size")) params.batch_size = j["batch_size"];
-        if (j.contains("num_epochs")) params.num_epochs = j["num_epochs"];
-        if (j.contains("max_seq_length")) params.max_seq_length = j["max_seq_length"];
-        if (j.contains("optimizer")) params.optimizer = j["optimizer"];
-        if (j.contains("beta1")) params.beta1 = j["beta1"];
-        if (j.contains("beta2")) params.beta2 = j["beta2"];
-        if (j.contains("epsilon")) params.epsilon = j["epsilon"];
-        if (j.contains("weight_decay")) params.weight_decay = j["weight_decay"];
-        if (j.contains("momentum")) params.momentum = j["momentum"];
-        if (j.contains("lr_scheduler")) params.lr_scheduler = j["lr_scheduler"];
-        if (j.contains("warmup_steps")) params.warmup_steps = j["warmup_steps"];
-        if (j.contains("lr_decay_gamma")) params.lr_decay_gamma = j["lr_decay_gamma"];
-        if (j.contains("lr_step_size")) params.lr_step_size = j["lr_step_size"];
-        if (j.contains("target_modules")) params.target_modules = j["target_modules"].get<std::vector<std::string>>();
+        if (j.contains("rank")) {
+          params.rank = j["rank"];
+        }
+        if (j.contains("alpha")) {
+          params.alpha = j["alpha"];
+        }
+        if (j.contains("dropout")) {
+          params.dropout = j["dropout"];
+        }
+        if (j.contains("learning_rate")) {
+          params.learning_rate = j["learning_rate"];
+        }
+        if (j.contains("batch_size")) {
+          params.batch_size = j["batch_size"];
+        }
+        if (j.contains("num_epochs")) {
+          params.num_epochs = j["num_epochs"];
+        }
+        if (j.contains("max_seq_length")) {
+          params.max_seq_length = j["max_seq_length"];
+        }
+        if (j.contains("optimizer")) {
+          params.optimizer = j["optimizer"];
+        }
+        if (j.contains("beta1")) {
+          params.beta1 = j["beta1"];
+        }
+        if (j.contains("beta2")) {
+          params.beta2 = j["beta2"];
+        }
+        if (j.contains("epsilon")) {
+          params.epsilon = j["epsilon"];
+        }
+        if (j.contains("weight_decay")) {
+          params.weight_decay = j["weight_decay"];
+        }
+        if (j.contains("momentum")) {
+          params.momentum = j["momentum"];
+        }
+        if (j.contains("lr_scheduler")) {
+          params.lr_scheduler = j["lr_scheduler"];
+        }
+        if (j.contains("warmup_steps")) {
+          params.warmup_steps = j["warmup_steps"];
+        }
+        if (j.contains("lr_decay_gamma")) {
+          params.lr_decay_gamma = j["lr_decay_gamma"];
+        }
+        if (j.contains("lr_step_size")) {
+          params.lr_step_size = j["lr_step_size"];
+        }
+        if (j.contains("target_modules")) {
+          params.target_modules = j["target_modules"].get<std::vector<std::string>>();
+        }
         return params;
     }
 };
@@ -130,13 +166,27 @@ struct QLoRAConfig {
     
     static QLoRAConfig fromJSON(const json& j) {
         QLoRAConfig config;
-        if (j.contains("enabled")) config.enabled = j["enabled"];
-        if (j.contains("quantization_type")) config.quantization_type = j["quantization_type"];
-        if (j.contains("block_size")) config.block_size = j["block_size"];
-        if (j.contains("use_double_quantization")) config.use_double_quantization = j["use_double_quantization"];
-        if (j.contains("layer_by_layer")) config.layer_by_layer = j["layer_by_layer"];
-        if (j.contains("use_paged_optimizer")) config.use_paged_optimizer = j["use_paged_optimizer"];
-        if (j.contains("optimizer_offload")) config.optimizer_offload = j["optimizer_offload"];
+        if (j.contains("enabled")) {
+          config.enabled = j["enabled"];
+        }
+        if (j.contains("quantization_type")) {
+          config.quantization_type = j["quantization_type"];
+        }
+        if (j.contains("block_size")) {
+          config.block_size = j["block_size"];
+        }
+        if (j.contains("use_double_quantization")) {
+          config.use_double_quantization = j["use_double_quantization"];
+        }
+        if (j.contains("layer_by_layer")) {
+          config.layer_by_layer = j["layer_by_layer"];
+        }
+        if (j.contains("use_paged_optimizer")) {
+          config.use_paged_optimizer = j["use_paged_optimizer"];
+        }
+        if (j.contains("optimizer_offload")) {
+          config.optimizer_offload = j["optimizer_offload"];
+        }
         return config;
     }
 };
@@ -183,12 +233,24 @@ struct AdapterMetadata {
     
     static AdapterMetadata fromJSON(const json& j) {
         AdapterMetadata metadata;
-        if (j.contains("adapter_id")) metadata.adapter_id = j["adapter_id"];
-        if (j.contains("version")) metadata.version = j["version"];
-        if (j.contains("base_model")) metadata.base_model = j["base_model"];
-        if (j.contains("description")) metadata.description = j["description"];
-        if (j.contains("training_samples")) metadata.training_samples = j["training_samples"];
-        if (j.contains("validation_accuracy")) metadata.validation_accuracy = j["validation_accuracy"];
+        if (j.contains("adapter_id")) {
+          metadata.adapter_id = j["adapter_id"];
+        }
+        if (j.contains("version")) {
+          metadata.version = j["version"];
+        }
+        if (j.contains("base_model")) {
+          metadata.base_model = j["base_model"];
+        }
+        if (j.contains("description")) {
+          metadata.description = j["description"];
+        }
+        if (j.contains("training_samples")) {
+          metadata.training_samples = j["training_samples"];
+        }
+        if (j.contains("validation_accuracy")) {
+          metadata.validation_accuracy = j["validation_accuracy"];
+        }
         if (j.contains("created_at")) {
             std::time_t created = j["created_at"];
             metadata.created_at = std::chrono::system_clock::from_time_t(created);
@@ -197,10 +259,18 @@ struct AdapterMetadata {
             std::time_t updated = j["updated_at"];
             metadata.updated_at = std::chrono::system_clock::from_time_t(updated);
         }
-        if (j.contains("custom_metadata")) metadata.custom_metadata = j["custom_metadata"];
-        if (j.contains("encryption_key_version")) metadata.encryption_key_version = j["encryption_key_version"];
-        if (j.contains("checksum")) metadata.checksum = j["checksum"];
-        if (j.contains("signature")) metadata.signature = j["signature"];
+        if (j.contains("custom_metadata")) {
+          metadata.custom_metadata = j["custom_metadata"];
+        }
+        if (j.contains("encryption_key_version")) {
+          metadata.encryption_key_version = j["encryption_key_version"];
+        }
+        if (j.contains("checksum")) {
+          metadata.checksum = j["checksum"];
+        }
+        if (j.contains("signature")) {
+          metadata.signature = j["signature"];
+        }
         return metadata;
     }
 };
@@ -248,7 +318,9 @@ struct CacheStats {
     size_t max_size = 0;
     
     float hitRate() const {
-        if (total_loads == 0) return 0.0f;
+        if (total_loads == 0) {
+          return 0.0f;
+        }
         return static_cast<float>(cache_hits) / static_cast<float>(total_loads);
     }
     
@@ -308,18 +380,42 @@ struct LoRAConfig {
     
     static LoRAConfig fromJSON(const json& j) {
         LoRAConfig config;
-        if (j.contains("adapter_id")) config.adapter_id = j["adapter_id"];
-        if (j.contains("adapter_path")) config.adapter_path = j["adapter_path"];
-        if (j.contains("base_model")) config.base_model = j["base_model"];
-        if (j.contains("scaling")) config.scaling = j["scaling"];
-        if (j.contains("hyperparameters")) config.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
-        if (j.contains("enable_cache")) config.enable_cache = j["enable_cache"];
-        if (j.contains("max_cache_size")) config.max_cache_size = j["max_cache_size"];
-        if (j.contains("cache_ttl")) config.cache_ttl = std::chrono::seconds(j["cache_ttl"].get<int>());
-        if (j.contains("storage_backend")) config.storage_backend = j["storage_backend"];
-        if (j.contains("storage_path")) config.storage_path = j["storage_path"];
-        if (j.contains("enable_versioning")) config.enable_versioning = j["enable_versioning"];
-        if (j.contains("max_versions")) config.max_versions = j["max_versions"];
+        if (j.contains("adapter_id")) {
+          config.adapter_id = j["adapter_id"];
+        }
+        if (j.contains("adapter_path")) {
+          config.adapter_path = j["adapter_path"];
+        }
+        if (j.contains("base_model")) {
+          config.base_model = j["base_model"];
+        }
+        if (j.contains("scaling")) {
+          config.scaling = j["scaling"];
+        }
+        if (j.contains("hyperparameters")) {
+          config.hyperparameters = LoRAHyperparameters::fromJSON(j["hyperparameters"]);
+        }
+        if (j.contains("enable_cache")) {
+          config.enable_cache = j["enable_cache"];
+        }
+        if (j.contains("max_cache_size")) {
+          config.max_cache_size = j["max_cache_size"];
+        }
+        if (j.contains("cache_ttl")) {
+          config.cache_ttl = std::chrono::seconds(j["cache_ttl"].get<int>());
+        }
+        if (j.contains("storage_backend")) {
+          config.storage_backend = j["storage_backend"];
+        }
+        if (j.contains("storage_path")) {
+          config.storage_path = j["storage_path"];
+        }
+        if (j.contains("enable_versioning")) {
+          config.enable_versioning = j["enable_versioning"];
+        }
+        if (j.contains("max_versions")) {
+          config.max_versions = j["max_versions"];
+        }
         return config;
     }
 };

@@ -271,7 +271,9 @@ void* FaissGPUVectorBackend::createIndex(IndexType type, int dimension) {
 }
 
 void FaissGPUVectorBackend::destroyIndex() {
-    if (!index_) return;
+    if (!index_) {
+      return;
+    }
 
     switch (currentIndexType_) {
         case IndexType::FLAT_L2:
@@ -858,7 +860,9 @@ FaissGPUVectorBackend::IndexStats FaissGPUVectorBackend::getIndexStats() const {
 }
 
 void FaissGPUVectorBackend::resetIndex() {
-    if (!index_) return;
+    if (!index_) {
+      return;
+    }
 
     try {
         faiss::Index* idx = nullptr;

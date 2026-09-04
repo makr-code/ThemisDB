@@ -307,7 +307,9 @@ void WireProtocolWebSocketSession::processTextMessage(const std::string& text) {
             resp["id"]     = req_id;
             resp["type"]   = "put_response";
             resp["status"] = ok ? "ok" : "error";
-            if (!ok) resp["message"] = "Put operation failed";
+            if (!ok) {
+              resp["message"] = "Put operation failed";
+            }
             send(resp.dump());
 
         } else if (type == "delete") {
@@ -326,7 +328,9 @@ void WireProtocolWebSocketSession::processTextMessage(const std::string& text) {
             resp["id"]     = req_id;
             resp["type"]   = "delete_response";
             resp["status"] = ok ? "ok" : "error";
-            if (!ok) resp["message"] = "Delete operation failed";
+            if (!ok) {
+              resp["message"] = "Delete operation failed";
+            }
             send(resp.dump());
 
         } else if (type == "query") {

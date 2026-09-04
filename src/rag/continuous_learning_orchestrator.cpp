@@ -385,7 +385,9 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
         std::string worst_version;
         double worst_rate = 1.0;
         for (const auto& [ver, total] : total_per_version) {
-            if (total == 0) continue;
+            if (total == 0) {
+              continue;
+            }
             double rate = static_cast<double>(success_per_version[ver]) / total;
             if (rate < worst_rate) {
                 worst_rate    = rate;
@@ -452,7 +454,9 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
             }
         }
 
-        if (total == 0 && eval_score_count == 0) return;
+        if (total == 0 && eval_score_count == 0) {
+          return;
+        }
 
         // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
         // Fall back to the neutral baseline when one source has no data.
@@ -660,7 +664,9 @@ void ContinuousLearningOrchestrator::saveMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& path = impl_->config.metrics_db_path;
-    if (path.empty()) return;
+    if (path.empty()) {
+      return;
+    }
 
     try {
         // Check if file is new (empty) so we can write the header once
@@ -707,7 +713,9 @@ void ContinuousLearningOrchestrator::loadMetrics() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& path = impl_->config.metrics_db_path;
-    if (path.empty()) return;
+    if (path.empty()) {
+      return;
+    }
 
     try {
         std::ifstream file(path);
@@ -718,7 +726,9 @@ void ContinuousLearningOrchestrator::loadMetrics() {
 
         // Skip header line
         std::string line;
-        if (!std::getline(file, line)) return;
+        if (!std::getline(file, line)) {
+          return;
+        }
 
         // Read last data row
         std::string last_line;
@@ -726,7 +736,9 @@ void ContinuousLearningOrchestrator::loadMetrics() {
             // keep iterating to get the last line
         }
 
-        if (last_line.empty()) return;
+        if (last_line.empty()) {
+          return;
+        }
 
         std::istringstream row(last_line);
         std::string field;
@@ -764,7 +776,9 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     const std::string& registry_path = impl_->config.model_registry_path;
-    if (registry_path.empty() || model_id.empty()) return;
+    if (registry_path.empty() || model_id.empty()) {
+      return;
+    }
 
     // Record checkpoint event in stats
     ImprovementEvent event;
@@ -1215,7 +1229,9 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
         std::string out;
         out.reserve(s.size());
         for (const char c : s) {
-            if      (c == '"')  out += "\\\"";
+            if      (c == '"') {
+              out += "\\\"";
+            }
             else if (c == '\\') out += "\\\\";
             else if (c == '\n') out += "\\n";
             else                out += c;
@@ -1234,7 +1250,9 @@ std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
     json << "{\"loops\":[";
     bool first = true;
     for (const auto& [key, res] : snap.results) {
-        if (!first) json << ",";
+        if (!first) {
+          json << ",";
+        }
         first = false;
         const std::string phase_name =
             kPhaseNames.count(key) ? kPhaseNames.at(key) : "UNKNOWN";

@@ -95,7 +95,9 @@ void SchemaAwareCDCBridge::unsubscribe([[maybe_unused]] uint64_t subscription_id
 
 void SchemaAwareCDCBridge::start() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (started_) return;
+    if (started_) {
+      return;
+    }
     if (repl_mgr_) {
         repl_mgr_->addListener([[maybe_unused]] shared_from_this());
     }
@@ -122,7 +124,9 @@ void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
     uint32_t schema_id = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (!started_) return;
+        if (!started_) {
+          return;
+        }
         auto it = registered_.find(wal_entry.collection);
         if (it == registered_.end()) {
             // Increment skip counter lock-free (no nested lock needed)

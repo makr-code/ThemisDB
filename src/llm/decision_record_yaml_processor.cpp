@@ -246,7 +246,9 @@ std::filesystem::path DecisionRecordYamlProcessor::recordPath(
                         + "_" + r.record_id + ".yaml";
     // Replace colons from ISO timestamp in filename (Windows compatibility)
     for (char& c : fname) {
-        if (c == ':') c = '-';
+        if (c == ':') {
+          c = '-';
+        }
     }
 
     return dir / fname;

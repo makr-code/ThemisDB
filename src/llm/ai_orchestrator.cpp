@@ -370,13 +370,19 @@ bool ToolRegistry::isAllowed(const std::string& tool_name,
                               const ModeSpec&    mode) const {
     // Check deny list first (takes precedence)
     for (const auto& d : mode.tools_denied) {
-        if (d == tool_name) return false;
+        if (d == tool_name) {
+          return false;
+        }
     }
     // Empty allowlist = no tools permitted
-    if (mode.tools_allowed.empty()) return false;
+    if (mode.tools_allowed.empty()) {
+      return false;
+    }
     // Wildcard "*" allows everything not denied
     for (const auto& a : mode.tools_allowed) {
-        if (a == "*" || a == tool_name) return true;
+        if (a == "*" || a == tool_name) {
+          return true;
+        }
     }
     return false;
 }
@@ -425,7 +431,9 @@ std::vector<std::string> ToolRegistry::listTools() const {
 std::optional<ToolSpec> ToolRegistry::getSpec(const std::string& tool_name) const {
     std::shared_lock lock(tools_mutex_);
     auto it = tools_.find(tool_name);
-    if (it == tools_.end()) return std::nullopt;
+    if (it == tools_.end()) {
+      return std::nullopt;
+    }
     return it->second.spec;
 }
 
@@ -486,8 +494,12 @@ Result<size_t> ToolRegistry::loadToolsFromDirectory(const std::string& directory
     auto manifests = plugin_manager_->listPlugins();
     size_t loaded = 0;
     for (const auto& manifest : manifests) {
-        if (manifest.type != plugins::PluginType::AGENTIC_TOOL) continue;
-        if (plugin_manager_->isPluginLoaded(manifest.name)) continue;
+        if (manifest.type != plugins::PluginType::AGENTIC_TOOL) {
+          continue;
+        }
+        if (plugin_manager_->isPluginLoaded(manifest.name)) {
+          continue;
+        }
 
         auto res = plugin_manager_->loadPlugin(manifest.name);
         if (!res) {
@@ -523,11 +535,15 @@ Result<void> ToolRegistry::reloadTool(const std::string& name) {
     }
 
     auto res = plugin_manager_->reloadPlugin(name);
-    if (!res) return tl::unexpected(res.error());
+    if (!res) {
+      return tl::unexpected(res.error());
+    }
 
     // Re-register with the freshly loaded instance
     auto get = plugin_manager_->getPlugin(name);
-    if (!get) return tl::unexpected(get.error());
+    if (!get) {
+      return tl::unexpected(get.error());
+    }
 
     auto* tool = dynamic_cast<IThemisTool*>(get.value());
     if (!tool) {
@@ -667,7 +683,9 @@ const ModePack& AIOrchestrator::modePack() const {
 
 const ModeSpec* AIOrchestrator::findMode(const std::string& id) const {
     for (const auto& m : impl_->pack.modes) {
-        if (m.id == id) return &m;
+        if (m.id == id) {
+          return &m;
+        }
     }
     return nullptr;
 }
@@ -719,7 +737,9 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
         OrchestratorResult err;
         err.success = false;
         err.error   = "Unknown mode '" + mode_id + "'. Available: ";
-        for (const auto& m : impl_->pack.modes) err.error += m.id + " ";
+        for (const auto& m : impl_->pack.modes) {
+          err.error += m.id + " ";
+        }
         spdlog::error("[AIOrchestrator] {}", err.error);
         return err;
     }
@@ -824,7 +844,9 @@ std::string AIOrchestrator::assemblePrompt(
 
 void AIOrchestrator::emitObservability(const RunMetadata& meta,
                                         const ModeSpec&    mode) const {
-    if (!mode.observability.log_requests) return;
+    if (!mode.observability.log_requests) {
+      return;
+    }
 
     spdlog::info("[AIOrchestrator] run completed: mode={} model={} "
                  "tokens_in={} tokens_out={} latency_total_ms={} "
@@ -1066,7 +1088,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     result.metadata.retrieved_docs = static_cast<int>(docs.size());
     if (!docs.empty()) {
         float sum = 0.0f;
-        for (const auto& d : docs) sum += d.relevance_score;
+        for (const auto& d : docs) {
+          sum += d.relevance_score;
+        }
         result.metadata.avg_relevance = sum / static_cast<float>(docs.size());
     }
 
@@ -1089,7 +1113,9 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
         }
         if (ctx.extra.contains("query_embedding") && ctx.extra["query_embedding"].is_array()) {
             for (const auto& v : ctx.extra["query_embedding"]) {
-                if (!v.is_number()) continue;
+                if (!v.is_number()) {
+                  continue;
+                }
                 input.query_embedding.push_back(v.get<float>());
             }
         }

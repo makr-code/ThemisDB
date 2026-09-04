@@ -93,7 +93,9 @@ public:
         for (const auto& arg : args) {
             std::string part = arg.is_string() ? arg.get<std::string>() : arg.dump();
             
-            if (part.empty()) continue;
+            if (part.empty()) {
+              continue;
+            }
             
             // If part is absolute, start fresh
             if (!part.empty() && (part[0] == '/' || (part.length() > 1 && part[1] == ':'))) {
@@ -282,14 +284,20 @@ public:
         
         // Rebuild path
         std::string result;
-        if (isAbsolute) result = "/";
+        if (isAbsolute) {
+          result = "/";
+        }
         
         for (size_t i = 0; i < parts.size(); ++i) {
-            if (i > 0) result += "/";
+            if (i > 0) {
+              result += "/";
+            }
             result += parts[i];
         }
         
-        if (result.empty()) result = ".";
+        if (result.empty()) {
+          result = ".";
+        }
         
         return result;
     }
@@ -411,15 +419,23 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
-        if (path.empty()) return false;
+        if (path.empty()) {
+          return false;
+        }
         
         // Unix-style absolute
-        if (path[0] == '/') return true;
+        if (path[0] == '/') {
+          return true;
+        }
         
         // Windows-style absolute (C:\ or \\server)
         if (path.length() >= 2) {
-            if (path[1] == ':') return true;
-            if (path[0] == '\\' && path[1] == '\\') return true;
+            if (path[1] == ':') {
+              return true;
+            }
+            if (path[0] == '\\' && path[1] == '\\') {
+              return true;
+            }
         }
         
         return false;
@@ -451,10 +467,18 @@ public:
                            [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
-        if (path.empty()) return true;
-        if (path[0] == '/') return false;
-        if (path.length() >= 2 && path[1] == ':') return false;
-        if (path.length() >= 2 && path[0] == '\\' && path[1] == '\\') return false;
+        if (path.empty()) {
+          return true;
+        }
+        if (path[0] == '/') {
+          return false;
+        }
+        if (path.length() >= 2 && path[1] == ':') {
+          return false;
+        }
+        if (path.length() >= 2 && path[0] == '\\' && path[1] == '\\') {
+          return false;
+        }
         
         return true;
     }
@@ -766,7 +790,9 @@ public:
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
-        if (dotPos == std::string::npos) return false;
+        if (dotPos == std::string::npos) {
+          return false;
+        }
         
         std::string ext = path.substr(dotPos + 1);
         std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -805,7 +831,9 @@ public:
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
-        if (dotPos == std::string::npos) return false;
+        if (dotPos == std::string::npos) {
+          return false;
+        }
         
         std::string ext = path.substr(dotPos + 1);
         std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -844,7 +872,9 @@ public:
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
-        if (dotPos == std::string::npos) return false;
+        if (dotPos == std::string::npos) {
+          return false;
+        }
         
         std::string ext = path.substr(dotPos + 1);
         std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -883,7 +913,9 @@ public:
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
-        if (dotPos == std::string::npos) return false;
+        if (dotPos == std::string::npos) {
+          return false;
+        }
         
         std::string ext = path.substr(dotPos + 1);
         std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
@@ -986,7 +1018,9 @@ public:
         }
         
         double multiplier = 1;
-        if (unit == "KB" || unit == "K") multiplier = 1024;
+        if (unit == "KB" || unit == "K") {
+          multiplier = 1024;
+        }
         else if (unit == "MB" || unit == "M") multiplier = 1024 * 1024;
         else if (unit == "GB" || unit == "G") multiplier = 1024 * 1024 * 1024;
         else if (unit == "TB" || unit == "T") multiplier = 1024.0 * 1024 * 1024 * 1024;

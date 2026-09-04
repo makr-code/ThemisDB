@@ -190,9 +190,15 @@ LoRATrainingConfig::parseAdapterConfig(
     // Base model
     if (node["base_model"]) {
         auto base = node["base_model"];
-        if (base["name"]) config.base_model_name = base["name"].as<std::string>();
-        if (base["path"]) config.base_model_path = base["path"].as<std::string>();
-        if (base["type"]) config.base_model_type = base["type"].as<std::string>();
+        if (base["name"]) {
+          config.base_model_name = base["name"].as<std::string>();
+        }
+        if (base["path"]) {
+          config.base_model_path = base["path"].as<std::string>();
+        }
+        if (base["type"]) {
+          config.base_model_type = base["type"].as<std::string>();
+        }
     }
     
     // Hyperparameters
@@ -231,8 +237,12 @@ LoRATrainingConfig::parseAdapterConfig(
     // Device settings
     if (node["pipeline"] && node["pipeline"]["execution"]) {
         auto exec = node["pipeline"]["execution"];
-        if (exec["device"]) config.device = exec["device"].as<std::string>();
-        if (exec["device_id"]) config.device_id = exec["device_id"].as<int>();
+        if (exec["device"]) {
+          config.device = exec["device"].as<std::string>();
+        }
+        if (exec["device_id"]) {
+          config.device_id = exec["device_id"].as<int>();
+        }
         if (exec["mixed_precision"]) 
             config.mixed_precision = exec["mixed_precision"].as<bool>();
         if (exec["gradient_accumulation_steps"])
@@ -246,13 +256,23 @@ LoRATrainingConfig::parseAdapterConfig(
 LoRAHyperparameters LoRATrainingConfig::parseHyperparameters(const YAML::Node& node) {
     LoRAHyperparameters params;
     
-    if (node["rank"]) params.rank = node["rank"].as<int>();
-    if (node["alpha"]) params.alpha = node["alpha"].as<float>();
-    if (node["dropout"]) params.dropout = node["dropout"].as<float>();
+    if (node["rank"]) {
+      params.rank = node["rank"].as<int>();
+    }
+    if (node["alpha"]) {
+      params.alpha = node["alpha"].as<float>();
+    }
+    if (node["dropout"]) {
+      params.dropout = node["dropout"].as<float>();
+    }
     if (node["learning_rate"]) 
         params.learning_rate = node["learning_rate"].as<float>();
-    if (node["batch_size"]) params.batch_size = node["batch_size"].as<int>();
-    if (node["num_epochs"]) params.num_epochs = node["num_epochs"].as<int>();
+    if (node["batch_size"]) {
+      params.batch_size = node["batch_size"].as<int>();
+    }
+    if (node["num_epochs"]) {
+      params.num_epochs = node["num_epochs"].as<int>();
+    }
     if (node["max_seq_length"]) 
         params.max_seq_length = node["max_seq_length"].as<int>();
     
@@ -316,8 +336,12 @@ LoRATrainingConfig::parseTrainingTrigger(const YAML::Node& node) {
         
         if (automatic["batch_size"]) {
             auto batch = automatic["batch_size"];
-            if (batch["min"]) trigger.min_batch_size = batch["min"].as<size_t>();
-            if (batch["max"]) trigger.max_batch_size = batch["max"].as<size_t>();
+            if (batch["min"]) {
+              trigger.min_batch_size = batch["min"].as<size_t>();
+            }
+            if (batch["max"]) {
+              trigger.max_batch_size = batch["max"].as<size_t>();
+            }
             if (batch["use_effective_size"])
                 trigger.use_effective_size = batch["use_effective_size"].as<bool>();
         }
@@ -349,7 +373,9 @@ LoRATrainingConfig::parseQualityConfig(const YAML::Node& node) {
     
     if (node["ab_testing"]) {
         auto ab = node["ab_testing"];
-        if (ab["enabled"]) quality.ab_testing_enabled = ab["enabled"].as<bool>();
+        if (ab["enabled"]) {
+          quality.ab_testing_enabled = ab["enabled"].as<bool>();
+        }
         if (ab["traffic_split"]) 
             quality.traffic_split = ab["traffic_split"].as<float>();
         if (ab["duration_hours"]) 
@@ -378,9 +404,15 @@ LoRATrainingConfig::TrainingDataSource
 LoRATrainingConfig::parseTrainingDataSource(const YAML::Node& node) {
     TrainingDataSource source;
     
-    if (node["enabled"]) source.enabled = node["enabled"].as<bool>();
-    if (node["path"]) source.path = node["path"].as<std::string>();
-    if (node["weight"]) source.weight = node["weight"].as<float>();
+    if (node["enabled"]) {
+      source.enabled = node["enabled"].as<bool>();
+    }
+    if (node["path"]) {
+      source.path = node["path"].as<std::string>();
+    }
+    if (node["weight"]) {
+      source.weight = node["weight"].as<float>();
+    }
     
     if (node["preprocessing"]) {
         for (const auto& prep : node["preprocessing"]) {

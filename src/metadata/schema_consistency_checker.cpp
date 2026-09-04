@@ -110,7 +110,9 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
 
     auto is_system_key = [&]([[maybe_unused]] const std::string& key) -> bool {
         for (const auto& pfx : kSystemPrefixes) {
-            if (key.rfind(pfx, 0) == 0) return true;
+            if (key.rfind(pfx, 0) == 0) {
+              return true;
+            }
         }
         return false;
     };
@@ -128,10 +130,14 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
     try {
         size_t scanned = 0;
         db_.scanAll([&](std::string_view key, std::string_view /*value*/) -> bool {
-            if (scanned++ >= kMaxScanKeys) return false;
+            if (scanned++ >= kMaxScanKeys) {
+              return false;
+            }
 
             std::string key_str(key);
-            if (is_system_key(key_str)) return true;
+            if (is_system_key(key_str)) {
+              return true;
+            }
 
             // Extract table prefix: key format is "table_name:row_id"
             auto colon = key_str.find(':');
@@ -161,7 +167,9 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkOrphanKeys_() const
 
 std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkStaleStats_() const {
     std::vector<ConsistencyIssue> issues;
-    if (!stats_) return issues;
+    if (!stats_) {
+      return issues;
+    }
 
     auto all_tables = schema_mgr_.getAllTables();
     auto now        = std::chrono::system_clock::now();
@@ -196,7 +204,9 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkStaleStats_() const
 
 std::vector<ConsistencyIssue> SchemaConsistencyChecker::checkMissingConstraints_() const {
     std::vector<ConsistencyIssue> issues;
-    if (!constraints_) return issues;
+    if (!constraints_) {
+      return issues;
+    }
 
     auto all_tables = schema_mgr_.getAllTables();
     for (const auto& ts : all_tables) {
@@ -247,7 +257,9 @@ void SchemaConsistencyChecker::bgLoop_() {
         bg_cv_.wait_for(lk, bg_interval_,
                         [this] { return stop_bg_.load(); });
 
-        if (stop_bg_.load()) break;
+        if (stop_bg_.load()) {
+          break;
+        }
         try {
             runCheck();
         } catch (const std::exception& e) {

@@ -45,7 +45,9 @@ public:
     }
 
     bool subscribe(st[[maybe_unused]] d::shared_pt[[maybe_unused]] r<IAuthEventSubscribe[[maybe_unused]] r> subscribe[[maybe_unused]] r) override {
-        if (!subscriber) return false;
+        if (!subscriber) {
+          return false;
+        }
 
         std::unique_lock lock(subscribers_mutex_);
         // Check for duplicates

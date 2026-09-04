@@ -42,7 +42,9 @@ std::string EntityNormalizer::toIdToken(const std::string& s) {
         // strip other special chars (§, ä, ö, ü, etc.)
     }
     // Remove trailing underscores
-    while (!out.empty() && out.back() == '_') out.pop_back();
+    while (!out.empty() && out.back() == '_') {
+      out.pop_back();
+    }
     return out;
 }
 
@@ -70,8 +72,12 @@ EntityNormalizer::parseLegalRef(const std::string& text) const {
 
     std::unordered_map<std::string, std::string> parts;
     parts["section"] = m[1].str();
-    if (m[2].matched) parts["abs"]  = m[2].str();
-    if (m[3].matched) parts["satz"] = m[3].str();
+    if (m[2].matched) {
+      parts["abs"]  = m[2].str();
+    }
+    if (m[3].matched) {
+      parts["satz"] = m[3].str();
+    }
     if (m[4].matched) {
         // Potential law abbreviation at end
         const std::string candidate = m[4].str();
@@ -116,7 +122,9 @@ std::string EntityNormalizer::canonicalId(const BaseEntity& ent,
             auto parts = parseLegalRef(sec.empty() ? ent.text : sec);
             if (parts.count("section")) {
                 std::string id = "law:" + abbr + ":§" + parts["section"];
-                if (parts.count("abs")) id += ":Abs" + parts["abs"];
+                if (parts.count("abs")) {
+                  id += ":Abs" + parts["abs"];
+                }
                 return id;
             }
             return "law:" + abbr + ":" + shortHash(ent.text);
@@ -255,7 +263,9 @@ bool RelationBuilder::edgeExists(const std::vector<EntityRelation>& rels,
 
 void RelationBuilder::buildCitesRelations(ExtractionContext& ctx) const {
     for (const auto& ent : ctx.entities) {
-        if (ent.provenance.confidence < cfg_.min_entity_confidence) continue;
+        if (ent.provenance.confidence < cfg_.min_entity_confidence) {
+          continue;
+        }
 
         // CITES: entity has a cross-reference target
         const auto& ref_target = ent.propertyOr("norm_ref_target", "");
@@ -274,9 +284,15 @@ void RelationBuilder::buildCitesRelations(ExtractionContext& ctx) const {
         const auto& hint = ent.propertyOr("relation_hint", "");
         if (!hint.empty()) {
             RelationType rt = RelationType::UNKNOWN;
-            if (hint == "amends"     && wantsType("AMENDS"))     rt = RelationType::AMENDS;
-            if (hint == "supersedes" && wantsType("SUPERSEDES")) rt = RelationType::SUPERSEDES;
-            if (hint == "regulates"  && wantsType("REGULATES"))  rt = RelationType::REGULATES;
+            if (hint == "amends"     && wantsType("AMENDS")) {
+              rt = RelationType::AMENDS;
+            }
+            if (hint == "supersedes" && wantsType("SUPERSEDES")) {
+              rt = RelationType::SUPERSEDES;
+            }
+            if (hint == "regulates"  && wantsType("REGULATES")) {
+              rt = RelationType::REGULATES;
+            }
 
             if (rt != RelationType::UNKNOWN) {
                 const auto& target = ent.propertyOr("relation_target", "");
@@ -294,7 +310,9 @@ void RelationBuilder::buildCitesRelations(ExtractionContext& ctx) const {
 }
 
 void RelationBuilder::buildPartOfRelations(ExtractionContext& ctx) const {
-    if (!wantsType("PART_OF")) return;
+    if (!wantsType("PART_OF")) {
+      return;
+    }
 
     // Build a quick id→index map
     std::unordered_map<std::string, std::size_t> id_map;
@@ -302,10 +320,16 @@ void RelationBuilder::buildPartOfRelations(ExtractionContext& ctx) const {
         id_map[ctx.entities[i].id] = i;
 
     for (const auto& ent : ctx.entities) {
-        if (ent.provenance.confidence < cfg_.min_entity_confidence) continue;
+        if (ent.provenance.confidence < cfg_.min_entity_confidence) {
+          continue;
+        }
         const auto& parent = ent.propertyOr("parent_section", "");
-        if (parent.empty()) continue;
-        if (!id_map.count(parent)) continue;
+        if (parent.empty()) {
+          continue;
+        }
+        if (!id_map.count(parent)) {
+          continue;
+        }
 
         EntityRelation r;
         r.from_id       = ent.id;
@@ -317,18 +341,24 @@ void RelationBuilder::buildPartOfRelations(ExtractionContext& ctx) const {
 }
 
 void RelationBuilder::buildCoOccurrence(ExtractionContext& ctx) const {
-    if (!wantsType("CO_OCCURS") || !cfg_.build_co_occurrence) return;
+    if (!wantsType("CO_OCCURS") || !cfg_.build_co_occurrence) {
+      return;
+    }
 
     // Group entity IDs by section_ref (chunk)
     std::unordered_map<std::string, std::vector<std::string>> by_section;
     for (const auto& ent : ctx.entities) {
-        if (ent.provenance.confidence < cfg_.min_entity_confidence) continue;
+        if (ent.provenance.confidence < cfg_.min_entity_confidence) {
+          continue;
+        }
         const auto& ref = ent.propertyOr("section_ref", "");
         by_section[ref].push_back(ent.id);
     }
 
     for (const auto& [section, ids] : by_section) {
-        if (ids.size() < 2) continue;
+        if (ids.size() < 2) {
+          continue;
+        }
         for (std::size_t i = 0; i < ids.size(); ++i) {
             for (std::size_t j = i + 1; j < ids.size(); ++j) {
                 EntityRelation r;
@@ -344,7 +374,9 @@ void RelationBuilder::buildCoOccurrence(ExtractionContext& ctx) const {
 }
 
 void RelationBuilder::buildIssuedByRelations(ExtractionContext& ctx) const {
-    if (!wantsType("ISSUED_BY")) return;
+    if (!wantsType("ISSUED_BY")) {
+      return;
+    }
 
     // Build authority id map
     std::unordered_map<std::string, std::string> authority_by_text;
@@ -354,13 +386,19 @@ void RelationBuilder::buildIssuedByRelations(ExtractionContext& ctx) const {
     }
 
     for (const auto& ent : ctx.entities) {
-        if (ent.entity_type != EntityType::LEGAL_DECISION) continue;
+        if (ent.entity_type != EntityType::LEGAL_DECISION) {
+          continue;
+        }
         const auto& auth = ent.propertyOr("authority", "");
-        if (auth.empty()) continue;
+        if (auth.empty()) {
+          continue;
+        }
 
         // Find the authority entity
         auto it = authority_by_text.find(auth);
-        if (it == authority_by_text.end()) continue;
+        if (it == authority_by_text.end()) {
+          continue;
+        }
 
         EntityRelation r;
         r.from_id       = ent.id;

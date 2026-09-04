@@ -197,7 +197,9 @@ void* ModuleLoader::loadLibrary(const std::string& path) {
 }
 
 void ModuleLoader::unloadLibrary(void* handle) {
-    if (!handle) return;
+    if (!handle) {
+      return;
+    }
     
 #ifdef _WIN32
     FreeLibrary(static_cast<HMODULE>(handle));
@@ -1249,12 +1251,24 @@ ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
     auto getMinor = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_minor"));
     auto getPatch = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_patch"));
     
-    if (getVersionStr) metadata.version = getVersionStr();
-    if (getAbiVersion) metadata.abiVersion = getAbiVersion();
-    if (getBuildId) metadata.buildId = getBuildId();
-    if (getMajor) metadata.themisMajor = getMajor();
-    if (getMinor) metadata.themisMinor = getMinor();
-    if (getPatch) metadata.themisPatch = getPatch();
+    if (getVersionStr) {
+      metadata.version = getVersionStr();
+    }
+    if (getAbiVersion) {
+      metadata.abiVersion = getAbiVersion();
+    }
+    if (getBuildId) {
+      metadata.buildId = getBuildId();
+    }
+    if (getMajor) {
+      metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+      metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+      metadata.themisPatch = getPatch();
+    }
     
     return metadata;
 }
@@ -1575,13 +1589,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         while (remaining >= sizeof(Elf64_Nhdr)) {
             Elf64_Nhdr nhdr = {};
             file.read(reinterpret_cast<char*>(&nhdr), sizeof(nhdr));
-            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) break;
+            if (file.gcount() < static_cast<std::streamsize>(sizeof(nhdr))) {
+              break;
+            }
             remaining -= sizeof(nhdr);
 
             uint64_t nameSize  = (nhdr.n_namesz + 3) & ~3u;
             uint64_t descSize  = (nhdr.n_descsz + 3) & ~3u;
 
-            if (nameSize > remaining) break;
+            if (nameSize > remaining) {
+              break;
+            }
             // n_namesz includes the null terminator; exclude it for the string data
             uint32_t nameDataLen = nhdr.n_namesz > 0 ? nhdr.n_namesz - 1 : 0;
             std::string name(nameDataLen, '\0');
@@ -1591,7 +1609,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.tellg()) + static_cast<std::streamoff>(nameSize - nameDataLen));
             remaining -= nameSize;
 
-            if (descSize > remaining) break;
+            if (descSize > remaining) {
+              break;
+            }
             if (nhdr.n_type == NT_GNU_BUILD_ID && name == "GNU") {
                 // Build ID: hex-encode raw bytes
                 std::vector<unsigned char> buildId(nhdr.n_descsz);
@@ -1608,7 +1628,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                     buildIdHex += hex[b >> 4];
                     buildIdHex += hex[b & 0xf];
                 }
-                if (!metadata.empty()) metadata += "; ";
+                if (!metadata.empty()) {
+                  metadata += "; ";
+                }
                 metadata += "BuildID=" + buildIdHex;
             } else {
                 file.seekg(static_cast<std::streamoff>(file.tellg()) +
@@ -1627,7 +1649,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         uint16_t shNum = ehdr.e_shnum;
         uint16_t shStrIdx = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return metadata;
+        if (shOffset == 0 || shNum == 0) {
+          return metadata;
+        }
 
         // Load section name string table
         file.seekg(static_cast<std::streamoff>(shOffset +
@@ -1658,12 +1682,18 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
                 // Null bytes serve as separators; replace with spaces
                 for (char& c : comment) {
-                    if (c == '\0') c = ' ';
+                    if (c == '\0') {
+                      c = ' ';
+                    }
                 }
                 // Trim trailing spaces
-                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                while (!comment.empty() && comment.back() == ' ') {
+                  comment.pop_back();
+                }
                 if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
+                    if (!metadata.empty()) {
+                      metadata += "; ";
+                    }
                     metadata += "Comment=" + comment;
                 }
             }
@@ -1678,7 +1708,9 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         uint16_t shNum = ehdr.e_shnum;
         uint16_t shStrIdx = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return metadata;
+        if (shOffset == 0 || shNum == 0) {
+          return metadata;
+        }
 
         file.seekg(static_cast<std::streamoff>(shOffset +
                    static_cast<uint32_t>(shStrIdx) * shEntSize));
@@ -1706,11 +1738,17 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 file.seekg(static_cast<std::streamoff>(shdr.sh_offset));
                 file.read(&comment[0], static_cast<std::streamsize>(shdr.sh_size));
                 for (char& c : comment) {
-                    if (c == '\0') c = ' ';
+                    if (c == '\0') {
+                      c = ' ';
+                    }
                 }
-                while (!comment.empty() && comment.back() == ' ') comment.pop_back();
+                while (!comment.empty() && comment.back() == ' ') {
+                  comment.pop_back();
+                }
                 if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
+                    if (!metadata.empty()) {
+                      metadata += "; ";
+                    }
                     metadata += "Comment=" + comment;
                 }
             }

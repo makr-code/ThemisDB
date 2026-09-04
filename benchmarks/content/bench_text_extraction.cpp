@@ -70,7 +70,9 @@ private:
         result.reserve(data.size() / 2);
         bool in_tag = false;
         for (char c : data) {
-            if (c == '<') in_tag = true;
+            if (c == '<') {
+              in_tag = true;
+            }
             else if (c == '>') in_tag = false;
             else if (!in_tag && c >= 32 && c <= 126) {
                 result += c;

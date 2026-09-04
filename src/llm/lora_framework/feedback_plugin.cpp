@@ -102,7 +102,9 @@ bool ContentValidationPlugin::validate(const Feedback& feedback) const {
 
 bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     // Simple spam detection - check for common spam patterns
-    if (text.empty()) return false;
+    if (text.empty()) {
+      return false;
+    }
     
     // Convert to lowercase for comparison
     std::string lower_text = text;
@@ -225,7 +227,9 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
 }
 
 float TrainingTriggerPlugin::calculateAverageRating(const std::vector<Feedback>& batch) const {
-    if (batch.empty()) return 0.0f;
+    if (batch.empty()) {
+      return 0.0f;
+    }
     
     int64_t sum = 0;
     for (const auto& fb : batch) {

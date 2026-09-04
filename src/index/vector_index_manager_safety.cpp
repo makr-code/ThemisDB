@@ -35,7 +35,9 @@ private:
 // ============================================================================
 
 bool VectorIndexHandle::isValid() const {
-    if (!manager_) return false;
+    if (!manager_) {
+      return false;
+    }
     return manager_->CurrentGeneration(index_id_) == generation_;
 }
 

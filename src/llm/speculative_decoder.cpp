@@ -220,7 +220,9 @@ std::vector<float> SpeculativeDecoder::softmax(const std::vector<float>& logits)
         sum += probs[i];
     }
     if (sum > 0.0f) {
-        for (float& p : probs) p /= sum;
+        for (float& p : probs) {
+          p /= sum;
+        }
     }
     return probs;
 }
@@ -241,7 +243,9 @@ std::vector<float> SpeculativeDecoder::adjustedDistribution(
 
     // Renormalise.
     if (sum > 0.0f) {
-        for (float& v : adjusted) v /= sum;
+        for (float& v : adjusted) {
+          v /= sum;
+        }
     } else {
         // Edge case: target and draft are identical distributions; fall back
         // to uniform to avoid a zero distribution.
@@ -256,7 +260,9 @@ int SpeculativeDecoder::sampleToken(
     const std::vector<float>& probs,
     std::mt19937&              rng
 ) {
-    if (probs.empty()) return -1;
+    if (probs.empty()) {
+      return -1;
+    }
 
     std::uniform_real_distribution<float> uniform(0.0f, 1.0f);
     const float r = uniform(rng);

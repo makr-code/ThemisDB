@@ -237,7 +237,9 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
                 prompt.find("task") != std::string::npos) score += 0.15;
             if (prompt.find("Example") != std::string::npos ||
                 prompt.find("example") != std::string::npos) score += 0.15;
-            if (prompt.length() > 100) score += 0.1;
+            if (prompt.length() > 100) {
+              score += 0.1;
+            }
             if (prompt.find("Format") != std::string::npos ||
                 prompt.find("Output") != std::string::npos) score += 0.1;
             return std::min(1.0, score);
@@ -636,7 +638,9 @@ std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
     test_cases.reserve(positive.size());
 
     for (const auto& entry : positive) {
-        if (entry.query.empty()) continue;
+        if (entry.query.empty()) {
+          continue;
+        }
 
         TestCase tc;
         tc.input           = entry.query;

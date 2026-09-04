@@ -164,7 +164,9 @@ static bool sendAll(SockFd fd, const void* buf, size_t len) noexcept {
 #else
         ssize_t n = ::send(fd, ptr + sent, len - sent, MSG_NOSIGNAL);
 #endif
-        if (n <= 0) return false;
+        if (n <= 0) {
+          return false;
+        }
         sent += static_cast<size_t>(n);
     }
     return true;
@@ -183,7 +185,9 @@ static bool recvAll(SockFd fd, void* buf, size_t len) noexcept {
 #else
         ssize_t n = ::recv(fd, ptr + recvd, len - recvd, 0);
 #endif
-        if (n <= 0) return false;
+        if (n <= 0) {
+          return false;
+        }
         recvd += static_cast<size_t>(n);
     }
     return true;
@@ -216,7 +220,9 @@ static std::pair<std::string, int> parseAddress(const std::string& addr) {
  * @return Connected socket fd, or kNoSock on failure (connection refused, timeout, DNS error).
  */
 static SockFd connectWithTimeout(const std::string& host, int port, int timeout_ms) {
-    if (host.empty() || port <= 0 || port > 65535) return kNoSock;
+    if (host.empty() || port <= 0 || port > 65535) {
+      return kNoSock;
+    }
 
     addrinfo hints{};
     hints.ai_family   = AF_UNSPEC;
@@ -230,7 +236,9 @@ static SockFd connectWithTimeout(const std::string& host, int port, int timeout_
     SockFd connected = kNoSock;
     for (auto* ai = ai_res; ai != nullptr && !sockValid(connected); ai = ai->ai_next) {
         SockFd fd = ::socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
-        if (!sockValid(fd)) continue;
+        if (!sockValid(fd)) {
+          continue;
+        }
 
         // Switch to non-blocking for the connect phase
 #ifdef _WIN32
@@ -257,10 +265,14 @@ static SockFd connectWithTimeout(const std::string& host, int port, int timeout_
                 socklen_t optlen = sizeof(err);
                 ::getsockopt(fd, SOL_SOCKET, SO_ERROR,
                              reinterpret_cast<char*>(&err), &optlen);
-                if (err == 0) connected = fd;
+                if (err == 0) {
+                  connected = fd;
+                }
             }
         }
-        if (!sockValid(connected)) sockClose(fd);
+        if (!sockValid(connected)) {
+          sockClose(fd);
+        }
     }
     ::freeaddrinfo(ai_res);
 
@@ -404,9 +416,15 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
         server_fd_ = static_cast<std::uintptr_t>(-1);
     }
     
-    if (purge_thread_.joinable())       purge_thread_.join();
-    if (replication_thread_.joinable()) replication_thread_.join();
-    if ([[maybe_unused]] listener_thread_.joinable())    listener_thread_.join();
+    if (purge_thread_.joinable()) {
+      purge_thread_.join();
+    }
+    if (replication_thread_.joinable()) {
+      replication_thread_.join();
+    }
+    if ([[maybe_unused]] listener_thread_.joinable()) {
+      listener_thread_.join();
+    }
     
     // Close RocksDB column family handles and the database itself
     if (cf_) {
@@ -461,10 +479,14 @@ bool DistributedTokenBlacklist::isRevoked(const std::string& jti) const
     rocksdb::Status status = db_->Get(
         rocksdb::ReadOptions{}, cf_, jti, &expiry_val);
     
-    if (status.IsNotFound()) return false;
+    if (status.IsNotFound()) {
+      return false;
+    }
     
     // Fail-closed: any non-NotFound error is treated as "revoked"
-    if (!status.ok()) return true;
+    if (!status.ok()) {
+      return true;
+    }
     
     auto expiry = decodeExpiry(expiry_val);
     return (std::chrono::system_clock::now() < expiry);
@@ -481,7 +503,9 @@ void DistributedTokenBlacklist::purgeExpired()
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         try {
             auto expiry = decodeExpiry(it->value().ToString());
-            if (now >= expiry) batch.Delete(cf_, it->key());
+            if (now >= expiry) {
+              batch.Delete(cf_, it->key());
+            }
         } catch (...) {
             // Skip corrupted entries silently
         }
@@ -517,7 +541,9 @@ bool DistributedTokenBlacklist::waitForClusterConvergence(
     std::chrono::milliseconds timeout)
 {
     // Single-node mode: trivially converged
-    if (!config_.enable_cluster_sync || config_.peer_nodes.empty()) return true;
+    if (!config_.enable_cluster_sync || config_.peer_nodes.empty()) {
+      return true;
+    }
     
     const auto start = std::chrono::system_clock::now();
     
@@ -525,11 +551,15 @@ bool DistributedTokenBlacklist::waitForClusterConvergence(
     while (running_.load()) {
         {
             std::lock_guard<std::mutex> lock(stats_mutex_);
-            if (stats_.successful_syncs > 0) return true;
+            if (stats_.successful_syncs > 0) {
+              return true;
+            }
         }
         if (timeout.count() > 0) {
             auto elapsed = std::chrono::system_clock::now() - start;
-            if (elapsed >= timeout) return false;
+            if (elapsed >= timeout) {
+              return false;
+            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -619,7 +649,9 @@ void DistributedTokenBlacklist::applyEntries(
     const auto now = std::chrono::system_clock::now();
     
     for (const auto& [jti, secs] : entries) {
-        if (jti.empty()) continue;
+        if (jti.empty()) {
+          continue;
+        }
         auto tp = std::chrono::system_clock::from_time_t(static_cast<time_t>(secs));
         if (tp <= now) continue;  // skip already-expired
         batch.Put(cf_, jti, encodeExpiry(tp));
@@ -666,10 +698,14 @@ void DistributedTokenBlacklist::serveIncomingConnections()
         int ret = ::select(static_cast<int>(server_fd_) + 1, &rfds, nullptr, nullptr, &tv);
 #endif
         if (ret <= 0) continue;  // timeout or interrupted
-        if (!running_.load()) break;
+        if (!running_.load()) {
+          break;
+        }
         
         SockFd client = ::accept(static_cast<SockFd>(server_fd_), nullptr, nullptr);
-        if (!sockValid(client)) continue;
+        if (!sockValid(client)) {
+          continue;
+        }
         
         // Apply per-request timeout to the accepted connection
         sockSetTimeout(client, config_.peer_rpc_timeout_ms);
@@ -700,9 +736,15 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
     
     // Read and validate the 10-byte TBLK/v1 header
     uint8_t hdr[kHdrSize];
-    if (!recvAll(fd, hdr, kHdrSize)) return;
-    if (std::memcmp(hdr, kRpcMagic, 4) != 0) return;
-    if (hdr[4] != kRpcVer) return;
+    if (!recvAll(fd, hdr, kHdrSize)) {
+      return;
+    }
+    if (std::memcmp(hdr, kRpcMagic, 4) != 0) {
+      return;
+    }
+    if (hdr[4] != kRpcVer) {
+      return;
+    }
     
     const uint8_t  msg_type = hdr[5];
     const uint32_t count    = decodeU32(hdr + 6);
@@ -712,7 +754,9 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
         // PUSH: Leader sends revocations to this follower.
         // Read entries, apply to local RocksDB, send ACK.
         // ---------------------------------------------------------------
-        if (count > kMaxEntries) return;
+        if (count > kMaxEntries) {
+          return;
+        }
         
         std::vector<std::pair<std::string, int64_t>> entries;
         entries.reserve(count);
@@ -757,10 +801,14 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
         resp_hdr[4] = kRpcVer;
         resp_hdr[5] = kMsgPullResp;
         encodeU32(static_cast<uint32_t>(entries.size()), resp_hdr + 6);
-        if (!sendAll(fd, resp_hdr, kHdrSize)) return;
+        if (!sendAll(fd, resp_hdr, kHdrSize)) {
+          return;
+        }
         
         for (const auto& [jti, expiry] : entries) {
-            if (jti.size() > kMaxJtiLen) continue;
+            if (jti.size() > kMaxJtiLen) {
+              continue;
+            }
             const auto secs = static_cast<int64_t>(
                 std::chrono::system_clock::to_time_t(expiry));
             
@@ -769,9 +817,15 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
             encodeU16(static_cast<uint16_t>(jti.size()), jlen_buf);
             encodeI64(secs, exp_buf);
             
-            if (!sendAll(fd, jlen_buf, 2)) return;
-            if (!jti.empty() && !sendAll(fd, jti.data(), jti.size())) return;
-            if (!sendAll(fd, exp_buf, 8)) return;
+            if (!sendAll(fd, jlen_buf, 2)) {
+              return;
+            }
+            if (!jti.empty() && !sendAll(fd, jti.data(), jti.size())) {
+              return;
+            }
+            if (!sendAll(fd, exp_buf, 8)) {
+              return;
+            }
         }
         
         // Wait for follower ACK (best-effort; ignore timeout or error)
@@ -806,7 +860,9 @@ bool DistributedTokenBlacklist::performClusterSync()
     performLeaderElection();
     
     // Step 2: trivial success when no peers are configured
-    if (config_.peer_nodes.empty()) return true;
+    if (config_.peer_nodes.empty()) {
+      return true;
+    }
     
     bool any_success = false;
     
@@ -814,7 +870,9 @@ bool DistributedTokenBlacklist::performClusterSync()
         // Leader path: push all non-expired revocations to every follower peer.
         // A push succeeds even if some followers are temporarily unreachable.
         for (const auto& peer : config_.peer_nodes) {
-            if (peer.rpc_address.empty() || peer.rpc_port <= 0) continue;
+            if (peer.rpc_address.empty() || peer.rpc_port <= 0) {
+              continue;
+            }
             const std::string addr =
                 peer.rpc_address + ":" + std::to_string(peer.rpc_port);
             if (pushRevisionsToFollower(addr)) {
@@ -895,10 +953,14 @@ bool DistributedTokenBlacklist::performLeaderElection()
 bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_address)
 {
     auto [host, port] = parseAddress(peer_address);
-    if (host.empty()) return false;
+    if (host.empty()) {
+      return false;
+    }
     
     const SockFd fd = connectWithTimeout(host, port, config_.peer_rpc_timeout_ms);
-    if (!sockValid(fd)) return false;
+    if (!sockValid(fd)) {
+      return false;
+    }
     
     bool success = false;
     try {
@@ -915,7 +977,9 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
         
         // Send entries: jti_len[2] + jti[jti_len] + expiry[8]
         for (const auto& [jti, expiry] : entries) {
-            if (jti.size() > kMaxJtiLen) continue;
+            if (jti.size() > kMaxJtiLen) {
+              continue;
+            }
             const auto secs = static_cast<int64_t>(
                 std::chrono::system_clock::to_time_t(expiry));
             
@@ -962,10 +1026,14 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
 bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leader_address)
 {
     auto [host, port] = parseAddress(leader_address);
-    if (host.empty()) return false;
+    if (host.empty()) {
+      return false;
+    }
     
     const SockFd fd = connectWithTimeout(host, port, config_.peer_rpc_timeout_ms);
-    if (!sockValid(fd)) return false;
+    if (!sockValid(fd)) {
+      return false;
+    }
     
     bool success = false;
     try {
@@ -988,7 +1056,9 @@ bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leade
             throw std::runtime_error("invalid pull_resp header");
         
         const uint32_t count = decodeU32(resp_hdr + 6);
-        if (count > kMaxEntries) throw std::runtime_error("entry count exceeds limit");
+        if (count > kMaxEntries) {
+          throw std::runtime_error("entry count exceeds limit");
+        }
         
         // Read entries: jti_len[2] + jti[jti_len] + expiry[8]
         std::vector<std::pair<std::string, int64_t>> entries;
@@ -998,7 +1068,9 @@ bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leade
             if (!recvAll(fd, jlen_buf, 2))
                 throw std::runtime_error("recv jti_len failed");
             const uint16_t jlen = decodeU16(jlen_buf);
-            if (jlen > kMaxJtiLen) throw std::runtime_error("jti too long");
+            if (jlen > kMaxJtiLen) {
+              throw std::runtime_error("jti too long");
+            }
             
             std::string jti;
             if (jlen > 0) {

@@ -101,7 +101,9 @@ public:
     // Rebuild the oversubscription manager partitions from the current vectorData.
     // Called after every vector mutation when oversubscription is enabled.
     void rebuildOversubPartitions() {
-        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
+        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) {
+          return;
+        }
 
         // Phase 5: Snapshot partition IDs to avoid iterator invalidation during removal
         const auto partIds = oversubManager->getAllPartitionIds();
@@ -978,7 +980,9 @@ public:
                     normB += b[i] * b[i];
                 }
                 float denominator = std::sqrt(normA * normB);
-                if (denominator < 1e-10f) return 1.0f;
+                if (denominator < 1e-10f) {
+                  return 1.0f;
+                }
                 return 1.0f - (dot / denominator);
             }
             case DistanceMetric::INNER_PRODUCT: {

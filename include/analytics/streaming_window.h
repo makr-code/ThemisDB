@@ -112,8 +112,12 @@ struct StreamRecord {
     template<typename T>
     std::optional<T> get(const std::string& field) const {
         auto it = fields.find(field);
-        if (it == fields.end()) return std::nullopt;
-        if (auto* v = std::get_if<T>(&it->second)) return *v;
+        if (it == fields.end()) {
+          return std::nullopt;
+        }
+        if (auto* v = std::get_if<T>(&it->second)) {
+          return *v;
+        }
         return std::nullopt;
     }
 

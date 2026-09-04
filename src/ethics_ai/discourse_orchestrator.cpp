@@ -97,12 +97,18 @@ DiscourseVerdict clusterMajorityVerdict(
                                [&sid](const DiscourseRoundOutput& o) {
                                    return o.school_id == sid;
                                });
-        if (it == outputs.end()) continue;
-        if (it->timed_out || it->ldm_verdict == DiscourseVerdict::ABSTAIN) continue;
+        if (it == outputs.end()) {
+          continue;
+        }
+        if (it->timed_out || it->ldm_verdict == DiscourseVerdict::ABSTAIN) {
+          continue;
+        }
         counts[static_cast<int>(it->ldm_verdict)]++;
     }
 
-    if (counts.empty()) return DiscourseVerdict::ABSTAIN;
+    if (counts.empty()) {
+      return DiscourseVerdict::ABSTAIN;
+    }
 
     auto best = std::max_element(counts.begin(), counts.end(),
                                  [](const auto& a, const auto& b) {
@@ -129,7 +135,9 @@ struct DiscourseOrchestrator::Impl {
 
     /// Returns the active inference function; falls back to stub when empty.
     LLMInferenceFn effectiveInferenceFn() const {
-        if (inference_fn) return inference_fn;
+        if (inference_fn) {
+          return inference_fn;
+        }
         return stubLLMInference;
     }
 };
@@ -273,7 +281,9 @@ DiscourseOrchestrator::runEbene2(
 
         // Empty cluster — skip silently (not an error; logged at DEBUG level).
         // Error: LDM_CLUSTER_EMPTY — observable via cluster_positions count.
-        if (active_ids.empty()) continue;
+        if (active_ids.empty()) {
+          continue;
+        }
 
         ClusterPosition cp;
         cp.cluster_name = cluster_name;

@@ -115,10 +115,14 @@ private:
  * @return CV as a percentage (std_dev / mean * 100).
  */
 double CoefficientOfVariation(const std::vector<double>& samples) {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+      return 0.0;
+    }
     const double mean = std::accumulate(samples.begin(), samples.end(), 0.0)
                         / static_cast<double>(samples.size());
-    if (mean < 1e-12) return 0.0;
+    if (mean < 1e-12) {
+      return 0.0;
+    }
     double sq_sum = 0.0;
     for (double x : samples) {
         const double d = x - mean;
@@ -140,7 +144,9 @@ public:
         db_path_ = UniqueDbPath("gvo");
         RemoveAll(db_path_);
         db_ = std::make_unique<RocksDBWrapper>(DefaultCfg(db_path_));
-        if (!db_->open()) throw std::runtime_error("W7D: open failed");
+        if (!db_->open()) {
+          throw std::runtime_error("W7D: open failed");
+        }
         for (int i = 0; i < kDatasetSize; ++i) {
             db_->put("k_" + std::to_string(i), "v_" + std::to_string(i));
         }
@@ -235,7 +241,9 @@ BENCHMARK_F(GuardrailBaseFixture, GVO03_DeterministicKeySequence)(benchmark::Sta
         for (int i = 0; i < kCheckLen; ++i) {
             const std::string ka = kg_a.Next(kDatasetSize);
             const std::string kb = kg_b.Next(kDatasetSize);
-            if (ka != kb) ++mismatches;
+            if (ka != kb) {
+              ++mismatches;
+            }
         }
     }
     state.counters["mismatches"]  = static_cast<double>(mismatches);
@@ -423,7 +431,9 @@ BENCHMARK_F(GuardrailBaseFixture, GVO08_OperabilityCounters)(benchmark::State& s
 
         auto emit = [&state](const std::string& prefix,
                              std::vector<double>& lats) {
-            if (lats.empty()) return;
+            if (lats.empty()) {
+              return;
+            }
             std::sort(lats.begin(), lats.end());
             const double mean = std::accumulate(lats.begin(), lats.end(), 0.0)
                                 / static_cast<double>(lats.size());

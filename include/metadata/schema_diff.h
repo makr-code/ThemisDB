@@ -255,13 +255,21 @@ public:
         std::map<std::string, const SchemaManager::PropertyInfo*> from_props;
         std::map<std::string, const SchemaManager::PropertyInfo*> to_props;
 
-        for (const auto& p : from.properties) from_props[p.name] = &p;
-        for (const auto& p : to.properties)   to_props[p.name]   = &p;
+        for (const auto& p : from.properties) {
+          from_props[p.name] = &p;
+        }
+        for (const auto& p : to.properties) {
+          to_props[p.name]   = &p;
+        }
 
         // Collect the union of all property names.
         std::set<std::string> all_prop_names;
-        for (const auto& kv : from_props) all_prop_names.insert(kv.first);
-        for (const auto& kv : to_props)   all_prop_names.insert(kv.first);
+        for (const auto& kv : from_props) {
+          all_prop_names.insert(kv.first);
+        }
+        for (const auto& kv : to_props) {
+          all_prop_names.insert(kv.first);
+        }
 
         for (const auto& name : all_prop_names) {
             auto f_it = from_props.find(name);
@@ -314,12 +322,20 @@ public:
         std::map<std::string, const SchemaManager::IndexInfo*> from_idxs;
         std::map<std::string, const SchemaManager::IndexInfo*> to_idxs;
 
-        for (const auto& idx : from.indexes) from_idxs[idx.name] = &idx;
-        for (const auto& idx : to.indexes)   to_idxs[idx.name]   = &idx;
+        for (const auto& idx : from.indexes) {
+          from_idxs[idx.name] = &idx;
+        }
+        for (const auto& idx : to.indexes) {
+          to_idxs[idx.name]   = &idx;
+        }
 
         std::set<std::string> all_idx_names;
-        for (const auto& kv : from_idxs) all_idx_names.insert(kv.first);
-        for (const auto& kv : to_idxs)   all_idx_names.insert(kv.first);
+        for (const auto& kv : from_idxs) {
+          all_idx_names.insert(kv.first);
+        }
+        for (const auto& kv : to_idxs) {
+          all_idx_names.insert(kv.first);
+        }
 
         for (const auto& name : all_idx_names) {
             auto f_it = from_idxs.find(name);

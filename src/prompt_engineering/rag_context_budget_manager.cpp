@@ -43,7 +43,9 @@ BudgetHandle RagContextBudgetManager::allocate([[maybe_unused]] size_t tokens) {
 }
 
 void RagContextBudgetManager::doRelease([[maybe_unused]] size_t tokens) noexcept {
-    if (tokens == 0) return;
+    if (tokens == 0) {
+      return;
+    }
     // Clamp to prevent underflow if release is called after reset().
     size_t prev = allocated_.load(std::memory_order_relaxed);
     size_t desired;

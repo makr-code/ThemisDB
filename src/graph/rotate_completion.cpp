@@ -226,7 +226,9 @@ public:
 
         auto reinit = [&](std::vector<float>& v, size_t sz, auto& dist) {
             v.resize(sz);
-            for (auto& x : v) x = dist(rng);
+            for (auto& x : v) {
+              x = dist(rng);
+            }
         };
 
         reinit(entity_re_,      ent_params, init_dist);
@@ -279,7 +281,9 @@ public:
 
                     // Margin loss: max(0, pos - neg + γ)
                     double loss_val = pos_score - neg_score + margin;
-                    if (loss_val <= 0.0) continue;
+                    if (loss_val <= 0.0) {
+                      continue;
+                    }
 
                     ep_loss += loss_val;
 
@@ -342,7 +346,9 @@ public:
                                 float im = entity_im_[e_idx * d + kk];
                                 norm2 += re * re + im * im;
                             }
-                            if (norm2 <= 0.0f) return;
+                            if (norm2 <= 0.0f) {
+                              return;
+                            }
                             float inv = 1.0f / std::sqrt(norm2 / static_cast<float>(d));
                             for (size_t kk = 0; kk < d; ++kk) {
                                 entity_re_[e_idx * d + kk] *= inv;

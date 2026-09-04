@@ -159,7 +159,9 @@ PerQueryCostModel::getCalibrationFactors(
 
     for (const auto& r : records_) {
         // Validate record: execution_time_ms must be positive
-        if (r.execution_time_ms <= 0.0) continue;
+        if (r.execution_time_ms <= 0.0) {
+          continue;
+        }
         
         if (r.rows_processed > 0) {
             double time_ms = ms_per_cycle > 0.0
@@ -294,7 +296,9 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
 
     for (const auto& r : records_) {
         // Validate execution time
-        if (r.execution_time_ms < 0.0) continue;
+        if (r.execution_time_ms < 0.0) {
+          continue;
+        }
         
         times_ms.push_back(r.execution_time_ms);
         type_time_sum[r.query_type] += r.execution_time_ms;
@@ -321,7 +325,9 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
     // Percentiles
     std::sort(times_ms.begin(), times_ms.end());
     auto percentile = [&]([[maybe_unused]] double pct) -> double {
-        if (times_ms.empty()) return 0.0;
+        if (times_ms.empty()) {
+          return 0.0;
+        }
         size_t idx = static_cast<size_t>(pct * static_cast<double>(times_ms.size() - 1));
         return times_ms[idx];
     };

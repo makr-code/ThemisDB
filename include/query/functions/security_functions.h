@@ -58,8 +58,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string email = args[0].get<std::string>();
         
@@ -95,8 +99,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string url = args[0].get<std::string>();
         
@@ -130,8 +138,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string uuid = args[0].get<std::string>();
         
@@ -170,8 +182,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string ip = args[0].get<std::string>();
         int version = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
@@ -220,8 +236,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string phone = args[0].get<std::string>();
         
@@ -264,8 +284,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string iban = args[0].get<std::string>();
         
@@ -324,8 +348,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string card = args[0].get<std::string>();
         
@@ -391,8 +419,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return args[0].dump();
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return args[0].dump();
+        }
         
         std::string str = args[0].get<std::string>();
         std::string type = args.size() > 1 && args[1].is_string() ? args[1].get<std::string>() : "html";
@@ -502,8 +534,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return false;
-        if (!args[0].is_string()) return false;
+        if (args.empty() || args[0].is_null()) {
+          return false;
+        }
+        if (!args[0].is_string()) {
+          return false;
+        }
         
         std::string str = args[0].get<std::string>();
         std::string type = args.size() > 1 && args[1].is_string() ? args[1].get<std::string>() : "all";
@@ -601,8 +637,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return args[0].dump();
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return args[0].dump();
+        }
         
         std::string str = args[0].get<std::string>();
         int start = args.size() > 1 && args[1].is_number() ? args[1].get<int>() : 0;
@@ -649,8 +689,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return "";
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return "";
+        }
         
         std::string email = args[0].get<std::string>();
         size_t atPos = email.find('@');
@@ -709,8 +753,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return "";
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return "";
+        }
         
         std::string card = args[0].get<std::string>();
         
@@ -750,8 +798,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return "";
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return "";
+        }
         
         std::string iban = args[0].get<std::string>();
         
@@ -800,8 +852,12 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return "";
-        if (!args[0].is_string()) return "";
+        if (args.empty() || args[0].is_null()) {
+          return "";
+        }
+        if (!args[0].is_string()) {
+          return "";
+        }
         
         std::string str = args[0].get<std::string>();
         std::string algorithm = args.size() > 1 && args[1].is_string() ? args[1].get<std::string>() : "fnv1a";
@@ -861,7 +917,9 @@ public:
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
                           [[maybe_unused]] const FunctionContext& ctx) const override {
-        if (args.empty() || args[0].is_null()) return 0;
+        if (args.empty() || args[0].is_null()) {
+          return 0;
+        }
         
         std::string data;
         if (args[0].is_string()) {

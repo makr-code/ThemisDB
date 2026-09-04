@@ -136,7 +136,9 @@ void ResourceProfiler::export_to_json(const std::string& filename) const {
 }
 
 size_t ResourceProfiler::get_peak_gpu_memory() const {
-    if (impl_->snapshots.empty()) return 0;
+    if (impl_->snapshots.empty()) {
+      return 0;
+    }
     return std::max_element(impl_->snapshots.begin(), impl_->snapshots.end(),
         [](const ResourceSnapshot& a, const ResourceSnapshot& b){
             return a.gpu_memory_allocated < b.gpu_memory_allocated;
@@ -144,7 +146,9 @@ size_t ResourceProfiler::get_peak_gpu_memory() const {
 }
 
 size_t ResourceProfiler::get_peak_cpu_memory() const {
-    if (impl_->snapshots.empty()) return 0;
+    if (impl_->snapshots.empty()) {
+      return 0;
+    }
     return std::max_element(impl_->snapshots.begin(), impl_->snapshots.end(),
         [](const ResourceSnapshot& a, const ResourceSnapshot& b){
             return a.cpu_memory_used < b.cpu_memory_used;

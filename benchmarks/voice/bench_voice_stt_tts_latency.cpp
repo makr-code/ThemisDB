@@ -133,7 +133,9 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceSTT_LargeAudio60s)(benchmark::State& stat
         benchmark::DoNotOptimize(result);
 
         // Limit iterations for long-running test
-        if (latencies_ns.size() >= 5) break;
+        if (latencies_ns.size() >= 5) {
+          break;
+        }
     }
 
     std::sort(latencies_ns.begin(), latencies_ns.end());

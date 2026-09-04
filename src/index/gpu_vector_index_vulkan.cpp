@@ -157,8 +157,12 @@ struct VkBufferRaii {
     }
     VkBufferRaii& operator=(VkBufferRaii&& o) noexcept {
         if (this != &o) {
-            if (buffer != VK_NULL_HANDLE) vkDestroyBuffer(device, buffer, nullptr);
-            if (memory != VK_NULL_HANDLE) vkFreeMemory(device, memory, nullptr);
+            if (buffer != VK_NULL_HANDLE) {
+              vkDestroyBuffer(device, buffer, nullptr);
+            }
+            if (memory != VK_NULL_HANDLE) {
+              vkFreeMemory(device, memory, nullptr);
+            }
             device = o.device;  buffer = o.buffer;  memory = o.memory;
             o.device = VK_NULL_HANDLE;
             o.buffer = VK_NULL_HANDLE;
@@ -870,10 +874,18 @@ public:
      */
     size_t calculateVRAMUsage() const {
         size_t usage = 0;
-        if (vector_buffer_) usage += vector_buffer_->size();
-        if (query_buffer_) usage += query_buffer_->size();
-        if (distance_buffer_) usage += distance_buffer_->size();
-        if (result_buffer_) usage += result_buffer_->size();
+        if (vector_buffer_) {
+          usage += vector_buffer_->size();
+        }
+        if (query_buffer_) {
+          usage += query_buffer_->size();
+        }
+        if (distance_buffer_) {
+          usage += distance_buffer_->size();
+        }
+        if (result_buffer_) {
+          usage += result_buffer_->size();
+        }
         return usage;
     }
     

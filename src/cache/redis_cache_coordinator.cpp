@@ -876,7 +876,9 @@ public:
     bool set(const std::string& key,
              const std::string& value,
              int                ttl_secs = 0) noexcept {
-        if (!ctx_) return false;
+        if (!ctx_) {
+          return false;
+        }
         redisReply* r;
         if (ttl_secs > 0) {
             r = static_cast<redisReply*>(
@@ -891,7 +893,9 @@ public:
                              value.data(), value.size()));
         }
         const bool ok = r && r->type != REDIS_REPLY_ERROR;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return ok;
     }
 
@@ -902,10 +906,14 @@ public:
      * @return Value string, or std::nullopt if key missing or error.
      */
     [[nodiscard]] std::optional<std::string> get(const std::string& key) noexcept {
-        if (!ctx_) return std::nullopt;
+        if (!ctx_) {
+          return std::nullopt;
+        }
         redisReply* r = static_cast<redisReply*>(
             redisCommand(ctx_, "GET %b", key.data(), key.size()));
-        if (!r) return std::nullopt;
+        if (!r) {
+          return std::nullopt;
+        }
         std::optional<std::string> result;
         if (r->type == REDIS_REPLY_STRING)
             result = std::string(r->str, r->len);
@@ -920,12 +928,16 @@ public:
      * @return Number of keys deleted (1 or 0), or -1 on error.
      */
     int del(const std::string& key) noexcept {
-        if (!ctx_) return -1;
+        if (!ctx_) {
+          return -1;
+        }
         redisReply* r = static_cast<redisReply*>(
             redisCommand(ctx_, "DEL %b", key.data(), key.size()));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return n;
     }
 
@@ -937,12 +949,16 @@ public:
      * @return 1 if TTL set, 0 if key does not exist, -1 on error.
      */
     int expire(const std::string& key, int seconds) noexcept {
-        if (!ctx_) return -1;
+        if (!ctx_) {
+          return -1;
+        }
         redisReply* r = static_cast<redisReply*>(
             redisCommand(ctx_, "EXPIRE %b %d", key.data(), key.size(), seconds));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
-        if (r) freeReplyObject(r);
+        if (r) {
+          freeReplyObject(r);
+        }
         return n;
     }
 

@@ -902,10 +902,14 @@ ECDSA_SHA256_Verifier::extractPublicKey(X509* cert) {
 }
 
 bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
     
     EVP_PKEY* pkey = X509_get_pubkey(cert);
-    if (!pkey) return false;
+    if (!pkey) {
+      return false;
+    }
     
     // Get EC key structure
     const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
@@ -959,11 +963,15 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
         // Skip leading zero bytes (but keep at least one byte)
         size_t start = 0;
-        while (start < len - 1 && val[start] == 0x00) ++start;
+        while (start < len - 1 && val[start] == 0x00) {
+          ++start;
+        }
 
         std::vector<uint8_t> bytes(val + start, val + len);
         // If the high bit is set, prepend a 0x00 padding byte to keep sign positive
-        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+        if (bytes[0] & 0x80) {
+          bytes.insert(bytes.begin(), 0x00);
+        }
 
         std::vector<uint8_t> der;
         der.push_back(0x02);  // INTEGER tag
@@ -1199,10 +1207,14 @@ ECDSA_SHA384_Verifier::extractPublicKey(X509* cert) {
 }
 
 bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
-    if (!cert) return false;
+    if (!cert) {
+      return false;
+    }
     
     EVP_PKEY* pkey = X509_get_pubkey(cert);
-    if (!pkey) return false;
+    if (!pkey) {
+      return false;
+    }
     
     const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
     if (!ec_key) {
@@ -1249,9 +1261,13 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
 
     auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
         size_t start = 0;
-        while (start < len - 1 && val[start] == 0x00) ++start;
+        while (start < len - 1 && val[start] == 0x00) {
+          ++start;
+        }
         std::vector<uint8_t> bytes(val + start, val + len);
-        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+        if (bytes[0] & 0x80) {
+          bytes.insert(bytes.begin(), 0x00);
+        }
         std::vector<uint8_t> der;
         der.push_back(0x02);
         der.push_back(static_cast<uint8_t>(bytes.size()));

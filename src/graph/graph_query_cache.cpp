@@ -45,7 +45,9 @@ GraphQueryCache::GraphQueryCache(Config config)
 void GraphQueryCache::put(const std::string& key,
                           ResultSet           result,
                           double              cost_hint) {
-    if (key.empty()) return;
+    if (key.empty()) {
+      return;
+    }
 
     const double cost = (cost_hint > 0.0) ? cost_hint : config_.default_cost;
 
@@ -146,7 +148,9 @@ GraphQueryCache::get(const std::string& key) {
 }
 
 void GraphQueryCache::invalidate(const std::string& key) {
-    if (key.empty()) return;
+    if (key.empty()) {
+      return;
+    }
     std::lock_guard<std::mutex> lk(mutex_);
     removeFromL1(key);
     removeFromL2(key);
@@ -182,14 +186,18 @@ void GraphQueryCache::resetStats() {
 // ---------------------------------------------------------------------------
 
 bool GraphQueryCache::isExpired(const Entry& e) const noexcept {
-    if (config_.ttl.count() == 0) return false;
+    if (config_.ttl.count() == 0) {
+      return false;
+    }
     const auto age = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - e.inserted_at);
     return age > config_.ttl;
 }
 
 void GraphQueryCache::evictL1ToL2() {
-    if (l1_.lru.empty()) return;
+    if (l1_.lru.empty()) {
+      return;
+    }
 
     const std::string& victim_key = l1_.lru.back();
     auto it = l1_.map.find(victim_key);
@@ -213,7 +221,9 @@ void GraphQueryCache::evictL1ToL2() {
 }
 
 void GraphQueryCache::evictL2() {
-    if (l2_.map.empty()) return;
+    if (l2_.map.empty()) {
+      return;
+    }
 
     const std::string victim_key = selectL2Victim();
     removeFromL2(victim_key);
@@ -247,14 +257,18 @@ std::string GraphQueryCache::selectL2Victim() const {
 
 void GraphQueryCache::removeFromL1(const std::string& key) {
     auto it = l1_.map.find(key);
-    if (it == l1_.map.end()) return;
+    if (it == l1_.map.end()) {
+      return;
+    }
     l1_.lru.erase(it->second.second);
     l1_.map.erase(it);
 }
 
 void GraphQueryCache::removeFromL2(const std::string& key) {
     auto it = l2_.map.find(key);
-    if (it == l2_.map.end()) return;
+    if (it == l2_.map.end()) {
+      return;
+    }
     l2_.lru.erase(it->second.lru_it);
     l2_.map.erase(it);
 }

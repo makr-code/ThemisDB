@@ -86,7 +86,9 @@ static ParsedRow parseCsvRow(const char* src, int len) noexcept {
     const char* end = src + len;
     while (p < end && row.cell_count < 10) {
         const char* q = p;
-        while (q < end && *q != ',') ++q;
+        while (q < end && *q != ',') {
+          ++q;
+        }
         row.cells[row.cell_count++] = std::string(p, static_cast<std::size_t>(q - p));
         p = (q < end) ? q + 1 : end;
     }
@@ -96,7 +98,9 @@ static ParsedRow parseCsvRow(const char* src, int len) noexcept {
 static std::string makeCsvLine(int idx) {
     std::ostringstream ss;
     for (int c = 0; c < 10; ++c) {
-        if (c > 0) ss << ',';
+        if (c > 0) {
+          ss << ',';
+        }
         ss << idx + c;
     }
     return ss.str();
@@ -125,7 +129,9 @@ using KeySet = std::unordered_set<std::string>;
 static KeySet makeKeySet(int n) {
     KeySet ks;
     ks.reserve(n * 2);
-    for (int i = 0; i < n; ++i) ks.insert("key-" + std::to_string(i));
+    for (int i = 0; i < n; ++i) {
+      ks.insert("key-" + std::to_string(i));
+    }
     return ks;
 }
 
@@ -191,12 +197,16 @@ static SchemaChangeKind checkSchemaEvolution(
         bool found = false;
         for (int i = 0; i < incoming_cols; ++i) {
             if (std::string(existing[e].name) == std::string(incoming[i].name)) {
-                if (existing[e].type != incoming[i].type) return SchemaChangeKind::Breaking;
+                if (existing[e].type != incoming[i].type) {
+                  return SchemaChangeKind::Breaking;
+                }
                 found = true;
                 break;
             }
         }
-        if (!found && existing[e].required) return SchemaChangeKind::Breaking;
+        if (!found && existing[e].required) {
+          return SchemaChangeKind::Breaking;
+        }
     }
     // Check additive
     for (int i = 0; i < incoming_cols; ++i) {
@@ -206,7 +216,9 @@ static SchemaChangeKind checkSchemaEvolution(
                 found = true; break;
             }
         }
-        if (!found && !incoming[i].required) return SchemaChangeKind::Additive;
+        if (!found && !incoming[i].required) {
+          return SchemaChangeKind::Additive;
+        }
     }
     return SchemaChangeKind::NoChange;
 }
@@ -247,7 +259,9 @@ BENCHMARK(BM_IMRG01_CsvRowParse)
 static void BM_IMRG02_PerRowSchemaValidation(benchmark::State& state) {
     RawRow row;
     row.count = 10;
-    for (int c = 0; c < 10; ++c) row.cells[c] = std::to_string(c);
+    for (int c = 0; c < 10; ++c) {
+      row.cells[c] = std::to_string(c);
+    }
 
     for (int i = 0; i < kWarmupIterations; ++i)
         benchmark::DoNotOptimize(validateRow(row));
@@ -300,7 +314,9 @@ static void BM_IMRG04_RowBufferCommit(benchmark::State& state) {
         RowBuffer buf;
         for (int r = 0; r < 100; ++r) {
             RawRow row; row.count = 10;
-            for (int c = 0; c < 10; ++c) row.cells[c] = std::to_string(r * 10 + c);
+            for (int c = 0; c < 10; ++c) {
+              row.cells[c] = std::to_string(r * 10 + c);
+            }
             buf.add(row);
         }
         return buf;

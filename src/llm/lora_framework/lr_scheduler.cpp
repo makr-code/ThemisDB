@@ -288,7 +288,9 @@ float OneCycleLR::get_lr([[maybe_unused]] int step) const {
     int warmup_steps = static_cast<int>(pct_start_ * total_steps_);
     warmup_steps = std::max(1, warmup_steps);
     int decay_steps = total_steps_ - warmup_steps;
-    if (decay_steps < 1) decay_steps = 1;
+    if (decay_steps < 1) {
+      decay_steps = 1;
+    }
 
     if (step < warmup_steps) {
         float progress = static_cast<float>(step) / static_cast<float>(warmup_steps);

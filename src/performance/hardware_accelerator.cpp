@@ -83,12 +83,24 @@ inline uint64_t now_us() noexcept {
 
 /// Apply a comparison predicate.
 bool applyFilterOp(uint64_t lhs, const std::string& op, uint64_t rhs) noexcept {
-    if (op == "==" || op == "=") return lhs == rhs;
-    if (op == "!=" || op == "<>") return lhs != rhs;
-    if (op == "<")  return lhs <  rhs;
-    if (op == "<=") return lhs <= rhs;
-    if (op == ">")  return lhs >  rhs;
-    if (op == ">=") return lhs >= rhs;
+    if (op == "==" || op == "=") {
+      return lhs == rhs;
+    }
+    if (op == "!=" || op == "<>") {
+      return lhs != rhs;
+    }
+    if (op == "<") {
+      return lhs <  rhs;
+    }
+    if (op == "<=") {
+      return lhs <= rhs;
+    }
+    if (op == ">") {
+      return lhs >  rhs;
+    }
+    if (op == ">=") {
+      return lhs >= rhs;
+    }
     return false;
 }
 
@@ -118,10 +130,14 @@ ExecutionResult cpuHashJoin(const QueryOperator& op) {
     auto ht = buildHashTable(op.right_rows, op.right_key_col);
 
     for (const auto& lrow : op.left_rows) {
-        if (op.left_key_col >= lrow.size()) continue;
+        if (op.left_key_col >= lrow.size()) {
+          continue;
+        }
         const uint64_t key = lrow[op.left_key_col];
         auto it = ht.find(key);
-        if (it == ht.end()) continue;
+        if (it == ht.end()) {
+          continue;
+        }
         for (size_t ri : it->second) {
             // Concatenate left and right row.
             Row joined = lrow;
@@ -154,10 +170,14 @@ ExecutionResult gpuSimHashJoin(const QueryOperator& op, size_t batch_size) {
         const size_t end = std::min(start + step, n);
         for (size_t i = start; i < end; ++i) {
             const auto& lrow = op.left_rows[i];
-            if (op.left_key_col >= lrow.size()) continue;
+            if (op.left_key_col >= lrow.size()) {
+              continue;
+            }
             const uint64_t key = lrow[op.left_key_col];
             auto it = ht.find(key);
-            if (it == ht.end()) continue;
+            if (it == ht.end()) {
+              continue;
+            }
             for (size_t ri : it->second) {
                 Row joined = lrow;
                 const auto& rrow = op.right_rows[ri];
@@ -185,7 +205,9 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
 
     auto keyFn = [&]([[maybe_unused]] size_t col) {
         return [col](const Row& a, const Row& b) {
-            if (col >= a.size() || col >= b.size()) return false;
+            if (col >= a.size() || col >= b.size()) {
+              return false;
+            }
             return a[col] < b[col];
         };
     };
@@ -205,13 +227,17 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
         while (ri < right.size()) {
             const uint64_t rk2 = (op.right_key_col < right[ri].size())
                                       ? right[ri][op.right_key_col] : UINT64_MAX;
-            if (rk2 != lk) break;
+            if (rk2 != lk) {
+              break;
+            }
             ++ri;
         }
         while (li < left.size()) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;
-            if (lk2 != lk) break;
+            if (lk2 != lk) {
+              break;
+            }
             for (size_t rj = ri_start; rj < ri; ++rj) {
                 Row joined = left[li];
                 joined.insert(joined.end(), right[rj].begin(), right[rj].end());
@@ -263,10 +289,16 @@ ExecutionResult simdAggregate(const QueryOperator& op) {
     // This loop is written to be SIMD-friendly (simple reduction with no
     // early-exit branches in the inner body).
     for (size_t i = 0; i < n; ++i) {
-        if (col >= op.rows[i].size()) continue;
+        if (col >= op.rows[i].size()) {
+          continue;
+        }
         const uint64_t v = op.rows[i][col];
-        if (v < vmin) vmin = v;
-        if (v > vmax) vmax = v;
+        if (v < vmin) {
+          vmin = v;
+        }
+        if (v > vmax) {
+          vmax = v;
+        }
         vsum += static_cast<double>(v);
         ++cnt;
     }
@@ -303,7 +335,9 @@ ExecutionResult simdFilter(const QueryOperator& op) {
     const auto&    fop = op.filter_op;
 
     for (const auto& row : op.rows) {
-        if (col >= row.size()) continue;
+        if (col >= row.size()) {
+          continue;
+        }
         if (applyFilterOp(row[col], fop, val)) {
             r.rows.push_back(row);
         }
@@ -356,7 +390,9 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
         } else {
             match = s == pat;
         }
-        if (match) r.match_indices.push_back(i);
+        if (match) {
+          r.match_indices.push_back(i);
+        }
     }
     return r;
 }
@@ -430,7 +466,9 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
         }
     }();
 
-    if (rows == 0) return 1.0;
+    if (rows == 0) {
+      return 1.0;
+    }
 
     // Speedup model based on roadmap performance targets:
     //   Joins:       5-20x for GPU at >1M rows

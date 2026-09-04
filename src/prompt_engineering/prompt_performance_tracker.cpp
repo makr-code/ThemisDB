@@ -270,7 +270,9 @@ nlohmann::json PromptPerformanceTracker::getSummaryStatistics() const {
 // ============================================================================
 
 void PromptPerformanceTracker::persist(const std::string& prompt_id, const PromptMetrics& metrics) {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string key = std::string(KEY_PREFIX) + prompt_id;
     std::string value = metrics.toJson().dump();
@@ -282,7 +284,9 @@ void PromptPerformanceTracker::persist(const std::string& prompt_id, const Promp
 }
 
 void PromptPerformanceTracker::loadFromDB() {
-    if (!db_) return;
+    if (!db_) {
+      return;
+    }
     
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;

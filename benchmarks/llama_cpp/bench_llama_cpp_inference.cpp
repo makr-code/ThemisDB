@@ -548,7 +548,9 @@ static void BM_ConcurrentInference(benchmark::State& state) {
                 completed.fetch_add(1, std::memory_order_relaxed);
             });
         }
-        for (auto& th : threads) th.join();
+        for (auto& th : threads) {
+          th.join();
+        }
         benchmark::DoNotOptimize(completed.load());
     }
 

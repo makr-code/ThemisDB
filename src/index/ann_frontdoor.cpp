@@ -63,7 +63,9 @@ namespace {
     std::vector<std::pair<std::string, double>> scored;
     scored.reserve(candidates.size());
     for (const auto& [shard_id, backend] : candidates) {
-        if (!backend) continue;
+        if (!backend) {
+          continue;
+        }
 
         const ShardMetadata meta{shard_id, 1.0, 0.8, 0.9, 0.95};
 

@@ -25,13 +25,21 @@ namespace observability {
 
 double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
                                         double q) {
-    if (sorted_vals.empty()) return 0.0;
-    if (q <= 0.0) return sorted_vals.front();
-    if (q >= 1.0) return sorted_vals.back();
+    if (sorted_vals.empty()) {
+      return 0.0;
+    }
+    if (q <= 0.0) {
+      return sorted_vals.front();
+    }
+    if (q >= 1.0) {
+      return sorted_vals.back();
+    }
 
     // Nearest-rank method: index = floor(q * (n - 1)), clamped to [0, n-1].
     size_t idx = static_cast<size_t>(q * static_cast<double>(sorted_vals.size() - 1));
-    if (idx >= sorted_vals.size()) idx = sorted_vals.size() - 1;
+    if (idx >= sorted_vals.size()) {
+      idx = sorted_vals.size() - 1;
+    }
     return sorted_vals[idx];
 }
 
@@ -169,7 +177,9 @@ void AdvancedMetrics::recordCardinality(const std::string& name,
 size_t AdvancedMetrics::getCardinalityEstimate(const std::string& name) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = cardinality_sets_.find(name);
-    if (it == cardinality_sets_.end()) return 0;
+    if (it == cardinality_sets_.end()) {
+      return 0;
+    }
     return it->second.size();
 }
 
@@ -266,7 +276,9 @@ double AdvancedMetrics::getRate(const std::string& name) const {
     double elapsed_s =
         std::chrono::duration<double>(newest.timestamp - oldest.timestamp)
             .count();
-    if (elapsed_s <= 0.0) return 0.0;
+    if (elapsed_s <= 0.0) {
+      return 0.0;
+    }
 
     return (newest.value - oldest.value) / elapsed_s;
 }

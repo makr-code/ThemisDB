@@ -113,8 +113,12 @@ struct DataPoint {
     template<typename T>
     std::optional<T> get(const std::string& name) const {
         auto it = fields.find(name);
-        if (it == fields.end()) return std::nullopt;
-        if (auto* p = std::get_if<T>(&it->second)) return *p;
+        if (it == fields.end()) {
+          return std::nullopt;
+        }
+        if (auto* p = std::get_if<T>(&it->second)) {
+          return *p;
+        }
         return std::nullopt;
     }
 

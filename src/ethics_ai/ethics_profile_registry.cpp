@@ -35,15 +35,21 @@ namespace {
 /// Helper: read a sequence of strings from a YAML node (scalar or sequence).
 std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
     std::vector<std::string> result;
-    if (!node) return result;
+    if (!node) {
+      return result;
+    }
     if (node.IsScalar()) {
         auto v = node.as<std::string>("");
-        if (!v.empty()) result.push_back(v);
+        if (!v.empty()) {
+          result.push_back(v);
+        }
     } else if (node.IsSequence()) {
         for (const auto& item : node) {
             if (item.IsScalar()) {
                 auto v = item.as<std::string>("");
-                if (!v.empty()) result.push_back(v);
+                if (!v.empty()) {
+                  result.push_back(v);
+                }
             }
         }
     }
@@ -82,7 +88,9 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
                     break;
                 }
             }
-            if (!all_found) continue;
+            if (!all_found) {
+              continue;
+            }
         }
 
         // Filter: at least one requested domain must match
@@ -96,11 +104,15 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
                     break;
                 }
             }
-            if (!any_found) continue;
+            if (!any_found) {
+              continue;
+            }
         }
 
         results.push_back(meta);
-        if (query.max_results > 0 && results.size() >= query.max_results) break;
+        if (query.max_results > 0 && results.size() >= query.max_results) {
+          break;
+        }
     }
 
     return results;
@@ -175,9 +187,13 @@ std::variant<size_t, Status> EthicsProfileRegistry::rebuildIndex(
     // COMPLEXITY FIX: Store iterator to avoid temporary reference invalidation (HIGH: range_temporary)
     auto dir_iter = fs::recursive_directory_iterator(directory);
     for (const auto& entry : dir_iter) {
-        if (!entry.is_regular_file()) continue;
+        if (!entry.is_regular_file()) {
+          continue;
+        }
         const auto ext = entry.path().extension().string();
-        if (ext != ".yaml" && ext != ".yml") continue;
+        if (ext != ".yaml" && ext != ".yml") {
+          continue;
+        }
 
         EthicsProfileMeta meta = scanHeader(entry.path().string());
         if (!meta.school_id.empty()) {
@@ -221,7 +237,9 @@ void EthicsProfileRegistry::lruPut(const std::string& id,
 const PhilosophyProfile* EthicsProfileRegistry::lruGet(const std::string& id)
 {
     auto it = lru_map_.find(id);
-    if (it == lru_map_.end()) return nullptr;
+    if (it == lru_map_.end()) {
+      return nullptr;
+    }
 
     // Move to front (most-recently used)
     lru_list_.splice(lru_list_.begin(), lru_list_, it->second);
@@ -230,7 +248,9 @@ const PhilosophyProfile* EthicsProfileRegistry::lruGet(const std::string& id)
 
 void EthicsProfileRegistry::lruEvict()
 {
-    if (lru_list_.empty()) return;
+    if (lru_list_.empty()) {
+      return;
+    }
     const std::string& lru_id = lru_list_.back().first;
     lru_map_.erase(lru_id);
     lru_list_.pop_back();
@@ -256,7 +276,9 @@ EthicsProfileMeta EthicsProfileRegistry::scanHeader(const std::string& filepath)
         // school_id: override filename-derived fallback when present
         if (root["school_id"] && root["school_id"].IsScalar()) {
             std::string school_id_value = root["school_id"].as<std::string>("");
-            if (!school_id_value.empty()) meta.school_id = school_id_value;
+            if (!school_id_value.empty()) {
+              meta.school_id = school_id_value;
+            }
         }
         // Alternate key used by some profiles (e.g. nietzsche.yaml)
         if (meta.school_id.empty() && root["school"] && root["school"].IsScalar()) {

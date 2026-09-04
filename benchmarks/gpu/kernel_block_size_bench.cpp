@@ -61,7 +61,9 @@ static float cudaTheoreticalOccupancy(KernelFn kernel, int blockSize,
     int numBlocks = 0;
     cudaError_t err = cudaOccupancyMaxActiveBlocksPerMultiprocessor(
         &numBlocks, kernel, blockSize, dynamicSmem);
-    if (err != cudaSuccess) return -1.0f;
+    if (err != cudaSuccess) {
+      return -1.0f;
+    }
 
     cudaDeviceProp prop;
     cudaGetDeviceProperties(&prop, 0);
@@ -79,7 +81,9 @@ static std::vector<float> makeRandFloats(size_t n, uint32_t seed = 42) {
     std::mt19937 rng(seed);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     std::vector<float> v(n);
-    for (auto& x : v) x = dist(rng);
+    for (auto& x : v) {
+      x = dist(rng);
+    }
     return v;
 }
 

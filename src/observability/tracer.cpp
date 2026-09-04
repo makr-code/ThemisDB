@@ -64,8 +64,12 @@ public:
         , attach_profile_(attach_profile)
         , start_time_(std::chrono::system_clock::now())
     {
-        if (active_count_) ++(*active_count_);
-        if (total_count_)  ++(*total_count_);
+        if (active_count_) {
+          ++(*active_count_);
+        }
+        if (total_count_) {
+          ++(*total_count_);
+        }
     }
 
     ~ObservabilitySpan() override {
@@ -117,7 +121,9 @@ private:
         if (ended_.exchange(true)) return;  // idempotent
 
         auto end_time = std::chrono::system_clock::now();
-        if (active_count_) --(*active_count_);
+        if (active_count_) {
+          --(*active_count_);
+        }
 
         if (ring_buf_ && ring_mu_ && max_retained_ > 0) {
             SpanRecord rec;
@@ -253,7 +259,9 @@ public:
     }
 
     void publishMetrics() const {
-        if (!config_.publish_metrics) return;
+        if (!config_.publish_metrics) {
+          return;
+        }
         auto& mc = MetricsCollector::getInstance();
         mc.setGauge("themis_tracer_spans_total",
                     static_cast<double>(total_spans_.load()));

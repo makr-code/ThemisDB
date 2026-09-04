@@ -96,7 +96,9 @@ void example_multi_field_search(MultiVectorSearch& multi_search) {
         std::cout << "Weights used: [";
         for (size_t i = 0; i < result.value().weights_used.size(); ++i) {
             std::cout << result.value().weights_used[i];
-            if (i < result.value().weights_used.size() - 1) std::cout << ", ";
+            if (i < result.value().weights_used.size() - 1) {
+              std::cout << ", ";
+            }
         }
         std::cout << "]" << std::endl;
     }
@@ -255,7 +257,9 @@ void example_weight_optimization(MultiVectorSearch& multi_search) {
         std::cout << "Optimal weights found: [";
         for (size_t i = 0; i < result.value().size(); ++i) {
             std::cout << result.value()[i];
-            if (i < result.value().size() - 1) std::cout << ", ";
+            if (i < result.value().size() - 1) {
+              std::cout << ", ";
+            }
         }
         std::cout << "]" << std::endl;
     }

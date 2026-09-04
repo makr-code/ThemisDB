@@ -61,7 +61,9 @@ namespace {
 
 /// Return up to @p max_chars from @p s, appending "..." if truncated.
 std::string truncate(const std::string& s, size_t max_chars) {
-    if (s.size() <= max_chars) return s;
+    if (s.size() <= max_chars) {
+      return s;
+    }
     return s.substr(0, max_chars) + "...";
 }
 
@@ -71,7 +73,9 @@ std::string entitySummary(const ExtractionContext& ctx, size_t max = 30) {
     size_t n = 0;
     for (const auto& e : ctx.entities) {
         if (n++ >= max) { oss << ", ..."; break; }
-        if (n > 1) oss << ", ";
+        if (n > 1) {
+          oss << ", ";
+        }
         if (!e.text.empty()) {
             oss << e.text;
         } else {
@@ -147,7 +151,9 @@ void IngestionQualityJudge::setConfig(const IngestionJudgeConfig& cfg) {
 void IngestionQualityJudge::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
-    if (!observer) return;
+    if (!observer) {
+      return;
+    }
     std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
     observers_.push_back([[maybe_unused]] std::move(observer));
 }
@@ -155,7 +161,9 @@ void IngestionQualityJudge::addObserver(
 void IngestionQualityJudge::removeObserver(
     const IIngestionQualityObserver* observer)
 {
-    if (!observer) return;
+    if (!observer) {
+      return;
+    }
     std::lock_guard<std::mutex> lk([[maybe_unused]] observer_mutex_);
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
@@ -370,7 +378,9 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
         // Try lowercase fallback.
         const std::string ltag = "score:";
         auto lpos = response.find(ltag);
-        if (lpos == std::string::npos) return -1.0;
+        if (lpos == std::string::npos) {
+          return -1.0;
+        }
         pos = lpos;
     }
     pos += tag.size();
@@ -384,11 +394,17 @@ double IngestionQualityJudge::parseScore(const std::string& response) noexcept {
     {
         num += response[pos++];
     }
-    if (num.empty()) return -1.0;
+    if (num.empty()) {
+      return -1.0;
+    }
     try {
         double v = std::stod(num);
-        if (v < 0.0) v = 0.0;
-        if (v > 1.0) v = 1.0;
+        if (v < 0.0) {
+          v = 0.0;
+        }
+        if (v > 1.0) {
+          v = 1.0;
+        }
         return v;
     } catch (...) {
         return -1.0;
@@ -402,12 +418,18 @@ std::string IngestionQualityJudge::parseRationale(
     auto pos = response.find(tag);
     if (pos == std::string::npos) return {};
     pos += tag.size();
-    while (pos < response.size() && response[pos] == ' ') ++pos;
+    while (pos < response.size() && response[pos] == ' ') {
+      ++pos;
+    }
     auto end = response.find('\n', pos);
-    if (end == std::string::npos) end = response.size();
+    if (end == std::string::npos) {
+      end = response.size();
+    }
     std::string result = response.substr(pos, end - pos);
     // Truncate to 200 chars for safety.
-    if (result.size() > 200) result.resize(200);
+    if (result.size() > 200) {
+      result.resize(200);
+    }
     return result;
 }
 
@@ -429,9 +451,13 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
     while (std::getline(ss, line)) {
         // Strip leading whitespace.
         auto start = line.find_first_not_of(" \t\r");
-        if (start == std::string::npos) continue;
+        if (start == std::string::npos) {
+          continue;
+        }
         line = line.substr(start);
-        if (line.empty()) continue;
+        if (line.empty()) {
+          continue;
+        }
         // New section header → stop.
         if (line.size() > 2 && std::isupper(static_cast<unsigned char>(line[0]))
             && line.find(':') != std::string::npos
@@ -442,7 +468,9 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
         // Bullet marker.
         if (line[0] == '-' || line[0] == '*' || line[0] == '\xe2' /* UTF-8 bullet */) {
             auto content_start = line.find_first_not_of("-* \t", 1);
-            if (content_start == std::string::npos) continue;
+            if (content_start == std::string::npos) {
+              continue;
+            }
             items.push_back(line.substr(content_start));
         }
     }
@@ -584,14 +612,18 @@ void ReIngestionController::setReIngestionProfile(
 void ReIngestionController::addObserver(
     std::shared_ptr<IIngestionQualityObserver> observer)
 {
-    if (!observer) return;
+    if (!observer) {
+      return;
+    }
     observers_.push_back([[maybe_unused]] std::move(observer));
 }
 
 void ReIngestionController::removeObserver(
     const IIngestionQualityObserver* observer)
 {
-    if (!observer) return;
+    if (!observer) {
+      return;
+    }
     observers_.erase(
         std::remove_if(observers_.begin(), observers_.end(),
             [observer]([[maybe_unused]] const std::shared_ptr<IIngestionQualityObserver>& sp) {

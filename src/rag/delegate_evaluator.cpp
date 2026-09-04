@@ -56,7 +56,9 @@ double clamp01([[maybe_unused]] double v) noexcept {
 std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
         auto j = nlohmann::json::parse(s, nullptr, /*allow_exceptions=*/true);
-        if (j.is_object()) return j;
+        if (j.is_object()) {
+          return j;
+        }
     } catch (const std::exception& e) {
         THEMIS_DEBUG("JSON parse failed: {}", e.what());
     }
@@ -72,7 +74,9 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
  * @return RS in `[0.0, 1.0]`.
  */
 double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
-    if (orig.empty()) return 0.0;
+    if (orig.empty()) {
+      return 0.0;
+    }
 
     size_t unchanged = 0;
     for (auto& [key, val] : orig.items()) {
@@ -106,7 +110,9 @@ std::vector<std::string> tokenise(const std::string& s) {
             cur += c;
         }
     }
-    if (!cur.empty()) tokens.push_back(std::move(cur));
+    if (!cur.empty()) {
+      tokens.push_back(std::move(cur));
+    }
     return tokens;
 }
 
@@ -132,14 +138,18 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
     size_t inter = 0;
     std::unordered_set<std::string> seen;
     for (auto& t : ma) {
-        if (seen.count(t)) continue;
+        if (seen.count(t)) {
+          continue;
+        }
         seen.insert(t);
         const size_t ca = ma.count(t);
         const size_t cb = mb.count(t);
         inter += std::min(ca, cb);
     }
     const size_t union_sz = ta.size() + tb.size() - inter;
-    if (union_sz == 0) return 0.0;
+    if (union_sz == 0) {
+      return 0.0;
+    }
     return static_cast<double>(inter) / static_cast<double>(union_sz);
 }
 
@@ -165,7 +175,9 @@ size_t editDistance(const std::string& a, const std::string& b) {
         size_t diffs = 0;
         const size_t common = std::min(a.size(), b.size());
         for (size_t i = 0; i < common; ++i) {
-            if (a[i] != b[i]) ++diffs;
+            if (a[i] != b[i]) {
+              ++diffs;
+            }
         }
         diffs += static_cast<size_t>(
             a.size() > b.size() ? a.size() - b.size() : b.size() - a.size());
@@ -175,7 +187,9 @@ size_t editDistance(const std::string& a, const std::string& b) {
     const size_t m = a.size();
     const size_t n = b.size();
     std::vector<size_t> prev(n + 1), curr(n + 1);
-    for (size_t j = 0; j <= n; ++j) prev[j] = j;
+    for (size_t j = 0; j <= n; ++j) {
+      prev[j] = j;
+    }
     for (size_t i = 1; i <= m; ++i) {
         curr[0] = i;
         for (size_t j = 1; j <= n; ++j) {
@@ -194,8 +208,12 @@ size_t editDistance(const std::string& a, const std::string& b) {
  * @brief Normalised edit-distance score: `1 − dist / max(|a|, |b|)`.
  */
 double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
-    if (a.empty() && b.empty()) return 0.0;
-    if (a.empty() || b.empty()) return 0.0;
+    if (a.empty() && b.empty()) {
+      return 0.0;
+    }
+    if (a.empty() || b.empty()) {
+      return 0.0;
+    }
     const size_t dist = editDistance(a, b);
     const size_t maxLen = std::max(a.size(), b.size());
     return clamp01(1.0 - static_cast<double>(dist) /
@@ -243,11 +261,15 @@ std::unordered_multiset<std::string> extractXmlAttributes(const std::string& xml
  */
 double multisetOverlap(const std::unordered_multiset<std::string>& a,
                        const std::unordered_multiset<std::string>& b) {
-    if (a.empty()) return 0.0;
+    if (a.empty()) {
+      return 0.0;
+    }
     size_t inter = 0;
     std::unordered_set<std::string> seen;
     for (const auto& v : a) {
-        if (seen.count(v)) continue;
+        if (seen.count(v)) {
+          continue;
+        }
         seen.insert(v);
         const size_t ca = a.count(v);
         const size_t cb = b.count(v);
@@ -265,7 +287,9 @@ double multisetOverlap(const std::unordered_multiset<std::string>& a,
 ReconstructionScore JsonDocumentEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
 
     const auto jo = tryParseJson(original);
     const auto jr = tryParseJson(recovered);
@@ -276,7 +300,9 @@ ReconstructionScore JsonDocumentEvaluator::evaluate(
         return fallback.evaluate(original, recovered);
     }
 
-    if (jo->empty()) return 0.0;
+    if (jo->empty()) {
+      return 0.0;
+    }
 
     return clamp01(jsonFieldOverlap(*jo, *jr));
 }
@@ -288,7 +314,9 @@ ReconstructionScore JsonDocumentEvaluator::evaluate(
 ReconstructionScore AqlQueryEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
     return clamp01(jaccardTokenSimilarity(original, recovered));
 }
 
@@ -309,7 +337,9 @@ ReconstructionScore PlainTextEvaluator::evaluate(
 ReconstructionScore XmlProcessEvaluator::evaluate(
     const std::string& original, const std::string& recovered) const
 {
-    if (original.empty() || recovered.empty()) return 0.0;
+    if (original.empty() || recovered.empty()) {
+      return 0.0;
+    }
 
     // Detect XML heuristically: must contain at least one '<'
     const bool looksLikeXml =

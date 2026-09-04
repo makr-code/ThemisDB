@@ -46,17 +46,23 @@ MoralAnalyzer::Status MoralAnalyzer::buildDecisionGraph(
     
     // Add scenario node
     auto status = addScenarioNode(scenario);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     std::string scenario_node_id = "scenario_" + scenario.id;
     
     // Add stakeholder nodes
     status = addStakeholderNodes(scenario, scenario_node_id);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     // Add action nodes
     status = addActionNodes(scenario, scenario_node_id);
-    if (!status.ok) return status;
+    if (!status.ok) {
+      return status;
+    }
     
     return Status::OK();
 }
@@ -923,10 +929,18 @@ std::vector<std::string> MoralAnalyzer::extractKeywords(const EthicalDecision& d
     }
     
     // Add metrics as keywords if they're notable
-    if (decision.metrics.consistency > 0.8) keywords.push_back("high_consistency");
-    if (decision.metrics.fairness > 0.8) keywords.push_back("high_fairness");
-    if (decision.metrics.feasibility > 0.8) keywords.push_back("highly_feasible");
-    if (decision.metrics.long_term_impact > 0.8) keywords.push_back("high_impact");
+    if (decision.metrics.consistency > 0.8) {
+      keywords.push_back("high_consistency");
+    }
+    if (decision.metrics.fairness > 0.8) {
+      keywords.push_back("high_fairness");
+    }
+    if (decision.metrics.feasibility > 0.8) {
+      keywords.push_back("highly_feasible");
+    }
+    if (decision.metrics.long_term_impact > 0.8) {
+      keywords.push_back("high_impact");
+    }
     
     // Remove duplicates
     std::sort(keywords.begin(), keywords.end());
@@ -1096,7 +1110,9 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     if (!decision.reasoning_path.supporting_principles.empty()) {
         oss << "This decision is supported by the following principles: ";
         for (size_t i = 0; i < decision.reasoning_path.supporting_principles.size(); ++i) {
-            if (i > 0) oss << ", ";
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.supporting_principles[i];
         }
         oss << ". ";
@@ -1105,7 +1121,9 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     if (!decision.reasoning_path.opposing_principles.empty()) {
         oss << "However, some principles suggest caution: ";
         for (size_t i = 0; i < decision.reasoning_path.opposing_principles.size(); ++i) {
-            if (i > 0) oss << ", ";
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.opposing_principles[i];
         }
         oss << ". ";
@@ -1114,7 +1132,9 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
     if (!decision.reasoning_path.outcomes.empty()) {
         oss << "Expected outcomes include: ";
         for (size_t i = 0; i < decision.reasoning_path.outcomes.size(); ++i) {
-            if (i > 0) oss << ", ";
+            if (i > 0) {
+              oss << ", ";
+            }
             oss << decision.reasoning_path.outcomes[i].description
                 << " (probability: " << decision.reasoning_path.outcomes[i].probability << ")";
         }
@@ -1125,9 +1145,15 @@ std::string MoralAnalyzer::formatDecisionText(const EthicalDecision& decision) {
 }
 
 bool MoralAnalyzer::validateScenario(const EthicalScenario& scenario) {
-    if (scenario.id.empty()) return false;
-    if (scenario.description.empty()) return false;
-    if (scenario.possible_actions.empty()) return false;
+    if (scenario.id.empty()) {
+      return false;
+    }
+    if (scenario.description.empty()) {
+      return false;
+    }
+    if (scenario.possible_actions.empty()) {
+      return false;
+    }
     return true;
 }
 

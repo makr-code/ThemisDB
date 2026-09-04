@@ -66,7 +66,9 @@ static std::string objStorageJsonExtractString(const std::string& json,
         char c = json[i];
         if (escape) { value += c; escape = false; continue; }
         if (c == '\\') { escape = true; continue; }
-        if (c == '"') break;
+        if (c == '"') {
+          break;
+        }
         value += c;
     }
     return value;
@@ -74,7 +76,9 @@ static std::string objStorageJsonExtractString(const std::string& json,
 
 /// Determine whether a key refers to a JSON object (ends with .json).
 static bool isJsonKey(const std::string& key) {
-    if (key.size() < 5) return false;
+    if (key.size() < 5) {
+      return false;
+    }
     std::string suffix = key.substr(key.size() - 5);
     // case-insensitive compare ".json"
     std::transform(suffix.begin(), suffix.end(), suffix.begin(),
@@ -87,7 +91,9 @@ static bool isJsonKey(const std::string& key) {
 static bool isKeySafe(const std::string& key) {
     // Reject any key containing ".." to prevent path traversal when the key
     // is later written to a local temp path or used as a document identifier.
-    if (key.find("..") != std::string::npos) return false;
+    if (key.find("..") != std::string::npos) {
+      return false;
+    }
     return true;
 }
 
@@ -104,7 +110,9 @@ public:
     ~Impl() = default;
 
     bool initialize(const SourceConfig& config) {
-        if (config.type != SourceType::OBJECT_STORAGE) return false;
+        if (config.type != SourceType::OBJECT_STORAGE) {
+          return false;
+        }
         config_ = config;
 
         auto opt = [&](const std::string& k, const std::string& def) {
@@ -153,7 +161,9 @@ public:
 
     bool isAvailable() const {
         // When mocks are injected, always report available.
-        if (list_fn_ && fetch_fn_) return true;
+        if (list_fn_ && fetch_fn_) {
+          return true;
+        }
 
 #ifdef THEMIS_ENABLE_S3
         if (provider_ == ObjectStorageProvider::S3) {
@@ -254,7 +264,9 @@ private:
                             const std::string& body) const {
         if (isJsonKey(key)) {
             std::string text = objStorageJsonExtractString(body, text_field_);
-            if (!text.empty()) return text;
+            if (!text.empty()) {
+              return text;
+            }
             // Fall through: treat whole body as text if field absent.
         }
         return body;
@@ -278,13 +290,19 @@ private:
         size_t processed = 0;
         try {
             while (true) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 auto keys = list_fn_();
-                if (keys.empty()) break;
+                if (keys.empty()) {
+                  break;
+                }
 
                 for (const auto& key : keys) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     if (!isKeySafe(key)) {
                         stats.addError(IngestionErrorCode::FILE_READ_ERROR,
@@ -355,7 +373,9 @@ private:
             Aws::S3::Model::ListObjectsV2Request req;
             req.SetBucket(bucket_);
             req.SetMaxKeys(1);
-            if (!prefix_.empty()) req.SetPrefix(prefix_);
+            if (!prefix_.empty()) {
+              req.SetPrefix(prefix_);
+            }
 
             auto outcome = s3->ListObjectsV2(req);
             return outcome.IsSuccess();
@@ -385,11 +405,15 @@ private:
 
         try {
             do {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 Aws::S3::Model::ListObjectsV2Request list_req;
                 list_req.SetBucket(bucket_);
-                if (!prefix_.empty()) list_req.SetPrefix(prefix_);
+                if (!prefix_.empty()) {
+                  list_req.SetPrefix(prefix_);
+                }
                 list_req.SetMaxKeys(1000);
                 if (!continuation_token.empty()) {
                     list_req.SetContinuationToken(continuation_token);
@@ -407,7 +431,9 @@ private:
 
                 const auto& result = list_outcome.GetResult();
                 for (const auto& obj : result.GetContents()) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     const std::string key = obj.GetKey();
                     if (!isKeySafe(key)) {
@@ -498,7 +524,9 @@ private:
             size_t processed = 0;
             for (auto& obj_meta : client.ListObjects(bucket_,
                                                      gcs::Prefix(prefix_))) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
                 if (!obj_meta) {
                     stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
                                    IngestionErrorSeverity::WARNING,
@@ -587,10 +615,14 @@ private:
             size_t processed = 0;
             for (auto page = container_client.ListBlobs(list_opts);
                  page.HasPage(); page.MoveToNextPage()) {
-                if (max_keys_ > 0 && processed >= max_keys_) break;
+                if (max_keys_ > 0 && processed >= max_keys_) {
+                  break;
+                }
 
                 for (const auto& blob_item : page.Blobs) {
-                    if (max_keys_ > 0 && processed >= max_keys_) break;
+                    if (max_keys_ > 0 && processed >= max_keys_) {
+                      break;
+                    }
 
                     const std::string key = blob_item.Name;
                     if (!isKeySafe(key)) {

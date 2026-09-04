@@ -172,7 +172,9 @@ std::string BbrCongestionController::getActiveAlgorithmName() const noexcept {
 bool BbrCongestionController::isBBRv2Available() noexcept {
 #ifdef __linux__
     const int probe_fd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (probe_fd < 0) return false;
+    if (probe_fd < 0) {
+      return false;
+    }
     const char* name = "bbr2";
     const bool ok = ::setsockopt(probe_fd, IPPROTO_TCP, TCP_CONGESTION,
                                   name, static_cast<socklen_t>(std::strlen(name))) == 0;
@@ -187,7 +189,9 @@ bool BbrCongestionController::isBBRv2Available() noexcept {
 bool BbrCongestionController::isBBRv1Available() noexcept {
 #ifdef __linux__
     const int probe_fd = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (probe_fd < 0) return false;
+    if (probe_fd < 0) {
+      return false;
+    }
     const char* name = "bbr";
     const bool ok = ::setsockopt(probe_fd, IPPROTO_TCP, TCP_CONGESTION,
                                   name, static_cast<socklen_t>(std::strlen(name))) == 0;

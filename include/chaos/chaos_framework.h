@@ -60,7 +60,9 @@ struct ActiveFault {
     std::chrono::steady_clock::time_point expires_at;  ///< steady_clock::time_point::max() if permanent
 
     bool isExpired() const noexcept {
-        if (expires_at == std::chrono::steady_clock::time_point::max()) return false;
+        if (expires_at == std::chrono::steady_clock::time_point::max()) {
+          return false;
+        }
         return std::chrono::steady_clock::now() >= expires_at;
     }
 };

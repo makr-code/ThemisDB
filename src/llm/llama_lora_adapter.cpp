@@ -243,7 +243,9 @@ int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_p
  * @return Adapter handle on success, nullptr on error
  */
 void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_init : g_llama_lora_adapter_init;
     const bool avail = g_lora_api_override_active ? (g_override_lora_ini[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
@@ -285,7 +287,9 @@ void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora) 
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
     const bool avail = g_lora_api_override_active ? (g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
@@ -321,7 +325,9 @@ int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, 
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_remove : g_llama_lora_adapter_remove;
     auto* set_fn    = g_lora_api_override_active ? g_override_lora_set    : g_llama_lora_adapter_set;
     const bool avail = g_lora_api_override_active ? (g_override_lora_remov[[maybe_unused]] e != nullpt[[maybe_unused]] r || g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r)
@@ -376,7 +382,9 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
  * @return 0 on success, non-zero on error
  */
 int llama_lora_adapter_clear(struct llama_context* ctx) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_clear : g_llama_lora_adapter_clear;
     const bool avail = g_lora_api_override_active ? (g_override_lora_clea[[maybe_unused]] r != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
@@ -437,7 +445,9 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
  * @param adapter Adapter handle to free
  */
 void llama_lora_adapter_free(void* adapter) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_free : g_llama_lora_adapter_free;
     const bool avail = g_lora_api_override_active ? (g_override_lora_fre[[maybe_unused]] e != nullpt[[maybe_unused]] r) : g_lora_api_available;
 
@@ -465,7 +475,9 @@ void llama_lora_adapter_free(void* adapter) {
  * @return true if LoRA functions are available, false otherwise
  */
 bool themis_llama_lora_available() {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     return g_lora_api_override_active ? (g_override_lora_init != nullptr && g_override_lora_set != nullptr)
                                       : g_lora_api_available;
 }
@@ -485,7 +497,9 @@ bool themis_llama_lora_available() {
  *       Invalid adapter indices will be detected by llama.cpp and return an error.
  */
 int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale) {
-    if (!g_lora_api_override_active) ensureAPIInitialized();
+    if (!g_lora_api_override_active) {
+      ensureAPIInitialized();
+    }
     auto* fn        = g_lora_api_override_active ? g_override_lora_set : g_llama_lora_adapter_set;
     const bool avail = g_lora_api_override_active ? (g_override_lora_se[[maybe_unused]] t != nullpt[[maybe_unused]] r) : g_lora_api_available;
     

@@ -44,11 +44,21 @@ const char* statusToString(AdapterMetadata::Status status) {
 }
 
 AdapterMetadata::Status statusFromString(const std::string& status) {
-    if (status == "TRAINING") return AdapterMetadata::Status::TRAINING;
-    if (status == "TRAINED") return AdapterMetadata::Status::TRAINED;
-    if (status == "DEPLOYED") return AdapterMetadata::Status::DEPLOYED;
-    if (status == "DEPRECATED") return AdapterMetadata::Status::DEPRECATED;
-    if (status == "FAILED") return AdapterMetadata::Status::FAILED;
+    if (status == "TRAINING") {
+      return AdapterMetadata::Status::TRAINING;
+    }
+    if (status == "TRAINED") {
+      return AdapterMetadata::Status::TRAINED;
+    }
+    if (status == "DEPLOYED") {
+      return AdapterMetadata::Status::DEPLOYED;
+    }
+    if (status == "DEPRECATED") {
+      return AdapterMetadata::Status::DEPRECATED;
+    }
+    if (status == "FAILED") {
+      return AdapterMetadata::Status::FAILED;
+    }
     return AdapterMetadata::Status::TRAINED;
 }
 
@@ -574,11 +584,21 @@ std::vector<AdapterMetadata> AdapterRegistry::searchAdapters(
     std::vector<AdapterMetadata> result;
 
     for (const auto& [id, meta] : impl_->adapters) {
-        if (criteria.base_model && meta.base_model_name != *criteria.base_model) continue;
-        if (criteria.domain     && meta.domain          != *criteria.domain)     continue;
-        if (criteria.task_type  && meta.task_type        != *criteria.task_type)  continue;
-        if (criteria.language   && meta.language         != *criteria.language)   continue;
-        if (criteria.status     && meta.status           != *criteria.status)     continue;
+        if (criteria.base_model && meta.base_model_name != *criteria.base_model) {
+          continue;
+        }
+        if (criteria.domain     && meta.domain          != *criteria.domain) {
+          continue;
+        }
+        if (criteria.task_type  && meta.task_type        != *criteria.task_type) {
+          continue;
+        }
+        if (criteria.language   && meta.language         != *criteria.language) {
+          continue;
+        }
+        if (criteria.status     && meta.status           != *criteria.status) {
+          continue;
+        }
         result.push_back(meta);
     }
     return result;

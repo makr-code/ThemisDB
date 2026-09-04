@@ -90,14 +90,22 @@ bool ZstdDictionaryCompressor::train(
     const std::vector<std::vector<uint8_t>>& samples,
     size_t max_dict_size)
 {
-    if (samples.empty()) return false;
+    if (samples.empty()) {
+      return false;
+    }
 
-    if (max_dict_size == 0) max_dict_size = cfg_.dict_max_size;
+    if (max_dict_size == 0) {
+      max_dict_size = cfg_.dict_max_size;
+    }
 
     // Concatenate all sample buffers.
     size_t total_size = 0;
-    for (const auto& s : samples) total_size += s.size();
-    if (total_size == 0) return false;
+    for (const auto& s : samples) {
+      total_size += s.size();
+    }
+    if (total_size == 0) {
+      return false;
+    }
 
     std::vector<uint8_t> concat(total_size);
     std::vector<size_t>  sample_sizes(samples.size());
@@ -123,7 +131,9 @@ bool ZstdDictionaryCompressor::train(
         concat.data(), sample_sizes.data(),
         static_cast<unsigned>(samples.size()));
 
-    if (ZDICT_isError(dict_size)) return false;
+    if (ZDICT_isError(dict_size)) {
+      return false;
+    }
 
     dict_buf.resize(dict_size);
     return loadDictionary(dict_buf);
@@ -132,12 +142,16 @@ bool ZstdDictionaryCompressor::train(
 bool ZstdDictionaryCompressor::loadDictionary(
     const std::vector<uint8_t>& dict_bytes)
 {
-    if (dict_bytes.empty()) return false;
+    if (dict_bytes.empty()) {
+      return false;
+    }
 
     // Build CDict and DDict.
     ZSTD_CDict* new_cdict = ZSTD_createCDict(
         dict_bytes.data(), dict_bytes.size(), cfg_.compression_level);
-    if (!new_cdict) return false;
+    if (!new_cdict) {
+      return false;
+    }
 
     ZSTD_DDict* new_ddict = ZSTD_createDDict(
         dict_bytes.data(), dict_bytes.size());

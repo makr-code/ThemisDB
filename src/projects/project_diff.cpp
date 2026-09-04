@@ -50,7 +50,9 @@ DeltaEntry DeltaEntry::fromJson(const json& j) {
 
 json DeltaSet::toJson() const {
     json arr = json::array();
-    for (const auto& e : entries) arr.push_back(e.toJson());
+    for (const auto& e : entries) {
+      arr.push_back(e.toJson());
+    }
     return json{{"entries", arr}};
 }
 
@@ -79,7 +81,9 @@ void ProjectDiff::diffRecursive(
     const json&              to,
     std::vector<DeltaEntry>& out) const
 {
-    if (from == to) return;
+    if (from == to) {
+      return;
+    }
 
     if (from.is_object() && to.is_object()) {
         // Fields removed in `to`
@@ -136,10 +140,14 @@ DeltaSet ProjectDiff::diff(
     // Build lookup maps: doc_id → doc_json
     auto buildMap = [](const json& docs) {
         std::unordered_map<std::string, json> m;
-        if (!docs.is_array()) return m;
+        if (!docs.is_array()) {
+          return m;
+        }
         for (const auto& doc : docs) {
             const std::string id = doc.value("id", std::string{});
-            if (!id.empty()) m[id] = doc;
+            if (!id.empty()) {
+              m[id] = doc;
+            }
         }
         return m;
     };
