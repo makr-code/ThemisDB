@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iterator>
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
 
@@ -70,10 +71,56 @@ ml_control:
 )YAML";
 }
 
+std::string policyWithDisabledStage(const std::string& stage_name) {
+    std::string yaml = validPolicyYaml();
+    const std::string needle = "  " + stage_name + ":\n    enabled: true";
+    const auto pos = yaml.find(needle);
+    if (pos != std::string::npos) {
+        yaml.replace(pos, needle.size(),
+                     "  " + stage_name + ":\n    enabled: false");
+    }
+    return yaml;
+}
+
+std::filesystem::path makeTempWorkspaceRoot() {
+    const auto dir = std::filesystem::temp_directory_path() /
+                     "themisdb_llm_wiki_block4_workspace";
+    std::error_code ec;
+    std::filesystem::remove_all(dir, ec);
+    std::filesystem::create_directories(dir, ec);
+    return dir;
+}
+
+std::filesystem::path writeTempMarkdownSource(const std::filesystem::path& root) {
+    const auto source_dir = root / "source";
+    std::error_code ec;
+    std::filesystem::create_directories(source_dir, ec);
+    const auto file_path = source_dir / "doc.md";
+    std::ofstream out(file_path);
+    out << "# Test\n\nalpha beta gamma";
+    out.close();
+    return file_path;
+}
+
+std::string readFileOrEmpty(const std::filesystem::path& path) {
+    std::ifstream in(path);
+    if (!in.is_open()) {
+        return {};
+    }
+    return std::string(std::istreambuf_iterator<char>(in),
+                       std::istreambuf_iterator<char>());
+}
+
+std::string makePluginConfigJson(const std::filesystem::path& workspace_root,
+                                 const std::filesystem::path& policy_path) {
+    return std::string("{\"workspace_root\":\"") + workspace_root.string() +
+           "\",\"process_policy_path\":\"" + policy_path.string() + "\"}";
+}
+
 #ifndef THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED
 TEST(LLMWikiBlock4BackendGateTest, InitializeDeniedWhenEditionGateClosed) {
     LLMWikiPluginImpl plugin;
-    const Status st = plugin.initialize("{}");
+    const Status st = plugin.initialize(std::string("{}"));
     EXPECT_EQ(st.code, Status::Code::PermissionDenied);
 }
 #else
@@ -140,12 +187,69 @@ TEST(LLMWikiBlock4BackendGateTest, FailOpenRequiresShadowPolicyMode) {
 
 TEST(LLMWikiBlock4BackendGateTest, WikipediaDumpRequiresRuntimeLicenseFlag) {
     LLMWikiPluginImpl plugin;
-    ASSERT_TRUE(plugin.initialize("{}").ok());
+    ASSERT_TRUE(plugin.initialize(std::string("{}")).ok());
 
     const auto res = plugin.ingestWikipediaDump("/tmp/nonexistent_dump.xml.bz2", {});
     EXPECT_GT(res.errors, 0);
     ASSERT_FALSE(res.failed_files.empty());
     EXPECT_NE(res.failed_files.front().find("permission_denied"), std::string::npos);
+}
+
+TEST(LLMWikiBlock4BackendGateTest, IngestGateDenyPersistsReasonCodeEvidence) {
+    const auto workspace = makeTempWorkspaceRoot();
+    const auto policy_path = makeTempPolicyFile(policyWithDisabledStage("ingest"));
+    const auto source_file = writeTempMarkdownSource(workspace);
+    LLMWikiPluginImpl plugin;
+    const std::string cfg = makePluginConfigJson(workspace, policy_path);
+    ASSERT_TRUE(plugin.initialize(cfg).ok());
+
+    const auto ingest_res = plugin.ingest(source_file.string(), {});
+    EXPECT_EQ(ingest_res.errors, 1);
+    ASSERT_FALSE(ingest_res.failed_files.empty());
+    EXPECT_NE(ingest_res.failed_files.front().find("LLMWIKI_DENY_STAGE_INGEST_DISABLED"),
+              std::string::npos);
+
+    const auto evidence_path = workspace / "wiki" / "governance_evidence.jsonl";
+    const auto evidence = readFileOrEmpty(evidence_path);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_INGEST_DISABLED"), std::string::npos);
+}
+
+TEST(LLMWikiBlock4BackendGateTest, ExtractValidateSynthesizeDenyPersistReasonCodeEvidence) {
+    const auto workspace = makeTempWorkspaceRoot();
+    const auto source_file = writeTempMarkdownSource(workspace);
+    (void)source_file;
+    {
+        const auto policy_path = makeTempPolicyFile(policyWithDisabledStage("extract"));
+        LLMWikiPluginImpl plugin;
+        const std::string cfg = makePluginConfigJson(workspace, policy_path);
+        ASSERT_TRUE(plugin.initialize(cfg).ok());
+        const auto query_res = plugin.query("alpha", {});
+        EXPECT_TRUE(query_res.candidates.empty());
+    }
+
+    {
+        const auto policy_path = makeTempPolicyFile(policyWithDisabledStage("validate"));
+        LLMWikiPluginImpl plugin;
+        const std::string cfg = makePluginConfigJson(workspace, policy_path);
+        ASSERT_TRUE(plugin.initialize(cfg).ok());
+        const auto query_res = plugin.query("alpha", {});
+        EXPECT_TRUE(query_res.candidates.empty());
+    }
+
+    {
+        const auto policy_path = makeTempPolicyFile(policyWithDisabledStage("synthesize"));
+        LLMWikiPluginImpl plugin;
+        const std::string cfg = makePluginConfigJson(workspace, policy_path);
+        ASSERT_TRUE(plugin.initialize(cfg).ok());
+        const auto query_res = plugin.query("alpha", {});
+        EXPECT_TRUE(query_res.candidates.empty());
+    }
+
+    const auto evidence_path = workspace / "wiki" / "governance_evidence.jsonl";
+    const auto evidence = readFileOrEmpty(evidence_path);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_EXTRACT_DISABLED"), std::string::npos);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_VALIDATE_DISABLED"), std::string::npos);
+    EXPECT_NE(evidence.find("LLMWIKI_DENY_STAGE_SYNTHESIZE_DISABLED"), std::string::npos);
 }
 #endif
 

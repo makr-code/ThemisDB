@@ -33,6 +33,7 @@
 #pragma once
 
 #include "llm_wiki/llm_wiki_plugin_interface.h"
+#include "llm_wiki/process_policy_manager.h"
 #include "wikipedia/wiki_workspace_orchestrator.h"
 
 #include "llm/wiki_chunk_splitter.h"
@@ -245,6 +246,12 @@ public:
     [[nodiscard]] bool isInitialized() const noexcept { return initialized_.load(); }
 
 private:
+    struct StageGateDecision {
+        bool allowed = true;
+        std::string reason_code;
+        std::string message;
+    };
+
     // ── Internal helpers ──────────────────────────────────────────────────────
 
     /**
@@ -269,6 +276,13 @@ private:
         int   top_k,
         float min_score) const;
 
+    [[nodiscard]] StageGateDecision evaluateStageGate(
+        const char* stage_name) const;
+    void persistDenyEvidence(
+        const char* stage_name,
+        const std::string& reason_code,
+        const std::string& message) const;
+
     // ── State ─────────────────────────────────────────────────────────────────
 
     std::atomic<bool>          initialized_{false};
@@ -286,6 +300,7 @@ private:
     bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
+    std::optional<::themis::llm_wiki::LLMWikiProcessPolicy> process_policy_;
 
     // Phase A in-memory store
     std::vector<themis::llm::WikiChunk>               chunks_;

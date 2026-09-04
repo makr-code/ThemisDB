@@ -103,6 +103,8 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 - [~] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
   - [x] Startup policy load is now wired into `LLMWikiPluginImpl::initialize()` with fail-closed behavior on invalid/missing policy.
   - [x] Deterministic deny-path tests now cover missing explicit policy path and non-shadow `fail_open=true` rejection.
+  - [x] Runtime stage gates (`ingest`/`extract`/`validate`/`synthesize`) are now actively enforced in plugin request paths via policy `stages.*.enabled`.
+  - [x] Deny reason codes are now persisted as governance evidence (`wiki/governance_evidence.jsonl`) on stage-gate denials.
   - [ ] Hot-reload safeguards, schedule execution wiring, and rollback-trigger tests remain open.
 
 ---

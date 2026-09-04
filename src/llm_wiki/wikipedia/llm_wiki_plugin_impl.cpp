@@ -31,8 +31,10 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <ctime>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <regex>
 #include <sstream>
 #include <string_view>
@@ -159,6 +161,20 @@ std::string resolveProcessPolicyPath(const std::string& configured_path) {
         return *resolved;
     }
     return source_tree_default;
+}
+
+std::string currentIsoUtcTimestamp() {
+    const auto now = std::chrono::system_clock::now();
+    const std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm tm_buf{};
+#ifdef _WIN32
+    gmtime_s(&tm_buf, &t);
+#else
+    gmtime_r(&t, &tm_buf);
+#endif
+    std::ostringstream oss;
+    oss << std::put_time(&tm_buf, "%Y-%m-%dT%H:%M:%SZ");
+    return oss.str();
 }
 
 // ── Simple glob match ─────────────────────────────────────────────────────────
@@ -312,10 +328,12 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
                     "'shadow'; current mode: " +
                     loaded_policy.mode);
             }
+            process_policy_ = std::move(loaded_policy);
             spdlog::info(
                 "[llm_wiki] Loaded process policy id={} mode={} path={}",
-                loaded_policy.policy_id, loaded_policy.mode, policy_path);
+                process_policy_->policy_id, process_policy_->mode, policy_path);
         } else {
+            process_policy_.reset();
             spdlog::warn(
                 "[llm_wiki] Process policy enforcement disabled by config "
                 "(enforce_process_policy=false)");
@@ -521,6 +539,72 @@ std::vector<themis::llm::WikiChunk> LLMWikiPluginImpl::inMemoryBm25(
     return results;
 }
 
+LLMWikiPluginImpl::StageGateDecision LLMWikiPluginImpl::evaluateStageGate(
+    const char* stage_name) const {
+    if (!process_policy_.has_value()) {
+        return StageGateDecision{};
+    }
+
+    const ::themis::llm_wiki::StagePolicy* stage_policy = nullptr;
+    std::string reason_code;
+    if (std::string_view(stage_name) == "ingest") {
+        stage_policy = &process_policy_->ingest;
+        reason_code = "LLMWIKI_DENY_STAGE_INGEST_DISABLED";
+    } else if (std::string_view(stage_name) == "extract") {
+        stage_policy = &process_policy_->extract;
+        reason_code = "LLMWIKI_DENY_STAGE_EXTRACT_DISABLED";
+    } else if (std::string_view(stage_name) == "synthesize") {
+        stage_policy = &process_policy_->synthesize;
+        reason_code = "LLMWIKI_DENY_STAGE_SYNTHESIZE_DISABLED";
+    } else if (std::string_view(stage_name) == "validate") {
+        stage_policy = &process_policy_->validate;
+        reason_code = "LLMWIKI_DENY_STAGE_VALIDATE_DISABLED";
+    } else {
+        return StageGateDecision{};
+    }
+
+    if (stage_policy->enabled) {
+        return StageGateDecision{};
+    }
+
+    StageGateDecision denied;
+    denied.allowed = false;
+    denied.reason_code = std::move(reason_code);
+    denied.message = "Stage '" + std::string(stage_name) + "' disabled by policy " +
+                     process_policy_->policy_id;
+    return denied;
+}
+
+void LLMWikiPluginImpl::persistDenyEvidence(
+    const char* stage_name,
+    const std::string& reason_code,
+    const std::string& message) const {
+    if (workspace_root_.empty()) {
+        return;
+    }
+
+    const auto evidence_path = std::filesystem::path(workspace_root_) / "wiki" /
+                               "governance_evidence.jsonl";
+    std::error_code ec;
+    std::filesystem::create_directories(evidence_path.parent_path(), ec);
+
+    nlohmann::json event = {
+        {"timestamp", currentIsoUtcTimestamp()},
+        {"event", "stage_gate_denied"},
+        {"stage", stage_name},
+        {"reason_code", reason_code},
+        {"message", message},
+        {"policy_id", process_policy_.has_value() ? process_policy_->policy_id : ""},
+    };
+    std::ofstream ofs(evidence_path, std::ios::app);
+    if (!ofs.is_open()) {
+        spdlog::warn("[llm_wiki] Failed to persist governance evidence to {}",
+                     evidence_path.string());
+        return;
+    }
+    ofs << event.dump() << "\n";
+}
+
 // ═════════════════════════════════════════════════════════════════════════════
 // LLMWikiPluginImpl — ILLMWikiPlugin::ingest
 // ═════════════════════════════════════════════════════════════════════════════
@@ -532,6 +616,13 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     WikiIngestResult result;
     if (!initialized_.load()) {
         spdlog::warn("[llm_wiki] ingest() called before initialize()");
+        return result;
+    }
+    if (const auto gate = evaluateStageGate("ingest"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("ingest", gate.reason_code, gate.message);
+        result.errors++;
+        result.failed_files.push_back("policy_denied: " + gate.reason_code);
         return result;
     }
 
@@ -683,6 +774,11 @@ WikiQueryResult LLMWikiPluginImpl::query(
         spdlog::warn("[llm_wiki] query() called before initialize()");
         return result;
     }
+    if (const auto gate = evaluateStageGate("extract"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("extract", gate.reason_code, gate.message);
+        return result;
+    }
 
     const auto t_start = std::chrono::steady_clock::now();
 
@@ -714,6 +810,12 @@ WikiQueryResult LLMWikiPluginImpl::query(
     }
 
     // Guardrail: filter unsafe chunks
+    if (const auto gate = evaluateStageGate("validate"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("validate", gate.reason_code, gate.message);
+        return result;
+    }
+
     for (auto& chunk : raw_candidates) {
         if (containsUnsafePattern(chunk.text)) {
             result.filtered_unsafe_chunks++;
@@ -722,6 +824,13 @@ WikiQueryResult LLMWikiPluginImpl::query(
         } else {
             result.candidates.push_back(std::move(chunk));
         }
+    }
+    if (const auto gate = evaluateStageGate("synthesize"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("synthesize", gate.reason_code, gate.message);
+        result.candidates.clear();
+        result.filtered_unsafe_chunks = 0;
+        return result;
     }
 
     const auto t_end = std::chrono::steady_clock::now();
@@ -775,6 +884,13 @@ WikiIngestResult LLMWikiPluginImpl::wikiIngest(
         result.failed_files.push_back(source_path);
         return result;
     }
+    if (const auto gate = evaluateStageGate("ingest"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("ingest", gate.reason_code, gate.message);
+        result.errors++;
+        result.failed_files.push_back("policy_denied: " + gate.reason_code);
+        return result;
+    }
 
     // Split source file into chunks
     std::string content;
@@ -826,6 +942,11 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
         spdlog::error("[llm_wiki] wikiQuery() called without workspace; call wikiInit() first");
         return result;
     }
+    if (const auto gate = evaluateStageGate("extract"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("extract", gate.reason_code, gate.message);
+        return result;
+    }
 
     // Apply guardrails
     if (containsUnsafePattern(query_text)) {
@@ -838,12 +959,40 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
 
 #ifdef THEMISDB_WIKI_PHASE_B
     if (phase_b_active_ && wiki_store_) {
-        return workspace_->query(query_text, opts, *wiki_store_);
+        auto ws_result = workspace_->query(query_text, opts, *wiki_store_);
+        if (const auto gate = evaluateStageGate("validate"); !gate.allowed) {
+            spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+            persistDenyEvidence("validate", gate.reason_code, gate.message);
+            ws_result.candidates.clear();
+            ws_result.filtered_unsafe_chunks = 0;
+            return ws_result;
+        }
+        if (const auto gate = evaluateStageGate("synthesize"); !gate.allowed) {
+            spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+            persistDenyEvidence("synthesize", gate.reason_code, gate.message);
+            ws_result.candidates.clear();
+            ws_result.filtered_unsafe_chunks = 0;
+        }
+        return ws_result;
     }
 #endif
 
     if (json_reader_ && json_reader_->isReady()) {
-        return workspace_->query(query_text, opts, *json_reader_);
+        auto ws_result = workspace_->query(query_text, opts, *json_reader_);
+        if (const auto gate = evaluateStageGate("validate"); !gate.allowed) {
+            spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+            persistDenyEvidence("validate", gate.reason_code, gate.message);
+            ws_result.candidates.clear();
+            ws_result.filtered_unsafe_chunks = 0;
+            return ws_result;
+        }
+        if (const auto gate = evaluateStageGate("synthesize"); !gate.allowed) {
+            spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+            persistDenyEvidence("synthesize", gate.reason_code, gate.message);
+            ws_result.candidates.clear();
+            ws_result.filtered_unsafe_chunks = 0;
+        }
+        return ws_result;
     }
 
     // Fallback: create a temporary in-memory reader from chunks_
@@ -852,6 +1001,19 @@ WikiQueryResult LLMWikiPluginImpl::wikiQuery(
     auto mem_result = inMemoryBm25(query_text, opts.top_k, opts.min_score);
     result.candidates = std::move(mem_result);
     result.query_flagged_for_prompt_injection = containsUnsafePattern(query_text);
+    if (const auto gate = evaluateStageGate("validate"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("validate", gate.reason_code, gate.message);
+        result.candidates.clear();
+        result.filtered_unsafe_chunks = 0;
+        return result;
+    }
+    if (const auto gate = evaluateStageGate("synthesize"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("synthesize", gate.reason_code, gate.message);
+        result.candidates.clear();
+        result.filtered_unsafe_chunks = 0;
+    }
     return result;
 }
 
@@ -879,6 +1041,13 @@ WikiIngestResult LLMWikiPluginImpl::ingestWikipediaDump(
 
     if (!initialized_.load()) {
         result.errors++;
+        return result;
+    }
+    if (const auto gate = evaluateStageGate("ingest"); !gate.allowed) {
+        spdlog::warn("[llm_wiki] {} [{}]", gate.message, gate.reason_code);
+        persistDenyEvidence("ingest", gate.reason_code, gate.message);
+        result.errors++;
+        result.failed_files.push_back("policy_denied: " + gate.reason_code);
         return result;
     }
 
