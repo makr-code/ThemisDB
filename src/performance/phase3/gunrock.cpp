@@ -55,7 +55,7 @@ void GunrockProcessor::load_graph(const std::vector<std::vector<NodeID>>& adj_li
         for (NodeID neighbor : neighbors) {
             impl_->column_indices.push_back(neighbor);
         }
-        impl_->row_offsets.push_back(impl_-> static_cast<int>(column_indices.size()));
+        impl_->row_offsets.push_back(static_cast<int>(column_indices.size()));
     }
 }
 

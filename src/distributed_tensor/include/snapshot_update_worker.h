@@ -44,12 +44,12 @@
 #pragma once
 
 #include "artifact_manifest.h"
-#include "src/distributed_tensor/include/tensor_delta_log.h"
-#include "src/distributed_tensor/include/manifest_store.h"
-#include "src/distributed_tensor/include/crash_recovery_checkpoint.h"
-#include "src/distributed_tensor/include/distributed_lock_manager.h"
-#include "src/distributed_tensor/include/stale_artifact_detector.h"
-#include "src/distributed_tensor/include/error_recovery_handler.h"
+#include "tensor_delta_log.h"
+#include "manifest_store.h"
+#include "crash_recovery_checkpoint.h"
+#include "distributed_lock_manager.h"
+#include "stale_artifact_detector.h"
+#include "error_recovery_handler.h"
 #include <string>
 #include <memory>
 #include <vector>

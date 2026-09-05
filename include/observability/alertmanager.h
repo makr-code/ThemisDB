@@ -27,6 +27,14 @@ namespace themis { namespace utils { class HTTPClientPool; } }
 namespace themis {
 namespace observability {
 
+#ifdef WARNING
+#undef WARNING
+#endif
+
+#ifdef ERROR
+#undef ERROR
+#endif
+
 /**
  * Alert severity levels
  */

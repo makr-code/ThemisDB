@@ -970,3 +970,9 @@ bool ONNXClipPlugin::reloadModel(const PluginConfig& new_config) {
 } // namespace plugins
 } // namespace themis
 
+// Export plugin entry points for dynamic loading (disabled for unit-test
+// binaries that compile plugin sources directly).
+#ifndef THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
+THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
+#endif
+
