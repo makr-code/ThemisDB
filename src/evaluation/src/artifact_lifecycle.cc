@@ -3,7 +3,7 @@
  * @brief Implementation of EPIC 2.6 Artifact Lifecycle management.
  */
 
-#include "artifact_lifecycle.h"
+#include "../include/artifact_lifecycle.h"
 
 #include <algorithm>
 #include <cassert>

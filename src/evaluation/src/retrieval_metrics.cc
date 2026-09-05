@@ -29,7 +29,7 @@
  * @see EVALUATION_FRAMEWORK.md
  */
 
-#include "retrieval_metrics.h"
+#include "../include/retrieval_metrics.h"
 
 #include <cmath>
 #include <numeric>

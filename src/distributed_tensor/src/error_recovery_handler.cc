@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/error_recovery_handler.h"
+#include "../include/error_recovery_handler.h"
 #include <chrono>
 #include <cmath>
 

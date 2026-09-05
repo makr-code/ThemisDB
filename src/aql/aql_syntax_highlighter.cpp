@@ -77,7 +77,7 @@ constexpr const char *FG_MAGENTA   = "\x1b[35m"; // LLM keywords
 constexpr const char *FG_YELLOW    = "\x1b[33m"; // built-in functions
 constexpr const char *FG_GREEN     = "\x1b[32m"; // string literals
 constexpr const char *FG_BLUE      = "\x1b[34m"; // numbers
-constexpr const char *FG_RED       = "\x1b[31m"; // error annotation marker
+[[maybe_unused]] constexpr const char *FG_RED = "\x1b[31m"; // error annotation marker
 constexpr const char *FG_DARK_GREY = "\x1b[90m"; // comments
 
 } // anonymous namespace
@@ -111,7 +111,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
     auto peek
         = [&](std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset < code.size())) ? code[pos + offset] : '\0'; };
 
-    while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
+    while (pos < code.size()) {
         // Skip whitespace (preserve for faithful reconstruction)
         if (std::isspace(static_cast<unsigned char>(code[pos]))) {
             std::string ws = {};
@@ -140,7 +140,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             std::string comment = {};
             comment += advance();
             comment += advance(); // consume /*
-            while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
+            while (pos < code.size()) {
                 if (code[pos] == '*' && peek(1) == '/') {
                     comment += advance();
                     comment += advance();
@@ -157,10 +157,10 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
             char q = code[pos];
             std::string str = {};
             str += advance(); // opening quote
-            while (static_cast<size_t>(pos) <static_cast<int>(code.size())) {
+            while (pos < code.size()) {
                 char c = advance();
                 str += c;
-                if (c == '\\'  && static_cast<size_t>(pos) <static_cast<int>(code.size())) {
+                if (c == '\\' && pos < code.size()) {
                     str += advance(); // escaped char
                 } else if (c == q) {
                     break;

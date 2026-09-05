@@ -73,24 +73,25 @@ using themis::api::aqlEscapeLiteral;
 using themis::api::isValidAqlIdentifier;
 
 std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> g_api_grpc_service_fn;
+std::mutex g_api_grpc_service_fn_mutex;
 
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces backslashes and single-quotes to prevent AQL injection.
 /// Kept as a local alias for backward compatibility with call sites below.
-inline std::string aqlEscape(const std::string& raw) {
+[[maybe_unused]] inline std::string aqlEscape(const std::string& raw) {
     return aqlEscapeLiteral(raw);
 }
 
 /// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
 /// Delegates to the shared header implementation.
-inline bool isValidCollectionName(const std::string& name) {
+[[maybe_unused]] inline bool isValidCollectionName(const std::string& name) {
     return isValidAqlIdentifier(name);
 }
 
 /// Version-counter key for a stored document.
 /// Stored as a plain decimal string so that no additional serialisation is
 /// needed and the counter survives a process restart.
-inline std::string versionKey(const std::string& storage_key) {
+[[maybe_unused]] inline std::string versionKey(const std::string& storage_key) {
     return "__ver/" + storage_key;
 }
 
@@ -98,7 +99,7 @@ inline std::string versionKey(const std::string& storage_key) {
 /// request (upserts + deletes for BatchWrite; keys for BatchRead).  Requests
 /// that exceed this limit are rejected with RESOURCE_EXHAUSTED to prevent
 /// unbounded memory allocation on the server.
-static constexpr int kMaxBatchItems = 10'000;
+[[maybe_unused]] static constexpr int kMaxBatchItems = 10'000;
 
 #if THEMIS_HAS_API_GRPC
 /// Map canonical Themis error codes to transport-level gRPC status codes.
@@ -1909,7 +1910,11 @@ void ThemisDBGrpcService::buildImpl() {
     // Try injected accessor (for non-proto builds wiring an external service).
     ServiceFn fn;
     {
-        auto fn_ptr = std::atomic_load(&g_api_grpc_service_fn);
+        std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> fn_ptr;
+        {
+            std::lock_guard<std::mutex> lock(g_api_grpc_service_fn_mutex);
+            fn_ptr = g_api_grpc_service_fn;
+        }
         if (fn_ptr) {
             fn = *fn_ptr;
         }
@@ -1934,10 +1939,9 @@ void ThemisDBGrpcService::buildImpl() {
 ThemisDBGrpcService::~ThemisDBGrpcService() = default;
 
 void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
-    std::atomic_store(
-        &g_api_grpc_service_fn,
-        fn ? std::make_shared<ServiceFn>(std::move(fn))
-           : std::shared_ptr<ServiceFn>{});
+    std::lock_guard<std::mutex> lock(g_api_grpc_service_fn_mutex);
+    g_api_grpc_service_fn = fn ? std::make_shared<ServiceFn>(std::move(fn))
+                               : std::shared_ptr<ServiceFn>{};
 }
 
 #ifdef THEMIS_HAS_PROMETHEUS

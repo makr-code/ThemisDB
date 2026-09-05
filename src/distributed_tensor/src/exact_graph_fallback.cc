@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/exact_graph_fallback.h"
+#include "../include/exact_graph_fallback.h"
 
 namespace themis {
 namespace distributed_tensor {

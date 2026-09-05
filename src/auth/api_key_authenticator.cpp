@@ -69,7 +69,7 @@ void ApiKeyAuthenticator::removeCredential(const std::string& key_id) {
 
 size_t ApiKeyAuthenticator::credentialCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(credentials_.size());
+    return credentials_.size();
 }
 
 // ============================================================================
@@ -87,7 +87,8 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "key_id must not be empty"
         ));
     }
-    if (static_cast<int>(key_id.size()) > config_.max_key_id_length) {
+        if (config_.max_key_id_length > 0
+            && key_id.size() > static_cast<std::size_t>(config_.max_key_id_length)) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",
@@ -101,7 +102,8 @@ ApiKeyClaims ApiKeyAuthenticator::authenticate(const std::string& key_id,
             "secret must not be empty"
         ));
     }
-    if (static_cast<int>(secret.size()) > config_.max_secret_length) {
+        if (config_.max_secret_length > 0
+            && secret.size() > static_cast<std::size_t>(config_.max_secret_length)) {
         throw AuthException(AuthError(
             AuthErrorCode::AUTH_INVALID_CREDENTIALS,
             "Authentication failed",

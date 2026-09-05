@@ -215,9 +215,9 @@ RoutingDecision AQLModelRouter::route(const std::string &aql_query) const {
     // Build explanation.
     std::ostringstream ss = {};
     ss << "Classified as " << modelTypeName(decision.primary_type);
-    if (static_cast<int>(decision.detected_types.size()) > 1) {
+    if (decision.detected_types.size() > 1U) {
         ss << " (also: ";
-        for (size_t i = 1; i <static_cast<int>(decision.detected_types.size()); ++i) {
+        for (std::size_t i = 1; i < decision.detected_types.size(); ++i) {
             if (i > 1) {
                 ss << ", ";
             }

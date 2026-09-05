@@ -61,7 +61,7 @@ std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t
     }
     flush_number();
 
-    if (static_cast<int>(indices.size()) == history_size) {
+    if (indices.size() == history_size) {
         return indices;
     }
 
@@ -123,7 +123,7 @@ std::unique_ptr<CompressionResult> LLMExtractiveCompressor::compressHistory(
     // Step 4: Build compressed history
     std::vector<std::pair<std::string, std::string>> compressed_history = system_messages;
     for (int32_t idx : selected_indices) {
-        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(conversation_turns.size())) {
+        if (idx >= 0 && static_cast<std::size_t>(idx) < conversation_turns.size()) {
             compressed_history.push_back(conversation_turns[idx]);
         }
     }
@@ -252,7 +252,8 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
         if (accumulated_tokens + turn_tokens <= max_tokens) {
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
-        } else if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.top_k_turns)) {
+        } else if (config_.top_k_turns > 0
+                && selected.size() < static_cast<std::size_t>(config_.top_k_turns)) {
             // Keep adding even if over budget, up to top_k
             selected.push_back(idx);
             accumulated_tokens += turn_tokens;
@@ -260,13 +261,14 @@ std::vector<int32_t> LLMExtractiveCompressor::selectTopTurns(
     }
 
     // Ensure minimum turns preserved
-    if (static_cast<int>(selected.size()) < static_cast<size_t>(config_.min_preserved_turns) && 
-        static_cast<int>(selected.size()) <static_cast<int>(history.size())) {
+    if (config_.min_preserved_turns > 0
+            && selected.size() < static_cast<std::size_t>(config_.min_preserved_turns)
+            && selected.size() < history.size()) {
         // Add more turns to reach minimum
         for (int32_t idx : ranked_indices) {
             if (std::find(selected.begin(), selected.end(), idx) == selected.end()) {
                 selected.push_back(idx);
-                if (static_cast<int>(selected.size()) >= static_cast<size_t>(config_.min_preserved_turns)) {
+                if (selected.size() >= static_cast<std::size_t>(config_.min_preserved_turns)) {
                     break;
                 }
             }
@@ -342,8 +344,8 @@ float LLMExtractiveCompressor::computeSimilarity(
     }
 
     // Dot product (iterate over the smaller vector for efficiency)
-    const auto& iter_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? orig_tf : comp_tf;
-    const auto& lookup_tf = ( static_cast<int>(orig_tf.size()) <= comp_tf.size()) ? comp_tf : orig_tf;
+    const auto& iter_tf = (orig_tf.size() <= comp_tf.size()) ? orig_tf : comp_tf;
+    const auto& lookup_tf = (orig_tf.size() <= comp_tf.size()) ? comp_tf : orig_tf;
     float dot = 0.0f;
     for (const auto& [term, value] : iter_tf) {
         auto it = lookup_tf.find(term);
@@ -398,7 +400,7 @@ std::string LLMExtractiveCompressor::formatTurnsForPrompt(
     result << "=== Episodic Memory Summary ===\n\n";
 
     for (int32_t idx : selected_indices) {
-        if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int32_t>(history.size())) {
+        if (idx >= 0 && static_cast<std::size_t>(idx) < history.size()) {
             const auto& msg = history[idx];
             result << "[" << msg.first << "]\n" << msg.second << "\n\n";
         }

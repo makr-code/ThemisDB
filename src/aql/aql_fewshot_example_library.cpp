@@ -184,12 +184,12 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
     if (!embedding_provider_) {
         return false;
     }
-    if (idx >= static_cast<int>(examples_.size())) {
+    if (idx >= examples_.size()) {
         return false;
     }
 
     // Grow cache if needed
-    if (static_cast<int>(embedding_cache_.size()) <= idx) {
+    if (embedding_cache_.size() <= idx) {
         embedding_cache_.resize(examples_.size());
     }
     // Compute on demand if not yet cached

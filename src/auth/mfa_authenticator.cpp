@@ -192,12 +192,12 @@ bool MFAAuthenticator::validateRecoveryCode(
     size_t found_idx = 0;
     const size_t incoming_len = recovery_code.size();
 
-    for (size_t i = 0; i <static_cast<int>(enrollment.recovery_codes.size()); ++i) {
+    for (std::size_t i = 0; i < enrollment.recovery_codes.size(); ++i) {
         const auto& stored = enrollment.recovery_codes[i];
         // Length mismatch cannot be a match; the branch does not leak the
         // match position because it depends only on the (fixed) stored length,
         // not on which index matched.
-        bool len_match = (static_cast<int>(stored.size()) == incoming_len);
+        bool len_match = (stored.size() == incoming_len);
         int diff = len_match
             ? CRYPTO_memcmp(stored.data(), recovery_code.data(), incoming_len)
             : 1;

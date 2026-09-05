@@ -29,7 +29,7 @@ bool PositionAbstractValidator::isValidVerdict(const std::string &v) noexcept {
 }
 
 int PositionAbstractValidator::countTokens(const std::string &text) noexcept {
-    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
+    return static_cast<int>((text.size() + 3U) / 4U);
 }
 
 std::string PositionAbstractValidator::extractVerdictFromContent(const std::string &content) {
@@ -48,7 +48,7 @@ std::string PositionAbstractValidator::extractVerdictFromContent(const std::stri
 
 std::string PositionAbstractValidator::buildDefaultAbstract(const DiscourseRoundOutput &output) {
     std::ostringstream thesis_joined = {};
-    for (std::size_t i = 0; i <static_cast<int>(output.core_thesis_ids.size()); ++i) {
+    for (std::size_t i = 0; i < output.core_thesis_ids.size(); ++i) {
         if (i > 0) {
             thesis_joined << ", ";
         }

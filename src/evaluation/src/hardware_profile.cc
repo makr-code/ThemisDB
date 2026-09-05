@@ -1,4 +1,4 @@
-#include "hardware_profile.h"
+#include "../include/hardware_profile.h"
 
 #include <algorithm>
 #include <cctype>

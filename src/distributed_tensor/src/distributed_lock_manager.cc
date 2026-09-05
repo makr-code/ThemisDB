@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/distributed_lock_manager.h"
+#include "../include/distributed_lock_manager.h"
 #include <chrono>
 #include <algorithm>
 

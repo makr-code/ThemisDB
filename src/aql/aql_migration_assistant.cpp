@@ -187,7 +187,7 @@ std::size_t findCI(const std::string &haystack, const std::string &needle, std::
 /// Return true when the character at position @p pos (if valid) is NOT an
 /// identifier character, making it a word boundary.
 bool isWordBoundary(const std::string &s, std::size_t pos) {
-    if (pos >= static_cast<int>(s.size())) {
+    if (pos >= s.size()) {
         return true;
     }
     unsigned char c = static_cast<unsigned char>(s[pos]);

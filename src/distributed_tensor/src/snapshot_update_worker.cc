@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/snapshot_update_worker.h"
+#include "../include/snapshot_update_worker.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>

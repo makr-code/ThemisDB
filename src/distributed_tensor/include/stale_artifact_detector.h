@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "src/distributed_tensor/include/artifact_manifest.h"
+#include "artifact_manifest.h"
 #include "src/distributed_tensor/include/tensor_delta_log.h"
 #include <string>
 #include <memory>

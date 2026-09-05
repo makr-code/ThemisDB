@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/tensor_delta_log.h"
+#include "../include/tensor_delta_log.h"
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
