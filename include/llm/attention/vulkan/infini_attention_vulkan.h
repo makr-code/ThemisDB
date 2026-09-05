@@ -71,6 +71,12 @@ public:
     ~InfiniAttentionVulkan();
 
     /**
+     * @brief Ensure backend resources are initialized.
+     * @return Status::SUCCESS when resources are ready.
+     */
+    Status initialize();
+
+    /**
      * @brief Forward pass: compute attention with compressive memory
      *
      * Pipeline:

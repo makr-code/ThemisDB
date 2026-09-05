@@ -317,7 +317,8 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
 
     // Convert uint8_t mask → bool.
     std::vector<bool> out(numPoints, false);
-    for (size_t i = 0; i <static_cast<int>(res.mask.size()) && i < numPoints; ++i) {
+    const size_t mask_size = static_cast<size_t>(res.mask.size());
+    for (size_t i = 0; i < mask_size && i < numPoints; ++i) {
         out[i] = (res.mask[i] != 0);
     }
     return out;

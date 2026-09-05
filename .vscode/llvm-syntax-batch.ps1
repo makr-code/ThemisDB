@@ -3,18 +3,35 @@ $PSNativeCommandUseErrorActionPreference = $false
 $workspaceRoot = (Get-Location).Path
 $excludePathPattern = "\\(vcpkg|vcpkg_installed|external|llama_cpp)\\"
 
-$llvmBin = "C:\llvm\bin"
-$candidates = @(
-    (Join-Path $llvmBin "clang-cl.exe"),
-    (Join-Path $llvmBin "clang++.exe"),
-    (Join-Path $llvmBin "clang.exe"),
-    "clang-cl.exe",
-    "clang-cl",
-    "clang++.exe",
-    "clang++",
-    "clang.exe",
-    "clang"
-)
+# Detect OS for cross-compiler compatibility
+$isWinPlatform = ($env:OS -eq "Windows_NT") -or ($PSVersionTable.Platform -eq "Win32NT") -or ($PSVersionTable.OS -match "Windows")
+$isLinuxPlatform = (-not $isWinPlatform) -and ($PSVersionTable.OS -match "Linux")
+$isMacPlatform = (-not $isWinPlatform) -and ($PSVersionTable.OS -match "Darwin")
+
+$vcpkgArch = if ($isWinPlatform) { "x64-windows" } elseif ($isLinuxPlatform) { "x64-linux" } elseif ($isMacPlatform) { "arm64-osx" } else { "x64-linux" }
+
+# Determine appropriate compiler candidates based on OS
+$llvmBin = if ($isWinPlatform) { "C:\llvm\bin" } else { "/usr/bin:/usr/local/bin" }
+$candidates = if ($isWinPlatform) {
+    @(
+        (Join-Path $llvmBin "clang-cl.exe"),
+        (Join-Path $llvmBin "clang++.exe"),
+        (Join-Path $llvmBin "clang.exe"),
+        "clang-cl.exe",
+        "clang-cl",
+        "clang++.exe",
+        "clang++",
+        "clang.exe",
+        "clang"
+    )
+} else {
+    @(
+        "clang++",
+        "clang",
+        "g++",
+        "gcc"
+    )
+}
 
 $clang = $null
 foreach ($cand in $candidates) {
@@ -25,24 +42,35 @@ foreach ($cand in $candidates) {
 }
 
 if (-not $clang) {
-    Write-Error "No clang compiler found. Checked C:\\llvm\\bin and PATH (clang++, clang-cl, clang)."
+    $msg = if ($isWinPlatform) { "No clang/LLVM compiler found. Checked C:\llvm\bin and PATH." } else { "No clang/GCC compiler found in PATH." }
+    Write-Error $msg
     exit 1
 }
 
-$files = Get-ChildItem -Path "src" -Recurse -File -Include *.cpp,*.cc,*.cxx |
+Write-Host "--- LLVM Syntax Check (Cross-Compiler Aware) ---"
+Write-Host "Platform: $(if ($isWinPlatform) { 'Windows' } elseif ($isLinuxPlatform) { 'Linux' } elseif ($isMacPlatform) { 'macOS' } else { 'Unknown' })"
+Write-Host "Compiler: $clang"
+Write-Host "vcpkg Architecture: $vcpkgArch"
+Write-Host ""
+
+$files = Get-ChildItem -Path "src" -Recurse -File -Include *.c,*.cpp,*.cc,*.cxx |
     Where-Object { $_.FullName -notmatch $excludePathPattern }
 if (-not $files) {
     Write-Host "No C++ source files found under src."
     exit 0
 }
 
-$vcpkgInclude = "vcpkg_installed/x64-windows/include"
-$upbInclude = "vcpkg_installed/x64-windows/include/upb/reflection/stage0"
-$zlibInclude = "vcpkg/packages/zlib_x64-windows/include"
 
+$vcpkgInclude = "vcpkg_installed/$vcpkgArch/include"
+$upbInclude = "vcpkg_installed/$vcpkgArch/include/upb/reflection/stage0"
+
+# Detect compiler capabilities and choose appropriate flags
 $clangFileName = [System.IO.Path]::GetFileName("$clang").ToLowerInvariant()
-$isClangCl = $clangFileName.StartsWith("clang-cl")
+$isClangCl = $isWinPlatform -and $clangFileName.StartsWith("clang-cl")
+$isGcc = $clangFileName.StartsWith("g")
+
 if ($isClangCl) {
+    # Windows MSVC-compatible mode
     $common = @(
         "/std:c++20",
         "/clang:-fsyntax-only",
@@ -51,15 +79,20 @@ if ($isClangCl) {
         "/Iinclude",
         "/Isrc",
         "/I$vcpkgInclude",
-        "/I$upbInclude",
-        "/I$zlibInclude",
-        "/DWIN32",
-        "/D_WINDOWS",
-        "/DWIN32_LEAN_AND_MEAN",
-        "/DNOMINMAX",
-        "/D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH"
+        "/I$upbInclude"
     )
+    # Platform-specific defines only for Windows
+    if ($isWinPlatform) {
+        $common += @(
+            "/DWIN32",
+            "/D_WINDOWS",
+            "/DWIN32_LEAN_AND_MEAN",
+            "/DNOMINMAX",
+            "/D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH"
+        )
+    }
 } else {
+    # GCC/Clang-GNU compatible mode (portable)
     $common = @(
         "-std=c++20",
         "-fsyntax-only",
@@ -68,14 +101,16 @@ if ($isClangCl) {
         "-Iinclude",
         "-Isrc",
         "-I$vcpkgInclude",
-        "-I$upbInclude",
-        "-I$zlibInclude",
-        "-DWIN32",
-        "-D_WINDOWS",
-        "-DWIN32_LEAN_AND_MEAN",
-        "-DNOMINMAX",
-        "-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH"
+        "-I$upbInclude"
     )
+    # Platform-specific defines
+    if ($isWinPlatform) {
+        $common += @("-DWIN32", "-D_WINDOWS", "-DWIN32_LEAN_AND_MEAN", "-DNOMINMAX")
+    } elseif ($isLinuxPlatform) {
+        $common += @("-DLINUX", "-D_GNU_SOURCE")
+    } elseif ($isMacPlatform) {
+        $common += @("-DMACOS", "-D_DARWIN_C_SOURCE")
+    }
 }
 
 $failed = 0
@@ -99,9 +134,11 @@ foreach ($f in $files) {
 }
 
 if ($failed -gt 0) {
-    Write-Error ("LLVM syntax-only failed for $failed file(s).")
+    Write-Host ""
+    Write-Error ("LLVM syntax check failed for $failed of " + $files.Count + " file(s).")
     exit 1
 }
 
-Write-Host "LLVM syntax-only batch completed successfully."
+Write-Host ""
+Write-Host ("LLVM syntax check completed successfully - {0} file(s) verified." -f $files.Count)
 exit 0

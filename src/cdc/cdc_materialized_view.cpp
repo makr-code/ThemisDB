@@ -25,6 +25,10 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 namespace themis {
 namespace cdc {
 

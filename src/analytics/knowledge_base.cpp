@@ -94,7 +94,7 @@ std::string KnowledgeBase::generateId() {
 std::string KnowledgeBase::assertFact(const std::string &subject, const std::string &predicate,
                                       const std::string &object) {
     // Evict oldest if at capacity.
-    while (static_cast<int>(insertion_order_.size()) >= kMaxFacts) {
+    while (insertion_order_.size() >= static_cast<std::size_t>(kMaxFacts)) {
         const auto &oldest_id = insertion_order_.front();
         const auto pred_it    = fact_id_to_predicate_.find(oldest_id);
         if (pred_it != fact_id_to_predicate_.end()) {

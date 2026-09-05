@@ -287,7 +287,7 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
 
     // Sort by score and limit
     std::sort(keywords.begin(), keywords.end());
-    if (static_cast<int>(keywords.size()) > max_keywords) {
+    if (keywords.size() > max_keywords) {
         keywords.resize(max_keywords);
     }
 
@@ -1939,6 +1939,7 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string &directory)
 // ========== Legal Modality Extraction ==========
 
 std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string &language_code) const {
+    (void)language_code;
     return "config/nlp/legal/german_modal_verbs.yaml";
 }
 

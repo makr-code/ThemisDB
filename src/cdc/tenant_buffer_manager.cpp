@@ -16,6 +16,13 @@
 
 #include "utils/logger.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+#ifdef WARNING
+#undef WARNING
+#endif
+
 namespace themis {
 namespace cdc {
 

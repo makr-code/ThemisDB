@@ -291,8 +291,8 @@ class JSONCSVExporter : public IAnalyticsExporter {
             size_t chunk_size = options.batch_size * 100; // Approximate chunk size
             size_t offset     = 0;
 
-            while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
-                size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
+            while (offset < data.size()) {
+                size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback(chunk);
                 offset += len;

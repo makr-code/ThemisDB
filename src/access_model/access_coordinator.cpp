@@ -51,8 +51,8 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     explicit AccessCoordinatorImpl(size_t thread_pool_size = 4)
         : thread_pool_size_(thread_pool_size),
           running_(false),
-          pending_demotions_(0),
-          policy_set_(false) {}
+                    policy_set_(false),
+                    pending_demotions_(0) {}
 
     ~AccessCoordinatorImpl() {
         if (running_) {
@@ -151,6 +151,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             .latency_ms = std::chrono::milliseconds(0),
             .correlation_id = correlation_id,
             .success = true,
+            .error_message = "",
         };
 
         // Apply age policy: decide if this should trigger storage demotion
@@ -376,6 +377,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             .key = key,
             .from_tier = from_tier,
             .to_tier = to_tier,
+            .reason = "coordinator_plan",
             .data_size_bytes = data_size_bytes,
             .created_at = std::chrono::system_clock::now(),
         };

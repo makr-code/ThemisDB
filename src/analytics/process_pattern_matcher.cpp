@@ -79,8 +79,8 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
 /// Extract the edge set (directly-follows pairs) of a trace.
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
-    for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
-        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
+    for (size_t i = 1; i < trace.events.size(); ++i) {
+        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
     }
     return edges;
 }

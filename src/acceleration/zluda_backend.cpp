@@ -28,16 +28,16 @@
 #else
 #include <windows.h>
 // Minimal dl* compatibility layer for Windows builds (maps to LoadLibrary/GetProcAddress)
-static inline void* dlopen(const char* name, int /*flags*/) {
+[[maybe_unused]] static inline void* dlopen(const char* name, int /*flags*/) {
     return reinterpret_cast<void*>(::LoadLibraryA(name));
 }
-static inline void* dlsym(void* handle, const char* name) {
+[[maybe_unused]] static inline void* dlsym(void* handle, const char* name) {
     if (!handle) {
       return nullptr;
     }
     return reinterpret_cast<void*>(::GetProcAddress(reinterpret_cast<HMODULE>(handle), name));
 }
-static inline int dlclose(void* handle) {
+[[maybe_unused]] static inline int dlclose(void* handle) {
     if (!handle) {
       return 0;
     }

@@ -25,6 +25,7 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <spdlog/spdlog.h>
 
 #ifdef __linux__
 #include <sys/utsname.h>

@@ -37,7 +37,7 @@ if (-not $clangTidy) {
     exit 1
 }
 
-$files = Get-ChildItem -Path "src" -Recurse -File -Include *.cpp,*.cc,*.cxx |
+$files = Get-ChildItem -Path "src" -Recurse -File -Include *.c,*.cpp,*.cc,*.cxx |
     Where-Object { $_.FullName -notmatch $excludePathPattern }
 if (-not $files) {
     Write-Host "No C++ source files found under src."

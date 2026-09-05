@@ -254,7 +254,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
         bool need_evict = false;
         {
             std::lock_guard<std::mutex> lock(cache_mutex_);
-            need_evict = (static_cast<int>(diff_cache_.size()) >= MAX_CACHE_SIZE);
+            need_evict = (diff_cache_.size() >= static_cast<std::size_t>(MAX_CACHE_SIZE));
             if (need_evict) {
                 // Find the oldest entry — O(N) scan kept brief; only the key is copied.
                 auto oldest = diff_cache_.begin();

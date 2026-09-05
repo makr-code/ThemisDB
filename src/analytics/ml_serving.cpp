@@ -594,6 +594,8 @@ bool TFServingBackend::isAvailable() const {
 }
 
 MLServingResponse TFServingBackend::infer(const MLServingRequest &req) {
+    (void)req;
+
 #if !defined(THEMIS_HAS_CURL) || !THEMIS_HAS_CURL
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
