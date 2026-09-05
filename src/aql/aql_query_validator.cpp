@@ -24,6 +24,10 @@
 
 #include "aql/aql_query_builder.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace aql {
 

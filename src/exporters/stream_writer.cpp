@@ -46,7 +46,7 @@ StreamWriter::~StreamWriter() {
 }
 
 void StreamWriter::write(const std::string& data) {
-    write(data.data(),static_cast<int>(data.size()));
+    write(data.data(), data.size());
 }
 
 void StreamWriter::write(const char* data, size_t size) {
@@ -65,13 +65,13 @@ void StreamWriter::write(const char* data, size_t size) {
         compressAndWrite(data, size);
     } else {
         // Write directly if buffer would overflow
-        if (buffer_pos_ + size > static_cast<int>(buffer_.size())) {
+        if (buffer_pos_ + size > buffer_.size()) {
             writeBuffer();
         }
         
         // If data is larger than buffer, write directly
-        if (size > static_cast<int>(buffer_.size())) {
-            file_.write(data, size);
+        if (size > buffer_.size()) {
+            file_.write(data, static_cast<std::streamsize>(size));
             compressed_bytes_written_ += size;
         } else {
             std::memcpy(buffer_.data() + buffer_pos_, data, size);
@@ -88,10 +88,10 @@ void StreamWriter::flush() {
             ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
             size_t remaining = 0;
             do {
-                ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
+                ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
                 remaining = ZSTD_flushStream(cstream, &out_buf);
                 if (out_buf.pos > 0) {
-                    file_.write(buffer_.data(), out_buf.pos);
+                    file_.write(buffer_.data(), static_cast<std::streamsize>(out_buf.pos));
                     compressed_bytes_written_ += out_buf.pos;
                 }
             } while (remaining > 0);
@@ -149,36 +149,32 @@ void StreamWriter::initCompression() {
 
 void StreamWriter::writeBuffer() {
     if (buffer_pos_ > 0) {
-        file_.write(buffer_.data(), buffer_pos_);
+        file_.write(buffer_.data(), static_cast<std::streamsize>(buffer_pos_));
         compressed_bytes_written_ += buffer_pos_;
         buffer_pos_ = 0;
     }
 }
 
 void StreamWriter::compressAndWrite(const char* data, size_t size) {
-    (void)data;
-    (void)size;
 #ifdef THEMIS_HAS_ZSTD
     if (compression_state_) {
         ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
         ZSTD_inBuffer in_buf = { data, size, 0 };
 
         while (in_buf.pos < in_buf.size) {
-            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
             size_t ret = ZSTD_compressStream(cstream, &out_buf, &in_buf);
             if (ZSTD_isError(ret)) {
                 throw ExportIOException("ZSTD compression stream error", config_.output_path,
                                         static_cast<int>(ret));
             }
             if (out_buf.pos > 0) {
-                file_.write(buffer_.data(), out_buf.pos);
+                file_.write(buffer_.data(), static_cast<std::streamsize>(out_buf.pos));
                 compressed_bytes_written_ += out_buf.pos;
             }
         }
     }
 #endif
-    (void)data;
-    (void)size;
 }
 
 void StreamWriter::finalizeCompression() {
@@ -187,10 +183,10 @@ void StreamWriter::finalizeCompression() {
         ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
         size_t remaining = 0;
         do {
-            ZSTD_outBuffer out_buf = { buffer_.data(),static_cast<int>(buffer_.size()), 0 };
+            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
             remaining = ZSTD_endStream(cstream, &out_buf);
             if (out_buf.pos > 0) {
-                file_.write(buffer_.data(), out_buf.pos);
+                file_.write(buffer_.data(), static_cast<std::streamsize>(out_buf.pos));
                 compressed_bytes_written_ += out_buf.pos;
             }
         } while (remaining > 0);

@@ -489,18 +489,18 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     const DWORD tid = GetCurrentThreadId();
 
     char dump_path[MAX_PATH];
-    int path_len = snprintf(
+    const int path_len = snprintf(
         dump_path,
         sizeof(dump_path),
-        "logs\\themis_server_crash_%04%02%02u_%02%02%02u_pid%lu_tid%lu.dmp",
+        "logs\\themis_server_crash_%04u%02u%02u_%02u%02u%02u_pid%llu_tid%llu.dmp",
         static_cast<unsigned>(st.wYear),
         static_cast<unsigned>(st.wMonth),
         static_cast<unsigned>(st.wDay),
         static_cast<unsigned>(st.wHour),
         static_cast<unsigned>(st.wMinute),
         static_cast<unsigned>(st.wSecond),
-        static_cast<unsigned long>(pid),
-        static_cast<unsigned long>(tid));
+        static_cast<unsigned long long>(pid),
+        static_cast<unsigned long long>(tid));
     if (path_len <= 0 || path_len >= static_cast<int>(sizeof(dump_path))) {
         return;
     }
@@ -556,14 +556,14 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     FreeLibrary(dbghelp);
 
     char buffer[512];
-    int len = snprintf(
+    const int len = snprintf(
         buffer,
         sizeof(buffer),
         "MiniDump: %s (%s)\n",
         dump_path,
         ok ? "ok" : "failed");
     if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
-        _write(2, buffer, len);
+        _write(2, buffer, static_cast<unsigned int>(len));
     }
 }
 

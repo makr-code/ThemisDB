@@ -38,6 +38,10 @@
 #include <sstream>
 #include <thread>
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 namespace themisdb {
 namespace analytics {
 
@@ -316,7 +320,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
                 return false;
             }
             break;
-        case ChangeType::DELETE:
+        case static_cast<ChangeType>(2):
             before_passes = passesBaseFilters(change.before_row);
             if (!before_passes) {
                 return false;
@@ -342,7 +346,7 @@ bool IncrementalView::applyChange(const ChangeRecord &change) {
             applyRow(change.after_row, +1);
             applied = true;
             break;
-        case ChangeType::DELETE:
+        case static_cast<ChangeType>(2):
             applyRow(change.before_row, -1);
             pruneEmptyGroup(makeGroupKey(change.before_row));
             applied = true;
@@ -401,7 +405,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                     continue;
                 }
                 break;
-            case ChangeType::DELETE:
+            case static_cast<ChangeType>(2):
                 bp = passesBaseFilters(change.before_row);
                 if (!bp) {
                     continue;
@@ -440,7 +444,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
                         applyRow(change.after_row, +1);
                         ++batch_applied;
                         break;
-                    case ChangeType::DELETE:
+                    case static_cast<ChangeType>(2):
                         applyRow(change.before_row, -1);
                         pruneEmptyGroup(makeGroupKey(change.before_row));
                         ++batch_applied;
@@ -472,7 +476,7 @@ int IncrementalView::applyChanges(const std::vector<ChangeRecord> &changes) {
 
         // Yield between micro-batches so concurrent readers can acquire the
         // shared lock without waiting for the entire batch to complete.
-        if (static_cast<int>(filtered.size()) > batch_end) {
+        if (filtered.size() > batch_end) {
             std::this_thread::yield();
         }
     }

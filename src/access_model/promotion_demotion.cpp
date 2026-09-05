@@ -27,7 +27,7 @@ namespace access_model {
  * @param plan Demotion plan created by AccessCoordinator::planDemotion()
  * @return true if now >= plan.scheduled_execution_time
  */
-static bool isPlanExecutable(const DemotionPlan& plan) {
+[[maybe_unused]] static bool isPlanExecutable(const DemotionPlan& plan) {
     return std::chrono::system_clock::now() >= plan.scheduled_execution_time;
 }
 
@@ -43,7 +43,7 @@ static bool isPlanExecutable(const DemotionPlan& plan) {
  * @param result Completed demotion result
  * @return Formatted string representation
  */
-static std::string describeResult(const DemotionResult& result) {
+[[maybe_unused]] static std::string describeResult(const DemotionResult& result) {
     std::ostringstream oss = {};
     oss << "DemotionResult{"
         << "success=" << (result.success ? "true" : "false")

@@ -40,7 +40,13 @@ namespace access_model {
 /** @brief § 1  AccessCoordinatorImpl: Central Tier Orchestrator. */
 class AccessCoordinatorImpl : public AccessCoordinator {
  public:
-    struct DemotionEvent;
+    struct DemotionEvent {
+        std::string key{};
+        TierLevel from_tier = TierLevel::UNKNOWN;
+        TierLevel to_tier = TierLevel::UNKNOWN;
+        std::string reason{};
+        std::weak_ptr<std::promise<PromotionResult>> promise{};
+    };
 
     explicit AccessCoordinatorImpl(size_t thread_pool_size = 4)
         : thread_pool_size_(thread_pool_size),
@@ -191,7 +197,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (static_cast<int>(recent_transitions_.size()) > 1000) {
+        if (recent_transitions_.size() > 1000u) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -236,6 +242,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
             .latency_ms = std::chrono::milliseconds(0),
             .correlation_id = correlation_id,
             .success = true,
+            .error_message = "",
         };
 
         // Apply age policy: check if should promote to cache
@@ -262,6 +269,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
                     .from_tier = event.current_tier,
                     .to_tier = target_tier,
                     .reason = "storage_hot_access_promotion",
+                    .promise = {},
                 };
                 pending_tasks_.push(task);
                 condition_.notify_one();
@@ -279,7 +287,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         recent_transitions_.emplace_back(transition);
 
         // Keep only last 1000 transitions
-        if (static_cast<int>(recent_transitions_.size()) > 1000) {
+        if (recent_transitions_.size() > 1000u) {
             recent_transitions_.erase(recent_transitions_.begin());
         }
 
@@ -311,7 +319,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     // Async promotion/demotion
     std::future<PromotionResult> promoteAsync(
         const std::string& key, TierLevel from_tier, TierLevel to_tier,
-        uint64_t size_bytes) override {
+        [[maybe_unused]] uint64_t size_bytes) override {
         auto promise = std::make_shared<std::promise<PromotionResult>>();
         auto future = promise->get_future();
 
@@ -444,14 +452,14 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         policy_.storage_promotion_threshold = storage_threshold;
     }
 
-    AccessMetrics getKeyMetrics(const std::string& key) override {
+    AccessMetrics getKeyMetrics([[maybe_unused]] const std::string& key) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
         return AccessMetrics{};
     }
 
-    AccessMetrics getTierMetrics(TierLevel tier) override {
+    AccessMetrics getTierMetrics([[maybe_unused]] TierLevel tier) override {
         std::lock_guard<std::mutex> lock(mutex_);
 
         // Return stub for now
@@ -468,7 +476,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
         std::lock_guard<std::mutex> lock(mutex_);
 
-        if (static_cast<int>(recent_transitions_.size()) <= limit) {
+        if (recent_transitions_.size() <= limit) {
             return recent_transitions_;
         }
 
@@ -553,6 +561,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
                 .latency_ms = result.total_latency_ms,
                 .correlation_id = correlation_id,
                 .success = true,
+                .error_message = "",
             });
         }
 
@@ -595,14 +604,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     std::map<TierLevel, std::shared_ptr<AccessTier>> tiers_;
     AgeBasedPolicy policy_;
     bool policy_set_;
-
-    struct DemotionEvent {
-        std::string key;
-        TierLevel from_tier;
-        TierLevel to_tier;
-        std::string reason;
-        std::weak_ptr<std::promise<PromotionResult>> promise;
-    };
 
     std::queue<DemotionEvent> pending_tasks_;
     std::unordered_map<std::string, DemotionPlan> pending_plans_;

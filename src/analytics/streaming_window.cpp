@@ -468,7 +468,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         int64_t idx = slotIndex(record.event_time);
         if (open_windows_.find(idx) == open_windows_.end()) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
-            if (config_.max_open_windows > 0 && static_cast<int>(open_windows_.size()) >= config_.max_open_windows) {
+            if (config_.max_open_windows > 0 && open_windows_.size() >= static_cast<size_t>(config_.max_open_windows)) {
                 auto oldest = open_windows_.begin();
                 if (config_.emit_empty_windows || !oldest->second.records.empty()) {
                     pending.push_back(computeResult(oldest->second, false));
@@ -495,7 +495,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         auto& win_slot = open_windows_[idx];
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             win_slot.seen_partition_keys.count(record.partition_key) == 0 &&
-            static_cast<int>(win_slot.seen_partition_keys.size()) >= config_.max_distinct_partition_keys) {
+            win_slot.seen_partition_keys.size() >= static_cast<size_t>(config_.max_distinct_partition_keys)) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             key_rejected = true;
@@ -506,7 +506,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
 
         // Enforce max_records_per_window: drop the record when the window is full.
         if (!key_rejected && config_.max_records_per_window > 0 &&
-            open_windows_[idx].records.size() >= config_.max_records_per_window) {
+            open_windows_[idx].records.size() >= static_cast<size_t>(config_.max_records_per_window)) {
             ++records_dropped_;
             record_added = false;
             spdlog::debug("TumblingWindow: dropped record (window full, limit={})",
@@ -728,7 +728,7 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
             // Enforce max_open_windows: skip new window creation when at capacity.
             if (config_.max_open_windows > 0) {
                 const uint64_t open_count = windows_opened_.load() - windows_closed_.load();
-                if (open_count >= config_.max_open_windows) {
+                if (open_count >= static_cast<size_t>(config_.max_open_windows)) {
                     ++windows_evicted_;
                     spdlog::debug("SlidingWindow: skipped new window creation (open={} >= max_open_windows={})",
                                   open_count, config_.max_open_windows);
@@ -819,7 +819,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         // partition key workloads.
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             seen_partition_keys_.count(record.partition_key) == 0 &&
-            static_cast<int>(seen_partition_keys_.size()) >= config_.max_distinct_partition_keys) {
+            seen_partition_keys_.size() >= static_cast<size_t>(config_.max_distinct_partition_keys)) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             record_added = false;
@@ -836,7 +836,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         for (auto &w : windows_) {
             if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
-                    static_cast<int>(w.records.size()) >= config_.max_records_per_window) {
+                    w.records.size() >= static_cast<size_t>(config_.max_records_per_window)) {
                     ++records_dropped_;
                     spdlog::debug("SlidingWindow: dropped record from window (limit={})",
                                   config_.max_records_per_window);
@@ -1038,7 +1038,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
         auto it                = sessions_.find(key);
         if (it == sessions_.end()) {
             // Enforce max_open_sessions: evict the session with the oldest last_event.
-            if (config_.max_open_sessions > 0 && static_cast<int>(sessions_.size()) >= config_.max_open_sessions) {
+            if (config_.max_open_sessions > 0 && sessions_.size() >= static_cast<size_t>(config_.max_open_sessions)) {
                 auto oldest = sessions_.end();
                 for (auto sit = sessions_.begin(); sit != sessions_.end(); ++sit) {
                     if (oldest == sessions_.end() || sit->second.last_event < oldest->second.last_event) {
@@ -1064,7 +1064,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             s.start         = record.event_time;
             s.last_event    = record.event_time;
             // Enforce max_records_per_session on new session creation.
-            if (config_.max_records_per_session == 0 || static_cast<int>(s.records.size()) < config_.max_records_per_session) {
+            if (config_.max_records_per_session == 0 || s.records.size() < static_cast<size_t>(config_.max_records_per_session)) {
                 s.records.push_back(record);
             } else {
                 ++records_dropped_;
@@ -1104,7 +1104,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 s.last_event = std::max(s.last_event, record.event_time);
                 // Enforce max_records_per_session on existing session.
                 if (config_.max_records_per_session > 0 &&
-                    static_cast<int>(s.records.size()) >= config_.max_records_per_session) {
+                    s.records.size() >= static_cast<size_t>(config_.max_records_per_session)) {
                     ++records_dropped_;
                     spdlog::debug("SessionWindow: dropped record (session full, limit={})",
                                   config_.max_records_per_session);
@@ -1273,7 +1273,7 @@ void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
             // Enforce max_open_windows: skip new window creation when at capacity.
             if (config_.max_open_windows > 0) {
                 const uint64_t open_count = windows_opened_.load() - windows_closed_.load();
-                if (open_count >= config_.max_open_windows) {
+                if (open_count >= static_cast<size_t>(config_.max_open_windows)) {
                     ++windows_evicted_;
                     spdlog::debug("HoppingWindow: skipped new window creation (open={} >= max_open_windows={})",
                                   open_count, config_.max_open_windows);
@@ -1347,7 +1347,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         bool hop_key_rejected = false;
         if (!record.partition_key.empty() && config_.max_distinct_partition_keys > 0 &&
             seen_partition_keys_.count(record.partition_key) == 0 &&
-            static_cast<int>(seen_partition_keys_.size()) >= config_.max_distinct_partition_keys) {
+            seen_partition_keys_.size() >= static_cast<size_t>(config_.max_distinct_partition_keys)) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             hop_key_rejected = true;
@@ -1364,7 +1364,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         for (auto &w : windows_) {
             if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
                 if (config_.max_records_per_window > 0 &&
-                    static_cast<int>(w.records.size()) >= config_.max_records_per_window) {
+                    w.records.size() >= static_cast<size_t>(config_.max_records_per_window)) {
                     ++records_dropped_;
                     spdlog::debug("HoppingWindow: dropped record from window (limit={})",
                                   config_.max_records_per_window);

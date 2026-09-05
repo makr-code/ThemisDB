@@ -154,7 +154,7 @@ std::string AuditBatchWriter::submitEntry(const ImmutableAuditEntry& entry) {
     {
         std::lock_guard<std::mutex> lock(buffer_mutex_);
         
-        if (static_cast<int>(pending_entries_.size()) >= config_.buffer_size) {
+        if (pending_entries_.size() >= config_.buffer_size) {
             // Always enforce the hard buffer cap to prevent unbounded memory growth,
             // regardless of the backpressure setting.
             return "BUFFER_FULL";
@@ -421,7 +421,7 @@ std::string AuditBatchWriter::computeBatchHash(
     for (const auto& entry : batch) {
         // Hash the JSON serialisation of each entry for deterministic content coverage
         const std::string serialised = entry.toJson().dump();
-        SHA256_Update(&ctx, serialised.data(),static_cast<int>(serialised.size()));
+        SHA256_Update(&ctx, serialised.data(), serialised.size());
     }
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256_Final(digest, &ctx);
@@ -445,7 +445,7 @@ AuditBatchCheckpoint AuditBatchWriter::createCheckpoint(
     cp.checkpoint_id = "cp_" + std::to_string(batch_sequence_counter_.load());
     cp.batch_sequence_number = batch_sequence_counter_.load();
     cp.first_entry_sequence = entry_sequence_counter_.load();
-    cp.last_entry_sequence = entry_sequence_counter_.load() + static_cast<int>(batch.size()) - 1;
+    cp.last_entry_sequence = entry_sequence_counter_.load() + static_cast<int64_t>(batch.size()) - 1;
     cp.entry_count = batch.size();
     cp.batch_hash = computeBatchHash(batch);
     cp.checkpoint_time_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
@@ -462,7 +462,7 @@ void AuditBatchWriter::persistCheckpoint(const AuditBatchCheckpoint& checkpoint)
     checkpoint_history_.push_back(checkpoint);
     
     // Limit history size
-    if (static_cast<int>(checkpoint_history_.size()) > 1000) {
+    if (checkpoint_history_.size() > 1000) {
         checkpoint_history_.erase(checkpoint_history_.begin());
     }
 }
@@ -482,16 +482,16 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
     // computed by partial sort each time recordMetrics() is called.
     static constexpr size_t kLatencyWindowSize = 1'000;
     latency_samples_us_.push_back(static_cast<double>(submission_latency_us));
-    if (static_cast<int>(latency_samples_us_.size()) > kLatencyWindowSize) {
+    if (latency_samples_us_.size() > kLatencyWindowSize) {
         latency_samples_us_.erase(latency_samples_us_.begin());
     }
-    if (static_cast<int>(latency_samples_us_.size()) >= 2) {
+    if (latency_samples_us_.size() >= 2) {
         std::vector<double> sorted = latency_samples_us_;
         std::sort(sorted.begin(), sorted.end());
         auto p_idx = [&](double pct) -> double {
             double pos = pct * (static_cast<double>(sorted.size()) - 1.0);
             size_t lo  = static_cast<size_t>(pos);
-            size_t hi  = std::min(lo + 1, static_cast<int>(sorted.size()) - 1);
+            size_t hi  = std::min(lo + 1, sorted.size() - 1);
             double frac = pos - static_cast<double>(lo);
             return sorted[lo] * (1.0 - frac) + sorted[hi] * frac;
         };

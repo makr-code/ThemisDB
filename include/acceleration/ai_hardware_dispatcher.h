@@ -284,16 +284,16 @@ private:
     AiInferenceResult dispatchAppleANE(AiInferenceRequest& req);
     
     /// @brief Dispatch inference to Intel NPU / OpenVINO
-    AiInferenceResult dispatchIntelNPU(AiInferenceRequest& req);
+    AiInferenceResult dispatchIntelNPU([[maybe_unused]] AiInferenceRequest& req);
     
     /// @brief Dispatch inference to Qualcomm QNN / Hexagon
-    AiInferenceResult dispatchQualcommQNN(AiInferenceRequest& req);
+    AiInferenceResult dispatchQualcommQNN([[maybe_unused]] AiInferenceRequest& req);
     
     /// @brief Dispatch inference to ARM Mali / Ethos
-    AiInferenceResult dispatchArmEthos(AiInferenceRequest& req);
+    AiInferenceResult dispatchArmEthos([[maybe_unused]] AiInferenceRequest& req);
     
     /// @brief Dispatch inference to Android NNAPI
-    AiInferenceResult dispatchNNAPI(AiInferenceRequest& req);
+    AiInferenceResult dispatchNNAPI([[maybe_unused]] AiInferenceRequest& req);
     
     /// @brief Dispatch inference to ONNX Runtime selected EP
     AiInferenceResult dispatchOnnxRuntime([[maybe_unused]] AiInferenceRequest& req);

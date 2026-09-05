@@ -318,7 +318,7 @@ public:
                         }
                         
                         // Partial sort to get k nearest
-                        size_t actualK = std::min(k,static_cast<int>(distances.size()));
+                        size_t actualK = std::min(k, distances.size());
                         std::partial_sort(
                             distances.begin(),
                             distances.begin() + actualK,

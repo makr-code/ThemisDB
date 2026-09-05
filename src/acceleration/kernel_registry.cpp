@@ -71,7 +71,7 @@ std::string ValidationReport::summary() const {
         }
         if (!e.missingSlots.empty()) {
             oss << "[";
-            for (size_t i = 0; i <static_cast<int>(e.missingSlots.size()); ++i) {
+            for (size_t i = 0; i < e.missingSlots.size(); ++i) {
                 if (i > 0) {
                   oss << ", ";
                 }

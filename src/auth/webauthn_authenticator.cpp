@@ -50,7 +50,7 @@ namespace {
 
 /// Read CBOR argument value (length or integer payload) and advance pos.
 static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &out) {
-    if (pos >= static_cast<int>(d.size())) {
+    if (pos >= d.size()) {
         throw std::runtime_error("CBOR: truncated data");
     }
     const uint8_t info = d[pos] & 0x1F;
@@ -60,7 +60,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
         return pos;
     }
     if (info == 24) {
-        if (pos >= static_cast<int>(d.size())) {
+        if (pos >= d.size()) {
             throw std::runtime_error("CBOR: truncated 1-byte arg");
         }
         out = d[pos++];
@@ -99,7 +99,7 @@ static size_t cborReadArg(const std::vector<uint8_t> &d, size_t pos, uint64_t &o
 
 /// Skip one CBOR item, returning the new position.
 static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
-    if (pos >= static_cast<int>(d.size())) {
+    if (pos >= d.size()) {
         throw std::runtime_error("CBOR: truncated (skip)");
     }
     const uint8_t initial = d[pos];
@@ -116,7 +116,7 @@ static size_t cborSkip(const std::vector<uint8_t> &d, size_t pos) {
         [[fallthrough]];
         case 3: // byte / text string
             pos = cborReadArg(d, pos, arg);
-            if (pos + arg > static_cast<int>(d.size())) {
+            if (pos + arg > d.size()) {
                 throw std::runtime_error("CBOR: string out of bounds (skip)");
             }
             return pos + static_cast<size_t>(arg);
@@ -185,7 +185,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
         }
         uint64_t klen = {};
         pos = cborReadArg(d, pos, klen);
-        if (pos + klen > static_cast<int>(d.size())) {
+        if (pos + klen > d.size()) {
             throw std::runtime_error("CBOR: key text out of bounds");
         }
         const std::string key(d.begin() + pos, d.begin() + pos + klen);
@@ -197,7 +197,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             }
             uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > static_cast<int>(d.size())) {
+            if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: fmt text out of bounds");
             }
             fmt.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -209,7 +209,7 @@ static void cborParseAttestationObject(const std::vector<uint8_t> &d, std::strin
             }
             uint64_t vlen = {};
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > static_cast<int>(d.size())) {
+            if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: authData out of bounds");
             }
             auth_data.assign(d.begin() + pos, d.begin() + pos + vlen);
@@ -249,7 +249,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
     pos = cborReadArg(d, pos, count);
 
     for (uint64_t i = 0; i < count; ++i) {
-        if (pos >= static_cast<int>(d.size())) {
+        if (pos >= d.size()) {
             throw std::runtime_error("CBOR: truncated COSE key map");
         }
 
@@ -272,7 +272,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         }
 
         // --- read value ---
-        if (pos >= static_cast<int>(d.size())) {
+        if (pos >= d.size()) {
             throw std::runtime_error("CBOR: truncated COSE key value");
         }
         const uint8_t v_major = d[pos] >> 5;
@@ -290,7 +290,7 @@ static void cborParseCoseKey(const std::vector<uint8_t> &d, size_t pos, CoseKeyF
         auto readBytes = [&]() -> std::vector<uint8_t> {
             uint64_t vlen = 0;
             pos = cborReadArg(d, pos, vlen);
-            if (pos + vlen > static_cast<int>(d.size())) {
+            if (pos + vlen > d.size()) {
                 throw std::runtime_error("CBOR: byte value out of bounds");
             }
             std::vector<uint8_t> b(d.begin() + pos, d.begin() + pos + vlen);
@@ -865,7 +865,7 @@ WebAuthnAuthenticator::parseClientDataJSON(const std::vector<uint8_t> &client_da
 
 WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::vector<uint8_t> &auth_data_bytes) {
     // Minimum: 37 bytes (rpIdHash[32] + flags[1] + signCount[4])
-    if (static_cast<int>(auth_data_bytes.size()) < 37) {
+    if (auth_data_bytes.size() < 37) {
         throw std::runtime_error("authData too short (" + std::to_string(auth_data_bytes.size()) + " bytes)");
     }
 
@@ -883,7 +883,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
 
     // Attested credential data starts at byte 37
     // Layout: AAGUID[16] + credentialIdLength[2] + credentialId[N] + credentialPublicKey[CBOR]
-    if (static_cast<int>(auth_data_bytes.size()) < 37 + 16 + 2) {
+    if (auth_data_bytes.size() < 37 + 16 + 2) {
         throw std::runtime_error("authData too short for attested credential");
     }
 
@@ -895,7 +895,7 @@ WebAuthnAuthenticator::AuthData WebAuthnAuthenticator::parseAuthData(const std::
         = (static_cast<uint16_t>(auth_data_bytes[off]) << 8) | static_cast<uint16_t>(auth_data_bytes[off + 1]);
     off += 2;
 
-    if (static_cast<int>(auth_data_bytes.size()) < off + cred_id_len) {
+    if (auth_data_bytes.size() < off + cred_id_len) {
         throw std::runtime_error("authData too short for credentialId");
     }
 
@@ -1065,7 +1065,7 @@ void WebAuthnAuthenticator::verifySignature(const std::vector<uint8_t> &auth_dat
     // Signed data = authData || SHA256(clientDataJSON)
     std::vector<uint8_t> msg = {};
 
-    msg.reserve(static_cast<int>(auth_data_bytes.size()) + static_cast<int>(client_data_hash.size()) );
+    msg.reserve(auth_data_bytes.size() + client_data_hash.size() );
     msg.insert(msg.end(), auth_data_bytes.begin(), auth_data_bytes.end());
     msg.insert(msg.end(), client_data_hash.begin(), client_data_hash.end());
 
