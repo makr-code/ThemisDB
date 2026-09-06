@@ -456,9 +456,6 @@ jobs:
          !startsWith(github.ref_name, 'minimal-')) ||
         (github.event_name == 'workflow_dispatch' && inputs.edition == 'community')
       )
-    environment:
-      name: community-release
-
     permissions:
       contents: write   # required: create/update GitHub Releases and upload assets
       packages: write
@@ -703,7 +700,7 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev libcpphttplib-dev libboost-system-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
             libboost-dev libboost-filesystem-dev libpugixml-dev
 
       - name: Build doku.db

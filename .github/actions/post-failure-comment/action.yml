@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: Post Failure Comment
 description: >
   Posts (or idempotently updates) a structured failure comment on a PR or issue.
@@ -125,3 +126,4 @@ runs:
             });
             core.info(`Created new comment for gate "${gateName}".`);
           }
+

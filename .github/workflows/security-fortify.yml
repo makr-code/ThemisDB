@@ -70,14 +70,21 @@ jobs:
           debricked-sca-scan: true # For FoD, run an open-source scan as part of the SAST scan (ignored if SAST scan
                                    # is disabled). For SSC, run a Debricked scan and import results into SSC.
         env:
+          FOD_TENANT_SECRET_KEY: FOD_TENANT
+          FOD_USER_SECRET_KEY: FOD_USER
+          FOD_PAT_SECRET_KEY: FOD_PAT
+          SSC_URL_VAR_KEY: SSC_URL
+          SSC_TOKEN_SECRET_KEY: SSC_TOKEN
+          SC_CLIENT_AUTH_TOKEN_SECRET_KEY: SC_CLIENT_AUTH_TOKEN
+          DEBRICKED_TOKEN_SECRET_KEY: DEBRICKED_TOKEN
           #############################################################
           ##### Fortify on Demand configuration
           ##### Remove this section if you're integrating with Fortify Hosted/Software Security Center (see below)
           ### Required configuration
           FOD_URL: https://ams.fortify.com                 # Must be hardcoded or configured through GitHub variable, not secret
-          FOD_TENANT: ${{secrets.FOD_TENANT}}              # Either tenant/user/password or client id/secret are required;
-          FOD_USER: ${{secrets.FOD_USER}}                  # these should be configured through GitHub secrets.
-          FOD_PASSWORD: ${{secrets.FOD_PAT}}
+          FOD_TENANT: ${{ secrets[env.FOD_TENANT_SECRET_KEY] }}              # Either tenant/user/password or client id/secret are required;
+          FOD_USER: ${{ secrets[env.FOD_USER_SECRET_KEY] }}                  # these should be configured through GitHub secrets.
+          FOD_PASSWORD: ${{ secrets[env.FOD_PAT_SECRET_KEY] }}
           # FOD_CLIENT_ID: ${{secrets.FOD_CLIENT_ID}}
           # FOD_CLIENT_SECRET: ${{secrets.FOD_CLIENT_SECRET}}
           ### Optional configuration
@@ -108,10 +115,10 @@ jobs:
           ##### Fortify Hosted / Software Security Center & ScanCentral
           ##### Remove this section if you're integrating with Fortify on Demand (see above)
           ### Required configuration
-          SSC_URL: ${{vars.SSC_URL}}                       # Must be hardcoded or configured through GitHub variable, not secret
-          SSC_TOKEN: ${{secrets.SSC_TOKEN}}                # SSC CIToken; credentials should be configured through GitHub secrets
-          SC_SAST_TOKEN: ${{secrets.SC_CLIENT_AUTH_TOKEN}} # ScanCentral SAST client_auth_token, required if SAST scan is enabled
-          DEBRICKED_TOKEN: ${{secrets.DEBRICKED_TOKEN}}    # Debricked token, required if Debricked scan is enabled
+          SSC_URL: ${{ vars[env.SSC_URL_VAR_KEY] }}                       # Must be hardcoded or configured through GitHub variable, not secret
+          SSC_TOKEN: ${{ secrets[env.SSC_TOKEN_SECRET_KEY] }}                # SSC CIToken; credentials should be configured through GitHub secrets
+          SC_SAST_TOKEN: ${{ secrets[env.SC_CLIENT_AUTH_TOKEN_SECRET_KEY] }} # ScanCentral SAST client_auth_token, required if SAST scan is enabled
+          DEBRICKED_TOKEN: ${{ secrets[env.DEBRICKED_TOKEN_SECRET_KEY] }}    # Debricked token, required if Debricked scan is enabled
           SC_SAST_SENSOR_VERSION: 24.4.0                   # Sensor version to use for the scan, required if SAST scan is enabled
           ### Optional configuration
           # SSC_LOGIN_EXTRA_OPTS: --socket-timeout=60s     # Extra 'fcli ssc session login' options

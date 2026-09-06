@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Manage Governance Issue'
 description: |
   Idempotent create/update/close of a single governance or triage issue.
@@ -120,3 +121,4 @@ runs:
             core.setOutput('issue_number', String(issue.number));
             core.setOutput('action', 'created');
           }
+

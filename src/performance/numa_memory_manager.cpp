@@ -117,6 +117,9 @@ void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_page
     // mbind to preferred node when libnuma-style syscall available
     // node used for statistics; kernel mbind not required here
 #else
+    if (node < -1) {
+        node = -1;
+    }
     ptr = std::malloc(size);
     if (!ptr) throw std::bad_alloc{};
 #endif

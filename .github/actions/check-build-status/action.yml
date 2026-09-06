@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Check Build Status'
 description: |
   Reads the ci-build tracker issue (set by build-mainline.yml after each push to develop)
@@ -109,3 +110,4 @@ runs:
               `Build status is unknown; proceeding with caution.`
             );
           }
+

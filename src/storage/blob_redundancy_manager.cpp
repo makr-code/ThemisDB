@@ -26,6 +26,7 @@
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
+#include <fstream>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -222,6 +223,72 @@ BlobRedundancyConfig blob_config_from_json(const nlohmann::json& j) {
     return c;
 }
 
+const char* redundancy_mode_to_string(const RedundancyMode mode) {
+    switch (mode) {
+        case RedundancyMode::NONE:          return "NONE";
+        case RedundancyMode::MIRROR:        return "MIRROR";
+        case RedundancyMode::STRIPE:        return "STRIPE";
+        case RedundancyMode::STRIPE_MIRROR: return "STRIPE_MIRROR";
+        case RedundancyMode::PARITY:        return "PARITY";
+        case RedundancyMode::GEO_MIRROR:    return "GEO_MIRROR";
+    }
+    return "MIRROR";
+}
+
+const char* storage_tier_to_string(const StorageTier tier) {
+    switch (tier) {
+        case StorageTier::HOT:     return "HOT";
+        case StorageTier::WARM:    return "WARM";
+        case StorageTier::COLD:    return "COLD";
+        case StorageTier::ARCHIVE: return "ARCHIVE";
+    }
+    return "HOT";
+}
+
+const char* blob_type_to_string(const BlobType type) {
+    switch (type) {
+        case BlobType::SST_L0:        return "SST_L0";
+        case BlobType::SST_L1:        return "SST_L1";
+        case BlobType::SST_L2_PLUS:   return "SST_L2_PLUS";
+        case BlobType::WAL:           return "WAL";
+        case BlobType::MANIFEST:      return "MANIFEST";
+        case BlobType::CURRENT:       return "CURRENT";
+        case BlobType::OPTIONS:       return "OPTIONS";
+        case BlobType::INDEX_VECTOR:  return "INDEX_VECTOR";
+        case BlobType::INDEX_GRAPH:   return "INDEX_GRAPH";
+        case BlobType::INDEX_FTS:     return "INDEX_FTS";
+        case BlobType::INDEX_SPATIAL: return "INDEX_SPATIAL";
+        case BlobType::BLOB_SMALL:    return "BLOB_SMALL";
+        case BlobType::BLOB_MEDIUM:   return "BLOB_MEDIUM";
+        case BlobType::BLOB_LARGE:    return "BLOB_LARGE";
+        case BlobType::METADATA:      return "METADATA";
+        case BlobType::SCHEMA:        return "SCHEMA";
+        case BlobType::CUSTOM:        return "CUSTOM";
+    }
+    return "CUSTOM";
+}
+
+YAML::Node blob_config_to_yaml(const BlobRedundancyConfig& cfg) {
+    YAML::Node node;
+    node["mode"] = redundancy_mode_to_string(cfg.mode);
+    node["replication_factor"] = cfg.replication_factor;
+    node["tier"] = storage_tier_to_string(cfg.tier);
+    node["sync_write"] = cfg.sync_write;
+    node["geo_replicate"] = cfg.geo_replicate;
+    node["auto_tier_down"] = cfg.auto_tier_down;
+    node["tier_down_after_days"] = cfg.tier_down_after_days;
+    node["retention_days"] = cfg.retention_days;
+    node["version_history"] = cfg.version_history;
+    node["compression"] = cfg.compression;
+    node["compression_level"] = cfg.compression_level;
+
+    YAML::Node ec;
+    ec["data_shards"] = cfg.erasure_coding.data_shards;
+    ec["parity_shards"] = cfg.erasure_coding.parity_shards;
+    node["erasure_coding"] = ec;
+    return node;
+}
+
 } // anonymous namespace
 
 std::string BlobMetadata::toJson() const {
@@ -288,6 +355,100 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
     const std::string& path
 ) {
     try {
+        static const std::unordered_map<std::string, BlobType> kBlobTypeMap = {
+            {"SST_L0",       BlobType::SST_L0},
+            {"SST_L1",       BlobType::SST_L1},
+            {"SST_L2_PLUS",  BlobType::SST_L2_PLUS},
+            {"WAL",          BlobType::WAL},
+            {"MANIFEST",     BlobType::MANIFEST},
+            {"CURRENT",      BlobType::CURRENT},
+            {"OPTIONS",      BlobType::OPTIONS},
+            {"INDEX_VECTOR", BlobType::INDEX_VECTOR},
+            {"INDEX_GRAPH",  BlobType::INDEX_GRAPH},
+            {"INDEX_FTS",    BlobType::INDEX_FTS},
+            {"INDEX_SPATIAL",BlobType::INDEX_SPATIAL},
+            {"BLOB_SMALL",   BlobType::BLOB_SMALL},
+            {"BLOB_MEDIUM",  BlobType::BLOB_MEDIUM},
+            {"BLOB_LARGE",   BlobType::BLOB_LARGE},
+            {"METADATA",     BlobType::METADATA},
+            {"SCHEMA",       BlobType::SCHEMA},
+            {"CUSTOM",       BlobType::CUSTOM},
+        };
+
+        const auto parse_blob_cfg = [](const YAML::Node& node,
+                                       BlobRedundancyConfig base = {}) -> BlobRedundancyConfig {
+            if (!node || !node.IsMap()) {
+                return base;
+            }
+            if (node["replication_factor"]) {
+                base.replication_factor = node["replication_factor"].as<uint32_t>(base.replication_factor);
+            }
+            if (node["sync_write"]) {
+                base.sync_write = node["sync_write"].as<bool>(base.sync_write);
+            }
+            if (node["geo_replicate"]) {
+                base.geo_replicate = node["geo_replicate"].as<bool>(base.geo_replicate);
+            }
+            if (node["auto_tier_down"]) {
+                base.auto_tier_down = node["auto_tier_down"].as<bool>(base.auto_tier_down);
+            }
+            if (node["tier_down_after_days"]) {
+                base.tier_down_after_days = node["tier_down_after_days"].as<uint32_t>(base.tier_down_after_days);
+            }
+            if (node["retention_days"]) {
+                base.retention_days = node["retention_days"].as<uint32_t>(base.retention_days);
+            }
+            if (node["version_history"]) {
+                base.version_history = node["version_history"].as<uint32_t>(base.version_history);
+            }
+            if (node["compression"]) {
+                base.compression = node["compression"].as<std::string>(base.compression);
+            }
+            if (node["compression_level"]) {
+                base.compression_level = node["compression_level"].as<int32_t>(base.compression_level);
+            }
+
+            if (node["mode"]) {
+                const std::string m = node["mode"].as<std::string>("");
+                if (m == "NONE") {
+                    base.mode = RedundancyMode::NONE;
+                } else if (m == "MIRROR") {
+                    base.mode = RedundancyMode::MIRROR;
+                } else if (m == "PARITY") {
+                    base.mode = RedundancyMode::PARITY;
+                } else if (m == "STRIPE") {
+                    base.mode = RedundancyMode::STRIPE;
+                } else if (m == "STRIPE_MIRROR") {
+                    base.mode = RedundancyMode::STRIPE_MIRROR;
+                } else if (m == "GEO_MIRROR") {
+                    base.mode = RedundancyMode::GEO_MIRROR;
+                }
+            }
+
+            if (node["tier"]) {
+                const std::string t = node["tier"].as<std::string>("");
+                if (t == "HOT") {
+                    base.tier = StorageTier::HOT;
+                } else if (t == "WARM") {
+                    base.tier = StorageTier::WARM;
+                } else if (t == "COLD") {
+                    base.tier = StorageTier::COLD;
+                } else if (t == "ARCHIVE") {
+                    base.tier = StorageTier::ARCHIVE;
+                }
+            }
+
+            if (const YAML::Node& ec = node["erasure_coding"]) {
+                if (ec["data_shards"]) {
+                    base.erasure_coding.data_shards = ec["data_shards"].as<uint32_t>(base.erasure_coding.data_shards);
+                }
+                if (ec["parity_shards"]) {
+                    base.erasure_coding.parity_shards = ec["parity_shards"].as<uint32_t>(base.erasure_coding.parity_shards);
+                }
+            }
+            return base;
+        };
+
         YAML::Node root = YAML::LoadFile(path);
         if (!root || !root.IsMap()) {
           return std::nullopt;
@@ -303,26 +464,28 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
 
         // Parse default BlobRedundancyConfig
         if (const YAML::Node& def = root["defaults"]) {
-            auto& d = cfg.defaults;
-            if (def["replication_factor"]) {
-              d.replication_factor = def["replication_factor"].as<uint32_t>(d.replication_factor);
-            }
-            if (def["sync_write"]) {
-              d.sync_write          = def["sync_write"].as<bool>(d.sync_write);
-            }
-            if (def["compression"]) {
-              d.compression         = def["compression"].as<std::string>(d.compression);
-            }
-            if (def["mode"]) {
-                const std::string m = def["mode"].as<std::string>("");
-                if      (m == "NONE") {
-                  d.mode = RedundancyMode::NONE;
+            cfg.defaults = parse_blob_cfg(def, cfg.defaults);
+        }
+
+        if (const YAML::Node& fields = root["field_overrides"]; fields && fields.IsMap()) {
+            for (const auto& kv : fields) {
+                const std::string field_name = kv.first.as<std::string>("");
+                if (field_name.empty()) {
+                    continue;
                 }
-                else if (m == "MIRROR")        d.mode = RedundancyMode::MIRROR;
-                else if (m == "PARITY")        d.mode = RedundancyMode::PARITY;
-                else if (m == "STRIPE")        d.mode = RedundancyMode::STRIPE;
-                else if (m == "STRIPE_MIRROR") d.mode = RedundancyMode::STRIPE_MIRROR;
-                else if (m == "GEO_MIRROR")    d.mode = RedundancyMode::GEO_MIRROR;
+                cfg.field_overrides[field_name] = parse_blob_cfg(kv.second, cfg.defaults);
+            }
+        }
+
+        if (const YAML::Node& blob_overrides = root["blob_overrides"]; blob_overrides && blob_overrides.IsMap()) {
+            for (const auto& kv : blob_overrides) {
+                const std::string type_name = kv.first.as<std::string>("");
+                auto it = kBlobTypeMap.find(type_name);
+                if (it == kBlobTypeMap.end()) {
+                    spdlog::warn("CollectionRedundancyConfig::loadFromYaml: unknown blob_type '{}' in '{}'", type_name, path);
+                    continue;
+                }
+                cfg.blob_overrides[it->second] = parse_blob_cfg(kv.second, cfg.defaults);
             }
         }
 
@@ -335,8 +498,50 @@ std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYa
 }
 
 bool CollectionRedundancyConfig::saveToYaml(const std::string& path) const {
-    // Simplified YAML saving
-    return false;
+    try {
+        YAML::Node root;
+        root["collection"] = collection;
+        if (!description.empty()) {
+            root["description"] = description;
+        }
+
+        root["defaults"] = blob_config_to_yaml(defaults);
+
+        if (!field_overrides.empty()) {
+            YAML::Node fields;
+            for (const auto& [field_name, cfg] : field_overrides) {
+                fields[field_name] = blob_config_to_yaml(cfg);
+            }
+            root["field_overrides"] = fields;
+        }
+
+        if (!blob_overrides.empty()) {
+            YAML::Node blobs;
+            for (const auto& [type, cfg] : blob_overrides) {
+                blobs[blob_type_to_string(type)] = blob_config_to_yaml(cfg);
+            }
+            root["blob_overrides"] = blobs;
+        }
+
+        std::ofstream out(path, std::ios::out | std::ios::trunc);
+        if (!out.is_open()) {
+            spdlog::error("CollectionRedundancyConfig::saveToYaml: cannot open '{}' for writing", path);
+            return false;
+        }
+
+        out << root;
+        if (!out.good()) {
+            spdlog::error("CollectionRedundancyConfig::saveToYaml: failed to write '{}'", path);
+            return false;
+        }
+        return true;
+    } catch (const YAML::Exception& e) {
+        spdlog::error("CollectionRedundancyConfig::saveToYaml: YAML error writing '{}': {}", path, e.what());
+        return false;
+    } catch (const std::exception& e) {
+        spdlog::error("CollectionRedundancyConfig::saveToYaml: failed to write '{}': {}", path, e.what());
+        return false;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1104,8 +1309,23 @@ Result<void> BlobRedundancyManager::tierDown(
     const std::string& blob_id,
     StorageTier target
 ) {
+    std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        return themis::Err<void>(
+            themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found for tierDown: " + blob_id
+        );
+    }
+
+    auto& metadata = it->second;
+    for (auto& location : metadata.locations) {
+        location.tier = target;
+    }
+    metadata.last_modified = std::chrono::system_clock::now();
+
     stats_tier_transitions_++;
-    
+    updateMetadataStore(metadata);
     return themis::OkVoid();
 }
 
@@ -1113,8 +1333,23 @@ Result<void> BlobRedundancyManager::tierUp(
     const std::string& blob_id,
     StorageTier target
 ) {
+    std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        return themis::Err<void>(
+            themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Blob not found for tierUp: " + blob_id
+        );
+    }
+
+    auto& metadata = it->second;
+    for (auto& location : metadata.locations) {
+        location.tier = target;
+    }
+    metadata.last_modified = std::chrono::system_clock::now();
+
     stats_tier_transitions_++;
-    
+    updateMetadataStore(metadata);
     return themis::OkVoid();
 }
 
@@ -1628,12 +1863,22 @@ std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
 
 void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
     // Update distributed metadata store (etcd, etc.)
-    // Simplified: no-op for now
+    // Current implementation is local-only; keep a trace for operational visibility.
+    spdlog::debug(
+        "Metadata store update (deferred backend): blob_id='{}', locations={}, endpoint='{}'",
+        blob.blob_id,
+        static_cast<int>(blob.locations.size()),
+        config_.metadata_endpoint
+    );
 }
 
 void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
     // Remove from distributed metadata store
-    // Simplified: no-op for now
+    spdlog::debug(
+        "Metadata store delete (deferred backend): blob_id='{}', endpoint='{}'",
+        blob_id,
+        config_.metadata_endpoint
+    );
 }
 
 void BlobRedundancyManager::loadFromMetadataStore() {
@@ -1657,7 +1902,7 @@ void RocksDBBlobListener::OnFlushCompleted(
     const rocksdb::FlushJobInfo& info
 ) {
     // New SST file created
-    spdlog::debug("SST file created (flush): {}", info.file_path);
+    spdlog::debug("SST file created (flush): {}, db={} ", info.file_path, static_cast<const void*>(db));
     
     // Register with blob manager
     manager_.registerBlob(
@@ -1674,7 +1919,7 @@ void RocksDBBlobListener::OnCompactionCompleted(
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
-    spdlog::debug("Compaction completed, output files: {}",static_cast<int>(info.output_files.size()));
+    spdlog::debug("Compaction completed, output files: {}, db={}",static_cast<int>(info.output_files.size()), static_cast<const void*>(db));
     
     for (const auto& file_path : info.output_files) {
         // Get file size

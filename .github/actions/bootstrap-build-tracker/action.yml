@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Bootstrap Build Status Tracker'
 
 description: |
@@ -90,3 +91,4 @@ runs:
           }
 
           setOutputs();
+

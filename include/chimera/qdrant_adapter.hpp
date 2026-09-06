@@ -9,6 +9,7 @@
 #pragma once
 
 #include "chimera/database_adapter.hpp"
+#include "chimera/batch_executor.hpp"
 #include <map>
 #include <memory>
 #include <mutex>
@@ -254,5 +255,3 @@ private:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_QDRANT_ADAPTER_HPP

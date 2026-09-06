@@ -68,14 +68,14 @@ bool TOTPReplayCache::checkAndMarkUsed(const std::string& user_id, const std::st
     user_cache.push_back({code, now});
     
     // Enforce max entries per user (prevent memory exhaustion)
-    if (static_cast<int>(user_cache.size()) > config_.max_entries_per_user) {
+    if (user_cache.size() > static_cast<size_t>(config_.max_entries_per_user)) {
         // Remove oldest entries
         std::sort(user_cache.begin(), user_cache.end(),
                  [](const UsedCode& a, const UsedCode& b) {
                      return a.used_at < b.used_at;
                  });
         user_cache.erase(user_cache.begin(),
-                        user_cache.begin() + (static_cast<int>(user_cache.size()) - config_.max_entries_per_user));
+                user_cache.begin() + (user_cache.size() - static_cast<size_t>(config_.max_entries_per_user)));
     }
     
     stats_.total_codes = 0;
@@ -149,7 +149,7 @@ void TOTPReplayCache::cleanup() {
             user_cache.end()
         );
         
-        expired_count += (original_size - static_cast<int>(user_cache.size()) );
+        expired_count += (original_size - user_cache.size());
         
         // Remove user if no codes left
         if (user_cache.empty()) {

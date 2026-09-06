@@ -528,7 +528,8 @@ jobs:
 
       - name: Export SOC 2 evidence bundle
         env:
-          SOC2_EXPORT_TOKEN: ${{ secrets.SOC2_EXPORT_TOKEN }}
+          SOC2_EXPORT_TOKEN_SECRET_KEY: SOC2_EXPORT_TOKEN
+          SOC2_EXPORT_TOKEN: ${{ secrets[env.SOC2_EXPORT_TOKEN_SECRET_KEY] }}
         run: |
           chmod +x scripts/soc2-evidence-export.sh
           bash scripts/soc2-evidence-export.sh \

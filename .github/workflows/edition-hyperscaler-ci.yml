@@ -62,9 +62,6 @@ jobs:
       setup_command: |
         set -euo pipefail
         allowed_csv="${{ github.repository_owner }}"
-        if [ -n "${{ vars.HYPERSCALER_ALLOWED_ACTORS }}" ]; then
-          allowed_csv="${allowed_csv},${{ vars.HYPERSCALER_ALLOWED_ACTORS }}"
-        fi
 
         IFS=',' read -ra allowed <<< "${allowed_csv}"
         authorized="false"

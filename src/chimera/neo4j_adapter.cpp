@@ -532,17 +532,25 @@ Result<TransactionState> Neo4jAdapter::get_transaction_state(
 
 Result<SystemInfo> Neo4jAdapter::get_system_info() const {
     SystemInfo info;
-    info.adapter_name = "Neo4j";
-    info.adapter_version = "0.1.0";
-    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via neo4j-cpp-driver requires THEMIS_CHIMERA_NEO4J
+    info.system_name = "Neo4j";
+    info.version = "0.1.0";
+    info.build_info["database_version"] = "unknown";  // NOT IMPLEMENTED: Query via neo4j-cpp-driver requires THEMIS_CHIMERA_NEO4J
     return Result<SystemInfo>::ok(std::move(info));
 }
 
 Result<SystemMetrics> Neo4jAdapter::get_metrics() const {
     SystemMetrics metrics;
-    metrics.total_queries = 0;
-    metrics.total_errors = 0;
-    metrics.avg_query_time_ms = 0.0;
+    metrics.memory.total_bytes = 0;
+    metrics.memory.used_bytes = 0;
+    metrics.memory.available_bytes = 0;
+    metrics.storage.total_bytes = 0;
+    metrics.storage.used_bytes = 0;
+    metrics.storage.available_bytes = 0;
+    metrics.cpu.utilization_percent = 0.0;
+    metrics.cpu.thread_count = 0;
+    metrics.custom_metrics["total_queries"] = static_cast<int64_t>(0);
+    metrics.custom_metrics["total_errors"] = static_cast<int64_t>(0);
+    metrics.custom_metrics["avg_query_time_ms"] = 0.0;
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 

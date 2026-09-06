@@ -69,6 +69,7 @@ public:
             // No predicate → every document matches; this is intentional.
             return true;
         }
+        const bool has_context = (context != nullptr);
         // F-024: A non-empty expression with the default (no-op) evaluator
         // would silently pass every document, causing full collection scans
         // instead of filtered results.  Throw so the bug is immediately visible
@@ -79,7 +80,8 @@ public:
         // misconfigured dependency injection cannot go unnoticed.
         throw std::logic_error(
             "StorageEngine: DefaultExpressionEvaluator cannot evaluate non-empty "
-            "expression '" + expression + "'. Provide a real IExpressionEvaluator "
+            "expression '" + expression + "' (context=" + (has_context ? "set" : "null") +
+            "). Provide a real IExpressionEvaluator "
             "via dependency injection (StorageEngine::setExpressionEvaluator()).");
     }
     
@@ -103,6 +105,7 @@ public:
         const std::vector<uint8_t>& plaintext) override {
         // Default implementation: no-op encryption (returns plaintext)
         // Real implementation would use AES-GCM or similar
+        THEMIS_DEBUG("DefaultFieldEncryption::encrypt_field no-op for '{}'", field_name);
         return plaintext;
     }
     
@@ -110,11 +113,13 @@ public:
         const std::string& field_name,
         const std::vector<uint8_t>& ciphertext) override {
         // Default implementation: no-op decryption
+        THEMIS_DEBUG("DefaultFieldEncryption::decrypt_field no-op for '{}'", field_name);
         return ciphertext;
     }
     
     bool should_encrypt(const std::string& field_name) const override {
         // Default: don't encrypt any fields
+        THEMIS_TRACE("DefaultFieldEncryption::should_encrypt('{}') -> false", field_name);
         return false;
     }
 };
@@ -132,11 +137,13 @@ public:
     std::vector<uint8_t> get_key(const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
+        THEMIS_DEBUG("DefaultKeyProvider::get_key dummy key for id '{}'", key_id);
         return std::vector<uint8_t>(32, 0x42); // 32-byte dummy key
     }
     
     std::vector<uint8_t> rotate_key(const std::string& key_id) override {
         // Default implementation: return the same dummy key
+        THEMIS_DEBUG("DefaultKeyProvider::rotate_key dummy key for id '{}'", key_id);
         return get_key(key_id);
     }
 };
@@ -157,7 +164,8 @@ public:
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', field='{}', config_len={}",
+                         name, field_name, config.size());
         }
         return Ok<ISecondaryIndex*>(nullptr);
     }
@@ -168,7 +176,8 @@ public:
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', dim={}, config_len={}",
+                         name, dimension, config.size());
         }
         return Ok<IVectorIndex*>(nullptr);
     }
@@ -178,7 +187,8 @@ public:
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', config_len={}",
+                         name, config.size());
         }
         return Ok<IGraphIndex*>(nullptr);
     }
@@ -203,6 +213,7 @@ public:
     
     Result<void> dropIndex(std::string_view name) override {
         // Default implementation: always succeeds (no-op)
+        THEMIS_DEBUG("Default StorageEngine::dropIndex no-op for '{}'", name);
         return OkVoid();
     }
     

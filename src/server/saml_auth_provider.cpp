@@ -36,6 +36,8 @@ namespace server {
 /*static*/ std::string SamlAuthProvider::defaultTokenFactory(
     const auth::SAMLClaims& claims)
 {
+    THEMIS_TRACE("SamlAuthProvider::defaultTokenFactory invoked (claims_ptr={})",
+                 static_cast<const void*>(&claims));
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
     RAND_bytes(buf, static_cast<int>(sizeof(buf)));

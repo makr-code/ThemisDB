@@ -321,6 +321,13 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     if (static_cast<int>(stats.execution_times.size()) < config_.pattern_window_size) {
         return 0.0;
     }
+
+    // If no executions happened for a long time, treat the task as inactive
+    // instead of flagging a stale pattern anomaly.
+    if (!stats.execution_times.empty() &&
+        now - stats.execution_times.back() > std::chrono::hours(24)) {
+        return 0.0;
+    }
     
     // Analyze inter-execution intervals
     std::vector<double> intervals = {};
@@ -404,6 +411,10 @@ double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
     
     // Check recent failure rate
     if (stats.recent_failure_rate > config_.failure_rate_spike) {
+        if (!success) {
+            THEMIS_DEBUG("TaskAnomalyDetector: failure-rate spike for task '{}' (recent={}, threshold={})",
+                         task_id, stats.recent_failure_rate, config_.failure_rate_spike);
+        }
         // Normalize to 0-1 scale
         return std::min(1.0, stats.recent_failure_rate / config_.failure_rate_spike);
     }

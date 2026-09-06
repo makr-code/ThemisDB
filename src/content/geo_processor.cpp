@@ -586,6 +586,8 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob,
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
+    (void)options;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     
@@ -682,6 +684,8 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
+    (void)options;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     
@@ -833,6 +837,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     

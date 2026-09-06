@@ -16,7 +16,10 @@
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"
 
-#ifdef THEMIS_ROCKSDB_AVAILABLE
+#ifndef THEMIS_ROCKSDB_AVAILABLE
+#error "rocksdb_wrapper.cpp requires THEMIS_ROCKSDB_AVAILABLE with real RocksDB support."
+#endif
+
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -42,11 +45,6 @@
 #  define THEMIS_HAS_ROCKSDB_BACKUP 1
 #else
 #  define THEMIS_HAS_ROCKSDB_BACKUP 0
-#endif
-#else
-// Stub definitions when RocksDB is not available
-#include <filesystem>
-#define THEMIS_HAS_ROCKSDB_BACKUP 0
 #endif
 
 // Feature guards for older distro RocksDB packages.
@@ -77,8 +75,6 @@
 #include <chrono>   // For milliseconds (race condition fix #3)
 #include <future>   // std::async / std::future (blob streaming, PERF-D5)
 #include <sstream>  // std::ostringstream (blob chunk key formatting)
-
-#ifdef THEMIS_ROCKSDB_AVAILABLE
 
 namespace themis {
 
@@ -1058,7 +1054,7 @@ inline std::string blobManifestKey(std::string_view key) {
 // Returns the internal chunk key for chunk index `idx` of a logical blob key.
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     char buf[16];
-    const int written = std::snprintf(buf, sizeof(buf), "%06", idx);
+    const int written = std::snprintf(buf, sizeof(buf), "%06u", idx);
     if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
         throw std::overflow_error("RocksDB chunk key index overflow");
     }
@@ -3008,6 +3004,4 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
-
-#endif // THEMIS_ROCKSDB_AVAILABLE
 

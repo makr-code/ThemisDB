@@ -138,11 +138,13 @@ jobs:
             fi
           fi
           
-          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
-          echo "version-bump=$VERSION_BUMP" >> "$GITHUB_OUTPUT"
-          echo "target-version=$TARGET_VERSION" >> "$GITHUB_OUTPUT"
-          echo "trigger-type=$TRIGGER_TYPE" >> "$GITHUB_OUTPUT"
-          echo "should-run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
+          {
+            echo "release-type=$RELEASE_TYPE"
+            echo "version-bump=$VERSION_BUMP"
+            echo "target-version=$TARGET_VERSION"
+            echo "trigger-type=$TRIGGER_TYPE"
+            echo "should-run=$SHOULD_RUN"
+          } >> "$GITHUB_OUTPUT"
           
           echo "::notice::Release context:"
           echo "  Trigger: $TRIGGER_TYPE"
@@ -309,7 +311,7 @@ jobs:
 
       - name: Create Pull Request
         id: pr
-        uses: actions/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v8.1.1
         with:
           commit-message: "chore: release v${{ needs.bump-version.outputs.new-version }}"
           title: "Release: v${{ needs.bump-version.outputs.new-version }} (${{ needs.extract-release-context.outputs.release-type }})"
@@ -357,7 +359,7 @@ jobs:
             
             Once all checks pass and the checklist is complete, merge this PR to proceed with release publication.
           branch: ${{ steps.release-branch.outputs.branch }}
-          target: develop
+          base: develop
           delete-branch: false
           labels: release/pending,${{ needs.extract-release-context.outputs.release-type }}
 

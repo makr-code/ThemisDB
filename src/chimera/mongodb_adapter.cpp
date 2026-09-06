@@ -476,17 +476,25 @@ Result<TransactionState> MongoDBAdapter::get_transaction_state(
 
 Result<SystemInfo> MongoDBAdapter::get_system_info() const {
     SystemInfo info;
-    info.adapter_name = "MongoDB";
-    info.adapter_version = "0.1.0";
-    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via mongocxx requires THEMIS_CHIMERA_MONGO
+    info.system_name = "MongoDB";
+    info.version = "0.1.0";
+    info.build_info["database_version"] = "unknown";  // NOT IMPLEMENTED: Query via mongocxx requires THEMIS_CHIMERA_MONGO
     return Result<SystemInfo>::ok(std::move(info));
 }
 
 Result<SystemMetrics> MongoDBAdapter::get_metrics() const {
     SystemMetrics metrics;
-    metrics.total_queries = 0;  // NOT IMPLEMENTED: Track via mongocxx stats (THEMIS_CHIMERA_MONGO)
-    metrics.total_errors = 0;
-    metrics.avg_query_time_ms = 0.0;
+    metrics.memory.total_bytes = 0;
+    metrics.memory.used_bytes = 0;
+    metrics.memory.available_bytes = 0;
+    metrics.storage.total_bytes = 0;
+    metrics.storage.used_bytes = 0;
+    metrics.storage.available_bytes = 0;
+    metrics.cpu.utilization_percent = 0.0;
+    metrics.cpu.thread_count = 0;
+    metrics.custom_metrics["total_queries"] = static_cast<int64_t>(0);  // NOT IMPLEMENTED: Track via mongocxx stats (THEMIS_CHIMERA_MONGO)
+    metrics.custom_metrics["total_errors"] = static_cast<int64_t>(0);
+    metrics.custom_metrics["avg_query_time_ms"] = 0.0;
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 
@@ -551,7 +559,8 @@ Result<bool> MongoDBAdapter::commit_transaction(
         );
     }
 
-    handle->mark_committed();
+    auto mutable_handle = handle;
+    mutable_handle->mark_committed();
     return Result<bool>::ok(true);
 }
 
@@ -565,7 +574,8 @@ Result<bool> MongoDBAdapter::rollback_transaction(
         );
     }
 
-    handle->mark_aborted();
+    auto mutable_handle = handle;
+    mutable_handle->mark_aborted();
     return Result<bool>::ok(true);
 }
 
@@ -580,7 +590,8 @@ Result<std::string> MongoDBAdapter::create_savepoint(
         );
     }
 
-    if (!handle->create_savepoint(savepoint_name)) {
+    auto mutable_handle = handle;
+    if (!mutable_handle->create_savepoint(savepoint_name)) {
         return Result<std::string>::err(
             ErrorCode::INVALID_ARGUMENT,
             "Savepoint name already exists"
@@ -622,7 +633,7 @@ TransactionState MongoDBAdapter::get_transaction_state(
     if (handle) {
         return handle->get_state();
     }
-    return TransactionState::FAILED;
+    return TransactionState::ABORTED;
 }
 
 // ---------------------------------------------------------------------------

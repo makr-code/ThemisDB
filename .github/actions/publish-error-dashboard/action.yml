@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: Publish Error Dashboard
 description: Generate and publish build error monitoring dashboards
 
@@ -141,3 +142,4 @@ runs:
             ]
           }" || echo "⚠️  Slack notification failed (webhook may be invalid)"
       continue-on-error: true
+

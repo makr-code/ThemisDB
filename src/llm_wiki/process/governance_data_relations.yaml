@@ -1,0 +1,176 @@
+version: 1
+policy_id: governance_data_relations_default_v1
+mode: shadow
+
+default_decision: deny
+
+metadata:
+  owner: governance-team
+  review_interval_days: 30
+  description: >-
+    Organization-level guardrail policy for allowed and forbidden data-domain
+    relationships and role-based RAG actions.
+
+data_domains:
+  - id: process_models
+    classification: internal
+    description: BPMN/CMMN/EPK/DMN model structures and metadata.
+  - id: process_events
+    classification: internal
+    description: Event logs and process execution traces.
+  - id: legal_docs
+    classification: confidential
+    description: Legal and compliance source documents.
+  - id: technical_docs
+    classification: internal
+    description: Technical wiki pages, runbooks, and architecture notes.
+  - id: pii
+    classification: restricted
+    description: Personally identifiable information.
+  - id: secrets
+    classification: restricted
+    description: Keys, credentials, tokens, and cryptographic material.
+  - id: public_answers
+    classification: public
+    description: User-visible answer surface.
+  - id: llm_prompt_context
+    classification: internal
+    description: Prompt context assembled before model invocation.
+
+relationship_rules:
+  allowed:
+    - from: process_events
+      to: process_models
+      relation: supports_discovery
+      constraints:
+        min_provenance_confidence: 0.65
+        max_synthetic_chain_length: 3
+    - from: legal_docs
+      to: process_models
+      relation: constrains_execution
+      constraints:
+        min_provenance_confidence: 0.70
+        max_synthetic_chain_length: 2
+    - from: technical_docs
+      to: process_models
+      relation: implementation_reference
+      constraints:
+        min_provenance_confidence: 0.60
+        max_synthetic_chain_length: 3
+    - from: process_models
+      to: llm_prompt_context
+      relation: retrieval_context
+      constraints:
+        min_provenance_confidence: 0.65
+        max_synthetic_chain_length: 3
+
+  forbidden:
+    - from: pii
+      to: public_answers
+      relation: direct_exposure
+      reason_code: GOV-PII-001
+    - from: secrets
+      to: llm_prompt_context
+      relation: prompt_exposure
+      reason_code: GOV-SEC-001
+    - from: secrets
+      to: public_answers
+      relation: answer_exposure
+      reason_code: GOV-SEC-002
+
+rag_actions:
+  allowed_by_role:
+    analyst:
+      - rag.query_process_context
+      - rag.retrieve_evidence
+    operator:
+      - rag.query_process_context
+      - rag.retrieve_evidence
+      - rag.generate_summary
+    auditor:
+      - rag.retrieve_evidence
+      - rag.generate_trace_report
+
+  denied_by_role:
+    analyst:
+      - rag.export_raw_pii
+      - rag.export_secrets
+    operator:
+      - rag.export_raw_secrets
+    auditor:
+      - rag.generate_public_answer
+
+request_constraints:
+  max_requested_domains: 6
+  require_workspace_id: true
+  require_policy_snapshot_id: true
+  require_reason_codes: true
+
+hard_invariants:
+  fail_closed: true
+  second_planner_allowed: false
+  entitlement_gate_required: true
+  guardrail_gate_required: true
+  validation_gate_required: true
+
+ml_control:
+  optimization_enabled: true
+  learner:
+    algorithm: contextual_bandit
+    exploration_rate: 0.05
+    update_window_requests: 500
+
+  adjustable_knobs:
+    - synthesize.max_evidence_items
+    - synthesize.min_provenance_confidence
+    - extract.max_candidates_per_doc
+    - re_anchor.trigger.confidence_lt
+
+  hard_bounds:
+    synthesize.max_evidence_items:
+      min: 8
+      max: 64
+    synthesize.min_provenance_confidence:
+      min: 0.50
+      max: 0.90
+    extract.max_candidates_per_doc:
+      min: 8
+      max: 128
+    re_anchor.trigger.confidence_lt:
+      min: 0.40
+      max: 0.80
+
+  never_adjust:
+    - hard_invariants.fail_closed
+    - hard_invariants.second_planner_allowed
+    - hard_invariants.entitlement_gate_required
+    - hard_invariants.guardrail_gate_required
+    - relationship_rules.forbidden
+    - request_constraints.require_reason_codes
+
+runtime_decision_evidence:
+  required_fields:
+    - decision_id
+    - policy_snapshot_id
+    - user_id
+    - workspace_id
+    - role
+    - requested_actions
+    - requested_domains
+    - gate_outcomes
+    - allow_or_deny
+    - reason_code
+    - provenance_confidence
+    - synthetic_chain_length
+    - selected_knobs
+
+rollout:
+  canary_percent: 5
+  promote_if:
+    min_requests: 5000
+    utility_gain_ge: 0.03
+    no_security_regression: true
+  rollback_if:
+    deny_rate_increase_gt: 0.02
+    re_anchor_rate_increase_gt: 0.05
+    p95_latency_increase_ms_gt: 30

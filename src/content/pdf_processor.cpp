@@ -307,6 +307,10 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
 std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string &blob) {
     std::vector<PDFPageInfo> pages;
 
+#if !PDF_LIBRARY_AVAILABLE
+    (void)blob;
+#endif
+
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
     std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));

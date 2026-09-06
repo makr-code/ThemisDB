@@ -946,6 +946,8 @@ std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const std::string& resource,
     const std::string& path)
 {
+    THEMIS_TRACE("RopeApiHandler::requireAccess permission='{}' resource='{}' path='{}'",
+                 permission, resource, path);
     // Enforce scope-based authorization (mirrors VectorApiHandler RBAC pattern).
     // When auth middleware is not configured or not enabled, fail-closed by denying access.
     if (!auth_ || !auth_->isEnabled()) {
