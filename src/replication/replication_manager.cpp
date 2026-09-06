@@ -1718,7 +1718,7 @@ void ReplicationManager::heartbeatLoop() {
             uint64_t current_term = election_->getCurrentTerm();
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-                for (const auto& replica : replicas_) {
+                for (const auto& /*replica*/ : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer

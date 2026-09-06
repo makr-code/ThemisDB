@@ -380,8 +380,8 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     // Diagnostic: always emit that this function was called so tests can
     // verify whether the injected exact-similarity override was considered.
     try {
-        std::fprintf(stderr, "[AR] findSimilarAdapters called key='%s' k=%zu graph_present=%d\n",
-                     key.c_str(), k, (fingerprint_graph_ ? 1 : 0));
+        std::fprintf(stderr, "[AR] findSimilarAdapters called key='%s' k=%llu graph_present=%d\n",
+                 key.c_str(), static_cast<unsigned long long>(k), (fingerprint_graph_ ? 1 : 0));
     } catch (...) {}
 
     // Delegate to injected exact-similarity backend when available (STUB #266).
@@ -393,7 +393,8 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     if (exact_fn_copy) {
         try {
             auto results = exact_fn_copy(key, k, backend_);
-            std::fprintf(stderr, "[AR] exactSimilarityFn present for key='%s' -> returned=%zu\n", key.c_str(), results.size());
+            std::fprintf(stderr, "[AR] exactSimilarityFn present for key='%s' -> returned=%llu\n",
+                         key.c_str(), static_cast<unsigned long long>(results.size()));
             if (ann_frontdoor_) {
                 index::AnnQueryContext context;
                 context.scope_id = key;

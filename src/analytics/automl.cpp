@@ -309,7 +309,7 @@ struct LabelEncoder {
         std::set<std::string> s(labels.begin(), labels.end());
         classes.assign(s.begin(), s.end());
         for (size_t i = 0; i < classes.size(); ++i) {
-            index[classes[static_cast<size_t>(i)]] = i;
+            index[classes[static_cast<size_t>(i)]] = static_cast<int>(i);
         }
     }
 
@@ -1952,7 +1952,7 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
     }
     // Rebuild label encoder index
     for (size_t i = 0; i < m.impl_->label_enc.classes.size(); ++i) {
-        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
+        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = static_cast<int>(i);
     }
     return m;
 }

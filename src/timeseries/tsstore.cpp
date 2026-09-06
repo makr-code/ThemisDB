@@ -279,6 +279,7 @@ Result<void> TSStore::putDataPoint(const DataPoint& point) {
     
     auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
+    (void)latency;
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write data point {}: {}", key, s.ToString());
@@ -441,6 +442,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
         
         auto latency = std::chrono::duration<double, std::milli>(
             std::chrono::steady_clock::now() - start_time).count();
+        (void)latency;
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to write Gorilla-compressed batch: {}", s.ToString());
@@ -503,6 +505,7 @@ Result<void> TSStore::putDataPoints(const std::vector<DataPoint>& points) {
     
     auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
+    (void)latency;
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to write batch of {} data points: {}",static_cast<int>(points.size()), s.ToString());
@@ -945,6 +948,8 @@ TSStore::query(const QueryOptions& options) const {
     auto latency = std::chrono::duration<double, std::milli>(
         std::chrono::steady_clock::now() - start_time).count();
     int64_t time_range = options.to_timestamp_ms - options.from_timestamp_ms;
+    (void)latency;
+    (void)time_range;
     
     THEMIS_DEBUG("Query returned {} data points for metric={}",static_cast<int>(results.size()), options.metric);
     return Ok(std::move(results));

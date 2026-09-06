@@ -51,7 +51,7 @@ uint8_t rho(uint64_t value) {
       return 65;
     }
     uint8_t count = 1;
-    while ((value & (1 << 63)) == 0) {
+    while ((value & (uint64_t{1} << 63)) == 0) {
         ++count;
         value <<= 1;
     }
@@ -62,7 +62,7 @@ uint8_t rho(uint64_t value) {
 
 ApproximateCountDistinct::ApproximateCountDistinct(int precision)
     : precision_(std::clamp(precision, 4, 18)),
-      num_registers_(1 << precision_),
+    num_registers_(static_cast<int>(std::size_t{1} << precision_)),
       registers_(static_cast<size_t>(num_registers_), 0) {}
 
 void ApproximateCountDistinct::add(const nlohmann::json& value) {
@@ -70,7 +70,7 @@ void ApproximateCountDistinct::add(const nlohmann::json& value) {
     // Use the top `precision_` bits as the register index.
     const int idx = static_cast<int>(h >> (64 - precision_));
     // Remaining bits determine the rho value.
-    const uint64_t w = (h << precision_) | ((1 << precision_) - 1);
+    const uint64_t w = (h << precision_) | ((uint64_t{1} << precision_) - 1ULL);
     const uint8_t r  = rho(w);
     if (r > registers_[static_cast<size_t>(idx)]) {
         registers_[static_cast<size_t>(idx)] = r;

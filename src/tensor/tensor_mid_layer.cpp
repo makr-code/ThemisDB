@@ -111,8 +111,10 @@ FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
         // Diagnostic: log shard-level similar adapter counts to aid debugging
         // Emit a small stderr diagnostic so focused test runners capture it reliably.
         try {
-            std::fprintf(stderr, "[TFML] shard='%s' similar_adapters=%zu candidates=%zu\n",
-                         shard_scope_id.c_str(), shard_summary.similar_adapters.size(), shard_summary.candidate_count);
+            std::fprintf(stderr, "[TFML] shard='%s' similar_adapters=%llu candidates=%llu\n",
+                         shard_scope_id.c_str(),
+                         static_cast<unsigned long long>(shard_summary.similar_adapters.size()),
+                         static_cast<unsigned long long>(shard_summary.candidate_count));
         } catch (...) {
         }
         shard_summary.federated = true;
