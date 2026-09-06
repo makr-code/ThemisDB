@@ -501,9 +501,9 @@ json EthicsBuildContextFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // NOTE: Full implementation integrates with RAGContextEngine from the ethics_ai plugin.
-    const std::string& dilemma = args[0];
-    const json& philosophies = args[1];
-    const std::string& category = static_cast<int>(args.size()) > 2 ? args[2].get<std::string>() : "general";
+    [[maybe_unused]] const std::string& dilemma = args[0];
+    [[maybe_unused]] const json& philosophies = args[1];
+    [[maybe_unused]] const std::string& category = static_cast<int>(args.size()) > 2 ? args[2].get<std::string>() : "general";
     
     json context;
     context["similar_dilemmas"] = json::array();

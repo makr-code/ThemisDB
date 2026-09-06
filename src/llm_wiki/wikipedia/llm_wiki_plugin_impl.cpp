@@ -5,7 +5,7 @@
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
 // Edition/feature gate enforcement lives in src/llm_wiki for now.
-#include "edition_gate.h"
+#include "llm_wiki/edition_gate.h"
 #include "config/config_path_resolver.h"
 #include "llm_wiki/process_policy_manager.h"
 

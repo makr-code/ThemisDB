@@ -399,8 +399,8 @@ MacroResult VoiceMacroManager::executeMacro(
     std::string combined_output = {};
     bool all_ok = true;
 
-    for (size_t i = 0; i < static_cast<int>(info.steps.size()); ++i) {
-        auto sr = executeStep(i, info.steps[static_cast<size_t>(i)], parameters);
+    for (size_t i = 0; i < info.steps.size(); ++i) {
+        auto sr = executeStep(static_cast<int>(i), info.steps[i], parameters);
         if (!combined_output.empty()) {
           combined_output += '\n';
         }

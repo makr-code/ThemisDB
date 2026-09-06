@@ -68,7 +68,7 @@ static bool detectCDCCapability(const std::string& dump_header_lines) {
 }
 
 /// Maps PostgreSQL-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapPostgreSQLErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapPostgreSQLErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {

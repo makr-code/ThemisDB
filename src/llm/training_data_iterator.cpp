@@ -17,7 +17,18 @@
 
 namespace themis::llm {
 
-TrainingDataIterator::TrainingDataIterator() : current_index_(0), total_items_(0) {
+TrainingDataIterator::TrainingDataIterator(
+    std::shared_ptr<RocksDBWrapper> db,
+    std::shared_ptr<exporters::JSONLLLMExporter> exporter)
+    : db_(std::move(db)), exporter_(std::move(exporter)) {
+    spdlog::debug("TrainingDataIterator initialized (default config)");
+}
+
+TrainingDataIterator::TrainingDataIterator(
+    std::shared_ptr<RocksDBWrapper> db,
+    std::shared_ptr<exporters::JSONLLLMExporter> exporter,
+    Config config)
+    : db_(std::move(db)), exporter_(std::move(exporter)), config_(std::move(config)) {
     spdlog::debug("TrainingDataIterator initialized");
 }
 

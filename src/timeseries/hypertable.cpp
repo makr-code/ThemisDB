@@ -137,7 +137,7 @@ std::vector<std::pair<int64_t, std::string>> Hypertable::query(
     }
     
     // Scan each chunk
-    for (const auto& /*chunk_name*/ : chunks_to_scan) {
+    for ([[maybe_unused]] const auto& chunk_name : chunks_to_scan) {
         std::string prefix = ""; // Would use chunk-specific prefix in production
         
         db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {

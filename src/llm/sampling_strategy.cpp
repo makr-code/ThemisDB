@@ -84,7 +84,7 @@ llama_token NucleusSampling::sample(
     // Apply repeat penalty
     if (repeat_penalty_ > 1.0f && !last_tokens.empty()) {
         for (auto t : last_tokens) {
-            if (t >= 0 && static_cast<size_t>(t) <static_cast<int>(scores.size())) {
+          if (t >= 0 && static_cast<size_t>(t) < scores.size()) {
                 scores[t] /= repeat_penalty_;
             }
         }

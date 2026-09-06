@@ -113,7 +113,7 @@ struct OracleConnectionPoolState {
 static thread_local OracleConnectionPoolState g_oracle_connection_pool;
 
 /// Maps Oracle-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {
