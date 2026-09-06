@@ -488,8 +488,9 @@ bool RedisCache::readReply(SocketFd fd, std::string &out) noexcept {
         size_t received = 0;
         while (received < static_cast<size_t>(len)) {
 #if defined(_WIN32)
+            const int to_read = static_cast<int>(static_cast<size_t>(len) - received);
             int n = ::recv(static_cast<SOCKET>(fd), &data[received],
-                           (len - received), 0);
+                           to_read, 0);
             if (n <= 0) {
                 return false;
             }

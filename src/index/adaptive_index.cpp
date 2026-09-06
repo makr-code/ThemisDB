@@ -194,7 +194,7 @@ SelectivityAnalyzer::analyze(const std::string& collection,
 
             total++;
             sampled++;
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             // Skip invalid JSON
             continue;
         }

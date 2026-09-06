@@ -141,6 +141,9 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
         }
     });
 #else
+    (void)url;
+    (void)body;
+    (void)headers;
     promise->set_exception(std::make_exception_ptr(
         std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
 #endif
@@ -182,6 +185,8 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
         }
     });
 #else
+    (void)url;
+    (void)headers;
     promise->set_exception(std::make_exception_ptr(
         std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
 #endif

@@ -354,7 +354,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
 
         return metadata;
 
-    } catch (const std::exception &e) {
+    } catch (const std::exception &) {
         // Failed to parse metadata
         // Suppress unused variable warning
         return std::nullopt;

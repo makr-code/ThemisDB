@@ -117,7 +117,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
                                   std::to_string(bit_count));
     }
 
-    const std::size_t total = static_cast<std::size_t>(1 << bit_count);
+    const std::size_t total = (std::size_t{1} << bit_count);
     if (static_cast<int>(dense.size()) != total) {
         throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
                                     std::to_string(dense.size()) +
@@ -130,8 +130,8 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     train.cores.resize(bit_count);
 
     for (std::size_t k = 0; k + 1 < bit_count; ++k) {
-        const std::size_t r_left = static_cast<std::size_t>(1 << k);
-        const std::size_t r_right = static_cast<std::size_t>(1 << (k + 1));
+        const std::size_t r_left = (std::size_t{1} << k);
+        const std::size_t r_right = (std::size_t{1} << (k + 1));
         auto& core = train.cores[k];
         core.r_left = r_left;
         core.n = 2;
@@ -147,7 +147,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     }
 
     {
-        const std::size_t r_left = static_cast<std::size_t>(1 << (bit_count - 1));
+        const std::size_t r_left = (std::size_t{1} << (bit_count - 1));
         auto& core = train.cores.back();
         core.r_left = r_left;
         core.n = 2;
@@ -516,7 +516,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     for (const auto grid_size : resolved_grid_sizes) {
         const auto bit_depth = calculateBitDepth(grid_size);
         bit_depths.push_back(bit_depth);
-        const auto padded_grid_size = static_cast<std::size_t>(1 << bit_depth);
+        const auto padded_grid_size = (std::size_t{1} << bit_depth);
         padded_grid_sizes.push_back(padded_grid_size);
         quantics_mode_sizes.insert(quantics_mode_sizes.end(), bit_depth, std::size_t{2});
     }

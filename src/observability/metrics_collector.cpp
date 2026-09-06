@@ -75,12 +75,12 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
 
 void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
-    incrementCounter("index_keys_scanned", {{"type", index_type}});
+    setGauge("index_keys_scanned", static_cast<double>(keys_scanned), {{"type", index_type}});
 }
 
 void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
-    incrementCounter("full_scan_keys", {{"table", table}});
+    setGauge("full_scan_keys", static_cast<double>(keys_scanned), {{"table", table}});
 }
 
 // ===== Cache Metrics =====
@@ -116,15 +116,15 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 
 void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
-    incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
+    setGauge("content_bytes_imported", static_cast<double>(size_bytes), {{"mime_type", mime_type}});
 }
 
 void MetricsCollector::recordChunkCreation(size_t chunk_count) {
-    incrementCounter("chunks_created_total", {});
+    setGauge("chunks_created_total", static_cast<double>(chunk_count), {});
 }
 
 void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
-    incrementCounter("embeddings_generated_total", {});
+    setGauge("embeddings_generated_total", static_cast<double>(count), {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
 
@@ -157,6 +157,8 @@ void MetricsCollector::recordCPUUsage(double percent) {
 void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
+    setGauge("disk_read_ops_last", static_cast<double>(read_ops), {});
+    setGauge("disk_write_ops_last", static_cast<double>(write_ops), {});
 }
 
 // ===== Tracing Metrics =====

@@ -99,7 +99,7 @@ bool MongoDBAdapter::is_connected() const {
 // ---------------------------------------------------------------------------
 
 Result<RelationalTable> MongoDBAdapter::execute_query(
-    const std::string& query,
+    const std::string& /*query*/,
     const std::vector<Scalar>& /*params*/
 ) {
     if (!connected_) {
@@ -124,8 +124,8 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
 }
 
 Result<size_t> MongoDBAdapter::insert_row(
-    const std::string& table_name,
-    const RelationalRow& row
+    const std::string& /*table_name*/,
+    const RelationalRow& /*row*/
 ) {
     if (!connected_) {
         return Result<size_t>::err(
@@ -148,7 +148,7 @@ Result<size_t> MongoDBAdapter::insert_row(
 }
 
 Result<size_t> MongoDBAdapter::batch_insert(
-    const std::string& table_name,
+    const std::string& /*table_name*/,
     const std::vector<RelationalRow>& rows
 ) {
     if (!connected_) {
@@ -161,7 +161,7 @@ Result<size_t> MongoDBAdapter::batch_insert(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert documents into collection via bulk_write
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
+    return Result<size_t>::ok(rows.size());
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -296,8 +296,8 @@ Result<std::vector<GraphPath>> MongoDBAdapter::execute_graph_query(
 // ---------------------------------------------------------------------------
 
 Result<std::string> MongoDBAdapter::insert_document(
-    const std::string& collection,
-    const Document& doc
+    const std::string& /*collection*/,
+    const Document& /*doc*/
 ) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -321,7 +321,7 @@ Result<std::string> MongoDBAdapter::insert_document(
 }
 
 Result<size_t> MongoDBAdapter::batch_insert_documents(
-    const std::string& collection,
+    const std::string& /*collection*/,
     const std::vector<Document>& docs
 ) {
     if (!connected_) {
@@ -334,7 +334,7 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
 #ifdef THEMIS_CHIMERA_MONGO
     // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
     // TODO: Batch insert BSON documents via insert_many
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
+    return Result<size_t>::ok(docs.size());
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -345,9 +345,9 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
 }
 
 Result<std::vector<Document>> MongoDBAdapter::find_documents(
-    const std::string& collection,
-    const std::map<std::string, Scalar>& filter,
-    size_t limit
+    const std::string& /*collection*/,
+    const std::map<std::string, Scalar>& /*filter*/,
+    size_t /*limit*/
 ) {
     if (!connected_) {
         return Result<std::vector<Document>>::err(
@@ -371,9 +371,9 @@ Result<std::vector<Document>> MongoDBAdapter::find_documents(
 }
 
 Result<size_t> MongoDBAdapter::update_documents(
-    const std::string& collection,
-    const std::map<std::string, Scalar>& filter,
-    const std::map<std::string, Scalar>& updates
+    const std::string& /*collection*/,
+    const std::map<std::string, Scalar>& /*filter*/,
+    const std::map<std::string, Scalar>& /*updates*/
 ) {
     if (!connected_) {
         return Result<size_t>::err(
@@ -603,7 +603,7 @@ Result<std::string> MongoDBAdapter::create_savepoint(
 
 Result<bool> MongoDBAdapter::rollback_to_savepoint(
     const TransactionHandle& handle,
-    const std::string& savepoint_name
+    const std::string& /*savepoint_name*/
 ) {
     if (!handle) {
         return Result<bool>::err(
@@ -642,7 +642,7 @@ TransactionState MongoDBAdapter::get_transaction_state(
 
 Result<bool> MongoDBAdapter::queue_insert(
     const std::string& table_name,
-    const RelationalRow& row
+    const RelationalRow& /*row*/
 ) {
     if (!connected_) {
         return Result<bool>::err(
@@ -672,7 +672,7 @@ Result<bool> MongoDBAdapter::queue_insert_batch(
 
     {
         std::unique_lock<std::mutex> lock(batch_mutex_);
-        for (const auto& row : rows) {
+        for (size_t i = 0; i < rows.size(); ++i) {
             batch_queue_.push_back({"insert", table_name, ""});
         }
     }
@@ -732,7 +732,7 @@ Result<BatchStatistics> MongoDBAdapter::flush() {
 
 size_t MongoDBAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return static_cast<int>(batch_queue_.size());
+    return batch_queue_.size();
 }
 
 Result<bool> MongoDBAdapter::set_batch_config(const BatchConfig& config) {

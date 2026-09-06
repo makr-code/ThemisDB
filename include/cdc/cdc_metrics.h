@@ -391,8 +391,10 @@ private:
  * Uses __LINE__ to generate a unique variable name per call site and
  * avoid variable-shadowing warnings (MSVC C4456, etc.).
  */
+#define CDC_CONCAT_INNER(a, b) a##b
+#define CDC_CONCAT(a, b) CDC_CONCAT_INNER(a, b)
 #define CDC_MEASURE_LATENCY_IMPL(histogram, line) \
-    ScopedTimer CDC_timer_##line(histogram)
+    ScopedTimer CDC_CONCAT(CDC_timer_, line)(histogram)
 #define CDC_MEASURE_LATENCY(histogram) CDC_MEASURE_LATENCY_IMPL(histogram, __LINE__)
 
 } // namespace cdc

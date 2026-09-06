@@ -92,6 +92,9 @@ struct HnswTTBridge::HnswLayer {
 #ifdef THEMIS_HNSW_ENABLED
         M_               = M;
         ef_construction_ = ef_construction;
+    #else
+        (void)M;
+        (void)ef_construction;
 #endif
     }
 

@@ -58,7 +58,7 @@ uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
 void AdvancedCacheManager::BloomFilter::insert(const std::string& key) noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        bits[bit / 64] |= (1 << (bit % 64));
+        bits[bit / 64] |= (uint64_t{1} << (bit % 64));
     }
 }
 
@@ -66,7 +66,7 @@ bool AdvancedCacheManager::BloomFilter::maybe_contains(
         const std::string& key) const noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        if (!(bits[bit / 64] & (1 << (bit % 64)))) {
+                if (!(bits[bit / 64] & (uint64_t{1} << (bit % 64)))) {
           return false;
         }
     }
@@ -144,9 +144,9 @@ std::string AdvancedCacheManager::compress(const std::string& val,
         return std::string(1, static_cast<char>(kTagPassthrough));
     }
 
-    const auto src      = reinterpret_cast<const char*>(val.data());
-    const auto src_size = static_cast<int>(val.size());
-    const auto orig_u32 = static_cast<uint32_t>(val.size());
+    [[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());
+    [[maybe_unused]] const auto src_size = static_cast<int>(val.size());
+    [[maybe_unused]] const auto orig_u32 = static_cast<uint32_t>(val.size());
 
 #ifdef THEMIS_ENABLE_LZ4
     if (algo == CompressionAlgorithm::LZ4) {

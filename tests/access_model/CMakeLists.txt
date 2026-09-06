@@ -59,6 +59,12 @@ foreach(_src IN LISTS ACCESS_MODEL_TEST_SOURCES)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    # MSVC shared GTest/GMock builds in this workspace can miss string_view matcher
+    # exports; keep this target on the std::string matcher path.
+    if(_stem STREQUAL "test_access_model_e2e")
+        target_compile_definitions(${_target} PRIVATE GTEST_INTERNAL_HAS_STRING_VIEW=0)
+    endif()
+
     themis_register_module_focused_test(
         MODULE access_model
         NAME ${_stem}_access_model_FocusedTests
