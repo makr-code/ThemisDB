@@ -743,7 +743,7 @@ Executor::Result Executor::execute(const Document &document, const ExecutionCont
 
     // Track execution time and record metrics via RAII.
     // Compute actual max depth from the selection tree so metrics are accurate.
-    size_t field_count = op-> static_cast<int>(selections.size());
+    size_t field_count = op->selections.size();
     size_t depth       = op->selections.empty() ? 0 : computeSelectionDepth(op->selections);
     QueryTimer timer(op_type_str, depth, field_count);
 
