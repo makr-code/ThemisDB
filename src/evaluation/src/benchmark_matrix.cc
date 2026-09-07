@@ -4,7 +4,7 @@
  *        querying, and comparing benchmark results across architecture paths.
  */
 
-#include "benchmark_matrix.h"
+#include "../include/benchmark_matrix.h"
 
 #include <algorithm>
 #include <iterator>

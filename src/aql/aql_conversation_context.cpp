@@ -394,7 +394,7 @@ std::string AQLConversationContext::lastQuery() const {
 std::vector<std::pair<std::string, std::string>> AQLConversationContext::getHistory() const {
     std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     std::vector<std::pair<std::string, std::string>> out;
-    out.reserve(impl_-> static_cast<int>(history_.size()));
+    out.reserve(impl_->history_.size());
     for (const auto &msg : impl_->history_) {
         out.emplace_back(msg.role, msg.content);
     }

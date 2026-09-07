@@ -409,6 +409,7 @@ void AuthRateLimiter::recordFailedAuth(const std::string &user_id, const std::st
 }
 
 void AuthRateLimiter::recordSuccessfulAuth(const std::string &user_id, const std::string &ip_address) {
+    (void)ip_address;
     stat_successful_auths_.fetch_add(1, std::memory_order_relaxed);
 
     if (!user_id.empty()) {
@@ -492,7 +493,7 @@ void AuthRateLimiter::setMetrics(AuthMetrics *metrics) {
 
 // TTL applied to Redis breach-count keys: 25 hours ensures the key outlives
 // the UTC day boundary and is cleaned up shortly after midnight.
-static constexpr int kCsBreachKeyTtlSeconds = 25 * 3600;
+[[maybe_unused]] static constexpr int kCsBreachKeyTtlSeconds = 25 * 3600;
 
 // Duration of the exponential back-off hard lock applied on the third breach.
 static constexpr auto kCsLockDuration = std::chrono::hours(24);
@@ -709,7 +710,9 @@ bool AuthRateLimiter::trackCredentialStuffing(const std::string &ip, const std::
     entry.attempt_times.push_back(now);
     entry.usernames.insert(user_id);
 
-    if (!entry.alerted && static_cast<int>(entry.usernames.size()) >= cfg.credential_stuffing_user_threshold) {
+    if (!entry.alerted
+            && cfg.credential_stuffing_user_threshold > 0
+            && entry.usernames.size() >= static_cast<std::size_t>(cfg.credential_stuffing_user_threshold)) {
         entry.alerted = true;
         // Caller fires the anomaly event outside the lock.
         return true;

@@ -32,7 +32,7 @@
  * @see include/query_planner.h
  */
 
-#include "approximation_rules.h"
+#include "../include/approximation_rules.h"
 
 #include <array>
 #include <string_view>

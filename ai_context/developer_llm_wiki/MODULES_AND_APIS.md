@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-08-31
+Datum: 2026-09-07
 Status: Active
 
 ## include/acceleration/ai_hardware_dispatcher.h
 - Kategorie: modules_and_api
-- Hash: `104284b3f3d8d741`
+- Hash: `2eb7897763185948`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/batch_validator.h
@@ -15,17 +15,17 @@ Status: Active
 
 ## include/acceleration/break_even_validator.h
 - Kategorie: modules_and_api
-- Hash: `aef780be34295950`
+- Hash: `c947cc8cd753dc2f`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_backend.h
 - Kategorie: modules_and_api
-- Hash: `781140cd7696ddee`
+- Hash: `7644dfc6f270786e`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_future.h
 - Kategorie: modules_and_api
-- Hash: `d35c5467625372e2`
+- Hash: `632af0d26ca2d81d`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/compute_graph.h
@@ -55,7 +55,7 @@ Status: Active
 
 ## include/acceleration/error_context.h
 - Kategorie: modules_and_api
-- Hash: `1386dfcc37ce1a1e`
+- Hash: `ed4066ef6ac0f20a`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/faiss_gpu_backend.h
@@ -105,12 +105,12 @@ Status: Active
 
 ## include/acceleration/metrics/backend_metrics.h
 - Kategorie: modules_and_api
-- Hash: `eed80f99df318689`
+- Hash: `d320b50299f8ba49`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/metrics/metrics_collector.h
 - Kategorie: modules_and_api
-- Hash: `fba7f2a7b3ee867e`
+- Hash: `6e3ea20c5034d35d`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/multi_gpu_backend.h
@@ -145,12 +145,12 @@ Status: Active
 
 ## include/acceleration/raii/cuda_raii.h
 - Kategorie: modules_and_api
-- Hash: `fcaad6847d29ef83`
+- Hash: `c79e213b3f799f29`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/hip_raii.h
 - Kategorie: modules_and_api
-- Hash: `d97b6807fcddb0a8`
+- Hash: `dd90d24bab12bcad`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/raii/opencl_raii.h
@@ -160,7 +160,7 @@ Status: Active
 
 ## include/acceleration/raii/vulkan_raii.h
 - Kategorie: modules_and_api
-- Hash: `f3e719a08ac12fb7`
+- Hash: `4a4395ab546205fe`
 - Titel: (binary or unreadable)
 
 ## include/acceleration/rccl_vector_backend.h
@@ -210,7 +210,7 @@ Status: Active
 
 ## include/access_model/access_model_logging.h
 - Kategorie: modules_and_api
-- Hash: `aa55e5c600f89c77`
+- Hash: `1d3c2a4251b95d1b`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_model_trace.h
@@ -220,12 +220,12 @@ Status: Active
 
 ## include/access_model/access_tier_interface.h
 - Kategorie: modules_and_api
-- Hash: `429059431ca57bf4`
+- Hash: `e5220e40e071b45c`
 - Titel: (binary or unreadable)
 
 ## include/access_model/age_based_policy.h
 - Kategorie: modules_and_api
-- Hash: `89192946c16a8970`
+- Hash: `8eb252abd19b5e70`
 - Titel: (binary or unreadable)
 
 ## include/access_model/promotion_demotion.h
@@ -240,7 +240,7 @@ Status: Active
 
 ## include/ai/cai_ethics_integration.h
 - Kategorie: modules_and_api
-- Hash: `857693ced849feaf`
+- Hash: `a046e191aed6753b`
 - Titel: (binary or unreadable)
 
 ## include/analytics/aggregation.h
@@ -265,12 +265,12 @@ Status: Active
 
 ## include/analytics/anomaly_detection.h
 - Kategorie: modules_and_api
-- Hash: `098ae46c51568bdb`
+- Hash: `eb1d7a675c23beab`
 - Titel: (binary or unreadable)
 
 ## include/analytics/arrow_export.h
 - Kategorie: modules_and_api
-- Hash: `51472e7dccd5c3e4`
+- Hash: `20ede20321252719`
 - Titel: (binary or unreadable)
 
 ## include/analytics/arrow_flight.h
@@ -285,12 +285,12 @@ Status: Active
 
 ## include/analytics/cep_engine.h
 - Kategorie: modules_and_api
-- Hash: `8dc1ce3947e49550`
+- Hash: `367a23ea20d67ab6`
 - Titel: (binary or unreadable)
 
 ## include/analytics/columnar_execution.h
 - Kategorie: modules_and_api
-- Hash: `208b6a07975f5bb1`
+- Hash: `d24ea16f74649198`
 - Titel: (binary or unreadable)
 
 ## include/analytics/connection_guard.h
@@ -300,22 +300,22 @@ Status: Active
 
 ## include/analytics/detail/lru_cache.h
 - Kategorie: modules_and_api
-- Hash: `09de18632bdb6088`
+- Hash: `fc0156e9e56bc5e2`
 - Titel: (binary or unreadable)
 
 ## include/analytics/detail/memory_pool.h
 - Kategorie: modules_and_api
-- Hash: `ceed68f3286188cf`
+- Hash: `5d4475d9e2016c29`
 - Titel: (binary or unreadable)
 
 ## include/analytics/detail/ring_buffer.h
 - Kategorie: modules_and_api
-- Hash: `17e45289705b1d05`
+- Hash: `2c0f5f7e44de1a08`
 - Titel: (binary or unreadable)
 
 ## include/analytics/detail/stats.h
 - Kategorie: modules_and_api
-- Hash: `149580637e0823d4`
+- Hash: `badb1f65ea4ac914`
 - Titel: (binary or unreadable)
 
 ## include/analytics/diff_engine.h
@@ -350,7 +350,7 @@ Status: Active
 
 ## include/analytics/knowledge_base.h
 - Kategorie: modules_and_api
-- Hash: `9bd3540925562ad9`
+- Hash: `56e2ecf361b5e00e`
 - Titel: (binary or unreadable)
 
 ## include/analytics/llm_process_analyzer.h
@@ -375,7 +375,7 @@ Status: Active
 
 ## include/analytics/nlp_text_analyzer.h
 - Kategorie: modules_and_api
-- Hash: `e522bc5589d60710`
+- Hash: `48c89f1b1e2fe9ee`
 - Titel: (binary or unreadable)
 
 ## include/analytics/olap.h
@@ -385,12 +385,12 @@ Status: Active
 
 ## include/analytics/process_mining.h
 - Kategorie: modules_and_api
-- Hash: `28adcbfaf206409e`
+- Hash: `baa8d1955ed395fb`
 - Titel: (binary or unreadable)
 
 ## include/analytics/process_pattern_matcher.h
 - Kategorie: modules_and_api
-- Hash: `290df2cc24a3bde7`
+- Hash: `1129639492b69d58`
 - Titel: (binary or unreadable)
 
 ## include/analytics/result_aggregator.h
@@ -400,5 +400,5 @@ Status: Active
 
 ## include/analytics/streaming_join.h
 - Kategorie: modules_and_api
-- Hash: `acd3b565380929ea`
+- Hash: `f9ab0f4c6154a05f`
 - Titel: (binary or unreadable)

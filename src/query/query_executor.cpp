@@ -105,7 +105,7 @@ Row QueryExecutor::build_row(
     const std::unordered_map<std::string, ColumnValue>& src) const
 {
     Row row;
-    row.reserve(plan_-> static_cast<int>(column_names.size()));
+    row.reserve(plan_->column_names.size());
 
     // Iterate column_names with RangeValidator to guard sub-range.
     RangeValidator<std::vector<std::string>::const_iterator>

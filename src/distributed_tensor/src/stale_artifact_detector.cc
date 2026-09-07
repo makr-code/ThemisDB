@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/stale_artifact_detector.h"
+#include "../include/stale_artifact_detector.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>

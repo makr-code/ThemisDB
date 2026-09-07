@@ -236,7 +236,7 @@ float TrainingTriggerPlugin::calculateAverageRating(const std::vector<Feedback>&
         sum += fb.rating;
     }
     
-    return static_cast<bool>(static_cast<float>(sum) / static_cast<float < static_cast<int>((batch.size())));
+    return static_cast<float>(sum) / static_cast<float>(batch.size());
 }
 
 // ═══════════════════════════════════════════════════════════

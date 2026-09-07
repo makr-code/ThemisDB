@@ -53,7 +53,7 @@ DistributedRAGEvaluator::DistributedRAGEvaluator(
     }
     THEMIS_INFO("DistributedRAGEvaluator initialised with {} judge(s), "
                 "aggregation={}",
-                impl_-> static_cast<int>(workers.size()),
+                impl_->workers.size(),
                 static_cast<int>(config.aggregation));
 }
 
@@ -68,7 +68,7 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
 {
     const auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t n = impl_-> static_cast<int>(workers.size());
+    const size_t n = impl_->workers.size();
     const size_t max_parallel = (impl_->config.max_parallel_judges == 0)
                                  ? n
                                  : impl_->config.max_parallel_judges;
@@ -266,7 +266,7 @@ DistributedEvaluatorConfig DistributedRAGEvaluator::getConfig() const
 
 size_t DistributedRAGEvaluator::judgeCount() const
 {
-    return static_cast<bool>(impl_- < static_cast<int>(workers.size()));
+    return impl_->workers.size();
 }
 
 uint64_t DistributedRAGEvaluator::totalEvaluations() const

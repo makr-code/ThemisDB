@@ -114,7 +114,7 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
             CDC_MEASURE_LATENCY(metrics_.compression_latency);
             try {
                 auto compressed = utils::zstd_compress(*event.value, 3);
-                if (!compressed.empty() && static_cast<int>(compressed.size()) < payload_size) {
+                if (!compressed.empty() && compressed.size() < payload_size) {
                     event.value = std::string(compressed.begin(), compressed.end());
                     event.metadata["_compressed"] = true;
                     stats_.compressed_payloads++;
@@ -166,9 +166,9 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
         stats_.current_buffer_memory += buffered_size;
         
         // Check if this buffer needs immediate flush
-        if (static_cast<int>(buffer.events.size()) >= config_.max_events_per_buffer) {
+        if (buffer.events.size() >= static_cast<size_t>(config_.max_events_per_buffer)) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} events",
-                        makeBufferKey(event),static_cast<int>(buffer.events.size()));
+                        makeBufferKey(event), buffer.events.size());
             
             size_t flushed = flushBuffer(event.type, buffer);
             stats_.size_triggered_flush++;
@@ -346,7 +346,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     }
     
     if (failed > 0) {
-        THEMIS_WARN("Failed to flush {} out of {} events (exhausted retries)", failed,static_cast<int>(buffer.events.size()));
+        THEMIS_WARN("Failed to flush {} out of {} events (exhausted retries)", failed, buffer.events.size());
     }
     
     stats_.events_flushed += count;
@@ -361,7 +361,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
 
 bool ChangefeedBuffer::shouldFlushBuffer(const EventTypeBuffer& buffer) const {
     // Size threshold
-    if (static_cast<int>(buffer.events.size()) >= config_.max_events_per_buffer) {
+    if (buffer.events.size() >= static_cast<size_t>(config_.max_events_per_buffer)) {
         return true;
     }
     

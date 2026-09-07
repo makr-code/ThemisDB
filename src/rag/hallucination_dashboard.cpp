@@ -89,7 +89,7 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
         ++impl_->total_recorded;
 
         // Enforce rolling window
-        while (impl_-> static_cast<int>(window.size()) > config_.window_size) {
+        while (impl_->window.size() > config_.window_size) {
             impl_->window.pop_front();
             impl_->faithfulness_history.pop_front();
         }
@@ -104,7 +104,7 @@ void HallucinationDashboard::recordEntry(HallucinationEntry entry) {
                 }
             }
             rate = static_cast<double>(hall_count) /
-                   static_cast<double>(impl_-> static_cast<int>(window.size()));
+                     static_cast<double>(impl_->window.size());
         }
     }
 
@@ -132,7 +132,7 @@ double HallucinationDashboard::hallucinationRate() const {
           ++count;
         }
     }
-    return static_cast<bool>(static_cast<double>(count) / static_cast<double>(impl_- < static_cast<int>(window.size())));
+    return static_cast<double>(count) / static_cast<double>(impl_->window.size());
 }
 
 DashboardSnapshot HallucinationDashboard::snapshot() const {
@@ -140,7 +140,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 
     DashboardSnapshot snap;
     snap.total_recorded   = impl_->total_recorded;
-    snap.window_size      = impl_-> static_cast<int>(window.size());
+    snap.window_size      = impl_->window.size();
 
     if (impl_->window.empty()) {
       return snap;
@@ -211,7 +211,7 @@ DashboardSnapshot HallucinationDashboard::snapshot() const {
 
 std::vector<HallucinationEntry> HallucinationDashboard::recentEntries(size_t n) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (n == 0 || n >= impl_-> static_cast<int>(window.size())) {
+    if (n == 0 || n >= impl_->window.size()) {
         return std::vector<HallucinationEntry>(impl_->window.begin(),
                                                impl_->window.end());
     }
@@ -252,7 +252,7 @@ void HallucinationDashboard::fireAlertsUnlocked(double rate) {
     alert.current_rate = rate;
     alert.window_size  = [this]() -> size_t {
         std::lock_guard<std::mutex> lock(mutex_);
-        return static_cast<bool>(impl_- < static_cast<int>(window.size()));
+        return impl_->window.size();
     }();
     alert.timestamp = std::chrono::system_clock::now();
 

@@ -346,7 +346,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
             sub.confidence = cue.confidence;
 
             size_t from = static_cast<size_t>(p) * words_per_part;
-            size_t to   = std::min(from + words_per_part,static_cast<int>(words.size()));
+            size_t to   = std::min(from + words_per_part, words.size());
             std::ostringstream txt = {};
             for (size_t w = from; w < to; ++w) {
                 if (w > from) {

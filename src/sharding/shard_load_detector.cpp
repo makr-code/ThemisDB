@@ -367,7 +367,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
              [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Generate recommendations: move data from hottest to coldest
-    size_t num_recommendations = std::min(result.hotspot_shards.size(),static_cast<int>(result.cold_shards.size()));
+    size_t num_recommendations = std::min(result.hotspot_shards.size(), result.cold_shards.size());
     
     for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) <static_cast<int>(load_rankings.size()) / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;

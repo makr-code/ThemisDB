@@ -170,7 +170,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
     }
     
     // Reserve space for expected inconsistencies
-    inconsistencies.reserve(std::max(size_t(1),static_cast<int>(steps.size()) / 4));
+    inconsistencies.reserve(std::max<size_t>(size_t(1), steps.size() / 4));
     
     // Check for contradictions between steps
     for (size_t i = 0; i < steps.size(); ++i) {
@@ -273,7 +273,7 @@ double CoTEvaluator::extractFinalScore(
             }
         }
         
-        return static_cast<bool>(static_cast<double < static_cast<int>((positive_count) / steps.size()));
+        return static_cast<double>(positive_count) / static_cast<double>(steps.size());
     }
     
     return 0.5;  // Default neutral score

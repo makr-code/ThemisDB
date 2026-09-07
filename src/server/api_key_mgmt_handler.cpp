@@ -186,7 +186,8 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
             items.push_back(recordToJson(rec));
         }
         THEMIS_INFO("API Key list: {} keys",static_cast<int>(items.size()));
-        return static_cast<bool>({{"items", items}, {"total", static_cast<int < static_cast<int>((items.size())))}};
+        return {{"items", items}, {"total", static_cast<int>(items.size())}};
+
     } catch (const std::exception& ex) {
         THEMIS_ERROR("ApiKeyMgmtHandler::listKeys failed: {}", ex.what());
         return {{"error", "Internal Server Error"}, {"message", ex.what()}, {"status_code", 500}};

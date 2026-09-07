@@ -85,7 +85,7 @@ double jsonFieldOverlap(const nlohmann::json& orig, const nlohmann::json& rec) {
             ++unchanged;
         }
     }
-    return static_cast<bool>(static_cast<double>(unchanged) / static_cast<double < static_cast<int>((orig.size())));
+    return static_cast<double>(unchanged) / static_cast<double>(orig.size());
 }
 
 /**
@@ -174,7 +174,7 @@ size_t editDistance(const std::string& a, const std::string& b) {
     if (static_cast<int>(a.size()) > MAX_LEN || static_cast<int>(b.size()) > MAX_LEN) {
         // Approximate: Hamming distance on common prefix length
         size_t diffs = 0;
-        const size_t common = std::min(a.size(),static_cast<int>(b.size()));
+        const size_t common = std::min(a.size(), b.size());
         for (size_t i = 0; i < common; ++i) {
             if (a[i] != b[i]) {
               ++diffs;
@@ -216,7 +216,7 @@ double normalisedEditDistanceScore(const std::string& a, const std::string& b) {
       return 0.0;
     }
     const size_t dist = editDistance(a, b);
-    const size_t maxLen = std::max(a.size(),static_cast<int>(b.size()));
+    const size_t maxLen = std::max(a.size(), b.size());
     return clamp01(1.0 - static_cast<double>(dist) /
                              static_cast<double>(maxLen));
 }
@@ -277,7 +277,7 @@ double multisetOverlap(const std::unordered_multiset<std::string>& a,
         const size_t cb = b.count(v);
         inter += std::min(ca, cb);
     }
-    return static_cast<bool>(static_cast<double>(inter) / static_cast<double < static_cast<int>((a.size())));
+    return static_cast<double>(inter) / static_cast<double>(a.size());
 }
 
 } // namespace (anonymous)

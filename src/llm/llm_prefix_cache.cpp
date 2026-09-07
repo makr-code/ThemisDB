@@ -198,7 +198,7 @@ public:
         
         if (longest) {
             stats_.hits++;
-            stats_.total_tokens_saved += longest-> static_cast<int>(token_ids.size());
+            stats_.total_tokens_saved += longest->token_ids.size();
         } else {
             stats_.misses++;
         }

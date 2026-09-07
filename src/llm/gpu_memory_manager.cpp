@@ -544,7 +544,7 @@ void GPUMemoryManager::initializeGPU() {
     // initialization (e.g. no GPU available or cudaGetDeviceProperties failed), use a
     // sensible simulation default so that canAllocate() and getLeastLoadedGPU() work.
     if (config_.max_vram_bytes == 0) {
-        config_.max_vram_bytes = 8 * 1024 * 1024 * 1024;  // 8 GB simulation default
+        config_.max_vram_bytes = 8ULL * 1024ULL * 1024ULL * 1024ULL;  // 8 GB simulation default
         spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
                      config_.max_vram_bytes / (1024.0 * 1024 * 1024));
     }

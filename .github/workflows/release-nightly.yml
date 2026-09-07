@@ -72,22 +72,28 @@ jobs:
           
           if [[ -z "$LAST_NIGHTLY" ]]; then
             echo "::notice::No prior nightly tags found — forcing build"
-            echo "has-changes=true" >> "$GITHUB_OUTPUT"
-            echo "last-nightly-tag=" >> "$GITHUB_OUTPUT"
             COMMIT_COUNT=$(git rev-list --count HEAD)
-            echo "commit-count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+            {
+              echo "has-changes=true"
+              echo "last-nightly-tag="
+              echo "commit-count=$COMMIT_COUNT"
+            } >> "$GITHUB_OUTPUT"
           else
             COMMIT_COUNT=$(git rev-list --count "$LAST_NIGHTLY..HEAD")
             if [[ $COMMIT_COUNT -gt 0 ]]; then
               echo "::notice::Found $COMMIT_COUNT commits since $LAST_NIGHTLY"
-              echo "has-changes=true" >> "$GITHUB_OUTPUT"
-              echo "last-nightly-tag=$LAST_NIGHTLY" >> "$GITHUB_OUTPUT"
-              echo "commit-count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+              {
+                echo "has-changes=true"
+                echo "last-nightly-tag=$LAST_NIGHTLY"
+                echo "commit-count=$COMMIT_COUNT"
+              } >> "$GITHUB_OUTPUT"
             else
               echo "::notice::No commits since $LAST_NIGHTLY"
-              echo "has-changes=false" >> "$GITHUB_OUTPUT"
-              echo "last-nightly-tag=$LAST_NIGHTLY" >> "$GITHUB_OUTPUT"
-              echo "commit-count=0" >> "$GITHUB_OUTPUT"
+              {
+                echo "has-changes=false"
+                echo "last-nightly-tag=$LAST_NIGHTLY"
+                echo "commit-count=0"
+              } >> "$GITHUB_OUTPUT"
             fi
           fi
 
@@ -181,15 +187,11 @@ jobs:
         id: release-notes
         run: |
           set -euo pipefail
-          
-          VERSION=$(cat VERSION | tr -d '[:space:]')
-          NIGHTLY_TAG="${{ needs.generate-metadata.outputs.nightly-tag }}"
+
           BUILD_DATE=$(date +%Y-%m-%d)
-          BUILD_TIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           COMMIT_SHORT=$(git rev-parse --short HEAD)
           COMMIT_URL="https://github.com/${{ github.repository }}/commit/$(git rev-parse HEAD)"
           BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          COMMIT_COUNT="${{ needs.check-changes.outputs.commit-count }}"
           
           # Generate changelog entries
           LAST_NIGHTLY="${{ needs.check-changes.outputs.last-nightly-tag }}"
@@ -292,8 +294,7 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.generate-metadata.outputs.version }}"
           DATE=$(date +%Y%m%d)
-          RUN_NUM=${{ github.run_number }}
-          
+
           # Tags: themisdb:nightly, themisdb:nightly-YYYYMMDD, themisdb:X.Y.Z-nightly-YYYYMMDD
           TAGS="themisdb/themisdb:nightly"
           TAGS="${TAGS},themisdb/themisdb:nightly-${DATE}"
@@ -305,7 +306,7 @@ jobs:
           echo "::notice::Docker tags: $TAGS"
 
       - name: Build and push Docker images
-        uses: docker/build-push-action@1ca370b3a9802d92335f2b519451aa5cf81194a15
+        uses: docker/build-push-action@v7.3.0
         with:
           context: .
           file: ./docker/Dockerfile.unified

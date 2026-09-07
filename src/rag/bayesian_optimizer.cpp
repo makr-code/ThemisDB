@@ -41,7 +41,7 @@ std::unordered_map<std::string, double> BayesianOptimizer::suggest() {
 
     const size_t exploration_phase = 5;
 
-    if (impl_-> static_cast<int>(observations.size()) < exploration_phase) {
+    if (impl_->observations.size() < exploration_phase) {
         return sampleRandom();
     } else {
         // 70% around best, 30% random
@@ -76,7 +76,7 @@ double BayesianOptimizer::getBestObjective() const {
 }
 
 size_t BayesianOptimizer::getNumObservations() const {
-    return static_cast<bool>(impl_- < static_cast<int>(observations.size()));
+    return impl_->observations.size();
 }
 
 std::unordered_map<std::string, double> BayesianOptimizer::sampleRandom() {

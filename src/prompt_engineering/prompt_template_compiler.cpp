@@ -71,8 +71,8 @@ std::string PromptContextValue::toString() const {
                 oss << chunks[i].first;
             }
             return oss.str();
-        default: break;
         }
+        default: break;
     }
     return {}; // unreachable
 }
@@ -414,10 +414,10 @@ static void renderNodes(
                                 val.str_val, out);
                 }
                 break;
+            }
             default: break;
             }
         }
-    }
 }
 
 // ============================================================================
@@ -459,8 +459,8 @@ static void validateNodes(
                     // Validate body with a synthetic item_var
                     validateNodes(node->children, ctx, node->name, errors);
                     break;
-                default: break;
                 }
+                default: break;
             }
         } catch (...) {
             // noexcept — swallow all exceptions inside validation
@@ -530,7 +530,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     auto ast = parse(tokens, idx,  slot_index,
                      /*inside_if=*/false, /*inside_for=*/false);
 
-    if (idx != static_cast<int>(tokens.size())) {
+    if (idx != tokens.size()) {
         throw PromptTemplateCompileError(
             "Unexpected token '" + tokens[idx].value +
             "' at index " + std::to_string(idx));

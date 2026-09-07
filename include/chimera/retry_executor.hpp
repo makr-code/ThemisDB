@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <functional>
 #include <set>
+#include <thread>
 
 namespace chimera {
 
@@ -49,7 +50,7 @@ public:
 
         for (uint32_t attempt = 0; attempt <= policy.max_retries; ++attempt) {
             ResultType result = fn();
-            if (result) {
+            if (result.is_ok()) {
                 return result;
             }
             if (attempt >= policy.max_retries) {
@@ -79,5 +80,3 @@ private:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_RETRY_EXECUTOR_HPP

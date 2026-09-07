@@ -154,7 +154,7 @@ std::string JsonSchemaConverter::schemaNodeToRuleBody(
         return "array";
     }
 
-    if ((type_str == "object" || (type_str.empty() && schema.contains("properties"))) {
+    if (type_str == "object" || (type_str.empty() && schema.contains("properties"))) {
         if (!schema.contains("properties") || !schema["properties"].is_object()
             || schema["properties"].empty()) {
             return "object";

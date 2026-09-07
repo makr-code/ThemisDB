@@ -451,7 +451,7 @@ RLAIFTrainingStep RLAIFTrainer::runTrainingStep(
         pair.preference_score >= impl_->config.min_preference_score;
 
     if (meets_threshold &&
-        impl_-> static_cast<int>(dataset.size()) < impl_->config.max_dataset_size) {
+        impl_->dataset.size() < impl_->config.max_dataset_size) {
         impl_->dataset.push_back(pair);
     }
 
@@ -514,7 +514,7 @@ std::vector<RLAIFTrainingStep> RLAIFTrainer::processBatch() {
     std::vector<RLAIFTrainingStep> results;
     {
         std::lock_guard<std::mutex> lock(impl_->queue_mutex);
-        results.reserve(impl_-> static_cast<int>(queue.size()));
+        results.reserve(impl_->queue.size());
         for (const auto& [query, draft] : impl_->queue) {
             results.push_back(runTrainingStep(query, draft));
         }
@@ -537,7 +537,7 @@ void RLAIFTrainer::clearDataset() {
 }
 
 size_t RLAIFTrainer::datasetSize() const {
-    return static_cast<bool>(impl_- < static_cast<int>(dataset.size()));
+    return impl_->dataset.size();
 }
 
 // ============================================================

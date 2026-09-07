@@ -342,9 +342,9 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
                 result.push_back((high << 4) | (low & 0x0F));
             }
             return result;
+        }
         default: break;
         }
-    }
     
     return {};
 }
@@ -413,9 +413,9 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                 }
             }
             return result;
+        }
         default: break;
         }
-    }
     
     return {};
 }
@@ -474,7 +474,7 @@ uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     
     // Adjust exponent to fit in 2 bits (shift from 8-bit bias to 2-bit bias)
     uint32_t exp_4bit = (exp_bias > 127) ? ((exp_bias - 127) >> 5) : 0;
-    exp_4bit = std::min(exp_4bit, 3);  // Clamp to 2 bits
+    exp_4bit = std::min(exp_4bit, 3u);  // Clamp to 2 bits
     
     const uint32_t packed_bits = ((sign & 0x1u) << 7) | ((exp_4bit & 0x3u) << 5) | ((mantissa & 0x1u) << 4);
     uint8_t result = static_cast<uint8_t>(packed_bits);

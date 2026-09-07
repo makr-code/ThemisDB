@@ -147,7 +147,7 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     fm.X.reserve(data.size());
     for (const auto &p : data) {
         std::vector<double> row(fm.names.size(), 0.0);
-        for (size_t j = 0; j <static_cast<int>(fm.names.size()); ++j) {
+        for (size_t j = 0; j < fm.names.size(); ++j) {
             auto it = p.fields.find(fm.names[j]);
             if (it != p.fields.end()) {
                 if (auto *d = std::get_if<double>(&it->second)) {
@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) <static_cast<int>(mean.size()); ++j) {
+        for (size_t j = 0; j < x.size() && j < mean.size(); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -309,7 +309,7 @@ struct LabelEncoder {
         std::set<std::string> s(labels.begin(), labels.end());
         classes.assign(s.begin(), s.end());
         for (size_t i = 0; i < classes.size(); ++i) {
-            index[classes[static_cast<size_t>(i)]] = i;
+            index[classes[static_cast<size_t>(i)]] = static_cast<int>(i);
         }
     }
 
@@ -332,7 +332,7 @@ struct LabelEncoder {
     }
 
     int numClasses() const {
-        return static_cast<bool>(static_cast<int < static_cast<int>((classes.size())));
+        return static_cast<int>(classes.size());
     }
 };
 
@@ -342,7 +342,7 @@ struct LabelEncoder {
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
         s += a[i] * b[i];
     }
@@ -351,7 +351,7 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
 
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         s += d * d;
@@ -560,7 +560,7 @@ struct DecisionTree {
             for (size_t i : idx) {
                 s += y_reg[i];
             }
-            return static_cast<bool>(idx.empty() ? 0.0 : s / static_cast<double < static_cast<int>((idx.size())));
+            return idx.empty() ? 0.0 : s / static_cast<double>(idx.size());
         }
         // Classification: return P(majority class)
         std::map<int, int> cnt = {};
@@ -856,7 +856,7 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
             ++correct;
         }
     }
-    return static_cast<bool>(static_cast<double>(correct) / static_cast<double < static_cast<int>((y_true.size())));
+    return static_cast<double>(correct) / static_cast<double>(y_true.size());
 }
 
 /** Macro-averaged F1 / Precision / Recall. */
@@ -1050,7 +1050,7 @@ struct RFModel : ModelBase {
         for (const auto &t : trees) {
             s += t.predictOne(x);
         }
-        return static_cast<bool>(s / static_cast<double < static_cast<int>((trees.size())));
+        return s / static_cast<double>(trees.size());
     }
     int predictOneCls(const std::vector<double> &x) const override {
         std::vector<double> probs = predictProbaOne(x);
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1172,7 +1172,7 @@ struct KNNModel : ModelBase {
         for (size_t i = 0; i < X_train.size(); ++i) {
             dists.emplace_back(l2sq(x, X_train[i]), static_cast<int>(i));
         }
-        size_t kk = std::min(static_cast<size_t>(k),static_cast<int>(dists.size()));
+        size_t kk = std::min(static_cast<size_t>(k), dists.size());
         std::nth_element(dists.begin(), dists.begin() + static_cast<ptrdiff_t>(kk), dists.end());
         dists.resize(kk);
         return dists;
@@ -1193,7 +1193,7 @@ struct EnsembleModel : ModelBase {
         for (const auto &m : members) {
             s += m->predictOneReg(x);
         }
-        return static_cast<bool>(s / static_cast<double < static_cast<int>((members.size())));
+        return s / static_cast<double>(members.size());
     }
     int predictOneCls(const std::vector<double> &x) const override {
         auto p = predictProbaOne(x);
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1400,6 +1400,8 @@ std::unique_ptr<ModelBase> trainKNN(const std::vector<std::vector<double>> &X, c
 EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<double>> &X,
                           const std::vector<int> &y_cls, const std::vector<double> &y_reg, bool is_classifier,
                           int n_classes, AutoMLMetric metric) {
+    (void)metric;
+
     EvalMetrics em;
     size_t n = X.size();
     if (n == 0) {
@@ -1425,8 +1427,10 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
                 scores[i] = {s, y_cls[i]};
             }
             std::sort(scores.begin(), scores.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
-            double auc = 0.0, tp = 0.0, fp = 0.0;
-            double pos = 0, neg = 0;
+            double auc = 0.0;
+            double tp = 0.0;
+            double pos = 0;
+            double neg = 0;
             for (auto &[s, c] : scores) {
                 if (c == 1) {
                     ++pos;
@@ -1439,7 +1443,6 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
                     ++tp;
                 } else {
                     auc += tp;
-                    ++fp;
                 }
             }
             if (pos > 0 && neg > 0) {
@@ -1651,7 +1654,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
         double perturbed = baseScore();
         row[j]           = orig;
         double contrib   = base - perturbed;
-        std::string name = (j < impl_-> static_cast<int>(feat_names.size())) ? impl_->feat_names[j] : "f" + std::to_string(j);
+        std::string name = (j < impl_->feat_names.size()) ? impl_->feat_names[j] : "f" + std::to_string(j);
         exp.feature_contributions.emplace_back(name, contrib);
     }
 
@@ -1660,7 +1663,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
               [](const auto &a, const auto &b) { return std::abs(a.second) > std::abs(b.second); });
 
     // Build top_features string
-    size_t top_n = std::min(size_t(5),static_cast<int>(exp.feature_contributions.size()));
+    size_t top_n = std::min<size_t>(5, exp.feature_contributions.size());
     std::string tf = {};
     for (size_t i = 0; i < top_n; ++i) {
         if (i > 0) {
@@ -1814,17 +1817,17 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     // ---- scaler -----------------------------------------------------------
     js << "  \"scaler\": {\n";
     js << "    \"mean\": [";
-    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.mean.size()); ++i) {
+    for (size_t i = 0; i < impl_->scaler.mean.size(); ++i) {
         js << impl_->scaler.mean[i];
-        if (i + 1 < impl_-> static_cast<int>(scaler.mean.size())) {
+        if (i + 1 < impl_->scaler.mean.size()) {
             js << ", ";
         }
     }
     js << "],\n";
     js << "    \"scale\": [";
-    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.std_dev.size()); ++i) {
+    for (size_t i = 0; i < impl_->scaler.std_dev.size(); ++i) {
         js << impl_->scaler.std_dev[i];
-        if (i + 1 < impl_-> static_cast<int>(scaler.std_dev.size())) {
+        if (i + 1 < impl_->scaler.std_dev.size()) {
             js << ", ";
         }
     }
@@ -1869,7 +1872,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         const auto *knn = dynamic_cast<const KNNModel *>(impl_->model.get());
         if (knn) {
             js << "    \"k\": " << knn->k << ",\n";
-            js << "    \"n_train\": " << knn-> static_cast<int>(X_train.size()) << "\n";
+            js << "    \"n_train\": " << knn->X_train.size() << "\n";
             // Training data is intentionally omitted from the export for
             // privacy; downstream users should re-train from golden dataset.
         } else {
@@ -1948,8 +1951,8 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
         }
     }
     // Rebuild label encoder index
-    for (size_t i = 0; i < static_cast<int>(m.impl_-> static_cast<int>(label_enc.classes.size())); ++i) {
-        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
+    for (size_t i = 0; i < m.impl_->label_enc.classes.size(); ++i) {
+        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = static_cast<int>(i);
     }
     return m;
 }
@@ -2252,7 +2255,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     result.candidates = candidates;
 
     if (config.ensemble && static_cast<int>(candidates.size()) > 1 && config.ensemble_top_k > 1) {
-        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k),static_cast<int>(candidates.size()));
+        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k), candidates.size());
         auto ens           = std::make_unique<EnsembleModel>();
         ens->is_classifier = is_classifier;
         ens->n_classes     = n_classes;

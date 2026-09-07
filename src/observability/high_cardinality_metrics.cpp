@@ -134,7 +134,7 @@ public:
         }
 
         // Check if accepting this new label set would exceed the limit
-        return static_cast<bool>(state- < static_cast<int>(label_sets.size())) < state->limit.max_series;
+        return state->label_sets.size() < static_cast<std::size_t>(state->limit.max_series);
     }
 
     std::map<std::string, std::string> recordLabelSet(
@@ -177,7 +177,7 @@ public:
         }
 
         // Check if we can accept a new label set
-        if (state-> static_cast<int>(label_sets.size()) >= state->limit.max_series) {
+        if (state->label_sets.size() >= static_cast<std::size_t>(state->limit.max_series)) {
             // Cardinality limit exceeded, apply fallback strategy
             switch (state->limit.policy) {
                 case CardinalityExceededPolicy::DROP_NEW_SETS: {
@@ -236,15 +236,15 @@ public:
             const auto& state = it->second;
             std::shared_lock<std::shared_mutex> state_lock(state->state_mutex);
 
-            stats.current_series_count = state-> static_cast<int>(label_sets.size());
+            stats.current_series_count = static_cast<int>(state->label_sets.size());
             stats.limit = state->limit.max_series;
             stats.rejected_sets_total = state->rejected_sets;
             stats.aggregated_sets_total = state->aggregated_sets;
             stats.last_updated_ns = state->last_updated_ns;
-            stats.at_limit = state-> static_cast<int>(label_sets.size()) >= state->limit.max_series;
+            stats.at_limit = state->label_sets.size() >= static_cast<std::size_t>(state->limit.max_series);
             // Guard against divide-by-zero when max_series has not been set (== 0).
             stats.utilization_percent = (state->limit.max_series > 0)
-                ? 100.0 * static_cast<double>(state-> static_cast<int>(label_sets.size())) /
+                ? 100.0 * static_cast<double>(state->label_sets.size()) /
                       static_cast<double>(state->limit.max_series)
                 : 0.0;
         }

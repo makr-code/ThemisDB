@@ -3,7 +3,7 @@
 /// @author ThemisDB EPIC 3 Implementation Team
 /// @date 2026-07-03
 
-#include "src/distributed_tensor/include/crash_recovery_checkpoint.h"
+#include "../include/crash_recovery_checkpoint.h"
 #include <cctype>
 #include <fstream>
 #include <sstream>

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Capture Build Errors'
 description: |
   Captures build/linker/CMake/sanitizer errors from log files and exports them as structured JSON.
@@ -43,3 +44,4 @@ outputs:
 runs:
   using: 'node24'
   main: 'capture-errors.js'
+

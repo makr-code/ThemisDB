@@ -358,16 +358,20 @@ bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
       return false;
     }
 
+        // Guard nonsensical thresholds and derive a cardinality threshold from
+        // requested minimum compression ratio.
+        const double clamped_min_ratio = std::clamp(min_compression_ratio, 0.0, 1.0);
+
     // Calculate unique strings
     std::unordered_set<std::string> unique_strings(data.begin(), data.end());
 
     // If cardinality is low, dictionary encoding is beneficial
     double cardinality_ratio = static_cast<double>(unique_strings.size()) / data.size();
 
-    // Use dictionary if less than 30% unique values
-    // This threshold balances compression ratio with dictionary overhead
-    // Typical categorical columns have <10% cardinality
-    return cardinality_ratio < 0.3;
+    // Use dictionary when cardinality is low enough to plausibly meet the
+    // requested compression ratio; keep a practical floor for mixed datasets.
+    const double dynamic_threshold = std::max(0.10, 1.0 - clamped_min_ratio);
+    return cardinality_ratio < dynamic_threshold;
 }
 
 // ============================================================================
@@ -860,7 +864,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     std::memcpy(&original_size, compressed.data(), 8);
 
     // Validate original size
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
     if (original_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -986,7 +990,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std
     }
 
     // Validate size to prevent excessive memory allocation
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
     if (uncompressed_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -1104,13 +1108,19 @@ CompressionCodec ColumnSegment::selectOptimalCodec(
     const void* data,
     size_t row_count
 ) {
+    if (data == nullptr || row_count == 0) {
+        return CompressionCodec::NONE;
+    }
+
     // Simple heuristic-based codec selection
     switch (type) {
         case ColumnType::INT32:
         [[fallthrough]];
         case ColumnType::INT64:
-            // For integers, check if data is sorted/has patterns
-            // Default to RLE for simplicity
+            // For tiny vectors, metadata overhead of RLE can dominate.
+            if (row_count < 8) {
+                return CompressionCodec::NONE;
+            }
             return CompressionCodec::RLE;
 
         case ColumnType::STRING:

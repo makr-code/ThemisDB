@@ -51,7 +51,7 @@ static constexpr std::size_t kLogMaxLen = 120;
 /// @param s Input string to truncate.
 /// @return Truncated string with "[…]" suffix if original exceeded kLogMaxLen; otherwise unchanged.
 std::string truncateForLog(const std::string& s) {
-    if (static_cast<int>(s.size()) <= kLogMaxLen) {
+    if (s.size() <= kLogMaxLen) {
         return s;
     }
     return s.substr(0, kLogMaxLen) + "[…]";
@@ -75,7 +75,7 @@ std::string sanitizeArtifactStem(std::string_view value) {
     if (sanitized.empty()) {
         sanitized = "generated_plugin";
     }
-    if (static_cast<int>(sanitized.size()) > 64) {
+    if (sanitized.size() > 64) {
         sanitized.resize(64);
     }
     return sanitized;
@@ -412,7 +412,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description must not be empty"));
     }
-    if (static_cast<int>(prompt.description.size()) > 8192) {
+    if (prompt.description.size() > 8192) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: prompt description exceeds 8192-character limit"));
@@ -420,13 +420,13 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     // --- Validate required_capabilities list ---
     // Scanner note: reserve() ensures vector capacity; all access is bounds-checked
-    if (static_cast<int>(prompt.required_capabilities.size()) > kMaxPromptListEntries) {
+    if (prompt.required_capabilities.size() > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: required_capabilities exceeds maximum entry count"));
     }
     // --- Validate dependencies list ---
-    if (static_cast<int>(prompt.dependencies.size()) > kMaxPromptListEntries) {
+    if (prompt.dependencies.size() > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: dependencies exceeds maximum entry count"));
@@ -438,7 +438,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     unique_capabilities.reserve(prompt.required_capabilities.size());
     for (const auto& capability : prompt.required_capabilities) {
-        if (static_cast<int>(capability.size()) > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
+        if (capability.size() > kMaxCapabilityTokenLen || !isValidPromptListToken(capability)) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: required_capabilities contains invalid token"));
@@ -456,7 +456,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 
     unique_dependencies.reserve(prompt.dependencies.size());
     for (const auto& dependency : prompt.dependencies) {
-        if (static_cast<int>(dependency.size()) > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
+        if (dependency.size() > kMaxDependencyTokenLen || !isValidPromptListToken(dependency)) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: dependencies contains invalid token"));
@@ -564,7 +564,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     request["generate_tests"] = prompt.generate_tests;
     request["generate_docs"] = prompt.generate_docs;
     const std::string request_body = request.dump();
-    if (static_cast<int>(request_body.size()) > config_.max_request_body_bytes) {
+    if (request_body.size() > config_.max_request_body_bytes) {
         ++stat_validation_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -673,22 +673,22 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     static constexpr std::size_t kMaxDepEntryLen = 256;
     
     // Validate code field sizes (prevents memory exhaustion attacks)
-    if (static_cast<int>(generated.implementation_code.size()) > kMaxCodeSize ||
-        static_cast<int>(generated.header_code.size()) > kMaxCodeSize ||
-        static_cast<int>(generated.test_code.size()) > kMaxCodeSize) {
+    if (generated.implementation_code.size() > kMaxCodeSize ||
+        generated.header_code.size() > kMaxCodeSize ||
+        generated.test_code.size() > kMaxCodeSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM output exceeds maximum allowed code size"));
     }
-    if (static_cast<int>(generated.cmake_code.size()) > kMaxCodeSize) {
+    if (generated.cmake_code.size() > kMaxCodeSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM cmake_code exceeds maximum allowed code size"));
     }
     // Validate security report field size
-    if (static_cast<int>(generated.security_report.size()) > kMaxReportSize) {
+    if (generated.security_report.size() > kMaxReportSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -696,16 +696,16 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     std::string raw_name = payload.value("name", std::string("generated_plugin"));
-    if (static_cast<int>(raw_name.size()) > kMaxNameLen || raw_name.empty()) {
+    if (raw_name.size() > kMaxNameLen || raw_name.empty()) {
         raw_name = "generated_plugin";
     }
     generated.manifest.name = std::move(raw_name);
     generated.manifest.version = payload.value("version", std::string("0.1.0"));
-    if (static_cast<int>(generated.manifest.version.size()) > kMaxVersionLen || generated.manifest.version.empty()) {
+    if (generated.manifest.version.size() > kMaxVersionLen || generated.manifest.version.empty()) {
         generated.manifest.version = "0.1.0";
     }
     generated.manifest.description = payload.value("description", prompt.description);
-    if (static_cast<int>(generated.manifest.description.size()) > kMaxDescLen) {
+    if (generated.manifest.description.size() > kMaxDescLen) {
         generated.manifest.description = generated.manifest.description.substr(0, kMaxDescLen);
     }
     generated.manifest.type = prompt.type;
@@ -716,7 +716,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         for (const auto& dep : deps_arr) {
             if (dep.is_string()) {
                 auto dep_str = dep.get<std::string>();
-                if (static_cast<int>(dep_str.size()) <= kMaxDepEntryLen) {
+                if (dep_str.size() <= kMaxDepEntryLen) {
                     generated.build_dependencies.push_back(std::move(dep_str));
                 }
             }
@@ -806,10 +806,10 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         }
 
         json local_metrics = {
-            {"implementation_code_bytes",static_cast<int>(generated.implementation_code.size())},
-            {"header_code_bytes",static_cast<int>(generated.header_code.size())},
-            {"test_code_bytes",static_cast<int>(generated.test_code.size())},
-            {"cmake_code_bytes",static_cast<int>(generated.cmake_code.size())},
+            {"implementation_code_bytes",generated.implementation_code.size()},
+            {"header_code_bytes",generated.header_code.size()},
+            {"test_code_bytes",generated.test_code.size()},
+            {"cmake_code_bytes",generated.cmake_code.size()},
             {"passed_security_checks", generated.passed_security_checks}
         };
         if (c1_safety_score.has_value()) {

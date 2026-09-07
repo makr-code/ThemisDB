@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include "src/distributed_tensor/include/artifact_manifest.h"
-#include "src/distributed_tensor/include/artifact_invalidation.h"
+#include "artifact_manifest.h"
+#include "artifact_invalidation.h"
 #include <string>
 #include <memory>
 #include <cstdint>

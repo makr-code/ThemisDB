@@ -10617,7 +10617,9 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
         std::string key = std::string(route_key) + ":";
         const auto auth_header = req[http::field::authorization];
         if (!auth_header.empty()) {
-          key += std::string(auth_header); else key += "anon";
+                    key += std::string(auth_header);
+                } else {
+                    key += "anon";
         }
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now()).time_since_epoch().count();
@@ -13017,7 +13019,9 @@ void HttpServer::applyGovernanceHeaders(
     // Resource-based default classification if none provided
     if (classification.empty()) {
         if (path_only.rfind("/admin", 0) == 0) {
-          classification = "vs-nfd"; else classification = "offen";
+                    classification = "vs-nfd";
+                } else {
+                    classification = "offen";
         }
     }
     // Normalize/validate known values

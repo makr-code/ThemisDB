@@ -84,7 +84,7 @@ struct PredictiveFailureDetector::ModelImpl {
         };
 
         float score = 0.0f;
-        const std::size_t n = std::min(features.size(),static_cast<int>(kWeights.size()));
+        const std::size_t n = std::min(features.size(), kWeights.size());
         for (std::size_t i = 0; i < n; ++i) {
             float v = features[i];
             // recovery_success_rate (index 17) is a positive health signal — invert
@@ -368,7 +368,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
           return 0.0f;
         }
         double sum = std::accumulate(values.begin(), values.end(), 0.0);
-        return static_cast<bool>(static_cast<float < static_cast<int>((sum / values.size())));
+        return static_cast<float>(sum / values.size());
     };
     
     // Helper: compute stddev
@@ -381,7 +381,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
         for (double v : values) {
             sq_sum += (v - mean) * (v - mean);
         }
-        return static_cast<bool>(static_cast<float < static_cast<int>((std::sqrt(sq_sum / values.size()))));
+        return static_cast<float>(std::sqrt(sq_sum / values.size()));
     };
     
     // Helper: compute trend (linear regression slope)
@@ -466,7 +466,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
                 prediction.failure_probability = output[0];
                 prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
             }
-            for (size_t i = 0; i < std::min(size_t(5),static_cast<int>(features.size())); ++i) {
+            for (size_t i = 0; i < std::min(size_t(5), features.size()); ++i) {
                 prediction.feature_importance["feature_" + std::to_string(i)] = features[i];
             }
             return prediction;
@@ -489,7 +489,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
     }
     
     // Feature importance (top 5 features)
-    for (size_t i = 0; i < std::min(size_t(5),static_cast<int>(features.size())); ++i) {
+    for (size_t i = 0; i < std::min(size_t(5), features.size()); ++i) {
         prediction.feature_importance["feature_" + std::to_string(i)] = features[i];
     }
     

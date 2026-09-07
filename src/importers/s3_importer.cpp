@@ -45,7 +45,7 @@ namespace {
 // ============================================================================
 
 /// Maps S3-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for S3
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {

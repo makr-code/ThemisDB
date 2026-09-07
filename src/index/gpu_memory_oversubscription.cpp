@@ -579,7 +579,7 @@ std::vector<size_t> GPUMemoryOversubscriptionManager::getHotPartitions() const {
 
     std::vector<size_t> result = {};
 
-    result.reserve(pImpl_-> static_cast<int>(lru_list.size()));
+    result.reserve(pImpl_->lru_list.size());
     for (const size_t pid : pImpl_->lru_list) {
         auto it = pImpl_->partitions.find(pid);
         if (it != pImpl_->partitions.end() && it->second.in_vram) {
@@ -710,7 +710,7 @@ GPUMemoryOversubscriptionManager::getStats() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
 
     Stats s;
-    s.total_partitions    = pImpl_-> static_cast<int>(partitions.size());
+    s.total_partitions    = pImpl_->partitions.size();
     s.hot_partitions      = 0;
     s.cold_partitions     = 0;
     for (const auto& [id, p] : pImpl_->partitions) {
@@ -768,7 +768,7 @@ GPUMemoryOversubscriptionManager::getPartitionInfo(size_t partition_id) const {
 
 size_t GPUMemoryOversubscriptionManager::partitionCount() const {
     std::lock_guard<std::mutex> lk(pImpl_->mutex);
-    return static_cast<bool>(pImpl_- < static_cast<int>(partitions.size()));
+    return pImpl_->partitions.size();
 }
 
 } // namespace index

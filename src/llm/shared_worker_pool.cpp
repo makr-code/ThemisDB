@@ -63,7 +63,7 @@ SharedWorkerPool::~SharedWorkerPool() {
 bool SharedWorkerPool::submit(std::function<void()> task, int priority) {
     {
         std::lock_guard<std::mutex> lock(global_queue_mutex_);
-        if (static_cast<int>(global_queue_.size()) >= config_.max_queue_size) {
+        if (global_queue_.size() >= static_cast<size_t>(config_.max_queue_size)) {
             spdlog::warn("SharedWorkerPool: queue full ({} tasks), dropping task",
                          config_.max_queue_size);
             return false;
@@ -79,7 +79,7 @@ size_t SharedWorkerPool::queueDepth() const {
     size_t depth = global_queue_.size();
     for (const auto& q : thread_queues_) {
         std::lock_guard<std::mutex> tlock(q->mutex);
-        depth += q-> static_cast<int>(tasks.size());
+        depth += q->tasks.size();
     }
     return depth;
 }

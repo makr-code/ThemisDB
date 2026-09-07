@@ -9,6 +9,8 @@
  */
 
 #include "llm/attention/hip/infini_attention_hip.h"
+
+#if __has_include(<hip/hip_runtime.h>)
 #include <hip/hip_runtime.h>
 #include <algorithm>
 #include <stdexcept>
@@ -106,7 +108,7 @@ Status InfiniAttentionHIP::backward(
     Tensor& dK,
     Tensor& dV) {
     // Phase 2.2: Gradient computation deferred
-    return Status::NOT_IMPLEMENTED;
+    return Status::ERROR_NOT_IMPLEMENTED;
 }
 
 AttentionMemoryStats InfiniAttentionHIP::getMemoryStats() const {
@@ -115,7 +117,6 @@ AttentionMemoryStats InfiniAttentionHIP::getMemoryStats() const {
         config_.memory_dim * config_.memory_dim * sizeof(float) +
         config_.memory_dim * config_.memory_dim * sizeof(float) +
         config_.memory_dim * config_.memory_dim * 2 * sizeof(float);
-    stats.peak_memory_bytes = stats.total_memory_bytes;
     return stats;
 }
 
@@ -129,14 +130,14 @@ Status InfiniAttentionHIP::initializeHIPDevice() {
     // Set device 0 as active
     hipError_t err = hipSetDevice(0);
     if (err != hipSuccess) {
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Query device properties
     hipDeviceProp_t props;
     err = hipGetDeviceProperties(&props, 0);
     if (err != hipSuccess) {
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Warm up GPU by launching trivial kernel
@@ -145,7 +146,7 @@ Status InfiniAttentionHIP::initializeHIPDevice() {
     
     err = hipDeviceSynchronize();
     if (err != hipSuccess) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_HIP_ERROR;
     }
 
     return Status::SUCCESS;
@@ -178,13 +179,13 @@ Status InfiniAttentionHIP::releaseGPUMemory() {
 
 Status InfiniAttentionHIP::resetMemory() {
     if (!gpu_memory_) {
-        return Status::ERROR_NOT_INITIALIZED;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     size_t memory_bytes = config_.memory_dim * config_.memory_dim * sizeof(float);
     hipError_t err = hipMemset(gpu_memory_, 0, memory_bytes);
     if (err != hipSuccess) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_HIP_ERROR;
     }
 
     return Status::SUCCESS;
@@ -214,12 +215,12 @@ std::vector<float> InfiniAttentionHIP::getCompressiveMemory() const {
 
 Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float>& checkpoint) {
     size_t expected_size = config_.memory_dim * config_.memory_dim;
-    if (static_cast<int>(checkpoint.size()) != expected_size) {
+    if (checkpoint.size() != expected_size) {
         throw std::invalid_argument("Checkpoint size mismatch");
     }
 
     if (!gpu_memory_) {
-        return Status::ERROR_NOT_INITIALIZED;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     size_t memory_bytes = checkpoint.size() * sizeof(float);
@@ -231,7 +232,7 @@ Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float>& ch
     );
 
     if (err != hipSuccess) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_HIP_ERROR;
     }
 
     return Status::SUCCESS;
@@ -288,3 +289,82 @@ Status InfiniAttentionHIP::blendOutputs(
 } // namespace attention
 } // namespace llm
 } // namespace themis
+
+#else
+
+namespace themis {
+namespace llm {
+namespace attention {
+namespace hip {
+
+InfiniAttentionHIP::InfiniAttentionHIP(const Config &config)
+    : config_(config) {}
+
+InfiniAttentionHIP::~InfiniAttentionHIP() = default;
+
+Status InfiniAttentionHIP::initialize() {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::forward(const Tensor &, const Tensor &, const Tensor &, Tensor &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::backward(const Tensor &, Tensor &, Tensor &, Tensor &) {
+    return Status::ERROR_NOT_IMPLEMENTED;
+}
+
+AttentionMemoryStats InfiniAttentionHIP::getMemoryStats() const {
+    return {};
+}
+
+bool InfiniAttentionHIP::isAvailable() {
+    return false;
+}
+
+Status InfiniAttentionHIP::initializeHIPDevice() {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::resetMemory() {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+std::vector<float> InfiniAttentionHIP::getCompressiveMemory() const {
+    return {};
+}
+
+Status InfiniAttentionHIP::restoreCompressiveMemory(const std::vector<float> &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+void *InfiniAttentionHIP::allocateGPUMemory(size_t) const {
+    return nullptr;
+}
+
+Status InfiniAttentionHIP::releaseGPUMemory() {
+    return Status::SUCCESS;
+}
+
+Status InfiniAttentionHIP::computeLocalAttention(const Tensor &, const Tensor &, const Tensor &, Tensor &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::computeCompressiveAttention(const Tensor &, Tensor &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::updateCompressiveMemory(const Tensor &, const Tensor &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+Status InfiniAttentionHIP::blendOutputs(const Tensor &, const Tensor &, Tensor &) {
+    return Status::ERROR_BACKEND_NOT_AVAILABLE;
+}
+
+} // namespace hip
+} // namespace attention
+} // namespace llm
+} // namespace themis
+
+#endif

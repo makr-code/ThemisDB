@@ -28,11 +28,11 @@ namespace access_model {
 // ============================================================================
 
 LatencyHistogram::LatencyHistogram(size_t num_buckets, uint64_t max_latency_us)
-    : num_buckets_(num_buckets),
+        : sum_latency_us_(0),
+            num_buckets_(num_buckets),
       max_latency_us_(max_latency_us),
       bucket_width_us_(std::max(uint64_t(1), max_latency_us / num_buckets)),
-      count_(0),
-      sum_latency_us_(0),
+            count_(0),
       min_latency_us_(UINT64_MAX),
       max_observed_latency_us_(0) {
     buckets_.resize(num_buckets + 1, 0);  // +1 for overflow bucket

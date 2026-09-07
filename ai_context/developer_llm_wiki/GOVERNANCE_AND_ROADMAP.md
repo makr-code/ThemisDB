@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-08-31
+Datum: 2026-09-07
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `4d201e45ae14c17a`
+- Hash: `cd9d17b98b56d6a5`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -59,7 +59,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `8bb4f58ad53dd653`
+- Hash: `5e6e3f4ae2fd4145`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -68,16 +68,16 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `9dbaf8fc1ffcdc51`
+- Hash: `40cdc04a8ca80e6c`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-08-18
+  - **Last Updated:** 2026-09-04 (source-validated against module roadmaps and evidence bundles)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
-- Hash: `dd638dc18bd198ce`
+- Hash: `e45bc2f97a56e781`
 - Titel: ThemisDB — Versioning Policy
 - Auszug:
   - > **Status:** Active
@@ -374,48 +374,48 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `e253968fe072fb5d`
+- Hash: `bf74188acfd34690`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-08-31
+  - Datum: 2026-09-07
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `acf2781c7f7bc5d7`
+- Hash: `4d467417ea6f5818`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-08-24
+  - Datum: 2026-08-31
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `214bad5e676f813d`
+- Hash: `ee3a0b326d57c7b9`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-08-31
+  - Datum: 2026-09-07
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `bb598df3e1c24c87`
+- Hash: `4164ea0a08600a3a`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-08-31
+  - Datum: 2026-09-07
   - Status: Active
   - - Kategorie: modules_and_api
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `b2e3c16d7e17645e`
+- Hash: `965076c62114634b`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-08-24
+  - Datum: 2026-08-31
   - Status: Active
-  - - Added: 5808
+  - - Added: 7683
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs

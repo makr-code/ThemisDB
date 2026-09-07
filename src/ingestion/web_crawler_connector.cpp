@@ -504,7 +504,7 @@ public:
             if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
               return;
             }
-            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + static_cast<int>(queue.size()) >= max_pages_) {
+            if (max_pages_ > 0 && (visited.size() + queue.size()) >= max_pages_) {
               return;
             }
             visited.insert(norm);

@@ -346,10 +346,10 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Deterministic chunk ordering — track sequence numbers
     // Error code 6902: Chunk ordering violation (if we detect out-of-order)
     impl_->last_chunk_seq++;
-    if (impl_-> static_cast<int>(pending_chunk_sequences.size()) >= kMaxChunkQueueSize) {
+    if (impl_->pending_chunk_sequences.size() >= kMaxChunkQueueSize) {
         impl_->sequence_gap_detected = true;
         std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (" +
-                          std::to_string(impl_-> static_cast<int>(pending_chunk_sequences.size())) + ") - error 6902";
+                          std::to_string(impl_->pending_chunk_sequences.size()) + ") - error 6902";
         THEMIS_ERROR("{}", msg);
         if (impl_->on_error) {
           impl_->on_error(msg);
@@ -361,7 +361,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Append to audio buffer with size tracking
     impl_->audio_buffer.insert(impl_->audio_buffer.end(),
                                 audio_chunk.begin(), audio_chunk.end());
-    impl_->buffer_size_bytes = impl_-> static_cast<int>(audio_buffer.size());
+    impl_->buffer_size_bytes = impl_->audio_buffer.size();
     impl_->bytes_received += audio_chunk.size();
     impl_->last_activity_ms = streamingNowMs();
 
@@ -483,7 +483,7 @@ size_t VoiceStreamingSession::retryUnacknowledgedChunks(
         last_acked_sequence_num + 1 < impl_->pending_chunk_sequences.front()) {
         impl_->sequence_gap_detected = true;
     }
-    return static_cast<bool>(impl_- < static_cast<int>(pending_chunk_sequences.size()));
+    return impl_->pending_chunk_sequences.size();
 }
 
 bool VoiceStreamingSession::detectSequenceGap() const noexcept {

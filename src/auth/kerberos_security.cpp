@@ -31,17 +31,17 @@ namespace auth {
 namespace {
 
 // ASN.1 tag classes
-constexpr uint8_t ASN1_CLASS_UNIVERSAL   = 0x00;
-constexpr uint8_t ASN1_CLASS_APPLICATION = 0x40;
-constexpr uint8_t ASN1_CLASS_CONTEXT     = 0x80;
-constexpr uint8_t ASN1_CLASS_PRIVATE     = 0xC0;
+[[maybe_unused]] constexpr uint8_t ASN1_CLASS_UNIVERSAL   = 0x00;
+[[maybe_unused]] constexpr uint8_t ASN1_CLASS_APPLICATION = 0x40;
+[[maybe_unused]] constexpr uint8_t ASN1_CLASS_CONTEXT     = 0x80;
+[[maybe_unused]] constexpr uint8_t ASN1_CLASS_PRIVATE     = 0xC0;
 
 // ASN.1 tag types
 constexpr uint8_t ASN1_TAG_SEQUENCE     = 0x30;
-constexpr uint8_t ASN1_TAG_SET          = 0x31;
-constexpr uint8_t ASN1_TAG_INTEGER      = 0x02;
-constexpr uint8_t ASN1_TAG_OCTET_STRING = 0x04;
-constexpr uint8_t ASN1_TAG_OBJECT_ID    = 0x06;
+[[maybe_unused]] constexpr uint8_t ASN1_TAG_SET          = 0x31;
+[[maybe_unused]] constexpr uint8_t ASN1_TAG_INTEGER      = 0x02;
+[[maybe_unused]] constexpr uint8_t ASN1_TAG_OCTET_STRING = 0x04;
+[[maybe_unused]] constexpr uint8_t ASN1_TAG_OBJECT_ID    = 0x06;
 
 } // anonymous namespace
 
@@ -65,7 +65,7 @@ static constexpr uint8_t KRB5_APP14_TAG  = 0x6E; // [APPLICATION 14] AP-REQ
 static constexpr uint8_t KRB5_APP1_TAG   = 0x61; // [APPLICATION 1]  Ticket
 
 // AP-REQ ap-options flags (RFC 4120 §5.5.1)
-static constexpr uint32_t AP_OPT_USE_SESSION_KEY = 0x40000000u;
+[[maybe_unused]] static constexpr uint32_t AP_OPT_USE_SESSION_KEY = 0x40000000u;
 static constexpr uint32_t AP_OPT_MUTUAL_REQUIRED = 0x20000000u;
 
 // Read a DER-encoded length field starting at data[offset].

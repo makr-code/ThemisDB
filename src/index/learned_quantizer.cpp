@@ -244,7 +244,6 @@ std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) 
         for (int block = 0; block < num_blocks; block++) {
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
-            int block_dim = end - start;
             
             // Compute block scale (max absolute value)
             float max_abs = 0.0f;
@@ -303,7 +302,6 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         for (int block = 0; block < num_blocks; block++) {
             int start = block * config_.block_size;
             int end = std::min(start + config_.block_size, dimension_);
-            int block_dim = end - start;
 
             // Read scale
             if (code_offset + sizeof(float) > static_cast<int>(codes.size())) {

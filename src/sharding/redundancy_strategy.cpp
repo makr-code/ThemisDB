@@ -2988,10 +2988,11 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunksWithConsistency(
             }
             result_version = latest->version_token;
             return latest->data;
-        default: break;
         }
+        default:
+            break;
     }
-    
+
     // Should not reach here
     result_version = 0;
     return {};

@@ -123,7 +123,7 @@ static uint16_t fp32_to_fp16(float f) noexcept {
     uint32_t mant16 = mant32 >> 13;
     // Round to nearest even
     uint32_t round = mant32 & 0x1FFFu;
-    if ((round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
+    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
         ++mant16;
     }
     if (mant16 >= 0x400u) {
@@ -1391,7 +1391,7 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
         return result;
     }
 
-    const size_t actual_k = std::min(k,static_cast<int>(rows.size()));
+    const size_t actual_k = std::min(k, rows.size());
     bool use_gpu          = shouldUseGPU(rows.size());
     result.used_gpu       = use_gpu;
 

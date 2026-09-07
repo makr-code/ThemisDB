@@ -474,8 +474,8 @@ std::optional<SpareShardInfo> HotSpareManager::getSpareInfo(
 std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
     std::lock_guard<std::mutex> lock(history_mutex_);
-    
-    size_t count = std::min(max_count,static_cast<int>(failover_history_.size()));
+
+    size_t count = std::min(max_count, failover_history_.size());
     
     std::vector<HotSpareFailoverEvent> history = {};
 

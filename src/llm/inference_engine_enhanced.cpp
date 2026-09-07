@@ -874,8 +874,8 @@ InferenceEngineEnhanced::Statistics InferenceEngineEnhanced::getStatistics() con
         size_t p95_idx = static_cast<size_t>(sorted.size() * 0.95);
         size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
         
-        stats.p95_latency_ms = sorted[std::min(p95_idx, static_cast<int>(sorted.size()) - 1)];
-        stats.p99_latency_ms = sorted[std::min(p99_idx, static_cast<int>(sorted.size()) - 1)];
+        stats.p95_latency_ms = sorted[std::min(p95_idx, sorted.size() - 1)];
+        stats.p99_latency_ms = sorted[std::min(p99_idx, sorted.size() - 1)];
     }
 
     // Compute tokens/sec based on wall-clock elapsed time.
@@ -1821,11 +1821,11 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
         // Prewarm-only entries (generated_text is empty) prepare KV-tensor state
         // but must not short-circuit model inference; fall through to normal generation.
         if (!cached->generated_text.empty()) {
-            recordCacheHit(cached-> static_cast<int>(token_ids.size()));
+            recordCacheHit(static_cast<int>(cached->token_ids.size()));
 
             InferenceResponse response;
             response.text = cached->generated_text;
-            response.tokens_prompt = static_cast<int>(cached-> static_cast<int>(token_ids.size()));
+            response.tokens_prompt = static_cast<int>(cached->token_ids.size());
             response.cache_hit = true;
 
             return response;

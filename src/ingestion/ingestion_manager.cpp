@@ -985,7 +985,7 @@ public:
 
         if (parallel_enabled_ && static_cast<int>(enabled_sources.size()) > 1) {
             const size_t concurrency =
-                std::min(max_threads_,static_cast<int>(enabled_sources.size()));
+                std::min(max_threads_, enabled_sources.size());
 
             std::vector<std::future<std::pair<std::string, IngestionStats>>> futures;
             futures.reserve(enabled_sources.size());

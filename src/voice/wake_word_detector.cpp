@@ -280,7 +280,7 @@ float WakeWordDetector::computeRMS(const std::vector<float>& samples) const {
     for (float s : samples) {
         sum_sq += s * s;
     }
-    return static_cast<bool>(std::sqrt(sum_sq / static_cast<float < static_cast<int>((samples.size()))));
+    return std::sqrt(sum_sq / static_cast<float>(samples.size()));
 }
 
 std::vector<float> WakeWordDetector::pcmToFloat(

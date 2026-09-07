@@ -933,7 +933,7 @@ uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const 
     if (consecutiveFailures > 32) {
         return maxBackoffSeconds_;
     }
-    uint64_t backoff = 1 << (consecutiveFailures - 1);
+    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
@@ -1745,7 +1745,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
 std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
                                                   std::string& error) {
 #ifndef THEMIS_HAVE_LIBZIP
-    error = "PluginBundleLoader requires libzip, which was not found at build time";
+    error = "PluginBundleLoader requires libzip (missing at build time) for bundle: " + bundlePath;
     return {};
 #else
     namespace fs = std::filesystem;

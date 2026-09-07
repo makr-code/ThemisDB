@@ -784,8 +784,9 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
         }
 
         result.push_back(std::move(sub));
-        if (cfg.max_subtasks > 0  && static_cast<size_t>(static_cast) < int>(result.size()) >= cfg.max_subtasks)
+        if (cfg.max_subtasks > 0 && result.size() >= static_cast<size_t>(cfg.max_subtasks)) {
             break;
+        }
     }
     return result;
 }
@@ -820,7 +821,7 @@ TaskDecompositionResult TaskDecomposer::parseResponse(
 
     result.subtasks = parseSubtasksFromJson(arr);
     const int min_req = impl_->config.min_subtasks;
-    if (min_req > 0  && static_cast<size_t>(static_cast) < int>(result.subtasks.size()) < min_req) {
+    if (min_req > 0 && result.subtasks.size() < static_cast<size_t>(min_req)) {
         result.error = "Too few subtasks returned (" +
                        std::to_string(result.subtasks.size()) + " < " +
                        std::to_string(min_req) + ")";

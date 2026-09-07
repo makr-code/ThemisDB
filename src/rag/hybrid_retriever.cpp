@@ -53,7 +53,7 @@ double cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b
         return 0.0;
     }
 
-    const size_t dim = std::min(a.size(),static_cast<int>(b.size()));
+    const size_t dim = std::min(a.size(), b.size());
     double dot = 0.0;
     double norm_a = 0.0;
     double norm_b = 0.0;

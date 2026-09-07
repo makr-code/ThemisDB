@@ -168,9 +168,9 @@ ExportStats IncrementalExporter::exportEntities(
                     throw;
                 }
             } catch (const std::exception& e) {
-                stats.failed_entities++;
-                stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " +
-                                       std::string(e.what()));
+                    stats.failed_entities++;
+                    stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " +
+                                           std::string(e.what())); 
                 metrics_->recordError("std_exception");
                 if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     limit_reached = true;
@@ -203,7 +203,7 @@ ExportStats IncrementalExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

@@ -242,7 +242,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
         stats.failure_rate = static_cast<double>(stats.total_failures) / stats.total_executions;
         
         // Recent failure rate (last 20 executions)
-        size_t recent_window = std::min(size_t(20),static_cast<int>(stats.execution_results.size()));
+        size_t recent_window = std::min(size_t(20), static_cast<size_t>(stats.execution_results.size()));
         size_t recent_failures = 0;
         for (size_t i = static_cast<int>(stats.execution_results.size()) - recent_window; 
              i <static_cast<int>(stats.execution_results.size()); i++) {
@@ -319,6 +319,13 @@ double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
     const auto& stats = it->second;
     
     if (static_cast<int>(stats.execution_times.size()) < config_.pattern_window_size) {
+        return 0.0;
+    }
+
+    // If no executions happened for a long time, treat the task as inactive
+    // instead of flagging a stale pattern anomaly.
+    if (!stats.execution_times.empty() &&
+        now - stats.execution_times.back() > std::chrono::hours(24)) {
         return 0.0;
     }
     
@@ -404,6 +411,10 @@ double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
     
     // Check recent failure rate
     if (stats.recent_failure_rate > config_.failure_rate_spike) {
+        if (!success) {
+            THEMIS_DEBUG("TaskAnomalyDetector: failure-rate spike for task '{}' (recent={}, threshold={})",
+                         task_id, stats.recent_failure_rate, config_.failure_rate_spike);
+        }
         // Normalize to 0-1 scale
         return std::min(1.0, stats.recent_failure_rate / config_.failure_rate_spike);
     }

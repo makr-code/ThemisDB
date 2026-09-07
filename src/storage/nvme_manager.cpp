@@ -509,6 +509,10 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
     }
 #  endif
 #endif
+    if (min_complete > 0) {
+        THEMIS_DEBUG("NVMeManager::pollCompletions fallback path active; io_uring disabled (min_complete={})",
+                     min_complete);
+    }
     return 0;  // No async I/O active; completions are synchronous
 }
 

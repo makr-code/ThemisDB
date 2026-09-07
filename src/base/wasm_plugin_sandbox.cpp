@@ -622,6 +622,11 @@ bool WasmPluginSandbox::validateWasmHeader(const std::vector<uint8_t> &bytes) {
 bool WasmPluginSandbox::parseImportsExports(const std::vector<uint8_t> &bytes) {
     // The validator already does the heavy lifting; results are in module_info_.
     // This method is a hook for future extended validation.
+    if (bytes.empty()) {
+        last_error_ = "WASM module payload is empty";
+        spdlog::error("WasmPluginSandbox: {}", last_error_);
+        return false;
+    }
     return true;
 }
 

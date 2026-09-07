@@ -181,7 +181,8 @@ SecurityCheckResult ContentSecurityManager::checkContent(const std::string &data
     }
 
     // Check 2: PII detection (for text-based content)
-    if ((config_.enable_pii_detection && (mime_type.find("text/") == 0 || mime_type == "application/json")) {
+    if (config_.enable_pii_detection &&
+        (mime_type.find("text/") == 0 || mime_type == "application/json")) {
         auto pii_result    = checkPii(data, content_id);
         result.pii_checked = pii_result.pii_checked;
         result.pii_found   = pii_result.pii_found;

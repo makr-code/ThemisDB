@@ -1070,11 +1070,11 @@ void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
     const auto batch_sz =
         req.batch_size() > 0 ? static_cast<size_t>(req.batch_size()) : 100;
     v1::QueryResult qr;
-    size_t end = std::min(entry.offset + batch_sz,static_cast<int>(entry.results.size()));
+    size_t end = std::min(entry.offset + batch_sz, entry.results.size());
     for (size_t i = entry.offset; i < end; ++i)
         qr.add_results(entry.results[i]);
 
-    const bool has_more = (end <static_cast<int>(entry.results.size()));
+    const bool has_more = (end < entry.results.size());
     qr.set_has_more(has_more);
     qr.set_total_count(static_cast<uint64_t>(entry.results.size()));
     if (has_more)

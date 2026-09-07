@@ -613,7 +613,7 @@ void EthicsAwareConfidenceDetector::cacheResult(
     const ConfidenceResult& result
 ) {
     // Simple cache size management
-    if (impl_-> static_cast<int>(cache.size()) >= impl_->config.max_cache_size) {
+    if (impl_->cache.size() >= static_cast<size_t>(impl_->config.max_cache_size)) {
         // Remove oldest entry (simplified - could use LRU)
         impl_->cache.erase(impl_->cache.begin());
     }

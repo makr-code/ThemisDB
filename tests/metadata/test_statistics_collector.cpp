@@ -612,7 +612,9 @@ struct RecordingHook : public StatisticsCollector::IMetricsHook {
 
     void onCollect(std::string_view, double, size_t, bool success) override {
         if (success) {
-          ++collect_ok; else ++collect_fail;
+                        ++collect_ok;
+                } else {
+                        ++collect_fail;
         }
     }
     void onCacheHit(std::string_view) override  { ++cache_hit;    }

@@ -128,7 +128,7 @@ std::vector<AQLFewShotExample> AQLFewShotExampleLibrary::findRelevant(const std:
     std::sort(scored.begin(), scored.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
 
     // Collect top-n results
-    std::size_t count = std::min(n,static_cast<int>(scored.size()));
+    std::size_t count = std::min(n, scored.size());
     std::vector<AQLFewShotExample> result;
     result.reserve(count);
     for (std::size_t i = 0; i < count; ++i) {
@@ -184,12 +184,12 @@ bool AQLFewShotExampleLibrary::ensureEmbedding_(std::size_t idx) const {
     if (!embedding_provider_) {
         return false;
     }
-    if (idx >= static_cast<int>(examples_.size())) {
+    if (idx >= examples_.size()) {
         return false;
     }
 
     // Grow cache if needed
-    if (static_cast<int>(embedding_cache_.size()) <= idx) {
+    if (embedding_cache_.size() <= idx) {
         embedding_cache_.resize(examples_.size());
     }
     // Compute on demand if not yet cached

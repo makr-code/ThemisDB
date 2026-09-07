@@ -248,6 +248,7 @@ void fusedSoftmaxDropoutAttention(
     float dropout_prob,
     bool is_causal
 ) {
+    (void)attention_mask;
 #ifdef THEMIS_ENABLE_CUDA
     if (isCudaAvailable()) {
         // Use Flash Attention kernel which fuses softmax and attention
@@ -436,6 +437,7 @@ KernelFusionManager::KernelFusionManager(const Config& config)
 bool KernelFusionManager::shouldFuseLayerNormLinear(
     int batch, int seq_len, int hidden_dim
 ) const {
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_ln_linear_fusion) {
         return false;
     }
@@ -450,6 +452,9 @@ bool KernelFusionManager::shouldFuseQKV(
     int seq_len,
     int hidden_dim
 ) const {
+    (void)batch;
+    (void)seq_len;
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_qkv_fusion) {
         return false;
     }
@@ -461,6 +466,7 @@ bool KernelFusionManager::shouldFuseQKV(
 bool KernelFusionManager::shouldFuseFFN(
     int batch, int seq_len, int hidden_dim
 ) const {
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_ffn_fusion) {
         return false;
     }
@@ -475,6 +481,9 @@ double KernelFusionManager::estimateSpeedup(
     int seq_len,
     int hidden_dim
 ) const {
+    (void)batch;
+    (void)seq_len;
+    (void)hidden_dim;
     // Estimate speedup based on fusion type and dimensions
     
     if (fusion_type == "ln_linear") {

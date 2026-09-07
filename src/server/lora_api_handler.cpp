@@ -632,8 +632,8 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         }
         
         // Apply pagination
-        size_t start = std::min(offset,static_cast<int>(filtered_adapters.size()));
-        size_t end = std::min(offset + limit,static_cast<int>(filtered_adapters.size()));
+        size_t start = std::min(offset, filtered_adapters.size());
+        size_t end = std::min(offset + limit, filtered_adapters.size());
         
         json adapters = json::array();
         for (size_t i = start; i < end; i++) {

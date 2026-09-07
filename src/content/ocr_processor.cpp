@@ -108,7 +108,7 @@ std::string OcrProcessor::getTesseractVersion() {
 // while preserving printable text and common whitespace (\t, \n, \r).
 // ---------------------------------------------------------------------------
 
-static std::string sanitizeOcrText(std::string text) {
+[[maybe_unused]] static std::string sanitizeOcrText(std::string text) {
     text.erase(std::remove_if(text.begin(), text.end(),
                               [](unsigned char c) {
                                   // Preserve tab (0x09), newline (0x0A), carriage return (0x0D)
@@ -250,6 +250,8 @@ std::string OcrProcessor::runTesseract(const std::string &blob,
     text = sanitizeOcrText(std::move(text));
     return text;
 #else
+    (void)blob;
+    (void)preprocess_info;
     return "";
 #endif
 }

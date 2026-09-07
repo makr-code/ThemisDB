@@ -156,7 +156,7 @@ json TaskSchedulerApiHandler::listTasks() {
     for (const auto& t : tasks) {
         items.push_back(taskToJson(t));
     }
-    return static_cast<bool>(json{{"items", items}, {"total", static_cast<int64_t < static_cast<int>((items.size())))}};
+    return json{{"items", items}, {"total", static_cast<int64_t>(items.size())}};
 }
 
 json TaskSchedulerApiHandler::getTask(const std::string& task_id) {

@@ -140,7 +140,7 @@ bool ExpertSystemEngine::factExists(const std::string &s, const std::string &p, 
 
 bool ExpertSystemEngine::matchConditionsRec(const std::vector<TriplePattern> &conditions, std::size_t cond_idx,
                                             const std::vector<Fact> &all_facts, Bindings &bindings) const {
-    if (cond_idx == static_cast<int>(conditions.size())) {
+    if (cond_idx == conditions.size()) {
         return true;
     }
 
@@ -198,7 +198,7 @@ ExpertSystemEngine::matchConditions(const HornClause &rule, const std::vector<Fa
 void ExpertSystemEngine::matchAllBindingsRec(const std::vector<TriplePattern> &conditions, std::size_t cond_idx,
                                              const std::vector<Fact> &all_facts, Bindings &current,
                                              std::vector<Bindings> &results) const {
-    if (cond_idx == static_cast<int>(conditions.size())) {
+    if (cond_idx == conditions.size()) {
         results.push_back(current);
         return;
     }
@@ -328,7 +328,7 @@ int ExpertSystemEngine::forwardChain(int max_cycles) {
 
                 // ML confidence gate — release lock to avoid re-entrancy deadlock.
                 double conf = 1.0;
-                if ((scorer_fn_snap || (scorer_snap && rule.ml_confidence_threshold > 0.0)) {
+                if (scorer_fn_snap || (scorer_snap && rule.ml_confidence_threshold > 0.0)) {
                     lock.unlock();
                     conf = mlConfidenceNoLock(scorer_snap, scorer_fn_snap, model_name_snap, model_ver_snap, rule,
                                               matched);

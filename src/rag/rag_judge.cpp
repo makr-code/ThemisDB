@@ -385,7 +385,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                         }
                     }
                     // Simple cache eviction: limit cache size to 1000 entries
-                    if (impl_-> static_cast<int>(injection_cache.size()) >= 1000) {
+                    if (impl_->injection_cache.size() >= 1000) {
                         impl_->injection_cache.clear();  // Simple LRU: clear all on overflow
                     }
                     impl_->injection_cache[injection_cache_key] = flat_findings;
@@ -691,7 +691,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         try {
             std::lock_guard<std::mutex> cache_lock(impl_->cache_mutex);  // RAII: lock acquired
             // Simple cache eviction: limit cache size to 10000 entries
-            if (impl_-> static_cast<int>(cache.size()) >= 10000) {
+            if (impl_->cache.size() >= 10000) {
                 impl_->cache.clear();  // LRU: clear all on overflow
                 THEMIS_WARN("Evaluation result cache overflow, cleared");
             }
@@ -882,8 +882,8 @@ RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
     std::vector<EvaluationResult> eval_history;
     {
         std::lock_guard<std::mutex> bias_lock(impl_->bias_history_mutex);
-        summary.samples_analyzed = impl_-> static_cast<int>(eval_history.size());
         eval_history = impl_->eval_history;
+        summary.samples_analyzed = eval_history.size();
     }
 
     if (!impl_->bias_detector ||
@@ -1406,7 +1406,7 @@ double RAGJudge::calculateTermOverlap(
             ++overlap;
         }
     }
-    int total = static_cast<int>(std::max(terms1.size(),static_cast<int>(terms2.size())));
+    int total = static_cast<int>(std::max(terms1.size(), terms2.size()));
     return static_cast<double>(overlap) / total;
 }
 
@@ -1552,7 +1552,7 @@ JudgeEnsemble::JudgeEnsemble(
 JudgeEnsemble::~JudgeEnsemble() = default;
 
 EvaluationResult JudgeEnsemble::evaluateWithEnsemble(const EvaluationInput& input) {
-    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_-> static_cast<int>(judges.size()));
+    THEMIS_INFO("Evaluating with ensemble of {} judges", impl_->judges.size());
     
     std::vector<EvaluationResult> results = {};
 

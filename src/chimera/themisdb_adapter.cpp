@@ -232,7 +232,7 @@ Result<size_t> ThemisDBAdapter::batch_insert(
         auto& store = table_store_[table_name];
         store.insert(store.end(), rows.begin(), rows.end());
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
+    return Result<size_t>::ok(rows.size());
 }
 
 Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
@@ -279,12 +279,12 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         auto& store = vector_store_[collection];
-        store.reserve(static_cast<int>(store.size()) + static_cast<int>(vectors.size()) );
+        store.reserve(store.size() + vectors.size());
         for (const auto& v : vectors) {
             store.emplace_back(generate_id(), v);
         }
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
+    return Result<size_t>::ok(vectors.size());
 }
 
 Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
@@ -371,7 +371,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // Partial sort to obtain top-k results.
-    const size_t result_k = std::min(k,static_cast<int>(scored.size()));
+    const size_t result_k = std::min(k, scored.size());
     std::partial_sort(scored.begin(),
                       scored.begin() + static_cast<ptrdiff_t>(result_k),
                       scored.end(),
@@ -784,7 +784,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_documents(
             col[id]         = std::move(stored);
         }
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
+    return Result<size_t>::ok(docs.size());
 }
 
 Result<std::vector<Document>> ThemisDBAdapter::find_documents(
@@ -1411,7 +1411,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                             "Async operation cancelled mid-batch: " + op_id);
                     }
 
-                    const size_t end = std::min(offset + kChunkSize,static_cast<int>(rows.size()));
+                    const size_t end = std::min(offset + kChunkSize, rows.size());
                     chunk.assign(
                         rows.begin() + static_cast<std::ptrdiff_t>(offset),
                         rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1572,7 +1572,7 @@ ThemisDBResultStream::ThemisDBResultStream(
 {}
 
 bool ThemisDBResultStream::has_more() const {
-    return static_cast<bool>(!closed_  && static_cast<size_t>(cursor_) < static_cast<int>(table_.rows.size()));
+    return !closed_ && cursor_ < table_.rows.size();
 }
 
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
@@ -1590,7 +1590,7 @@ Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
         ? config_.default_batch_size
         : batch_size;
 
-    const size_t end = std::min(cursor_ + effective,static_cast<int>(table_.rows.size()));
+    const size_t end = std::min(cursor_ + effective, table_.rows.size());
     std::vector<RelationalRow> batch(
         table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
         table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1603,7 +1603,7 @@ size_t ThemisDBResultStream::position() const {
 }
 
 std::optional<size_t> ThemisDBResultStream::total_size() const {
-    return static_cast<int>(table_.rows.size());
+    return table_.rows.size();
 }
 
 Result<bool> ThemisDBResultStream::close() {

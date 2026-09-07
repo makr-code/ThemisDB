@@ -430,7 +430,7 @@ bool GossipConsensusAdapter::hasReachedQuorumUnlocked(uint64_t log_index) const 
     
     // Calculate quorum (majority)
     size_t quorum_size = (cluster_nodes_.size() / 2) + 1;
-    return static_cast<bool>(it- < static_cast<int>(second.size())) >= quorum_size;
+    return it->second.size() >= quorum_size;
 }
 
 } // namespace sharding

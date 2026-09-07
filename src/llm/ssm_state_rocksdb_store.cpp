@@ -371,7 +371,7 @@ SSMStateRocksDBStore::findMostRecentSnapshot(const std::string& session_id) {
         }
     }
 
-    delete it = {};
+    delete it;
     return most_recent;
 }
 

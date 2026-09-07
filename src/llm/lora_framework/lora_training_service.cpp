@@ -82,7 +82,7 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
         sum += diff * diff;
     }
     
-    return static_cast<bool>(sum / static_cast<float < static_cast<int>((predictions.size())));
+    return sum / static_cast<float>(predictions.size());
 }
 
 // Compute gradient of MSE loss w.r.t. predictions
@@ -940,7 +940,7 @@ public:
             if (!data.samples.empty()) {
                 try {
                     // Use a portion of training data for validation (holdout validation)
-                    size_t validation_size = std::max(size_t(1),static_cast<int>(data.samples.size()) / 5);
+                    size_t validation_size = std::max<size_t>(size_t(1), data.samples.size() / 5);
                     TrainingData validation_data;
                     validation_data.dataset_name = "validation_" + data.dataset_name;
                     validation_data.metadata = data.metadata;
@@ -961,7 +961,7 @@ public:
                     int correct_predictions = 0;
                     int total_predictions = 0;
                     
-                    for (const auto& sample : validation_data.samples) {
+                    for ([[maybe_unused]] const auto& sample : validation_data.samples) {
                         // Simulate forward pass on validation data
                         // In real implementation, this would use the trained model
                         // For now, we use model loss as proxy for accuracy

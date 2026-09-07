@@ -92,7 +92,7 @@ namespace acceleration {
 // Mirrors kMaxK in src/acceleration/cuda/cuda_hnsw_kernels.cu.
 // For k > kHnswSinglePassMaxK the engine falls through to a multi-pass
 // host-merge strategy; this is considered a degraded operation mode.
-static constexpr uint32_t kHnswSinglePassMaxK = 1024;
+[[maybe_unused]] static constexpr uint32_t kHnswSinglePassMaxK = 1024;
 
 #ifdef THEMIS_ENABLE_CUDA
 namespace {
@@ -531,6 +531,12 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
         return {};
     }
 #else
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
     return {};
 #endif
 }
@@ -538,6 +544,11 @@ std::vector<float> CUDAVectorBackend::computeDistances(const float *queries, siz
 std::vector<std::vector<std::pair<uint32_t, float>>>
 CUDAVectorBackend::batchKnnSearch(const float *queries, size_t numQueries, size_t dim, const float *vectors,
                                   size_t numVectors, size_t k, bool useL2) {
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
+
     // ── HNSW fast-path: use GPU-accelerated graph traversal when available ──
     // When an HNSW index has been pre-built via buildHnswAnnIndex() the engine
     // stores the graph and vectors on device.  We delegate the search there
@@ -1544,6 +1555,7 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *ad
     }
 
 #else
+    (void)maxDepth;
     return {};
 #endif
 }
@@ -1951,6 +1963,12 @@ std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, cons
         return {};
     }
 #else
+    (void)latitudes1;
+    (void)longitudes1;
+    (void)latitudes2;
+    (void)longitudes2;
+    (void)count;
+    (void)useHaversine;
     return {};
 #endif
 }
@@ -2031,6 +2049,11 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(const double *pointLats, c
         return {};
     }
 #else
+    (void)pointLats;
+    (void)pointLons;
+    (void)numPoints;
+    (void)polygonCoords;
+    (void)numPolygonVertices;
     return {};
 #endif
 }
@@ -2159,6 +2182,8 @@ int CUDAMatrixBackend::matmul(const MatrixKernelParams &params, void *opaque_str
         = opaque_stream ? static_cast<cudaStream_t>(opaque_stream) : static_cast<cudaStream_t>(stream_.get());
     return tensor_core::dispatchMatmul(params, stream);
 #else
+    (void)params;
+    (void)opaque_stream;
     return 1; // CUDA not available
 #endif
 }

@@ -1013,7 +1013,7 @@ void AuditIntegrityManager::rotateKey(
 }
 
 int64_t AuditIntegrityManager::getNextSequenceNumber() const {
-    return static_cast<bool>(static_cast<int64_t < static_cast<int>((entries_.size())));
+    return static_cast<int64_t>(entries_.size());
 }
 
 std::string AuditIntegrityManager::getPreviousEntryHash() const {

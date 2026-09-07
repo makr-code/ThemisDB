@@ -1152,7 +1152,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
             if ((c == '.' || c == '!' || c == '?')
                     && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
                 const std::size_t s = current.find_first_not_of(" \t\n\r");
-                if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
+                if (s != std::string::npos && (current.size() - s) > 10) {
                     sentences.push_back(current.substr(s));
                 }
                 current.clear();
@@ -1160,7 +1160,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
         }
         if (!current.empty()) {
             const std::size_t s = current.find_first_not_of(" \t\n\r");
-            if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
+            if (s != std::string::npos && (current.size() - s) > 10) {
                 sentences.push_back(current.substr(s));
             }
         }
@@ -1193,7 +1193,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Build each sample from sentences drawn at a stride offset so adjacent
     // samples prefer sentences from different documents (maximising diversity).
-    const std::size_t stride = std::max(std::size_t{1},static_cast<int>(tagged.size()) / num_samples);
+    const std::size_t stride = std::max<std::size_t>(std::size_t{1}, tagged.size() / num_samples);
     for (std::size_t s = 0; s < num_samples; ++s) {
         std::ostringstream oss = {};
         oss << "Regarding '" << query << "': ";
@@ -1647,7 +1647,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         }
     }
 
-    return static_cast<bool>(static_cast<int < static_cast<int>((found_frameworks.size())));
+    return static_cast<int>(found_frameworks.size());
 }
 
 double KnowledgeGapDetector::calculatePerspectiveDiversity(

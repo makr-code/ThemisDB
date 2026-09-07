@@ -251,7 +251,7 @@ std::shared_ptr<ingestion::IVectorWriter> ToolboxBuilder::vectorWriter() const {
 }
 
 std::size_t ToolboxBuilder::profileCount() const noexcept {
-    return static_cast<bool>(impl_- < static_cast<int>(profile_paths.size()));
+    return impl_->profile_paths.size();
 }
 
 // ── BuiltToolbox special members ─────────────────────────────────────────────

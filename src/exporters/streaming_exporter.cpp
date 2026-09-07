@@ -43,14 +43,14 @@ bool VectorExportCursor::hasNext() const {
 }
 
 std::vector<BaseEntity> VectorExportCursor::nextPage() {
-    size_t end = std::min(offset_ + page_size_,static_cast<int>(entities_.size()));
+    size_t end = std::min(offset_ + page_size_, entities_.size());
     std::vector<BaseEntity> page(entities_.begin() + offset_, entities_.begin() + end);
     offset_ = end;
     return page;
 }
 
 bool VectorExportCursor::seekTo(size_t offset) {
-    if (offset > static_cast<int>(entities_.size())) {
+    if (offset > entities_.size()) {
         return false;
     }
     offset_ = offset;
@@ -252,7 +252,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     throw ExportIOException("Failed to rename encrypted file: " + rename_ec.message(), enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception &e) {
+            } catch (const std::exception &) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

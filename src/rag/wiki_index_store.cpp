@@ -244,7 +244,7 @@ struct WikiIndexStore::Impl {
         for (const auto& [id, text] : docs) {
             total += static_cast<float>(tokenise(text).size());
         }
-        return static_cast<bool>(total / static_cast<float < static_cast<int>((docs.size())));
+        return total / static_cast<float>(docs.size());
     }
 
     // ─── [W8-18] HNSW backend — hnswlib wired under THEMIS_HNSW_ENABLED ──────
@@ -430,7 +430,7 @@ void WikiIndexStore::addDocument(const std::string& doc_id,
     impl_->docs[doc_id] = text;
     impl_->rebuildIDF();
     impl_->rebuildPositionalIndex();
-    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_-> static_cast<int>(docs.size()));
+    THEMIS_DEBUG("WikiIndexStore: indexed doc '{}' ({} total)", doc_id, impl_->docs.size());
 }
 
 std::vector<IndexResult> WikiIndexStore::searchBM25(
@@ -442,7 +442,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     const float avg_len = impl_->computeAvgDocLen();
     std::vector<IndexResult> results = {};
 
-    results.reserve(impl_-> static_cast<int>(docs.size()));
+    results.reserve(impl_->docs.size());
 
     for (const auto& [doc_id, text] : impl_->docs) {
         const float score = bm25PlusScore(query_terms, text, avg_len, impl_->idf_cache);
@@ -450,7 +450,7 @@ std::vector<IndexResult> WikiIndexStore::searchBM25(
     }
 
     // Partial sort: only the top_k highest scores needed.
-    const size_t k = std::min(top_k,static_cast<int>(results.size()));
+    const size_t k = std::min(top_k, results.size());
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -610,7 +610,7 @@ std::vector<IndexResult> WikiIndexStore::searchPhrase(
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k,static_cast<int>(results.size()));
+    const size_t k = std::min(top_k, results.size());
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -692,7 +692,7 @@ std::vector<IndexResult> WikiIndexStore::searchProximity(
         results.push_back(IndexResult{doc_id, score});
     }
 
-    const size_t k = std::min(top_k,static_cast<int>(results.size()));
+    const size_t k = std::min(top_k, results.size());
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -837,11 +837,11 @@ std::vector<IndexResult> WikiIndexStore::searchHNSW(
         THEMIS_WARN("WikiIndexStore::searchHNSW[fallback]: no vectors indexed");
         return {};
     }
-    results.reserve(impl_-> static_cast<int>(hnsw_vectors_fallback.size()));
+    results.reserve(impl_->hnsw_vectors_fallback.size());
     for (const auto& [id, vec] : impl_->hnsw_vectors_fallback) {
         results.push_back(IndexResult{id, Impl::cosineSim(q_unit, vec)});
     }
-    const size_t k = std::min(top_k,static_cast<int>(results.size()));
+    const size_t k = std::min(top_k, results.size());
     std::partial_sort(results.begin(),
                       results.begin() + static_cast<std::ptrdiff_t>(k),
                       results.end(),
@@ -998,7 +998,7 @@ void WikiIndexStore::clear() {
 
 size_t WikiIndexStore::size() const {
     std::lock_guard<std::mutex> lk(impl_->idx_mutex); // Thread-safety: protected by idx_mutex (Wave 5)
-    return static_cast<bool>(impl_- < static_cast<int>(docs.size()));
+    return impl_->docs.size();
 }
 
 } // namespace themis::rag

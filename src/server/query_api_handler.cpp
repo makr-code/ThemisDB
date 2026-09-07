@@ -907,7 +907,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out = {};
 
             // Reserve based on expected join cardinality (smaller input set)
-            out.reserve(std::min(leftVec.size(),static_cast<int>(rightVec.size())));
+            out.reserve(std::min(leftVec.size(), rightVec.size()));
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (static_cast<int>(out.size()) > off) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
@@ -1136,7 +1136,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 // Funktionsnamen case-insensitiv vergleichen
                 std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 auto getArgLit = [&](size_t idx, nlohmann::json& argOut)->bool{
-                    if (idx >= fc-> static_cast<int>(arguments.size())) {
+                    if (idx >= fc->arguments.size()) {
                       return false;
                     }
                     return evalExprToLiteral(fc->arguments[idx], argOut);
@@ -1517,7 +1517,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string fname = fe->name; std::transform(fname.begin(), fname.end(), fname.begin(), ::tolower);
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
-                        if (fe-> static_cast<int>(arguments.size()) != 2) {
+                        if (fe->arguments.size() != 2) {
                           return false;
                         }
                         const auto& path_args = fe->arguments;
@@ -1535,7 +1535,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (cur.empty()) {
                             // Empty path: PATH.ALL & PATH.NONE -> true, PATH.ANY -> false
                             if (fname == "path.any") {
-                              return false; else return true;
+                              return false;
+                            } else {
+                              return true;
                             }
                         }
                         // Walk back using parent map if available.
@@ -1885,7 +1887,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                                 return; // ignore further
                                             }
                                             if (rvL == var1) {
-                                              joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL);
+                                              joinCols = std::make_pair(colL, colR);
+                                            } else {
+                                              joinCols = std::make_pair(colR, colL);
                                             }
                                             return;
                                         }
@@ -2014,7 +2018,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& l = it->second;
                                     if (retVar == var1) {
-                                      out.push_back(l); else out.push_back(e);
+                                      out.push_back(l);
+                                    } else {
+                                      out.push_back(e);
                                     }
                                 }
                             }
@@ -2025,7 +2031,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& r = it->second;
                                     if (retVar == var1) {
-                                      out.push_back(e); else out.push_back(r);
+                                      out.push_back(e);
+                                    } else {
+                                      out.push_back(r);
                                     }
                                 }
                             }
@@ -3062,7 +3070,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto ita = fulltextScoreByPk.find(a.getPrimaryKey()); if (ita != fulltextScoreByPk.end()) sa = ita->second;
                 auto itb = fulltextScoreByPk.find(b.getPrimaryKey()); if (itb != fulltextScoreByPk.end()) sb = itb->second;
                 if (sortAsc) {
-                  return sa < sb; else return sa > sb;
+                  return sa < sb;
+                } else {
+                  return sa > sb;
                 }
             });
         }
@@ -3507,7 +3517,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
-                        if (fc-> static_cast<int>(arguments.size()) != 1) {
+                        if (fc->arguments.size() != 1) {
                           return 0.0;
                         }
                         auto arg = evalExpr(fc->arguments.front(), ent, env);
@@ -3520,7 +3530,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (!pk.empty()) {
                                 auto it = fulltextScoreByPk.find(pk);
                                 if (it != fulltextScoreByPk.end()) {
-                                  return it->second; else return 0.0;
+                                  return it->second;
+                                } else {
+                                  return 0.0;
                                 }
                             }
                         }
@@ -3531,7 +3543,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto it = fulltextScoreByPk.find(ent.getPrimaryKey());
                         if (it != fulltextScoreByPk.end()) return it->second; else return 0.0; // default 0.0 when not present
                     }
-                    auto evalArg = [&](size_t i)->nlohmann::json{ return static_cast<bool>((i<fc- < static_cast<int>(arguments.size()))) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
+                    auto evalArg = [&](size_t i)->nlohmann::json{ return (i < fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out = {};
                         for (const auto& arg : fc->arguments) {
@@ -3573,13 +3585,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (name == "length") {
                         auto s = evalArg(0);
                         if (s.is_string()) {
-                          return static_cast<bool>(static_cast<int64_t>(s.get<std::string < static_cast<int>(().size())));
+                          return static_cast<int64_t>(s.get<std::string>().size());
                         }
                         if (s.is_array()) {
-                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
+                          return static_cast<int64_t>(s.size());
                         }
                         if (s.is_object()) {
-                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
+                          return static_cast<int64_t>(s.size());
                         }
                         return 0;
                     }

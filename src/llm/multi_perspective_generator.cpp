@@ -203,7 +203,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     
     // Cache result
     if (impl_->config.cache_perspectives) {
-        if (impl_-> static_cast<int>(cache.size()) >= impl_->config.max_cache_size) {
+        if (impl_->cache.size() >= static_cast<size_t>(impl_->config.max_cache_size)) {
             // Remove oldest entry (simplified)
             impl_->cache.erase(impl_->cache.begin());
         }
@@ -404,8 +404,8 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     }
     
     // Ensure minimum perspectives
-    while ( static_cast<int>(selected.size()) < static_cast<size_t>(impl_->config.min_perspectives) &&
-           static_cast<int>(selected.size()) < impl_-> static_cast<int>(perspectives.size())) {
+        while (selected.size() < static_cast<size_t>(impl_->config.min_perspectives) &&
+            selected.size() < impl_->perspectives.size()) {
         // Add any remaining perspective
         for (const auto& p : impl_->perspectives) {
             bool already_selected = false;
