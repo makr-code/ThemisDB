@@ -201,7 +201,7 @@ jobs:
       - name: Run Trivy vulnerability scan (SBOM output)
         uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
-          trivy-version: 0.69.3
+          trivy-version: '0.69.3'
           scan-type: 'fs'
           scan-ref: '.'
           format: 'cyclonedx'
@@ -399,7 +399,7 @@ jobs:
         # Non-fatal: produces a SARIF report but does not block the build.
         uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
-          trivy-version: 0.69.3
+          trivy-version: '0.69.3'
           scan-type: 'fs'
           scan-ref: 'vcpkg.json'
           format: 'sarif'
