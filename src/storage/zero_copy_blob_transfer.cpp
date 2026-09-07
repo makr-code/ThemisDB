@@ -265,6 +265,9 @@ MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
     // hint unused on non-POSIX platforms
     // Non-POSIX: fall back to reading the file into a heap buffer.
     // The "zero-copy" goal is not met, but correctness is preserved.
+    if (sequential_hint) {
+        THEMIS_DEBUG("MmapBlobView: sequential_hint requested for '{}' but ignored on this platform", file_path);
+    }
     try {
         std::ifstream ifs(file_path, std::ios::binary | std::ios::ate);
         if (!ifs) {
@@ -795,8 +798,9 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
 #else // !THEMIS_ZERO_COPY_S3_AVAILABLE
     return Err<ZeroCopyTransferStats>(
         errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-        "s3MultipartUpload: AWS SDK not available; "
-        "rebuild with THEMIS_ENABLE_S3=ON");
+    "s3MultipartUpload: AWS SDK not available for bucket='" + bucket +
+    "', key='" + s3_key + "', blob='" + blob_id +
+    "', source='" + source_path + "'; rebuild with THEMIS_ENABLE_S3=ON");
 #endif
 }
 

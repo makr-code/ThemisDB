@@ -780,7 +780,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchAppleANE(AiInferenceRequest &req
 #endif
 }
 
-AiInferenceResult AiHardwareDispatcher::dispatchIntelNPU(AiInferenceRequest &req) {
+AiInferenceResult AiHardwareDispatcher::dispatchIntelNPU([[maybe_unused]] AiInferenceRequest &req) {
 #if defined(THEMIS_HAS_NPU_INTEL) && defined(THEMIS_OPENVINO_AVAILABLE)
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NPU_INTEL, "Invalid input: null or empty");
@@ -826,7 +826,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchIntelNPU(AiInferenceRequest &req
 #endif
 }
 
-AiInferenceResult AiHardwareDispatcher::dispatchQualcommQNN(AiInferenceRequest &req) {
+AiInferenceResult AiHardwareDispatcher::dispatchQualcommQNN([[maybe_unused]] AiInferenceRequest &req) {
 #if defined(THEMIS_HAS_NPU_QUALCOMM) && defined(THEMIS_QNN_AVAILABLE)
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NPU_QUALCOMM, "Invalid input: null or empty");
@@ -847,7 +847,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchQualcommQNN(AiInferenceRequest &
 #endif
 }
 
-AiInferenceResult AiHardwareDispatcher::dispatchArmEthos(AiInferenceRequest &req) {
+AiInferenceResult AiHardwareDispatcher::dispatchArmEthos([[maybe_unused]] AiInferenceRequest &req) {
 #if defined(THEMIS_HAS_NPU_ARM)
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NPU_ARM, "Invalid input: null or empty");
@@ -865,7 +865,7 @@ AiInferenceResult AiHardwareDispatcher::dispatchArmEthos(AiInferenceRequest &req
 #endif
 }
 
-AiInferenceResult AiHardwareDispatcher::dispatchNNAPI(AiInferenceRequest &req) {
+AiInferenceResult AiHardwareDispatcher::dispatchNNAPI([[maybe_unused]] AiInferenceRequest &req) {
 #if defined(THEMIS_HAS_NNAPI)
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NNAPI, "Invalid input: null or empty");

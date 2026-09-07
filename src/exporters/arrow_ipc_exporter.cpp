@@ -930,7 +930,6 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     }
 
     // Schema message frame
-    int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
     // frame size: 4 (continuation) + 4 (meta_size) + static_cast<int>(schema_msg.size()) 
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());

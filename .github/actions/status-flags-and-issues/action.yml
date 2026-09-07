@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Status Flags and Issues Interface'
 description: |
   Unified interface for workflow status labels and issue lifecycle operations.
@@ -409,3 +410,4 @@ runs:
 
           core.setFailed(`status-flags-and-issues: unsupported operation '${op}'`);
           setOutputs();
+

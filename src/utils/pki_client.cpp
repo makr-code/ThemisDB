@@ -525,7 +525,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     res.algorithm = cfg_.signature_algorithm.empty() ? std::string("RSA-SHA256") : cfg_.signature_algorithm;
 
     size_t expected_len = 0;
-    int nid = nid_for_algorithm(res.algorithm, expected_len);
+    (void)nid_for_algorithm(res.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST signing first
     if (!cfg_.endpoint.empty()) {
@@ -759,7 +759,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     }
 
     size_t expected_len = 0;
-    int nid = nid_for_algorithm(sig.algorithm, expected_len);
+        (void)nid_for_algorithm(sig.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST verify first
     if (!cfg_.endpoint.empty()) {
@@ -864,7 +864,6 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         if (pub_result) {
             EVP_PKEY* pub = *pub_result;
             // Use EVP_PKEY verification instead of deprecated RSA_verify
-            int max_sig_len = EVP_PKEY_size(pub);
             auto sig_bytes = base64_decode(sig.signature_b64);
             EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub, nullptr);
             if (ctx) {

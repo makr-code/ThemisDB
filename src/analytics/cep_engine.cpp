@@ -49,6 +49,10 @@
 
 #include "analytics/detail/stats.h"
 
+#ifdef OPTIONAL
+#undef OPTIONAL
+#endif
+
 namespace themisdb {
 namespace analytics {
 
@@ -57,27 +61,6 @@ namespace analytics {
 // ============================================================================
 
 namespace {
-
-// ============================================================================
-// Float Comparison Helper (HIGH: epsilon-safe comparison, NaN handling)
-// ============================================================================
-
-/** IEEE-754 safe epsilon comparison for doubles.
- *  Handles NaN, infinity, and denormal numbers correctly.
- *  Used throughout for aggregation (MIN/MAX), filter evaluation, and comparisons.
- */
-inline bool isClose(double a, double b, double epsilon = 1e-9) {
-    // Handle NaN cases
-    if (std::isnan(a) || std::isnan(b)) {
-        return false; // NaN != NaN
-    }
-    // Handle infinity cases
-    if (std::isinf(a) || std::isinf(b)) {
-        return a == b; // -inf == -inf, +inf == +inf, but -inf != +inf
-    }
-    // Standard epsilon comparison for finite values
-    return std::abs(a - b) <= epsilon;
-}
 
 /** Generate a UUID-like string for IDs */
 std::string generateId() {
@@ -190,7 +173,7 @@ struct Token {
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(expr.size())) {
+    while (i < expr.size()) {
         char c = expr[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             ++i;
@@ -241,7 +224,7 @@ std::vector<Token> tokenize(const std::string &expr) {
                 ++i;
             }
             tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
-            if (static_cast<int>(expr.size()) > i) {
+            if (expr.size() > i) {
                 ++i;
             }
         } else if (c == '(') {
@@ -592,7 +575,7 @@ EventStream::PushResult EventStream::push(Event event) {
 }
 
 std::optional<Event> EventStream::pull(uint32_t partition_id) {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -608,7 +591,7 @@ std::optional<Event> EventStream::pull(uint32_t partition_id) {
 }
 
 std::optional<Event> EventStream::peek(uint32_t partition_id) const {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -620,7 +603,7 @@ std::optional<Event> EventStream::peek(uint32_t partition_id) const {
 }
 
 float EventStream::getFillLevel(uint32_t partition_id) const {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return 0.0f;
     }
     size_t max_pp = config_.buffer_size / partitions_.size();
@@ -689,7 +672,7 @@ void PatternMatcher::buildNFA() {
         NFAState s;
         s.state_id            = i;
         s.expected_event_type = ev_types[i];
-        s.is_accepting        = (i + 1 == static_cast<int>(ev_types.size()));
+        s.is_accepting        = (i + 1 == ev_types.size());
         if (i + 1 < ev_types.size()) {
             s.transitions.push_back(i + 1);
         }
@@ -971,7 +954,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
             active.push_back(std::move(newpm));
         }
         // OPTIONAL: also complete immediately with single event if 0 min
-        if (config_.type == PatternType::OPTIONAL && config_.min_occurrences == 0) {
+        if (config_.type == static_cast<PatternType>(7) && config_.min_occurrences == 0) {
             PatternMatch result;
             result.pattern_id = config_.pattern_id;
             result.match_time = std::chrono::system_clock::now();
@@ -1281,7 +1264,7 @@ void WindowManager::handleCountWindow(const Event &event) {
         Window &current = windows_.back();
         current.events.push_back(event);
         current.end = event.timestamp;
-        if (config_.count > 0 && static_cast<int>(current.events.size()) >= config_.count) {
+        if (config_.count > 0 && current.events.size() >= static_cast<size_t>(config_.count)) {
             batch = closeWindow(current);
             Window nw;
             nw.start = event.timestamp;
@@ -1651,7 +1634,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
-                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) <static_cast<int>(group_by_fields_.size())) {
+                    while (std::getline(iss, token, '|') && fi < group_by_fields_.size()) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
                     }
                 }
@@ -2692,7 +2675,7 @@ std::vector<Alert> CEPEngine::getAlerts(size_t limit, bool unacknowledged_only) 
     std::vector<Alert> result = {};
 
     result.reserve(std::min(limit, alerts_.size()));
-    for (auto it = alerts_.rbegin(); it != alerts_.rend() && static_cast<int>(result.size()) < limit; ++it) {
+    for (auto it = alerts_.rbegin(); it != alerts_.rend() && result.size() < limit; ++it) {
         if (unacknowledged_only && it->acknowledged) {
             continue;
         }

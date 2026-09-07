@@ -11,6 +11,7 @@
 
 
 #include "server/smart_routing.h"
+#include "utils/logger.h"
 
 #include <spdlog/spdlog.h>
 
@@ -143,6 +144,7 @@ void SmartRouter::recordCacheMiss(const std::string& backend_id,
     }
 
     // key not tracked for misses (only hits drive prediction)
+    THEMIS_TRACE("SmartRouter cache miss: backend='{}', resource='{}'", backend_id, resource_key);
     it->second.cache_misses++;
 }
 

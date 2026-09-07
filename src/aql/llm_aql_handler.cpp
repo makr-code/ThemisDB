@@ -171,7 +171,7 @@ std::string buildChatOriginalQuery(const std::vector<llm::ChatMessage>& messages
  */
 void sanitizePromptInput(const std::string &input, const std::string &field_name, std::size_t max_length = 0) {
     // --- Length check ---
-    if (max_length > 0 && static_cast<int>(input.size()) > max_length) {
+    if (max_length > 0 && input.size() > max_length) {
         throw LLMException(LLMErrorCode::PROMPT_TOO_LONG, field_name + " exceeds maximum allowed length of "
                                                               + std::to_string(max_length) + " characters");
     }
@@ -273,7 +273,7 @@ std::string makeSafeValidationFeedback(const std::string& raw_feedback, std::siz
     }
 
     std::string bounded = raw_feedback;
-    if (max_length > 0 && static_cast<int>(bounded.size()) > max_length) {
+    if (max_length > 0 && bounded.size() > max_length) {
         bounded.resize(max_length);
     }
 
@@ -1652,7 +1652,7 @@ static std::pair<bool, std::string> validateAQLWithParser(
             // Add suggestions for LLM retry feedback
             if (!parse_result.diagnostics.suggestions.empty()) {
                 error_msg += ". Suggestions: ";
-                for (size_t i = 0; i <static_cast<int>(parse_result.diagnostics.suggestions.size()) && i < 2; ++i) {
+                for (std::size_t i = 0; i < parse_result.diagnostics.suggestions.size() && i < 2U; ++i) {
                     if (i > 0) {
                       error_msg += "; ";
                     }
@@ -1716,7 +1716,7 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
 
     constexpr std::size_t MAX_PREVIEW = 100;
     std::string preview
-        = static_cast<int>(query_preview.size()) > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
+        = query_preview.size() > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
 
     std::ostringstream warn_msg = {};
     warn_msg << function_name << " produced " <<static_cast<int>(annotations.size()) << " potential syntax issue(s) for query \""
@@ -1975,6 +1975,7 @@ std::string LLMAQLHandler::translateNLToAQLStreaming(const std::string &nl_query
 std::vector<LLMAQLHandler::BatchNLToAQLResult>
 LLMAQLHandler::translateBatchNLToAQL(const std::vector<BatchNLToAQLRequest> &requests,
                                      std::size_t max_concurrent_requests) {
+    (void)max_concurrent_requests;
     std::vector<BatchNLToAQLResult> results = {};
 
     results.reserve(requests.size());
@@ -2010,6 +2011,7 @@ LLMAQLHandler::translateBatchNLToAQLAsync(std::vector<BatchNLToAQLRequest> reque
 std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &messages,
                                        const std::string &model_id,
                                        const std::unordered_map<std::string, std::string> &options) {
+    (void)model_id;
     try {
         const std::string original_query = buildChatOriginalQuery(messages);
         // If a test/mock executor has been injected, use it instead of the live LLM.

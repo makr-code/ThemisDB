@@ -13,6 +13,7 @@
 
 using json = nlohmann::json;
 
+#if 0
 namespace themis::llm {
 
 InMemorySSMStateStore::InMemorySSMStateStore(size_t max_snapshots_per_session)
@@ -129,4 +130,5 @@ std::string InMemorySSMStateStore::getStats() const {
 }
 
 }  // namespace themis::llm
+#endif
 

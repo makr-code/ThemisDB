@@ -539,6 +539,8 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
         return {};
 #endif
     case StorageBackend::LOCAL:
+        THEMIS_DEBUG("createRemoteBlobBackend: LOCAL backend requested (authority='{}', prefix='{}', cfg={})",
+                     location.authority, location.prefix, config.size());
         return {};
     }
 
@@ -981,6 +983,8 @@ Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::
                                          uint64_t min_sequence) {
     namespace fs = std::filesystem;
     try {
+        THEMIS_DEBUG("copyWALFiles: source='{}', dest='{}', min_sequence={} (filename-level filtering currently not available)",
+                     src_dir, dest_dir, min_sequence);
         std::error_code ec = {};
         fs::create_directories(dest_dir, ec);
         if (ec) {
@@ -1033,7 +1037,8 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
         std::error_code ec = {};
         fs::create_directories(backup_dir, ec);
         if (ec) {
-            THEMIS_ERROR("Failed to create backup directory: {}", ec.message());
+            THEMIS_ERROR("Failed to create backup directory: src='{}', dest='{}'; {}", 
+                         db_wrapper_->getConfig().db_path, backup_dir.string(), ec.message());
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
                                    "Failed to create backup directory: " + ec.message());
         }
@@ -1051,7 +1056,8 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
         auto db_path = db_wrapper_->getConfig().db_path;
         auto wal_result = copyWALFiles(db_path, wal_dir.string(), 0);
         if (!wal_result) {
-            THEMIS_ERROR("Failed to copy WAL files");
+            THEMIS_ERROR("Failed to copy WAL files: src='{}', dest='{}'; {}", 
+                         db_path, wal_dir.string(), wal_result.error().message());
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_CREATION_FAILED, 
                                    "Failed to copy WAL files: " + wal_result.error().message());
         }
@@ -1090,14 +1096,45 @@ bool BackupManager::createFullBackup(const std::string& dest_dir,
                                      const BackupOptions& options) {
     // Call the Result-based version and convert to bool + error_code
     auto result = createFullBackup(dest_dir);
-    if (result) {
-        ec.clear();
-        return true;
-    } else {
+    if (!result) {
         // Convert themis::Error to std::error_code (generic error)
         ec = std::make_error_code(std::errc::io_error);
         return false;
     }
+
+    const std::string backup_path = result.value();
+
+    // Optional verification is part of the legacy bool+error_code API contract.
+    if (options.verify_after_backup) {
+        auto verify_result = verifyBackup(backup_path);
+        if (!verify_result) {
+            THEMIS_ERROR("createFullBackup(options): verification failed for '{}': {}",
+                         backup_path, verify_result.error().message());
+            ec = std::make_error_code(std::errc::io_error);
+            return false;
+        }
+    }
+
+    if (options.storage != StorageBackend::LOCAL) {
+        auto upload_result = uploadToCloud(backup_path, options.storage_path,
+                                           options.storage, options.cloud_config);
+        if (!upload_result.has_value()) {
+            THEMIS_WARN("createFullBackup(options): cloud upload failed for '{}': {}",
+                        backup_path, upload_result.error().message());
+        }
+    }
+
+    if (options.retention_days > 0) {
+        std::error_code retention_ec = {};
+        applyRetentionPolicy(dest_dir, options.retention_days, retention_ec);
+        if (retention_ec) {
+            THEMIS_WARN("createFullBackup(options): retention policy warning for '{}': {}",
+                        dest_dir, retention_ec.message());
+        }
+    }
+
+    ec.clear();
+    return true;
 }
 
 Result<std::string> BackupManager::createIncrementalBackup(const std::string& dest_dir) {
@@ -1202,7 +1239,8 @@ bool BackupManager::createDifferentialBackup(const std::string& dest_dir, std::e
         auto db_path = db_wrapper_->getConfig().db_path;
         auto wal_result = copyWALFiles(db_path, wal_dir.string(), min_sequence);
         if (!wal_result) {
-            THEMIS_ERROR("Failed to copy differential WAL files");
+            THEMIS_ERROR("Failed to copy differential WAL files: src='{}', dest='{}'; {}", 
+                         db_path, wal_dir.string(), wal_result.error().message());
             return false;
         }
         
@@ -1978,9 +2016,12 @@ bool BackupManager::compressPath(const std::string& src_path,
     // No compression library available — fail closed; do not silently copy uncompressed data.
     ec = std::make_error_code(std::errc::function_not_supported);
     THEMIS_ERROR("BackupManager::compressPath: compression library unavailable — "
+                 "src='{}', dest='{}'. "
                  "cannot produce compressed backup (THEMIS_HAS_ZSTD / THEMIS_HAS_LZ4 not set). "
                  "Build with -DTHEMIS_HAS_ZSTD=ON or -DTHEMIS_HAS_LZ4=ON for compressed backups. "
-                 "Aborting backup run.");
+                 "Aborting backup run.",
+                 src_path,
+                 dest_path);
     return false;
 #endif
 }
@@ -2128,6 +2169,10 @@ bool BackupManager::decompressPath(const std::string& src_path,
                      "(type={}); refusing raw-byte copy to avoid corrupted restore output",
                      static_cast<int>(type));
     });
+    THEMIS_ERROR("BackupManager::decompressPath: cannot process src='{}' to dest='{}' "
+                 "without zstd/lz4 support",
+                 src_path,
+                 dest_path);
     ec = std::make_error_code(std::errc::function_not_supported);
     return false;
 #endif
@@ -2217,7 +2262,9 @@ bool BackupManager::encryptFile(const std::string& src_path,
     static_cast<void>(key);
     ec = std::make_error_code(std::errc::function_not_supported);
     THEMIS_ERROR("BackupManager::encryptFile: OpenSSL not available — "
-                 "cannot produce encrypted backup. Aborting.");
+                 "src='{}', dest='{}'; cannot produce encrypted backup. Aborting.",
+                 src_path,
+                 dest_path);
     return false;
 #endif
 }
@@ -2313,8 +2360,11 @@ bool BackupManager::decryptFile(const std::string& src_path,
 #else
     static_cast<void>(key);
     static std::once_flag s_decrypt_warn;
-    std::call_once(s_decrypt_warn, [] {
-        THEMIS_ERROR("BackupManager::decryptFile: OpenSSL support is absent; refusing ciphertext passthrough restore");
+    std::call_once(s_decrypt_warn, [&src_path, &dest_path] {
+        THEMIS_ERROR("BackupManager::decryptFile: OpenSSL support is absent; "
+                     "src='{}', dest='{}'; refusing ciphertext passthrough restore",
+                     src_path,
+                     dest_path);
     });
     ec = std::make_error_code(std::errc::function_not_supported);
     return false;

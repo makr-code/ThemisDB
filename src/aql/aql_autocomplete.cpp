@@ -383,6 +383,8 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(const std:
 
 std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(const std::string &text,
                                                                std::size_t cursor) const {
+    (void)text;
+    (void)cursor;
     std::vector<CompletionItem> items;
 
     // Always offer clause-level keywords

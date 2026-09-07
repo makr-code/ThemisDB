@@ -77,8 +77,8 @@ using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::stri
 
 // Constants for float comparisons and retry logic
 constexpr double EPSILON = 1e-9;
-constexpr int MAX_RETRIES = 3;
-constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
+[[maybe_unused]] constexpr int MAX_RETRIES = 3;
+[[maybe_unused]] constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
 
 /**
  * Safe float comparison with epsilon tolerance.

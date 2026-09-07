@@ -15,7 +15,16 @@
 #include "server/import_wizard_builder.h"
 #include "utils/logger.h"
 
+#if __has_include(<httplib.h>)
 #include <httplib.h>
+#elif __has_include("../../stable-diffusion.cpp/thirdparty/httplib.h")
+#include "../../stable-diffusion.cpp/thirdparty/httplib.h"
+#elif __has_include("../../whisper.cpp/examples/server/httplib.h")
+#include "../../whisper.cpp/examples/server/httplib.h"
+#else
+#error "cpp-httplib header not found. Install cpp-httplib or provide vendored httplib.h"
+#endif
+
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>

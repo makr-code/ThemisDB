@@ -25,7 +25,7 @@
  * @see docs/adr/adr-e2-005-cross-layer-fallback-confidence-policy.md
  */
 
-#include "query_planner.h"
+#include "../include/query_planner.h"
 
 #include <algorithm>
 #include <chrono>

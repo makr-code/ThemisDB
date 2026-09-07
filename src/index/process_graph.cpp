@@ -3415,7 +3415,7 @@ ProcessGraphManager::Status ProcessGraphManager::createToken_(
 }
 
 ProcessGraphManager::Status ProcessGraphManager::moveToken_(
-    ProcessInstance& instance,
+    ProcessInstance& /*instance*/,
     ProcessToken& token,
     std::string_view target_node
 ) {
@@ -3430,6 +3430,8 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
     const ProcessToken& token,
     const std::vector<ProcessEdgeInfo>& outgoing_edges
 ) const {
+    (void)gateway;
+    (void)token;
     
     std::vector<std::string> targets = {};
 

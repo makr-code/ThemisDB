@@ -20,6 +20,16 @@ name: "Release: WinGet"
 #   - Checksums and SBOM artifacts
 
 on:
+  workflow_call:
+    inputs:
+      version:
+        description: "Version to submit to WinGet (e.g., 2.4.0)"
+        required: true
+        type: string
+      release-url:
+        description: "GitHub Release URL (for context)"
+        required: false
+        type: string
   release:
     types: [published]
   workflow_dispatch:
@@ -63,7 +73,14 @@ jobs:
           IS_STABLE="false"
           SHOULD_SUBMIT="false"
           
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+            # Reusable workflow trigger
+            VERSION="${{ inputs.version }}"
+            RELEASE_TYPE="stable"
+            IS_STABLE="true"
+            SHOULD_SUBMIT="true"
+
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             # Manual trigger
             VERSION="${{ github.event.inputs.version }}"
             RELEASE_TYPE="stable"
@@ -92,10 +109,12 @@ jobs:
             fi
           fi
           
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
-          echo "is-stable=$IS_STABLE" >> "$GITHUB_OUTPUT"
-          echo "should-submit=$SHOULD_SUBMIT" >> "$GITHUB_OUTPUT"
+          {
+            echo "version=$VERSION"
+            echo "release-type=$RELEASE_TYPE"
+            echo "is-stable=$IS_STABLE"
+            echo "should-submit=$SHOULD_SUBMIT"
+          } >> "$GITHUB_OUTPUT"
           
           echo "::notice::Release Detection:"
           echo "  Version: $VERSION"
@@ -311,7 +330,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       needs.generate-manifests.outputs.manifest-dir != '' &&
-      github.event_name != 'workflow_dispatch'  # Only auto-submit for release events
+      github.event_name != 'workflow_dispatch'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

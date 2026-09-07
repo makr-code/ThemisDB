@@ -214,8 +214,8 @@ IdentificationResult VoiceBiometricAuthenticator::identify_speaker(
               [](const SpeakerMatch& a, const SpeakerMatch& b) {
                   return a.match_score > b.match_score;
               });
-    for (size_t i = 0; i < static_cast<int>(result.matches.size()); ++i) {
-        result.matches[static_cast<size_t>(i)].rank = i + 1;
+    for (size_t i = 0; i < result.matches.size(); ++i) {
+        result.matches[i].rank = static_cast<int>(i + 1);
     }
 
     if (!result.matches.empty()) {

@@ -253,7 +253,7 @@ const std::vector<BackendType> &BackendRegistry::getFallbackOrder() noexcept {
 // plus the base IComputeBackend (for selectBackendFor).  The primary template
 // returns nullptr so that an unknown T compiles but produces no result.
 template <typename T> static T *getTypedPtr(const RegisteredBackend &) noexcept = delete;
-template <> IComputeBackend *getTypedPtr<IComputeBackend>(const RegisteredBackend &rb) noexcept {
+template <> [[maybe_unused]] IComputeBackend *getTypedPtr<IComputeBackend>(const RegisteredBackend &rb) noexcept {
     return rb.base;
 }
 template <> IVectorBackend *getTypedPtr<IVectorBackend>(const RegisteredBackend &rb) noexcept {

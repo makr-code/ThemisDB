@@ -625,7 +625,8 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);
         std::string line = {};
-        while (std::getline(ss, line) && (int)static_cast<int>(suggestions.size()) < max_suggestions) {
+         while (std::getline(ss, line)
+             && suggestions.size() < static_cast<std::size_t>(max_suggestions)) {
             // Trim leading/trailing whitespace
             auto start = line.find_first_not_of(" \t\r\n");
             auto end   = line.find_last_not_of(" \t\r\n");
@@ -636,7 +637,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
             // (unvalidated LLM output guard: AQL clause snippets should be short).
             static constexpr std::size_t kMaxSuggestionBytes = 256;
             if (!line.empty() && line.find("```") == std::string::npos
-                    && static_cast<int>(line.size()) <= kMaxSuggestionBytes) {
+                    && line.size() <= kMaxSuggestionBytes) {
                 suggestions.push_back(line);
             }
         }

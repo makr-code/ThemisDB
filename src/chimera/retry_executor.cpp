@@ -42,7 +42,7 @@ bool RetryExecutor::should_retry(
     const Result<bool>& result,
     const RetryPolicy& policy
 ) noexcept {
-    if (result) {
+    if (result.is_ok()) {
         // Success; no retry needed.
         return false;
     }

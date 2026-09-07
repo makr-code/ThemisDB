@@ -311,6 +311,7 @@ bool TokenBucketRateLimiter::redisConnect() {
     redis_healthy_.store(false, std::memory_order_release);
     return false;
 #else
+    THEMIS_DEBUG("TokenBucketRateLimiter::redisConnect fallback (Redis disabled)");
     return false;
 #endif
 }

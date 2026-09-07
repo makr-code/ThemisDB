@@ -133,7 +133,7 @@ Status InfiniAttentionVulkan::initialize() {
     // Load and compile shaders (placeholder)
     VkShaderModule shader = loadShaderModule("vulkan/spirv/infini_attention.spv");
     if (!shader) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     // Create compute pipeline
@@ -195,7 +195,7 @@ Status InfiniAttentionVulkan::backward(
     Tensor& dK,
     Tensor& dV) {
     // Phase 2.2: Gradient computation deferred
-    return Status::NOT_IMPLEMENTED;
+    return Status::ERROR_NOT_IMPLEMENTED;
 }
 
 AttentionMemoryStats InfiniAttentionVulkan::getMemoryStats() const {
@@ -204,7 +204,6 @@ AttentionMemoryStats InfiniAttentionVulkan::getMemoryStats() const {
         config_.memory_dim * config_.memory_dim * sizeof(float) +
         config_.memory_dim * config_.memory_dim * sizeof(float) +
         config_.memory_dim * sizeof(float);
-    stats.peak_memory_bytes = stats.total_memory_bytes;
     return stats;
 }
 
@@ -243,7 +242,7 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     create_info.pApplicationInfo = &app_info;
 
     if (vkCreateInstance(&create_info, nullptr, &vulkan_instance_) != VK_SUCCESS) {
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Enumerate physical devices
@@ -251,13 +250,13 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     if (vkEnumeratePhysicalDevices(vulkan_instance_, &gpu_count, nullptr) != VK_SUCCESS) {
         vkDestroyInstance(vulkan_instance_, nullptr);
         vulkan_instance_ = VK_NULL_HANDLE;
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     if (gpu_count == 0) {
         vkDestroyInstance(vulkan_instance_, nullptr);
         vulkan_instance_ = VK_NULL_HANDLE;
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     std::vector<VkPhysicalDevice> physical_devices(gpu_count);
@@ -290,7 +289,7 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     if (!physical_device_) {
         vkDestroyInstance(vulkan_instance_, nullptr);
         vulkan_instance_ = VK_NULL_HANDLE;
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Create logical device
@@ -309,7 +308,7 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
     if (vkCreateDevice(physical_device_, &device_create_info, nullptr, &logical_device_) != VK_SUCCESS) {
         vkDestroyInstance(vulkan_instance_, nullptr);
         vulkan_instance_ = VK_NULL_HANDLE;
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     vkGetDeviceQueue(logical_device_, 0, 0, &compute_queue_);
@@ -325,7 +324,7 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
         logical_device_ = VK_NULL_HANDLE;
         vkDestroyInstance(vulkan_instance_, nullptr);
         vulkan_instance_ = VK_NULL_HANDLE;
-        return Status::ERROR_DEVICE_NOT_FOUND;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     return Status::SUCCESS;
@@ -333,7 +332,7 @@ Status InfiniAttentionVulkan::initializeVulkanRuntime() {
 
 Status InfiniAttentionVulkan::resetMemory() {
     if (!buffer_memory_ || !logical_device_) {
-        return Status::ERROR_NOT_INITIALIZED;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Create transfer command buffer
@@ -345,7 +344,7 @@ Status InfiniAttentionVulkan::resetMemory() {
 
     VkCommandBuffer cmd_buffer = {};
     if (vkAllocateCommandBuffers(logical_device_, &alloc_info, &cmd_buffer) != VK_SUCCESS) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     // Record fill command
@@ -356,7 +355,7 @@ Status InfiniAttentionVulkan::resetMemory() {
     vkBeginCommandBuffer(cmd_buffer, &begin_info);
 
     size_t memory_bytes = config_.memory_dim * config_.memory_dim * sizeof(float);
-    vkCmdFillBuffer(cmd_buffer, buffer_memory_, memory_bytes, 0);
+    vkCmdFillBuffer(cmd_buffer, buffer_memory_, 0, memory_bytes, 0);
 
     vkEndCommandBuffer(cmd_buffer);
 
@@ -368,7 +367,7 @@ Status InfiniAttentionVulkan::resetMemory() {
 
     if (vkQueueSubmit(compute_queue_, 1, &submit_info, VK_NULL_HANDLE) != VK_SUCCESS) {
         vkFreeCommandBuffers(logical_device_, command_pool_, 1, &cmd_buffer);
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     vkQueueWaitIdle(compute_queue_);
@@ -392,12 +391,12 @@ std::vector<float> InfiniAttentionVulkan::getCompressiveMemory() const {
 
 Status InfiniAttentionVulkan::restoreCompressiveMemory(const std::vector<float>& checkpoint) {
     size_t expected_size = config_.memory_dim * config_.memory_dim;
-    if (static_cast<int>(checkpoint.size()) != expected_size) {
+        if (checkpoint.size() != expected_size) {
         throw std::invalid_argument("Checkpoint size mismatch");
     }
 
     if (!buffer_memory_) {
-        return Status::ERROR_NOT_INITIALIZED;
+        return Status::ERROR_BACKEND_NOT_AVAILABLE;
     }
 
     // Copy from host to device (simplified; production needs staging buffer)
@@ -511,9 +510,9 @@ Status InfiniAttentionVulkan::createComputePipeline(
     layout_info.bindingCount = 1;
     layout_info.pBindings = &binding;
 
-    if (vkCreateDescriptorSetLayout(logical_device_, &layout_info, nullptr, 
-        &pipeline.descriptor_set_layout) != VK_SUCCESS) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+    if (vkCreateDescriptorSetLayout(logical_device_, &layout_info, nullptr,
+           &pipeline.descriptor_set_layout) != VK_SUCCESS) {
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     // Create pipeline layout
@@ -522,10 +521,10 @@ Status InfiniAttentionVulkan::createComputePipeline(
     pipeline_layout_info.setLayoutCount = 1;
     pipeline_layout_info.pSetLayouts = &pipeline.descriptor_set_layout;
 
-    if (vkCreatePipelineLayout(logical_device_, &pipeline_layout_info, nullptr, 
-        &pipeline.layout) != VK_SUCCESS) {
+    if (vkCreatePipelineLayout(logical_device_, &pipeline_layout_info, nullptr,
+           &pipeline.layout) != VK_SUCCESS) {
         vkDestroyDescriptorSetLayout(logical_device_, pipeline.descriptor_set_layout, nullptr);
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     // Create compute pipeline
@@ -540,11 +539,11 @@ Status InfiniAttentionVulkan::createComputePipeline(
     pipeline_info.stage = shader_stage;
     pipeline_info.layout = pipeline.layout;
 
-    if (vkCreateComputePipelines(logical_device_, VK_NULL_HANDLE, 1, &pipeline_info, 
+    if (vkCreateComputePipelines(logical_device_, VK_NULL_HANDLE, 1, &pipeline_info,
         nullptr, &pipeline.pipeline) != VK_SUCCESS) {
         vkDestroyPipelineLayout(logical_device_, pipeline.layout, nullptr);
         vkDestroyDescriptorSetLayout(logical_device_, pipeline.descriptor_set_layout, nullptr);
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     pipeline.shader_module = shader_module;
@@ -566,7 +565,7 @@ Status InfiniAttentionVulkan::dispatchKernel(
 
     VkCommandBuffer cmd_buffer = {};
     if (vkAllocateCommandBuffers(logical_device_, &alloc_info, &cmd_buffer) != VK_SUCCESS) {
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+           return Status::ERROR_VULKAN_ERROR;
     }
 
     // Record dispatch command
@@ -586,8 +585,8 @@ Status InfiniAttentionVulkan::dispatchKernel(
     submit_info.pCommandBuffers = &cmd_buffer;
 
     if (vkQueueSubmit(compute_queue_, 1, &submit_info, VK_NULL_HANDLE) != VK_SUCCESS) {
-        vkFreeCommandBuffers(logical_device_, command_pool_, 1, &cmd_buffer);
-        return Status::ERROR_DEVICE_SYNC_FAILED;
+           vkFreeCommandBuffers(logical_device_, command_pool_, 1, &cmd_buffer);
+        return Status::ERROR_VULKAN_ERROR;
     }
 
     vkQueueWaitIdle(compute_queue_);

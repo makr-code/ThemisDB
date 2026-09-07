@@ -212,7 +212,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
         switch (spec.function) {
             case AggregateSpec::Function::Sum: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
+                if (col->type() == ColumnType::Double && data.size() >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             st.sum += data[i];
@@ -235,7 +235,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Min: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
+                if (col->type() == ColumnType::Double && data.size() >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] < st.min_val)
@@ -253,7 +253,7 @@ static ColumnBatch specialisedAggregateAll(const ColumnBatch &input, const std::
             }
             case AggregateSpec::Function::Max: {
                 const auto &data = col->doubleData();
-                if (col->type() == ColumnType::Double && static_cast<int>(data.size()) >= n) {
+                if (col->type() == ColumnType::Double && data.size() >= n) {
                     for (size_t i = 0; i < n; ++i) {
                         if (!col->isNull(i)) {
                             if (data[i] > st.max_val)
@@ -508,7 +508,7 @@ class JITAggregationCompiler::Impl {
 
     void compileSpecialisation(const std::string &key, const std::vector<AggregateSpec> &specs) {
         // Enforce cache capacity limit (evict LRU – here simplest: drop oldest).
-        if (static_cast<int>(cache_.size()) >= config_.max_cache_entries) {
+        if (cache_.size() >= config_.max_cache_entries) {
             auto oldest = cache_.begin();
             call_counts_.erase(oldest->first);
             cache_.erase(oldest);

@@ -18,6 +18,10 @@
 #include <ctime>
 #include <spdlog/spdlog.h>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace core {
 namespace concerns {
@@ -286,7 +290,7 @@ std::string &ZeroCopyLogger::formatBuffer() const noexcept {
 
 void ZeroCopyLogger::jsonEscapeInto(std::string &out, std::string_view s) {
     // Reserve a conservative lower bound to reduce repeated growth in hot paths.
-    out.reserve(static_cast<int>(out.size()) + static_cast<int>(s.size()) );
+    out.reserve(out.size() + s.size());
     for (unsigned char c : s) {
         switch (c) {
             case '"':
@@ -324,7 +328,7 @@ bool ZeroCopyLogger::isPiiKey(std::string_view key) noexcept {
 
     // Build a lowercase copy of the key (stack buffer for keys ≤ 128 bytes).
     char lower_buf[128]{};
-    const std::size_t n = static_cast<int>(key.size()) < sizeof(lower_buf) - 1 ?static_cast<int>(key.size()) : sizeof(lower_buf) - 1;
+    const std::size_t n = key.size() < (sizeof(lower_buf) - 1) ? key.size() : (sizeof(lower_buf) - 1);
     for (std::size_t i = 0; i < n; ++i) {
         const auto ch = static_cast<unsigned char>(key[i]);
         lower_buf[i] = static_cast<char>((ch >= 'A' && ch <= 'Z') ? (ch | 0x20) : ch);

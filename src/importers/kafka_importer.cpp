@@ -179,7 +179,7 @@ private:
 #endif // THEMIS_ENABLE_KAFKA
 
 /// Maps Kafka-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for Kafka
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {

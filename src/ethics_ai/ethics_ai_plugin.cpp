@@ -10,6 +10,10 @@
  */
 
 
+#ifndef THEMIS_PLUGIN_EXPORTS
+#define THEMIS_PLUGIN_EXPORTS
+#endif
+
 #include "ethics_ai/ethics_ai_plugin_interface.h"
 #include "philosophy_loader.h"
 #include "argument_store.h"

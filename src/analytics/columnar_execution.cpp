@@ -341,14 +341,14 @@ std::shared_ptr<Column> ColumnBatch::getColumn(const std::string &name) const {
 }
 
 std::shared_ptr<Column> ColumnBatch::getColumnAt(size_t idx) const {
-    if (idx >= static_cast<int>(columns_.size())) {
+    if (idx >= columns_.size()) {
         return nullptr;
     }
     return columns_[idx];
 }
 
 size_t ColumnBatch::columnCount() const noexcept {
-    return static_cast<int>(columns_.size());
+    return columns_.size();
 }
 
 const std::vector<std::shared_ptr<Column>> &ColumnBatch::columns() const noexcept {

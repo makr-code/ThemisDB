@@ -201,7 +201,7 @@ std::vector<double> column(const FeatureMatrix &fm, size_t col) {
 
     out.reserve(fm.rows.size());
     for (const auto &row : fm.rows) {
-        if (static_cast<int>(row.size()) > col) {
+        if (row.size() > col) {
             out.push_back(row[col]);
         }
     }
@@ -361,7 +361,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
     int node  = 0;
     int depth = 0;
-    while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
+    while (node >= 0 && static_cast<size_t>(node) < tree.nodes.size()) {
         const IFNode &n = tree.nodes[static_cast<size_t>(node)];
         if (n.split_feature < 0) {
             // leaf: add adjustment for remaining points
@@ -693,7 +693,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
+                if (neighbours.size() > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -715,7 +715,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
+                if (neighbours.size() > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -746,7 +746,7 @@ struct AnomalyDetector::Impl {
         for (const auto &tree : forest) {
             int node  = 0;
             int depth = 0;
-            while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
+            while (node >= 0 && static_cast<size_t>(node) < tree.nodes.size()) {
                 const IFNode &nd = tree.nodes[static_cast<size_t>(node)];
                 if (nd.split_feature < 0) {
                     break; // leaf
@@ -1209,7 +1209,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         ++points_seen_;
 
         window_.push_back(point);
-        while (static_cast<int>(window_.size()) > config_.window_size) {
+        while (window_.size() > config_.window_size) {
             window_.pop_front();
         }
 

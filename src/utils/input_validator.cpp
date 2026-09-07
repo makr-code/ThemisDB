@@ -25,6 +25,8 @@
 namespace themis {
 namespace utils {
 
+static constexpr size_t kMaxAqlQuerySize = 100000;  // 100 KB
+
 InputValidator::InputValidator()
     : schema_dir_() {}
 
@@ -161,14 +163,14 @@ static std::optional<std::string> validatePropertyConstraints(
         const std::string& s = value.get_ref<const std::string&>();
         if (prop.contains("minLength") && prop["minLength"].is_number_integer()) {
             auto min_len = prop["minLength"].get<size_t>();
-            if (static_cast<int>(s.size()) < min_len) {
+            if (s.size() < min_len) {
                 return "field '" + field_name + "' is shorter than minLength " +
                        std::to_string(min_len);
             }
         }
         if (prop.contains("maxLength") && prop["maxLength"].is_number_integer()) {
             auto max_len = prop["maxLength"].get<size_t>();
-            if (static_cast<int>(s.size()) > max_len) {
+            if (s.size() > max_len) {
                 return "field '" + field_name + "' exceeds maxLength " +
                        std::to_string(max_len);
             }
@@ -345,7 +347,7 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     if (q.empty()) {
       return std::string("AQL query must not be empty");
     }
-    if (static_cast<int>(q.size()) > 100000) {
+    if (q.size() > kMaxAqlQuerySize) {
       return std::string("AQL query too large (>100k)");
     }
 
@@ -386,7 +388,6 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
 // =============================================================================
 
 // Named limits used across multiple security validators
-static constexpr size_t kMaxAqlQuerySize  = 100000;  // 100 KB
 static constexpr size_t kMaxFilePathSize  =   4096;  // POSIX PATH_MAX
 static constexpr size_t kMaxFilenameSize  =    255;  // POSIX NAME_MAX
 static constexpr size_t kMaxUrlSize       =   2048;  // common browser limit
@@ -405,7 +406,7 @@ static const std::array<bool, 256>& filenameMetacharTable() {
 }
 
 bool InputValidator::validateAQLQuery(const std::string& query) const {
-    if (query.empty() || static_cast<int>(query.size()) > kMaxAqlQuerySize) {
+    if (query.empty() || query.size() > kMaxAqlQuerySize) {
       return false;
     }
 
@@ -466,7 +467,7 @@ bool InputValidator::validateAQLQuery(const std::string& query) const {
 }
 
 bool InputValidator::validateFilePath(const std::string& path) const {
-    if (path.empty() || static_cast<int>(path.size()) > kMaxFilePathSize) {
+    if (path.empty() || path.size() > kMaxFilePathSize) {
       return false;
     }
 

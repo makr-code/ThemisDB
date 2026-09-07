@@ -13,6 +13,10 @@
 #include <sstream>
 #include <iomanip>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace content {
 

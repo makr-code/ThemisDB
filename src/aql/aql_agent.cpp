@@ -125,7 +125,7 @@ class ReActAgent::Impl {
                 static constexpr std::size_t kBytesPerToken = 8;
                 const std::size_t max_response_bytes =
                     static_cast<std::size_t>(config_.max_tokens_per_step) * kBytesPerToken;
-                if (static_cast<int>(raw_response.size()) > max_response_bytes) {
+                if (raw_response.size() > max_response_bytes) {
                     spdlog::warn("[ReActAgent] LLM response ({} bytes) exceeds {} byte limit; truncating",
                                  raw_response.size(), max_response_bytes);
                     raw_response.resize(max_response_bytes);

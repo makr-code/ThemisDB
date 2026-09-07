@@ -573,7 +573,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
         OLAPResult::Row resultRow;
 
         // Add dimension values
-        for (size_t i = 0; i <static_cast<int>(query.dimensions.size()); ++i) {
+        for (size_t i = 0; i < query.dimensions.size(); ++i) {
             resultRow.values[query.dimensions[i].name] = groupKey[i];
         }
 
@@ -618,7 +618,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
 
     // Apply limit/offset
     if (query.offset && *query.offset > 0) {
-        if (static_cast<size_t>(*query.offset) <static_cast<int>(result.rows.size())) {
+        if (static_cast<size_t>(*query.offset) < result.rows.size()) {
             result.rows.erase(result.rows.begin(), result.rows.begin() + *query.offset);
         } else {
             result.rows.clear();
@@ -626,7 +626,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     }
 
     if (query.limit && *query.limit > 0) {
-        if (static_cast<size_t>(*query.limit) <static_cast<int>(result.rows.size())) {
+        if (static_cast<size_t>(*query.limit) < result.rows.size()) {
             result.has_more = true;
             result.rows.resize(*query.limit);
         }
@@ -641,7 +641,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
     // CUBE generates all possible grouping combinations
     // For n dimensions, this is 2^n grouping sets
     size_t numDimensions = query.dimensions.size();
-    size_t numCombinations = 1 << numDimensions;
+    size_t numCombinations = (std::size_t{1} << numDimensions);
 
     // Build column list
     for (const auto &dim : query.dimensions) {
@@ -659,7 +659,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         subQuery.dimensions.clear();
 
         for (size_t i = 0; i < numDimensions; ++i) {
-            if (mask & (1 << i)) {
+            if (mask & (std::size_t{1} << i)) {
                 subQuery.dimensions.push_back(query.dimensions[i]);
             }
         }
@@ -669,7 +669,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         for (auto &row : subResult.rows) {
             // Add NULL for dimensions not in this grouping
             for (size_t i = 0; i < numDimensions; ++i) {
-                if (!(mask & (1 << i))) {
+                if (!(mask & (std::size_t{1} << i))) {
                     row.values[query.dimensions[i].name] = nullptr;
                 }
             }
@@ -947,7 +947,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
 
     // Check grouping complexity
     if (query.grouping_mode == OLAPQuery::GroupingMode::Cube) {
-        size_t combinations = 1 <<static_cast<int>(query.dimensions.size());
+        size_t combinations = (std::size_t{1} << query.dimensions.size());
         plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
                                           + " grouping combinations");
         plan.estimated_cost *= combinations;
@@ -1009,7 +1009,8 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
     size_t gpu_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(impl_->config_mutex);
-        if (impl_->gpu_accelerator && static_cast<int>(values.size()) >= impl_->config.gpu_threshold_rows) {
+        if (impl_->gpu_accelerator
+            && values.size() >= static_cast<size_t>(impl_->config.gpu_threshold_rows)) {
             gpu_accel = impl_->gpu_accelerator.get();
             gpu_threshold = impl_->config.gpu_threshold_rows;
         }
@@ -1053,7 +1054,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             }
 
             auto value_fn = [](const Row &r) -> double {
-                if (static_cast<int>(r.data.size()) < sizeof(double)) {
+                if (r.data.size() < sizeof(double)) {
                     return 0.0;
                 }
                 double v = 0;
@@ -1114,10 +1115,10 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         case Measure::Function::Percentile: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
-            double rank  = percentile / 100.0 * (static_cast<int>(sorted.size()) - 1);
+            double rank  = percentile / 100.0 * static_cast<double>(sorted.size() - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
-            if (upper >= static_cast<int>(sorted.size())) {
+            if (upper >= sorted.size()) {
                 return sorted.back();
             }
             double fraction = rank - lower;
@@ -1559,7 +1560,7 @@ class MaterializedView::Impl {
                 }
             }
         }
-        double result(Measure::Function f, double pct = 0.0) const {
+        double result(Measure::Function f, [[maybe_unused]] double pct = 0.0) const {
             if (count == 0) {
                 return 0.0;
             }
@@ -1919,7 +1920,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (static_cast<int>(fs.size()) <static_cast<int>(fvs.size()) || fs.rfind(fvs) != static_cast<int>(fs.size()) - static_cast<int>(fvs.size()) ) {
+                        if (fs.size() < fvs.size() || fs.rfind(fvs) != fs.size() - fvs.size()) {
                             return false;
                         }
                         break;

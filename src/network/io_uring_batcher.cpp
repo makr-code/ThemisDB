@@ -281,6 +281,11 @@ bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
     *sq_.tail = next;
     return true;
 #else
+    THEMIS_TRACE("IoUringBatchedSender::enqueueSqe fallback (io_uring unavailable): fd={}, iov_cnt={}, user_data={}",
+                 fd, iov_cnt, user_data);
+    if (iovs == nullptr) {
+        THEMIS_TRACE("IoUringBatchedSender::enqueueSqe fallback received null iovs");
+    }
     return false;
 #endif
 }
@@ -365,6 +370,8 @@ bool IoUringBatchedSender::initRing(unsigned queue_depth) {
                 ring_fd_, params.sq_entries);
     return true;
 #else
+    THEMIS_TRACE("IoUringBatchedSender::initRing fallback (io_uring unavailable): requested depth={}",
+                 queue_depth);
     return false;
 #endif
 }

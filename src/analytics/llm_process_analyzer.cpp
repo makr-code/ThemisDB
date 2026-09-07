@@ -153,7 +153,7 @@ static std::string sanitizeUserContent(const std::string &content,
         // Build a lower-case window of up to 40 chars for comparison.
         bool injected = false;
         for (const auto &prefix : injection_prefixes) {
-            if (i + static_cast<int>(prefix.size()) > limit) {
+            if (i + prefix.size() > limit) {
                 continue;
             }
             // Case-insensitive comparison without heap allocation.
@@ -166,7 +166,7 @@ static std::string sanitizeUserContent(const std::string &content,
             }
             if (match) {
                 out += "[REDACTED_INJECTION_ATTEMPT]";
-                i += static_cast<int>(prefix.size()) - 1; // skip matched chars (loop will ++i)
+                i += prefix.size() - 1; // skip matched chars (loop will ++i)
                 injected = true;
                 spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                              "prompt injection pattern '{}' detected and redacted at offset {}",
@@ -179,7 +179,7 @@ static std::string sanitizeUserContent(const std::string &content,
         }
     }
 
-    if (static_cast<int>(content.size()) > kMaxContentBytes) {
+    if (content.size() > kMaxContentBytes) {
         spdlog::warn("LLMProcessAnalyzer::sanitizeUserContent: "
                      "content truncated from {} to {} bytes (flood/token-exhaustion guard)",
                      content.size(), kMaxContentBytes);
@@ -198,10 +198,10 @@ std::string sanitizeApiKey(const std::string &api_key) {
         return "<not set>";
     }
     constexpr size_t kVisible = 4;
-    if (static_cast<int>(api_key.size()) <= kVisible * 2) {
+    if (api_key.size() <= kVisible * 2) {
         return std::string(api_key.size(), '*');
     }
-    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(static_cast<int>(api_key.size()) - kVisible);
+    return api_key.substr(0, kVisible) + "***...***" + api_key.substr(api_key.size() - kVisible);
 }
 
 // ============================================================================
@@ -289,7 +289,7 @@ struct LLMProcessAnalyzer::Impl {
         // Evict LRU tail if over capacity — O(1)
         const size_t max_entries
             = (config.max_cache_entries > 0) ? static_cast<size_t>(config.max_cache_entries) : 1000;
-        if (static_cast<int>(lru_map.size()) > max_entries) {
+        if (lru_map.size() > max_entries) {
             const std::string &lru_key = lru_list.back();
             lru_map.erase(lru_key);
             lru_list.pop_back();
@@ -573,6 +573,8 @@ std::string LLMProcessAnalyzer::generatePrompt(TaskType task_type, const nlohman
 
 std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
                                         const std::map<std::string, std::string> &params) {
+    (void)params;
+
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).
     // SECURITY: Always use sanitizeApiKey(pImpl->config.api_key) in log
@@ -639,6 +641,8 @@ std::string LLMProcessAnalyzer::callLLM(const std::string &prompt,
 // ============================================================================
 
 nlohmann::json LLMProcessAnalyzer::parseResponse(const std::string &raw_response, TaskType task_type) {
+    (void)task_type;
+
     try {
         return nlohmann::json::parse(raw_response);
     } catch (const std::exception &e) {
@@ -654,7 +658,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
     constexpr std::size_t kMaxListSize      = 512;
     constexpr std::size_t kMaxStringLength  = 4096;
 
-    const auto isBoundedString = [kMaxStringLength](const nlohmann::json &value) {
+    const auto isBoundedString = [](const nlohmann::json &value) {
         return value.is_string() && value.get_ref<const std::string&>().size() <= kMaxStringLength;
     };
 
@@ -700,7 +704,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["five_rights_check"].contains("corrective_actions")) {
                 const auto &actions = response["five_rights_check"]["corrective_actions"];
-                if (!actions.is_array() || static_cast<int>(actions.size()) > kMaxListSize) {
+                if (!actions.is_array() || actions.size() > kMaxListSize) {
                    return false;
                 }
                 for (const auto &action : actions) {
@@ -725,7 +729,7 @@ bool LLMProcessAnalyzer::validateResponse(const nlohmann::json &response, TaskTy
             }
             if (response["fraud_analysis"].contains("detected_anomalies")) {
                 const auto &anomalies = response["fraud_analysis"]["detected_anomalies"];
-                if (!anomalies.is_array() || static_cast<int>(anomalies.size()) > kMaxListSize) {
+                if (!anomalies.is_array() || anomalies.size() > kMaxListSize) {
                    return false;
                 }
                 for (const auto &anomaly : anomalies) {

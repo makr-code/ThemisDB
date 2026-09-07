@@ -12,7 +12,7 @@
  * @see manifest_store.h for the full API contract and advisory-only policy.
  */
 
-#include "manifest_store.h"
+#include "../include/manifest_store.h"
 
 #include <algorithm>
 #include <chrono>

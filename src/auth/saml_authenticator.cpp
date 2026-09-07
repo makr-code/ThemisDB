@@ -269,12 +269,12 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
 
 std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string &s) {
     // Accepts: "2026-02-22T06:13:57Z" or "2026-02-22T06:13:57.000Z"
-    if (static_cast<int>(s.size()) < 20) {
+    if (s.size() < 20U) {
         throw std::runtime_error("SAML: Invalid datetime format: " + s);
     }
     std::tm tm_val{};
     int year, mon, day, hour, min, sec;
-    if (std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
+    if (::sscanf_s(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
         throw std::runtime_error("SAML: Failed to parse datetime: " + s);
     }
     tm_val.tm_year  = year - 1900;
@@ -690,10 +690,10 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         required_key_size = 16;
     } else if (data_enc_alg.empty()) {
         // Infer from the decrypted key length when the algorithm is absent
-        if (static_cast<int>(symmetric_key.size()) == 32) {
+        if (symmetric_key.size() == 32U) {
             cipher            = EVP_aes_256_cbc();
             required_key_size = 32;
-        } else if (static_cast<int>(symmetric_key.size()) == 16) {
+        } else if (symmetric_key.size() == 16U) {
             cipher            = EVP_aes_128_cbc();
             required_key_size = 16;
         }
@@ -705,7 +705,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
                              + "'. Supported: aes128-cbc, aes256-cbc.");
     }
 
-    if (static_cast<int>(symmetric_key.size()) < required_key_size) {
+    if (symmetric_key.size() < required_key_size) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "Decrypted symmetric key is shorter than required for the "
                          "selected cipher (got "
@@ -714,7 +714,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
-    if (static_cast<int>(encrypted_data_bytes.size()) <= iv_len) {
+    if (encrypted_data_bytes.size() <= iv_len) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "EncryptedData CipherValue is too short to contain an IV");
     }
@@ -1114,7 +1114,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         }
 
         // Enforce maximum cache size (after eviction). If still full, fail closed.
-        if (static_cast<int>(seen_assertion_ids_.size()) >= config_.max_replay_cache_size) {
+        if (seen_assertion_ids_.size() >= static_cast<size_t>(config_.max_replay_cache_size)) {
             THEMIS_WARN("SAML: Replay cache is full ({} entries). "
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",
