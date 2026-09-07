@@ -317,14 +317,14 @@ void UpdateStateMachine::reset() {
         } catch (...) {
             // Error Code: 7490 - Never let callbacks crash the state machine
             // Log and silently ignore to ensure state integrity is maintained
-            LOG_WARN([[maybe_unused]] "UpdateStateMachine: state change callback threw exception; silently caught");
+            LOG_WARN("UpdateStateMachine: state change callback threw exception; silently caught");
         }
     }
 }
 
 void UpdateStateMachine::addStateChangeCallback([[maybe_unused]] StateChangeCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    callbacks_.push_back([[maybe_unused]] std::move(cb));
+    callbacks_.push_back(std::move(cb));
 }
 
 bool UpdateStateMachine::hasInFlightUpdate() const {
@@ -677,7 +677,7 @@ void UpdateStateMachine::clearCheckpoints() {
 
 void UpdateStateMachine::setRollbackCallback([[maybe_unused]] RollbackCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    rollback_callback_ = std::move([[maybe_unused]] callback);
+    rollback_callback_ = std::move(callback);
 }
 
 bool UpdateStateMachine::rollbackToLatestCheckpoint() {
@@ -751,7 +751,7 @@ void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
     
     // Invoke registered callback if set
     std::lock_guard<std::mutex> lock(mutex_);
-    if ([[maybe_unused]] rollback_callback_) {
+    if (rollback_callback_) {
         try {
             rollback_callback_(checkpoint_id, success, 
                              success ? "" : reason);
