@@ -48,39 +48,39 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
 	std::string key = {};
-	key.reserve(5 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(token.size()) + 1 + static_cast<int>(pk.size()) );
+	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size());
 	key += "fttf:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(), column.size());
 	key += ":";
-	key.append(token.data(),static_cast<int>(token.size()));
+	key.append(token.data(), token.size());
 	key += ":";
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
 	std::string key = {};
-	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(pk.size()) );
+	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size());
 	key += "ftdlen:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(), column.size());
 	key += ":";
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
 	std::string key = {};
-	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1);
+	key.reserve(7 + table.size() + 1 + column.size() + 1);
 	key += "ftdlen:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(), column.size());
 	key += ":";
 	return key;
 }
@@ -129,17 +129,17 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
 	std::string key = {};
-	key.reserve(8 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) );
+	key.reserve(8 + table.size() + 1 + column.size());
 	key += "idxmeta:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(), column.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
-	size_t total = 8 + static_cast<int>(table.size()) + 1;
+	size_t total = 8 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -149,7 +149,7 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	std::string key = {};
 	key.reserve(total);
 	key += "idxmeta:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -171,7 +171,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::vector<std::string> encoded_values = {};
 
 	encoded_values.reserve(values.size());
-	size_t total = 4 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ;
+	size_t total = 4 + table.size() + 1 + pk.size();
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -185,7 +185,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -198,7 +198,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 		key += encoded;
 		key += ":";
 	}
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(), pk.size());
 	return key;
 }
 
@@ -208,7 +208,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	std::vector<std::string> encoded_values = {};
 
 	encoded_values.reserve(values.size());
-	size_t total = 4 + static_cast<int>(table.size()) + 1;
+	size_t total = 4 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -222,7 +222,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(), table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -507,7 +507,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	if (table.empty() || columns.empty()) {
 		return Status::Error("createCompositeIndex: table/columns darf nicht leer sein");
 	}
-	if (static_cast<int>(columns.size()) < 2) {
+	if (columns.size() < 2) {
 		return Status::Error("createCompositeIndex: mindestens 2 Spalten erforderlich (nutze createIndex für Single-Column)");
 	}
 	for (const auto& col : columns) {
@@ -2223,7 +2223,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 											  const std::vector<std::string>& columns,
 											  const std::vector<std::string>& values) const {
-	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
+	if (columns.size() != values.size()) {
 		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2284,7 +2284,7 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 	if (capped) {
 	  *capped = false;
 	}
-	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
+	if (columns.size() != values.size()) {
 	  return 0;
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2738,7 +2738,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	auto parsePhrases = [](std::string_view q) {
 		std::vector<std::string> phrases = {};
 
-		phrases.reserve(std::max<size_t>(1,static_cast<int>(q.size()) / 16));
+		phrases.reserve(std::max<size_t>(1, q.size() / 16));
 		std::string cleaned = {};
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
@@ -2770,7 +2770,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat = {};
-		concat.reserve(static_cast<int>(cleanedQuery.size()) + static_cast<int>(query.size()) );
+		concat.reserve(cleanedQuery.size() + query.size());
 		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) {
 			  concat.push_back(' ');
@@ -3254,7 +3254,7 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens = {};
 
-	tokens.reserve(std::max<size_t>(1,static_cast<int>(text.size()) / 5));
+	tokens.reserve(std::max<size_t>(1, text.size() / 5));
 	std::string current = {};
 	current.reserve(std::min<size_t>(text.size(), 32));
 	
@@ -4018,7 +4018,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			for (const auto& c : cols) {
 			  totalLen += c.size();
 			}
-			totalLen += (static_cast<int>(cols.size()) - 1) * 2; // ", " separators
+			totalLen += (cols.size() - 1) * 2; // ", " separators
 			colList.reserve(totalLen);
 			for (size_t i = 0; i < cols.size(); ++i) {
 				if (i > 0) {

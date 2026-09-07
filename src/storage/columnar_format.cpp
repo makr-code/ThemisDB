@@ -134,7 +134,7 @@ Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& e
 
     size_t pos = 0;
     while (pos < encoded.size()) {
-        if (pos + 1 + sizeof(int32_t) > encoded.size()) {
+        if (pos + size_t{1} + sizeof(int32_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "RLE decode: insufficient data"
@@ -160,7 +160,7 @@ Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& e
 
     size_t pos = 0;
     while (pos < encoded.size()) {
-        if (pos + 1 + sizeof(int64_t) > encoded.size()) {
+        if (pos + size_t{1} + sizeof(int64_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
                 "RLE decode: insufficient data"
@@ -201,7 +201,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
         auto it = dictionary.find(str);
         if (it == dictionary.end()) {
             // Validate dictionary size to prevent overflow
-            if (dict_values.size() >= static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+            if (dict_values.size() >= std::numeric_limits<uint32_t>::max()) {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_COMPRESSION_FAILED,
                     "Dictionary encode: dictionary size exceeds uint32_t limit"
@@ -227,7 +227,7 @@ Result<std::vector<uint8_t>> DictionaryCodec::encodeStrings(const std::vector<st
     // Dictionary entries
     for (const auto& str : dict_values) {
         // Validate string length to prevent overflow
-        if (str.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+        if (str.size() > std::numeric_limits<uint32_t>::max()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_FAILED,
                 "Dictionary encode: string length exceeds uint32_t limit"
@@ -432,7 +432,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt32(const std::vector<int3
     encoded.push_back(bits_required);
 
     // Validate data size to prevent overflow
-    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+    if (data.size() > std::numeric_limits<uint32_t>::max()) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Bit-packing encode: data size exceeds uint32_t limit"
@@ -487,7 +487,7 @@ Result<std::vector<uint8_t>> BitPackingCodec::encodeInt64(const std::vector<int6
     encoded.push_back(bits_required);
 
     // Validate data size to prevent overflow
-    if (data.size() > static_cast<size_t>(std::numeric_limits<uint32_t>::max())) {
+    if (data.size() > std::numeric_limits<uint32_t>::max()) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Bit-packing encode: data size exceeds uint32_t limit"
