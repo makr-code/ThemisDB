@@ -1915,3 +1915,136 @@ TEST(AgenticToolCallTest, ValidJsonButNotToolCall_NoDispatch) {
     EXPECT_EQ(call_count.load(), 0);
     EXPECT_TRUE(result.metadata.tool_calls_made.empty());
 }
+
+TEST(AgenticToolCallTest, ToolExecutionFailureReturnsDeterministicError) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    ToolSpec spec;
+    spec.name = "calc_tool";
+    orch.toolRegistry().registerTool(
+        spec,
+        []([[maybe_unused]] const json&, const ModeSpec&) -> json {
+            throw std::runtime_error("tool_backend_down");
+        });
+
+    OrchestratorContext ctx;
+    ctx.query = R"({"name":"calc_tool","arguments":{"x":1}})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error.find("agentic_tool_execution_failed"), std::string::npos);
+    EXPECT_EQ(result.metadata.extra.value("agentic_tool_dispatch", ""), "tool_error");
+}
+
+TEST(AgenticToolCallTest, InvalidToolArgumentsTypeRejected) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kAgenticYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    OrchestratorContext ctx;
+    ctx.query = R"({"name":"calc_tool","arguments":"invalid"})";
+    ctx.mode_id = "agentic";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error.find("agentic_tool_arguments_invalid"), std::string::npos);
+}
+
+static const char* kMultiAndEthicsYaml = R"yaml(
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+metadata:
+  name: multi-ethics-pack
+  version: "1.0.0"
+default_mode: ask
+modes:
+  - id: ask
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+  - id: multi_agent
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+  - id: ethics
+    budgets: {max_tokens: 256, timeout_ms: 5000}
+    retrieval: {top_k: 2}
+    safety:
+      enabled: true
+      ethics_profile: "policy-v1"
+)yaml";
+
+class CaptureEthicsPromptPlugin : public EchoLLMPlugin {
+public:
+    InferenceResponse generateRAG(const RAGContext&,
+                                  const InferenceRequest& request) override {
+        last_system_prompt = request.system_prompt;
+        return EchoLLMPlugin::generate(request);
+    }
+
+    std::optional<std::string> last_system_prompt;
+};
+
+TEST(MultiAgentPipelineTest, AgentQueriesAreAggregatedWithDiagnostics) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kMultiAndEthicsYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    OrchestratorContext ctx;
+    ctx.mode_id = "multi_agent";
+    ctx.extra["agent_queries"] = json::array({"branch-A", "branch-B"});
+
+    OrchestratorResult result = orch.run(ctx);
+    ASSERT_TRUE(result.success);
+    EXPECT_EQ(result.text, "branch-A");
+    EXPECT_EQ(result.metadata.extra.value("multi_agent_total_branches", 0), 2);
+    EXPECT_EQ(result.metadata.extra.value("multi_agent_successes", 0), 2);
+    EXPECT_EQ(result.metadata.extra.value("multi_agent_merge_strategy", ""), "first_success");
+}
+
+TEST(MultiAgentPipelineTest, MissingQueriesFailsDeterministically) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kMultiAndEthicsYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(std::make_shared<EchoLLMPlugin>());
+
+    OrchestratorContext ctx;
+    ctx.mode_id = "multi_agent";
+
+    OrchestratorResult result = orch.run(ctx);
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error, "multi_agent_query_empty: no query or agent_queries provided");
+}
+
+TEST(EthicsPipelineTest, GuardrailIsEnforcedAndPromptIsComposed) {
+    ValidationResult res;
+    ModePack pack = ModeSpecLoader::loadFromString(kMultiAndEthicsYaml, &res);
+    ASSERT_TRUE(res.ok);
+
+    auto plugin = std::make_shared<CaptureEthicsPromptPlugin>();
+    AIOrchestrator orch(pack);
+    orch.setLLMPlugin(plugin);
+
+    OrchestratorContext ctx;
+    ctx.mode_id = "ethics";
+    ctx.query = "sensitive question";
+    ctx.system_prompt = std::string("user-system");
+
+    OrchestratorResult result = orch.run(ctx);
+    ASSERT_TRUE(result.success);
+    EXPECT_TRUE(result.metadata.extra.value("ethics_guardrail_enforced", false));
+    EXPECT_EQ(result.metadata.extra.value("ethics_profile", ""), "policy-v1");
+    ASSERT_TRUE(plugin->last_system_prompt.has_value());
+    EXPECT_NE(plugin->last_system_prompt->find("Constitutional AI assistant"), std::string::npos);
+    EXPECT_NE(plugin->last_system_prompt->find("user-system"), std::string::npos);
+}

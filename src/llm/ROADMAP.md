@@ -115,8 +115,11 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] **Multi-Subagent LLM Orchestration** (Target: Q3 2026, Phases A–E)
   - [x] **Phase A**: SubagentConfig + SubagentFactory API contracts (`include/llm/subagent_config.h`, `include/llm/subagent_factory.h`) → non-breaking, opt-in
   - [x] **Phase B**: SubagentLifecycleManager with resource tracking (integrated in `src/llm/subagent_factory_impl.cpp`)
+    - Evidence: Runtime lifecycle now uses plugin load/warm/infer/unload paths with deterministic error codes and quota reset implementation (`src/llm/subagent_factory_impl.cpp`, tests in `tests/llm/test_subagent_orchestration_focused.cpp`)
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
+    - Evidence: MAJORITY_VOTE/BEST_SCORE now apply normalized semantic buckets, quality scoring, and merge diagnostics (`src/llm/subagent_coordinator_impl.cpp`, tests in `tests/llm/test_subagent_orchestration_focused.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
+    - Evidence: Added focused runtime/negative-path coverage for subagent lifecycle and coordinator partial-failure merge behavior (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
 - [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
   - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents

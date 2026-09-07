@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -76,25 +77,52 @@ public:
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
-            return tl::make_unexpected("Cannot load: subagent state is " + 
+            return tl::make_unexpected(
+                "subagent_load_state_invalid: cannot load from state " +
                 std::string(subagentStateToString(state_)));
         }
 
         state_ = SubagentState::LOADING;
         lock.unlock();
 
-        // Load model and adapter asynchronously (simplified for now)
-        // In production, this would:
-        // 1. Call model_loader_->loadModel(config_.model_id)
-        // 2. Call lora_manager_->loadAdapter(config_.lora_adapter_id)
-        // 3. Set up quota bucket in quota_mgr_
-        // 4. Register policy in policy_engine_
+        if (timeout_ms <= 0) {
+            lock.lock();
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_load_timeout_invalid: timeout_ms must be > 0";
+            return tl::make_unexpected(last_error_);
+        }
 
-        // Simulate loading delay
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (!plugin_) {
+            lock.lock();
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_load_plugin_missing: llm plugin is null";
+            return tl::make_unexpected(last_error_);
+        }
+
+        if (!plugin_->loadModel(config_.model_id)) {
+            lock.lock();
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_load_model_failed: failed to load model '" + config_.model_id + "'";
+            return tl::make_unexpected(last_error_);
+        }
+
+        if (!config_.lora_adapter_id.empty()) {
+            const bool lora_loaded =
+                plugin_->loadLoRA(config_.lora_adapter_id, config_.lora_adapter_id, 1.0f);
+            if (!lora_loaded) {
+                plugin_->unloadModel();
+                lock.lock();
+                state_ = SubagentState::ERROR;
+                last_error_ = "subagent_load_lora_failed: failed to load adapter '" +
+                              config_.lora_adapter_id + "'";
+                return tl::make_unexpected(last_error_);
+            }
+        }
 
         lock.lock();
         state_ = SubagentState::READY;
+        metrics_.load_time = std::chrono::steady_clock::now();
+        last_error_.clear();
         return make_expected();
     }
 
@@ -104,16 +132,51 @@ public:
         if (state_ != SubagentState::READY) {
             return tl::make_unexpected(std::string("Cannot warm: subagent not in READY state"));
         }
+        lock.unlock();
 
-        // In production, warm would:
-        // 1. Pre-allocate KV cache buffers
-        // 2. Compile GPU kernels
-        // 3. Run dummy inference to populate caches
+        if (!engine_ || !plugin_) {
+            std::unique_lock<std::shared_mutex> write_lock(state_mutex_);
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_warm_runtime_missing: inference runtime is unavailable";
+            return tl::make_unexpected(last_error_);
+        }
+
+        if (!plugin_->isModelLoaded()) {
+            std::unique_lock<std::shared_mutex> write_lock(state_mutex_);
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_warm_model_not_loaded: model is not loaded";
+            return tl::make_unexpected(last_error_);
+        }
+
+        InferenceRequest warm_request;
+        warm_request.model_id = config_.model_id;
+        warm_request.prompt = "subagent_warmup";
+        warm_request.max_tokens = std::max(1, std::min(8, config_.budget.max_tokens_per_request));
+
+        try {
+            const auto timeout = timeout_ms > 0
+                                     ? std::chrono::milliseconds(timeout_ms)
+                                     : std::chrono::milliseconds(0);
+            auto handle = engine_->submit(warm_request, config_.budget.priority, timeout);
+            auto response = handle.get();
+            if (!response.success) {
+                std::unique_lock<std::shared_mutex> write_lock(state_mutex_);
+                state_ = SubagentState::ERROR;
+                last_error_ = "subagent_warm_inference_failed: " + response.error_message;
+                return tl::make_unexpected(last_error_);
+            }
+        } catch (const std::exception& ex) {
+            std::unique_lock<std::shared_mutex> write_lock(state_mutex_);
+            state_ = SubagentState::ERROR;
+            last_error_ = std::string("subagent_warm_exception: ") + ex.what();
+            return tl::make_unexpected(last_error_);
+        }
 
         return make_expected();
     }
 
     SubagentResult<void> unload(int timeout_ms) override {
+        (void)timeout_ms;
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -123,11 +186,20 @@ public:
         state_ = SubagentState::UNLOADING;
         lock.unlock();
 
-        // Wait for in-flight requests to complete (simplified)
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (engine_) {
+            engine_->shutdown();
+        }
+
+        if (plugin_) {
+            if (!config_.lora_adapter_id.empty()) {
+                (void)plugin_->unloadLoRA(config_.lora_adapter_id);
+            }
+            plugin_->unloadModel();
+        }
 
         lock.lock();
         state_ = SubagentState::TERMINATED;
+        last_error_.clear();
         return make_expected();
     }
 
@@ -147,22 +219,30 @@ public:
             std::shared_lock<std::shared_mutex> lock(state_mutex_);
             if (state_ != SubagentState::READY) {
                 result.success = false;
-                result.error = "Subagent not in READY state";
+                result.error = "subagent_infer_state_not_ready: state=" +
+                               std::string(subagentStateToString(state_));
                 return result;
             }
         }
 
         // Check quota
+        const auto estimated_tokens = static_cast<size_t>(std::max(
+            1, std::min(
+                request.max_tokens > 0 ? request.max_tokens : config_.budget.max_tokens_per_request,
+                config_.budget.max_tokens_per_request)));
         auto quota_check = quota_mgr_->check(
             config_.tenant_id.empty() ? "default" : config_.tenant_id,
             config_.model_id,
-            config_.budget.max_tokens_per_request);
+            estimated_tokens);
 
         if (!quota_check.allowed && config_.policy.block_on_quota_violation) {
             std::unique_lock<std::shared_mutex> lock(state_mutex_);
             metrics_.quota_blocks++;
             result.success = false;
-            result.error = "Quota exceeded: " + quota_check.reason;
+            result.error = "subagent_infer_quota_exceeded: " + quota_check.reason;
+            metrics_.total_requests++;
+            metrics_.failed_inferences++;
+            last_error_ = result.error;
             return result;
         }
 
@@ -173,43 +253,84 @@ public:
                 std::unique_lock<std::shared_mutex> lock(state_mutex_);
                 metrics_.policy_blocks++;
                 result.success = false;
-                result.error = "Policy violation: " + policy_result.reason;
+                result.error = "subagent_infer_policy_blocked: " + policy_result.reason;
+                metrics_.total_requests++;
+                metrics_.failed_inferences++;
+                last_error_ = result.error;
                 return result;
             }
         }
 
-        // Submit to inference engine (simplified)
-        if (engine_) {
-            try {
-                // In production: auto response = engine_->generate(request);
-                result.success = true;
-                result.output = "Mock inference result for: " + request.prompt.substr(0, 20);
-                result.tokens_consumed = config_.budget.max_tokens_per_request;
+        if (!engine_) {
+            result.success = false;
+            result.error = "subagent_infer_engine_missing: async inference engine is null";
+            std::unique_lock<std::shared_mutex> lock(state_mutex_);
+            metrics_.total_requests++;
+            metrics_.failed_inferences++;
+            last_error_ = result.error;
+            return result;
+        }
 
-                {
-                    std::unique_lock<std::shared_mutex> lock(state_mutex_);
-                    metrics_.total_requests++;
+        try {
+            InferenceRequest runtime_request = request;
+            runtime_request.model_id = config_.model_id;
+            if (!config_.lora_adapter_id.empty() && !runtime_request.lora_adapter_id.has_value()) {
+                runtime_request.lora_adapter_id = config_.lora_adapter_id;
+            }
+
+            if (runtime_request.max_tokens <= 0) {
+                runtime_request.max_tokens = config_.budget.max_tokens_per_request;
+            } else if (runtime_request.max_tokens > config_.budget.max_tokens_per_request) {
+                runtime_request.max_tokens = config_.budget.max_tokens_per_request;
+            }
+
+            const auto timeout =
+                config_.budget.timeout_ms > 0 ? std::chrono::milliseconds(config_.budget.timeout_ms)
+                                              : std::chrono::milliseconds(0);
+            auto handle = engine_->submit(runtime_request, config_.budget.priority, timeout);
+            auto response = handle.get();
+
+            result.success = response.success;
+            result.output = response.text;
+            result.error = response.success ? std::string() :
+                ("subagent_infer_runtime_failed: " + response.error_message);
+            result.tokens_consumed = static_cast<size_t>(
+                std::max(response.tokens_generated, response.tokens_prompt));
+
+            if (result.tokens_consumed == 0 && response.success) {
+                result.tokens_consumed = static_cast<size_t>(
+                    std::max(1, std::min(runtime_request.max_tokens, config_.budget.max_tokens_per_request)));
+            }
+
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                if (result.success) {
                     metrics_.successful_inferences++;
                     metrics_.tokens_consumed += result.tokens_consumed;
                     metrics_.total_tokens_processed += result.tokens_consumed;
-                    metrics_.last_request_time = std::chrono::steady_clock::now();
+                    last_error_.clear();
+                } else {
+                    metrics_.failed_inferences++;
+                    last_error_ = result.error;
                 }
+                metrics_.last_request_time = std::chrono::steady_clock::now();
+            }
 
-                // Record consumption
+            if (result.success && result.tokens_consumed > 0) {
                 quota_mgr_->consume(
                     config_.tenant_id.empty() ? "default" : config_.tenant_id,
                     config_.model_id,
                     result.tokens_consumed);
-
-            } catch (const std::exception& ex) {
-                result.success = false;
-                result.error = ex.what();
-                {
-                    std::unique_lock<std::shared_mutex> lock(state_mutex_);
-                    metrics_.total_requests++;
-                    metrics_.failed_inferences++;
-                    last_error_ = result.error;
-                }
+            }
+        } catch (const std::exception& ex) {
+            result.success = false;
+            result.error = std::string("subagent_infer_exception: ") + ex.what();
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                metrics_.failed_inferences++;
+                last_error_ = result.error;
             }
         }
 
@@ -315,7 +436,14 @@ public:
     }
 
     void resetQuota() override {
-        // In production: quota_mgr_->resetWindow(tenant_id, model_id)
+        const std::string tenant = config_.tenant_id.empty() ? "default" : config_.tenant_id;
+        const auto current_limit = quota_mgr_->getLimit(tenant, config_.model_id);
+        if (!current_limit.has_value()) {
+            return;
+        }
+
+        quota_mgr_->removeQuota(tenant, config_.model_id);
+        quota_mgr_->setQuota(tenant, config_.model_id, current_limit.value());
     }
 
 private:
