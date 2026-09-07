@@ -1211,7 +1211,9 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
     std::unique_ptr<rocksdb::Iterator> it = {};
 
     if (cf_) {
-      it.reset(db_->NewIterator(read_opts, cf_)); else it.reset(db_->NewIterator(read_opts));
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
     }
 
     std::string prefix = KEY_PREFIX + metric + ":";
@@ -1231,7 +1233,9 @@ size_t TSStore::deleteOldDataForMetric(const std::string& metric, int64_t before
         auto comp = parseKeyInternal(key);
         if (comp.has_value() && comp->metric == metric && comp->timestamp_ms < before_timestamp_ms) {
             if (cf_) {
-              batch.Delete(cf_, key); else batch.Delete(key);
+                batch.Delete(cf_, key);
+            } else {
+                batch.Delete(key);
             }
             deleted_count++;
         }
@@ -1403,4 +1407,3 @@ Result<void> TSStore::deleteSystemMeta(const std::string& key) {
 }
 
 } // namespace themis
-

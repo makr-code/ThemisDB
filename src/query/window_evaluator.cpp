@@ -214,7 +214,7 @@ std::vector<size_t> WindowEvaluator::sortPartition(
     }
     
     // Sortiere basierend auf ORDER BY
-    std::sort([[maybe_unused]] sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
+    std::sort(sorted.begin(), sorted.end(), [&](size_t idxA, size_t idxB) {
         const auto& rowA = rows[idxA];
         const auto& rowB = rows[idxB];
         

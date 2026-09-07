@@ -100,7 +100,7 @@ nlohmann::json LetEvaluator::evaluateExpression(
         }
 
         if (auto bound = resolveVariable(root); bound.has_value()) {
-            if (pathFA-> static_cast<int>(path.size()) == 1) {
+            if (pathFA->path.size() == 1) {
                 return *bound;
             }
             std::vector<std::string> tail(pathFA->path.begin() + 1, pathFA->path.end());
@@ -1126,7 +1126,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
                 if (lpos != std::string::npos) {
-                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                    token = token.substr(lpos, rpos - lpos + 1);
+                } else {
+                    token.clear();
                 }
                 if (!token.empty()) {
                     std::istringstream tss(token);
@@ -1141,7 +1143,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     }
                 }
                 if (comma == std::string::npos) {
-                  break; else pos = comma + 1;
+                    break;
+                } else {
+                    pos = comma + 1;
                 }
             }
 
@@ -1170,7 +1174,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 auto lpos = token.find_first_not_of(" \t\n\r");
                 auto rpos = token.find_last_not_of(" \t\n\r");
                 if (lpos != std::string::npos) {
-                  token = token.substr(lpos, rpos - lpos + 1); else token.clear();
+                    token = token.substr(lpos, rpos - lpos + 1);
+                } else {
+                    token.clear();
                 }
                 if (!token.empty()) {
                     std::istringstream tss(token);
@@ -1185,7 +1191,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     }
                 }
                 if (comma == std::string::npos) {
-                  break; else start = comma + 1;
+                    break;
+                } else {
+                    start = comma + 1;
                 }
             }
 
@@ -1572,4 +1580,3 @@ double LetEvaluator::toNumber(const nlohmann::json& value) const {
 
 } // namespace query
 } // namespace themis
-

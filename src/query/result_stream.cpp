@@ -255,7 +255,7 @@ Result<void> ResultStream<T>::fillBuffer() {
 
 template<typename T>
 bool ResultStream<T>::shouldFillBuffer() const {
-    return static_cast<bool>(buffer_pos_  < static_cast<int>(= buffer_.size())) && cursor_.has_more;
+    return buffer_pos_ < buffer_.size() && cursor_.has_more;
 }
 
 template<typename T>
@@ -325,4 +325,3 @@ std::shared_ptr<ResultStream<std::string>> createKeyStream(
 
 } // namespace query
 } // namespace themis
-

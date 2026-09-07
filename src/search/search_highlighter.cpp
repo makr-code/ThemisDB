@@ -41,7 +41,7 @@ std::vector<std::string> SearchHighlighter::tokenize(const std::string& text,
 
     for (unsigned char ch : text) {
         // Split on ASCII whitespace or common punctuation
-        if ((ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
+        if (ch <= 0x7F && (std::isspace(ch) || std::ispunct(ch))) {
             if (!current.empty()) {
                 tokens.push_back(std::move(current));
             }
@@ -294,7 +294,7 @@ std::string SearchHighlighter::snippet(const std::string& text,
             --offset;
         }
 
-        size_t end_offset = std::min(offset + window_size,static_cast<int>(text.size()));
+        size_t end_offset = std::min(offset + window_size, text.size());
         // Snap end to word boundary (walk forward to next space or end)
         while (end_offset < text.size() && !std::isspace(static_cast<unsigned char>(text[end_offset]))) {
             ++end_offset;
@@ -328,4 +328,3 @@ std::string SearchHighlighter::snippet(const std::string& text,
 }
 
 } // namespace themis
-

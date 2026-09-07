@@ -62,7 +62,7 @@ void GPUAlerts::setDeviceAvailable([[maybe_unused]] bool available) {
 
 void GPUAlerts::onAlert([[maybe_unused]] AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
-    callbacks_.push_back([[maybe_unused]] std::move(callback));
+    callbacks_.push_back(std::move(callback));
 }
 
 // ============================================================================
@@ -85,7 +85,7 @@ void GPUAlerts::updateAlert(const std::string &name, bool condition, float value
         if (new_state == AlertState::FIRING) {
             s.fired_at = std::chrono::system_clock::now();
         }
-        fireCallback([[maybe_unused]] s);
+        fireCallback(s);
     }
 }
 

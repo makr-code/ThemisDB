@@ -23,7 +23,7 @@ void IncrementalAgg::add([[maybe_unused]] double value) {
     ++count_;
     switch (op_) {
         case AggOp::SUM:
-        [[fallthrough]];\n        case AggOp::AVG:
+        case AggOp::AVG:
             sum_ += value;
             break;
         case AggOp::MIN:
@@ -42,7 +42,7 @@ void IncrementalAgg::remove([[maybe_unused]] double value) {
     --count_;
     switch (op_) {
         case AggOp::SUM:
-        [[fallthrough]];\n        case AggOp::AVG:
+        case AggOp::AVG:
             sum_ -= value;
             break;
         case AggOp::MIN:

@@ -164,7 +164,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 	// Sortiere Prädikate nach (capped? maxProbe : count) aufsteigend
 	std::vector<size_t> idx(q.predicates.size());
 	std::iota(idx.begin(), idx.end(), 0);
-	std::sort([[maybe_unused]] idx.begin(), idx.end(), [&](size_t a, size_t b){
+	std::sort(idx.begin(), idx.end(), [&](size_t a, size_t b){
 		auto va = plan.details[a];
 		auto vb = plan.details[b];
 		auto ea = va.capped ? maxProbePerPred : va.estimatedCount;

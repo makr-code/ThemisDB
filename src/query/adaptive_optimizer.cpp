@@ -55,7 +55,7 @@ std::string toLowerCopy(const std::string& input) {
 }
 
 bool startsWith(const std::string& text, const std::string& prefix) {
-    return static_cast<bool>( static_cast<int>(text.size()) < static_cast<int>(= prefix.size())) &&
+    return text.size() >= prefix.size() &&
            std::equal(prefix.begin(), prefix.end(), text.begin());
 }
 
@@ -89,7 +89,7 @@ AdaptiveQueryStats::getHistory(const std::string& query_hash, size_t limit) cons
     }
     
     const auto& history = it->second;
-    size_t count = std::min(limit,static_cast<int>(history.size()));
+    size_t count = std::min(limit, history.size());
     
     return std::vector<QueryExecution>(
         history.end() - count,
@@ -656,4 +656,3 @@ void GeoPredicatePatternDetector::injectSpatialIndexHints(
 
 } // namespace query
 } // namespace themis
-
