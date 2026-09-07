@@ -105,6 +105,7 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [x] `gpu_memory_manager.cpp` now keeps CUDA-absent / no-runtime paths in an explicit unavailable state instead of reporting simulated healthy/available GPUs or simulated peer-access success
   - [x] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
     - [x] gradient collection/broadcast/health now fail closed or mark shards unavailable when no `ShardRouter` transport is configured
+  - [x] source-integrity remediation for orchestration control path completed: compile-breaking token corruption in `ai_orchestrator.cpp` (token estimation, tenant budget override resolution, and cost-model method signature) removed and source-validated (Delivered: 2026-09-07)
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
   - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
   - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`

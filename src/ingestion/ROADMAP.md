@@ -16,6 +16,7 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
   - [x] Canonical retry taxonomy bridge added in `ingestion_api_contract.h` (`toRetryTimeoutSource`, `toRetryExhaustionReason`) with focused assertions in `test_ingestion_contract_hardening_focused.cpp` (Delivered: 2026-08-09)
 - [~] route filesystem ingestion through `WorkflowEngine` profile execution path when engine is configured (Target: Q4 2026)
   - [~] extend parity path: `workflow_engine_mode=filesystem` now enables workflow-based execution for plugin/object-storage sources that provide filesystem-backed locations (Target: Q4 2026)
+  - [x] source-integrity remediation for workflow routing core completed: compile-breaking token corruption in `workflow_engine.cpp` and malformed method scoping/call tokens in `ingestion_manager.cpp` removed; workflow dispatch path is source-validated again (Delivered: 2026-09-07)
 
 ## Planned Features
 

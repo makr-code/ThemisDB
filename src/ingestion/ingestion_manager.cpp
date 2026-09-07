@@ -79,6 +79,7 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::PLUGIN:         return "PLUGIN";
         default:                         return "UNKNOWN";
     }
+}
 
     static bool optionEnabled(const std::unordered_map<std::string, std::string>& options,
                               const std::string& key,
@@ -131,8 +132,6 @@ static std::string sourceTypeLabel(SourceType t) {
         if (ext == ".docx") return FileFormat::DOCX;
         return FileFormat::UNKNOWN;
     }
-}
-
 /// Map IngestionErrorCode to its integer string for a metric label
 [[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
@@ -1075,13 +1074,13 @@ public:
 
         if (parallel_enabled_ && static_cast<int>(enabled_sources.size()) > 1) {
             const size_t concurrency =
-                std::min(max_threads_,static_cast<int>(enabled_sources.size()));
+                std::min(max_threads_, enabled_sources.size());
 
             std::vector<std::future<std::pair<std::string, IngestionStats>>> futures;
             futures.reserve(enabled_sources.size());
 
             size_t submitted = 0;
-            while (static_cast<size_t>(submitted) <static_cast<int>(enabled_sources.size())) {
+            while (submitted < enabled_sources.size()) {
                 size_t wave_end = std::min(submitted + concurrency,
                                            enabled_sources.size());
                 for (size_t i = submitted; i < wave_end; ++i) {
@@ -1585,7 +1584,7 @@ public:
                 stats.documents_failed++;
                 stats.addError(IngestionErrorCode::PROCESSING_FAILED,
                                IngestionErrorSeverity::ERROR,
-                               run_result.error().message,
+                               run_result.error().message(),
                                config.source_id,
                                file.string());
             } else {
@@ -1707,7 +1706,7 @@ IngestionStats IngestionManager::ingestSource(const std::string& source_id,
 }
 
 IngestionReport IngestionManager::ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
-    return impl_->ingestAll([[maybe_unused]] progress_callback);
+    return impl_->ingestAll(progress_callback);
 }
 
 std::vector<SourceConfig> IngestionManager::getRegisteredSources() const {
