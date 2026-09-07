@@ -175,8 +175,8 @@ bool NotificationWebhook::notify([[maybe_unused]] const UpdateEventPayload& payl
 std::string NotificationWebhook::buildSlackPayload(
     const UpdateEventPayload& payload) const
 {
-    const std::string color  = slackColor([[maybe_unused]] payload.event);
-    const std::string label  = eventLabel([[maybe_unused]] payload.event);
+    const std::string color  = slackColor(payload.event);
+    const std::string label  = eventLabel(payload.event);
 
     json fields = json::array();
     fields.push_back({{"title", "Version"}, {"value", payload.version},
@@ -235,7 +235,7 @@ std::string NotificationWebhook::buildSlackPayload(
 bool NotificationWebhook::sendSlack([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildSlackPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending Slack notification (event={}, "
-              "version={})", eventLabel([[maybe_unused]] payload.event), payload.version);
+              "version={})", eventLabel(payload.event), payload.version);
     if (!http_sender_(slack_cfg_.webhook_url, body)) {
         LOG_ERROR("NotificationWebhook: Slack POST failed");
         return false;
@@ -252,9 +252,9 @@ bool NotificationWebhook::sendSlack([[maybe_unused]] const UpdateEventPayload& p
 std::string NotificationWebhook::buildPagerDutyPayload(
     const UpdateEventPayload& payload) const
 {
-    const std::string action   = pagerDutyAction([[maybe_unused]] payload.event);
-    const std::string severity = pagerDutySeverity([[maybe_unused]] payload.event);
-    const std::string label    = eventLabel([[maybe_unused]] payload.event);
+    const std::string action   = pagerDutyAction(payload.event);
+    const std::string severity = pagerDutySeverity(payload.event);
+    const std::string label    = eventLabel(payload.event);
     const std::string ts_str   = toISO8601(payload.timestamp);
     // Stable dedup key so that a "resolve" event closes the matching alert.
     const std::string dedup_key =
@@ -297,7 +297,7 @@ std::string NotificationWebhook::buildPagerDutyPayload(
 bool NotificationWebhook::sendPagerDuty([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildPagerDutyPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending PagerDuty notification (event={}, "
-              "version={})", eventLabel([[maybe_unused]] payload.event), payload.version);
+              "version={})", eventLabel(payload.event), payload.version);
     if (!http_sender_(pagerduty_cfg_.events_api_url, body)) {
         LOG_ERROR("NotificationWebhook: PagerDuty POST failed");
         return false;
@@ -312,7 +312,7 @@ bool NotificationWebhook::sendPagerDuty([[maybe_unused]] const UpdateEventPayloa
 // ---------------------------------------------------------------------------
 
 std::string NotificationWebhook::eventLabel([[maybe_unused]] UpdateEvent event) const {
-    switch ([[maybe_unused]] event) {
+    switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "Update Successful";
         case UpdateEvent::UPDATE_FAILED:    return "Update Failed";
         case UpdateEvent::ROLLBACK_SUCCESS: return "Rollback Successful";
@@ -323,7 +323,7 @@ std::string NotificationWebhook::eventLabel([[maybe_unused]] UpdateEvent event) 
 }
 
 std::string NotificationWebhook::slackColor([[maybe_unused]] UpdateEvent event) const {
-    switch ([[maybe_unused]] event) {
+    switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "good";
         case UpdateEvent::UPDATE_FAILED:    return "danger";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";
@@ -334,7 +334,7 @@ std::string NotificationWebhook::slackColor([[maybe_unused]] UpdateEvent event) 
 }
 
 std::string NotificationWebhook::pagerDutyAction([[maybe_unused]] UpdateEvent event) const {
-    switch ([[maybe_unused]] event) {
+    switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "resolve";
         case UpdateEvent::ROLLBACK_SUCCESS: return "resolve";
         case UpdateEvent::UPDATE_FAILED:    return "trigger";
@@ -345,7 +345,7 @@ std::string NotificationWebhook::pagerDutyAction([[maybe_unused]] UpdateEvent ev
 }
 
 std::string NotificationWebhook::pagerDutySeverity([[maybe_unused]] UpdateEvent event) const {
-    switch ([[maybe_unused]] event) {
+    switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "info";
         case UpdateEvent::UPDATE_FAILED:    return "critical";
         case UpdateEvent::ROLLBACK_SUCCESS: return "warning";

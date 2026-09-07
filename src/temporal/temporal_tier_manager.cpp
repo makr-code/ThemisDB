@@ -468,11 +468,11 @@ TemporalTierManager::keyStats(const std::string& table_name,
 
     if (auto tit = hot_.find(table_name); tit != hot_.end())
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end())
-            s.hot_versions = kit-> static_cast<int>(second.size());
+            s.hot_versions = static_cast<uint64_t>(kit->second.size());
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            s.warm_blocks = kit-> static_cast<int>(second.size());
+            s.warm_blocks = static_cast<uint64_t>(kit->second.size());
             for (const auto& b : kit->second) {
                 s.warm_versions += b.version_count;
                 s.warm_bytes    += b.approx_bytes;
@@ -537,7 +537,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = hot_.find(table_name); tit != hot_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.hot_version_count = kit-> static_cast<int>(second.size());
+            ctx.hot_version_count = static_cast<uint64_t>(kit->second.size());
             if (!kit->second.empty())
                 ctx.oldest_hot_sys_start = kit->second.begin()->first;
         }
@@ -545,7 +545,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.warm_block_count = kit-> static_cast<int>(second.size());
+            ctx.warm_block_count = static_cast<uint64_t>(kit->second.size());
             for (const auto& b : kit->second) {
                 ctx.warm_versions_for_key += b.version_count;
                 ctx.warm_bytes_for_key    += b.approx_bytes;
@@ -591,7 +591,7 @@ size_t TemporalTierManager::flushHotToWarmLocked(
     const size_t block_size = policy_.warm_block_size > 0
                             ? policy_.warm_block_size : 50;
     for (size_t offset = 0; offset < batch.size(); offset += block_size) {
-        const size_t end = std::min(offset + block_size,static_cast<int>(batch.size()));
+        const size_t end = std::min(offset + block_size, batch.size());
         std::vector<VersionedDocument> chunk(
             std::make_move_iterator(batch.begin() + static_cast<ptrdiff_t>(offset)),
             std::make_move_iterator(batch.begin() + static_cast<ptrdiff_t>(end)));

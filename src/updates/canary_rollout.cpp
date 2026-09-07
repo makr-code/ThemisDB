@@ -499,7 +499,7 @@ ReloadResult CanaryDeployment::deploy() {
                    } catch (...) {
                        // Error Code: 7488 - Never let stage callbacks crash the rollout
                        // Log and silently ignore to ensure deployment continuity
-                       LOG_WARN([[maybe_unused]] "CanaryRollout: stage complete callback threw exception; silently caught");
+                       LOG_WARN("CanaryRollout: stage complete callback threw exception; silently caught");
                    }
                }
            });
@@ -518,7 +518,7 @@ ReloadResult CanaryDeployment::deploy() {
                     } catch (...) {
                         // Error Code: 7489 - Never let rollback callbacks crash the rollout
                         // Log and silently ignore to ensure rollout can proceed
-                        LOG_WARN([[maybe_unused]] "CanaryRollout: rollback callback threw exception; silently caught");
+                        LOG_WARN("CanaryRollout: rollback callback threw exception; silently caught");
                     }
                 }
             });
@@ -779,5 +779,4 @@ void CanaryDeployment::checkLatencyThreshold() {
 
 } // namespace updates
 } // namespace themis
-
 

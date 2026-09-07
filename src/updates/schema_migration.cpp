@@ -962,7 +962,7 @@ OnlineDDLPhase SchemaMigration::currentPhase() const noexcept
 
 std::size_t SchemaMigration::operationCount() const noexcept
 {
-    return static_cast<bool>(impl_- < static_cast<int>(operations_.size()));
+    return impl_->operations_.size();
 }
 
 } // namespace updates
