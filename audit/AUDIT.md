@@ -28,6 +28,14 @@ This document is the **root-level security and compliance audit record** for The
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
 6. **EU AI Act compliance framework** (NEW Aug 2026) — risk classification, evidence bundles, governance
 
+### Source-Verified Implementation Status (2026-09-07)
+
+The production audit stack is materially present in source code and is not merely a documentation placeholder:
+
+- `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp` implement the canonical audit logger, including hash-chain state tracking, queue safeguards, log rotation, fsync support, encryption/signature metadata, SIEM forwarding, and fail-closed error handling.
+- The real implementation is distinct from the lightweight focused harness in `tests/audit/test_audit_wavec_integrity_export_focused.cpp`, which uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` instead of the production `themis::utils::AuditLogger` path. That test is useful for logic validation, but not a direct end-to-end proof of the production audit backend.
+- Current source-backed assessment: the audit subsystem is implemented and structurally strong, but the strongest Wave-C “all gates pass” wording remains provisional unless backed by an integration run against the real production sink and persistence path.
+
 ### Current Release Gate Status
 
 | Gate | Status | Evidence | Owner |

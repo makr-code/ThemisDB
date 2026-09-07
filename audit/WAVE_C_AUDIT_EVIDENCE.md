@@ -20,7 +20,9 @@ The Audit module has successfully completed Wave C production validation. All th
 3. ✅ **Operational Resilience** — Recovery, retry logic, and queue backpressure validated
 4. ✅ **Compliance Integration** — Audit events tagged with compliance frameworks (ISO27001, GDPR, BSIC5, NIS2)
 
-**Exit Criteria Status:** ALL GATES PASS
+**Exit Criteria Status:** Design-level validation passed; production end-to-end closure remains provisional pending real backend validation.
+
+> **Source verification note (2026-09-07):** This report is a useful validation artifact for the audit logic model, but the key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock in-memory `TamperEvidentAuditLogger` and `pseudoHash()` implementation rather than the production `themis::utils::AuditLogger` code path. The production implementation does exist in `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`; it includes hash-chain handling, queue bounds, encryption/signature fields, rotation, and fsync support, but a full Wave-C certification still requires a real integration run against the actual log backend and persistence path.
 
 ---
 
