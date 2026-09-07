@@ -326,7 +326,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     
     // Extract left and right operands
     std::string left = expr.substr(0, op_pos);
-    std::string right = expr.substr(op_pos + static_cast<int>(op.size()) );
+    std::string right = expr.substr(op_pos + op.size());
     
     // Trim whitespace
     left.erase(0, left.find_first_not_of(" \t"));
@@ -345,7 +345,10 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     nlohmann::json rightVal;
     if (right.front() == '\'' || right.front() == '"') {
         // String literal
-        rightVal = right.substr(1, static_cast<int>(right.size()) - 2);
+        if (right.size() < 2) {
+            return false;
+        }
+        rightVal = right.substr(1, right.size() - 2);
     } else if (variables.contains(right)) {
         // Variable reference
         rightVal = variables[right];

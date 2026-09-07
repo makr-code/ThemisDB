@@ -313,7 +313,7 @@ std::vector<double> VoiceAntiSpoofEngine::extractSpeakerEmbedding(const std::str
         size_t zero_crossings = 0;
         for (size_t i = start; i < end; ++i) {
             rms += samples[i] * samples[i];
-            if (i > start && ((samples[i] >= 0.0) != (samples[static_cast<int>(i - 1)] >= 0.0))) {
+            if (i > start && ((samples[i] >= 0.0) != (samples[i - 1] >= 0.0))) {
                 ++zero_crossings;
             }
         }
