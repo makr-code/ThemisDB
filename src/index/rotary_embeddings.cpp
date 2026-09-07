@@ -73,7 +73,7 @@ std::vector<float> RotaryEmbedding::rotateImpl(
     bool is_relational
 ) const {
     const auto started_at = std::chrono::steady_clock::now();
-    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
+    if (embedding.size() != static_cast<size_t>(config_.hidden_dim)) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 
@@ -88,7 +88,7 @@ std::vector<float> RotaryEmbedding::rotateImpl(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= static_cast<int>(rotated.size())) {
+        if (idx_1 >= rotated.size()) {
           break;
         }
         
@@ -119,7 +119,7 @@ std::vector<float> RotaryEmbedding::rotateInverse(
     const std::vector<float>& embedding,
     size_t position
 ) const {
-    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
+    if (embedding.size() != static_cast<size_t>(config_.hidden_dim)) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 
@@ -134,7 +134,7 @@ std::vector<float> RotaryEmbedding::rotateInverse(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= static_cast<int>(rotated.size())) {
+        if (idx_1 >= rotated.size()) {
           break;
         }
         
@@ -155,7 +155,7 @@ std::vector<std::vector<float>> RotaryEmbedding::rotateBatch(
     const std::vector<std::vector<float>>& embeddings,
     const std::vector<size_t>& positions
 ) const {
-    if (static_cast<int>(embeddings.size()) != static_cast<int>(positions.size())) {
+    if (embeddings.size() != positions.size()) {
         throw std::invalid_argument(
             "Batch size mismatch: embeddings=" + std::to_string(embeddings.size()) +
             ", positions=" + std::to_string(positions.size())
@@ -176,7 +176,7 @@ std::vector<float> RotaryEmbedding::rotateRelational(
     const std::vector<float>& embedding,
     const std::string& relation_type
 ) const {
-    if (static_cast<int>(embedding.size()) != config_.hidden_dim) {
+    if (embedding.size() != static_cast<size_t>(config_.hidden_dim)) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(config_.hidden_dim) + ", got " + 

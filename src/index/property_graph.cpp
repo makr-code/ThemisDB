@@ -161,7 +161,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon > static_cast<int>(outPrefix.size()) - 1) {
+            if (lastColon != std::string::npos && lastColon >= outPrefix.size()) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
@@ -181,7 +181,7 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
             // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
             size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon > static_cast<int>(inPrefix.size()) - 1) {
+            if (lastColon != std::string::npos && lastColon >= inPrefix.size()) {
                 std::string edgeId = keyStr.substr(lastColon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
@@ -353,7 +353,7 @@ std::pair<PropertyGraphManager::Status, std::vector<std::string>> PropertyGraphM
         // Extract PK from key: label:<graph_id>:<label>:<pk>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon != std::string::npos && lastColon >= static_cast<int>(prefix.size()) - 1) {
+        if (lastColon != std::string::npos && lastColon + 1 >= prefix.size()) {
             std::string pk = keyStr.substr(lastColon + 1);
             if (!pk.empty()) {
                 nodes.push_back(pk);
@@ -497,7 +497,7 @@ PropertyGraphManager::getEdgesByType(std::string_view type, std::string_view gra
         // Extract edgeId from key: type:<graph_id>:<type>:<edgeId>
         std::string keyStr(key);
         size_t lastColon = keyStr.rfind(':');
-        if (lastColon != std::string::npos && lastColon >= static_cast<int>(prefix.size()) - 1) {
+        if (lastColon != std::string::npos && lastColon + 1 >= prefix.size()) {
             std::string edgeId = keyStr.substr(lastColon + 1);
             if (edgeId.empty()) {
               return true;
@@ -1171,7 +1171,7 @@ PropertyGraphManager::computePageRank(
         std::string keyStr(key);
         // Extract node PK from key: node:<graph_id>:<pk>
         size_t prefixLen = nodePrefix.str().size();
-        if (static_cast<int>(keyStr.size()) > prefixLen) {
+        if (keyStr.size() > static_cast<size_t>(prefixLen)) {
             std::string pk = keyStr.substr(prefixLen);
             nodes.push_back(pk);
         }
@@ -1260,4 +1260,3 @@ PropertyGraphManager::computePageRank(
 }
 
 } // namespace themis
-
