@@ -118,7 +118,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
     }
 
     const std::size_t total = (std::size_t{1} << bit_count);
-    if (static_cast<int>(dense.size()) != total) {
+    if (dense.size() != total) {
         throw std::invalid_argument("buildExactBinaryTT dense.size() (" +
                                     std::to_string(dense.size()) +
                                     ") must equal 2^bit_count (" +
@@ -188,7 +188,7 @@ static storage::TTTrain buildExactBinaryTT(const std::vector<float>& dense,
 
 std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
+    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -241,7 +241,7 @@ std::size_t QTTMappingDescriptor::physicalToQTT(std::size_t physical_idx) const 
 
 std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_idx) const {
     const auto ndims = grid_sizes.size();
-    if (ndims == 0 || ndims != static_cast<int>(bit_depths.size()) || ndims != static_cast<int>(padded_grid_sizes.size())) {
+    if (ndims == 0 || ndims != bit_depths.size() || ndims != padded_grid_sizes.size()) {
         throw std::invalid_argument(
             "QTTMappingDescriptor: grid_sizes, bit_depths, and padded_grid_sizes "
             "must all be non-empty and have the same length");
@@ -348,7 +348,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     }
 
     std::vector<double> entropy(train.cores.size(), 0.0);
-    for (std::size_t i = 0; i <static_cast<int>(train.cores.size()); ++i) {
+    for (std::size_t i = 0; i < train.cores.size(); ++i) {
         const auto& c = train.cores[i];
         TensorGraphNode node;
         node.id = "core_" + std::to_string(i);
@@ -361,7 +361,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         graph.addNode(std::move(node));
     }
 
-    for (std::size_t i = 0; i + 1 <static_cast<int>(train.cores.size()); ++i) {
+    for (std::size_t i = 0; i + 1 < train.cores.size(); ++i) {
         const auto avg_rank = static_cast<double>(train.cores[i].r_right + train.cores[i + 1].r_left) * 0.5;
         TensorGraphEdge edge;
         edge.from = i;
@@ -388,7 +388,7 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
     std::uint64_t rng = cfg.random_seed;
     std::vector<TensorGraphEdge> candidates = {};
 
-    candidates.reserve(std::min<std::size_t>(cfg.num_samples,static_cast<int>(train.cores.size()) * 2));
+    candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));
 
     const std::size_t max_depth = std::max<std::size_t>(cfg.max_reshape_depth, 1);
     for (std::size_t s = 0; s < cfg.num_samples; ++s) {
@@ -478,7 +478,7 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
         throw std::invalid_argument("train must contain at least one core and one mode size");
     }
 
-    if (!grid_sizes.empty() && !train.mode_sizes.empty() && static_cast<int>(grid_sizes.size()) != static_cast<int>(train.mode_sizes.size())) {
+    if (!grid_sizes.empty() && !train.mode_sizes.empty() && grid_sizes.size() != train.mode_sizes.size()) {
         throw std::invalid_argument("grid_sizes.size() (" + std::to_string(grid_sizes.size()) +
                                     ") must match train.mode_sizes.size() (" +
                                     std::to_string(train.mode_sizes.size()) + ")");

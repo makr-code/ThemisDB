@@ -260,7 +260,7 @@ bool isValidRemoteCloudUri(const std::string& uri) {
     };
 
     return std::any_of(kSchemes.begin(), kSchemes.end(), [&uri](std::string_view scheme) {
-        return static_cast<bool>( static_cast<int>(uri.size()) < static_cast<int>(scheme.size())) && hasUriPrefix(uri, scheme);
+        return uri.size() >= scheme.size() && hasUriPrefix(uri, scheme);
     });
 }
 
@@ -277,9 +277,9 @@ std::string trimSlashes(std::string value) {
 std::vector<std::string> splitPathSegments(std::string_view value) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (static_cast<size_t>(start) <static_cast<int>(value.size())) {
+    while (start < value.size()) {
         const auto next = value.find('/', start);
-        const auto len = next == std::string_view::npos ? static_cast<int>(value.size()) - start : next - start;
+        const auto len = next == std::string_view::npos ? value.size() - start : next - start;
         if (len > 0) {
             segments.emplace_back(value.substr(start, len));
         }
@@ -293,7 +293,7 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
 
 std::string joinPathSegments(const std::vector<std::string>& segments, std::size_t start_index) {
     std::string joined = {};
-    for (std::size_t i = start_index; i <static_cast<int>(segments.size()); ++i) {
+    for (std::size_t i = start_index; i < segments.size(); ++i) {
         if (!joined.empty()) {
             joined.push_back('/');
         }
@@ -725,10 +725,10 @@ bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
     std::array<std::string, 5> fields{};
     std::size_t index = 0;
 
-    while (std::getline(stream, field, ' ')  && static_cast<size_t>(index) <static_cast<int>(fields.size())) {
+    while (std::getline(stream, field, ' ') && index < fields.size()) {
         fields[index++] = field;
     }
-    if (index != static_cast<int>(fields.size())) {
+    if (index != fields.size()) {
         return false;
     }
 
@@ -2993,13 +2993,13 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             for (const auto& collection : collections) {
                 coll_list_capacity += collection.size();
             }
-            if (static_cast<int>(collections.size()) > 1) {
-                coll_list_capacity += (static_cast<int>(collections.size()) - 1) * 2; // ", "
+            if (collections.size() > 1) {
+                coll_list_capacity += (collections.size() - 1) * 2; // ", "
             }
 
             std::string coll_list = {};
             coll_list.reserve(coll_list_capacity);
-            for (size_t i = 0; i <static_cast<int>(collections.size()); ++i) {
+            for (size_t i = 0; i < collections.size(); ++i) {
                 if (i) {
                     coll_list.append(", ");
                 }
@@ -3766,14 +3766,14 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         const auto& corrupted = corrupted_files.value();
         if (!corrupted.empty()) {
             std::string corrupt_list = {};
-            for (size_t i = 0; i <static_cast<int>(corrupted.size()) && i < 5; ++i) {
+            for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
                 if (i > 0) {
                   corrupt_list += ", ";
                 }
                 corrupt_list += corrupted[i];
             }
-            if (static_cast<int>(corrupted.size()) > 5) {
-                corrupt_list += " ... and " + std::to_string(static_cast<int>(corrupted.size()) - 5) + " more";
+            if (corrupted.size() > 5) {
+                corrupt_list += " ... and " + std::to_string(corrupted.size() - 5) + " more";
             }
             THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",
                         corrupted.size(), corrupt_list);
