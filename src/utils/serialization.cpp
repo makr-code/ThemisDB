@@ -105,7 +105,7 @@ void Serialization::Encoder::encodeFloatVector(const std::vector<float>& vec) {
     // Note: reinterpret_cast to uint8_t* (or char*) is explicitly allowed by C++ standard
     // for accessing object representation (not a strict aliasing violation)
     const uint8_t* data = reinterpret_cast<const uint8_t*>(vec.data());
-    buffer_.insert(buffer_.end(), data, data + static_cast<int>(vec.size()) * sizeof(float));
+    buffer_.insert(buffer_.end(), data, data + (vec.size() * sizeof(float)));
 }
 
 void Serialization::Encoder::beginArray(size_t size) {
@@ -145,7 +145,7 @@ Serialization::TypeTag Serialization::Decoder::readTag() {
     if (pos_ >= data_.size()) {
         logErrorWithContext(makeErrorContext(
             ErrorCode::DESERIALIZATION_FAILED,
-            fmt::format("Decoder read past end: pos={} size={}", pos_,static_cast<int>(data_.size())),
+            fmt::format("Decoder read past end: pos={} size={}", pos_, data_.size()),
             "Serialization::Decoder::readTag",
             ErrorSeverity::Warning, /*is_recoverable=*/false));
         return TypeTag::NULL_VALUE;
@@ -230,7 +230,7 @@ std::string Serialization::Decoder::decodeString() {
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before creating string
     // Prevent out-of-bounds reads when deserializing untrusted data
-    if (pos_ + size > static_cast<int>(data_.size())) {
+    if (pos_ + size > data_.size()) {
         // Malformed: declared string size exceeds available buffer
         // Return empty string instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -250,7 +250,7 @@ std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before vector construction
     // Prevent out-of-bounds reads and ensure safe vector initialization
-    if (pos_ + size > static_cast<int>(data_.size())) {
+    if (pos_ + size > data_.size()) {
         // Malformed: declared binary size exceeds available buffer
         // Return empty vector instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -269,7 +269,7 @@ std::vector<float> Serialization::Decoder::decodeFloatVector() {
     // Phase A.4 Hardening - CRITICAL: Bounds check before memcpy
     // Prevent out-of-bounds reads when deserializing float vectors
     size_t bytes_needed = static_cast<size_t>(count) * sizeof(float);
-    if (pos_ + bytes_needed > static_cast<int>(data_.size())) {
+    if (pos_ + bytes_needed > data_.size()) {
         // Malformed: declared vector count exceeds available buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<float>();  // Return empty vector

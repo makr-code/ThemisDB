@@ -705,7 +705,7 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     // Validation checks
     
     // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
-    result.errors.reserve(static_cast<int>(nodes.size()) + static_cast<int>(edges.size()) );
+    result.errors.reserve(nodes.size() + edges.size());
     result.warnings.reserve(nodes.size());
 
     // 1. Check for start node
@@ -1831,7 +1831,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     std::vector<StackEntry> stack = {};
 
-    stack.reserve(static_cast<int>(nodeDurations.size()) + 1);
+    stack.reserve(nodeDurations.size() + 1);
     stack.push_back({startNode, 0.0, std::vector<std::string>(), std::unordered_set<std::string>()});
     
     while (!stack.empty()) {
@@ -2374,7 +2374,7 @@ namespace {
 
 float computeCosineSimilarity(const std::vector<float>& a,
                               const std::vector<float>& b) noexcept {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+    if (a.size() != b.size() || a.empty()) {
       return 0.0f;
     }
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
@@ -2993,7 +2993,7 @@ ProcessGraphManager::findTasksInGeofence(
 
     const std::string wkt(geofence_wkt);
     const auto ring = parseWktPolygon(wkt);
-    if (static_cast<int>(ring.size()) < 3) return {Status::Error("Invalid or empty WKT polygon"), result};
+    if (ring.size() < 3U) return {Status::Error("Invalid or empty WKT polygon"), result};
 
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
@@ -3149,7 +3149,7 @@ ProcessGraphManager::validateLocationConstraint(
     // 1. WKT polygon constraint.
     if (locationConstraint && !locationConstraint->empty()) {
         const auto ring = parseWktPolygon(*locationConstraint);
-        if (static_cast<int>(ring.size()) >=3) {
+        if (ring.size() >= 3U) {
             const bool inside = pointInPolygon(execution_lon, execution_lat, ring);
             if (!inside) {
                 return {Status::Error("Execution location is outside the required geofence"), false};
@@ -3207,7 +3207,7 @@ ProcessGraphManager::getRegionalParameters(
         for (auto& [key, params] : regParams.items()) {
             if (key.substr(0, 7) == "POLYGON") {
                 const auto ring = parseWktPolygon(key);
-                if (static_cast<int>(ring.size()) >=3 && pointInPolygon(lon, lat, ring)) {
+                if (ring.size() >= 3U && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
                         for (auto& [pk, pv] : params.items()) {
                           merged[pk] = pv;
@@ -3445,7 +3445,7 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
 bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) const {
     switch (hyperedge.sync_type) {
         case Hyperedge::SyncType::AND_JOIN:
-            return static_cast<int>(hyperedge.activated_sources.size()) == static_cast<int>(hyperedge.source_nodes.size());
+            return hyperedge.activated_sources.size() == hyperedge.source_nodes.size();
         case Hyperedge::SyncType::OR_JOIN:
             return !hyperedge.activated_sources.empty();
         case Hyperedge::SyncType::N_OF_M_JOIN:
@@ -3454,7 +3454,7 @@ bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) c
                    hyperedge.activated_sources.size() >=
                        static_cast<size_t>(*hyperedge.required_count);
         case Hyperedge::SyncType::DISCRIMINATOR:
-            return static_cast<int>(hyperedge.activated_sources.size()) == 1;
+            return hyperedge.activated_sources.size() == 1U;
         default:
             return false;
     }
@@ -3478,4 +3478,3 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
-
