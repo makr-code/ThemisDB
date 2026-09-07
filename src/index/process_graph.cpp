@@ -2454,7 +2454,7 @@ ProcessGraphManager::findSimilarProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(result.size()) > k) {
+    if (result.size() > k) {
       result.resize(k);
     }
 
@@ -2553,7 +2553,7 @@ ProcessGraphManager::findSimilarTasks(
     // Sort descending by similarity, take top k.
     std::sort(candidates.begin(), candidates.end(),
               [](const auto& a, const auto& b) { return a.first > b.first; });
-    if (static_cast<int>(candidates.size()) > k) {
+    if (candidates.size() > k) {
       candidates.resize(k);
     }
     result.reserve(candidates.size());
@@ -2625,7 +2625,7 @@ ProcessGraphManager::semanticSearchProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(result.size()) > k) {
+    if (result.size() > k) {
       result.resize(k);
     }
 
@@ -3449,8 +3449,10 @@ bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) c
         case Hyperedge::SyncType::OR_JOIN:
             return !hyperedge.activated_sources.empty();
         case Hyperedge::SyncType::N_OF_M_JOIN:
-            return hyperedge.required_count.has_value() && 
-                   static_cast<int>(hyperedge.activated_sources.size()) >=static_cast<size_t>(*hyperedge.required_count);
+            return hyperedge.required_count.has_value() &&
+                   *hyperedge.required_count > 0 &&
+                   hyperedge.activated_sources.size() >=
+                       static_cast<size_t>(*hyperedge.required_count);
         case Hyperedge::SyncType::DISCRIMINATOR:
             return static_cast<int>(hyperedge.activated_sources.size()) == 1;
         default:
@@ -3476,5 +3478,4 @@ void registerProcessEdgeTypes() {
 }
 
 } // namespace themis
-
 

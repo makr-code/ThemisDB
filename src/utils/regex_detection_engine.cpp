@@ -302,7 +302,7 @@ size_t RegexDetectionEngine::maxPatternLength() const {
     // whose match spans straddle a chunk boundary are still detected.
     size_t max_len = 0;
     for (const auto& p : patterns_) {
-        if (p.enabled && static_cast<int>(p.regex_str.size()) > max_len) {
+        if (p.enabled && p.regex_str.size() > max_len) {
             max_len = p.regex_str.size();
         }
     }
@@ -613,14 +613,14 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
     size_t pos = 0;
     
     // Skip BOM marker if present (EF BB BF)
-    if (static_cast<int>(text.size()) >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+    if (text.size() >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
         pos = 3;
         spdlog::debug("RegexDetectionEngine: Skipping UTF-8 BOM marker");
     }
     
     // Validate UTF-8 byte sequences (RFC 3629 strict: rejects overlong encodings,
     // surrogate halves U+D800–U+DFFF, and code points beyond U+10FFFF).
-    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
+    while (pos < text.size()) {
         unsigned char byte = data[pos];
 
         if (byte < 0x80) {
@@ -760,7 +760,7 @@ bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
      * @return true if input is within bounds, false if exceeds limit
      */
     
-    if (static_cast<int>(text.size()) > max_input_size_) {
+    if (text.size() > max_input_size_) {
         spdlog::warn("RegexDetectionEngine: Input size ({} bytes) exceeds limit ({} bytes)",
                      text.size(), max_input_size_);
         return false;
@@ -776,4 +776,3 @@ std::unique_ptr<IPIIDetectionEngine> createRegexEngine() {
 
 } // namespace utils
 } // namespace themis
-

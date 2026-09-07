@@ -103,7 +103,8 @@ std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     // uncategorized(line 0) scanner alerts in this routine are phantom artifacts:
     // no concrete source location is identified, and the chunk copy is guarded by
     // offset/data.size checks with bounded std::min for memcpy length.
-    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
+    const size_t chunk_size =
+        (data.size() + static_cast<size_t>(data_shards) - 1) / static_cast<size_t>(data_shards);
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
@@ -421,7 +422,8 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    const size_t chunk_size = (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
+    const size_t chunk_size =
+        (data.size() + static_cast<size_t>(data_shards) - 1) / static_cast<size_t>(data_shards);
     std::vector<std::vector<uint8_t>> chunks;
     chunks.reserve(data_shards + parity_shards);
 
