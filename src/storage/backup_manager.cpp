@@ -554,7 +554,7 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
 /// Backslash-escapes embedded double-quote characters.
 static std::string winQuoteForCreateProcess(const std::string& s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 2);
+    out.reserve(s.size() + 2);
     out.push_back('"');
     for (char c : s) {
         if (c == '"') {
@@ -1497,7 +1497,7 @@ std::vector<std::string> BackupManager::listBackups(const std::string& backup_di
         // Sort by timestamp (filename format ensures correct sort order)
         std::sort(backups.begin(), backups.end());
         
-        THEMIS_INFO("Found {} backups in {}",static_cast<int>(backups.size()), backup_dir);
+        THEMIS_INFO("Found {} backups in {}", backups.size(), backup_dir);
     } catch (const std::exception& e) {
         THEMIS_ERROR("Exception listing backups: {}", e.what());
     }
@@ -2191,7 +2191,7 @@ bool BackupManager::encryptFile(const std::string& src_path,
 
     // Derive 32-byte AES key from the caller-supplied string via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
 
     // Generate random IV.
     unsigned char iv[IV_LEN];
@@ -2315,7 +2315,7 @@ bool BackupManager::decryptFile(const std::string& src_path,
 
     // Derive AES key via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
 
     std::ofstream out(dest_path, std::ios::binary);
     if (!out) {
@@ -3112,7 +3112,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
 
             total_sst_files += sst_files.size();
             THEMIS_INFO("restoreCollections: CF '{}' — {} SST file(s) ingested successfully",
-                        cf_name,static_cast<int>(sst_files.size()));
+                        cf_name, sst_files.size());
         }
 
         if (any_cf_failed) {
@@ -3123,7 +3123,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
         THEMIS_INFO("restoreCollections: restored {} SST file(s) across {} CF(s) from '{}'",
-                    total_sst_files,static_cast<int>(cf_descriptors.size()), checkpoint_dir.string());
+                    total_sst_files, cf_descriptors.size(), checkpoint_dir.string());
         return true;
 
     } catch (const std::exception& e) {
@@ -3897,7 +3897,7 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
             integrity_map.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Built integrity manifest with {} files",static_cast<int>(integrity_map.size()));
+        THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
         return OkVoid();
     } catch (const std::exception& e) {
         return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
@@ -3968,7 +3968,7 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
             result.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries",static_cast<int>(result.size()));
+        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries", result.size());
         return Ok(result);
     } catch (const std::exception& e) {
         return Err<std::vector<FileIntegrityInfo>>(
