@@ -307,7 +307,7 @@ nlohmann::json SamplingAggregator::estimate() const {
         case AggregationType::AVG: {
             const double sample_sum =
                 std::accumulate(reservoir_.begin(), reservoir_.end(), 0.0);
-            return static_cast<bool>(sample_sum / static_cast<double < static_cast<int>((reservoir_.size())));
+            return sample_sum / static_cast<double>(reservoir_.size());
         }
     }
     return nullptr;
@@ -330,4 +330,3 @@ void SamplingAggregator::reset() {
 
 } // namespace query
 } // namespace themis
-
