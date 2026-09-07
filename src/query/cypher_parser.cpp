@@ -368,12 +368,20 @@ struct CypherParser::Parser {
     // ---- Token helpers -------------------------------------------------------
 
     const CypherParser::Token& current() const {
-        return static_cast<bool>(tokens[cursor  < static_cast<int>(tokens.size() ? cursor : tokens.size())) - 1];
+        if (tokens.empty()) {
+            throw CypherParseError{"Internal parser error: empty token stream", 0};
+        }
+        const size_t idx = (cursor < tokens.size()) ? cursor : (tokens.size() - 1);
+        return tokens[idx];
     }
 
     const CypherParser::Token& peek([[maybe_unused]] size_t offset = 1) const {
-        size_t idx = cursor + offset;
-        return static_cast<bool>(tokens[idx  < static_cast<int>(tokens.size() ? idx : tokens.size())) - 1];
+        if (tokens.empty()) {
+            throw CypherParseError{"Internal parser error: empty token stream", 0};
+        }
+        const size_t idx = cursor + offset;
+        const size_t clamped_idx = (idx < tokens.size()) ? idx : (tokens.size() - 1);
+        return tokens[clamped_idx];
     }
 
     bool check(TokenType t) const { return current().type == t; }
@@ -1337,4 +1345,3 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
 
 }  // namespace query
 }  // namespace themis
-

@@ -475,7 +475,8 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                 has_forbidden_nodes = true;
                 break;
             case PathConstraints::ConstraintType::UNIQUE_NODES:
-            [[fallthrough]];\n            case PathConstraints::ConstraintType::NO_CYCLES:
+                [[fallthrough]];
+            case PathConstraints::ConstraintType::NO_CYCLES:
                 requires_unique = true;
                 break;
             default:
@@ -933,10 +934,10 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
             for (size_t t = 0; t < effective_threads; ++t) {
                 const size_t begin_idx = t * chunk_size;
-                if (begin_idx >= static_cast<int>(current_frontier.size())) {
+                if (begin_idx >= current_frontier.size()) {
                   break;
                 }
-                const size_t end_idx = std::min(begin_idx + chunk_size,static_cast<int>(current_frontier.size()));
+                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
 
                 futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
                     ChunkResult cr;
@@ -1347,7 +1348,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
-                    const size_t ce = std::min(cs + chunk_size,static_cast<int>(S.size()));
+                    const size_t ce = std::min(cs + chunk_size, S.size());
                     futures.push_back(std::async(std::launch::async,
                         [&, cs, ce]() {
                             TaskOutput out;
@@ -2395,7 +2396,8 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                     candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
                     break;
                 case QueryPattern::PATTERN_MATCH:
-                [[fallthrough]];\n                case QueryPattern::ALL_PATHS:
+                    [[fallthrough]];
+                case QueryPattern::ALL_PATHS:
                     candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
                     break;
                 case QueryPattern::CONNECTED_COMPONENT:
@@ -2459,7 +2461,8 @@ size_t GraphQueryOptimizer::estimateDepth(
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
-        [[fallthrough]];\n        case QueryPattern::REACHABILITY:
+            [[fallthrough]];
+        case QueryPattern::REACHABILITY:
             // Assume average case is half the diameter
             return estimated / 2;
             
@@ -2631,12 +2634,15 @@ bool GraphQueryOptimizer::shouldUseParallel(
     // Some algorithms parallelize better
     switch (algorithm) {
         case TraversalAlgorithm::BFS:
-        [[fallthrough]];\n        case TraversalAlgorithm::BIDIRECTIONAL:
+            [[fallthrough]];
+        case TraversalAlgorithm::BIDIRECTIONAL:
             return true;
             
         case TraversalAlgorithm::DFS:
-        [[fallthrough]];\n        case TraversalAlgorithm::ASTAR:
-        [[fallthrough]];\n        case TraversalAlgorithm::DIJKSTRA:
+            [[fallthrough]];
+        case TraversalAlgorithm::ASTAR:
+            [[fallthrough]];
+        case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
         default: break;
     }
@@ -2860,7 +2866,7 @@ GraphQueryOptimizer::registerIncrementalBFS(
     entry.start_vertex = std::string(start_vertex);
     entry.max_depth    = max_depth;
     entry.constraints  = constraints;
-    entry.callback     = std::move([[maybe_unused]] callback);
+    entry.callback     = std::move(callback);
 
     // Execute initial BFS to seed the last_result snapshot.
     auto result = executeBFS(start_vertex, max_depth, constraints);
@@ -2970,7 +2976,7 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
     // This ensures that any unregisterIncrementalQuery() call inside a callback
     // does not invalidate iterators used in the first pass above.
     for (auto& p : pending) {
-        p.callback([[maybe_unused]] p.delta);
+        p.callback(p.delta);
     }
 
     return static_cast<int>(pending.size());
