@@ -1515,92 +1515,92 @@ public:
                 std::lock_guard<std::mutex> lock(mutex_);
                 quarantine_.push_back(std::move(entry));
             }
+        }
+    }
 
-            IngestionStats ingestFilesystemViaWorkflowEngine(
-                const SourceConfig& config,
-                WorkflowEngine& engine,
-                ProgressCallback progress_callback) {
-                IngestionStats stats;
-                const std::filesystem::path source_path(config.location);
-                if (!std::filesystem::exists(source_path)) {
-                    stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
-                                   IngestionErrorSeverity::ERROR,
-                                   "Source path not found: " + config.location,
-                                   config.source_id);
-                    return stats;
-                }
+    IngestionStats ingestFilesystemViaWorkflowEngine(
+        const SourceConfig& config,
+        WorkflowEngine& engine,
+        ProgressCallback progress_callback) {
+        IngestionStats stats;
+        const std::filesystem::path source_path(config.location);
+        if (!std::filesystem::exists(source_path)) {
+            stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
+                           IngestionErrorSeverity::ERROR,
+                           "Source path not found: " + config.location,
+                           config.source_id);
+            return stats;
+        }
 
-                std::vector<std::filesystem::path> files;
-                const bool recursive = optionEnabled(config.options, "recursive", true);
-                if (std::filesystem::is_regular_file(source_path)) {
-                    files.push_back(source_path);
-                } else if (std::filesystem::is_directory(source_path)) {
-                    if (recursive) {
-                        for (const auto& entry : std::filesystem::recursive_directory_iterator(source_path)) {
-                            if (entry.is_regular_file()) {
-                                files.push_back(entry.path());
-                            }
-                        }
-                    } else {
-                        for (const auto& entry : std::filesystem::directory_iterator(source_path)) {
-                            if (entry.is_regular_file()) {
-                                files.push_back(entry.path());
-                            }
-                        }
-                    }
-                } else {
-                    stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
-                                   IngestionErrorSeverity::ERROR,
-                                   "Unsupported filesystem source type: " + config.location,
-                                   config.source_id);
-                    return stats;
-                }
-
-                const auto profile_it = config.options.find("workflow_profile");
-                const bool has_profile = profile_it != config.options.end() && !profile_it->second.empty();
-
-                const size_t total_files = files.size();
-                size_t processed_files = 0;
-                for (const auto& file : files) {
-                    ExtractionContext ctx;
-                    ctx.manifest.original_path = file.string();
-                    ctx.manifest.file_id = file.string();
-                    ctx.manifest.filename_stem = file.stem().string();
-                    ctx.manifest.extension = file.extension().string();
-                    ctx.manifest.detected_mime = detectMimeFromExtension(ctx.manifest.extension);
-                    ctx.manifest.detected_format = detectFormatFromExtension(ctx.manifest.extension);
-
-                    std::error_code ec;
-                    const auto size = std::filesystem::file_size(file, ec);
-                    if (!ec) {
-                        ctx.manifest.file_size_bytes = size;
-                    }
-
-                    auto run_result = has_profile
-                        ? engine.executeWithProfile(profile_it->second, ctx)
-                        : engine.execute(ctx);
-                    if (!run_result) {
-                        stats.documents_failed++;
-                        stats.addError(IngestionErrorCode::PROCESSING_FAILED,
-                                       IngestionErrorSeverity::ERROR,
-                                       run_result.error().message,
-                                       config.source_id,
-                                       file.string());
-                    } else {
-                        stats.documents_processed++;
-                        stats.bytes_processed += static_cast<size_t>(ctx.manifest.file_size_bytes);
-                    }
-
-                    ++processed_files;
-                    if (progress_callback) {
-                        progress_callback(config.source_id, processed_files, total_files,
-                                          "workflow_engine");
+        std::vector<std::filesystem::path> files;
+        const bool recursive = optionEnabled(config.options, "recursive", true);
+        if (std::filesystem::is_regular_file(source_path)) {
+            files.push_back(source_path);
+        } else if (std::filesystem::is_directory(source_path)) {
+            if (recursive) {
+                for (const auto& entry : std::filesystem::recursive_directory_iterator(source_path)) {
+                    if (entry.is_regular_file()) {
+                        files.push_back(entry.path());
                     }
                 }
+            } else {
+                for (const auto& entry : std::filesystem::directory_iterator(source_path)) {
+                    if (entry.is_regular_file()) {
+                        files.push_back(entry.path());
+                    }
+                }
+            }
+        } else {
+            stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                           IngestionErrorSeverity::ERROR,
+                           "Unsupported filesystem source type: " + config.location,
+                           config.source_id);
+            return stats;
+        }
 
-                return stats;
+        const auto profile_it = config.options.find("workflow_profile");
+        const bool has_profile = profile_it != config.options.end() && !profile_it->second.empty();
+
+        const size_t total_files = files.size();
+        size_t processed_files = 0;
+        for (const auto& file : files) {
+            ExtractionContext ctx;
+            ctx.manifest.original_path = file.string();
+            ctx.manifest.file_id = file.string();
+            ctx.manifest.filename_stem = file.stem().string();
+            ctx.manifest.extension = file.extension().string();
+            ctx.manifest.detected_mime = detectMimeFromExtension(ctx.manifest.extension);
+            ctx.manifest.detected_format = detectFormatFromExtension(ctx.manifest.extension);
+
+            std::error_code ec;
+            const auto size = std::filesystem::file_size(file, ec);
+            if (!ec) {
+                ctx.manifest.file_size_bytes = size;
+            }
+
+            auto run_result = has_profile
+                ? engine.executeWithProfile(profile_it->second, ctx)
+                : engine.execute(ctx);
+            if (!run_result) {
+                stats.documents_failed++;
+                stats.addError(IngestionErrorCode::PROCESSING_FAILED,
+                               IngestionErrorSeverity::ERROR,
+                               run_result.error().message,
+                               config.source_id,
+                               file.string());
+            } else {
+                stats.documents_processed++;
+                stats.bytes_processed += static_cast<size_t>(ctx.manifest.file_size_bytes);
+            }
+
+            ++processed_files;
+            if (progress_callback) {
+                progress_callback(config.source_id, processed_files, total_files,
+                                  "workflow_engine");
             }
         }
+
+        return stats;
     }
 
     // Byte-hour tracking per source
