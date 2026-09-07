@@ -1306,7 +1306,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = RLECodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1314,7 +1314,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1333,7 +1333,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = BitPackingCodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1341,7 +1341,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1360,7 +1360,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int32_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else if (metadata_.type == ColumnType::INT64) {
                 auto decode_result = FrameOfReferenceCodec::decodeInt64(encoded_data_);
                 if (!decode_result) {
@@ -1368,7 +1368,7 @@ Result<void> ColumnSegment::decode() {
                 }
                 const auto& vals = *decode_result;
                 raw_data_.resize(vals.size() * sizeof(int64_t));
-                std::memcpy(raw_data_.data(), vals.data(),static_cast<int>(raw_data_.size()));
+                std::memcpy(raw_data_.data(), vals.data(), raw_data_.size());
             } else {
                 return tl::unexpected(Error(
                     errors::ErrorCode::ERR_CODEC_NOT_AVAILABLE,
@@ -1437,7 +1437,7 @@ std::vector<uint8_t> ColumnSegment::serialize() const {
     // Encoded data
     append_uint64(encoded_data_.size());
     serialized.insert(serialized.end(), encoded_data_.begin(), encoded_data_.end());
-    append_uint64(calculateSegmentChecksum(serialized.data(),static_cast<int>(serialized.size())));
+    append_uint64(calculateSegmentChecksum(serialized.data(), serialized.size()));
 
     return serialized;
 }
@@ -1510,7 +1510,8 @@ Result<ColumnSegment> ColumnSegment::deserialize(const std::vector<uint8_t>& dat
     if (trailing_size == sizeof(uint64_t)) {
         uint64_t expected_checksum = 0;
         std::memcpy(&expected_checksum, &data[pos], sizeof(uint64_t));
-        const uint64_t actual_checksum = calculateSegmentChecksum(data.data(), static_cast<int>(data.size()) - sizeof(uint64_t));
+        const uint64_t actual_checksum =
+            calculateSegmentChecksum(data.data(), data.size() - sizeof(uint64_t));
         if (actual_checksum != expected_checksum) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
