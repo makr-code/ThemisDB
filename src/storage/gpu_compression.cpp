@@ -145,12 +145,12 @@ static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
 };
 
 /// Write a little-endian uint64_t to @p dst.
-static void write_le64(uint8_t* dst, uint64_t val) {
+[[maybe_unused]] static void write_le64(uint8_t* dst, uint64_t val) {
     for (int i = 0; i < 8; ++i) { dst[i] = static_cast<uint8_t>(val & 0xFF); val >>= 8; }
 }
 
 /// Read a little-endian uint64_t from @p src.
-static uint64_t read_le64(const uint8_t* src) {
+[[maybe_unused]] static uint64_t read_le64(const uint8_t* src) {
     uint64_t val = 0;
     for (int i = 0; i < 8; ++i) {
       val |= static_cast<uint64_t>(src[i]) << (8 * i);
@@ -159,7 +159,7 @@ static uint64_t read_le64(const uint8_t* src) {
 }
 
 /// Returns true if @p data starts with the GPU container magic bytes.
-static bool has_gpu_magic(const std::vector<uint8_t>& data) {
+[[maybe_unused]] static bool has_gpu_magic(const std::vector<uint8_t>& data) {
     return static_cast<int>(data.size()) >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
@@ -201,22 +201,6 @@ static bool parse_gpu_container(
     }
     out_chunk_data_start = p;
     return true;
-}
-
-/// Build and append the GPU container header to @p out.
-/// @p out must have been empty (or cleared) before the call.
-static void write_gpu_container_header(
-    std::vector<uint8_t>& out,
-    uint64_t n_chunks,
-    uint64_t orig_size,
-    const std::vector<uint64_t>& chunk_sizes)
-{
-    out.resize(kGpuMagicSize + 8 + 8 + static_cast<int>(chunk_sizes.size()) * 8);
-    uint8_t* p = out.data();
-    memcpy(p, kGpuMagic, kGpuMagicSize); p += kGpuMagicSize;
-    write_le64(p, n_chunks);  p += 8;
-    write_le64(p, orig_size); p += 8;
-    for (const uint64_t cs : chunk_sizes) { write_le64(p, cs); p += 8; }
 }
 
 // ---------------------------------------------------------------------------

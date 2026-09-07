@@ -438,23 +438,23 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     fused.reserve(static_cast<int>(ann_list.size()) + static_cast<int>(graph_list.size()) );
 
     // Seed from ANN list
-    for (size_t r = 0; r < ann_list.size(); ++r) {
-        const auto& id = ann_list[r];
+    for (int r = 0; r < static_cast<int>(ann_list.size()); ++r) {
+        const auto& id = ann_list[static_cast<size_t>(r)];
         auto& entry = fused[id];
         entry.node_id   = id;
         entry.ann_rank  = r;
-        entry.rrf_score += 1.0 / (query.rrf_k + r + 1.0);
+        entry.rrf_score += 1.0 / (query.rrf_k + static_cast<double>(r) + 1.0);
     }
     // Add from graph list
-    for (size_t r = 0; r < graph_list.size(); ++r) {
-        const auto& id = graph_list[r];
+    for (int r = 0; r < static_cast<int>(graph_list.size()); ++r) {
+        const auto& id = graph_list[static_cast<size_t>(r)];
         auto& entry = fused[id];
         if (entry.node_id.empty()) {
             entry.node_id    = id;
             entry.from_graph = true;
         }
         entry.graph_rank  = r;
-        entry.rrf_score  += 1.0 / (query.rrf_k + r + 1.0);
+        entry.rrf_score  += 1.0 / (query.rrf_k + static_cast<double>(r) + 1.0);
     }
 
     // ── Step 4: Sort + truncate ───────────────────────────────────────────

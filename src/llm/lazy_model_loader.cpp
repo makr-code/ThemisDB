@@ -13,16 +13,10 @@
  */
 
 #include "llm/lazy_model_loader.h"
-#include <spdlog/spdlog.h>
 
 namespace themis::llm {
 
-LazyModelLoader::LazyModelLoader() : models_loaded_(0) {
-    spdlog::debug("LazyModelLoader initialized");
-}
-
-LazyModelLoader::~LazyModelLoader() {
-    // Cleanup loaded models
-}
+// LazyModelLoader is unified via llm/model_loader.h + model_loader.cpp.
+// This translation unit intentionally defines no additional symbols.
 
 }  // namespace themis::llm

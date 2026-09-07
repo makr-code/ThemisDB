@@ -363,7 +363,7 @@ bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
     int ret = io_uring_register(ring_->ring_fd,
                                 IORING_REGISTER_FILES,
                                 ring_->registered_fds.data(),
-                                static_cast<unsigned>(ring_-> static_cast<int>(registered_fds.size())));
+                                static_cast<unsigned>(ring_->registered_fds.size()));
     if (ret != 0) {
         ring_->registered_fds.pop_back();
         return false;

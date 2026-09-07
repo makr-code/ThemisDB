@@ -49,25 +49,25 @@ public:
     bool isAvailable() const { return initialized_; }
 
     // === Minimal ILLMPlugin stubs to make this class concrete for tests ===
-    bool loadModel(const std::string& model_path, const json& config = {}) override { return true; }
+    bool loadModel(const std::string& /*model_path*/, const json& /*config*/ = {}) override { return true; }
     void unloadModel() override {}
     std::optional<ModelInfo> getModelInfo() const override { return std::nullopt; }
     bool isModelLoaded() const override { return false; }
 
-    bool loadLoRA(const std::string& lora_id, const std::string& lora_path, float scale = 1.0f) override { return false; }
-    bool unloadLoRA(const std::string& lora_id) override { return false; }
+    bool loadLoRA(const std::string& /*lora_id*/, const std::string& /*lora_path*/, float /*scale*/ = 1.0f) override { return false; }
+    bool unloadLoRA(const std::string& /*lora_id*/) override { return false; }
     std::vector<LoRAInfo> listLoRAs() const override { return {}; }
 
-    InferenceResponse generate(const InferenceRequest& request) override { return {}; }
-    InferenceResponse generateRAG(const RAGContext& rag_context, const InferenceRequest& request) override { return {}; }
-    std::vector<float> embed(const std::string& text) override { return {}; }
+    InferenceResponse generate(const InferenceRequest& /*request*/) override { return {}; }
+    InferenceResponse generateRAG(const RAGContext& /*rag_context*/, const InferenceRequest& /*request*/) override { return {}; }
+    std::vector<float> embed(const std::string& /*text*/) override { return {}; }
 
     LLMCapabilities getCapabilities() const override { return LLMCapabilities(); }
     json getMemoryStats() const override { return json::object(); }
     json getPerformanceStats() const override { return json::object(); }
 
-    std::vector<uint8_t> exportLoRA(const std::string& lora_id) override { return {}; }
-    bool importLoRA(const std::string& lora_id, const std::vector<uint8_t>& data) override { return false; }
+    std::vector<uint8_t> exportLoRA(const std::string& /*lora_id*/) override { return {}; }
+    bool importLoRA(const std::string& /*lora_id*/, const std::vector<uint8_t>& /*data*/) override { return false; }
 
     // SSM-specific operations
     bool updateState(const std::vector<int32_t>& tokens) override;

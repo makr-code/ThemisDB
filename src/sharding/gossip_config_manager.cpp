@@ -875,9 +875,9 @@ bool GossipConfigManager::shouldAcceptUpdate(const ConfigUpdate& update) {
     ).count());
     
     // Reject updates older than 1 hour.
-    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600 * 1000000000;
+    static constexpr uint64_t MAX_UPDATE_AGE_NS = 3600ULL * 1000000000ULL;
     // Accept bounded future skew to avoid unsigned underflow and tolerate mild clock drift.
-    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300 * 1000000000;
+    static constexpr uint64_t MAX_FUTURE_SKEW_NS = 300ULL * 1000000000ULL;
     if (update.timestamp_ns > now_ns) {
         if (update.timestamp_ns - now_ns > MAX_FUTURE_SKEW_NS) {
             return false;

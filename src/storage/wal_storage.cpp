@@ -221,27 +221,27 @@ static uint32_t crc32_update(uint32_t crc, const void* data, size_t len) {
 // call site passes a correctly-sized local array.  The scanner cannot infer
 // the pointed-to size; the array-reference overloads below enforce this
 // statically where possible.
-static void encode_u32(uint8_t* buf, uint32_t v) {
+[[maybe_unused]] static void encode_u32(uint8_t* buf, uint32_t v) {
     buf[0] = static_cast<uint8_t>(v);
     buf[1] = static_cast<uint8_t>(v >> 8);
     buf[2] = static_cast<uint8_t>(v >> 16);
     buf[3] = static_cast<uint8_t>(v >> 24);
 }
 
-static void encode_u64(uint8_t* buf, uint64_t v) {
+[[maybe_unused]] static void encode_u64(uint8_t* buf, uint64_t v) {
     for (int i = 0; i < 8; ++i) {
         buf[i] = static_cast<uint8_t>(v >> (8 * i));
     }
 }
 
-static uint32_t decode_u32(const uint8_t* buf) {
+[[maybe_unused]] static uint32_t decode_u32(const uint8_t* buf) {
     return static_cast<uint32_t>(buf[0])
          | (static_cast<uint32_t>(buf[1]) << 8)
          | (static_cast<uint32_t>(buf[2]) << 16)
          | (static_cast<uint32_t>(buf[3]) << 24);
 }
 
-static uint64_t decode_u64(const uint8_t* buf) {
+[[maybe_unused]] static uint64_t decode_u64(const uint8_t* buf) {
     uint64_t v = 0;
     for (int i = 0; i < 8; ++i) {
         v |= (static_cast<uint64_t>(buf[i]) << (8 * i));
@@ -250,10 +250,10 @@ static uint64_t decode_u64(const uint8_t* buf) {
 }
 
 // Bounds-safe overloads for direct array arguments (4 bytes / 8 bytes).
-static void encode_u32(uint8_t (&buf)[4], uint32_t v)  { encode_u32(static_cast<uint8_t*>(buf), v); }
-static uint32_t decode_u32(const uint8_t (&buf)[4])    { return decode_u32(static_cast<const uint8_t*>(buf)); }
-static void encode_u64(uint8_t (&buf)[8], uint64_t v)  { encode_u64(static_cast<uint8_t*>(buf), v); }
-static uint64_t decode_u64(const uint8_t (&buf)[8])    { return decode_u64(static_cast<const uint8_t*>(buf)); }
+[[maybe_unused]] static void encode_u32(uint8_t (&buf)[4], uint32_t v)  { encode_u32(static_cast<uint8_t*>(buf), v); }
+[[maybe_unused]] static uint32_t decode_u32(const uint8_t (&buf)[4])    { return decode_u32(static_cast<const uint8_t*>(buf)); }
+[[maybe_unused]] static void encode_u64(uint8_t (&buf)[8], uint64_t v)  { encode_u64(static_cast<uint8_t*>(buf), v); }
+[[maybe_unused]] static uint64_t decode_u64(const uint8_t (&buf)[8])    { return decode_u64(static_cast<const uint8_t*>(buf)); }
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Segment naming
