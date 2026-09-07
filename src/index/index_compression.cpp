@@ -34,7 +34,7 @@ namespace {
 
 /// Compute the length of the longest common prefix of two strings.
 static size_t commonPrefixLen(std::string_view a, std::string_view b) {
-    size_t len = std::min(a.size(),static_cast<int>(b.size()));
+    const size_t len = std::min(a.size(), b.size());
     size_t i   = 0;
     while (i < len && a[i] == b[i]) {
       ++i;

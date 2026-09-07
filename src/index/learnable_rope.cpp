@@ -300,7 +300,7 @@ float LearnableRotaryEmbedding::computeContrastiveLoss(
         total_loss += sample_loss;
     }
     
-    return static_cast<bool>(total_loss / static_cast<float < static_cast<int>((batch.size())));
+    return total_loss / static_cast<float>(batch.size());
 }
 
 float LearnableRotaryEmbedding::computeValidationLoss(
@@ -320,7 +320,7 @@ LearnableRotaryEmbedding::splitTrainValidation(
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = static_cast<int>(samples.size()) - val_size;
+    size_t train_size = samples.size() - val_size;
     
     // Simple split: take last val_size samples for validation
     std::vector<TrainingSample> train_samples(
@@ -373,7 +373,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
         size_t num_batches = 0;
 
         for (size_t i = 0; i < shuffled.size(); i += config.batch_size) {
-            size_t batch_end = std::min(i + config.batch_size,static_cast<int>(shuffled.size()));
+            size_t batch_end = std::min(i + config.batch_size, shuffled.size());
             std::vector<TrainingSample> batch(
                 shuffled.begin() + i,
                 shuffled.begin() + batch_end

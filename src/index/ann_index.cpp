@@ -404,7 +404,7 @@ bool ScaNN::add(int64_t id, const float* vector, size_t dim) {
     float best_dist = std::numeric_limits<float>::max();
     size_t best_leaf = 0;
     for (size_t i = 0; i < leaves_.size(); ++i) {
-        if (leaves_[i].static_cast<int>(centroid.size()) != dim_) {
+        if (leaves_[i].centroid.size() != dim_) {
             THEMIS_WARN("ScaNN::addToLeaf: leaf {} centroid size {} != dim_ {}", i, leaves_[i].centroid.size(), dim_);
             return false;
         }
@@ -448,7 +448,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
     if (dim != dim_) { THEMIS_WARN("ScaNN::search: query dim {} != index dim {}", dim, dim_); return {}; }
 
     // ---- Step 1: Score leaf centroids ----
-    size_t probe = std::min(cfg_.num_leaves_to_search,static_cast<int>(leaves_.size()));
+    size_t probe = std::min(cfg_.num_leaves_to_search, leaves_.size());
     using LeafScore = std::pair<float, size_t>;
     std::vector<LeafScore> leaf_scores(leaves_.size());
     for (size_t i = 0; i < leaves_.size(); ++i)
@@ -473,7 +473,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, [[maybe_unused]] 
                       && static_cast<int>(leaf.codes.size()) == static_cast<int>(leaf.vectors.size())
                       && !leaf.codes.empty();
 
-        const size_t scan_count = std::min(leaf.ids.size(),static_cast<int>(leaf.vectors.size()));
+        const size_t scan_count = std::min(leaf.ids.size(), leaf.vectors.size());
         for (size_t i = 0; i < scan_count; ++i) {
             float dist = use_ah
                 ? codebook_.decode_distance(query, leaf.codes[i])
