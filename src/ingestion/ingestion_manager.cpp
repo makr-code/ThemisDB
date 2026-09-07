@@ -93,6 +93,18 @@ static std::string sourceTypeLabel(SourceType t) {
         return value == "1" || value == "true" || value == "yes" || value == "on";
     }
 
+    static std::string optionLower(const std::unordered_map<std::string, std::string>& options,
+                                   const std::string& key) {
+        const auto it = options.find(key);
+        if (it == options.end()) {
+            return {};
+        }
+        std::string value = it->second;
+        std::transform(value.begin(), value.end(), value.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return value;
+    }
+
     static std::string detectMimeFromExtension(std::string ext) {
         std::transform(ext.begin(), ext.end(), ext.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
@@ -588,13 +600,33 @@ public:
             return stats;
         }
 
+        const auto workflow_mode = optionLower(config.options, "workflow_engine_mode");
+        const bool workflow_mode_filesystem = workflow_mode == "filesystem";
+        const bool workflow_explicit_enable =
+            optionEnabled(config.options, "workflow_engine_enable", false) ||
+            workflow_mode_filesystem;
+        const bool workflow_eligible_source =
+            config.type == SourceType::FILESYSTEM ||
+            ((config.type == SourceType::PLUGIN ||
+              config.type == SourceType::OBJECT_STORAGE) && workflow_mode_filesystem);
+        const bool should_use_workflow = workflow_eligible_source &&
+            !optionEnabled(config.options, "workflow_engine_disable", false) &&
+            (config.type == SourceType::FILESYSTEM || workflow_explicit_enable);
+
         std::shared_ptr<WorkflowEngine> workflow_engine;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             workflow_engine = workflow_engine_;
         }
-        if (!dry_run_ && workflow_engine && config.type == SourceType::FILESYSTEM &&
-            !optionEnabled(config.options, "workflow_engine_disable", false)) {
+        if (!dry_run_ && should_use_workflow && !workflow_engine &&
+            optionEnabled(config.options, "workflow_engine_required", false)) {
+            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                           IngestionErrorSeverity::ERROR,
+                           "Workflow engine is required but not configured",
+                           source_id);
+            return stats;
+        }
+        if (!dry_run_ && should_use_workflow && workflow_engine) {
             auto stats = ingestFilesystemViaWorkflowEngine(config, *workflow_engine, progress_callback);
             auto end_time = std::chrono::steady_clock::now();
             stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
@@ -2539,4 +2571,3 @@ std::string IngestionAdminApi::healthJson() const {
 
 } // namespace ingestion
 } // namespace themis
-

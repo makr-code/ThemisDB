@@ -860,7 +860,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     std::memcpy(&original_size, compressed.data(), 8);
 
     // Validate original size
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = static_cast<size_t>(4) * 1024ULL * 1024ULL * 1024ULL; // 4GB
     if (original_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -986,7 +986,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std
     }
 
     // Validate size to prevent excessive memory allocation
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = static_cast<size_t>(4) * 1024ULL * 1024ULL * 1024ULL; // 4GB
     if (uncompressed_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -1665,4 +1665,3 @@ ColumnarFormatManager::getCompressionStats(const std::vector<ColumnSegment>& seg
 
 } // namespace storage
 } // namespace themis
-
