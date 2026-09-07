@@ -1041,7 +1041,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
                      blob_id, healthy, required,static_cast<int>(missing.size()),
                      [&]() {
                          std::ostringstream ss = {};
-                         for (size_t i = 0; i <static_cast<int>(missing.size()); ++i) {
+                         for (size_t i = 0; i < missing.size(); ++i) {
                              if (i) {
                                ss << ", ";
                              }
@@ -1092,7 +1092,7 @@ bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
 /// Uses the pre-assigned location if available, otherwise falls back to a
 /// deterministic "shard-<N>" name so each chunk can live on a distinct node.
 static std::string ecShardId(const BlobMetadata& meta, uint32_t chunk_index) {
-    if (static_cast<int>(meta.locations.size()) > chunk_index) {
+    if (meta.locations.size() > static_cast<size_t>(chunk_index)) {
         return meta.locations[chunk_index].shard_id;
     }
     return "shard-" + std::to_string(chunk_index);
@@ -1152,7 +1152,7 @@ Result<void> BlobRedundancyManager::writeBlob(
             }
         }
 
-        if (static_cast<int>(written_shards.size()) < static_cast<size_t>(ec_config.data_shards)) {
+        if (written_shards.size() < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<void>(
                 themis::errors::ErrorCode::ERR_STORAGE_REDUNDANCY_FAILED,
                 "Failed to write enough erasure-coded shards for blob '" +
@@ -1236,7 +1236,7 @@ Result<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
             }
         }
 
-        if (static_cast<int>(available.size()) < static_cast<size_t>(ec_config.data_shards)) {
+        if (available.size() < static_cast<size_t>(ec_config.data_shards)) {
             return themis::Err<std::vector<uint8_t>>(
                 themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                 "Not enough shards to reconstruct blob '" + blob_id +

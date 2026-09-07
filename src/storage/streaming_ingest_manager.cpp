@@ -139,11 +139,11 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
             : std::chrono::steady_clock::time_point::max();
 
         bool got_space = not_full_.wait_until(lock, deadline, [this] {
-            return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
+            return buffer_.size() < cfg_.max_buffer_events
                 || !running_.load(std::memory_order_relaxed);
         });
 
-        if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
+        if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
             return tl::unexpected(Error(errors::ErrorCode::ERR_STORAGE_LOG_FULL,
                                         "StreamingIngestManager: buffer full, "
                                         "back-pressure timeout exceeded"));
@@ -168,9 +168,9 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
     for (auto& ev : events) {
         if (buffer_.size() >= static_cast<size_t>(cfg_.max_buffer_events)) {
             if (cfg_.overflow_policy == OverflowPolicy::DROP) {
-                stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
-                                         std::memory_order_relaxed);
-                THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer full, dropping {} events", static_cast<int>(events.size()) - accepted);
+                const size_t dropped = events.size() - accepted;
+                stat_dropped_.fetch_add(dropped, std::memory_order_relaxed);
+                THEMIS_WARN("StreamingIngestManager::ingestBatch: buffer full, dropping {} events", dropped);
                 break;
             }
             // Wait for space before accepting more from this batch.
@@ -180,13 +180,13 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
                 : std::chrono::steady_clock::time_point::max();
 
             bool got_space = not_full_.wait_until(lock, deadline, [this] {
-                return static_cast<int>(buffer_.size()) < cfg_.max_buffer_events
+                return buffer_.size() < cfg_.max_buffer_events
                     || !running_.load(std::memory_order_relaxed);
             });
-            if (!got_space || static_cast<int>(buffer_.size()) >= cfg_.max_buffer_events) {
+            if (!got_space || buffer_.size() >= cfg_.max_buffer_events) {
                 // Drop the rest of the batch.
-                stat_dropped_.fetch_add(static_cast<int>(events.size()) - accepted,
-                                         std::memory_order_relaxed);
+                const size_t dropped = events.size() - accepted;
+                stat_dropped_.fetch_add(dropped, std::memory_order_relaxed);
                 break;
             }
         }

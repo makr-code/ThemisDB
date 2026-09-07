@@ -309,7 +309,7 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
                        }),
         versions.end());
 
-    return before - static_cast<int>(versions.size()) ;
+    return before - versions.size();
 }
 
 size_t SystemVersionedTable::purgeHistoricalVersions(
@@ -389,7 +389,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
                        }),
         versions.end());
 
-    return before - static_cast<int>(versions.size()) ;
+    return before - versions.size();
 }
 
 // ============================================================================
@@ -398,7 +398,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
 size_t SystemVersionedTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(rows_.size());
+    return rows_.size();
 }
 
 size_t SystemVersionedTable::versionCount() const {
@@ -428,7 +428,7 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
     nlohmann::json stats = {
         {"table_name",       table_name_},
         {"history_table",    config_.history_table_name},
-        {"key_count",static_cast<int>(rows_.size())},
+        {"key_count", rows_.size()},
         {"current_rows",     current_count},
         {"historical_rows",  historical_count},
         {"total_versions",   current_count + historical_count},
