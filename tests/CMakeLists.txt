@@ -27919,6 +27919,20 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestr
     target_link_libraries(test_continuous_learning_orchestrator
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
+    # Resolve modular static-link ordering for query functions that reference
+    # LLM facade symbols (DocsAssistant/ThemisHelpLoRA/factory entry points).
+    if(TARGET themis_query)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_query)
+    endif()
+    if(TARGET themis_llm_api)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm_api)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm)
+    endif()
+    if(TARGET themis_llm_ext)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm_ext)
+    endif()
     gtest_discover_tests(test_continuous_learning_orchestrator
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
