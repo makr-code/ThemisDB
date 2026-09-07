@@ -191,11 +191,11 @@ std::vector<std::string> PrefixBlock::decompress() const {
 }
 
 size_t PrefixBlock::savedBytes() const {
-    if (static_cast<int>(suffixes.size()) <= 1) {
+    if (suffixes.size() <= 1) {
       return 0;
     }
     // Each suffix avoids storing the prefix separately
-    return static_cast<int>(prefix.size()) * (static_cast<int>(suffixes.size()) - 1);
+    return prefix.size() * (suffixes.size() - 1);
 }
 
 // ============================================================================
@@ -527,4 +527,3 @@ std::vector<int64_t> IndexCompressionCodec::decodePKs(const DeltaBlock& block) {
 
 } // namespace index
 } // namespace themis
-

@@ -25,7 +25,8 @@ cpp_best_practices:
     - "Use [[fallthrough]] in switch-case blocks where intentional fall-through is required; omitting it triggers -Wimplicit-fallthrough warnings."
     - "Apply [[nodiscard]] at the interface level (virtual declarations) so overrides inherit the warning automatically."
     - "Pair [[deprecated]] with a Doxygen @deprecated tag for documentation-tool visibility."
-
+    - "Public C++ APIs must include Doxygen-compatible comments using the repository rules in `.github/instructions/documentation-enforcement.instructions.md`; document purpose, parameters, return behavior, failure/edge cases, ownership and timeout/cancellation semantics where relevant."
+ 
   resource_management_raii:
     - "Use RAII to bind resource lifetime to object lifetime."
     - "Use std::lock_guard or std::unique_lock for mutex locking."

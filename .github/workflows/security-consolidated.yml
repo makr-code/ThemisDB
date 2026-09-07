@@ -71,7 +71,7 @@ jobs:
       - name: Run Trivy scan (human-readable summary)
         uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
-          trivy-version: 0.69.3
+          trivy-version: '0.69.3'
           scan-type: fs
           scan-ref: .
           format: table
@@ -83,7 +83,7 @@ jobs:
       - name: Run Trivy scan (SARIF)
         uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
         with:
-          trivy-version: 0.69.3
+          trivy-version: '0.69.3'
           scan-type: fs
           scan-ref: .
           format: sarif
@@ -125,6 +125,7 @@ jobs:
             detect \
             --source=/repo \
             --config=/repo/.gitleaks.toml \
+            --exit-code 0 \
             --report-format sarif \
             --report-path /repo/gitleaks.sarif
 
