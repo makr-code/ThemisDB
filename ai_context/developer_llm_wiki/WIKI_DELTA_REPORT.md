@@ -1,16 +1,19 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-08-31
+Datum: 2026-09-07
 Status: Active
 
 ## Summary
 
-- Added: 7683
+- Added: 7718
 - Removed: 0
 - Changed: 0
 
 ## Added
 
+- .github/workflows/13-wave-a-gpu-ci-execution.yml
+- .github/workflows/13-wave-b-llm-wiki-benchmarks.yml
+- .github/workflows/13-wave-b-transaction-ci-execution.yml
 - .github/workflows/automation-community.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
@@ -21,6 +24,7 @@ Status: Active
 - .github/workflows/build-widget.yml
 - .github/workflows/compliance-governance-gates.yml
 - .github/workflows/compliance-supply-chain.yml
+- .github/workflows/copilot-code-review.yml
 - .github/workflows/edition-hyperscaler-ci.yml
 - .github/workflows/gate-copilot-regression.yml
 - .github/workflows/gate-distributed-knowledge.yml
@@ -34,6 +38,7 @@ Status: Active
 - .github/workflows/maintenance-ai-working.yml
 - .github/workflows/maintenance-build-issues.yml
 - .github/workflows/maintenance-ci-health.yml
+- .github/workflows/maintenance-docs-db-build.yml
 - .github/workflows/maintenance-docs.yml
 - .github/workflows/maintenance-issue-recommendations.yml
 - .github/workflows/maintenance-issues.yml
@@ -41,15 +46,23 @@ Status: Active
 - .github/workflows/maintenance-milestones.yml
 - .github/workflows/maintenance-pr-failure-diagnosis.yml
 - .github/workflows/maintenance-workflow-guardrails-observe.yml
+- .github/workflows/publish-wiki.yml
 - .github/workflows/release-build-matrix.yml
 - .github/workflows/release-changelog.yml
 - .github/workflows/release-docker-image.yml
 - .github/workflows/release-mainline.yml
+- .github/workflows/release-nightly.yml
+- .github/workflows/release-promote.yml
+- .github/workflows/release-publish.yml
+- .github/workflows/release-rollback.yml
+- .github/workflows/release-winget.yml
 - .github/workflows/reusable-cmake-build.yml
+- .github/workflows/reusable-docs-db-builder.yml
 - .github/workflows/reusable-status-flags-and-issues.yml
 - .github/workflows/sanitizer-nightly.yml
 - .github/workflows/security-codeql.yml
 - .github/workflows/security-consolidated.yml
+- .github/workflows/security-dast-zap.yml
 - .github/workflows/security-fortify.yml
 - .github/workflows/security-fuzzing.yml
 - .github/workflows/security-pentest-quarterly.yml
@@ -198,20 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_INVESTIGATION_REPORT.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_SPEC.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PROGRESS.md
-- docs/ARCHIVED/ai-working-history/BATCH4_A2_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_A2_EXECUTION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_A2_VERIFICATION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_CHANGES_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_EXCEPTION_SAFETY_IMPLEMENTATION_PLAN.md
-- docs/ARCHIVED/ai-working-history/BATCH4_EXECUTIVE_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_FINAL_DELIVERY_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_FINAL_SIGN_OFF.md
-- docs/ARCHIVED/ai-working-history/BATCH4_IMPLEMENTATION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_TIER3_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH5_CHANGE_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH5_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH5_EXECUTION_SUMMARY_2026-08-15.md
-- ... truncated (7483 more)
+- ... truncated (7518 more)
 
 ## Removed
 
