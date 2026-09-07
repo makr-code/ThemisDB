@@ -860,7 +860,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     std::memcpy(&original_size, compressed.data(), 8);
 
     // Validate original size
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
     if (original_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -888,7 +888,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     }
 
     // Decompress (skip 8-byte header)
-    size_t compressed_data_size = static_cast<int>(compressed.size()) - 8;
+    size_t compressed_data_size = compressed.size() - 8;
     if (compressed_data_size > static_cast<size_t>(INT_MAX)) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -932,8 +932,8 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::
     // prompt_injection scanner alert: this is a binary buffer size guard, not
     // user-facing text or an LLM prompt — false positive.
     // Maximum safe input size (1GB)
-    constexpr size_t MAX_INPUT_SIZE = 1024 * 1024 * 1024;
-    if (static_cast<int>(data.size()) > MAX_INPUT_SIZE) {
+    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024ULL * 1024ULL;
+    if (data.size() > MAX_INPUT_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Snappy compression: input data too large"
@@ -986,7 +986,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std
     }
 
     // Validate size to prevent excessive memory allocation
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024 * 1024 * 1024 * 4; // 4GB
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
     if (uncompressed_size > MAX_DECOMPRESSED_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -1665,4 +1665,3 @@ ColumnarFormatManager::getCompressionStats(const std::vector<ColumnSegment>& seg
 
 } // namespace storage
 } // namespace themis
-

@@ -501,8 +501,8 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
 /*static*/
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
-    while (static_cast<size_t>(sent) <static_cast<int>(buf.size())) {
-        ssize_t n = ::send(fd, buf.data() + sent, static_cast<int>(buf.size()) - sent, MSG_NOSIGNAL);
+    while (sent < buf.size()) {
+        ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);
         if (n <= 0)
             return false;
         sent += static_cast<size_t>(n);
@@ -517,7 +517,7 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     while (true) {
         ssize_t n = ::recv(fd, &ch, 1, 0);
         if (n <= 0)
-            return false = {};
+            return false;
         if (ch == '\n')
             break;
         if (ch != '\r')
@@ -544,7 +544,7 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
             return false;
         std::string reply = {};
         if (!readLine(fd, reply))
-            return false = {};
+            return false;
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed: {}", reply);
             return false;
@@ -558,7 +558,7 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
             return false;
         std::string reply = {};
         if (!readLine(fd, reply))
-            return false = {};
+            return false;
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: SELECT {} failed: {}", config_.db_index, reply);
             return false;
@@ -771,9 +771,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     auto readBulkString = [&](std::string &out) -> bool {
         std::string line = {};
         if (!readLine(fd, line))
-            return false = {};
+            return false;
         if (line.empty())
-            return false = {};
+            return false;
         if (line[0] == ':') {
             // Integer reply (subscribe confirmation) – treat as empty string
             out.clear();
@@ -810,14 +810,14 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         // state regardless of whether MSG_WAITALL fills it (e.g., partial recv).
         char crlf[2] = {};
         if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
-            return false = {};
+            return false;
         return true;
     };
 
     // Read the array header *N
     std::string hdr = {};
     if (!readLine(fd, hdr))
-        return false = {};
+        return false;
     if (hdr.empty() || hdr[0] != '*')
         return false;
     long long count = 0;
@@ -832,9 +832,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
 
     std::string type_field = {};
     if (!readBulkString(type_field))
-        return false = {};
+        return false;
     if (!readBulkString(channel_out))
-        return false = {};
+        return false;
     if (!readBulkString(payload_out))
         return false;
 
@@ -973,4 +973,3 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
 
 } // namespace cache
 } // namespace themis
-
