@@ -16,8 +16,11 @@
 
 #include <algorithm>
 #include <atomic>
+#include <condition_variable>
+#include <future>
 #include <mutex>
 #include <shared_mutex>
+#include <thread>
 #include <unordered_map>
 
 namespace themis {
@@ -30,7 +33,7 @@ namespace llm {
 /**
  * @brief Internal Subagent implementation.
  */
-class SubagentImpl : public Subagent {
+class SubagentImpl : public Subagent, public std::enable_shared_from_this<SubagentImpl> {
 public:
     SubagentImpl(
         const SubagentConfig& config,
@@ -123,8 +126,25 @@ public:
         state_ = SubagentState::UNLOADING;
         lock.unlock();
 
-        // Wait for in-flight requests to complete (simplified)
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // Wait for in-flight requests to complete.
+        std::unique_lock<std::mutex> inflight_lock(inflight_mutex_);
+        const auto no_inflight_requests = [this]() { return inflight_requests_ == 0; };
+
+        bool drained = true;
+        if (timeout_ms > 0) {
+            drained = inflight_cv_.wait_for(inflight_lock, std::chrono::milliseconds(timeout_ms),
+                                            no_inflight_requests);
+        } else {
+            inflight_cv_.wait(inflight_lock, no_inflight_requests);
+        }
+        inflight_lock.unlock();
+
+        if (!drained) {
+            lock.lock();
+            state_ = SubagentState::ERROR;
+            last_error_ = "Unload timeout while waiting for in-flight requests";
+            return tl::make_unexpected(last_error_);
+        }
 
         lock.lock();
         state_ = SubagentState::TERMINATED;
@@ -143,14 +163,16 @@ public:
         SubagentInferenceResult result;
         result.trace_id = ctx ? ctx->trace_id : "";
 
-        {
-            std::shared_lock<std::shared_mutex> lock(state_mutex_);
-            if (state_ != SubagentState::READY) {
-                result.success = false;
-                result.error = "Subagent not in READY state";
-                return result;
-            }
+        std::string acquire_error;
+        if (!beginInference(&acquire_error)) {
+            result.success = false;
+            result.error = acquire_error;
+            return result;
         }
+        struct InflightGuard {
+            SubagentImpl* self;
+            ~InflightGuard() { self->endInference(); }
+        } inflight_guard{this};
 
         // Check quota
         auto quota_check = quota_mgr_->check(
@@ -255,10 +277,66 @@ public:
     std::future<SubagentInferenceResult> inferAsync(
         const InferenceRequest& request,
         const std::optional<LLMCorrelationContext>& ctx) override {
-        return std::async(std::launch::async, [this, request, ctx]() {
-            return this->infer(request, ctx);
-        });
+        auto self = shared_from_this();
+        std::promise<SubagentInferenceResult> promise;
+        auto future = promise.get_future();
+        std::thread([self, request, ctx, p = std::move(promise)]() mutable {
+            try {
+                p.set_value(self->infer(request, ctx));
+            } catch (const std::exception& ex) {
+                SubagentInferenceResult r;
+                r.success = false;
+                r.error = ex.what();
+                p.set_value(std::move(r));
+            } catch (...) {
+                SubagentInferenceResult r;
+                r.success = false;
+                r.error = "Unhandled exception in async subagent inference";
+                p.set_value(std::move(r));
+            }
+        }).detach();
+        return future;
     }
+
+private:
+    bool beginInference(std::string* error) {
+        {
+            std::shared_lock<std::shared_mutex> lock(state_mutex_);
+            if (state_ != SubagentState::READY) {
+                if (error != nullptr) {
+                    *error = "Subagent not in READY state";
+                }
+                return false;
+            }
+        }
+        {
+            std::lock_guard<std::mutex> lock(inflight_mutex_);
+            ++inflight_requests_;
+        }
+        {
+            std::shared_lock<std::shared_mutex> lock(state_mutex_);
+            if (state_ != SubagentState::READY) {
+                endInference();
+                if (error != nullptr) {
+                    *error = "Subagent is unloading or unavailable";
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void endInference() {
+        std::lock_guard<std::mutex> lock(inflight_mutex_);
+        if (inflight_requests_ > 0) {
+            --inflight_requests_;
+            if (inflight_requests_ == 0) {
+                inflight_cv_.notify_all();
+            }
+        }
+    }
+
+public:
 
     SubagentInferenceResult inferStream(
         const InferenceRequest& request,
@@ -361,6 +439,9 @@ private:
     SubagentState state_;
     std::string last_error_;
     SubagentMetrics metrics_;
+    std::mutex inflight_mutex_;
+    std::condition_variable inflight_cv_;
+    size_t inflight_requests_{0};
 };
 
 // ============================================================================

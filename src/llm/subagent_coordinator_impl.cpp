@@ -36,6 +36,11 @@ public:
         auto start_time = std::chrono::steady_clock::now();
         SubagentCoordinatorAggregateResult result;
         result.strategy = config.strategy;
+        CoordinationDiagnostics local_diagnostics;
+        uint64_t local_subagent_requests = 0;
+        uint64_t local_subagent_successes = 0;
+        uint64_t local_subagent_failures = 0;
+        bool coordination_success = false;
 
         // Validate subagent IDs
         std::vector<std::shared_ptr<Subagent>> subagents;
@@ -44,7 +49,13 @@ public:
             if (!subagent) {
                 result.success = false;
                 result.summary = "Subagent not found: " + id;
-                stats_.failed_coordinations++;
+                local_diagnostics.summary = result.summary;
+                {
+                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    stats_.failed_coordinations++;
+                    stats_.total_coordinations++;
+                    diagnostics_ = local_diagnostics;
+                }
                 return result;
             }
             subagents.push_back(subagent);
@@ -58,11 +69,11 @@ public:
         for (size_t i = 0; i < subagents.size(); ++i) {
             futures.push_back(subagents[i]->inferAsync(request, config.correlation_context));
             submitted_ids.push_back(subagent_ids[i]);
-            stats_.total_subagent_requests++;
+            local_subagent_requests++;
         }
 
         auto fanout_end = std::chrono::steady_clock::now();
-        diagnostics_.fan_out_latency = 
+        local_diagnostics.fan_out_latency = 
             std::chrono::duration_cast<std::chrono::milliseconds>(fanout_end - fanout_start);
 
         // Fan-in: Collect results from all subagents
@@ -86,7 +97,7 @@ public:
                 coord_result.error = "Timeout waiting for result";
                 result.per_subagent_results.push_back(coord_result);
                 result.num_failed++;
-                stats_.total_subagent_failures++;
+                local_subagent_failures++;
                 continue;
             }
 
@@ -115,10 +126,10 @@ public:
 
                 if (inference_result.success) {
                     result.num_successful++;
-                    stats_.total_subagent_successes++;
+                    local_subagent_successes++;
                 } else {
                     result.num_failed++;
-                    stats_.total_subagent_failures++;
+                    local_subagent_failures++;
                 }
                 result.total_tokens_consumed += inference_result.tokens_consumed;
 
@@ -129,12 +140,12 @@ public:
                 coord_result.error = ex.what();
                 result.per_subagent_results.push_back(coord_result);
                 result.num_failed++;
-                stats_.total_subagent_failures++;
+                local_subagent_failures++;
             }
         }
 
         auto fanin_end = std::chrono::steady_clock::now();
-        diagnostics_.fan_in_latency = 
+        local_diagnostics.fan_in_latency = 
             std::chrono::duration_cast<std::chrono::milliseconds>(fanin_end - fanin_start);
 
         // Merge results
@@ -224,15 +235,15 @@ public:
                         result.merged_output = merge_result.value();
                         merge_success = true;
                     } else {
-                        diagnostics_.merge_failed = true;
-                        diagnostics_.merge_error = "Custom merge function failed";
+                        local_diagnostics.merge_failed = true;
+                        local_diagnostics.merge_error = "Custom merge function failed";
                     }
                 }
                 break;
         }
 
         auto merge_end = std::chrono::steady_clock::now();
-        diagnostics_.merge_latency = 
+        local_diagnostics.merge_latency = 
             std::chrono::duration_cast<std::chrono::milliseconds>(merge_end - merge_start);
 
         // Determine overall success
@@ -251,14 +262,23 @@ public:
                         std::to_string(result.num_successful) + " successes, " +
                         std::to_string(result.num_failed) + " failures, " +
                         std::to_string(result.total_latency_ms) + "ms";
-        diagnostics_.summary = result.summary;
+        local_diagnostics.summary = result.summary;
 
-        if (result.success) {
-            stats_.successful_coordinations++;
-        } else {
-            stats_.failed_coordinations++;
+        coordination_success = result.success;
+
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.total_subagent_requests += local_subagent_requests;
+            stats_.total_subagent_successes += local_subagent_successes;
+            stats_.total_subagent_failures += local_subagent_failures;
+            if (coordination_success) {
+                stats_.successful_coordinations++;
+            } else {
+                stats_.failed_coordinations++;
+            }
+            stats_.total_coordinations++;
+            diagnostics_ = local_diagnostics;
         }
-        stats_.total_coordinations++;
 
         return result;
     }
@@ -277,19 +297,23 @@ public:
     }
 
     CoordinationDiagnostics getLastDiagnostics() override {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
         return diagnostics_;
     }
 
     CoordinatorStats getStats() override {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
         return stats_;
     }
 
     void resetStats() override {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_ = CoordinatorStats{};
     }
 
 private:
     std::shared_ptr<SubagentFactory> factory_;
+    mutable std::mutex stats_mutex_;
     CoordinatorStats stats_;
     CoordinationDiagnostics diagnostics_;
 };
