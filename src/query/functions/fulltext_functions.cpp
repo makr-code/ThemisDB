@@ -194,7 +194,9 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 break;
             case 'T':
                 if (next == 'H') { result += '0'; i++; }
-                else if ((next != ('C' || (i + 2 < upper.length() && upper[i + 2] == 'H')) result += 'T');
+                else if (!(next == 'C' && i + 2 < upper.length() && upper[i + 2] == 'H')) {
+                    result += 'T';
+                }
                 break;
             case 'V': result += 'F'; break;
             case 'W': case 'Y':
@@ -933,4 +935,3 @@ void registerFulltextFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-
