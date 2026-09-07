@@ -25,6 +25,20 @@ foreach(_src IN LISTS CONTINUOUS_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    # Resolve modular static-link references pulled in by themis_query objects
+    # (DocsAssistant/ThemisHelpLoRA/EmbeddedLLM factory and adapter symbols).
+    if(TARGET themis_query)
+        target_link_libraries(${_target} PRIVATE themis_query)
+    endif()
+    if(TARGET themis_llm_api)
+        target_link_libraries(${_target} PRIVATE themis_llm_api)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(${_target} PRIVATE themis_llm)
+    endif()
+    if(TARGET themis_llm_ext)
+        target_link_libraries(${_target} PRIVATE themis_llm_ext)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
