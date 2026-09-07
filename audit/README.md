@@ -1,10 +1,11 @@
 # ThemisDB Audit Hub and Canonical Map
 
-**Last Updated:** 2026-08-31  
+**Last Updated:** 2026-09-07  
 **Repository Metadata:** `VERSION=2.4.0-alpha`  
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
+**Source-verified status:** The production audit logger exists in source, but design-level Wave-C pass claims remain provisional until validated against the real production sink and persistence path.
 
-> **Baseline rule (2026-08-31):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report.
+> **Baseline rule (2026-09-07):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report and source-verified implementation status.
 
 ---
 

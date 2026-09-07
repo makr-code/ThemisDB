@@ -1,13 +1,15 @@
 # Audit Module Wave C Evidence Report
 
-**Document Status:** Final (2026-08-18)  
-**Last Updated:** 2026-08-31 (baseline sync)  
+**Document Status:** Source-verified baseline refresh (2026-09-07)  
+**Last Updated:** 2026-09-07  
 **Wave:** C — Security Production Validation  
 **Evidence Date:** 2026-08-18  
 **Target Exit Criteria:** Q4 2026  
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
 
-> **BASELINE SYNC (2026-08-31):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with the current audit baseline `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`.
+> **SOURCE-VERIFIED STATUS (2026-09-07):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The test harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; the real production backend is `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
+
+> **BASELINE SYNC (2026-09-07):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with the current audit baseline `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
 
 ---
 
