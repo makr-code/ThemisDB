@@ -160,9 +160,9 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
         db_.scanPrefix(outPrefix, [&edgesToDelete, &outPrefix](std::string_view key, std::string_view /*val*/) {
             // Extract edgeId from key: graph:out:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
-            size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon >= outPrefix.size()) {
-                std::string edgeId = keyStr.substr(lastColon + 1);
+            const std::string::size_type last_colon = keyStr.rfind(':');
+            if (last_colon != std::string::npos && last_colon >= outPrefix.size()) {
+                std::string edgeId = keyStr.substr(last_colon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
                 }
@@ -180,9 +180,9 @@ PropertyGraphManager::Status PropertyGraphManager::deleteNode(std::string_view p
         db_.scanPrefix(inPrefix, [&edgesToDelete, &inPrefix](std::string_view key, std::string_view /*val*/) {
             // Extract edgeId from key: graph:in:<graph_id>:<pk>:<edgeId>
             std::string keyStr(key);
-            size_t lastColon = keyStr.rfind(':');
-            if (lastColon != std::string::npos && lastColon >= inPrefix.size()) {
-                std::string edgeId = keyStr.substr(lastColon + 1);
+            const std::string::size_type last_colon = keyStr.rfind(':');
+            if (last_colon != std::string::npos && last_colon >= inPrefix.size()) {
+                std::string edgeId = keyStr.substr(last_colon + 1);
                 if (!edgeId.empty()) {
                     edgesToDelete.insert(edgeId);
                 }
@@ -1170,8 +1170,8 @@ PropertyGraphManager::computePageRank(
     db_.scanPrefix(nodePrefix.str(), [&nodes, &nodePrefix](std::string_view key, std::string_view /*val*/) {
         std::string keyStr(key);
         // Extract node PK from key: node:<graph_id>:<pk>
-        size_t prefixLen = nodePrefix.str().size();
-        if (keyStr.size() > static_cast<size_t>(prefixLen)) {
+        const std::size_t prefixLen = nodePrefix.str().size();
+        if (keyStr.size() > prefixLen) {
             std::string pk = keyStr.substr(prefixLen);
             nodes.push_back(pk);
         }
