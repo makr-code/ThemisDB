@@ -831,7 +831,7 @@ static std::string termToAQLStr(const SPARQLTerm& term,
             return current_triple + "." + field;  // first/unbound variable
         }
         case SPARQLTermType::URIRef:
-        [[fallthrough]];\n        case SPARQLTermType::PrefixedName:
+        case SPARQLTermType::PrefixedName:
             return "\"" + term.value + "\"";
         case SPARQLTermType::Literal:
             if (term.is_literal_value) {
@@ -1040,4 +1040,3 @@ Result<std::string> SPARQLToAQLTranspiler::transpile(const SPARQLASTNode& ast) {
 
 }  // namespace query
 }  // namespace themis
-

@@ -104,7 +104,7 @@ double jaccardSimilarity(const std::set<T>& lhs, const std::set<T>& rhs) {
     if (union_values.empty()) {
         return 0.0;
     }
-    return static_cast<bool>(static_cast<double < static_cast<int>((intersection.size()))) /
+    return static_cast<double>(intersection.size()) /
            static_cast<double>(union_values.size());
 }
 

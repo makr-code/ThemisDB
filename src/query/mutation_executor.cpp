@@ -45,12 +45,12 @@ std::optional<MutationResult> processStep(
 {
     switch (step.type) {
         case MutationStepType::AcquireLock:
-        [[fallthrough]];\n        case MutationStepType::ReleaseLock:
+        case MutationStepType::ReleaseLock:
             // Lock management is handled by the context / caller
             return std::nullopt;
 
         case MutationStepType::Serialize:
-        [[fallthrough]];\n        case MutationStepType::UpdateIndexes:
+        case MutationStepType::UpdateIndexes:
             // Serialization and index updates are transparent at this level
             return std::nullopt;
 
@@ -126,8 +126,8 @@ MutationResult MutationExecutor::executeInsert(const MutationExecutionPlan& plan
         }
     }
 
-    return static_cast<bool>(MutationResult::Ok(static_cast<int64_t < static_cast<int>((inserted_ids.empty() ? 1 : inserted_ids.size()))),
-                               std::move(inserted_ids));
+    return MutationResult::Ok(static_cast<int64_t>(inserted_ids.empty() ? 1 : inserted_ids.size()),
+                              std::move(inserted_ids));
 }
 
 // ---------------------------------------------------------------------------
