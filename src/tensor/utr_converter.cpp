@@ -241,8 +241,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 
 /// FNV-1a 64-bit hash of a string view.
 static uint64_t fnv1a(std::string_view s) noexcept {
-    constexpr uint64_t kBasis = 14695981039346656037ULL;
-    constexpr uint64_t kPrime = 1099511628211ULL;
+    constexpr uint64_t kBasis = UINT64_C(14695981039346656037);
+    constexpr uint64_t kPrime = UINT64_C(1099511628211);
     uint64_t h = kBasis;
     for (const unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
