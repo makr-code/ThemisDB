@@ -216,12 +216,14 @@ ProductQuantizer::Status ProductQuantizer::train(
 }
 
 std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) const {
+    const size_t expected_dimension = static_cast<size_t>(dimension_);
+
     if (!trained_) {
         THEMIS_WARN("ProductQuantizer::encode - Quantizer not trained");
         return {};
     }
     
-    if (vector.size() != static_cast<size_t>(dimension_)) {
+    if (vector.size() != expected_dimension) {
         THEMIS_ERROR("ProductQuantizer::encode - Dimension mismatch: {} vs {}",
                      vector.size(), dimension_);
         return {};
@@ -277,12 +279,14 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
 }
 
 std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) const {
+    const size_t expected_subquantizers = static_cast<size_t>(config_.num_subquantizers);
+
     if (!trained_) {
         THEMIS_WARN("ProductQuantizer::decode - Quantizer not trained");
         return {};
     }
     
-    if (codes.size() != static_cast<size_t>(config_.num_subquantizers)) {
+    if (codes.size() != expected_subquantizers) {
         THEMIS_ERROR("ProductQuantizer::decode - Code size mismatch");
         return {};
     }

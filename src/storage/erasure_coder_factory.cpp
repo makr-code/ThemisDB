@@ -142,13 +142,16 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    if (missing_indices.size() > static_cast<std::size_t>(parity_shards)) {
+    const size_t data_shards_count = static_cast<size_t>(data_shards);
+    const size_t parity_shards_count = static_cast<size_t>(parity_shards);
+
+    if (missing_indices.size() > parity_shards_count) {
         throw std::runtime_error(
             "Too many missing chunks: " + std::to_string(missing_indices.size()) +
             " missing, but only " + std::to_string(parity_shards) + " parity shard(s) available"
         );
     }
-    if (available_chunks.size() < static_cast<std::size_t>(data_shards)) {
+    if (available_chunks.size() < data_shards_count) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
 
@@ -185,14 +188,14 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     std::vector<uint32_t> available_indices;
     available_indices.reserve(data_shards);
     for (const auto& [index, _] : available_chunks) {
-        if (available_indices.size() < static_cast<std::size_t>(data_shards)) {
+        if (available_indices.size() < data_shards_count) {
             available_indices.push_back(index);
         }
     }
 
     std::vector<std::vector<uint8_t>> decode_matrix(data_shards,
                                                     std::vector<uint8_t>(data_shards));
-    for (size_t row = 0; row < static_cast<std::size_t>(data_shards); ++row) {
+    for (size_t row = 0; row < data_shards_count; ++row) {
         decode_matrix[row] = full_matrix[available_indices[row]];
     }
 
@@ -205,13 +208,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
                                                      std::vector<uint8_t>(chunk_size, 0));
     for (size_t byte = 0; byte < chunk_size; ++byte) {
         std::vector<uint8_t> available_bytes(data_shards);
-        for (size_t row = 0; row < static_cast<std::size_t>(data_shards); ++row) {
+        for (size_t row = 0; row < data_shards_count; ++row) {
             available_bytes[row] = available_chunks.at(available_indices[row])[byte];
         }
 
         std::vector<uint8_t> recovered_bytes;
         gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
-        for (size_t row = 0; row < static_cast<std::size_t>(data_shards); ++row) {
+        for (size_t row = 0; row < data_shards_count; ++row) {
             recovered_data[row][byte] = recovered_bytes[row];
         }
     }
