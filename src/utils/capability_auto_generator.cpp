@@ -255,22 +255,19 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     AnalysisResult result;
     result.shard_id = shard_id;
     
-    // Open RocksDB read-only
+    // Open RocksDB read-only using the supported unique_ptr-based overload.
     rocksdb::Options options;
     options.create_if_missing = false;
-     
-    rocksdb::DB* db_instance = nullptr;
+
+    std::unique_ptr<rocksdb::DB> db_instance;
     rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
 
-    // Bind DB lifetime to scope via RAII.
-    std::unique_ptr<rocksdb::DB> db_owner(db_instance);
-
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db_owner->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::Iterator> it(db_instance->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;

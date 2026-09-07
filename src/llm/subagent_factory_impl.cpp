@@ -72,7 +72,7 @@ public:
         return state_;
     }
 
-    SubagentResult<void> load(int timeout_ms) override {
+    SubagentResult<void> load(int) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -98,7 +98,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> warm(int timeout_ms) override {
+    SubagentResult<void> warm(int) override {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -113,7 +113,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unload(int timeout_ms) override {
+    SubagentResult<void> unload(int) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -460,7 +460,7 @@ public:
 
     SubagentResult<void> destroySubagent(
         const std::string& subagent_id,
-        int timeout_ms) override {
+        int) override {
         std::shared_ptr<Subagent> subagent;
 
         {

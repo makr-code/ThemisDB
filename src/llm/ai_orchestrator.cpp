@@ -827,7 +827,7 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
 std::string AIOrchestrator::assemblePrompt(
         const std::string&                         query,
         const std::vector<RAGContext::Document>&   docs,
-        const ModeSpec&           mode) const {
+        const ModeSpec&) const {
     if (docs.empty()) {
         return query;
     }
@@ -848,13 +848,13 @@ std::string AIOrchestrator::assemblePrompt(
 void AIOrchestrator::emitObservability(const RunMetadata& meta,
                                         const ModeSpec&    mode) const {
     if (!mode.observability.log_requests) {
-      return;
+        return;
     }
 
     spdlog::info("[AIOrchestrator] run completed: mode={} model={} "
                  "tokens_in={} tokens_out={} latency_total_ms={} "
                  "retrieved_docs={} tool_calls={}",
-                 meta.mode_id,
+                 mode.id,
                  meta.model_id,
                  meta.tokens_prompt,
                  meta.tokens_generated,
