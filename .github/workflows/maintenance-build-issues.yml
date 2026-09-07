@@ -569,8 +569,7 @@ jobs:
       - name: Send Slack notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
         env:
-          SLACK_WEBHOOK_URL_SECRET_KEY: SLACK_WEBHOOK_URL
-          SLACK_WEBHOOK_URL: ${{ secrets[env.SLACK_WEBHOOK_URL_SECRET_KEY] }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
@@ -582,8 +581,7 @@ jobs:
       - name: Send Discord notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
         env:
-          DISCORD_WEBHOOK_URL_SECRET_KEY: DISCORD_WEBHOOK_URL
-          DISCORD_WEBHOOK_URL: ${{ secrets[env.DISCORD_WEBHOOK_URL_SECRET_KEY] }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
@@ -631,8 +629,7 @@ jobs:
       - name: Publish Error Dashboard
         if: always() && steps.fetch.outputs.has_artifacts == 'true'
         env:
-          SLACK_WEBHOOK_URL_SECRET_KEY: SLACK_WEBHOOK_URL
-          SLACK_WEBHOOK_URL: ${{ secrets[env.SLACK_WEBHOOK_URL_SECRET_KEY] }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
