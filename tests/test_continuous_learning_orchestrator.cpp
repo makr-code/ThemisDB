@@ -264,6 +264,58 @@ TEST_F(ContinuousLearningOrchestratorTest, RetrainingTriggers) {
     SUCCEED();
 }
 
+TEST_F(ContinuousLearningOrchestratorTest, RetrainingUsesAdapterTaggedFeedbackSamples) {
+    ContinuousLearningConfig cfg = config_;
+    cfg.min_feedback_samples = 3;
+    cfg.retraining_interval = std::chrono::hours(24);
+    auto orch = std::make_unique<ContinuousLearningOrchestrator>(cfg);
+    orch->registerLoRAAdapter("adapter_tagged", "Tagged adapter");
+
+    for (size_t i = 0; i < cfg.min_feedback_samples; ++i) {
+        Interaction interaction;
+        interaction.interaction_id = "tagged_" + std::to_string(i);
+        interaction.timestamp = std::chrono::system_clock::now();
+        interaction.query = "Query " + std::to_string(i);
+        interaction.generated_answer = "Answer " + std::to_string(i);
+        interaction.model_version = "adapter_tagged";
+        interaction.confidence_score = 0.9;
+        interaction.user_feedback = FeedbackType::POSITIVE;
+        orch->logInteraction(interaction);
+    }
+
+    auto before = orch->getStats();
+    orch->triggerLearningIteration();
+    auto after = orch->getStats();
+
+    EXPECT_GE(after.lora_retraining_count, before.lora_retraining_count + 1);
+}
+
+TEST_F(ContinuousLearningOrchestratorTest, RetrainingUsesUnlabeledFeedbackForSingleAdapter) {
+    ContinuousLearningConfig cfg = config_;
+    cfg.min_feedback_samples = 3;
+    cfg.retraining_interval = std::chrono::hours(24);
+    auto orch = std::make_unique<ContinuousLearningOrchestrator>(cfg);
+    orch->registerLoRAAdapter("adapter_single", "Single adapter");
+
+    for (size_t i = 0; i < cfg.min_feedback_samples; ++i) {
+        Interaction interaction;
+        interaction.interaction_id = "single_" + std::to_string(i);
+        interaction.timestamp = std::chrono::system_clock::now();
+        interaction.query = "Unlabeled query " + std::to_string(i);
+        interaction.generated_answer = "Unlabeled answer " + std::to_string(i);
+        interaction.confidence_score = 0.85;
+        interaction.user_feedback = FeedbackType::POSITIVE;
+        // model_version intentionally empty
+        orch->logInteraction(interaction);
+    }
+
+    auto before = orch->getStats();
+    orch->triggerLearningIteration();
+    auto after = orch->getStats();
+
+    EXPECT_GE(after.lora_retraining_count, before.lora_retraining_count + 1);
+}
+
 // Helper: log N interactions with given feedback type and prompt version
 static void logInteractions(
     ContinuousLearningOrchestrator& orchestrator,
