@@ -35,7 +35,7 @@ GraphAnalytics::buildTopology(const std::vector<std::string>& node_pks) const {
     // Batch lookups: fewer DB roundtrips (10-100× faster for large graphs)
     const size_t batch_size = 256;
     for (size_t start = 0; start < node_pks.size(); start += batch_size) {
-        size_t end = std::min(start + batch_size,static_cast<int>(node_pks.size()));
+        const size_t end = std::min(start + batch_size, node_pks.size());
         
         for (size_t i = start; i < end; ++i) {
             const auto& pk = node_pks[i];
@@ -79,12 +79,12 @@ GraphAnalytics::degreeCentrality(const std::vector<std::string>& node_pks) const
         
         auto out_it = topo.outgoing.find(pk);
         if (out_it != topo.outgoing.end()) {
-            dr.out_degree = static_cast<int>(out_it-> static_cast<int>(second.size()));
+            dr.out_degree = static_cast<int>(out_it->second.size());
         }
         
         auto in_it = topo.incoming.find(pk);
         if (in_it != topo.incoming.end()) {
-            dr.in_degree = static_cast<int>(in_it-> static_cast<int>(second.size()));
+            dr.in_degree = static_cast<int>(in_it->second.size());
         }
         
         dr.total_degree = dr.in_degree + dr.out_degree;
@@ -146,7 +146,7 @@ GraphAnalytics::pageRank(
         out_degrees.reserve(n);
         for (const auto& pk : node_pks) {
             auto out_it = topo.outgoing.find(pk);
-            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it-> static_cast<int>(second.size()) : 0);
+            out_degrees.push_back((out_it != topo.outgoing.end()) ? out_it->second.size() : 0);
         }
         
         // Distribute rank from each node to its outgoing neighbors
@@ -831,4 +831,3 @@ GraphAnalytics::kShortestPaths(
 }
 
 } // namespace themis
-

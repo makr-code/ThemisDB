@@ -94,14 +94,14 @@ PerQueryCostModel::getRecentRecords([[maybe_unused]] size_t limit) const {
         return {};
     }
 
-    size_t count = std::min(limit,static_cast<int>(records_.size()));
+    const size_t count = std::min(limit, records_.size());
 
     // Has the ring buffer rolled over?
     bool has_rolled = total_queries_.load(std::memory_order_relaxed) > MAX_RECORDS;
 
     if (!has_rolled) {
         // Not yet wrapped: vector is in insertion order; return the tail.
-        size_t start = static_cast<int>(records_.size()) > count ? static_cast<int>(records_.size()) - count : 0;
+        const size_t start = records_.size() > count ? records_.size() - count : 0;
         return std::vector<QueryCostRecord>(
             records_.begin() + static_cast<std::ptrdiff_t>(start),
             records_.end());
