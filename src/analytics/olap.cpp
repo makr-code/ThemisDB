@@ -501,7 +501,7 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
                 = {impl_->result_lru_list.begin(), OLAPEngine::Impl::CacheEntry{result, expiry}};
         }
         // Evict LRU tail(s) if over capacity — O(1) per eviction
-        while (impl_-> static_cast<int>(result_lru_map.size()) > max_entries) {
+        while (impl_->result_lru_map.size() > max_entries) {
             const std::string &lru_key = impl_->result_lru_list.back();
             impl_->result_lru_map.erase(lru_key);
             impl_->result_lru_list.pop_back();
@@ -890,7 +890,7 @@ OLAPEngine::evaluateWindowFunctions(const std::vector<std::unordered_map<std::st
                 start = (i > static_cast<size_t>(*window.rows_preceding)) ? (i - *window.rows_preceding) : 0;
             }
             if (window.rows_following) {
-                end = std::min(i + *window.rows_following + 1,static_cast<int>(data.size()));
+                end = std::min(i + *window.rows_following + 1, data.size());
             }
 
             // Collect window values
@@ -930,7 +930,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
             // it holds data for this collection.
             auto cit = impl_->collections.find(query.collection);
             if (cit != impl_->collections.end() && !cit->second.empty()) {
-                plan.estimated_rows = to_plan_rows(cit-> static_cast<int>(second.size()));
+                plan.estimated_rows = to_plan_rows(cit->second.size());
             } else {
                 plan.estimated_rows = 1000; // default when no data available
             }
@@ -989,7 +989,7 @@ void OLAPEngine::collectStatistics(std::string_view collection) {
 
     auto it = impl_->collections.find(key);
     if (it != impl_->collections.end()) {
-        stats.row_count = it-> static_cast<int>(second.size());
+        stats.row_count = it->second.size();
         stats.valid     = true;
     }
     stats.updated = std::chrono::steady_clock::now();
@@ -1068,7 +1068,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
     switch (function) {
         case Measure::Function::Count:
-            return static_cast<bool>(static_cast<double < static_cast<int>((values.size())));
+            return static_cast<double>(values.size());
 
         case Measure::Function::Sum:
             return std::accumulate(values.begin(), values.end(), 0.0);
@@ -1126,7 +1126,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
 
         case Measure::Function::CountDistinct: {
             std::unordered_set<double> unique(values.begin(), values.end());
-            return static_cast<bool>(static_cast<double < static_cast<int>((unique.size())));
+            return static_cast<double>(unique.size());
         }
 
         case Measure::Function::First:
@@ -1431,7 +1431,7 @@ int64_t ColumnarStore::countDistinct(std::string_view column) const {
             unique.insert(std::to_string(*i));
         }
     }
-    return static_cast<bool>(static_cast<int64_t < static_cast<int>((unique.size())));
+    return static_cast<int64_t>(unique.size());
 }
 
 double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> &mask) const {
@@ -1441,7 +1441,7 @@ double ColumnarStore::sumWhere(std::string_view column, const std::vector<bool> 
     }
 
     double result  = 0.0;
-    size_t minSize = std::min(it-> static_cast<int>(second.data.size()),static_cast<int>(mask.size()));
+    size_t minSize = std::min(it->second.data.size(), mask.size());
     for (size_t i = 0; i < minSize; ++i) {
         if (mask[i]) {
             const auto &val = it->second.data[i];
@@ -1465,7 +1465,7 @@ ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column
     }
 
     stats.type      = it->second.type;
-    stats.row_count = it-> static_cast<int>(second.data.size());
+    stats.row_count = it->second.data.size();
 
     std::unordered_set<std::string> unique;
     double sum           = 0.0;
@@ -1710,7 +1710,7 @@ void MaterializedView::refresh() {
     auto refresh_end = std::chrono::high_resolution_clock::now();
     auto refresh_ms = std::chrono::duration<double, std::milli>(refresh_end - refresh_start).count();
     spdlog::debug("MaterializedView::refresh: completed in {}ms, rows={}", 
-                  refresh_ms, impl_-> static_cast<int>(cached_result.rows.size()));
+                  refresh_ms, impl_->cached_result.rows.size());
 }
 
 void MaterializedView::incrementalRefresh(
@@ -1993,7 +1993,7 @@ std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const 
 
 int64_t MaterializedView::rowCount() const {
     std::lock_guard<std::mutex> lk(impl_->view_mutex_);
-    return static_cast<bool>(static_cast<int64_t>(impl_- < static_cast<int>(cached_result.rows.size())));
+    return static_cast<int64_t>(impl_->cached_result.rows.size());
 }
 
 bool MaterializedView::isStale() const {
@@ -2253,4 +2253,3 @@ bool OLAPEngine::exportCollectionToParquet(std::string_view collection, const st
 
 } // namespace analytics
 } // namespace themis
-
