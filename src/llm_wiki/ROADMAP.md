@@ -95,7 +95,7 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 
 - [x] Define baseline YAML process policy artifact (`src/llm_wiki/process/llm_wiki_process_policy.yaml`) (Target: Q4 2026)
 - [x] Define process policy schema (`src/llm_wiki/schema/llm_wiki_process_policy.schema.json`) (Target: Q4 2026)
-- [ ] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
+- [~] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
 - [ ] Implement schedule classes (interactive, near-real-time, batch) from policy (Target: Q4 2026)
 - [ ] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
 - [ ] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)

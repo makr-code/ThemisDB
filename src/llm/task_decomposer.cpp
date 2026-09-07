@@ -210,6 +210,15 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
             def.steps.push_back(std::move(step));
         }
     }
+    WorkflowValidationResult validation = WorkflowLoader::validate(def);
+    if (!validation.valid()) {
+        std::ostringstream oss;
+        oss << "TaskDecomposer::toWorkflow: invalid workflow definition";
+        if (!validation.errors.empty()) {
+            oss << " (first error: " << validation.errors.front().message << ")";
+        }
+        throw std::invalid_argument(oss.str());
+    }
     return def;
 }
 
@@ -462,7 +471,7 @@ WorkflowDefinition WorkflowLoader::parseBpmn(const std::string& content,
     };
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(content.size())) {
+    while (pos < content.size()) {
         size_t tag_start = content.find('<', pos);
         if (tag_start == std::string::npos) {
           break;
@@ -594,8 +603,22 @@ WorkflowValidationResult WorkflowLoader::validate(const WorkflowDefinition& def)
         }
         if (!ids.insert(step.id).second)
             result.addError(step.id, "duplicate step id '" + step.id + "'");
-        if (step.prompt_template.empty())
+        if (step.prompt_template.empty()) {
             result.addError(step.id, "prompt_template must not be empty");
+        }
+        if (step.output_schema.has_value()) {
+            const auto& schema = *step.output_schema;
+            if (!schema.is_object()) {
+                result.addError(step.id, "output_schema must be a JSON object");
+            } else {
+                if (!schema.contains("type") && !schema.contains("properties")) {
+                    result.addError(step.id, "output_schema must define at least 'type' or 'properties'");
+                }
+                if (schema.contains("type") && !schema["type"].is_string()) {
+                    result.addError(step.id, "output_schema.type must be a string");
+                }
+            }
+        }
     }
 
     // Check depends_on references
@@ -784,8 +807,10 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
         }
 
         result.push_back(std::move(sub));
-        if (cfg.max_subtasks > 0  && static_cast<size_t>(static_cast) < int>(result.size()) >= cfg.max_subtasks)
+        if (cfg.max_subtasks > 0 &&
+            static_cast<int>(result.size()) >= cfg.max_subtasks) {
             break;
+        }
     }
     return result;
 }
@@ -820,7 +845,8 @@ TaskDecompositionResult TaskDecomposer::parseResponse(
 
     result.subtasks = parseSubtasksFromJson(arr);
     const int min_req = impl_->config.min_subtasks;
-    if (min_req > 0  && static_cast<size_t>(static_cast) < int>(result.subtasks.size()) < min_req) {
+    if (min_req > 0 &&
+        static_cast<int>(result.subtasks.size()) < min_req) {
         result.error = "Too few subtasks returned (" +
                        std::to_string(result.subtasks.size()) + " < " +
                        std::to_string(min_req) + ")";
@@ -888,6 +914,9 @@ WorkflowDefinition TaskDecomposer::toWorkflow(
 
     if (!result.success)
         throw std::invalid_argument("TaskDecomposer::toWorkflow: result.success == false");
+    if (result.subtasks.empty()) {
+        throw std::invalid_argument("TaskDecomposer::toWorkflow: result.subtasks is empty");
+    }
 
     WorkflowDefinition def;
     def.id            = workflow_id;

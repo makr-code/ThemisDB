@@ -23,6 +23,7 @@
 #include "ingestion/deontic_extractor.h"
 #include "ingestion/agentic_reference_validator.h"
 #include "ingestion/llm_adapter.h"
+#include "ingestion/extraction_context.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -77,6 +78,46 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::CDC:            return "CDC";
         case SourceType::PLUGIN:         return "PLUGIN";
         default:                         return "UNKNOWN";
+    }
+
+    static bool optionEnabled(const std::unordered_map<std::string, std::string>& options,
+                              const std::string& key,
+                              bool default_value = false) {
+        const auto it = options.find(key);
+        if (it == options.end()) {
+            return default_value;
+        }
+        std::string value = it->second;
+        std::transform(value.begin(), value.end(), value.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return value == "1" || value == "true" || value == "yes" || value == "on";
+    }
+
+    static std::string detectMimeFromExtension(std::string ext) {
+        std::transform(ext.begin(), ext.end(), ext.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (ext == ".txt" || ext == ".md") return "text/plain";
+        if (ext == ".json") return "application/json";
+        if (ext == ".xml") return "application/xml";
+        if (ext == ".html" || ext == ".htm") return "text/html";
+        if (ext == ".pdf") return "application/pdf";
+        if (ext == ".csv") return "text/csv";
+        if (ext == ".docx") return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        return "application/octet-stream";
+    }
+
+    static FileFormat detectFormatFromExtension(std::string ext) {
+        std::transform(ext.begin(), ext.end(), ext.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (ext == ".txt") return FileFormat::TXT;
+        if (ext == ".md") return FileFormat::MD;
+        if (ext == ".json") return FileFormat::JSON;
+        if (ext == ".xml") return FileFormat::XML;
+        if (ext == ".html" || ext == ".htm") return FileFormat::HTML;
+        if (ext == ".pdf") return FileFormat::PDF;
+        if (ext == ".csv") return FileFormat::CSV;
+        if (ext == ".docx") return FileFormat::DOCX;
+        return FileFormat::UNKNOWN;
     }
 }
 
@@ -544,6 +585,23 @@ public:
             stats.addError(IngestionErrorCode::SOURCE_DISABLED,
                            IngestionErrorSeverity::WARNING,
                            "Source disabled: " + source_id, source_id);
+            return stats;
+        }
+
+        std::shared_ptr<WorkflowEngine> workflow_engine;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            workflow_engine = workflow_engine_;
+        }
+        if (!dry_run_ && workflow_engine && config.type == SourceType::FILESYSTEM &&
+            !optionEnabled(config.options, "workflow_engine_disable", false)) {
+            auto stats = ingestFilesystemViaWorkflowEngine(config, *workflow_engine, progress_callback);
+            auto end_time = std::chrono::steady_clock::now();
+            stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
+            if (stats.elapsed_seconds > 0.0 && stats.documents_processed > 0) {
+                stats.metrics.throughput_docs_per_sec =
+                    static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
+            }
             return stats;
         }
 
@@ -1424,6 +1482,91 @@ public:
 
                 std::lock_guard<std::mutex> lock(mutex_);
                 quarantine_.push_back(std::move(entry));
+            }
+
+            IngestionStats ingestFilesystemViaWorkflowEngine(
+                const SourceConfig& config,
+                WorkflowEngine& engine,
+                ProgressCallback progress_callback) {
+                IngestionStats stats;
+                const std::filesystem::path source_path(config.location);
+                if (!std::filesystem::exists(source_path)) {
+                    stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
+                                   IngestionErrorSeverity::ERROR,
+                                   "Source path not found: " + config.location,
+                                   config.source_id);
+                    return stats;
+                }
+
+                std::vector<std::filesystem::path> files;
+                const bool recursive = optionEnabled(config.options, "recursive", true);
+                if (std::filesystem::is_regular_file(source_path)) {
+                    files.push_back(source_path);
+                } else if (std::filesystem::is_directory(source_path)) {
+                    if (recursive) {
+                        for (const auto& entry : std::filesystem::recursive_directory_iterator(source_path)) {
+                            if (entry.is_regular_file()) {
+                                files.push_back(entry.path());
+                            }
+                        }
+                    } else {
+                        for (const auto& entry : std::filesystem::directory_iterator(source_path)) {
+                            if (entry.is_regular_file()) {
+                                files.push_back(entry.path());
+                            }
+                        }
+                    }
+                } else {
+                    stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                   IngestionErrorSeverity::ERROR,
+                                   "Unsupported filesystem source type: " + config.location,
+                                   config.source_id);
+                    return stats;
+                }
+
+                const auto profile_it = config.options.find("workflow_profile");
+                const bool has_profile = profile_it != config.options.end() && !profile_it->second.empty();
+
+                const size_t total_files = files.size();
+                size_t processed_files = 0;
+                for (const auto& file : files) {
+                    ExtractionContext ctx;
+                    ctx.manifest.original_path = file.string();
+                    ctx.manifest.file_id = file.string();
+                    ctx.manifest.filename_stem = file.stem().string();
+                    ctx.manifest.extension = file.extension().string();
+                    ctx.manifest.detected_mime = detectMimeFromExtension(ctx.manifest.extension);
+                    ctx.manifest.detected_format = detectFormatFromExtension(ctx.manifest.extension);
+
+                    std::error_code ec;
+                    const auto size = std::filesystem::file_size(file, ec);
+                    if (!ec) {
+                        ctx.manifest.file_size_bytes = size;
+                    }
+
+                    auto run_result = has_profile
+                        ? engine.executeWithProfile(profile_it->second, ctx)
+                        : engine.execute(ctx);
+                    if (!run_result) {
+                        stats.documents_failed++;
+                        stats.addError(IngestionErrorCode::PROCESSING_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       run_result.error().message,
+                                       config.source_id,
+                                       file.string());
+                    } else {
+                        stats.documents_processed++;
+                        stats.bytes_processed += static_cast<size_t>(ctx.manifest.file_size_bytes);
+                    }
+
+                    ++processed_files;
+                    if (progress_callback) {
+                        progress_callback(config.source_id, processed_files, total_files,
+                                          "workflow_engine");
+                    }
+                }
+
+                return stats;
             }
         }
     }
@@ -2396,6 +2539,4 @@ std::string IngestionAdminApi::healthJson() const {
 
 } // namespace ingestion
 } // namespace themis
-
-
 

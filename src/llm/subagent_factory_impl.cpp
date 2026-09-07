@@ -178,38 +178,70 @@ public:
             }
         }
 
-        // Submit to inference engine (simplified)
-        if (engine_) {
-            try {
-                // In production: auto response = engine_->generate(request);
-                result.success = true;
-                result.output = "Mock inference result for: " + request.prompt.substr(0, 20);
-                result.tokens_consumed = config_.budget.max_tokens_per_request;
+        if (!plugin_) {
+            result.success = false;
+            result.error = "No LLM plugin configured";
+            return result;
+        }
 
-                {
-                    std::unique_lock<std::shared_mutex> lock(state_mutex_);
-                    metrics_.total_requests++;
-                    metrics_.successful_inferences++;
-                    metrics_.tokens_consumed += result.tokens_consumed;
-                    metrics_.total_tokens_processed += result.tokens_consumed;
-                    metrics_.last_request_time = std::chrono::steady_clock::now();
-                }
-
-                // Record consumption
-                quota_mgr_->consume(
-                    config_.tenant_id.empty() ? "default" : config_.tenant_id,
-                    config_.model_id,
-                    result.tokens_consumed);
-
-            } catch (const std::exception& ex) {
+        try {
+            InferenceRequest plugin_request = request;
+            if (plugin_request.model_id.empty()) {
+                plugin_request.model_id = config_.model_id;
+            }
+            if (plugin_request.max_tokens <= 0) {
+                plugin_request.max_tokens = static_cast<int>(config_.budget.max_tokens_per_request);
+            }
+            if (plugin_request.max_tokens <= 0) {
                 result.success = false;
-                result.error = ex.what();
+                result.error = "Subagent max_tokens configuration is invalid";
+                return result;
+            }
+
+            InferenceResponse response = plugin_->generate(plugin_request);
+            if (!response.success) {
+                result.success = false;
+                result.error = response.error_message.empty()
+                                 ? "LLM plugin returned unsuccessful response"
+                                 : response.error_message;
                 {
                     std::unique_lock<std::shared_mutex> lock(state_mutex_);
                     metrics_.total_requests++;
                     metrics_.failed_inferences++;
                     last_error_ = result.error;
                 }
+                return result;
+            }
+
+            result.success = true;
+            result.output = std::move(response.text);
+            result.tokens_consumed = response.tokens_generated > 0
+                                       ? static_cast<size_t>(response.tokens_generated)
+                                       : static_cast<size_t>(plugin_request.max_tokens);
+
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                metrics_.successful_inferences++;
+                metrics_.tokens_consumed += result.tokens_consumed;
+                metrics_.total_tokens_processed += result.tokens_consumed;
+                metrics_.last_request_time = std::chrono::steady_clock::now();
+            }
+
+            // Record consumption
+            quota_mgr_->consume(
+                config_.tenant_id.empty() ? "default" : config_.tenant_id,
+                config_.model_id,
+                result.tokens_consumed);
+
+        } catch (const std::exception& ex) {
+            result.success = false;
+            result.error = ex.what();
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                metrics_.failed_inferences++;
+                last_error_ = result.error;
             }
         }
 
@@ -299,14 +331,14 @@ public:
         return make_expected();
     }
 
-    QuotaCheckResult checkQuota(size_[[maybe_unused]] t estimated_token[[maybe_unused]] s) const override {
+    QuotaCheckResult checkQuota(size_t estimated_tokens) const override {
         return quota_mgr_->check(
             config_.tenant_id.empty() ? "default" : config_.tenant_id,
             config_.model_id,
             estimated_tokens);
     }
 
-    QuotaCheckResult consumeQuota(size_[[maybe_unused]] t token[[maybe_unused]] s) override {
+    QuotaCheckResult consumeQuota(size_t tokens) override {
         quota_mgr_->consume(
             config_.tenant_id.empty() ? "default" : config_.tenant_id,
             config_.model_id,
@@ -486,7 +518,7 @@ public:
         return make_expected();
     }
 
-    std::shared_ptr<Subagent> getSubagent(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] subagent_id) override {
+    std::shared_ptr<Subagent> getSubagent(const std::string& subagent_id) override {
         std::unique_lock<std::mutex> lock(subagents_mutex_);
         auto it = subagents_.find(subagent_id);
         return it != subagents_.end() ? it->second : nullptr;
@@ -531,7 +563,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unregisterPromptPolicy(cons[[maybe_unused]] t st[[maybe_unused]] d::string& [[maybe_unused]] policy_id) override {
+    SubagentResult<void> unregisterPromptPolicy(const std::string& policy_id) override {
         {
             std::unique_lock<std::mutex> lock(policies_mutex_);
             auto it = policies_.find(policy_id);

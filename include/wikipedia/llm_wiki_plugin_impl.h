@@ -33,6 +33,7 @@
 #pragma once
 
 #include "llm_wiki/llm_wiki_plugin_interface.h"
+#include "llm_wiki/process_policy_manager.h"
 #include "wikipedia/wiki_workspace_orchestrator.h"
 
 #include "llm/wiki_chunk_splitter.h"
@@ -46,7 +47,9 @@
 #endif
 
 #include <atomic>
+#include <filesystem>
 #include <memory>
+#include <optional>
 #include <shared_mutex>
 #include <string>
 #include <unordered_set>
@@ -267,6 +270,25 @@ private:
         int   top_k,
         float min_score) const;
 
+    /**
+     * @brief Load and validate process policy from configured YAML path.
+     *
+     * Caller must hold exclusive lock on `mutex_`.
+     *
+     * @param context_label Error-context prefix for diagnostic messages.
+     * @return Status::Ok() if policy is loaded or no policy path is configured.
+     */
+    [[nodiscard]] Status loadProcessPolicy_locked(const char* context_label);
+
+    /**
+     * @brief Reload policy when hot-reload is enabled and source file changed.
+     *
+     * Caller must hold exclusive lock on `mutex_`.
+     *
+     * @return Status::Ok() when no reload is needed or reload succeeded.
+     */
+    [[nodiscard]] Status maybeReloadProcessPolicy_locked();
+
     // ── State ─────────────────────────────────────────────────────────────────
 
     std::atomic<bool>          initialized_{false};
@@ -284,6 +306,10 @@ private:
     bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
+    std::string process_policy_path_;
+    bool        process_policy_hot_reload_{false};
+    std::optional<themis::llm_wiki::LLMWikiProcessPolicy> process_policy_;
+    std::optional<std::filesystem::file_time_type> process_policy_mtime_;
 
     // Phase A in-memory store
     std::vector<themis::llm::WikiChunk>               chunks_;

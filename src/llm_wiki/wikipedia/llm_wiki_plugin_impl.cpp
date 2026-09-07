@@ -191,14 +191,28 @@ Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
           fail_open_ = j["fail_open"].get<bool>();
         }
         if (j.contains("llm_wiki_wikipedia")) {
-          llm_wiki_wikipedia_ = j["llm_wiki_wikipedia"].get<bool>();
+          has_wikipedia_license_ = j["llm_wiki_wikipedia"].get<bool>();
         }
         if (j.contains("json_index_path")) {
           json_index_path_ = j["json_index_path"].get<std::string>();
         }
+        if (j.contains("process_policy_path")) {
+          process_policy_path_ = j["process_policy_path"].get<std::string>();
+        }
+        if (j.contains("process_policy_hot_reload")) {
+          process_policy_hot_reload_ = j["process_policy_hot_reload"].get<bool>();
+        }
+
+        const auto policy_status = loadProcessPolicy_locked("initialize");
+        if (!policy_status.ok()) {
+            initialized_ = false;
+            return policy_status;
+        }
+
         initialized_ = true;
         return Status::Ok();
     } catch (const std::exception& e) {
+        initialized_ = false;
         return Status::Error(std::string("initialize failed: ") + e.what());
     }
 }
@@ -211,6 +225,12 @@ WikiIngestResult LLMWikiPluginImpl::ingest(
     WikiIngestResult result = {};
 
     if (!initialized_) {
+        result.errors = 1;
+        result.failed_files.push_back(source_path);
+        return result;
+    }
+    if (const auto policy_status = maybeReloadProcessPolicy_locked();
+        !policy_status.ok()) {
         result.errors = 1;
         result.failed_files.push_back(source_path);
         return result;
@@ -246,8 +266,16 @@ WikiQueryResult LLMWikiPluginImpl::query(
     const std::string& query_text,
     [[maybe_unused]] const WikiQueryOptions& opts)
 {
-    std::shared_lock<std::shared_mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     WikiQueryResult result;
+
+    if (!initialized_) {
+        return result;
+    }
+    if (const auto policy_status = maybeReloadProcessPolicy_locked();
+        !policy_status.ok()) {
+        return result;
+    }
 
     result.query_flagged_for_prompt_injection = containsUnsafePattern(query_text);
     if (result.query_flagged_for_prompt_injection) {
@@ -271,6 +299,57 @@ WikiQueryResult LLMWikiPluginImpl::query(
     }
     result.candidates = std::move(chunks);
     return result;
+}
+
+Status LLMWikiPluginImpl::loadProcessPolicy_locked(const char* context_label) {
+    if (process_policy_path_.empty()) {
+        process_policy_.reset();
+        process_policy_mtime_.reset();
+        return Status::Ok();
+    }
+
+    themis::llm_wiki::LLMWikiProcessPolicy candidate;
+    const auto status = themis::llm_wiki::ProcessPolicyManager::loadFromYaml(
+        process_policy_path_, candidate);
+    if (!status.ok()) {
+        return Status::Error(std::string("[llm_wiki] process policy ")
+                             + (context_label ? context_label : "load")
+                             + " failed: " + status.message);
+    }
+
+    std::error_code ec;
+    const auto mtime = std::filesystem::last_write_time(process_policy_path_, ec);
+    if (!ec) {
+        process_policy_mtime_ = mtime;
+    }
+
+    process_policy_ = std::move(candidate);
+    return Status::Ok();
+}
+
+Status LLMWikiPluginImpl::maybeReloadProcessPolicy_locked() {
+    if (!process_policy_hot_reload_ || process_policy_path_.empty()) {
+        return Status::Ok();
+    }
+
+    std::error_code ec;
+    const auto current_mtime = std::filesystem::last_write_time(process_policy_path_, ec);
+    if (ec) {
+        return Status::Error("[llm_wiki] process policy hot-reload failed: cannot stat policy file");
+    }
+    if (process_policy_mtime_.has_value() && current_mtime <= *process_policy_mtime_) {
+        return Status::Ok();
+    }
+
+    const auto previous_policy = process_policy_;
+    const auto previous_mtime = process_policy_mtime_;
+    const auto reload_status = loadProcessPolicy_locked("hot_reload");
+    if (!reload_status.ok()) {
+        process_policy_ = previous_policy;
+        process_policy_mtime_ = previous_mtime;
+        return reload_status;
+    }
+    return Status::Ok();
 }
 
 Status LLMWikiPluginImpl::wikiInit(const std::string& workspace_root) {

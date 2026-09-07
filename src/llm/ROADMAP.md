@@ -118,6 +118,7 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
+  - [~] Runtime closure: `SubagentImpl::infer()` now executes real plugin inference and fails closed on missing plugin/failed generation instead of returning synthetic mock output (Target: Q4 2026)
 - [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
   - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents
     - [~] Braces imbalance in 37 files (Sub-Agent: llm-braces-critical-fixes)
