@@ -1300,7 +1300,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view t
 	}
 
 	for (size_t chunk_begin = 0; chunk_begin < entities.size(); chunk_begin += transaction_batch_size) {
-		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size,static_cast<int>(entities.size()));
+		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size, entities.size());
 		auto batch = db_.createWriteBatch();
 		if (!batch) {
 		  return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
@@ -2756,7 +2756,9 @@ SecondaryIndexManager::computeBM25Scores_(
 				continue;
 			}
 			if (in_quotes) {
-			  current.push_back(c); else cleaned.push_back(c);
+			  current.push_back(c);
+			} else {
+			  cleaned.push_back(c);
 			}
 		}
 		return std::pair{phrases, cleaned};
@@ -3438,7 +3440,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 	// Step 3.0: Total entities under <table>:
 	const std::string entityPrefix = KeySchema::makeRelationalKey(table, "");
 	size_t total = 0;
-	db_.scanPrefix(entityPrefix, [&total](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+	db_.scanPrefix(entityPrefix, [&total]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 		++total;
 		return true;
 	});
@@ -4026,7 +4028,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			}
 		}
 		stats.additional_info = colList;			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4043,7 +4045,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = std::string("ttl_seconds=") + *mv;
 
 			std::string prefix = std::string("ttlidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4060,7 +4062,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "inverted_index";
 
 			std::string prefix = std::string("ftidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4077,7 +4079,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "geohash";
 
 			std::string prefix = std::string("gidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4094,7 +4096,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = *mv;
 
 			std::string prefix = std::string("sidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4111,7 +4113,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "sorted";
 
 			std::string prefix = std::string("ridx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4128,7 +4130,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = *mv;
 
 			std::string prefix = std::string("idx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -4148,7 +4150,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			stats.additional_info = "predicate=" + predicate;
 
 			std::string prefix = std::string("pidx:") + tableStr + ":" + columnStr + ":";
-			db_.scanPrefix(prefix, [&stats](std::[[maybe_unused]] string_view k, std::[[maybe_unused]] string_view v) {
+			db_.scanPrefix(prefix, [&stats]([[maybe_unused]] std::string_view k, [[maybe_unused]] std::string_view v) {
 				stats.entry_count++;
 				return true;
 			});
@@ -5079,4 +5081,3 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 }
 
 } // namespace themis
-
