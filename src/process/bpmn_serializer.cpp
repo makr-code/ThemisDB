@@ -66,8 +66,8 @@ std::string unescapeXml(std::string_view s) {
         if      (ent == "&amp;") {
           out += '&';
         }
-        else if (ent == "<")   out += '<';
-        else if (ent == ">")   out += '>';
+        else if (ent == "&lt;")   out += '<';
+        else if (ent == "&gt;")   out += '>';
         else if (ent == "&quot;") out += '"';
         else if (ent == "&apos;") out += '\'';
         else                      out += std::string(ent); // unknown – keep as-is
@@ -1131,5 +1131,4 @@ std::string BpmnSerializer::validateStructure(
 
 } // namespace process
 } // namespace themis
-
 

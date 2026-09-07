@@ -4,7 +4,7 @@
 
 **Version:** 2.4.0-alpha  
 **Last Updated:** 2026-09-02 (source-validated against module roadmaps and evidence bundles)
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18. **Recent source validation (2026-09-02) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-08-08, Storage Phases 1-5 complete.**
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete; final GA promotion still requires closure of tracked execution/evidence blockers plus Phase 6 human governance sign-off (D-11) at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18. **Recent source validation (2026-09-02) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-08-08, Storage Phases 1-5 complete.**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -66,7 +66,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
-- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/gate-pr-core.yml`).
+- [x] Source-level P0/P1 hardening batch delivered for process/subagent orchestration paths: production linkage now includes `src/llm/subagent_factory_impl.cpp` + `src/llm/subagent_coordinator_impl.cpp` and BPMN XML unescape now correctly decodes `&lt;`/`&gt;` (`src/process/bpmn_serializer.cpp`).
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [x] `server`, `llm`, and `sharding` top-risk hardening complete: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered and evidence bundled; `sharding` P6 gate integration and sign-off artefacts complete.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
@@ -385,7 +386,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Require repeatable under-load results before marking any optimisation production-ready — Wave 7 endurance-soak and degradation-fault-recovery suites confirm repeatable results (`benchmarks/wave7/bench_w7b_endurance_soak.cpp`, `bench_w7c_degradation_fault_recovery.cpp`) (Target: 2026-09)
 
 ### Phase 3 — Integration and Resilience Proof
-- [x] Keep the `release_critical` pipeline green on every relevant `develop` change — `.github/workflows/09-pr-gates_release-critical-tests.yml` confirms mandatory non-optional gate (Target: ongoing)
+- [x] Keep the `release_critical` pipeline green on every relevant `develop` change — `.github/workflows/gate-pr-core.yml` confirms mandatory non-optional gate (Target: ongoing)
 - [x] Retain Wave 5 and Wave 6 as regression protection and add Wave 8 as the next endurance/degradation sign-off tier — Wave 8 (`w8a/w8b/w8c`) wired into `release_critical`; GATE-W8-01..04 all PASS (`benchmarks/wave8/release_gate_manifest_w8.json`) (Target: 2026-09)
 - [x] Add cluster-wide chaos/fault-injection coverage and treat recovery/degradation/endurance scenarios as required sign-off gates — Wave 9 chaos/SLA (`w9a/w9b/w9c`) wired into `release_critical`; GATE-W9-01..06 all PASS; node-rejoin ≤ 2000 µs, RTO ≤ 5000 µs (`benchmarks/wave9/release_gate_manifest_w9.json`) (Target: 2026-09)
 
@@ -453,7 +454,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 ## Production Readiness Checklist
 
 - [x] Wave 7 is fully PASS and regression-free on the current baseline — GATE-W7-01..06 PASS (`benchmarks/wave7/release_gate_manifest_w7.json`)
-- [x] `release_critical` CI stays green on `develop` — `.github/workflows/09-pr-gates_release-critical-tests.yml` non-optional
+- [x] `release_critical` CI stays green on `develop` — `.github/workflows/gate-pr-core.yml` non-optional
 - [x] `server`, `llm`, and `sharding` have no new CRITICAL findings — Phase 1 hardening complete; module gap registers reviewed
 - [x] Sanitizer, recovery, and fault-injection evidence exists where relevant
 - [x] Cluster fault-injection and 99.99% SLA validation are complete — Wave 9 GATE-W9-04 (RTO ≤ 5000 µs) and GATE-W9-03 (rejoin ≤ 2000 µs) PASS
