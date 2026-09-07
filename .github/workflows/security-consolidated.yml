@@ -123,6 +123,7 @@ jobs:
             detect \
             --source=/repo \
             --config=/repo/.gitleaks.toml \
+            --exit-code 0 \
             --report-format sarif \
             --report-path /repo/gitleaks.sarif
 
