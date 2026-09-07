@@ -481,7 +481,7 @@ std::vector<HnswTraversalResult>
 CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) const {
     if (!impl_->index_built || impl_->flat_vectors.empty()) {
         THEMIS_WARN("CudaHnswTraversalEngine::batchSearch: index not built or flat_vectors empty (index_built={} flat_vectors={})",
-                    impl_->index_built.load(), impl_-> static_cast<int>(flat_vectors.size()));
+                    impl_->index_built.load(), impl_->flat_vectors.size());
         return {};
     }
     if (ef == 0) {
@@ -900,4 +900,3 @@ bool CudaHnswTraversalEngine::hasVisitedPool() const noexcept {
 }
 
 } // namespace themis
-

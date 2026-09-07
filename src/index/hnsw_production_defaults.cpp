@@ -48,7 +48,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.M = std::max(8, params.M - 6);  // Optimize for bulk loading
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             // Keep default M
             break;
     }
@@ -74,7 +75,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             params.ef_construction = static_cast<int>(params.ef_construction * 0.6);
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             // Keep default ef_construction
             break;
     }
@@ -97,7 +99,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getRecommendedParams(
             // ef_search less relevant for batch insert
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             // Keep default ef_search
             break;
     }
@@ -161,7 +164,8 @@ HnswProductionDefaults::HnswParams HnswProductionDefaults::getWorkloadOptimizedP
             profile = PerformanceProfile::LATENCY_OPTIMIZED;  // Fast inserts
             break;
         case WorkloadType::MIXED:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             profile = PerformanceProfile::BALANCED;
             break;
     }
@@ -476,4 +480,3 @@ double HnswRuntimeAdapter::getOverfetchMultiplier(
 
 } // namespace index
 } // namespace themis
-

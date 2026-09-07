@@ -64,7 +64,9 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
 
     for (const auto& o : obs_copy) {
         if (o.is_write) {
-          ++writes; else ++reads;
+            ++writes;
+        } else {
+            ++reads;
         }
         total_complexity += o.complexity;
         total_rows += o.result_rows;
@@ -84,7 +86,7 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
     std::vector<std::pair<std::string,size_t>> tvec(table_counts.begin(), table_counts.end());
     std::sort(tvec.begin(), tvec.end(),
               [](const auto& a, const auto& b){ return a.second > b.second; });
-    for (size_t i = 0; i < std::min<size_t>(3,static_cast<int>(tvec.size())); ++i)
+    for (size_t i = 0; i < std::min<size_t>(3, tvec.size()); ++i)
         profile.hot_tables.push_back(tvec[i].first);
 
     // Classification heuristics
@@ -181,7 +183,7 @@ void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strat
         ++stats_.total_adaptations;
         stats_.last_workload_type = new_profile.type;
     }
-    if ([[maybe_unused]] callback_) {
+    if (callback_) {
       callback_(old_profile, new_profile, strategy);
     }
 }
@@ -221,7 +223,7 @@ bool WorkloadAdaptiveOptimizer::is_auto_adapt_enabled() const noexcept {
 }
 
 void WorkloadAdaptiveOptimizer::set_callback([[maybe_unused]] AdaptationCallback cb) {
-    callback_ = std::move([[maybe_unused]] cb);
+    callback_ = std::move(cb);
 }
 
 void WorkloadAdaptiveOptimizer::adapt_once() {
@@ -258,4 +260,3 @@ double WorkloadAdaptiveOptimizer::getProfileDrift() const {
 
 }  // namespace performance
 }  // namespace themis
-

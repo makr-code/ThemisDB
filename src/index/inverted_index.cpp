@@ -595,10 +595,10 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
         // separator between token and pk (tokens never contain ':' because the
         // tokeniser splits on punctuation).
         size_t lastColon = key.rfind(':');
-        if (lastColon == std::string_view::npos  || static_cast<size_t>(lastColon) < = prefix.size())
+        if (lastColon == std::string_view::npos || lastColon <= prefix.size())
             return true;
 
-        std::string tok(key.substr(prefix.size(), lastColon - static_cast<int>(prefix.size()) ));
+        std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));
         std::string pk(key.substr(lastColon + 1));
         if (tok.empty() || pk.empty()) {
           return true;
@@ -636,5 +636,4 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
 }
 
 } // namespace themis
-
 

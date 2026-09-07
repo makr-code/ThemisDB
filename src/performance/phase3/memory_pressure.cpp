@@ -75,14 +75,14 @@ bool SystemMemoryPressureMonitor::is_running() const noexcept {
 
 size_t SystemMemoryPressureMonitor::register_eviction_callback(
     PressureLevel trigger_level, EvictionCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
     size_t handle = next_handle_++;
     callbacks_.push_back({handle, trigger_level, std::move(callback)});
     return handle;
 }
 
 void SystemMemoryPressureMonitor::unregister_eviction_callback([[maybe_unused]] size_t handle) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
     callbacks_.erase(
         std::remove_if(callbacks_.begin(), callbacks_.end(),
                        [handle]([[maybe_unused]] const CallbackEntry& e) { return e.handle == handle; }),
@@ -226,7 +226,7 @@ void SystemMemoryPressureMonitor::poll_loop() {
         }
 
         if (snap.level != PressureLevel::NORMAL) {
-            trigger_callbacks([[maybe_unused]] snap.level);
+            trigger_callbacks(snap.level);
         }
 
         // Sleep in small increments so stop() can interrupt quickly.
@@ -243,11 +243,11 @@ void SystemMemoryPressureMonitor::poll_loop() {
 void SystemMemoryPressureMonitor::trigger_callbacks([[maybe_unused]] PressureLevel current_level) {
     std::vector<EvictionCallback> to_call;
     {
-        std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
+        std::lock_guard<std::mutex> lock(callbacks_mutex_);
         for ([[maybe_unused]] const auto& entry : callbacks_) {
             if (static_cast<int>(current_level) >=
                 static_cast<int>(entry.trigger_level)) {
-                to_call.push_back([[maybe_unused]] entry.callback);
+                to_call.push_back(entry.callback);
             }
         }
     }
@@ -263,4 +263,3 @@ void SystemMemoryPressureMonitor::trigger_callbacks([[maybe_unused]] PressureLev
 } // namespace phase3
 } // namespace performance
 } // namespace themis
-
