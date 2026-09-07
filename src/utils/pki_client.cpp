@@ -166,7 +166,7 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
           break;
         }
         int d = 0;
-        if (c < 128) {
+        if (c < 128u) {
             d = T[c];
         } else {
             d = -1;

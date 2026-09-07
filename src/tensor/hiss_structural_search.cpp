@@ -298,7 +298,7 @@ std::optional<std::size_t> QTTMappingDescriptor::qttToPhysical(std::size_t qtt_i
 
 std::size_t TensorNetworkGraph::addNode(TensorGraphNode node) {
     nodes_.push_back(std::move(node));
-    return static_cast<int>(nodes_.size()) - 1;
+    return nodes_.size() - 1;
 }
 
 bool TensorNetworkGraph::addEdge(TensorGraphEdge edge) {
@@ -540,7 +540,8 @@ HissReshaper::exposeQuantics(const storage::TTTrain& train, const std::vector<st
     // Avoid numerical drift for small quantics tensors in strict roundtrip
     // tests by building an exact binary TT directly.
     if (padded_dense_elements <= 2048) {
-        reshaped_train = buildExactBinaryTT(padded_dense_tensor,static_cast<int>(quantics_mode_sizes.size()));
+        reshaped_train = buildExactBinaryTT(
+            padded_dense_tensor, static_cast<std::size_t>(quantics_mode_sizes.size()));
     } else {
         storage::TensorTrainDecomposer decomposer;
         storage::TensorTrainConfig cfg;
@@ -584,7 +585,7 @@ std::optional<TensorNetworkGraph> TemplateCatalog::lookup(const std::string& dom
 
 std::size_t TemplateCatalog::size() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(templates_.size());
+    return templates_.size();
 }
 
 } // namespace tensor

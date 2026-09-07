@@ -61,7 +61,7 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
 
 static bool isAsciiControl(char c) {
     unsigned char uc = static_cast<unsigned char>(c);
-    return (uc < 0x20) || (uc == 0x7F);
+    return (uc < 0x20u) || (uc == 0x7Fu);
 }
 
 std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max_len) const {
@@ -785,13 +785,13 @@ std::string InputValidator::normalizeUnicode(const std::string& input) const {
             auto b2 = static_cast<unsigned char>(input[i + 1]);
             auto b3 = static_cast<unsigned char>(input[i + 2]);
 
-            if (b2 == 0xBC && b3 >= 0x81 && b3 <= 0xBF) {
+            if (b2 == 0xBCu && b3 >= 0x81u && b3 <= 0xBFu) {
                 // U+FF01..U+FF3F -> ASCII 0x21..0x5F
                 result += static_cast<char>(b3 - 0x81 + 0x21);
                 i += 3;
                 continue;
             }
-            if (b2 == 0xBD && b3 >= 0x80 && b3 <= 0x9E) {
+            if (b2 == 0xBDu && b3 >= 0x80u && b3 <= 0x9Eu) {
                 // U+FF40..U+FF5E -> ASCII 0x60..0x7E
                 result += static_cast<char>(b3 - 0x80 + 0x60);
                 i += 3;
