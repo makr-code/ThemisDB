@@ -18,6 +18,12 @@ const MAX_GROUPS_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_GROUPS_
 const MAX_ITEMS_PER_GROUP_IN_REPORT = Math.max(1, Number.parseInt(process.env.MAX_ITEMS_PER_GROUP_IN_REPORT || '5', 10) || 5);
 const CHRONIC_THRESHOLD = 3;
 const MAX_MARKDOWN_CHARS = Math.max(1000, Number.parseInt(process.env.MAX_MARKDOWN_CHARS || '50000', 10) || 50000);
+const TRACK_B_MODULE_ORDER = ['index', 'storage', 'tensor', 'config', 'utils'];
+const TRACK_A_PRIORITY_FILES = [
+  'src/index/multi_gpu_vector_index.cpp',
+  'src/index/gpu_vector_index.cpp',
+  'src/storage/columnar_format.cpp',
+];
 
 const GAP_MARKER_PATTERN = /\b(GAP|SIMULATION|MOCKUP|STUB)\b/g;
 
@@ -105,6 +111,34 @@ function detectCompilerFromContext(line, fallback = 'unknown') {
     return 'gcc';
   }
   return fallback;
+}
+
+function classifyGapMarkerFinding(finding) {
+  const source = String(finding?.source_line || '').toLowerCase();
+  if (source.includes('@note gap summary') || source.includes('auto-generated')) {
+    return 'doc_leak';
+  }
+  return 'real_gap';
+}
+
+function moduleOrderRank(moduleName) {
+  const idx = TRACK_B_MODULE_ORDER.indexOf(String(moduleName || '').toLowerCase());
+  return idx >= 0 ? idx : Number.MAX_SAFE_INTEGER;
+}
+
+function loadSourceLineForFinding(repoRoot, finding) {
+  if (!repoRoot || !finding || !finding.file || !finding.line) return '';
+  const relativePath = String(finding.file || '').replace(/\\/g, '/');
+  const filePath = path.isAbsolute(relativePath) ? relativePath : path.join(repoRoot, relativePath);
+  if (!fs.existsSync(filePath)) return '';
+  try {
+    const lines = fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
+    const lineIndex = Number(finding.line) - 1;
+    if (lineIndex < 0 || lineIndex >= lines.length) return '';
+    return String(lines[lineIndex] || '').trim();
+  } catch {
+    return '';
+  }
 }
 
 class ErrorAggregator {
@@ -384,6 +418,120 @@ class ErrorAggregator {
       .sort((a, b) => b.counts.total - a.counts.total);
   }
 
+  buildRemediationTracks(stats, sourceRunId = null, repoRoot = null) {
+    const groupedEntries = this.getGroupedEntries();
+    const compilerErrorFindings = (this.byType.get('compiler_error') || []);
+    const compilerWarningFindings = (this.byType.get('compiler_warning') || []);
+    const gapMarkerFindings = (this.byType.get('gap_marker') || []);
+
+    const trackAByFile = groupedEntries
+      .filter((g) => g.counts.compiler_error > 0)
+      .sort((a, b) => {
+        const aPriority = TRACK_A_PRIORITY_FILES.indexOf(a.file);
+        const bPriority = TRACK_A_PRIORITY_FILES.indexOf(b.file);
+        const aRank = aPriority >= 0 ? aPriority : Number.MAX_SAFE_INTEGER;
+        const bRank = bPriority >= 0 ? bPriority : Number.MAX_SAFE_INTEGER;
+        if (aRank !== bRank) return aRank - bRank;
+        return b.counts.compiler_error - a.counts.compiler_error;
+      })
+      .map((g) => ({
+        module: g.module,
+        file: g.file,
+        compiler_errors: g.counts.compiler_error,
+        compiler_warnings: g.counts.compiler_warning,
+      }));
+
+    const trackBByModule = groupedEntries
+      .filter((g) => g.counts.compiler_warning > 0)
+      .sort((a, b) => {
+        const byOrder = moduleOrderRank(a.module) - moduleOrderRank(b.module);
+        if (byOrder !== 0) return byOrder;
+        return b.counts.compiler_warning - a.counts.compiler_warning;
+      })
+      .map((g) => ({
+        module: g.module,
+        file: g.file,
+        compiler_warnings: g.counts.compiler_warning,
+      }));
+
+    const warningClusters = new Map();
+    for (const finding of compilerWarningFindings) {
+      const key = String(finding.message || 'unknown warning').slice(0, 240);
+      if (!warningClusters.has(key)) {
+        warningClusters.set(key, { message: key, count: 0, modules: new Set() });
+      }
+      const cluster = warningClusters.get(key);
+      cluster.count += finding.frequency || 1;
+      cluster.modules.add(finding.module || 'unknown');
+    }
+    const warningClusterList = Array.from(warningClusters.values())
+      .map((entry) => ({
+        message: entry.message,
+        count: entry.count,
+        modules: Array.from(entry.modules).sort(),
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 25);
+
+    const gapMarkerDocLeaks = [];
+    const gapMarkerRealGaps = [];
+    for (const finding of gapMarkerFindings) {
+      const sourceLine = finding.source_line || loadSourceLineForFinding(repoRoot, finding);
+      const classified = {
+        ...finding,
+        source_line: sourceLine,
+        gap_classification: classifyGapMarkerFinding(finding),
+      };
+      classified.gap_classification = classifyGapMarkerFinding(classified);
+      if (classified.gap_classification === 'doc_leak') {
+        gapMarkerDocLeaks.push(classified);
+      } else {
+        gapMarkerRealGaps.push(classified);
+      }
+    }
+
+    gapMarkerDocLeaks.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
+    gapMarkerRealGaps.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
+
+    return {
+      frozen_at: new Date().toISOString(),
+      source_run_id: sourceRunId || null,
+      baseline: {
+        total_input_findings: stats.total_input_findings,
+        total_unique_diagnostics: stats.total_unique_errors,
+        chronic_diagnostics: stats.chronic_errors,
+        module_file_groups: stats.module_file_groups,
+        chronic_threshold: CHRONIC_THRESHOLD,
+      },
+      processing_order: {
+        track_a: 'compiler_error',
+        track_b: 'compiler_warning',
+        track_c: 'gap_marker',
+      },
+      tracks: {
+        compiler_error: {
+          target: '0 chronic compiler errors',
+          files: trackAByFile,
+          chronic_diagnostics: compilerErrorFindings.filter((f) => (f.frequency || 0) >= CHRONIC_THRESHOLD).length,
+          total_unique_diagnostics: compilerErrorFindings.length,
+        },
+        compiler_warning: {
+          module_order: [...TRACK_B_MODULE_ORDER, 'rest'],
+          files: trackBByModule,
+          dominant_clusters: warningClusterList,
+          total_unique_diagnostics: compilerWarningFindings.length,
+        },
+        gap_marker: {
+          split_order: ['doc_leak', 'real_gap'],
+          doc_leak_total_unique: gapMarkerDocLeaks.length,
+          real_gap_total_unique: gapMarkerRealGaps.length,
+          top_doc_leaks: gapMarkerDocLeaks.slice(0, 50),
+          top_real_gaps: gapMarkerRealGaps.slice(0, 50),
+        },
+      },
+    };
+  }
+
   generateMarkdown() {
     const stats = this.getStats();
     let md = '';
@@ -461,7 +609,9 @@ async function main() {
   const errorDir = process.env.ERROR_ARTIFACTS_DIR || '.';
   const outputFile = process.env.OUTPUT_FILE || '/tmp/aggregated-errors.md';
   const groupedOutputFile = process.env.GROUPED_OUTPUT_FILE || '/tmp/aggregated-errors-by-module-file.json';
+  const tracksOutputFile = process.env.TRACKS_OUTPUT_FILE || '/tmp/chronic-triage-baseline.json';
   const repoRoot = process.env.GITHUB_WORKSPACE || process.cwd();
+  const sourceRunId = process.env.GITHUB_RUN_ID || null;
 
   const files = walkFiles(errorDir);
   const errorJsonFiles = files.filter((f) => f.endsWith('-errors.json'));
@@ -495,6 +645,7 @@ async function main() {
   aggregator.aggregate();
 
   const stats = aggregator.getStats();
+  const tracks = aggregator.buildRemediationTracks(stats, sourceRunId, repoRoot);
   let markdown = enforceMarkdownSizeLimit(aggregator.generateMarkdown());
   const grouped = {
     generated_at: new Date().toISOString(),
@@ -504,6 +655,7 @@ async function main() {
 
   fs.writeFileSync(outputFile, markdown);
   fs.writeFileSync(groupedOutputFile, JSON.stringify(grouped, null, 2));
+  fs.writeFileSync(tracksOutputFile, JSON.stringify(tracks, null, 2));
 
   console.log(`\n📊 Aggregation Results:`);
   console.log(`  - Total input findings: ${stats.total_input_findings}`);
@@ -512,12 +664,21 @@ async function main() {
   console.log(`  - Chronic diagnostics: ${stats.chronic_errors}`);
   console.log(`\n📝 Report written to: ${outputFile}`);
   console.log(`🧾 Grouped JSON written to: ${groupedOutputFile}`);
+  console.log(`🧭 Triage baseline JSON written to: ${tracksOutputFile}`);
 
+  const trackAFileCount = tracks?.tracks?.compiler_error?.files?.length || 0;
+  const trackCDocLeaks = tracks?.tracks?.gap_marker?.doc_leak_total_unique || 0;
+  const trackCRealGaps = tracks?.tracks?.gap_marker?.real_gap_total_unique || 0;
   const outputsText = [
+    `total_input_findings=${stats.total_input_findings}`,
     `total_errors=${stats.total_unique_errors}`,
     `chronic_errors=${stats.chronic_errors}`,
     `module_file_groups=${stats.module_file_groups}`,
     `has_chronic_errors=${stats.chronic_errors > 0 ? 'true' : 'false'}`,
+    `track_a_file_groups=${trackAFileCount}`,
+    `track_b_module_order=${TRACK_B_MODULE_ORDER.join(',')}`,
+    `track_c_doc_leaks=${trackCDocLeaks}`,
+    `track_c_real_gaps=${trackCRealGaps}`,
   ].join('\n');
 
   if (process.env.GITHUB_OUTPUT) {
