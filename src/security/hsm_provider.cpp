@@ -329,7 +329,7 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
             impl_->total_sign_time_us.fetch_add(static_cast<uint64_t>(elapsed), std::memory_order_relaxed);
             return result;
         } catch (const std::exception& e) {
-            r.error_message = std::string([[maybe_unused]] "signHash callback failed: ") + e.what();
+            r.error_message = std::string("signHash callback failed: ") + e.what();
             impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
             return r;
         } catch (...) {
@@ -397,7 +397,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     if (data.empty()) { last_error_ = "Cannot encrypt empty data"; return {}; }
     EncryptDataFn fn;
@@ -409,7 +409,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         try {
             return fn(data, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string([[maybe_unused]] "encryptData callback failed: ") + e.what();
+            last_error_ = std::string("encryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "encryptData callback failed: unknown exception";
@@ -425,7 +425,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     }
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     if (encrypted.empty()) { last_error_ = "Cannot decrypt empty data"; return {}; }
     DecryptDataFn fn;
@@ -437,7 +437,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         try {
             return fn(encrypted, key_label.empty() ? config_.key_label : key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string([[maybe_unused]] "decryptData callback failed: ") + e.what();
+            last_error_ = std::string("decryptData callback failed: ") + e.what();
             return {};
         } catch (...) {
             last_error_ = "decryptData callback failed: unknown exception";
@@ -466,7 +466,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
 // These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON
 //             to replace them with real PKCS#11 operations from hsm_provider_pkcs11.cpp.
 //             See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
-bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
+bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
     GenerateKeyPairFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::generateKeyPairFnMutex());
@@ -476,7 +476,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uin
         try {
             return fn(label, key_size, extractable);
         } catch (const std::exception& e) {
-            last_error_ = std::string([[maybe_unused]] "generateKeyPair callback failed: ") + e.what();
+            last_error_ = std::string("generateKeyPair callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -490,7 +490,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uin
     return false;
 }
 
-bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused]] const std::string& cert_pem) {
+bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
     ImportCertificateFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::importCertificateFnMutex());
@@ -500,7 +500,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused
         try {
             return fn(key_label, cert_pem);
         } catch (const std::exception& e) {
-            last_error_ = std::string([[maybe_unused]] "importCertificate callback failed: ") + e.what();
+            last_error_ = std::string("importCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return false;
         } catch (...) {
@@ -514,7 +514,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused
     return false;
 }
 
-std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
+std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
     GetCertificateFn fn;
     {
         std::lock_guard<std::mutex> lk(HSMProvider::getCertificateFnMutex());
@@ -524,7 +524,7 @@ std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const st
         try {
             return fn(key_label);
         } catch (const std::exception& e) {
-            last_error_ = std::string([[maybe_unused]] "getCertificate callback failed: ") + e.what();
+            last_error_ = std::string("getCertificate callback failed: ") + e.what();
             THEMIS_ERROR("{}", last_error_);
             return std::nullopt;
         } catch (...) {

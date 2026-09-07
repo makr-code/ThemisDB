@@ -115,7 +115,7 @@ void TOTPReplayCache::clearUser(const std::string& user_id) {
     
     auto it = user_caches_.find(user_id);
     if (it != user_caches_.end()) {
-        stats_.total_codes -= it-> static_cast<int>(second.size());
+        stats_.total_codes -= it->second.size();
         user_caches_.erase(it);
         stats_.total_users = user_caches_.size();
     }

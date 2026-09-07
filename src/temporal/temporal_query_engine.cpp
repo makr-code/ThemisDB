@@ -123,7 +123,7 @@ TemporalQueryEngine::joinAsOf(
     auto right_rows = right.scan(as_of);
 
     std::vector<std::pair<VersionedDocument, VersionedDocument>> result;
-    result.reserve(std::min(left_rows.size(),static_cast<int>(right_rows.size())));
+    result.reserve(std::min(left_rows.size(), right_rows.size()));
 
     for (const auto& l : left_rows) {
         for (const auto& r : right_rows) {

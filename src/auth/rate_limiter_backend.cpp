@@ -81,7 +81,7 @@ int64_t InMemoryRateLimiterBackend::increment(const std::string& key,
     // Record this request.
     timestamps.push_back(now);
 
-    return static_cast<bool>(static_cast<int64_t < static_cast<int>((timestamps.size())));
+    return static_cast<int64_t>(timestamps.size());
 }
 
 int64_t InMemoryRateLimiterBackend::getCount(const std::string& key,

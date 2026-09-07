@@ -309,7 +309,8 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
         }
 
         case DeadlockVictimPolicy::YOUNGEST:
-        [[fallthrough]];\n        default:
+            [[fallthrough]];
+        default:
             // Abort the transaction with the highest (newest) ID
             victim_id = *std::max_element(cycle.begin(), cycle.end());
             THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
@@ -2352,4 +2353,3 @@ TransactionManager::detectConflicts(TransactionId txn_id) const
 }
 
 } // namespace themis
-

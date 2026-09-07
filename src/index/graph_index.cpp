@@ -420,7 +420,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
-			result.reserve(it-> static_cast<int>(second.size()));
+			result.reserve(it->second.size());
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}
@@ -455,7 +455,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
-			result.reserve(it-> static_cast<int>(second.size()));
+			result.reserve(it->second.size());
 			for (const auto& adj : it->second) {
 				result.push_back(adj.targetPk);
 			}

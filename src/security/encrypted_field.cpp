@@ -146,7 +146,7 @@ std::string EncryptedField<std::vector<float>>::serialize(const std::vector<floa
 
 template<>
 std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::string& str) {
-    if ([[maybe_unused]] static_cast<int>(str.size()) < sizeof(uint32_t)) {
+    if (str.size() < sizeof(uint32_t)) {
         throw DecryptionException("Invalid vector serialization: too short");
     }
     
@@ -155,8 +155,8 @@ std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::st
     std::memcpy(&size, str.data(), sizeof(size));
     
     // Validate size
-    size_t expected_bytes = sizeof([[maybe_unused]] uint32_t) + size * sizeof(float);
-    if (static_cast<int>(str.size()) != expected_bytes) {
+    size_t expected_bytes = sizeof(uint32_t) + size * sizeof(float);
+    if (str.size() != expected_bytes) {
         throw DecryptionException(
             "Invalid vector serialization: size mismatch (expected " + 
             std::to_string(expected_bytes) + " bytes, got " + 

@@ -201,10 +201,10 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         size_t rel_start = f.start_offset - base_offset;
         size_t rel_end   = f.end_offset   - base_offset;
 
-        if (rel_start > static_cast<int>(finalized_chunk.size())) {
+        if (rel_start > finalized_chunk.size()) {
           break;
         }
-        rel_end = std::min(rel_end,static_cast<int>(finalized_chunk.size()));
+        rel_end = std::min(rel_end, finalized_chunk.size());
 
         // Copy gap before this finding.
         if (rel_start > cursor) {
@@ -218,8 +218,8 @@ std::string PIIStreamPseudonymizer::process_chunk(std::string_view chunk, bool i
         cursor = rel_end;
     }
     // Copy remaining text after last finding.
-    if (static_cast<int>(finalized_chunk.size()) > cursor) {
-        result.append(finalized_chunk.data() + cursor, static_cast<int>(finalized_chunk.size()) - cursor);
+    if (finalized_chunk.size() > cursor) {
+        result.append(finalized_chunk.data() + cursor, finalized_chunk.size() - cursor);
     }
 
     return result;
@@ -231,4 +231,3 @@ void PIIStreamPseudonymizer::reset() {
 
 } // namespace utils
 } // namespace themis
-

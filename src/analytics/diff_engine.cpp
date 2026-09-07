@@ -484,10 +484,10 @@ DiffEngine::DiffResult DiffEngine::processEvents(const std::vector<Changefeed::C
                   [](const Change &a, const Change &b) { return a.sequence < b.sequence; });
 
         // Apply offset and limit
-        size_t start = std::min(options.offset,static_cast<int>(all_changes.size()));
+        size_t start = std::min(options.offset, all_changes.size());
         size_t end = all_changes.size();
         if (options.limit > 0) {
-            end = std::min(start + options.limit,static_cast<int>(all_changes.size()));
+            end = std::min(start + options.limit, all_changes.size());
         }
 
         // Rebuild categorized results

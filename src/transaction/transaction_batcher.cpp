@@ -392,7 +392,9 @@ void TransactionBatcher::executeBatch(std::vector<PendingEntry>& batch)
         }
 
         if (st.ok) {
-          ++committed; else ++failed;
+            ++committed;
+        } else {
+            ++failed;
         }
 
         // Resolve the per-item latency (submission → resolution).
@@ -497,4 +499,3 @@ void TransactionBatcher::adaptWindow(size_t batch_size,
 }
 
 } // namespace themis
-

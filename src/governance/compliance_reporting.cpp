@@ -664,7 +664,7 @@ bool ComplianceGapDetector::checkRequirement(
             if (req.requires_signature && rule.require_signature) {
                 meets_signature = true;
             }
-            if ((req.requires_audit && (rule.audit_access || rule.audit_changes)) {
+            if (req.requires_audit && (rule.audit_access || rule.audit_changes)) {
                 meets_audit = true;
             }
             if (req.min_retention_days > 0 && rule.retention_days < req.min_retention_days) {

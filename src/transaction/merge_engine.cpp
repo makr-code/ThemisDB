@@ -571,7 +571,8 @@ std::vector<analytics::DiffEngine::Change> MergeEngine::resolveConflicts(
                 change.new_value = conflict.source_value;
                 break;
             case MergeStrategy::MANUAL:
-            [[fallthrough]];\n            case MergeStrategy::FAST_FORWARD:
+                [[fallthrough]];
+            case MergeStrategy::FAST_FORWARD:
                 // Leave unresolved
                 continue;
         }

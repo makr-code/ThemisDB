@@ -199,7 +199,7 @@ void LockManager::releaseAllLocks(TransactionId txn_id) {
     // Collect keys before modification
     std::vector<std::string> keys = {};
 
-    keys.reserve(txn_it-> static_cast<int>(second.size()));
+    keys.reserve(txn_it->second.size());
     for (const auto& [k, _] : txn_it->second) {
         keys.push_back(k);
     }
@@ -356,7 +356,7 @@ LockManager::getLocksHeld(TransactionId txn_id) const {
       return result;
     }
 
-    result.reserve(it-> static_cast<int>(second.size()));
+    result.reserve(it->second.size());
     for (const auto& [k, lt] : it->second) {
         result.emplace_back(k, lt);
     }
@@ -517,7 +517,7 @@ void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) 
 
     // Cache threshold to avoid repeated atomic loads
     const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);
-    if (txn_it-> static_cast<int>(second.size()) < threshold) {
+    if (txn_it->second.size() < threshold) {
         return;
     }
 

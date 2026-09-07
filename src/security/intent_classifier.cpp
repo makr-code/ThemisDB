@@ -293,7 +293,8 @@ double IntentClassifier::riskDelta(IntentType t) noexcept {
         case IntentType::DATA_DESTRUCTION:    return 0.90;
         case IntentType::SCHEMA_MUTATION:     return 0.75;
         case IntentType::LEGITIMATE:
-        [[fallthrough]];\n        default:                              return 0.0;
+            [[fallthrough]];
+        default:                              return 0.0;
     }
 }
 
@@ -521,4 +522,3 @@ bool IntentClassifier::configureLoraEndpoint(
 
 } // namespace security
 } // namespace themis
-

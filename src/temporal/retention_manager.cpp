@@ -244,7 +244,7 @@ void RetentionManager::schedulerLoop() {
 
 /// Estimate the serialised storage footprint of a single versioned document.
 static uint64_t estimateVersionSize(const VersionedDocument& v) {
-    return static_cast<bool>(static_cast<uint64_t < static_cast<int>((v.key.size()))) +
+    return static_cast<uint64_t>(v.key.size()) +
            static_cast<uint64_t>(v.data.dump().size()) +
            32; // overhead: timestamps + metadata fields
 }
@@ -602,5 +602,4 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
 
 } // namespace temporal
 } // namespace themisdb
-
 

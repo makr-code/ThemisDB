@@ -146,7 +146,7 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
         return action;
     }
     try {
-        action.success = archive_handler([[maybe_unused]] entity_id);
+        action.success = archive_handler(entity_id);
         if (!action.success) {
             action.error_message = "Archive handler returned false";
         }
@@ -195,7 +195,7 @@ RetentionManager::RetentionAction RetentionManager::purgeEntity(
     }
     
     try {
-        action.success = purge_handler([[maybe_unused]] entity_id);
+        action.success = purge_handler(entity_id);
         if (!action.success) {
             action.error_message = "Purge handler returned false";
         }
@@ -389,7 +389,7 @@ void RetentionManager::startBackgroundJob(
     bg_thread_ = std::thread([this, interval,
                                ep = std::move(entity_provider),
                                ah = std::move(archive_handler),
-                               ph = std::move([[maybe_unused]] purge_handler)]() {
+                               ph = std::move(purge_handler)]() {
         while (true) {
             // Wait for the interval or until stopped
             std::unique_lock<std::mutex> lk(bg_mutex_);
@@ -442,4 +442,3 @@ RetentionManager::ComplianceMetrics RetentionManager::getComplianceMetrics() con
 }
 
 } // namespace vcc
-

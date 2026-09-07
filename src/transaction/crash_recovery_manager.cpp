@@ -279,7 +279,8 @@ CrashRecoveryManager::scanInFlight() const {
                 begun.insert(entry->txn_id);
                 break;
             case EntryType::COMMIT:
-            [[fallthrough]];\n            case EntryType::ABORT:
+                [[fallthrough]];
+            case EntryType::ABORT:
                 finished.insert(entry->txn_id);
                 break;
             case EntryType::CHECKPOINT:
@@ -519,5 +520,4 @@ size_t CrashRecoveryManager::pendingTransactionCount() const {
 
 } // namespace transaction
 } // namespace themis
-
 
