@@ -688,6 +688,16 @@ SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
     std::shared_ptr<SharedWorkerPool> worker_pool,
     std::shared_ptr<ModelLoader> model_loader,
     std::shared_ptr<MultiLoRAManager> lora_manager,
+    std::shared_ptr<TokenQuotaManager> quota_manager) {
+    return create(plugin, std::move(worker_pool), std::move(model_loader),
+                  std::move(lora_manager), std::move(quota_manager), Config{});
+}
+
+SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
+    ILLMPlugin* plugin,
+    std::shared_ptr<SharedWorkerPool> worker_pool,
+    std::shared_ptr<ModelLoader> model_loader,
+    std::shared_ptr<MultiLoRAManager> lora_manager,
     std::shared_ptr<TokenQuotaManager> quota_manager,
     const Config& config) {
     

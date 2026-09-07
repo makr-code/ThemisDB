@@ -1166,6 +1166,8 @@ set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/llm_response_cache.cpp
+    ../src/llm/subagent_factory_impl.cpp
+    ../src/llm/subagent_coordinator_impl.cpp
     # Prompt Engineering Module (all components)
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
