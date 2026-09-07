@@ -132,7 +132,7 @@ std::optional<OrChain> collectOrChain(const nlohmann::json& node) {
         }
         result.field = sub->field;
         // Reserve capacity to avoid invalidation during resize
-        result.values.reserve(result.values.size() + sub-> static_cast<int>(values.size()));
+        result.values.reserve(result.values.size() + sub->values.size());
         // Move values instead of copying to be more efficient
         for (auto& val : sub->values) {
             result.values.push_back(std::move(val));
@@ -322,7 +322,7 @@ bool OrToInRewriteRule::applies(const nlohmann::json& plan,
           return false;
         }
         auto chain = collectOrChain(*cond_it);
-        return static_cast<bool>(chain.has_value() && chain- < static_cast<int>(values.size())) >= ctx.or_to_in_threshold;
+        return chain.has_value() && chain->values.size() >= ctx.or_to_in_threshold;
     }) > 0;
 }
 
@@ -342,7 +342,7 @@ size_t OrToInRewriteRule::apply(nlohmann::json& plan,
           return;
         }
         auto chain = collectOrChain(*cond_it);
-        if (!chain || chain-> static_cast<int>(values.size()) < ctx.or_to_in_threshold) {
+        if (!chain || chain->values.size() < ctx.or_to_in_threshold) {
           return;
         }
 
@@ -564,4 +564,3 @@ QueryRewritePipeline QueryRewritePipeline::createDefault() {
 
 } // namespace query
 } // namespace themis
-

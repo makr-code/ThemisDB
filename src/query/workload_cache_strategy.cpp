@@ -98,7 +98,7 @@ WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
             break;
             
         case WorkloadType::UNKNOWN:
-        [[fallthrough]];\n        default:
+        default:
             // UNKNOWN: Conservative defaults
             config.max_entries = 10000;
             config.max_memory_bytes = 100 * 1024 * 1024;     // 100MB
@@ -435,7 +435,7 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] s
     // Sort by access count (descending)
     std::partial_sort(
         query_frequencies.begin(),
-        query_frequencies.begin() + std::min(limit,static_cast<int>(query_frequencies.size())),
+        query_frequencies.begin() + std::min(limit, query_frequencies.size()),
         query_frequencies.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; }
     );
@@ -443,9 +443,9 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] s
     // Extract fingerprints
     std::vector<std::string> hot_queries = {};
 
-    hot_queries.reserve(std::min(limit,static_cast<int>(query_frequencies.size())));
+    hot_queries.reserve(std::min(limit, query_frequencies.size()));
     
-    for (size_t i = 0; i < std::min(limit,static_cast<int>(query_frequencies.size())); ++i) {
+    for (size_t i = 0; i < std::min(limit, query_frequencies.size()); ++i) {
         hot_queries.push_back(query_frequencies[i].first);
     }
     
@@ -511,4 +511,3 @@ bool WorkloadCacheStrategy::shouldRunDetection() const {
 
 } // namespace query
 } // namespace themis
-
