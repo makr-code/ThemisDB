@@ -246,46 +246,47 @@ public:
         if (activeDeviceIds.empty()) {
             return -1;
         }
-        
+
+        const size_t deviceCount = activeDeviceIds.size();
+
         switch (config.partitionStrategy) {
             case PartitionStrategy::ROUND_ROBIN: {
-                // Simple round-robin based on current vector count
-                size_t totalVectors = vectorToGPU.size();
-                return static_cast<bool>(static_cast<int < static_cast<int>((totalVectors % activeDeviceIds.size())));
+                // Simple round-robin based on current vector count. The selected
+                // index must refer to the active GPU slot, not a bool result.
+                const size_t totalVectors = vectorToGPU.size();
+                return static_cast<int>(totalVectors % deviceCount);
             }
-            
+
             case PartitionStrategy::HASH_BASED: {
-                // Hash the vector ID
                 std::hash<std::string> hasher;
-                size_t hash = hasher(id);
-                return static_cast<bool>(static_cast<int < static_cast<int>((hash % activeDeviceIds.size())));
+                const size_t hash = hasher(id);
+                return static_cast<int>(hash % deviceCount);
             }
-            
+
             case PartitionStrategy::RANGE_BASED: {
-                // Lexicographic range partitioning
-                // This is simplified - production would use proper range mapping
+                // Lexicographic range partitioning. This is intentionally a
+                // lightweight deterministic mapping until a richer range map is
+                // introduced by the production topology logic.
                 std::hash<std::string> hasher;
-                size_t hash = hasher(id);
-                return static_cast<bool>(static_cast<int < static_cast<int>((hash % activeDeviceIds.size())));
+                const size_t hash = hasher(id);
+                return static_cast<int>(hash % deviceCount);
             }
-            
+
             case PartitionStrategy::BALANCED: {
-                // Choose GPU with fewest vectors
-                {
-                    size_t minVectors = std::numeric_limits<size_t>::max();
-                    int selectedGPU = 0;
-                    
-                    for (size_t i = 0; i < gpuIndices.size(); ++i) {
-                        auto stats = gpuIndices[i]->getStatistics();
-                        if (stats.numVectors < minVectors) {
-                            minVectors = stats.numVectors;
-                            selectedGPU = static_cast<int>(i);
-                        }
+                // Choose GPU with fewest vectors.
+                size_t minVectors = std::numeric_limits<size_t>::max();
+                int selectedGPU = 0;
+
+                for (size_t i = 0; i < gpuIndices.size(); ++i) {
+                    const auto stats = gpuIndices[i]->getStatistics();
+                    if (stats.numVectors < minVectors) {
+                        minVectors = stats.numVectors;
+                        selectedGPU = static_cast<int>(i);
                     }
-                    return selectedGPU;
                 }
+                return selectedGPU;
             }
-            
+
             default:
                 return 0;
         }
