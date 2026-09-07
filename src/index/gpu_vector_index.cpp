@@ -1429,7 +1429,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     // Sanity cap: reject files claiming more vectors than could reasonably fit
     // in 64 GiB at the stored dimension (4 bytes/float).
-    static constexpr uint64_t kMaxReasonableFileSizeBytes = 64 * 1024 * 1024 * 1024;
+    static constexpr uint64_t kMaxReasonableFileSizeBytes = 64ULL * 1024 * 1024 * 1024;
     const size_t maxReasonableVectors =
         static_cast<size_t>(kMaxReasonableFileSizeBytes /
         (static_cast<size_t>(dim) * sizeof(float) + 1));
@@ -1672,4 +1672,3 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 
 } // namespace index
 } // namespace themis
-
