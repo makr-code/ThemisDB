@@ -264,7 +264,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::NO_CYCLES:
-            [[fallthrough]];\n            case ConstraintType::UNIQUE_NODES: {
+                [[fallthrough]];
+            case ConstraintType::UNIQUE_NODES: {
                 std::unordered_set<std::string> seen = {};
 
                 for (const auto &node : nodes) {
@@ -332,7 +333,8 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                 break;
 
             case ConstraintType::MAX_WEIGHT:
-            [[fallthrough]];\n            case ConstraintType::MIN_WEIGHT:
+                [[fallthrough]];
+            case ConstraintType::MIN_WEIGHT:
                 // Weight validation requires the accumulated path cost which is stored
                 // in PathResult::cost, not available here. Callers (findConstrainedPaths)
                 // enforce weight constraints using the PathResult cost directly.
@@ -457,7 +459,8 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
     queue.push(std::move(initial));
 
     // BFS traversal
-    while (!queue.empty()  && static_cast<size_t>(static_cast) < int>(results.size()) < max_results) {
+    while (!queue.empty() &&
+           (max_results <= 0 || results.size() < static_cast<size_t>(max_results))) {
         PathState current = std::move(queue.front());
         queue.pop();
 
@@ -485,7 +488,7 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
         }
 
         // Check max length constraint (early termination)
-        if (max_length > 0  && static_cast<size_t>(static_cast) < int>(current.nodes.size()) >= max_length) {
+        if (max_length > 0 && current.nodes.size() >= static_cast<size_t>(max_length)) {
             continue; // Path already at max length
         }
 
