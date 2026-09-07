@@ -53,12 +53,13 @@ LearnedQuantizer::LearnedQuantizer(int dimension, const Config& config)
 
 LearnedQuantizer::Status LearnedQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
+    const size_t dimension = static_cast<size_t>(dimension_);
     
     if (training_vectors.empty()) {
         return Status::Error("No training vectors provided");
     }
     
-    if (training_vectors[0].size() != static_cast<size_t>(dimension_)) {
+    if (training_vectors[0].size() != dimension) {
         return Status::Error("Training vector dimension mismatch");
     }
     
@@ -215,12 +216,14 @@ std::vector<float> LearnedQuantizer::initializeThresholds(
 }
 
 std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) const {
+    const size_t dimension = static_cast<size_t>(dimension_);
+
     if (!trained_) {
         THEMIS_ERROR("LearnedQuantizer::encode - Quantizer not trained");
         return {};
     }
     
-    if (vector.size() != static_cast<size_t>(dimension_)) {
+    if (vector.size() != dimension) {
         THEMIS_ERROR("LearnedQuantizer::encode - Dimension mismatch: {} vs {}",
                      vector.size(), dimension_);
         return {};
@@ -269,6 +272,8 @@ std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) 
 }
 
 std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) const {
+    const size_t dimension = static_cast<size_t>(dimension_);
+
     if (!trained_) {
         THEMIS_ERROR("LearnedQuantizer::decode - Quantizer not trained");
         return {};
@@ -277,7 +282,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
     std::vector<float> vector;
     
     if (config_.per_dimension) {
-        if (codes.size() != static_cast<size_t>(dimension_)) {
+        if (codes.size() != dimension) {
             THEMIS_ERROR("LearnedQuantizer::decode - Code size mismatch: {} vs {}",
                         codes.size(), dimension_);
             return {};
@@ -335,12 +340,14 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
 
 float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                                           const std::vector<uint8_t>& codes) const {
+    const size_t dimension = static_cast<size_t>(dimension_);
+
     if (!trained_) {
         THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Quantizer not trained");
         return std::numeric_limits<float>::max();
     }
 
-    if (query.size() != static_cast<size_t>(dimension_)) {
+    if (query.size() != dimension) {
         THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Query dimension mismatch: {} vs {}",
                      query.size(), dimension_);
         return std::numeric_limits<float>::max();
@@ -354,7 +361,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
 
     if (config_.per_dimension) {
         // Per-dimension mode: each code[d] indexes directly into centroids[d].
-        if (codes.size() != static_cast<size_t>(dimension_)) {
+        if (codes.size() != dimension) {
             THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Code size mismatch: {} vs {}",
                          codes.size(), dimension_);
             return std::numeric_limits<float>::max();
