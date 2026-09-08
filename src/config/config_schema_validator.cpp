@@ -676,7 +676,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
                 static const std::regex re_ipv4(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
                 std::smatch m = {};
                 if (std::regex_match(s, m, re_ipv4)) {
-                    for (int i = 1; i <= 4; ++i) {
+                    for (std::size_t i = 1; i <= 4; ++i) {
                         if (std::stoi(m[i].str()) > 255) {
                             format_valid = false;
                             break;

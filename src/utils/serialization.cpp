@@ -226,11 +226,11 @@ double Serialization::Decoder::decodeDouble() {
 
 std::string Serialization::Decoder::decodeString() {
     readTag();
-    uint32_t size = readUInt32();
+    const size_t size = static_cast<size_t>(readUInt32());
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before creating string
     // Prevent out-of-bounds reads when deserializing untrusted data
-    if (pos_ + size > data_.size()) {
+    if (pos_ > data_.size() || size > data_.size() - pos_) {
         // Malformed: declared string size exceeds available buffer
         // Return empty string instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -246,11 +246,11 @@ std::string Serialization::Decoder::decodeString() {
 
 std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
     readTag();
-    uint32_t size = readUInt32();
+    const size_t size = static_cast<size_t>(readUInt32());
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before vector construction
     // Prevent out-of-bounds reads and ensure safe vector initialization
-    if (pos_ + size > data_.size()) {
+    if (pos_ > data_.size() || size > data_.size() - pos_) {
         // Malformed: declared binary size exceeds available buffer
         // Return empty vector instead of reading past buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
@@ -264,12 +264,12 @@ std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
 
 std::vector<float> Serialization::Decoder::decodeFloatVector() {
     readTag();
-    uint32_t count = readUInt32();
+    const size_t count = static_cast<size_t>(readUInt32());
     
     // Phase A.4 Hardening - CRITICAL: Bounds check before memcpy
     // Prevent out-of-bounds reads when deserializing float vectors
-    size_t bytes_needed = static_cast<size_t>(count) * sizeof(float);
-    if (pos_ + bytes_needed > data_.size()) {
+    const size_t bytes_needed = count * sizeof(float);
+    if (pos_ > data_.size() || bytes_needed > data_.size() - pos_) {
         // Malformed: declared vector count exceeds available buffer
         pos_ = data_.size();  // Advance to EOF to prevent further reads
         return std::vector<float>();  // Return empty vector

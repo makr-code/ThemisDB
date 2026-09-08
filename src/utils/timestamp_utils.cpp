@@ -33,7 +33,7 @@ namespace {
 // width is caller-controlled (max 4 for a 4-digit year) so overflow is not
 // possible for valid timestamps; we still guard against non-digit characters.
 int parseField(const std::string& s, size_t& pos, size_t width) {
-    if (pos + width > s.size()) {
+    if (pos > s.size() || width > s.size() - pos) {
         throw std::invalid_argument("TimestampUtils::parse: unexpected end of string");
     }
     if (width > 9) {
@@ -153,7 +153,7 @@ std::chrono::system_clock::time_point TimestampUtils::parse(const std::string& s
 
     // Timezone
     int offset_sec = 0;
-    if (s.size() > pos) {
+    if (pos < s.size()) {
         char tz = s[pos];
         if (tz == 'Z') {
             ++pos;
