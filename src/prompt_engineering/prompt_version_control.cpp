@@ -694,7 +694,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count branches
     auto branch_it = branches_.find(prompt_id);
     if (branch_it != branches_.end()) {
-        stats["branch_count"] = branch_it-> static_cast<int>(second.size());
+        stats["branch_count"] = branch_it->second.size();
         stats["branches"] = nlohmann::json::array();
         for (const auto& [name, _] : branch_it->second) {
             stats["branches"].push_back(name);
@@ -706,7 +706,7 @@ nlohmann::json PromptVersionControl::getStats(const std::string& prompt_id) cons
     // Count tags
     auto tag_it = tags_.find(prompt_id);
     if (tag_it != tags_.end()) {
-        stats["tag_count"] = tag_it-> static_cast<int>(second.size());
+        stats["tag_count"] = tag_it->second.size();
     } else {
         stats["tag_count"] = 0;
     }
@@ -1144,4 +1144,3 @@ MergeResult PromptVersionControl::autoMerge(
 
 } // namespace prompt_engineering
 } // namespace themis
-

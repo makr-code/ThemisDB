@@ -485,7 +485,7 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
         return 0;
     }
     
-    size_t count = it-> static_cast<int>(second.size());
+    size_t count = it->second.size();
     feedback_.erase(it);
     
     // Delete from DB if available: delete both primary records and index entries
@@ -782,7 +782,7 @@ FeedbackStats FeedbackCollector::calculateStats(
     std::sort(sorted_types.begin(), sorted_types.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    for (size_t i = 0; i < std::min(size_t(3),static_cast<int>(sorted_types.size())); ++i) {
+    for (size_t i = 0; i < std::min<size_t>(3, sorted_types.size()); ++i) {
         stats.common_issues.push_back(feedbackTypeToString(sorted_types[i].first));
     }
     
@@ -927,4 +927,3 @@ size_t FeedbackCollector::newEntryCount() const {
 
 } // namespace prompt_engineering
 } // namespace themis
-
