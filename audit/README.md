@@ -1,10 +1,11 @@
 # ThemisDB Audit Hub and Canonical Map
 
-**Last Updated:** 2026-08-31  
+**Last Updated:** 2026-09-07  
 **Repository Metadata:** `VERSION=2.4.0-alpha`  
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
+**Source-verified status:** The production audit logger exists in source, but design-level Wave-C pass claims remain provisional until validated against the real production sink and persistence path.
 
-> **Baseline rule (2026-08-31):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report.
+> **Baseline rule (2026-09-07):** Root audit documents without direct date reference in filename (`AUDIT.md`, `README.md`, `WAVE_C_AUDIT_EVIDENCE.md`) are synchronized to the latest consolidated baseline report and source-verified implementation status.
 
 ---
 
@@ -74,9 +75,18 @@
 
 ## Current Status Snapshot
 
-- Technical GA hardening remains **PASS** (Wave 7/8/9 + sanitizer + pentest evidence).
-- The only confirmed GA blocker remains the human sign-off in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
+- The real production audit implementation is present in source: `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`.
+- The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
+- The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
 - For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-08-26.md` first.
+
+### Source-Verified Reality Check (2026-09-07)
+
+The audit implementation in source is real and present, but a number of high-level audit claims in `/audit` need careful interpretation:
+
+- `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp` implement the production audit logger with hash chaining, queue-size guarding, log rotation, fsync support, PKI-signature metadata, encryption fallback, and SIEM forwarding.
+- `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a focused validation harness with a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; it validates logic patterns but does not exercise the production `themis::utils::AuditLogger` backend end-to-end.
+- Current source-backed state: the audit subsystem is implemented and operational at the core-logger layer, but the strongest Wave-C certification claims should be treated as design-level validation until an end-to-end run against the real production sink and storage path is executed.
 
 ### Compliance Snapshot
 
