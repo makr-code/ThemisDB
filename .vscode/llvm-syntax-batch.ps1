@@ -11,12 +11,22 @@ $isMacPlatform = (-not $isWinPlatform) -and ($PSVersionTable.OS -match "Darwin")
 $vcpkgArch = if ($isWinPlatform) { "x64-windows" } elseif ($isLinuxPlatform) { "x64-linux" } elseif ($isMacPlatform) { "arm64-osx" } else { "x64-linux" }
 
 # Determine appropriate compiler candidates based on OS
-$llvmBin = if ($isWinPlatform) { "C:\llvm\bin" } else { "/usr/bin:/usr/local/bin" }
+$llvmBin = if ($isWinPlatform) {
+    @(
+        "C:\Program Files\LLVM\bin",
+        "C:\llvm\bin"
+    )
+} else {
+    "/usr/bin:/usr/local/bin"
+}
 $candidates = if ($isWinPlatform) {
     @(
-        (Join-Path $llvmBin "clang-cl.exe"),
-        (Join-Path $llvmBin "clang++.exe"),
-        (Join-Path $llvmBin "clang.exe"),
+        (Join-Path $llvmBin[0] "clang-cl.exe"),
+        (Join-Path $llvmBin[1] "clang-cl.exe"),
+        (Join-Path $llvmBin[0] "clang++.exe"),
+        (Join-Path $llvmBin[1] "clang++.exe"),
+        (Join-Path $llvmBin[0] "clang.exe"),
+        (Join-Path $llvmBin[1] "clang.exe"),
         "clang-cl.exe",
         "clang-cl",
         "clang++.exe",
@@ -76,6 +86,7 @@ if ($isClangCl) {
         "/clang:-fsyntax-only",
         "/EHsc",
         "/W4",
+        "/wd4100",
         "/Iinclude",
         "/Isrc",
         "/I$vcpkgInclude",
@@ -88,7 +99,8 @@ if ($isClangCl) {
             "/D_WINDOWS",
             "/DWIN32_LEAN_AND_MEAN",
             "/DNOMINMAX",
-            "/D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH"
+            "/D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
+            "/DTHEMIS_ROCKSDB_AVAILABLE"
         )
     }
 } else {
@@ -98,6 +110,7 @@ if ($isClangCl) {
         "-fsyntax-only",
         "-Wall",
         "-Wextra",
+        "-Wno-unused-parameter",
         "-Iinclude",
         "-Isrc",
         "-I$vcpkgInclude",
@@ -105,11 +118,11 @@ if ($isClangCl) {
     )
     # Platform-specific defines
     if ($isWinPlatform) {
-        $common += @("-DWIN32", "-D_WINDOWS", "-DWIN32_LEAN_AND_MEAN", "-DNOMINMAX")
+        $common += @("-DWIN32", "-D_WINDOWS", "-DWIN32_LEAN_AND_MEAN", "-DNOMINMAX", "-DTHEMIS_ROCKSDB_AVAILABLE")
     } elseif ($isLinuxPlatform) {
-        $common += @("-DLINUX", "-D_GNU_SOURCE")
+        $common += @("-DLINUX", "-D_GNU_SOURCE", "-DTHEMIS_ROCKSDB_AVAILABLE")
     } elseif ($isMacPlatform) {
-        $common += @("-DMACOS", "-D_DARWIN_C_SOURCE")
+        $common += @("-DMACOS", "-D_DARWIN_C_SOURCE", "-DTHEMIS_ROCKSDB_AVAILABLE")
     }
 }
 

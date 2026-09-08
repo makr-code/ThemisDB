@@ -77,7 +77,7 @@ std::string normalizeText(std::string text) {
 }
 
 std::size_t estimateTokenCount(const std::string& text) {
-    return static_cast<bool>(std::max<std::size_t < static_cast<int>((1, (text.size())) + 3) / 4);
+    return std::max<std::size_t>(1, (text.size() + 3) / 4);
 }
 
 std::string buildDeterministicResponse(const std::string& prompt) {
@@ -115,7 +115,8 @@ std::string buildDeterministicResponse(const std::string& prompt) {
         return "No prompt provided.";
     }
 
-    return static_cast<bool>("Deterministic validation response: " + prompt.substr(0, std::min<std::size_t < static_cast<int>((prompt.size())), 120));
+    return "Deterministic validation response: " +
+           prompt.substr(0, std::min<std::size_t>(prompt.size(), 120));
 }
 
 bool matchesExpectedAnswer(const std::string& response,
@@ -1418,7 +1419,8 @@ bool IntegrationTestSuite::testGPUOutOfMemory() {
     // A 2 MB request must fail (exceeds the 1 MB budget).
     void* ptr = mgr.allocateGPU("oom_test", 2 * 1024 * 1024);
     if (ptr != nullptr) {
-        mgr.freeGPU("oom_test", ptr);
+        const bool freed = mgr.freeGPU("oom_test", ptr);
+        (void)freed;
         spdlog::error("testGPUOutOfMemory: oversized allocation unexpectedly succeeded");
         return false;
     }

@@ -246,46 +246,47 @@ public:
         if (activeDeviceIds.empty()) {
             return -1;
         }
-        
+
+        const size_t deviceCount = activeDeviceIds.size();
+
         switch (config.partitionStrategy) {
             case PartitionStrategy::ROUND_ROBIN: {
-                // Simple round-robin based on current vector count
-                size_t totalVectors = vectorToGPU.size();
-                return static_cast<int>(totalVectors % activeDeviceIds.size());
+                // Simple round-robin based on current vector count. The selected
+                // index must refer to the active GPU slot, not a bool result.
+                const size_t totalVectors = vectorToGPU.size();
+                return static_cast<int>(totalVectors % deviceCount);
             }
-            
+
             case PartitionStrategy::HASH_BASED: {
-                // Hash the vector ID
                 std::hash<std::string> hasher;
-                size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                const size_t hash = hasher(id);
+                return static_cast<int>(hash % deviceCount);
             }
-            
+
             case PartitionStrategy::RANGE_BASED: {
-                // Lexicographic range partitioning
-                // This is simplified - production would use proper range mapping
+                // Lexicographic range partitioning. This is intentionally a
+                // lightweight deterministic mapping until a richer range map is
+                // introduced by the production topology logic.
                 std::hash<std::string> hasher;
-                size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                const size_t hash = hasher(id);
+                return static_cast<int>(hash % deviceCount);
             }
-            
+
             case PartitionStrategy::BALANCED: {
-                // Choose GPU with fewest vectors
-                {
-                    size_t minVectors = std::numeric_limits<size_t>::max();
-                    int selectedGPU = 0;
-                    
-                    for (size_t i = 0; i < gpuIndices.size(); ++i) {
-                        auto stats = gpuIndices[i]->getStatistics();
-                        if (stats.numVectors < minVectors) {
-                            minVectors = stats.numVectors;
-                            selectedGPU = static_cast<int>(i);
-                        }
+                // Choose GPU with fewest vectors.
+                size_t minVectors = std::numeric_limits<size_t>::max();
+                int selectedGPU = 0;
+
+                for (size_t i = 0; i < gpuIndices.size(); ++i) {
+                    const auto stats = gpuIndices[i]->getStatistics();
+                    if (stats.numVectors < minVectors) {
+                        minVectors = stats.numVectors;
+                        selectedGPU = static_cast<int>(i);
                     }
-                    return selectedGPU;
                 }
+                return selectedGPU;
             }
-            
+
             default:
                 return 0;
         }
@@ -303,7 +304,7 @@ public:
         if (it != vectorToGPU.end()) {
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
-            if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
+            if (gpuIdx >= 0 && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
                 bool ok = gpuIndices[gpuIdx]->updateVector(id, vector);
                 if (!ok) THEMIS_WARN("MultiGPUVectorIndex::addVector: updateVector failed on gpu {} for id {}", gpuIdx, id);
                 return ok;
@@ -314,7 +315,7 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || gpuIdx >= static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx < 0 || static_cast<size_t>(gpuIdx) >= gpuIndices.size()) {
             THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
             return false;
         }
@@ -336,7 +337,7 @@ public:
         }
         
         int gpuIdx = it->second;
-        if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx >= 0 && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
             bool success = gpuIndices[gpuIdx]->removeVector(id);
             if (success) {
                 vectorToGPU.erase(it);
@@ -368,7 +369,7 @@ public:
             auto gpuEnd = std::chrono::steady_clock::now();
 
             // Accumulate per-GPU active query time for utilization tracking
-            if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
+            if (gpuIdx < perGpuQueryTimeUs.size()) {
                 uint64_t gpuUs = static_cast<uint64_t>(
                     std::chrono::duration_cast<std::chrono::microseconds>(gpuEnd - gpuStart).count());
                 std::lock_guard<std::mutex> lock(statsMutex);
@@ -386,7 +387,7 @@ public:
         }
         
         // Merge and select top-k from all GPUs
-        if (static_cast<int>(allResults.size()) > k) {
+        if (allResults.size() > k) {
             std::partial_sort(allResults.begin(), allResults.begin() + k, allResults.end(),
                 [](const auto& a, const auto& b) { return a.distance < b.distance; });
             allResults.resize(k);
@@ -429,7 +430,7 @@ public:
                 auto gpuEnd = std::chrono::steady_clock::now();
 
                 // Record per-GPU active time
-                if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
+                if (gpuIdx < perGpuQueryTimeUs.size()) {
                     uint64_t gpuUs = static_cast<uint64_t>(
                         std::chrono::duration_cast<std::chrono::microseconds>(
                             gpuEnd - gpuStart).count());
@@ -465,7 +466,7 @@ public:
                     }
                 }
             }
-            if (static_cast<int>(allResults.size()) > k) {
+            if (allResults.size() > k) {
                 std::partial_sort(allResults.begin(), allResults.begin() + k,
                     allResults.end(),
                     [](const auto& a, const auto& b) { return a.distance < b.distance; });
@@ -541,7 +542,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0  && static_cast<size_t>(i) <static_cast<int>(perGpuQueryTimeUs.size())) {
+            if (elapsedUs > 0.0 && i < perGpuQueryTimeUs.size()) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);
@@ -571,7 +572,7 @@ public:
         // Calculate scaling efficiency
         // Ideal speedup = number of GPUs
         // Actual speedup estimated from query time improvements
-        if (static_cast<int>(gpuIndices.size()) > 1) {
+        if (gpuIndices.size() > 1) {
             // Simplified: assume linear scaling as baseline
             double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance
@@ -604,7 +605,7 @@ public:
      */
     bool rebalance() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
-        if (!initialized || static_cast<int>(gpuIndices.size()) <= 1) {
+        if (!initialized || gpuIndices.size() <= 1) {
             return false;
         }
         
@@ -673,7 +674,7 @@ bool MultiGPUVectorIndex::addVector(const std::string& id, const std::vector<flo
 
 bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                         const std::vector<std::vector<float>>& vectors) {
-    if (static_cast<int>(ids.size()) != static_cast<int>(vectors.size())) {
+    if (ids.size() != vectors.size()) {
         return false;
     }
     

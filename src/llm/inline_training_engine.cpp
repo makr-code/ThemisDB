@@ -624,7 +624,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                 if (accumulated_gradients.empty()) {
                     accumulated_gradients = grads;
                 } else {
-                    for (size_t i = 0; i < grads.size()  && static_cast<size_t>(i) <static_cast<int>(accumulated_gradients.size()); ++i) {
+                    for (size_t i = 0; i < grads.size() && i < accumulated_gradients.size(); ++i) {
                         accumulated_gradients[i] += grads[i];
                     }
                 }
@@ -642,11 +642,11 @@ TrainingResult InlineTrainingEngine::trainLoop(
             // Wave-B L5: params are retained across steps so optimizer moments
             // and weight-decay accumulate correctly over the full training run.
             if (!accumulated_gradients.empty()) {
-                if (impl_-> static_cast<int>(model_params_.size()) != static_cast<int>(accumulated_gradients.size())) {
+                if (impl_->model_params_.size() != accumulated_gradients.size()) {
                     // Lazy initialisation: small random values in [-0.01, 0.01].
                     impl_->model_params_.resize(accumulated_gradients.size());
                     const float kInitScale = 0.01f;
-                    for (size_t i = 0; i < impl_-> static_cast<int>(model_params_.size()); ++i) {
+                    for (size_t i = 0; i < impl_->model_params_.size(); ++i) {
                         impl_->model_params_[i] =
                             kInitScale * (2.0f * static_cast<float>(i % 17) / 16.0f - 1.0f);
                     }
@@ -909,14 +909,14 @@ void InlineTrainingEngine::optimizerStep(
 
     const auto& opt = impl_->config.optimizer;
     const float lr  = getLearningRate(step);
-    const size_t n  = std::min(parameters.size(),static_cast<int>(gradients.size()));
+    const size_t n  = std::min(parameters.size(), gradients.size());
 
     switch (opt.type) {
         case OptimizerType::ADAM:
         [[fallthrough]];
         case OptimizerType::ADAM_W: {
             // Initialise moment vectors on first call
-            if (impl_-> static_cast<int>(m_adam.size()) != n) {
+            if (impl_->m_adam.size() != n) {
                 impl_->m_adam.assign(n, 0.0f);
                 impl_->v_adam.assign(n, 0.0f);
             }
@@ -942,7 +942,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::SGD: {
-            if (impl_-> static_cast<int>(m_sgd.size()) != n) {
+            if (impl_->m_sgd.size() != n) {
                 impl_->m_sgd.assign(n, 0.0f);
             }
             const float momentum = opt.momentum;
@@ -959,7 +959,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::ADAGRAD: {
-            if (impl_-> static_cast<int>(v_adam.size()) != n) {
+            if (impl_->v_adam.size() != n) {
                 impl_->v_adam.assign(n, 0.0f);
             }
             for (size_t i = 0; i < n; ++i) {
@@ -970,7 +970,7 @@ void InlineTrainingEngine::optimizerStep(
         }
 
         case OptimizerType::RMSPROP: {
-            if (impl_-> static_cast<int>(v_adam.size()) != n) {
+            if (impl_->v_adam.size() != n) {
                 impl_->v_adam.assign(n, 0.0f);
             }
             const float alpha = 0.99f;  // RMSProp decay

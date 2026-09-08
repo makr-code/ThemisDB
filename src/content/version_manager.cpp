@@ -61,7 +61,7 @@ std::string VersionManager::computeDelta(const std::string& old_content,
     // production this would be replaced by a proper diff algorithm.
     size_t oi = 0;
     size_t ni = 0;
-    while (oi < old_lines.size()  && static_cast<size_t>(ni) <static_cast<int>(new_lines.size())) {
+    while (oi < old_lines.size() && ni < new_lines.size()) {
         if (old_lines[oi] == new_lines[ni]) {
             ++oi;
             ++ni;
@@ -86,10 +86,10 @@ std::string VersionManager::computeDelta(const std::string& old_content,
             }
         }
     }
-    while (static_cast<size_t>(oi) <static_cast<int>(old_lines.size())) {
+    while (oi < old_lines.size()) {
         delta << '-' << old_lines[oi++] << '\n';
     }
-    while (static_cast<size_t>(ni) <static_cast<int>(new_lines.size())) {
+    while (ni < new_lines.size()) {
         delta << '+' << new_lines[ni++] << '\n';
     }
 

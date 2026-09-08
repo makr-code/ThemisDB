@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: Generate Build Metadata
 description: |
   Generates build-metadata.json and OCI image annotations from VERSION/RELEASE_TYPE files.
@@ -130,3 +131,4 @@ runs:
         echo "  Commit: $GIT_COMMIT_SHORT"
         echo "  Branch: $GIT_BRANCH"
         echo "  Metadata: $OUTPUT_PATH"
+

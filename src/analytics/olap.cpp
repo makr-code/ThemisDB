@@ -641,7 +641,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
     // CUBE generates all possible grouping combinations
     // For n dimensions, this is 2^n grouping sets
     size_t numDimensions = query.dimensions.size();
-    size_t numCombinations = 1 << numDimensions;
+    size_t numCombinations = (std::size_t{1} << numDimensions);
 
     // Build column list
     for (const auto &dim : query.dimensions) {
@@ -659,7 +659,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         subQuery.dimensions.clear();
 
         for (size_t i = 0; i < numDimensions; ++i) {
-            if (mask & (1 << i)) {
+            if (mask & (std::size_t{1} << i)) {
                 subQuery.dimensions.push_back(query.dimensions[i]);
             }
         }
@@ -669,7 +669,7 @@ OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery &query) {
         for (auto &row : subResult.rows) {
             // Add NULL for dimensions not in this grouping
             for (size_t i = 0; i < numDimensions; ++i) {
-                if (!(mask & (1 << i))) {
+                if (!(mask & (std::size_t{1} << i))) {
                     row.values[query.dimensions[i].name] = nullptr;
                 }
             }
@@ -947,7 +947,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
 
     // Check grouping complexity
     if (query.grouping_mode == OLAPQuery::GroupingMode::Cube) {
-        size_t combinations = 1 <<static_cast<int>(query.dimensions.size());
+        size_t combinations = (std::size_t{1} << query.dimensions.size());
         plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
                                           + " grouping combinations");
         plan.estimated_cost *= combinations;

@@ -18,7 +18,9 @@ namespace {
 const bool qdrant_registered = []() noexcept {
     const bool ok = AdapterFactory::register_adapter(
         "Qdrant",
-        []() { return std::make_unique<QdrantAdapter>(); }
+        []() -> std::unique_ptr<IDatabaseAdapter> {
+            return std::make_unique<QdrantAdapter>();
+        }
     );
     assert(ok && "QdrantAdapter: 'Qdrant' adapter name already registered");
     return ok;
@@ -175,7 +177,7 @@ Result<size_t> QdrantAdapter::batch_insert_vectors(
         }
     }
 
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
+    return Result<size_t>::ok(vectors.size());
 }
 
 Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
@@ -407,17 +409,25 @@ Result<TransactionState> QdrantAdapter::get_transaction_state(
 
 Result<SystemInfo> QdrantAdapter::get_system_info() const {
     SystemInfo info;
-    info.adapter_name = "Qdrant";
-    info.adapter_version = "0.1.0";
-    info.database_version = "unknown";  // NOT IMPLEMENTED: Query via qdrant-client-cpp requires THEMIS_CHIMERA_QDRANT
+    info.system_name = "Qdrant";
+    info.version = "0.1.0";
+    info.build_info["database_version"] = "unknown";  // NOT IMPLEMENTED: Query via qdrant-client-cpp requires THEMIS_CHIMERA_QDRANT
     return Result<SystemInfo>::ok(std::move(info));
 }
 
 Result<SystemMetrics> QdrantAdapter::get_metrics() const {
     SystemMetrics metrics;
-    metrics.total_queries = 0;
-    metrics.total_errors = 0;
-    metrics.avg_query_time_ms = 0.0;
+    metrics.memory.total_bytes = 0;
+    metrics.memory.used_bytes = 0;
+    metrics.memory.available_bytes = 0;
+    metrics.storage.total_bytes = 0;
+    metrics.storage.used_bytes = 0;
+    metrics.storage.available_bytes = 0;
+    metrics.cpu.utilization_percent = 0.0;
+    metrics.cpu.thread_count = 0;
+    metrics.custom_metrics["total_queries"] = static_cast<int64_t>(0);
+    metrics.custom_metrics["total_errors"] = static_cast<int64_t>(0);
+    metrics.custom_metrics["avg_query_time_ms"] = 0.0;
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 
@@ -500,7 +510,7 @@ Result<BatchStatistics> QdrantAdapter::flush() {
 
 size_t QdrantAdapter::get_pending_count() const {
     std::unique_lock<std::mutex> lock(batch_mutex_);
-    return static_cast<int>(vector_queue_.size());
+    return vector_queue_.size();
 }
 
 Result<bool> QdrantAdapter::set_batch_config(const BatchConfig& config) {

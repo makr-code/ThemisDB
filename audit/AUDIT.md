@@ -1,6 +1,6 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-08-31
+**Last Updated:** 2026-09-07  
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
@@ -27,6 +27,14 @@ This document is the **root-level security and compliance audit record** for The
 4. **Static analysis results** (CodeQL, Sanitizers, Pentest evidence bundles)
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
 6. **EU AI Act compliance framework** (NEW Aug 2026) — risk classification, evidence bundles, governance
+
+### Source-Verified Implementation Status (2026-09-07)
+
+The production audit stack is materially present in source code and is not merely a documentation placeholder:
+
+- `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp` implement the canonical audit logger, including hash-chain state tracking, queue safeguards, log rotation, fsync support, encryption/signature metadata, SIEM forwarding, and fail-closed error handling.
+- The real implementation is distinct from the lightweight focused harness in `tests/audit/test_audit_wavec_integrity_export_focused.cpp`, which uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` instead of the production `themis::utils::AuditLogger` path. That test is useful for logic validation, but not a direct end-to-end proof of the production audit backend.
+- Current source-backed assessment: the audit subsystem is implemented and structurally strong, but the strongest Wave-C “all gates pass” wording remains provisional unless backed by an integration run against the real production sink and persistence path.
 
 ### Current Release Gate Status
 
@@ -104,7 +112,7 @@ This document is the **root-level security and compliance audit record** for The
 | **storage** | 🟢 78% | Encrypted user storage, S3/Azure adapters | Production-ready | Enterprise+ | 2026-08-07 |
 | **importer** | 🟢 76% | MySQL, MongoDB, Kafka, S3 connectors | Production-ready | Enterprise+ | 2026-08-07 |
 
-**Overall Release Status:** ✅ Technical gates PASS. Core modules stable, GA documentation synchronized, and only the human governance sign-off remains open.
+**Overall Release Status:** The production audit stack is source-backed and materially implemented, but it is not fully end-to-end GA-/production-certified without a live run against the real sink and persistence path. Core modules are implemented, but the strongest Wave-C pass claims remain design-level validation rather than final production confirmation.
 
 For detailed per-module findings, see `src/<module>/AUDIT.md`, `MATURITY_REPORT_2026-08.md`, or `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`.
 

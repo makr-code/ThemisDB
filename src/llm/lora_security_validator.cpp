@@ -828,7 +828,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             }
             
             // Validate tensor size is reasonable (< 10GB)
-            if (end_offset - start_offset > 10 * 1024 * 1024 * 1024) {
+            if (end_offset - start_offset > (10ULL * 1024ULL * 1024ULL * 1024ULL)) {
                 spdlog::warn("Tensor size too large: {} bytes", end_offset - start_offset);
                 continue;
             }

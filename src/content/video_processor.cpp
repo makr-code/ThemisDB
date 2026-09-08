@@ -396,6 +396,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t
 #ifdef THEMIS_HAS_FFMPEG
     return generateThumbnailFFmpeg(blob);
 #else
+    (void)blob;
     // Return empty thumbnail placeholder in simulation mode
     return std::vector<uint8_t>();
 #endif
@@ -414,6 +415,7 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t> &bl
 #ifdef THEMIS_HAS_FFMPEG
     return detectScenesFFmpeg(blob);
 #else
+    (void)blob;
     // Without FFmpeg, video frames cannot be decoded for histogram analysis.
     // Scene detection requires per-frame access, so return empty in simulation mode.
     return {};
@@ -424,6 +426,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>
 #ifdef THEMIS_HAS_FFMPEG
     return extractKeyframesFFmpeg(blob);
 #else
+    (void)blob;
     // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
     // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
     const int64_t duration_ms = 120000;

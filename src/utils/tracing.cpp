@@ -365,7 +365,9 @@ bool Tracer::initialize(const std::string& serviceName,
         return false;
     }
 #else
-    THEMIS_INFO("Tracing disabled (THEMIS_ENABLE_TRACING not defined)");
+    THEMIS_INFO("Tracing disabled (THEMIS_ENABLE_TRACING not defined): service='{}', endpoint='{}'",
+                serviceName,
+                endpoint);
     initialized_ = true;
     return true;
 #endif
@@ -403,6 +405,9 @@ bool Tracer::flush(std::chrono::microseconds timeout) noexcept {
     }
     return sdk_provider->ForceFlush(timeout);
 #else
+    if (timeout.count() < 0) {
+        return false;
+    }
     return true;
 #endif
 }
@@ -484,6 +489,9 @@ Tracer::Span Tracer::startSpan(const std::string& name) {
     active_spans_++;
     return Span(span);
 #else
+    if (!name.empty()) {
+        Baggage::set("trace.last_span_name", name);
+    }
     return Span();
 #endif
 }
@@ -511,6 +519,10 @@ Tracer::Span Tracer::startChildSpan(const std::string& name,
     active_spans_++;
     return Span(span);
 #else
+    if (!name.empty()) {
+        Baggage::set("trace.last_child_span_name", name);
+    }
+    Baggage::set("trace.last_child_parent_valid", parent.valid_ ? "1" : "0");
     return Span();
 #endif
 }
@@ -730,6 +742,11 @@ void Tracer::Span::setAttribute(const std::string& key,
         span_->SetAttribute(key, safe_value);
     }
 #endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    if (!key.empty()) {
+        Baggage::set("attr." + key, value);
+    }
+#endif
 }
 
 void Tracer::Span::setAttribute(const std::string& key, 
@@ -737,6 +754,11 @@ void Tracer::Span::setAttribute(const std::string& key,
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         span_->SetAttribute(key, value);
+    }
+#endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    if (!key.empty()) {
+        Baggage::set("attr." + key, std::to_string(value));
     }
 #endif
 }
@@ -748,6 +770,11 @@ void Tracer::Span::setAttribute(const std::string& key,
         span_->SetAttribute(key, value);
     }
 #endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    if (!key.empty()) {
+        Baggage::set("attr." + key, std::to_string(value));
+    }
+#endif
 }
 
 void Tracer::Span::setAttribute(const std::string& key, 
@@ -755,6 +782,11 @@ void Tracer::Span::setAttribute(const std::string& key,
 #if defined(THEMIS_ENABLE_TRACING) && defined(THEMIS_HAS_OPENTELEMETRY)
     if (span_) {
         span_->SetAttribute(key, value);
+    }
+#endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    if (!key.empty()) {
+        Baggage::set("attr." + key, value ? "true" : "false");
     }
 #endif
 }
@@ -768,6 +800,11 @@ void Tracer::Span::recordError(const std::string& errorMessage) {
         span_->SetStatus(otel::trace::StatusCode::kError, safe_msg);
     }
 #endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    if (!errorMessage.empty()) {
+        Baggage::set("trace.last_error", errorMessage);
+    }
+#endif
 }
 
 void Tracer::Span::setStatus(bool ok, 
@@ -776,6 +813,12 @@ void Tracer::Span::setStatus(bool ok,
     if (span_) {
         auto status_code = ok ? otel::trace::StatusCode::kOk : otel::trace::StatusCode::kError;
         span_->SetStatus(status_code, description);
+    }
+#endif
+#if !defined(THEMIS_ENABLE_TRACING) || !defined(THEMIS_HAS_OPENTELEMETRY)
+    Baggage::set("trace.last_status_ok", ok ? "1" : "0");
+    if (!description.empty()) {
+        Baggage::set("trace.last_status_desc", description);
     }
 #endif
 }

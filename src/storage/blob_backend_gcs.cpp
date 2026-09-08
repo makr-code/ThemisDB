@@ -147,6 +147,9 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
     THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
     return Ok(ref);
 #else
+    THEMIS_WARN("GCS put unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}', payload_bytes={}",
+                blob_id,
+                static_cast<int>(data.size()));
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                         "GCS support not compiled in");
 #endif
@@ -209,6 +212,8 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
     return Ok(std::move(data));
 #else
+    THEMIS_WARN("GCS get unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'",
+                ref.id);
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                                      "GCS support not compiled in");
 #endif
@@ -235,6 +240,8 @@ Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob deleted: id={}", ref.id);
     return OkVoid();
 #else
+    THEMIS_WARN("GCS remove unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'",
+                ref.id);
     return Err<void>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                      "GCS support not compiled in");
 #endif
@@ -252,6 +259,7 @@ bool GCSBlobBackend::exists(const BlobRef& ref) {
     auto metadata = impl_->client->GetObjectMetadata(impl_->bucket, obj);
     return metadata.ok();
 #else
+    THEMIS_TRACE("GCS exists unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'", ref.id);
     return false;
 #endif
 }

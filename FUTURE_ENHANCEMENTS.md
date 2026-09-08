@@ -12,6 +12,24 @@ Detailed implementation backlogs live close to code and are aggregated in module
 - Module-specific enhancement details are tracked in `src/FUTURE_ENHANCEMENTS.md` and `src/<module>/FUTURE_ENHANCEMENTS.md`.
 - Archived enhancement snapshots are stored in `docs/ARCHIVED/ai-working-history/`.
 
+## Source-Verified Roadmap Reality (2026-09-07)
+
+The enhancement plan must follow the same evidence discipline as the roadmap itself: no status claim is treated as release evidence unless backed by source, tests, or CI artifacts.
+
+### Wave model, reality-based
+
+- **Wave A — Runtime reliability**: implemented for multiple modules, but transaction and GPU remain the main release blockers.
+- **Wave B — Performance consolidation**: materially complete for search, access model, and LLM wiki, but representative-hardware and benchmark closure remain incomplete.
+- **Wave C — Security and audit validation**: implementation is present and useful, but end-to-end certification remains partial.
+- **Wave D — Operability and soak hardening**: mostly planning; active implementation is still low compared to earlier WAVE claims.
+
+### Realistic target sequence
+
+1. Close remaining Transaction and GPU release gates.
+2. Complete representative-hardware benchmarks for critical modules.
+3. Convert audit and security evidence from design-validation into end-to-end proof.
+4. Finish Wave D operability and soak-test work only after Wave A/B evidence is stable.
+
 ## Required Enhancement Sources
 
 - [src/FUTURE_ENHANCEMENTS.md](src/FUTURE_ENHANCEMENTS.md)

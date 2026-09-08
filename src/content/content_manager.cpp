@@ -79,7 +79,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 } // anonymous namespace
 // ---------------------------------------------------------------------------
 
-static std::string toHex(const std::string& in) {
+[[maybe_unused]] static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
     std::string out = {};
     out.reserve(in.size() * 2);
@@ -160,7 +160,7 @@ static bool whitelistContainsChunkPk(
 }
 
 // Helper: convert category enum to string
-static std::string categoryToString(ContentCategory cat) {
+[[maybe_unused]] static std::string categoryToString(ContentCategory cat) {
     switch (cat) {
         case ContentCategory::TEXT: return "TEXT";
         case ContentCategory::IMAGE: return "IMAGE";
@@ -371,7 +371,7 @@ static std::vector<std::string> buildChunkWhitelist(
 
     std::vector<std::string> whitelist;
     // Scan all content metas
-    storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
+    storage.scanPrefix("content:", [&](std::string_view /*key*/, std::string_view val){
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);
@@ -775,7 +775,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     return std::nullopt;
 }
 
-static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
+[[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
     ContentType ct = {};
     if (!mime.empty()) {

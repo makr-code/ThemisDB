@@ -95,7 +95,6 @@ ScriptCounts countScriptBytes(std::string_view text) {
             // Arabic / Arabic Supplement
             ++c.arabic;
         } else if (i + 2 < text.size()) {
-            auto b2 = static_cast<unsigned char>(text[i + 2]);
             if (b0 == 0xE3 && b1 >= 0x81 && b1 <= 0x83) {
                 // Hiragana (E3 81..) / Katakana (E3 82..)
                 ++c.hiragana;

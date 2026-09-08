@@ -67,12 +67,12 @@ BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
 
 void BloomFilter::setBit(size_t idx) noexcept {
     idx %= num_bits_;
-    bits_[idx / 64] |= (1 << (idx % 64));
+    bits_[idx / 64] |= (1ULL << (idx % 64));
 }
 
 bool BloomFilter::testBit(size_t idx) const noexcept {
     idx %= num_bits_;
-    return (bits_[idx / 64] >> (idx % 64)) & 1;
+    return ((bits_[idx / 64] >> (idx % 64)) & 1ULL) != 0ULL;
 }
 
 void BloomFilter::add(int64_t value) noexcept {
@@ -600,6 +600,10 @@ size_t TemporalTierManager::flushHotToWarmLocked(
         warm_blocks.push_back(std::move(blk));
     }
 
+    if (table_name.empty()) {
+        // Table-name validation is caller-side; keep flush behavior unchanged.
+    }
+
     ++stat_flush_hot_warm_;
     return to_move;
 }
@@ -634,6 +638,10 @@ size_t TemporalTierManager::flushWarmToColdLocked(
 
     total_warm_bytes_ -= oldest.approx_bytes;
     warm_blocks.erase(warm_blocks.begin());
+
+    if (doc_key.empty()) {
+        // Key validation is caller-side; keep flush behavior unchanged.
+    }
 
     ++stat_flush_warm_cold_;
     return moved;

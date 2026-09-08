@@ -39,15 +39,15 @@ void PluginMetrics::PluginStats::updatePercentiles() {
     
     // P95: 95th percentile
     size_t p95_idx = static_cast<size_t>(sorted.size() * 0.95);
-    if (p95_idx >= static_cast<int>(sorted.size())) {
-      p95_idx = static_cast<int>(sorted.size()) - 1;
+    if (p95_idx >= sorted.size()) {
+      p95_idx = sorted.size() - 1;
     }
     p95_call_latency_ms = sorted[p95_idx];
     
     // P99: 99th percentile
     size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
-    if (p99_idx >= static_cast<int>(sorted.size())) {
-      p99_idx = static_cast<int>(sorted.size()) - 1;
+    if (p99_idx >= sorted.size()) {
+      p99_idx = sorted.size() - 1;
     }
     p99_call_latency_ms = sorted[p99_idx];
 }
@@ -86,7 +86,7 @@ void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseco
     stats.sum_call_latency_ms += latency_ms;
     
     // Add to samples (FIFO circular buffer, O(1) eviction via deque::pop_front)
-    if (static_cast<int>(stats.latency_samples.size()) >= PluginStats::MAX_SAMPLES) {
+    if (stats.latency_samples.size() >= PluginStats::MAX_SAMPLES) {
         stats.latency_samples.pop_front();
     }
     stats.latency_samples.push_back(latency_ms);

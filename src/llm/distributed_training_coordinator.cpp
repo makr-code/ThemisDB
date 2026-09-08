@@ -327,7 +327,9 @@ void GradientTensor::decompress() {
                             (compressed[2] << 8) | compressed[3];
             
             // Initialize to zeros
-            data.assign(shape[0] * (static_cast<int>(shape.size()) > 1 ? shape[1] : 1), 0.0f);
+            const size_t rows = shape[0] > 0 ? static_cast<size_t>(shape[0]) : 0;
+            const size_t cols = (shape.size() > 1 && shape[1] > 0) ? static_cast<size_t>(shape[1]) : 1;
+            data.assign(rows * cols, 0.0f);
             
             // Fill in sparse values
             size_t pos = 4;

@@ -14,24 +14,10 @@
  */
 
 #include "llm/llm_client.h"
-#include <spdlog/spdlog.h>
 
 namespace themis::llm {
 
-LLMClient::LLMClient() : initialized_(false) {
-    spdlog::debug("LLMClient initialized");
-}
-
-LLMClient::~LLMClient() {
-    shutdown();
-}
-
-void LLMClient::shutdown() {
-    std::unique_lock lock(state_mutex_);
-    if (initialized_) {
-        initialized_ = false;
-        spdlog::debug("LLMClient shutdown");
-    }
-}
+// The canonical LLMClient contract is fully declared in llm_client.h.
+// This translation unit intentionally contains no out-of-line definitions.
 
 }  // namespace themis::llm

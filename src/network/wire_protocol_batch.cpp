@@ -112,7 +112,7 @@ bool NagleController::uncork() noexcept {
 
     // Clearing TCP_CORK/TCP_NOPUSH triggers an immediate flush of any
     // data held in the kernel's send buffer.
-    int off = 0;
+    [[maybe_unused]] int off = 0;
 #ifdef TCP_CORK
     if (setSockOptInt(fd_, IPPROTO_TCP, TCP_CORK, &off) != 0)
         return false;

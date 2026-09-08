@@ -107,14 +107,14 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
     int seq_num                            = 0;
     size_t current_pos                     = 0;
 
-    while (static_cast<size_t>(current_pos) <static_cast<int>(sentence_list.size())) {
+    while (current_pos < sentence_list.size()) {
         std::string chunk_text = {};
         int chunk_tokens       = 0;
         size_t chunk_start_idx = current_pos;
         size_t chunk_end_idx   = current_pos;
 
         // Add sentences until we reach chunk_size
-        while (static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
+        while (chunk_end_idx < sentence_list.size()) {
             const std::string &sentence = sentence_list[chunk_end_idx];
             int sentence_tokens         = countTokens(sentence);
 
@@ -144,7 +144,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
             start_offset += sentence_list[i].size() + 1; // +1 for space
         }
 
-        size_t end_offset = start_offset + static_cast<int>(chunk_text.size()) ;
+        size_t end_offset = start_offset + chunk_text.size();
 
         json chunk = {{"text", chunk_text},
                       {"seq_num", seq_num},
@@ -156,7 +156,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
         seq_num++;
 
         // Move to next chunk with overlap
-        if (overlap > 0  && static_cast<size_t>(chunk_end_idx) <static_cast<int>(sentence_list.size())) {
+        if (overlap > 0 && chunk_end_idx < sentence_list.size()) {
             // Calculate how many sentences to overlap
             int overlap_sentences      = 0;
             int overlap_tokens_counted = 0;

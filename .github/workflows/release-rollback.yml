@@ -215,7 +215,7 @@ jobs:
           echo "reverted-to=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create rollback PR
-        uses: actions/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v8.1.1
         if: steps.revert.outputs.reverted-to != ''
         with:
           commit-message: "chore: rollback version from ${{ github.event.inputs.version }} to ${{ steps.revert.outputs.reverted-to }}"

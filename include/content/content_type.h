@@ -66,7 +66,7 @@ struct ContentType {
         bool hierarchical = false;    // Tree structure (e.g., CAD assemblies)
         bool versioned = false;       // Supports version history
         bool multimodal = false;      // Multiple data types (e.g., video = audio + images)
-    } features;
+    } features{};
     
     json toJson() const;
     static ContentType fromJson(const json& j);

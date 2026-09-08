@@ -287,7 +287,8 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             const auto cb_end = std::chrono::steady_clock::now();
             if (std::getenv("THEMIS_RAG_CRITIC_TRACE")) {
                 critic_cb_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(cb_end - cb_start).count();
-                std::fprintf(stderr, "  DEBUG critic: callback_time_ns=%ld\n", critic_cb_ns);
+                std::fprintf(stderr, "  DEBUG critic: callback_time_ns=%lld\n",
+                             static_cast<long long>(critic_cb_ns));
             }
         } else {
             const double retrieval_signal = clamp01(doc.score);
@@ -370,24 +371,29 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
                     long long mean = sum / static_cast<long long>(doc_times.size());
                     long long p50 = doc_times[doc_times.size()/2];
                     size_t i95 = static_cast<size_t>(doc_times.size()*0.95);
-                    if (i95 >= static_cast<int>(doc_times.size())) {
-                      i95 = static_cast<int>(doc_times.size()) -1;
+                                        if (i95 >= doc_times.size()) {
+                                            i95 = doc_times.size() - 1;
                     }
                     long long p95 = doc_times[i95];
                     size_t i99 = static_cast<size_t>(doc_times.size()*0.99);
-                    if (i99 >= static_cast<int>(doc_times.size())) {
-                      i99 = static_cast<int>(doc_times.size()) -1;
+                                        if (i99 >= doc_times.size()) {
+                                            i99 = doc_times.size() - 1;
                     }
                     long long p99 = doc_times[i99];
                     long long t50 = token_times[token_times.size()/2];
-                    std::fprintf(stderr, "SelfRAG critic trace: docs=%zu p50=%lld p95=%lld p99=%lld mean=%lld ns token_p50=%lld ns slow_count=%zu\n",
-                                 doc_times.size(), p50, p95, p99, mean, t50,static_cast<int>(slow_docs.size()));
+                    std::fprintf(stderr, "SelfRAG critic trace: docs=%llu p50=%lld p95=%lld p99=%lld mean=%lld ns token_p50=%lld ns slow_count=%llu\n",
+                                 static_cast<unsigned long long>(doc_times.size()),
+                                 p50, p95, p99, mean, t50,
+                                 static_cast<unsigned long long>(slow_docs.size()));
                     if (!slow_docs.empty()) {
                         std::sort(slow_docs.begin(), slow_docs.end(), [](auto &a, auto &b){ return a.first > b.first; });
-                        size_t show = std::min<size_t>(5,static_cast<int>(slow_docs.size()));
-                        std::fprintf(stderr, "Top %zu slow docs:\n", show);
+                        size_t show = std::min<size_t>(5, slow_docs.size());
+                        std::fprintf(stderr, "Top %llu slow docs:\n", static_cast<unsigned long long>(show));
                         for (size_t si = 0; si < show; ++si) {
-                            std::fprintf(stderr, "  %zu: %lld ns id=%s\n", si+1, slow_docs[si].first, slow_docs[si].second.c_str());
+                            std::fprintf(stderr, "  %llu: %lld ns id=%s\n",
+                                         static_cast<unsigned long long>(si + 1),
+                                         slow_docs[si].first,
+                                         slow_docs[si].second.c_str());
                         }
                     }
                 }

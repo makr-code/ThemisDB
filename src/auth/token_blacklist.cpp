@@ -55,7 +55,7 @@ void TokenBlacklist::revoke(const std::string &jti, std::chrono::system_clock::t
         }
 
         // Enforce hard cap
-        if (static_cast<int>(blacklist_.size()) >= config_.max_entries) {
+        if (blacklist_.size() >= static_cast<size_t>(config_.max_entries)) {
             THEMIS_WARN("TokenBlacklist: max_entries ({}) reached – dropping oldest entry", config_.max_entries);
             // Remove the entry that expires soonest (cheapest to lose)
             auto oldest = blacklist_.begin();

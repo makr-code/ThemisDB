@@ -36,6 +36,8 @@
 namespace themis {
 namespace geo {
 
+[[nodiscard]] GpuBackendCircuitBreaker* getGpuCircuitBreaker() noexcept;
+
 // ============================================================================
 // § 1  Backend Dispatch Circuit Breaker (Phase 2/3)
 // ============================================================================

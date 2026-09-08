@@ -82,7 +82,7 @@ int GeoReplicaPlacementManager::dcPreferenceScore(
     const auto& pref = c.preferred_datacenters;
     for (size_t i = 0; i < pref.size(); ++i) {
         if (pref[i] == datacenter) {
-          return i;
+                    return static_cast<int>(i);
         }
     }
     // Not in preference list: rank after all explicit preferences

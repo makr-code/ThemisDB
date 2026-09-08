@@ -121,7 +121,7 @@ static std::optional<std::string> build_pinned_public_key_value(const PKIConfig&
 static std::string base64_encode(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);
@@ -131,13 +131,13 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         out.push_back(b64_table[n & 63]);
         i += 3;
     }
-    if (i + 1 == static_cast<int>(data.size())) {
+    if (i + 1 == data.size()) {
         uint32_t n = (data[i] << 16);
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == static_cast<int>(data.size())) {
+    } else if (i + 2 == data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8);
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
@@ -166,7 +166,7 @@ static std::vector<uint8_t> base64_decode(const std::string& s) {
           break;
         }
         int d = 0;
-        if (c < 128) {
+        if (c < 128u) {
             d = T[c];
         } else {
             d = -1;
@@ -525,7 +525,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     res.algorithm = cfg_.signature_algorithm.empty() ? std::string("RSA-SHA256") : cfg_.signature_algorithm;
 
     size_t expected_len = 0;
-    int nid = nid_for_algorithm(res.algorithm, expected_len);
+    (void)nid_for_algorithm(res.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST signing first
     if (!cfg_.endpoint.empty()) {
@@ -626,7 +626,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     }
 
     // Try real RSA signing if key is available and hash length matches
-    if (((!cfg_.key_path.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)))) {
+    if ((!cfg_.key_path.empty()) && (expected_len == 0 || hash_bytes.size() == expected_len)) {
         auto pkey_result = load_private_key(cfg_);
         if (pkey_result) {
             EVP_PKEY* pkey = *pkey_result;
@@ -640,7 +640,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     if (EVP_PKEY_sign_init(ctx) == 1) {
                         // Use PKCS#1 v1.5 padding for compatibility with RSA_sign
                         EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
-                        if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(),static_cast<int>(hash_bytes.size())) == 1) {
+                        if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(), hash_bytes.size()) == 1) {
                             sig.resize(outlen);
                             res.signature_b64 = base64_encode(sig);
                     // Try to set cert serial if available
@@ -689,7 +689,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
             cert_serial = cached_cert_serial_;
         }
 
-        if (((!cert_pem.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)))) {
+        if ((!cert_pem.empty()) && (expected_len == 0 || hash_bytes.size() == expected_len)) {
             auto pkey_result = load_private_key(cfg_);
             if (pkey_result) {
                 EVP_PKEY* pkey = *pkey_result;
@@ -701,7 +701,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
                     if (ctx) {
                         if (EVP_PKEY_sign_init(ctx) == 1) {
                             EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
-                            if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(),static_cast<int>(hash_bytes.size())) == 1) {
+                            if (EVP_PKEY_sign(ctx, sig.data(), &outlen, hash_bytes.data(), hash_bytes.size()) == 1) {
                                 sig.resize(outlen);
                                 res.signature_b64 = base64_encode(sig);
                                 res.cert_serial   = cert_serial.empty() ? std::string("CA-PROVISIONED") : cert_serial;
@@ -759,7 +759,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     }
 
     size_t expected_len = 0;
-    int nid = nid_for_algorithm(sig.algorithm, expected_len);
+        (void)nid_for_algorithm(sig.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST verify first
     if (!cfg_.endpoint.empty()) {
@@ -853,7 +853,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     // Try real RSA verify if certificate is available and hash length matches.
     // When trust_store_path is also configured, first validate the full X.509 chain
     // so that an untrusted or expired certificate is rejected before checking the signature.
-    if (((!cfg_.cert_path.empty() && (expected_len == 0 || static_cast<int>(hash_bytes.size()) == expected_len)))) {
+    if ((!cfg_.cert_path.empty()) && (expected_len == 0 || hash_bytes.size() == expected_len)) {
         // Enforce chain validation when a trust store is configured.
         if (!cfg_.trust_store_path.empty() && !verify_cert_chain(cfg_)) {
             return false;
@@ -864,14 +864,13 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         if (pub_result) {
             EVP_PKEY* pub = *pub_result;
             // Use EVP_PKEY verification instead of deprecated RSA_verify
-            int max_sig_len = EVP_PKEY_size(pub);
             auto sig_bytes = base64_decode(sig.signature_b64);
             EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub, nullptr);
             if (ctx) {
                 if (EVP_PKEY_verify_init(ctx) == 1) {
                     EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
                     size_t siglen = sig_bytes.size();
-                    int ok = EVP_PKEY_verify(ctx, sig_bytes.data(), siglen, hash_bytes.data(),static_cast<int>(hash_bytes.size()));
+                    int ok = EVP_PKEY_verify(ctx, sig_bytes.data(), siglen, hash_bytes.data(), hash_bytes.size());
                     EVP_PKEY_CTX_free(ctx);
                     EVP_PKEY_free(pub);
                     return ok == 1;

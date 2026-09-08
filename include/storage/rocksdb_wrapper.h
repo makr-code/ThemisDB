@@ -25,14 +25,15 @@
 #include "utils/expected.h"
 #include "storage/nvme_manager.h"
 
-// RocksDB forward declarations
-// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
-#ifdef THEMIS_ROCKSDB_AVAILABLE
-#include <rocksdb/iterator.h>
+// RocksDB is a hard requirement for this wrapper API.
+#ifndef THEMIS_ROCKSDB_AVAILABLE
+#error "RocksDBWrapper requires THEMIS_ROCKSDB_AVAILABLE with real RocksDB headers/libraries."
 #endif
 
+// Note: rocksdb/iterator.h is required for full Iterator definition used by std::unique_ptr.
+#include <rocksdb/iterator.h>
+
 namespace rocksdb {
-#ifdef THEMIS_ROCKSDB_AVAILABLE
     class TransactionDB;
     class Transaction;
     class WriteBatch;
@@ -46,33 +47,6 @@ namespace rocksdb {
     class DB;
     class ColumnFamilyHandle;
     class EventListener;
-#else
-    // Stub declarations when RocksDB is not available
-    /** @brief Stub declarations when RocksDB is not available. */
-    class TransactionDB {};
-    /** @brief Transaction object. */
-    class Transaction {};
-    /** @brief Write batch. */
-    class WriteBatch {};
-    /** @brief Write batch with index structure. */
-    class WriteBatchWithIndex {};
-    struct Options {};
-    struct ReadOptions {};
-    struct WriteOptions {};
-    struct TransactionDBOptions {};
-    struct TransactionOptions {};
-    /** @brief Snapshot. */
-    class Snapshot {};
-    /** @brief Db. */
-    class DB {};
-    /** @brief Column family handle. */
-    class ColumnFamilyHandle {};
-    /** @brief Event event listener. */
-    class EventListener {};
-    // Iterator stub - needs to be a real class for unique_ptr to work
-    /** @brief Iterator stub - needs to be a real class for unique_ptr to work. */
-    class Iterator {};
-#endif
 }
 
 namespace themis {

@@ -69,7 +69,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     // Search for closing delimiter: "---" or "..." on its own line
     size_t search_start = first_nl + 1;
     size_t close_pos    = std::string::npos;
-    while (static_cast<size_t>(search_start) <static_cast<int>(markdown.size())) {
+    while (search_start < markdown.size()) {
         size_t line_end = markdown.find('\n', search_start);
         if (line_end == std::string::npos) {
           line_end = markdown.size();
@@ -313,7 +313,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             while (j < line.size() && std::isdigit(static_cast<unsigned char>(line[j]))) {
               ++j;
             }
-            if (j > i  && static_cast<size_t>(j) <static_cast<int>(line.size()) && line[j] == '.' &&
+            if (j > i && j < line.size() && line[j] == '.' &&
                 j + 1 < line.size() && line[j + 1] == ' ') {
                 line = line.substr(j + 2);
             }
@@ -326,7 +326,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
             std::string result = {};
             result.reserve(line.size());
             size_t i = 0;
-            while (static_cast<size_t>(i) <static_cast<int>(line.size())) {
+            while (i < line.size()) {
                 // Images: ![alt](url) → alt text
                 if (line[i] == '!' && i + 1 < line.size() && line[i + 1] == '[') {
                     size_t alt_start = i + 2;
@@ -631,7 +631,7 @@ std::vector<json> MarkdownProcessor::chunk(
                   tokens.push_back(tok);
                 }
                 int take = std::min(overlap, static_cast<int>(tokens.size()));
-                for (int i = static_cast<int>(tokens.size()) - take;
+                 for (size_t i = tokens.size() - static_cast<size_t>(take);
                      i < tokens.size(); ++i) {
                     if (!overlap_text.empty()) {
                       overlap_text += ' ';

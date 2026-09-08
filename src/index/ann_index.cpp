@@ -262,7 +262,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
         kmeans(sub_data.data(), n, sub_dim, num_centroids, iters, cents, asgn);
 
         // Pad to exactly num_centroids (k-means may produce fewer)
-        while ( static_cast<int>(cents.size()) < num_centroids) {
+        while (cents.size() < num_centroids) {
             cents.push_back(std::vector<float>(sub_dim, 0.f));
         }
         centroids[s] = std::move(cents);
@@ -271,7 +271,7 @@ void ScaNN::PQCodebook::train(const float* data, size_t n, size_t d,
 
 std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const {
     const size_t expected_dim = num_subspaces * sub_dim;
-    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0  || static_cast<size_t>(d) < expected_dim || static_cast<int>(centroids.size()) < num_subspaces) {
+    if (vec == nullptr || num_subspaces == 0 || sub_dim == 0 || d < expected_dim || centroids.size() < num_subspaces) {
         THEMIS_WARN("ScaNN::PQCodebook::encode: invalid input or uninitialized codebook (num_subspaces={} sub_dim={} d={} expected_dim={})",
                     num_subspaces, sub_dim, d, expected_dim);
         return {};
@@ -298,7 +298,7 @@ std::vector<uint8_t> ScaNN::PQCodebook::encode(const float* vec, size_t d) const
 
 float ScaNN::PQCodebook::decode_distance(const float* query,
                                           const std::vector<uint8_t>& code) const {
-    if (query == nullptr || static_cast<int>(code.size()) < num_subspaces || static_cast<int>(centroids.size()) < num_subspaces) {
+    if (query == nullptr || code.size() < num_subspaces || centroids.size() < num_subspaces) {
         return std::numeric_limits<float>::max();
     }
 
@@ -341,7 +341,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
     std::vector<std::vector<float>> centroids;
     std::vector<size_t> assignments;
     kmeans(vectors, count, dim, k, cfg_.kmeans_iters, centroids, assignments);
-    if (static_cast<int>(centroids.size()) != k || static_cast<int>(assignments.size()) != count) {
+    if (centroids.size() != k || assignments.size() != count) {
         return false;
     }
 
@@ -369,7 +369,7 @@ bool ScaNN::build(const float* vectors, const int64_t* ids,
 
         for (auto& leaf : leaves_) {
             leaf.codes.resize(leaf.vectors.size());
-            for (size_t i = 0; i <static_cast<int>(leaf.vectors.size()); ++i)
+            for (size_t i = 0; i < leaf.vectors.size(); ++i)
                 leaf.codes[i] = codebook_.encode(leaf.vectors[i].data(), dim);
         }
     }
@@ -427,6 +427,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
         THEMIS_WARN("ScaNN::search: invalid arguments (query==nullptr={}, k={})", query == nullptr, k);
         return {};
     }
+    const size_t top_k = static_cast<size_t>(k);
 
     // Lazy build from flat buffer (thread-safety not required for this path)
     if (!trained_) {
@@ -439,7 +440,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
         flat_data.reserve(flat_ids_.size() * flat_vectors_[0].size());
         for (auto& v : self->flat_vectors_)
             flat_data.insert(flat_data.end(), v.begin(), v.end());
-        self->build(flat_data.data(), flat_ids_.data(),static_cast<int>(flat_ids_.size()),
+        self->build(flat_data.data(), flat_ids_.data(), flat_ids_.size(),
                     flat_vectors_[0].size());
         self->flat_ids_.clear();
         self->flat_vectors_.clear();
@@ -462,7 +463,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                       });
 
     // ---- Step 2: AH scan within selected leaves ----
-    size_t reorder_n = std::max(static_cast<size_t>(k), cfg_.reorder_num_neighbors);
+    size_t reorder_n = std::max(top_k, cfg_.reorder_num_neighbors);
     struct FullCandidate { float dist; const Leaf* leaf; size_t idx; };
     std::vector<FullCandidate> candidates;
     candidates.reserve(reorder_n * 2);
@@ -470,7 +471,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
     for (size_t pi = 0; pi < probe; ++pi) {
         const Leaf& leaf = leaves_[leaf_scores[pi].second];
         bool use_ah = cfg_.enable_ah && codebook_.num_subspaces > 0
-                      && static_cast<int>(leaf.codes.size()) == static_cast<int>(leaf.vectors.size())
+                      && leaf.codes.size() == leaf.vectors.size()
                       && !leaf.codes.empty();
 
         const size_t scan_count = std::min(leaf.ids.size(), leaf.vectors.size());
@@ -483,7 +484,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
     }
 
     // Keep top reorder_n candidates by approximate distance
-    if (static_cast<int>(candidates.size()) > reorder_n) {
+    if (candidates.size() > reorder_n) {
         std::partial_sort(candidates.begin(),
                           candidates.begin() + static_cast<std::ptrdiff_t>(reorder_n),
                           candidates.end(),
@@ -507,8 +508,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                   return a.distance < b.distance;
               });
 
-    if (static_cast<int>(results.size()) > static_cast<size_t>(k))
-        results.resize(static_cast<size_t>(k));
+    if (results.size() > top_k)
+        results.resize(top_k);
 
     return results;
 }
@@ -581,4 +582,3 @@ bool ScaNN::load(const std::string& path) {
 
 } // namespace index
 } // namespace themis
-

@@ -52,7 +52,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 long long i = std::stoll(s, &pos);
-                if (pos == static_cast<int>(s.size())) {
+                if (pos == s.size()) {
                   return i;
                 }
             } catch (const std::invalid_argument &) {
@@ -64,7 +64,7 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
             try {
                 std::size_t pos = 0;
                 double d = std::stod(s, &pos);
-                if (pos == static_cast<int>(s.size())) {
+                if (pos == s.size()) {
                   return d;
                 }
             } catch (const std::invalid_argument &) {
@@ -105,8 +105,8 @@ nlohmann::json yamlNodeToJsonImpl(const YAML::Node &node) {
 nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
     // Check extension to choose parser.
     bool is_yaml = false;
-    if (static_cast<int>(file_path.size()) >= 5) {
-        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 5);
+    if (file_path.size() >= 5) {
+        std::string ext = file_path.substr(file_path.size() - 5);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -114,8 +114,8 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string &file_path) {
             is_yaml = true;
         }
     }
-    if (!is_yaml && static_cast<int>(file_path.size()) >= 4) {
-        std::string ext = file_path.substr(static_cast<int>(file_path.size()) - 4);
+    if (!is_yaml && file_path.size() >= 4) {
+        std::string ext = file_path.substr(file_path.size() - 4);
         for (auto &c : ext) {
             c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         }
@@ -264,7 +264,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     }
 
     // After '#' there must be a '/'.
-    if (static_cast<int>(ref.size()) < 2 || ref[1] != '/') {
+    if (ref.size() < 2 || ref[1] != '/') {
         return nullptr;
     }
 
@@ -276,7 +276,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
     while (pos <= path.size()) {
         const std::size_t slash     = path.find('/', pos);
         const std::string raw_token = (slash == std::string::npos) ? path.substr(pos) : path.substr(pos, slash - pos);
-        pos                         = (slash == std::string::npos) ? static_cast<int>(path.size()) + 1 : slash + 1;
+        pos                         = (slash == std::string::npos) ? path.size() + 1 : slash + 1;
 
         // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
         std::string key = {};
@@ -306,7 +306,7 @@ const nlohmann::json *ConfigSchemaValidator::resolveRef(const std::string &ref, 
         } else if (node->is_array()) {
             // RFC 6901 §4: array index must be "0" or a positive decimal
             // integer with no leading zeros.
-            if (key.empty() || (key[0] == '0' && static_cast<int>(key.size()) > 1)) {
+            if (key.empty() || (key[0] == '0' && key.size() > 1)) {
                 return nullptr;
             }
             try {
@@ -567,7 +567,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- minItems ---
     if (schema.contains("minItems") && schema["minItems"].is_number_integer()) {
         std::size_t min = schema["minItems"].get<std::size_t>();
-        if (static_cast<int>(value.size()) < min) {
+        if (value.size() < min) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, minimum is "
                             + std::to_string(min));
         }
@@ -576,7 +576,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json &value, const nlo
     // --- maxItems ---
     if (schema.contains("maxItems") && schema["maxItems"].is_number_integer()) {
         std::size_t max = schema["maxItems"].get<std::size_t>();
-        if (static_cast<int>(value.size()) > max) {
+        if (value.size() > max) {
             result.addError("Array at '" + json_path + "' has " + std::to_string(value.size()) + " items, maximum is "
                             + std::to_string(max));
         }
@@ -620,7 +620,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- minLength ---
     if (schema.contains("minLength") && schema["minLength"].is_number_integer()) {
         std::size_t min = schema["minLength"].get<std::size_t>();
-        if (static_cast<int>(s.size()) < min) {
+        if (s.size() < min) {
             result.addError("String at '" + json_path + "' is too short (length " + std::to_string(s.size())
                             + ", minimum " + std::to_string(min) + ")");
         }
@@ -629,7 +629,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
     // --- maxLength ---
     if (schema.contains("maxLength") && schema["maxLength"].is_number_integer()) {
         std::size_t max = schema["maxLength"].get<std::size_t>();
-        if (static_cast<int>(s.size()) > max) {
+        if (s.size() > max) {
             result.addError("String at '" + json_path + "' is too long (length " + std::to_string(s.size())
                             + ", maximum " + std::to_string(max) + ")");
         }
@@ -676,7 +676,7 @@ void ConfigSchemaValidator::validateString(const nlohmann::json &value, const nl
                 static const std::regex re_ipv4(R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
                 std::smatch m = {};
                 if (std::regex_match(s, m, re_ipv4)) {
-                    for (int i = 1; i <= 4; ++i) {
+                    for (std::size_t i = 1; i <= 4; ++i) {
                         if (std::stoi(m[i].str()) > 255) {
                             format_valid = false;
                             break;
@@ -819,4 +819,3 @@ void ConfigSchemaValidator::validateNot(const nlohmann::json &value, const nlohm
 
 } // namespace config
 } // namespace themis
-

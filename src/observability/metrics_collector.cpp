@@ -25,7 +25,7 @@ namespace observability {
 namespace {
 
 std::string sanitizeDiagnosticLabelValue(const std::string& value) {
-    if (static_cast<int>(value.size()) <= kMaxLabelValueBytes) {
+    if (value.size() <= kMaxLabelValueBytes) {
         return value;
     }
     return value.substr(0, kMaxLabelValueBytes);
@@ -75,12 +75,12 @@ void MetricsCollector::recordQuery(const std::string& query_type, double latency
 
 void MetricsCollector::recordIndexScan(const std::string& index_type, size_t keys_scanned) {
     incrementCounter("index_scans_total", {{"type", index_type}});
-    incrementCounter("index_keys_scanned", {{"type", index_type}});
+    setGauge("index_keys_scanned", static_cast<double>(keys_scanned), {{"type", index_type}});
 }
 
 void MetricsCollector::recordFullScan(const std::string& table, size_t keys_scanned) {
     incrementCounter("full_scans_total", {{"table", table}});
-    incrementCounter("full_scan_keys", {{"table", table}});
+    setGauge("full_scan_keys", static_cast<double>(keys_scanned), {{"table", table}});
 }
 
 // ===== Cache Metrics =====
@@ -116,15 +116,15 @@ void MetricsCollector::recordRebalanceProgress(const std::string& operation_id, 
 
 void MetricsCollector::recordContentImport(const std::string& mime_type, size_t size_bytes) {
     incrementCounter("content_imports_total", {{"mime_type", mime_type}});
-    incrementCounter("content_bytes_imported", {{"mime_type", mime_type}});
+    setGauge("content_bytes_imported", static_cast<double>(size_bytes), {{"mime_type", mime_type}});
 }
 
 void MetricsCollector::recordChunkCreation(size_t chunk_count) {
-    incrementCounter("chunks_created_total", {});
+    setGauge("chunks_created_total", static_cast<double>(chunk_count), {});
 }
 
 void MetricsCollector::recordEmbeddingGeneration(size_t count, double latency_ms) {
-    incrementCounter("embeddings_generated_total", {});
+    setGauge("embeddings_generated_total", static_cast<double>(count), {});
     observeHistogram("embedding_generation_latency_ms", latency_ms, {});
 }
 
@@ -157,6 +157,8 @@ void MetricsCollector::recordCPUUsage(double percent) {
 void MetricsCollector::recordDiskIOps(size_t read_ops, size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
+    setGauge("disk_read_ops_last", static_cast<double>(read_ops), {});
+    setGauge("disk_write_ops_last", static_cast<double>(write_ops), {});
 }
 
 // ===== Tracing Metrics =====
@@ -494,7 +496,7 @@ std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
 
 bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& labels,
                                       std::string* failure_reason) {
-    if (static_cast<int>(labels.size()) > kMaxMetricLabels) {
+    if (labels.size() > kMaxMetricLabels) {
         if (failure_reason != nullptr) {
             *failure_reason = "label_count_exceeded";
         }
@@ -502,13 +504,13 @@ bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& 
     }
 
     for (const auto& [key, value] : labels) {
-        if (static_cast<int>(key.size()) > kMaxLabelKeyBytes) {
+        if (key.size() > kMaxLabelKeyBytes) {
             if (failure_reason != nullptr) {
                 *failure_reason = "label_key_too_long";
             }
             return false;
         }
-        if (static_cast<int>(value.size()) > kMaxLabelValueBytes) {
+        if (value.size() > kMaxLabelValueBytes) {
             if (failure_reason != nullptr) {
                 *failure_reason = "label_value_too_long";
             }
@@ -525,8 +527,9 @@ void MetricsCollector::Histogram::observe(double value) {
     values.push_back(value);
     
     // Keep only recent samples
-    if (static_cast<int>(values.size()) > max_samples) {
-        values.erase(values.begin(), values.begin() + (static_cast<int>(values.size()) - max_samples));
+    if (values.size() > max_samples) {
+        const auto drop_count = values.size() - max_samples;
+        values.erase(values.begin(), values.begin() + static_cast<std::ptrdiff_t>(drop_count));
     }
 }
 
@@ -544,7 +547,7 @@ double MetricsCollector::Histogram::percentile(double p) const {
     std::vector<double> sorted = values;
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(p * (static_cast<int>(sorted.size()) - 1));
+    size_t index = static_cast<size_t>(p * static_cast<double>(sorted.size() - 1));
     return sorted[index];
 }
 
@@ -574,4 +577,3 @@ double LatencyTracker::elapsedMs() const {
 
 } // namespace observability
 } // namespace themis
-

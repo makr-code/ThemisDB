@@ -85,11 +85,13 @@ jobs:
           # Determine release type from RELEASE_TYPE file
           RELEASE_TYPE=$(cat RELEASE_TYPE | tr -d '[:space:]')
           
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "edition=$EDITION" >> "$GITHUB_OUTPUT"
-          echo "release-type=$RELEASE_TYPE" >> "$GITHUB_OUTPUT"
-          echo "should-publish=$SHOULD_PUBLISH" >> "$GITHUB_OUTPUT"
+          {
+            echo "tag=$TAG"
+            echo "version=$VERSION"
+            echo "edition=$EDITION"
+            echo "release-type=$RELEASE_TYPE"
+            echo "should-publish=$SHOULD_PUBLISH"
+          } >> "$GITHUB_OUTPUT"
           
           echo "::notice::Release Tag Analysis:"
           echo "  Tag: $TAG"
@@ -122,7 +124,7 @@ jobs:
     if: needs.preflight-checks.outputs.should-publish == 'true'
     uses: ./.github/workflows/release-docker-image.yml
     with:
-      push_to_registry: "true"
+      push_to_registry: true
       registry: "docker.io"
       tag_name: ${{ github.ref_name }}
     secrets: inherit
@@ -173,6 +175,9 @@ jobs:
       needs.preflight-checks.outputs.release-type == 'stable' &&
       needs.preflight-checks.outputs.edition == 'community'
     uses: ./.github/workflows/release-winget.yml
+    with:
+      version: ${{ needs.preflight-checks.outputs.version }}
+      release-url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}
     secrets: inherit
 
   validate-consistency:

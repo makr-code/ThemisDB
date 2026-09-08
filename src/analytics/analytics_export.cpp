@@ -426,6 +426,10 @@ class ArrowIPCExporter : public IAnalyticsExporter {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
+        spdlog::debug("ArrowIPC exportToFile options: batch_size={}, compress={}, codec='{}'",
+                  options.batch_size,
+                  options.compress,
+                  options.compression_codec);
 
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -488,6 +492,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
 
     std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_IPC for this exporter
+        spdlog::trace("ArrowIPC exportToString options: batch_size={}", options.batch_size);
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
@@ -642,6 +647,10 @@ class ParquetExporter : public IAnalyticsExporter {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
+        spdlog::debug("Feather exportToFile options: batch_size={}, compress={}, codec='{}'",
+                  options.batch_size,
+                  options.compress,
+                  options.compression_codec);
 
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -814,6 +823,7 @@ class FeatherExporter : public IAnalyticsExporter {
 
     std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_FEATHER for this exporter
+        spdlog::trace("Feather exportToString options: batch_size={}", options.batch_size);
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {

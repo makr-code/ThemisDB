@@ -13,6 +13,7 @@
 #include <numeric>
 #include <sstream>
 
+#if 0
 namespace themis::llm {
 
 // ============================================================================
@@ -153,4 +154,5 @@ std::string SyntheticSSMStub::getStateFingerprint() const {
 }
 
 }  // namespace themis::llm
+#endif
 

@@ -465,14 +465,14 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
     // Minimum WAV file size (RIFF header + fmt chunk + data chunk header)
     constexpr size_t MIN_WAV_SIZE = 44;
-    if (static_cast<int>(wav_data.size()) < MIN_WAV_SIZE) {
+    if (wav_data.size() < MIN_WAV_SIZE) {
         throw std::runtime_error("WAV file too small: " + std::to_string(wav_data.size()) + " bytes (minimum "
                                  + std::to_string(MIN_WAV_SIZE) + " bytes required)");
     }
 
     // Helper lambda to read little-endian uint32
     auto readUInt32LE = [&wav_data](size_t offset) -> uint32_t {
-        if (offset + 4 > static_cast<int>(wav_data.size())) {
+        if (offset + 4 > wav_data.size()) {
             throw std::runtime_error("Buffer overflow reading uint32 at offset " + std::to_string(offset));
         }
         return static_cast<uint32_t>(wav_data[offset]) | (static_cast<uint32_t>(wav_data[offset + 1]) << 8)
@@ -482,7 +482,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
     // Helper lambda to read little-endian uint16
     auto readUInt16LE = [&wav_data](size_t offset) -> uint16_t {
-        if (offset + 2 > static_cast<int>(wav_data.size())) {
+        if (offset + 2 > wav_data.size()) {
             throw std::runtime_error("Buffer overflow reading uint16 at offset " + std::to_string(offset));
         }
         return static_cast<uint16_t>(wav_data[offset]) | (static_cast<uint16_t>(wav_data[offset + 1]) << 8);
@@ -524,7 +524,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
                 throw std::runtime_error("Invalid fmt chunk size: " + std::to_string(fmt_size));
             }
 
-            if (offset + 8 + fmt_size > static_cast<int>(wav_data.size())) {
+            if (offset + 8 + static_cast<size_t>(fmt_size) > wav_data.size()) {
                 throw std::runtime_error("fmt chunk extends beyond file boundary");
             }
 
@@ -542,7 +542,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         uint32_t chunk_size = readUInt32LE(offset + 4);
 
         // Check for integer overflow before adding
-        if (chunk_size > static_cast<int>(wav_data.size()) - offset - 8) {
+        if (offset + 8 > wav_data.size() || static_cast<size_t>(chunk_size) > (wav_data.size() - offset - 8)) {
             throw std::runtime_error("Chunk size extends beyond file boundary");
         }
 
@@ -550,7 +550,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
         // Chunks are word-aligned (2 bytes)
         if (chunk_size % 2 != 0) {
-            if (offset >= static_cast<int>(wav_data.size())) {
+            if (offset >= wav_data.size()) {
                 break;
             }
             offset++;
@@ -603,7 +603,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         uint32_t chunk_size = readUInt32LE(offset + 4);
 
         // Check for integer overflow before adding
-        if (chunk_size > static_cast<int>(wav_data.size()) - offset - 8) {
+        if (offset + 8 > wav_data.size() || static_cast<size_t>(chunk_size) > (wav_data.size() - offset - 8)) {
             throw std::runtime_error("Chunk size extends beyond file boundary");
         }
 
@@ -611,7 +611,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
 
         // Chunks are word-aligned
         if (chunk_size % 2 != 0) {
-            if (offset >= static_cast<int>(wav_data.size())) {
+            if (offset >= wav_data.size()) {
                 break;
             }
             offset++;
@@ -622,7 +622,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
         throw std::runtime_error("WAV file missing data chunk");
     }
 
-    if (data_offset + data_size > static_cast<int>(wav_data.size())) {
+    if (data_offset + static_cast<size_t>(data_size) > wav_data.size()) {
         throw std::runtime_error("data chunk extends beyond file boundary");
     }
 
@@ -655,7 +655,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
             if (audio_format == 1) { // PCM
                 if (bits_per_sample == 8) {
                     // 8-bit PCM is unsigned (0-255)
-                    if (sample_offset >= static_cast<int>(wav_data.size())) {
+                    if (sample_offset >= wav_data.size()) {
                         throw std::runtime_error("Sample offset out of bounds");
                     }
                     uint8_t val = wav_data[sample_offset];
@@ -666,7 +666,7 @@ std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t> &wav_
                     sample      = val / 32768.0f;
                 } else if (bits_per_sample == 24) {
                     // 24-bit PCM is signed
-                    if (sample_offset + 3 > static_cast<int>(wav_data.size())) {
+                    if (sample_offset + 3 > wav_data.size()) {
                         throw std::runtime_error("24-bit sample extends beyond buffer");
                     }
                     // Use explicit casting to avoid sign extension issues

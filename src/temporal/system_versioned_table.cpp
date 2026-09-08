@@ -309,7 +309,7 @@ size_t SystemVersionedTable::purgeHistoricalVersions(
                        }),
         versions.end());
 
-    return before - static_cast<int>(versions.size()) ;
+    return before - versions.size();
 }
 
 size_t SystemVersionedTable::purgeHistoricalVersions(
@@ -354,7 +354,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
         }
     }
 
-    if (static_cast<int>(historical.size()) <= keep_latest_n) {
+    if (historical.size() <= keep_latest_n) {
         return 0;
     }
 
@@ -367,7 +367,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
     // Collect raw pointers of the entries to delete (the oldest ones)
     std::vector<const VersionedDocument*> to_delete_ptrs = {};
 
-    to_delete_ptrs.reserve(static_cast<int>(historical.size()) - keep_latest_n);
+    to_delete_ptrs.reserve(historical.size() - keep_latest_n);
     for (size_t i = keep_latest_n; i < historical.size(); ++i) {
         to_delete_ptrs.push_back(historical[i]);
     }
@@ -389,7 +389,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
                        }),
         versions.end());
 
-    return before - static_cast<int>(versions.size()) ;
+    return before - versions.size();
 }
 
 // ============================================================================
@@ -398,7 +398,7 @@ size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
 
 size_t SystemVersionedTable::keyCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(rows_.size());
+    return rows_.size();
 }
 
 size_t SystemVersionedTable::versionCount() const {
@@ -428,7 +428,7 @@ nlohmann::json SystemVersionedTable::getStatistics() const {
     nlohmann::json stats = {
         {"table_name",       table_name_},
         {"history_table",    config_.history_table_name},
-        {"key_count",static_cast<int>(rows_.size())},
+        {"key_count", rows_.size()},
         {"current_rows",     current_count},
         {"historical_rows",  historical_count},
         {"total_versions",   current_count + historical_count},

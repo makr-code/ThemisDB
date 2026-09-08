@@ -13,17 +13,10 @@
  */
 
 #include "llm/batch_generator.h"
-#include <spdlog/spdlog.h>
 
 namespace themis::llm {
 
-BatchGenerator::BatchGenerator(size_t batch_size)
-    : batch_size_(batch_size), total_batches_(0) {
-    spdlog::debug("BatchGenerator initialized with batch_size={}", batch_size);
-}
-
-size_t BatchGenerator::batchesGenerated() const {
-    return total_batches_;
-}
+// BatchGenerator implementation is provided by module-specific training paths.
+// Keep this translation unit definition-free to stay consistent with header contracts.
 
 }  // namespace themis::llm
