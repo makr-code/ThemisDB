@@ -42,12 +42,6 @@ namespace {
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-/// Returns a trivial 1-element embedding so an inject callback returns
-/// non-empty (which bypasses the fallback path in embed()).
-static std::vector<float> trivialEmbedding() {
-    return std::vector<float>(64, 0.1f);
-}
-
 /// Returns a valid InferenceResponse with success=true.
 static InferenceResponse makeOkResponse(const InferenceRequest& req) {
     InferenceResponse r;

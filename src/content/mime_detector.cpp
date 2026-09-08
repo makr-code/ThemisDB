@@ -266,11 +266,11 @@ std::string MimeDetector::fromExtension(std::string_view filename) const {
 
 bool MimeDetector::matchesMagicSignature(const std::vector<uint8_t>& content,
                                          const MagicSignature& sig) const {
-    if (static_cast<int>(content.size()) < sig.offset + static_cast<int>(sig.signature.size()) ) {
+    if (content.size() < sig.offset + sig.signature.size()) {
         return false;
     }
     
-    for (size_t i = 0; i <static_cast<int>(sig.signature.size()); ++i) {
+    for (size_t i = 0; i < sig.signature.size(); ++i) {
         // Skip wildcard positions
         if (sig.wildcard_positions.count(i) > 0) {
             continue;

@@ -17,6 +17,36 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
 
+## Source-Verified Reality Check (2026-09-07)
+
+This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.
+
+- **Overall source-verified implementation level:** ~72%
+- **Optimistic roadmap/documentation level:** ~82–84%
+- **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
+- **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+
+### Current real wave posture
+
+| Wave | Source-verified status | Notes |
+|---|---:|---|
+| **Wave A** | ~70% | Transaction and GPU remain the main blockers; sharding/replication/voice are materially advanced |
+| **Wave B** | ~80% | Search, access model, and LLM wiki are substantially implemented; representative-hardware evidence still incomplete |
+| **Wave C** | ~75% | Security and audit primitives exist; audit and policy-gate evidence is useful but not fully end-to-end production-certified |
+| **Wave D** | ~10–20% | Mostly planning and operability work; implementation is still in early stage |
+
+### Release-critical blockers, source-validated
+
+- **GPU Phase C / CUDA-call reduction** remains incomplete; the module-level reduction gate and representative-hardware baselines are still open.
+- **Transaction Wave A CI execution evidence** remains open; focused tests exist, but the source/CI path is not fully green on the current build lane.
+- **Query FTS performance gate** remains open at the release level; backend implementation exists but performance acceptance is not closed.
+- **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
+- **Final GA sign-off** is still blocked by human approval, not just implementation availability.
+
+### Practical conclusion
+
+The repository is clearly not a blank or mock project. It contains a substantial implementation base across core, security, AI/RAG, and infrastructure areas. However, the realistic production status is not “GA ready”; it is “substantial implementation with major hardening and evidence completion still pending”.
+
 ## Research & Papers Integration (Soll-Ist Vergleich)
 
 **Soll (target state):**

@@ -111,14 +111,14 @@ using themis::compression::kTagLZ4;
 using themis::compression::kTagSnappy;
 using themis::compression::kTagZstd;
 
-static void write_le32(uint8_t* dst, uint32_t v) noexcept {
+[[maybe_unused]] static void write_le32(uint8_t* dst, uint32_t v) noexcept {
     dst[0] = static_cast<uint8_t>(v & 0xFFu);
     dst[1] = static_cast<uint8_t>((v >> 8) & 0xFFu);
     dst[2] = static_cast<uint8_t>((v >> 16) & 0xFFu);
     dst[3] = static_cast<uint8_t>(v >> 24);
 }
 
-static uint32_t read_le32(const uint8_t* src) noexcept {
+[[maybe_unused]] static uint32_t read_le32(const uint8_t* src) noexcept {
     return static_cast<uint32_t>(src[0])
          | (static_cast<uint32_t>(src[1]) << 8)
          | (static_cast<uint32_t>(src[2]) << 16)

@@ -490,7 +490,7 @@ public:
             // Phase 4: Compute metrics (simulated)
             if (!validation_samples.empty()) {
                 double total_loss = 0.0;
-                for (const auto& s : validation_samples) {
+                for ([[maybe_unused]] const auto& sample : validation_samples) {
                     total_loss += 0.45;
                 }
                 result.validation_loss = total_loss / validation_samples.size();

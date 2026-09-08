@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <limits>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -72,7 +73,7 @@ public:
         return state_;
     }
 
-    SubagentResult<void> load(int timeout_ms) override {
+    SubagentResult<void> load(int) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -98,7 +99,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> warm(int timeout_ms) override {
+    SubagentResult<void> warm(int) override {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -113,7 +114,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unload(int timeout_ms) override {
+    SubagentResult<void> unload(int) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -214,8 +215,13 @@ public:
         }
 
         auto end = std::chrono::steady_clock::now();
-        result.latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        const auto latency_count = std::chrono::duration_cast<std::chrono::milliseconds>(
             end - start).count();
+        if (latency_count > std::numeric_limits<int>::max()) {
+            result.latency_ms = std::numeric_limits<int>::max();
+        } else {
+            result.latency_ms = static_cast<int>(latency_count);
+        }
 
         return result;
     }

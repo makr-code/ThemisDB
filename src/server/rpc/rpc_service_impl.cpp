@@ -1248,7 +1248,7 @@ json ThemisRPCService::handleVectorSearchInternal(
         }
         
         // Extract parameters
-        int k = params.value("k", 10);  // default top-k = 10
+        [[maybe_unused]] int k = params.value("k", 10);  // default top-k = 10
         std::string metric(params.value("metric", "cosine"));  // cosine, euclidean, dot
         
         // Note: Vector search requires the vector index module (FAISS or similar).
@@ -1297,7 +1297,7 @@ json ThemisRPCService::handleGraphTraverseInternal(
         // Extract parameters
         std::string start_vertex(params.value("start_vertex", ""));
         std::string direction(params.value("direction", "outbound"));  // outbound, inbound, any
-        int max_depth = params.value("max_depth", 1);
+        [[maybe_unused]] int max_depth = params.value("max_depth", 1);
         
         if (start_vertex.empty()) {
             return createError(

@@ -376,7 +376,7 @@ std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
     std::vector<int> cores = {};
 
     for (int i = 0; i < 64; ++i) {
-        if (mask & (1 << static_cast<unsigned>(i))) {
+        if (mask & (1ULL << static_cast<unsigned>(i))) {
             cores.push_back(i);
         }
     }

@@ -4700,7 +4700,7 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 // or vector-first then spatial filter. Uses bbox/total_bounds ratio if available.
 enum class VGPlan { SpatialThenVector, VectorThenSpatial };
 
-static VGPlan chooseVGPlan(
+[[maybe_unused]] static VGPlan chooseVGPlan(
 	const VectorGeoQuery& q,
 	const index::SpatialIndexManager* spatialIdx,
 	const VectorIndexManager* vectorIdx,
