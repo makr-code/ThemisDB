@@ -94,7 +94,7 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
         
         rebuildFieldHints();
         
-        spdlog::info("RegexDetectionEngine: Initialized with {} patterns",static_cast<int>(patterns_.size()));
+        spdlog::info("RegexDetectionEngine: Initialized with {} patterns", patterns_.size());
         return true;
         
     } catch (const std::exception& e) {
@@ -126,7 +126,7 @@ bool RegexDetectionEngine::reload(const nlohmann::json& config) {
     
     rebuildFieldHints();
     
-    spdlog::info("RegexDetectionEngine: Reloaded {} patterns",static_cast<int>(patterns_.size()));
+    spdlog::info("RegexDetectionEngine: Reloaded {} patterns", patterns_.size());
     return true;
 }
 
@@ -427,7 +427,7 @@ void RegexDetectionEngine::loadEmbeddedDefaults() {
         redaction_modes_[PIIType::URL] = url.redaction_mode;
     }
     
-    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns",static_cast<int>(patterns_.size()));
+    spdlog::info("RegexDetectionEngine: Loaded {} embedded default patterns", patterns_.size());
 }
 
 bool RegexDetectionEngine::loadPatternsFromConfig(const nlohmann::json& config) {
