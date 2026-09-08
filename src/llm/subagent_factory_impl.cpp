@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <limits>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -214,8 +215,13 @@ public:
         }
 
         auto end = std::chrono::steady_clock::now();
-        result.latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        const auto latency_count = std::chrono::duration_cast<std::chrono::milliseconds>(
             end - start).count();
+        if (latency_count > std::numeric_limits<int>::max()) {
+            result.latency_ms = std::numeric_limits<int>::max();
+        } else {
+            result.latency_ms = static_cast<int>(latency_count);
+        }
 
         return result;
     }
@@ -460,7 +466,7 @@ public:
 
     SubagentResult<void> destroySubagent(
         const std::string& subagent_id,
-        int) override {
+        int timeout_ms) override {
         std::shared_ptr<Subagent> subagent;
 
         {

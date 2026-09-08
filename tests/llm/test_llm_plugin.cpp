@@ -394,8 +394,9 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
     
     engine.submitAsync(
         request,
-        [[maybe_unused]] (const InferenceResponse& response) {
-            (void)response;
+        [&callback_called, &result_text](const InferenceResponse& response) {
+            callback_called.store(true);
+            result_text = response.text;
         },
         5
     );
@@ -424,7 +425,7 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     // Submit low priority request
     engine.submitAsync(
         InferenceRequest{.prompt = "Low priority", .max_tokens = 10},
-        [[maybe_unused]] (const InferenceResponse& response) {
+        [&order_mutex, &completion_order](const InferenceResponse& response) {
             (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(1);
@@ -435,7 +436,7 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     // Submit high priority request
     engine.submitAsync(
         InferenceRequest{.prompt = "High priority", .max_tokens = 10},
-        [[maybe_unused]] (const InferenceResponse& response) {
+        [&order_mutex, &completion_order](const InferenceResponse& response) {
             (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(10);
