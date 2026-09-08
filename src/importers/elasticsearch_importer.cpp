@@ -505,7 +505,7 @@ ImportStats ElasticsearchImporter::importData(
             // In production, the document would be written to ThemisDB storage here.
             ++stats.imported_records;
         }
-        if ([[maybe_unused]] progress_callback) {
+        if (progress_callback) {
             progress_callback("scroll", stats.total_records, 0);
         }
     };
