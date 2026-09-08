@@ -233,24 +233,26 @@ std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) 
     
     if (config_.per_dimension) {
         // Per-dimension encoding
-        codes.reserve(dimension_);
+        codes.reserve(dimension);
         
-        for (int d = 0; d < dimension_; d++) {
+        for (size_t d = 0; d < dimension; ++d) {
             int bin = findBin(vector[d], per_dim_thresholds_[d]);
             codes.push_back(static_cast<uint8_t>(bin));
         }
     } else {
         // Per-block encoding with scale
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
-        codes.reserve(num_blocks * (sizeof(float) + config_.block_size));
+        const size_t block_size = static_cast<size_t>(config_.block_size);
+        const size_t num_blocks =
+            (dimension + block_size - 1) / block_size;
+        codes.reserve(num_blocks * (sizeof(float) + block_size));
         
-        for (int block = 0; block < num_blocks; block++) {
-            int start = block * config_.block_size;
-            int end = std::min(start + config_.block_size, dimension_);
+        for (size_t block = 0; block < num_blocks; ++block) {
+            const size_t start = block * block_size;
+            const size_t end = std::min(start + block_size, dimension);
             
             // Compute block scale (max absolute value)
             float max_abs = 0.0f;
-            for (int i = start; i < end; i++) {
+            for (size_t i = start; i < end; ++i) {
                 max_abs = std::max(max_abs, std::abs(vector[i]));
             }
             
@@ -260,7 +262,7 @@ std::vector<uint8_t> LearnedQuantizer::encode(const std::vector<float>& vector) 
             codes.insert(codes.end(), scale_bytes, scale_bytes + sizeof(float));
             
             // Quantize and store values
-            for (int i = start; i < end; i++) {
+            for (size_t i = start; i < end; ++i) {
                 float normalized = vector[i] / scale;
                 int bin = findBin(normalized, global_thresholds_);
                 codes.push_back(static_cast<uint8_t>(bin));
@@ -288,8 +290,8 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
             return {};
         }
         
-        vector.reserve(dimension_);
-        for (int d = 0; d < dimension_; d++) {
+        vector.reserve(dimension);
+        for (size_t d = 0; d < dimension; ++d) {
             int bin = static_cast<int>(codes[d]);
             if (bin >= 0 && bin < num_bins_) {
                 vector.push_back(per_dim_centroids_[d][bin]);
@@ -300,13 +302,15 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         }
     } else {
         // Per-block decoding
-        vector.resize(dimension_);
+        vector.resize(dimension);
         size_t code_offset = 0;
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
+        const size_t block_size = static_cast<size_t>(config_.block_size);
+        const size_t num_blocks =
+            (dimension + block_size - 1) / block_size;
 
-        for (int block = 0; block < num_blocks; block++) {
-            int start = block * config_.block_size;
-            int end = std::min(start + config_.block_size, dimension_);
+        for (size_t block = 0; block < num_blocks; ++block) {
+            const size_t start = block * block_size;
+            const size_t end = std::min(start + block_size, dimension);
 
             // Read scale
             if (code_offset + sizeof(float) > codes.size()) {
@@ -319,7 +323,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
             code_offset += sizeof(float);
 
             // Decode values
-            for (int i = start; i < end; i++) {
+            for (size_t i = start; i < end; ++i) {
                 if (code_offset >= codes.size()) {
                     THEMIS_ERROR("LearnedQuantizer::decode - Insufficient data");
                     return {};
@@ -366,7 +370,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                          codes.size(), dimension_);
             return std::numeric_limits<float>::max();
         }
-        for (int d = 0; d < dimension_; d++) {
+        for (size_t d = 0; d < dimension; ++d) {
             int bin = static_cast<int>(codes[d]);
             if (bin < 0 || bin >= num_bins_) {
                 THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Invalid bin {} at dim {}",
@@ -381,11 +385,13 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
         // Reconstruct each value as global_centroids_[code] * scale and
         // accumulate the squared difference against the query in-place.
         size_t code_offset = 0;
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
+        const size_t block_size = static_cast<size_t>(config_.block_size);
+        const size_t num_blocks =
+            (dimension + block_size - 1) / block_size;
 
-        for (int block = 0; block < num_blocks; block++) {
-            int start = block * config_.block_size;
-            int end = std::min(start + config_.block_size, dimension_);
+        for (size_t block = 0; block < num_blocks; ++block) {
+            const size_t start = block * block_size;
+            const size_t end = std::min(start + block_size, dimension);
 
             if (code_offset + sizeof(float) > codes.size()) {
                 THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data for scale");
@@ -395,7 +401,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
             std::memcpy(&scale, codes.data() + code_offset, sizeof(float));
             code_offset += sizeof(float);
 
-            for (int i = start; i < end; i++) {
+            for (size_t i = start; i < end; ++i) {
                 if (code_offset >= codes.size()) {
                     THEMIS_ERROR("LearnedQuantizer::asymmetricDistance - Insufficient data");
                     return std::numeric_limits<float>::max();

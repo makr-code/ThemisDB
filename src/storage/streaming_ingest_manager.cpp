@@ -139,8 +139,8 @@ Result<void> StreamingIngestManager::ingest(std::string_view key,
             ? std::chrono::steady_clock::now() + cfg_.backpressure_timeout
             : std::chrono::steady_clock::time_point::max();
 
-        bool got_space = not_full_.wait_until(lock, deadline, [this] {
-            return buffer_.size() < static_cast<size_t>(cfg_.max_buffer_events)
+        bool got_space = not_full_.wait_until(lock, deadline, [this, max_buffer_events] {
+            return buffer_.size() < max_buffer_events
                 || !running_.load(std::memory_order_relaxed);
         });
 
@@ -181,8 +181,8 @@ Result<size_t> StreamingIngestManager::ingestBatch(std::vector<Event> events) {
                 ? std::chrono::steady_clock::now() + cfg_.backpressure_timeout
                 : std::chrono::steady_clock::time_point::max();
 
-            bool got_space = not_full_.wait_until(lock, deadline, [this] {
-                return buffer_.size() < static_cast<size_t>(cfg_.max_buffer_events)
+            bool got_space = not_full_.wait_until(lock, deadline, [this, max_buffer_events] {
+                return buffer_.size() < max_buffer_events
                     || !running_.load(std::memory_order_relaxed);
             });
             if (!got_space || buffer_.size() >= max_buffer_events) {
