@@ -448,9 +448,9 @@ namespace {
 
 // Sorted-merge intersection of two monotonically increasing index vectors.
 SelectionVector mergeIntersect(const SelectionVector &a, const SelectionVector &b) {
-    SelectionVector out(std::min(a.size(),static_cast<int>(b.size())));
+    SelectionVector out(std::min(a.size(), b.size()));
     size_t i = 0, j = 0;
-    while (i < a.size()  && static_cast<size_t>(j) <static_cast<int>(b.size())) {
+    while (i < a.size() && j < b.size()) {
         if (a[i] == b[j]) {
             out.push_back(a[i]);
             ++i;
@@ -870,7 +870,7 @@ static double finalizeAgg(const AggState &state, AggregateSpec::Function fn) {
         case AggregateSpec::Function::Max:
             return state.count_nonnull > 0 ? state.max_val : 0.0;
         case AggregateSpec::Function::CountDistinct:
-            return static_cast<bool>(static_cast<double < static_cast<int>((state.distinct_set.size())));
+            return static_cast<double>(state.distinct_set.size());
         default: break;
     }
     return 0.0;
@@ -1110,7 +1110,7 @@ ColumnBatch SortOperator::execute(const ColumnBatch &input) const {
     std::vector<size_t> order(n);
     std::iota(order.begin(), order.end(), 0);
 
-    std::stable_sort([[maybe_unused]] order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
+    std::stable_sort(order.begin(), order.end(), [&](size_t a, size_t b) -> bool {
         for (const auto &key : keys_) {
             auto col = dense.getColumn(key.column);
             if (!col) {
