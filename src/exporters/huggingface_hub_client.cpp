@@ -116,7 +116,7 @@ namespace {
 /// Extract the value of the `Retry-After` response header from a raw
 /// header block captured by headerCaptureCb().  Returns an empty string
 /// when the header is absent.
-[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
+static std::string extractRetryAfterHeader(const std::string &raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
     std::string line = {};
@@ -225,9 +225,9 @@ std::string HuggingFaceHubClient::resolveToken() const {
 
 // ── HTTP helpers (libcurl path) ──────────────────────────────────────────────
 
-std::pair<int, std::string> HuggingFaceHubClient::httpPost([[maybe_unused]] const std::string &url,
-                                                           [[maybe_unused]] const std::string &json_body,
-                                                           [[maybe_unused]] const std::string &bearer_token) const {
+std::pair<int, std::string> HuggingFaceHubClient::httpPost(const std::string &url,
+                                                           const std::string &json_body,
+                                                           const std::string &bearer_token) const {
 #ifndef CURL_ENABLED
     return {0, "CURL_ENABLED is not defined; Hub upload requires libcurl"};
 #else
@@ -265,11 +265,11 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost([[maybe_unused]] cons
 #endif
 }
 
-int HuggingFaceHubClient::httpPutBytes([[maybe_unused]] const std::string &url, [[maybe_unused]] const char *data,
-                                       [[maybe_unused]] std::size_t size,
-                                       [[maybe_unused]] const std::string &bearer_token,
-                                       [[maybe_unused]] std::function<void(double)> progress_cb,
-                                       [[maybe_unused]] std::string *retry_after_out) const {
+int HuggingFaceHubClient::httpPutBytes(const std::string &url, const char *data,
+                                       std::size_t size,
+                                       const std::string &bearer_token,
+                                       std::function<void(double)> progress_cb,
+                                       std::string *retry_after_out) const {
 #ifndef CURL_ENABLED
     return 0;
 #else
@@ -325,11 +325,11 @@ int HuggingFaceHubClient::httpPutBytes([[maybe_unused]] const std::string &url, 
 #endif
 }
 
-int HuggingFaceHubClient::httpPutFile([[maybe_unused]] const std::string &url,
-                                      [[maybe_unused]] const std::string &file_path,
-                                      [[maybe_unused]] const std::string &bearer_token,
-                                      [[maybe_unused]] std::function<void(double)> progress_cb,
-                                      [[maybe_unused]] std::string *retry_after_out) const {
+int HuggingFaceHubClient::httpPutFile(const std::string &url,
+                                      const std::string &file_path,
+                                      const std::string &bearer_token,
+                                      std::function<void(double)> progress_cb,
+                                      std::string *retry_after_out) const {
 #ifndef CURL_ENABLED
     return 0;
 #else
@@ -402,7 +402,7 @@ static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, cons
            {"timestamp",
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
                 .count()}};
-    audit_log.logEvent([[maybe_unused]] entry);
+    audit_log.logEvent(entry);
 }
 
 HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_dir,
@@ -544,7 +544,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
 
             if (progress_cb) {
                 file_progress
-                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr = {};
@@ -744,7 +744,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
 
             if (progress_cb) {
                 shard_progress
-                    = [&progress_cb, frac_start, frac_range]([[maybe_unused]] double f) { progress_cb(frac_start + f * frac_range); };
+                    = [&progress_cb, frac_start, frac_range](double f) { progress_cb(frac_start + f * frac_range); };
             }
 
             std::string retry_after_hdr = {};
