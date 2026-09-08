@@ -96,7 +96,7 @@ static constexpr int8_t kTypeUtf8                 = 5; // Type union discriminan
 class FBuf {
   public:
     uint32_t cursor() const {
-        return static_cast<bool>(static_cast<uint32_t < static_cast<int>((buf_.size())));
+        return static_cast<uint32_t>(buf_.size());
     }
 
     /// Align to n bytes (prepend zero bytes)
@@ -988,8 +988,8 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     stats.bytes_written     = static_cast<size_t>(file_pos);
 
     // Progress callback
-    if ([[maybe_unused]] options.progress_callback) {
-        options.progress_callback([[maybe_unused]] stats);
+    if (options.progress_callback) {
+        options.progress_callback(stats);
     }
 
     THEMIS_INFO("ArrowIPCExporter: wrote {} entities, {} columns, {} bytes to {}", stats.exported_entities,
@@ -1094,8 +1094,8 @@ ExportStats ArrowIPCExporter::exportWithArrow(const std::vector<BaseEntity> &ent
     stats.exported_entities = entities.size();
     stats.bytes_written     = maybe_pos.ok() ? static_cast<size_t>(*maybe_pos) : 0;
 
-    if ([[maybe_unused]] options.progress_callback) {
-        options.progress_callback([[maybe_unused]] stats);
+    if (options.progress_callback) {
+        options.progress_callback(stats);
     }
 
     return stats;

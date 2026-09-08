@@ -230,14 +230,14 @@ class InProcessRegistry {
             }
             const std::string key = descriptorToKey(descriptor);
             auto dit              = sit->second.find(key);
-            if ([[maybe_unused]] dit == sit->second.end() || !dit->second.put_handler) {
+            if (dit == sit->second.end() || !dit->second.put_handler) {
                 return {false, "[ArrowFlight] no put handler for: " + descriptor.toString(), 0, 0};
             }
             handler = dit->second.put_handler; // cheap shared_ptr copy
         }
         const int64_t rows = static_cast<int64_t>(batch.rowCount());
         spdlog::debug("[ArrowFlight] doPut '{}' to '{}' ({} rows)", descriptorToKey(descriptor), endpoint, rows);
-        handler([[maybe_unused]] std::move(batch)); // invoked outside the lock
+        handler(std::move(batch)); // invoked outside the lock
         return {true, "OK", rows, 0};
     }
 
@@ -280,11 +280,12 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
 
         switch (col.schema.type) {
             case DT::INT64:
-            [[fallthrough]];\n            case DT::TIMESTAMP: {
+            [[fallthrough]];
+            case DT::TIMESTAMP: {
                 fields.push_back(arrow::field(col.schema.name, arrow::int64(), col.schema.nullable));
                 const int64_t *raw = tb.getInt64Data(ci);
                 if (raw && !col.null_bitmap.empty()
-                    && std::none_of([[maybe_unused]] col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
+                    && std::none_of(col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
                     // All-valid: zero-copy wrap
                     auto buf = arrow::Buffer::Wrap(raw, static_cast<int64_t>(tb.rowCount()));
                     arrays.push_back(std::make_shared<arrow::Int64Array>(static_cast<int64_t>(tb.rowCount()), buf));
@@ -307,7 +308,7 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> toArrowBatch(const Rec
                 fields.push_back(arrow::field(col.schema.name, arrow::float64(), col.schema.nullable));
                 const double *raw = tb.getDoubleData(ci);
                 if (raw && !col.null_bitmap.empty()
-                    && std::none_of([[maybe_unused]] col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
+                    && std::none_of(col.null_bitmap.begin(), col.null_bitmap.end(), [](bool b) { return b; })) {
                     // All-valid: zero-copy wrap
                     auto buf = arrow::Buffer::Wrap(raw, static_cast<int64_t>(tb.rowCount()));
                     arrays.push_back(std::make_shared<arrow::DoubleArray>(static_cast<int64_t>(tb.rowCount()), buf));
@@ -412,13 +413,15 @@ static void appendFromArrowBatch(const arrow::RecordBatch &ab, RecordBatch &tb) 
             }
             switch (arr->type_id()) {
                 case arrow::Type::INT64:
-                [[fallthrough]];\n                case arrow::Type::TIMESTAMP: {
+                [[fallthrough]];
+                case arrow::Type::TIMESTAMP: {
                     auto *a = static_cast<const arrow::Int64Array *>(arr.get());
                     row.emplace_back(a->Value(ri));
                     break;
                 }
                 case arrow::Type::DOUBLE:
-                [[fallthrough]];\n                case arrow::Type::FLOAT: {
+                [[fallthrough]];
+                case arrow::Type::FLOAT: {
                     auto *a = static_cast<const arrow::DoubleArray *>(arr.get());
                     row.emplace_back(a->Value(ri));
                     break;
@@ -501,11 +504,11 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
 
     void registerPutHandler(std::vector<std::string> path, std::function<void(RecordBatch)> handler) override {
         DatasetEntry entry;
-        entry.put_handler = std::move([[maybe_unused]] handler);
+        entry.put_handler = std::move(handler);
         InProcessRegistry::instance().addDataset(endpoint_, pathToKey(path), std::move(entry));
     }
 
-    void unregisterDataset(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<st[[maybe_unused]] d::strin[[maybe_unused]] g> &pat[[maybe_unused]] h) override {
+    void unregisterDataset(const std::vector<std::string> &path) override {
         InProcessRegistry::instance().removeDataset(endpoint_, pathToKey(path));
     }
 
@@ -711,7 +714,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
     }
 
     // ------------------------------------------------------------------
-    std::vector<FlightInfo> listFlights(cons[[maybe_unused]] t FlightCallOption[[maybe_unused]] s & /*call_opt[[maybe_unused]] s*/) override {
+    std::vector<FlightInfo> listFlights(const FlightCallOptions & /*call_opts*/) override {
         ensureConnected();
 #ifdef THEMIS_HAS_ARROW_FLIGHT
         if (native_client_) {
@@ -721,7 +724,7 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
         return InProcessRegistry::instance().listFlights(endpoint_);
     }
 
-    RecordBatch doGet(cons[[maybe_unused]] t FlightDescriptor &[[maybe_unused]] descriptor, cons[[maybe_unused]] t FlightCallOption[[maybe_unused]] s & /*call_opt[[maybe_unused]] s*/) override {
+    RecordBatch doGet(const FlightDescriptor &descriptor, const FlightCallOptions & /*call_opts*/) override {
         ensureConnected();
 #ifdef THEMIS_HAS_ARROW_FLIGHT
         if (native_client_) {
@@ -878,7 +881,8 @@ class InProcessArrowFlightClient final : public ArrowFlightClient {
             std::shared_ptr<arrow::DataType> dt;
             switch (col.schema.type) {
                 case DT::INT64:
-                [[fallthrough]];\n                case DT::TIMESTAMP:
+                [[fallthrough]];
+                case DT::TIMESTAMP:
                     dt = arrow::int64();
                     break;
                 case DT::DOUBLE:

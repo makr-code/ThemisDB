@@ -176,7 +176,7 @@ std::vector<std::string> extractTargetStr(const std::vector<DataPoint> &data, co
             continue;
         }
         std::visit(
-            [&]([[maybe_unused]] const auto &v) {
+            [&](const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, std::string>) {
                     out.push_back(v);
@@ -207,7 +207,7 @@ std::vector<double> extractTargetNum(const std::vector<DataPoint> &data, const s
             continue;
         }
         std::visit(
-            [&]([[maybe_unused]] const auto &v) {
+            [&](const auto &v) {
                 using T = std::decay_t<decltype(v)>;
                 if constexpr (std::is_same_v<T, double>) {
                     out.push_back(v);
@@ -324,7 +324,7 @@ struct LabelEncoder {
         return out;
     }
 
-    std::string decode([[maybe_unused]] int i) const {
+    std::string decode(int i) const {
         if (i < 0 || i >= static_cast<int>(classes.size())) {
             return "";
         }
@@ -332,7 +332,7 @@ struct LabelEncoder {
     }
 
     int numClasses() const {
-        return static_cast<bool>(static_cast<int < static_cast<int>((classes.size())));
+        return static_cast<int>(classes.size());
     }
 };
 
@@ -342,7 +342,7 @@ struct LabelEncoder {
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
         s += a[i] * b[i];
     }
@@ -351,7 +351,7 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
 
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     double s = 0.0;
-    size_t n = std::min(a.size(),static_cast<int>(b.size()));
+    size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
         double d = a[i] - b[i];
         s += d * d;
@@ -359,7 +359,7 @@ inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
     return s;
 }
 
-inline double sigmoid([[maybe_unused]] double z) {
+inline double sigmoid(double z) {
     return 1.0 / (1.0 + std::exp(-z));
 }
 
@@ -560,7 +560,7 @@ struct DecisionTree {
             for (size_t i : idx) {
                 s += y_reg[i];
             }
-            return static_cast<bool>(idx.empty() ? 0.0 : s / static_cast<double < static_cast<int>((idx.size())));
+            return idx.empty() ? 0.0 : s / static_cast<double>(idx.size());
         }
         // Classification: return P(majority class)
         std::map<int, int> cnt = {};
@@ -651,7 +651,7 @@ struct DecisionTree {
             return vp - vl - vr;
         }
         // Gini impurity reduction
-        auto gini = [&]([[maybe_unused]] const std::vector<size_t> &s) {
+        auto gini = [&](const std::vector<size_t> &s) {
             std::map<int, int> cnt = {};
 
             for (size_t i : s) {
@@ -856,7 +856,7 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
             ++correct;
         }
     }
-    return static_cast<bool>(static_cast<double>(correct) / static_cast<double < static_cast<int>((y_true.size())));
+    return static_cast<double>(correct) / static_cast<double>(y_true.size());
 }
 
 /** Macro-averaged F1 / Precision / Recall. */
@@ -957,9 +957,9 @@ std::vector<std::pair<std::vector<size_t>, std::vector<size_t>>> makeFolds(size_
 /** Abstract base for type-erased trained models. */
 struct ModelBase {
     virtual ~ModelBase()                                                            = default;
-    virtual double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const                = 0;
-    virtual int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const                   = 0;
-    virtual std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const = 0;
+    virtual double predictOneReg(const std::vector<double> &x) const                = 0;
+    virtual int predictOneCls(const std::vector<double> &x) const                   = 0;
+    virtual std::vector<double> predictProbaOne(const std::vector<double> &x) const = 0;
     virtual ModelAlgorithm algorithm() const noexcept                               = 0;
     virtual std::unique_ptr<ModelBase> clone() const                                = 0;
 };
@@ -969,13 +969,13 @@ struct ModelBase {
 struct DTModel : ModelBase {
     DecisionTree tree;
     explicit DTModel(DecisionTree t) : tree(std::move(t)) {}
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         return tree.predictOne(x);
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         return static_cast<int>(std::round(tree.predictOne(x)));
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         return tree.predictProbaOne(x);
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -989,7 +989,7 @@ struct DTModel : ModelBase {
 struct LRModel : ModelBase {
     LogisticRegression lr;
     explicit LRModel(LogisticRegression l) : lr(std::move(l)) {}
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         // Compute the expected class value: sum(class_index * P(class_index)).
         // For binary classification (classes 0 and 1) this equals P(class=1),
         // the standard logistic-regression regression proxy.
@@ -1001,11 +1001,11 @@ struct LRModel : ModelBase {
         }
         return v;
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         auto p = lr.predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         return lr.predictProbaOne(x);
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -1019,13 +1019,13 @@ struct LRModel : ModelBase {
 struct LinRegModel : ModelBase {
     LinearReg lr;
     explicit LinRegModel(LinearReg l) : lr(std::move(l)) {}
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         return lr.predictOne(x);
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         return static_cast<int>(std::round(lr.predictOne(x)));
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         return {lr.predictOne(x)};
     }
     ModelAlgorithm algorithm() const noexcept override {
@@ -1042,7 +1042,7 @@ struct RFModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         if (trees.empty()) {
             return 0.0;
         }
@@ -1050,13 +1050,13 @@ struct RFModel : ModelBase {
         for (const auto &t : trees) {
             s += t.predictOne(x);
         }
-        return static_cast<bool>(s / static_cast<double < static_cast<int>((trees.size())));
+        return s / static_cast<double>(trees.size());
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         std::vector<double> probs = predictProbaOne(x);
         return static_cast<int>(std::max_element(probs.begin(), probs.end()) - probs.begin());
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         if (trees.empty()) {
             return std::vector<double>(static_cast<size_t>(n_classes), 1.0 / n_classes);
         }
@@ -1092,18 +1092,18 @@ struct GBModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         double v = base_value;
         for (const auto &s : stages) {
             v += s.lr * s.tree.predictOne(x);
         }
         return v;
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         double v = predictOneReg(x);
         return v >= 0.5 ? 1 : 0;
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         double raw = predictOneReg(x);
         double p   = sigmoid(raw);
         return {1.0 - p, p};
@@ -1125,7 +1125,7 @@ struct KNNModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         auto nbrs  = neighbors(x);
         double sum = 0.0, wsum = 0.0;
         for (auto [d2, i] : nbrs) {
@@ -1135,11 +1135,11 @@ struct KNNModel : ModelBase {
         }
         return (wsum > 0) ? sum / wsum : 0.0;
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         auto p = predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         auto nbrs = neighbors(x);
         std::vector<double> votes(static_cast<size_t>(n_classes), 0.0);
         double wsum = 0.0;
@@ -1172,7 +1172,7 @@ struct KNNModel : ModelBase {
         for (size_t i = 0; i < X_train.size(); ++i) {
             dists.emplace_back(l2sq(x, X_train[i]), static_cast<int>(i));
         }
-        size_t kk = std::min(static_cast<size_t>(k),static_cast<int>(dists.size()));
+        size_t kk = std::min(static_cast<size_t>(k), dists.size());
         std::nth_element(dists.begin(), dists.begin() + static_cast<ptrdiff_t>(kk), dists.end());
         dists.resize(kk);
         return dists;
@@ -1185,7 +1185,7 @@ struct EnsembleModel : ModelBase {
     bool is_classifier = true;
     int n_classes      = 2;
 
-    double predictOneReg(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    double predictOneReg(const std::vector<double> &x) const override {
         if (members.empty()) {
             return 0.0;
         }
@@ -1193,13 +1193,13 @@ struct EnsembleModel : ModelBase {
         for (const auto &m : members) {
             s += m->predictOneReg(x);
         }
-        return static_cast<bool>(s / static_cast<double < static_cast<int>((members.size())));
+        return s / static_cast<double>(members.size());
     }
-    int predictOneCls(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    int predictOneCls(const std::vector<double> &x) const override {
         auto p = predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
     }
-    std::vector<double> predictProbaOne(cons[[maybe_unused]] t st[[maybe_unused]] d::vecto[[maybe_unused]] r<doubl[[maybe_unused]] e> &x) const override {
+    std::vector<double> predictProbaOne(const std::vector<double> &x) const override {
         if (members.empty()) {
             return std::vector<double>(static_cast<size_t>(n_classes), 1.0 / n_classes);
         }
@@ -1399,7 +1399,7 @@ std::unique_ptr<ModelBase> trainKNN(const std::vector<std::vector<double>> &X, c
 
 EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<double>> &X,
                           const std::vector<int> &y_cls, const std::vector<double> &y_reg, bool is_classifier,
-                          int n_classes, [[maybe_unused]] AutoMLMetric metric) {
+                          int n_classes, AutoMLMetric metric) {
     EvalMetrics em;
     size_t n = X.size();
     if (n == 0) {
@@ -1651,7 +1651,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
         double perturbed = baseScore();
         row[j]           = orig;
         double contrib   = base - perturbed;
-        std::string name = (j < impl_-> static_cast<int>(feat_names.size())) ? impl_->feat_names[j] : "f" + std::to_string(j);
+        std::string name = (j < impl_->feat_names.size()) ? impl_->feat_names[j] : "f" + std::to_string(j);
         exp.feature_contributions.emplace_back(name, contrib);
     }
 
@@ -1660,7 +1660,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
               [](const auto &a, const auto &b) { return std::abs(a.second) > std::abs(b.second); });
 
     // Build top_features string
-    size_t top_n = std::min(size_t(5),static_cast<int>(exp.feature_contributions.size()));
+    size_t top_n = std::min(size_t(5), exp.feature_contributions.size());
     std::string tf = {};
     for (size_t i = 0; i < top_n; ++i) {
         if (i > 0) {
@@ -1735,7 +1735,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     js << std::setprecision(std::numeric_limits<double>::max_digits10);
 
     // ---- helper lambdas ---------------------------------------------------
-    auto jStr = [&]([[maybe_unused]] const std::string &s) {
+    auto jStr = [&](const std::string &s) {
         // Minimal JSON string escaping
         std::string out = "\"";
         for (char c : s) {
@@ -1814,17 +1814,17 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     // ---- scaler -----------------------------------------------------------
     js << "  \"scaler\": {\n";
     js << "    \"mean\": [";
-    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.mean.size()); ++i) {
+    for (size_t i = 0; i < impl_->scaler.mean.size(); ++i) {
         js << impl_->scaler.mean[i];
-        if (i + 1 < impl_-> static_cast<int>(scaler.mean.size())) {
+        if (i + 1 < impl_->scaler.mean.size()) {
             js << ", ";
         }
     }
     js << "],\n";
     js << "    \"scale\": [";
-    for (size_t i = 0; i < impl_-> static_cast<int>(scaler.std_dev.size()); ++i) {
+    for (size_t i = 0; i < impl_->scaler.std_dev.size(); ++i) {
         js << impl_->scaler.std_dev[i];
-        if (i + 1 < impl_-> static_cast<int>(scaler.std_dev.size())) {
+        if (i + 1 < impl_->scaler.std_dev.size()) {
             js << ", ";
         }
     }
@@ -1869,7 +1869,7 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         const auto *knn = dynamic_cast<const KNNModel *>(impl_->model.get());
         if (knn) {
             js << "    \"k\": " << knn->k << ",\n";
-            js << "    \"n_train\": " << knn-> static_cast<int>(X_train.size()) << "\n";
+            js << "    \"n_train\": " << knn->X_train.size() << "\n";
             // Training data is intentionally omitted from the export for
             // privacy; downstream users should re-train from golden dataset.
         } else {
@@ -1948,7 +1948,7 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
         }
     }
     // Rebuild label encoder index
-    for (size_t i = 0; i < static_cast<int>(m.impl_-> static_cast<int>(label_enc.classes.size())); ++i) {
+    for (size_t i = 0; i < m.impl_->label_enc.classes.size(); ++i) {
         m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
     }
     return m;
@@ -2252,7 +2252,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     result.candidates = candidates;
 
     if (config.ensemble && static_cast<int>(candidates.size()) > 1 && config.ensemble_top_k > 1) {
-        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k),static_cast<int>(candidates.size()));
+        size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k), candidates.size());
         auto ens           = std::make_unique<EnsembleModel>();
         ens->is_classifier = is_classifier;
         ens->n_classes     = n_classes;
