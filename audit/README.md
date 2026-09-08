@@ -75,8 +75,9 @@
 
 ## Current Status Snapshot
 
-- Technical GA hardening remains **PASS** (Wave 7/8/9 + sanitizer + pentest evidence).
-- The only confirmed GA blocker remains the human sign-off in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
+- The real production audit implementation is present in source: `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`.
+- The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
+- The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
 - For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-08-26.md` first.
 
 ### Source-Verified Reality Check (2026-09-07)

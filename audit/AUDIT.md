@@ -112,7 +112,7 @@ The production audit stack is materially present in source code and is not merel
 | **storage** | 🟢 78% | Encrypted user storage, S3/Azure adapters | Production-ready | Enterprise+ | 2026-08-07 |
 | **importer** | 🟢 76% | MySQL, MongoDB, Kafka, S3 connectors | Production-ready | Enterprise+ | 2026-08-07 |
 
-**Overall Release Status:** ✅ Technical gates PASS. Core modules stable, GA documentation synchronized, and only the human governance sign-off remains open.
+**Overall Release Status:** The production audit stack is source-backed and materially implemented, but it is not fully end-to-end GA-/production-certified without a live run against the real sink and persistence path. Core modules are implemented, but the strongest Wave-C pass claims remain design-level validation rather than final production confirmation.
 
 For detailed per-module findings, see `src/<module>/AUDIT.md`, `MATURITY_REPORT_2026-08.md`, or `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`.
 
