@@ -427,6 +427,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
         THEMIS_WARN("ScaNN::search: invalid arguments (query==nullptr={}, k={})", query == nullptr, k);
         return {};
     }
+    const size_t top_k = static_cast<size_t>(k);
 
     // Lazy build from flat buffer (thread-safety not required for this path)
     if (!trained_) {
@@ -462,7 +463,7 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                       });
 
     // ---- Step 2: AH scan within selected leaves ----
-    size_t reorder_n = std::max(static_cast<size_t>(k), cfg_.reorder_num_neighbors);
+    size_t reorder_n = std::max(top_k, cfg_.reorder_num_neighbors);
     struct FullCandidate { float dist; const Leaf* leaf; size_t idx; };
     std::vector<FullCandidate> candidates;
     candidates.reserve(reorder_n * 2);
@@ -507,8 +508,8 @@ std::vector<AnnSearchResult> ScaNN::search(const float* query, size_t dim,
                   return a.distance < b.distance;
               });
 
-    if (results.size() > static_cast<size_t>(k))
-        results.resize(static_cast<size_t>(k));
+    if (results.size() > top_k)
+        results.resize(top_k);
 
     return results;
 }
