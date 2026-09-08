@@ -177,14 +177,14 @@ static std::size_t clampPatchExtent(std::size_t extent) noexcept {
 static std::vector<std::string> splitParagraphs(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (static_cast<size_t>(start) <static_cast<int>(text.size())) {
+    while (start < text.size()) {
         const auto pos = text.find("\n\n", start);
-        const auto end = (pos == std::string::npos) ?static_cast<int>(text.size()) : pos;
+        const auto end = (pos == std::string::npos) ? text.size() : pos;
         const auto seg = text.substr(start, end - start);
         if (!seg.empty()) {
           segments.push_back(seg);
         }
-        start = (pos == std::string::npos) ?static_cast<int>(text.size()) : (pos + 2);
+        start = (pos == std::string::npos) ? text.size() : (pos + 2);
     }
     if (segments.empty()) {
       segments.push_back(text);
@@ -196,7 +196,7 @@ static std::vector<std::string> splitParagraphs(const std::string& text) {
 static std::vector<std::string> splitSentences(const std::string& text) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    for (std::size_t i = 0; i <static_cast<int>(text.size()); ++i) {
+    for (std::size_t i = 0; i < text.size(); ++i) {
         if (text[i] == '.' &&
             (i + 1 >= text.size() || text[i + 1] == ' ' || text[i + 1] == '\n'))
         {
@@ -205,12 +205,12 @@ static std::vector<std::string> splitSentences(const std::string& text) {
               segments.push_back(seg);
             }
             start = i + 1;
-            while (start <static_cast<int>(text.size()) && text[start] == ' ') {
+            while (start < text.size() && text[start] == ' ') {
               ++start;
             }
         }
     }
-    if (static_cast<int>(text.size()) > start) {
+    if (text.size() > start) {
         const auto seg = text.substr(start);
         if (!seg.empty()) {
           segments.push_back(seg);
@@ -241,8 +241,8 @@ static std::vector<std::string> splitSentences(const std::string& text) {
 
 /// FNV-1a 64-bit hash of a string view.
 static uint64_t fnv1a(std::string_view s) noexcept {
-    constexpr uint64_t kBasis = 14695981039346656037;
-    constexpr uint64_t kPrime = 1099511628211;
+    constexpr uint64_t kBasis = UINT64_C(14695981039346656037);
+    constexpr uint64_t kPrime = UINT64_C(1099511628211);
     uint64_t h = kBasis;
     for (const unsigned char c : s) {
         h ^= static_cast<uint64_t>(c);
@@ -386,7 +386,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
         throw std::invalid_argument("RasterGrid::cell_size_deg must be > 0");
     }
     const std::size_t expected = grid.rows * grid.cols;
-    if (static_cast<int>(grid.values.size()) != expected) {
+    if (grid.values.size() != expected) {
         throw std::invalid_argument(
             "RasterGrid::values.size() (" + std::to_string(grid.values.size()) +
             ") != rows*cols (" + std::to_string(expected) + ")");
@@ -413,7 +413,7 @@ storage::TTTrain UTRConverter::fromGeospatial(const RasterGrid& grid,
 
     const std::size_t hilbert_side = roundUpPowerOfTwo(std::max(grid.rows, grid.cols));
     std::vector<float> hilbert_ordered(hilbert_side * hilbert_side, 0.0f);
-    for (std::size_t d = 0; d <static_cast<int>(hilbert_ordered.size()); ++d) {
+    for (std::size_t d = 0; d < hilbert_ordered.size(); ++d) {
         const auto [x, y] = hilbertIndexToXY(hilbert_side, d);
         if (y < grid.rows && x < grid.cols) {
             hilbert_ordered[d] = normalised[y * grid.cols + x];
@@ -462,7 +462,7 @@ storage::TTTrain UTRConverter::fromImage(const std::vector<float>& pixels,
         throw std::invalid_argument("image dimensions h, w, c must all be > 0");
     }
     const std::size_t expected = h * w * c;
-    if (static_cast<int>(pixels.size()) != expected) {
+    if (pixels.size() != expected) {
         throw std::invalid_argument(
             "pixels.size() (" + std::to_string(pixels.size()) +
             ") != h*w*c (" + std::to_string(expected) + ")");
@@ -586,7 +586,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
     }
 
     // Limit to max_segments to bound the tensor size
-    if (static_cast<int>(segments.size()) > cfg.max_segments) {
+    if (segments.size() > cfg.max_segments) {
         segments.resize(cfg.max_segments);
     }
     if (segments.empty()) {
@@ -622,7 +622,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         if (use_text_encoder) {
             // Priority 1: registered ITextEncoder
             emb = text_encoder->encode(seg, embed_dim);
-            if (static_cast<int>(emb.size()) != embed_dim) {
+            if (emb.size() != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: registered ITextEncoder ('" +
                     std::string(text_encoder->description()) +
@@ -632,7 +632,7 @@ tensor::HTTrain UTRConverter::fromDocument(const std::string&    text,
         } else if (use_embed_fn) {
             // Priority 2: raw EmbedFn bridge
             emb = embed_fn(seg, embed_dim);
-            if (static_cast<int>(emb.size()) != embed_dim) {
+            if (emb.size() != embed_dim) {
                 throw std::runtime_error(
                     "UTRConverter::fromDocument: injected EmbedFn returned " +
                     std::to_string(emb.size()) +

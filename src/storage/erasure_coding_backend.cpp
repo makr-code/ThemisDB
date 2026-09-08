@@ -101,7 +101,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
             "': " + ex.what());
     }
 
-    if (static_cast<int>(raw_chunks.size()) != static_cast<size_t>(k + m)) {
+    if (raw_chunks.size() != static_cast<size_t>(k + m)) {
         throw std::runtime_error(
             "ErasureCodingBackend::encode: expected " +
             std::to_string(k + m) + " chunks, got " +
@@ -114,7 +114,7 @@ std::vector<EncodedShard> ErasureCodingBackend::encode(
 
     // pointer_arithmetic scanner alerts on raw_chunks[i] here are false
     // positives: the loop bound is raw_chunks.size() and the size check above
-    // already verified static_cast<int>(raw_chunks.size()) == k + m.
+    // already verified raw_chunks.size() == static_cast<size_t>(k + m).
     for (uint32_t i = 0; i < static_cast<uint32_t>(raw_chunks.size()); ++i) {
         EncodedShard s;
         s.shard_index   = i;
@@ -143,7 +143,7 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     const uint32_t k = config_.data_shards;
     const uint32_t m = config_.parity_shards;
 
-    if (static_cast<int>(shards.size()) < static_cast<size_t>(k)) {
+    if (shards.size() < static_cast<size_t>(k)) {
         throw std::runtime_error(
             "ErasureCodingBackend::decode: need at least " +
             std::to_string(k) + " shards for blob '" + blob_id +
@@ -188,7 +188,7 @@ std::vector<uint8_t> ErasureCodingBackend::decode(
     // safe because no shared mutable state is involved.
 
     // Trim trailing padding to restore exact original size
-    if (original_size > 0 && static_cast<int>(recovered.size()) > original_size) {
+    if (original_size > 0 && recovered.size() > original_size) {
         recovered.resize(original_size);
     }
 
@@ -236,7 +236,7 @@ std::optional<std::vector<uint8_t>> ErasureCodingBackend::get(
     const BlobEntry& entry = it->second;
 
     // Verify we have enough shards for reconstruction
-    if (static_cast<int>(entry.chunks.size()) < static_cast<size_t>(config_.data_shards)) {
+    if (entry.chunks.size() < static_cast<size_t>(config_.data_shards)) {
         spdlog::warn("ErasureCodingBackend::get: blob='{}' only {}/{} shards "
                      "available (need {}); cannot reconstruct",
                      blob_id,static_cast<int>(entry.chunks.size()),
@@ -308,4 +308,3 @@ uint32_t ErasureCodingBackend::availableShardCount(
 
 } // namespace storage
 } // namespace themisdb
-

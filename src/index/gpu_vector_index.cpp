@@ -20,6 +20,7 @@
 #include <atomic>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <fstream>
 #include <stdexcept>
 #include <unordered_map>
@@ -135,9 +136,9 @@ public:
     // Search all oversubscription partitions and return merged top-k results.
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
         if (!oversubManager || vectorData.empty() ||
-            static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+            dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
-                        static_cast<bool>(oversubManager),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), dimension);
+                        static_cast<bool>(oversubManager), vectorData.size(), query.size(), dimension);
             return {};
         }
 
@@ -189,7 +190,7 @@ public:
         results.reserve(topK);
         for (size_t i = 0; i < topK; ++i) {
             const size_t idx = candidates[i].second;
-            if (static_cast<int>(vectorIds.size()) > idx) {
+            if (idx < vectorIds.size()) {
                 results.push_back({vectorIds[idx], candidates[i].first});
             }
         }
@@ -475,7 +476,7 @@ public:
     #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
-        if (!initialized || static_cast<int>(vector.size()) != static_cast<size_t>(dimension)) {
+        if (!initialized || dimension <= 0 || vector.size() != static_cast<size_t>(dimension)) {
             return false;
         }
         
@@ -541,7 +542,7 @@ public:
         size_t index = it->second;
         
         // Swap with last element and pop (to avoid shifting)
-        size_t lastIndex = static_cast<int>(vectorData.size()) - 1;
+        size_t lastIndex = vectorData.size() - 1;
         if (index != lastIndex) {
             vectorIds[index] = vectorIds[lastIndex];
             vectorData[index] = vectorData[lastIndex];
@@ -622,7 +623,7 @@ public:
 
                 results.reserve(indices.size());
                 for (const auto& [distance, index] : indices) {
-                    if (static_cast<int>(vectorIds.size()) > index) {
+                    if (index < vectorIds.size()) {
                         results.push_back({vectorIds[index], distance});
                     }
                 }
@@ -658,9 +659,9 @@ public:
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
-        if (vectorData.empty() || static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+        if (vectorData.empty() || dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
-                        vectorData.size(),static_cast<int>(query.size()), static_cast<size_t>(dimension));
+                        vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -695,9 +696,9 @@ public:
 #ifdef THEMIS_ENABLE_CUDA
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
-        if (!cudaBackend || vectorData.empty() || static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+        if (!cudaBackend || vectorData.empty() || dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(cudaBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
+                        static_cast<bool>(cudaBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
         
@@ -739,7 +740,7 @@ public:
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
-                if (static_cast<int>(vectorIds.size()) > idx) {
+                if (idx < vectorIds.size()) {
                     results.push_back({vectorIds[idx], dist});
                 }
             }
@@ -756,7 +757,7 @@ public:
         
         if (!cudaBackend || vectorData.empty() || queries.empty()) {
             THEMIS_DEBUG("GPUVectorIndex::searchBatchGPU - invalid state (cudaBackend={} vectors={} queries={})",
-                        static_cast<bool>(cudaBackend),static_cast<int>(vectorData.size()),static_cast<int>(queries.size()));
+                        static_cast<bool>(cudaBackend), vectorData.size(), queries.size());
             return {};
         }
         
@@ -788,7 +789,7 @@ public:
 
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
-            if (static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+            if (dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
                 // Skip invalid queries or fall back to CPU for all
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
@@ -824,7 +825,7 @@ public:
 
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
-                if (static_cast<int>(vectorIds.size()) > idx) {
+                if (idx < vectorIds.size()) {
                     batch.push_back({vectorIds[idx], dist});
                 }
             }
@@ -853,9 +854,9 @@ public:
 
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
         if (!hipBackend || vectorData.empty() ||
-            static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+            dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
             THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(hipBackend),static_cast<int>(vectorData.size()),static_cast<int>(query.size()), static_cast<size_t>(dimension));
+                        static_cast<bool>(hipBackend), vectorData.size(), query.size(), static_cast<size_t>(dimension));
             return {};
         }
 
@@ -887,7 +888,7 @@ public:
         if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
-                if (static_cast<int>(vectorIds.size()) > idx) {
+                if (idx < vectorIds.size()) {
                     results.push_back({vectorIds[idx], dist});
                 }
             }
@@ -904,7 +905,7 @@ public:
 
         if (!hipBackend || vectorData.empty() || queries.empty()) {
             THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
-                        static_cast<bool>(hipBackend),static_cast<int>(vectorData.size()),static_cast<int>(queries.size()));
+                        static_cast<bool>(hipBackend), vectorData.size(), queries.size());
             return {};
         }
 
@@ -925,7 +926,7 @@ public:
 
         flatQueries.reserve(queries.size() * dimension);
         for (const auto& query : queries) {
-            if (static_cast<int>(query.size()) != static_cast<size_t>(dimension)) {
+            if (dimension <= 0 || query.size() != static_cast<size_t>(dimension)) {
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
                 for (const auto& q : queries) {
@@ -955,7 +956,7 @@ public:
 
             batch.reserve(queryResults.size());
             for (const auto& [idx, dist] : queryResults) {
-                if (static_cast<int>(vectorIds.size()) > idx) {
+                if (idx < vectorIds.size()) {
                     batch.push_back({vectorIds[idx], dist});
                 }
             }
@@ -1087,7 +1088,7 @@ bool GPUVectorIndex::addVector(const std::string& id, const std::vector<float>& 
 
 bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                    const std::vector<std::vector<float>>& vectors) {
-    if (!pImpl->initialized || static_cast<int>(ids.size()) != static_cast<int>(vectors.size())) {
+    if (!pImpl->initialized || ids.size() != vectors.size()) {
         return false;
     }
 
@@ -1126,9 +1127,9 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
 
         const size_t baseIndex = pImpl->vectorData.size();
         try {
-            pImpl->vectorIds.reserve(baseIndex + static_cast<int>(ids.size()) );
-            pImpl->vectorData.reserve(baseIndex + static_cast<int>(vectors.size()) );
-            pImpl->idToIndex.reserve(baseIndex + static_cast<int>(ids.size()) );
+            pImpl->vectorIds.reserve(baseIndex + ids.size());
+            pImpl->vectorData.reserve(baseIndex + vectors.size());
+            pImpl->idToIndex.reserve(baseIndex + ids.size());
 
             for (size_t i = 0; i < ids.size(); ++i) {
                 pImpl->vectorIds.push_back(ids[i]);
@@ -1429,7 +1430,8 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     // Sanity cap: reject files claiming more vectors than could reasonably fit
     // in 64 GiB at the stored dimension (4 bytes/float).
-    static constexpr uint64_t kMaxReasonableFileSizeBytes = 64ULL * 1024 * 1024 * 1024;
+    static constexpr uint64_t kMaxReasonableFileSizeBytes =
+        (UINT64_C(64) * UINT64_C(1024) * UINT64_C(1024) * UINT64_C(1024));
     const size_t maxReasonableVectors =
         static_cast<size_t>(kMaxReasonableFileSizeBytes /
         (static_cast<size_t>(dim) * sizeof(float) + 1));

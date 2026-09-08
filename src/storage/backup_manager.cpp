@@ -171,7 +171,7 @@ bool isValidCronExpression(const std::string& expression) {
         fields.push_back(field);
     }
 
-    if (static_cast<int>(fields.size()) != 5) {
+    if (fields.size() != 5) {
         return false;
     }
 
@@ -260,7 +260,7 @@ bool isValidRemoteCloudUri(const std::string& uri) {
     };
 
     return std::any_of(kSchemes.begin(), kSchemes.end(), [&uri](std::string_view scheme) {
-        return static_cast<bool>( static_cast<int>(uri.size()) < static_cast<int>(scheme.size())) && hasUriPrefix(uri, scheme);
+        return uri.size() >= scheme.size() && hasUriPrefix(uri, scheme);
     });
 }
 
@@ -277,9 +277,9 @@ std::string trimSlashes(std::string value) {
 std::vector<std::string> splitPathSegments(std::string_view value) {
     std::vector<std::string> segments;
     std::size_t start = 0;
-    while (static_cast<size_t>(start) <static_cast<int>(value.size())) {
+    while (start < value.size()) {
         const auto next = value.find('/', start);
-        const auto len = next == std::string_view::npos ? static_cast<int>(value.size()) - start : next - start;
+        const auto len = next == std::string_view::npos ? value.size() - start : next - start;
         if (len > 0) {
             segments.emplace_back(value.substr(start, len));
         }
@@ -293,7 +293,7 @@ std::vector<std::string> splitPathSegments(std::string_view value) {
 
 std::string joinPathSegments(const std::vector<std::string>& segments, std::size_t start_index) {
     std::string joined = {};
-    for (std::size_t i = start_index; i <static_cast<int>(segments.size()); ++i) {
+    for (std::size_t i = start_index; i < segments.size(); ++i) {
         if (!joined.empty()) {
             joined.push_back('/');
         }
@@ -416,7 +416,7 @@ std::optional<RemoteBackupLocation> parseRemoteBackupLocation(StorageBackend bac
     }
     case StorageBackend::AZURE: {
         const auto segments = splitPathSegments(payload);
-        if (static_cast<int>(segments.size()) < 2) {
+        if (segments.size() < 2) {
             return std::nullopt;
         }
 
@@ -554,7 +554,7 @@ std::shared_ptr<storage::IBlobStorageBackend> createRemoteBlobBackend(
 /// Backslash-escapes embedded double-quote characters.
 static std::string winQuoteForCreateProcess(const std::string& s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 2);
+    out.reserve(s.size() + 2);
     out.push_back('"');
     for (char c : s) {
         if (c == '"') {
@@ -725,10 +725,10 @@ bool BackupManager::shouldRunScheduledBackup(const ScheduledBackupEntry& entry,
     std::array<std::string, 5> fields{};
     std::size_t index = 0;
 
-    while (std::getline(stream, field, ' ')  && static_cast<size_t>(index) <static_cast<int>(fields.size())) {
+    while (std::getline(stream, field, ' ') && index < fields.size()) {
         fields[index++] = field;
     }
-    if (index != static_cast<int>(fields.size())) {
+    if (index != fields.size()) {
         return false;
     }
 
@@ -838,7 +838,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             
         case RAIDMode::RAID5:
             // RAID5: N-1 data shards, 1 parity shard
-            if (static_cast<int>(config.shards.size()) >= 3) {
+            if (config.shards.size() >= 3) {
                 config.data_shards = static_cast<uint32_t>(config.shards.size() - 1);
                 config.parity_shards = 1;
                 config.is_coordinated = true;  // Need all shards (data + parity)
@@ -847,7 +847,7 @@ RAIDConfig BackupManager::detectRAIDConfiguration() {
             
         case RAIDMode::RAID6:
             // RAID6: N-2 data shards, 2 parity shards
-            if (static_cast<int>(config.shards.size()) >= 4) {
+            if (config.shards.size() >= 4) {
                 config.data_shards = static_cast<uint32_t>(config.shards.size() - 2);
                 config.parity_shards = 2;
                 config.is_coordinated = true;  // Need all shards (data + double parity)
@@ -1497,7 +1497,7 @@ std::vector<std::string> BackupManager::listBackups(const std::string& backup_di
         // Sort by timestamp (filename format ensures correct sort order)
         std::sort(backups.begin(), backups.end());
         
-        THEMIS_INFO("Found {} backups in {}",static_cast<int>(backups.size()), backup_dir);
+        THEMIS_INFO("Found {} backups in {}", backups.size(), backup_dir);
     } catch (const std::exception& e) {
         THEMIS_ERROR("Exception listing backups: {}", e.what());
     }
@@ -2191,7 +2191,7 @@ bool BackupManager::encryptFile(const std::string& src_path,
 
     // Derive 32-byte AES key from the caller-supplied string via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
 
     // Generate random IV.
     unsigned char iv[IV_LEN];
@@ -2315,7 +2315,7 @@ bool BackupManager::decryptFile(const std::string& src_path,
 
     // Derive AES key via SHA-256.
     unsigned char aes_key[32];
-    SHA256(reinterpret_cast<const unsigned char*>(key.data()),static_cast<int>(key.size()), aes_key);
+    SHA256(reinterpret_cast<const unsigned char*>(key.data()), key.size(), aes_key);
 
     std::ofstream out(dest_path, std::ios::binary);
     if (!out) {
@@ -2799,10 +2799,10 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
         for (const auto& backup_name : backups) {
             // Only consider full backups (incremental replay not yet implemented).
             static constexpr std::string_view kPrefix = "full_";
-            if (static_cast<int>(backup_name.size()) < static_cast<int>(kPrefix.size()) + 15) {
+            if (backup_name.size() < kPrefix.size() + 15) {
               continue;
             }
-            if (backup_name.compare(0,static_cast<int>(kPrefix.size()), kPrefix) != 0) {
+            if (backup_name.compare(0, kPrefix.size(), kPrefix) != 0) {
               continue;
             }
 
@@ -2993,13 +2993,13 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
             for (const auto& collection : collections) {
                 coll_list_capacity += collection.size();
             }
-            if (static_cast<int>(collections.size()) > 1) {
-                coll_list_capacity += (static_cast<int>(collections.size()) - 1) * 2; // ", "
+            if (collections.size() > 1) {
+                coll_list_capacity += (collections.size() - 1) * 2; // ", "
             }
 
             std::string coll_list = {};
             coll_list.reserve(coll_list_capacity);
-            for (size_t i = 0; i <static_cast<int>(collections.size()); ++i) {
+            for (size_t i = 0; i < collections.size(); ++i) {
                 if (i) {
                     coll_list.append(", ");
                 }
@@ -3112,7 +3112,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
 
             total_sst_files += sst_files.size();
             THEMIS_INFO("restoreCollections: CF '{}' — {} SST file(s) ingested successfully",
-                        cf_name,static_cast<int>(sst_files.size()));
+                        cf_name, sst_files.size());
         }
 
         if (any_cf_failed) {
@@ -3123,7 +3123,7 @@ bool BackupManager::restoreCollections(const std::string& src_dir,
         }
 
         THEMIS_INFO("restoreCollections: restored {} SST file(s) across {} CF(s) from '{}'",
-                    total_sst_files,static_cast<int>(cf_descriptors.size()), checkpoint_dir.string());
+                    total_sst_files, cf_descriptors.size(), checkpoint_dir.string());
         return true;
 
     } catch (const std::exception& e) {
@@ -3766,14 +3766,14 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         const auto& corrupted = corrupted_files.value();
         if (!corrupted.empty()) {
             std::string corrupt_list = {};
-            for (size_t i = 0; i <static_cast<int>(corrupted.size()) && i < 5; ++i) {
+            for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
                 if (i > 0) {
                   corrupt_list += ", ";
                 }
                 corrupt_list += corrupted[i];
             }
-            if (static_cast<int>(corrupted.size()) > 5) {
-                corrupt_list += " ... and " + std::to_string(static_cast<int>(corrupted.size()) - 5) + " more";
+            if (corrupted.size() > 5) {
+                corrupt_list += " ... and " + std::to_string(corrupted.size() - 5) + " more";
             }
             THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",
                         corrupted.size(), corrupt_list);
@@ -3897,7 +3897,7 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
             integrity_map.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Built integrity manifest with {} files",static_cast<int>(integrity_map.size()));
+        THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
         return OkVoid();
     } catch (const std::exception& e) {
         return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
@@ -3968,7 +3968,7 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
             result.push_back(info);
         }
 
-        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries",static_cast<int>(result.size()));
+        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries", result.size());
         return Ok(result);
     } catch (const std::exception& e) {
         return Err<std::vector<FileIntegrityInfo>>(

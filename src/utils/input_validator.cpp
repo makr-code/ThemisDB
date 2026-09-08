@@ -61,14 +61,14 @@ std::optional<nlohmann::json> InputValidator::loadSchema(const std::string& sche
 
 static bool isAsciiControl(char c) {
     unsigned char uc = static_cast<unsigned char>(c);
-    return (uc < 0x20) || (uc == 0x7F);
+    return (uc < 0x20u) || (uc == 0x7Fu);
 }
 
 std::string InputValidator::sanitizeForLogs(const std::string& input, size_t max_len) const {
     std::string out = {};
     out.reserve(std::min(input.size(), max_len));
     for (char c : input) {
-        if (static_cast<int>(out.size()) >= max_len) {
+        if (out.size() >= max_len) {
           break;
         }
         if (!isAsciiControl(c)) {
@@ -546,7 +546,7 @@ std::string InputValidator::sanitizeForHTML(const std::string& input) const {
 }
 
 bool InputValidator::validateFilename(const std::string& filename) const {
-    if (filename.empty() || static_cast<int>(filename.size()) > kMaxFilenameSize) {
+    if (filename.empty() || filename.size() > kMaxFilenameSize) {
       return false;
     }
 
@@ -650,7 +650,7 @@ bool InputValidator::validateEmail(const std::string& email) const {
     if (at_pos == std::string::npos || at_pos == 0) {
       return false;
     }
-    if (at_pos == static_cast<int>(email.size()) - 1) {
+    if (at_pos + 1 == email.size()) {
       return false;
     }
     if (email.find('@', at_pos + 1) != std::string::npos) {
@@ -667,12 +667,12 @@ bool InputValidator::validateEmail(const std::string& email) const {
 
 bool InputValidator::validateURL(const std::string& url,
                                   const std::vector<std::string>& allowed_schemes) const {
-    if (url.empty() || static_cast<int>(url.size()) > kMaxUrlSize) {
+    if (url.empty() || url.size() > kMaxUrlSize) {
       return false;
     }
 
     // Reject protocol-relative URLs
-    if (static_cast<int>(url.size()) >= 2 && url[0] == '/' && url[1] == '/') {
+    if (url.size() >= 2 && url[0] == '/' && url[1] == '/') {
       return false;
     }
 
@@ -742,7 +742,7 @@ bool InputValidator::validateURL(const std::string& url,
 }
 
 bool InputValidator::validateStringLength(const std::string& input, size_t max_len) const {
-    return static_cast<int>(input.size()) <= max_len;
+    return input.size() <= max_len;
 }
 
 bool InputValidator::validateIntegerRange(int64_t value,
@@ -785,13 +785,13 @@ std::string InputValidator::normalizeUnicode(const std::string& input) const {
             auto b2 = static_cast<unsigned char>(input[i + 1]);
             auto b3 = static_cast<unsigned char>(input[i + 2]);
 
-            if (b2 == 0xBC && b3 >= 0x81 && b3 <= 0xBF) {
+            if (b2 == 0xBCu && b3 >= 0x81u && b3 <= 0xBFu) {
                 // U+FF01..U+FF3F -> ASCII 0x21..0x5F
                 result += static_cast<char>(b3 - 0x81 + 0x21);
                 i += 3;
                 continue;
             }
-            if (b2 == 0xBD && b3 >= 0x80 && b3 <= 0x9E) {
+            if (b2 == 0xBDu && b3 >= 0x80u && b3 <= 0x9Eu) {
                 // U+FF40..U+FF5E -> ASCII 0x60..0x7E
                 result += static_cast<char>(b3 - 0x80 + 0x60);
                 i += 3;
@@ -837,4 +837,3 @@ bool InputValidator::validateHeaderValue(const std::string& value) const {
 
 } // namespace utils
 } // namespace themis
-
