@@ -2469,6 +2469,12 @@ function(themis_build_modular)
     if(TARGET httplib::httplib)
         list(APPEND _themis_query_deps httplib::httplib)
     endif()
+    if(UNIX AND NOT APPLE)
+        find_library(THEMIS_NUMA_LIBRARY numa)
+        if(THEMIS_NUMA_LIBRARY)
+            list(APPEND _themis_query_deps ${THEMIS_NUMA_LIBRARY})
+        endif()
+    endif()
     
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
