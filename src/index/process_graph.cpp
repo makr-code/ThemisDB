@@ -345,7 +345,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     nlohmann::json rightVal;
     if (right.front() == '\'' || right.front() == '"') {
         // String literal
-        if (right.size() < 2) {
+        if (right.size() < 2U) {
             return false;
         }
         rightVal = right.substr(1, right.size() - 2);

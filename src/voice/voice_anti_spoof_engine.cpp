@@ -204,7 +204,7 @@ double VoiceAntiSpoofEngine::analyzeSpeakerMatch(
 
 double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) {
     auto noise_profile = extractNoiseProfile(audio_data);
-    if (noise_profile.size() < 3) {
+    if (noise_profile.size() < 3U) {
         return 0.0;
     }
 
@@ -216,7 +216,7 @@ double VoiceAntiSpoofEngine::analyzeNoisePattern(const std::string& audio_data) 
         const double diff = noise_profile[i] - mean;
         variance += diff * diff;
         if (i > 0) {
-            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[static_cast<int>(i - 1)]));
+            max_jump = std::max(max_jump, std::abs(noise_profile[i] - noise_profile[i - 1]));
         }
     }
     variance /= static_cast<double>(noise_profile.size());
