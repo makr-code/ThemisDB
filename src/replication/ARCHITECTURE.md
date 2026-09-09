@@ -157,9 +157,8 @@ All long-running blocking operations use timeouts to ensure bounded wait times:
 |--------|-----|-------|
 | `server` | `include/replication/replication_manager.h` | Replication admin and status API endpoints |
 | `storage` | `include/replication/` (WAL shipping to replicas via CDC/WAL path) | Storage WAL events propagated to replica nodes |
-| `failover` | `include/replication/replication_manager.h`, `include/replication/raft_v2.h` | Failover module consults replication state for leader election |
-
-> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, transaction, cache, process, content consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+| `failover` | `include/replication/replication_manager.h`, `include/replication/raft_v2.h` | Failover module consults replication state for leader election; `auto_failover_manager` and `disaster_recovery_manager` both import `replication_manager.h` |
+| `temporal` | `include/replication/multi_master_replication.h` | `temporal_conflict_resolver` imports multi-master replication state to resolve concurrent write conflicts across temporal branches (`include/temporal/temporal_conflict_resolver.h:34`) |
 
 ---
 

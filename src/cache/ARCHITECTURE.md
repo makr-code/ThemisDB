@@ -50,12 +50,11 @@ The cache module composes query and embedding cache behaviors into bounded, obse
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| server | `include/cache/semantic_cache.h`, `include/cache/adaptive_query_cache.h`, `include/cache/cache_hit_rate_slo_monitor.h` | Semantic result reuse and SLO monitoring for HTTP query responses |
-| query | `include/cache/adaptive_query_cache.h` | Plan-level result reuse before execution engine invocation |
-| llm | `include/cache/semantic_cache.h`, `include/cache/embedding_cache.h` | Embedding and inference-result caching to reduce model call volume |
-| sharding | `include/cache/bounded_lru_cache.h` | Bounded LRU shard-routing metadata cache for consistent-hash ring lookups |
-
-> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, transaction, replication, process, content consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+| `server` | `include/cache/semantic_cache.h`, `include/cache/adaptive_query_cache.h`, `include/cache/cache_hit_rate_slo_monitor.h` | Semantic result reuse and SLO monitoring for HTTP query responses |
+| `query` | `include/cache/adaptive_query_cache.h`, `include/cache/workload_cache_strategy.h` (via `include/query/query_cache_manager.h`, `include/query/workload_cache_strategy.h`) | Plan-level result reuse and workload-adaptive cache strategy before execution engine invocation |
+| `llm` | `include/cache/semantic_cache.h`, `include/cache/embedding_cache.h` | Embedding and inference-result caching to reduce model call volume; LLM prefix cache (`src/llm/llm_prefix_cache.cpp`) also uses `cache/` headers |
+| `sharding` | `include/cache/bounded_lru_cache.h` | Bounded LRU shard-routing metadata cache for consistent-hash ring lookups |
+| `content` | `include/cache/bounded_lru_cache.h` | `deduplication_checker` uses bounded LRU for fingerprint deduplication (`include/content/deduplication_checker.h:20`) |
 
 ## Integration Points
 

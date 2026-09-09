@@ -77,12 +77,11 @@ Compensation path
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| `server` | `include/transaction/transaction_manager.h` | API-driven transaction endpoints |
+| `server` | `include/transaction/transaction_manager.h`, `include/transaction/snapshot_manager.h`, `include/transaction/branch_manager.h`, `include/transaction/merge_engine.h` | API-driven transaction, snapshot, branch, and merge endpoints |
 | `query` | `include/transaction/transaction_manager.h` | Mutation transactions for DML statements |
-| `sharding` | `include/transaction/recoverable_two_phase_coordinator.h` | Cross-shard 2PC coordination (managed circular dep) |
+| `sharding` | `include/transaction/recoverable_two_phase_coordinator.h`, `include/transaction/distributed_transaction_manager.h` | Cross-shard 2PC coordination and distributed transaction management (managed circular dep) |
 | `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
-
-> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, process, content, aql, cache, replication consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+| `analytics` | `include/transaction/snapshot_manager.h` | `diff_engine` uses snapshot reads for consistent analytical diff computation (`include/analytics/diff_engine.h:16`) |
 
 ---
 
