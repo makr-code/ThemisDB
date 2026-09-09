@@ -49,7 +49,7 @@ Execution on `develop` is now explicitly ordered as:
 1. Build one source-validated backlog from root/module roadmaps plus current CI evidence.
 2. Close the **Transaction** CI lane first.
 3. Close the **GPU** CI lane and keep CPU-only fallback evidence usable while representative GPU hardware is pending.
-4. Refresh representative-hardware and p95/p99 baselines for critical modules.
+4. Refresh representative-hardware and p95/p99 baselines for critical modules. Broad auth/query/voice baseline capture automation is now queued via `Build: Benchmarks` run `34345454063` while transaction rerun `34341799895` is still pending.
 5. Execute remaining high-risk hardening in `llm`, `server`, `training`, and `llm_wiki`.
 6. Sync root governance docs only after the blocker state is re-validated.
 7. Request final human GA/program sign-off only after all critical blockers are closed.

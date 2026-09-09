@@ -80,6 +80,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - [x] Phrase/proximity executor behavior is now source-covered with focused `FtsExecutor` tests (exact phrase, case-insensitive phrase, bounded proximity, boolean reuse, timeout, OOM) and production-backed matching over posting-list positions (2026-09-09)
     - [x] Benchmark harness now exercises the real `FtsExecutor` on an on-disk 10K/100K corpus in `benchmarks/rag/bench_fts_phase_b.cpp` instead of the former synthetic token simulation (2026-09-09)
     - [x] Performance gate: ≤100ms on 100K documents (Target: Q4 2026) — local benchmark evidence captured 2026-09-09 with `BM_FtsPhraseQuery/100000 p95_ms=1.3638` and `BM_FtsProximityQuery/100000 p95_ms=1.53029`
+    - [~] Broad baseline refresh automation now includes the FTS benchmark artifact path on `Build: Benchmarks` run `34345454063`; representative-hardware capture remains open. (Target: Q1 2027)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
 ## Phase 2 — Performance & Scalability Readiness (Target: 2026-09-30)
