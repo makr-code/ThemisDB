@@ -520,8 +520,10 @@ jobs:
             libbenchmark-dev libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev \
             libcpp-httplib-dev
 
       - name: "Cache sccache"
