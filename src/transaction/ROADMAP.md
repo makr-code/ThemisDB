@@ -270,15 +270,17 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 <!-- EVIDENCE NOTE (Wave A):
      Build evidence: test files present and registered in tests/transaction/CMakeLists.txt
      for all Phases 1–3 and Wave A closure batch (83 total tests; bench_transaction_phase4.cpp
-     registered in benchmarks/transaction/CMakeLists.txt).
-     Hardware execution evidence: pending representative-hardware access (target Q4 2026).
+     now registered in benchmarks/transaction/CMakeLists.txt).
+     Dedicated Wave-B workflow now includes chaos/recovery execution and Phase 4
+     baseline artifact jobs; authoritative representative-hardware execution
+     evidence is still pending (target Q4 2026).
      Items with test files present + registered are marked [~] (in progress, awaiting CI
      execution confirmation).  Items are only marked [x] when both file presence AND
      execution evidence exist.
 -->
 
 ### Wave A Scope for `transaction`
-- [~] Transaction: test files for crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation implemented and registered in CMakeLists.txt; build/run verification pending representative-hardware CI access (Target: Q3–Q4 2026)
+- [~] Transaction: crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation are implemented and wired into dedicated CI evidence capture; remaining work is authoritative artifact collection and representative-hardware benchmark execution. (Target: Q3–Q4 2026)
 
 ### Wave A Exit Criteria (this module's contribution)
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
@@ -290,10 +292,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [x] Focused regression closure: 83 focused tests delivered across lifecycle (Phase 1), distributed coordination (Phase 2), fault-injection (Phase 3), and Wave A closure batch (2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
 - [x] Chaos/fault-injection evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered in `test_transaction_wave_a_closure.cpp` (15 tests, registered `release_critical`).
 - [x] Fail-closed verification: coordinator crash-recovery (WAL replay idempotent), SAGA circuit-breaker (threshold enforcement), Byzantine-vote forced ABORT, cross-shard partition TIMEOUT surfacing — all verified by dedicated test cases.
-- [~] Build/run confirmation note (2026-08-18): sandbox configure remains blocked by missing RocksDB/fmt packages; CI lane execution still pending.
-- [ ] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` exists; baseline capture and gate refresh remain open.
-- [ ] `release_critical` CI green on `develop`: all 83 tests registered `release_critical`; execution evidence pending.
-- [ ] Next closure item: complete configure/build/test verification on CI and record gate execution evidence.
+- [~] Build/run confirmation note (2026-09-09): dedicated Wave-B CI is green again and now includes explicit chaos/recovery evidence plus Phase 4 baseline artifact jobs; fresh artifact capture is still pending.
+- [~] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` is now CMake/CTest-wired and exported by the dedicated workflow; baseline capture and gate refresh remain open until the next verified run.
+- [x] Dedicated transaction CI lane green on `develop`: run `34313051247` restored the Wave-B workflow to PASS.
+- [~] Next closure item: execute the new chaos/recovery and Phase 4 artifact jobs on `develop`, then promote the resulting hardware-backed evidence into the roadmap/gate record.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.

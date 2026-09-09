@@ -21,6 +21,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include "cdc/cdc_metrics.h"
 #include "transaction/transaction_manager.h"
 #include "transaction/distributed_transaction_manager.h"
 #include "transaction/isolation_level.h"
@@ -29,6 +30,7 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 
+#include <array>
 #include <chrono>
 #include <filesystem>
 #include <memory>
@@ -37,10 +39,44 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 using namespace themis;
 using namespace themis::transaction;
 using namespace std::chrono_literals;
+
+namespace {
+
+constexpr double kLocalThroughputGateTxnPerSec = 10000.0;
+constexpr double kDistributedThroughputGateTxnPerSec = 5000.0;
+constexpr double kLatencyTailGateMs = 50.0;
+
+double publishLatencyCounters(benchmark::State& state,
+                             const themis::cdc::LatencyHistogram& histogram) {
+    state.counters["p50_ms"] = static_cast<double>(histogram.p50()) / 1000.0;
+    state.counters["p95_ms"] = static_cast<double>(histogram.p95()) / 1000.0;
+    state.counters["p99_ms"] = static_cast<double>(histogram.p99()) / 1000.0;
+    const auto average_ms = histogram.average() / 1000.0;
+    state.counters["avg_ms"] = average_ms;
+    return average_ms;
+}
+
+void publishThroughputGate(benchmark::State& state,
+                           double average_ms,
+                           double target_txn_per_sec) {
+    const auto throughput = average_ms > 0.0 ? 1000.0 / average_ms : 0.0;
+    state.counters["txns_per_sec"] = throughput;
+    state.counters["gate_target_txns_per_sec"] = target_txn_per_sec;
+    state.counters["gate_pass"] = throughput >= target_txn_per_sec ? 1.0 : 0.0;
+}
+
+void publishLatencyGate(benchmark::State& state, double threshold_ms) {
+    state.counters["gate_target_p99_ms"] = threshold_ms;
+    state.counters["gate_pass"] =
+        state.counters["p99_ms"] <= threshold_ms ? 1.0 : 0.0;
+}
+
+}  // namespace
 
 // ============================================================================
 // Shared in-process mock participant (always votes COMMIT)
@@ -172,18 +208,28 @@ protected:
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, ThroughputBaseline_ReadCommitted)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction(IsolationLevel::READ_COMMITTED);
         auto status = tx_manager_->commitTransaction(txn_id);
+        const auto end = std::chrono::steady_clock::now();
         if (!status.ok) {
             state.SkipWithError("Commit failed");
             return;
         }
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    const auto average_ms = publishLatencyCounters(state, histogram);
+    publishThroughputGate(state, average_ms, kLocalThroughputGateTxnPerSec);
 }
 BENCHMARK_REGISTER_F(TransactionPhase4Fixture, ThroughputBaseline_ReadCommitted)
-    ->UseRealTime();
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 /**
  * @benchmark ThroughputBaseline_Rollback
@@ -192,14 +238,24 @@ BENCHMARK_REGISTER_F(TransactionPhase4Fixture, ThroughputBaseline_ReadCommitted)
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, ThroughputBaseline_Rollback)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction();
         benchmark::DoNotOptimize(tx_manager_->rollbackTransaction(txn_id));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
 BENCHMARK_REGISTER_F(TransactionPhase4Fixture, ThroughputBaseline_Rollback)
-    ->UseRealTime();
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // AC-15: Isolation Level Overhead Comparison
@@ -212,13 +268,24 @@ BENCHMARK_REGISTER_F(TransactionPhase4Fixture, ThroughputBaseline_Rollback)
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, IsolationOverhead_ReadCommitted)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction(IsolationLevel::READ_COMMITTED);
         tx_manager_->commitTransaction(txn_id);
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
-BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_ReadCommitted);
+BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_ReadCommitted)
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 /**
  * @benchmark IsolationOverhead_Serializable
@@ -228,13 +295,24 @@ BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_ReadCommitted);
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, IsolationOverhead_Serializable)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction(IsolationLevel::SERIALIZABLE);
         tx_manager_->commitTransaction(txn_id);
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
-BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_Serializable);
+BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_Serializable)
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // AC-16: Audit Overhead
@@ -247,13 +325,24 @@ BENCHMARK_REGISTER_F(TransactionPhase4Fixture, IsolationOverhead_Serializable);
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, AuditOverhead_Baseline)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction(IsolationLevel::Snapshot);
         tx_manager_->commitTransaction(txn_id);
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
-BENCHMARK_REGISTER_F(TransactionPhase4Fixture, AuditOverhead_Baseline);
+BENCHMARK_REGISTER_F(TransactionPhase4Fixture, AuditOverhead_Baseline)
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 /**
  * @benchmark AuditOverhead_Enabled
@@ -265,13 +354,24 @@ BENCHMARK_REGISTER_F(TransactionPhase4Fixture, AuditOverhead_Baseline);
 BENCHMARK_DEFINE_F(TransactionPhase4Fixture, AuditOverhead_Enabled)
     (benchmark::State& state)
 {
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto txn_id = tx_manager_->beginTransaction(IsolationLevel::SERIALIZABLE);
         tx_manager_->commitTransaction(txn_id);
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
-BENCHMARK_REGISTER_F(TransactionPhase4Fixture, AuditOverhead_Enabled);
+BENCHMARK_REGISTER_F(TransactionPhase4Fixture, AuditOverhead_Enabled)
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // AC-17: Distributed 2PC Throughput
@@ -285,7 +385,9 @@ BENCHMARK_DEFINE_F(DistributedPhase4Fixture, DistributedThroughput_2PC_3Particip
     (benchmark::State& state)
 {
     auto participants = makeParticipants();
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto tid = mgr_->beginDistributed(participants);
         auto ps = mgr_->prepareDistributed(tid);
         if (!ps.ok) {
@@ -297,12 +399,20 @@ BENCHMARK_DEFINE_F(DistributedPhase4Fixture, DistributedThroughput_2PC_3Particip
             state.SkipWithError("Commit failed");
             return;
         }
+        const auto end = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(tid);
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    const auto average_ms = publishLatencyCounters(state, histogram);
+    publishThroughputGate(state, average_ms, kDistributedThroughputGateTxnPerSec);
 }
 BENCHMARK_REGISTER_F(DistributedPhase4Fixture, DistributedThroughput_2PC_3Participants)
-    ->UseRealTime();
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 /**
  * @benchmark DistributedThroughput_AbortPath
@@ -312,15 +422,25 @@ BENCHMARK_DEFINE_F(DistributedPhase4Fixture, DistributedThroughput_AbortPath)
     (benchmark::State& state)
 {
     auto participants = makeParticipants();
+    themis::cdc::LatencyHistogram histogram;
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         auto tid = mgr_->beginDistributed(participants);
         mgr_->abortDistributed(tid);
+        const auto end = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(tid);
+        const auto elapsed_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        histogram.record(static_cast<uint64_t>(elapsed_us));
+        state.SetIterationTime(static_cast<double>(elapsed_us) * 1e-6);
     }
     state.SetItemsProcessed(state.iterations());
+    publishLatencyCounters(state, histogram);
+    publishLatencyGate(state, kLatencyTailGateMs);
 }
 BENCHMARK_REGISTER_F(DistributedPhase4Fixture, DistributedThroughput_AbortPath)
-    ->UseRealTime();
+    ->UseManualTime()
+    ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
 // Benchmark main

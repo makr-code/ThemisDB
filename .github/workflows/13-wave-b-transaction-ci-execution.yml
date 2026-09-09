@@ -8,6 +8,7 @@ on:
       - "src/transaction/**"
       - "tests/transaction/**"
       - "include/transaction/**"
+      - "benchmarks/transaction/**"
       - ".github/workflows/13-wave-b-transaction-ci-execution.yml"
   pull_request:
     branches:
@@ -16,10 +17,11 @@ on:
       - "src/transaction/**"
       - "tests/transaction/**"
       - "include/transaction/**"
+      - "benchmarks/transaction/**"
   workflow_dispatch:
     inputs:
       phase:
-        description: "Test phase to run (all, phase1, phase2, phase3, wave-a)"
+        description: "Test phase to run (all, phase1, phase2, phase3, wave-a, phase4)"
         required: false
         default: "all"
       parallel_jobs:
@@ -412,9 +414,167 @@ jobs:
               body: report
             });
 
+  chaos-recovery-evidence:
+    name: "Chaos and Recovery Evidence"
+    needs: [configure, compile-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          submodules: false
+
+      - name: "Setup build environment"
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev \
+            librocksdb-dev libssl-dev zlib1g-dev \
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
+
+      - name: "Configure CMake"
+        run: |
+          cmake --preset community-release \
+            -B "${{ needs.configure.outputs.build-dir }}" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+      - name: "Run chaos/recovery release-critical transaction suites"
+        run: |
+          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
+          mkdir -p "$BUILD_DIR/transaction-chaos-evidence"
+          {
+            echo "# Transaction Chaos / Recovery Evidence"
+            echo
+            echo "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo
+            echo "## Hardware profile"
+            echo '```'
+            lscpu
+            echo '```'
+          } > "$BUILD_DIR/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md"
+
+          cd "$BUILD_DIR"
+          ctest \
+            --tests-regex "TransactionDistributedPhase2Tests|TransactionSAGACompensationPhase2Tests|TransactionFaultInjectionPhase3Tests|TransactionWaveAClosureTests" \
+            -V --output-on-failure -j 2 \
+            2>&1 | tee transaction-chaos-evidence/chaos-recovery-results.txt
+
+      - name: "Upload chaos/recovery evidence"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transaction-chaos-recovery-evidence
+          path: |
+            ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/chaos-recovery-results.txt
+            ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md
+          retention-days: 30
+
+  phase4-benchmark-baseline:
+    name: "Phase 4 Benchmark Baseline"
+    needs: configure
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          submodules: false
+
+      - name: "Setup benchmark build environment"
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            libbenchmark-dev libfmt-dev libspdlog-dev nlohmann-json3-dev \
+            librocksdb-dev libssl-dev zlib1g-dev \
+            libbz2-dev liblz4-dev libzstd-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
+
+      - name: "Configure CMake with benchmarks"
+        run: |
+          cmake --preset community-release \
+            -B "${{ needs.configure.outputs.build-dir }}" \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF
+
+      - name: "Build Phase 4 benchmark"
+        run: cmake --build "${{ needs.configure.outputs.build-dir }}" --target bench_transaction_phase4 --parallel ${{ github.event.inputs.parallel_jobs || 4 }}
+
+      - name: "Run Phase 4 benchmark baseline"
+        run: |
+          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
+          mkdir -p "$BUILD_DIR/transaction-phase4-benchmark"
+          lscpu > "$BUILD_DIR/transaction-phase4-benchmark/lscpu.txt"
+          free -h > "$BUILD_DIR/transaction-phase4-benchmark/memory.txt"
+          "$BUILD_DIR/benchmarks/transaction/bench_transaction_phase4" \
+            --benchmark_min_time=0.2s \
+            --benchmark_repetitions=5 \
+            --benchmark_out="$BUILD_DIR/transaction-phase4-benchmark/phase4_baseline.json" \
+            --benchmark_out_format=json
+
+      - name: "Render Phase 4 benchmark summary"
+        run: |
+          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
+          python3 - "$BUILD_DIR/transaction-phase4-benchmark/phase4_baseline.json" "$BUILD_DIR/transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          source = Path(sys.argv[1])
+          target = Path(sys.argv[2])
+          data = json.loads(source.read_text(encoding="utf-8"))
+          rows = []
+          for bench in data.get("benchmarks", []):
+              name = bench.get("name", "")
+              if name.endswith(("_mean", "_median", "_stddev", "_cv")):
+                  continue
+              rows.append(
+                  (
+                      name,
+                      bench.get("txns_per_sec", 0.0),
+                      bench.get("p95_ms", 0.0),
+                      bench.get("p99_ms", 0.0),
+                      bench.get("gate_pass", 0.0),
+                  )
+              )
+
+          lines = [
+              "# Transaction Phase 4 Baseline Summary",
+              "",
+              "| Benchmark | txns/sec | p95 ms | p99 ms | Status |",
+              "| --- | ---: | ---: | ---: | --- |",
+          ]
+          for name, txns_per_sec, p95_ms, p99_ms, gate_pass in rows:
+              status = "PASS" if gate_pass >= 1.0 else "FAIL"
+              lines.append(
+                  f"| `{name}` | {txns_per_sec:.2f} | {p95_ms:.3f} | {p99_ms:.3f} | {status} |"
+              )
+          target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          PY
+
+      - name: "Upload Phase 4 benchmark artifacts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transaction-phase4-benchmark
+          path: |
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/phase4_baseline.json
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/lscpu.txt
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/memory.txt
+          retention-days: 30
+
   collect-artifacts:
     name: "Collect Build Artifacts"
-    needs: [configure, compile-tests, smoke-tests]
+    needs: [configure, compile-tests, smoke-tests, chaos-recovery-evidence, phase4-benchmark-baseline]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -428,6 +588,8 @@ jobs:
           cp -r smoke-test-results transaction-ci-results/ || true
           cp -r transaction-test-results transaction-ci-results/ || true
           cp -r test-summary transaction-ci-results/ || true
+          cp -r transaction-chaos-recovery-evidence transaction-ci-results/ || true
+          cp -r transaction-phase4-benchmark transaction-ci-results/ || true
           
           zip -r transaction-ci-results.zip transaction-ci-results || true
           
@@ -442,7 +604,7 @@ jobs:
 
   publish-results:
     name: "Publish CI Results"
-    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, collect-artifacts]
+    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -451,6 +613,15 @@ jobs:
 
       - name: "Generate CI report"
         run: |
+          PHASE4_STATUS="pending"
+          if [ "${{ needs.phase4-benchmark-baseline.result }}" = "success" ]; then
+            PHASE4_STATUS="captured"
+          elif [ "${{ needs.phase4-benchmark-baseline.result }}" = "failure" ]; then
+            PHASE4_STATUS="failed"
+          elif [ "${{ needs.phase4-benchmark-baseline.result }}" = "skipped" ]; then
+            PHASE4_STATUS="skipped"
+          fi
+
           {
             echo "# Wave B Transaction CI Execution Report"
             echo ""
@@ -463,9 +634,15 @@ jobs:
             echo "- Test Compilation: ✅ 86/86 tests compiled"
             echo "- Smoke Tests: ✅ 3/3 tests passed"
             echo "- Full Suite: ✅ All tests passed"
+            echo "- Chaos / Recovery evidence: ${{ needs.chaos-recovery-evidence.result }}"
+            echo "- Phase 4 benchmark baseline: ${PHASE4_STATUS}"
             echo ""
             echo "## Artifacts"
             echo "- transaction-ci-results.zip"
+            if [ -f transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md ]; then
+              echo ""
+              cat transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
+            fi
           } > CI_REPORT.md
 
       - name: "Upload final report"
@@ -477,13 +654,17 @@ jobs:
 
   check-results:
     name: "Verify Test Results"
-    needs: [smoke-tests]
+    needs: [smoke-tests, chaos-recovery-evidence]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: "Verify smoke test success"
+      - name: "Verify smoke and chaos/recovery success"
         run: |
-          if [ "${{ needs.smoke-tests.result }}" == "success" ]; then
+          CHAOS_OK="true"
+          if [ "${{ needs.chaos-recovery-evidence.result }}" != "success" ] && [ "${{ needs.chaos-recovery-evidence.result }}" != "skipped" ]; then
+            CHAOS_OK="false"
+          fi
+          if [ "${{ needs.smoke-tests.result }}" == "success" ] && [ "$CHAOS_OK" = "true" ]; then
             echo "✅ Build verification passed - ready for Sept 7 CI execution"
             exit 0
           else
