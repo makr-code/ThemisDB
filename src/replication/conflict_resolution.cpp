@@ -640,9 +640,9 @@ std::string FieldLevelMergeResolver::mergeFields(
                     merged[key] = field_maps[present_indices.back()][key];
                     break;
                 case MergeStrategy::UNION:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case MergeStrategy::INTERSECT:
-                [[fallthrough]];
+                    [[fallthrough]];
                 default: {
                     // BATCH D FIX: Bounds check before accessing writes vector
                     if (present_indices[0] >= writes.size()) {

@@ -940,13 +940,13 @@ public:
             if (!data.samples.empty()) {
                 try {
                     // Use a portion of training data for validation (holdout validation)
-                    size_t validation_size = std::max<size_t>(size_t(1), data.samples.size() / 5);
+                    size_t validation_size = std::max<size_t>(size_t{1}, data.samples.size() / size_t{5});
                     TrainingData validation_data;
                     validation_data.dataset_name = "validation_" + data.dataset_name;
                     validation_data.metadata = data.metadata;
                     
                     // Take last 20% of data for validation (to test on unseen-during-training data)
-                    if (static_cast<int>(data.samples.size()) > validation_size) {
+                    if (data.samples.size() > validation_size) {
                         validation_data.samples.insert(
                             validation_data.samples.end(),
                             data.samples.end() - validation_size,
@@ -1069,7 +1069,7 @@ public:
         return current_metrics_;
     }
     
-    void registerCallback(TrainingCallback callback) {
+    void registerCallback([[maybe_unused]] TrainingCallback callback) {
         training_callback_ = callback;
         spdlog::debug("Registered training callback");
     }
@@ -1333,12 +1333,12 @@ TrainingMetrics LoRATrainingService::getMetrics() const {
     return service_impl->getMetrics();
 }
 
-void LoRATrainingService::registerCallback(TrainingCallback callback) {
+void LoRATrainingService::registerCallback([[maybe_unused]] TrainingCallback callback) {
     if (!impl_) {
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    service_impl->registerCallback(callback);
+    service_impl->registerCallback(std::move(callback));
 }
 
 bool LoRATrainingService::isTraining() const {
@@ -1810,11 +1810,11 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
             return gguf_file.good() && gguf_file.gcount() == count;
         };
 
-        const auto read_u32 = [&read_exact](uint32_t& value) -> bool {
+        const auto read_u32 = [&read_exact]([[maybe_unused]] uint32_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint32_t)));
         };
 
-        const auto read_u64 = [&read_exact](uint64_t& value) -> bool {
+        const auto read_u64 = [&read_exact]([[maybe_unused]] uint64_t& value) -> bool {
             return read_exact(reinterpret_cast<char*>(&value), static_cast<std::streamsize>(sizeof(uint64_t)));
         };
          

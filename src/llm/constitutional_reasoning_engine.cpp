@@ -364,7 +364,7 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     }
     
     float compliance_rate = 1.0f - (static_cast<float>(violations.size()) / 
-                                   static_cast<float>(impl_->config.principles.size()));
+                                   impl_->config.principles.size());
     
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }
@@ -853,4 +853,3 @@ std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::c
 
 } // namespace llm
 } // namespace themis
-

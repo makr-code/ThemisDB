@@ -459,4 +459,3 @@ void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
 }
 
 } // namespace themis
-

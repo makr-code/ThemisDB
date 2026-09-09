@@ -293,7 +293,7 @@ SchemaAutoDetector::mapViolationToErrorCode(
         case ConstraintViolationType::UNIQUE_VIOLATION:
             return {"IMPORT_DUPLICATE_KEY", "Unique constraint violation: duplicate value"};
         case ConstraintViolationType::NONE:
-        [[fallthrough]];
+            [[fallthrough]];
         default:
             return {"OK", "No violation"};
     }
@@ -457,4 +457,3 @@ SchemaValidationReport validateSchemaWithReport(
 
 } // namespace importers
 } // namespace themis
-

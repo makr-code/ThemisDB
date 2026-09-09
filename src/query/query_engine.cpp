@@ -1716,13 +1716,11 @@ static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector
 			try {
 				size_t idx = static_cast<size_t>(std::stoull(key));
 				if (idx < current->size()) {
-				  current = &((*current)[idx]);
+					current = &((*current)[idx]);
 				} else {
-				  return nullptr;
+					return nullptr;
 				}
-			} catch (...) {
-				return nullptr;
-			}
+			} catch (...) { return nullptr; }
 		} else {
 			return nullptr;
 		}
@@ -1739,7 +1737,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 									  const themis::query::QueryEngine::EvaluationContext& ctx) {
 	using namespace themis::query;
 	using namespace themis::errors;
-	auto evalArg = [&](size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
+	auto evalArg = [&]([[maybe_unused]] size_t i) -> Result<nlohmann::json> { return qe_evalExpr(args[i], ctx); };
 
 	// Basic string/number functions (subset, mirroring LetEvaluator)
 	if (funcName == "LENGTH") {
@@ -1868,9 +1866,9 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			}
 			double x = qe_toNumber(*argRes);
 			if (funcName == "MIN") {
-			  val = std::min(val, x);
+				val = std::min(val, x);
 			} else {
-			  val = std::max(val, x);
+				val = std::max(val, x);
 			}
 		}
 		return Ok(nlohmann::json(val));
@@ -1960,7 +1958,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		auto looksLikeDegrees = [](double lon, double lat) { return lon >= -180.0 && lon <= 180.0 && lat >= -90.0 && lat <= 90.0; };
 		if ((looksLikeDegrees(x1, y1) && looksLikeDegrees(x2, y2)) && (std::abs(dx) > 5.0 || std::abs(dy) > 5.0)) {
 			constexpr double kEarthRadiusKm = 6371.0;
-			auto deg2rad = [](double d){ return d * std::numbers::pi_v<double> / 180.0; };
+			auto deg2rad = []([[maybe_unused]] double d){ return d * std::numbers::pi_v<double> / 180.0; };
 			double lat1 = deg2rad(y1), lon1 = deg2rad(x1); double lat2 = deg2rad(y2), lon2 = deg2rad(x2);
 			double dlat = lat2 - lat1; double dlon = lon2 - lon1;
 			double a = std::sin(dlat/2.0)*std::sin(dlat/2.0) + std::cos(lat1)*std::cos(lat2)*std::sin(dlon/2.0)*std::sin(dlon/2.0);
@@ -2052,7 +2050,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		}
 		auto g1 = *g1Res;
 		auto g2 = *g2Res;
-		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g) -> Result<std::pair<double,double>> {
+		std::function<Result<std::pair<double,double>>(const nlohmann::json&)> extractPoint = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<std::pair<double,double>> {
 			if (g.is_string()) {
 				try {
 					auto parseRes = nlohmann::json::parse(g.get<std::string>());
@@ -2078,7 +2076,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 			return Err<std::pair<double,double>>(ErrorCode::ERR_QUERY_TYPE_MISMATCH, "ST_Within: Expected Point geometry");
 		};
 
-		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g) -> Result<utils::geo::MBR> {
+		std::function<Result<utils::geo::MBR>(const nlohmann::json&)> extractMBR = [&]([[maybe_unused]] const nlohmann::json& g) -> Result<utils::geo::MBR> {
 			if (g.is_string()) {
 				try {
 					auto parsed = nlohmann::json::parse(g.get<std::string>());
@@ -2279,7 +2277,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		std::string t = g["type"]; const auto& coords = g["coordinates"];
 		double acc = (funcName=="ST_ZMin") ? std::numeric_limits<double>::max() : std::numeric_limits<double>::lowest();
 		bool hasZ=false;
-		auto upd = [&](double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
+		auto upd = [&]([[maybe_unused]] double z){ if (funcName=="ST_ZMin") acc = std::min(acc, z); else acc = std::max(acc, z); hasZ=true; };
 		if (t=="Point" && coords.is_array() && static_cast<int>(coords.size())>=3) {
 			return Ok(nlohmann::json(coords[2]));
 		}
@@ -2493,7 +2491,7 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 		if (!g.is_object() || !g.contains("type") || !g.contains("coordinates")) {
 			return Ok(nlohmann::json(false));
 		}
-		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&](double z){ return z>=zmin && z<=zmax; };
+		std::string t=g["type"]; const auto& c=g["coordinates"]; auto inRange=[&]([[maybe_unused]] double z){ return z>=zmin && z<=zmax; };
 		if (t=="Point") { if (c.is_array() && static_cast<int>(c.size())>=3) return Ok(nlohmann::json(inRange(c[2].get<double>()))); return Ok(nlohmann::json(false)); }
 		if ((t=="LineString" || t=="MultiPoint")) { if (c.is_array()) { for (const auto& pt : c) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
 		if ((t=="Polygon" || t=="MultiLineString")) { if (c.is_array()) { for (const auto& ring : c) if (ring.is_array()) for (const auto& pt : ring) if (pt.is_array() && static_cast<int>(pt.size())>=3 && inRange(pt[2].get<double>())) return Ok(nlohmann::json(true)); } return Ok(nlohmann::json(false)); }
@@ -2650,7 +2648,7 @@ static Result<nlohmann::json> qe_evalExpr(const std::shared_ptr<themis::query::E
 		case ASTNodeType::Literal: {
 			auto lit = std::static_pointer_cast<LiteralExpr>(expr);
 			nlohmann::json j;
-			std::visit([&](auto&& arg){ j = arg; }, lit->value);
+			std::visit([&]([[maybe_unused]] auto&& arg){ j = arg; }, lit->value);
 			return Ok(j);
 		}
 		case ASTNodeType::Variable: {
@@ -2863,7 +2861,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 
 	// Predicate evaluation helper – called from both sequential and parallel paths.
 	// q and compareValues are captured by reference; each invocation is independent.
-	auto matchesPredicates = [&](const BaseEntity& e) -> bool {
+	auto matchesPredicates = [&]([[maybe_unused]] const BaseEntity& e) -> bool {
 		for (const auto& p : q.predicates) {
 			auto v = e.extractField(p.column);
 			if (!v || *v != p.value) {
@@ -3000,7 +2998,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
-		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; bool bestCapped=false;
+		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
 		for (size_t i=0;i<static_cast<int>(q.predicates.size());++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
@@ -3526,7 +3524,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				std::sort(bucket.begin(), bucket.end(), stableJsonLess);
 			}
 		
-			auto processProbeDoc = [&](const nlohmann::json& doc) {
+			auto processProbeDoc = [&]([[maybe_unused]] const nlohmann::json& doc) {
 				// Apply pushed-down filters
 				if (probe_filters != single_var_filters.end()) {
 					EvaluationContext filter_ctx = initial_context;
@@ -5645,4 +5643,3 @@ query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) co
 
 } // namespace query
 } // namespace themis
-

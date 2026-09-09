@@ -52,7 +52,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return true;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs & in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count, 0);
 
@@ -112,7 +112,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo & geom1, const GeometryInfo & geom2) override {
         // Use MBR as fast pre-check
         auto mbr1 = geom1.computeMBR();
         auto mbr2 = geom2.computeMBR();
@@ -138,17 +138,17 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Previously the default base-class implementations returned an empty
     // GeometryInfo; now they are properly wired to the CPU exact path.
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo & geom, double distance_m, int arc_points = 36) override {
         auto *b = getCpuExactBackend();
         return b ? b->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(const GeometryInfo & g1, const GeometryInfo & g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(const GeometryInfo & g1, const GeometryInfo & g2) override {
         auto *b = getCpuExactBackend();
         return b ? b->stDifference(g1, g2) : GeometryInfo{};
     }
@@ -346,7 +346,7 @@ class CudaBackend final : public ISpatialComputeBackend {
     //   Phase 1 — GPU MBR filter (conservative, no false negatives).
     //   Phase 2 — CPU exact verification for MBR-positive candidates only.
     // Device buffers are cached and grown on demand to amortise cudaMalloc cost.
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs & in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -444,14 +444,14 @@ class CudaBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo & geom1, const GeometryInfo & geom2) override {
         // For single geometry checks, CPU is often faster due to transfer overhead
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
     /// GPU-accelerated ST_BUFFER for Point geometries using the batch kernel.
     /// Falls back to cpu_exact_ for non-Point types or on any CUDA error.
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo & geom, double distance_m, int arc_points = 36) override {
         if (!is_available_ || !geom.isPoint() || geom.coords.empty() || distance_m <= 0.0 || arc_points < 3) {
             return cpu_exact_.stBuffer(geom, distance_m, arc_points);
         }
@@ -518,11 +518,11 @@ class CudaBackend final : public ISpatialComputeBackend {
         return result;
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
@@ -679,7 +679,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         return is_available_;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs & in) override {
         SpatialBatchResults out;
         out.mask.resize(in.count);
 
@@ -836,19 +836,19 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo & geom1, const GeometryInfo & geom2) override {
         return cpu_exact_.exactIntersects(geom1, geom2);
     }
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo & geom, double distance_m, int arc_points = 36) override {
         return cpu_exact_.stBuffer(geom, distance_m, arc_points);
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return cpu_exact_.stUnion(g1, g2);
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return cpu_exact_.stDifference(g1, g2);
     }
 
@@ -930,7 +930,7 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return active_backend_ != nullptr;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs & in) override {
         if (active_backend_) {
             return active_backend_->batchIntersects(in);
         }
@@ -940,7 +940,7 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return out;
     }
 
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo & geom1, const GeometryInfo & geom2) override {
         if (active_backend_) {
             return active_backend_->exactIntersects(geom1, geom2);
         }
@@ -949,15 +949,15 @@ class ProductionGpuBackend final : public ISpatialComputeBackend {
         return mbr1.intersects(mbr2);
     }
 
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points = 36) override {
+    GeometryInfo stBuffer(const GeometryInfo & geom, double distance_m, int arc_points = 36) override {
         return active_backend_ ? active_backend_->stBuffer(geom, distance_m, arc_points) : GeometryInfo{};
     }
 
-    GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stUnion(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return active_backend_ ? active_backend_->stUnion(g1, g2) : GeometryInfo{};
     }
 
-    GeometryInfo stDifference(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    GeometryInfo stDifference(const GeometryInfo & g1, const GeometryInfo & g2) override {
         return active_backend_ ? active_backend_->stDifference(g1, g2) : GeometryInfo{};
     }
 
@@ -992,7 +992,7 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
         auto *b = getProductionGpuBackend();
         return b && b->isAvailable();
     }
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs & in) override {
         auto *b = getProductionGpuBackend();
         if (b) {
             return b->batchIntersects(in);
@@ -1001,7 +1001,7 @@ class ProductionGpuRegistryProxy final : public ISpatialComputeBackend {
         out.mask.assign(in.count, 0);
         return out;
     }
-    bool exactIntersects(const GeometryInfo &g1, const GeometryInfo &g2) override {
+    bool exactIntersects(const GeometryInfo & g1, const GeometryInfo & g2) override {
         auto *b = getProductionGpuBackend();
         return b ? b->exactIntersects(g1, g2) : false;
     }

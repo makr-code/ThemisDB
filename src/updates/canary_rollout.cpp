@@ -780,4 +780,3 @@ void CanaryDeployment::checkLatencyThreshold() {
 } // namespace updates
 } // namespace themis
 
-

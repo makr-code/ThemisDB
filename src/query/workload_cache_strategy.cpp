@@ -98,7 +98,6 @@ WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
             break;
             
         case WorkloadType::UNKNOWN:
-        [[fallthrough]];
         default:
             // UNKNOWN: Conservative defaults
             config.max_entries = 10000;
@@ -422,7 +421,7 @@ std::chrono::seconds WorkloadCacheStrategy::calculateTTL(
     return ttl;
 }
 
-std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) const {
+std::vector<std::string> WorkloadCacheStrategy::getHotQueries([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Create vector of (fingerprint, access_count) pairs
@@ -433,12 +432,10 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) cons
         query_frequencies.emplace_back(fp, pattern.access_count);
     }
     
-    const size_t top_n = std::min(limit, query_frequencies.size());
-
     // Sort by access count (descending)
     std::partial_sort(
         query_frequencies.begin(),
-        query_frequencies.begin() + top_n,
+        query_frequencies.begin() + std::min(limit, query_frequencies.size()),
         query_frequencies.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; }
     );
@@ -446,9 +443,9 @@ std::vector<std::string> WorkloadCacheStrategy::getHotQueries(size_t limit) cons
     // Extract fingerprints
     std::vector<std::string> hot_queries = {};
 
-    hot_queries.reserve(top_n);
+    hot_queries.reserve(std::min(limit, query_frequencies.size()));
     
-    for (size_t i = 0; i < top_n; ++i) {
+    for (size_t i = 0; i < std::min(limit, query_frequencies.size()); ++i) {
         hot_queries.push_back(query_frequencies[i].first);
     }
     
@@ -514,4 +511,3 @@ bool WorkloadCacheStrategy::shouldRunDetection() const {
 
 } // namespace query
 } // namespace themis
-

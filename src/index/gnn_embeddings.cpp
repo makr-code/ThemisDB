@@ -998,4 +998,3 @@ GNNEmbeddingManager::getStats() const {
 }
 
 } // namespace themis
-

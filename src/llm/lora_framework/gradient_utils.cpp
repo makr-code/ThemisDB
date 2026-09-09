@@ -99,7 +99,7 @@ GradientStats GradientUtils::apply_clipping(
     bool clipped = false;
     switch (config.method) {
         case ClippingMethod::BY_NORM:
-        [[fallthrough]];
+            [[fallthrough]];
         case ClippingMethod::BY_GLOBAL_NORM:
             clipped = clip_by_norm(gradients, config.max_norm);
             break;
@@ -109,7 +109,7 @@ GradientStats GradientUtils::apply_clipping(
             break;
         
         case ClippingMethod::NONE:
-        [[fallthrough]];
+            [[fallthrough]];
         default:
             break;
     }

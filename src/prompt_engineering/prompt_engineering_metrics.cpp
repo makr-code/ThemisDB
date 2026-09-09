@@ -899,4 +899,3 @@ void PromptEngineeringMetrics::recordReflectionQualityDelta(
 
 } // namespace prompt_engineering
 } // namespace themis
-

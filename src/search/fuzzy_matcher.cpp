@@ -99,7 +99,6 @@ FuzzyMatcher::search(const std::string& query,
                 break;
             }
             case Algorithm::LEVENSHTEIN:
-            [[fallthrough]];
             default: {
                 // Use the score returned by scanFulltextFuzzy directly (it's BM25-like)
                 // normalised to [0,1] via the max possible BM25 score heuristic
@@ -325,4 +324,3 @@ double FuzzyMatcher::distanceToScore(int distance, size_t query_len) {
 }
 
 } // namespace themis
-

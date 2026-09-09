@@ -277,7 +277,6 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
     switch (def_.strategy) {
     case RefreshStrategy::IMMEDIATE:
         switch (op) {
-        [[fallthrough]];
         case DeltaOp::INSERT:
             applyInsert_locked(row);
             ++stats_.delta_inserts;
@@ -305,7 +304,6 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
         break;
 
     case RefreshStrategy::DEFERRED:
-    [[fallthrough]];
     case RefreshStrategy::PERIODIC:
         stale_          = true;
         stats_.is_stale = true;
@@ -371,7 +369,7 @@ void MaterializedView::applyDelete_locked(const nlohmann::json& row) {
         // Fast path: remove by primary key.
         rows_.erase(
             std::remove_if(rows_.begin(), rows_.end(),
-                           [&](const nlohmann::json& r) {
+                           [&]([[maybe_unused]] const nlohmann::json& r) {
                                return sameKey(r, row);
                            }),
             rows_.end());
@@ -379,7 +377,7 @@ void MaterializedView::applyDelete_locked(const nlohmann::json& row) {
         // Fallback: full equality check.
         rows_.erase(
             std::remove_if(rows_.begin(), rows_.end(),
-                           [&](const nlohmann::json& r) {
+                           [&]([[maybe_unused]] const nlohmann::json& r) {
                                return r == row;
                            }),
             rows_.end());
@@ -729,4 +727,3 @@ size_t MaterializedViewRegistry::refreshStale() {
 
 }  // namespace query
 }  // namespace themis
-

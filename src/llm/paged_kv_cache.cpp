@@ -343,8 +343,9 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             }
             return result;
         }
-        default: break;
-        }
+        default:
+            break;
+    }
     
     return {};
 }
@@ -414,8 +415,9 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             }
             return result;
         }
-        default: break;
-        }
+        default:
+            break;
+    }
     
     return {};
 }

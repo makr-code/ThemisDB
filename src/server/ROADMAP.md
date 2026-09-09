@@ -14,6 +14,8 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - **Tier 1 Criticality:** Runtime-critical path; thread-safety and fail-closed guarantees are mandatory
 
 ## Recently Completed
+- [x] Source-integrity remediation for BPMN API handler completed (2026-09-07)
+  - Removed compile-breaking token corruption in `bpmn_api_handler.cpp` history serialization path (`push_back(event)`), restoring source-valid response assembly for instance history queries.
 - [x] Wave 4-A residual server runtime contract hardening batch (Completed 2026-08-31)
   - gRPC-Web status now exposes an explicit availability/operator contract via `requests_supported`, `backend_mode`, and fail-closed reason reporting for non-gRPC builds
   - RoPE `DELETE /api/v1/vector-index/{index}/rope/config` now performs real runtime disablement via `VectorIndexManager::disableRotaryEmbedding()`

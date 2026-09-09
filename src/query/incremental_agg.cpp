@@ -19,11 +19,10 @@ namespace query {
 
 IncrementalAgg::IncrementalAgg(AggOp op) noexcept : op_(op) {}
 
-void IncrementalAgg::add(double value) {
+void IncrementalAgg::add([[maybe_unused]] double value) {
     ++count_;
     switch (op_) {
         case AggOp::SUM:
-        [[fallthrough]];
         case AggOp::AVG:
             sum_ += value;
             break;
@@ -38,12 +37,11 @@ void IncrementalAgg::add(double value) {
     }
 }
 
-void IncrementalAgg::remove(double value) {
+void IncrementalAgg::remove([[maybe_unused]] double value) {
     if (count_ <= 0) { return; }
     --count_;
     switch (op_) {
         case AggOp::SUM:
-        [[fallthrough]];
         case AggOp::AVG:
             sum_ -= value;
             break;

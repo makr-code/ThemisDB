@@ -15,10 +15,15 @@
 
 #include <gtest/gtest.h>
 #include "ingestion/ingestion_manager.h"
+#include "ingestion/workflow_engine.h"
+#include "utils/error_registry.h"
+#include "utils/expected.h"
 #include <string>
 #include <vector>
 #include <atomic>
 #include <memory>
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::ingestion;
 
@@ -243,6 +248,63 @@ TEST(IngestionManagerPluginTest, IngestSourcePluginInitFailure) {
 
     auto stats = mgr.ingestSource("bad_init_src");
     EXPECT_GT(stats.errors.size(), 0u);
+}
+
+TEST(IngestionManagerPluginTest, PluginSourceCanUseFilesystemWorkflowMode) {
+    class CountingConnector : public ISourceConnector {
+    public:
+        explicit CountingConnector(std::atomic<int>* calls) : calls_(calls) {}
+        bool initialize(const SourceConfig&) override { return true; }
+        bool isAvailable() const override { return true; }
+        size_t getDocumentCount() const override { return 1u; }
+        IngestionStats ingest(const std::string&, ProgressCallback) override {
+            ++(*calls_);
+            IngestionStats s;
+            s.documents_processed = 1;
+            return s;
+        }
+    private:
+        std::atomic<int>* calls_;
+    };
+
+    const auto root = std::filesystem::temp_directory_path() / "themis_ing_plugin_workflow_mode";
+    std::filesystem::create_directories(root);
+    const auto input = root / "doc.txt";
+    std::ofstream f(input);
+    f << "hello workflow route";
+    f.close();
+
+    const auto profile = root / "default.json";
+    std::ofstream p(profile);
+    p << R"({"name":"default","steps":[{"name":"parse","plugin":"builtin.parse_text","on_failure":"abort"}]})";
+    p.close();
+
+    auto workflow_engine = std::make_shared<WorkflowEngine>();
+    auto load = workflow_engine->loadProfile(profile.string());
+    ASSERT_TRUE(load.has_value()) << load.error().message();
+
+    std::atomic<int> plugin_ingest_calls{0};
+    IngestionManager mgr("test_db");
+    mgr.setWorkflowEngine(workflow_engine);
+    mgr.registerConnectorPlugin("counting", [&plugin_ingest_calls]() {
+        return std::make_unique<CountingConnector>(&plugin_ingest_calls);
+    });
+
+    SourceConfig cfg;
+    cfg.source_id = "plugin_wf_mode";
+    cfg.type = SourceType::PLUGIN;
+    cfg.location = input.string();
+    cfg.options["plugin_name"] = "counting";
+    cfg.options["workflow_engine_mode"] = "filesystem";
+    cfg.options["workflow_profile"] = "default";
+    ASSERT_TRUE(mgr.registerSource(cfg));
+
+    auto stats = mgr.ingestSource("plugin_wf_mode");
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_EQ(plugin_ingest_calls.load(), 0);
+
+    std::filesystem::remove_all(root);
 }
 
 // ---------------------------------------------------------------------------
