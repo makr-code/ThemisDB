@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Wave C ML — Graph Phase Gate Orchestration (2026-09-09)
+
+- Added `themis::graph::GraphPhaseGateOrchestrator` (`include/graph/graph_phase_gate_orchestrator.h`, `src/graph/graph_phase_gate_orchestrator.cpp`) for DAG-based ML pipeline phase tracking with prerequisite-aware gate evaluation, metric thresholds, structured gap reporting, deterministic topological ordering, and completion tracking.
+- Added focused graph tests in `tests/graph/test_graph_phase_gate_orchestration.cpp` covering GRAPH_PHASE_GATE-01..15 and GRAPH_PHASE_GATE-BENCH-01, plus test-source wiring in `tests/graph/CMakeLists.txt`.
+- Added formal Wave C ML exit sign-off in `docs/governance/WAVE_C_ML_EXIT_GATE_SIGN_OFF.md` and synchronized Wave C C3 status in `src/ai/ROADMAP.md` and `src/ai/FUTURE_ENHANCEMENTS.md`.
+
 ### Wave 9 Block 1 — gRPC Core Service Layer (2026-08-26)
 
 - **[W9-1]** `Create` RPC wired: `db_->put(collection:key, data)` with optional `txn_mgr_` session from `transaction_id` field; response includes key + timestamp.
