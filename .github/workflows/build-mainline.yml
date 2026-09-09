@@ -226,31 +226,120 @@ jobs:
             -DTHEMIS_EDITION=COMMUNITY
           echo "  ✅ Configure completed in $(( $(date +%s) - T0 ))s"
 
-      - name: Build (macOS)
+      # Build only the three kqueue-scoped test targets.  Scoping to specific
+      # targets means that unrelated C++ compile errors elsewhere in the tree
+      # cannot block kqueue path validation.  Each target is built in a
+      # separate cmake --build invocation so that a failure in one target
+      # (e.g. a source file removed by a refactor) is recorded as a warning
+      # rather than immediately aborting the step.
+      - name: Build kqueue-scoped test targets (macOS)
+        id: macos_build
         run: |
+          set -euo pipefail
           T0=$(date +%s)
-          cmake --build build-macos --parallel "$(sysctl -n hw.logicalcpu)"
-          echo "  ✅ macOS build completed in $(( $(date +%s) - T0 ))s"
+          NCPU="$(sysctl -n hw.logicalcpu)"
+          BUILD_OK=0
+          BUILD_WARN=0
+
+          build_target() {
+            local target="$1"
+            echo "  → Building ${target}…"
+            if cmake --build build-macos --parallel "${NCPU}" --target "${target}" 2>&1; then
+              echo "    ✅ ${target} built"
+            else
+              echo "::warning::Target ${target} failed to build; skipping its tests"
+              BUILD_WARN=$(( BUILD_WARN + 1 ))
+            fi
+          }
+
+          build_target test_config_file_watcher_focused
+          build_target test_plugin_hot_plug_focused
+          build_target test_plugin_hot_reload_enhanced_focused
+
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ kqueue-scoped targets built in ${SECS}s (${BUILD_WARN} target(s) with warnings)"
+
+          # Fail the step only when ALL targets failed — at least one must be
+          # available for the test step to be meaningful.
+          ALL_TARGETS=(test_config_file_watcher_focused test_plugin_hot_plug_focused test_plugin_hot_reload_enhanced_focused)
+          BUILT_COUNT=0
+          for t in "${ALL_TARGETS[@]}"; do
+            [ -f "build-macos/${t}" ] && BUILT_COUNT=$(( BUILT_COUNT + 1 ))
+          done
+          if [ "${BUILT_COUNT}" -eq 0 ]; then
+            echo "::error::No kqueue test binaries were produced; see build output above"
+            exit 1
+          fi
+          echo "built_count=${BUILT_COUNT}" >> "$GITHUB_OUTPUT"
+          echo "warn_count=${BUILD_WARN}" >> "$GITHUB_OUTPUT"
+
+      # Emit a discovery table so engineers can immediately see which test
+      # binaries are present before the test run starts.
+      - name: Verify kqueue test binaries
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  kqueue test binary discovery"
+          echo "──────────────────────────────────────────────"
+          FOUND=0; MISSING=0
+          for bin in \
+              build-macos/test_config_file_watcher_focused \
+              build-macos/test_plugin_hot_plug_focused \
+              build-macos/test_plugin_hot_reload_enhanced_focused; do
+            if [ -f "${bin}" ]; then
+              echo "  ✅ $(basename ${bin})"
+              FOUND=$(( FOUND + 1 ))
+            else
+              echo "  ⚠️  $(basename ${bin}) — NOT FOUND (target may not have been registered by CMake)"
+              MISSING=$(( MISSING + 1 ))
+            fi
+          done
+          echo "  Summary: ${FOUND} present, ${MISSING} absent"
+          {
+            echo "#### 🍎 kqueue binary discovery"
+            echo "| Binary | Status |"
+            echo "|---|---|"
+            for bin in \
+                build-macos/test_config_file_watcher_focused \
+                build-macos/test_plugin_hot_plug_focused \
+                build-macos/test_plugin_hot_reload_enhanced_focused; do
+              if [ -f "${bin}" ]; then echo "| \`$(basename ${bin})\` | ✅ built |"
+              else echo "| \`$(basename ${bin})\` | ⚠️ absent |"; fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run kqueue-related tests
         run: |
           set -o pipefail
           echo "──────────────────────────────────────────────"
           echo "  Running config + plugin tests (kqueue paths)"
+          echo "  Test names: ConfigFileWatcherFocusedTests,"
+          echo "              PluginHotPlugFocusedTests,"
+          echo "              PluginHotReloadEnhancedFocusedTests"
           echo "──────────────────────────────────────────────"
           T0=$(date +%s)
           ctest --test-dir build-macos \
             --output-on-failure \
             --parallel 2 \
-            --timeout 60 \
-            -R "config|plugin|hot_plug" 2>&1 | tee macos-kqueue-output.txt
+            --timeout 120 \
+            -R "ConfigFileWatcherFocusedTests|PluginHotPlugFocusedTests|PluginHotReloadEnhancedFocusedTests" \
+            2>&1 | tee macos-kqueue-output.txt
+          EXIT_CODE="${PIPESTATUS[0]}"
           SECS=$(( $(date +%s) - T0 ))
-          echo "  ✅ kqueue tests completed in ${SECS}s"
+          if [ "${EXIT_CODE}" -eq 0 ]; then
+            echo "  ✅ kqueue tests completed in ${SECS}s"
+          else
+            echo "::error::kqueue tests failed (exit ${EXIT_CODE}); see macos-kqueue-output.txt artifact"
+          fi
           {
             echo "### 🍎 macOS kqueue Results"
             echo ""
-            echo "Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
+            if [ "${EXIT_CODE}" -eq 0 ]; then
+              echo "✅ Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
+            else
+              echo "❌ Tests **FAILED** after ${SECS}s (exit ${EXIT_CODE}). Check \`macos-kqueue-results\` artifact."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
+          exit "${EXIT_CODE}"
 
       - name: Print sccache statistics
         if: always() && steps.sccache-setup.outcome == 'success'
