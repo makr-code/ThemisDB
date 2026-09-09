@@ -19,7 +19,8 @@
         "THEMIS_ENABLE_IPO": "OFF",
         "THEMIS_MODULES_ENABLE_UNITY": "OFF",
         "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "OFF"
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -30,7 +31,8 @@
       "cacheVariables": {
         "THEMIS_AUTO_BOOTSTRAP_DEPS": "ON",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed"
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -60,7 +62,8 @@
         "CMAKE_USE_PTHREADS_INIT": "OFF",
         "CMAKE_HAVE_PTHREAD_H": "OFF",
         "CMAKE_HAVE_PTHREADS_CREATE": "OFF",
-        "CMAKE_THREAD_LIBS_INIT": ""
+        "CMAKE_THREAD_LIBS_INIT": "",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -78,7 +81,8 @@
         "THEMIS_GPU_AUTO_DETECT": "OFF",
         "THEMIS_ENABLE_VULKAN": "OFF",
         "THEMIS_ENABLE_LLM": "ON",
-        "THEMIS_ENABLE_HTTP_SERVER": "ON"
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       },
       "environment": {
         "CMAKE_BUILD_PARALLEL_LEVEL": "8"
@@ -105,7 +109,9 @@
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
         "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "OFF",
         "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -128,7 +134,10 @@
         "THEMIS_MODELS_MODE": "PACKAGE",
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
         "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
-        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF"
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -147,7 +156,9 @@
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_DIAGNOSTIC_MODE": "OFF",
         "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -170,7 +181,9 @@
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
         "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
         "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -187,7 +200,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -205,7 +220,9 @@
         "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
         "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
         "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -219,7 +236,9 @@
         "THEMIS_ALLOW_MISSING_ROCKSDB": "ON",
         "THEMIS_DIAGNOSTIC_MODE": "ON",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -233,7 +252,9 @@
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_ENABLE_ASAN": "ON",
         "THEMIS_DISABLE_SECURITY_HARDENING": "ON",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -247,7 +268,9 @@
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_ENABLE_UBSAN": "ON",
         "THEMIS_DISABLE_SECURITY_HARDENING": "ON",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -260,7 +283,9 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_BUILD_BENCHMARKS": "ON",
-        "THEMIS_CHAOS_ADMIN": "OFF"
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -278,7 +303,10 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_ENABLE_ASAN": "ON",
-        "THEMIS_DISABLE_SECURITY_HARDENING": "ON"
+        "THEMIS_DISABLE_SECURITY_HARDENING": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -296,7 +324,10 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_ENABLE_UBSAN": "ON",
-        "THEMIS_DISABLE_SECURITY_HARDENING": "ON"
+        "THEMIS_DISABLE_SECURITY_HARDENING": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -317,7 +348,9 @@
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "OFF",
         "THEMIS_EDITION": "COMMUNITY",
-        "THEMIS_CHAOS_ADMIN": "ON"
+        "THEMIS_CHAOS_ADMIN": "ON",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -523,7 +556,8 @@
         "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_PLUGIN_SCRAPER": "ON",
-        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -545,7 +579,8 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON",
         "THEMIS_PLUGIN_SCRAPER": "ON",
-        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -567,7 +602,8 @@
         "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "OFF",
         "THEMIS_PLUGIN_SCRAPER": "ON",
-        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -589,7 +625,8 @@
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_GRPC": "ON",
         "THEMIS_PLUGIN_SCRAPER": "ON",
-        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON",
+        "THEMIS_CHAOS_ADMIN": "OFF"
       }
     },
     {
@@ -603,7 +640,9 @@
         "CMAKE_C_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wunused -Wnull-dereference -Wformat=2",
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_STRICT_BUILD": "ON",
-        "THEMIS_CHAOS_ADMIN": "ON"
+        "THEMIS_CHAOS_ADMIN": "ON",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -618,7 +657,9 @@
         "CMAKE_EXE_LINKER_FLAGS_INIT": "-fsanitize=address",
         "CMAKE_SHARED_LINKER_FLAGS_INIT": "-fsanitize=address",
         "CMAKE_BUILD_TYPE": "Debug",
-        "THEMIS_CHAOS_ADMIN": "ON"
+        "THEMIS_CHAOS_ADMIN": "ON",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     },
     {
@@ -633,7 +674,9 @@
         "CMAKE_EXE_LINKER_FLAGS_INIT": "-fsanitize=thread",
         "CMAKE_SHARED_LINKER_FLAGS_INIT": "-fsanitize=thread",
         "CMAKE_BUILD_TYPE": "Debug",
-        "THEMIS_CHAOS_ADMIN": "ON"
+        "THEMIS_CHAOS_ADMIN": "ON",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
       }
     }
   ],
