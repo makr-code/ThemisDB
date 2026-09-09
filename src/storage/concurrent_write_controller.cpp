@@ -62,7 +62,7 @@ void WriteGuard::release() noexcept {
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
-size_t resolveMaxSlots([[maybe_unused]] size_t requested) {
+size_t resolveMaxSlots(size_t requested) {
     if (requested > 0) {
       return requested;
     }

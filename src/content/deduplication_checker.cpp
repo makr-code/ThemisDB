@@ -79,7 +79,7 @@ static uint64_t hexToU64(const std::string& hex) {
     // FNV-1a over the band's kBandRows uint32 values
     uint64_t hash = 14695981039346656037;
     size_t start = band * kBandRows;
-    size_t end   = std::min(start + kBandRows,static_cast<int>(sig.size()));
+    size_t end   = std::min(start + kBandRows, sig.size());
     for (size_t i = start; i < end; ++i) {
         uint32_t v = sig[i];
         for (int b = 0; b < 4; ++b) {

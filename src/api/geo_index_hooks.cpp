@@ -96,12 +96,14 @@ static bool validateGeoJSONBasic(const json& geojson) {
 }
 
 void GeoIndexHooks::onEntityPut(
-    [[maybe_unused]] RocksDBWrapper& db,
+    RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,
     const std::string& table,
     const std::string& pk,
     const std::vector<uint8_t>& blob
 ) {
+    (void)db;
+
     // Skip if spatial index not available or table doesn't have spatial index
     if (!spatial_mgr || !spatial_mgr->hasSpatialIndex(table)) {
         return;
@@ -494,12 +496,14 @@ bool GeoIndexHooks::onEntityDeleteAtomic(
 }
 
 void GeoIndexHooks::onEntityDelete(
-    [[maybe_unused]] RocksDBWrapper& db,
+    RocksDBWrapper& db,
     index::SpatialIndexManager* spatial_mgr,
     const std::string& table,
     const std::string& pk,
     const std::vector<uint8_t>& old_blob
 ) {
+    (void)db;
+
     // Skip if spatial index not available
     if (!spatial_mgr || !spatial_mgr->hasSpatialIndex(table)) {
         return;

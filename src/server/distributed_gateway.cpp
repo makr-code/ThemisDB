@@ -110,7 +110,7 @@ ClusterGatewayConfig ClusterGatewayConfig::fromJson(const nlohmann::json& j) {
 // ConsistentHashRing
 // ===========================================================================
 
-ConsistentHashRing::ConsistentHashRing([[maybe_unused]] uint32_t virtual_nodes)
+ConsistentHashRing::ConsistentHashRing(uint32_t virtual_nodes)
     : virtual_nodes_(virtual_nodes) {}
 
 // FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.
@@ -548,7 +548,7 @@ bool DistributedGateway::needsSessionAffinity(
         std::string accept_lower(accept.begin(), accept.end());
         std::transform(accept_lower.begin(), accept_lower.end(),
                        accept_lower.begin(), ::tolower);
-        if ([[maybe_unused]] accept_lower.find("text/event-stream") != std::string::npos) {
+        if (accept_lower.find("text/event-stream") != std::string::npos) {
             return true;
         }
     }

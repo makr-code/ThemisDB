@@ -69,7 +69,7 @@ void CrossShardForeignKeyValidator::registerConstraint(
     // Replace if a constraint with the same name already exists.
     auto it = std::find_if(
         constraints_.begin(), constraints_.end(),
-        [&]([[maybe_unused]] const CrossShardFKConstraint& c) { return c.name == constraint.name; });
+        [&](const CrossShardFKConstraint& c) { return c.name == constraint.name; });
     if (it != constraints_.end()) {
         *it = constraint;
         spdlog::debug("CrossShardFKValidator: replaced constraint '{}'", constraint.name);
@@ -86,19 +86,19 @@ void CrossShardForeignKeyValidator::removeConstraint(
     auto before = constraints_.size();
     constraints_.erase(
         std::remove_if(constraints_.begin(), constraints_.end(),
-            [&]([[maybe_unused]] const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
+            [&](const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
         constraints_.end());
     if (static_cast<int>(constraints_.size()) < before) {
         spdlog::debug("CrossShardFKValidator: removed constraint '{}'", constraint_name);
     }
 }
 
-void CrossShardForeignKeyValidator::setKeyExistsCallback([[maybe_unused]] KeyExistsCallback cb) {
+void CrossShardForeignKeyValidator::setKeyExistsCallback(KeyExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     key_exists_cb_ = std::move(cb);
 }
 
-void CrossShardForeignKeyValidator::setChildExistsCallback([[maybe_unused]] ChildExistsCallback cb) {
+void CrossShardForeignKeyValidator::setChildExistsCallback(ChildExistsCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     child_exists_cb_ = std::move(cb);
 }

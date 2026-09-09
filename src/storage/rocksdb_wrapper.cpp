@@ -16,7 +16,10 @@
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"
 
-#ifdef THEMIS_ROCKSDB_AVAILABLE
+#ifndef THEMIS_ROCKSDB_AVAILABLE
+#error "rocksdb_wrapper.cpp requires THEMIS_ROCKSDB_AVAILABLE with real RocksDB support."
+#endif
+
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -42,11 +45,6 @@
 #  define THEMIS_HAS_ROCKSDB_BACKUP 1
 #else
 #  define THEMIS_HAS_ROCKSDB_BACKUP 0
-#endif
-#else
-// Stub definitions when RocksDB is not available
-#include <filesystem>
-#define THEMIS_HAS_ROCKSDB_BACKUP 0
 #endif
 
 // Feature guards for older distro RocksDB packages.
@@ -77,8 +75,6 @@
 #include <chrono>   // For milliseconds (race condition fix #3)
 #include <future>   // std::async / std::future (blob streaming, PERF-D5)
 #include <sstream>  // std::ostringstream (blob chunk key formatting)
-
-#ifdef THEMIS_ROCKSDB_AVAILABLE
 
 namespace themis {
 
@@ -880,7 +876,7 @@ bool RocksDBWrapper::isOpen() const {
     return db_ != nullptr;
 }
 
-void RocksDBWrapper::addEventListener([[maybe_unused]] std::shared_ptr<rocksdb::EventListener> listener) {
+void RocksDBWrapper::addEventListener(std::shared_ptr<rocksdb::EventListener> listener) {
     if (!listener) {
       return;
     }
@@ -1058,7 +1054,7 @@ inline std::string blobManifestKey(std::string_view key) {
 // Returns the internal chunk key for chunk index `idx` of a logical blob key.
 inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     char buf[16];
-    const int written = std::snprintf(buf, sizeof(buf), "%06", idx);
+    const int written = std::snprintf(buf, sizeof(buf), "%06u", idx);
     if (written < 0 || written >= static_cast<int>(sizeof(buf))) {
         throw std::overflow_error("RocksDB chunk key index overflow");
     }
@@ -1249,7 +1245,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
-        [[maybe_unused]] uint64_t chunk_size = readLE64(raw + 4);
+        uint64_t chunk_size = readLE64(raw + 4);
         uint64_t total_size = readLE64(raw + 12);
 
         if (num_chunks == 0 || chunk_size == 0 || total_size == 0) {
@@ -1518,7 +1514,7 @@ void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
     batch_->Clear();
 }
 
-std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex([[maybe_unused]] bool overwrite_key) {
+std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
     return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
 }
 
@@ -2022,7 +2018,7 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
     }
 }
 
-void RocksDBWrapper::scanAll([[maybe_unused]] ScanCallback callback) {
+void RocksDBWrapper::scanAll(ScanCallback callback) {
     // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
     OperationGuard guard(this);
     if (!guard) {
@@ -3008,6 +3004,4 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
-
-#endif // THEMIS_ROCKSDB_AVAILABLE
 

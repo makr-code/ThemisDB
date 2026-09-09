@@ -84,9 +84,9 @@ FeedbackAPIHandler::FeedbackAPIHandler(
     : storage_service_(storage_service)
 {
     if (!storage_service_) {
-        throw std::runtime_error([[maybe_unused]] "FeedbackAPIHandler: storage_service is required");
+        throw std::runtime_error("FeedbackAPIHandler: storage_service is required");
     }
-    spdlog::info([[maybe_unused]] "FeedbackAPIHandler initialized");
+    spdlog::info("FeedbackAPIHandler initialized");
 }
 
 http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
@@ -579,7 +579,7 @@ http::response<http::string_body> FeedbackAPIHandler::makeErrorResponse(
     return makeJsonResponse(status, error_json, req);
 }
 
-llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery([[maybe_unused]] const std::string& query) const {
+llm::lora::FeedbackFilter FeedbackAPIHandler::parseFilterFromQuery(const std::string& query) const {
     llm::lora::FeedbackFilter filter;
     
     if (query.empty()) {

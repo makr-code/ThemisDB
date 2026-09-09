@@ -101,7 +101,7 @@ std::string StreamingHandler::formatDoneEvent(
     return "data: [DONE]\n\n";
 }
 
-std::string StreamingHandler::formatChunkedData([[maybe_unused]] const std::string& data) {
+std::string StreamingHandler::formatChunkedData(const std::string& data) {
     // HTTP/1.1 chunked-transfer encoding:
     //   <hex-length>\r\n<data>\r\n
     // An empty data string produces the terminal zero-length chunk.

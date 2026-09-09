@@ -48,7 +48,7 @@ std::chrono::duration<double> RateLimiter::wait_for_locked(double tokens) const 
     return std::chrono::duration<double>(deficit / rate_);
 }
 
-bool RateLimiter::try_acquire([[maybe_unused]] double tokens) {
+bool RateLimiter::try_acquire(double tokens) {
     if (tokens <= 0.0) {
       return true;
     }
@@ -110,7 +110,7 @@ double RateLimiter::available() const {
     return std::min(burst_, tokens_ + elapsed * rate_);
 }
 
-void RateLimiter::set_rate([[maybe_unused]] double rate_per_second) {
+void RateLimiter::set_rate(double rate_per_second) {
     if (rate_per_second <= 0.0) {
       throw std::invalid_argument("RateLimiter: rate must be positive");
     }

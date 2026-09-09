@@ -155,8 +155,8 @@ static std::vector<std::string> parseInsertValues(const std::string& values_clau
             result.push_back(val);
         } else {
             size_t start = i;
-            while (i < n && values_clause[i] != ',' && values_clause[i] != ') {
-              ') ++i;
+            while (i < n && values_clause[i] != ',' && values_clause[i] != ')') {
+                ++i;
             }
             std::string token = values_clause.substr(start, i - start);
             size_t last = token.find_last_not_of(" \t");

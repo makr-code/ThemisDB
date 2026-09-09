@@ -111,7 +111,7 @@ class AQLQueryBuilder::Impl {
     }
 
     // Renders the partial or complete query
-    std::string render([[maybe_unused]] bool require_complete) const {
+    std::string render(bool require_complete) const {
         bool has_for           = !for_clauses.empty() || !for_traverse_clauses.empty();
         bool has_return_or_dml = !return_expr.empty() || !dml_clauses.empty();
 
@@ -620,12 +620,13 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
                << "Return each suggestion on a separate line. "
                << "Return ONLY the AQL snippets, no explanations.";
 
-        auto response = handler.executeInfer([[maybe_unused]] prompt.str());
+        auto response = handler.executeInfer(prompt.str());
 
         // Split response by newlines into individual suggestions
         std::istringstream ss(response);
         std::string line = {};
-        while (std::getline(ss, line) && (int)static_cast<int>(suggestions.size()) < max_suggestions) {
+         while (std::getline(ss, line)
+             && suggestions.size() < static_cast<std::size_t>(max_suggestions)) {
             // Trim leading/trailing whitespace
             auto start = line.find_first_not_of(" \t\r\n");
             auto end   = line.find_last_not_of(" \t\r\n");
@@ -636,7 +637,7 @@ std::vector<std::string> AQLQueryBuilder::getCompletionSuggestions(LLMAQLHandler
             // (unvalidated LLM output guard: AQL clause snippets should be short).
             static constexpr std::size_t kMaxSuggestionBytes = 256;
             if (!line.empty() && line.find("```") == std::string::npos
-                    && static_cast<int>(line.size()) <= kMaxSuggestionBytes) {
+                    && line.size() <= kMaxSuggestionBytes) {
                 suggestions.push_back(line);
             }
         }
@@ -674,7 +675,7 @@ std::string AQLQueryBuilder::getLLMSuggestion(LLMAQLHandler &handler, const std:
 // Ingestion enrichment flag
 // ============================================================================
 
-AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment([[maybe_unused]] bool enabled) {
+AQLQueryBuilder &AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
     impl_->ingestion_enrichment = enabled;
     return *this;
 }

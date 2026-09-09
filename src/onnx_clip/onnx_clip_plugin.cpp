@@ -145,7 +145,7 @@ static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     return seed;
 }
 
-static float nextFloat01([[maybe_unused]] uint64_t& state) {
+static float nextFloat01(uint64_t& state) {
     // xorshift64*
     state ^= state >> 12;
     state ^= state << 25;
@@ -969,4 +969,10 @@ bool ONNXClipPlugin::reloadModel(const PluginConfig& new_config) {
 } // namespace image
 } // namespace plugins
 } // namespace themis
+
+// Export plugin entry points for dynamic loading (disabled for unit-test
+// binaries that compile plugin sources directly).
+#ifndef THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT
+THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
+#endif
 

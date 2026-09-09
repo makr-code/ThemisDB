@@ -239,7 +239,7 @@ void fusedSoftmaxDropoutAttention(
     float* attention_weights,
     const float* scores,
     const float* values,
-    [[maybe_unused]] const float* attention_mask,
+    const float* attention_mask,
     int batch_size,
     int num_heads,
     int seq_len_q,
@@ -248,6 +248,7 @@ void fusedSoftmaxDropoutAttention(
     float dropout_prob,
     bool is_causal
 ) {
+    (void)attention_mask;
 #ifdef THEMIS_ENABLE_CUDA
     if (isCudaAvailable()) {
         // Use Flash Attention kernel which fuses softmax and attention
@@ -436,6 +437,7 @@ KernelFusionManager::KernelFusionManager(const Config& config)
 bool KernelFusionManager::shouldFuseLayerNormLinear(
     int batch, int seq_len, int hidden_dim
 ) const {
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_ln_linear_fusion) {
         return false;
     }
@@ -446,10 +448,13 @@ bool KernelFusionManager::shouldFuseLayerNormLinear(
 }
 
 bool KernelFusionManager::shouldFuseQKV(
-    [[maybe_unused]] int batch,
-    [[maybe_unused]] int seq_len,
-    [[maybe_unused]] int hidden_dim
+    int batch,
+    int seq_len,
+    int hidden_dim
 ) const {
+    (void)batch;
+    (void)seq_len;
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_qkv_fusion) {
         return false;
     }
@@ -459,8 +464,9 @@ bool KernelFusionManager::shouldFuseQKV(
 }
 
 bool KernelFusionManager::shouldFuseFFN(
-    int batch, int seq_len, [[maybe_unused]] int hidden_dim
+    int batch, int seq_len, int hidden_dim
 ) const {
+    (void)hidden_dim;
     if (!config_.enable_fusion || !config_.enable_ffn_fusion) {
         return false;
     }
@@ -471,10 +477,13 @@ bool KernelFusionManager::shouldFuseFFN(
 
 double KernelFusionManager::estimateSpeedup(
     const std::string& fusion_type,
-    [[maybe_unused]] int batch,
-    [[maybe_unused]] int seq_len,
-    [[maybe_unused]] int hidden_dim
+    int batch,
+    int seq_len,
+    int hidden_dim
 ) const {
+    (void)batch;
+    (void)seq_len;
+    (void)hidden_dim;
     // Estimate speedup based on fusion type and dimensions
     
     if (fusion_type == "ln_linear") {

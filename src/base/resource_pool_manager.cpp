@@ -122,7 +122,7 @@ bool AdaptiveConnectionPool::acquire(std::chrono::milliseconds timeout, int& slo
 // release
 // ---------------------------------------------------------------------------
 
-void AdaptiveConnectionPool::release([[maybe_unused]] int slot_id) {
+void AdaptiveConnectionPool::release(int slot_id) {
     std::lock_guard<std::mutex> lk(mutex_);
 
     available_slots_.push_back(slot_id);

@@ -194,7 +194,7 @@ DistributedSagaReport DistributedSagaCoordinator::execute(
     }
 
     // Helper: find record by name (O(1) via index)
-    auto findRecord = [&]([[maybe_unused]] const std::string& name) -> StepRecord& {
+    auto findRecord = [&](const std::string& name) -> StepRecord& {
         auto it = record_index.find(name);
         if (it == record_index.end()) {
             throw std::logic_error("Internal error: step record not found: " + name);

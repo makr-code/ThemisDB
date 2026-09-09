@@ -26,7 +26,7 @@ ReviewSchedulingApiHandler::ReviewSchedulingApiHandler(
     , auth_(std::move(auth))
 {
     if (!scheduler_) {
-        THEMIS_WARN([[maybe_unused]] "ReviewSchedulingApiHandler created with null ReviewScheduler");
+        THEMIS_WARN("ReviewSchedulingApiHandler created with null ReviewScheduler");
     }
 }
 
@@ -148,7 +148,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
     const http::request<http::string_body>& req,
     const std::string& review_id
 ) {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRejectReview");
+    auto span = Tracer::startSpan("handleRejectReview");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 

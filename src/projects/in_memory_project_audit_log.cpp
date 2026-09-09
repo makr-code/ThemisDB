@@ -114,7 +114,7 @@ bool InMemoryProjectAuditLog::purge(
     const size_t before_size = entries_.size();
     entries_.erase(
         std::remove_if(entries_.begin(), entries_.end(),
-            [&]([[maybe_unused]] const ProjectAuditEntry& e) {
+            [&](const ProjectAuditEntry& e) {
                 return e.project_id == project_id && e.timestamp < before;
             }),
         entries_.end());

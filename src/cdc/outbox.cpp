@@ -20,6 +20,10 @@
 
 #include "utils/logger.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace cdc {
 
@@ -126,7 +130,7 @@ OutboxWriter::OutboxWriter(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHand
     }
 }
 
-std::string OutboxWriter::makeKey([[maybe_unused]] uint64_t seq) const {
+std::string OutboxWriter::makeKey(uint64_t seq) const {
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
@@ -229,7 +233,7 @@ OutboxRelay::~OutboxRelay() {
     stop();
 }
 
-std::string OutboxRelay::makeKey([[maybe_unused]] uint64_t seq) const {
+std::string OutboxRelay::makeKey(uint64_t seq) const {
     char buf[64];
     std::snprintf(buf, sizeof(buf), "%s%020llu", KEY_PREFIX, static_cast<unsigned long long>(seq));
     return std::string(buf);
@@ -378,11 +382,11 @@ std::vector<OutboxRecord> OutboxRelay::listRecords(OutboxState state, size_t lim
     return scanRecords(limit, state, /*all_states=*/false);
 }
 
-std::vector<OutboxRecord> OutboxRelay::listAllRecords([[maybe_unused]] size_t limit) const {
+std::vector<OutboxRecord> OutboxRelay::listAllRecords(size_t limit) const {
     return scanRecords(limit, OutboxState::PENDING, /*all_states=*/true);
 }
 
-bool OutboxRelay::removeRecord([[maybe_unused]] uint64_t outbox_sequence) {
+bool OutboxRelay::removeRecord(uint64_t outbox_sequence) {
     std::string db_key = makeKey(outbox_sequence);
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s;

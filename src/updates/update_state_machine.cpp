@@ -272,7 +272,7 @@ bool UpdateStateMachine::transition(UpdateState to,
         callbacks_copy   = callbacks_;  // shallow copy of function wrappers
     }  // lock released here
 
-    for ([[maybe_unused]] auto& cb : callbacks_copy) {
+    for (auto& cb : callbacks_copy) {
         try {
             cb(from, to, notify_version);
         } catch (...) {
@@ -311,7 +311,7 @@ void UpdateStateMachine::reset() {
         callbacks_copy = callbacks_;
     }  // lock released here
 
-    for ([[maybe_unused]] auto& cb : callbacks_copy) {
+    for (auto& cb : callbacks_copy) {
         try {
             cb(from, UpdateState::IDLE, "");
         } catch (...) {
@@ -322,7 +322,7 @@ void UpdateStateMachine::reset() {
     }
 }
 
-void UpdateStateMachine::addStateChangeCallback([[maybe_unused]] StateChangeCallback cb) {
+void UpdateStateMachine::addStateChangeCallback(StateChangeCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     callbacks_.push_back(std::move(cb));
 }
@@ -635,7 +635,7 @@ bool UpdateStateMachine::rollbackToCheckpoint(CheckpointId id) {
     }
 
     // Notify callbacks outside the lock
-    for ([[maybe_unused]] auto& cb : callbacks_copy) {
+    for (auto& cb : callbacks_copy) {
         try {
             cb(from_state, to_state, notify_version);
         } catch (...) {}
@@ -675,7 +675,7 @@ void UpdateStateMachine::clearCheckpoints() {
 // Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
 // ============================================================================
 
-void UpdateStateMachine::setRollbackCallback([[maybe_unused]] RollbackCallback callback) {
+void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     rollback_callback_ = std::move(callback);
 }

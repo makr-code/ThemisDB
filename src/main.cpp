@@ -191,7 +191,7 @@ int main(int argc, char* argv[]) {
                 cfg.client_cert_pem = getenv_safe("THEMIS_GRPC_CLIENT_CERT");
                 cfg.client_key_pem  = getenv_safe("THEMIS_GRPC_CLIENT_KEY");
                 // target_name_override is not exposed via env var; leave empty
-                // for production use (overrid[[maybe_unused]] e i[[maybe_unused]] s onl[[maybe_unused]] y neede[[maybe_unused]] d i[[maybe_unused]] n tes[[maybe_unused]] t setup[[maybe_unused]] s).
+                // for production use (override is only needed in test setups).
                 if (!cfg.ca_cert_pem.empty() &&
                     !cfg.client_cert_pem.empty() &&
                     !cfg.client_key_pem.empty())

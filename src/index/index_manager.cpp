@@ -502,7 +502,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
-    [[maybe_unused]] const std::string& config) {
+    const std::string& config) {
     
     std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     

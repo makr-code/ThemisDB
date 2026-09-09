@@ -69,7 +69,7 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
     const std::string& path) const
 {
     // Helper: find the best (longest-prefix) schema for a given method string.
-    auto findForMethod = [&]([[maybe_unused]] const std::string& m) -> const nlohmann::json* {
+    auto findForMethod = [&](const std::string& m) -> const nlohmann::json* {
         // 1. Exact match
         auto it = schemas_.find(EndpointKey{m, path});
         if (it != schemas_.end()) {

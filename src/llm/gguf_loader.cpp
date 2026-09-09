@@ -43,7 +43,7 @@ namespace llm {
  */
 class FileDescriptorGuard {
 public:
-    explicit FileDescriptorGuard([[maybe_unused]] int fd) noexcept : fd_(fd) {}
+    explicit FileDescriptorGuard(int fd) noexcept : fd_(fd) {}
     
     ~FileDescriptorGuard() noexcept {
         if (fd_ >= 0) {
@@ -69,7 +69,7 @@ public:
         fd_ = -1;
         return result;
     }
-    void reset([[maybe_unused]] int fd) noexcept {
+    void reset(int fd) noexcept {
         if (fd_ >= 0) {
             close(fd_);
         }

@@ -47,7 +47,7 @@ namespace {
 /// @brief RAII wrapper for a POSIX file descriptor.
 /// Automatically closes the fd on scope exit. The fd must be >= 0.
 struct FdGuard {
-    explicit FdGuard([[maybe_unused]] int fd) noexcept : fd_(fd) {}
+    explicit FdGuard(int fd) noexcept : fd_(fd) {}
     ~FdGuard() noexcept { if (fd_ >= 0) ::close(fd_); }
     FdGuard(const FdGuard&) = delete;
     FdGuard& operator=(const FdGuard&) = delete;

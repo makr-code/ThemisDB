@@ -106,7 +106,7 @@ bool CircuitBreaker::allowRequest() {
     return false;
 }
 
-void CircuitBreaker::recordResult([[maybe_unused]] bool success) {
+void CircuitBreaker::recordResult(bool success) {
     std::lock_guard<std::mutex> lk(mutex_);
 
     if (success) {

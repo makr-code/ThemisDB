@@ -139,11 +139,11 @@ int64_t TsOperatorDiagnostics::nowNs() noexcept {
 }
 
 TsIncidentSeverity TsOperatorDiagnostics::severityFromId(std::string_view id) noexcept {
-    auto has_suffix = [&]([[maybe_unused]] std::string_view s) {
+    auto has_suffix = [&](std::string_view s) {
         return static_cast<bool>( static_cast<int>(id.size()) < static_cast<int>(= s.size())) &&
                id.substr(static_cast<int>(id.size()) - static_cast<int>(s.size()) ) == s;
     };
-    auto contains_sub = [&]([[maybe_unused]] std::string_view sub) {
+    auto contains_sub = [&](std::string_view sub) {
         return id.find(sub) != std::string_view::npos;
     };
     if (has_suffix("CRITICAL") || contains_sub("PERSISTENT"))

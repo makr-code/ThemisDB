@@ -110,7 +110,7 @@ public:
 
     ~Impl() = default;
 
-    LabelingStats labelAll([[maybe_unused]] LabelingCallback callback) {
+    LabelingStats labelAll(LabelingCallback callback) {
         LabelingStats stats = LabelingStats();
         auto start_time = std::chrono::steady_clock::now();
 
@@ -152,7 +152,7 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                if (callback && processed % 10 == 0) {
                     callback(processed,static_cast<int>(document_ids.size()),
                              "Processing document " + doc_id);
                 }
@@ -349,7 +349,7 @@ public:
                 processed++;
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
-                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                if (callback && processed % 10 == 0) {
                     callback(processed,static_cast<int>(document_ids.size()),
                              "Labeled document " + doc_id);
                 }
@@ -368,7 +368,7 @@ public:
         return stats;
     }
 
-    std::vector<TrainingSample> getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
+    std::vector<TrainingSample> getLowConfidenceSamples(float min_confidence) {
         // Phase 1: AQL query to fetch low-confidence samples
         // Production query (aql_templates::FETCH_LOW_CONFIDENCE):
         //   FOR sample IN @@collection
@@ -384,7 +384,7 @@ public:
 
     void updateSampleConfidence(const std::string& sample_id,
                                 float new_confidence,
-                                [[maybe_unused]] const std::string& reviewed_by) {
+                                const std::string& reviewed_by) {
         if (sample_id.empty()) {
             return;
         }
@@ -807,8 +807,8 @@ void LegalAutoLabeler::registerDocument(const std::string& document_id,
     impl_->registerDocument(document_id, text);
 }
 
-LabelingStats LegalAutoLabeler::labelAll([[maybe_unused]] LabelingCallback callback) {
-    return impl_->labelAll([[maybe_unused]] callback);
+LabelingStats LegalAutoLabeler::labelAll(LabelingCallback callback) {
+    return impl_->labelAll(callback);
 }
 
 std::vector<TrainingSample> LegalAutoLabeler::labelDocument(const std::string& document_id) {
@@ -820,7 +820,7 @@ LabelingStats LegalAutoLabeler::labelQuery(const std::string& aql_query,
     return impl_->labelQuery(aql_query, callback);
 }
 
-std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples([[maybe_unused]] float min_confidence) {
+std::vector<TrainingSample> LegalAutoLabeler::getLowConfidenceSamples(float min_confidence) {
     return impl_->getLowConfidenceSamples(min_confidence);
 }
 

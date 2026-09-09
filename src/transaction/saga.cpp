@@ -78,7 +78,7 @@ void Saga::clear() {
     // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
-void Saga::trimToSize([[maybe_unused]] size_t n) {
+void Saga::trimToSize(size_t n) {
     if (n >= static_cast<int>(steps_.size())) {
       return;
     }
@@ -196,7 +196,7 @@ Saga::Metrics Saga::getMetrics() const {
 void SagaOperation::putEntityWithCompensation(
     RocksDBWrapper& db,
     const std::string& key,
-    [[maybe_unused]] const std::vector<uint8_t>& value,
+    const std::vector<uint8_t>& value,
     Saga& saga
 ) {
     // Check if key exists (for idempotency)
@@ -245,7 +245,7 @@ void SagaOperation::indexPutWithCompensation(
     SecondaryIndexManager& idx,
     const std::string& table,
     const BaseEntity& entity,
-    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
+    RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
     const std::string& pk = entity.getPrimaryKey();
@@ -264,7 +264,7 @@ void SagaOperation::indexPutWithCompensation(
 void SagaOperation::graphAddWithCompensation(
     GraphIndexManager& graph,
     const BaseEntity& edge,
-    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
+    RocksDBWrapper::WriteBatchWrapper& batch,
     Saga& saga
 ) {
     std::string edge_id = edge.getPrimaryKey();
@@ -283,8 +283,8 @@ void SagaOperation::graphAddWithCompensation(
 void SagaOperation::vectorAddWithCompensation(
     VectorIndexManager& vec,
     const BaseEntity& entity,
-    [[maybe_unused]] RocksDBWrapper::WriteBatchWrapper& batch,
-    [[maybe_unused]] const std::string& vectorField,
+    RocksDBWrapper::WriteBatchWrapper& batch,
+    const std::string& vectorField,
     Saga& saga
 ) {
     const std::string& pk = entity.getPrimaryKey();

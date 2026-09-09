@@ -397,7 +397,7 @@ SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view tab
 // Create spatial index
 SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     std::string_view table,
-    [[maybe_unused]] std::string_view geometry_column,
+    std::string_view geometry_column,
     const RTreeConfig& config
 ) {
     // unused parameter
@@ -777,7 +777,7 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
         auto entries = parseSidecarList(s);
         entries.erase(
             std::remove_if(entries.begin(), entries.end(),
-                [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
+                [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
             entries.end());
 
         if (entries.empty()) {
@@ -856,7 +856,7 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     // Remove matching entry
     entries.erase(
         std::remove_if(entries.begin(), entries.end(),
-            [&]([[maybe_unused]] const SidecarEntry& e) { return e.primary_key == primary_key; }),
+            [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
         entries.end()
     );
     
@@ -935,7 +935,7 @@ double SpatialIndexManager::euclidean3DDistance(
 }
 
 // Z-bucket (10 m buckets; negative elevations get negative bucket IDs)
-int SpatialIndexManager::getZBucket([[maybe_unused]] double z) const {
+int SpatialIndexManager::getZBucket(double z) const {
     return static_cast<int>(std::floor(z / Z_BUCKET_SIZE));
 }
 
@@ -1173,7 +1173,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::string_view table,
     double x,
     double y,
-    [[maybe_unused]] std::optional<double> z
+    std::optional<double> z
 ) const {
     // unused parameter
 
@@ -1248,7 +1248,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
     double x,
     double y,
     double max_distance_meters,
-    [[maybe_unused]] std::optional<double> z,
+    std::optional<double> z,
     size_t limit
 ) const {
     // unused parameter
@@ -1294,7 +1294,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     double x,
     double y,
     size_t k,
-    [[maybe_unused]] std::optional<double> z
+    std::optional<double> z
 ) const {
     // unused parameter — reserved for future 3D distance filtering
     if (k == 0) {

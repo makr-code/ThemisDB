@@ -680,7 +680,7 @@ std::vector<double> yuleWalker(const std::vector<double> &y, int p) {
     for (int k = 1; k <= p; ++k) {
         double lambda = r[static_cast<size_t>(k)];
         for (int j = 1; j < k; ++j) {
-            if (static_cast<size_t>(j - 1) <static_cast<int>(phi_prev.size()) && static_cast<size_t>(k - j) <static_cast<int>(r.size())) {  // bounds check
+            if (static_cast<size_t>(j - 1) < phi_prev.size() && static_cast<size_t>(k - j) < r.size()) {  // bounds check
                 lambda -= phi_prev[static_cast<size_t>(j - 1)] * r[static_cast<size_t>(k - j)];
             }
         }
@@ -689,7 +689,7 @@ std::vector<double> yuleWalker(const std::vector<double> &y, int p) {
         }
         phi[static_cast<size_t>(k - 1)] = lambda;
         for (int j = 1; j < k; ++j) {
-            if (static_cast<size_t>(j - 1) <static_cast<int>(phi_prev.size()) && static_cast<size_t>(k - j - 1) <static_cast<int>(phi_prev.size())) {  // bounds check
+            if (static_cast<size_t>(j - 1) < phi_prev.size() && static_cast<size_t>(k - j - 1) < phi_prev.size()) {  // bounds check
                 phi[static_cast<size_t>(j - 1)]
                     = phi_prev[static_cast<size_t>(j - 1)] - lambda * phi_prev[static_cast<size_t>(k - j - 1)];
             }
@@ -788,7 +788,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     for (size_t i = ap; i < n; ++i) {
         double full_res = residuals[i];
         // subtract MA contribution
-        for (size_t j = 0; j <static_cast<int>(params.ma_coeffs.size()) && j < i; ++j) {
+        for (size_t j = 0; j < params.ma_coeffs.size() && j < i; ++j) {
             full_res -= params.ma_coeffs[j] * residuals[i - 1 - j];
         }
         ss += full_res * full_res;
@@ -949,7 +949,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
             for (int j = 0; j < total_ar; ++j) {
                 int lag_diff = std::abs(ar_lags[static_cast<size_t>(i)] - ar_lags[static_cast<size_t>(j)]);
                 R[static_cast<size_t>(i)][static_cast<size_t>(j)]
-                    = (lag_diff <= max_lag && static_cast<size_t>(lag_diff) <static_cast<int>(acf.size())) ? acf[static_cast<size_t>(lag_diff)] : 0.0;
+                    = (lag_diff <= max_lag && static_cast<size_t>(lag_diff) < acf.size()) ? acf[static_cast<size_t>(lag_diff)] : 0.0;
             }
             R[static_cast<size_t>(i)][static_cast<size_t>(i)] += 1e-8; // regularise
         }
@@ -995,7 +995,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
         // Store as full lag vector (0..max_lag), non-selected lags = 0
         params.ar_coeffs.assign(static_cast<size_t>(max_lag), 0.0);
         for (int i = 0; i < total_ar; ++i) {
-            if (ar_lags[static_cast<size_t>(i)] <= max_lag && static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1 <static_cast<int>(params.ar_coeffs.size())) {
+            if (ar_lags[static_cast<size_t>(i)] <= max_lag && static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1 < params.ar_coeffs.size()) {
                 params.ar_coeffs[static_cast<size_t>(ar_lags[static_cast<size_t>(i)]) - 1]
                     = phi[static_cast<size_t>(i)];
             }
@@ -1035,7 +1035,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
                 sxy += residuals[i] * residuals[i - static_cast<size_t>(qi)];
                 sxx += residuals[i - static_cast<size_t>(qi)] * residuals[i - static_cast<size_t>(qi)];
             }
-            if (sxx > 1e-12 && qi <= max_ma_lag && static_cast<size_t>(qi) - 1 <static_cast<int>(params.ma_coeffs.size())) {  // bounds check + division guard
+            if (sxx > 1e-12 && qi <= max_ma_lag && static_cast<size_t>(qi) - 1 < params.ma_coeffs.size()) {  // bounds check + division guard
                 params.ma_coeffs[static_cast<size_t>(qi) - 1] = sxy / sxx;
             }
         }
@@ -1094,12 +1094,12 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
     for (int k = 0; k < steps; ++k) {
         // AR(ar_coeffs) on doubly-differenced series
         double ar_contrib = 0.0;
-        for (size_t j = 0; j < ap  && static_cast<size_t>(j) <static_cast<int>(window.size()); ++j) {
+        for (size_t j = 0; j < ap && j < window.size(); ++j) {
             ar_contrib += p.ar_coeffs[j] * window[window.size() - 1 - j];
         }
         // MA(ma_coeffs) — future residuals are 0
         double ma_contrib = 0.0;
-        for (size_t j = 0; j < mq  && static_cast<size_t>(j) <static_cast<int>(resid.size()); ++j) {
+        for (size_t j = 0; j < mq && j < resid.size(); ++j) {
             ma_contrib += p.ma_coeffs[j] * resid[resid.size() - 1 - j];
         }
 
@@ -1125,7 +1125,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
 
         // Update window for next step (use rotation instead of erase)
         double new_val = pred_diff - p.mean_diff;
-        if (static_cast<int>(window.size()) > ap + 10) {
+        if (window.size() > ap + 10) {
             for (size_t i = 0; i < window.size() - 1; ++i) {
                 window[i] = window[i + 1];
             }
@@ -1134,7 +1134,7 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
             window.push_back(new_val);
         }
         
-        if (static_cast<int>(resid.size()) > mq + 10) {
+        if (resid.size() > mq + 10) {
             for (size_t i = 0; i < resid.size() - 1; ++i) {
                 resid[i] = resid[i + 1];
             }
@@ -1508,7 +1508,7 @@ struct ForecastModel::Impl {
 
     // FNV-1a 64-bit hash over arbitrary bytes
     static uint64_t fnv1a64(const void *data, size_t len) noexcept {
-        uint64_t hash    = 14695981039346656037;
+        uint64_t hash    = 14695981039346656037ULL;
         const uint8_t *p = static_cast<const uint8_t *>(data);
         for (size_t i = 0; i < len; ++i) {
             hash ^= static_cast<uint64_t>(p[i]);
@@ -1644,12 +1644,12 @@ struct ForecastModel::Impl {
         for (int k = 0; k < steps; ++k) {
             // AR contribution (demeaned)
             double ar_contrib = 0.0;
-            for (size_t j = 0; j < ap  && static_cast<size_t>(j) <static_cast<int>(window.size()); ++j) {
+            for (size_t j = 0; j < ap && j < window.size(); ++j) {
                 ar_contrib += arima_p.ar_coeffs[j] * window[window.size() - 1 - j];
             }
             // MA contribution (residuals set to 0 for future steps)
             double ma_contrib = 0.0;
-            for (size_t j = 0; j < mq  && static_cast<size_t>(j) <static_cast<int>(resid.size()); ++j) {
+            for (size_t j = 0; j < mq && j < resid.size(); ++j) {
                 ma_contrib += arima_p.ma_coeffs[j] * resid[resid.size() - 1 - j];
             }
             // Future residuals are 0
@@ -1667,7 +1667,7 @@ struct ForecastModel::Impl {
 
             // Update window with this forecast (demeaned) using rotation
             double new_val = pred_diff - arima_p.mean_diff;
-            if (static_cast<int>(window.size()) > ap + 10) {
+            if (window.size() > ap + 10) {
                 // Rotate: shift left and append right
                 for (size_t i = 0; i < window.size() - 1; ++i) {
                     window[i] = window[i + 1];
@@ -1678,7 +1678,7 @@ struct ForecastModel::Impl {
             }
             // No new residual: set to 0
             double new_resid = 0.0;
-            if (static_cast<int>(resid.size()) > mq + 10) {
+            if (resid.size() > mq + 10) {
                 // Rotate: shift left and append right
                 for (size_t i = 0; i < resid.size() - 1; ++i) {
                     resid[i] = resid[i + 1];
@@ -2073,9 +2073,9 @@ void ForecastModel::update(double new_value) {
         // training value is at static_cast<int>(train_y.size()) -2 since we just pushed the new value).
         double y_diff = (ap.d == 1 && impl_->train_y.size() >= 2) ? (y - impl_->train_y[impl_->train_y.size() - 2]) : y;
         // Update last window - use erase+push_back pattern safely
-        if (!ap.last_window.empty() && static_cast<int>(ap.last_window.size()) > 0) {
+        if (!ap.last_window.empty()) {
             // Rotate instead of erase to avoid iterator invalidation
-            for (size_t i = 0; i <static_cast<int>(ap.last_window.size()) - 1; ++i) {
+            for (size_t i = 0; i + 1 < ap.last_window.size(); ++i) {
                 ap.last_window[i] = ap.last_window[i + 1];
             }
             ap.last_window.back() = y_diff - ap.mean_diff;
@@ -2083,9 +2083,9 @@ void ForecastModel::update(double new_value) {
         // Update last_obs (used for integration in multi-step predict)
         ap.last_obs = y;
         // Recompute residual for last step and shift residual buffer
-        if (!ap.last_resid.empty() && static_cast<int>(ap.last_resid.size()) > 0) {
+        if (!ap.last_resid.empty()) {
             // Rotate instead of erase to avoid iterator invalidation
-            for (size_t i = 0; i <static_cast<int>(ap.last_resid.size()) - 1; ++i) {
+            for (size_t i = 0; i + 1 < ap.last_resid.size(); ++i) {
                 ap.last_resid[i] = ap.last_resid[i + 1];
             }
             ap.last_resid.back() = 0.0;  // future residual unknown → 0
@@ -2253,23 +2253,23 @@ std::string ForecastModel::serialize() const {
     oss << "sarima_last_obs=" << sp.last_obs << "\n";
     oss << "sarima_sigma=" << sp.residual_stddev << "\n";
     oss << "sarima_ar_n=" <<static_cast<int>(sp.ar_coeffs.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(sp.ar_coeffs.size()); ++i) {
+    for (size_t i = 0; i < sp.ar_coeffs.size(); ++i) {
         oss << "sarima_ar_" << i << "=" << sp.ar_coeffs[i] << "\n";
     }
     oss << "sarima_ma_n=" <<static_cast<int>(sp.ma_coeffs.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(sp.ma_coeffs.size()); ++i) {
+    for (size_t i = 0; i < sp.ma_coeffs.size(); ++i) {
         oss << "sarima_ma_" << i << "=" << sp.ma_coeffs[i] << "\n";
     }
     oss << "sarima_win_n=" <<static_cast<int>(sp.last_window.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(sp.last_window.size()); ++i) {
+    for (size_t i = 0; i < sp.last_window.size(); ++i) {
         oss << "sarima_w_" << i << "=" << sp.last_window[i] << "\n";
     }
     oss << "sarima_res_n=" <<static_cast<int>(sp.last_resid.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(sp.last_resid.size()); ++i) {
+    for (size_t i = 0; i < sp.last_resid.size(); ++i) {
         oss << "sarima_r_" << i << "=" << sp.last_resid[i] << "\n";
     }
     oss << "sarima_sbuf_n=" <<static_cast<int>(sp.seasonal_buffer.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(sp.seasonal_buffer.size()); ++i) {
+    for (size_t i = 0; i < sp.seasonal_buffer.size(); ++i) {
         oss << "sarima_sb_" << i << "=" << sp.seasonal_buffer[i] << "\n";
     }
     // Prophet params
@@ -2283,18 +2283,18 @@ std::string ForecastModel::serialize() const {
     oss << "prophet_fw_order=" << pp.fourier_order_weekly << "\n";
     oss << "prophet_fy_order=" << pp.fourier_order_yearly << "\n";
     oss << "prophet_cp_n=" <<static_cast<int>(pp.changepoints_t.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(pp.changepoints_t.size()); ++i) {
+    for (size_t i = 0; i < pp.changepoints_t.size(); ++i) {
         oss << "prophet_cp_" << i << "=" << pp.changepoints_t[i] << "\n";
     }
-    for (size_t i = 0; i <static_cast<int>(pp.deltas.size()); ++i) {
+    for (size_t i = 0; i < pp.deltas.size(); ++i) {
         oss << "prophet_delta_" << i << "=" << pp.deltas[i] << "\n";
     }
     oss << "prophet_fw_n=" <<static_cast<int>(pp.fourier_weekly.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(pp.fourier_weekly.size()); ++i) {
+    for (size_t i = 0; i < pp.fourier_weekly.size(); ++i) {
         oss << "prophet_fw_" << i << "=" << pp.fourier_weekly[i] << "\n";
     }
     oss << "prophet_fy_n=" <<static_cast<int>(pp.fourier_yearly.size()) << "\n";
-    for (size_t i = 0; i <static_cast<int>(pp.fourier_yearly.size()); ++i) {
+    for (size_t i = 0; i < pp.fourier_yearly.size(); ++i) {
         oss << "prophet_fy_" << i << "=" << pp.fourier_yearly[i] << "\n";
     }
     // Wave-A AN2: model integrity check — store CRC-32 checksum at save time.
@@ -2465,35 +2465,35 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
         int sar_n          = readI("sarima_ar_n");
         sp.ar_coeffs.resize(static_cast<size_t>(sar_n));
         for (int i = 0; i < sar_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(sp.ar_coeffs.size())) {  // bounds check
+            if (static_cast<size_t>(i) < sp.ar_coeffs.size()) {  // bounds check
                 sp.ar_coeffs[static_cast<size_t>(i)] = readD("sarima_ar_" + std::to_string(i));
             }
         }
         int sma_n = readI("sarima_ma_n");
         sp.ma_coeffs.resize(static_cast<size_t>(sma_n));
         for (int i = 0; i < sma_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(sp.ma_coeffs.size())) {  // bounds check
+            if (static_cast<size_t>(i) < sp.ma_coeffs.size()) {  // bounds check
                 sp.ma_coeffs[static_cast<size_t>(i)] = readD("sarima_ma_" + std::to_string(i));
             }
         }
         int swin_n = readI("sarima_win_n");
         sp.last_window.resize(static_cast<size_t>(swin_n));
         for (int i = 0; i < swin_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(sp.last_window.size())) {  // bounds check
+            if (static_cast<size_t>(i) < sp.last_window.size()) {  // bounds check
                 sp.last_window[static_cast<size_t>(i)] = readD("sarima_w_" + std::to_string(i));
             }
         }
         int sres_n = readI("sarima_res_n");
         sp.last_resid.resize(static_cast<size_t>(sres_n));
         for (int i = 0; i < sres_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(sp.last_resid.size())) {  // bounds check
+            if (static_cast<size_t>(i) < sp.last_resid.size()) {  // bounds check
                 sp.last_resid[static_cast<size_t>(i)] = readD("sarima_r_" + std::to_string(i));
             }
         }
         int sbuf_n = readI("sarima_sbuf_n");
         sp.seasonal_buffer.resize(static_cast<size_t>(sbuf_n));
         for (int i = 0; i < sbuf_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(sp.seasonal_buffer.size())) {  // bounds check
+            if (static_cast<size_t>(i) < sp.seasonal_buffer.size()) {  // bounds check
                 sp.seasonal_buffer[static_cast<size_t>(i)] = readD("sarima_sb_" + std::to_string(i));
             }
         }
@@ -2514,7 +2514,7 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
         pp.changepoints_t.resize(static_cast<size_t>(cp_n));
         pp.deltas.resize(static_cast<size_t>(cp_n));
         for (int i = 0; i < cp_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(pp.changepoints_t.size()) && static_cast<size_t>(i) <static_cast<int>(pp.deltas.size())) {  // bounds check
+            if (static_cast<size_t>(i) < pp.changepoints_t.size() && static_cast<size_t>(i) < pp.deltas.size()) {  // bounds check
                 pp.changepoints_t[static_cast<size_t>(i)] = readD("prophet_cp_" + std::to_string(i));
                 pp.deltas[static_cast<size_t>(i)]         = readD("prophet_delta_" + std::to_string(i));
             }
@@ -2522,14 +2522,14 @@ ForecastModel ForecastModel::deserialize(const std::string &data) {
         int fw_n = readI("prophet_fw_n");
         pp.fourier_weekly.resize(static_cast<size_t>(fw_n));
         for (int i = 0; i < fw_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(pp.fourier_weekly.size())) {  // bounds check
+            if (static_cast<size_t>(i) < pp.fourier_weekly.size()) {  // bounds check
                 pp.fourier_weekly[static_cast<size_t>(i)] = readD("prophet_fw_" + std::to_string(i));
             }
         }
         int fy_n = readI("prophet_fy_n");
         pp.fourier_yearly.resize(static_cast<size_t>(fy_n));
         for (int i = 0; i < fy_n; ++i) {
-            if (static_cast<size_t>(i) <static_cast<int>(pp.fourier_yearly.size())) {  // bounds check
+            if (static_cast<size_t>(i) < pp.fourier_yearly.size()) {  // bounds check
                 pp.fourier_yearly[static_cast<size_t>(i)] = readD("prophet_fy_" + std::to_string(i));
             }
         }

@@ -150,7 +150,7 @@ MDMWorkflowResult PostgreSQLImporterWithMDM::applyMDMWorkflow(
         ev.confidence_score = link.confidence;
         ev.status           = "completed";
         ev.initiated_by     = config.initiated_by;
-        audit_trail_.recordEvent([[maybe_unused]] std::move(ev));
+        audit_trail_.recordEvent(std::move(ev));
     }
 
     for (const auto& gr : result.golden_records) {
@@ -161,7 +161,7 @@ MDMWorkflowResult PostgreSQLImporterWithMDM::applyMDMWorkflow(
         ev.confidence_score = gr.completeness_score;
         ev.status           = "completed";
         ev.initiated_by     = config.initiated_by;
-        audit_trail_.recordEvent([[maybe_unused]] std::move(ev));
+        audit_trail_.recordEvent(std::move(ev));
     }
 
     return result;

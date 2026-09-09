@@ -123,7 +123,7 @@ Result<void> InMemoryGraphWriter::writeRelations(const std::vector<EntityRelatio
     for (const auto& e : edges) {
         // Upsert: find existing edge with same (from, to, type)
         auto it = std::find_if(edges_.begin(), edges_.end(),
-            [&]([[maybe_unused]] const EntityRelation& r) {
+            [&](const EntityRelation& r) {
                 return r.from_id == e.from_id
                     && r.to_id   == e.to_id
                     && r.relation_type == e.relation_type;

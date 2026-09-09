@@ -655,7 +655,7 @@ SAGALogReplayer::SAGALogReplayer(const SAGALoggerConfig& cfg)
     : cfg_(cfg)
 {}
 
-size_t SAGALogReplayer::replay_incomplete([[maybe_unused]] RecoveryHandler handler) {
+size_t SAGALogReplayer::replay_incomplete(RecoveryHandler handler) {
     // Scan the WAL for steps where action == "compensate" and
     // status == "pending".  These represent compensation steps that were
     // recorded but not yet confirmed as complete after a crash.

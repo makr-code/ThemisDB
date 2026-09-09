@@ -117,7 +117,7 @@ bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
         return false;
     }
     const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3;
-    if (static_cast<int>(rgb.size()) < expected) {
+    if (rgb.size() < expected) {
         error_out = "generator returned undersized RGB buffer";
         return false;
     }
@@ -140,10 +140,10 @@ std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
 
 std::string SDPlugin::sha256Hex(const std::string& input) {
     // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint
-    uint64_t hash = 14695981039346656037;
+    uint64_t hash = 14695981039346656037ULL;
     for (unsigned char c : input) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211;
+        hash *= 1099511628211ULL;
     }
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0') << std::setw(16) << hash;
@@ -160,7 +160,7 @@ std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uin
         return std::nullopt;
     }
     const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3;
-    if (static_cast<int>(rgb.size()) < expected) {
+    if (rgb.size() < expected) {
         return std::nullopt;
     }
 
@@ -269,8 +269,8 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         filtered[y * (1 + row_bytes)] = 0x00u;  // filter type: None
         const size_t src_off = y * row_bytes;
         const size_t dst_off = y * (1 + row_bytes) + 1;
-        const size_t avail = (src_off < rgb.size())
-                             ? std::min(row_bytes, static_cast<int>(rgb.size()) - src_off) : 0;
+        const size_t avail = (src_off < rgb.size()) ? std::min(row_bytes, rgb.size() - src_off)
+                                                     : static_cast<size_t>(0);
         if (avail > 0)
             std::copy(rgb.begin() + static_cast<ptrdiff_t>(src_off),
                       rgb.begin() + static_cast<ptrdiff_t>(src_off + avail),
@@ -301,12 +301,12 @@ std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
         remaining -= block_len;
     } while (remaining > 0);
 
-    put_be32(idat_payload, adler32_of(filtered.data(),static_cast<int>(filtered.size())));
+    put_be32(idat_payload, adler32_of(filtered.data(), filtered.size()));
 
     // ── Assemble PNG ──────────────────────────────────────────────────────────
     std::vector<uint8_t> png = {};
 
-    png.reserve(8 + 25 + 12 + static_cast<int>(idat_payload.size()) + 12);
+    png.reserve(8 + 25 + 12 + idat_payload.size() + 12);
 
     static const uint8_t kSig[] = {0x89u,'P','N','G','\r','\n',0x1Au,'\n'};
     png.insert(png.end(), kSig, kSig + 8);

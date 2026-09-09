@@ -141,11 +141,16 @@ namespace {
 
         switch (unit) {
             case 'H':
-            [[fallthrough]];\n            case 'M':
-            [[fallthrough]];\n            case 'S':
-            [[fallthrough]];\n            case 'm':
-            [[fallthrough]];\n            case 'u':
-            [[fallthrough]];\n            case 'n':
+            [[fallthrough]];
+            case 'M':
+            [[fallthrough]];
+            case 'S':
+            [[fallthrough]];
+            case 'm':
+            [[fallthrough]];
+            case 'u':
+            [[fallthrough]];
+            case 'n':
                 return clampMillisFromUnit(*value, unit);
             default: return std::nullopt;
         }
@@ -220,7 +225,7 @@ namespace {
         return deadline.has_value() && std::chrono::steady_clock::now() >= *deadline;
     }
 
-    bool shouldCheckDeadline([[maybe_unused]] size_t iterations) {
+    bool shouldCheckDeadline(size_t iterations) {
         return iterations > 0 && (iterations % kDeadlineCheckInterval) == 0;
     }
 
@@ -1898,7 +1903,7 @@ json ThemisRPCService::handleTransactionAbortInternal(
     }
 }
 
-json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
+json ThemisRPCService::handleHealthCheck(const json& params) {
     try {
         int64_t uptime_seconds = 0;
         if (start_time_) {
@@ -2092,12 +2097,12 @@ json ThemisRPCService::handleSearchInternal(
     }
 }
 
-json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
+json ThemisRPCService::handleStats(const json& params) {
     return handleStatsInternal(params, std::nullopt);
 }
 
 json ThemisRPCService::handleStatsInternal(
-    [[maybe_unused]] const json& params,
+    const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
 ) {
     if (isDeadlineExceeded(deadline)) {
@@ -2756,12 +2761,12 @@ json ThemisRPCService::handleAggregationPipelineInternal(
     }
 }
 
-json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params) {
+json ThemisRPCService::handleListCollections(const json& params) {
     return handleListCollectionsInternal(params, std::nullopt);
 }
 
 json ThemisRPCService::handleListCollectionsInternal(
-    [[maybe_unused]] const json& params,
+    const json& params,
     const std::optional<std::chrono::steady_clock::time_point>& deadline
 ) {
     try {

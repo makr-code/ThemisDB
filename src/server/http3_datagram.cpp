@@ -50,7 +50,7 @@ bool Http3DatagramDispatcher::registerContext(uint64_t       context_id,
     return true;
 }
 
-bool Http3DatagramDispatcher::unregisterContext([[maybe_unused]] uint64_t context_id) {
+bool Http3DatagramDispatcher::unregisterContext(uint64_t context_id) {
     std::lock_guard<std::mutex> lk(contexts_mutex_);
     auto it = contexts_.find(context_id);
     if (it == contexts_.end()) {
@@ -61,7 +61,7 @@ bool Http3DatagramDispatcher::unregisterContext([[maybe_unused]] uint64_t contex
     return true;
 }
 
-bool Http3DatagramDispatcher::hasContext([[maybe_unused]] uint64_t context_id) const {
+bool Http3DatagramDispatcher::hasContext(uint64_t context_id) const {
     std::lock_guard<std::mutex> lk(contexts_mutex_);
     return contexts_.count(context_id) > 0;
 }

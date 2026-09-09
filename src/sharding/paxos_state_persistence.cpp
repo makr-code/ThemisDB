@@ -178,7 +178,8 @@ void PaxosStatePersistence::replayWal(LSN from_lsn) {
                 s.promised_node  = entry.node_id;
                 break;
             case PaxosWALEntryType::ACCEPT:
-            [[fallthrough]];\n            case PaxosWALEntryType::ACCEPTED:
+            [[fallthrough]];
+            case PaxosWALEntryType::ACCEPTED:
                 s.accepted_round = entry.round;
                 if (entry.data.contains("value")) {
                     const auto& logged_value = entry.data["value"];
@@ -311,7 +312,7 @@ bool PaxosStatePersistence::persistAccept(uint64_t slot,
 // persistCommit
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool PaxosStatePersistence::persistCommit([[maybe_unused]] uint64_t slot) {
+bool PaxosStatePersistence::persistCommit(uint64_t slot) {
     std::unique_lock<std::timed_mutex> lock(mutex_);
     if (!is_open_.load()) {
       return false;
@@ -362,7 +363,7 @@ bool PaxosStatePersistence::persistCommit([[maybe_unused]] uint64_t slot) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::optional<DurableAcceptorState>
-PaxosStatePersistence::getAcceptorState([[maybe_unused]] uint64_t slot) const {
+PaxosStatePersistence::getAcceptorState(uint64_t slot) const {
     std::unique_lock<std::timed_mutex> lock(const_cast<std::timed_mutex&>(mutex_), std::defer_lock);
     if (!lock.try_lock_for(config_.init_timeout)) {
         THEMIS_ERROR("getAcceptorState: Failed to acquire lock within timeout for slot={}", slot);

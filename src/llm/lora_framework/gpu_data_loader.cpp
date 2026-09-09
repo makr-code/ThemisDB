@@ -174,7 +174,7 @@ size_t GPUDataLoader::num_batches() const {
     if (samples_.empty()) {
       return 0;
     }
-    return (static_cast<int>(samples_.size()) + config_.batch_size - 1) / config_.batch_size;
+        return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
 }
 
 GPUDataLoader::MemoryStats GPUDataLoader::get_memory_stats() const {
@@ -241,7 +241,7 @@ void GPUDataLoader::prefetchWorker() {
             // B2-blocking_no_timeout: wait_for prevents permanent stall if consumer thread dies.
             static constexpr std::chrono::seconds kPrefetchProduceTimeout{10};
             queue_cv_.wait_for(lock, kPrefetchProduceTimeout, [this, &batch_idx] {
-                return static_cast<int>(prefetch_queue_.size()) < config_.prefetch_batches ||
+                return prefetch_queue_.size() < config_.prefetch_batches ||
                        stop_prefetch_.load(std::memory_order_acquire);
             });
             
@@ -269,7 +269,7 @@ void GPUDataLoader::prefetchWorker() {
     }
 }
 
-GPUBatch GPUDataLoader::prepareBatch([[maybe_unused]] size_t batch_idx) {
+GPUBatch GPUDataLoader::prepareBatch(size_t batch_idx) {
     GPUBatch batch;
     
     // Calculate batch bounds
@@ -350,7 +350,7 @@ std::vector<int> GPUDataLoader::tokenizeSample(const InstructionDataSample& samp
     return tokenizer_->encode(formatted);
 }
 
-bool GPUDataLoader::updateBatchSize([[maybe_unused]] size_t new_batch_size) {
+bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
     if (new_batch_size == 0) {
         spdlog::warn("Cannot update batch size to 0");
         return false;

@@ -112,7 +112,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRegionsGet");
+    auto span = Tracer::startSpan("handleRegionsGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);

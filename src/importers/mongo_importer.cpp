@@ -416,7 +416,7 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     int docs_sampled = 0;
     const int max_sample = 100;
 
-    auto processDoc = [&]([[maybe_unused]] const json& raw_doc) {
+    auto processDoc = [&](const json& raw_doc) {
         if (!raw_doc.is_object()) {
           return;
         }

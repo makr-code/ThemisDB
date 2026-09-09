@@ -166,7 +166,7 @@ public:
     /**
      * @brief Convert BaseEntity to EthicalDecision
      */
-    static EthicalDecision fromBaseEntity(const BaseEntity& entity, [[maybe_unused]] bool is_decision) {
+    static EthicalDecision fromBaseEntity(const BaseEntity& entity, bool is_decision) {
         EthicalDecision decision;
         decision.decision_id = entity.getPrimaryKey();
         

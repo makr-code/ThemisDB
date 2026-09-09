@@ -194,7 +194,7 @@ SSMLResult VoiceTTSCustomizer::parseSSML(const std::string& ssml_text) const {
 
         ProsodyConfig seg;
         // Extract rate attribute
-        auto extractAttr = [&]([[maybe_unused]] const std::string& attr) -> std::string {
+        auto extractAttr = [&](const std::string& attr) -> std::string {
             size_t a = tag.find(attr + "=\"");
             if (a == std::string::npos) return {};
             size_t vs = a + static_cast<int>(attr.size()) + 2;
@@ -554,7 +554,7 @@ float VoiceTTSCustomizer::computeSpeechRhythm(
     return 1.0f - std::abs(norm - 0.3f) / 0.7f;
 }
 
-std::string VoiceTTSCustomizer::classifyMOS([[maybe_unused]] float mos) const {
+std::string VoiceTTSCustomizer::classifyMOS(float mos) const {
     if (mos >= 4.0f) {
       return "excellent";
     }

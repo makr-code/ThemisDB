@@ -168,7 +168,7 @@ VulkanComputePipeline& VulkanComputePipeline::operator=(VulkanComputePipeline&& 
     return *this;
 }
 
-bool VulkanComputePipeline::create([[maybe_unused]] size_t push_constant_size) {
+bool VulkanComputePipeline::create(size_t push_constant_size) {
     push_constant_size_ = push_constant_size;
     
     if (push_constant_size_ > 0) {
@@ -278,7 +278,7 @@ bool VulkanComputePipeline::create_descriptor_set_layout() {
     return true;
 }
 
-bool VulkanComputePipeline::create_pipeline_layout([[maybe_unused]] size_t push_constant_size) {
+bool VulkanComputePipeline::create_pipeline_layout(size_t push_constant_size) {
     VkPipelineLayoutCreateInfo pipeline_layout_info = {};
     pipeline_layout_info.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipeline_layout_info.setLayoutCount = 1;
@@ -485,7 +485,7 @@ void VulkanComputePipeline::dispatch(uint32_t group_x, uint32_t group_y, uint32_
     }
 }
 
-bool VulkanComputePipeline::wait([[maybe_unused]] uint64_t timeout_ns) {
+bool VulkanComputePipeline::wait(uint64_t timeout_ns) {
     if (fence_ == VK_NULL_HANDLE) {
         return false;
     }

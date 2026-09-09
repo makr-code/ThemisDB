@@ -54,14 +54,14 @@ struct ProfileEntry {
 
 // Canonical MIG profiles with their VRAM allocations.
 static const ProfileEntry kProfiles[] = {
-    { "1g.5gb",   5  * 1024 * 1024 * 1024 },
-    { "2g.10gb",  10 * 1024 * 1024 * 1024 },
-    { "3g.20gb",  20 * 1024 * 1024 * 1024 },
-    { "4g.20gb",  20 * 1024 * 1024 * 1024 },
-    { "7g.40gb",  40 * 1024 * 1024 * 1024 },
-    { "1g.10gb",  10 * 1024 * 1024 * 1024 },
-    { "1g.12gb",  12 * 1024 * 1024 * 1024 },
-    { "7g.80gb",  80 * 1024 * 1024 * 1024 },
+    { "1g.5gb",   5ULL  * 1024ULL * 1024ULL * 1024ULL },
+    { "2g.10gb",  10ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "3g.20gb",  20ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "4g.20gb",  20ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "7g.40gb",  40ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "1g.10gb",  10ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "1g.12gb",  12ULL * 1024ULL * 1024ULL * 1024ULL },
+    { "7g.80gb",  80ULL * 1024ULL * 1024ULL * 1024ULL },
 };
 
 static constexpr size_t kProfileCount =
@@ -287,7 +287,7 @@ std::vector<MIGManager::MIGInstance> MIGManager::getInstances() const
 }
 
 std::vector<MIGManager::MIGInstance>
-MIGManager::getInstancesForDevice([[maybe_unused]] int device_index) const
+MIGManager::getInstancesForDevice(int device_index) const
 {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<MIGInstance> result = {};

@@ -84,11 +84,11 @@ void PrometheusMetrics::recordQueryExecution(const std::string& query_type, doub
     observeHistogram("themis_query_execution_seconds", latency_ms / 1000.0, {{"query_type", query_type}});
 }
 
-void PrometheusMetrics::recordScatterGatherFanout([[maybe_unused]] int num_shards) {
+void PrometheusMetrics::recordScatterGatherFanout(int num_shards) {
     observeHistogram("themis_scatter_gather_fanout", static_cast<double>(num_shards), {});
 }
 
-void PrometheusMetrics::recordResultMergeTime([[maybe_unused]] double time_ms) {
+void PrometheusMetrics::recordResultMergeTime(double time_ms) {
     observeHistogram("themis_result_merge_time_seconds", time_ms / 1000.0, {});
 }
 
@@ -96,11 +96,11 @@ void PrometheusMetrics::recordTopologyChange(const std::string& change_type) {
     incrementCounter("themis_topology_changes_total", {{"change_type", change_type}});
 }
 
-void PrometheusMetrics::recordClusterSize([[maybe_unused]] int num_shards) {
+void PrometheusMetrics::recordClusterSize(int num_shards) {
     setGauge("themis_cluster_size", static_cast<double>(num_shards), {});
 }
 
-void PrometheusMetrics::recordVirtualNodes([[maybe_unused]] int total_vnodes) {
+void PrometheusMetrics::recordVirtualNodes(int total_vnodes) {
     setGauge("themis_virtual_nodes_total", static_cast<double>(total_vnodes), {});
 }
 
@@ -114,11 +114,11 @@ void PrometheusMetrics::recordGossipMessageSize(int64_t bytes) {
     observeHistogram("themis_gossip_message_size_bytes", static_cast<double>(bytes), {});
 }
 
-void PrometheusMetrics::recordGossipRoundTrip([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::recordGossipRoundTrip(double latency_ms) {
     observeHistogram("themis_gossip_roundtrip_seconds", latency_ms / 1000.0, {});
 }
 
-void PrometheusMetrics::recordGossipPeerCount([[maybe_unused]] int count) {
+void PrometheusMetrics::recordGossipPeerCount(int count) {
     setGauge("themis_gossip_peer_count", static_cast<double>(count), {});
 }
 
@@ -136,7 +136,7 @@ void PrometheusMetrics::recordGossipConfigUpdate(const std::string& operation) {
     incrementCounter("themis_gossip_config_updates_total", {{"operation", operation}});
 }
 
-void PrometheusMetrics::recordGossipConfigUpdateLatency([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::recordGossipConfigUpdateLatency(double latency_ms) {
     observeHistogram("themis_gossip_config_update_latency_seconds", latency_ms / 1000.0, {});
 }
 
@@ -148,7 +148,7 @@ void PrometheusMetrics::recordGossipResourceSnapshot(const std::string& operatio
     incrementCounter("themis_gossip_resource_snapshots_total", {{"operation", operation}});
 }
 
-void PrometheusMetrics::recordGossipResourceSnapshotLatency([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::recordGossipResourceSnapshotLatency(double latency_ms) {
     observeHistogram("themis_gossip_resource_snapshot_latency_seconds", latency_ms / 1000.0, {});
 }
 
@@ -160,11 +160,11 @@ void PrometheusMetrics::recordGossipConfigAntiEntropy() {
     incrementCounter("themis_gossip_config_anti_entropy_syncs_total", {});
 }
 
-void PrometheusMetrics::setGossipConfigPeerCount([[maybe_unused]] int count) {
+void PrometheusMetrics::setGossipConfigPeerCount(int count) {
     setGauge("themis_gossip_config_peer_count", static_cast<double>(count), {});
 }
 
-void PrometheusMetrics::observeGossipPropagationLatency([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::observeGossipPropagationLatency(double latency_ms) {
     observeHistogram("themis_gossip_propagation_latency_seconds", latency_ms / 1000.0, {});
 }
 
@@ -204,11 +204,11 @@ void PrometheusMetrics::recordCrossShardJoinRows(const std::string& strategy, in
     setGauge("themis_cross_shard_join_result_rows", static_cast<double>(result_rows), {{"strategy", strategy}});
 }
 
-void PrometheusMetrics::recordHashTableBuildTime([[maybe_unused]] double time_ms) {
+void PrometheusMetrics::recordHashTableBuildTime(double time_ms) {
     observeHistogram("themis_hash_table_build_seconds", time_ms / 1000.0, {});
 }
 
-void PrometheusMetrics::recordProbePhaseTime([[maybe_unused]] double time_ms) {
+void PrometheusMetrics::recordProbePhaseTime(double time_ms) {
     observeHistogram("themis_probe_phase_seconds", time_ms / 1000.0, {});
 }
 
@@ -298,7 +298,7 @@ void PrometheusMetrics::setWalBacklogBytes(const std::string& replica_id, int64_
     setGauge("themis_wal_backlog_bytes", static_cast<double>(bytes), {{"replica_id", replica_id}});
 }
 
-void PrometheusMetrics::recordWalCompressionRatio([[maybe_unused]] double ratio) {
+void PrometheusMetrics::recordWalCompressionRatio(double ratio) {
     observeHistogram("themis_wal_compression_ratio", ratio, {});
 }
 
@@ -313,7 +313,7 @@ void PrometheusMetrics::recordWalApplyBatch(int64_t entries, bool success) {
     }
 }
 
-void PrometheusMetrics::recordWalApplyLatency([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::recordWalApplyLatency(double latency_ms) {
     observeHistogram("themis_wal_apply_latency_seconds", latency_ms / 1000.0, {});
 }
 
@@ -704,11 +704,11 @@ void PrometheusMetrics::recordPercolatorConflict(const std::string& transaction_
     incrementCounter("themis_percolator_conflicts_total", {{"transaction_id", transaction_id}});
 }
 
-void PrometheusMetrics::setActiveTransactions([[maybe_unused]] int count) {
+void PrometheusMetrics::setActiveTransactions(int count) {
     setGauge("themis_active_transactions", static_cast<double>(count), {});
 }
 
-void PrometheusMetrics::setBlockedTransactions([[maybe_unused]] int count) {
+void PrometheusMetrics::setBlockedTransactions(int count) {
     setGauge("themis_blocked_transactions", static_cast<double>(count), {});
 }
 
@@ -748,7 +748,7 @@ void PrometheusMetrics::recordRepairScan() {
 }
 // ─── MVCC / HLC Metrics ───────────────────────────────────────────────────────
 
-void PrometheusMetrics::recordMvccWrite([[maybe_unused]] double latency_ms) {
+void PrometheusMetrics::recordMvccWrite(double latency_ms) {
     incrementCounter("themis_mvcc_writes_total", {});
     observeHistogram("themis_mvcc_write_latency_seconds", latency_ms / 1000.0, {});
 }
@@ -758,7 +758,7 @@ void PrometheusMetrics::recordMvccRead(const std::string& read_type, double late
     observeHistogram("themis_mvcc_read_latency_seconds", latency_ms / 1000.0, {{"read_type", read_type}});
 }
 
-void PrometheusMetrics::recordMvccGc([[maybe_unused]] uint64_t versions_deleted) {
+void PrometheusMetrics::recordMvccGc(uint64_t versions_deleted) {
     incrementCounter("themis_mvcc_gc_runs_total", {});
     addToCounter("themis_mvcc_gc_versions_deleted_total", static_cast<int64_t>(versions_deleted), {});
     // Store the batch count in the histogram for distribution analysis.

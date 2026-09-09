@@ -34,7 +34,7 @@ void CompensationLog::recordCompensationSuccess(
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it != entries_.end()  && static_cast<size_t>(sequence_number) < = static_cast<uint32_t>(it-> static_cast<int>(second.size()))) {
+    if (it != entries_.end()  && static_cast<size_t>(sequence_number) <= static_cast<uint32_t>(it->second.size())) {
         it->second[static_cast<int>(sequence_number - 1)].succeeded = true;
     }
 }
@@ -46,7 +46,7 @@ void CompensationLog::recordCompensationFailure(
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = entries_.find(step_name);
-    if (it != entries_.end()  && static_cast<size_t>(sequence_number) < = static_cast<uint32_t>(it-> static_cast<int>(second.size()))) {
+    if (it != entries_.end()  && static_cast<size_t>(sequence_number) <= static_cast<uint32_t>(it->second.size())) {
         it->second[static_cast<int>(sequence_number - 1)].succeeded = false;
         it->second[static_cast<int>(sequence_number - 1)].error_detail = error_detail;
     }

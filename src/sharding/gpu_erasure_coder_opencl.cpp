@@ -85,7 +85,7 @@ static uint8_t gf_mul(uint8_t a, uint8_t b) {
     return gf_exp[static_cast<int>(gf_log[a]) + static_cast<int>(gf_log[b])];
 }
 
-static uint8_t gf_inv([[maybe_unused]] uint8_t a) {
+static uint8_t gf_inv(uint8_t a) {
     if (a == 0) {
       throw std::runtime_error("GF division by zero");
     }
@@ -391,7 +391,7 @@ public:
         if (available_chunks.empty())
             throw std::runtime_error("OpenCL decode: no chunks available");
 
-        const size_t chunk_size = available_chunks.begin()-> static_cast<int>(second.size());
+        const size_t chunk_size = available_chunks.begin()->second.size();
         const uint32_t total_shards = data_shards + parity_shards;
 
         // Collect the indices of available chunks (up to data_shards needed)
@@ -779,7 +779,7 @@ private:
 // ═══════════════════════════════════════════════════════════
 
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
-    [[maybe_unused]] const GPUConfig& config,
+    const GPUConfig& config,
     ErasureCodingAlgorithm algorithm
 ) {
     static_cast<void>(config);

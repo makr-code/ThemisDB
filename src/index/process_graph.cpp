@@ -326,7 +326,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     
     // Extract left and right operands
     std::string left = expr.substr(0, op_pos);
-    std::string right = expr.substr(op_pos + static_cast<int>(op.size()) );
+    std::string right = expr.substr(op_pos + op.size());
     
     // Trim whitespace
     left.erase(0, left.find_first_not_of(" \t"));
@@ -345,7 +345,10 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
     nlohmann::json rightVal;
     if (right.front() == '\'' || right.front() == '"') {
         // String literal
-        rightVal = right.substr(1, static_cast<int>(right.size()) - 2);
+        if (right.size() < 2U) {
+            return false;
+        }
+        rightVal = right.substr(1, right.size() - 2);
     } else if (variables.contains(right)) {
         // Variable reference
         rightVal = variables[right];
@@ -391,7 +394,7 @@ bool evaluateCondition(const std::string& condition, const nlohmann::json& varia
         return false;
     } else if (op == ">=") {
         if (leftVal.is_number() && rightVal.is_number()) {
-            return leftVal.get<double>() >= rightVal.get<double>();
+            return leftVal.get<double>() >=rightVal.get<double>();
         }
         return false;
     }
@@ -705,7 +708,7 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     // Validation checks
     
     // Pre-allocate result vectors based on worst-case sizes to avoid repeated reallocations
-    result.errors.reserve(static_cast<int>(nodes.size()) + static_cast<int>(edges.size()) );
+    result.errors.reserve(nodes.size() + edges.size());
     result.warnings.reserve(nodes.size());
 
     // 1. Check for start node
@@ -1691,7 +1694,7 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
             
             // Update average duration (incremental average)
             // Ensure we don't underflow when subtracting failure_count
-            if (metrics.execution_count >= metrics.failure_count) {
+            if (metrics.execution_count >=metrics.failure_count) {
                 size_t completedCount = metrics.execution_count - metrics.failure_count;
                 if (completedCount > 0) {
                     metrics.avg_duration_ms = 
@@ -1707,7 +1710,7 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
             }
             
             // Ensure we don't underflow
-            if (metrics.execution_count >= metrics.failure_count) {
+            if (metrics.execution_count >=metrics.failure_count) {
                 size_t completedCount = metrics.execution_count - metrics.failure_count;
                 if (completedCount > 0) {
                     metrics.avg_duration_ms = 
@@ -1831,7 +1834,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     
     std::vector<StackEntry> stack = {};
 
-    stack.reserve(static_cast<int>(nodeDurations.size()) + 1);
+    stack.reserve(nodeDurations.size() + 1);
     stack.push_back({startNode, 0.0, std::vector<std::string>(), std::unordered_set<std::string>()});
     
     while (!stack.empty()) {
@@ -2298,7 +2301,7 @@ ProcessGraphManager::aggregateByField(
     const std::string pid(process_id);
     const std::string gf(group_field);
     const std::string af(agg_field);
-    [[maybe_unused]] const std::string fn(agg_function);
+    const std::string fn(agg_function);
 
     struct GroupAcc {
         size_t count = 0;
@@ -2374,7 +2377,7 @@ namespace {
 
 float computeCosineSimilarity(const std::vector<float>& a,
                               const std::vector<float>& b) noexcept {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+    if (a.size() != b.size() || a.empty()) {
       return 0.0f;
     }
     float dot = 0.0f, na = 0.0f, nb = 0.0f;
@@ -2454,7 +2457,7 @@ ProcessGraphManager::findSimilarProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(result.size()) > k) {
+    if (result.size() > k) {
       result.resize(k);
     }
 
@@ -2539,7 +2542,7 @@ ProcessGraphManager::findSimilarTasks(
           return true;
         }
 
-        [[maybe_unused]] const float sim = computeCosineSimilarity(queryEmb, emb);
+        const float sim = computeCosineSimilarity(queryEmb, emb);
 
         ProcessToken token;
         token.token_id            = tid;
@@ -2553,7 +2556,7 @@ ProcessGraphManager::findSimilarTasks(
     // Sort descending by similarity, take top k.
     std::sort(candidates.begin(), candidates.end(),
               [](const auto& a, const auto& b) { return a.first > b.first; });
-    if (static_cast<int>(candidates.size()) > k) {
+    if (candidates.size() > k) {
       candidates.resize(k);
     }
     result.reserve(candidates.size());
@@ -2625,7 +2628,7 @@ ProcessGraphManager::semanticSearchProcesses(
               [](const SimilarProcess& a, const SimilarProcess& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(result.size()) > k) {
+    if (result.size() > k) {
       result.resize(k);
     }
 
@@ -2785,7 +2788,7 @@ ProcessGraphManager::detectAnomalies(
             if (!tokenNodes.empty()) {
                 const float score = static_cast<float>(deviatedCount) /
                                     static_cast<float>(tokenNodes.size());
-                if (score >= threshold) {
+                if (score >=threshold) {
                     AnomalyResult ar;
                     ar.instance_id   = ti.instanceId;
                     ar.anomaly_type  = "path_deviation";
@@ -2993,7 +2996,7 @@ ProcessGraphManager::findTasksInGeofence(
 
     const std::string wkt(geofence_wkt);
     const auto ring = parseWktPolygon(wkt);
-    if (static_cast<int>(ring.size()) < 3) return {Status::Error("Invalid or empty WKT polygon"), result};
+    if (ring.size() < 3U) return {Status::Error("Invalid or empty WKT polygon"), result};
 
     const std::string pid(process_id);
     scanProcessTokens(db_, pid,
@@ -3149,7 +3152,7 @@ ProcessGraphManager::validateLocationConstraint(
     // 1. WKT polygon constraint.
     if (locationConstraint && !locationConstraint->empty()) {
         const auto ring = parseWktPolygon(*locationConstraint);
-        if (static_cast<int>(ring.size()) >= 3) {
+        if (ring.size() >= 3U) {
             const bool inside = pointInPolygon(execution_lon, execution_lat, ring);
             if (!inside) {
                 return {Status::Error("Execution location is outside the required geofence"), false};
@@ -3207,7 +3210,7 @@ ProcessGraphManager::getRegionalParameters(
         for (auto& [key, params] : regParams.items()) {
             if (key.substr(0, 7) == "POLYGON") {
                 const auto ring = parseWktPolygon(key);
-                if (static_cast<int>(ring.size()) >= 3 && pointInPolygon(lon, lat, ring)) {
+                if (ring.size() >= 3U && pointInPolygon(lon, lat, ring)) {
                     if (params.is_object()) {
                         for (auto& [pk, pv] : params.items()) {
                           merged[pk] = pv;
@@ -3260,7 +3263,7 @@ ProcessGraphManager::executeMultiModelQuery(
             }
             visited.insert(node);
             allowedNodes.insert(node);
-            if (depth >= maxDepth) {
+            if (depth >=maxDepth) {
               continue;
             }
 
@@ -3415,7 +3418,7 @@ ProcessGraphManager::Status ProcessGraphManager::createToken_(
 }
 
 ProcessGraphManager::Status ProcessGraphManager::moveToken_(
-    [[maybe_unused]] ProcessInstance& instance,
+    ProcessInstance& /*instance*/,
     ProcessToken& token,
     std::string_view target_node
 ) {
@@ -3426,10 +3429,12 @@ ProcessGraphManager::Status ProcessGraphManager::moveToken_(
 }
 
 std::vector<std::string> ProcessGraphManager::evaluateGateway_(
-    [[maybe_unused]] const ProcessNodeInfo& gateway,
-    [[maybe_unused]] const ProcessToken& token,
+    const ProcessNodeInfo& gateway,
+    const ProcessToken& token,
     const std::vector<ProcessEdgeInfo>& outgoing_edges
 ) const {
+    (void)gateway;
+    (void)token;
     
     std::vector<std::string> targets = {};
 
@@ -3443,14 +3448,16 @@ std::vector<std::string> ProcessGraphManager::evaluateGateway_(
 bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) const {
     switch (hyperedge.sync_type) {
         case Hyperedge::SyncType::AND_JOIN:
-            return static_cast<int>(hyperedge.activated_sources.size()) == static_cast<int>(hyperedge.source_nodes.size());
+            return hyperedge.activated_sources.size() == hyperedge.source_nodes.size();
         case Hyperedge::SyncType::OR_JOIN:
             return !hyperedge.activated_sources.empty();
         case Hyperedge::SyncType::N_OF_M_JOIN:
-            return hyperedge.required_count.has_value() && 
-                   static_cast<int>(hyperedge.activated_sources.size()) >= static_cast<size_t>(*hyperedge.required_count);
+            return hyperedge.required_count.has_value() &&
+                   *hyperedge.required_count > 0 &&
+                   hyperedge.activated_sources.size() >=
+                       static_cast<size_t>(*hyperedge.required_count);
         case Hyperedge::SyncType::DISCRIMINATOR:
-            return static_cast<int>(hyperedge.activated_sources.size()) == 1;
+            return hyperedge.activated_sources.size() == 1U;
         default:
             return false;
     }

@@ -134,7 +134,7 @@ void PromptEngineeringMetrics::recordABTestDuration(
     // Could track per-test durations if needed
 }
 
-void PromptEngineeringMetrics::recordActiveABTests([[maybe_unused]] int count) {
+void PromptEngineeringMetrics::recordActiveABTests(int count) {
     if (!config_.enabled) {
       return;
     }
@@ -370,7 +370,7 @@ void PromptEngineeringMetrics::recordBackgroundWorkerCycle() {
     background_worker_cycles_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void PromptEngineeringMetrics::recordBackgroundWorkerDuration([[maybe_unused]] double duration_ms) {
+void PromptEngineeringMetrics::recordBackgroundWorkerDuration(double duration_ms) {
     if (!config_.enabled) {
       return;
     }
@@ -840,7 +840,7 @@ void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
     alert_config_ = cfg;
 }
 
-void PromptEngineeringMetrics::setAlertCallback([[maybe_unused]] AlertCallback cb) {
+void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     alert_callback_ = std::move(cb);
 }

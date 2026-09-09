@@ -73,24 +73,25 @@ using themis::api::aqlEscapeLiteral;
 using themis::api::isValidAqlIdentifier;
 
 std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> g_api_grpc_service_fn;
+std::mutex g_api_grpc_service_fn_mutex;
 
 /// Escape a string for safe embedding inside an AQL single-quoted literal.
 /// Replaces backslashes and single-quotes to prevent AQL injection.
 /// Kept as a local alias for backward compatibility with call sites below.
-inline std::string aqlEscape(const std::string& raw) {
+[[maybe_unused]] inline std::string aqlEscape(const std::string& raw) {
     return aqlEscapeLiteral(raw);
 }
 
 /// Validate a collection name used as an AQL identifier (FOR doc IN <name>).
 /// Delegates to the shared header implementation.
-inline bool isValidCollectionName(const std::string& name) {
+[[maybe_unused]] inline bool isValidCollectionName(const std::string& name) {
     return isValidAqlIdentifier(name);
 }
 
 /// Version-counter key for a stored document.
 /// Stored as a plain decimal string so that no additional serialisation is
 /// needed and the counter survives a process restart.
-inline std::string versionKey(const std::string& storage_key) {
+[[maybe_unused]] inline std::string versionKey(const std::string& storage_key) {
     return "__ver/" + storage_key;
 }
 
@@ -98,7 +99,7 @@ inline std::string versionKey(const std::string& storage_key) {
 /// request (upserts + deletes for BatchWrite; keys for BatchRead).  Requests
 /// that exceed this limit are rejected with RESOURCE_EXHAUSTED to prevent
 /// unbounded memory allocation on the server.
-static constexpr int kMaxBatchItems = 10'000;
+[[maybe_unused]] static constexpr int kMaxBatchItems = 10'000;
 
 #if THEMIS_HAS_API_GRPC
 /// Map canonical Themis error codes to transport-level gRPC status codes.
@@ -110,57 +111,84 @@ grpc::StatusCode mapThemisErrorCodeToGrpcStatusCode(themis::errors::ErrorCode co
             return grpc::StatusCode::UNAUTHENTICATED;
 
         case ErrorCode::ERR_QUERY_ACCESS_DENIED:
-        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
-        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
-        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
-        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
+        [[fallthrough]];
+        case ErrorCode::ERR_UTIL_PERMISSION_DENIED:
+        [[fallthrough]];
+        case ErrorCode::ERR_STORAGE_PERMISSION_DENIED:
+        [[fallthrough]];
+        case ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED:
+        [[fallthrough]];
+        case ErrorCode::ERR_EXPORT_POLICY_DENIED:
             return grpc::StatusCode::PERMISSION_DENIED;
 
         case ErrorCode::ERR_DOC_NOT_FOUND:
-        [[fallthrough]];\n        case ErrorCode::ERR_INDEX_NOT_FOUND:
-        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
-        [[fallthrough]];\n        case ErrorCode::ERR_BACKUP_NOT_FOUND:
-        [[fallthrough]];\n        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
-        [[fallthrough]];\n        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
+        [[fallthrough]];
+        case ErrorCode::ERR_INDEX_NOT_FOUND:
+        [[fallthrough]];
+        case ErrorCode::ERR_SCHEMA_TABLE_NOT_FOUND:
+        [[fallthrough]];
+        case ErrorCode::ERR_BACKUP_NOT_FOUND:
+        [[fallthrough]];
+        case ErrorCode::ERR_PLUGIN_NOT_FOUND:
+        [[fallthrough]];
+        case ErrorCode::ERR_STORAGE_FILE_NOT_FOUND:
             return grpc::StatusCode::NOT_FOUND;
 
         case ErrorCode::ERR_QUERY_INVALID_SYNTAX:
-        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID:
-        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_INVALID_INPUT:
-        [[fallthrough]];\n        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
-        [[fallthrough]];\n        case ErrorCode::ERR_API_INVALID_REQUEST:
+        [[fallthrough]];
+        case ErrorCode::ERR_QUERY_INVALID:
+        [[fallthrough]];
+        case ErrorCode::ERR_QUERY_INVALID_INPUT:
+        [[fallthrough]];
+        case ErrorCode::ERR_UTIL_INVALID_ARGUMENT:
+        [[fallthrough]];
+        case ErrorCode::ERR_API_INVALID_REQUEST:
             return grpc::StatusCode::INVALID_ARGUMENT;
 
         case ErrorCode::ERR_QUERY_TIMEOUT:
-        [[fallthrough]];\n        case ErrorCode::ERR_NET_TIMEOUT:
-        [[fallthrough]];\n        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
+        [[fallthrough]];
+        case ErrorCode::ERR_NET_TIMEOUT:
+        [[fallthrough]];
+        case ErrorCode::ERR_LLM_INFERENCE_TIMEOUT:
             return grpc::StatusCode::DEADLINE_EXCEEDED;
 
         case ErrorCode::ERR_QUERY_CANCELLED:
             return grpc::StatusCode::CANCELLED;
 
         case ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED:
-        [[fallthrough]];\n        case ErrorCode::ERR_API_RATE_LIMIT:
-        [[fallthrough]];\n        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
-        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
-        [[fallthrough]];\n        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
-        [[fallthrough]];\n        case ErrorCode::ERR_LLM_GPU_OOM:
-        [[fallthrough]];\n        case ErrorCode::ERR_LLM_RAM_OOM:
-        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
-        [[fallthrough]];\n        case ErrorCode::ERR_CACHE_FULL:
-        [[fallthrough]];\n        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
+        [[fallthrough]];
+        case ErrorCode::ERR_API_RATE_LIMIT:
+        [[fallthrough]];
+        case ErrorCode::ERR_API_RESOURCE_EXHAUSTED:
+        [[fallthrough]];
+        case ErrorCode::ERR_MEMORY_POOL_EXHAUSTED:
+        [[fallthrough]];
+        case ErrorCode::ERR_MEMORY_ALLOCATION_FAILED:
+        [[fallthrough]];
+        case ErrorCode::ERR_LLM_GPU_OOM:
+        [[fallthrough]];
+        case ErrorCode::ERR_LLM_RAM_OOM:
+        [[fallthrough]];
+        case ErrorCode::ERR_CACHE_ENTRY_TOO_LARGE:
+        [[fallthrough]];
+        case ErrorCode::ERR_CACHE_FULL:
+        [[fallthrough]];
+        case ErrorCode::ERR_EXPORT_SIZE_LIMIT_EXCEEDED:
             return grpc::StatusCode::RESOURCE_EXHAUSTED;
 
         case ErrorCode::ERR_STORAGE_TRANSACTION_FAILED:
             return grpc::StatusCode::ABORTED;
 
         case ErrorCode::ERR_NET_CONNECTION_REFUSED:
-        [[fallthrough]];\n        case ErrorCode::ERR_NET_DNS_FAILURE:
+        [[fallthrough]];
+        case ErrorCode::ERR_NET_DNS_FAILURE:
             return grpc::StatusCode::UNAVAILABLE;
 
         case ErrorCode::ERR_PLUGIN_INCOMPATIBLE:
-        [[fallthrough]];\n        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
-        [[fallthrough]];\n        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
+        [[fallthrough]];
+        case ErrorCode::ERR_QUERY_TYPE_MISMATCH:
+        [[fallthrough]];
+        case ErrorCode::ERR_SCHEMA_INVALID_TYPE:
             return grpc::StatusCode::FAILED_PRECONDITION;
 
         default:
@@ -1356,7 +1384,7 @@ private:
                                 if (clause.has_numeric_set) {
                                     const bool matches_numeric_set = has_numeric_candidate &&
                                         std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                    [&]([[maybe_unused]] double item) {
+                                                    [&](double item) {
                                                         return nearlyEqual(numeric_candidate, item);
                                                     });
                                     if (!matches_numeric_set) {
@@ -1525,7 +1553,7 @@ private:
                             if (clause.has_numeric_set) {
                                 const bool matches_numeric_set = has_numeric_candidate &&
                                     std::any_of(clause.numeric_set.begin(), clause.numeric_set.end(),
-                                                [&]([[maybe_unused]] double item) {
+                                                [&](double item) {
                                                     return nearlyEqual(numeric_candidate, item);
                                                 });
                                 if (!matches_numeric_set) {
@@ -1629,7 +1657,7 @@ private:
                                     "storage backend not wired into this service instance");
             }
 
-            auto maybeAttachDoc = [&]([[maybe_unused]] SearchHit* hit) {
+            auto maybeAttachDoc = [&](SearchHit* hit) {
                 if (!req->fetch_docs() || !hit || !db_) {
                     return;
                 }
@@ -1882,7 +1910,11 @@ void ThemisDBGrpcService::buildImpl() {
     // Try injected accessor (for non-proto builds wiring an external service).
     ServiceFn fn;
     {
-        auto fn_ptr = std::atomic_load(&g_api_grpc_service_fn);
+        std::shared_ptr<themis::api::ThemisDBGrpcService::ServiceFn> fn_ptr;
+        {
+            std::lock_guard<std::mutex> lock(g_api_grpc_service_fn_mutex);
+            fn_ptr = g_api_grpc_service_fn;
+        }
         if (fn_ptr) {
             fn = *fn_ptr;
         }
@@ -1894,10 +1926,10 @@ void ThemisDBGrpcService::buildImpl() {
             THEMIS_ERROR("ThemisDBGrpcService: service callback failed: {}", e.what());
             service_ptr_ = nullptr;
         } catch (const std::string&) {
-            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         } catch (const char*) {
-            THEMIS_ERROR([[maybe_unused]] "ThemisDBGrpcService: service callback failed: unknown error");
+            THEMIS_ERROR("ThemisDBGrpcService: service callback failed: unknown error");
             service_ptr_ = nullptr;
         }
     }
@@ -1907,10 +1939,9 @@ void ThemisDBGrpcService::buildImpl() {
 ThemisDBGrpcService::~ThemisDBGrpcService() = default;
 
 void ThemisDBGrpcService::setServiceFn(ServiceFn fn) {
-    std::atomic_store(
-        &g_api_grpc_service_fn,
-        fn ? std::make_shared<ServiceFn>(std::move(fn))
-           : std::shared_ptr<ServiceFn>{});
+    std::lock_guard<std::mutex> lock(g_api_grpc_service_fn_mutex);
+    g_api_grpc_service_fn = fn ? std::make_shared<ServiceFn>(std::move(fn))
+                               : std::shared_ptr<ServiceFn>{};
 }
 
 #ifdef THEMIS_HAS_PROMETHEUS

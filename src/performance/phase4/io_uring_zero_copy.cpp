@@ -68,7 +68,7 @@ namespace phase4 {
 // ZeroCopyBuffer
 // ===========================================================================
 
-ZeroCopyBuffer::ZeroCopyBuffer([[maybe_unused]] size_t size) : size_(size) {
+ZeroCopyBuffer::ZeroCopyBuffer(size_t size) : size_(size) {
     if (size == 0) {
       return;
     }
@@ -351,7 +351,7 @@ bool IoUringZeroCopyIO::register_buffers() noexcept {
 // Public API
 // ===========================================================================
 
-bool IoUringZeroCopyIO::register_fd([[maybe_unused]] int fd) noexcept {
+bool IoUringZeroCopyIO::register_fd(int fd) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     std::lock_guard<std::mutex> lock(ring_mutex_);
@@ -484,7 +484,7 @@ int IoUringZeroCopyIO::recv_zerocopy(int fd, uint32_t buf_index, size_t max_len)
     return static_cast<int>(ret);
 }
 
-uint32_t IoUringZeroCopyIO::wait_completions([[maybe_unused]] uint32_t min_completions) noexcept {
+uint32_t IoUringZeroCopyIO::wait_completions(uint32_t min_completions) noexcept {
 #ifdef THEMIS_ENABLE_IO_URING
 #ifdef __linux__
     {
@@ -547,11 +547,11 @@ int IoUringZeroCopyIO::submit_sqes() noexcept {
     return -1;
 }
 
-ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer([[maybe_unused]] uint32_t index) {
+ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer(uint32_t index) {
     return buffers_.at(index);
 }
 
-const ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer([[maybe_unused]] uint32_t index) const {
+const ZeroCopyBuffer& IoUringZeroCopyIO::get_buffer(uint32_t index) const {
     return buffers_.at(index);
 }
 

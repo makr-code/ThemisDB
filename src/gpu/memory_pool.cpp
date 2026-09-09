@@ -200,7 +200,7 @@ bool GPUMemoryPool::tryAcquire(uint64_t size_bytes, const std::string &tag, uint
 // release — Phase 3 Exception-Safe Implementation with Better Diagnostics
 // ============================================================================
 
-bool GPUMemoryPool::release([[maybe_unused]] uint64_t offset) {
+bool GPUMemoryPool::release(uint64_t offset) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto logger = spdlog::get("gpu");
@@ -327,7 +327,7 @@ std::vector<GPUMemoryPool::Slab> GPUMemoryPool::slabSnapshot() const {
 // defragment
 // ============================================================================
 
-GPUMemoryPool::DefragResult GPUMemoryPool::defragment([[maybe_unused]] float threshold) {
+GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     DefragResult result;

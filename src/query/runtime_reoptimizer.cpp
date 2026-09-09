@@ -64,7 +64,7 @@ RuntimeReoptimizer::ExecutionGuard::~ExecutionGuard() {
     }
 }
 
-void RuntimeReoptimizer::ExecutionGuard::finish([[maybe_unused]] size_t actual_rows) {
+void RuntimeReoptimizer::ExecutionGuard::finish(size_t actual_rows) {
     if (finished_ || !owner_) {
         return;
     }
@@ -112,7 +112,7 @@ RuntimeReoptimizer::beginExecutionGuard(const std::string& query_hash,
     return ExecutionGuard(*this, beginExecution(query_hash, estimated_rows));
 }
 
-bool RuntimeReoptimizer::shouldReoptimize([[maybe_unused]] const std::string& query_hash,
+bool RuntimeReoptimizer::shouldReoptimize(const std::string& query_hash,
                                            size_t rows_so_far,
                                            size_t estimated_total,
                                            double progress,
@@ -162,7 +162,7 @@ void RuntimeReoptimizer::pruneOldStats(std::chrono::hours retention) {
     stats_->pruneOldStats(retention);
 }
 
-void RuntimeReoptimizer::enable([[maybe_unused]] bool enabled) {
+void RuntimeReoptimizer::enable(bool enabled) {
     enabled_ = enabled;
     spdlog::info("RuntimeReoptimizer: re-optimization {}",
                  enabled ? "enabled" : "disabled");

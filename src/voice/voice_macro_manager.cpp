@@ -228,8 +228,10 @@ StepResult executeStep(int index,
             break;
         }
         case StepType::CONDITION:
-        [[fallthrough]];\n        case StepType::LOOP:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        case StepType::LOOP:
+        [[fallthrough]];
+        default:
             result.output  = "Step type not yet supported: " + std::to_string(static_cast<int>(step.type));
             result.success = false;
             result.error_message = result.output;
@@ -306,7 +308,7 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
     std::lock_guard<std::mutex> lock(impl_->mutex);
     std::vector<MacroInfo> result = {};
 
-    result.reserve(impl_-> static_cast<int>(macros.size()));
+    result.reserve(impl_->macros.size());
 
     for (const auto& kv : impl_->macros) {
         if (tags.empty()) {
@@ -397,8 +399,8 @@ MacroResult VoiceMacroManager::executeMacro(
     std::string combined_output = {};
     bool all_ok = true;
 
-    for (size_t i = 0; i < static_cast<int>(info.steps.size()); ++i) {
-        auto sr = executeStep(i, info.steps[static_cast<size_t>(i)], parameters);
+    for (size_t i = 0; i < info.steps.size(); ++i) {
+        auto sr = executeStep(static_cast<int>(i), info.steps[i], parameters);
         if (!combined_output.empty()) {
           combined_output += '\n';
         }
@@ -516,7 +518,7 @@ std::vector<MacroID> VoiceMacroManager::importMacros(const std::string& json_str
 json VoiceMacroManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     json stats;
-    stats["total_macros"]     = impl_-> static_cast<int>(macros.size());
+    stats["total_macros"]     = impl_->macros.size();
     stats["total_executions"] = impl_->total_executions;
     size_t enabled_count = 0;
     for (const auto& kv : impl_->macros) {

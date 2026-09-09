@@ -75,7 +75,7 @@ CacheHitRateSloMonitor::EvaluationResult CacheHitRateSloMonitor::evaluate(const 
             combined_total += latency_hist_[t].count.load(std::memory_order_relaxed);
         }
 
-        auto percentileFromCombined = [&]([[maybe_unused]] double p) -> double {
+        auto percentileFromCombined = [&](double p) -> double {
             if (combined_total == 0) {
                 return 0.0;
             }
@@ -213,7 +213,7 @@ nlohmann::json CacheHitRateSloMonitor::getStatus() const {
     j["alerts"] = alerts;
 
     // Per-tier and aggregate latency percentiles
-    auto tierJson = [&]([[maybe_unused]] Tier tier) {
+    auto tierJson = [&](Tier tier) {
         const auto &h = latency_hist_[static_cast<std::size_t>(tier)];
         return nlohmann::json{
             {"p50_ms", h.percentileMs(0.50)},

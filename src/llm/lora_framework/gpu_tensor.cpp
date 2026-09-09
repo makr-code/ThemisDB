@@ -239,7 +239,7 @@ GPUTensor GPUTensor::operator-(const GPUTensor& other) const {
     return dispatch_sub(other);
 }
 
-GPUTensor GPUTensor::operator*([[maybe_unused]] float scalar) const {
+GPUTensor GPUTensor::operator*(float scalar) const {
     return dispatch_mul_scalar(scalar);
 }
 
@@ -279,7 +279,7 @@ GPUTensor GPUTensor::transpose() const {
     return dispatch_transpose();
 }
 
-void GPUTensor::fill([[maybe_unused]] float value) {
+void GPUTensor::fill(float value) {
     if (is_cpu()) {
         std::fill(cpu_data_.begin(), cpu_data_.end(), value);
     } else {
@@ -574,7 +574,7 @@ GPUTensor GPUTensor::dispatch_sub(const GPUTensor& other) const {
     return result;
 }
 
-GPUTensor GPUTensor::dispatch_mul_scalar([[maybe_unused]] float scalar) const {
+GPUTensor GPUTensor::dispatch_mul_scalar(float scalar) const {
     GPUTensor result(shape_, device_, dtype_);
     
     if (is_cpu()) {
@@ -834,7 +834,7 @@ GPUTensor GPUTensor::dispatch_transpose() const {
 // Mixed Precision Support
 // ============================================================================
 
-void GPUTensor::multiply_inplace([[maybe_unused]] float scalar) {
+void GPUTensor::multiply_inplace(float scalar) {
     if (is_cpu()) {
         // CPU implementation
         for (size_t i = 0; i < cpu_data_.size(); ++i) {

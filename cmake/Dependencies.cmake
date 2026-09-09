@@ -60,9 +60,14 @@ elseif(EXISTS "${_the_vcpkg_root}")
     # Pre-seed ZLIB variables from vcpkg package layout if present
     set(_vcpkg_zlib_pkg "${_the_vcpkg_root}/packages/zlib_x64-windows")
     if(EXISTS "${_vcpkg_zlib_pkg}")
-        set(_zlib_lib_path "${_vcpkg_zlib_pkg}/lib/zlib.lib")
+        set(_zlib_lib_path "")
+        if(EXISTS "${_vcpkg_zlib_pkg}/lib/zlib.lib")
+            set(_zlib_lib_path "${_vcpkg_zlib_pkg}/lib/zlib.lib")
+        elseif(EXISTS "${_vcpkg_zlib_pkg}/lib/z.lib")
+            set(_zlib_lib_path "${_vcpkg_zlib_pkg}/lib/z.lib")
+        endif()
         set(_zlib_inc_path "${_vcpkg_zlib_pkg}/include")
-        if(EXISTS "${_zlib_lib_path}")
+        if(_zlib_lib_path)
             set(ZLIB_LIBRARY "${_zlib_lib_path}" CACHE FILEPATH "zlib library (preseeded from vcpkg)")
         endif()
         if(EXISTS "${_zlib_inc_path}")
@@ -384,8 +389,8 @@ if(NOT ZLIB_FOUND)
     find_package(ZLIB REQUIRED)
 endif()
 
-# Normalize Windows vcpkg zlib paths: the package exports zlib.lib, while stale cache
-# states or older package layouts may still point at a missing z.lib alias.
+# Normalize Windows vcpkg zlib paths: prefer the installed-tree export when available,
+# but fall back to the package layout used by the current vcpkg package contents.
 if(WIN32)
     set(_themis_zlib_root "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows")
     if(EXISTS "${_themis_zlib_root}/lib/zlib.lib")
@@ -395,12 +400,30 @@ if(WIN32)
         if(NOT ZLIB_LIBRARY_RELEASE OR NOT EXISTS "${ZLIB_LIBRARY_RELEASE}")
             set(ZLIB_LIBRARY_RELEASE "${_themis_zlib_root}/lib/zlib.lib" CACHE FILEPATH "zlib release library (normalized from vcpkg)" FORCE)
         endif()
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg/packages/zlib_x64-windows/lib/zlib.lib")
-        if(NOT ZLIB_LIBRARY OR NOT EXISTS "${ZLIB_LIBRARY}")
-            set(ZLIB_LIBRARY "${CMAKE_SOURCE_DIR}/vcpkg/packages/zlib_x64-windows/lib/zlib.lib" CACHE FILEPATH "zlib library (normalized from vcpkg packages)" FORCE)
+    else()
+        set(_themis_zlib_pkg "${CMAKE_SOURCE_DIR}/vcpkg/packages/zlib_x64-windows")
+        set(_themis_zlib_release_lib "")
+        set(_themis_zlib_debug_lib "")
+        if(EXISTS "${_themis_zlib_pkg}/lib/zlib.lib")
+            set(_themis_zlib_release_lib "${_themis_zlib_pkg}/lib/zlib.lib")
+        elseif(EXISTS "${_themis_zlib_pkg}/lib/z.lib")
+            set(_themis_zlib_release_lib "${_themis_zlib_pkg}/lib/z.lib")
         endif()
-        if(NOT ZLIB_LIBRARY_RELEASE OR NOT EXISTS "${ZLIB_LIBRARY_RELEASE}")
-            set(ZLIB_LIBRARY_RELEASE "${CMAKE_SOURCE_DIR}/vcpkg/packages/zlib_x64-windows/lib/zlib.lib" CACHE FILEPATH "zlib release library (normalized from vcpkg packages)" FORCE)
+        if(EXISTS "${_themis_zlib_pkg}/debug/lib/zlib.lib")
+            set(_themis_zlib_debug_lib "${_themis_zlib_pkg}/debug/lib/zlib.lib")
+        elseif(EXISTS "${_themis_zlib_pkg}/debug/lib/zd.lib")
+            set(_themis_zlib_debug_lib "${_themis_zlib_pkg}/debug/lib/zd.lib")
+        endif()
+        if(_themis_zlib_release_lib)
+            if(NOT ZLIB_LIBRARY OR NOT EXISTS "${ZLIB_LIBRARY}")
+                set(ZLIB_LIBRARY "${_themis_zlib_release_lib}" CACHE FILEPATH "zlib library (normalized from vcpkg packages)" FORCE)
+            endif()
+            if(NOT ZLIB_LIBRARY_RELEASE OR NOT EXISTS "${ZLIB_LIBRARY_RELEASE}")
+                set(ZLIB_LIBRARY_RELEASE "${_themis_zlib_release_lib}" CACHE FILEPATH "zlib release library (normalized from vcpkg packages)" FORCE)
+            endif()
+        endif()
+        if(_themis_zlib_debug_lib AND (NOT ZLIB_LIBRARY_DEBUG OR NOT EXISTS "${ZLIB_LIBRARY_DEBUG}"))
+            set(ZLIB_LIBRARY_DEBUG "${_themis_zlib_debug_lib}" CACHE FILEPATH "zlib debug library (normalized from vcpkg packages)" FORCE)
         endif()
     endif()
 endif()
@@ -848,12 +871,18 @@ endif()
 
 # cpp-httplib (built-in HTTP server)
 find_package(httplib QUIET CONFIG)
+if(TARGET httplib::httplib)
+    get_target_property(_themis_httplib_imported httplib::httplib IMPORTED)
+    if(_themis_httplib_imported)
+        set_property(TARGET httplib::httplib PROPERTY IMPORTED_GLOBAL TRUE)
+    endif()
+endif()
 if(NOT httplib_FOUND)
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)
         pkg_check_modules(HTTPLIB_PC QUIET cpp-httplib)
         if(HTTPLIB_PC_FOUND AND NOT TARGET httplib::httplib)
-            add_library(httplib::httplib INTERFACE IMPORTED)
+            add_library(httplib::httplib INTERFACE IMPORTED GLOBAL)
             set_target_properties(httplib::httplib PROPERTIES
                 INTERFACE_INCLUDE_DIRECTORIES "${HTTPLIB_PC_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES "${HTTPLIB_PC_LINK_LIBRARIES}"
@@ -874,6 +903,45 @@ if(NOT httplib_FOUND)
             endif()
             set(httplib_FOUND TRUE)
         endif()
+    endif()
+endif()
+if(httplib_FOUND AND NOT TARGET httplib::httplib)
+    set(_themis_httplib_include_dirs "")
+    foreach(_themis_httplib_inc_var IN ITEMS
+        httplib_INCLUDE_DIRS
+        httplib_INCLUDE_DIR
+        HTTPLIB_INCLUDE_DIRS
+        HTTPLIB_INCLUDE_DIR
+    )
+        if(DEFINED ${_themis_httplib_inc_var} AND NOT "${${_themis_httplib_inc_var}}" STREQUAL "")
+            list(APPEND _themis_httplib_include_dirs "${${_themis_httplib_inc_var}}")
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES _themis_httplib_include_dirs)
+
+    set(_themis_httplib_link_libraries "")
+    foreach(_themis_httplib_lib_var IN ITEMS
+        httplib_LIBRARIES
+        httplib_LIBRARY
+        HTTPLIB_LIBRARIES
+        HTTPLIB_LIBRARY
+    )
+        if(DEFINED ${_themis_httplib_lib_var} AND NOT "${${_themis_httplib_lib_var}}" STREQUAL "")
+            list(APPEND _themis_httplib_link_libraries "${${_themis_httplib_lib_var}}")
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES _themis_httplib_link_libraries)
+
+    add_library(httplib::httplib INTERFACE IMPORTED GLOBAL)
+    if(_themis_httplib_include_dirs)
+        set_target_properties(httplib::httplib PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${_themis_httplib_include_dirs}"
+        )
+    endif()
+    if(_themis_httplib_link_libraries)
+        set_target_properties(httplib::httplib PROPERTIES
+            INTERFACE_LINK_LIBRARIES "${_themis_httplib_link_libraries}"
+        )
     endif()
 endif()
 if(httplib_FOUND)

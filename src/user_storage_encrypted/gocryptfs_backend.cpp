@@ -230,7 +230,7 @@ GocryptfsBackend::GocryptfsBackend(KeyDerivationService* kdf_service)
 
 GocryptfsBackend::~GocryptfsBackend() = default;
 
-Result<void> GocryptfsBackend::initialize([[maybe_unused]] const std::string& config_json) {
+Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
     // For now, simple initialization
     // Could parse config_json to customize gocryptfs_binary path
     impl_->initialized = true;

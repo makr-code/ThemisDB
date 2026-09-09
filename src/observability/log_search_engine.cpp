@@ -49,8 +49,8 @@ bool LogFieldFilter::matches(const LogEntry& entry) const {
         case FieldMatchOp::CONTAINS:
             return actual.find(value) != std::string::npos;
         case FieldMatchOp::STARTS_WITH:
-            return static_cast<bool>( static_cast<int>(actual.size()) < static_cast<int>(= value.size())) &&
-                   actual.compare(0,static_cast<int>(value.size()), value) == 0;
+            return actual.size() >= value.size() &&
+                   actual.compare(0, value.size(), value) == 0;
     }
     return false;
 }

@@ -202,7 +202,7 @@ double DegradedModeExecutor::getMinimumCoverage() const {
     return minimum_coverage_pct_;
 }
 
-void DegradedModeExecutor::setMinimumCoverage([[maybe_unused]] double coverage_pct) {
+void DegradedModeExecutor::setMinimumCoverage(double coverage_pct) {
     if (coverage_pct < 0.0 || coverage_pct > 100.0) {
         spdlog::warn("Invalid coverage percentage: {}; ignoring", coverage_pct);
         return;

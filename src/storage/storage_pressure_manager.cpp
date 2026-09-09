@@ -32,7 +32,7 @@ namespace storage {
 /**
  * @brief Classify pressure level based on utilization percentage.
  */
-[[nodiscard]] PressureEscalationLevel classifyPressureLevel([[maybe_unused]] double utilization_percent) noexcept {
+[[nodiscard]] PressureEscalationLevel classifyPressureLevel(double utilization_percent) noexcept {
     if (utilization_percent < 75.0) {
         return PressureEscalationLevel::NORMAL;
     } else if (utilization_percent < 85.0) {

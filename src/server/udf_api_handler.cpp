@@ -58,7 +58,7 @@ UdfApiHandler::makeErrorResponse(
 http::response<http::string_body>
 UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRegister");
+    auto span = Tracer::startSpan("handleRegister");
     const themis::utils::InputValidator validator;
 
     if (!validator.validateStringLength(req.body(), 1'000'000)) {

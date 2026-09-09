@@ -79,7 +79,7 @@ bool isSystemCollection(const std::string& col) {
         return s;
     }();
     return std::any_of(k_system_collections.begin(), k_system_collections.end(),
-                       [&]([[maybe_unused]] std::string_view sc) { return lower == sc; });
+                       [&](std::string_view sc) { return lower == sc; });
 }
 
 } // anonymous namespace

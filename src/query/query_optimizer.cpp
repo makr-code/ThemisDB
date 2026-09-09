@@ -546,7 +546,7 @@ QueryOptimizer::GraphPathCostResult QueryOptimizer::estimateGraphPath(const Grap
 
 // ---------------- Adaptive & Distributed Optimization ----------------
 
-void QueryOptimizer::enableAdaptiveOptimization([[maybe_unused]] bool enable) {
+void QueryOptimizer::enableAdaptiveOptimization(bool enable) {
 	adaptive_enabled_ = enable;
 	
 	if (enable && !adaptive_stats_) {
@@ -697,7 +697,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 
 bool QueryOptimizer::DistributedQueryCostModel::shouldPrunePartition(
     const ShardInfo& info, 
-	[[maybe_unused]] size_t total_shards, 
+	size_t total_shards, 
     double selectivity) const {
     
     // Production implementation: Prune partitions with low expected row count
@@ -896,7 +896,7 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
 QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 	size_t k,
 	size_t dataset_size,
-	[[maybe_unused]] size_t dimension,
+	size_t dimension,
 	double target_recall) const {
 	
 	VectorWorkloadPlan plan;

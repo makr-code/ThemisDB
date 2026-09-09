@@ -128,7 +128,7 @@ LoRAEnhancedRetriever::rerank(
     }
 
     const std::size_t rerank_k =
-        std::min(config_.top_k_rerank,static_cast<int>(candidates.size()));
+        std::min(config_.top_k_rerank, candidates.size());
 
     // Split into top-K (to re-rank) and the rest (append unchanged).
     std::vector<judge::RetrievedDocument> to_rerank(
@@ -160,7 +160,7 @@ LoRAEnhancedRetriever::rerank(
     if (config_.min_lora_score > 0.0) {
         auto partition_it = std::stable_partition(
             to_rerank.begin(), to_rerank.end(),
-            [&]([[maybe_unused]] const judge::RetrievedDocument& d) {
+            [&](const judge::RetrievedDocument& d) {
                 auto it = d.metadata.find("lora_score");
                 if (it == d.metadata.end()) {
                   return true;

@@ -88,9 +88,21 @@ nlohmann::json KeysApiHandler::listKeys() {
     }
 }
 
-nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, [[maybe_unused]] const nlohmann::json& body) {
+nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
     try {
     auto span = Tracer::startSpan("rotateKey");
+        if (!body.is_null() && !body.is_object()) {
+            THEMIS_WARN("Keys API rotateKey: invalid request body type for key '{}': expected object", key_id);
+            return {
+                {"error", "Bad Request"},
+                {"message", "Request body must be a JSON object"},
+                {"status_code", 400}
+            };
+        }
+        if (body.is_object() && body.contains("reason") && body["reason"].is_string()) {
+            THEMIS_DEBUG("Keys API rotateKey reason for '{}': {}", key_id,
+                         body["reason"].get<std::string>());
+        }
         if (!key_provider_) {
             THEMIS_ERROR("Keys API: KeyProvider not initialized");
             return {

@@ -112,8 +112,8 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 // The "delete_no_nullptr" alert at line 219 misidentifies the GCS API method
 // DeleteObject() as a raw pointer delete — false positives.
 // ─────────────────────────────────────────────────────────────────────────────
-Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
-                                    [[maybe_unused]] const std::vector<uint8_t>& data) {
+Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
+                                    const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -147,12 +147,15 @@ Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
     THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id,static_cast<int>(data.size()));
     return Ok(ref);
 #else
+    THEMIS_WARN("GCS put unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}', payload_bytes={}",
+                blob_id,
+                static_cast<int>(data.size()));
     return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                         "GCS support not compiled in");
 #endif
 }
 
-Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef& ref) {
+Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -209,12 +212,14 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef&
     THEMIS_DEBUG("GCS blob retrieved: id={}, size={} bytes", ref.id,static_cast<int>(data.size()));
     return Ok(std::move(data));
 #else
+    THEMIS_WARN("GCS get unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'",
+                ref.id);
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                                      "GCS support not compiled in");
 #endif
 }
 
-Result<void> GCSBlobBackend::remove([[maybe_unused]] const BlobRef& ref) {
+Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -235,12 +240,14 @@ Result<void> GCSBlobBackend::remove([[maybe_unused]] const BlobRef& ref) {
     THEMIS_DEBUG("GCS blob deleted: id={}", ref.id);
     return OkVoid();
 #else
+    THEMIS_WARN("GCS remove unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'",
+                ref.id);
     return Err<void>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
                      "GCS support not compiled in");
 #endif
 }
 
-bool GCSBlobBackend::exists([[maybe_unused]] const BlobRef& ref) {
+bool GCSBlobBackend::exists(const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -252,6 +259,7 @@ bool GCSBlobBackend::exists([[maybe_unused]] const BlobRef& ref) {
     auto metadata = impl_->client->GetObjectMetadata(impl_->bucket, obj);
     return metadata.ok();
 #else
+    THEMIS_TRACE("GCS exists unavailable (build without THEMIS_ENABLE_GCS): blob_id='{}'", ref.id);
     return false;
 #endif
 }

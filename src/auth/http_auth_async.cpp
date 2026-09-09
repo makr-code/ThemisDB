@@ -203,7 +203,7 @@ HTTPAuthResponse AsyncHTTPAuth::performGet(
         }
         
         // Set response callback
-        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, writecallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, writecallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         
         // Perform request with retry logic
@@ -294,7 +294,7 @@ HTTPAuthResponse AsyncHTTPAuth::performPost(
         }
         
         // Set response callback
-        curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION, writecallback);
+        curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION, writecallback);
         curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA, &response_body);
         
         // Perform request with retry logic

@@ -147,7 +147,7 @@ std::string EmbeddedLLM::generateWithParams(
 
 std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
-    [[maybe_unused]] ChatFormat format
+    ChatFormat format
 ) {
     std::string merged = {};
     for (const auto& m : messages) {
@@ -168,7 +168,7 @@ std::string EmbeddedLLM::chatSimple(
     return chat({{"system", system_prompt}, {"user", user_message}});
 }
 
-std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) {
+std::vector<float> EmbeddedLLM::embed(const std::string& text) {
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
         if (embed_fn_) {
@@ -422,7 +422,7 @@ InferenceRequest EmbeddedLLM::createRequest(
 
 std::string EmbeddedLLM::applyEthicalGuidelines(
     const std::string& prompt,
-    [[maybe_unused]] const std::string& context_text
+    const std::string& context_text
 ) {
     return prompt;
 }

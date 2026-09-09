@@ -429,7 +429,7 @@ bool DatabaseConnectionManager::shouldRemoveConnection(const Connection* conn) c
     return false;
 }
 
-void DatabaseConnectionManager::updateCircuitBreaker([[maybe_unused]] bool success) {
+void DatabaseConnectionManager::updateCircuitBreaker(bool success) {
     if (success) {
         consecutive_successes_++;
         consecutive_failures_ = 0;
@@ -477,7 +477,7 @@ bool DatabaseConnectionManager::canAttemptConnection() const {
 }
 
 std::chrono::milliseconds 
-DatabaseConnectionManager::calculateBackoffDelay([[maybe_unused]] size_t attempt) const {
+DatabaseConnectionManager::calculateBackoffDelay(size_t attempt) const {
     double delay_ms = config_.initial_retry_delay.count() * 
                      std::pow(config_.backoff_multiplier, attempt);
     
@@ -495,7 +495,7 @@ ExponentialBackoff::ExponentialBackoff(const Config& config)
     , rng_(std::random_device{}()) {
 }
 
-std::chrono::milliseconds ExponentialBackoff::calculateDelay([[maybe_unused]] size_t attempt) const {
+std::chrono::milliseconds ExponentialBackoff::calculateDelay(size_t attempt) const {
     double base_delay = config_.initial_delay.count() * 
                        std::pow(config_.multiplier, attempt);
     

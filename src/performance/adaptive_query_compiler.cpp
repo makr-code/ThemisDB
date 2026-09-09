@@ -231,7 +231,7 @@ struct IRGenOptions {
 };
 
 static std::string generateLLVMIR(const ParsedQuery& query,
-                                   [[maybe_unused]] const Schema&      schema,
+                                   const Schema&      schema,
                                    const IRGenOptions& opts) {
     std::ostringstream ir = {};
     ir << "; ThemisDB Adaptive Query Compiler – LLVM IR (simulated)\n";
@@ -311,7 +311,7 @@ static std::string generateAssembly(const ParsedQuery&  query,
 static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
-                         [[maybe_unused]] const QueryParams&        params) {
+                         const QueryParams&        params) {
     QueryRow row = {};
     if (!tschema) {
         row.column_names = {"id", "value"};
@@ -724,7 +724,7 @@ private:
 
     static double applyAggFunction(const std::string& fn,
                                     const AggAccum&    acc,
-                                    [[maybe_unused]] size_t             total_rows) {
+                                    size_t             total_rows) {
         if (fn == "COUNT") {
           return static_cast<double>(acc.count);
         }
@@ -789,7 +789,7 @@ private:
             QueryRow joined;
             joined.column_names = lrow.column_names;
             joined.values       = lrow.values;
-            for (size_t ci = 0; ci < rit-> static_cast<int>(second.column_names.size()); ++ci) {
+            for (size_t ci = 0; ci < rit->second.column_names.size(); ++ci) {
                 joined.column_names.push_back(
                     query.join_table + "." + rit->second.column_names[ci]);
                 joined.values.push_back(rit->second.values[ci]);
@@ -921,7 +921,7 @@ private:
                                     : ColumnType::Unknown;
                     preds.push_back({p.column, p.op, p.value, p.param_name, ct});
                 }
-                [[maybe_unused]] const bool vectorized = cfg.enable_vectorization;
+                const bool vectorized = cfg.enable_vectorization;
                 const std::string tbl = query.table;
 
                 cq.execute = [preds, tschema_copy = (tschema ? *tschema : TableSchema{}),

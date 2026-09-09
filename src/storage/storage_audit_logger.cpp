@@ -49,8 +49,8 @@ namespace fs = std::filesystem;
 #if defined(_WIN32)
 using themis_ssize_t = std::ptrdiff_t;
 static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
-static int themis_close_fd([[maybe_unused]] int fd) { return _close(fd); }
-static int themis_fsync_fd([[maybe_unused]] int fd) { return _commit(fd); }
+static int themis_close_fd(int fd) { return _close(fd); }
+static int themis_fsync_fd(int fd) { return _commit(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     return static_cast<themis_ssize_t>(_write(fd, data, static_cast<unsigned int>(len)));
 }
@@ -59,8 +59,8 @@ using themis_ssize_t = ssize_t;
 // no_timeout scanner alert: these are thin POSIX syscall shims for local
 // audit-log files; block-device I/O does not require network-style timeouts.
 static int themis_open_fd(const char* path, int flags, int mode) { return ::open(path, flags, mode); }
-static int themis_close_fd([[maybe_unused]] int fd) { return ::close(fd); }
-static int themis_fsync_fd([[maybe_unused]] int fd) { return ::fsync(fd); }
+static int themis_close_fd(int fd) { return ::close(fd); }
+static int themis_fsync_fd(int fd) { return ::fsync(fd); }
 static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
     // no_timeout scanner alert: local audit-log write — blocking POSIX write
     // on local storage; no network timeout applicable here.
@@ -84,7 +84,7 @@ std::string_view StorageAuditLogger::eventName(Event e) {
     }
 }
 
-/* static */ std::string StorageAuditLogger::segmentName([[maybe_unused]] uint64_t segment_id) {
+/* static */ std::string StorageAuditLogger::segmentName(uint64_t segment_id) {
     std::ostringstream oss = {};
     oss << "audit_" << std::setw(6) << std::setfill('0') << segment_id << ".log";
     return oss.str();

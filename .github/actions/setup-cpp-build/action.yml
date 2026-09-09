@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Setup C++ Build Environment'
 description: |
   Installs standard C++ build dependencies (cmake, ninja-build, libgtest-dev,
@@ -88,3 +89,4 @@ runs:
           sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
           sudo cp *.a     /usr/lib/ 2>/dev/null || true
         fi
+

@@ -204,13 +204,13 @@ public:
         // Common DPR output patterns: [1, hidden] or [1, seq, hidden].
         if (static_cast<int>(out_shape.size()) == 2 && out_shape[0] == 1 && out_shape[1] > 0) {
             const size_t hidden = static_cast<size_t>(out_shape[1]);
-            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
+            const size_t copy = std::min(hidden, embedding.size());
             std::copy_n(out_data, copy, embedding.begin());
         } else if (static_cast<int>(out_shape.size()) == 3 && out_shape[0] == 1 &&
                    out_shape[1] > 0 && out_shape[2] > 0) {
             const size_t seq = static_cast<size_t>(out_shape[1]);
             const size_t hidden = static_cast<size_t>(out_shape[2]);
-            const size_t copy = std::min(hidden,static_cast<int>(embedding.size()));
+            const size_t copy = std::min(hidden, embedding.size());
             // CLS-pooling equivalent: first token embedding.
             std::copy_n(out_data, copy, embedding.begin());
             // If the first token is empty/zero, mean-pool as robust fallback.
@@ -229,7 +229,7 @@ public:
         } else {
             // Unexpected tensor shape: flatten-first strategy.
             const auto total = static_cast<size_t>(type_info.GetElementCount());
-            const size_t copy = std::min(total,static_cast<int>(embedding.size()));
+            const size_t copy = std::min(total, embedding.size());
             std::copy_n(out_data, copy, embedding.begin());
         }
 
@@ -542,7 +542,7 @@ std::vector<std::vector<float>> DPRVectorizer::encodePassageBatch(
         for (size_t batch_start = 0; batch_start < passages.size(); 
              batch_start += config_.batch_size) {
             
-            size_t batch_end = std::min(batch_start + config_.batch_size,static_cast<int>(passages.size()));
+            size_t batch_end = std::min(batch_start + config_.batch_size, passages.size());
             
             // Tokenize batch (with synchronization to protect tokenizer access)
             std::vector<std::vector<int>> batch_tokens;

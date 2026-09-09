@@ -246,7 +246,7 @@ void FederatedDistillationCoordinator::registerStudent(const std::string &studen
         throw std::invalid_argument("registerStudent: student_id must not be empty");
     }
     if (!cb) {
-        throw std::invalid_argument([[maybe_unused]] "registerStudent: callback must not be null");
+        throw std::invalid_argument("registerStudent: callback must not be null");
     }
     std::lock_guard<std::mutex> lock(mutex_);
     students_.emplace_back(student_id, std::move(cb));

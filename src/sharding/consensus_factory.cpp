@@ -35,7 +35,8 @@ std::unique_ptr<ConsensusModule> ConsensusFactory::create(const ConsensusConfig&
             return std::make_unique<GossipConsensusAdapter>(config);
             
         case ConsensusType::PAXOS:
-        [[fallthrough]];\n        case ConsensusType::MULTI_PAXOS:
+        [[fallthrough]];
+        case ConsensusType::MULTI_PAXOS:
             return std::make_unique<PaxosConsensus>(config);
         
         case ConsensusType::RAID_PAXOS: {

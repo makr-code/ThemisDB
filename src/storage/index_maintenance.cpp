@@ -852,7 +852,7 @@ std::string IndexMaintenanceManager::generateJobId() {
     return oss.str();
 }
 
-FragmentationLevel IndexMaintenanceManager::classifyFragmentation([[maybe_unused]] double percentage) const {
+FragmentationLevel IndexMaintenanceManager::classifyFragmentation(double percentage) const {
     if (percentage <= 10.0) {
         return FragmentationLevel::LOW;
     } else if (percentage <= 30.0) {

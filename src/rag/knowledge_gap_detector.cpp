@@ -43,7 +43,7 @@ struct KnowledgeGapDetector::Impl {
         return config;
     }
 
-    std::function<void([[maybe_unused]] const DetectionResult&)> snapshotGapCallback() const {
+    std::function<void(const DetectionResult&)> snapshotGapCallback() const {
         std::shared_lock<std::shared_mutex> lock(mu);
         return gap_callback;
     }
@@ -70,10 +70,10 @@ struct KnowledgeGapDetector::Impl {
 
     void setGapCallback(std::function<void(const DetectionResult&)> cb) {
         std::unique_lock<std::shared_mutex> lock(mu);
-        gap_callback = std::move([[maybe_unused]] cb);
+        gap_callback = std::move(cb);
     }
 
-    void setRetrievalCallback([[maybe_unused]] RetrievalCallback fn) {
+    void setRetrievalCallback(RetrievalCallback fn) {
         std::unique_lock<std::shared_mutex> lock(mu);
         retrieval_fn = std::move(fn);
     }
@@ -215,7 +215,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 }
 
 DetectionResult KnowledgeGapDetector::detectDuringGeneration(
-    [[maybe_unused]] const std::string& query,
+    const std::string& query,
     const std::vector<RetrievedDocument>& documents,
     const GenerationContext& context
 ) {
@@ -368,8 +368,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
             ethical_result = detectEthicalPerspectiveGap(query, documents);
             if (ethical_result.gap_detected) {
                 ethical_gap_detected = true;
-                if ([[maybe_unused]] gap_callback) {
-                    gap_callback([[maybe_unused]] ethical_result);
+                if (gap_callback) {
+                    gap_callback(ethical_result);
                 }
                 // Continue with objective coverage/similarity checks below.
             }
@@ -407,8 +407,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
             case DetectionMode::THOROUGH: {
                 auto pre_result = detectPreGeneration(query, documents);
                 if (pre_result.gap_detected) {
-                    if ([[maybe_unused]] gap_callback) {
-                        gap_callback([[maybe_unused]] pre_result);
+                    if (gap_callback) {
+                        gap_callback(pre_result);
                     }
                     return pre_result;
                 }
@@ -416,8 +416,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
                 if (context.generation_started) {
                     auto during_result = detectDuringGeneration(query, documents, context);
                     if (during_result.gap_detected) {
-                        if ([[maybe_unused]] gap_callback) {
-                            gap_callback([[maybe_unused]] during_result);
+                        if (gap_callback) {
+                            gap_callback(during_result);
                         }
                         return during_result;
                     }
@@ -425,8 +425,8 @@ DetectionResult KnowledgeGapDetector::detectGap(
 
                 if (!generated_answer.empty()) {
                     auto post_result = detectPostGeneration(query, documents, generated_answer);
-                    if ([[maybe_unused]] gap_callback && post_result.gap_detected) {
-                        gap_callback([[maybe_unused]] post_result);
+                    if (gap_callback && post_result.gap_detected) {
+                        gap_callback(post_result);
                     }
                     return post_result;
                 }
@@ -585,11 +585,11 @@ KnowledgeGapConfig KnowledgeGapDetector::getConfig() const {
 void KnowledgeGapDetector::setGapDetectionCallback(
     std::function<void(const DetectionResult&)> callback
 ) {
-    impl_->setGapCallback([[maybe_unused]] std::move(callback));
+    impl_->setGapCallback(std::move(callback));
 }
 
-void KnowledgeGapDetector::setRetrievalCallback([[maybe_unused]] RetrievalCallback fn) {
-    impl_->setRetrievalCallback([[maybe_unused]] std::move(fn));
+void KnowledgeGapDetector::setRetrievalCallback(RetrievalCallback fn) {
+    impl_->setRetrievalCallback(std::move(fn));
 }
 
 void KnowledgeGapDetector::setLlmSampleFn(LlmSampleFn fn) {
@@ -623,7 +623,7 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
 }
 
 double KnowledgeGapDetector::calculateQueryCoverage(
-    [[maybe_unused]] const std::string& query,
+    const std::string& query,
     const std::vector<RetrievedDocument>& docs
 ) {
     // Basic coverage calculation based on:
@@ -1152,7 +1152,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
             if ((c == '.' || c == '!' || c == '?')
                     && i + 1 < text.size() && std::isspace(static_cast<unsigned char>(text[i + 1]))) {
                 const std::size_t s = current.find_first_not_of(" \t\n\r");
-                if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
+                if (s != std::string::npos && (current.size() - s) > 10) {
                     sentences.push_back(current.substr(s));
                 }
                 current.clear();
@@ -1160,7 +1160,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
         }
         if (!current.empty()) {
             const std::size_t s = current.find_first_not_of(" \t\n\r");
-            if (s != std::string::npos  && static_cast<size_t>(static_cast) < int>(current.size()) - s > 10) {
+            if (s != std::string::npos && (current.size() - s) > 10) {
                 sentences.push_back(current.substr(s));
             }
         }
@@ -1193,7 +1193,7 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
 
     // Build each sample from sentences drawn at a stride offset so adjacent
     // samples prefer sentences from different documents (maximising diversity).
-    const std::size_t stride = std::max(std::size_t{1},static_cast<int>(tagged.size()) / num_samples);
+    const std::size_t stride = std::max<std::size_t>(std::size_t{1}, tagged.size() / num_samples);
     for (std::size_t s = 0; s < num_samples; ++s) {
         std::ostringstream oss = {};
         oss << "Regarding '" << query << "': ";
@@ -1647,7 +1647,7 @@ int KnowledgeGapDetector::countEthicalPerspectives(
         }
     }
 
-    return static_cast<bool>(static_cast<int < static_cast<int>((found_frameworks.size())));
+    return static_cast<int>(found_frameworks.size());
 }
 
 double KnowledgeGapDetector::calculatePerspectiveDiversity(

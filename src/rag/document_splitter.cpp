@@ -167,8 +167,8 @@ DocumentSplitter::Impl::splitFixed(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
-        const size_t core_end = std::min(pos + step_chars,static_cast<int>(text.size()));
+    while (pos < text.size()) {
+        const size_t core_end = std::min(pos + step_chars, text.size());
 
         // Build chunk: optional overlap prefix + core
         std::string content = {};
@@ -228,8 +228,8 @@ DocumentSplitter::Impl::splitSliding(const std::string& text,
     size_t chunk_idx = 0;
     size_t pos       = 0;
 
-    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
-        const size_t end = std::min(pos + chunk_chars,static_cast<int>(text.size()));
+    while (pos < text.size()) {
+        const size_t end = std::min(pos + chunk_chars, text.size());
         std::string  content = text.substr(pos, end - pos);
 
         const size_t tok = estimateTokenCount(content, config.chars_per_token);
@@ -273,7 +273,7 @@ DocumentSplitter::Impl::splitSentence(const std::string& text,
     size_t current_tokens = 0;
     size_t chunk_start_offset = sentences.front().second;
 
-    auto flush = [&]([[maybe_unused]] size_t end_offset) {
+    auto flush = [&](size_t end_offset) {
         if (current.empty()) {
           return;
         }
@@ -370,7 +370,8 @@ DocumentSplitter::split(const std::string& text,
         case SplitStrategy::Sliding:
             return impl_->splitSliding(text, document_id);
         case SplitStrategy::Sentence:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return impl_->splitSentence(text, document_id);
     }
 }

@@ -143,7 +143,7 @@ const CacheEvictionPolicy* CacheManager::get_eviction_policy(const std::string& 
     return it->second.policy.get();
 }
 
-uint32_t CacheManager::register_event_handler([[maybe_unused]] EventHandler&& handler) {
+uint32_t CacheManager::register_event_handler(EventHandler&& handler) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot register handler on moved-from manager");
     }
@@ -156,9 +156,9 @@ uint32_t CacheManager::register_event_handler([[maybe_unused]] EventHandler&& ha
     return entry.id;
 }
 
-bool CacheManager::unregister_event_handler([[maybe_unused]] uint32_t handler_id) {
+bool CacheManager::unregister_event_handler(uint32_t handler_id) {
     auto it = std::find_if(event_handlers_.begin(), event_handlers_.end(),
-                          [handler_id]([[maybe_unused]] const EventHandlerEntry& e) { 
+                          [handler_id](const EventHandlerEntry& e) {
                               return e.id == handler_id; 
                           });
 
@@ -170,7 +170,7 @@ bool CacheManager::unregister_event_handler([[maybe_unused]] uint32_t handler_id
     return true;
 }
 
-void CacheManager::dispatch_event([[maybe_unused]] const CacheEvent& event) noexcept {
+void CacheManager::dispatch_event(const CacheEvent& event) noexcept {
     if (is_moved_from_) {
         return;
     }

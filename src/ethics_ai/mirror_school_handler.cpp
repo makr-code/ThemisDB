@@ -69,7 +69,7 @@ void MirrorSchoolHandler::setLLMInferenceFn(LLMInferenceFn fn)
     inference_fn_ = std::move(fn);
 }
 
-void MirrorSchoolHandler::setSchoolTimeoutMs([[maybe_unused]] int timeout_ms) noexcept
+void MirrorSchoolHandler::setSchoolTimeoutMs(int timeout_ms) noexcept
 {
     timeout_ms_ = timeout_ms;
 }

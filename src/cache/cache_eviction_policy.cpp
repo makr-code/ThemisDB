@@ -96,7 +96,7 @@ std::unique_ptr<CacheEvictionPolicy> LRUEvictionPolicy::clone() const {
 // LFUEvictionPolicy Implementation
 // =============================================================================
 
-LFUEvictionPolicy::LFUEvictionPolicy([[maybe_unused]] double aging_factor)
+LFUEvictionPolicy::LFUEvictionPolicy(double aging_factor)
     : aging_factor_(aging_factor), is_moved_from_(false) {
     
     if (aging_factor < 0.0 || aging_factor > 1.0) {
@@ -651,7 +651,7 @@ void WeightedTieredLRUEvictionPolicy::ensure_operational() const {
 }
 
 WeightedTieredLRUEvictionPolicy::Tier
-WeightedTieredLRUEvictionPolicy::classify_locked([[maybe_unused]] size_t access_count) const {
+WeightedTieredLRUEvictionPolicy::classify_locked(size_t access_count) const {
     if (access_count >= config_.l1_promotion_threshold) {
         return Tier::L1;
     }

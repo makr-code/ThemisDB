@@ -134,7 +134,7 @@ DownsamplingPipeline::DownsamplingPipeline(TSStore* store)
     }
 }
 
-void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& policy) {
+void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
     if (policy.metric.empty()) {
         throw std::invalid_argument("DownsamplingPipeline::addPolicy: metric name cannot be empty");
     }

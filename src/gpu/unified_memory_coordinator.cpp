@@ -9,7 +9,7 @@
 namespace themis {
 namespace gpu {
 
-UnifiedMemoryBuffer::UnifiedMemoryBuffer([[maybe_unused]] size_t size)
+UnifiedMemoryBuffer::UnifiedMemoryBuffer(size_t size)
     : ptr_(nullptr), size_(size), owner_(Owner::UNOWNED), conflict_(false) {
     
     if (size > 0) {
@@ -129,7 +129,7 @@ bool UnifiedMemoryBuffer::hadConflict() const noexcept {
     return conflict_.load(std::memory_order_acquire);
 }
 
-void* UnifiedMemoryBuffer::allocateUnifiedMemory([[maybe_unused]] size_t size) {
+void* UnifiedMemoryBuffer::allocateUnifiedMemory(size_t size) {
     void* ptr = nullptr;
     CUDA_CHECK(cudaMallocManaged(&ptr, size));
     return ptr;

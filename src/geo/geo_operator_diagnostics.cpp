@@ -38,7 +38,7 @@ void GeoOperatorDiagnostics::recordIncident(
             error_code
         };
         std::lock_guard<std::mutex> lock(mutex_);
-        if (static_cast<int>(incidents_.size()) >= kMaxIncidents) {
+        if (incidents_.size() >= static_cast<std::size_t>(kMaxIncidents)) {
             incidents_.erase(incidents_.begin());
         }
         incidents_.push_back(std::move(inc));
@@ -66,7 +66,7 @@ std::vector<GeoIncident> GeoOperatorDiagnostics::recentIncidents(
     if (incidents_.empty()) return {};
     // Newest at back; return newest first.
     std::vector<GeoIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
+    if (max_count > 0 && result.size() > max_count) {
         result.resize(max_count);
     }
     return result;
@@ -146,9 +146,11 @@ int64_t GeoOperatorDiagnostics::nowNs() noexcept {
 GeoIncidentSeverity GeoOperatorDiagnostics::severityFromId(
         std::string_view id) noexcept {
     // Convention: suffix determines severity.
-    auto has_suffix = [&]([[maybe_unused]] std::string_view suffix) {
-        return static_cast<bool>( static_cast<int>(id.size()) < static_cast<int>(= suffix.size())) &&
-               id.substr(static_cast<int>(id.size()) - static_cast<int>(suffix.size()) ) == suffix;
+    auto has_suffix = [&](std::string_view suffix) {
+        if (id.size() < suffix.size()) {
+            return false;
+        }
+        return id.substr(id.size() - suffix.size()) == suffix;
     };
     if (has_suffix("PERSISTENT") || has_suffix("CRITICAL")) {
         return GeoIncidentSeverity::CRITICAL;

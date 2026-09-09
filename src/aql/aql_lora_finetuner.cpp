@@ -602,7 +602,8 @@ TrainingResult AQLLoRAFinetuner::train() {
     // Build the training dataset
     auto dataset = impl_->dataset_builder.build("themisdb_aql");
 
-    if (static_cast<int>(dataset.size()) < impl_->config.min_training_samples) {
+    if (impl_->config.min_training_samples > 0
+            && dataset.size() < static_cast<std::size_t>(impl_->config.min_training_samples)) {
         throw std::runtime_error("AQLLoRAFinetuner: insufficient training samples (" + std::to_string(dataset.size())
                                  + " < " + std::to_string(impl_->config.min_training_samples) + " required)");
     }
@@ -611,9 +612,9 @@ TrainingResult AQLLoRAFinetuner::train() {
                  dataset.size(), impl_->config.base_model);
 
     // Wire epoch_callback through LoRATrainingService::registerCallback if provided
-    if ([[maybe_unused]] impl_->config.epoch_callback) {
+    if (impl_->config.epoch_callback) {
         auto cb = impl_->config.epoch_callback;
-        impl_->training_service->registerCallback([[maybe_unused]] [cb](const ::themis::llm::lora::TrainingMetrics &metrics) {
+        impl_->training_service->registerCallback([cb](const ::themis::llm::lora::TrainingMetrics &metrics) {
             // Deliver a callback at the end of each epoch (status == "training"
             // and current_step == total_steps within that epoch, or per-epoch
             // transition).  We forward every metrics update; callers can

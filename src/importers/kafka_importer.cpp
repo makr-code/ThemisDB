@@ -137,7 +137,7 @@ private:
 /// RAII wrapper for rd_kafka_topic_partition_list_t with exception-safe cleanup
 class RDKafkaTopicPartitionListWrapper {
 public:
-    explicit RDKafkaTopicPartitionListWrapper([[maybe_unused]] int size) 
+    explicit RDKafkaTopicPartitionListWrapper(int size) 
         : tpl_(rd_kafka_topic_partition_list_new(size)) {}
     
     ~RDKafkaTopicPartitionListWrapper() {

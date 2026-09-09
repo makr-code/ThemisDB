@@ -169,7 +169,7 @@ DiskSpaceMonitor::SpaceInfo DiskSpaceMonitor::checkSpace() {
     return info;
 }
 
-bool DiskSpaceMonitor::canWrite([[maybe_unused]] size_t bytes_to_write) {
+bool DiskSpaceMonitor::canWrite(size_t bytes_to_write) {
     // A zero-byte write does not consume disk capacity.
     if (bytes_to_write == 0) {
         return true;
@@ -237,12 +237,12 @@ DiskSpaceMonitor::MonitorStats DiskSpaceMonitor::getStats() const {
     return stats_;
 }
 
-void DiskSpaceMonitor::setAlertCallback([[maybe_unused]] AlertCallback callback) {
+void DiskSpaceMonitor::setAlertCallback(AlertCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     alert_callback_ = std::move(callback);
 }
 
-void DiskSpaceMonitor::setGCCallback([[maybe_unused]] GCCallback callback) {
+void DiskSpaceMonitor::setGCCallback(GCCallback callback) {
     std::lock_guard<std::mutex> lock(mutex_);
     gc_callback_ = std::move(callback);
 }
@@ -269,12 +269,12 @@ void DiskSpaceMonitor::triggerGC() {
     }
 }
 
-void DiskSpaceMonitor::setReadOnlyOverride([[maybe_unused]] bool read_only) {
+void DiskSpaceMonitor::setReadOnlyOverride(bool read_only) {
     read_only_override_ = read_only;
     spdlog::warn("Read-only override set to: {}", read_only);
 }
 
-void DiskSpaceMonitor::setRocksDBSize([[maybe_unused]] uint64_t size_bytes) {
+void DiskSpaceMonitor::setRocksDBSize(uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_info_.rocksdb_size_bytes = size_bytes;
 }

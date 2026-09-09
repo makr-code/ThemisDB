@@ -58,7 +58,7 @@ uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
 void AdvancedCacheManager::BloomFilter::insert(const std::string& key) noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        bits[bit / 64] |= (1 << (bit % 64));
+        bits[bit / 64] |= (uint64_t{1} << (bit % 64));
     }
 }
 
@@ -66,7 +66,7 @@ bool AdvancedCacheManager::BloomFilter::maybe_contains(
         const std::string& key) const noexcept {
     for (uint64_t s = 0; s < 3; ++s) {
         uint64_t bit = hash(key, s) % kBits;
-        if (!(bits[bit / 64] & (1 << (bit % 64)))) {
+                if (!(bits[bit / 64] & (uint64_t{1} << (bit % 64)))) {
           return false;
         }
     }
@@ -138,7 +138,7 @@ void AdvancedCacheManager::setDecompressFn(DecompressFn fn) {
 }
 
 std::string AdvancedCacheManager::compress(const std::string& val,
-                                             [[maybe_unused]] CompressionAlgorithm algo) {
+                                             CompressionAlgorithm algo) {
     if (val.empty()) {
         // Empty input: tag-only frame, decompress returns ""
         return std::string(1, static_cast<char>(kTagPassthrough));
@@ -229,7 +229,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 }
 
 std::string AdvancedCacheManager::decompress(const std::string& val,
-                                              [[maybe_unused]] CompressionAlgorithm algo) {
+                                              CompressionAlgorithm algo) {
     if (val.empty()) return {};
 
     const auto tag = static_cast<uint8_t>(val[0]);

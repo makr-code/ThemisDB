@@ -122,7 +122,7 @@ std::string OAuthPKCEFlow::buildAuthorizationUrl(const PKCEChallenge &challenge,
 
     if (!config_.scopes.empty()) {
         std::string scope_str = {};
-        for (std::size_t i = 0; i <static_cast<int>(config_.scopes.size()); ++i) {
+        for (std::size_t i = 0; i < config_.scopes.size(); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }

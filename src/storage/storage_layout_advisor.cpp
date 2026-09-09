@@ -67,7 +67,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
     // Check that at least 80 % of differences are positive (monotonic majority)
     const long pos_count = static_cast<long>(
         std::count_if(diffs.begin(), diffs.end(),
-                      []([[maybe_unused]] double d) { return d > 0.0; }));
+                      [](double d) { return d > 0.0; }));
     const double pos_fraction =
         static_cast<double>(pos_count) / static_cast<double>(diffs.size());
 

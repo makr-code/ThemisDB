@@ -108,7 +108,7 @@ double termOverlapSimilarity(
 }
 
 /// Sigmoid mapping raw score to [0, 1].
-double sigmoid([[maybe_unused]] double x) { return 1.0 / (1.0 + std::exp(-x)); }
+double sigmoid(double x) { return 1.0 / (1.0 + std::exp(-x)); }
 
 /// Steepness of the sigmoid applied to term-overlap similarity scores.
 /// Value 8.0 chosen empirically: at sim=0.25 (weak match) the output is ~0.50;
@@ -238,7 +238,7 @@ std::set<std::string> EthicsSelectionRouter::Impl::stage1(
 {
     std::set<std::string> candidates;
 
-    auto addClassSchools = [&]([[maybe_unused]] const std::string& cls) {
+    auto addClassSchools = [&](const std::string& cls) {
         auto it = taxonomy_map.find(cls);
         if (it != taxonomy_map.end()) {
             for (const auto& sid : it->second) {

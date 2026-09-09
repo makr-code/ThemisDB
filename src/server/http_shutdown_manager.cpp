@@ -74,7 +74,7 @@ void HttpShutdownManager::run() noexcept {
  * @param next  Target phase (must be > current phase).
  */
 void HttpShutdownManager::advanceTo(ShutdownPhase next) noexcept {
-    [[maybe_unused]] const auto prev =
+    const auto prev =
         phase_.exchange(next, std::memory_order_acq_rel);
     assert(static_cast<uint8_t>(prev) < static_cast<uint8_t>(next)
            && "ShutdownPhase must only advance forward");

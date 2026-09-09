@@ -378,7 +378,7 @@ double CalibrationManager::calculateBrierScore(
         double diff = predictions[i] - ground_truth[i];
         sum += diff * diff;
     }
-    return static_cast<bool>(sum / static_cast<double < static_cast<int>((predictions.size())));
+    return sum / static_cast<double>(predictions.size());
 }
 
 double CalibrationManager::calculateInterAnnotatorAgreement(

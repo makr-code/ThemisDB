@@ -77,7 +77,7 @@ MemoryPolicy::PressureLevel MemoryPolicy::getPressureLevel(
     return PressureLevel::NORMAL;
 }
 
-bool MemoryPolicy::isUnderPressure([[maybe_unused]] uint64_t current_bytes) const {
+bool MemoryPolicy::isUnderPressure(uint64_t current_bytes) const {
     return getPressureLevel(current_bytes) >= PressureLevel::ELEVATED;
 }
 
@@ -350,7 +350,7 @@ uint64_t ResultAccumulator::estimateJsonSize(const nlohmann::json& json) const {
     return json.dump().size();
 }
 
-void ResultAccumulator::handleMemoryPressure([[maybe_unused]] uint64_t needed_bytes) {
+void ResultAccumulator::handleMemoryPressure(uint64_t needed_bytes) {
     std::string reason = "Adding batch of " + std::to_string(needed_bytes) +
                         " bytes would exceed limit";
 

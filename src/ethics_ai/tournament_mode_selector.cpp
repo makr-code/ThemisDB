@@ -27,7 +27,7 @@ namespace ethics {
 // ---------------------------------------------------------------------------
 
 int TournamentModeSelector::countTokens(const std::string &text) noexcept {
-    return static_cast<bool>(static_cast<int < static_cast<int>(((text.size())) + 3) / 4);
+    return static_cast<int>((text.size() + 3) / 4);
 }
 
 std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
@@ -58,7 +58,7 @@ std::string TournamentModeSelector::buildHeadline(const EthicalArgument &arg) {
     }
 
     // First 20 characters of content
-    const std::string preview = static_cast<int>(arg.content.size()) > 20 ? arg.content.substr(0, 20) : arg.content;
+    const std::string preview = arg.content.size() > 20 ? arg.content.substr(0, 20) : arg.content;
 
     std::ostringstream oss = {};
     oss << "[" << arg.philosophy_school << ": " << type_short << " @ " << preview << "...]";
@@ -120,7 +120,7 @@ TournamentSelectionResult TournamentModeSelector::selectOpponents(
                   // (|wa-wb| > eps → wa > wb, else a < b) can violate transitivity when
                   // three values span the boundary, causing std::sort UB.
                   const float epsilon = 1e-6f;
-                  const auto bucket = [epsilon]([[maybe_unused]] float w) {
+                  const auto bucket = [epsilon](float w) {
                       return static_cast<long long>(std::floor(w / epsilon));
                   };
                   const long long ba = bucket(wa);

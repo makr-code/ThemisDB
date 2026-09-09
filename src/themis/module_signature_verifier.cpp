@@ -44,12 +44,15 @@ namespace modules {
 
 ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     const std::string& modulePath,
-    [[maybe_unused]] const std::string& signaturePath)
+    const std::string& signaturePath)
 {
     ModuleSignatureVerificationResult result;
 
 #ifdef _WIN32
-    // unused on Windows
+    if (!signaturePath.empty()) {
+        spdlog::debug("ModuleSignatureVerifier: detached signature path is ignored on Windows Authenticode path: {}",
+                      signaturePath);
+    }
     result.platform = "windows_authenticode";
     result.success  = verifyAuthenticodeSignature(modulePath, result.signerInfo);
     if (!result.success && result.signerInfo.empty()) {

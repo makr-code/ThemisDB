@@ -618,7 +618,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
 
 AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     std::string_view cert_pem,
-    [[maybe_unused]] std::string_view required_scope) const {
+    std::string_view required_scope) const {
 
     // Scope is role-based via subject_mappings; checked by caller chain
 

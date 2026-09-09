@@ -193,7 +193,7 @@ static double jaccardEstimate(const std::vector<uint32_t>& a,
           ++matches;
         }
     }
-    return static_cast<bool>(static_cast<double>(matches) / static_cast<double < static_cast<int>((a.size())));
+        return static_cast<double>(matches) / static_cast<double>(a.size());
 }
 
 // Compute type-token ratio (TTR) as diversity score
@@ -210,7 +210,7 @@ static double computeTTR(const std::string& text) {
     if (tokens == 0) {
       return 0.0;
     }
-    return static_cast<bool>(static_cast<double < static_cast<int>((types.size()))) / static_cast<double>(tokens);
+    return static_cast<double>(types.size()) / static_cast<double>(tokens);
 }
 
 // Compute BM25 domain relevance score for one sample.
@@ -228,7 +228,7 @@ static double computeDomainRelevance(const std::string& text,
     double total_score = 0.0;
     size_t total_keywords = 0;
 
-    auto scoreDomain = [&]([[maybe_unused]] const std::vector<std::string>& keywords) {
+    auto scoreDomain = [&](const std::vector<std::string>& keywords) {
         // Pattern list is bounded (< 32 entries); O(n*m) cost acceptable for training-time quality checks.
         for (const auto& kw : keywords) {
             std::string lkw = kw;
@@ -456,7 +456,7 @@ public:
         if (k == 0) {
             k = std::max<size_t>(1, config_.target_samples / std::max<size_t>(1, config_.clustering_k_ratio));
         }
-        k = std::min(k,static_cast<int>(samples.size()));
+        k = std::min(k, samples.size());
 
         // Represent each sample by a lightweight hash-based "embedding":
         // 8 bucketed values derived from character-level statistics.
@@ -615,7 +615,7 @@ public:
                        size_t from, size_t to,
                        size_t count) -> std::vector<DataSample> {
             if (from >= static_cast<int>(src.size())) return {};
-            to = std::min(to,static_cast<int>(src.size()));
+            to = std::min(to, src.size());
             count = std::min(count, to - from);
             return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
                                            src.begin() + static_cast<ptrdiff_t>(from + count));
@@ -1371,7 +1371,7 @@ public:
                              const std::string& action,
                              double delta) {
         // Actions encode both the direction (increase/decrease) and the field
-        auto contains = [&]([[maybe_unused]] const std::string& s) {
+        auto contains = [&](const std::string& s) {
             return action.find(s) != std::string::npos;
         };
         if (contains("max_toxicity_score"))

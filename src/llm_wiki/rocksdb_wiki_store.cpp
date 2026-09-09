@@ -59,7 +59,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     options_.create_if_missing = true;
     options_.error_if_exists   = false;
 
-    rocksdb::DB* db_instance = nullptr;
+    std::unique_ptr<rocksdb::DB> db_instance;
     rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &db_instance);
 
     if (!rdb_st.ok()) {
@@ -69,8 +69,8 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
         return toThemisError(rdb_st);
     }
 
-    // Assign raw pointer directly.
-    db_ = db_instance;
+    // Assign raw pointer directly after ownership transfer.
+    db_ = db_instance.release();
     db_path_ = db_path;
     return Status::Ok();
 }

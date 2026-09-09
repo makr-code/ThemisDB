@@ -678,7 +678,7 @@ void ABTestManager::persistTestEntry(const std::string &test_id, const TestEntry
     return (p2 - p1) / denom;
 }
 
-/*static*/ double ABTestManager::calculatePValue([[maybe_unused]] double z_statistic) {
+/*static*/ double ABTestManager::calculatePValue(double z_statistic) {
     // Two-tailed p-value via complementary error function approximation
     // (Abramowitz & Stegun 7.1.26).
     double abs_z = std::abs(z_statistic);

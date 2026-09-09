@@ -12,7 +12,9 @@
 #include "rag/http_metrics_client.h"
 #include "utils/logger.h"
 #include "utils/retry_policy.h"
+#ifdef THEMIS_HAS_HTTPLIB
 #include <httplib.h>
+#endif
 #include <nlohmann/json.hpp>
 #include <thread>
 
@@ -25,22 +27,25 @@ namespace themis::rag::judge {
 // ═══════════════════════════════════════════════════════════
 
 struct HTTPMetricsClient::Impl {
+#ifdef THEMIS_HAS_HTTPLIB
     std::unique_ptr<httplib::Client> http_client;
-    
+
     Impl(const std::string& base_url, const HTTPMetricsClientConfig& config) {
         http_client = std::make_unique<httplib::Client>(base_url);
-        
+
         // Configure timeouts
         http_client->set_read_timeout(config.timeout_ms / 1000, (config.timeout_ms % 1000) * 1000);
         http_client->set_write_timeout(config.timeout_ms / 1000, (config.timeout_ms % 1000) * 1000);
         http_client->set_connection_timeout(config.timeout_ms / 1000, (config.timeout_ms % 1000) * 1000);
-        
+
         // Enable compression if requested
         if (config.enable_compression) {
             http_client->set_compress(true);
         }
-        
     }
+#else
+    explicit Impl(const std::string&, const HTTPMetricsClientConfig&) {}
+#endif
 };
 
 HTTPMetricsClient::HTTPMetricsClient(const HTTPMetricsClientConfig& config)
@@ -72,12 +77,12 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     }
     
     // Split into batches if needed
-    if (static_cast<int>(metrics.size()) > static_cast<size_t>(config_.max_batch_size)) {
+    if (metrics.size() > static_cast<size_t>(config_.max_batch_size)) {
         THEMIS_WARN("Batch size {} exceeds max {}, splitting",static_cast<int>(metrics.size()), config_.max_batch_size);
         
         HTTPResponse last_response;
         for (size_t i = 0; i < metrics.size(); i += config_.max_batch_size) {
-            size_t end = std::min(i + config_.max_batch_size,static_cast<int>(metrics.size()));
+            size_t end = std::min(i + config_.max_batch_size, metrics.size());
             std::vector<QualityMetricPayload> batch(metrics.begin() + i, metrics.begin() + end);
             last_response = sendMetricsBatch(batch);
             
@@ -120,6 +125,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     const std::string& body,
     const std::unordered_map<std::string, std::string>& headers) {
 
+#ifdef THEMIS_HAS_HTTPLIB
     const themis::utils::RetryConfig retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries + 1),
         /* initial_backoff_ms */ static_cast<uint32_t>(config_.retry_backoff_ms),
@@ -216,7 +222,7 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
     }
 
     // Call callback if set
-    if ([[maybe_unused]] request_callback_) {
+    if (request_callback_) {
         std::string method_str = {};
         switch (method) {
             case HTTPMethod::GET:    method_str = "GET";    break;
@@ -224,11 +230,11 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             case HTTPMethod::PUT:    method_str = "PUT";    break;
             case HTTPMethod::DELETE_: method_str = "DELETE"; break;
         }
-        
+
         // Safely access callback with mutex protection
         {
-            std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-            if ([[maybe_unused]] request_callback_) {  // Double-check pattern
+            std::lock_guard<std::mutex> lock(callback_mutex_);
+            if (request_callback_) {  // Double-check pattern
                 request_callback_(method_str, path, response.status_code, response.latency.count());
             }
         }
@@ -236,6 +242,15 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
 
     updateStatistics(response, 1);
     return response;
+#else
+    HTTPResponse response;
+    response.status_code = 503;
+    response.success = false;
+    response.error_message = "HTTP metrics client unavailable: cpp-httplib is not installed";
+    response.latency = std::chrono::milliseconds{0};
+    updateStatistics(response, 1);
+    return response;
+#endif
 }
 
 bool HTTPMetricsClient::isEndpointHealthy() {
@@ -253,9 +268,9 @@ void HTTPMetricsClient::resetStatistics() {
     stats_ = Statistics();
 }
 
-void HTTPMetricsClient::setRequestCallback([[maybe_unused]] RequestCallback callback) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callback_mutex_);
-    request_callback_ = std::move([[maybe_unused]] callback);
+void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    request_callback_ = std::move(callback);
 }
 
 void HTTPMetricsClient::updateStatistics(const HTTPResponse& response, size_t metrics_count) {

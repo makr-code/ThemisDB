@@ -518,7 +518,7 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     return rollback_points;
 }
 
-void HotReloadEngine::cleanRollbackPoints([[maybe_unused]] size_t keep_count) {
+void HotReloadEngine::cleanRollbackPoints(size_t keep_count) {
     auto rollback_points = listRollbackPoints();
     
     if (static_cast<int>(rollback_points.size()) <= keep_count) {

@@ -118,7 +118,8 @@ inline std::string normalizeForGuardrailCheck(std::string_view text) {
                 in_space = true;
             }
         } else {
-            result.push_back(std::tolower(static_cast<unsigned char>(c)));
+            const int lowered = std::tolower(static_cast<unsigned char>(c));
+            result.push_back(static_cast<char>(lowered));
             in_space = false;
         }
     }

@@ -266,7 +266,7 @@ TransactionSnapshotManager::TransactionSnapshotManager(
 }
 
 /** @brief Compose snapshot filepath from directory and snapshot id. */
-std::string TransactionSnapshotManager::getSnapshotPath([[maybe_unused]] uint64_t snapshot_id) const {
+std::string TransactionSnapshotManager::getSnapshotPath(uint64_t snapshot_id) const {
     return snapshot_directory_ + "/transaction_snapshot_" + std::to_string(snapshot_id) + ".json";
 }
 
@@ -397,7 +397,7 @@ std::optional<TransactionSnapshot> TransactionSnapshotManager::loadLatestSnapsho
 }
 
 /** @brief Load snapshot by explicit snapshot id. */
-std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot([[maybe_unused]] uint64_t snapshot_id) {
+std::optional<TransactionSnapshot> TransactionSnapshotManager::loadSnapshot(uint64_t snapshot_id) {
     std::string filepath = getSnapshotPath(snapshot_id);
     return loadSnapshotFromFile(filepath);
 }
@@ -439,7 +439,7 @@ std::vector<uint64_t> TransactionSnapshotManager::listSnapshots() {
 }
 
 /** @brief Delete snapshot file by id. */
-bool TransactionSnapshotManager::deleteSnapshot([[maybe_unused]] uint64_t snapshot_id) {
+bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
     try {
         std::string filepath = getSnapshotPath(snapshot_id);
         if (std::filesystem::exists(filepath)) {

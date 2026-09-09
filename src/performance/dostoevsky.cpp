@@ -22,7 +22,7 @@ static bool is_dostoevsky_hardware_supported() {
     return Phase2FeatureFlags::instance().dostoevsky_hardware_supported();
 }
 
-DostoevskeyLSM::DostoevskeyLSM([[maybe_unused]] int num_levels) 
+DostoevskeyLSM::DostoevskeyLSM(int num_levels) 
     : num_levels_(num_levels), level_policies_(num_levels, MergePolicy::LAZY_LEVELING) {
     
     // Validate input: positive levels required
@@ -67,7 +67,7 @@ MergePolicy DostoevskeyLSM::compute_optimal_policy(int level, const WorkloadStat
     }
 }
 
-MergePolicy DostoevskeyLSM::get_policy([[maybe_unused]] int level) const {
+MergePolicy DostoevskeyLSM::get_policy(int level) const {
     if (level < 0 || level >= num_levels_) {
         throw std::runtime_error("Dostoevsky: level out of bounds");
     }

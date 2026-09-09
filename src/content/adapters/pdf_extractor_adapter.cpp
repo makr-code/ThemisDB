@@ -29,7 +29,7 @@ public:
     ingestion::FormatExtractResult extract(
         std::span<const std::byte> data,
         const std::string& /*mime_type*/,
-        [[maybe_unused]] const std::string& filename_hint) override
+        const std::string& filename_hint) override
     {
         ingestion::FormatExtractResult out;
         try {

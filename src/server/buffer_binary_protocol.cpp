@@ -43,7 +43,7 @@ BufferBinaryProtocolHandler::~BufferBinaryProtocolHandler() {
 
 void BufferBinaryProtocolHandler::start() {
     if (running_) {
-        THEMIS_WARN([[maybe_unused]] "BufferBinaryProtocolHandler already running");
+        THEMIS_WARN("BufferBinaryProtocolHandler already running");
         return;
     }
     
@@ -76,7 +76,7 @@ void BufferBinaryProtocolHandler::start() {
     graph_buffer_->start();
     
     running_ = true;
-    THEMIS_INFO([[maybe_unused]] "BufferBinaryProtocolHandler started");
+    THEMIS_INFO("BufferBinaryProtocolHandler started");
 }
 
 void BufferBinaryProtocolHandler::stop() {
@@ -96,7 +96,7 @@ void BufferBinaryProtocolHandler::stop() {
     }
     
     running_ = false;
-    THEMIS_INFO([[maybe_unused]] "BufferBinaryProtocolHandler stopped");
+    THEMIS_INFO("BufferBinaryProtocolHandler stopped");
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleMessage(

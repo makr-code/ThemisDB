@@ -207,7 +207,7 @@ json RedisImporter::fetchKeyDocument(const std::string& key,
     json doc;
     doc["_id"]   = key;
 
-    auto sendCmd = [&]([[maybe_unused]] void* c, const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&](void* c, const std::vector<std::string>& cmd) -> std::string {
     if (mock_command_fn_) {
       return mock_command_fn_(cmd);
     }
@@ -334,7 +334,7 @@ ImportStats RedisImporter::importData(
               start_time + std::chrono::milliseconds(options.deadline_ms))
         : std::nullopt;
 
-    auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
         if (mock_command_fn_) {
           return mock_command_fn_(cmd);
         }
@@ -474,7 +474,7 @@ void RedisImporter::cancel() {
 json RedisImporter::getSourceSchema(const std::string& source_path) {
     (void)source_path;
 
-    auto sendCmd = [&]([[maybe_unused]] const std::vector<std::string>& cmd) -> std::string {
+    auto sendCmd = [&](const std::vector<std::string>& cmd) -> std::string {
         if (mock_command_fn_) {
           return mock_command_fn_(cmd);
         }

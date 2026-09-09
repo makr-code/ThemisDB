@@ -131,7 +131,7 @@ void InferenceGuard::Cleanup() noexcept {
 // TokenBufferGuard Implementation
 // ═══════════════════════════════════════════════════════════════════════════
 
-TokenBufferGuard::TokenBufferGuard([[maybe_unused]] size_t capacity)
+TokenBufferGuard::TokenBufferGuard(size_t capacity)
     : max_capacity_(capacity) {
     
     if (capacity == 0) {
@@ -164,7 +164,7 @@ void TokenBufferGuard::Push(int32_t token) {
     }
 }
 
-int32_t TokenBufferGuard::At([[maybe_unused]] size_t index) const {
+int32_t TokenBufferGuard::At(size_t index) const {
     if (index >= static_cast<int>(tokens_.size())) {
         spdlog::error("TokenBufferGuard: index {} out of range [0, {})",
                      index,static_cast<int>(tokens_.size()));
@@ -176,7 +176,7 @@ int32_t TokenBufferGuard::At([[maybe_unused]] size_t index) const {
     return tokens_[index];
 }
 
-void TokenBufferGuard::Reserve([[maybe_unused]] size_t size) {
+void TokenBufferGuard::Reserve(size_t size) {
     if (size > max_capacity_) {
         throw std::invalid_argument(
             "TokenBufferGuard: reserve size exceeds capacity"

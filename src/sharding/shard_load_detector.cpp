@@ -367,7 +367,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
              [](const auto& a, const auto& b) { return a.second > b.second; });
     
     // Generate recommendations: move data from hottest to coldest
-    size_t num_recommendations = std::min(result.hotspot_shards.size(),static_cast<int>(result.cold_shards.size()));
+    size_t num_recommendations = std::min(result.hotspot_shards.size(), result.cold_shards.size());
     
     for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) <static_cast<int>(load_rankings.size()) / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;
@@ -570,7 +570,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
 
     auto it_hist = shard_load_history_.find(shard_id);
     const bool has_history = (it_hist != shard_load_history_.end()) &&
-                             (it_hist-> static_cast<int>(second.size()) >= config_.min_samples_per_shard);
+                             (it_hist->second.size() >= config_.min_samples_per_shard);
     forecast.has_sufficient_history = has_history;
 
     if (!has_history) {

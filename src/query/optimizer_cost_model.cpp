@@ -60,7 +60,7 @@ double OptimizerCostModel::calculateIoCost(size_t pagesRead, bool sequential) co
 }
 
 // Memory Cost Calculation
-double OptimizerCostModel::calculateMemoryCost([[maybe_unused]] size_t memoryUsed) const {
+double OptimizerCostModel::calculateMemoryCost(size_t memoryUsed) const {
     if (memoryUsed <= constants_.availableMemory) {
         return 0.0;  // No penalty if within available memory
     }
@@ -387,7 +387,7 @@ OptimizerCostModel::NetworkCost OptimizerCostModel::estimateNetworkTransfer(
 // =============================
 
 double OptimizerCostModel::estimateSelectivity(
-    [[maybe_unused]] const std::string& predicate,
+    const std::string& predicate,
     const ColumnStatistics& columnStats) const {
     
     // Simple heuristic-based selectivity estimation

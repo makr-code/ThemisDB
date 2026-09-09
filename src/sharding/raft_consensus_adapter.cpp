@@ -687,24 +687,24 @@ nlohmann::json RaftConsensusAdapter::getStatus() const {
 void RaftConsensusAdapter::onCommit(
     std::function<void(const ConsensusLogEntry&)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_commit_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_commit_callback_ = std::move(callback);
 }
 
 /** @brief Register callback invoked on consensus-state transitions. */
 void RaftConsensusAdapter::onStateChange(
     std::function<void(ConsensusState, ConsensusState)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_state_change_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_state_change_callback_ = std::move(callback);
 }
 
 /** @brief Register callback invoked on leader changes. */
 void RaftConsensusAdapter::onLeaderChange(
     std::function<void(const std::string&, const std::string&)> callback
 ) {
-    std::lock_guard<std::mutex> lock([[maybe_unused]] callbacks_mutex_);
-    on_leader_change_callback_ = std::move([[maybe_unused]] callback);
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    on_leader_change_callback_ = std::move(callback);
 }
 
 /** @brief Convert serialized Raft entry payload into generic consensus entry. */

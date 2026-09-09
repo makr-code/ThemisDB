@@ -249,7 +249,7 @@ Result<void> StepRegistry::loadStepPlugin(
         }
         const bool mime_allowed = std::any_of(
             manifest.allowed_mime_types.begin(), manifest.allowed_mime_types.end(),
-            [&]([[maybe_unused]] const std::string& allowed) { return allowed == plugin_mime; });
+            [&](const std::string& allowed) { return allowed == plugin_mime; });
         if (!mime_allowed) {
             return tl::make_unexpected(
                 Error{ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED,

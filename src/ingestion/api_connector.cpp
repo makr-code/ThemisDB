@@ -512,7 +512,7 @@ public:
                 }
                 ++page_num;
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       total_hint,
@@ -555,7 +555,7 @@ public:
     }
 
     void setApiKey(const std::string& key)    { api_key_   = key; }
-    void setPageSize([[maybe_unused]] size_t ps)               { page_size_ = ps;  }
+    void setPageSize(size_t ps)               { page_size_ = ps;  }
     void setRetryConfig(const RetryConfig& c) { retry_config_ = c; }
     void setPaginationMode(PaginationMode m)  { pagination_mode_ = m; }
     void setCursorResponseField(const std::string& f) { cursor_response_field_ = f; }
@@ -589,7 +589,7 @@ private:
 
     // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
     // Returns true and updates oauth_config_.access_token on success.
-    bool refreshOAuthToken([[maybe_unused]] int timeout_ms) {
+    bool refreshOAuthToken(int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
         if (!oauth_config_.client_id.empty())
@@ -663,7 +663,7 @@ void GenericApiConnector::setApiKey(const std::string& key) {
     impl_->setApiKey(key);
 }
 
-void GenericApiConnector::setPageSize([[maybe_unused]] size_t page_size) {
+void GenericApiConnector::setPageSize(size_t page_size) {
     impl_->setPageSize(page_size);
 }
 

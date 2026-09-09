@@ -179,7 +179,7 @@ class MultiGPUVectorBackend::Impl {
     // calls to computeDistances / batchKnnSearch are safe.
     // -------------------------------------------------------------------------
 
-    std::vector<ShardDescriptor> buildRanges([[maybe_unused]] size_t numVectors) const {
+    std::vector<ShardDescriptor> buildRanges(size_t numVectors) const {
         size_t n = shardDescs.size();
         std::vector<ShardDescriptor> ranges(n);
 
@@ -282,7 +282,7 @@ class MultiGPUVectorBackend::Impl {
         // Host-side top-k merge: partial sort then trim to k
         for (size_t q = 0; q < numQueries; ++q) {
             auto &row = merged[q];
-            if (static_cast<int>(row.size()) > k) {
+            if (row.size() > k) {
                 std::partial_sort(row.begin(), row.begin() + k, row.end(),
                                   [](const std::pair<uint32_t, float> &a, const std::pair<uint32_t, float> &b) {
                                       return a.second < b.second;

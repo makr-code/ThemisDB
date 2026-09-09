@@ -24,6 +24,10 @@
 
 #include "aql/aql_query_builder.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace aql {
 
@@ -107,7 +111,7 @@ bool containsKeyword(const std::string &text, const std::string &kw) {
 }
 
 // Extract the variable names declared in FOR clauses
-std::vector<std::string> extractForVariables(const std::string &upper_query) {
+[[maybe_unused]] std::vector<std::string> extractForVariables(const std::string &upper_query) {
     std::vector<std::string> vars;
     std::regex for_re(R"(FOR\s+([A-Za-z_][A-Za-z0-9_]*)\s+IN)", std::regex::icase);
     std::sregex_iterator it(upper_query.begin(), upper_query.end(), for_re);
@@ -119,7 +123,7 @@ std::vector<std::string> extractForVariables(const std::string &upper_query) {
 }
 
 // Extract LET variable names
-std::vector<std::string> extractLetVariables(const std::string &upper_query) {
+[[maybe_unused]] std::vector<std::string> extractLetVariables(const std::string &upper_query) {
     std::vector<std::string> vars;
     std::regex let_re(R"(LET\s+([A-Za-z_][A-Za-z0-9_]*)\s*=)", std::regex::icase);
     std::sregex_iterator it(upper_query.begin(), upper_query.end(), let_re);

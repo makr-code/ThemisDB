@@ -42,7 +42,8 @@ ComplianceFrameworkLoader::loadFramework(ComplianceFramework fw) {
         case ComplianceFramework::kIso27001:
             return loadIso27001();
         case ComplianceFramework::kSoc2TypeI:
-        [[fallthrough]];\n        case ComplianceFramework::kSoc2TypeII:
+        [[fallthrough]];
+        case ComplianceFramework::kSoc2TypeII:
             return loadSoc2();
         case ComplianceFramework::kGdpr:
             return loadGdpr();

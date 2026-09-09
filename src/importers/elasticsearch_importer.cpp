@@ -33,7 +33,7 @@ namespace importers {
 namespace {
 
 /// Maps Elasticsearch-specific error patterns to ImporterErrorCode.
-static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
     const auto lower = [](std::string s) {
         for (auto& c : s) {
           c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -485,7 +485,7 @@ ImportStats ElasticsearchImporter::importData(
         return stats;
     }
 
-    auto processPage = [&]([[maybe_unused]] const std::vector<json>& page) {
+    auto processPage = [&](const std::vector<json>& page) {
         for (const auto& doc : page) {
             if (cancelled_.load(std::memory_order_relaxed)) {
               break;

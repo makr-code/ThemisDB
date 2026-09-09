@@ -264,15 +264,15 @@ std::vector<ContentChunk> GeoProcessor::chunk(
     const auto& geo = result.geo.value();
     
     // Each chunk contains a subset of coordinates
-    const int coords_per_chunk = 100;
-    
-    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()); i += coords_per_chunk) {
+    const size_t coords_per_chunk = 100;
+
+    for (size_t i = 0; i < geo.coordinates.size(); i += coords_per_chunk) {
         ContentChunk chunk;
-        
+
         std::ostringstream text = {};
-        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size())) << ": ";
-        
-        size_t end = std::min(i + coords_per_chunk,static_cast<int>(geo.coordinates.size()));
+        text << "Coordinates " << i << "-" << std::min(i + coords_per_chunk, geo.coordinates.size()) << ": ";
+
+        size_t end = std::min(i + coords_per_chunk, geo.coordinates.size());
         for (size_t j = i; j < end; ++j) {
             text << "(" << geo.coordinates[j].first << "," << geo.coordinates[j].second << ") ";
         }
@@ -411,7 +411,7 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& /*blob*/) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -586,13 +586,15 @@ GeoExtractionData GeoProcessor::parseShapefile([[maybe_unused]] const std::vecto
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
+    (void)options;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vector<uint8_t>& blob, [[maybe_unused]] const ExtractionOptions& options) {
+GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -682,6 +684,8 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
+    (void)options;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     
@@ -689,7 +693,7 @@ GeoExtractionData GeoProcessor::parseGeoPackage([[maybe_unused]] const std::vect
 }
 
 // Helper function for GeoTIFF processing
-GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
     GeoExtractionData data;
     data.crs = default_crs_;
     data.geometry_type = "Raster";
@@ -833,6 +837,7 @@ GeoExtractionData GeoProcessor::parseGeoTIFF([[maybe_unused]] const std::vector<
     GDALClose(dataset);
     VSIUnlink(vsi_path.c_str());
 #else
+    (void)blob;
     throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
 #endif
     

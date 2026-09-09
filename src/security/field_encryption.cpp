@@ -257,7 +257,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
         }
     };
 
-    const auto process_item = [&]([[maybe_unused]] size_t i) {
+    const auto process_item = [&](size_t i) {
         const auto& ent = items[i];
         try {
             out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
@@ -279,7 +279,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
 
 #if THEMIS_HAS_TBB
     if (do_parallel) {
-        tbb::parallel_for(tbb::blocked_range<size_t>(0,static_cast<int>(items.size())), [&]([[maybe_unused]] const tbb::blocked_range<size_t>& r) {
+        tbb::parallel_for(tbb::blocked_range<size_t>(0,static_cast<int>(items.size())), [&](const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 process_item(i);
             }

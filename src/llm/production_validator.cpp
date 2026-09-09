@@ -77,7 +77,7 @@ std::string normalizeText(std::string text) {
 }
 
 std::size_t estimateTokenCount(const std::string& text) {
-    return static_cast<bool>(std::max<std::size_t < static_cast<int>((1, (text.size())) + 3) / 4);
+    return std::max<std::size_t>(1, (text.size() + 3) / 4);
 }
 
 std::string buildDeterministicResponse(const std::string& prompt) {
@@ -115,7 +115,8 @@ std::string buildDeterministicResponse(const std::string& prompt) {
         return "No prompt provided.";
     }
 
-    return static_cast<bool>("Deterministic validation response: " + prompt.substr(0, std::min<std::size_t < static_cast<int>((prompt.size())), 120));
+    return "Deterministic validation response: " +
+           prompt.substr(0, std::min<std::size_t>(prompt.size(), 120));
 }
 
 bool matchesExpectedAnswer(const std::string& response,
@@ -603,7 +604,7 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
         }
         result.avg_latency_ms = sum / static_cast<double>(latencies.size());
         // Use consistent ceil-based percentile for p50, p95, p99
-        auto pct_idx = [&]([[maybe_unused]] double p) -> size_t {
+        auto pct_idx = [&](double p) -> size_t {
             size_t n = latencies.size();
             size_t idx = static_cast<size_t>(std::ceil(n * p));
             return std::min(idx, n) - 1;  // clamp to valid range
@@ -997,7 +998,7 @@ double ProductionValidator::calculatePercentile(
     return mutable_copy[index];
 }
 
-void ProductionValidator::recordLatency([[maybe_unused]] double latency_ms) {
+void ProductionValidator::recordLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(latency_mutex_);
     latency_samples_.push_back(latency_ms);
     
@@ -1418,7 +1419,8 @@ bool IntegrationTestSuite::testGPUOutOfMemory() {
     // A 2 MB request must fail (exceeds the 1 MB budget).
     void* ptr = mgr.allocateGPU("oom_test", 2 * 1024 * 1024);
     if (ptr != nullptr) {
-        mgr.freeGPU("oom_test", ptr);
+        const bool freed = mgr.freeGPU("oom_test", ptr);
+        (void)freed;
         spdlog::error("testGPUOutOfMemory: oversized allocation unexpectedly succeeded");
         return false;
     }
@@ -1741,7 +1743,7 @@ IntegrationTestSuite::runAllTests() {
     return results;
 }
 
-std::string ProductionValidator::generateBenchmarkPrompt([[maybe_unused]] int variant) {
+std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
     static const std::vector<std::string> prompts = {
         "Explain quantum computing in simple terms.",
         "Write a haiku about databases.",

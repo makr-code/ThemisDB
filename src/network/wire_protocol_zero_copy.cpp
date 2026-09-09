@@ -46,7 +46,7 @@ namespace network {
 
 namespace {
 
-inline uint32_t to_be32([[maybe_unused]] uint32_t v) noexcept {
+inline uint32_t to_be32(uint32_t v) noexcept {
 #ifdef _WIN32
     return _byteswap_ulong(v);
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -56,7 +56,7 @@ inline uint32_t to_be32([[maybe_unused]] uint32_t v) noexcept {
 #endif
 }
 
-inline uint16_t to_be16([[maybe_unused]] uint16_t v) noexcept {
+inline uint16_t to_be16(uint16_t v) noexcept {
 #ifdef _WIN32
     return _byteswap_ushort(v);
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -147,7 +147,7 @@ ZeroCopyFrameBuilder::ZeroCopyFrameBuilder(uint16_t   opcode,
     std::memcpy(p,     &psize_be,  4);
 }
 
-ssize_t ZeroCopyFrameBuilder::writeTo([[maybe_unused]] int fd) const noexcept {
+ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
 #ifdef _WIN32
     WSABUF bufs[2];
     bufs[0].buf = reinterpret_cast<char*>(const_cast<uint8_t*>(header_.data()));
@@ -374,7 +374,7 @@ MemoryMappedPayload::MemoryMappedPayload(const std::string& path) {
 #endif
 }
 
-MemoryMappedPayload::MemoryMappedPayload([[maybe_unused]] size_t size) {
+MemoryMappedPayload::MemoryMappedPayload(size_t size) {
     if (size == 0) {
         throw std::invalid_argument(
             "MemoryMappedPayload: size must be > 0 for anonymous mapping");

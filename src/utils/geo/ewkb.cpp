@@ -99,7 +99,7 @@ static std::string extractWktBody(const std::string& wkt) {
 }
 
 // MBR expand by distance (approximate for lat/lon)
-MBR MBR::expand([[maybe_unused]] double distance_meters) const {
+MBR MBR::expand(double distance_meters) const {
     double delta_deg = distance_meters / METERS_PER_DEGREE_APPROX;
     return MBR(
         minx - delta_deg,
@@ -142,7 +142,7 @@ MBR GeometryInfo::computeMBR() const {
     
     std::optional<double> z_min, z_max;
     
-    auto update_mbr = [&]([[maybe_unused]] const Coordinate& c) {
+    auto update_mbr = [&](const Coordinate& c) {
         mbr.minx = std::min(mbr.minx, c.x);
         mbr.maxx = std::max(mbr.maxx, c.x);
         mbr.miny = std::min(mbr.miny, c.y);
@@ -201,7 +201,7 @@ Coordinate GeometryInfo::computeCentroid() const {
     size_t count = 0;
     bool has_z_coord = false;
     
-    auto add_coord = [&]([[maybe_unused]] const Coordinate& c) {
+    auto add_coord = [&](const Coordinate& c) {
         sum_x += c.x;
         sum_y += c.y;
         if (c.hasZ()) {

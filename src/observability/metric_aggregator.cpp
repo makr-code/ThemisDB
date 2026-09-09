@@ -86,8 +86,10 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
             return *std::min_element(vals.begin(), vals.end());
 
         case AggregationType::P50:
-        [[fallthrough]];\n        case AggregationType::P95:
-        [[fallthrough]];\n        case AggregationType::P99: {
+        [[fallthrough]];
+        case AggregationType::P95:
+        [[fallthrough]];
+        case AggregationType::P99: {
             // Guard: already checked above, but be explicit for static analysis.
             if (vals.empty()) {
               return 0.0;
@@ -160,7 +162,7 @@ double MetricAggregator::calculateRate(
 
     std::string key = makeSeriesKey(name, labels);
     auto it = rate_samples_.find(key);
-    if (it == rate_samples_.end() || it-> static_cast<int>(second.size()) < 2) {
+    if (it == rate_samples_.end() || it->second.size() < 2) {
         return 0.0;
     }
 
@@ -526,7 +528,7 @@ size_t MetricAggregator::getSeriesCount(const std::string& metric_name) const {
     if (it == known_series_.end()) {
       return 0;
     }
-    return static_cast<bool>(it- < static_cast<int>(second.size()));
+    return it->second.size();
 }
 
 int64_t MetricAggregator::getDroppedSnapshotCount() const {

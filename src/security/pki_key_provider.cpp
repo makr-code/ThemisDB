@@ -204,11 +204,11 @@ std::vector<uint8_t> PKIKeyProvider::deriveKEK() {
     return kek;
 }
 
-std::string PKIKeyProvider::dekDbKey([[maybe_unused]] uint32_t version) const {
+std::string PKIKeyProvider::dekDbKey(uint32_t version) const {
     return "dek:encrypted:v" + std::to_string(version);
 }
 
-std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK([[maybe_unused]] uint32_t version) {
+std::vector<uint8_t> PKIKeyProvider::loadOrCreateDEK(uint32_t version) {
     // Check cache
     {
         std::lock_guard<std::mutex> lock(mu_);
@@ -436,7 +436,7 @@ KeyMetadata PKIKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t v
     return meta;
 }
 
-void PKIKeyProvider::deleteKey(const std::string& key_id, [[maybe_unused]] uint32_t version) {
+void PKIKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     // unused parameter
     std::scoped_lock lk(mu_);
     
@@ -463,7 +463,7 @@ bool PKIKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
 uint32_t PKIKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
-    [[maybe_unused]] const KeyMetadata& metadata) {
+    const KeyMetadata& metadata) {
     // unused parameter
     
     std::scoped_lock lk(mu_);

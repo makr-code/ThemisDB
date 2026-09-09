@@ -5,8 +5,8 @@
 /// ArtifactClassifier, and the utility string-conversion helpers for RebuildState,
 /// UpdateMode, and InvalidationReason (issue #5442).
 
-#include "src/distributed_tensor/include/artifact_manifest.h"
-#include "src/distributed_tensor/include/tensor_artifact_classes.h"
+#include "../include/artifact_manifest.h"
+#include "../include/tensor_artifact_classes.h"
 
 #include <nlohmann/json.hpp>
 #include <sstream>

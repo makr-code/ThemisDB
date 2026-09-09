@@ -167,7 +167,7 @@ static const EVP_MD* selectDigest(const std::string& algo){
     return EVP_sha256();
 }
 
-[[maybe_unused]] static std::string hex(const std::vector<uint8_t>& data){
+static std::string hex(const std::vector<uint8_t>& data){
     static const char* d = "0123456789abcdef"; std::string out; out.reserve(data.size()*2);
     for(auto b: data){ out.push_back(d[(b>>4)&0xF]); out.push_back(d[b&0xF]); }
     return out;
@@ -303,7 +303,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     return out;
 }
 
-std::vector<uint8_t> TimestampAuthority::generateNonce([[maybe_unused]] size_t bytes){
+std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
     if (bytes == 0) {
         return {};
     }

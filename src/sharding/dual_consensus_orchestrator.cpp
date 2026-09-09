@@ -785,9 +785,9 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
 // Configuration and Callbacks
 // ============================================================================
 
-void DualConsensusOrchestrator::setSyncCallback([[maybe_unused]] SyncCallback callback) {
+void DualConsensusOrchestrator::setSyncCallback(SyncCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    sync_callback_ = std::move([[maybe_unused]] callback);
+    sync_callback_ = std::move(callback);
 }
 
 void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
@@ -795,9 +795,9 @@ void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
     conflict_resolver_ = std::move(resolver);
 }
 
-void DualConsensusOrchestrator::setConsistencyCallback([[maybe_unused]] ConsistencyCallback callback) {
+void DualConsensusOrchestrator::setConsistencyCallback(ConsistencyCallback callback) {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    consistency_callback_ = std::move([[maybe_unused]] callback);
+    consistency_callback_ = std::move(callback);
 }
 
 void DualConsensusOrchestrator::setBackgroundSyncInterval(std::chrono::milliseconds interval) {

@@ -333,7 +333,7 @@ private:
                     ++processed;
                 }
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown
@@ -475,7 +475,7 @@ private:
                     stats.bytes_processed += body.size();
                     ++processed;
 
-                    if ([[maybe_unused]] progress_callback) {
+                    if (progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,
@@ -569,7 +569,7 @@ private:
                 stats.bytes_processed += body.size();
                 ++processed;
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,
@@ -656,7 +656,7 @@ private:
                     stats.bytes_processed += body.size();
                     ++processed;
 
-                    if ([[maybe_unused]] progress_callback) {
+                    if (progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,

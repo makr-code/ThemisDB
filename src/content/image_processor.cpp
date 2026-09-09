@@ -307,7 +307,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     if (blob[0] == 0xFF && blob[1] == 0xD8) {
         // Find SOF0/SOF2 marker
         for (size_t i = 2; i < blob.size() - 9; ++i) {
-            if ((blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
+            if (blob[i] == 0xFF && (blob[i + 1] == 0xC0 || blob[i + 1] == 0xC2)) {
                 height = (blob[i + 5] << 8) | blob[i + 6];
                 width = (blob[i + 7] << 8) | blob[i + 8];
                 return;
@@ -375,10 +375,11 @@ std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t
     return std::vector<uint8_t>();
 }
 
-std::string ImageProcessor::performOCR([[maybe_unused]] const std::vector<uint8_t>& blob) {
+std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
 #else
+    (void)blob;
     return "";
 #endif
 }
@@ -481,8 +482,8 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
 
     // Fallback: sample raw bytes uniformly, skipping the first 20 bytes of
     // header data so we focus on pixel-representative content.
-    size_t start     = std::min(static_cast<size_t>(20),static_cast<int>(blob.size()));
-    size_t data_size = static_cast<int>(blob.size()) - start;
+    size_t start     = std::min(static_cast<size_t>(20), blob.size());
+    size_t data_size = blob.size() - start;
     for (int i = 0; i < 1024; ++i) {
         if (data_size == 0) {
           break;
@@ -546,7 +547,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
     uint64_t hash = 0;
     for (int i = 0; i < 64; ++i) {
         if (low_freq[i] > median) {
-            hash |= ([[maybe_unused]] uint64_t{1} << i);
+            hash |= (uint64_t{1} << i);
         }
     }
 

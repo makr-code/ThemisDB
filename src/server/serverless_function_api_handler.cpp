@@ -96,7 +96,7 @@ std::string ServerlessFunctionApiHandler::utcNow() {
     return oss.str();
 }
 
-std::string ServerlessFunctionApiHandler::validateCode([[maybe_unused]] const json& code) {
+std::string ServerlessFunctionApiHandler::validateCode(const json& code) {
     if (!code.is_object()) {
         return "code must be a JSON object";
     }
@@ -265,7 +265,7 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleRegister(
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan([[maybe_unused]] "handleRegister");
+    auto span = Tracer::startSpan("handleRegister");
     json body;
     try {
         body = json::parse(req.body());
@@ -307,7 +307,7 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.timeout_ms       = body.value("timeout_ms", 5000);
     // GAP-022: Cap creation-time memory_limit_kb at 16 GB (16,777,216 KB).
     static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216;
-    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096), kMaxMemoryLimitKb);
+    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096u), kMaxMemoryLimitKb);
     fn.version     = 1;
     fn.created_at  = utcNow();
     fn.updated_at  = fn.created_at;

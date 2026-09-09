@@ -25,6 +25,33 @@ foreach(_src IN LISTS CONTINUOUS_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    # Resolve modular static-link references pulled in by themis_query objects
+    # (DocsAssistant/ThemisHelpLoRA/EmbeddedLLM factory and adapter symbols).
+    if(TARGET themis_query)
+        target_link_libraries(${_target} PRIVATE themis_query)
+    endif()
+    if(TARGET themis_llm_api)
+        target_link_libraries(${_target} PRIVATE themis_llm_api)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(${_target} PRIVATE themis_llm)
+    endif()
+    if(TARGET themis_llm_ext)
+        target_link_libraries(${_target} PRIVATE themis_llm_ext)
+    endif()
+    # Ensure XML parser symbols resolve in focused modular test links when
+    # security paths reference pugixml through shared-module boundaries.
+    if(TARGET pugixml::shared)
+        target_link_libraries(${_target} PRIVATE pugixml::shared)
+    elseif(TARGET pugixml::pugixml)
+        target_link_libraries(${_target} PRIVATE pugixml::pugixml)
+    elseif(TARGET unofficial::pugixml::pugixml)
+        target_link_libraries(${_target} PRIVATE unofficial::pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(${_target} PRIVATE pugixml::static)
+    elseif(TARGET pugixml)
+        target_link_libraries(${_target} PRIVATE pugixml)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

@@ -32,7 +32,7 @@ namespace {
 constexpr uint64_t kMinWasmCpuTimeLimitMs = 1;
 constexpr uint64_t kMaxWasmCpuTimeLimitMs = 60'000;
 
-WasmHandlerConfig sanitizeWasmConfig([[maybe_unused]] const WasmHandlerConfig& config) {
+WasmHandlerConfig sanitizeWasmConfig(const WasmHandlerConfig& config) {
     WasmHandlerConfig sanitized = config;
 
     const auto requested_ms_raw = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -114,7 +114,7 @@ static bool isBase64(unsigned char c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-std::vector<uint8_t> WasmHandlerRegistry::base64Decode([[maybe_unused]] const std::string& encoded) {
+std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encoded) {
     std::vector<uint8_t> result = {};
 
     result.reserve((encoded.size() / 4) * 3);
@@ -216,7 +216,7 @@ bool WasmHandlerRegistry::registerHandler(
         return false;
     }
 
-    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig([[maybe_unused]] config);
+    const WasmHandlerConfig sanitized_config = sanitizeWasmConfig(config);
 
     std::unique_lock lock(registry_mutex_);
 
@@ -254,12 +254,12 @@ bool WasmHandlerRegistry::registerHandler(
     return true;
 }
 
-bool WasmHandlerRegistry::unregisterHandler([[maybe_unused]] const std::string& id) {
+bool WasmHandlerRegistry::unregisterHandler(const std::string& id) {
     std::unique_lock lock(registry_mutex_);
     return registry_.erase(id) > 0;
 }
 
-bool WasmHandlerRegistry::hasHandler([[maybe_unused]] const std::string& id) const {
+bool WasmHandlerRegistry::hasHandler(const std::string& id) const {
     std::shared_lock lock(registry_mutex_);
     return registry_.count(id) > 0;
 }
@@ -467,7 +467,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleUpload(
                                  "Request body must not be empty", req);
     }
 
-    const bool already_exists = hasHandler([[maybe_unused]] id);
+    const bool already_exists = hasHandler(id);
     std::string error = {};
 
     if (!registerHandler(id, wasm_bytes, config, tenant_id, name, description, &error)) {
@@ -510,7 +510,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
         }
     }
 
-    const auto handlers = listHandlers([[maybe_unused]] tenant_filter);
+    const auto handlers = listHandlers(tenant_filter);
     return makeJsonResponse(http::status::ok,
                             json{{"handlers", handlers},
                                  {"count",    static_cast<uint64_t>(handlers.size())}},
@@ -534,7 +534,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleDelete(
     const http::request<http::string_body>& req,
     const std::string&                      id)
 {
-    if ([[maybe_unused]] !unregisterHandler(id)) {
+    if (!unregisterHandler(id)) {
         return makeErrorResponse(http::status::not_found,
                                  "Handler '" + id + "' not found", req);
     }
@@ -549,7 +549,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     const http::request<http::string_body>& req,
     const std::string&                      id)
 {
-    if ([[maybe_unused]] !hasHandler(id)) {
+    if (!hasHandler(id)) {
         return makeErrorResponse(http::status::not_found,
                                  "Handler '" + id + "' not found", req);
     }
@@ -587,7 +587,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     try {
         output_json = json::parse(result.output);
     } catch (...) {
-        THEMIS_DEBUG([[maybe_unused]] "wasm_handler_registry: unhandled exception caught");
+        THEMIS_DEBUG("wasm_handler_registry: unhandled exception caught");
         output_json = json{{"output", result.output}};
     }
 

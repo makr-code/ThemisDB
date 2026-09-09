@@ -426,7 +426,7 @@ void SignedRequestVerifier::cleanupExpiredNonces() {
 }
 
 /** @brief Verify timestamp skew is within configured bounds. */
-bool SignedRequestVerifier::verifyTimestamp([[maybe_unused]] uint64_t timestamp_ms) const {
+bool SignedRequestVerifier::verifyTimestamp(uint64_t timestamp_ms) const {
     uint64_t current_time = getCurrentTimestampMs();
     uint64_t time_diff = (current_time > timestamp_ms) ?
         (current_time - timestamp_ms) : (timestamp_ms - current_time);
@@ -440,7 +440,7 @@ bool SignedRequestVerifier::verifyTimestamp([[maybe_unused]] uint64_t timestamp_
  * @param timestamp_ms Request timestamp used for expiry checks.
  * @return true when nonce is accepted.
  */
-bool SignedRequestVerifier::verifyNonce(uint64_t nonce, [[maybe_unused]] uint64_t timestamp_ms) {
+bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
     std::lock_guard<std::mutex> lock(nonce_mutex_);
 
     if (config_.max_nonce_cache == 0) {
@@ -654,7 +654,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
  * @brief Purge expired nonce entries from replay cache.
  * @param now_ms Current timestamp in milliseconds.
  */
-void SignedRequestVerifier::purgeExpiredNoncesLocked([[maybe_unused]] uint64_t now_ms) {
+void SignedRequestVerifier::purgeExpiredNoncesLocked(uint64_t now_ms) {
     while (!nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         const bool is_expired =

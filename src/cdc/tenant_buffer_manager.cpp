@@ -16,6 +16,13 @@
 
 #include "utils/logger.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+#ifdef WARNING
+#undef WARNING
+#endif
+
 namespace themis {
 namespace cdc {
 
@@ -403,7 +410,7 @@ bool TenantBufferManager::checkTenantQuota(const std::string &tenant_id, TenantB
     return true;
 }
 
-void TenantBufferManager::updateTenantStats([[maybe_unused]] const std::string &tenant_id, TenantBufferState &state) {
+void TenantBufferManager::updateTenantStats(const std::string &/*tenant_id*/, TenantBufferState &state) {
     // Must be called with lock held
 
     if (!state.buffer) {

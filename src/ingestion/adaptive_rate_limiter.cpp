@@ -96,7 +96,7 @@ RateLimitInfo parseRateLimitHeaders(
 // AdaptiveRateLimiter implementation
 // ============================================================================
 
-bool AdaptiveRateLimiter::tryAcquireToken([[maybe_unused]] bool allow_wait) {
+bool AdaptiveRateLimiter::tryAcquireToken(bool allow_wait) {
     std::unique_lock<std::mutex> lock(mutex_);
 
     refillTokens();
@@ -195,7 +195,7 @@ AdaptiveRateLimiter::Stats AdaptiveRateLimiter::getStats() const {
     return s;
 }
 
-void AdaptiveRateLimiter::setRateLimit([[maybe_unused]] double requests_per_sec) {
+void AdaptiveRateLimiter::setRateLimit(double requests_per_sec) {
     std::lock_guard<std::mutex> lock(mutex_);
     current_rate_limit_ = std::clamp(
         requests_per_sec, 

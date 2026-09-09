@@ -29,12 +29,12 @@ namespace storage {
 
 std::vector<uint8_t> QuantizedCore::serialize() const {
     std::vector<uint8_t> out;
-    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
+    auto writeU64 = [&](uint64_t v) {
         for (int i = 0; i < 8; ++i) {
           out.push_back((v >> (i*8)) & 0xFF);
         }
     };
-    auto writeF32 = [&]([[maybe_unused]] float v) {
+    auto writeF32 = [&](float v) {
         uint32_t u = 0; std::memcpy(&u, &v, 4);
         for (int i = 0; i < 4; ++i) {
           out.push_back((u >> (i*8)) & 0xFF);
@@ -120,12 +120,12 @@ double QuantizedTrain::compressionRatio() const noexcept {
 
 std::vector<uint8_t> QuantizedTrain::serialize() const {
     std::vector<uint8_t> out;
-    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
+    auto writeU64 = [&](uint64_t v) {
         for (int i = 0; i < 8; ++i) {
           out.push_back((v >> (i*8)) & 0xFF);
         }
     };
-    auto writeF64 = [&]([[maybe_unused]] double v) {
+    auto writeF64 = [&](double v) {
         uint64_t u = 0; std::memcpy(&u, &v, 8);
         for (int i = 0; i < 8; ++i) {
           out.push_back((u >> (i*8)) & 0xFF);
@@ -212,7 +212,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
 // TTQuantizer — quantization helpers
 // ============================================================================
 
-uint8_t TTQuantizer::findNF4Index([[maybe_unused]] float v) noexcept {
+uint8_t TTQuantizer::findNF4Index(float v) noexcept {
     // array_bounds scanner alert: kNF4Table has exactly 16 entries (indices
     // 0..15); the loop bound is < 16 — no out-of-bounds access; false positive.
     // Linear scan over the 16-entry NF4 lookup table

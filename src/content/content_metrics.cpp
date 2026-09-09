@@ -28,7 +28,7 @@ void ContentMetrics::recordIngestion(const std::string& mime_type, uint64_t size
     mime_type_counts_[mime_type]++;
 }
 
-void ContentMetrics::recordValidation([[maybe_unused]] bool success) {
+void ContentMetrics::recordValidation(bool success) {
     total_validations_++;
     if (success) {
         successful_validations_++;
@@ -46,7 +46,7 @@ void ContentMetrics::recordProcessing(const std::string& /*mime_type*/, bool suc
     }
 }
 
-void ContentMetrics::recordExtraction([[maybe_unused]] bool success) {
+void ContentMetrics::recordExtraction(bool success) {
     total_extractions_++;
     if (success) {
         successful_extractions_++;
@@ -55,11 +55,11 @@ void ContentMetrics::recordExtraction([[maybe_unused]] bool success) {
     }
 }
 
-void ContentMetrics::recordChunking([[maybe_unused]] uint64_t chunk_count) {
+void ContentMetrics::recordChunking(uint64_t chunk_count) {
     total_chunks_ += chunk_count;
 }
 
-void ContentMetrics::recordEmbedding([[maybe_unused]] uint64_t count) {
+void ContentMetrics::recordEmbedding(uint64_t count) {
     total_embeddings_ += count;
 }
 
@@ -161,7 +161,7 @@ double ContentMetrics::calculatePercentile(const std::vector<double>& sorted_sam
 // Error Metrics
 // ============================================================================
 
-void ContentMetrics::recordError([[maybe_unused]] int error_code) {
+void ContentMetrics::recordError(int error_code) {
     total_errors_++;
     
     std::lock_guard<std::mutex> lock(error_mutex_);

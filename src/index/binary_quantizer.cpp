@@ -23,7 +23,7 @@
 
 namespace themis {
 
-BinaryQuantizer::BinaryQuantizer([[maybe_unused]] int dimension)
+BinaryQuantizer::BinaryQuantizer(int dimension)
     : BinaryQuantizer(dimension, Config{}) {
 }
 
@@ -245,7 +245,7 @@ float BinaryQuantizer::computeNorm(const std::vector<float>& vector) const {
     return std::sqrt(sum_sq);
 }
 
-int BinaryQuantizer::popcount([[maybe_unused]] uint8_t byte) const {
+int BinaryQuantizer::popcount(uint8_t byte) const {
     // Use compiler intrinsic for optimized popcount if available
     #ifdef __GNUC__
         return __builtin_popcount(byte);

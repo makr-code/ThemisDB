@@ -33,11 +33,13 @@
  */
 
 #include <chrono>
+#include <array>
 #include <atomic>
 #include <thread>
 #include <memory>
 #include <sstream>
 #include <cstring>
+#include <vector>
 
 namespace themis {
 namespace geo {
@@ -107,7 +109,7 @@ namespace geo {
     const std::vector<uint8_t>& cpu_mask,
     const std::vector<uint8_t>& gpu_mask,
     std::size_t count) noexcept {
-    if (static_cast<int>(cpu_mask.size()) != count || static_cast<int>(gpu_mask.size()) != count) {
+    if (cpu_mask.size() != count || gpu_mask.size() != count) {
         return false;
     }
     return std::equal(cpu_mask.begin(), cpu_mask.begin() + count,

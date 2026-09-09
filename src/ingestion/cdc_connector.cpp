@@ -48,7 +48,7 @@ namespace ingestion {
 namespace {
 
 /// Serialize a CdcEvent::Operation to its string representation.
-static const char* operationToString([[maybe_unused]] CdcConnector::CdcEvent::Operation op) {
+static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
     switch (op) {
         case CdcConnector::CdcEvent::Operation::INSERT: return "INSERT";
         case CdcConnector::CdcEvent::Operation::UPDATE: return "UPDATE";
@@ -90,7 +90,7 @@ static std::string mapToJson(
 }
 
 /// Serialize a full CdcEvent to a JSON string.
-static std::string cdcEventToJson([[maybe_unused]] const CdcConnector::CdcEvent& ev) {
+static std::string cdcEventToJson(const CdcConnector::CdcEvent& ev) {
     std::ostringstream js = {};
     js << '{'
        << "\"operation\":\"" << operationToString(ev.operation) << "\","
@@ -115,7 +115,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
         ? ev.before : ev.after;
 
     if (text_columns.empty()) {
-        return cdcEventToJson([[maybe_unused]] ev);
+        return cdcEventToJson(ev);
     }
 
     std::string text = {};
@@ -461,7 +461,7 @@ public:
         }
 
         try { max_events_ = static_cast<size_t>(std::stoull(opt("max_events", "0"))); }
-        catch ([[maybe_unused]] ...) { max_events_ = 0; }
+        catch (...) { max_events_ = 0; }
 
         try { poll_timeout_ms_ = std::stoi(opt("poll_timeout_ms", "1000")); }
         catch (...) { poll_timeout_ms_ = 1000; }
@@ -523,7 +523,7 @@ public:
         // ------------------------------------------------------------------
         // Test mock path: no replication driver required
         // ------------------------------------------------------------------
-        if ([[maybe_unused]] event_fetch_fn_) {
+        if (event_fetch_fn_) {
             ingestFromMock(stats, progress_callback);
             finaliseStats(stats, start_time);
             return stats;
@@ -545,13 +545,13 @@ public:
     }
 
     void setRetryConfig(const RetryConfig& c)           { retry_config_ = c; }
-    void setCdcEventFetchForTesting([[maybe_unused]] CdcEventFetchFn fn) { event_fetch_fn_ = std::move(fn); }
+    void setCdcEventFetchForTesting(CdcEventFetchFn fn) { event_fetch_fn_ = std::move(fn); }
 
 private:
     // -----------------------------------------------------------------------
     // Operation filter helper
     // -----------------------------------------------------------------------
-    bool isOperationAllowed([[maybe_unused]] CdcEvent::Operation op) const {
+    bool isOperationAllowed(CdcEvent::Operation op) const {
         if (ops_filter_.empty()) {
           return true;
         }
@@ -588,7 +588,7 @@ private:
           return;
         }
 
-        std::string json = cdcEventToJson([[maybe_unused]] ev);
+        std::string json = cdcEventToJson(ev);
         std::string text = cdcEventToText(ev, text_columns_);
 
         stats.bytes_processed += json.size();
@@ -639,11 +639,11 @@ private:
                     ++fetched;
                 }
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown (streaming)
-                                      "consumed " + std::to_string([[maybe_unused]] fetched) + " events");
+                                      "consumed " + std::to_string(fetched) + " events");
                 }
             }
         } catch (const std::exception& e) {
@@ -814,12 +814,12 @@ private:
                             processEvent(ev, stats);
                             ++consumed;
 
-                            if ([[maybe_unused]] progress_callback) {
+                            if (progress_callback) {
                                 progress_callback(
                                     config_.source_id,
                                     stats.documents_processed,
                                     0, // total unknown for streaming
-                                    "consumed " + std::to_string([[maybe_unused]] consumed) + " events");
+                                    "consumed " + std::to_string(consumed) + " events");
                             }
                         }
                     }
@@ -908,12 +908,12 @@ void CdcConnector::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
 }
 
-void CdcConnector::setCdcEventFetchForTesting([[maybe_unused]] CdcEventFetchFn fn) {
-    setEventBatchProvider([[maybe_unused]] std::move(fn));
+void CdcConnector::setCdcEventFetchForTesting(CdcEventFetchFn fn) {
+    setEventBatchProvider(std::move(fn));
 }
 
-void CdcConnector::setEventBatchProvider([[maybe_unused]] CdcEventFetchFn fn) {
-    impl_->setCdcEventFetchForTesting([[maybe_unused]] std::move(fn));
+void CdcConnector::setEventBatchProvider(CdcEventFetchFn fn) {
+    impl_->setCdcEventFetchForTesting(std::move(fn));
 }
 
 } // namespace ingestion

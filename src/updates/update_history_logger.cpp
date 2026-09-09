@@ -81,7 +81,7 @@ void UpdateHistoryLogger::record(const UpdateHistoryEntry& entry) {
              entry.who, entry.from_version, entry.to_version, entry.success);
 }
 
-std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory([[maybe_unused]] size_t limit) const {
+std::vector<UpdateHistoryEntry> UpdateHistoryLogger::getHistory(size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto entries = loadEntries();
     // Newest first

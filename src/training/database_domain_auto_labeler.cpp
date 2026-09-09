@@ -83,7 +83,7 @@ DatabaseDomainAutoLabeler::DatabaseDomainAutoLabeler(double sensitivity_ms)
 
 // ── computeConfidence ──────────────────────────────────────────────────────
 
-double DatabaseDomainAutoLabeler::computeConfidence([[maybe_unused]] double delta_p99_ms) const {
+double DatabaseDomainAutoLabeler::computeConfidence(double delta_p99_ms) const {
     // confidence = sigmoid(|delta_p99_ms| / sensitivity_ms_)
     // sigmoid(x) = 1 / (1 + exp(-x))
     const double x = std::abs(delta_p99_ms) / sensitivity_ms_;

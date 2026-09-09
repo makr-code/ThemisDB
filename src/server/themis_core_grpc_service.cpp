@@ -386,8 +386,10 @@ private:
                     case BeginTransactionRequest::REPEATABLE_READ:
                         iso = themis::IsolationLevel::REPEATABLE_READ; break;
                     case BeginTransactionRequest::READ_UNCOMMITTED:
-                    [[fallthrough]];\n                    case BeginTransactionRequest::READ_COMMITTED:
-                    [[fallthrough]];\n                    default:
+                    [[fallthrough]];
+                    case BeginTransactionRequest::READ_COMMITTED:
+                    [[fallthrough]];
+                    default:
                         iso = themis::IsolationLevel::ReadCommitted; break;
                 }
                 const auto tid = txn_mgr_->beginTransaction(iso);
@@ -634,10 +636,10 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
         service_ptr_ = fn();
     } catch (const std::exception& e) {
         THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
-        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an exception");
+        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an exception");
     } catch (...) {
-        THEMIS_ERROR([[maybe_unused]] "ThemisCoreServiceImpl: service-instance callback failed: unknown error");
-        throw std::runtime_error([[maybe_unused]] "ThemisCoreServiceImpl service callback threw an unknown exception");
+        THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an unknown exception");
     }
     if (!service_ptr_) {
         const std::string error =

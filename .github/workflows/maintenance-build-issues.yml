@@ -120,7 +120,7 @@ jobs:
             }
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # v4
+        uses: actions/setup-node@v4.4.0  # v4.4.0
         with:
           node-version: '24'
 
@@ -317,6 +317,7 @@ jobs:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
           GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
+          TRACKS_OUTPUT_FILE: /tmp/chronic-triage-baseline.json
           MAX_GROUPS_IN_REPORT: '30'
           MAX_ITEMS_PER_GROUP_IN_REPORT: '4'
           MAX_MARKDOWN_CHARS: '45000'
@@ -335,6 +336,64 @@ jobs:
           if [ -f /tmp/aggregated-errors-by-module-file.json ]; then
             echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
           fi
+          if [ -f /tmp/chronic-triage-baseline.json ]; then
+            echo "tracks_json_file=/tmp/chronic-triage-baseline.json" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build module-sorted hit list for issue comment
+        id: module-list
+        if: steps.aggregate.outputs.chronic_errors > 0 && steps.aggregate.outputs.grouped_json_file != ''
+        shell: bash
+        env:
+          GROUPED_JSON_FILE: ${{ steps.aggregate.outputs.grouped_json_file }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from collections import defaultdict
+
+          grouped_file = os.environ.get("GROUPED_JSON_FILE", "").strip()
+          output = os.environ["GITHUB_OUTPUT"]
+          if not grouped_file or not os.path.exists(grouped_file):
+              with open(output, "a", encoding="utf-8") as fh:
+                  fh.write("has_module_list=false\n")
+              raise SystemExit(0)
+
+          data = json.loads(open(grouped_file, encoding="utf-8").read())
+          entries = data.get("entries", []) if isinstance(data, dict) else []
+          by_module = defaultdict(lambda: {"total": 0, "compiler_error": 0, "compiler_warning": 0, "gap_marker": 0, "files": set()})
+
+          for entry in entries:
+              if not isinstance(entry, dict):
+                  continue
+              module = str(entry.get("module") or "unknown").strip() or "unknown"
+              counts = entry.get("counts") if isinstance(entry.get("counts"), dict) else {}
+              file_name = str(entry.get("file") or "").strip()
+              mod = by_module[module]
+              mod["total"] += int(counts.get("total", 0) or 0)
+              mod["compiler_error"] += int(counts.get("compiler_error", 0) or 0)
+              mod["compiler_warning"] += int(counts.get("compiler_warning", 0) or 0)
+              mod["gap_marker"] += int(counts.get("gap_marker", 0) or 0)
+              if file_name:
+                  mod["files"].add(file_name)
+
+          lines = []
+          lines.append("## 🧩 Modul-Trefferliste (aggregiert)")
+          lines.append("")
+          lines.append("| Modul | Treffer gesamt | Compiler Errors | Compiler Warnings | GAP/SIM/MOCK/STUB | Betroffene Dateien |")
+          lines.append("|---|---:|---:|---:|---:|---:|")
+          for module, values in sorted(by_module.items(), key=lambda kv: kv[0].lower()):
+              lines.append(
+                  f"| `{module}` | {values['total']} | {values['compiler_error']} | {values['compiler_warning']} | {values['gap_marker']} | {len(values['files'])} |"
+              )
+
+          markdown = "\n".join(lines).strip()
+          with open(output, "a", encoding="utf-8") as fh:
+              fh.write("has_module_list=true\n")
+              fh.write("module_list_markdown<<EOF\n")
+              fh.write(markdown + "\n")
+              fh.write("EOF\n")
+          PY
 
       - name: Classify chronic build error labels
         if: steps.aggregate.outputs.chronic_errors > 0
@@ -424,19 +483,36 @@ jobs:
           issue-body: |
             <!-- ci-build:type:chronic-error-report -->
             ## Build Error Aggregation Report
-            
+
+            ## Summary
+            Chronic build failures were detected in the current aggregation window and require active triage.
+
+            ## Statistics
+
             **Aggregation Period**: Last 24 hours  
             **Latest Aggregation Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            ### Debugging Tips
+            **Unique Diagnostics**: `${{ steps.aggregate.outputs.total_errors }}`  
+            **Chronic Diagnostics (≥3x)**: `${{ steps.aggregate.outputs.chronic_errors }}`  
+            **Module/File Groups**: `${{ steps.aggregate.outputs.module_file_groups }}`
+
+            ## Run Metadata
+            - Repository: `${{ github.repository }}`
+            - Ref: `${{ github.ref }}`
+            - SHA: `${{ github.sha }}`
+
+            ## Debugging Tips
             1. **Navigate to Actions tab** → Find the failed workflow run
             2. **Download artifacts**: Look for `*-errors.json` files
             3. **Review error details**: Each error includes file, line, and message
             4. **Search codebase**: Find similar issues via grep or IDE symbol search
             5. **Check CI logs**: Full build logs available in workflow run details
-            
-            ---
-            
+
+            ## Triage Checklist
+            - [ ] Reproduce high-frequency diagnostics from the linked workflow run
+            - [ ] Prioritize top affected modules from the module-hit comment
+            - [ ] Link fixing PRs and re-run failed workflows
+            - [ ] Close or de-escalate after chronic diagnostics drop
+
             **Labels**: `${{ steps.classify.outputs.labels }}`  
             **Critical findings**: `${{ steps.classify.outputs.critical }}`  
             **Priority**: Address chronic errors immediately  
@@ -476,6 +552,56 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Upsert module-sorted hit list comment
+        if: steps.aggregate.outputs.chronic_errors > 0 && steps.module-list.outputs.has_module_list == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          issue-marker: '<!-- ci-build:type:module-hit-list -->'
+          issue-body: |
+            ## 📎 Modul-Trefferliste (sortiert)
+
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ${{ steps.module-list.outputs.module_list_markdown }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Upsert chronic triage baseline comment
+        if: steps.aggregate.outputs.chronic_errors > 0
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
+          issue-marker: '<!-- ci-build:type:triage-baseline -->'
+          issue-body: |
+            ## 📌 Triage Baseline (frozen)
+
+            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            **Total Input Findings**: `${{ steps.aggregate.outputs.total_input_findings }}`
+            **Total Unique Diagnostics**: `${{ steps.aggregate.outputs.total_errors }}`
+            **Chronic Diagnostics (≥3x)**: `${{ steps.aggregate.outputs.chronic_errors }}`
+            **Module/File Groups**: `${{ steps.aggregate.outputs.module_file_groups }}`
+
+            ### Processing Order
+            1. **Track A — compiler_error** (Build-Breaker zuerst)
+            2. **Track B — compiler_warning** (Module in Reihenfolge: `${{ steps.aggregate.outputs.track_b_module_order }}`)
+            3. **Track C — gap_marker** (erst doc_leak, dann real_gap)
+
+            ### Track Snapshot
+            - Track A file groups: `${{ steps.aggregate.outputs.track_a_file_groups }}`
+            - Track C doc leaks: `${{ steps.aggregate.outputs.track_c_doc_leaks }}`
+            - Track C real gaps: `${{ steps.aggregate.outputs.track_c_real_gaps }}`
+
+            Artifact: `chronic-triage-baseline.json` (run artifact)
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
       - name: Send Slack notification for chronic errors
         if: steps.aggregate.outputs.chronic_errors > 0
         env:
@@ -483,7 +609,7 @@ jobs:
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
-          webhook-url: ${{ env.SLACK_WEBHOOK_URL }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           chronic-threshold: '3'
           include-remediation-hints: 'true'
         continue-on-error: true
@@ -495,7 +621,7 @@ jobs:
         uses: ./.github/actions/notify-chronic-errors
         with:
           error-report-file: /tmp/aggregated-errors.md
-          webhook-url: ${{ env.DISCORD_WEBHOOK_URL }}
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           chronic-threshold: '3'
           include-remediation-hints: 'true'
         continue-on-error: true
@@ -536,6 +662,14 @@ jobs:
           path: /tmp/error-metrics/
           retention-days: 30
 
+      - name: Upload triage baseline artifact
+        if: always() && steps.aggregate.outputs.tracks_json_file != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: chronic-triage-baseline
+          path: ${{ steps.aggregate.outputs.tracks_json_file }}
+          retention-days: 30
+
       - name: Publish Error Dashboard
         if: always() && steps.fetch.outputs.has_artifacts == 'true'
         env:
@@ -545,6 +679,6 @@ jobs:
           metrics-artifact: error-metrics
           create-issue: 'false'
           dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
-          send-slack: ${{ env.SLACK_WEBHOOK_URL != '' }}
-          slack-webhook: ${{ env.SLACK_WEBHOOK_URL }}
+          send-slack: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+          slack-webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
         continue-on-error: true

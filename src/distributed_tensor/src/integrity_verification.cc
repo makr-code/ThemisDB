@@ -3,7 +3,7 @@
  * @brief Implementation of integrity verification, Merkle structures, and receipt semantics.
  */
 
-#include "src/distributed_tensor/include/integrity_verification.h"
+#include "../include/integrity_verification.h"
 
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>

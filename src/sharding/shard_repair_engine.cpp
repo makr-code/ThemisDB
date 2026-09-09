@@ -57,7 +57,7 @@ ShardRepairEngine::ShardRepairEngine(
       ring_(ring),
       topology_(topology),
       read_handler_(std::move(read_handler)),
-      write_handler_([[maybe_unused]] std::move(write_handler)) {}
+      write_handler_(std::move(write_handler)) {}
 
 /** @brief Stop worker threads on destruction. */
 ShardRepairEngine::~ShardRepairEngine() {
@@ -449,7 +449,7 @@ void ShardRepairEngine::performAntiEntropyScan() {
     // Determine number of parallel workers (0 → use hardware_concurrency)
     uint32_t num_workers = config_.num_parallel_workers;
     if (num_workers == 0) {
-        num_workers = std::max(1, std::thread::hardware_concurrency());
+        num_workers = std::max<uint32_t>(1u, std::thread::hardware_concurrency());
     }
     num_workers = std::min(num_workers, static_cast<uint32_t>(total_shards));
 
@@ -700,7 +700,7 @@ void ShardRepairEngine::executeRepairJob(RepairJob& job) {
         // Filter to the requested shard
         shards_to_repair.erase(
             std::remove_if(shards_to_repair.begin(), shards_to_repair.end(),
-                           [&]([[maybe_unused]] const ShardInfo& s) { return s.shard_id != job.shard_id; }),
+                           [&](const ShardInfo& s) { return s.shard_id != job.shard_id; }),
             shards_to_repair.end());
     }
 

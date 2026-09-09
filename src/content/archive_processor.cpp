@@ -61,7 +61,7 @@ namespace {
 /**
  * @brief Generate random temporary directory name
  */
-std::string generateRandomString([[maybe_unused]] size_t length) {
+std::string generateRandomString(size_t length) {
     static const char alphanum[] = "0123456789"
                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                    "abcdefghijklmnopqrstuvwxyz";
@@ -740,7 +740,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
 
         const fs::path out_path = fs::path(temp_dir) / entry_name;
 
-        if ((typeflag == '5' || (static_cast<int>(entry_name.size()) > 1 && entry_name.back() == '/')) {
+        if (typeflag == '5' || (entry_name.size() > 1 && entry_name.back() == '/')) {
             // Directory entry
             try {
                 fs::create_directories(out_path);

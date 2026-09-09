@@ -47,7 +47,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // predict
 // ---------------------------------------------------------------------------
 
-WorkloadForecast WorkloadPredictor::predict([[maybe_unused]] uint64_t horizon_us) const {
+WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};

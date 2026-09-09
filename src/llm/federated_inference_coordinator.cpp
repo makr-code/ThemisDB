@@ -25,6 +25,11 @@ namespace themis::llm {
 
 FederatedInferenceCoordinator::FederatedInferenceCoordinator(
     sharding::RemoteExecutor*                executor,
+    std::shared_ptr<sharding::ShardTopology> topology)
+    : FederatedInferenceCoordinator(executor, std::move(topology), Config{}) {}
+
+FederatedInferenceCoordinator::FederatedInferenceCoordinator(
+    sharding::RemoteExecutor*                executor,
     std::shared_ptr<sharding::ShardTopology> topology,
     const Config&                            config)
     : executor_(executor)
@@ -74,6 +79,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
                     FanOutInstanceResult r;
                     r.instance_id = item.instance_id;
                     r.success     = false;
+                    r.error_code  = "LLM_FANOUT_UNKNOWN_INSTANCE";
                     r.error       = "Unknown instance_id '" + item.instance_id +
                                     "': not found in static registry or topology";
                     r.attempts    = 0;
@@ -110,6 +116,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
             FanOutInstanceResult r;
             r.instance_id = item.instance_id;
             r.success     = false;
+            r.error_code  = "LLM_FANOUT_TIMEOUT";
             r.error       = "Timeout waiting for fan-out response from '" +
                             item.instance_id + "'";
             r.attempts    = 0;
@@ -124,6 +131,7 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
             FanOutInstanceResult r;
             r.instance_id = item.instance_id;
             r.success     = false;
+            r.error_code  = "LLM_FANOUT_TIMEOUT";
             r.error       = "Timeout waiting for fan-out response from '" +
                             item.instance_id + "' (per_instance_timeout_ms=" +
                             std::to_string(config_.per_instance_timeout_ms) + ")";
@@ -136,8 +144,15 @@ std::vector<FanOutInstanceResult> FederatedInferenceCoordinator::execute(
     const size_t successes =
         static_cast<size_t>(std::count_if(results.begin(), results.end(),
                                           [](const FanOutInstanceResult& r) { return r.success; }));
-    spdlog::info("FederatedInferenceCoordinator: fan-out complete — {}/{} instances succeeded",
-                 successes,static_cast<int>(results.size()));
+    const size_t failures = results.size() - successes;
+    int total_attempts = 0;
+    int64_t max_dispatch_time_ms = 0;
+    for (const auto& r : results) {
+        total_attempts += r.attempts;
+        max_dispatch_time_ms = std::max(max_dispatch_time_ms, r.dispatch_time_ms);
+    }
+    spdlog::info("FederatedInferenceCoordinator: fan-out complete — {}/{} succeeded, {} failed, total_attempts={}, max_dispatch_time_ms={}",
+                 successes, results.size(), failures, total_attempts, max_dispatch_time_ms);
 
     return results;
 }
@@ -153,6 +168,7 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
 
     FanOutInstanceResult result;
     result.instance_id = instance_id;
+    const auto dispatch_start = std::chrono::steady_clock::now();
 
     const nlohmann::json body = buildRequestBody(request);
 
@@ -163,7 +179,11 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
 
         if (executor_ == nullptr) {
             result.success = false;
+            result.error_code = "LLM_FANOUT_BACKEND_UNAVAILABLE";
             result.error   = "No RemoteExecutor attached to FederatedInferenceCoordinator";
+            const auto dispatch_end = std::chrono::steady_clock::now();
+            result.dispatch_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                          dispatch_end - dispatch_start).count();
             return result;
         }
 
@@ -173,6 +193,13 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
         if (remote_result.success) {
             result.response = parseResponse(remote_result.data, instance_id);
             result.success  = true;
+            result.error_code.clear();
+            result.response.metadata["fan_out_attempts"] = result.attempts;
+            result.response.metadata["fan_out_dispatch_time_ms"] =
+                remote_result.execution_time_ms;
+            const auto dispatch_end = std::chrono::steady_clock::now();
+            result.dispatch_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                          dispatch_end - dispatch_start).count();
             spdlog::debug("FederatedInferenceCoordinator: instance '{}' succeeded "
                           "(attempt {})", instance_id, attempt);
             return result;
@@ -183,10 +210,18 @@ FanOutInstanceResult FederatedInferenceCoordinator::dispatchToInstance(
                                 remote_result.http_status < 500);
         if (permanent || attempt > config_.max_retries) {
             result.success = false;
+            if (permanent) {
+                result.error_code = "LLM_FANOUT_REMOTE_PERMANENT";
+            } else {
+                result.error_code = "LLM_FANOUT_RETRY_EXHAUSTED";
+            }
             result.error   = "Instance '" + instance_id + "' failed after " +
                              std::to_string(attempt) + " attempt(s): " +
                              remote_result.error + " (HTTP " +
                              std::to_string(remote_result.http_status) + ")";
+            const auto dispatch_end = std::chrono::steady_clock::now();
+            result.dispatch_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                          dispatch_end - dispatch_start).count();
             spdlog::warn("FederatedInferenceCoordinator: {}", result.error);
             return result;
         }
@@ -261,4 +296,3 @@ InferenceResponse FederatedInferenceCoordinator::parseResponse(const nlohmann::j
 }
 
 } // namespace themis::llm
-

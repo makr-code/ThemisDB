@@ -303,7 +303,7 @@ public:
         }
 
         // OAuth 2.0 configuration from options
-        auto opt = [&]([[maybe_unused]] const std::string& k) -> std::string {
+        auto opt = [&](const std::string& k) -> std::string {
             auto oit = config.options.find(k);
             return (oit != config.options.end()) ? oit->second : "";
         };
@@ -457,7 +457,7 @@ private:
 
     // Attempt an OAuth 2.0 token refresh (RFC 6749 §6).
     // Returns true and updates oauth_config_.access_token on success.
-    bool refreshOAuthToken([[maybe_unused]] int timeout_ms) {
+    bool refreshOAuthToken(int timeout_ms) {
         std::string body = "grant_type=refresh_token"
                            "&refresh_token=" + urlEncode(oauth_config_.refresh_token);
         if (!oauth_config_.client_id.empty())
@@ -566,7 +566,7 @@ private:
                                      : chunk_size * 1024;
             processed += chunk_size;
             
-            if ([[maybe_unused]] callback && processed % (batch_size_ * 10) == 0) {
+            if (callback && processed % (batch_size_ * 10) == 0) {
                 callback(config_.source_id, processed, total_docs,
                         "Downloaded " + std::to_string(processed) + " documents");
             }
@@ -609,7 +609,7 @@ private:
                                     ?static_cast<int>(response.body.size())
                                     : total_docs * 1024;
             
-            if ([[maybe_unused]] callback) {
+            if (callback) {
                 callback(config_.source_id, total_docs, total_docs,
                         "Completed batch ingestion");
             }
@@ -629,11 +629,11 @@ public:
         api_token_ = token;
     }
     
-    void setBatchSize([[maybe_unused]] size_t batch_size) {
+    void setBatchSize(size_t batch_size) {
         batch_size_ = batch_size;
     }
     
-    void setStreamingMode([[maybe_unused]] bool enabled) {
+    void setStreamingMode(bool enabled) {
         streaming_enabled_ = enabled;
     }
 
@@ -752,11 +752,11 @@ void HuggingFaceConnector::setApiToken(const std::string& token) {
     impl_->setApiToken(token);
 }
 
-void HuggingFaceConnector::setBatchSize([[maybe_unused]] size_t batch_size) {
+void HuggingFaceConnector::setBatchSize(size_t batch_size) {
     impl_->setBatchSize(batch_size);
 }
 
-void HuggingFaceConnector::setStreamingMode([[maybe_unused]] bool enabled) {
+void HuggingFaceConnector::setStreamingMode(bool enabled) {
     impl_->setStreamingMode(enabled);
 }
 

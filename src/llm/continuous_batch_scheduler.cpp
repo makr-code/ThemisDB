@@ -296,7 +296,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.current_batch_size = batch.size();
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
     stats_.active_requests = active_requests_.size();
-    stats_.current_queue_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
+    stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
     
     // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
     // pressure in real time.  Called under the scheduler lock so the value is

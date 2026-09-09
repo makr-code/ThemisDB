@@ -207,7 +207,7 @@ static std::string buildOdbcConnectionString(
     }
 
     std::string result = cs;
-    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + static_cast<int>(target.size()) ;
+    std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
     auto end = result.find(';', pos);
     if (end == std::string::npos) {
         result.replace(pos, static_cast<int>(result.size()) - pos, "***");
@@ -517,7 +517,7 @@ private:
                     ++fetched;
                 }
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown
@@ -705,7 +705,7 @@ private:
                 ++fetched;
 
                 // Invoke progress callback once per batch
-                if ([[maybe_unused]] fetched % batch_size_ == 0 && progress_callback) {
+                if (fetched % batch_size_ == 0 && progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0,

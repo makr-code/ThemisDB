@@ -28,13 +28,16 @@ namespace ethics {
 const char* ChainVisualizer::dotFillColor(ArgumentType type) {
     switch (type) {
         case ArgumentType::PRO:
-        [[fallthrough]];\n        case ArgumentType::SYNTHESIS:
+        [[fallthrough]];
+        case ArgumentType::SYNTHESIS:
             return "lightblue";
         case ArgumentType::CONTRA:
-        [[fallthrough]];\n        case ArgumentType::REBUTTAL:
+        [[fallthrough]];
+        case ArgumentType::REBUTTAL:
             return "lightyellow";
         case ArgumentType::QUESTION:
-        [[fallthrough]];\n        case ArgumentType::CLARIFICATION:
+        [[fallthrough]];
+        case ArgumentType::CLARIFICATION:
             return "lightgrey";
         default:
             return "white";

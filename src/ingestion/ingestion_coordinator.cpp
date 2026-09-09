@@ -137,7 +137,7 @@ void InProcessLeaderElection::revokeLease(const std::string& node_id) {
 // ConsistentHashRing
 // ============================================================================
 
-ConsistentHashRing::ConsistentHashRing(size_[[maybe_unused]] t virtual_nodes_per_nod[[maybe_unused]] e)
+ConsistentHashRing::ConsistentHashRing(size_t virtual_nodes_per_node)
     : virtual_nodes_per_node_(virtual_nodes_per_node == 0
                                    ? kDefaultVirtualNodes
                                    : virtual_nodes_per_node) {}
@@ -225,7 +225,7 @@ IngestionReport InProcessWorkerNode::ingest(
         manager.registerSource(src);
     }
 
-    return manager.ingestAll([[maybe_unused]] progress_callback);
+    return manager.ingestAll(progress_callback);
 }
 
 // ============================================================================
@@ -326,7 +326,7 @@ void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
     }
 }
 
-std::vector<IngestionReport> WorkStealingPool::run([[maybe_unused]] ProgressCallback cb) {
+std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
     if (nodes_.empty() || remaining_.load(std::memory_order_relaxed) == 0) {
         return {};
     }
@@ -379,7 +379,7 @@ IngestionCoordinator::IngestionCoordinator(const Config& config)
     // Default num_nodes = hardware_concurrency / 2, min 1.
     if (config_.num_nodes == 0) {
         unsigned hw = std::thread::hardware_concurrency();
-        config_.num_nodes = std::max(1, hw / 2);
+        config_.num_nodes = std::max<unsigned>(1u, hw / 2);
     }
 }
 
@@ -573,7 +573,7 @@ IngestionReport IngestionCoordinator::ingestAll(
     }
 
     // Step 4 — Run the pool; idle workers steal from busy workers' deques.
-    std::vector<IngestionReport> partial_reports = pool.run([[maybe_unused]] progress_callback);
+    std::vector<IngestionReport> partial_reports = pool.run(progress_callback);
 
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);

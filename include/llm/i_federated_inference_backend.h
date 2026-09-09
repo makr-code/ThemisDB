@@ -35,8 +35,10 @@ struct FanOutInstanceResult {
     std::string instance_id;     ///< Instance that was targeted
     InferenceResponse response;  ///< Populated when success == true
     bool success = false;        ///< True when the instance returned a valid response
+    std::string error_code;      ///< Stable machine-readable failure class on error
     std::string error;           ///< Non-empty on failure (network error, timeout, …)
     int attempts = 0;            ///< How many attempts were made (≥ 1)
+    int64_t dispatch_time_ms = 0;///< Wall-clock dispatch time for this instance
 };
 
 /**

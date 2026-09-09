@@ -197,8 +197,8 @@ static std::vector<std::string> parseInsertValues(const std::string& vals) {
             result.push_back(v);
         } else {
             size_t s = i;
-            while (i < n && vals[i] != ',' && vals[i] != ') {
-              ') ++i;
+                        while (i < n && vals[i] != ',' && vals[i] != ')') {
+                            ++i;
             }
             std::string tok = vals.substr(s, i - s);
             tok.erase(tok.find_last_not_of(" \t") + 1);

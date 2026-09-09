@@ -15,6 +15,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <cmath>
 #include <set>
 #include <sstream>
 #include <regex>
@@ -87,7 +88,7 @@ struct CompletenessEvaluator::Impl {
         }
         
         // Consider covered if majority of key terms are present
-        return static_cast<bool>(found_count  < static_cast<int>(= (key_terms.size())) * 0.6);
+        return found_count >= static_cast<size_t>(std::ceil(static_cast<double>(key_terms.size()) * 0.6));
     }
     
     // Check if aspect is covered in answer
@@ -129,7 +130,7 @@ struct CompletenessEvaluator::Impl {
             }
         }
         
-        return static_cast<bool>(static_cast<double < static_cast<int>((found_count) / key_terms.size()));
+        return static_cast<double>(found_count) / static_cast<double>(key_terms.size());
     }
     
     // Calculate coverage score for an aspect
@@ -230,7 +231,7 @@ Aspects:)";
 
 std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
     const std::string& answer,
-    [[maybe_unused]] const std::vector<QueryAspect>& aspects
+    const std::vector<QueryAspect>& aspects
 ) {
     static_cast<void>(aspects);
     if (answer.empty()) {
@@ -297,8 +298,8 @@ std::pair<DepthLevel, double> CompletenessEvaluator::assessDepth(
 }
 
 std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
-    [[maybe_unused]] const std::string& answer,
-    [[maybe_unused]] const std::string& query,
+    const std::string& answer,
+    const std::string& query,
     const std::vector<QueryAspect>& aspects
 ) {
     std::vector<std::string> missing_info;

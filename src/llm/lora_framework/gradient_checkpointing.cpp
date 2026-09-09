@@ -108,11 +108,11 @@ void GradientCheckpointer::saveCheckpoint(int layer_id, const GPUTensor& input,
                  layer_id, data.activation_size_bytes);
 }
 
-bool GradientCheckpointer::hasCheckpoint([[maybe_unused]] int layer_id) const {
+bool GradientCheckpointer::hasCheckpoint(int layer_id) const {
     return checkpoints_.find(layer_id) != checkpoints_.end();
 }
 
-GPUTensor GradientCheckpointer::recomputeActivation([[maybe_unused]] int layer_id) {
+GPUTensor GradientCheckpointer::recomputeActivation(int layer_id) {
     auto it = checkpoints_.find(layer_id);
     if (it == checkpoints_.end()) {
         throw std::runtime_error("No checkpoint found for layer " + std::to_string(layer_id));
@@ -138,7 +138,7 @@ GPUTensor GradientCheckpointer::recomputeActivation([[maybe_unused]] int layer_i
     return recomputed;
 }
 
-void GradientCheckpointer::clearCheckpoint([[maybe_unused]] int layer_id) {
+void GradientCheckpointer::clearCheckpoint(int layer_id) {
     auto it = checkpoints_.find(layer_id);
     if (it != checkpoints_.end()) {
         checkpoints_.erase(it);
@@ -155,7 +155,7 @@ void GradientCheckpointer::clearAll() {
     spdlog::debug("Cleared all checkpoints");
 }
 
-void GradientCheckpointer::addCustomCheckpoint([[maybe_unused]] int layer_id) {
+void GradientCheckpointer::addCustomCheckpoint(int layer_id) {
     custom_checkpoints_.insert(layer_id);
     spdlog::debug("Added custom checkpoint for layer {}", layer_id);
 }
@@ -188,7 +188,7 @@ CheckpointStats GradientCheckpointer::getStats() const {
     return stats;
 }
 
-size_t GradientCheckpointer::estimateMemorySavings([[maybe_unused]] size_t avg_activation_size) const {
+size_t GradientCheckpointer::estimateMemorySavings(size_t avg_activation_size) const {
     if (stats_.total_layers == 0 || avg_activation_size == 0) {
         return 0;
     }
@@ -223,7 +223,7 @@ float GradientCheckpointer::estimateComputeOverhead() const {
     return recompute_fraction * overhead_per_recompute * 100.0f;
 }
 
-void GradientCheckpointer::updateRecomputeTime([[maybe_unused]] size_t recompute_time_ms) {
+void GradientCheckpointer::updateRecomputeTime(size_t recompute_time_ms) {
     stats_.recomputation_time_ms += recompute_time_ms;
 }
 

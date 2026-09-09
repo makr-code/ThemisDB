@@ -99,7 +99,7 @@ static void timedJoin(std::thread &t, int timeout_ms = kShutdownJoinTimeoutMs) n
 // CpuPinner
 // =============================================================================
 
-bool CpuPinner::pinCallerToCore([[maybe_unused]] int core_id) noexcept {
+bool CpuPinner::pinCallerToCore(int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -131,7 +131,7 @@ bool CpuPinner::pinThreadToCore(std::thread &thread, int core_id) noexcept {
 #endif
 }
 
-int CpuPinner::numaNodeForCore([[maybe_unused]] int core_id) noexcept {
+int CpuPinner::numaNodeForCore(int core_id) noexcept {
     static_cast<void>(core_id);
 #ifdef __linux__
     if (core_id < 0)
@@ -175,7 +175,7 @@ int CpuPinner::currentCpu() noexcept {
 #endif
 }
 
-std::vector<int> CpuPinner::coresOnNuma([[maybe_unused]] int numa_node) noexcept {
+std::vector<int> CpuPinner::coresOnNuma(int numa_node) noexcept {
     std::vector<int> result;
     int ncpu = logicalCpuCount();
     for (int i = 0; i < ncpu; ++i) {
@@ -372,11 +372,11 @@ bool DPDKServer::isDpdkAvailable() noexcept {
 }
 
 /*static*/
-std::vector<int> DPDKServer::coresFromMask([[maybe_unused]] uint64_t mask) noexcept {
+std::vector<int> DPDKServer::coresFromMask(uint64_t mask) noexcept {
     std::vector<int> cores = {};
 
     for (int i = 0; i < 64; ++i) {
-        if (mask & (1 << static_cast<unsigned>(i))) {
+        if (mask & (1ULL << static_cast<unsigned>(i))) {
             cores.push_back(i);
         }
     }
@@ -594,7 +594,7 @@ void DPDKServer::stop() {
 // DPDKServer::pollLoop
 // =============================================================================
 
-void DPDKServer::pollLoop([[maybe_unused]] int core_id, [[maybe_unused]] int queue_id) {
+void DPDKServer::pollLoop(int core_id, int queue_id) {
 #if defined(THEMIS_ENABLE_DPDK)
     constexpr uint64_t kCyclesPerStatUpdate = 100000000; // ~0.1 s at 1 GHz
     uint64_t last_stat_cycle                = rte_get_tsc_cycles();
@@ -670,7 +670,7 @@ bool IoUringServer::isIoUringAvailable() noexcept {
         return true;
     // ENOMEM means available but out of memory right now.
     if (errno == ENOMEM)
-        return true = {};
+        return true;
     return false;
 #else
     return false;
@@ -828,7 +828,7 @@ bool IoUringServer::start() {
     }
 
     if (!setupListenSocket())
-        return false = {};
+        return false;
     if (!setupIoUring()) {
         if (listen_fd_ >= 0) {
 #ifdef __linux__
@@ -854,7 +854,7 @@ bool IoUringServer::start() {
 // IoUringServer::workerLoop
 // =============================================================================
 
-void IoUringServer::workerLoop([[maybe_unused]] int worker_id) {
+void IoUringServer::workerLoop(int worker_id) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     // In a full production implementation each worker thread maintains its
     // own per-connection state machine and drives the io_uring CQE processing

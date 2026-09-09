@@ -232,7 +232,7 @@ Result<size_t> ThemisDBAdapter::batch_insert(
         auto& store = table_store_[table_name];
         store.insert(store.end(), rows.begin(), rows.end());
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(rows.size())));
+    return Result<size_t>::ok(rows.size());
 }
 
 Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
@@ -279,12 +279,12 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         auto& store = vector_store_[collection];
-        store.reserve(static_cast<int>(store.size()) + static_cast<int>(vectors.size()) );
+        store.reserve(store.size() + vectors.size());
         for (const auto& v : vectors) {
             store.emplace_back(generate_id(), v);
         }
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(vectors.size())));
+    return Result<size_t>::ok(vectors.size());
 }
 
 Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
@@ -371,7 +371,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // Partial sort to obtain top-k results.
-    const size_t result_k = std::min(k,static_cast<int>(scored.size()));
+    const size_t result_k = std::min(k, scored.size());
     std::partial_sort(scored.begin(),
                       scored.begin() + static_cast<ptrdiff_t>(result_k),
                       scored.end(),
@@ -390,7 +390,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
 Result<bool> ThemisDBAdapter::create_index(
     const std::string& collection,
-    [[maybe_unused]] size_t dimensions,
+    size_t dimensions,
     const std::map<std::string, Scalar>& /*index_params*/
 ) {
     if (!connected_) {
@@ -621,7 +621,7 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
         std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
 
-        auto append_bfs_results = [&]([[maybe_unused]] const std::vector<std::string>& bfs_result) {
+        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
             for (const auto& nid : bfs_result) {
                 if (!seen_ids.insert(nid).second) continue; // already added
                 auto it = graph_nodes_.find(nid);
@@ -784,7 +784,7 @@ Result<size_t> ThemisDBAdapter::batch_insert_documents(
             col[id]         = std::move(stored);
         }
     }
-    return static_cast<bool>(Result<size_t < static_cast<int>(::ok(docs.size())));
+    return Result<size_t>::ok(docs.size());
 }
 
 Result<std::vector<Document>> ThemisDBAdapter::find_documents(
@@ -1174,19 +1174,32 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 bool ThemisDBAdapter::has_capability(Capability cap) const {
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
-        [[fallthrough]];\n        case Capability::VECTOR_SEARCH:
-        [[fallthrough]];\n        case Capability::GRAPH_TRAVERSAL:
-        [[fallthrough]];\n        case Capability::DOCUMENT_STORE:
-        [[fallthrough]];\n        case Capability::FULL_TEXT_SEARCH:
-        [[fallthrough]];\n        case Capability::TRANSACTIONS:
-        [[fallthrough]];\n        case Capability::DISTRIBUTED_QUERIES:
-        [[fallthrough]];\n        case Capability::GEOSPATIAL_QUERIES:
-        [[fallthrough]];\n        case Capability::TIME_SERIES:
-        [[fallthrough]];\n        case Capability::BATCH_OPERATIONS:
-        [[fallthrough]];\n        case Capability::SECONDARY_INDEXES:
-        [[fallthrough]];\n        case Capability::ASYNC_OPERATIONS:
-        [[fallthrough]];\n        case Capability::STREAMING_RESULTS:
-        [[fallthrough]];\n        case Capability::PREPARED_STATEMENTS:
+        [[fallthrough]];
+        case Capability::VECTOR_SEARCH:
+        [[fallthrough]];
+        case Capability::GRAPH_TRAVERSAL:
+        [[fallthrough]];
+        case Capability::DOCUMENT_STORE:
+        [[fallthrough]];
+        case Capability::FULL_TEXT_SEARCH:
+        [[fallthrough]];
+        case Capability::TRANSACTIONS:
+        [[fallthrough]];
+        case Capability::DISTRIBUTED_QUERIES:
+        [[fallthrough]];
+        case Capability::GEOSPATIAL_QUERIES:
+        [[fallthrough]];
+        case Capability::TIME_SERIES:
+        [[fallthrough]];
+        case Capability::BATCH_OPERATIONS:
+        [[fallthrough]];
+        case Capability::SECONDARY_INDEXES:
+        [[fallthrough]];
+        case Capability::ASYNC_OPERATIONS:
+        [[fallthrough]];
+        case Capability::STREAMING_RESULTS:
+        [[fallthrough]];
+        case Capability::PREPARED_STATEMENTS:
             return true;
         case Capability::CONNECTION_POOLING:
             // Resolved: returns true when a connection-pool provider has been
@@ -1382,7 +1395,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                     ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
             }
 
-            if ([[maybe_unused]] progress_callback) {
+            if (progress_callback) {
                 // Drive the insert in chunks to report incremental progress.
                 // A single preallocated buffer is reused across all chunks to
                 // avoid repeated heap allocations.
@@ -1398,7 +1411,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                             "Async operation cancelled mid-batch: " + op_id);
                     }
 
-                    const size_t end = std::min(offset + kChunkSize,static_cast<int>(rows.size()));
+                    const size_t end = std::min(offset + kChunkSize, rows.size());
                     chunk.assign(
                         rows.begin() + static_cast<std::ptrdiff_t>(offset),
                         rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1408,7 +1421,7 @@ std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
                         return chunk_result;
                     }
                     total_inserted += chunk_result.value.value_or(0);
-                    progress_callback([[maybe_unused]] total_inserted);
+                    progress_callback(total_inserted);
                 }
                 return Result<size_t>::ok(total_inserted);
             }
@@ -1559,7 +1572,7 @@ ThemisDBResultStream::ThemisDBResultStream(
 {}
 
 bool ThemisDBResultStream::has_more() const {
-    return static_cast<bool>(!closed_  && static_cast<size_t>(cursor_) < static_cast<int>(table_.rows.size()));
+    return !closed_ && cursor_ < table_.rows.size();
 }
 
 Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
@@ -1577,7 +1590,7 @@ Result<std::vector<RelationalRow>> ThemisDBResultStream::next_batch(
         ? config_.default_batch_size
         : batch_size;
 
-    const size_t end = std::min(cursor_ + effective,static_cast<int>(table_.rows.size()));
+    const size_t end = std::min(cursor_ + effective, table_.rows.size());
     std::vector<RelationalRow> batch(
         table_.rows.begin() + static_cast<std::ptrdiff_t>(cursor_),
         table_.rows.begin() + static_cast<std::ptrdiff_t>(end));
@@ -1590,7 +1603,7 @@ size_t ThemisDBResultStream::position() const {
 }
 
 std::optional<size_t> ThemisDBResultStream::total_size() const {
-    return static_cast<int>(table_.rows.size());
+    return table_.rows.size();
 }
 
 Result<bool> ThemisDBResultStream::close() {

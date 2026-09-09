@@ -450,7 +450,7 @@ std::string BackendAwareLlamaModelHandle::backend_name() const {
     return backend ? backend->name() : "Unknown";
 }
 
-bool BackendAwareLlamaModelHandle::transferToGPU([[maybe_unused]] int target_gpu_id) {
+bool BackendAwareLlamaModelHandle::transferToGPU(int target_gpu_id) {
     if (!model_) {
         spdlog::error("Cannot transfer: model not loaded");
         return false;

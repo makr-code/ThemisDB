@@ -536,7 +536,7 @@ size_t NumaAwareOptimizer::getNumaNodeCount() {
     return 1;
 }
 
-bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
+bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #ifdef __linux__
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
@@ -545,7 +545,7 @@ bool NumaAwareOptimizer::pinThreadToCpu([[maybe_unused]] int cpu_id) {
     pthread_t thread = pthread_self();
     return pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset) == 0;
 #else
-    [[maybe_unused]] int unused_cpu_id = cpu_id;
+    (void)cpu_id;
     return false;
 #endif
 }

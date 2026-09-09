@@ -113,7 +113,7 @@ uint64_t SseConnectionManager::registerConnection(
  * @brief Unregister and deactivate a client connection.
  * @param conn_id Connection id.
  */
-void SseConnectionManager::unregisterConnection([[maybe_unused]] uint64_t conn_id) {
+void SseConnectionManager::unregisterConnection(uint64_t conn_id) {
     bool stop_polling = false;
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
 
@@ -179,10 +179,10 @@ std::vector<std::string> SseConnectionManager::pollEvents(
         if (budget == 0) {
             return {};
         }
-        count = std::min({max_events, conn-> static_cast<int>(buffered_events.size()),
+        count = std::min({max_events, conn->buffered_events.size(),
                           static_cast<size_t>(budget)});
     } else {
-        count = std::min(max_events, conn-> static_cast<int>(buffered_events.size()));
+        count = std::min(max_events, conn->buffered_events.size());
     }
 
     if (count == 0) {
@@ -201,7 +201,7 @@ std::vector<std::string> SseConnectionManager::pollEvents(
 
     // Keep raw_buffered_events in sync so that pollRawEvents() remains consistent
     // with the number of formatted lines already consumed.
-    const size_t raw_count = std::min(count, conn-> static_cast<int>(raw_buffered_events.size()));
+    const size_t raw_count = std::min(count, conn->raw_buffered_events.size());
     if (raw_count > 0) {
         conn->raw_buffered_events.erase(
             conn->raw_buffered_events.begin(),
@@ -254,10 +254,10 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
         if (budget == 0) {
             return {};
         }
-        count = std::min({max_events, conn-> static_cast<int>(raw_buffered_events.size()),
+        count = std::min({max_events, conn->raw_buffered_events.size(),
                           static_cast<size_t>(budget)});
     } else {
-        count = std::min(max_events, conn-> static_cast<int>(raw_buffered_events.size()));
+        count = std::min(max_events, conn->raw_buffered_events.size());
     }
 
     if (count == 0) {
@@ -289,7 +289,7 @@ std::vector<Changefeed::ChangeEvent> SseConnectionManager::pollRawEvents(
  * @param conn_id Connection id.
  * @return true when heartbeat interval elapsed.
  */
-bool SseConnectionManager::needsHeartbeat([[maybe_unused]] uint64_t conn_id) const {
+bool SseConnectionManager::needsHeartbeat(uint64_t conn_id) const {
     std::shared_lock<std::shared_mutex> lock(connections_mutex_);
 
     auto it = connections_.find(conn_id);
@@ -308,7 +308,7 @@ bool SseConnectionManager::needsHeartbeat([[maybe_unused]] uint64_t conn_id) con
  * @brief Record heartbeat emission timestamp for a connection.
  * @param conn_id Connection id.
  */
-void SseConnectionManager::recordHeartbeat([[maybe_unused]] uint64_t conn_id) {
+void SseConnectionManager::recordHeartbeat(uint64_t conn_id) {
     std::unique_lock<std::shared_mutex> lock(connections_mutex_);
     
     auto it = connections_.find(conn_id);
@@ -403,7 +403,7 @@ void SseConnectionManager::backgroundPollTask() {
                 // already full.  This read is safe here because we hold the
                 // connections_mutex_ shared lock; the write side (pollEventsWithSequences,
                 // backgroundPollTask write path) holds the exclusive lock.
-                if (conn-> static_cast<int>(buffered_events.size()) >= config_.max_buffered_events
+                if (conn->buffered_events.size() >= static_cast<size_t>(config_.max_buffered_events)
                     && !config_.drop_oldest_on_overflow) {
                     THEMIS_WARN("SSE connection {} buffer full, skipping poll", id);
                     continue;
@@ -450,7 +450,7 @@ void SseConnectionManager::backgroundPollTask() {
                 // Enforce capacity limit: drop oldest when configured, otherwise skip
                 // new events to preserve the hard max_buffered_events bound.
                 if (config_.drop_oldest_on_overflow
-                    && static_cast<int>(c.buffered_events.size()) >= config_.max_buffered_events
+                    && c.buffered_events.size() >= static_cast<size_t>(config_.max_buffered_events)
                     && config_.max_buffered_events > 0) {
                     const size_t overflow_count =
                         c.buffered_events.size() - static_cast<size_t>(config_.max_buffered_events) + 1;
@@ -459,7 +459,7 @@ void SseConnectionManager::backgroundPollTask() {
                         c.buffered_events.begin() + static_cast<std::ptrdiff_t>(overflow_count));
 
                     const size_t raw_overflow_count =
-                        std::min(overflow_count,static_cast<int>(c.raw_buffered_events.size()));
+                        std::min(overflow_count, c.raw_buffered_events.size());
                     if (raw_overflow_count > 0) {
                         c.raw_buffered_events.erase(
                             c.raw_buffered_events.begin(),
@@ -471,7 +471,7 @@ void SseConnectionManager::backgroundPollTask() {
                 }
 
                 // Skip event if buffer is still at capacity (drop_oldest_on_overflow==false).
-                if (static_cast<int>(c.buffered_events.size()) >= config_.max_buffered_events) {
+                if (c.buffered_events.size() >= static_cast<size_t>(config_.max_buffered_events)) {
                     c.dropped_events++;
                     total_dropped_events_++;
                     continue;

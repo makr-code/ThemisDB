@@ -20,13 +20,13 @@
  *   auto result = pipeline.run("How does HNSW work?");
  * @endcode
  *
- * ## Fail-open behaviour
+ * ## Error behaviour
  *
- * When `WikiRagSourceConfig::fail_open = true` (default) any exception thrown
- * by the underlying reader is caught and the stage returns
- * `StageStatus::Skipped` with a diagnostic message, allowing the pipeline to
- * continue with zero wiki candidates.  Set `fail_open = false` to propagate
- * errors as `StageStatus::Error` instead.
+ * By default (`WikiRagSourceConfig::fail_open = false`) exceptions from the
+ * underlying reader are surfaced as `StageStatus::Error` (fail-closed).
+ * Set `fail_open = true` only for explicitly tolerated degraded paths where
+ * the pipeline should continue with zero wiki candidates and
+ * `StageStatus::Skipped`.
  *
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
@@ -53,7 +53,7 @@ struct WikiRagSourceConfig {
     std::string source_namespace = "wiki"; ///< Namespace tag appended to each RAGCandidate
     int         top_k            = 5;      ///< Maximum number of wiki chunks to retrieve
     float       min_score        = 0.0f;   ///< Minimum score threshold for inclusion
-    bool        fail_open        = true;   ///< If true, errors → Skipped; false → Error
+    bool        fail_open        = false;  ///< Default fail-closed; true enables degraded skip path
 };
 
 // ============================================================================
@@ -99,8 +99,8 @@ public:
      *     `candidates`.
      *
      * On error:
-     *  - If `fail_open = true`:  returns `StageStatus::Skipped` + diagnostic.
-     *  - If `fail_open = false`: returns `StageStatus::Error` + diagnostic.
+     *  - If `fail_open = false` (default): returns `StageStatus::Error` + diagnostic.
+     *  - If `fail_open = true`: returns `StageStatus::Skipped` + diagnostic.
      *
      * @param ctx  Mutable pipeline context; `ctx.query` is the input text.
      * @return     Stage result with wiki candidates (or skipped on error).

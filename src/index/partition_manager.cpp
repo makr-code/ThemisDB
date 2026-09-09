@@ -71,7 +71,7 @@ PartitionHandle PartitionManager::AddPartition(const std::string& name) {
     return PartitionHandle(id, epoch, this);
 }
 
-bool PartitionManager::RemovePartition([[maybe_unused]] uint32_t partition_id) {
+bool PartitionManager::RemovePartition(uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = partitions_.find(partition_id);
@@ -172,7 +172,7 @@ void PartitionManager::CompactPartitions() {
     }
 }
 
-uint64_t PartitionManager::CurrentEpoch([[maybe_unused]] uint32_t partition_id) const {
+uint64_t PartitionManager::CurrentEpoch(uint32_t partition_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = epoch_counters_.find(partition_id);
@@ -183,7 +183,7 @@ uint64_t PartitionManager::CurrentEpoch([[maybe_unused]] uint32_t partition_id) 
     return it->second;
 }
 
-std::shared_ptr<PartitionData> PartitionManager::GetPartitionById([[maybe_unused]] uint32_t partition_id) {
+std::shared_ptr<PartitionData> PartitionManager::GetPartitionById(uint32_t partition_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = partitions_.find(partition_id);

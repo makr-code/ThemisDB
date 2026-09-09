@@ -74,21 +74,21 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
     return {};
 }
 
-Result<void> Alertmanager::sendAlert([[maybe_unused]] const Alert& alert) {
+Result<void> Alertmanager::sendAlert(const Alert& alert) {
     return tl::unexpected(Error{
         errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
         "Alertmanager::sendAlert requires a concrete backend implementation"
     });
 }
 
-Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& alert_id) {
+Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
     return tl::unexpected(Error{
         errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
         "Alertmanager::resolveAlert requires a concrete backend implementation"
     });
 }
 
-Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, [[maybe_unused]] int duration_minutes) {
+Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
     return tl::unexpected(Error{
         errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
         "Alertmanager::silenceAlert requires a concrete backend implementation"
@@ -114,7 +114,7 @@ Result<void> Alertmanager::testConnection() {
 std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_id) const {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return std::nullopt;
     }
@@ -124,7 +124,7 @@ std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_
 void Alertmanager::upsertActiveAlert(const Alert& alert) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&]([[maybe_unused]] const Alert& existing) { return existing.alert_id == alert.alert_id; });
+                           [&](const Alert& existing) { return existing.alert_id == alert.alert_id; });
     if (it == active_alerts_.end()) {
         active_alerts_.push_back(alert);
     } else {
@@ -135,7 +135,7 @@ void Alertmanager::upsertActiveAlert(const Alert& alert) {
 bool Alertmanager::removeActiveAlertById(const std::string& alert_id, Alert* removed) {
     std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&]([[maybe_unused]] const Alert& alert) { return alert.alert_id == alert_id; });
+                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
     if (it == active_alerts_.end()) {
         return false;
     }
@@ -266,7 +266,8 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
             THEMIS_WARN("{}", ss.str());
             break;
         case AlertSeverity::ERROR:
-        [[fallthrough]];\n        case AlertSeverity::CRITICAL:
+        [[fallthrough]];
+        case AlertSeverity::CRITICAL:
             THEMIS_ERROR("{}", ss.str());
             break;
     }

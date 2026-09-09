@@ -30,6 +30,7 @@
 #include <sstream>
 #include <thread>
 #include <condition_variable>
+#include <unordered_set>
 
 namespace themis::rag::learning {
 
@@ -40,6 +41,93 @@ static constexpr double kUserFeedbackWeight  = 0.6;
 static constexpr double kEvalConfidenceWeight = 0.4;
 /// Neutral baseline objective used when one signal source has no data.
 static constexpr double kDefaultObjectiveScore = 0.5;
+/// Hard cap for in-memory candidate extraction per run to bound prompt/training memory.
+static constexpr size_t kMaxSelectionCandidates = 2048;
+/// Max retrieved documents per interaction copied into one training sample text.
+static constexpr size_t kMaxDocsPerSample = 4;
+
+double clamp01(double value) {
+    if (value < 0.0) {
+        return 0.0;
+    }
+    if (value > 1.0) {
+        return 1.0;
+    }
+    return value;
+}
+
+std::vector<themis::training::DataSample> buildCandidatesFromInteractions(
+        const std::vector<Interaction>& interactions,
+        const std::string& adapter_id,
+        bool allow_unlabeled_model_version) {
+    std::vector<themis::training::DataSample> candidates;
+    candidates.reserve(std::min(interactions.size(), kMaxSelectionCandidates));
+    std::unordered_set<std::string> seen_ids;
+
+    for (auto it = interactions.rbegin(); it != interactions.rend(); ++it) {
+        if (candidates.size() >= kMaxSelectionCandidates) {
+            break;
+        }
+        const auto& interaction = *it;
+        if (!adapter_id.empty()) {
+            if (!interaction.model_version.empty() && interaction.model_version != adapter_id) {
+                continue;
+            }
+            if (interaction.model_version.empty() && !allow_unlabeled_model_version) {
+                continue;
+            }
+        }
+
+        std::string sample_id = interaction.interaction_id.empty()
+                                    ? std::string("interaction_") +
+                                          std::to_string(candidates.size() + 1)
+                                    : interaction.interaction_id;
+        if (!seen_ids.insert(sample_id).second) {
+            continue;
+        }
+
+        std::ostringstream text_builder;
+        if (!interaction.query.empty()) {
+            text_builder << "Q: " << interaction.query << '\n';
+        }
+        if (!interaction.generated_answer.empty()) {
+            text_builder << "A: " << interaction.generated_answer << '\n';
+        }
+
+        const size_t docs_to_copy =
+            std::min(interaction.retrieved_docs.size(), kMaxDocsPerSample);
+        for (size_t idx = 0; idx < docs_to_copy; ++idx) {
+            const auto& doc = interaction.retrieved_docs[idx];
+            if (!doc.content.empty()) {
+                text_builder << "DOC[" << idx << "]: " << doc.content << '\n';
+            }
+        }
+
+        const std::string assembled_text = text_builder.str();
+        if (assembled_text.empty()) {
+            continue;
+        }
+
+        themis::training::DataSample sample;
+        sample.id = std::move(sample_id);
+        sample.text = assembled_text;
+        if (!interaction.retrieved_docs.empty()) {
+            const auto& metadata = interaction.retrieved_docs.front().metadata;
+            auto lang_it = metadata.find("language");
+            sample.language = (lang_it != metadata.end()) ? lang_it->second : "unknown";
+            auto domain_it = metadata.find("domain");
+            if (domain_it != metadata.end()) {
+                sample.domain = domain_it->second;
+            }
+        } else {
+            sample.language = "unknown";
+        }
+        sample.quality_score = clamp01(interaction.confidence_score);
+        candidates.push_back(std::move(sample));
+    }
+
+    return candidates;
+}
 
 struct ComponentInfo {
     std::string id;
@@ -230,7 +318,8 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
     if (impl_->si_module && impl_->data_selector) {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         if (impl_->si_module->needsReselection(impl_->last_selection_time)) {
-            std::vector<themis::training::DataSample> candidates;
+            const auto candidates = buildCandidatesFromInteractions(
+                impl_->interactions, "", true);
             auto sel_result = impl_->data_selector->run(candidates);
             // Update timestamp only on success to avoid suppressing the next
             // scheduled run when the pipeline reports a failure.
@@ -318,6 +407,17 @@ void ContinuousLearningOrchestrator::logInteraction(const Interaction &interacti
     impl_->interactions.push_back(interaction);
     impl_->stats.total_interactions_logged++;
 
+    if (interaction.user_feedback.has_value()) {
+        if (!interaction.model_version.empty()) {
+            auto adapter_it = impl_->lora_adapters.find(interaction.model_version);
+            if (adapter_it != impl_->lora_adapters.end()) {
+                adapter_it->second.feedback_count++;
+            }
+        } else if (impl_->lora_adapters.size() == 1) {
+            impl_->lora_adapters.begin()->second.feedback_count++;
+        }
+    }
+
     // Update current accuracy based on feedback
     if (interaction.user_feedback.has_value()) {
         bool is_positive = (interaction.user_feedback.value() == FeedbackType::POSITIVE);
@@ -364,7 +464,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
+        if (impl_->interactions.size() < static_cast<size_t>(impl_->config.min_feedback_samples)) {
             return;
         }
 
@@ -412,7 +512,7 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
                                  worst_version + "' (success rate: " +
                                  std::to_string(worst_rate) + ")";
 
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
         impl_->stats.prompt_optimizations++;
 
         // Deploy A/B test if enabled
@@ -429,7 +529,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     try {
-        if (impl_-> static_cast<int>(interactions.size()) < impl_->config.min_feedback_samples) {
+        if (impl_->interactions.size() < static_cast<size_t>(impl_->config.min_feedback_samples)) {
             return;
         }
 
@@ -509,7 +609,7 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
              << " (objective=" << combined_objective << ")";
         event.description = desc.str();
 
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
         impl_->stats.retrieval_optimizations++;
 
         // Deploy A/B test if enabled
@@ -555,9 +655,14 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                     }
                 }
 
-                // In production: load candidate samples from the DB collection
-                // (here we pass an empty list; the pipeline still runs all stages)
-                std::vector<themis::training::DataSample> candidates;
+                const bool allow_unlabeled = (impl_->lora_adapters.size() == 1);
+                auto candidates = buildCandidatesFromInteractions(
+                    impl_->interactions, adapter_id, allow_unlabeled);
+                if (candidates.empty()) {
+                    spdlog::warn("CLO: no candidate samples available for adapter '{}'; "
+                                 "skipping retraining cycle", adapter_id);
+                    continue;
+                }
                 auto sel_result = impl_->data_selector->run(candidates);
                 // Update timestamp only on success so a failed run doesn't
                 // prevent the next scheduled re-selection attempt.
@@ -597,7 +702,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         rollback_event.metric_after     = metrics.training_accuracy;
                         rollback_event.description      = "Automated rollback: quality/accuracy "
                                                           "below threshold";
-                        impl_->stats.recent_improvements.push_back([[maybe_unused]] rollback_event);
+                        impl_->stats.recent_improvements.push_back(rollback_event);
                         continue; // Skip retraining for this adapter
                     }
 
@@ -657,7 +762,7 @@ void ContinuousLearningOrchestrator::promoteOrRollback(const ABTestResult &resul
         event.description      = "Promoted after successful A/B test";
 
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+        impl_->stats.recent_improvements.push_back(event);
     }
 }
 
@@ -789,7 +894,7 @@ void ContinuousLearningOrchestrator::saveModelCheckpoint(const std::string &mode
     event.metric_before    = impl_->stats.current_accuracy;
     event.metric_after     = impl_->stats.current_accuracy;
     event.description      = "Checkpoint saved for model: " + model_id;
-    impl_->stats.recent_improvements.push_back([[maybe_unused]] event);
+    impl_->stats.recent_improvements.push_back(event);
 }
 
 void ContinuousLearningOrchestrator::learningLoopThread() {
@@ -890,7 +995,7 @@ void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
         LoopPhase phase,
         std::function<void(LoopPhase, const LoopResult&)> handler) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->loop_handlers[static_cast<int>([[maybe_unused]] phase)] = std::move(handler);
+    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
 }
 
 ContinuousLearningOrchestrator::LoopResult
@@ -1093,12 +1198,12 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         impl_->active_loop = LoopPhase::IDLE;
         // Store last result for context serialiser
         impl_->last_loop_results[static_cast<int>(phase)] = result;
-        auto it = impl_->loop_handlers.find([[maybe_unused]] static_cast<int>(phase));
-        if ([[maybe_unused]] it != impl_->loop_handlers.end() && it->second) {
+        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
+        if (it != impl_->loop_handlers.end() && it->second) {
             completion_handler = it->second;
         }
     }
-    if ([[maybe_unused]] completion_handler) {
+    if (completion_handler) {
         completion_handler(phase, result);
     }
 

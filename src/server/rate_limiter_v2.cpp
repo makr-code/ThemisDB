@@ -242,7 +242,7 @@ bool TokenBucketRateLimiter::redisConnect() {
     tv.tv_usec = (config_.redis.timeout_ms % 1000) * 1000;
 
     // Helper: connect one slot, load Lua script, return true on success.
-    auto connectSlot = [&]([[maybe_unused]] RedisConnectionPool::Slot& slot) -> bool {
+    auto connectSlot = [&](RedisConnectionPool::Slot& slot) -> bool {
         if (slot.ctx && !slot.ctx->err) return true;  // Already healthy.
         if (slot.ctx) { redisFree(slot.ctx); slot.ctx = nullptr; }
 
@@ -311,14 +311,15 @@ bool TokenBucketRateLimiter::redisConnect() {
     redis_healthy_.store(false, std::memory_order_release);
     return false;
 #else
+    THEMIS_DEBUG("TokenBucketRateLimiter::redisConnect fallback (Redis disabled)");
     return false;
 #endif
 }
 
-int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
-                                             [[maybe_unused]] size_t capacity,
-                                             [[maybe_unused]] size_t refill_rate,
-                                             [[maybe_unused]] size_t consume_count) {
+int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
+                                             size_t capacity,
+                                             size_t refill_rate,
+                                             size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     // F-008: borrow a pool connection (blocks if all are in use).
     size_t slot_idx = {};
@@ -487,7 +488,7 @@ void TokenBucketRateLimiter::Bucket::refill() {
     }
 }
 
-bool TokenBucketRateLimiter::Bucket::consume([[maybe_unused]] size_t count) {
+bool TokenBucketRateLimiter::Bucket::consume(size_t count) {
     // Atomic decrement if sufficient tokens available
     size_t current = tokens.load(std::memory_order_acquire);
 

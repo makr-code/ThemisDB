@@ -126,8 +126,8 @@ std::string OcrProcessor::getTesseractVersion() {
 // Core Tesseract invocation
 // ---------------------------------------------------------------------------
 
-std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
-                                       [[maybe_unused]] PreprocessInfo *preprocess_info) {
+std::string OcrProcessor::runTesseract(const std::string &blob,
+                                       PreprocessInfo *preprocess_info) {
 #if OCR_LIBRARY_AVAILABLE
     if (blob.empty())
         return "";
@@ -250,6 +250,8 @@ std::string OcrProcessor::runTesseract([[maybe_unused]] const std::string &blob,
     text = sanitizeOcrText(std::move(text));
     return text;
 #else
+    (void)blob;
+    (void)preprocess_info;
     return "";
 #endif
 }

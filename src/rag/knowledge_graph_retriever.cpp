@@ -70,8 +70,8 @@ double stringSimilarity(const std::string& a, const std::string& b) {
     // Prefix match: shorter is prefix of longer → score = |shorter|/|longer|
     const std::string& shorter = static_cast<int>(a.size()) <= b.size() ? a : b;
     const std::string& longer  = static_cast<int>(a.size()) <= b.size() ? b : a;
-    if (longer.substr(0,static_cast<int>(shorter.size())) == shorter) {
-        return static_cast<bool>(static_cast<double < static_cast<int>((shorter.size()))) /
+    if (longer.substr(0, shorter.size()) == shorter) {
+        return static_cast<double>(shorter.size()) /
                static_cast<double>(longer.size());
     }
     return 0.0;
@@ -140,7 +140,7 @@ bool KnowledgeGraph::removeNode(const std::string& node_id) {
     // Decrement edge_count for all outgoing edges from this node before erasing
     auto adj_it = impl_->adj.find(node_id);
     if (adj_it != impl_->adj.end()) {
-        impl_->edge_count -= adj_it-> static_cast<int>(second.size());
+        impl_->edge_count -= adj_it->second.size();
         impl_->adj.erase(adj_it);
     }
 
@@ -148,7 +148,7 @@ bool KnowledgeGraph::removeNode(const std::string& node_id) {
     for (auto& [src, edges] : impl_->adj) {
         const size_t before = edges.size();
         edges.erase(std::remove_if(edges.begin(), edges.end(),
-                        [&]([[maybe_unused]] const KGEdge& e) { return e.to_id == node_id; }),
+                        [&](const KGEdge& e) { return e.to_id == node_id; }),
                     edges.end());
         impl_->edge_count -= (before - static_cast<int>(edges.size()) );
     }
@@ -186,7 +186,7 @@ const KGNode* KnowledgeGraph::findNodeByName(const std::string& text) const {
 
 size_t KnowledgeGraph::nodeCount() const {
     std::lock_guard<std::mutex> lk(impl_->mtx);
-    return static_cast<bool>(impl_- < static_cast<int>(nodes.size()));
+    return impl_->nodes.size();
 }
 
 void KnowledgeGraph::addEdge(KGEdge edge) {
@@ -209,7 +209,7 @@ bool KnowledgeGraph::removeEdge(const std::string& from_id,
     auto& edges = it->second;
     const size_t before = edges.size();
     edges.erase(std::remove_if(edges.begin(), edges.end(),
-                    [&]([[maybe_unused]] const KGEdge& e) {
+                    [&](const KGEdge& e) {
                         return e.to_id == to_id && e.relation == relation;
                     }),
                 edges.end());
@@ -250,7 +250,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         // GAP-010: Check node count before dequeuing.
         // visited always contains at least start_id (inserted before the loop),
         // so static_cast<int>(visited.size()) >= 1 and the subtraction is safe from underflow.
-        if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1 >= max_nodes) {
+        if (max_nodes > 0 && (visited.size() - 1) >= max_nodes) {
             spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
                          "from '{}'; truncating traversal", max_nodes, start_id);
             break;
@@ -269,7 +269,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         }
 
         for (const auto& edge : adj_it->second) {
-            if (max_nodes > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) - 1 >= max_nodes) {
+                        if (max_nodes > 0 && (visited.size() - 1) >= max_nodes) {
               break;
             }
             if (edge.weight < min_edge_weight) {

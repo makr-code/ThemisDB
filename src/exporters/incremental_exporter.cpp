@@ -168,9 +168,9 @@ ExportStats IncrementalExporter::exportEntities(
                     throw;
                 }
             } catch (const std::exception& e) {
-                stats.failed_entities++;
-                stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " +
-                                       std::string(e.what()));
+                    stats.failed_entities++;
+                    stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " +
+                                           std::string(e.what())); 
                 metrics_->recordError("std_exception");
                 if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
                     limit_reached = true;
@@ -203,7 +203,7 @@ ExportStats IncrementalExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch ([[maybe_unused]] const std::exception& e) {
+            } catch (const std::exception&) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;
@@ -364,7 +364,7 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
             if (excluded) { continue; }
         }
 
-        std::visit([&]([[maybe_unused]] const auto& v) {
+        std::visit([&](const auto& v) {
             using T = std::decay_t<decltype(v)>;
             if constexpr (std::is_same_v<T, std::monostate>) {
                 j[key] = nullptr;

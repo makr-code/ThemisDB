@@ -174,7 +174,7 @@ public:
     ExporterStressFrameworkImpl()
         : cancel_test_(false),
           active_test_(false),
-          progress_callback_([[maybe_unused]] nullptr) {}
+          progress_callback_(nullptr) {}
 
     ExporterStressTestResult runStressTest(
         const ExporterStressTestConfig& config) override {
@@ -236,8 +236,8 @@ public:
                 }
 
                 // Update progress
-                if ([[maybe_unused]] progress_callback_) {
-                    progress_callback_([[maybe_unused]] (sec * 100) / config.duration_seconds);
+                if (progress_callback_) {
+                    progress_callback_((sec * 100) / config.duration_seconds);
                 }
             }
         }
@@ -455,7 +455,7 @@ public:
     }
 
     void setProgressCallback(
-        std::function<void([[maybe_unused]] std::uint32_t progress_percent)> callback) override {
+        std::function<void(std::uint32_t progress_percent)> callback) override {
         progress_callback_ = callback;
     }
 
@@ -472,7 +472,7 @@ public:
         return 6;  // OEX-01 through OEX-06
     }
 
-    std::string getGateName(st[[maybe_unused]] d::size_[[maybe_unused]] t gate_inde[[maybe_unused]] x) const override {
+    std::string getGateName(std::size_t gate_index) const override {
         const char* names[] = {
             "OEX-01: Baseline Throughput",
             "OEX-02: P95 Latency (Normal Load)",

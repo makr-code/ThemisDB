@@ -42,7 +42,7 @@ std::string normalizePropertyType(const std::string& type) {
     std::transform(upper.begin(), upper.end(), upper.begin(),
                    [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
 
-    auto starts_with = [&]([[maybe_unused]] const char* prefix) {
+    auto starts_with = [&](const char* prefix) {
         const std::string p(prefix);
         return upper.rfind(p, 0) == 0;
     };
@@ -416,7 +416,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
     MigrationResult r;
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
+                           [&](const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -429,7 +429,7 @@ MigrationResult SchemaMigrator::applyDropColumn(
     // Also remove any index referencing this column
     schema.indexes.erase(
         std::remove_if(schema.indexes.begin(), schema.indexes.end(),
-                       [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
+                       [&](const SchemaManager::IndexInfo& idx) {
                            return idx.name == op.column_name ||
                                   (!idx.columns.empty() && idx.columns[0] == op.column_name);
                        }),
@@ -467,7 +467,7 @@ MigrationResult SchemaMigrator::applyRenameColumn(
     }
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
+                           [&](const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -508,7 +508,7 @@ MigrationResult SchemaMigrator::applyChangeColumnType(
     }
 
     auto it = std::find_if(schema.properties.begin(), schema.properties.end(),
-                           [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
+                           [&](const SchemaManager::PropertyInfo& p) {
                                return p.name == op.column_name;
                            });
 
@@ -540,7 +540,7 @@ MigrationResult SchemaMigrator::applyAddIndex(
 
     // Verify the column exists
     bool col_exists = std::any_of(schema.properties.begin(), schema.properties.end(),
-                                  [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
+                                  [&](const SchemaManager::PropertyInfo& p) {
                                       return p.name == op.column_name;
                                   });
     if (!col_exists) {
@@ -551,7 +551,7 @@ MigrationResult SchemaMigrator::applyAddIndex(
 
     // Check for duplicate index
     bool idx_exists = std::any_of(schema.indexes.begin(), schema.indexes.end(),
-                                  [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
+                                  [&](const SchemaManager::IndexInfo& idx) {
                                       return idx.name == op.column_name;
                                   });
     if (idx_exists) {
@@ -590,7 +590,7 @@ MigrationResult SchemaMigrator::applyDropIndex(
     MigrationResult r;
 
     auto it = std::find_if(schema.indexes.begin(), schema.indexes.end(),
-                           [&]([[maybe_unused]] const SchemaManager::IndexInfo& idx) {
+                           [&](const SchemaManager::IndexInfo& idx) {
                                return idx.name == op.column_name;
                            });
 
@@ -633,7 +633,7 @@ MigrationResult SchemaMigrator::applyPartitionTable(
 
     // Verify partition key column exists
     bool key_exists = std::any_of(schema.properties.begin(), schema.properties.end(),
-                                  [&]([[maybe_unused]] const SchemaManager::PropertyInfo& p) {
+                                  [&](const SchemaManager::PropertyInfo& p) {
                                       return p.name == op.partition_key;
                                   });
     if (!key_exists) {

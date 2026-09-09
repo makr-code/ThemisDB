@@ -64,7 +64,7 @@ void ResourceProfiler::snapshot(int epoch, int step, float loss, float lr) {
     query_gpu_utilization(snapshot);
     check_alerts(snapshot);
     impl_->snapshots.push_back(snapshot);
-    for ([[maybe_unused]] const auto& cb : impl_->callbacks) {
+    for (const auto& cb : impl_->callbacks) {
         cb(snapshot);
     }
 }

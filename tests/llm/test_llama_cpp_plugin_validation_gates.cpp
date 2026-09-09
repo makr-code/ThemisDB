@@ -283,39 +283,41 @@ TEST_F(LlamaCppPluginValidationTest, ValidateModelInitInvalidGGUFMagic) {
 
 TEST_F(LlamaCppPluginValidationTest, ValidateMemoryCpuOnlyMode) {
     // CPU-only should not check GPU memory
-    size_t model_size = 7 * 1024 * 1024 * 1024;  // 7 GB
-    int gpu_layers = 0;
-    std::string error;
-    
+    constexpr size_t kGiB = 1024ULL * 1024ULL * 1024ULL;
+    const size_t model_size = 7 * kGiB;
+    const int gpu_layers = 0;
+
     EXPECT_EQ(gpu_layers, 0);  // CPU-only
+    EXPECT_EQ(model_size, 7 * kGiB);
 }
 
 TEST_F(LlamaCppPluginValidationTest, ValidateMemoryGpuRequested) {
     // GPU layers requested
-    size_t model_size = 7 * 1024 * 1024 * 1024;  // 7 GB
-    int gpu_layers = 40;
-    std::string error;
-    
+    constexpr size_t kGiB = 1024ULL * 1024ULL * 1024ULL;
+    const size_t model_size = 7 * kGiB;
+    const int gpu_layers = 40;
+
     EXPECT_GT(gpu_layers, 0);
-    
+
     // Estimated GPU memory = 1.5x model size
-    size_t estimated_gpu = (model_size * 3) / 2;
-    size_t gpu_limit = 8 * 1024ULL * 1024ULL * 1024ULL;  // 8 GB limit
-    
+    const size_t estimated_gpu = (model_size * 3ULL) / 2ULL;
+    const size_t gpu_limit = 8 * kGiB;
+
     // Should fit on GPU
     EXPECT_LE(estimated_gpu, gpu_limit);
 }
 
 TEST_F(LlamaCppPluginValidationTest, ValidateMemoryGpuExceedsLimit) {
     // GPU memory needed exceeds limit
-    size_t model_size = 30 * 1024 * 1024 * 1024;  // 30 GB (too large)
-    int gpu_layers = 40;
-    std::string error;
-    
-    size_t estimated_gpu = (model_size * 3) / 2;
-    size_t gpu_limit = 8 * 1024ULL * 1024ULL * 1024ULL;  // 8 GB limit
-    
+    constexpr size_t kGiB = 1024ULL * 1024ULL * 1024ULL;
+    const size_t model_size = 30 * kGiB;
+    const int gpu_layers = 40;
+
+    const size_t estimated_gpu = (model_size * 3ULL) / 2ULL;
+    const size_t gpu_limit = 8 * kGiB;
+
     EXPECT_GT(estimated_gpu, gpu_limit);  // Should fail validation
+    EXPECT_GT(gpu_layers, 0);
 }
 
 // ============================================================================

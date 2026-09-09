@@ -712,7 +712,7 @@ TEST(ScraperPluginFocusedTests, J1_GovCatalogHasBundestag) {
     const auto bund = cat.byType(GovSourceType::BUND);
     bool found = false;
     for (const auto& s : bund) {
-        if ((s && (s->id == "bundestag_dip" || s->id == "bundestag")) {
+        if (s && (s->id == "bundestag_dip" || s->id == "bundestag")) {
             found = true; break;
         }
     }

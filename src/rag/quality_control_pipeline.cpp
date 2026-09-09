@@ -107,8 +107,8 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
             result.failure_reasons.emplace_back("Failed fast screening stage");
             impl_->stats.failed++;
             
-            if ([[maybe_unused]] impl_->failure_callback) {
-                impl_->failure_callback([[maybe_unused]] result);
+            if (impl_->failure_callback) {
+                impl_->failure_callback(result);
             }
             
             return result;
@@ -441,7 +441,7 @@ void QualityControlPipeline::sendLearningFeedback(
     
     THEMIS_DEBUG("Sending feedback to learning system");
     
-    if ([[maybe_unused]] impl_->learning_callback) {
+    if (impl_->learning_callback) {
         impl_->learning_callback(query, result);
     }
     

@@ -5,7 +5,7 @@
 /// @brief Phase C: shard summary refresh, summary-first routing with
 ///        escalation, and exact-on-demand tensor fetch implementation.
 
-#include "shard_summary_coordinator.h"
+#include "../include/shard_summary_coordinator.h"
 
 #include <chrono>
 #include <string>

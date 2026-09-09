@@ -74,7 +74,7 @@ void GPUMetrics::recordAllocSuccess(uint64_t bytes, const std::string &tenant_id
     incrCounter("themis_gpu_alloc_bytes_total", labels, static_cast<double>(bytes));
 }
 
-void GPUMetrics::recordAllocFailGlobal([[maybe_unused]] uint64_t bytes, const std::string &tenant_id) {
+void GPUMetrics::recordAllocFailGlobal(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{{"result", "fail_global_limit"}};
     if (!tenant_id.empty()) {
@@ -83,7 +83,7 @@ void GPUMetrics::recordAllocFailGlobal([[maybe_unused]] uint64_t bytes, const st
     incrCounter("themis_gpu_alloc_total", labels);
 }
 
-void GPUMetrics::recordAllocFailTenant([[maybe_unused]] uint64_t bytes, const std::string &tenant_id) {
+void GPUMetrics::recordAllocFailTenant(uint64_t bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{{"result", "fail_tenant_quota"}, {"tenant", tenant_id}};
     incrCounter("themis_gpu_alloc_total", labels);
@@ -120,7 +120,7 @@ void GPUMetrics::setVRAMAllocated(uint64_t bytes, const std::string &tenant_id) 
     setGauge("themis_gpu_vram_allocated_bytes", labels, static_cast<double>(bytes));
 }
 
-void GPUMetrics::setVRAMPeak([[maybe_unused]] uint64_t bytes) {
+void GPUMetrics::setVRAMPeak(uint64_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     setGauge("themis_gpu_vram_peak_bytes", {}, static_cast<double>(bytes));
 }

@@ -453,7 +453,7 @@ std::string GraphApiHandler::extractPathParam(
 // ─────────────────────────────────────────────────────────────────────────────
 
 themis::graph::GraphQueryOptimizer::GraphChangeSet
-GraphApiHandler::parseChangeSet([[maybe_unused]] const json& changes_array) {
+GraphApiHandler::parseChangeSet(const json& changes_array) {
     using CS = themis::graph::GraphQueryOptimizer::GraphChangeSet;
     CS cs = {};
     if (!changes_array.is_array()) {
@@ -598,7 +598,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     try {
         handle = std::stoull(handle_str);
     } catch (...) {
-        THEMIS_WARN([[maybe_unused]] "graph_api_handler: unhandled exception caught");
+        THEMIS_WARN("graph_api_handler: unhandled exception caught");
         span.setStatus(false, "invalid handle");
         return makeErrorResponse(http::status::bad_request,
             "Invalid handle: not a valid integer", req);

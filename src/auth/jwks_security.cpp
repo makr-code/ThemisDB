@@ -19,6 +19,7 @@
 #include <openssl/sha.h>
 #include <openssl/bio.h>
 #include <curl/curl.h>
+#include <cstdio>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
@@ -79,6 +80,18 @@ std::string base64Encode(const unsigned char* data, size_t len) {
 bool fileExists(const std::string& path) {
     std::ifstream file(path);
     return file.good();
+}
+
+FILE* openFileRead(const std::string& path) {
+#ifdef _WIN32
+    FILE* fp = nullptr;
+    if (fopen_s(&fp, path.c_str(), "r") != 0) {
+        return nullptr;
+    }
+    return fp;
+#else
+    return std::fopen(path.c_str(), "r");
+#endif
 }
 
 } // anonymous namespace
@@ -366,7 +379,7 @@ void JWKSSecureFetcher::setupTLSContext() {
 
 std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_path) {
     // Read certificate file
-    FILE* fp = fopen(cert_path.c_str(), "r");
+    FILE* fp = openFileRead(cert_path);
     if (!fp) {
         throw std::runtime_error("Failed to open certificate: " + cert_path);
     }
@@ -431,7 +444,7 @@ std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem
 }
 
 bool CertificateUtils::verifyCertificate(const std::string& cert_path) {
-    FILE* fp = fopen(cert_path.c_str(), "r");
+    FILE* fp = openFileRead(cert_path);
     if (!fp) {
         return false;
     }
@@ -458,7 +471,7 @@ CertificateUtils::CertInfo
 CertificateUtils::getCertificateInfo(const std::string& cert_path) {
     CertInfo info = CertInfo();
     
-    FILE* fp = fopen(cert_path.c_str(), "r");
+    FILE* fp = openFileRead(cert_path);
     if (!fp) {
         throw std::runtime_error("Failed to open certificate: " + cert_path);
     }

@@ -330,7 +330,7 @@ void DirectXContext::reset_command_list() {
     command_list_recording_ = true;
 }
 
-void DirectXContext::execute_command_list([[maybe_unused]] uint32_t timeout_ms) {
+void DirectXContext::execute_command_list(uint32_t timeout_ms) {
     // Close command list
     HRESULT hr = command_list_->Close();
     if (FAILED(hr)) {

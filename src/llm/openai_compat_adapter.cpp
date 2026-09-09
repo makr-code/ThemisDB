@@ -33,7 +33,7 @@ int64_t nowUnix() {
 }
 
 /// Generate a short hex random suffix for completion IDs.
-std::string randomHex([[maybe_unused]] size_t bytes = 12) {
+std::string randomHex(size_t bytes = 12) {
     std::random_device rd = {};
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dist;

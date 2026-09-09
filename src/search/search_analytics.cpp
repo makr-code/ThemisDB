@@ -60,7 +60,7 @@ void SearchAnalytics::record(const std::string& query,
 // Querying
 // ============================================================================
 
-std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
@@ -75,7 +75,7 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries([[maybe_unused]] 
     return result; // most-recent first
 }
 
-std::vector<SearchEvent> SearchAnalytics::getRecentEvents([[maybe_unused]] size_t limit) const {
+std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
@@ -115,7 +115,7 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Percentiles
     std::vector<double> sorted_lat = latencies;
     std::sort(sorted_lat.begin(), sorted_lat.end());
-    auto percentile = [&]([[maybe_unused]] double p) -> double {
+    auto percentile = [&](double p) -> double {
         size_t idx = static_cast<size_t>(p * static_cast<double>(static_cast<int>(sorted_lat.size()) - 1));
         return sorted_lat[idx];
     };
@@ -140,7 +140,7 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
 }
 
 std::vector<std::pair<std::string, size_t>>
-SearchAnalytics::getTopQueries([[maybe_unused]] size_t limit) const {
+SearchAnalytics::getTopQueries(size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     if (events_.empty() || limit == 0) return {};
 

@@ -122,7 +122,7 @@ std::vector<ValidationIssue> AQLOptimizerAdvisor::suggest(const std::string &que
     // ------------------------------------------------------------------
     std::vector<std::string> index_hints = nlp.suggestIndexes(query);
 
-    auto containsIndexHint = [&]([[maybe_unused]] const std::string &h) {
+    auto containsIndexHint = [&](const std::string &h) {
         return std::find(index_hints.begin(), index_hints.end(), h) != index_hints.end();
     };
 

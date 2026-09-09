@@ -76,7 +76,7 @@ std::string extractCollection(const std::string &upper, const std::string &in_ke
         bool ok_before = (p == 0 || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(p - 1)])));
         size_t after   = p + static_cast<int>(in_keyword.size()) ;
         bool ok_after  = (after >= upper.size() || !std::isalnum(static_cast<unsigned char>(upper[after])));
-        if (ok_before && ok_after  && static_cast<size_t>(after) <static_cast<int>(upper.size()) && upper[after] == ' ') {
+        if (ok_before && ok_after && after < upper.size() && upper[after] == ' ') {
             // Skip space, read word.
             size_t ws = after + 1;
             size_t we = ws;
@@ -198,7 +198,8 @@ RollbackSuggestion AQLRollbackSuggester::suggest(const std::string &aql_query) c
             }
             break;
         case MutationType::UPDATE:
-        [[fallthrough]];\n        case MutationType::REPLACE:
+        [[fallthrough]];
+        case MutationType::REPLACE:
             coll = extractCollection(upper, "IN");
             break;
         case MutationType::UPSERT:

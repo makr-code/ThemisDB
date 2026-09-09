@@ -108,7 +108,7 @@ void RCCLBackend::finalize() {
     spdlog::info("RCCLBackend finalized");
 }
 
-bool RCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [[maybe_unused]] bool average) {
+bool RCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
     if (!initialized_) {
         spdlog::error("RCCLBackend not initialized");
         return false;
@@ -201,7 +201,7 @@ bool RCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool RCCLBackend::broadcast([[maybe_unused]] GPUTensor& tensor, [[maybe_unused]] int root) {
+bool RCCLBackend::broadcast(GPUTensor& tensor, int root) {
     static_cast<void>(tensor);
     static_cast<void>(root);
     if (!initialized_) {

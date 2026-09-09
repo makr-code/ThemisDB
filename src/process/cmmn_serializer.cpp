@@ -339,7 +339,7 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     // Phase 3: Initialize parser state tracker for resource limit enforcement
     ParserStateTracker parser_state(static_cast<size_t>(kMaxCmmnXmlBytes));
 
-    auto tag_cb = [&]([[maybe_unused]] const XmlTag& t) {
+    auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
 
         // ── Closing tags ──────────────────────────────────────────────────
@@ -461,7 +461,7 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
         }
     };
 
-    auto text_cb = [&]([[maybe_unused]] std::string_view) {};
+    auto text_cb = [&](std::string_view) {};
 
     if (!tokenizeCmmnXml(cmmn_xml, tag_cb, text_cb)) {
         result.ok      = false;

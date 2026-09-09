@@ -360,13 +360,13 @@ void GPUTimeoutGuard::cancel() {
 // MemoryPressureMonitor Implementation
 // ============================================================================
 
-MemoryPressureMonitor::MemoryPressureMonitor([[maybe_unused]] size_t total_memory_bytes)
+MemoryPressureMonitor::MemoryPressureMonitor(size_t total_memory_bytes)
     : total_memory_bytes_(total_memory_bytes) {
     spdlog::info("Memory Pressure Monitor initialized with {} GB total memory",
                  total_memory_bytes / (1024.0 * 1024 * 1024));
 }
 
-void MemoryPressureMonitor::updateUsage([[maybe_unused]] size_t used_bytes) {
+void MemoryPressureMonitor::updateUsage(size_t used_bytes) {
     used_memory_bytes_.store(used_bytes, std::memory_order_release);
 }
 
@@ -402,7 +402,7 @@ MemoryPressureMonitor::MemoryStatus MemoryPressureMonitor::getStatus() const {
     return status;
 }
 
-bool MemoryPressureMonitor::canAllocate([[maybe_unused]] size_t bytes) const {
+bool MemoryPressureMonitor::canAllocate(size_t bytes) const {
     MemoryStatus status = getStatus();
     
     if (status.should_block_new) {

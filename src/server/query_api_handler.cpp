@@ -638,7 +638,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
                                             auto parsed = nlohmann::json::parse(plain_str);
                                             obj[f] = parsed;
                                         } catch (...) {
-                                            THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                             obj[f] = plain_str;
                                         }
                                     } else {
@@ -828,7 +828,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
                 return col_oss.str();
             };
-            auto literalToString = [&]([[maybe_unused]] const LiteralValue& value)->std::string{
+            auto literalToString = [&](const LiteralValue& value)->std::string{
                 return std::visit([](auto&& arg)->std::string{
                     using T = std::decay_t<decltype(arg)>;
                     if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -841,7 +841,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             };
             std::optional<std::pair<std::string,std::string>> joinCols; std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
             std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-            collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
+            collectPreds = [&](const std::shared_ptr<Expression>& e){
                 if (!e) {
                   return;
                 }
@@ -907,7 +907,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::BaseEntity> out = {};
 
             // Reserve based on expected join cardinality (smaller input set)
-            out.reserve(std::min(leftVec.size(),static_cast<int>(rightVec.size())));
+            out.reserve(std::min(leftVec.size(), rightVec.size()));
             if (buildLeft) { for (const auto& e : rightVec) { auto k = getFieldStr(e, colRight); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& l = it->second; if (retVar == var1) out.push_back(l); else out.push_back(e); } } }
             else { for (const auto& e : leftVec) { auto k = getFieldStr(e, colLeft); if (!k.has_value()) continue; auto range = hash.equal_range(*k); for (auto it = range.first; it != range.second; ++it) { const themis::BaseEntity& r = it->second; if (retVar == var1) out.push_back(e); else out.push_back(r); } } }
             if ((*parse_result) && (*parse_result)->limit) { auto off = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->offset)); auto cnt = static_cast<size_t>(std::max<int64_t>(0, (*parse_result)->limit->count)); if (static_cast<int>(out.size()) > off) { size_t last = std::min(out.size(), off + cnt); auto first_it = out.begin() + static_cast<std::ptrdiff_t>(off); auto last_it = out.begin() + static_cast<std::ptrdiff_t>(last); std::vector<themis::BaseEntity> tmp; tmp.reserve(last - off); std::move(first_it, last_it, std::back_inserter(tmp)); out.swap(tmp); } else { out.clear(); } }
@@ -937,7 +937,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             using namespace themis::query;
             // Helfer: löse Ausdruck zu einer Feldspalte der Loop-Variable auf, ggf. via LET-Variable
             std::function<std::optional<std::string>(const std::shared_ptr<Expression>&)> resolveToLoopField;
-            resolveToLoopField = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e)->std::optional<std::string> {
+            resolveToLoopField = [&](const std::shared_ptr<Expression>& e)->std::optional<std::string> {
                 if (!e) {
                   return std::nullopt;
                 }
@@ -976,7 +976,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<themis::PredicateEq> eqPreds;
             bool unsupported = false;
             // Lokale Literal-zu-String Konvertierung (wie im Übersetzer)
-            auto litToString = [&]([[maybe_unused]] const themis::query::LiteralValue& value)->std::string{
+            auto litToString = [&](const themis::query::LiteralValue& value)->std::string{
                 return std::visit([](auto&& arg)->std::string{
                     using T = std::decay_t<decltype(arg)>;
                     if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -988,7 +988,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }, value);
             };
             std::function<void(const std::shared_ptr<Expression>&)> visit;
-            visit = [&]([[maybe_unused]] const std::shared_ptr<Expression>& ex){
+            visit = [&](const std::shared_ptr<Expression>& ex){
                 if (!ex || unsupported) {
                   return;
                 }
@@ -1054,7 +1054,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         static constexpr double kFilterRangeSelectivity = 0.3;
         static constexpr double kSortSelectivity        = 1.0;
 
-        auto recordFromConjunct = [&]([[maybe_unused]] const themis::ConjunctiveQuery& cq) {
+        auto recordFromConjunct = [&](const themis::ConjunctiveQuery& cq) {
             for (const auto& p : cq.predicates) {
                 index_recommender->recordAccess(cq.table, p.column,
                    metadata::IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
@@ -1136,7 +1136,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 // Funktionsnamen case-insensitiv vergleichen
                 std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                 auto getArgLit = [&](size_t idx, nlohmann::json& argOut)->bool{
-                    if (idx >= fc-> static_cast<int>(arguments.size())) {
+                    if (idx >= fc->arguments.size()) {
                       return false;
                     }
                     return evalExprToLiteral(fc->arguments[idx], argOut);
@@ -1179,7 +1179,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     return false;
                 };
                 // Portable conversions between tm and time_t (UTC)
-                auto portable_mkgmtime = [&]([[maybe_unused]] const std::tm* tmin)->time_t {
+                auto portable_mkgmtime = [&](const std::tm* tmin)->time_t {
 #ifdef _WIN32
                     return _mkgmtime(const_cast<std::tm*>(tmin));
 #else
@@ -1193,7 +1193,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     gmtime_r(t, out);
 #endif
                 };
-                auto tmToDateStr = [&]([[maybe_unused]] const std::tm& tm)->std::string{
+                auto tmToDateStr = [&](const std::tm& tm)->std::string{
                     char buf[32]; std::snprintf(buf, sizeof(buf), "%04d-%02d-%02d", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday); return std::string(buf);
                 };
                 if (name == "date_trunc") {
@@ -1258,7 +1258,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
                     // Falls es ein XOR ist, versuchen wir links und rechts je als SimplePred zu parsen
                     if (be->op == BinaryOperator::Xor) {
-                        auto mapOpInner = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op> {
+                        auto mapOpInner = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
                             switch (bop) {
                                 case BinaryOperator::Eq:  return SimplePred::Op::Eq;
                                 case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1306,7 +1306,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 nlohmann::json leftLit;
                                 bool hasLeft = evalExprToLiteral(be2->left, leftLit);
                                 if (hasLeft && parseSide(be2->right, var, field)) {
-                                    auto invert = [&]([[maybe_unused]] SimplePred::Op o){
+                                    auto invert = [&](SimplePred::Op o){
                                         switch (o) {
                                             case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
                                             case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1328,7 +1328,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         // XOR-Filter als Ganzes sind verarbeitet; nicht in einfache Pr�dikate aufnehmen
                         continue;
                     }
-                    auto mapOp = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op> {
+                    auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op> {
                         switch (bop) {
                             case BinaryOperator::Eq:  return SimplePred::Op::Eq;
                             case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1379,7 +1379,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (parseSide(be->right, var, field)) {
                                 lit = leftLit; 
                                 // Operator invertieren (literal OP field) -> (field OP' literal)
-                                auto invert = [&]([[maybe_unused]] SimplePred::Op o){
+                                auto invert = [&](SimplePred::Op o){
                                     switch (o) {
                                         case SimplePred::Op::Lt:  return SimplePred::Op::Gt;
                                         case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1517,7 +1517,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string fname = fe->name; std::transform(fname.begin(), fname.end(), fname.begin(), ::tolower);
                     if (fname == "path.all" || fname == "path.any" || fname == "path.none") {
                         // Expect two arguments: variable name (v or e) and a predicate expression
-                        if (fe-> static_cast<int>(arguments.size()) != 2) {
+                        if (fe->arguments.size() != 2) {
                           return false;
                         }
                         const auto& path_args = fe->arguments;
@@ -1535,7 +1535,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         if (cur.empty()) {
                             // Empty path: PATH.ALL & PATH.NONE -> true, PATH.ANY -> false
                             if (fname == "path.any") {
-                              return false; else return true;
+                              return false;
+                            } else {
+                              return true;
                             }
                         }
                         // Walk back using parent map if available.
@@ -1621,7 +1623,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                             var = v->name.front(); field = fa->field; return true;
                         };
-                        auto mapOp = [&]([[maybe_unused]] BinaryOperator bop)->std::optional<SimplePred::Op>{
+                        auto mapOp = [&](BinaryOperator bop)->std::optional<SimplePred::Op>{
                             switch (bop) {
                                 case BinaryOperator::Eq: return SimplePred::Op::Eq;
                                 case BinaryOperator::Neq: return SimplePred::Op::Neq;
@@ -1653,7 +1655,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             // links Literal/Funktion
                             if (!evalExprToLiteral(std::shared_ptr<Expression>(const_cast<Expression*>(left), [](Expression*){}), lit)) return false;
                             // invertiere Operator
-                            auto invert = [&]([[maybe_unused]] SimplePred::Op o){
+                            auto invert = [&](SimplePred::Op o){
                                 switch (o) {
                                     case SimplePred::Op::Lt: return SimplePred::Op::Gt;
                                     case SimplePred::Op::Lte: return SimplePred::Op::Gte;
@@ -1690,11 +1692,16 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                         case BinaryOperator::Xor: { bool l = evalBoolExpr(be->left.get(), vpk, eid); bool r = evalBoolExpr(be->right.get(), vpk, eid); return l ^ r; }
                         case BinaryOperator::Eq:
-                        [[fallthrough]];\n                        case BinaryOperator::Neq:
-                        [[fallthrough]];\n                        case BinaryOperator::Lt:
-                        [[fallthrough]];\n                        case BinaryOperator::Lte:
-                        [[fallthrough]];\n                        case BinaryOperator::Gt:
-                        [[fallthrough]];\n                        case BinaryOperator::Gte:
+                        [[fallthrough]];
+                        case BinaryOperator::Neq:
+                        [[fallthrough]];
+                        case BinaryOperator::Lt:
+                        [[fallthrough]];
+                        case BinaryOperator::Lte:
+                        [[fallthrough]];
+                        case BinaryOperator::Gt:
+                        [[fallthrough]];
+                        case BinaryOperator::Gte:
                             return evalCmp(be->left.get(), be->op, be->right.get());
                         default:
                             return false;
@@ -1841,7 +1848,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             }
                             return col_oss.str();
                         };
-                        auto literalToString = [&]([[maybe_unused]] const LiteralValue& value)->std::string{
+                        auto literalToString = [&](const LiteralValue& value)->std::string{
                             return std::visit([](auto&& arg)->std::string{
                                 using T = std::decay_t<decltype(arg)>;
                                 if constexpr (std::is_same_v<T, std::nullptr_t>) return std::string("null");
@@ -1857,7 +1864,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::optional<std::pair<std::string,std::string>> joinCols; // (col1, col2)
                         std::vector<PredicateEq> eq1, eq2; std::vector<PredicateRange> r1, r2;
                         std::function<void(const std::shared_ptr<Expression>&)> collectPreds;
-                        collectPreds = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e){
+                        collectPreds = [&](const std::shared_ptr<Expression>& e){
                             if (!e) {
                               return;
                             }
@@ -1880,7 +1887,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                                 return; // ignore further
                                             }
                                             if (rvL == var1) {
-                                              joinCols = std::make_pair(colL, colR); else joinCols = std::make_pair(colR, colL);
+                                              joinCols = std::make_pair(colL, colR);
+                                            } else {
+                                              joinCols = std::make_pair(colR, colL);
                                             }
                                             return;
                                         }
@@ -2009,7 +2018,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& l = it->second;
                                     if (retVar == var1) {
-                                      out.push_back(l); else out.push_back(e);
+                                      out.push_back(l);
+                                    } else {
+                                      out.push_back(e);
                                     }
                                 }
                             }
@@ -2020,7 +2031,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 for (auto it = range.first; it != range.second; ++it) {
                                     const themis::BaseEntity& r = it->second;
                                     if (retVar == var1) {
-                                      out.push_back(e); else out.push_back(r);
+                                      out.push_back(e);
+                                    } else {
+                                      out.push_back(r);
                                     }
                                 }
                             }
@@ -2065,8 +2078,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
 
             }
 
-            [[maybe_unused]]
-            auto evalV = [&]([[maybe_unused]] const std::string& pk)->bool{
+            auto evalV = [&](const std::string& pk)->bool{
                 for (const auto& p : preds) {
                     if (p.var != 'v') {
                       continue;
@@ -2117,7 +2129,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             };
 
-            [[maybe_unused]] auto evalE = [&](const std::string& edgeId)->bool{
+            auto evalE = [&](const std::string& edgeId)->bool{
                 bool needLoad = false;
                 for (const auto& p : preds) {
                     if (p.var != 'e') {
@@ -2198,7 +2210,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             std::vector<std::string> resultEdgeIds;
             std::vector<std::string> resultTerminalVertices; // f�r Pfadrekonstruktion
 
-            auto withinDepth = [&]([[maybe_unused]] int depth){ return depth >= t.minDepth && depth <= t.maxDepth; };
+            auto withinDepth = [&](int depth){ return depth >= t.minDepth && depth <= t.maxDepth; };
 
             auto bfsSpan = Tracer::startSpan("aql.traversal.bfs");
             bfsSpan.setAttribute("traversal.max_frontier_size_limit", static_cast<int64_t>(max_frontier_size));
@@ -2276,7 +2288,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                   continue;
                 }
 
-                auto enqueueOut = [&]([[maybe_unused]] const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
+                auto enqueueOut = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
                     for (const auto& a : adj) {
                         const std::string& nb = a.targetPk;
                         edgesExpanded++;
@@ -2296,7 +2308,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         }
                     }
                 };
-                auto enqueueIn = [&]([[maybe_unused]] const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
+                auto enqueueIn = [&](const std::vector<themis::GraphIndexManager::AdjacencyInfo>& adj){
                     for (const auto& a : adj) {
                         const std::string& nb = a.targetPk; // bei inAdjacency ist targetPk = fromPk
                         edgesExpanded++;
@@ -2357,7 +2369,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto entity = themis::BaseEntity::deserialize(pk, *blob);
                             res["entities"].push_back(entity.toJson());
                         } catch (...) {
-                            THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                             res["entities"].push_back(nlohmann::json({{"_key", pk}}));
                         }
                     } else {
@@ -2373,7 +2385,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             auto edgeEnt = themis::BaseEntity::deserialize(eid, *eblob);
                             res["entities"].push_back(edgeEnt.toJson());
                         } catch (...) {
-                            THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                             res["entities"].push_back(nlohmann::json({{"_edge", eid}}));
                         }
                     } else {
@@ -2422,7 +2434,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto ent = themis::BaseEntity::deserialize(pk, *blob);
                                 jpath["vertices"].push_back(ent.toJson());
                             } catch (...) {
-                                THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                                THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                 jpath["vertices"].push_back(nlohmann::json({{"_key", pk}}));
                             }
                         } else {
@@ -2438,7 +2450,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto eent = themis::BaseEntity::deserialize(eid, *eblob);
                                 jpath["edges"].push_back(eent.toJson());
                             } catch (...) {
-                                THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                                THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                                 jpath["edges"].push_back(nlohmann::json({{"_edge", eid}}));
                             }
                         } else {
@@ -2522,7 +2534,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto entity = themis::BaseEntity::deserialize(key, entity_blob);
                         entities.push_back(nlohmann::json::parse(entity.toJson()));
                     } catch (...) {
-                        THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                        THEMIS_DEBUG("query_api_handler: unhandled exception caught");
                         // Skip malformed entities
                     }
                 }
@@ -2679,7 +2691,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 // Simple recursive eval supporting Variable, FieldAccess, Literal, ObjectConstruct
                                 std::map<std::string, nlohmann::json> letValues;
                                 std::function<nlohmann::json(const std::shared_ptr<themis::query::Expression>&)> evalExpr;
-                                evalExpr = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
+                                evalExpr = [&](const std::shared_ptr<themis::query::Expression>& e) -> nlohmann::json {
                                     using namespace themis::query;
                                     if (!e) {
                                       return nullptr;
@@ -2687,7 +2699,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                     switch (e->getType()) {
                                         case ASTNodeType::Literal: {
                                             auto lit = std::static_pointer_cast<LiteralExpr>(e);
-                                            nlohmann::json j; std::visit([&]([[maybe_unused]] auto&& arg){ j = arg; }, lit->value); return j;
+                                            nlohmann::json j; std::visit([&](auto&& arg){ j = arg; }, lit->value); return j;
                                         }
                                         case ASTNodeType::Variable: {
                                             auto v = std::static_pointer_cast<VariableExpr>(e);
@@ -2738,7 +2750,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                 auto projected = evalExpr(jq.return_node->expression);
                                 entities.push_back(projected);
                             } catch (...) {
-                                THEMIS_WARN([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                                THEMIS_WARN("query_api_handler: unhandled exception caught");
                                 // Skip malformed entry
                             }
                             return true; // continue scan
@@ -2910,7 +2922,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                                         early_empty_due_to_cursor = true;
                                     }
                                 } catch (...) {
-                                    THEMIS_WARN([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                                    THEMIS_WARN("query_api_handler: unhandled exception caught");
                                     early_empty_due_to_cursor = true;
                                 }
                             }
@@ -3058,7 +3070,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 auto ita = fulltextScoreByPk.find(a.getPrimaryKey()); if (ita != fulltextScoreByPk.end()) sa = ita->second;
                 auto itb = fulltextScoreByPk.find(b.getPrimaryKey()); if (itb != fulltextScoreByPk.end()) sb = itb->second;
                 if (sortAsc) {
-                  return sa < sb; else return sa > sb;
+                  return sa < sb;
+                } else {
+                  return sa > sb;
                 }
             });
         }
@@ -3121,7 +3135,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             collectSpan.setAttribute("collect.aggregates_count", static_cast<int64_t>(collect.aggregations.size()));
 
             // Extrahiere aus einem FieldAccess-Ausdruck die Feld-Pfad-Notation (z.B. doc.city -> "city", doc.addr.city -> "addr.city")
-            auto extractColumn = [&]([[maybe_unused]] const std::shared_ptr<themis::query::Expression>& expr)->std::string {
+            auto extractColumn = [&](const std::shared_ptr<themis::query::Expression>& expr)->std::string {
                 auto* fa = dynamic_cast<FieldAccessExpr*>(expr.get());
                 if (!fa) {
                   return std::string();
@@ -3172,7 +3186,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             struct AggState { uint64_t cnt=0; double sum=0.0; double min=std::numeric_limits<double>::infinity(); double max=-std::numeric_limits<double>::infinity(); };
             std::unordered_map<std::string, std::unordered_map<std::string, AggState>> acc;
 
-            auto toGroupKey = [&]([[maybe_unused]] const themis::BaseEntity& e)->std::string{
+            auto toGroupKey = [&](const themis::BaseEntity& e)->std::string{
                 if (groupColumn.empty()) {
                   return std::string("__all__");
                 }
@@ -3481,7 +3495,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     auto* u = static_cast<UnaryOpExpr*>(expr.get());
                     auto val = evalExpr(u->operand, ent, env);
                     switch (u->op) {
-                        [[fallthrough]];\n                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
+                        [[fallthrough]];
+                        case UnaryOperator::Not:   return val.is_boolean() ? nlohmann::json(!val.get<bool>()) : nlohmann::json(false);
                         case UnaryOperator::Minus: {
                             if (val.is_number()) {
                               return -val.get<double>();
@@ -3502,7 +3517,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::string name = fc->name; std::transform(name.begin(), name.end(), name.begin(), ::tolower);
                     if (name == "bm25") {
                         // One-arg function: BM25(doc). Returns score for provided document object by _key/_pk
-                        if (fc-> static_cast<int>(arguments.size()) != 1) {
+                        if (fc->arguments.size() != 1) {
                           return 0.0;
                         }
                         auto arg = evalExpr(fc->arguments.front(), ent, env);
@@ -3515,7 +3530,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             if (!pk.empty()) {
                                 auto it = fulltextScoreByPk.find(pk);
                                 if (it != fulltextScoreByPk.end()) {
-                                  return it->second; else return 0.0;
+                                  return it->second;
+                                } else {
+                                  return 0.0;
                                 }
                             }
                         }
@@ -3526,7 +3543,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto it = fulltextScoreByPk.find(ent.getPrimaryKey());
                         if (it != fulltextScoreByPk.end()) return it->second; else return 0.0; // default 0.0 when not present
                     }
-                    auto evalArg = [&]([[maybe_unused]] size_t i)->nlohmann::json{ return static_cast<bool>((i<fc- < static_cast<int>(arguments.size()))) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
+                    auto evalArg = [&](size_t i)->nlohmann::json{ return (i < fc->arguments.size()) ? evalExpr(fc->arguments[i], ent, env) : nlohmann::json(); };
                     if (name == "concat") {
                         std::string out = {};
                         for (const auto& arg : fc->arguments) {
@@ -3568,13 +3585,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     if (name == "length") {
                         auto s = evalArg(0);
                         if (s.is_string()) {
-                          return static_cast<bool>(static_cast<int64_t>(s.get<std::string < static_cast<int>(().size())));
+                          return static_cast<int64_t>(s.get<std::string>().size());
                         }
                         if (s.is_array()) {
-                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
+                          return static_cast<int64_t>(s.size());
                         }
                         if (s.is_object()) {
-                          return static_cast<bool>(static_cast<int64_t < static_cast<int>((s.size())));
+                          return static_cast<int64_t>(s.size());
                         }
                         return 0;
                     }
@@ -3723,7 +3740,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                             order_value = *maybe_value;
                         }
                     } catch (...) {
-                        THEMIS_WARN([[maybe_unused]] "query_api_handler: unhandled exception caught");
+                        THEMIS_WARN("query_api_handler: unhandled exception caught");
                         // If extraction fails, continue without order_value
                     }
                 }
@@ -3974,7 +3991,7 @@ std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     return std::nullopt;
 }
 
-QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext([[maybe_unused]] const http::request<http::string_body>& req) {
+QueryApiHandler::AuthContext QueryApiHandler::extractAuthContext(const http::request<http::string_body>& req) {
     AuthContext ctx;
     
     // If auth is disabled, return empty context
@@ -4033,7 +4050,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
     if (qpos != std::string::npos) {
         std::string qs = target.substr(qpos + 1);
         // Parse 'q' parameter (URL-encoded AQL query)
-        auto extract = [&]([[maybe_unused]] const std::string& key) -> std::string {
+        auto extract = [&](const std::string& key) -> std::string {
             std::string prefix = key + "=";
             auto pos = qs.find(prefix);
             if (pos == std::string::npos) return {};
@@ -4110,7 +4127,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         try {
             result = json::parse(aql_resp.body());
         } catch (...) {
-            THEMIS_DEBUG([[maybe_unused]] "query_api_handler: unhandled exception caught");
+            THEMIS_DEBUG("query_api_handler: unhandled exception caught");
             result = json::object();
         }
 

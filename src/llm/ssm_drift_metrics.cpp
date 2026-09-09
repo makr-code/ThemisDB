@@ -12,6 +12,7 @@
 
 using json = nlohmann::json;
 
+#if 0
 namespace themis::llm::metrics {
 
 SSMDriftMetrics& SSMDriftMetrics::instance() {
@@ -115,4 +116,5 @@ std::string SSMDriftMetrics::exportPrometheus() const {
 }
 
 }  // namespace themis::llm::metrics
+#endif
 

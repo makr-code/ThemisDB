@@ -22,7 +22,7 @@
 namespace themis {
 namespace cache {
 
-BoundedLRUCache::BoundedLRUCache(const Config &config) : config_(config), head_(nullptr), tail_(nullptr) {}
+BoundedLRUCache::BoundedLRUCache(const Config &config) : head_(nullptr), tail_(nullptr), config_(config) {}
 
 BoundedLRUCache::~BoundedLRUCache() {
     clear();
@@ -96,7 +96,7 @@ void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t
     // Serialise once here; the string is used as a size proxy (not stored).
     {
         const std::string serialized = value.dump();
-        if (static_cast<int>(serialized.size()) > config_.max_entry_size_bytes) {
+        if (serialized.size() > config_.max_entry_size_bytes) {
             THEMIS_WARN("{{\"event\":\"entry_size_exceeded\",\"operation\":\"bounded_lru_put\","
                         "\"size_bytes\":{},\"max_bytes\":{}}}",
                         serialized.size(), config_.max_entry_size_bytes);
@@ -131,7 +131,7 @@ void BoundedLRUCache::put(const std::string &key, nlohmann::json value, uint32_t
     }
 
     // Evict if at capacity
-    if (static_cast<int>(cache_.size()) >= config_.max_entries) {
+    if (cache_.size() >= config_.max_entries) {
         removeLRU();
     }
 
@@ -174,7 +174,7 @@ bool BoundedLRUCache::remove(const std::string &key) {
 bool BoundedLRUCache::evictLRUIfNeeded() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
 
-    if (static_cast<int>(cache_.size()) >= config_.max_entries) {
+    if (cache_.size() >= config_.max_entries) {
         removeLRU();
         return true;
     }

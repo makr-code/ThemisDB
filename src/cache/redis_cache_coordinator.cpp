@@ -73,11 +73,13 @@ namespace {
 std::mutex s_redis_pub_fn_mutex;
 std::function<bool(const std::string &, const std::string &)> s_redis_pub_fn;
 
+#ifdef THEMIS_ENABLE_REDIS
 /// Bounded retry constants for the publisher path (no_retry_logic fix).
 /// Mirrors the subscriber backoff style but with a shorter cap to keep
 /// publish calls from blocking callers for too long.
 constexpr int kMaxPublishRetries   = 2;   ///< at most 2 reconnect+retry attempts
 constexpr int kPublishRetryDelayMs = 50;  ///< initial retry delay: 50 ms
+#endif
 } // namespace
 
 void RedisCacheCoordinator::setRedisPublishFn(RedisPublishFn fn) {
@@ -321,14 +323,14 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 #endif
 }
 
-void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    entry_cb_ = std::move([[maybe_unused]] callback);
+    entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(cb_mutex_);
-    invalidation_cb_ = std::move([[maybe_unused]] callback);
+    invalidation_cb_ = std::move(callback);
 }
 
 // ============================================================================
@@ -698,7 +700,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (static_cast<int>(config_.hmac_secret.size()) > static_cast<size_t>(INT_MAX) || static_cast<int>(payload.size()) > static_cast<size_t>(INT_MAX)) {
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }

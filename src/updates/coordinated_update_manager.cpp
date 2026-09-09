@@ -392,7 +392,7 @@ void CoordinatedUpdateManager::setSignalReadyFunc(SignalReadyFunc fn) {
     signal_ready_fn_ = std::move(fn);
 }
 
-void CoordinatedUpdateManager::setProgressCallback([[maybe_unused]] ProgressCallback fn) {
+void CoordinatedUpdateManager::setProgressCallback(ProgressCallback fn) {
     std::lock_guard<std::mutex> lock(mutex_);
     progress_cb_ = std::move(fn);
 }
@@ -524,3 +524,4 @@ uint32_t CoordinatedUpdateManager::isolatedNodeCount() const {
 
 } // namespace updates
 } // namespace themis
+

@@ -145,12 +145,12 @@ static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
 };
 
 /// Write a little-endian uint64_t to @p dst.
-static void write_le64(uint8_t* dst, uint64_t val) {
+[[maybe_unused]] static void write_le64(uint8_t* dst, uint64_t val) {
     for (int i = 0; i < 8; ++i) { dst[i] = static_cast<uint8_t>(val & 0xFF); val >>= 8; }
 }
 
 /// Read a little-endian uint64_t from @p src.
-static uint64_t read_le64(const uint8_t* src) {
+[[maybe_unused]] static uint64_t read_le64(const uint8_t* src) {
     uint64_t val = 0;
     for (int i = 0; i < 8; ++i) {
       val |= static_cast<uint64_t>(src[i]) << (8 * i);
@@ -159,7 +159,7 @@ static uint64_t read_le64(const uint8_t* src) {
 }
 
 /// Returns true if @p data starts with the GPU container magic bytes.
-static bool has_gpu_magic(const std::vector<uint8_t>& data) {
+[[maybe_unused]] static bool has_gpu_magic(const std::vector<uint8_t>& data) {
     return static_cast<int>(data.size()) >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
@@ -178,7 +178,7 @@ static bool parse_gpu_container(
       return false;
     }
     const uint8_t* p   = compressed.data() + kGpuMagicSize;
-    const uint8_t* end = compressed.data() + static_cast<int>(compressed.size()) ;
+    const uint8_t* end = compressed.data() + compressed.size();
 
     if (p + 16 > end) {
       return false;
@@ -201,22 +201,6 @@ static bool parse_gpu_container(
     }
     out_chunk_data_start = p;
     return true;
-}
-
-/// Build and append the GPU container header to @p out.
-/// @p out must have been empty (or cleared) before the call.
-[[maybe_unused]] static void write_gpu_container_header(
-    std::vector<uint8_t>& out,
-    uint64_t n_chunks,
-    uint64_t orig_size,
-    const std::vector<uint64_t>& chunk_sizes)
-{
-    out.resize(kGpuMagicSize + 8 + 8 + static_cast<int>(chunk_sizes.size()) * 8);
-    uint8_t* p = out.data();
-    memcpy(p, kGpuMagic, kGpuMagicSize); p += kGpuMagicSize;
-    write_le64(p, n_chunks);  p += 8;
-    write_le64(p, orig_size); p += 8;
-    for (const uint64_t cs : chunk_sizes) { write_le64(p, cs); p += 8; }
 }
 
 // ---------------------------------------------------------------------------
@@ -1049,7 +1033,7 @@ bool GpuCompressionManager::init_gpu()
     }
 }
 
-bool GpuCompressionManager::should_use_gpu([[maybe_unused]] size_t data_size) const
+bool GpuCompressionManager::should_use_gpu(size_t data_size) const
 {
     if (force_cpu_) {
       return false;
@@ -1157,7 +1141,7 @@ GpuCompressionResult GpuCompressionManager::compress(
 GpuCompressionResult GpuCompressionManager::compress(
     const std::vector<uint8_t>& data, GpuCompressionAlgorithm algorithm)
 {
-    return compress(data.data(),static_cast<int>(data.size()), algorithm);
+    return compress(data.data(), data.size(), algorithm);
 }
 
 // ============================================================================
@@ -1190,7 +1174,7 @@ std::vector<uint8_t> GpuCompressionManager::decompress(
     // threshold check so we compare against uncompressed bytes (not the
     // compressed payload size).
     size_t effective_size = compressed.size();
-    if (is_gpu_fmt && static_cast<int>(compressed.size()) >= kGpuMagicSize + 16) {
+    if (is_gpu_fmt && compressed.size() >= kGpuMagicSize + 16) {
         effective_size = static_cast<size_t>(
             read_le64(compressed.data() + kGpuMagicSize + 8)); // orig_size field
     }
@@ -1427,8 +1411,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_snappy(
     if (!compressed_str.empty()) {
         res.data.assign(
             reinterpret_cast<const uint8_t*>(compressed_str.data()),
-            reinterpret_cast<const uint8_t*>(
-                compressed_str.data() + static_cast<int>(compressed_str.size()) ));
+            reinterpret_cast<const uint8_t*>(compressed_str.data() + compressed_str.size()));
         res.compression_ratio =
             static_cast<float>(size) / static_cast<float>(res.data.size());
         res.success = true;
@@ -1445,8 +1428,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
 {
     std::string decompressed = {};
     bool ok = snappy::Uncompress(
-        reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()),
-        &decompressed);
+        reinterpret_cast<const char*>(data.data()), data.size(), &decompressed);
     // prompt_injection scanner alert: `decompressed` is raw binary payload
     // materialized from Snappy and never executed as model/system prompt text.
     if (!ok) {
@@ -1455,8 +1437,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_snappy(
     }
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(decompressed.data()),
-        reinterpret_cast<const uint8_t*>(
-            decompressed.data() + static_cast<int>(decompressed.size()) ));
+        reinterpret_cast<const uint8_t*>(decompressed.data() + decompressed.size()));
 }
 
 // ------------------------------------------------------------------
@@ -1522,7 +1503,7 @@ GpuCompressionResult GpuCompressionManager::cpu_compress_lz4(
 std::vector<uint8_t> GpuCompressionManager::cpu_decompress_lz4(
     const std::vector<uint8_t>& data, size_t original_size)
 {
-    if (static_cast<int>(data.size()) < kLz4HeaderSize) {
+    if (data.size() < kLz4HeaderSize) {
         spdlog::error("[gpu_compress] LZ4 decompression: data too short for header");
         return {};
     }
@@ -1589,7 +1570,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
     for (size_t i = 0; i < n_chunks; ++i) {
         size_t cs = static_cast<size_t>(chunk_sizes[i]);
         // Bounds check: ensure chunk_data + cs doesn't exceed compressed buffer
-        const uint8_t* end_of_buf = compressed.data() + static_cast<int>(compressed.size()) ;
+        const uint8_t* end_of_buf = compressed.data() + compressed.size();
         if (chunk_data + cs > end_of_buf) {
             spdlog::error("[gpu_compress] cpu_decompress_gpu_container: "
                           "chunk[{}] overruns buffer", i);
@@ -1614,8 +1595,7 @@ std::vector<uint8_t> GpuCompressionManager::cpu_decompress_gpu_container(
                 }
                 decompressed_chunk.assign(
                     reinterpret_cast<const uint8_t*>(out_str.data()),
-                    reinterpret_cast<const uint8_t*>(
-                        out_str.data() + static_cast<int>(out_str.size()) ));
+                    reinterpret_cast<const uint8_t*>(out_str.data() + out_str.size()));
                 break;
             }
             case GpuCompressionAlgorithm::LZ4: {

@@ -75,7 +75,7 @@ http::response<http::string_body> ContinuousQueryApiHandler::makeJson(
     return res;
 }
 
-WindowSpec ContinuousQueryApiHandler::windowFromJson([[maybe_unused]] const json& j) {
+WindowSpec ContinuousQueryApiHandler::windowFromJson(const json& j) {
     WindowSpec ws;
     const std::string type_str = j.value("type", "TIME_SLIDING");
     if (type_str == "COUNT_SLIDING") {
@@ -95,7 +95,7 @@ WindowSpec ContinuousQueryApiHandler::windowFromJson([[maybe_unused]] const json
     return ws;
 }
 
-json ContinuousQueryApiHandler::infoToJson([[maybe_unused]] const ContinuousQueryInfo& info) {
+json ContinuousQueryApiHandler::infoToJson(const ContinuousQueryInfo& info) {
     auto tp_to_ms = [](std::chrono::system_clock::time_point tp) -> int64_t {
         return std::chrono::duration_cast<std::chrono::milliseconds>(
                    tp.time_since_epoch()).count();
@@ -179,7 +179,7 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleRegister(
         utils::InputValidator validator;
         if (!validator.validateStringLength(spec.source_collection, 256) || 
             !validator.validatePathSegment(spec.source_collection)) {
-            THEMIS_ERROR([[maybe_unused]] "QW-46 Guard: Invalid source_collection in handleRegister");
+            THEMIS_ERROR("QW-46 Guard: Invalid source_collection in handleRegister");
             return makeError(http::status::bad_request,
                 "Invalid source_collection: only alphanumeric, underscore, and hyphen allowed; max 256 characters", req);
         }
@@ -299,7 +299,7 @@ http::response<http::string_body> ContinuousQueryApiHandler::handleStreamSse(
     size_t events_sent     = 0;
     size_t timeout_count   = 0;
 
-    while ([[maybe_unused]] stream->hasMore() && events_sent < kMaxEvents) {
+    while (stream->hasMore() && events_sent < kMaxEvents) {
         auto item = stream->next(std::chrono::seconds(kPollTimeoutSec));
         if (!item) {
             // Poll timeout — emit heartbeat comment

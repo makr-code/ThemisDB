@@ -358,7 +358,7 @@ QueryCacheManager::CacheStatistics QueryCacheManager::getStatistics() const {
     return stats;
 }
 
-std::vector<std::string> QueryCacheManager::getHotQueries([[maybe_unused]] size_t limit) const {
+std::vector<std::string> QueryCacheManager::getHotQueries(size_t limit) const {
     if (!workload_strategy_) {
         return {};
     }
@@ -521,7 +521,7 @@ void QueryCacheManager::reportStatsIfNeeded() {
 }
 
 bool QueryCacheManager::putInBasicCache(
-    [[maybe_unused]] const std::string& fingerprint,
+    const std::string& fingerprint,
     const std::string& query,
     const nlohmann::json& params,
     const nlohmann::json& result,
@@ -536,7 +536,7 @@ bool QueryCacheManager::putInAdaptiveCache(
     const std::string& fingerprint,
     const nlohmann::json& params,
     const nlohmann::json& result,
-    [[maybe_unused]] std::chrono::seconds ttl
+    std::chrono::seconds ttl
 ) {
     // AdaptiveQueryCache doesn't support custom TTL in the current implementation
     // It uses its own adaptive TTL logic

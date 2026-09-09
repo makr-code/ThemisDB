@@ -26,7 +26,7 @@ PolicyValidationApiHandler::PolicyValidationApiHandler(
     , auth_(std::move(auth))
 {
     if (!validator_) {
-        THEMIS_WARN([[maybe_unused]] "PolicyValidationApiHandler created with null PolicyValidator");
+        THEMIS_WARN("PolicyValidationApiHandler created with null PolicyValidator");
     }
 }
 

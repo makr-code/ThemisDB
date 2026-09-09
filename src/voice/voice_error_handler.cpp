@@ -159,7 +159,7 @@ json VoiceCircuitBreaker::getStats() const {
 VoiceRetryHandler::VoiceRetryHandler(const RetryConfig& config)
     : config_(config) {}
 
-void VoiceRetryHandler::sleepMs([[maybe_unused]] int64_t ms) const {
+void VoiceRetryHandler::sleepMs(int64_t ms) const {
     if (ms > 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(ms));
     }
@@ -175,7 +175,7 @@ json VoiceRetryHandler::getStats() const {
 // ---- VoiceFallbackStrategy ----
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
-    [[maybe_unused]] const std::string& error_context)
+    const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
@@ -185,7 +185,7 @@ VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::sttFallback(
 }
 
 VoiceFallbackStrategy::FallbackResult VoiceFallbackStrategy::ttsFallback(
-    [[maybe_unused]] const std::string& error_context)
+    const std::string& error_context)
 {
     FallbackResult res;
     res.used_fallback  = true;
@@ -244,7 +244,8 @@ json VoiceErrorHandler::handleError(
     // Suggest recovery action
     switch (code) {
         case VoiceErrorCode::SESSION_NOT_FOUND:
-        [[fallthrough]];\n        case VoiceErrorCode::SESSION_EXPIRED:
+        [[fallthrough]];
+        case VoiceErrorCode::SESSION_EXPIRED:
             report["recovery_action"] = "create_new_session";
             break;
         case VoiceErrorCode::CONSENT_MISSING:
@@ -254,7 +255,8 @@ json VoiceErrorHandler::handleError(
             report["recovery_action"] = "backoff_and_retry";
             break;
         case VoiceErrorCode::NETWORK_ERROR:
-        [[fallthrough]];\n        case VoiceErrorCode::TIMEOUT:
+        [[fallthrough]];
+        case VoiceErrorCode::TIMEOUT:
             report["recovery_action"] = "retry_with_backoff";
             break;
         case VoiceErrorCode::MODEL_NOT_LOADED:
@@ -294,12 +296,12 @@ json VoiceErrorHandler::getHealthStatus() const {
 // Phase 3: Error Context with Diagnostics and Audit Trail
 // ============================================================================
 
-json VoiceErrorHandler::createErrorContext([[maybe_unused]] const ErrorContext& ctx) {
+json VoiceErrorHandler::createErrorContext(const ErrorContext& ctx) {
     // Phase 3.7: Structured error context with no sensitive data
     return ctx.toJson();
 }
 
-void VoiceErrorHandler::logErrorWithContext([[maybe_unused]] const ErrorContext& ctx) {
+void VoiceErrorHandler::logErrorWithContext(const ErrorContext& ctx) {
     // Phase 3.7: Log error context without sensitive data (credentials masked)
     json log_entry = ctx.toJson();
     

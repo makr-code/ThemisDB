@@ -449,7 +449,7 @@ static bool initializeMimalloc() {
 }
 #endif
 
-void signalHandler([[maybe_unused]] int signal) {
+void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
         // Only use async-signal-safe operations in signal handler
         // Write to stderr is async-signal-safe, unlike logging
@@ -489,18 +489,18 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     const DWORD tid = GetCurrentThreadId();
 
     char dump_path[MAX_PATH];
-    int path_len = snprintf(
+    const int path_len = snprintf(
         dump_path,
         sizeof(dump_path),
-        "logs\\themis_server_crash_%04%02%02u_%02%02%02u_pid%lu_tid%lu.dmp",
+        "logs\\themis_server_crash_%04u%02u%02u_%02u%02u%02u_pid%llu_tid%llu.dmp",
         static_cast<unsigned>(st.wYear),
         static_cast<unsigned>(st.wMonth),
         static_cast<unsigned>(st.wDay),
         static_cast<unsigned>(st.wHour),
         static_cast<unsigned>(st.wMinute),
         static_cast<unsigned>(st.wSecond),
-        static_cast<unsigned long>(pid),
-        static_cast<unsigned long>(tid));
+        static_cast<unsigned long long>(pid),
+        static_cast<unsigned long long>(tid));
     if (path_len <= 0 || path_len >= static_cast<int>(sizeof(dump_path))) {
         return;
     }
@@ -556,14 +556,14 @@ void write_windows_minidump(EXCEPTION_POINTERS* pExp) {
     FreeLibrary(dbghelp);
 
     char buffer[512];
-    int len = snprintf(
+    const int len = snprintf(
         buffer,
         sizeof(buffer),
         "MiniDump: %s (%s)\n",
         dump_path,
         ok ? "ok" : "failed");
     if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
-        _write(2, buffer, len);
+        _write(2, buffer, static_cast<unsigned int>(len));
     }
 }
 
@@ -978,10 +978,11 @@ int main(int argc, char* argv[]) {
         const auto& config_path = command_line_options.config_path;
         
         // Load config (JSON or YAML) if provided or in default locations
-        auto load_config = [&]([[maybe_unused]] const std::string& path) -> std::optional<json> {
+        auto load_config = [&](const std::string& path) -> std::optional<json> {
             try {
                 auto ends_with = [](const std::string& s, const std::string& suffix){
-                    return static_cast<bool>( static_cast<int>(s.size()) < static_cast<int>(= suffix.size() && s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()))), suffix) == 0;
+                    return s.size() >= suffix.size() &&
+                           s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
                 };
 
                 if (ends_with(path, ".yaml") || ends_with(path, ".yml")) {
@@ -990,7 +991,7 @@ int main(int argc, char* argv[]) {
                     }
                     YAML::Node root = YAML::LoadFile(path);
                     // recursive conversion YAML -> JSON
-                    std::function<json(const YAML::Node&)> to_json = [&]([[maybe_unused]] const YAML::Node& n) -> json {
+                    std::function<json(const YAML::Node&)> to_json = [&](const YAML::Node& n) -> json {
                         if (!n) {
                           return nullptr;
                         }
@@ -1304,7 +1305,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_CRITICAL("HSM stub provider active without explicit opt-in; startup validation will block launch");
             }
         if (runtime_stub_active) {
-            THEMIS_WARN("HS[[maybe_unused]] M stu[[maybe_unused]] b provide[[maybe_unused]] r activ[[maybe_unused]] e vi[[maybe_unused]] a explici[[maybe_unused]] t insecur[[maybe_unused]] e overrid[[maybe_unused]] e (DEVELOPMEN[[maybe_unused]] T ONL[[maybe_unused]] Y)");
+            THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
             startHSMWarningThread();
         } else {
             THEMIS_INFO("HSM provider is hardware-backed - production ready");
@@ -1626,7 +1627,7 @@ int main(int argc, char* argv[]) {
         if (cfg && cfg->contains("sse")) {
             const auto& sse = (*cfg)["sse"];
             server_config.sse_max_events_per_second = sse.value("max_events_per_second", uint32_t(0));
-            if ([[maybe_unused]] server_config.sse_max_events_per_second > 0) {
+            if (server_config.sse_max_events_per_second > 0) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
@@ -1861,7 +1862,7 @@ int main(int argc, char* argv[]) {
             if (cfg->contains("sharding") && (*cfg)["sharding"].contains("hash_ring")) {
                 virtual_nodes = (*cfg)["sharding"]["hash_ring"].value("virtual_nodes_per_shard", 100);
             }
-            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_node[[maybe_unused]] s);
+            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
 
             // Create shard topology
             shard_topology = std::make_shared<themis::sharding::ShardTopology>();
@@ -2739,7 +2740,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent([[maybe_unused]] audit_event);
+                                            audit_logger->logEvent(audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log archive operation");
                                         }
@@ -2808,7 +2809,7 @@ int main(int argc, char* argv[]) {
                                             now.time_since_epoch()
                                         ).count();
                                         audit_event["classification"] = "retention_lifecycle";
-                                        audit_logger->logEvent([[maybe_unused]] audit_event);
+                                        audit_logger->logEvent(audit_event);
                                     } catch (...) {
                                         THEMIS_WARN("[Retention] Failed to audit-log archive for {}", entity_id);
                                     }
@@ -2857,7 +2858,7 @@ int main(int argc, char* argv[]) {
                                                 now.time_since_epoch()
                                             ).count();
                                             audit_event["classification"] = "retention_lifecycle";
-                                            audit_logger->logEvent([[maybe_unused]] audit_event);
+                                            audit_logger->logEvent(audit_event);
                                         } catch (...) {
                                             THEMIS_WARN("[Retention] Failed to audit-log purge operation");
                                         }
@@ -2881,7 +2882,7 @@ int main(int argc, char* argv[]) {
                                         std::chrono::system_clock::now().time_since_epoch()
                                     ).count();
                                     audit_event["classification"] = "retention_lifecycle";
-                                    audit_logger->logEvent([[maybe_unused]] audit_event);
+                                    audit_logger->logEvent(audit_event);
                                 } catch (...) {
                                     THEMIS_WARN("[Retention] Failed to audit-log purge for {}", entity_id);
                                 }

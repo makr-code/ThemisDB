@@ -580,7 +580,7 @@ bool PolicyChangeManager::hasCircularDependency(const std::string& rule_id) cons
     std::unordered_set<std::string> visited;
     std::unordered_set<std::string> rec_stack;
     
-    std::function<bool(const std::string&)> hasCycle = [&]([[maybe_unused]] const std::string& node) -> bool {
+    std::function<bool(const std::string&)> hasCycle = [&](const std::string& node) -> bool {
         visited.insert(node);
         rec_stack.insert(node);
         

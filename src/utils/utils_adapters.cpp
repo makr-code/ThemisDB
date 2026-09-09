@@ -129,7 +129,7 @@ SanitisedChunk PIIStreamDetectorAdapter::pseudonymise(
 }
 
 std::span<const PIICategory> PIIStreamDetectorAdapter::supportedCategories() const {
-    return {kAllCategories.data(),static_cast<int>(kAllCategories.size())};
+    return {kAllCategories.data(), kAllCategories.size()};
 }
 
 // ============================================================================
@@ -280,7 +280,7 @@ bool SampledLoggerSamplerAdapter::shouldSample(const LogEntry& entry) noexcept {
 }
 
 void SampledLoggerSamplerAdapter::recordDecision(
-        const LogEntry& /*entry*/, [[maybe_unused]] bool sampled) noexcept
+        const LogEntry& /*entry*/, bool sampled) noexcept
 {
     // No adaptive feedback in this implementation; stats already tracked in
     // shouldSample().  If sampled is inconsistent with internal tracking the
@@ -291,7 +291,7 @@ double SampledLoggerSamplerAdapter::currentRate() const noexcept {
     return targetRate_.load(std::memory_order_relaxed);
 }
 
-void SampledLoggerSamplerAdapter::setTargetRate([[maybe_unused]] double rate) noexcept {
+void SampledLoggerSamplerAdapter::setTargetRate(double rate) noexcept {
     rate = std::max(0.0, std::min(1.0, rate));
     targetRate_.store(rate, std::memory_order_relaxed);
 

@@ -684,7 +684,7 @@ TEST(WhisperPluginFocusedTests, O1_StreamSingleTokenFallback) {
 
     std::vector<TranscriptionToken> received;
     const auto result = p.transcribeStream({0.f}, 16000.f,
-        [&]([[maybe_unused]] const TranscriptionToken& tok) { received.push_back(tok); });
+        [&](const TranscriptionToken& tok) { received.push_back(tok); });
 
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.text, "hello world");
@@ -715,7 +715,7 @@ TEST(WhisperPluginFocusedTests, O2_StreamMultipleTokens) {
 
     std::vector<TranscriptionToken> received;
     const auto result = p.transcribeStream({0.f}, 16000.f,
-        [&]([[maybe_unused]] const TranscriptionToken& tok) { received.push_back(tok); });
+        [&](const TranscriptionToken& tok) { received.push_back(tok); });
 
     EXPECT_TRUE(result.success);
     ASSERT_EQ(received.size(), 3);

@@ -188,7 +188,7 @@ bool VLLMResourceManager::canUseGPU() {
     if (gpu_util_provider_for_testing_) {
         auto util = gpu_util_provider_for_testing_();
         if (!util.has_value())
-            return false = {};
+            return false;
         return util.value() < 80.0;
     }
 

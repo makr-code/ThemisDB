@@ -134,7 +134,7 @@ public:
         return SnapshotStatus::OK;
     }
     
-    SnapshotStatus StreamChunks([[maybe_unused]] ChunkCallback callback) {
+    SnapshotStatus StreamChunks(ChunkCallback callback) {
         if (snapshot_dir_.empty()) {
             return SnapshotStatus::ERROR_SNAPSHOT_NOT_FOUND;
         }
@@ -214,7 +214,7 @@ public:
                 }
                 
                 // Send chunk
-                callback([[maybe_unused]] chunk);
+                callback(chunk);
                 
                 transferred_bytes_ += bytes_read;
                 transferred_chunks_++;
@@ -236,7 +236,7 @@ public:
             final_chunk.set_checksum(snapshot_hash);
             final_chunk.set_checksum_type(themis::sharding::CHECKSUM_SHA256);
             
-            callback([[maybe_unused]] final_chunk);
+            callback(final_chunk);
         }
         
         return SnapshotStatus::OK;
@@ -806,15 +806,15 @@ SnapshotTransferHandler::SnapshotTransferHandler()
 
 SnapshotTransferHandler::~SnapshotTransferHandler() = default;
 
-SnapshotStatus SnapshotTransferHandler::CreateSnapshot([[maybe_unused]] const SnapshotConfig& config) {
+SnapshotStatus SnapshotTransferHandler::CreateSnapshot(const SnapshotConfig& config) {
     return impl_->CreateSnapshot(config);
 }
 
-SnapshotStatus SnapshotTransferHandler::StreamChunks([[maybe_unused]] ChunkCallback callback) {
-    return impl_->StreamChunks([[maybe_unused]] callback);
+SnapshotStatus SnapshotTransferHandler::StreamChunks(ChunkCallback callback) {
+    return impl_->StreamChunks(callback);
 }
 
-SnapshotStatus SnapshotTransferHandler::VerifySnapshot([[maybe_unused]] const std::string& expected_hash) {
+SnapshotStatus SnapshotTransferHandler::VerifySnapshot(const std::string& expected_hash) {
     return impl_->VerifySnapshot(expected_hash);
 }
 
@@ -835,7 +835,7 @@ void SnapshotTransferHandler::Cancel() {
     impl_->Cancel();
 }
 
-void SnapshotTransferHandler::SetDB([[maybe_unused]] rocksdb::DB* db) {
+void SnapshotTransferHandler::SetDB(rocksdb::DB* db) {
     impl_->SetDB(db);
 }
 

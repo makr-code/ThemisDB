@@ -1120,7 +1120,7 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
 #endif
 }
 
-void VulkanVectorBackend::setWorkgroupSizeBatchSearch([[maybe_unused]] uint32_t wgX) noexcept {
+void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
 #ifdef THEMIS_ENABLE_VULKAN
     // Reject post-init and zero values; also clamp to 256 — batch_search.comp
     // declares shared float sharedQuery[256] so any value > 256 would cause
@@ -2195,7 +2195,7 @@ public:
     }
 
     bool loadEGLFunctions() {
-        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2222,7 +2222,7 @@ public:
     }
 
     bool loadGLFunctions() {
-        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
+        auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
@@ -2629,7 +2629,7 @@ public:
     }
 
     bool loadEGLFunctions() {
-        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2645,7 +2645,7 @@ public:
     }
 
     bool loadGLFunctions() {
-        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
+        auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
@@ -2968,7 +2968,7 @@ public:
     }
 
     bool loadEGLFunctions() {
-        auto s = [&]([[maybe_unused]] const char* n) { return libSym(libEGL_, n); };
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
         pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
         pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
         pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
@@ -2984,7 +2984,7 @@ public:
     }
 
     bool loadGLFunctions() {
-        auto l = [&]([[maybe_unused]] const char* n) { return glProc(n); };
+        auto l = [&](const char* n) { return glProc(n); };
         pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
         pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
         pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));

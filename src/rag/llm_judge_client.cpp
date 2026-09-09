@@ -89,7 +89,7 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
     std::vector<fs::path> candidates;
     std::unordered_set<std::string> seen;
 
-    const auto push_unique_if_model = [&]([[maybe_unused]] const fs::path& path) {
+    const auto push_unique_if_model = [&](const fs::path& path) {
         if (!isModelFile(path)) {
             return;
         }
@@ -396,7 +396,7 @@ EvaluationResponse LLMJudgeClient::evaluateDimension(
         for (size_t i = 0; i < doc_count; i++) {
             prompt << "Document " << (i+1) << " (ID: " << documents[i].first << "):\n";
             prompt << documents[i].second.substr(0, 500);
-            if (documents[i].static_cast<int>(second.size()) > 500) {
+            if (documents[i].second.size() > 500) {
                 prompt << "...";
             }
             prompt << "\n\n";

@@ -31,7 +31,7 @@ namespace aql {
 class ReActAgent::Impl {
   public:
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-        : handler_([[maybe_unused]] std::move(handler)), config_(config) {}
+        : handler_(std::move(handler)), config_(config) {}
 
     // -----------------------------------------------------------------------
     // Tool registry
@@ -125,7 +125,7 @@ class ReActAgent::Impl {
                 static constexpr std::size_t kBytesPerToken = 8;
                 const std::size_t max_response_bytes =
                     static_cast<std::size_t>(config_.max_tokens_per_step) * kBytesPerToken;
-                if (static_cast<int>(raw_response.size()) > max_response_bytes) {
+                if (raw_response.size() > max_response_bytes) {
                     spdlog::warn("[ReActAgent] LLM response ({} bytes) exceeds {} byte limit; truncating",
                                  raw_response.size(), max_response_bytes);
                     raw_response.resize(max_response_bytes);
@@ -231,7 +231,7 @@ class ReActAgent::Impl {
         ReasoningStep step;
 
         // Extract Thought:
-        auto extract_field = [&]([[maybe_unused]] const std::string &field_prefix) -> std::string {
+        auto extract_field = [&](const std::string &field_prefix) -> std::string {
             auto pos = response.find(field_prefix);
             if (pos == std::string::npos) {
                 return "";
@@ -302,7 +302,7 @@ class ReActAgent::Impl {
 // ============================================================================
 
 ReActAgent::ReActAgent(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)
-    : impl_([[maybe_unused]] std::make_unique<Impl>(std::move(handler), config)) {}
+    : impl_(std::make_unique<Impl>(std::move(handler), config)) {}
 
 ReActAgent::~ReActAgent() = default;
 

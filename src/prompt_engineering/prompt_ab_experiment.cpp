@@ -563,7 +563,7 @@ std::vector<ExperimentOutcome> PromptABExperimentFramework::getOutcomes(
 // Callbacks
 // ============================================================================
 
-void PromptABExperimentFramework::setWinnerCallback([[maybe_unused]] WinnerCallback cb) {
+void PromptABExperimentFramework::setWinnerCallback(WinnerCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
     winner_callback_ = std::move(cb);
 }

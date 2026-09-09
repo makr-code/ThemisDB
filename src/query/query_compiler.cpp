@@ -84,7 +84,7 @@ namespace query {
 namespace {
 
 // Convert a 64-bit integer to a 16-char lowercase hex string.
-static std::string toHex16([[maybe_unused]] uint64_t v) {
+static std::string toHex16(uint64_t v) {
     static const char kHex[] = "0123456789abcdef";
     std::string out(16, '0');
     for (int i = 15; i >= 0; --i, v >>= 4) {

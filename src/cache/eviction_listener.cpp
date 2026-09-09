@@ -33,8 +33,8 @@ public:
 
     ~EvictionListenerManagerImpl() override = default;
 
-    uint64_t registerListener([[maybe_unused]] std::shared_ptr<IEvictionListener> listener) override {
-        if ([[maybe_unused]] !listener) {
+    uint64_t registerListener(std::shared_ptr<IEvictionListener> listener) override {
+        if (!listener) {
             return 0;  // Invalid handle
         }
 
@@ -44,25 +44,25 @@ public:
         return handle;
     }
 
-    void unregisterListener([[maybe_unused]] uint64_t handle) override {
+    void unregisterListener(uint64_t handle) override {
         std::lock_guard<std::mutex> lock(mutex_);
-        listeners_.erase([[maybe_unused]] handle);
+        listeners_.erase(handle);
     }
 
-    void emitEvictionEvent([[maybe_unused]] const CacheEvictionEvent& event) override {
+    void emitEvictionEvent(const CacheEvictionEvent& event) override {
         std::vector<std::shared_ptr<IEvictionListener>> snapshot;
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            for ([[maybe_unused]] const auto& pair : listeners_) {
+            for (const auto& pair : listeners_) {
                 snapshot.push_back(pair.second);
             }
         }
 
         // Call listeners outside lock to avoid deadlocks
-        for ([[maybe_unused]] const auto& listener : snapshot) {
-            if ([[maybe_unused]] listener) {
+        for (const auto& listener : snapshot) {
+            if (listener) {
                 try {
-                    listener->onCacheEvicted([[maybe_unused]] event);
+                    listener->onCacheEvicted(event);
                 } catch (const std::exception& ex) {
                     // Log error but continue with other listeners
                     // In production, would use structured logging here
@@ -78,14 +78,14 @@ public:
         std::vector<std::shared_ptr<IEvictionListener>> snapshot;
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            for ([[maybe_unused]] const auto& pair : listeners_) {
+            for (const auto& pair : listeners_) {
                 snapshot.push_back(pair.second);
             }
         }
 
         // Call listeners outside lock to avoid deadlocks
-        for ([[maybe_unused]] const auto& listener : snapshot) {
-            if ([[maybe_unused]] listener) {
+        for (const auto& listener : snapshot) {
+            if (listener) {
                 try {
                     listener->onCapacityPressure(from_tier, current_capacity_percent,
                                                 recommended_eviction_count);

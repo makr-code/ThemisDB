@@ -349,7 +349,7 @@ public:
         return stats;
     }
     
-    void setEnabled([[maybe_unused]] bool enabled) {
+    void setEnabled(bool enabled) {
         enabled_ = enabled;
         spdlog::info("LoRAAuditLogger {}", enabled ? "enabled" : "disabled");
     }
@@ -517,7 +517,7 @@ json LoRAAuditLogger::getAdapterStats(const std::string& adapter_id) {
     return impl_->getAdapterStats(adapter_id);
 }
 
-void LoRAAuditLogger::setEnabled([[maybe_unused]] bool enabled) {
+void LoRAAuditLogger::setEnabled(bool enabled) {
     impl_->setEnabled(enabled);
 }
 

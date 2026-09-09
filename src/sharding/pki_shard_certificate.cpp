@@ -59,7 +59,6 @@ namespace {
     }
     
     // Helper: Get extension value by NID
-    [[maybe_unused]]
     std::optional<std::string> getExtensionValue(X509* cert, int nid) {
         int idx = X509_get_ext_by_NID(cert, nid, -1);
         if (idx < 0) {

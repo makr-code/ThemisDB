@@ -42,7 +42,7 @@ void FlatHTIndex::add(const std::string& id, HTTrain train) {
 bool FlatHTIndex::remove(const std::string& id) {
     std::lock_guard<std::mutex> lk(mutex_);
     auto it = std::find_if(entries_.begin(), entries_.end(),
-                           [&]([[maybe_unused]] const Entry& e) { return e.id == id; });
+                           [&](const Entry& e) { return e.id == id; });
     if (it == entries_.end()) {
       return false;
     }
@@ -108,11 +108,11 @@ struct BufReader {
     std::size_t    left = {};
     bool           ok = true;
 
-    bool u64([[maybe_unused]] uint64_t& v) {
+    bool u64(uint64_t& v) {
         if (left < 8) { ok = false; return false; }
         std::memcpy(&v, p, 8); p += 8; left -= 8; return true;
     }
-    bool u8([[maybe_unused]] uint8_t& v) {
+    bool u8(uint8_t& v) {
         if (left < 1) { ok = false; return false; }
         v = *p++; left--; return true;
     }

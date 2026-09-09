@@ -252,7 +252,7 @@ nlohmann::json TemporalConflictResolver::exportAuditLog() const {
         return "UNKNOWN";
     };
 
-    auto appendEntry = [&]([[maybe_unused]] const ConflictRecord& r) {
+    auto appendEntry = [&](const ConflictRecord& r) {
         auto detected_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                                r.detected_at.time_since_epoch())
                                .count();

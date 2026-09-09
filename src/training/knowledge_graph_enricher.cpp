@@ -89,7 +89,7 @@ public:
     using Key   = std::string;
     using Value = GraphContext;
 
-    explicit EnrichmentLRUCache([[maybe_unused]] size_t capacity) : capacity_(capacity) {}
+    explicit EnrichmentLRUCache(size_t capacity) : capacity_(capacity) {}
 
     // Attempt to retrieve a cached result. Returns true on hit.
     bool get(const Key& key, Value& out) {
@@ -182,7 +182,7 @@ public:
     // -------------------------------------------------------------------------
     // Phase 6: Enrich all samples in collection
     // -------------------------------------------------------------------------
-    EnrichmentStats enrichAll([[maybe_unused]] EnrichmentCallback callback) {
+    EnrichmentStats enrichAll(EnrichmentCallback callback) {
         EnrichmentStats stats = EnrichmentStats();
         auto start_time = std::chrono::steady_clock::now();
 
@@ -211,7 +211,7 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                if (callback && processed % 10 == 0) {
                     callback(processed,static_cast<int>(sample_ids.size()),
                              "Enriched sample " + sample_id);
                 }
@@ -324,7 +324,7 @@ public:
                 stats.samples_processed++;
                 processed++;
 
-                if ([[maybe_unused]] callback && processed % 10 == 0) {
+                if (callback && processed % 10 == 0) {
                     callback(processed,static_cast<int>(sample_ids.size()),
                              "Query-enriched sample " + sample_id);
                 }
@@ -343,7 +343,7 @@ public:
     // Phase 6: Graph traversal helpers
     // -------------------------------------------------------------------------
     std::vector<std::string> findRelatedProvisions(const std::string& document_id,
-                                                    [[maybe_unused]] size_t max_results) {
+                                                    size_t max_results) {
         std::vector<std::string> provisions;
 
         if (document_id.empty()) {
@@ -367,7 +367,7 @@ public:
     }
 
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
-                                                 [[maybe_unused]] size_t max_results) {
+                                                 size_t max_results) {
         std::vector<std::string> case_law;
 
         if (document_id.empty()) {
@@ -526,7 +526,7 @@ private:
     // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
     // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
     // point rounding artefacts near the boundaries.
-    static float distanceToSimilarityScore([[maybe_unused]] float distance) {
+    static float distanceToSimilarityScore(float distance) {
         return std::max(0.0f, std::min(1.0f, 1.0f - distance));
     }
 
@@ -626,8 +626,8 @@ KnowledgeGraphEnricher::KnowledgeGraphEnricher(const EnrichmentConfig& config,
 
 KnowledgeGraphEnricher::~KnowledgeGraphEnricher() = default;
 
-EnrichmentStats KnowledgeGraphEnricher::enrichAll([[maybe_unused]] EnrichmentCallback callback) {
-    return impl_->enrichAll([[maybe_unused]] callback);
+EnrichmentStats KnowledgeGraphEnricher::enrichAll(EnrichmentCallback callback) {
+    return impl_->enrichAll(callback);
 }
 
 GraphContext KnowledgeGraphEnricher::enrichSample(const std::string& sample_id) {

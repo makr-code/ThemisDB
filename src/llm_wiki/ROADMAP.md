@@ -16,6 +16,38 @@
 - Strongly coupled to `llama_cpp` for local inference-backed retrieval and summarization flows
 - Uses `retrieval` and `metadata` as supporting engine modules, but owns the wiki/provenance contract itself
 
+## In Progress
+
+- [~] complete wiki-routing cost-signal expansion, provenance propagation, and route-selection regression coverage (Target: Q4 2026)
+- [~] close security/governance runtime gates (allowlist evidence gate, deny-path determinism, drift checks) with persisted audit artefacts (Target: Q4 2026)
+- [~] finalize policy-loader hot-reload safety and rollback-trigger/canary promotion tests for YAML process orchestration (Target: Q1 2027)
+
+## Planned Features
+
+- [ ] representative-hardware Recall@k and p95/p99 validation for wiki ingest/query lifecycle (Target: Q4 2026)
+- [ ] adaptive schema migration runner with compatibility matrix for mixed-version readers/writers (Target: Q1 2027)
+- [ ] release gate enforcing zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
+
+## Implementation Phases
+
+### Phase 1 — Design / API Contract
+- [x] `ILLMWikiPlugin` API, module boundary, and edition-gate contract defined (Target: Q3 2026)
+
+### Phase 2 — Core Implementation
+- [x] plugin implementation, workspace lifecycle, and ingestion/query baseline wiring delivered (Target: Q3 2026)
+
+### Phase 3 — Error Handling & Edge Cases
+- [x] guardrails, partial-failure handling, checksum/recovery semantics, and edition-gate enforcement delivered (Target: Q4 2026)
+
+### Phase 4 — Tests
+- [x] focused, integration, and wave-gate test suites for lifecycle, routing, guardrails, and policy paths delivered (Target: Q4 2026)
+
+### Phase 5 — Performance / Hardening
+- [~] benchmark closure and representative-hardware baselines pending final execution/sign-off (Target: Q1 2027)
+
+### Phase 6 — Documentation & Acceptance
+- [~] final acceptance closure depends on Wave B/D evidence freshness and governance sign-off (Target: Q1 2027)
+
 ### Phase 1-2 Complete ✅
 - [x] `ILLMWikiPlugin` public C++ SDK interface defined
 - [x] `plugin.json` manifest with edition gating
@@ -97,10 +129,17 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 - [x] Define process policy schema (`src/llm_wiki/schema/llm_wiki_process_policy.schema.json`) (Target: Q4 2026)
 - [~] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
 - [ ] Implement schedule classes (interactive, near-real-time, batch) from policy (Target: Q4 2026)
-- [ ] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
+- [~] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
 - [ ] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)
 - [ ] Persist adaptation decisions and rollback reasons as governance evidence (Target: Q1 2027)
-- [ ] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
+- [~] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
+  - [x] Startup policy load is now wired into `LLMWikiPluginImpl::initialize()` with fail-closed behavior on invalid/missing policy.
+  - [x] Deterministic deny-path tests now cover missing explicit policy path and non-shadow `fail_open=true` rejection.
+  - [x] Runtime stage gates (`ingest`/`extract`/`validate`/`synthesize`) are now actively enforced in plugin request paths via policy `stages.*.enabled`.
+  - [x] Deny reason codes are now persisted as governance evidence (`wiki/governance_evidence.jsonl`) on stage-gate denials.
+  - [x] Immediate runtime calls now enforce schedule class policy (batch-scheduled stages are denied with deterministic reason codes in immediate mode).
+  - [x] Policy hot-reload now validates candidate policies before swap and rejects invalid updates fail-closed while keeping the last-known-good policy active.
+  - [ ] Rollback-trigger tests and rollout/canary promotion wiring remain open.
 
 ---
 

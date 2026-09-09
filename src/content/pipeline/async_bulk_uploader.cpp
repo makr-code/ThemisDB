@@ -71,7 +71,7 @@ AsyncBulkUploader::UploadResult AsyncBulkUploader::upload(
         result.bytes_uploaded = content.size();
         
         // Call progress callback if set
-        if ([[maybe_unused]] progress_callback_) {
+        if (progress_callback_) {
             progress_callback_(metadata.content_id,static_cast<int>(content.size()),static_cast<int>(content.size()));
         }
         
@@ -142,7 +142,7 @@ std::vector<AsyncBulkUploader::UploadResult> AsyncBulkUploader::bulk_upload(
             results.push_back(result);
             
             // Call progress callback if set
-            if ([[maybe_unused]] progress_callback_) {
+            if (progress_callback_) {
                 progress_callback_(
                     metadata_list[i].content_id,
                     contents[i].size(),

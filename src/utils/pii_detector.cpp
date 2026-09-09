@@ -266,7 +266,7 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
             if (!std::filesystem::exists(resolved)) {
                 if (!std::filesystem::path(resolved).is_absolute()) {
                     std::filesystem::path cur = std::filesystem::current_path();
-                    [[maybe_unused]] bool found = false;
+                    bool found = false;
                     // Try up to 4 levels up
                     for (int i = 0; i < 4; ++i) {
                         std::filesystem::path candidate = cur;

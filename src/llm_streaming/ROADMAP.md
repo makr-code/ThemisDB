@@ -15,6 +15,16 @@ Production-candidate LLM streaming infrastructure with real-time token streaming
 - [x] Streaming-specific observability and metrics (Phase 3) → COMPLETE
 - [x] Error recovery and resilience patterns (Phase 3) → COMPLETE
 
+### Sourcecode Deep-Dive Evidence (2026-09-09)
+
+- `src/llm_streaming/` currently contains docs-only artefacts (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`) and no colocated `.cpp/.h` implementation files.
+- Follow-up required: bind each implementation claim to current canonical source/test/benchmark paths or downgrade status claims until colocated source exists.
+
+## In Progress
+
+- [~] Phase 5 performance hardening gates for token throughput, latency, memory footprint, and concurrent stream scaling (Target: Q4 2026)
+- [~] security/governance validation for streaming fail-closed behavior and operator diagnostics (Target: Q4 2026)
+
 ## Completed Initiatives
 
 ### Phase 1-4 Delivery (Q3 2026) - COMPLETE ✓

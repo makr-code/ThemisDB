@@ -123,7 +123,7 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
  * The placeholder returns a synthetic partial transcript to make the
  * pipeline end-to-end testable without a GPU.
  */
-PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
+PartialTranscript runPartialStt(const std::string& session_id,
                                  StreamID           stream_id,
                                  const std::vector<uint8_t>& audio,
                                  bool   is_final,
@@ -152,7 +152,7 @@ PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
     return pt;
 }
 
-FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_id,
+FinalTranscript makeFinalTranscript(const std::string& session_id,
                                      StreamID           stream_id,
                                      const std::vector<uint8_t>& audio,
                                      int64_t            started_at_ms)
@@ -346,10 +346,10 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Deterministic chunk ordering — track sequence numbers
     // Error code 6902: Chunk ordering violation (if we detect out-of-order)
     impl_->last_chunk_seq++;
-    if (impl_-> static_cast<int>(pending_chunk_sequences.size()) >= kMaxChunkQueueSize) {
+    if (impl_->pending_chunk_sequences.size() >= kMaxChunkQueueSize) {
         impl_->sequence_gap_detected = true;
         std::string msg = "VoiceStreamingSession: pending chunk queue exhausted (" +
-                          std::to_string(impl_-> static_cast<int>(pending_chunk_sequences.size())) + ") - error 6902";
+                          std::to_string(impl_->pending_chunk_sequences.size()) + ") - error 6902";
         THEMIS_ERROR("{}", msg);
         if (impl_->on_error) {
           impl_->on_error(msg);
@@ -361,7 +361,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Append to audio buffer with size tracking
     impl_->audio_buffer.insert(impl_->audio_buffer.end(),
                                 audio_chunk.begin(), audio_chunk.end());
-    impl_->buffer_size_bytes = impl_-> static_cast<int>(audio_buffer.size());
+    impl_->buffer_size_bytes = impl_->audio_buffer.size();
     impl_->bytes_received += audio_chunk.size();
     impl_->last_activity_ms = streamingNowMs();
 
@@ -451,7 +451,7 @@ bool VoiceStreamingSession::sendHeartbeat() noexcept {
     return impl_->connection_alive;
 }
 
-bool VoiceStreamingSession::reconnectWithBackoff([[maybe_unused]] int max_retries) noexcept {
+bool VoiceStreamingSession::reconnectWithBackoff(int max_retries) noexcept {
     if (!impl_ || max_retries <= 0) {
         return false;
     }
@@ -483,7 +483,7 @@ size_t VoiceStreamingSession::retryUnacknowledgedChunks(
         last_acked_sequence_num + 1 < impl_->pending_chunk_sequences.front()) {
         impl_->sequence_gap_detected = true;
     }
-    return static_cast<bool>(impl_- < static_cast<int>(pending_chunk_sequences.size()));
+    return impl_->pending_chunk_sequences.size();
 }
 
 bool VoiceStreamingSession::detectSequenceGap() const noexcept {
@@ -527,7 +527,7 @@ bool VoiceStreamingSession::checkOrigin(const std::string& origin) const {
 // VoiceStreamingManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-VoiceStreamingManager::VoiceStreamingManager([[maybe_unused]] size_t max_concurrent_sessions)
+VoiceStreamingManager::VoiceStreamingManager(size_t max_concurrent_sessions)
     : max_sessions_(max_concurrent_sessions) {}
 
 StreamID

@@ -418,7 +418,9 @@ TEST_F(TransactionDistributedPhase2Test, StressTest_ConcurrentDistributedTransac
                 if (ps.ok) {
                     auto cs = mgr->commitDistributed(tid);
                     if (cs.ok) {
-                      ++successful; else ++failed;
+                        ++successful;
+                    } else {
+                        ++failed;
                     }
                 } else {
                     ++failed;

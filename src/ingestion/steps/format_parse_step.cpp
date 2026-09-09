@@ -67,12 +67,12 @@ public:
     const char* getName()    const override { return plugin_name_; }
     const char* getVersion() const override { return "0.1.0"; }
     plugins::PluginCapabilities getCapabilities() const override { return {}; }
-    bool  initialize(cons[[maybe_unused]] t cha[[maybe_unused]] r*) override { return true; }
+    bool  initialize(const char*) override { return true; }
     void  shutdown()              override {}
     void* getInstance()           override { return this; }
 
     // canHandle: delegate to extractor's MIME list
-    bool canHandle(cons[[maybe_unused]] t ExtractionContext& [[maybe_unused]] ctx) const override {
+    bool canHandle(const ExtractionContext& ctx) const override {
         if (!extractor_) {
           return false;
         }
@@ -127,7 +127,7 @@ public:
 
         // Convert to span and call extractor
         const auto* byte_ptr = reinterpret_cast<const std::byte*>(raw_bytes.data());
-        std::span<const std::byte> span{byte_ptr,static_cast<int>(raw_bytes.size())};
+        std::span<const std::byte> span{byte_ptr, raw_bytes.size()};
 
         FormatExtractResult result = extractor_->extract(
             span,

@@ -139,13 +139,13 @@ std::vector<HybridSearch::Result> DistributedHybridSearch::search(
             }
 
             const size_t max_concurrent = std::min(
-                config_.max_concurrent_shards,static_cast<int>(remote_shards.size()));
+                config_.max_concurrent_shards, remote_shards.size());
 
             for (size_t batch_start = 0; batch_start < remote_shards.size();
                  batch_start += max_concurrent) {
 
                 const size_t batch_end = std::min(
-                    batch_start + max_concurrent,static_cast<int>(remote_shards.size()));
+                    batch_start + max_concurrent, remote_shards.size());
 
                 std::vector<std::future<ShardSearchResult>> futures;
                 futures.reserve(batch_end - batch_start);

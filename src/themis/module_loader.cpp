@@ -536,11 +536,11 @@ std::vector<LoadedModule> ModuleLoader::getAllLoadedModules() const {
 // Security policy forwarding
 // ============================================================================
 
-void ModuleLoader::setRequireSignature([[maybe_unused]] bool require) {
+void ModuleLoader::setRequireSignature(bool require) {
     verifier_->setRequireSignature(require);
 }
 
-void ModuleLoader::setAllowUnsigned([[maybe_unused]] bool allow) {
+void ModuleLoader::setAllowUnsigned(bool allow) {
     verifier_->setAllowUnsigned(allow);
 }
 
@@ -926,14 +926,14 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
         it->second.lastErrorMessage);
 }
 
-uint64_t ModuleLoader::calculateBackoffTime([[maybe_unused]] uint32_t consecutiveFailures) const {
+uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
     if (consecutiveFailures == 0) {
         return 0;
     }
     if (consecutiveFailures > 32) {
         return maxBackoffSeconds_;
     }
-    uint64_t backoff = 1 << (consecutiveFailures - 1);
+    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
@@ -1022,12 +1022,12 @@ void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
     }
 }
 
-void ModuleLoader::setQuarantineThreshold([[maybe_unused]] uint32_t threshold) {
+void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
     quarantineThreshold_ = threshold;
     spdlog::info("Quarantine threshold set to: {}", threshold);
 }
 
-void ModuleLoader::setMaxBackoffSeconds([[maybe_unused]] uint32_t maxSeconds) {
+void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
     maxBackoffSeconds_ = maxSeconds;
     spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
 }
@@ -1119,7 +1119,7 @@ void ModuleLoader::clearHealthChecks() {
     spdlog::info("All health checks cleared");
 }
 
-void ModuleLoader::setStagedLoadingEnabled([[maybe_unused]] bool enable) {
+void ModuleLoader::setStagedLoadingEnabled(bool enable) {
     stagedLoadingEnabled_ = enable;
     spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
 }
@@ -1583,7 +1583,7 @@ void PluginBundleLoader::setPublicKey(const std::string& publicKeyPem) {
     publicKeyPem_ = publicKeyPem;
 }
 
-void PluginBundleLoader::setAllowUnsignedBundles([[maybe_unused]] bool allow) {
+void PluginBundleLoader::setAllowUnsignedBundles(bool allow) {
     allowUnsignedBundles_ = allow;
 }
 
@@ -1742,10 +1742,10 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
 // extractToTempDir
 // ----------------------------------------------------------------------------
 
-std::string PluginBundleLoader::extractToTempDir([[maybe_unused]] const std::string& bundlePath,
+std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
                                                   std::string& error) {
 #ifndef THEMIS_HAVE_LIBZIP
-    error = "PluginBundleLoader requires libzip, which was not found at build time";
+    error = "PluginBundleLoader requires libzip (missing at build time) for bundle: " + bundlePath;
     return {};
 #else
     namespace fs = std::filesystem;

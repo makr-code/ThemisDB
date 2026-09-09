@@ -32,7 +32,7 @@ using themisdb::analytics::ForecastPoint;
 // Utility helpers
 // ---------------------------------------------------------------------------
 
-double MLAnomalyDetector::clamp01([[maybe_unused]] double v) noexcept {
+double MLAnomalyDetector::clamp01(double v) noexcept {
     if (v < 0.0) {
       return 0.0;
     }
@@ -60,7 +60,7 @@ double MLAnomalyDetector::mean(const std::vector<double>& v) {
       return 0.0;
     }
     double s = std::accumulate(v.begin(), v.end(), 0.0);
-    return static_cast<bool>(s / static_cast<double < static_cast<int>((v.size())));
+        return s / static_cast<double>(v.size());
 }
 
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
@@ -72,7 +72,7 @@ double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
         double d = x - mu;
         ss += d * d;
     }
-    return static_cast<bool>(std::sqrt(ss / static_cast<double < static_cast<int>((v.size())) - 1));
+    return std::sqrt(ss / (static_cast<double>(v.size()) - 1.0));
 }
 
 double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
@@ -104,7 +104,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
     int label           = 0;
     std::vector<int> labels(values.size(), UNVISITED);
 
-    auto regionQuery = [&]([[maybe_unused]] size_t idx) {
+    auto regionQuery = [&](size_t idx) {
         std::vector<size_t> neighbours = {};
 
         for (size_t j = 0; j < values.size(); ++j) {
@@ -162,7 +162,7 @@ double MLAnomalyDetector::changePointScore(const std::vector<double>& values) co
     return clamp01(norm > 1.0 ? 1.0 : norm);
 }
 
-std::string MLAnomalyDetector::severityForScore([[maybe_unused]] double s) const {
+std::string MLAnomalyDetector::severityForScore(double s) const {
     if (s >= 0.9) {
       return "critical";
     }

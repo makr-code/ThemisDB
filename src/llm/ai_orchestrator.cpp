@@ -827,7 +827,7 @@ InferenceRequest AIOrchestrator::buildRequest(const OrchestratorContext& ctx,
 std::string AIOrchestrator::assemblePrompt(
         const std::string&                         query,
         const std::vector<RAGContext::Document>&   docs,
-        [[maybe_unused]] const ModeSpec&           mode) const {
+        const ModeSpec&) const {
     if (docs.empty()) {
         return query;
     }
@@ -848,13 +848,13 @@ std::string AIOrchestrator::assemblePrompt(
 void AIOrchestrator::emitObservability(const RunMetadata& meta,
                                         const ModeSpec&    mode) const {
     if (!mode.observability.log_requests) {
-      return;
+        return;
     }
 
     spdlog::info("[AIOrchestrator] run completed: mode={} model={} "
                  "tokens_in={} tokens_out={} latency_total_ms={} "
                  "retrieved_docs={} tool_calls={}",
-                 meta.mode_id,
+                 mode.id,
                  meta.model_id,
                  meta.tokens_prompt,
                  meta.tokens_generated,
@@ -1074,7 +1074,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
     if (mode.retrieval.enabled) {
         // Filter by threshold
         docs.erase(std::remove_if(docs.begin(), docs.end(),
-            [&]([[maybe_unused]] const RAGContext::Document& d) {
+            [&](const RAGContext::Document& d) {
                 return d.relevance_score < mode.retrieval.threshold;
             }), docs.end());
 
@@ -1475,50 +1475,68 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
                                                const ModeSpec&            mode) const {
-    // Agentic mode: run the ask pipeline first, then parse any tool call from
-    // the response text and dispatch it via the tool registry (ReAct-style).
     OrchestratorResult result = runAsk(ctx, mode);
-    result.metadata.mode_id   = mode.id; // keep correct mode label
+    result.metadata.mode_id = mode.id;
+    result.metadata.extra["agentic_tool_parse_attempted"] = true;
+    if (!result.success) {
+        result.metadata.extra["agentic_tool_dispatch"] = "skipped_upstream_failure";
+        return result;
+    }
 
-    // Parse tool calls from result.text.
-    // Expected JSON format: {"name": "<tool>", "arguments": {<args>}}
-    // On malformed JSON or missing fields: log a warning and return the raw text.
     try {
         json tool_call_json = json::parse(result.text);
-        if (tool_call_json.contains("name") && tool_call_json["name"].is_string()) {
-            std::string tool_name = tool_call_json["name"].get<std::string>();
-            json        tool_args = tool_call_json.value("arguments", json::object());
+        if (!tool_call_json.is_object() || !tool_call_json.contains("name")) {
+            result.metadata.extra["agentic_tool_dispatch"] = "not_a_tool_call";
+            return result;
+        }
 
-            spdlog::debug("[AIOrchestrator] agentic mode: dispatching tool call '{}'",
-                          tool_name);
+        if (!tool_call_json["name"].is_string()) {
+            result.success = false;
+            result.error = "agentic_tool_name_invalid: field 'name' must be a string";
+            result.metadata.extra["agentic_tool_dispatch"] = "invalid_tool_name";
+            return result;
+        }
 
-            auto t_tool = std::chrono::steady_clock::now();
+        std::string tool_name = tool_call_json["name"].get<std::string>();
+        json tool_args = tool_call_json.value("arguments", json::object());
+        if (!tool_args.is_object()) {
+            result.success = false;
+            result.error = "agentic_tool_arguments_invalid: field 'arguments' must be an object";
+            result.metadata.extra["agentic_tool_dispatch"] = "invalid_tool_arguments";
+            return result;
+        }
+
+        auto t_tool = std::chrono::steady_clock::now();
+        try {
             json tool_result = impl_->tool_registry.invokeTool(tool_name, tool_args, mode);
-            auto t_tool_end  = std::chrono::steady_clock::now();
+            auto t_tool_end = std::chrono::steady_clock::now();
 
             result.metadata.tool_calls_made.push_back(tool_name);
-            auto tool_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                               t_tool_end - t_tool).count();
+            const auto tool_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                     t_tool_end - t_tool).count();
             result.metadata.latency.tool_calls_ms += tool_ms;
-            result.metadata.latency.total_ms      += tool_ms;
+            result.metadata.latency.total_ms += tool_ms;
+            result.metadata.extra["agentic_tool_dispatch"] = "executed";
 
-            // Replace response text with the serialised tool result and annotate
-            // the raw_response so callers can distinguish tool-call results.
-            result.text                       = tool_result.dump();
-            result.raw_response["tool_name"]  = tool_name;
+            result.text = tool_result.dump();
+            result.raw_response["tool_name"] = tool_name;
             result.raw_response["tool_result"] = tool_result;
-        } else {
-            spdlog::debug("[AIOrchestrator] agentic mode: response is valid JSON "
-                          "but does not contain a tool call");
+            result.raw_response["tool_dispatch_status"] = "executed";
+        } catch (const std::exception& e) {
+            result.success = false;
+            result.error = std::string("agentic_tool_execution_failed: ") + e.what();
+            result.metadata.extra["agentic_tool_dispatch"] = "tool_error";
+            result.metadata.extra["agentic_tool_name"] = tool_name;
+            result.raw_response["tool_dispatch_status"] = "error";
+            result.raw_response["tool_error"] = e.what();
+            return result;
         }
     } catch (const json::parse_error&) {
-        // result.text is plain text, not a JSON tool call – nothing to dispatch.
-        spdlog::debug("[AIOrchestrator] agentic mode: response is not JSON, "
-                      "no tool call to parse");
+        result.metadata.extra["agentic_tool_dispatch"] = "non_json_response";
     } catch (const std::exception& e) {
-        // Tool dispatch failed; log a warning and preserve the raw LLM response.
-        spdlog::warn("[AIOrchestrator] agentic mode: tool call handling failed: {}",
-                     e.what());
+        result.success = false;
+        result.error = std::string("agentic_tool_parse_failed: ") + e.what();
+        result.metadata.extra["agentic_tool_dispatch"] = "parse_failed";
     }
 
     return result;
@@ -1530,25 +1548,39 @@ OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runEthics(const OrchestratorContext& ctx,
                                               const ModeSpec&            mode) const {
-    // Ethics mode: runs RAG with ethics safety profile applied as system prompt.
-    ModeSpec eth_mode    = mode;
-    eth_mode.mode_id     = ModeId::Rag;
+    ModeSpec eth_mode = mode;
+    eth_mode.mode_id = ModeId::Rag;
+    eth_mode.safety.enabled = true;
 
-    // Prepend ethics context into system prompt
+    if (ctx.query.empty()) {
+        OrchestratorResult failure;
+        failure.success = false;
+        failure.error = "ethics_query_empty: ethics mode requires a non-empty query";
+        failure.metadata.mode_id = mode.id;
+        failure.metadata.extra["ethics_guardrail_enforced"] = true;
+        return failure;
+    }
+
+    const std::string ethics_profile =
+        mode.safety.ethics_profile.empty() ? "constitutional-default"
+                                           : mode.safety.ethics_profile;
+
     std::string ethics_system =
         "You are a Constitutional AI assistant. Evaluate responses against ethical "
         "guidelines and refuse harmful requests. Profile: " +
-        mode.safety.ethics_profile;
-    if (!ctx.system_prompt.has_value() || ctx.system_prompt->empty()) {
-        OrchestratorContext eth_ctx = ctx;
-        eth_ctx.system_prompt       = ethics_system;
-        OrchestratorResult result   = runRag(eth_ctx, eth_mode);
-        result.metadata.mode_id     = mode.id;
-        return result;
+        ethics_profile;
+
+    OrchestratorContext eth_ctx = ctx;
+    if (ctx.system_prompt.has_value() && !ctx.system_prompt->empty()) {
+        eth_ctx.system_prompt = ethics_system + "\n\n" + ctx.system_prompt.value();
+    } else {
+        eth_ctx.system_prompt = ethics_system;
     }
 
-    OrchestratorResult result = runRag(ctx, eth_mode);
-    result.metadata.mode_id   = mode.id;
+    OrchestratorResult result = runRag(eth_ctx, eth_mode);
+    result.metadata.mode_id = mode.id;
+    result.metadata.extra["ethics_guardrail_enforced"] = true;
+    result.metadata.extra["ethics_profile"] = ethics_profile;
     return result;
 }
 
@@ -1558,14 +1590,78 @@ OrchestratorResult AIOrchestrator::runEthics(const OrchestratorContext& ctx,
 
 OrchestratorResult AIOrchestrator::runMultiAgent(const OrchestratorContext& ctx,
                                                    const ModeSpec&            mode) const {
-    // Multi-agent scaffold: message is routed to the local agent.
-    // Future extension: broadcast to peer agents via message-passing interface.
-    OrchestratorResult result = runAsk(ctx, mode);
-    result.metadata.mode_id   = mode.id;
+    std::vector<std::string> queries;
+    if (ctx.extra.contains("agent_queries") && ctx.extra["agent_queries"].is_array()) {
+        for (const auto& entry : ctx.extra["agent_queries"]) {
+            if (entry.is_string() && !entry.get<std::string>().empty()) {
+                queries.push_back(entry.get<std::string>());
+            }
+        }
+    }
+    if (queries.empty() && !ctx.query.empty()) {
+        queries.push_back(ctx.query);
+    }
 
-    spdlog::debug("[AIOrchestrator] multi_agent mode: peer-broadcast extension point "
-                  "(sender_agent_id='{}')", ctx.sender_agent_id);
+    if (queries.empty()) {
+        OrchestratorResult failure;
+        failure.success = false;
+        failure.error = "multi_agent_query_empty: no query or agent_queries provided";
+        failure.metadata.mode_id = mode.id;
+        return failure;
+    }
 
+    std::vector<OrchestratorResult> branch_results;
+    branch_results.reserve(queries.size());
+    for (size_t i = 0; i < queries.size(); ++i) {
+        OrchestratorContext branch_ctx = ctx;
+        branch_ctx.query = queries[i];
+        branch_ctx.request_id = ctx.request_id + ".agent_" + std::to_string(i);
+        branch_results.push_back(runAsk(branch_ctx, mode));
+    }
+
+    OrchestratorResult result;
+    result.metadata.mode_id = mode.id;
+    result.metadata.extra["multi_agent_sender"] = ctx.sender_agent_id;
+    result.metadata.extra["multi_agent_total_branches"] = branch_results.size();
+
+    size_t successes = 0;
+    size_t failures = 0;
+    json branch_meta = json::array();
+    for (size_t i = 0; i < branch_results.size(); ++i) {
+        const auto& branch = branch_results[i];
+        if (branch.success) {
+            ++successes;
+        } else {
+            ++failures;
+        }
+        branch_meta.push_back({
+            {"index", i},
+            {"success", branch.success},
+            {"error", branch.error},
+            {"text", branch.text}
+        });
+    }
+
+    result.metadata.extra["multi_agent_successes"] = successes;
+    result.metadata.extra["multi_agent_failures"] = failures;
+    result.raw_response["multi_agent_branches"] = branch_meta;
+
+    auto best_it = std::find_if(branch_results.begin(), branch_results.end(),
+                                [](const OrchestratorResult& r) { return r.success; });
+    if (best_it == branch_results.end()) {
+        result.success = false;
+        result.error = "multi_agent_all_branches_failed";
+        return result;
+    }
+
+    result.success = true;
+    result.text = best_it->text;
+    result.metadata.tokens_generated = best_it->metadata.tokens_generated;
+    result.metadata.tokens_prompt = best_it->metadata.tokens_prompt;
+    result.metadata.latency = best_it->metadata.latency;
+    result.metadata.extra["multi_agent_merge_strategy"] = "first_success";
+    result.metadata.extra["multi_agent_selected_branch"] =
+        static_cast<int>(std::distance(branch_results.begin(), best_it));
     return result;
 }
 

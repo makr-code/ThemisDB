@@ -216,7 +216,7 @@ size_t LLMBatchTuner::totalBatches() const noexcept {
 }
 
 std::vector<LLMBatchTuner::BatchRecord>
-LLMBatchTuner::getRecentRecords([[maybe_unused]] size_t limit) const {
+LLMBatchTuner::getRecentRecords(size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.empty()) {

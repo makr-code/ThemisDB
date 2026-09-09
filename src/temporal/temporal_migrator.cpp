@@ -180,7 +180,7 @@ void TemporalMigrator::setStatus(MigrationStatus s, const std::string& msg) {
     }
 }
 
-void TemporalMigrator::setProgressCallback([[maybe_unused]] ProgressCallback cb) {
+void TemporalMigrator::setProgressCallback(ProgressCallback cb) {
     progress_cb_ = std::move(cb);
 }
 

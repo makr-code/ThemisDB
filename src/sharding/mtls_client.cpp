@@ -202,7 +202,7 @@ MTLSClient::Response MTLSClient::request(const std::string& method,
             }
             
             // Add body for POST/PUT
-            if ((body && (method == "POST" || method == "PUT")) {
+            if (body && (method == "POST" || method == "PUT")) {
                 std::string body_str = body->dump();
                 req.body() = body_str;
                 req.set(http::field::content_type, "application/json");
@@ -300,7 +300,7 @@ void MTLSClient::reset() {
     }
 }
 
-bool MTLSClient::verifyPeerCertificate(bool preverified, [[maybe_unused]] void* ctx) {
+bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
     // Future: extract certificate for detailed validation
     // In production, this would:
     // 1. Extract peer certificate from context

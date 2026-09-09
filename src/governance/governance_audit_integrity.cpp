@@ -958,7 +958,7 @@ nlohmann::json AuditIntegrityManager::getPerformanceMetrics() const {
     return metrics;
 }
 
-nlohmann::json AuditIntegrityManager::exportAuditTrail([[maybe_unused]] bool compress) const {
+nlohmann::json AuditIntegrityManager::exportAuditTrail(bool compress) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     nlohmann::json export_data;
@@ -1013,7 +1013,7 @@ void AuditIntegrityManager::rotateKey(
 }
 
 int64_t AuditIntegrityManager::getNextSequenceNumber() const {
-    return static_cast<bool>(static_cast<int64_t < static_cast<int>((entries_.size())));
+    return static_cast<int64_t>(entries_.size());
 }
 
 std::string AuditIntegrityManager::getPreviousEntryHash() const {

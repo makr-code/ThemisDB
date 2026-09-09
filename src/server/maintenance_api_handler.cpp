@@ -71,7 +71,7 @@ json jobToResponse(const maintenance::OrchestratorJob& j) {
 // Schedule CRUD
 // ---------------------------------------------------------------------------
 
-json MaintenanceApiHandler::createSchedule([[maybe_unused]] const json& body) {
+json MaintenanceApiHandler::createSchedule(const json& body) {
     auto span = Tracer::startSpan("POST /maintenance/schedules");
     if (!orchestrator_) {
         span.setStatus(false, "Orchestrator not initialized");
@@ -99,7 +99,7 @@ json MaintenanceApiHandler::createSchedule([[maybe_unused]] const json& body) {
     return resp;
 }
 
-json MaintenanceApiHandler::listSchedules([[maybe_unused]] const std::string& tenant_id) {
+json MaintenanceApiHandler::listSchedules(const std::string& tenant_id) {
     auto span = Tracer::startSpan("GET /maintenance/schedules");
     if (!orchestrator_) {
         span.setStatus(false, "Orchestrator not initialized");
@@ -121,10 +121,10 @@ json MaintenanceApiHandler::listSchedules([[maybe_unused]] const std::string& te
     for (auto& e : schedules) {
       arr.push_back(scheduleToResponse(e));
     }
-    return static_cast<bool>({{"schedules", arr}, {"count", static_cast<int < static_cast<int>((schedules.size())))}};
+    return {{"schedules", arr}, {"count", static_cast<int>(schedules.size())}};
 }
 
-json MaintenanceApiHandler::getSchedule([[maybe_unused]] const std::string& id) {
+json MaintenanceApiHandler::getSchedule(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
     }
@@ -188,7 +188,7 @@ json MaintenanceApiHandler::patchSchedule(const std::string& id, const json& pat
     return scheduleToResponse(*result);
 }
 
-json MaintenanceApiHandler::deleteSchedule([[maybe_unused]] const std::string& id) {
+json MaintenanceApiHandler::deleteSchedule(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
     }
@@ -211,7 +211,7 @@ json MaintenanceApiHandler::deleteSchedule([[maybe_unused]] const std::string& i
 // Jobs & control
 // ---------------------------------------------------------------------------
 
-json MaintenanceApiHandler::listJobs([[maybe_unused]] bool active_only) {
+json MaintenanceApiHandler::listJobs(bool active_only) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
     }
@@ -221,10 +221,10 @@ json MaintenanceApiHandler::listJobs([[maybe_unused]] bool active_only) {
     for (auto& j : jobs) {
       arr.push_back(jobToResponse(j));
     }
-    return static_cast<bool>({{"jobs", arr}, {"count", static_cast<int < static_cast<int>((jobs.size())))}};
+    return {{"jobs", arr}, {"count", static_cast<int>(jobs.size())}};
 }
 
-json MaintenanceApiHandler::getJob([[maybe_unused]] const std::string& id) {
+json MaintenanceApiHandler::getJob(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
     }
@@ -243,7 +243,7 @@ json MaintenanceApiHandler::getJob([[maybe_unused]] const std::string& id) {
     return jobToResponse(*result);
 }
 
-json MaintenanceApiHandler::cancelJob([[maybe_unused]] const std::string& id) {
+json MaintenanceApiHandler::cancelJob(const std::string& id) {
     if (!orchestrator_) {
       return errorResponse("Orchestrator not initialized");
     }
@@ -313,7 +313,7 @@ json MaintenanceApiHandler::listTaskHandlers() {
     for (const auto& [task_type, handler_name] : handlers) {
         arr.push_back({{"task_type", task_type}, {"handler", handler_name}});
     }
-    return static_cast<bool>({{"task_handlers", arr}, {"count", static_cast<int < static_cast<int>((handlers.size())))}};
+    return {{"task_handlers", arr}, {"count", static_cast<int>(handlers.size())}};
 }
 
 } // namespace server

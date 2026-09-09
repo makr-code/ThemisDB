@@ -504,7 +504,7 @@ public:
             if (respect_robots_ && isDisallowedByRobots(norm, disallow_rules)) {
               return;
             }
-            if (max_pages_ > 0  && static_cast<size_t>(static_cast) < int>(visited.size()) + static_cast<int>(queue.size()) >= max_pages_) {
+            if (max_pages_ > 0 && (visited.size() + queue.size()) >= max_pages_) {
               return;
             }
             visited.insert(norm);
@@ -597,7 +597,7 @@ public:
             std::string text = htmlToText(body);
             if (!text.empty()) {
                 ++stats.documents_processed;
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0 /* total unknown */,

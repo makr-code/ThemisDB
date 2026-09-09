@@ -59,7 +59,7 @@ void SLOWindow::recordDowntime(std::chrono::milliseconds duration) {
  * @brief Append a latency sample.
  * @param latency_ms Latency value in milliseconds.
  */
-void SLOWindow::recordLatency([[maybe_unused]] double latency_ms) {
+void SLOWindow::recordLatency(double latency_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     latency_samples_.push_back(latency_ms);
     
@@ -73,7 +73,7 @@ void SLOWindow::recordLatency([[maybe_unused]] double latency_ms) {
  * @brief Record bytes lost for durability accounting.
  * @param bytes_lost Lost bytes.
  */
-void SLOWindow::recordDataLoss([[maybe_unused]] uint64_t bytes_lost) {
+void SLOWindow::recordDataLoss(uint64_t bytes_lost) {
     total_bytes_lost_.fetch_add(bytes_lost, std::memory_order_relaxed);
 }
 
@@ -81,7 +81,7 @@ void SLOWindow::recordDataLoss([[maybe_unused]] uint64_t bytes_lost) {
  * @brief Append replication lag sample.
  * @param lag_ms Lag value in milliseconds.
  */
-void SLOWindow::recordReplicationLag([[maybe_unused]] double lag_ms) {
+void SLOWindow::recordReplicationLag(double lag_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
     replication_lag_samples_.push_back(lag_ms);
     
@@ -158,7 +158,7 @@ double SLOWindow::getAvgReplicationLag() const {
  * @param target_availability SLO target in [0,1].
  * @return Remaining budget ratio where 1.0 is full budget remaining.
  */
-double SLOWindow::getErrorBudget([[maybe_unused]] double target_availability) const {
+double SLOWindow::getErrorBudget(double target_availability) const {
     double current_availability = getAvailability();
     double error_budget = 1.0 - target_availability;
     double error_used = 1.0 - current_availability;
@@ -225,7 +225,7 @@ void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_av
 }
 
 /** @brief Record query latency sample into per-query rolling window. */
-void SLOMonitor::recordQueryLatency([[maybe_unused]] const std::string& shard_id, const std::string& query_type, double latency_ms) {
+void SLOMonitor::recordQueryLatency(const std::string& shard_id, const std::string& query_type, double latency_ms) {
     auto window = getOrCreateQueryWindow(query_type);
     window->recordLatency(latency_ms);
     
@@ -257,7 +257,7 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
 }
 
 /** @brief Record leader-election duration and emit violation alert when exceeded. */
-void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
+void SLOMonitor::recordLeaderElection(const std::string& shard_id, double duration_s) {
     double max_leader_election_time_s = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);

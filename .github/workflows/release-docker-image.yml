@@ -15,8 +15,8 @@ on:
       push_to_registry:
         description: "Push built images to Docker registry"
         required: false
-        default: "true"
-        type: string
+        default: true
+        type: boolean
       registry:
         description: "Docker registry to push to"
         required: false
@@ -30,13 +30,13 @@ on:
       include_tinyllama:
         description: "Include TinyLlama model in image (downloaded during Docker build)"
         required: false
-        default: "true"
-        type: string
+        default: true
+        type: boolean
       tinyllama_force_download:
         description: "Force TinyLlama re-download during Docker build"
         required: false
-        default: "false"
-        type: string
+        default: false
+        type: boolean
   workflow_dispatch:
     inputs:
       push_to_registry:
@@ -184,7 +184,7 @@ jobs:
       if: |
         (github.event_name == 'release') ||
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true' && inputs.registry == 'docker.io')
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && inputs.registry == 'docker.io')
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -195,7 +195,7 @@ jobs:
         (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
         (github.event_name == 'release') ||
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true' && inputs.registry == 'ghcr.io')
+        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && inputs.registry == 'ghcr.io')
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         registry: ghcr.io
@@ -276,7 +276,7 @@ jobs:
             (github.event_name == 'release') ||
             (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
             (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-            (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true')
+            (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
           }}
         platforms: linux/amd64,linux/arm64
         tags: ${{ steps.tags.outputs.value }}
@@ -284,8 +284,8 @@ jobs:
           THEMIS_EDITION=COMMUNITY
           VERSION=${{ steps.version.outputs.version }}
           VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
-          INCLUDE_TINYLLAMA=${{ (inputs.include_tinyllama || github.event.inputs.include_tinyllama || 'true') == 'true' && 'ON' || 'OFF' }}
-          TINYLLAMA_FORCE_DOWNLOAD=${{ (inputs.tinyllama_force_download || github.event.inputs.tinyllama_force_download || 'false') == 'true' && '1' || '0' }}
+          INCLUDE_TINYLLAMA=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'ON' || 'OFF' }}
+          TINYLLAMA_FORCE_DOWNLOAD=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && '1' || '0' }}
         # GitHub Actions cache backend: no external registry required.
         cache-from: type=gha
         cache-to: type=gha,mode=max
@@ -341,7 +341,7 @@ jobs:
           (github.event_name == 'release') ||
           (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
           (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-          (github.event_name == 'workflow_call' && inputs.push_to_registry == 'true')
+          (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
         )
       uses: actions/attest-build-provenance@v1  # v1.4.3
       with:

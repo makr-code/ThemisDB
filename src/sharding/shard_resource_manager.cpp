@@ -337,7 +337,8 @@ void ShardResourceManager::broadcastResourceUpdate() {
     // std::thread::hardware_concurrency() is the correct cross-platform approach
     // (maps to sysconf(_SC_NPROCESSORS_ONLN) on Linux, GetSystemInfo on Windows).
     gossip_snapshot.total_cpu_cores = std::thread::hardware_concurrency();
-    gossip_snapshot.available_cpu_cores = std::max(0, 
+    gossip_snapshot.available_cpu_cores = std::max<uint32_t>(
+        0u,
         gossip_snapshot.total_cpu_cores - static_cast<uint32_t>(snapshot.cpu_usage_percent / 100.0f * gossip_snapshot.total_cpu_cores)
     );
     gossip_snapshot.available_disk_bytes = snapshot.disk_available_bytes;
@@ -398,7 +399,7 @@ std::vector<std::string> ShardResourceManager::getHealthyPeers() const {
 }
 
 /** @brief Return peer ids whose max(cpu,ram) load exceeds threshold. */
-std::vector<std::string> ShardResourceManager::getOverloadedPeers([[maybe_unused]] float threshold) const {
+std::vector<std::string> ShardResourceManager::getOverloadedPeers(float threshold) const {
     std::shared_lock lock(peer_mutex_);
     std::vector<std::string> overloaded_peers;
     

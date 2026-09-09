@@ -213,7 +213,7 @@ private:
     // that the ThemisDB checkpoint is always written before Kafka forgets the
     // messages, ensuring at-least-once delivery semantics.
     // -----------------------------------------------------------------------
-    void writeCheckpoint([[maybe_unused]] size_t processed_count) {
+    void writeCheckpoint(size_t processed_count) {
         if (!checkpoint_store_) {
           return;
         }
@@ -280,7 +280,7 @@ private:
                     ++consumed;
                 }
 
-                if ([[maybe_unused]] progress_callback) {
+                if (progress_callback) {
                     progress_callback(config_.source_id,
                                       stats.documents_processed,
                                       0, // total unknown for Kafka
@@ -469,7 +469,7 @@ private:
                     stats.bytes_processed += msg->len;
                     ++consumed;
 
-                    if ([[maybe_unused]] progress_callback) {
+                    if (progress_callback) {
                         progress_callback(config_.source_id,
                                           stats.documents_processed,
                                           0,

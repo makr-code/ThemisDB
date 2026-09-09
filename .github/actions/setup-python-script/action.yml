@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: 'Setup Python and Run Script'
 description: |
   Composite action: checks out the repository, sets up Python 3.11,
@@ -90,3 +91,4 @@ runs:
         path: ${{ inputs.artifact-path }}
         retention-days: ${{ inputs.artifact-retention-days }}
         if-no-files-found: ignore
+

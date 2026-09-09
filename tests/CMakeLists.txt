@@ -8168,6 +8168,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
         analytics/test_incremental_view.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/incremental_view.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/query_accelerator.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/graph_cache.cpp
     )
 
     target_include_directories(test_incremental_view_focused PRIVATE
@@ -8531,6 +8533,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp"
         ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/query_accelerator.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/graph_cache.cpp
     )
 
     target_include_directories(test_analytics_memory_pool_focused PRIVATE
@@ -8646,6 +8650,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
     add_executable(test_olap_lru_cache_focused
         analytics/test_olap_lru_cache.cpp
         ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/query_accelerator.cpp
+        ${THEMIS_ROOT_DIR}/src/gpu/graph_cache.cpp
     )
 
     target_include_directories(test_olap_lru_cache_focused PRIVATE
@@ -25864,6 +25870,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_raid_integration.cpp")
 
     target_link_libraries(test_llm_raid_integration_focused
         PRIVATE ${TEST_LIBS}
+            themis_core
             $<$<TARGET_EXISTS:themis_sharding>:themis_sharding>
             $<$<TARGET_EXISTS:themis_llm>:themis_llm>
             $<$<TARGET_EXISTS:themis_query>:themis_query>
@@ -27917,6 +27924,20 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestr
     target_link_libraries(test_continuous_learning_orchestrator
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
+    # Resolve modular static-link ordering for query functions that reference
+    # LLM facade symbols (DocsAssistant/ThemisHelpLoRA/factory entry points).
+    if(TARGET themis_query)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_query)
+    endif()
+    if(TARGET themis_llm_api)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm_api)
+    endif()
+    if(TARGET themis_llm)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm)
+    endif()
+    if(TARGET themis_llm_ext)
+        target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm_ext)
+    endif()
     gtest_discover_tests(test_continuous_learning_orchestrator
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>

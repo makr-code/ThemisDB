@@ -201,7 +201,7 @@ SSL_CTX* QuicTransport::createSslContext(const std::string& cert_path,
 // ─────────────────────────────────────────────────────────────────────────────
 
 /* static */
-bool QuicTransport::isValidPort([[maybe_unused]] uint16_t port) {
+bool QuicTransport::isValidPort(uint16_t port) {
     // Reserved / conflicting ThemisDB ports:
     //   8766 – TCP binary wire protocol
     //   8767 – HTTP/1-2 server (alt-HTTP)

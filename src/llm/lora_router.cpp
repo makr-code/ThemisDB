@@ -283,7 +283,7 @@ float LoRARouter::incrementRollout() {
     return new_percentage;
 }
 
-void LoRARouter::endRollout([[maybe_unused]] bool promote) {
+void LoRARouter::endRollout(bool promote) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (rollout_config_) {
@@ -409,7 +409,8 @@ RoutingDecision LoRARouter::applyRoutingPolicy(
             return selectByRollout(candidates);
         
         case RoutingPolicy::FALLBACK:
-        [[fallthrough]];\n        default:
+        [[fallthrough]];
+        default:
             return selectFallback("Fallback policy selected");
     }
 }
@@ -532,7 +533,7 @@ RoutingDecision LoRARouter::selectByABTest(
     float cumulative = 0.0f;
     
     std::string selected_adapter = {};
-    for (size_t i = 0; i < ab_test_config_-> static_cast<int>(adapter_ids.size()); ++i) {
+    for (size_t i = 0; i < ab_test_config_->adapter_ids.size(); ++i) {
         cumulative += ab_test_config_->traffic_splits[i];
         if (rand_val <= cumulative) {
             selected_adapter = ab_test_config_->adapter_ids[i];

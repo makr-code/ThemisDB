@@ -123,16 +123,16 @@ std::vector<float> TTTrain::reconstruct() const {
 std::vector<uint8_t> TTTrain::serialize() const {
     std::vector<uint8_t> out;
 
-    auto writeU64 = [&]([[maybe_unused]] uint64_t v) {
+    auto writeU64 = [&](uint64_t v) {
         for (int i = 0; i < 8; ++i)
             out.push_back(static_cast<uint8_t>((v >> (i*8)) & 0xFF));
     };
-    auto writeF32 = [&]([[maybe_unused]] float v) {
+    auto writeF32 = [&](float v) {
         uint32_t u = 0; std::memcpy(&u, &v, 4);
         for (int i = 0; i < 4; ++i)
             out.push_back(static_cast<uint8_t>((u >> (i*8)) & 0xFF));
     };
-    auto writeF64 = [&]([[maybe_unused]] double v) {
+    auto writeF64 = [&](double v) {
         uint64_t u = 0; std::memcpy(&u, &v, 8);
         writeU64(u);
     };
@@ -255,7 +255,7 @@ static std::vector<double> householder(const std::vector<double>& col) {
 
 // Apply Householder reflector (I - 2*v*v^T) to matrix A from the left
 // on rows [row_start, m), columns [col_start, n).
-static void applyHouseholderLeft(std::vector<double>& A, [[maybe_unused]] std::size_t m,
+static void applyHouseholderLeft(std::vector<double>& A, std::size_t m,
                                   std::size_t n, std::size_t row_start,
                                   std::size_t col_start,
                                   const std::vector<double>& v) {

@@ -33,12 +33,14 @@ using themis::security::SafeIterator::RangeValidator;
 
 const AggregationOutputRow& AggregationResult::at(std::size_t idx) const
 {
+    const std::size_t row_count = static_cast<std::size_t>(rows.size());
+
     // Explicit size check before iterator formation prevents UB when
-    // idx > static_cast<int>(rows.size()) (forming an out-of-range random-access iterator is UB).
-    if (idx >= static_cast<int>(rows.size())) {
+    // idx is out of range (forming an out-of-range random-access iterator is UB).
+    if (idx >= row_count) {
         throw std::out_of_range(
             "AggregationResult::at: index " + std::to_string(idx) +
-            " out of range [0, " + std::to_string(rows.size()) + ")");
+            " out of range [0, " + std::to_string(row_count) + ")");
     }
     auto it = rows.cbegin() + static_cast<std::ptrdiff_t>(idx);
     BoundsChecker::check_dereference(it, rows.cbegin(), rows.cend());
@@ -156,7 +158,8 @@ void Aggregator::accumulate(AccState& acc, AggregateFunction fn,
             break;
 
         case AggregateFunction::kSum:
-        [[fallthrough]];\n        case AggregateFunction::kAvg: {
+        [[fallthrough]];
+        case AggregateFunction::kAvg: {
             if (is_null) { break; }
             double d = 0.0;
             std::visit([&d](const auto& v) {
@@ -218,7 +221,8 @@ AggValue Aggregator::extract(const AccState& acc, AggregateFunction fn)
         case AggregateFunction::kSum:
             return acc.sum;
         case AggregateFunction::kCount:
-        [[fallthrough]];\n        case AggregateFunction::kCountNonNull:
+        [[fallthrough]];
+        case AggregateFunction::kCountNonNull:
             return static_cast<int64_t>(acc.count);
         case AggregateFunction::kAvg:
             if (acc.count == 0) { return std::monostate{}; }

@@ -52,7 +52,7 @@ namespace observability {
 namespace {
 
 /** Collect a raw call stack, up to @p max_depth frames. */
-std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
+std::vector<std::string> captureStack(int max_depth = 64) {
     std::vector<std::string> frames;
 #if THEMIS_HAS_BACKTRACE
     std::vector<void*> buffer(static_cast<size_t>(max_depth));
@@ -613,7 +613,7 @@ ProfileDiff ContinuousProfiler::compare(const ProfileSnapshot& baseline,
 
 void ContinuousProfiler::registerAnomalyCallback(
         std::function<void(const ProfileSnapshot&, const std::string&)> cb) {
-    impl_->registerAnomalyCallback([[maybe_unused]] std::move(cb));
+    impl_->registerAnomalyCallback(std::move(cb));
 }
 
 void ContinuousProfiler::enable()       { impl_->enable();    }

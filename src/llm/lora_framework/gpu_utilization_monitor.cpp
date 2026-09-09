@@ -120,7 +120,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
     return metrics;
 }
 
-bool GPUUtilizationMonitor::isUnderutilized([[maybe_unused]] float threshold) const {
+bool GPUUtilizationMonitor::isUnderutilized(float threshold) const {
     return last_metrics_.gpu_utilization_pct < (threshold * 100.0f);
 }
 
@@ -160,7 +160,7 @@ std::vector<std::string> GPUUtilizationMonitor::getOptimizationRecommendations()
     return recommendations;
 }
 
-GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics([[maybe_unused]] size_t num_samples) const {
+GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics(size_t num_samples) const {
     if (metrics_history_.empty()) {
         return last_metrics_;
     }

@@ -54,7 +54,7 @@ void PromptPolicy::addRedactRule(const std::string& name,
 
 bool PromptPolicy::removeRule(const std::string& name) {
     auto it = std::find_if(rules_.begin(), rules_.end(),
-                           [&]([[maybe_unused]] const CompiledRule& cr) {
+                           [&](const CompiledRule& cr) {
                                return cr.rule.name == name;
                            });
     if (it == rules_.end()) {

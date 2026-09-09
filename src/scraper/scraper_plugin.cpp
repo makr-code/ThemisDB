@@ -220,7 +220,7 @@ std::string ScraperPlugin::fetchPage(const std::string& url) const {
     pugi::xml_document doc;
     doc.load_string(html.c_str(), pugi::parse_default | pugi::parse_fragment);
     std::ostringstream out = {};
-    std::function<void(const pugi::xml_node&)> walk = [&]([[maybe_unused]] const pugi::xml_node& n) {
+    std::function<void(const pugi::xml_node&)> walk = [&](const pugi::xml_node& n) {
         for (const auto& child : n.children()) {
             if (child.type() == pugi::node_pcdata ||
                 child.type() == pugi::node_cdata) {

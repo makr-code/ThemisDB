@@ -501,7 +501,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Process shards in batches to limit concurrency
     for (size_t batch_start = 0; batch_start < sorted_shards.size(); batch_start += max_concurrent) {
-        size_t batch_end = std::min(batch_start + max_concurrent,static_cast<int>(sorted_shards.size()));
+        size_t batch_end = std::min(batch_start + max_concurrent, sorted_shards.size());
         
         // Create futures for this batch
         std::vector<std::future<std::pair<std::string, nlohmann::json>>> futures;
@@ -664,8 +664,8 @@ void CloudAgent::updateStatistics(const CloudAgentResult& result) {
 }
 
 void CloudAgent::recordMetrics(
-    [[maybe_unused]] const CloudAgentOperation& operation,
-    [[maybe_unused]] const CloudAgentResult& result
+    const CloudAgentOperation& operation,
+    const CloudAgentResult& result
 ) {
     if (!metrics_ || !config_.enable_metrics) {
         return;

@@ -161,7 +161,7 @@ TTSResult TTSProcessor::synthesize(const std::string &text, const TTSOptions &op
 
 bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(const std::vector<uint8_t> &)> callback,
                                     const TTSOptions &options) {
-    if ([[maybe_unused]] !initialized_ || !callback) {
+    if (!initialized_ || !callback) {
         return false;
     }
 
@@ -184,8 +184,8 @@ bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(
     constexpr size_t kChunkBytes = 8192; // 8 KiB per delivery (≈ ~186 ms at 22 050 Hz mono 16-bit)
     const auto &data             = result.audio_data;
     for (size_t offset = 0; offset < data.size(); offset += kChunkBytes) {
-        const size_t end = std::min(offset + kChunkBytes,static_cast<int>(data.size()));
-        callback([[maybe_unused]] {data.begin() + static_cast<ptrdiff_t>(offset), data.begin() + static_cast<ptrdiff_t>(end)});
+        const size_t end = std::min(offset + kChunkBytes, data.size());
+        callback({data.begin() + static_cast<ptrdiff_t>(offset), data.begin() + static_cast<ptrdiff_t>(end)});
     }
     return true;
 }
@@ -324,7 +324,7 @@ TTSResult TTSProcessor::synthesizeInternal(const std::string &text, const TTSOpt
     return result;
 }
 
-std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, [[maybe_unused]] const TTSOptions &options) {
+std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, const TTSOptions &options) {
 #ifdef THEMIS_ENABLE_PIPER_TTS
     if (!tts_ctx_) {
         // Model not loaded

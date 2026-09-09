@@ -378,7 +378,7 @@ double GeospatialCostEstimator::estimateIntersectsSelectivity(
     return 0.02 * std::log(std::max(1.0, static_cast<double>(queryGeometryComplexity)));
 }
 
-double GeospatialCostEstimator::rtreeTraversalCost([[maybe_unused]] size_t totalRows) {
+double GeospatialCostEstimator::rtreeTraversalCost(size_t totalRows) {
     // R-tree: O(log N) traversal
     // Cost per level: approximately 10 microseconds (node access + comparison)
     if (totalRows == 0) {
@@ -389,7 +389,7 @@ double GeospatialCostEstimator::rtreeTraversalCost([[maybe_unused]] size_t total
     return logN * 10.0;  // µs
 }
 
-double GeospatialCostEstimator::geometryCheckCost([[maybe_unused]] size_t complexity) {
+double GeospatialCostEstimator::geometryCheckCost(size_t complexity) {
     // Basic geometry check: point-in-polygon using ray casting
     // Cost: O(complexity) with ~0.5µs per vertex
     if (complexity == 0) return 2.0;  // Minimum cost for simple checks

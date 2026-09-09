@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://themisdb.dev/schemas/llm_wiki/governance_data_relations.schema.json",
+  "title": "ThemisDB LLM Wiki Governance Data Relations Policy",
+  "description": "Schema for organization-level governance of data-domain relationships and role-based RAG actions.",
+  "type": "object",
+  "required": [
+    "version",
+    "policy_id",
+    "mode",
+    "default_decision",
+    "data_domains",
+    "relationship_rules",
+    "rag_actions",
+    "request_constraints",
+    "hard_invariants",
+    "ml_control",
+    "runtime_decision_evidence",
+    "rollout"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["shadow", "canary", "enforced"]
+    },
+    "default_decision": {
+      "type": "string",
+      "enum": ["allow", "deny"]
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "data_domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "classification", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "classification": {
+            "type": "string",
+            "enum": ["public", "internal", "confidential", "restricted"]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationship_rules": {
+      "type": "object",
+      "required": ["allowed", "forbidden"],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationshipRuleAllowed"
+          }
+        },
+        "forbidden": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relationshipRuleForbidden"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rag_actions": {
+      "type": "object",
+      "required": ["allowed_by_role", "denied_by_role"],
+      "properties": {
+        "allowed_by_role": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^rag\\.[a-z0-9_]+$"
+            }
+          }
+        },
+        "denied_by_role": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^rag\\.[a-z0-9_]+$"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "request_constraints": {
+      "type": "object",
+      "required": [
+        "max_requested_domains",
+        "require_workspace_id",
+        "require_policy_snapshot_id",
+        "require_reason_codes"
+      ],
+      "properties": {
+        "max_requested_domains": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "require_workspace_id": {
+          "type": "boolean",
+          "const": true
+        },
+        "require_policy_snapshot_id": {
+          "type": "boolean",
+          "const": true
+        },
+        "require_reason_codes": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "hard_invariants": {
+      "type": "object",
+      "required": [
+        "fail_closed",
+        "second_planner_allowed",
+        "entitlement_gate_required",
+        "guardrail_gate_required",
+        "validation_gate_required"
+      ],
+      "properties": {
+        "fail_closed": {
+          "type": "boolean",
+          "const": true
+        },
+        "second_planner_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "entitlement_gate_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "guardrail_gate_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "validation_gate_required": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "ml_control": {
+      "type": "object",
+      "required": [
+        "optimization_enabled",
+        "learner",
+        "adjustable_knobs",
+        "hard_bounds",
+        "never_adjust"
+      ],
+      "properties": {
+        "optimization_enabled": {
+          "type": "boolean"
+        },
+        "learner": {
+          "type": "object",
+          "required": ["algorithm", "exploration_rate", "update_window_requests"],
+          "properties": {
+            "algorithm": {
+              "type": "string",
+              "enum": ["contextual_bandit", "bayesian_optimization", "reinforcement_learning"]
+            },
+            "exploration_rate": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "update_window_requests": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "adjustable_knobs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "hard_bounds": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/rangeBound"
+          }
+        },
+        "never_adjust": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "runtime_decision_evidence": {
+      "type": "object",
+      "required": ["required_fields"],
+      "properties": {
+        "required_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rollout": {
+      "type": "object",
+      "required": ["canary_percent", "promote_if", "rollback_if"],
+      "properties": {
+        "canary_percent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "promote_if": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "rollback_if": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "rangeBound": {
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "relationshipConstraints": {
+      "type": "object",
+      "required": ["min_provenance_confidence", "max_synthetic_chain_length"],
+      "properties": {
+        "min_provenance_confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "max_synthetic_chain_length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        }
+      },
+      "additionalProperties": false
+    },
+    "relationshipRuleAllowed": {
+      "type": "object",
+      "required": ["from", "to", "relation", "constraints"],
+      "properties": {
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "constraints": {
+          "$ref": "#/$defs/relationshipConstraints"
+        }
+      },
+      "additionalProperties": false
+    },
+    "relationshipRuleForbidden": {
+      "type": "object",
+      "required": ["from", "to", "relation", "reason_code"],
+      "properties": {
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason_code": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_-]+$",
+          "minLength": 3
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

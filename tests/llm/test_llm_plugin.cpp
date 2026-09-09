@@ -16,23 +16,6 @@ namespace fs = std::filesystem;
 using namespace themis::llm;
 using json = nlohmann::json;
 
-/**
- * @brief Check if GPU is available, skip test if not
- * 
- * Checks for CUDA/HIP GPU availability. If no GPU found, test is skipped
- * instead of failing. This is appropriate for development machines without GPU.
- */
-static void requireGPUOrSkip() {
-    // TODO: Implement actual CUDA/HIP detection
-    // For now, check environment variable as workaround
-    const char* has_gpu = std::getenv("THEMIS_HAS_GPU");
-    
-    if (has_gpu == nullptr || std::string(has_gpu) != "1") {
-        GTEST_SKIP() << "capability:gpu_runtime_available=false;reason=no_gpu_available;details=\n"
-                     << "To enable GPU tests: $env:THEMIS_HAS_GPU = \"1\"";
-    }
-}
-
 class LLMPluginTest : public ::testing::Test {
 protected:
     std::string test_model_dir = "./test_llm_models";
@@ -345,8 +328,8 @@ TEST_F(LLMPluginTest, LlamaWrapper_BasicInference) {
     InferenceRequest request;
     request.prompt = "What is ThemisDB?";
     request.max_tokens = 100;
-    request.temperature = 0.7;
-    request.top_p = 0.9;
+    request.temperature = 0.7f;
+    request.top_p = 0.9f;
     
     // Generate response
     auto response = plugin.generate(request);
@@ -411,9 +394,9 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
     
     engine.submitAsync(
         request,
-        [&](const InferenceResponse& response) {
+        [&callback_called, &result_text](const InferenceResponse& response) {
+            callback_called.store(true);
             result_text = response.text;
-            callback_called = true;
         },
         5
     );
@@ -442,7 +425,8 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     // Submit low priority request
     engine.submitAsync(
         InferenceRequest{.prompt = "Low priority", .max_tokens = 10},
-        [&](const InferenceResponse& r) {
+        [&order_mutex, &completion_order](const InferenceResponse& response) {
+            (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(1);
         },
@@ -452,7 +436,8 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
     // Submit high priority request
     engine.submitAsync(
         InferenceRequest{.prompt = "High priority", .max_tokens = 10},
-        [&](const InferenceResponse& r) {
+        [&order_mutex, &completion_order](const InferenceResponse& response) {
+            (void)response;
             std::lock_guard<std::mutex> lock(order_mutex);
             completion_order.push_back(10);
         },

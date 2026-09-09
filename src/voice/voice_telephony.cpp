@@ -72,7 +72,7 @@ std::string generateCallId() {
  *
  * Implements the ITU-T G.711 µ-law expansion table.
  */
-int16_t ulawToPcm([[maybe_unused]] uint8_t ulaw_byte) {
+int16_t ulawToPcm(uint8_t ulaw_byte) {
     ulaw_byte = static_cast<uint8_t>(~ulaw_byte);
     int sign   = (ulaw_byte & 0x80) ? -1 : 1;
     int exp    = (ulaw_byte >> 4) & 0x07;
@@ -85,7 +85,7 @@ int16_t ulawToPcm([[maybe_unused]] uint8_t ulaw_byte) {
 /**
  * @brief Minimal G.711 A-law byte → 16-bit linear PCM conversion.
  */
-int16_t alawToPcm([[maybe_unused]] uint8_t alaw_byte) {
+int16_t alawToPcm(uint8_t alaw_byte) {
     alaw_byte ^= 0x55;
     int sign  = (alaw_byte & 0x80) ? -1 : 1;
     int exp   = (alaw_byte >> 4) & 0x07;
@@ -373,9 +373,9 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     // TASK 2.6: Audio buffer size limits (anti-DoS)
     // CRITICAL GAP 13: Oversized session buffer rejection
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
-    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(payload.size()) > kMaxSessionRtpBufferBytes) {
+    if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",
-                     impl_-> static_cast<int>(pcm_buffer.size()),static_cast<int>(payload.size()), kMaxSessionRtpBufferBytes);
+                     impl_->pcm_buffer.size(), payload.size(), kMaxSessionRtpBufferBytes);
         if (impl_->on_error) {
           impl_->on_error("Session buffer overflow");
         }
@@ -401,7 +401,8 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
         }
         break;
     case AudioCodec::G722:
-    [[fallthrough]];\n    case AudioCodec::OPUS:
+    [[fallthrough]];
+    case AudioCodec::OPUS:
         // For G.722/Opus: payload is already decoded by caller; treat as raw bytes
         for (size_t i = 0; i + 1 < payload.size(); i += 2) {
             int16_t s = static_cast<int16_t>(
@@ -422,7 +423,7 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
         THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
         return empty;
     }
-    if (impl_-> static_cast<int>(pcm_buffer.size()) + static_cast<int>(pcm_samples.size()) > (10 * 1024 * 1024)) {
+    if (impl_->pcm_buffer.size() + pcm_samples.size() > (10 * 1024 * 1024)) {
         THEMIS_WARN("SipCallSession: PCM buffer limit exceeded, rejecting frame (error 6910)");
         return empty;
     }
@@ -438,17 +439,17 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
     return ct;
 }
 
-void SipCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
+void SipCallSession::injectDtmf(const DtmfEvent& event) {
     if (!impl_) {
       return;
     }
-    if ([[maybe_unused]] !isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
-        THEMIS_WARN([[maybe_unused]] "SipCallSession: invalid DTMF event rejected (error 6910)");
+    if (!isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
+        THEMIS_WARN("SipCallSession: invalid DTMF event rejected (error 6910)");
         return;
     }
     THEMIS_INFO("SipCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if ([[maybe_unused]] impl_->on_dtmf) {
+    if (impl_->on_dtmf) {
       impl_->on_dtmf(event);
     }
 }
@@ -610,7 +611,7 @@ std::string WebRtcCallSession::processOffer(const std::string& sdp_offer) {
     return impl_->negotiated_sdp;
 }
 
-void WebRtcCallSession::addIceCandidate([[maybe_unused]] const std::string& candidate_json) {
+void WebRtcCallSession::addIceCandidate(const std::string& candidate_json) {
     // In production: forward to the WebRTC ICE stack
     THEMIS_INFO("WebRtcCallSession: addIceCandidate call_id={}", impl_->call_id);
 }
@@ -683,13 +684,13 @@ CallTranscript WebRtcCallSession::receiveAudioFrame(const std::vector<int16_t>& 
     return ct;
 }
 
-void WebRtcCallSession::injectDtmf([[maybe_unused]] const DtmfEvent& event) {
+void WebRtcCallSession::injectDtmf(const DtmfEvent& event) {
     if (!impl_) {
       return;
     }
     THEMIS_INFO("WebRtcCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
-    if ([[maybe_unused]] impl_->on_dtmf) {
+    if (impl_->on_dtmf) {
       impl_->on_dtmf(event);
     }
 }
@@ -773,14 +774,14 @@ void IvrEngine::addNode(IvrNode node) {
     nodes_[std::move(id)] = std::move(node);
 }
 
-std::string IvrEngine::handleDtmf([[maybe_unused]] const DtmfEvent& event) {
-    collected_dtmf_.push_back([[maybe_unused]] event);
+std::string IvrEngine::handleDtmf(const DtmfEvent& event) {
+    collected_dtmf_.push_back(event);
 
     auto it = nodes_.find(current_node_id_);
     if (it == nodes_.end()) return {};
 
     const auto& node = it->second;
-    auto route_it = node.dtmf_routes.find([[maybe_unused]] event.digit);
+    auto route_it = node.dtmf_routes.find(event.digit);
     if (route_it == node.dtmf_routes.end()) return {};
 
     current_node_id_ = route_it->second;

@@ -341,7 +341,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
 // QueryCache implementation
 // ============================================================================
 
-QueryCache::QueryCache([[maybe_unused]] size_t max_entries)
+QueryCache::QueryCache(size_t max_entries)
     : max_entries_(max_entries > 0 ? max_entries : 1) {}
 
 std::optional<std::vector<VersionedDocument>> QueryCache::get(

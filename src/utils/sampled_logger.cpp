@@ -26,7 +26,7 @@ struct SampledLogger::Bucket {
     double tokens = 0;
     std::chrono::steady_clock::time_point last_refill;
 
-    explicit Bucket([[maybe_unused]] double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}
+    explicit Bucket(double initial) : tokens(initial), last_refill(std::chrono::steady_clock::now()) {}
 
     /// Refill and try to consume one token. Returns true if allowed.
     bool try_consume(double rate, double burst) {

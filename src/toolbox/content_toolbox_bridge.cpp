@@ -116,7 +116,7 @@ ContentToolboxBridge& ContentToolboxBridge::operator=(ContentToolboxBridge&&) no
 // Helper: Record bridge operation latency
 // ─────────────────────────────────────────────────────────────────────────────
 
-void ContentToolboxBridge::recordLatency([[maybe_unused]] uint64_t latency_ms) noexcept {
+void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
     impl_->bridge_operations_total_.fetch_add(1, std::memory_order_relaxed);
     
     // Convert milliseconds to microseconds for histogram
@@ -141,7 +141,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     std::span<const std::byte> data,
     const std::string& filename,
     const std::string& mime_type,
-    [[maybe_unused]] const std::string& collection,
+    const std::string& collection,
     const std::string& user_context)
 {
     auto t0 = std::chrono::steady_clock::now();
@@ -261,7 +261,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 
 ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     const std::string& content_id,
-    [[maybe_unused]] const std::string& collection)
+    const std::string& collection)
 {
     BridgeResult out;
     out.content_id = content_id;

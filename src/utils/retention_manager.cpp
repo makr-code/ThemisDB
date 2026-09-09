@@ -90,7 +90,7 @@ themis::Result<const RetentionManager::RetentionPolicy*> RetentionManager::getPo
 }
 
 bool RetentionManager::shouldArchive(
-    [[maybe_unused]] const std::string& entity_id,
+    const std::string& entity_id,
     std::chrono::system_clock::time_point created_at,
     const std::string& policy_name) const {
     
@@ -107,7 +107,7 @@ bool RetentionManager::shouldArchive(
 }
 
 bool RetentionManager::shouldPurge(
-    [[maybe_unused]] const std::string& entity_id,
+    const std::string& entity_id,
     std::chrono::system_clock::time_point created_at,
     const std::string& policy_name) const {
     
@@ -130,7 +130,7 @@ bool RetentionManager::shouldPurge(
 RetentionManager::RetentionAction RetentionManager::archiveEntity(
     const std::string& entity_id,
     const std::string& policy_name,
-    std::function<bool([[maybe_unused]] const std::string&)> archive_handler) {
+    std::function<bool(const std::string&)> archive_handler) {
     
     RetentionAction action;
     action.entity_id = entity_id;
@@ -170,7 +170,7 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
 RetentionManager::RetentionAction RetentionManager::purgeEntity(
     const std::string& entity_id,
     const std::string& policy_name,
-    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
+    std::function<bool(const std::string&)> purge_handler) {
     
     RetentionAction action;
     action.entity_id = entity_id;
@@ -219,7 +219,7 @@ RetentionManager::RetentionAction RetentionManager::purgeEntity(
 RetentionManager::RetentionStats RetentionManager::runRetentionCheck(
     std::function<std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
     std::function<bool(const std::string&)> archive_handler,
-    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
+    std::function<bool(const std::string&)> purge_handler) {
     
     auto start = std::chrono::steady_clock::now();
     
@@ -271,7 +271,7 @@ RetentionManager::RetentionStats RetentionManager::runRetentionCheck(
     return total_stats;
 }
 
-std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory([[maybe_unused]] size_t limit) const {
+std::vector<RetentionManager::RetentionAction> RetentionManager::getHistory(size_t limit) const {
     if (limit == 0 || limit >= action_history_.size()) {
         return action_history_;
     }
@@ -374,7 +374,7 @@ void RetentionManager::startBackgroundJob(
     std::function<std::vector<std::pair<std::string,
         std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
     std::function<bool(const std::string&)> archive_handler,
-    std::function<bool([[maybe_unused]] const std::string&)> purge_handler) {
+    std::function<bool(const std::string&)> purge_handler) {
 
     if (bg_running_.exchange(true)) {
         // Already running

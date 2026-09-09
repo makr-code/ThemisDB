@@ -89,7 +89,13 @@ enum class BackendType {
 /// @note FP32 is always required as a fallback for all compute backends.
 /// @note Quantization modes (INT4, INT8, FP4, W4A8, W8A8) are primarily used by
 /// AI inference backends (NPU, ONNX Runtime).
-enum class PrecisionMode : uint32_t {
+#if defined(__clang__)
+#define THEMIS_FLAG_ENUM __attribute__((flag_enum))
+#else
+#define THEMIS_FLAG_ENUM
+#endif
+
+enum class THEMIS_FLAG_ENUM PrecisionMode : uint32_t {
     NONE  = 0,          ///< No precision mode specified
     FP32  = 1u << 0,    ///< 32-bit IEEE 754 single precision (always required fallback)
     FP16  = 1u << 1,    ///< 16-bit IEEE 754 half precision (GPU/Tensor Core)
@@ -102,6 +108,8 @@ enum class PrecisionMode : uint32_t {
     W4A8  = 1u << 6,    ///< 4-bit weights, 8-bit activations (Qualcomm AI Engine)
     W8A8  = 1u << 7,    ///< 8-bit weights and 8-bit activations (symmetric INT8)
 };
+
+#undef THEMIS_FLAG_ENUM
 
 /// @brief Combine two PrecisionMode flags with bitwise OR.
 /// @param a First precision mode

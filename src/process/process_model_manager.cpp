@@ -680,7 +680,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             }
             auto r = ProcessModelRecord::fromDocument(doc);
 
-            auto match_field = [&]([[maybe_unused]] const std::string& field) {
+            auto match_field = [&](const std::string& field) {
                 std::string f_lower = field;
                 std::transform(f_lower.begin(), f_lower.end(), f_lower.begin(), ::tolower);
                 return f_lower.find(q_lower) != std::string::npos;
@@ -939,7 +939,7 @@ ProcessModelResult ProcessModelManager::deployToEngine(
 
 ProcessModelResult ProcessModelManager::undeployFromEngine(
     std::string_view     model_id,
-    [[maybe_unused]] ProcessGraphManager& engine) const
+    ProcessGraphManager& engine) const
 {
     // ProcessGraphManager doesn't have an unregister API yet; use the
     // removeProcess method if available, or log a warning.

@@ -64,11 +64,12 @@ public:
         }
     }
 
-    bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) const override {
+    bool evaluate(const std::string& expression, const void* context) const override {
         if (expression.empty()) {
             // No predicate → every document matches; this is intentional.
             return true;
         }
+        const bool has_context = (context != nullptr);
         // F-024: A non-empty expression with the default (no-op) evaluator
         // would silently pass every document, causing full collection scans
         // instead of filtered results.  Throw so the bug is immediately visible
@@ -79,7 +80,8 @@ public:
         // misconfigured dependency injection cannot go unnoticed.
         throw std::logic_error(
             "StorageEngine: DefaultExpressionEvaluator cannot evaluate non-empty "
-            "expression '" + expression + "'. Provide a real IExpressionEvaluator "
+            "expression '" + expression + "' (context=" + (has_context ? "set" : "null") +
+            "). Provide a real IExpressionEvaluator "
             "via dependency injection (StorageEngine::setExpressionEvaluator()).");
     }
     
@@ -99,22 +101,25 @@ public:
     }
 
     std::vector<uint8_t> encrypt_field(
-        [[maybe_unused]] const std::string& field_name,
+        const std::string& field_name,
         const std::vector<uint8_t>& plaintext) override {
         // Default implementation: no-op encryption (returns plaintext)
         // Real implementation would use AES-GCM or similar
+        THEMIS_DEBUG("DefaultFieldEncryption::encrypt_field no-op for '{}'", field_name);
         return plaintext;
     }
     
     std::vector<uint8_t> decrypt_field(
-        [[maybe_unused]] const std::string& field_name,
+        const std::string& field_name,
         const std::vector<uint8_t>& ciphertext) override {
         // Default implementation: no-op decryption
+        THEMIS_DEBUG("DefaultFieldEncryption::decrypt_field no-op for '{}'", field_name);
         return ciphertext;
     }
     
-    bool should_encrypt([[maybe_unused]] const std::string& field_name) const override {
+    bool should_encrypt(const std::string& field_name) const override {
         // Default: don't encrypt any fields
+        THEMIS_TRACE("DefaultFieldEncryption::should_encrypt('{}') -> false", field_name);
         return false;
     }
 };
@@ -129,14 +134,16 @@ public:
         }
     }
 
-    std::vector<uint8_t> get_key([[maybe_unused]] const std::string& key_id) override {
+    std::vector<uint8_t> get_key(const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
+        THEMIS_DEBUG("DefaultKeyProvider::get_key dummy key for id '{}'", key_id);
         return std::vector<uint8_t>(32, 0x42); // 32-byte dummy key
     }
     
     std::vector<uint8_t> rotate_key(const std::string& key_id) override {
         // Default implementation: return the same dummy key
+        THEMIS_DEBUG("DefaultKeyProvider::rotate_key dummy key for id '{}'", key_id);
         return get_key(key_id);
     }
 };
@@ -153,32 +160,35 @@ public:
 
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
-        [[maybe_unused]] std::string_view field_name,
-        [[maybe_unused]] const std::string& config = "") override {
+        std::string_view field_name,
+        const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', field='{}', config_len={}",
+                         name, field_name, config.size());
         }
         return Ok<ISecondaryIndex*>(nullptr);
     }
     
     Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
-        [[maybe_unused]] uint32_t dimension,
-        [[maybe_unused]] const std::string& config = "") override {
+        uint32_t dimension,
+        const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', dim={}, config_len={}",
+                         name, dimension, config.size());
         }
         return Ok<IVectorIndex*>(nullptr);
     }
     
     Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
-        [[maybe_unused]] const std::string& config = "") override {
+        const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
-            spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+            spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: name='{}', config_len={}",
+                         name, config.size());
         }
         return Ok<IGraphIndex*>(nullptr);
     }
@@ -201,8 +211,9 @@ public:
                                    fmt::format("Index '{}' not found (default manager)", name));
     }
     
-    Result<void> dropIndex([[maybe_unused]] std::string_view name) override {
+    Result<void> dropIndex(std::string_view name) override {
         // Default implementation: always succeeds (no-op)
+        THEMIS_DEBUG("Default StorageEngine::dropIndex no-op for '{}'", name);
         return OkVoid();
     }
     

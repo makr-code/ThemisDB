@@ -39,7 +39,7 @@ LearnableRotaryEmbedding::LearnableRotaryEmbedding(
     theta_gradients_.resize(learnable_theta_.size(), 0.0);
 }
 
-void LearnableRotaryEmbedding::setTrainingMode([[maybe_unused]] bool training) {
+void LearnableRotaryEmbedding::setTrainingMode(bool training) {
     training_mode_ = training;
 }
 
@@ -80,7 +80,7 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= static_cast<int>(rotated.size())) {
+        if (idx_1 >=static_cast<int>(rotated.size())) {
           break;
         }
         
@@ -117,10 +117,10 @@ std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngl
     size_t position, 
     size_t pair_idx
 ) const {
-    if (pair_idx >= static_cast<int>(learnable_theta_.size())) {
+    if (pair_idx >=static_cast<int>(learnable_theta_.size())) {
         throw std::out_of_range(
             "Pair index out of range: " + std::to_string(pair_idx) +
-            " >= " + std::to_string(learnable_theta_.size())
+            " >=" + std::to_string(learnable_theta_.size())
         );
     }
     
@@ -314,7 +314,7 @@ LearnableRotaryEmbedding::splitTrainValidation(
     const std::vector<TrainingSample>& samples,
     float validation_split
 ) const {
-    if (validation_split <= 0.0f || validation_split >= 1.0f) {
+    if (validation_split <= 0.0f || validation_split >=1.0f) {
         // No validation split
         return {samples, {}};
     }
@@ -427,7 +427,7 @@ std::vector<float> LearnableRotaryEmbedding::train(
             } else {
                 epochs_without_improvement++;
 
-                if (epochs_without_improvement >= config.early_stop_patience) {
+                if (epochs_without_improvement >=config.early_stop_patience) {
                     // Early stopping triggered
                     break;
                 }
@@ -540,3 +540,4 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
 }
 
 } // namespace themis
+

@@ -607,7 +607,7 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
     size_t pos = 0;
     const size_t n = input.size();
 
-    auto skipWhitespace = [&]([[maybe_unused]] size_t& i) {
+    auto skipWhitespace = [&](size_t& i) {
         while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
             ++i;
         }
@@ -1210,19 +1210,19 @@ TrainingQueryBuilder& TrainingQueryBuilder::baseModel(const std::string& model) 
     stmt_.config.base_model_name = model; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::loraRank([[maybe_unused]] int rank) {
+TrainingQueryBuilder& TrainingQueryBuilder::loraRank(int rank) {
     stmt_.config.lora_rank = rank; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::epochs([[maybe_unused]] int n) {
+TrainingQueryBuilder& TrainingQueryBuilder::epochs(int n) {
     stmt_.config.epochs = n; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::batchSize([[maybe_unused]] int size) {
+TrainingQueryBuilder& TrainingQueryBuilder::batchSize(int size) {
     stmt_.config.batch_size = size; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::learningRate([[maybe_unused]] double lr) {
+TrainingQueryBuilder& TrainingQueryBuilder::learningRate(double lr) {
     stmt_.config.learning_rate = lr; return *this;
 }
 
@@ -1234,7 +1234,7 @@ TrainingQueryBuilder& TrainingQueryBuilder::sizeMode(GGUFSTConfig::SizeMode m) {
     stmt_.config.size_mode = m; return *this;
 }
 
-TrainingQueryBuilder& TrainingQueryBuilder::signAdapter([[maybe_unused]] bool sign) {
+TrainingQueryBuilder& TrainingQueryBuilder::signAdapter(bool sign) {
     stmt_.config.sign_adapter = sign; return *this;
 }
 

@@ -172,7 +172,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                 );
 
                 vector_results.reserve(frontdoor_result.candidates.size());
-                for (size_t i = 0; i <static_cast<int>(frontdoor_result.candidates.size()); ++i) {
+                for (size_t i = 0; i < frontdoor_result.candidates.size(); ++i) {
                     const auto& candidate = frontdoor_result.candidates[i];
                     Result r = Result();
                     r.document_id = std::to_string(candidate.id);

@@ -117,7 +117,7 @@ void TimeSeriesMetrics::recordAggregation(const std::string& /*metric_name*/, do
     }
 }
 
-void TimeSeriesMetrics::recordOptimizerResult([[maybe_unused]] bool hit) {
+void TimeSeriesMetrics::recordOptimizerResult(bool hit) {
     if (hit) {
         optimizer_hits_.fetch_add(1, std::memory_order_relaxed);
     } else {

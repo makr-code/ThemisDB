@@ -160,7 +160,7 @@ void CacheReplicationManager::probeUnhealthyReplicas() {
 // ICacheReplicationListener – fan-out implementation
 // ---------------------------------------------------------------------------
 
-bool CacheReplicationManager::onReplicationEvent([[maybe_unused]] const CacheReplicationEvent &event) {
+bool CacheReplicationManager::onReplicationEvent(const CacheReplicationEvent &event) {
     if (!config_.enabled) {
         return true;
     }
@@ -241,7 +241,7 @@ nlohmann::json CacheReplicationManager::getReplicaHealth() const {
 // Internal dispatch
 // ---------------------------------------------------------------------------
 
-void CacheReplicationManager::dispatch([[maybe_unused]] const CacheReplicationEvent &event) {
+void CacheReplicationManager::dispatch(const CacheReplicationEvent &event) {
     std::lock_guard<std::mutex> lock(replicas_mutex_);
 
     bool any_success         = false;
@@ -305,7 +305,7 @@ void CacheReplicationManager::dispatch([[maybe_unused]] const CacheReplicationEv
     }
 }
 
-CacheReplicationEvent CacheReplicationManager::makeEvent([[maybe_unused]] CacheReplicationEventType type) const {
+CacheReplicationEvent CacheReplicationManager::makeEvent(CacheReplicationEventType type) const {
     CacheReplicationEvent ev;
     ev.type         = type;
     ev.timestamp_ms = nowMs();

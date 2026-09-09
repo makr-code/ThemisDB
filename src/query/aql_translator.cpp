@@ -61,7 +61,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         }
     }
 
-    auto finalizeResult = [&]([[maybe_unused]] TranslationResult&& result) -> TranslationResult {
+    auto finalizeResult = [&](TranslationResult&& result) -> TranslationResult {
         attachCTEs(result, std::move(cte_executions));
         return std::move(result);
     };
@@ -938,7 +938,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         // Check if filter contains FULLTEXT combined with AND
         // Helper to recursively find FULLTEXT in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findFulltext;
-        findFulltext = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
+        findFulltext = [&](const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
             if (!e) {
               return nullptr;
             }
@@ -968,7 +968,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         
         // Helper to recursively find ST_* spatial function in AND tree
         std::function<std::shared_ptr<FunctionCallExpr>(const std::shared_ptr<Expression>&)> findSpatial;
-        findSpatial = [&]([[maybe_unused]] const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
+        findSpatial = [&](const std::shared_ptr<Expression>& e) -> std::shared_ptr<FunctionCallExpr> {
             if (!e) {
               return nullptr;
             }

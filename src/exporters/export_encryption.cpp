@@ -133,7 +133,7 @@ ExportEncryption::buildAAD(const std::string &job_id, const std::string &kek_id,
 // The IKM is the raw KEK bytes from the KeyProvider; the info string
 // is the export job_id so each job produces a distinct key.
 std::vector<uint8_t>
-ExportEncryption::deriveJobDEK([[maybe_unused]] uint32_t key_version) const {
+ExportEncryption::deriveJobDEK(uint32_t key_version) const {
   if (!config_.key_provider) {
     throw std::invalid_argument("ExportEncryption: key_provider is null");
   }

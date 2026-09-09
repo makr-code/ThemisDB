@@ -327,7 +327,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_all_profiles() con
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_-> static_cast<int>(profiles.size()));
+    result.reserve(impl_->profiles.size());
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -355,11 +355,11 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_slow_queries(
     return result;
 }
 
-std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries([[maybe_unused]] size_t limit) const {
+std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t limit) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     std::vector<std::shared_ptr<QueryProfile>> result;
-    result.reserve(impl_-> static_cast<int>(profiles.size()));
+    result.reserve(impl_->profiles.size());
     for (const auto& [_, profile] : impl_->profiles) {
         result.push_back(profile);
     }
@@ -421,7 +421,7 @@ bool QueryProfiler::is_enabled() const {
 json QueryProfiler::get_statistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
-    size_t total_queries = impl_-> static_cast<int>(profiles.size());
+    size_t total_queries = impl_->profiles.size();
     std::chrono::microseconds total_duration{0};
     size_t total_rows = 0;
     size_t queries_with_index = 0;
@@ -511,11 +511,11 @@ ScopedOperatorProfile::~ScopedOperatorProfile() {
     profiler_.record_operator(query_id_, stats_);
 }
 
-void ScopedOperatorProfile::record_rows([[maybe_unused]] size_t count) {
+void ScopedOperatorProfile::record_rows(size_t count) {
     stats_.rows_processed += count;
 }
 
-void ScopedOperatorProfile::record_bytes([[maybe_unused]] size_t count) {
+void ScopedOperatorProfile::record_bytes(size_t count) {
     stats_.bytes_processed += count;
 }
 

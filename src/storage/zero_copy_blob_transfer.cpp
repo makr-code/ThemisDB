@@ -71,7 +71,7 @@ namespace {
 #if defined(__linux__) || defined(__APPLE__)
 class ScopedFd final {
 public:
-    explicit ScopedFd([[maybe_unused]] int fd) noexcept : fd_(fd) {}
+    explicit ScopedFd(int fd) noexcept : fd_(fd) {}
     ~ScopedFd() {
         if (fd_ >= 0) {
             ::close(fd_);
@@ -227,7 +227,7 @@ static void ensureAwsSdkInitialized() {
 // MmapBlobView
 // ─────────────────────────────────────────────────────────────────────────────
 
-MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool sequential_hint) {
+MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
 #if defined(__linux__) || defined(__APPLE__)
     // no_timeout scanner alert: local file open for mmap — block device I/O,
     // no network timeout applicable here.
@@ -265,6 +265,9 @@ MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool s
     // hint unused on non-POSIX platforms
     // Non-POSIX: fall back to reading the file into a heap buffer.
     // The "zero-copy" goal is not met, but correctness is preserved.
+    if (sequential_hint) {
+        THEMIS_DEBUG("MmapBlobView: sequential_hint requested for '{}' but ignored on this platform", file_path);
+    }
     try {
         std::ifstream ifs(file_path, std::ios::binary | std::ios::ate);
         if (!ifs) {
@@ -596,10 +599,10 @@ MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const 
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
-    [[maybe_unused]] const std::string& bucket,
-    [[maybe_unused]] const std::string& s3_key,
-    [[maybe_unused]] const std::string& source_path,
-    [[maybe_unused]] const std::string& blob_id)
+    const std::string& bucket,
+    const std::string& s3_key,
+    const std::string& source_path,
+    const std::string& blob_id)
 {
 #if THEMIS_ZERO_COPY_S3_AVAILABLE
     auto t0 = std::chrono::steady_clock::now();
@@ -795,8 +798,9 @@ Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
 #else // !THEMIS_ZERO_COPY_S3_AVAILABLE
     return Err<ZeroCopyTransferStats>(
         errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-        "s3MultipartUpload: AWS SDK not available; "
-        "rebuild with THEMIS_ENABLE_S3=ON");
+    "s3MultipartUpload: AWS SDK not available for bucket='" + bucket +
+    "', key='" + s3_key + "', blob='" + blob_id +
+    "', source='" + source_path + "'; rebuild with THEMIS_ENABLE_S3=ON");
 #endif
 }
 

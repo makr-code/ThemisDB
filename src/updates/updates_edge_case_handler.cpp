@@ -177,7 +177,7 @@ EdgeCaseResult UpdatesEdgeCaseHandler::detectAndHandle(
 // classifyEdgeCase
 // ============================================================================
 
-std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase([[maybe_unused]] DiagnosticErrorCode code) {
+std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_INVALID_TRANSITION:       return "InvalidTransition";
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:     return "ConcurrentCollision";
@@ -213,13 +213,17 @@ std::string_view UpdatesEdgeCaseHandler::classifyEdgeCase([[maybe_unused]] Diagn
 // isFatal
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::isFatal([[maybe_unused]] DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::isFatal(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        [[fallthrough]];\n        case DiagnosticErrorCode::NETWORK_PARTITION:
-        [[fallthrough]];\n        case DiagnosticErrorCode::DATA_LOSS_RISK:
-        [[fallthrough]];\n        case DiagnosticErrorCode::CASCADE_DETECTED:
+        [[fallthrough]];
+        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];
+        case DiagnosticErrorCode::NETWORK_PARTITION:
+        [[fallthrough]];
+        case DiagnosticErrorCode::DATA_LOSS_RISK:
+        [[fallthrough]];
+        case DiagnosticErrorCode::CASCADE_DETECTED:
             return true;
         default:
             return false;
@@ -230,12 +234,15 @@ bool UpdatesEdgeCaseHandler::isFatal([[maybe_unused]] DiagnosticErrorCode code) 
 // requiresIsolation
 // ============================================================================
 
-bool UpdatesEdgeCaseHandler::requiresIsolation([[maybe_unused]] DiagnosticErrorCode code) {
+bool UpdatesEdgeCaseHandler::requiresIsolation(DiagnosticErrorCode code) {
     switch (code) {
         case DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS:
-        [[fallthrough]];\n        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
-        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
-        [[fallthrough]];\n        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
+        [[fallthrough]];
+        case DiagnosticErrorCode::STATE_FAILED_LOCKED:
+        [[fallthrough]];
+        case DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED:
+        [[fallthrough]];
+        case DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE:
             return true;
         default:
             return false;

@@ -1,0 +1,1620 @@
+--- LLVM Syntax Check (Cross-Compiler Aware) ---
+Platform: Windows
+Compiler: C:\llvm\bin\clang-cl.exe
+vcpkg Architecture: x64-windows
+
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\ai_hardware_dispatcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\backend_registry.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\break_even_validator.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\break_even_validator_impl_fallback.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\compute_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\cpu_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\cpu_backend_mt.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\cpu_backend_tbb.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp
+In file included from C:\Projects\ThemisDB\src\acceleration\cuda_backend.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\device_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\directx_backend_full.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\faiss_gpu_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\geo_acceleration_bridge.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\graphics_backends.cpp
+In file included from C:\Projects\ThemisDB\src\acceleration\graphics_backends.cpp:18:
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\hip_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\kernel_registry.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\multi_gpu_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\nccl_vector_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\oneapi_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\opencl_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\plugin_loader.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\plugin_security.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\rccl_vector_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\shader_integrity.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\tensor_core_matmul.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\vec_knn.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\vllm_resource_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\vulkan_backend_full.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\acceleration\zluda_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\access_coordinator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\access_metrics.cpp
+In file included from C:\Projects\ThemisDB\src\access_model\access_metrics.cpp:14:
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\access_model_logging.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\access_model_trace.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\age_based_policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\access_model\promotion_demotion.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\ai\ai_plugin_generator.cpp
+In file included from C:\Projects\ThemisDB\src\ai\ai_plugin_generator.cpp:12:
+[llvm-syntax] C:\Projects\ThemisDB\src\ai\cai_ethics_integration.cpp
+In file included from C:\Projects\ThemisDB\src\ai\cai_ethics_integration.cpp:12:
+In file included from C:\Projects\ThemisDB\src\ai\cai_ethics_integration.cpp:12:
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\aggregation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\analytics_engine.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\analytics_export.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\anomaly_detection.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\arrow_export.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\arrow_flight.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\automl.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\cep_engine.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\columnar_execution.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\diff_engine.cpp
+In file included from C:\Projects\ThemisDB\src\analytics\diff_engine.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\distributed_analytics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\expert_system_engine.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\forecasting.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\incremental_view.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\jit_aggregation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\knowledge_base.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\llm_process_analyzer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\lora_pattern_classifier.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\ml_serving.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\model_serving.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\nlp_text_analyzer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\olap.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\process_mining.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\process_pattern_matcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\result_aggregator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\streaming_join.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\streaming_window.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\analytics\time_series.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\api_transport_policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\federation_admin_handler.cpp
+In file included from C:\Projects\ThemisDB\src\api\federation_admin_handler.cpp:12:
+[llvm-syntax] C:\Projects\ThemisDB\src\api\geo_index_hooks.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\graphql.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\graphql_aql_resolver.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\graphql_ws_handler.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\grpc_server.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\otlp_exporter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\themisdb_grpc_service.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\tracing_middleware.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\api\ws_handler.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_agent.cpp
+In file included from C:\Projects\ThemisDB\src\aql\aql_agent.cpp:16:
+In file included from C:\Projects\ThemisDB\src\aql\aql_agent.cpp:16:
+In file included from C:\Projects\ThemisDB\src\aql\aql_agent.cpp:16:
+In file included from C:\Projects\ThemisDB\src\aql\aql_agent.cpp:16:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_autocomplete.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_confidence_scorer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_conversation_context.cpp
+In file included from C:\Projects\ThemisDB\src\aql\aql_conversation_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\aql_conversation_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\aql_conversation_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\aql_conversation_context.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_fewshot_example_library.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_ingestion_bridge.cpp
+In file included from C:\Projects\ThemisDB\src\aql\aql_ingestion_bridge.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_lora_finetuner.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_migration_assistant.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_model_router.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_optimizer_advisor.cpp
+In file included from C:\Projects\ThemisDB\src\aql\aql_optimizer_advisor.cpp:23:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_query_builder.cpp
+In file included from C:\Projects\ThemisDB\src\aql\aql_query_builder.cpp:22:
+In file included from C:\Projects\ThemisDB\src\aql\aql_query_builder.cpp:22:
+In file included from C:\Projects\ThemisDB\src\aql\aql_query_builder.cpp:22:
+In file included from C:\Projects\ThemisDB\src\aql\aql_query_builder.cpp:22:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_query_diff_explainer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_query_template_library.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_query_validator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_rollback_suggester.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_schema_provider.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\aql_syntax_highlighter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\classify_bridge.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\docs_assistant_functions.cpp
+In file included from C:\Projects\ThemisDB\src\aql\docs_assistant_functions.cpp:23:
+In file included from C:\Projects\ThemisDB\src\aql\docs_assistant_functions.cpp:23:
+In file included from C:\Projects\ThemisDB\src\aql\docs_assistant_functions.cpp:23:
+In file included from C:\Projects\ThemisDB\src\aql\docs_assistant_functions.cpp:23:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_aql_embedding_bridge.cpp
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_embedding_bridge.cpp:15:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_embedding_bridge.cpp:15:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_embedding_bridge.cpp:15:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_embedding_bridge.cpp:15:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp:13:
+In file included from C:\Projects\ThemisDB\src\aql\llm_aql_handler.cpp:38:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp
+In file included from C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp:7:
+In file included from C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp:7:
+In file included from C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp:7:
+In file included from C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp:7:
+In file included from C:\Projects\ThemisDB\src\aql\llm_extractive_compressor.cpp:7:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_metrics_collector.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_semantic_validator.cpp
+In file included from C:\Projects\ThemisDB\src\aql\llm_semantic_validator.cpp:7:
+[llvm-syntax] C:\Projects\ThemisDB\src\aql\llm_validation_pipeline.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\api_key_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_audit_logger.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_error.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_event_bus.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_rate_limiter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\auth_worker_thread_pool.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\distributed_token_blacklist.cpp
+In file included from C:\Projects\ThemisDB\src\auth\distributed_token_blacklist.cpp:9:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\federated_identity_manager.cpp
+In file included from C:\Projects\ThemisDB\src\auth\federated_identity_manager.cpp:13:
+In file included from C:\Projects\ThemisDB\src\auth\federated_identity_manager.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\gssapi_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\http_auth_async.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\jwks_security.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\jwks_validator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\jwt_key_rotation_manager.cpp
+In file included from C:\Projects\ThemisDB\src\auth\jwt_key_rotation_manager.cpp:13:
+In file included from C:\Projects\ThemisDB\src\auth\jwt_key_rotation_manager.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\jwt_validator.cpp
+In file included from C:\Projects\ThemisDB\src\auth\jwt_validator.cpp:13:
+In file included from C:\Projects\ThemisDB\src\auth\jwt_validator.cpp:39:
+In file included from C:\Projects\ThemisDB\src\auth\jwt_validator.cpp:39:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\kerberos_security.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\ldap_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\ldap_connection_pool.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\mfa_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\mtls_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\oauth_device_flow.cpp
+In file included from C:\Projects\ThemisDB\src\auth\oauth_device_flow.cpp:13:
+C:\Projects\ThemisDB\src\auth\oauth_device_flow.cpp(79,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\oauth_pkce_flow.cpp
+In file included from C:\Projects\ThemisDB\src\auth\oauth_pkce_flow.cpp:13:
+C:\Projects\ThemisDB\src\auth\oauth_pkce_flow.cpp(125,35): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\oidc_provider.cpp
+In file included from C:\Projects\ThemisDB\src\auth\oidc_provider.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\passkey_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\password_policy.cpp
+C:\Projects\ThemisDB\src\auth\password_policy.cpp(41,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\auth\password_policy.cpp(47,69): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\auth\password_policy.cpp(86,51): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\principal_validator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\rate_limiter_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\redis_token_blacklist.cpp
+In file included from C:\Projects\ThemisDB\src\auth\redis_token_blacklist.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\rocksdb_token_blacklist.cpp
+In file included from C:\Projects\ThemisDB\src\auth\rocksdb_token_blacklist.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\saml_authenticator.cpp
+C:\Projects\ThemisDB\src\auth\saml_authenticator.cpp(277,14): warning: 'sscanf' is deprecated: This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\auth\saml_authenticator.cpp(708,48): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\auth\saml_authenticator.cpp(717,55): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\auth\saml_authenticator.cpp(1117,58): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\secure_memory.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\session_manager.cpp
+In file included from C:\Projects\ThemisDB\src\auth\session_manager.cpp:13:
+C:\Projects\ThemisDB\src\auth\session_manager.cpp(133,48): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\token_blacklist.cpp
+In file included from C:\Projects\ThemisDB\src\auth\token_blacklist.cpp:13:
+C:\Projects\ThemisDB\src\auth\token_blacklist.cpp(58,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\totp_replay_cache.cpp
+In file included from C:\Projects\ThemisDB\src\auth\totp_replay_cache.cpp:13:
+C:\Projects\ThemisDB\src\auth\totp_replay_cache.cpp(71,45): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\totp_secret_encryption.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\webauthn_authenticator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\auth\zero_trust_auth_verifier.cpp
+In file included from C:\Projects\ThemisDB\src\auth\zero_trust_auth_verifier.cpp:16:
+[llvm-syntax] C:\Projects\ThemisDB\src\base\ab_test_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\buffer_pool.cpp
+C:\Projects\ThemisDB\src\base\buffer_pool.cpp(154,46): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\base\hot_reload_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\module_loader.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\module_sandbox.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\plugin_dependency_graph.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\remote_registry_client.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\resource_pool_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\base\wasm_plugin_sandbox.cpp
+C:\Projects\ThemisDB\src\base\wasm_plugin_sandbox.cpp(622,73): warning: unused parameter 'bytes' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\base\wasm_runtime_injector.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp
+In file included from C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp:13:
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(391,64): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(683,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(707,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(808,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(859,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(968,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(1869,47): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(1880,47): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(2424,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(2450,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\adaptive_query_cache.cpp(53,15): warning: unused variable 'kL3InitMaxTotalDelayMs' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\bounded_lru_cache.cpp
+C:\Projects\ThemisDB\src\cache\bounded_lru_cache.cpp(25,58): warning: field 'config_' will be initialized after field 'head_' [-Wreorder-ctor]
+C:\Projects\ThemisDB\src\cache\bounded_lru_cache.cpp(99,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\bounded_lru_cache.cpp(134,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\bounded_lru_cache.cpp(177,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\cache_eviction_policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\cache_hit_rate_slo_monitor.cpp
+In file included from C:\Projects\ThemisDB\src\cache\cache_hit_rate_slo_monitor.cpp:13:
+In file included from C:\Projects\ThemisDB\src\cache\cache_hit_rate_slo_monitor.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\cache_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\cache_replication.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\cache_replication_coordinator.cpp
+C:\Projects\ThemisDB\src\cache\cache_replication_coordinator.cpp(337,52): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\distributed_cache_coordinator.cpp
+In file included from C:\Projects\ThemisDB\src\cache\distributed_cache_coordinator.cpp:12:
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\embedding_cache.cpp
+C:\Projects\ThemisDB\src\cache\embedding_cache.cpp(100,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+In file included from C:\Projects\ThemisDB\src\cache\embedding_cache.cpp:13:
+C:\Projects\ThemisDB\src\cache\embedding_cache.cpp(289,27): note: in instantiation of member function 'std::vector<float, themis::cache::AlignedVectorAllocator<float>>::operator=' requested here
+C:\Projects\ThemisDB\src\cache\embedding_cache.cpp(231,44): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\embedding_cache.cpp(32,17): warning: unused variable 'EARLY_TERMINATION_THRESHOLD' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\eviction.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\eviction_listener.cpp
+In file included from C:\Projects\ThemisDB\src\cache\eviction_listener.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\grpc_remote_cache_peer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\lru_cache.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp
+C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp(53,42): warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp(116,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp(130,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp(424,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\predictive_prefetcher.cpp(433,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\redis_cache_coordinator.cpp
+C:\Projects\ThemisDB\src\cache\redis_cache_coordinator.cpp(701,121): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\redis_cache_coordinator.cpp(701,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\redis_cache_coordinator.cpp(79,15): warning: unused variable 'kMaxPublishRetries' [-Wunused-const-variable]
+C:\Projects\ThemisDB\src\cache\redis_cache_coordinator.cpp(80,15): warning: unused variable 'kPublishRetryDelayMs' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\semantic_cache.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cache\warmup.cpp
+In file included from C:\Projects\ThemisDB\src\cache\warmup.cpp:21:
+C:\Projects\ThemisDB\src\cache\warmup.cpp(128,38): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\warmup.cpp(148,38): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\warmup.cpp(332,53): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\warmup.cpp(344,64): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\warmup.cpp(370,68): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cache\warmup.cpp(392,68): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:16:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+In file included from C:\Projects\ThemisDB\src\cdc\cdc_admin.cpp:21:
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\cdc_materialized_view.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\cdc_ws_handler.cpp
+C:\Projects\ThemisDB\src\cdc\cdc_ws_handler.cpp(252,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\cdc_ws_handler.cpp(277,62): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\changefeed.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\changefeed_buffer.cpp
+In file included from C:\Projects\ThemisDB\src\cdc\changefeed_buffer.cpp:13:
+C:\Projects\ThemisDB\src\cdc\changefeed_buffer.cpp(117,80): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\changefeed_buffer.cpp(169,52): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\changefeed_buffer.cpp(364,48): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\consumer_group.cpp
+C:\Projects\ThemisDB\src\cdc\consumer_group.cpp(410,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\consumer_group.cpp(469,45): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\consumer_group.cpp(482,41): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\cdc\consumer_group.cpp(495,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\cross_collection_stream.cpp
+C:\Projects\ThemisDB\src\cdc\cross_collection_stream.cpp(160,45): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\dead_letter_queue.cpp
+C:\Projects\ThemisDB\src\cdc\dead_letter_queue.cpp(288,59): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\delivery_tracker.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\kafka_cdc_producer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\outbox.cpp
+C:\Projects\ThemisDB\src\cdc\outbox.cpp(276,66): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\tenant_buffer_manager.cpp
+In file included from C:\Projects\ThemisDB\src\cdc\tenant_buffer_manager.cpp:13:
+C:\Projects\ThemisDB\src\cdc\tenant_buffer_manager.cpp(413,64): warning: unused parameter 'tenant_id' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\cdc\ws_transport.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\chaos\chaos_framework.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\batch_executor.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\batch_executor.cpp:9:
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp:9:
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(102,24): warning: unused parameter 'query' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(127,24): warning: unused parameter 'table_name' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(128,26): warning: unused parameter 'row' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(151,24): warning: unused parameter 'table_name' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(152,39): warning: unused parameter 'rows' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(299,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(300,21): warning: unused parameter 'doc' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(324,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(325,34): warning: unused parameter 'docs' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(348,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(349,42): warning: unused parameter 'filter' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(350,12): warning: unused parameter 'limit' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(374,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(375,42): warning: unused parameter 'filter' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(376,42): warning: unused parameter 'updates' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(479,10): error: no member named 'adapter_name' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(480,10): error: no member named 'adapter_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(481,10): error: no member named 'database_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(487,13): error: no member named 'total_queries' in 'chimera::SystemMetrics'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(488,13): error: no member named 'total_errors' in 'chimera::SystemMetrics'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(489,13): error: no member named 'avg_query_time_ms' in 'chimera::SystemMetrics'
+C:\Projects\ThemisDB\src\chimera\mongodb_adapter.cpp(554,5): error: 'this' argument to member function 'mark_committed' has type 'const TransactionContext', but function is not marked const
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp:9:
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(186,64): warning: unused parameter 'node' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(208,64): warning: unused parameter 'edge' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(231,24): warning: unused parameter 'source_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(232,24): warning: unused parameter 'target_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(233,12): warning: unused parameter 'max_depth' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(257,24): warning: unused parameter 'start_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(258,12): warning: unused parameter 'max_depth' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(259,37): warning: unused parameter 'edge_labels' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(283,24): warning: unused parameter 'query' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(284,42): warning: unused parameter 'params' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(312,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(313,21): warning: unused parameter 'doc' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(337,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(338,34): warning: unused parameter 'docs' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(361,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(362,42): warning: unused parameter 'filter' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(363,12): warning: unused parameter 'limit' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(387,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(388,42): warning: unused parameter 'filter' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(389,42): warning: unused parameter 'updates' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(535,10): error: no member named 'adapter_name' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(536,10): error: no member named 'adapter_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(537,10): error: no member named 'database_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(543,13): error: no member named 'total_queries' in 'chimera::SystemMetrics'
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(544,13): error: no member named 'total_errors' in 'chimera::SystemMetrics'
+C:\Projects\ThemisDB\src\chimera\neo4j_adapter.cpp(545,13): error: no member named 'avg_query_time_ms' in 'chimera::SystemMetrics'
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp:9:
+In file included from C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp:9:
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(19,21): error: no matching function for call to 'register_adapter'
+include\chimera\../../external/chimera/include/chimera/database_adapter.hpp(1213,17): note: candidate function not viable: no known conversion from '(lambda at C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp:21:9)' to 'AdapterCreator' (aka 'function<std::unique_ptr<IDatabaseAdapter> ()>') for 2nd argument
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(136,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(137,19): warning: unused parameter 'vector' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(178,43): error: expected '>'
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(178,36): note: to match this '<'
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(178,65): error: no member named 'ok' in the global namespace
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(182,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(183,19): warning: unused parameter 'query_vector' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(184,12): warning: unused parameter 'k' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(209,24): warning: unused parameter 'collection' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(210,12): warning: unused parameter 'dimensions' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(410,10): error: no member named 'adapter_name' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(411,10): error: no member named 'adapter_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(412,10): error: no member named 'database_version' in 'chimera::SystemInfo'
+C:\Projects\ThemisDB\src\chimera\qdrant_adapter.cpp(418,13): error: no member named 'total_queries' in 'chimera::SystemMetrics'
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\retry_executor.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\retry_executor.cpp:9:
+C:\Projects\ThemisDB\src\chimera\retry_executor.cpp(45,9): error: value of type 'const Result<bool>' is not contextually convertible to 'bool'
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(111,32): warning: unused parameter 'params' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(294,42): warning: unused parameter 'filters' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(393,12): warning: unused parameter 'dimensions' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(730,24): warning: unused parameter 'query' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(731,42): warning: unused parameter 'params' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\chimera\themisdb_adapter.cpp(810,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\chimera\transaction.cpp
+In file included from C:\Projects\ThemisDB\src\chimera\transaction.cpp:9:
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_audit_log.cpp
+C:\Projects\ThemisDB\src\config\config_audit_log.cpp(33,46): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_audit_log.cpp(50,46): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_encrypted_store.cpp
+In file included from C:\Projects\ThemisDB\src\config\config_encrypted_store.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_file_watcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_metrics_exporter.cpp
+C:\Projects\ThemisDB\src\config\config_metrics_exporter.cpp(364,95): warning: unused parameter 'registry' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_path_resolver.cpp
+C:\Projects\ThemisDB\src\config\config_path_resolver.cpp(199,28): warning: 'getenv' is deprecated: This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\config\config_path_resolver.cpp(227,28): warning: 'getenv' is deprecated: This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\config\config_path_resolver.cpp(1512,42): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_path_resolver.cpp(1698,28): warning: 'getenv' is deprecated: This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\config\config_schema_validator.cpp
+In file included from C:\Projects\ThemisDB\src\config\config_schema_validator.cpp:19:
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(55,25): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(67,25): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(570,44): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(579,44): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(623,40): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\config\config_schema_validator.cpp(632,40): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\archive_extractor_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\audio_extractor_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\format_extractor_factory.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\image_extractor_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\office_extractor_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\pdf_extractor_adapter.cpp
+C:\Projects\ThemisDB\src\content\adapters\pdf_extractor_adapter.cpp(32,28): warning: unused parameter 'filename_hint' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\adapters\text_extractor_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pipeline\async_bulk_uploader.cpp
+C:\Projects\ThemisDB\src\content\pipeline\async_bulk_uploader.cpp(98,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pipeline\bulk_upload_interface.cpp
+C:\Projects\ThemisDB\src\content\pipeline\bulk_upload_interface.cpp(70,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pipeline\content_chunker.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(98,87): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(107,79): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(157,39): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(229,51): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(255,47): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\pipeline\multimodal_chunker.cpp(269,47): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pipeline\zstd_compression.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\abuse_detector.cpp
+In file included from C:\Projects\ThemisDB\src\content\abuse_detector.cpp:18:
+[llvm-syntax] C:\Projects\ThemisDB\src\content\archive_processor.cpp
+C:\Projects\ThemisDB\src\content\archive_processor.cpp(447,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\archive_processor.cpp(84,6): warning: unused function 'writeBlobToFile' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp
+C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp(193,21): warning: result of comparison of constant 175 with expression of type 'const value_type' (aka 'const char') is always false [-Wtautological-constant-out-of-range-compare]
+C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp(192,59): warning: result of comparison of constant 188 with expression of type 'const value_type' (aka 'const char') is always false [-Wtautological-constant-out-of-range-compare]
+C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp(201,40): warning: result of comparison of constant 139 with expression of type 'const value_type' (aka 'const char') is always false [-Wtautological-constant-out-of-range-compare]
+C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp(211,44): warning: result of comparison of constant 139 with expression of type 'const value_type' (aka 'const char') is always false [-Wtautological-constant-out-of-range-compare]
+C:\Projects\ThemisDB\src\content\archive_processor_enhancements.cpp(217,32): warning: result of comparison of constant 253 with expression of type 'const value_type' (aka 'const char') is always false [-Wtautological-constant-out-of-range-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp
+In file included from C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp:21:
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(208,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(365,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(418,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(930,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(71,13): warning: unused function 'jobStatusToString' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\audio_processor.cpp
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(390,25): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(424,57): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(556,65): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(581,48): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(589,31): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\audio_processor.cpp(743,21): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\cad_processor.cpp
+C:\Projects\ThemisDB\src\content\cad_processor.cpp(221,26): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\cad_processor.cpp(412,17): warning: 'sscanf' is deprecated: This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_errors.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_fs.cpp
+C:\Projects\ThemisDB\src\content\content_fs.cpp(168,22): warning: unused variable 'chunk_sz' [-Wunused-variable]
+C:\Projects\ThemisDB\src\content\content_fs.cpp(301,10): warning: unused variable 'ok1' [-Wunused-variable]
+C:\Projects\ThemisDB\src\content\content_fs.cpp(302,10): warning: unused variable 'ok2' [-Wunused-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_logger.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_manager.cpp
+In file included from C:\Projects\ThemisDB\src\content\content_manager.cpp:11:
+C:\Projects\ThemisDB\src\content\content_manager.cpp(374,57): warning: unused parameter 'key' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(358,10): warning: unused variable 'jsonPathEq' [-Wunused-variable]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(852,17): warning: variable 'zstd_level' set but not used [-Wunused-but-set-variable]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(896,20): warning: unused variable 'compressed_size' [-Wunused-variable]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(897,19): warning: unused variable 'compression_ratio' [-Wunused-variable]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(1750,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(1867,38): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(3035,41): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(3041,48): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(82,20): warning: unused function 'toHex' [-Wunused-function]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(163,20): warning: unused function 'categoryToString' [-Wunused-function]
+C:\Projects\ThemisDB\src\content\content_manager.cpp(778,24): warning: unused function 'detectCategory' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_manager_embedding.cpp
+In file included from C:\Projects\ThemisDB\src\content\content_manager_embedding.cpp:11:
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_manager_llm.cpp
+In file included from C:\Projects\ThemisDB\src\content\content_manager_llm.cpp:14:
+In file included from C:\Projects\ThemisDB\src\content\content_manager_llm.cpp:15:
+In file included from C:\Projects\ThemisDB\src\content\content_manager_llm.cpp:15:
+In file included from C:\Projects\ThemisDB\src\content\content_manager_llm.cpp:15:
+In file included from C:\Projects\ThemisDB\src\content\content_manager_llm.cpp:15:
+C:\Projects\ThemisDB\src\content\content_manager_llm.cpp(127,47): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_security.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_type.cpp
+C:\Projects\ThemisDB\src\content\content_type.cpp(261,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(270,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(279,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(288,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(297,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(306,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(315,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(324,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(333,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(342,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(351,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(371,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(380,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(389,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(492,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(512,56): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(521,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(530,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\content\content_type.cpp(601,55): warning: missing field 'features' initializer [-Wmissing-field-initializers]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\content_validator.cpp
+C:\Projects\ThemisDB\src\content\content_validator.cpp(265,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\deduplication_checker.cpp
+C:\Projects\ThemisDB\src\content\deduplication_checker.cpp(80,21): warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+C:\Projects\ThemisDB\src\content\deduplication_checker.cpp(155,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\deduplication_checker.cpp(176,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp
+In file included from C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp:11:
+In file included from C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp:13:
+In file included from C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp:13:
+In file included from C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp:13:
+In file included from C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\content\geo_processor.cpp
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(414,76): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(414,107): warning: unused parameter 'options' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(595,77): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(595,108): warning: unused parameter 'options' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(692,74): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\geo_processor.cpp(886,26): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\html_processor.cpp
+C:\Projects\ThemisDB\src\content\html_processor.cpp(71,31): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\html_processor.cpp(54,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\html_processor.cpp(96,42): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\html_processor.cpp(242,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\html_processor.cpp(485,70): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\html_processor.cpp(583,24): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\image_processor.cpp
+C:\Projects\ThemisDB\src\content\image_processor.cpp(378,68): warning: unused parameter 'blob' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\ingestion_plugin.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\language_detector.cpp
+C:\Projects\ThemisDB\src\content\language_detector.cpp(98,18): warning: unused variable 'b2' [-Wunused-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\markdown_processor.cpp
+C:\Projects\ThemisDB\src\content\markdown_processor.cpp(72,46): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\markdown_processor.cpp(316,50): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\markdown_processor.cpp(329,43): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\markdown_processor.cpp(540,70): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\markdown_processor.cpp(635,24): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\mime_detector.cpp
+In file included from C:\Projects\ThemisDB\src\content\mime_detector.cpp:15:
+C:\Projects\ThemisDB\src\content\mime_detector.cpp(269,42): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\mime_detector.cpp(273,26): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\mock_clip_processor.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\ocr_processor.cpp
+C:\Projects\ThemisDB\src\content\ocr_processor.cpp(129,59): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\ocr_processor.cpp(130,56): warning: unused parameter 'preprocess_info' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\ocr_processor.cpp(358,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\ocr_processor.cpp(111,20): warning: unused function 'sanitizeOcrText' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\office_processor.cpp
+C:\Projects\ThemisDB\src\content\office_processor.cpp(158,39): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\office_processor.cpp(332,66): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\office_processor.cpp(462,66): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\office_processor.cpp(563,65): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\office_processor.cpp(784,17): warning: variable 'ext' set but not used [-Wunused-but-set-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\pdf_processor.cpp
+C:\Projects\ThemisDB\src\content\pdf_processor.cpp(307,72): warning: unused parameter 'blob' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\stt_processor.cpp
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(475,24): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(485,24): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(468,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(527,39): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(553,24): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(614,24): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(625,33): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(658,39): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(669,43): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\text_processor.cpp
+C:\Projects\ThemisDB\src\content\text_processor.cpp(110,45): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\text_processor.cpp(117,51): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\text_processor.cpp(159,64): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\tts_processor.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\content\version_manager.cpp
+C:\Projects\ThemisDB\src\content\version_manager.cpp(64,62): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\version_manager.cpp(89,36): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\content\version_manager.cpp(92,36): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\content\video_processor.cpp
+C:\Projects\ThemisDB\src\content\video_processor.cpp(395,84): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\video_processor.cpp(413,79): warning: unused parameter 'blob' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\content\video_processor.cpp(423,83): warning: unused parameter 'blob' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\core\adapters\otel_tracer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\adapter_registry.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\adapter_signing.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:13:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:19:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:19:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:22:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:22:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:23:
+In file included from C:\Projects\ThemisDB\src\core\concerns\concerns_context.cpp:23:
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\context_propagation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\i_logger.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\lockfree_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\prometheus_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\redis_cache.cpp
+C:\Projects\ThemisDB\src\core\concerns\redis_cache.cpp(209,13): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\core\concerns\zero_copy_logger.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\index_interface_stubs.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\core\security_initialization.cpp
+In file included from C:\Projects\ThemisDB\src\core\security_initialization.cpp:12:
+In file included from C:\Projects\ThemisDB\src\core\security_initialization.cpp:13:
+In file included from C:\Projects\ThemisDB\src\core\security_initialization.cpp:13:
+C:\Projects\ThemisDB\src\core\security_initialization.cpp(307,44): warning: 'getenv' is deprecated: This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_knowledge\adapter_capability_announcement.cpp
+In file included from C:\Projects\ThemisDB\src\distributed_knowledge\adapter_capability_announcement.cpp:15:
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_knowledge\cross_shard_feedback_sync.cpp
+In file included from C:\Projects\ThemisDB\src\distributed_knowledge\cross_shard_feedback_sync.cpp:12:
+C:\Projects\ThemisDB\src\distributed_knowledge\cross_shard_feedback_sync.cpp(50,59): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\cross_shard_feedback_sync.cpp(128,48): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_knowledge\federated_distillation_coordinator.cpp
+In file included from C:\Projects\ThemisDB\src\distributed_knowledge\federated_distillation_coordinator.cpp:12:
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_knowledge\federated_rag_merger.cpp
+C:\Projects\ThemisDB\src\distributed_knowledge\federated_rag_merger.cpp(97,55): warning: comparison of integers of different signs: 'const size_t' (aka 'const unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\federated_rag_merger.cpp(164,41): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\federated_rag_merger.cpp(220,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\federated_rag_merger.cpp(346,61): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_knowledge\lora_federation_coordinator.cpp
+In file included from C:\Projects\ThemisDB\src\distributed_knowledge\lora_federation_coordinator.cpp:12:
+C:\Projects\ThemisDB\src\distributed_knowledge\lora_federation_coordinator.cpp(103,53): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\lora_federation_coordinator.cpp(183,53): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\distributed_knowledge\lora_federation_coordinator.cpp(240,57): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\artifact_invalidation.cc
+C:\Projects\ThemisDB\src\distributed_tensor\src\artifact_invalidation.cc(106,24): warning: unused parameter 'source_artifact_id' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\artifact_manifest.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\crash_recovery_checkpoint.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\crash_recovery_checkpoint.cc:6:
+C:\Projects\ThemisDB\src\distributed_tensor\src\../include/crash_recovery_checkpoint.h(27,10): fatal error: 'src/distributed_tensor/include/tensor_delta_log.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_lock_manager.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc:6:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\../include/distributed_planner.h:18:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc:6:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\../include/distributed_planner.h:18:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc:6:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\../include/distributed_planner.h:18:
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(33,31): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(85,24): warning: unused parameter 'correlation_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(133,24): warning: unused parameter 'query_context' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(134,24): warning: unused parameter 'correlation_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(220,24): warning: unused parameter 'query' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(221,43): warning: unused parameter 'config' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\distributed_planner.cc(26,20): warning: unused function 'getCurrentTimestamp' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\error_recovery_handler.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\error_recovery_handler.cc:6:
+C:\Projects\ThemisDB\src\distributed_tensor\src\../include/error_recovery_handler.h(21,10): fatal error: 'src/distributed_tensor/include/artifact_invalidation.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\exact_graph_fallback.cc
+C:\Projects\ThemisDB\src\distributed_tensor\src\exact_graph_fallback.cc(54,69): warning: unused parameter 'now_unix_sec' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\distributed_tensor\src\exact_graph_fallback.cc(67,66): warning: unused parameter 'reason' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\integrity_verification.cc
+C:\Projects\ThemisDB\src\distributed_tensor\src\integrity_verification.cc(225,5): warning: missing field 'root_hash' initializer [-Wmissing-field-initializers]
+C:\Projects\ThemisDB\src\distributed_tensor\src\integrity_verification.cc(877,5): warning: 'SHA256_Init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\distributed_tensor\src\integrity_verification.cc(878,5): warning: 'SHA256_Update' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\distributed_tensor\src\integrity_verification.cc(879,5): warning: 'SHA256_Final' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\manifest_store.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\manifest_store.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\shard_summary_coordinator.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\shard_summary_coordinator.cc:8:
+C:\Projects\ThemisDB\src\distributed_tensor\src\../include/shard_summary_coordinator.h(612,20): warning: private field 'manifest_store_' is not used [-Wunused-private-field]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\snapshot_update_worker.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\snapshot_update_worker.cc:6:
+C:\Projects\ThemisDB\src\distributed_tensor\src\../include/snapshot_update_worker.h(47,10): fatal error: 'src/distributed_tensor/include/tensor_delta_log.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\stale_artifact_detector.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\src\stale_artifact_detector.cc:6:
+C:\Projects\ThemisDB\src\distributed_tensor\src\../include/stale_artifact_detector.h(26,10): fatal error: 'src/distributed_tensor/include/tensor_delta_log.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\tensor_delta_log.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\src\tensor_storage_strategy.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\artifact_manifest.cc
+C:\Projects\ThemisDB\src\distributed_tensor\artifact_manifest.cc(19,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\distributed_planner.cc
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\distributed_planner.cc:4:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\distributed_planner.cc:4:
+In file included from C:\Projects\ThemisDB\src\distributed_tensor\distributed_planner.cc:4:
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\integrity_verification.cc
+C:\Projects\ThemisDB\src\distributed_tensor\integrity_verification.cc(19,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\recovery_manager.cc
+C:\Projects\ThemisDB\src\distributed_tensor\recovery_manager.cc(20,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\shard_placement.cc
+C:\Projects\ThemisDB\src\distributed_tensor\shard_placement.cc(20,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\tensor_artifact_classes.cc
+C:\Projects\ThemisDB\src\distributed_tensor\tensor_artifact_classes.cc(18,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\tensor_infrastructure.cc
+C:\Projects\ThemisDB\src\distributed_tensor\tensor_infrastructure.cc(19,29): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\distributed_tensor\tensor_infrastructure.cc(36,7): warning: missing field 'custom_metadata' initializer [-Wmissing-field-initializers]
+[llvm-syntax] C:\Projects\ThemisDB\src\distributed_tensor\tensor_training_coordinator.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\document\round_trip_editor.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\argument_store.h:15:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp:23:
+C:\Projects\ThemisDB\src\ethics_ai\ethics_base_entity_adapter.h(169,74): warning: unused parameter 'is_decision' [-Wunused-parameter]
+In file included from C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp:24:
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(48,5): warning: 'SHA256_Init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(49,5): warning: 'SHA256_Update' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(50,5): warning: 'SHA256_Final' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(340,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(267,50): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\argument_store.cpp(323,50): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\chain_visualizer.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\chain_visualizer.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\chain_visualizer.h:15:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\convergence_marker_engine.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\convergence_marker_engine.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\cross_school_tension_resolver.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\cross_school_tension_resolver.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\discourse_engine.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\discourse_engine.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\discourse_engine.h:15:
+C:\Projects\ThemisDB\src\ethics_ai\discourse_engine.cpp(127,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\discourse_engine.cpp(258,24): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\discourse_memory_store.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\discourse_memory_store.cpp:13:
+C:\Projects\ThemisDB\src\ethics_ai\discourse_memory_store.cpp(33,52): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\discourse_orchestrator.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\discourse_orchestrator.cpp:19:
+C:\Projects\ThemisDB\src\ethics_ai\discourse_orchestrator.cpp(381,31): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\ethics_ai_plugin.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_ai_plugin.cpp:17:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_ai_plugin.cpp:17:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\ethics_ai_types.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_ai_types.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\ethics_evaluator.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_evaluator.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_evaluator.h:15:
+C:\Projects\ThemisDB\src\ethics_ai\ethics_evaluator.cpp(159,82): warning: unused parameter 'arguments' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.h:15:
+C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.cpp(115,71): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.cpp(231,44): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\ethics_profile_registry.cpp(31,25): warning: unused variable 'kDescriptionSnippetMaxLength' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\ethics_selection_router.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\ethics_selection_router.cpp:13:
+C:\Projects\ThemisDB\src\ethics_ai\ethics_selection_router.cpp(376,45): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\ethics_selection_router.cpp(431,41): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\llm_cascade_router.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\meta_verdict_builder.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\meta_verdict_builder.cpp:21:
+C:\Projects\ThemisDB\src\ethics_ai\meta_verdict_builder.cpp(154,26): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\meta_verdict_builder.cpp(156,35): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\mirror_school_handler.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\mirror_school_handler.cpp:18:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\philosophy_loader.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\philosophy_loader.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\philosophy_loader.h:15:
+C:\Projects\ThemisDB\src\ethics_ai\philosophy_loader.cpp(59,58): warning: unused parameter 'filepath' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\position_abstract_validator.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\position_abstract_validator.cpp:13:
+C:\Projects\ThemisDB\src\ethics_ai\position_abstract_validator.cpp(156,63): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\prior_round_compressor.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\prior_round_compressor.cpp:13:
+C:\Projects\ThemisDB\src\ethics_ai\prior_round_compressor.cpp(342,25): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\prior_round_compressor.cpp(424,9): warning: variable 'total_compressed' set but not used [-Wunused-but-set-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\rag_context_engine.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\rag_context_engine.cpp:13:
+In file included from C:\Projects\ThemisDB\src\ethics_ai\rag_context_engine.h:15:
+C:\Projects\ThemisDB\src\ethics_ai\rag_context_engine.cpp(129,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\ethics_ai\rag_context_engine.cpp(135,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\synthesis_matrix_builder.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\synthesis_matrix_builder.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\ethics_ai\tournament_mode_selector.cpp
+In file included from C:\Projects\ThemisDB\src\ethics_ai\tournament_mode_selector.cpp:13:
+C:\Projects\ThemisDB\src\ethics_ai\tournament_mode_selector.cpp(155,19): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'const int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\ablation_framework.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\approximation_rules.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\artifact_lifecycle.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\benchmark_matrix.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\hardware_profile.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\query_planner.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\evaluation\src\retrieval_metrics.cc
+[llvm-syntax] C:\Projects\ThemisDB\src\execution\query_scheduler.cpp
+C:\Projects\ThemisDB\src\execution\query_scheduler.cpp(50,48): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\execution\query_scheduler.cpp(61,41): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\execution\thread_pool_manager.cpp
+C:\Projects\ThemisDB\src\execution\thread_pool_manager.cpp(166,46): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\aql_predicate_filter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\arrow_ipc_exporter.cpp
+C:\Projects\ThemisDB\src\exporters\arrow_ipc_exporter.cpp(273,57): warning: unused parameter 'name' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\arrow_ipc_exporter.cpp(933,13): warning: unused variable 'schema_frame_start' [-Wunused-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\data_augmentation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\exporter_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\export_encryption.cpp
+C:\Projects\ThemisDB\src\exporters\export_encryption.cpp(255,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\export_format_registry.cpp
+In file included from C:\Projects\ThemisDB\src\exporters\export_format_registry.cpp:23:
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\format_template.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\huggingface_exporter.cpp
+In file included from C:\Projects\ThemisDB\src\exporters\huggingface_exporter.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(130,43): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(222,28): warning: 'getenv' is deprecated: This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(228,79): warning: unused parameter 'url' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(229,79): warning: unused parameter 'json_body' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(230,79): warning: unused parameter 'bearer_token' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(268,59): warning: unused parameter 'url' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(268,76): warning: unused parameter 'data' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(269,52): warning: unused parameter 'size' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(270,59): warning: unused parameter 'bearer_token' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(271,68): warning: unused parameter 'progress_cb' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(272,53): warning: unused parameter 'retry_after_out' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(328,58): warning: unused parameter 'url' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(329,58): warning: unused parameter 'file_path' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(330,58): warning: unused parameter 'bearer_token' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(331,67): warning: unused parameter 'progress_cb' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(332,52): warning: unused parameter 'retry_after_out' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\huggingface_hub_client.cpp(119,20): warning: unused function 'extractRetryAfterHeader' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\incremental_exporter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\join_exporter.cpp
+C:\Projects\ThemisDB\src\exporters\join_exporter.cpp(244,55): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\exporters\join_exporter.cpp(258,55): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp
+In file included from C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp:13:
+C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp(324,59): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp(337,59): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp(953,64): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\exporters\jsonl_llm_exporter.cpp(1102,38): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\parquet_exporter.cpp
+C:\Projects\ThemisDB\src\exporters\parquet_exporter.cpp(61,26): warning: unused variable 'T_BOOL' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\pii_detector.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\streaming_exporter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\exporters\stream_writer.cpp
+C:\Projects\ThemisDB\src\exporters\stream_writer.cpp(158,49): warning: unused parameter 'data' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\exporters\stream_writer.cpp(158,62): warning: unused parameter 'size' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\failover\auto_failover_manager.cpp
+In file included from C:\Projects\ThemisDB\src\failover\auto_failover_manager.cpp:13:
+C:\Projects\ThemisDB\src\failover\auto_failover_manager.cpp(158,54): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\failover\auto_failover_manager.cpp(950,64): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\failover\auto_failover_manager.cpp(987,61): warning: comparison of integers of different signs: 'int' and 'const uint32_t' (aka 'const unsigned int') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\failover\disaster_recovery_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\failover\quorum_log.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\failover\topology_snapshot.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\boost_cpu_exact_backend.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\cpu_backend.cpp
+C:\Projects\ThemisDB\src\geo\cpu_backend.cpp(277,115): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\cpu_backend.cpp(277,64): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\device_detector.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_backend_dispatch.cpp
+C:\Projects\ThemisDB\src\geo\geo_backend_dispatch.cpp(143,34): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_backend_dispatch.cpp(192,75): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_backend_dispatch.cpp(234,75): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+In file included from C:\Projects\ThemisDB\src\geo\geo_backend_dispatch.cpp:14:
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_clustering.cpp
+C:\Projects\ThemisDB\src\geo\geo_clustering.cpp(137,59): warning: unused parameter 'gpu_cfg' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\geo\geo_clustering.cpp(220,49): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_clustering.cpp(240,40): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_clustering.cpp(255,55): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_clustering.cpp(277,59): warning: unused parameter 'gpu_cfg' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_edge_case_handler.cpp
+In file included from C:\Projects\ThemisDB\src\geo\geo_edge_case_handler.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_faiss_knn.cpp
+In file included from C:\Projects\ThemisDB\src\geo\geo_faiss_knn.cpp:13:
+C:\Projects\ThemisDB\src\geo\geo_faiss_knn.cpp(258,69): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_json_geometry.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp
+In file included from C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp:12:
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(41,49): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(69,58): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(150,82): error: expected expression
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(153,9): error: value of type 'void' is not contextually convertible to 'bool'
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(153,34): error: invalid operands to binary expression ('void' and 'void')
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(156,9): error: value of type 'void' is not contextually convertible to 'bool'
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(159,9): error: value of type 'void' is not contextually convertible to 'bool'
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(162,9): error: value of type 'void' is not contextually convertible to 'bool'
+C:\Projects\ThemisDB\src\geo\geo_operator_diagnostics.cpp(165,9): error: value of type 'void' is not contextually convertible to 'bool'
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_phase2_phase3_integration.cpp
+C:\Projects\ThemisDB\src\geo\geo_phase2_phase3_integration.cpp(341,11): error: use of undeclared identifier 'getGpuCircuitBreaker'
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\geo_rtree.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\gpu_backend_hip.cpp
+C:\Projects\ThemisDB\src\geo\gpu_backend_hip.cpp(30,10): fatal error: 'hip/hip_runtime.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\gpu_backend_production.cpp
+C:\Projects\ThemisDB\src\geo\gpu_backend_production.cpp(64,99): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\gpu_backend_production.cpp(64,49): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\gpu_backend_stub.cpp
+C:\Projects\ThemisDB\src\geo\gpu_backend_stub.cpp(290,115): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\gpu_backend_stub.cpp(290,64): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\gpu_backend_stub.cpp(604,102): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\gpu_backend_stub.cpp(604,59): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\gpu_kernel_dispatcher_cpu.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(110,89): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(110,43): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(215,37): error: type 'const std::array<double, 4>' does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(216,37): error: type 'const std::array<double, 4>' does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(217,37): error: type 'const std::array<double, 4>' does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(218,37): error: type 'const std::array<double, 4>' does not provide a subscript operator
+In file included from C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp:35:
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(220,26): note: in instantiation of member function 'std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::array<double, 4>>>>::operator++' requested here
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(221,34): error: type 'const value_type' (aka 'const std::array<double, 4>') does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(222,34): error: type 'const value_type' (aka 'const std::array<double, 4>') does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(223,34): error: type 'const value_type' (aka 'const std::array<double, 4>') does not provide a subscript operator
+C:\Projects\ThemisDB\src\geo\phase2_phase3_hardening.cpp(224,34): error: type 'const value_type' (aka 'const std::array<double, 4>') does not provide a subscript operator
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\raster.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\raster_query_interface.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\rtree_cursor.cpp
+C:\Projects\ThemisDB\src\geo\rtree_cursor.cpp(61,18): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\rtree_cursor.cpp(94,18): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\spatial_join.cpp
+C:\Projects\ThemisDB\src\geo\spatial_join.cpp(108,54): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\geo\spatial_join.cpp(207,50): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\spatial_join_filter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\temporal_spatial_query.cpp
+C:\Projects\ThemisDB\src\geo\temporal_spatial_query.cpp(153,39): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\temporal_spatial_query_builder.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\geo\tile_server.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp
+In file included from C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp:8:
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(301,33): warning: unused parameter 'checkpoint' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(359,13): warning: unused variable 'current_batch_seq' [-Wunused-variable]
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(360,13): warning: unused variable 'first_seq' [-Wunused-variable]
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(420,5): warning: 'SHA256_Init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(424,9): warning: 'SHA256_Update' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\audit_batch_writer.cpp(427,5): warning: 'SHA256_Final' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\ccpa_rules.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\compliance_framework.cpp
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(66,21): error: assigning to 'int' from incompatible type 'decltype(std::declval<const basic_json_t &>().template get_impl<std::basic_string<char>>(detail::priority_tag<4>{}))' (aka 'std::basic_string<char>')
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(126,21): error: assigning to 'int' from incompatible type 'decltype(std::declval<const basic_json_t &>().template get_impl<std::basic_string<char>>(detail::priority_tag<4>{}))' (aka 'std::basic_string<char>')
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(362,38): error: expected expression
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(362,57): error: use of undeclared identifier 'second'
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(372,38): error: expected expression
+C:\Projects\ThemisDB\src\governance\compliance_framework.cpp(372,57): error: use of undeclared identifier 'second'
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(69,50): error: no member named 'LogLevel' in namespace 'themis::utils'
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(69,28): error: no type named 'logger' in namespace 'themis::utils'; did you mean 'Logger'?
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(78,50): error: no member named 'LogLevel' in namespace 'themis::utils'
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(78,28): error: no type named 'logger' in namespace 'themis::utils'; did you mean 'Logger'?
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(82,46): error: no member named 'LogLevel' in namespace 'themis::utils'
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(82,24): error: no type named 'logger' in namespace 'themis::utils'; did you mean 'Logger'?
+C:\Projects\ThemisDB\src\governance\compliance_mapping.cpp(90,40): warning: unused parameter 'registry' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\compliance_reporter.cpp
+C:\Projects\ThemisDB\src\governance\compliance_reporter.cpp(56,30): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\compliance_reporter.cpp(125,30): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(127,12): warning: variable 'estimated_size' set but not used [-Wunused-but-set-variable]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(726,52): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(834,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(864,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(913,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(958,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(1430,33): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\compliance_reporting.cpp(1668,41): warning: 'localtime' is deprecated: This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\compliance_validator.cpp
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(87,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(174,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(258,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(342,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(426,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(510,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\compliance_validator.cpp(594,30): warning: unused parameter 'ctx' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\cross_border_transfer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\cross_tenant_policy_inheritance.cpp
+In file included from C:\Projects\ThemisDB\src\governance\cross_tenant_policy_inheritance.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\data_lineage.cpp
+C:\Projects\ThemisDB\src\governance\data_lineage.cpp(338,45): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\data_lineage.cpp(469,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\data_masker.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\gdpr_subject_rights.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(194,5): warning: 'SHA256_Init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(195,5): warning: 'SHA256_Update' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(196,5): warning: 'SHA256_Final' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(228,5): warning: 'SHA256_Init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(229,5): warning: 'SHA256_Update' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(230,5): warning: 'SHA256_Final' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+C:\Projects\ThemisDB\src\governance\governance_audit_integrity.cpp(751,24): warning: unused parameter 'changed_by' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(16,38): warning: 'themis::governance::GovernanceDiagnostic::toJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(29,28): warning: 'themis::governance::DiagnosticAggregator::recordDiagnostic' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(41,57): warning: 'themis::governance::DiagnosticAggregator::getDiagnosticsForComponent' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(55,57): warning: 'themis::governance::DiagnosticAggregator::getDiagnosticsForCode' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(69,57): warning: 'themis::governance::DiagnosticAggregator::getDiagnosticsInTimeRange' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(98,23): warning: 'themis::governance::DiagnosticAggregator::getLatestPerComponent' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(112,38): warning: 'themis::governance::DiagnosticAggregator::exportAsJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(122,28): warning: 'themis::governance::DiagnosticAggregator::clear' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(127,30): warning: 'themis::governance::DiagnosticAggregator::getTotalCount' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(132,23): warning: 'themis::governance::getGlobalDiagnosticAggregator' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(139,27): warning: 'themis::governance::ConflictDiagnosticHelper::ConflictDiagnosticHelper' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(150,27): warning: 'themis::governance::ConflictDiagnosticHelper::detectConflict' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(179,32): warning: 'themis::governance::ConflictDiagnosticHelper::recordConflict' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(220,61): warning: 'themis::governance::ConflictDiagnosticHelper::getConflictDiagnostics' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(229,32): warning: 'themis::governance::ConflictDiagnosticHelper::clearConflictHistory' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(235,27): warning: 'themis::governance::ConflictDiagnosticHelper::getCurrentStrategy' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(239,32): warning: 'themis::governance::ConflictDiagnosticHelper::setResolutionStrategy' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(245,32): warning: 'themis::governance::ConflictDiagnosticHelper::hasConflictingClassifications' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(275,32): warning: 'themis::governance::ConflictDiagnosticHelper::validateCCPACompliancePath' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(289,32): warning: 'themis::governance::ConflictDiagnosticHelper::detectPrivilegeEscalation' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(317,54): warning: 'themis::governance::ConflictDiagnosticHelper::detectTemporalViolations' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(362,61): warning: 'themis::governance::ConflictDiagnosticHelper::validateMaskingRuleConsistency' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(407,32): warning: 'themis::governance::ConflictDiagnosticHelper::validateWhitelistPolicy' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(425,22): warning: 'themis::governance::SafeAccessValidator::SafeAccessValidator' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(437,22): warning: 'themis::governance::SafeAccessValidator::~SafeAccessValidator' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(439,38): warning: 'themis::governance::SafeAccessValidator::checkConflictingClassifications' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(455,38): warning: 'themis::governance::SafeAccessValidator::checkCCPACompliance' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(471,38): warning: 'themis::governance::SafeAccessValidator::checkPrivilegeEscalation' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(492,38): warning: 'themis::governance::SafeAccessValidator::checkTemporalViolations' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(523,38): warning: 'themis::governance::SafeAccessValidator::checkCrossBorderConflicts' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(545,38): warning: 'themis::governance::SafeAccessValidator::checkMaskingRuleConsistency' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(569,38): warning: 'themis::governance::SafeAccessValidator::checkWhitelistExhaustion' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(592,38): warning: 'themis::governance::SafeAccessValidator::checkCascadingDenials' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(620,39): warning: 'themis::governance::SafeAccessValidator::validateAccessRequest' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(712,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(722,51): warning: 'themis::governance::SafeAccessValidator::getAllViolations' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(727,27): warning: 'themis::governance::SafeAccessValidator::clearViolationHistory' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\governance_diagnostics.cpp(732,29): warning: 'themis::governance::SafeAccessValidator::getViolationCount' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\hipaa_rules.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\iso27001_rules.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\model_governance.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\opa_adapter.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\operational_audit.cpp
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(45,9): warning: 'snprintf' will always be truncated; specified size is 37, but format string expands to at least 45 [-Wformat-truncation]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(110,34): warning: 'themis::governance::OperationalEvent::toJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(149,36): warning: 'themis::governance::OperationalEvent::fromJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(233,36): warning: 'themis::governance::ComplianceEvidence::toJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(251,40): warning: 'themis::governance::ComplianceEvidence::fromJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(298,34): warning: 'themis::governance::CorrelationGroup::toJson' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(301,32): error: use of undeclared identifier 'first_event_time_ms'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(302,31): error: use of undeclared identifier 'last_event_time_ms'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(303,24): error: use of undeclared identifier 'event_count'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(304,37): error: use of undeclared identifier 'actor_ids'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(305,40): error: use of undeclared identifier 'module_names'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(306,45): error: use of undeclared identifier 'related_event_ids'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(314,25): warning: 'themis::governance::OperationalAuditLogger::OperationalAuditLogger' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(316,7): error: member initializer 'current_sequence_number_' does not name a non-static data member or base class
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(317,7): error: member initializer 'performance_metrics_' does not name a non-static data member or base class
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(320,25): warning: 'themis::governance::OperationalAuditLogger::~OperationalAuditLogger' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(322,30): error: out-of-line definition of 'logEvent' does not match any declaration in 'themis::governance::OperationalAuditLogger'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(357,29): error: use of undeclared identifier 'current_sequence_number_'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(379,5): error: use of undeclared identifier 'event_map_'; did you mean 'event_type'?
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(323,26): note: 'event_type' declared here
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(379,15): error: type 'OperationalEventType' does not provide a subscript operator
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(383,9): error: use of undeclared identifier 'actor_index_'; did you mean 'actor_id'?
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(324,24): note: 'actor_id' declared here
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(383,21): error: no viable overloaded operator[] for type 'const std::string' (aka 'const basic_string<char, char_traits<char>, allocator<char>>')
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(388,9): error: use of undeclared identifier 'module_index_'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(393,9): error: use of undeclared identifier 'resource_index_'; did you mean 'resource_id'?
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(328,24): note: 'resource_id' declared here
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(393,24): error: no viable overloaded operator[] for type 'const std::string' (aka 'const basic_string<char, char_traits<char>, allocator<char>>')
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(397,5): error: use of undeclared identifier 'timeline_index_'
+C:\Projects\ThemisDB\src\governance\operational_audit.cpp(405,5): error: use of undeclared identifier 'performance_metrics_'
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\pci_dss_rules.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_approval_workflow.cpp
+C:\Projects\ThemisDB\src\governance\policy_approval_workflow.cpp(14,10): fatal error: 'uuid.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_change_manager.cpp
+C:\Projects\ThemisDB\src\governance\policy_change_manager.cpp(17,10): fatal error: 'uuid.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_conflict_detector.cpp
+In file included from C:\Projects\ThemisDB\src\governance\policy_conflict_detector.cpp:28:
+C:\Projects\ThemisDB\src\governance\policy_conflict_detector.cpp(672,23): warning: unused parameter 'rule1' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\governance\policy_conflict_detector.cpp(673,23): warning: unused parameter 'rule2' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_coordinator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_engine.cpp
+In file included from C:\Projects\ThemisDB\src\governance\policy_engine.cpp:21:
+C:\Projects\ThemisDB\src\governance\policy_engine.cpp(691,47): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_file_watcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_manager.cpp
+In file included from C:\Projects\ThemisDB\src\governance\policy_manager.cpp:21:
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_manager_versioned.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_review.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_template.cpp
+In file included from C:\Projects\ThemisDB\src\governance\policy_template.cpp:13:
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(533,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::LeastPrivilegeTemplate>' requested here
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(534,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::DataLifecycleTemplate>' requested here
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(535,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::ComplianceTemplate>' requested here
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(536,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::SeparationOfDutiesTemplate>' requested here
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(537,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::TimeBasedAccessTemplate>' requested here
+C:\Projects\ThemisDB\src\governance\policy_template.cpp(538,27): note: in instantiation of function template specialization 'std::make_shared<themis::governance::Soc2ComplianceTemplate>' requested here
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_validation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_validator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\policy_version_history.cpp
+C:\Projects\ThemisDB\src\governance\policy_version_history.cpp(412,10): warning: 'sscanf' is deprecated: This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\review_scheduler.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\governance\soc2_controls.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\admin_api.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\alerts.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\audit_log.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\cluster_coordinator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\cluster_topology.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\config.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\cuda_operations.cpp
+C:\Projects\ThemisDB\src\gpu\cuda_operations.cpp(9,10): fatal error: 'cuda_runtime.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\cuda_operations_stub.cpp
+C:\Projects\ThemisDB\src\gpu\cuda_operations_stub.cpp(20,43): warning: unused parameter 'priority' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\gpu\cuda_operations_stub.cpp(127,52): warning: unused parameter 'timeout' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\gpu\cuda_operations_stub.cpp(190,61): warning: unused parameter 'timeout' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\device_discovery.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\feature_flags.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(24,37): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::emitDiagnostic' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(66,37): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::setEventCallback' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(71,57): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::getEventCallback' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(80,53): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToEventType' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(142,44): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::errorCodeToString' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(202,44): warning: 'themis::gpu::GPUBackendDispatchDiagnostics::eventTypeToString' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(225,26): warning: 'themis::gpu::DiagnosticEmissionGuard::DiagnosticEmissionGuard' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+C:\Projects\ThemisDB\src\gpu\gpu_backend_dispatch_diagnostics.cpp(231,26): warning: 'themis::gpu::DiagnosticEmissionGuard::~DiagnosticEmissionGuard' redeclared without 'dllimport' attribute: 'dllexport' attribute added [-Winconsistent-dllimport]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp:13:
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp:14:
+C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp(33,6): error: redefinition of 'isGPUAvailable'
+C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp(86,6): error: redefinition of 'isAllocationValid'
+C:\Projects\ThemisDB\src\gpu\gpu_batch_a9_hardening.cpp(140,6): error: redefinition of 'streamSynchronizeWithTimeout'
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_cuda_error_hardening.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_cuda_error_hardening.cpp:8:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_error.cpp
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(62,76): error: only virtual member functions can be marked 'override'
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(67,8): error: class member cannot be redeclared
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(62,8): note: previous definition is here
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(74,54): error: only virtual member functions can be marked 'override'
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(87,8): error: class member cannot be redeclared
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(72,8): note: previous definition is here
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(102,68): error: only virtual member functions can be marked 'override'
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(145,17): error: class member cannot be redeclared
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(102,17): note: previous definition is here
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(255,8): error: class member cannot be redeclared
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(242,8): note: previous definition is here
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(222,41): warning: unused parameter 'cuda_err' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(230,39): warning: unused parameter 'hip_err' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(268,42): warning: unused parameter 'error_class' [-Wunused-parameter]
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_error.cpp:25:
+C:\Projects\ThemisDB\src\gpu\gpu_error.cpp(45,25): note: in instantiation of function template specialization 'std::make_shared<spdlog::logger, const char (&)[4], std::vector<std::shared_ptr<spdlog::sinks::sink>> &>' requested here
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_kernel_manager.cpp
+C:\Projects\ThemisDB\src\gpu\gpu_kernel_manager.cpp(9,10): fatal error: 'cuda_runtime.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_memory_allocator.cpp
+C:\Projects\ThemisDB\src\gpu\gpu_memory_allocator.cpp(11,10): fatal error: 'cuda_runtime.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_memory_manager_edition.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_memory_pool_safety.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_memory_pool_safety.cpp:6:
+C:\Projects\ThemisDB\src\gpu\gpu_memory_pool_safety.cpp(44,13): error: use of undeclared identifier 'cudaFree'
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_module.cpp
+C:\Projects\ThemisDB\src\gpu\gpu_module.cpp(248,38): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_resource_handles.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_resource_handles.cpp:12:
+C:\Projects\ThemisDB\src\gpu\gpu_resource_handles.cpp(24,10): fatal error: 'gpu/gpu_error.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_safe_operations.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\gpu_safe_raii.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\gpu_safe_raii.cpp:6:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\graph_cache.cpp
+C:\Projects\ThemisDB\src\gpu\graph_cache.cpp(56,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\kernel_timeout_enforcer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\kernel_validator.cpp
+C:\Projects\ThemisDB\src\gpu\kernel_validator.cpp(34,43): warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\launcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\load_balancer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\memory_pool.cpp
+C:\Projects\ThemisDB\src\gpu\memory_pool.cpp(67,55): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+In file included from C:\Projects\ThemisDB\src\gpu\memory_pool.cpp:30:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\metrics.cpp
+C:\Projects\ThemisDB\src\gpu\metrics.cpp(77,49): warning: unused parameter 'bytes' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\gpu\metrics.cpp(86,49): warning: unused parameter 'bytes' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\mig_manager.cpp
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(57,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(57,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(58,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(58,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(59,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(59,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(60,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(60,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(61,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(61,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(62,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(62,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(63,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(63,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(64,19): error: non-constant-expression cannot be narrowed from type 'int' to 'uint64_t' (aka 'unsigned long long') in initializer list [-Wc++11-narrowing]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(64,19): note: insert an explicit cast to silence this issue
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(64,36): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(63,36): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(62,36): warning: overflow in expression; result is -2147483648 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(61,36): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(60,36): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(59,36): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(58,36): warning: overflow in expression; result is -2147483648 with type 'int' [-Winteger-overflow]
+C:\Projects\ThemisDB\src\gpu\mig_manager.cpp(57,36): warning: overflow in expression; result is 1073741824 with type 'int' [-Winteger-overflow]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\p2p_transfer.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\p2p_transfer.cpp:36:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\policy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\profiler.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp
+C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp(1203,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp(1202,102): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp(1353,47): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp(1355,51): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp(80,16): warning: unused variable 'kGpuDispatchTimeout' [-Wunused-const-variable]
+In file included from C:\Projects\ThemisDB\src\gpu\query_accelerator.cpp:27:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\rocm_backend.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\rocm_backend.cpp:35:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\safe_fail.cpp
+C:\Projects\ThemisDB\src\gpu\safe_fail.cpp(50,58): warning: unused parameter 'op_name' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\stream_manager.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\tensor_buffer.cpp
+C:\Projects\ThemisDB\src\gpu\tensor_buffer.cpp(163,81): error: expected ')'
+C:\Projects\ThemisDB\src\gpu\tensor_buffer.cpp(163,24): note: to match this '('
+C:\Projects\ThemisDB\src\gpu\tensor_buffer.cpp(211,15): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\gpu\tensor_buffer.cpp(219,15): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\time_slice_scheduler.cpp
+C:\Projects\ThemisDB\src\gpu\time_slice_scheduler.cpp(111,34): error: expected expression
+C:\Projects\ThemisDB\src\gpu\time_slice_scheduler.cpp(111,53): error: use of undeclared identifier 'second'
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\training_loop.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\unified_memory.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\unified_memory.cpp:31:
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\unified_memory_coordinator.cpp
+In file included from C:\Projects\ThemisDB\src\gpu\unified_memory_coordinator.cpp:6:
+C:\Projects\ThemisDB\src\gpu\unified_memory_coordinator.cpp(7,10): fatal error: 'cuda_runtime.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\vulkan_backend.cpp
+C:\Projects\ThemisDB\src\gpu\vulkan_backend.cpp(159,66): warning: unused parameter 'device_index' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\gpu\wasm_kernel_sandbox.cpp
+C:\Projects\ThemisDB\src\gpu\wasm_kernel_sandbox.cpp(114,56): warning: comparison of integers of different signs: 'int' and 'uint64_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\adjacency_list.cpp
+C:\Projects\ThemisDB\src\graph\adjacency_list.cpp(221,15): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\distributed_graph.cpp
+In file included from C:\Projects\ThemisDB\src\graph\distributed_graph.cpp:15:
+C:\Projects\ThemisDB\src\graph\distributed_graph.cpp(224,26): warning: integer literal is too large to be represented in a signed integer type, interpreting as unsigned [-Wimplicitly-unsigned-literal]
+C:\Projects\ThemisDB\src\graph\distributed_graph.cpp(455,11): warning: unused variable '[first_shard_id, first_exec]' [-Wunused-variable]
+C:\Projects\ThemisDB\src\graph\distributed_graph.cpp(438,56): warning: unused parameter 'start_vertex' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\distributed_graph.cpp(439,56): warning: unused parameter 'target_vertex' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\explain_plan.cpp
+C:\Projects\ThemisDB\src\graph\explain_plan.cpp(109,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\explain_plan.cpp(111,23): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\explain_plan.cpp(121,32): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp
+In file included from C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp:21:
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(99,57): warning: unused parameter 'row_offsets' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(100,57): warning: unused parameter 'column_indices' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(101,37): warning: unused parameter 'start_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(102,56): warning: unused parameter 'forbidden_mask' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(103,76): warning: unused parameter 'config' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(104,79): warning: unused parameter 'result' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(105,46): warning: unused parameter 'out_distances' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(113,57): warning: unused parameter 'row_offsets' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(114,57): warning: unused parameter 'column_indices' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(115,37): warning: unused parameter 'start_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(116,56): warning: unused parameter 'forbidden_mask' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(117,76): warning: unused parameter 'config' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(118,79): warning: unused parameter 'result' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(119,46): warning: unused parameter 'out_order' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(214,42): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(313,96): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(342,92): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\gpu_traversal.cpp(467,88): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\graph_error_taxonomy.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\graph_query_cache.cpp
+C:\Projects\ThemisDB\src\graph\graph_query_cache.cpp(78,45): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_cache.cpp(134,53): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_cache.cpp(214,45): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp
+In file included from C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp:17:
+In file included from C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp:18:
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(67,35): warning: comparison of integers of different signs: 'std::string::size_type' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(85,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(95,30): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(231,22): warning: unused parameter 'start_vertex' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(451,10): warning: variable 'has_forbidden_nodes' set but not used [-Wunused-but-set-variable]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(714,49): warning: comparison of integers of different signs: 'int' and 'const unsigned long long' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(883,49): warning: comparison of integers of different signs: 'int' and 'const unsigned long long' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(899,72): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(1128,45): warning: comparison of integers of different signs: 'int' and 'const unsigned long long' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(1981,57): warning: comparison of integers of different signs: 'int' and 'const unsigned long long' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(1803,51): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(2023,37): warning: unused parameter 'graph_id' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(2138,34): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(2198,74): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\graph_query_optimizer.cpp(2657,53): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\graph_query_rewriter.cpp
+C:\Projects\ThemisDB\src\graph\graph_query_rewriter.cpp(303,42): warning: unused variable 'ro' [-Wunused-variable]
+C:\Projects\ThemisDB\src\graph\graph_query_rewriter.cpp(304,35): warning: unused variable 'rn' [-Wunused-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\graph_watermark.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\knowledge_graph_reasoner.cpp
+In file included from C:\Projects\ThemisDB\src\graph\knowledge_graph_reasoner.cpp:13:
+C:\Projects\ThemisDB\src\graph\knowledge_graph_reasoner.cpp(89,43): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\knowledge_graph_reasoner.cpp(270,18): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\ontology_manager.cpp
+In file included from C:\Projects\ThemisDB\src\graph\ontology_manager.cpp:13:
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(101,36): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(127,36): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(167,36): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(217,35): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(221,23): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(415,53): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(568,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(660,35): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(678,42): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\ontology_manager.cpp(681,24): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\parallel_traversal.cpp
+C:\Projects\ThemisDB\src\graph\parallel_traversal.cpp(93,83): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\parallel_traversal.cpp(105,89): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\parallel_traversal.cpp(231,79): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\path_constraints.cpp
+In file included from C:\Projects\ThemisDB\src\graph\path_constraints.cpp:13:
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(56,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(65,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(125,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(139,49): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(191,70): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(204,70): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(462,45): warning: comparison of integers of different signs: 'size_type' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(490,52): warning: comparison of integers of different signs: 'size_type' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(709,42): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\path_constraints.cpp(710,46): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\rotate_completion.cpp
+In file included from C:\Projects\ThemisDB\src\graph\rotate_completion.cpp:26:
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(339,42): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(475,78): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(505,72): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(712,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(753,49): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(800,45): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\scheduled_edge_refresh.cpp(946,47): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\tensor_deduplication_manager.cpp
+C:\Projects\ThemisDB\src\graph\tensor_deduplication_manager.cpp(476,16): warning: unused variable 'kPerEntryMutationJournalPrefix' [-Wunused-const-variable]
+[llvm-syntax] C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(103,31): warning: unused variable 'kPrime' [-Wunused-variable]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(91,31): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(109,31): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(111,35): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(122,31): warning: comparison of integers of different signs: 'std::size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(173,49): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(231,57): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(236,49): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\graph\tensor_fingerprint_graph.cpp(458,42): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\image_analysis\tesseract_ocr_plugin.cpp
+In file included from C:\Projects\ThemisDB\src\image_analysis\tesseract_ocr_plugin.cpp:33:
+In file included from C:\Projects\ThemisDB\src\image_analysis\tesseract_ocr_plugin.cpp:33:
+In file included from C:\Projects\ThemisDB\src\image_analysis\tesseract_ocr_plugin.cpp:33:
+[llvm-syntax] C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp
+In file included from C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp:33:
+In file included from C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp:33:
+In file included from C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp:33:
+C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp(276,42): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp(343,33): warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp(377,62): warning: unused parameter 'image_data' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\image_analysis\yolov8_onnx_plugin.cpp(378,40): warning: unused parameter 'effective_conf' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\adaptive_import.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\audit_trail.cpp
+C:\Projects\ThemisDB\src\importers\audit_trail.cpp(197,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\blockchain_integrity.cpp
+C:\Projects\ThemisDB\src\importers\blockchain_integrity.cpp(137,30): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\canonical_resolver.cpp
+C:\Projects\ThemisDB\src\importers\canonical_resolver.cpp(184,65): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\column_importance.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\conflict_resolver.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\crdt_importer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\data_quality.cpp
+C:\Projects\ThemisDB\src\importers\data_quality.cpp(194,30): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\debezium_cdc_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\debezium_cdc_importer.cpp:1:
+C:\Projects\ThemisDB\src\importers\debezium_cdc_importer.cpp(236,24): warning: unused parameter 'source_path' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\importers\debezium_cdc_importer.cpp(35,24): warning: unused function 'mapDebeziumErrorToCode' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\deterministic_matcher.cpp
+C:\Projects\ThemisDB\src\importers\deterministic_matcher.cpp(536,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\diagnostics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\elasticsearch_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\elasticsearch_importer.cpp:1:
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\entity_linker.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\federated_learning.cpp
+C:\Projects\ThemisDB\src\importers\federated_learning.cpp(288,51): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp(878,43): error: expected unqualified-id
+C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp(1103,43): error: expected unqualified-id
+C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp(1118,43): error: expected unqualified-id
+C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp(1132,43): error: expected unqualified-id
+C:\Projects\ThemisDB\src\importers\flatfile_importer.cpp(1517,42): error: expected unqualified-id
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\graphql_federation.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\gui_import_wizard.cpp
+C:\Projects\ThemisDB\src\importers\gui_import_wizard.cpp(36,31): warning: 'gmtime' is deprecated: This function or variable may be unsafe. Consider using gmtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [-Wdeprecated-declarations]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp
+In file included from C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp:13:
+C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp(392,74): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp(554,72): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp(555,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\huggingface_ingest_plugin.cpp
+C:\Projects\ThemisDB\src\importers\huggingface_ingest_plugin.cpp(364,52): warning: comparison of integers of different signs: 'int' and 'const std::size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\kafka_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\kafka_importer.cpp:19:
+C:\Projects\ThemisDB\src\importers\kafka_importer.cpp(586,57): warning: comparison of integers of different signs: 'size_type' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\kafka_importer.cpp(659,54): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\kafka_importer.cpp(182,24): warning: unused function 'mapKafkaErrorToCode' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\mdm_audit_trail.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\mdm_engine.cpp
+C:\Projects\ThemisDB\src\importers\mdm_engine.cpp(166,80): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\mdm_metrics.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\mongo_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\mongo_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\mongo_importer.cpp(591,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mongo_importer.cpp(1027,42): error: expected unqualified-id
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\mysql_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\mysql_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(693,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(943,39): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1043,12): warning: variable 'rows_imported' set but not used [-Wunused-but-set-variable]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1044,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1052,17): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1341,69): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1592,35): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(1693,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\mysql_importer.cpp(103,24): warning: unused function 'mapMySQLErrorToCode' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\oracle_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\oracle_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(423,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(443,90): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(592,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(821,72): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(835,47): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(920,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(928,17): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(1174,69): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(1307,35): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\oracle_importer.cpp(1333,42): error: expected unqualified-id
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\polyglot_mapper.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\postgres_cdc.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\postgres_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\postgres_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(338,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(359,56): warning: unused parameter 'config' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(634,73): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(974,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(1651,36): warning: lambda capture 'trimStr' is not used [-Wunused-lambda-capture]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(2273,77): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(2439,15): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(2673,69): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\postgres_importer.cpp(2927,49): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\postgres_importer_mdm.cpp
+In file included from C:\Projects\ThemisDB\src\importers\postgres_importer_mdm.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\redis_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\redis_importer.cpp:1:
+C:\Projects\ThemisDB\src\importers\redis_importer.cpp(210,30): warning: unused parameter 'c' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\importers\redis_importer.cpp(36,24): warning: unused function 'mapRedisErrorToCode' [-Wunused-function]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\s3_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\s3_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\s3_importer.cpp(16,10): fatal error: 'aws/core/Aws.h' file not found
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\schema_inference.cpp
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(47,67): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(67,44): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(107,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(120,46): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(269,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(337,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(357,53): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(390,46): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(529,42): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_inference.cpp(539,53): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\schema_validator.cpp
+C:\Projects\ThemisDB\src\importers\schema_validator.cpp(49,15): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_validator.cpp(67,20): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\schema_validator.cpp(358,40): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+In file included from C:\Projects\ThemisDB\src\importers\schema_validator.cpp:13:
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\semantic_matcher.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp
+In file included from C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp:13:
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(189,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(379,43): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(391,86): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(481,51): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(549,50): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(803,39): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(904,37): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(912,17): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(1090,69): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\importers\sqlite_importer.cpp(1225,42): error: expected unqualified-id
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\temporal_support.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_checkpoint.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_dump_reader.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_pipeline.cpp
+C:\Projects\ThemisDB\src\importers\wikipedia_pipeline.cpp(97,99): error: expected ')'
+C:\Projects\ThemisDB\src\importers\wikipedia_pipeline.cpp(97,8): note: to match this '('
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_plugin.cpp
+In file included from C:\Projects\ThemisDB\src\importers\wikipedia_plugin.cpp:9:
+In file included from C:\Projects\ThemisDB\src\importers\wikipedia_plugin.cpp:9:
+In file included from C:\Projects\ThemisDB\src\importers\wikipedia_plugin.cpp:9:
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_project_graph.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_project_process.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_project_timeseries.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_project_vector.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_transform.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_validator.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\importers\wikipedia_xml_parser.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\index\adaptive_index.cpp
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+In file included from C:\Projects\ThemisDB\src\index\adaptive_index.cpp:14:
+[llvm-syntax] C:\Projects\ThemisDB\src\index\advanced_vector_index.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\index\ann_frontdoor.cpp
+C:\Projects\ThemisDB\src\index\ann_frontdoor.cpp(526,61): warning: comparison of integers of different signs: 'int' and 'std::size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\ann_index.cpp
+C:\Projects\ThemisDB\src\index\ann_index.cpp(265,48): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(274,142): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(301,113): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(301,59): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(344,89): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(344,44): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(372,34): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(486,45): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\ann_index.cpp(510,42): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\approximate_radius_search.cpp
+C:\Projects\ThemisDB\src\index\approximate_radius_search.cpp(116,65): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\approximate_radius_search.cpp(224,62): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\approximate_radius_search.cpp(245,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\approximate_radius_search.cpp(315,23): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\binary_quantizer.cpp
+C:\Projects\ThemisDB\src\index\binary_quantizer.cpp(119,41): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\binary_quantizer.cpp(158,40): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\binary_quantizer.cpp(220,40): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\cuda_hnsw_graph_traversal.cpp
+C:\Projects\ThemisDB\src\index\cuda_hnsw_graph_traversal.cpp(179,46): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\cuda_hnsw_graph_traversal.cpp(216,38): warning: comparison of integers of different signs: 'int' and 'uint32_t' (aka 'unsigned int') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\distributed_vector_index.cpp
+C:\Projects\ThemisDB\src\index\distributed_vector_index.cpp(92,42): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\edge_types.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(253,60): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(255,67): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(620,35): warning: lambda capture 'this' is not used [-Wunused-lambda-capture]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(649,74): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(660,74): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(668,74): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(803,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gnn_embeddings.cpp(853,46): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\gpu_memory_oversubscription.cpp
+C:\Projects\ThemisDB\src\index\gpu_memory_oversubscription.cpp(297,46): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(138,44): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(192,52): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(360,39): warning: unused parameter 'backend' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(360,52): warning: unused parameter 'dim' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(478,61): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(661,66): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(1432,31): error: constexpr variable 'kMaxReasonableFileSizeBytes' must be initialized by a constant expression
+C:\Projects\ThemisDB\src\index\gpu_vector_index.cpp(1432,78): note: value 68719476736 is outside the range of representable values of type 'int'
+[llvm-syntax] C:\Projects\ThemisDB\src\index\gpu_vector_index_vulkan.cpp
+C:\Projects\ThemisDB\src\index\gpu_vector_index_vulkan.cpp(400,54): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index_vulkan.cpp(436,61): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\gpu_vector_index_vulkan.cpp(646,56): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\graph_analytics.cpp
+C:\Projects\ThemisDB\src\index\graph_analytics.cpp(713,44): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\graph_analytics.cpp(731,60): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\graph_analytics.cpp(733,81): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\graph_analytics.cpp(740,69): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\graph_analytics.cpp(756,38): warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long long') and 'int' [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\graph_auto_buffer.cpp
+[llvm-syntax] C:\Projects\ThemisDB\src\index\graph_index.cpp
+C:\Projects\ThemisDB\src\index\graph_index.cpp(162,21): warning: unused variable 'eid' [-Wunused-variable]
+C:\Projects\ThemisDB\src\index\graph_index.cpp(163,21): warning: unused variable 'from' [-Wunused-variable]
+C:\Projects\ThemisDB\src\index\graph_index.cpp(164,21): warning: unused variable 'to' [-Wunused-variable]
+C:\Projects\ThemisDB\src\index\graph_index.cpp(599,40): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+C:\Projects\ThemisDB\src\index\graph_index.cpp(813,155): warning: unused parameter 'graphId' [-Wunused-parameter]
+C:\Projects\ThemisDB\src\index\graph_index.cpp(1278,41): warning: comparison of integers of different signs: 'int' and 'const size_t' (aka 'const unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\hnsw_layer_optimizer.cpp
+In file included from C:\Projects\ThemisDB\src\index\hnsw_layer_optimizer.cpp:15:
+C:\Projects\ThemisDB\src\index\hnsw_layer_optimizer.cpp(65,53): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\hnsw_parameter_tuner.cpp
+C:\Projects\ThemisDB\src\index\hnsw_parameter_tuner.cpp(77,50): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\hnsw_production_defaults.cpp
+C:\Projects\ThemisDB\src\index\hnsw_production_defaults.cpp(329,47): warning: overflow in expression; result is 0 with type 'int' [-Winteger-overflow]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\index_compression.cpp
+C:\Projects\ThemisDB\src\index\index_compression.cpp(224,57): warning: comparison of integers of different signs: 'int' and 'size_t' (aka 'unsigned long long') [-Wsign-compare]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\index_manager.cpp
+C:\Projects\ThemisDB\src\index\index_manager.cpp(505,24): warning: unused parameter 'config' [-Wunused-parameter]
+[llvm-syntax] C:\Projects\ThemisDB\src\index\inverted_index.cpp

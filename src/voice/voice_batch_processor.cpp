@@ -111,7 +111,7 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
     size_t batch_size = config_.default_batch_size > 0 ? config_.default_batch_size : 1;
 
     for (size_t i = 0; i < items.size(); i += batch_size) {
-        size_t end = std::min(i + batch_size,static_cast<int>(items.size()));
+        size_t end = std::min(i + batch_size, items.size());
         for (size_t j = i; j < end; ++j) {
             results.push_back(processItem(items[j]));
         }
@@ -273,7 +273,7 @@ float VoiceBatchProcessor::computeWER(
     return static_cast<float>(dp[R][H]) / static_cast<float>(R);
 }
 
-float VoiceBatchProcessor::estimatePESQ([[maybe_unused]] float snr_db) const {
+float VoiceBatchProcessor::estimatePESQ(float snr_db) const {
     // Linear approximation: clamp(1.0 + snr_db * 0.07, 1.0, 5.0)
     // SNR 0dB→1.0, SNR 28.57dB→3.0, SNR 57.14dB→5.0
     float pesq = 1.0f + snr_db * 0.07f;
@@ -390,7 +390,7 @@ float VoiceBatchProcessor::computeRMS(const std::vector<float>& samples) const {
     for (float s : samples) {
       sum += s * s;
     }
-    return static_cast<bool>(std::sqrt(sum / static_cast<float < static_cast<int>((samples.size()))));
+    return std::sqrt(sum / static_cast<float>(samples.size()));
 }
 
 float VoiceBatchProcessor::computeNoiseFloor(

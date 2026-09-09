@@ -269,23 +269,23 @@ void EnvoyXdsClient::stop() {
 // Callback registration
 // ─────────────────────────────────────────────────────────────────────────────
 
-void EnvoyXdsClient::setListenerCallback([[maybe_unused]] ListenerCallback cb) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-    listener_cb_ = std::move([[maybe_unused]] cb);
+void EnvoyXdsClient::setListenerCallback(ListenerCallback cb) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+    listener_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setClusterCallback([[maybe_unused]] ClusterCallback cb) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+void EnvoyXdsClient::setClusterCallback(ClusterCallback cb) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
     cluster_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setRouteCallback([[maybe_unused]] RouteCallback cb) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+void EnvoyXdsClient::setRouteCallback(RouteCallback cb) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
     route_cb_ = std::move(cb);
 }
 
-void EnvoyXdsClient::setEndpointCallback([[maybe_unused]] EndpointCallback cb) {
-    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+void EnvoyXdsClient::setEndpointCallback(EndpointCallback cb) {
+    std::lock_guard<std::mutex> lk(callbacks_mutex_);
     endpoint_cb_ = std::move(cb);
 }
 
@@ -584,7 +584,7 @@ EnvoyXdsClient::parseRoutes(const std::string& resources_json)
     const std::string body = resources_json.substr(1, static_cast<int>(resources_json.size()) - 2);
     for (const auto& rc : splitJsonArray(body)) {
         // Each resource is a RouteConfiguration with a virtual_hosts array.
-        const std::string vhosts_raw = extractRawValue(r[[maybe_unused]] c, "virtual_host[[maybe_unused]] s");
+        const std::string vhosts_raw = extractRawValue(rc, "virtual_hosts");
         if (vhosts_raw.empty() || vhosts_raw.front() != '[') {
           continue;
         }
@@ -785,7 +785,7 @@ void EnvoyXdsClient::pollLoop() {
         bool had_any_update = false;
 
         // ── LDS ────────────────────────────────────────────────────────────
-        if ([[maybe_unused]] config_.subscribe_listeners) {
+        if (config_.subscribe_listeners) {
             std::string res_json = {};
             bool err = false;
             const bool updated = pollDiscoveryService(
@@ -804,9 +804,9 @@ void EnvoyXdsClient::pollLoop() {
             if (updated) {
                 had_any_update = true;
                 {
-                    const auto listeners = parseListeners([[maybe_unused]] res_json);
-                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
-                    if ([[maybe_unused]] listener_cb_) {
+                    const auto listeners = parseListeners(res_json);
+                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
+                    if (listener_cb_) {
                       listener_cb_(listeners);
                     }
                 }
@@ -837,7 +837,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto clusters = parseClusters(res_json);
-                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
                     if (cluster_cb_) {
                       cluster_cb_(clusters);
                     }
@@ -869,7 +869,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto endpoints = parseEndpoints(res_json);
-                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
                     if (endpoint_cb_) {
                       endpoint_cb_(endpoints);
                     }
@@ -901,7 +901,7 @@ void EnvoyXdsClient::pollLoop() {
                 had_any_update = true;
                 {
                     const auto routes = parseRoutes(res_json);
-                    std::lock_guard<std::mutex> lk([[maybe_unused]] callbacks_mutex_);
+                    std::lock_guard<std::mutex> lk(callbacks_mutex_);
                     if (route_cb_) {
                       route_cb_(routes);
                     }

@@ -115,7 +115,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, query::QueryEngine& en
     // This provides query analysis for optimization and caching
     auto& nlp = getNlpAnalyzer();
     std::string normalized_query = nlp.normalizeQuery(aql);
-    [[maybe_unused]] double query_complexity = nlp.estimateQueryComplexity(aql);
+    double query_complexity = nlp.estimateQueryComplexity(aql);
     auto query_hints = nlp.extractQueryHints(aql);
     auto suggested_indexes = nlp.suggestIndexes(aql);
 

@@ -104,7 +104,7 @@ DeonticExtractor::ExtractorFn LegalLlmAdapter::buildExtractorFn() const {
     };
 }
 
-DeonticExtractor LegalLlmAdapter::buildExtractor([[maybe_unused]] double confidence_threshold) const {
+DeonticExtractor LegalLlmAdapter::buildExtractor(double confidence_threshold) const {
     DeonticExtractor extractor;
     extractor.setConfidenceThreshold(confidence_threshold);
 

@@ -194,14 +194,14 @@ size_t ReplicationCoordinator::getReplicaCount() const {
     if (!shipper_) {
       return 0;
     }
-    return static_cast<bool>(shipper_- < static_cast<int>(getReplicaInfo().size()));
+    return shipper_->getReplicaInfo().size();
 }
 
 /**
  * @brief Toggle coordinator active state.
  * @param enabled New state; disabling wakes waiters.
  */
-void ReplicationCoordinator::setEnabled([[maybe_unused]] bool enabled) {
+void ReplicationCoordinator::setEnabled(bool enabled) {
     enabled_.store(enabled, std::memory_order_release);
     if (!enabled) {
         // Wake up any waiting threads
