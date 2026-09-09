@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-09
+Last Updated: 2026-09-09
+Status: active
+---
+
 # ML Enhancements Bibliography
 
 ## Wave B: High-Value ML Enhancements (Q1–Q2 2027)
