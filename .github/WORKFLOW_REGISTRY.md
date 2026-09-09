@@ -48,6 +48,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
 - `.github/workflows/maintenance-docs-db-build.yml`
   — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
+- `.github/workflows/maintenance-architecture-ci.yml`
+  — Architecture model generator: scans ai_context/, ai_working/, developer_llm_wiki/, api_contracts/, ARCHITECTURE.md, ROADMAP.md, docs/ and produces architecture.json + architecture.md (Mermaid diagram); schedule weekly + dispatch + path-filtered push on develop; opens PR when outputs change
 - `.github/workflows/reusable-docs-db-builder.yml`
   — Reusable: generalized folder→ThemisDB-DB pipeline; builds themis_docs_builder, hashes input tree, skips if up-to-date, uploads artifact; called by maintenance-docs-db-build.yml and any future per-folder callers
 - `.github/workflows/maintenance-ci-health.yml`
