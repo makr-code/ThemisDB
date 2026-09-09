@@ -1,5 +1,10 @@
 # PR Labeling and Milestone Assignment Governance
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-09
+> Last Updated: 2026-09-09
+> Status: active
+
 ## Overview
 
 This document defines the governance for automatic PR labeling and milestone assignment in ThemisDB. The system uses three complementary labeling mechanisms to ensure comprehensive PR classification:
