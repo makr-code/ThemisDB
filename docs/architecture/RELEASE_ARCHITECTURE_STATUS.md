@@ -7,7 +7,7 @@
 | Repository version | `v2.4.0-alpha` | `ROADMAP.md`, `VERSION` |
 | Current roadmap posture | substantial implementation base, but not GA-ready | `ROADMAP.md` (`Current Status`, `Current real wave posture`, `Release-critical blockers`) |
 | Branch/release target | hardening and GA gating continue on `develop` | `ROADMAP.md`, `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md` |
-| Cross-module evidence set | module inventory, include-derived coupling, runtime-critical execution paths, and release posture are now split into dedicated architecture docs | `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `src/CROSS_MODULE_INTEGRATION.md` |
+| Cross-module evidence set | module inventory, include-derived coupling, repository-wide symbol usage, runtime-critical execution paths, and release posture are now split across dedicated architecture and source-root evidence docs | `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `src/MODULE_FUNCTION_USAGE_MAP.md`, `src/CROSS_MODULE_INTEGRATION.md` |
 
 ## Footprint Posture Across `src/`
 
@@ -26,6 +26,15 @@
 | `query` | central read/write orchestration point for AQL, indexing, storage, distributed, and LLM-assisted execution | `src/query/query_engine.cpp`, `src/query/aql_runner.cpp`, `include/query/query_engine.h` |
 | `storage` + `utils` | deepest shared infrastructure sinks in the include graph | `src/storage/`, `include/storage/`, `src/utils/`, `include/utils/` |
 
+## Cross-Module Evidence Reading Order
+
+| Step | Artifact | Purpose |
+|---|---|---|
+| 1 | `docs/architecture/MODULE_ARCHITECTURE.md` | confirm the full 72-path inventory and footprint posture |
+| 2 | `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md` | inspect compile-time module coupling and SCC findings |
+| 3 | `src/MODULE_FUNCTION_USAGE_MAP.md` | widen review to repository-wide symbol consumers and example call sites |
+| 4 | `docs/architecture/DATA_FLOW_PATHS.md` | confirm the release-critical runtime chains and orchestration boundaries |
+
 ## Current Release-Critical Cross-Module Caveats
 
 | Caveat | Architectural impact | Evidence |
@@ -42,4 +51,4 @@
 | Public API / header contracts | `include/<module>/**` | confirm exported interfaces and ownership/failure behavior |
 | Module-local architecture contracts | `src/<module>/ARCHITECTURE.md` | confirm intended subsystem role and integration points |
 | Module-local maturity / release notes | `src/<module>/ROADMAP.md` | confirm phase status, blockers, and acceptance evidence |
-| Cross-module architecture evidence | `docs/architecture/*.md`, `src/CROSS_MODULE_INTEGRATION.md` | review compile-time coupling together with runtime path overlays, SCCs, and docs-only caveats before release gating |
+| Cross-module architecture evidence | `docs/architecture/*.md`, `src/MODULE_FUNCTION_USAGE_MAP.md`, `src/CROSS_MODULE_INTEGRATION.md` | review compile-time coupling together with repository-wide symbol usage, runtime path overlays, SCCs, and docs-only caveats before release gating |

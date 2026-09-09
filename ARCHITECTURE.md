@@ -386,6 +386,7 @@ Use these source-backed companion documents for architecture review across modul
 - [`docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`](docs/architecture/MODULE_INTEGRATION_CONTRACTS.md) — direct inter-module dependency mapping and SCC findings
 - [`docs/architecture/DATA_FLOW_PATHS.md`](docs/architecture/DATA_FLOW_PATHS.md) — critical Query → Storage → Transaction, 2PC, RAG, and Server ↔ LLM paths
 - [`docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — release posture, maturity signals, and docs-only path caveats
+- [`src/MODULE_FUNCTION_USAGE_MAP.md`](src/MODULE_FUNCTION_USAGE_MAP.md) — repository-wide symbol-consumer and call-site companion for all `src/` modules
 - [`src/CROSS_MODULE_INTEGRATION.md`](src/CROSS_MODULE_INTEGRATION.md) — source-root companion index for the `src/` aggregation boundary
 
 > Counting note: `src/` contains 72 top-level module paths, while some older tier summaries still refer to the 62 integrated runtime modules that exclude thin/docs-only support paths. Use `docs/architecture/MODULE_ARCHITECTURE.md` for the full current inventory.

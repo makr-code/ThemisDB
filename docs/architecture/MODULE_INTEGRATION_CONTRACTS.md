@@ -6,6 +6,7 @@
 - Scan scope: all C/C++ headers and sources under `src/**` and `include/**` in the current clone.
 - This captures **direct compile-time coupling**, not the full runtime call graph.
 - To reduce that blind spot, this document also links a **runtime integration overlay** for release-critical cross-module execution paths that are evidenced in concrete handler/orchestrator/coordinator files.
+- For broader repository-wide runtime evidence, pair this document with `src/MODULE_FUNCTION_USAGE_MAP.md`, which records per-module symbol consumers and call-site examples from best-effort static symbol analysis.
 
 ## Summary
 
@@ -17,6 +18,7 @@
 | Docs-only module paths | 3 | `ai_working`, `llm_streaming`, `vector_search` |
 | Non-trivial SCCs | 1 | one large strongly connected component remains in the include graph |
 | Zero-outgoing modules | 7 | `ai_working`, `chaos`, `evaluation`, `execution`, `llm_streaming`, `retrieval`, `vector_search` |
+| Repository-wide symbol-usage companion | per-module coverage | `src/MODULE_FUNCTION_USAGE_MAP.md` tracks consumer modules and symbol references across the whole `src/` tree |
 | Runtime-critical integration overlay | 10 edges | explicit execution-path evidence for handler, coordinator, and orchestrator wiring |
 
 ## Coupling Hubs
@@ -62,6 +64,19 @@
 | `search` -> `llm` | final layered retrieval answer can terminate in an LLM-backed answer stage | `include/search/layered_retrieval_orchestrator.h`, `src/search/layered_retrieval_orchestrator.cpp` |
 
 **Interpretation:** use the include-derived inventory for global compile-time coupling, and use this overlay plus `docs/architecture/DATA_FLOW_PATHS.md` when the review question is about runtime orchestration, ownership, or release-critical behavior.
+
+## Repository-Wide Symbol Usage Companion
+
+| Artifact | Scope | What it adds |
+|---|---|---|
+| `src/MODULE_FUNCTION_USAGE_MAP.md` | all top-level `src/` modules | per-module consumer lists plus example external symbol references |
+| `src/UNUSED_FUNCTIONS_REPORT.md` | all scanned symbols | identifies symbols with no detected external consumer so review can distinguish dead surfaces from indirect/runtime-only wiring |
+
+Use this companion when the review question is broader than the release-critical runtime overlay but does not require a precise whole-repository dynamic call graph. In practice the evidence model is:
+
+1. **Include graph** (`MODULE_INTEGRATION_CONTRACTS.md`) for compile-time module coupling.
+2. **Symbol-usage map** (`src/MODULE_FUNCTION_USAGE_MAP.md`) for repository-wide best-effort consumer/call-site coverage.
+3. **Runtime overlay + critical paths** (`MODULE_INTEGRATION_CONTRACTS.md` + `DATA_FLOW_PATHS.md`) for handler/orchestrator/coordinator execution chains that matter for release review.
 
 ## Direct Dependency Inventory
 
