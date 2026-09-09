@@ -3,7 +3,7 @@
 # Core Module — Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-09-09
 **Module Path:** `src/core/`
 
 ---
@@ -207,3 +207,29 @@ All logger/tracer calls on this thread include the trace ID automatically
 - `docs/architecture/CONCERNS_IMPLEMENTATION_SUMMARY.md` — implementation history
 - `docs/architecture/MIGRATION_GUIDE_CONCERNS.md` — migration guide
 - `ARCHITECTURE.md` (root) — full system architecture
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` | spdlog adapter wires to utils logging infra; thread-pool and tracing helpers consumed for no-op and production adapters |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/core/concerns/concerns_context.h` | Server obtains logger, tracer, metrics, and cache from `ConcernsContext` at startup |
+| llm | `include/core/` | LLM module uses `ConcernsContext` for cross-cutting concern injection |
+| ALL modules | `include/core/concerns/` | Every production module logs, traces, and records metrics through core DI interfaces |
+
+## Integration Points
+
+### Critical Integration: ConcernsContext DI Hub (expanded)
+**Files:** `src/core/concerns/concerns_context.cpp`
+**Contract:** `ConcernsContext::create(config)` is the canonical factory for all cross-cutting adapters; no module may call spdlog or OTel APIs directly in domain code. Runtime replacement via `replace*()` APIs is serialised under internal mutex; `nullptr` replacements are rejected.
+**Thread Safety:** `ConcernsContext` supports concurrent reads of registered adapters; `replace*()` calls acquire an exclusive write lock. Callbacks on replaced adapters must tolerate concurrent in-flight reads during the handoff window.
+
+### Critical Integration: Security Initialisation
+**Files:** `src/core/security_initialization.cpp` ↔ server startup
+**Contract:** Must be called once before any TLS/JWT operation; fails closed (`std::runtime_error`) on invalid provider configuration.
+**Thread Safety:** Single-call initialisation; must complete before any concurrent thread accesses TLS state.

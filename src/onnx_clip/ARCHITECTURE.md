@@ -6,8 +6,7 @@
 # ONNX CLIP Plugin — Architecture Guide
 
 **Version:** 0.0.1
-**Last Updated:** 2026-04-06
-**Module Path:** `src/onnx_clip/`
+**Last Updated:** 2026-09-09
 
 ---
 
@@ -357,3 +356,34 @@ HANDLE mmap_file_handle_;      // Windows handle
 - Dynamic model hot-swap (Phase 3): Reload models without server restart
 - Memory-mapped model loading (Phase 4): Reduce peak memory for large models
 - Native batched inference (Phase 5, optional): True batched ONNX session calls
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| ONNX Runtime | external (onnxruntime) | Provides cross-platform model inference via ONNX sessions |
+| CUDA / DirectML / TensorRT | external acceleration backends | Optional GPU-accelerated inference; falls back to CPU if unavailable |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/onnx_clip/` | Server uses ONNX CLIP for image embedding and visual analysis APIs |
+| llm | `include/onnx_clip/` | LLM vision pipeline uses CLIP embeddings for multimodal context |
+
+## Integration Points
+
+### Critical Integration: Server Image Analysis (expanded)
+**Files:** `src/onnx_clip/onnx_clip_plugin.cpp` ↔ `server/`
+**Contract:** Server calls `generateEmbedding()` / `generateEmbeddingBatch()` via the plugin API; batch is currently sequential single calls (native batching planned for Phase 5).
+**Thread Safety:** `OnnxClipPlugin` is thread-safe for all public methods via internal mutex.
+
+### Critical Integration: LLM Vision Pipeline (expanded)
+**Files:** `src/onnx_clip/` ↔ `llm/`
+**Contract:** LLM module requests CLIP embeddings for image inputs before multimodal inference; embedding objects are immutable after return.
+**Thread Safety:** Embedding generation is serialised internally; LLM may call concurrently and calls will be queued.
+
+### Critical Integration: ONNX Runtime Backend Selection
+**Files:** `src/onnx_clip/onnx_clip_plugin.cpp` ↔ ONNX Runtime external
+**Contract:** Backend selection (CUDA → TensorRT → DirectML → CPU) is determined at plugin initialisation from `BackendType` config; DirectML falls back to CPU on non-Windows.
+**Thread Safety:** ONNX session is not thread-safe; all calls are serialised through the plugin's internal mutex.

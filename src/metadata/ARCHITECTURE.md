@@ -49,3 +49,29 @@ The metadata module composes schema discovery, metadata statistics, consistency 
   - explicit schema/consistency/lineage/integration planes
   - deterministic failure boundaries across metadata workflows
   - module-local ownership of metadata orchestration behavior
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` | Logging, audit trail, and serialisation helpers |
+| storage | `include/storage/` | Persists schema versions, catalog snapshots, and distributed metadata |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/schema_*.h`, `statistics_collector.h`, `column_lineage.h`, `index_recommender.h` | Server exposes schema management, statistics, lineage, and recommendation APIs |
+| query | `include/metadata/` (StatisticsCollector) | Query planner reads table/column statistics for cost estimation |
+
+## Integration Points
+
+### Critical Integration: Query Statistics Collection
+**Files:** `src/metadata/schema_manager.cpp` ↔ `query/` (StatisticsCollector)
+**Contract:** Query engine reads `StatisticsCollector` estimates (row counts, cardinalities) from metadata; statistics must be eventually consistent with committed storage state.
+**Thread Safety:** Statistics reads are lock-free reads against an atomically updated snapshot; concurrent writes use compare-and-swap.
+
+### Critical Integration: Server Schema Management
+**Files:** `server/schema_*.h` ↔ `include/metadata/schema_manager.h`
+**Contract:** Server delegates all DDL operations to metadata module; metadata module serialises schema mutations through versioned lock.
+**Thread Safety:** Schema mutations are serialised; concurrent read-only schema lookups are safe.

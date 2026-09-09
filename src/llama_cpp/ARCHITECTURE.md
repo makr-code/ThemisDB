@@ -6,8 +6,7 @@
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-04-07
-**Module Path:** `src/llama_cpp/`
+**Last Updated:** 2026-09-09
 
 ---
 
@@ -145,3 +144,27 @@ generates `themis_llm_create()` and `themis_llm_destroy()` with C linkage and
 | Type | Files | Count |
 |---|---|---|
 | Unit (stub mode) | `src/llama_cpp/tests/test_llama_cpp_plugin.cpp` | 30 |
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llama.cpp | `llama.h` (external library) | Provides LLM inference runtime for local model execution |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| llm | `include/llama_cpp/llama_cpp_plugin.h` (LlamaCppPlugin) | LLM module loads llama_cpp as an inference backend plugin |
+
+## Integration Points
+
+### Critical Integration: LLM Backend Plugin
+**Files:** `src/llama_cpp/llama_cpp_plugin.cpp` ↔ `llm/` (LlamaCppPlugin)
+**Contract:** LLM module calls `LlamaCppPlugin::generate()` and related inference APIs; plugin owns llama_cpp context and model weights lifecycle.
+**Thread Safety:** `LlamaCppPlugin` is thread-safe for all public methods via `std::mutex mutex_`; concurrent inference requests are serialised.
+
+### Critical Integration: llama.cpp Library Binding
+**Files:** `src/llama_cpp/llama_cpp_plugin.cpp` ↔ `llama.h` (external)
+**Contract:** llama.cpp context is initialised with the model file path at plugin load; context must not be shared across threads without explicit locking.
+**Thread Safety:** llama.cpp context is single-threaded; plugin's internal mutex ensures safe concurrent access.

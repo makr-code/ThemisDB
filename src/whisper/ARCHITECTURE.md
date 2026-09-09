@@ -6,8 +6,7 @@
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-04-07
-**Module Path:** `src/whisper/`
+**Last Updated:** 2026-09-09
 
 ---
 
@@ -141,3 +140,28 @@ via the DI constructor for multiple groups (including E–N).
 
 The 12 registrar tests cover `WhisperPluginAdapter` and `WhisperPluginRegistrar` lifecycle
 (groups A–D: create, adapter capabilities, hot-plug enable/disable, default reload callback).
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| whisper.cpp | `whisper.h` (external library) | Provides ASR inference runtime; linked as a plugin |
+| audio/ffmpeg | ffmpeg bindings (external) | Audio decoding and format conversion before transcription |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/voice_api_handler.h` | Server exposes speech-to-text transcription APIs for audio input |
+
+## Integration Points
+
+### Critical Integration: Server Voice API
+**Files:** `src/whisper/whisper_plugin.cpp` ↔ `server/voice_api_handler.h`
+**Contract:** Server calls `WhisperPlugin::transcribe(audio_buffer)` via the plugin adapter; whisper plugin is the sole owner of whisper.cpp session state.
+**Thread Safety:** `WhisperPlugin` is thread-safe for all public methods via internal mutex; concurrent transcription requests are queued.
+
+### Critical Integration: whisper.cpp Plugin Binding
+**Files:** `src/whisper/whisper_plugin.cpp` ↔ `whisper.h` (external)
+**Contract:** whisper.cpp model file is loaded at plugin initialisation; model weights are immutable after load; `InMemoryWhisperTranscriber` may be injected for testing.
+**Thread Safety:** whisper.cpp context is single-threaded per instance; the plugin serialises concurrent calls internally.

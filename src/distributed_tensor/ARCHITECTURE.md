@@ -1,6 +1,6 @@
 # Distributed Tensor Module Architecture
 
-<!-- Status: current | validated: 2026-07-13 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -46,3 +46,29 @@ Out of scope at the current stage:
 - Runtime implementation: `src/distributed_tensor/*.cc`
 - Focused verification: `tests/epic3_distributed_tensor/test_phase3_failure_semantics.cpp`
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| acceleration | `include/acceleration/` | GPU compute backend for distributed tensor operations |
+| storage | `include/storage/` | Artifact persistence, shard placement, and recovery state |
+| sharding | `include/sharding/` | Shard routing and placement coordination |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| llm | `include/distributed_tensor/` | LLM training pipeline uses distributed tensor for large-model weight distribution |
+
+## Integration Points
+
+### Critical Integration: LLM Training Pipeline
+**Files:** `src/distributed_tensor/distributed_planner.cc`, `shard_placement.cc` ↔ `llm/` (training)
+**Contract:** LLM training requests a distributed placement plan from `DistributedPlanner`; plan results are deterministic for fixed cluster topology and artifact sizes.
+**Thread Safety:** Planner is stateless per request; concurrent planning calls are safe.
+
+### Critical Integration: Storage Artifact Persistence
+**Files:** `src/distributed_tensor/artifact_manifest.cc`, `integrity_verification.cc` ↔ `storage/`
+**Contract:** Artifact manifests and integrity hashes are persisted through storage interfaces; integrity verification reads must be idempotent.
+**Thread Safety:** Manifest writes are serialised per artifact ID; verification reads are concurrent-safe.

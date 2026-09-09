@@ -1,6 +1,6 @@
 # Retrieval Module Architecture
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -45,3 +45,26 @@ Out of scope at scaffold stage:
 - Planned contracts: `src/retrieval/include/*.h` (deferred to implementation PR)
 - Planned implementation: `src/retrieval/src/*.cc` (deferred to implementation PR)
 - Cross-epic dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| index | `include/index/` (vector index interfaces) | ANN frontdoor and tensor mid-layer use vector index structures for similarity search |
+| storage | `include/storage/` | Planned: retrieval artifact persistence and caching |
+| llm | `include/llm/` | Planned: model-switch surface for retrieval-time adapter selection |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| rag | `include/retrieval/` | RAG module is the primary consumer of retrieval ANN/tensor/graph/LoRA surfaces |
+
+## Integration Points
+
+### Critical Integration: RAG Retrieval Contract
+**Files:** `include/retrieval/ann_frontdoor.h`, `tensor_midlayer.h` ↔ `rag/`
+**Contract:** RAG issues ANN and tensor similarity queries through retrieval frontdoor interfaces; results are typed ranked lists compatible with RAG fusion logic.
+**Thread Safety:** Contract-first scaffold stage; thread-safety model deferred to implementation PR.
+
+> **Note:** This module is at EPIC 1 scaffold stage. All component files listed above are planned contracts. Implementation is deferred to a future PR. All claims are aspirational until source is delivered.

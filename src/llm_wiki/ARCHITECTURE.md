@@ -1,6 +1,6 @@
 # LLM Wiki Module — Architecture
 
-<!-- Status: PRODUCTION_READY | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_READY | validated: 2026-09-09 -->
 
 ## Overview
 
@@ -14,6 +14,24 @@ The LLM wiki module is a standalone semantic knowledge core within ThemisDB. It 
 - `retrieval` for semantic search and ranking support
 - `metadata` for provenance, revision, and audit integration
 - RocksDB for persistent workspace state and Phase B cache support
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llm | `include/llm/` | Orchestration, prompt planning, and response assembly |
+| llama_cpp | `include/llama_cpp/` | Local inference-backed retrieval and summarisation |
+| prompt_engineering | `include/prompt_engineering/` | Retrieval prompt planning and prompt enhancement handoff |
+| retrieval | `include/retrieval/` | Semantic search and ANN ranking for wiki article lookup |
+| metadata | `include/metadata/` | Provenance, revision tracking, and audit integration |
+| index | `include/index/` (BM25 + HNSW + RRF) | Hybrid sparse+dense ranking for wiki retrieval pipeline |
+| storage | `include/storage/` (RocksDB backend) | Persistent workspace state and Phase B wiki cache |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/llm_wiki/wiki_context_manager.h` | Server exposes wiki query and knowledge-base management APIs |
 
 ## Design Principles
 
@@ -487,6 +505,21 @@ When documents reference wiki articles:
 1. Extract article references
 2. Validate user access to articles
 3. Pre-fetch and cache for RAG pipeline
+
+### Critical Integration: WikiContextManager ↔ LLM
+**Files:** `include/llm_wiki/wiki_context_manager.h` ↔ `llm/`
+**Contract:** LLM calls `WikiContextManager::getContext(query, workspace)` before inference; returned context is injected into the system prompt as read-only evidence; wiki module must not mutate injected context after delivery.
+**Thread Safety:** Context retrieval is concurrent-safe; workspace-scoped caches are protected by per-workspace read-write locks.
+
+### Critical Integration: BM25 + HNSW + RRF Hybrid Retrieval
+**Files:** wiki retrieval pipeline ↔ `index/` (BM25 + HNSW + RRF)
+**Contract:** Wiki retrieval issues parallel BM25 (sparse) and HNSW (dense) queries; RRF fusion merges ranked lists; index module owns cursor lifecycle.
+**Thread Safety:** Index queries are concurrent-safe; fusion is per-request and stateless.
+
+### Critical Integration: RocksDB Backend
+**Files:** wiki workspace state ↔ `storage/` (RocksDB)
+**Contract:** Workspace metadata and Phase B cache are persisted in a dedicated RocksDB column family; reads and writes follow the storage module's transaction contract.
+**Thread Safety:** All RocksDB access is serialised through the storage module's concurrency primitives.
 
 ## See Also
 
