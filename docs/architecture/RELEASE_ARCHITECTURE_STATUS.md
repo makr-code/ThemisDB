@@ -1,54 +1,54 @@
-# RELEASE_ARCHITECTURE_STATUS
+# Release Architecture Status
 
-## Scope
+## Version and Governance Signals
 
-Release posture for architecture integration, based on source and module-roadmap evidence.
-
-## Status Buckets
-
-### A) Production-ready contract surfaces (GA contract signals frozen in headers)
-
-| Area | Evidence |
-|---|---|
-| Query core interface | `include/themis/base/interfaces/query_interface.h:1-10` |
-| Storage core interface | `include/themis/base/interfaces/storage_interface.h:1-10` |
-| Index manager interface | `include/themis/base/interfaces/index_interface.h:1-10` |
-| Server ingress contract | `include/server/http_server.h:1-9` |
-| 2PC core contracts | `include/transaction/distributed_transaction_manager.h:1-10`, `include/sharding/two_phase_commit_coordinator.h:1-10` |
-
-### B) Hardening wave modules (implementation substantial, wave-gating still open)
-
-| Module/Area | Open gate | Evidence |
+| Signal | Current reading | Evidence |
 |---|---|---|
-| GPU | Phase C reduction + representative-hardware gates pending | `src/gpu/ROADMAP.md:34-44`, `src/gpu/ROADMAP.md:149-167` |
-| Transaction | CI execution / representative-hardware closure pending | `src/transaction/ROADMAP.md:18-25`, `src/transaction/ROADMAP.md:114-121` |
-| Root release path | GA still blocked by Wave-A/B evidence + human sign-off | `ROADMAP.md:7`, `ROADMAP.md:50-57`, `ROADMAP.md:102-108` |
+| Repository version | `v2.4.0-alpha` | `ROADMAP.md`, `VERSION` |
+| Current roadmap posture | substantial implementation base, but not GA-ready | `ROADMAP.md` (`Current Status`, `Current real wave posture`, `Release-critical blockers`) |
+| Branch/release target | hardening and GA gating continue on `develop` | `ROADMAP.md`, `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md` |
+| Cross-module evidence set | module inventory, include-derived coupling, repository-wide symbol usage, runtime-critical execution paths, and release posture are now split across dedicated architecture and source-root evidence docs | `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `src/MODULE_FUNCTION_USAGE_MAP.md`, `src/CROSS_MODULE_INTEGRATION.md` |
 
-### C) Docs-only module paths
+## Footprint Posture Across `src/`
 
-| Module path | Current state evidence | Impact |
+| Posture | Count | Module paths | Interpretation |
+|---|---:|---|---|
+| Runtime code-bearing module paths | 69 | all top-level `src/` modules except `ai_working`, `llm_streaming`, `vector_search` | runtime code exists locally and should be release-reviewed through its owning source/test/header files |
+| Docs-only module paths with production-oriented claims | 2 | `src/llm_streaming/`, `src/vector_search/` | release claims require canonical runtime mapping outside the local module directory before they should be used as evidence |
+| Source-root evidence / working path | 1 | `src/ai_working/` | documentation and execution-artifact support path, not a runtime subsystem |
+
+## Cross-Module Release Hubs
+
+| Hub | Why it matters | Evidence |
 |---|---|---|
-| `src/llm_streaming/` | Docs-only files in directory; no colocated `.cpp/.h` implementation | Delivery claims must map to canonical implementation/test paths before GA decisions. |
-| `src/vector_search/` | Docs-only files in directory; no colocated `.cpp/.h` implementation | Same: avoid using module-local claims as standalone implementation proof. |
+| `server` | highest direct outgoing coupling in the include graph (35 module dependencies) and main remote ingress point | `src/server/http_server.cpp`, `src/server/query_api_handler.cpp`, `src/server/llm_api_handler.cpp` |
+| `llm` | second-largest dependency fan-out and canonical home of active streaming/runtime AI wiring | `src/llm/`, `include/llm/`, `src/llm/streaming_handler.cpp` |
+| `query` | central read/write orchestration point for AQL, indexing, storage, distributed, and LLM-assisted execution | `src/query/query_engine.cpp`, `src/query/aql_runner.cpp`, `include/query/query_engine.h` |
+| `storage` + `utils` | deepest shared infrastructure sinks in the include graph | `src/storage/`, `include/storage/`, `src/utils/`, `include/utils/` |
 
-Directory evidence:
-- `src/llm_streaming/` -> `.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`
-- `src/vector_search/` -> `.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`
-- Roadmap caveat in-module: `src/llm_streaming/ROADMAP.md:18-22`, `src/vector_search/ROADMAP.md:18-22`
+## Cross-Module Evidence Reading Order
 
-## Release Blockers (source-backed)
+| Step | Artifact | Purpose |
+|---|---|---|
+| 1 | `docs/architecture/MODULE_ARCHITECTURE.md` | confirm the full 72-path inventory and footprint posture |
+| 2 | `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md` | inspect compile-time module coupling and SCC findings |
+| 3 | `src/MODULE_FUNCTION_USAGE_MAP.md` | widen review to repository-wide symbol consumers and example call sites |
+| 4 | `docs/architecture/DATA_FLOW_PATHS.md` | confirm the release-critical runtime chains and orchestration boundaries |
 
-1. **Wave A/B hardening evidence not fully closed on release lane**
-   - `ROADMAP.md:50-57`, `ROADMAP.md:102-108`
-2. **GPU Wave A gating incomplete**
-   - `src/gpu/ROADMAP.md:34-44`, `src/gpu/ROADMAP.md:149-154`
-3. **Transaction CI/hardware evidence incomplete**
-   - `src/transaction/ROADMAP.md:18-25`, `src/transaction/ROADMAP.md:114-117`
-4. **Docs-only module-path claims need canonical source mapping**
-   - `src/llm_streaming/ROADMAP.md:20-21`, `src/vector_search/ROADMAP.md:20-21`
+## Current Release-Critical Cross-Module Caveats
 
-## Decision Guidance
+| Caveat | Architectural impact | Evidence |
+|---|---|---|
+| Transaction Wave A CI evidence still open | blocks confidence in end-to-end crash recovery and distributed commit posture | `ROADMAP.md`, `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `docs/architecture/DATA_FLOW_PATHS.md` |
+| GPU hardening / representative hardware still open | AI/search acceleration claims remain below strict GA confidence | `ROADMAP.md`, `src/gpu/ROADMAP.md`, `src/acceleration/ROADMAP.md` |
+| Query FTS benchmark gate still open | search pipeline is implemented but release performance evidence is incomplete | `ROADMAP.md`, `src/query/ROADMAP.md`, `src/search/ROADMAP.md` |
+| `llm_streaming` and `vector_search` are docs-only module paths | source-traceability must follow canonical runtime files before release decisions | `src/llm_streaming/ROADMAP.md`, `src/vector_search/ROADMAP.md`, `docs/architecture/DATA_FLOW_PATHS.md` |
 
-- Treat `ROADMAP.md` root wave gates as authoritative release gate context.
-- Treat docs-only module directories as documentation artefacts unless a direct source/test/benchmark path is cited.
-- Use `MODULE_ARCHITECTURE.md` and `DATA_FLOW_PATHS.md` as architecture evidence index for PR/release reviews.
+## Contract and Maturity Signals
+
+| Signal type | Canonical location | Use in review |
+|---|---|---|
+| Public API / header contracts | `include/<module>/**` | confirm exported interfaces and ownership/failure behavior |
+| Module-local architecture contracts | `src/<module>/ARCHITECTURE.md` | confirm intended subsystem role and integration points |
+| Module-local maturity / release notes | `src/<module>/ROADMAP.md` | confirm phase status, blockers, and acceptance evidence |
+| Cross-module architecture evidence | `docs/architecture/*.md`, `src/MODULE_FUNCTION_USAGE_MAP.md`, `src/CROSS_MODULE_INTEGRATION.md` | review compile-time coupling together with repository-wide symbol usage, runtime path overlays, SCCs, and docs-only caveats before release gating |
