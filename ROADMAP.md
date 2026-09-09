@@ -2674,6 +2674,31 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
 | 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
 
+### Architecture: Circular Dependency Issues (source-validated 2026-09-09)
+
+The following circular include dependencies are formally tracked. They are design debt requiring
+resolution before the affected modules can be independently compiled, packaged, or tested in isolation.
+
+| ID | Pair | Evidence | Severity | Status | Target |
+|----|------|----------|----------|--------|--------|
+| #5040 | `llm` ↔ `server` | `src/llm/mcp_tool_bridge.cpp` → `server/mcp_server.h`; `src/server/lora_api_handler.cpp` → `llm/lora_framework/lora_orchestrator.h` | HIGH — prevents independent `llm` compilation | Open | Q1 2027 |
+| #5039 | `llm` ↔ `query` | `src/llm/` includes `query/` (AQL); `src/query/functions/lora_functions.cpp` includes `llm/lora_framework/lora_orchestrator.h` | MEDIUM — bidirectional, forward-declarations partially mitigate | Open | Q1 2027 |
+| — | `sharding` ↔ `transaction` | `include/sharding/cross_shard_transaction.h` ↔ `include/transaction/recoverable_two_phase_coordinator.h` | LOW — managed dep, correct init order required | Managed | No target |
+
+**Resolution path for #5040 (`llm` ↔ `server`):**
+- [ ] Extract MCP tool bridge protocol to a neutral `mcp/mcp_protocol.h` header (no server-side state)
+- [ ] `server/mcp_server.h` forward-declares the protocol types; `llm/mcp_tool_bridge.cpp` uses protocol types only
+- [ ] Verify: `llm` must compile without `server/` in include path
+
+**Resolution path for #5039 (`llm` ↔ `query`):**
+- [ ] Move `lora_functions.cpp` AQL wiring to an adapter in `aql/lora_aql_adapter.cpp` (depends on both, owned by neither)
+- [ ] `llm` exports `lora_orchestrator` only via `themis/llm/lora_orchestrator_interface.h` (already exists)
+- [ ] `query` includes only the interface header, not the concrete `lora_orchestrator.h`
+- [ ] Verify: `query` must compile without `llm/lora_framework/lora_orchestrator.h`
+
+> **Canonical sources:** `src/ARCHITECTURE.md` §Confirmed Circular Dependencies; `src/llm/ARCHITECTURE.md` §Known Design Issues.  
+> **SOT domain:** architecture-governance. **Level:** level3. **Milestone:** DOC-WEEKLY-2026-37.
+
 ---
 
 ## Breaking Changes
