@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-09-09T07:09:22.569994+00:00`
+> Generated: `2026-09-09T07:22:07.285466+00:00`
 
 ## Statistics
 
@@ -24,127 +24,196 @@
 ```mermaid
 flowchart TD
     subgraph T0["T0: Trusted Core"]
-        base["base\nthemis::resource"]
-        core["core\nthemis::core"]
-        plugins["plugins\nthemis::plugins"]
-        themis["themis\nthemis"]
-        utils["utils\nthemis::utils"]
+        mod_base["base"]
+        mod_core["core"]
+        mod_plugins["plugins"]
+        mod_themis["themis"]
+        mod_utils["utils"]
     end
     subgraph T1["T1: Engine (Query/Storage/Index)"]
-        aql["aql\nthemis::aql"]
-        cache["cache\nthemis::cache"]
-        execution["execution\nthemis::execution"]
-        index["index\nthemis::index"]
-        metadata["metadata\nthemis::metadata"]
-        query["query\nthemis::query"]
-        storage["storage\nthemis::storage"]
+        mod_aql["aql"]
+        mod_cache["cache"]
+        mod_execution["execution"]
+        mod_index["index"]
+        mod_metadata["metadata"]
+        mod_query["query"]
+        mod_storage["storage"]
     end
     subgraph T3["T3: Infrastructure & Governance"]
-        acceleration["acceleration\nthemis::acceleration"]
-        access_model["access_model\nthemis::access_model"]
-        ai["ai\nthemis::ai"]
-        analytics["analytics\nthemis::analytics"]
-        api["api\nthemis::api"]
-        auth["auth\nthemis::auth"]
-        cdc["cdc\nthemis::cdc"]
-        chaos["chaos\nthemis::chaos"]
-        chimera["chimera\nthemis::chimera"]
-        config["config\nthemis::config"]
-        content["content\nthemis::content"]
-        distributed_knowledge["distributed_knowledge\nthemis::distributed_knowledge"]
-        distributed_tensor["distributed_tensor\nthemis::distributed_tensor"]
-        document["document\nthemis::document"]
-        ethics_ai["ethics_ai\nthemis::ethics_ai\n🔒plugin"]
-        evaluation["evaluation\nthemis::evaluation"]
-        exporters["exporters\nthemis::exporters\n✅plugin"]
-        failover["failover\nthemis::failover"]
-        geo["geo\nthemis::geo\n✅plugin"]
-        governance["governance\nthemis::governance"]
-        gpu["gpu\nthemis::gpu"]
-        graph["graph\nthemis::graph"]
-        importers["importers\nthemis::importers\n🔒plugin"]
-        ingestion["ingestion\nthemis::ingestion"]
-        llama_cpp["llama_cpp\nthemis::llama_cpp\n✅plugin"]
-        llm["llm\nthemis::llm"]
-        llm_wiki["llm_wiki\nthemis::llm_wiki\n🔒plugin"]
-        maintenance["maintenance\nthemis::maintenance"]
-        network["network\nthemis::network"]
-        observability["observability\nthemis::observability"]
-        onnx_clip["onnx_clip\nthemis::onnx_clip"]
-        performance["performance\nthemis::performance"]
-        process["process\nthemis::process"]
-        projects["projects\nthemis::projects"]
-        prompt_engineering["prompt_engineering\nthemis::prompt_engineering"]
-        rag["rag\nthemis::rag"]
-        replication["replication\nthemis::replication"]
-        retrieval["retrieval\nthemis::retrieval"]
-        rpc_grpc["rpc_grpc\nthemis::rpc_grpc"]
-        scheduler["scheduler\nthemis::scheduler"]
-        scraper["scraper\nthemis::scraper\n✅plugin"]
-        search["search\nthemis::search"]
-        security["security\nthemis::security"]
-        server["server\nthemis::server"]
-        sharding["sharding\nthemis::sharding"]
-        stable_diffusion["stable_diffusion\nthemis::stable_diffusion\n✅plugin"]
-        temporal["temporal\nthemis::temporal"]
-        tensor["tensor\nthemis::tensor"]
-        timeseries["timeseries\nthemis::timeseries\n✅plugin"]
-        toolbox["toolbox\nthemis::toolbox"]
-        training["training\nthemis::training"]
-        transaction["transaction\nthemis::transaction"]
-        updates["updates\nthemis::updates"]
-        user_storage_encrypted["user_storage_encrypted\nthemis::user_storage_encrypted\n🔒plugin"]
-        voice["voice\nthemis::voice"]
-        whisper["whisper\nthemis::whisper\n✅plugin"]
+        mod_acceleration["acceleration"]
+        mod_access_model["access_model"]
+        mod_ai["ai"]
+        mod_analytics["analytics"]
+        mod_api["api"]
+        mod_auth["auth"]
+        mod_cdc["cdc"]
+        mod_chaos["chaos"]
+        mod_chimera["chimera"]
+        mod_config["config"]
+        mod_content["content"]
+        mod_distributed_knowledge["distributed_knowledge"]
+        mod_distributed_tensor["distributed_tensor"]
+        mod_document["document"]
+        mod_ethics_ai["ethics_ai 🔒"]
+        mod_evaluation["evaluation"]
+        mod_exporters["exporters ✅"]
+        mod_failover["failover"]
+        mod_geo["geo ✅"]
+        mod_governance["governance"]
+        mod_gpu["gpu"]
+        mod_graph["graph"]
+        mod_importers["importers 🔒"]
+        mod_ingestion["ingestion"]
+        mod_llama_cpp["llama_cpp ✅"]
+        mod_llm["llm"]
+        mod_llm_wiki["llm_wiki 🔒"]
+        mod_maintenance["maintenance"]
+        mod_network["network"]
+        mod_observability["observability"]
+        mod_onnx_clip["onnx_clip"]
+        mod_performance["performance"]
+        mod_process["process"]
+        mod_projects["projects"]
+        mod_prompt_engineering["prompt_engineering"]
+        mod_rag["rag"]
+        mod_replication["replication"]
+        mod_retrieval["retrieval"]
+        mod_rpc_grpc["rpc_grpc"]
+        mod_scheduler["scheduler"]
+        mod_scraper["scraper ✅"]
+        mod_search["search"]
+        mod_security["security"]
+        mod_server["server"]
+        mod_sharding["sharding"]
+        mod_stable_diffusion["stable_diffusion ✅"]
+        mod_temporal["temporal"]
+        mod_tensor["tensor"]
+        mod_timeseries["timeseries ✅"]
+        mod_toolbox["toolbox"]
+        mod_training["training"]
+        mod_transaction["transaction"]
+        mod_updates["updates"]
+        mod_user_storage_encrypted["user_storage_encrypted 🔒"]
+        mod_voice["voice"]
+        mod_whisper["whisper ✅"]
     end
 
-    aql -->|"parses/plans"| core
-    query -->|"optimizes"| aql
-    execution -->|"executes"| query
-    execution -->|"reads/writes"| storage
-    execution -->|"uses"| index
-    index -->|"persists"| storage
-    cache -->|"caches"| execution
-    metadata -->|"schema store"| storage
-    transaction -->|"MVCC"| core
-    transaction -->|"data commit"| storage
-    transaction -->|"distributes"| replication
-    replication -->|"replica I/O"| storage
-    sharding -->|"partitions"| storage
-    sharding -->|"replicates shards"| replication
-    api -->|"routes"| server
-    api -->|"authenticates"| auth
-    server -->|"dispatches"| execution
-    auth -->|"primitives"| security
-    governance -->|"policy check"| auth
-    governance -->|"audit events"| observability
-    rag -->|"retrieves"| retrieval
-    rag -->|"generates"| llm
-    rag -->|"knowledge store"| storage
-    llm -->|"local inference"| llama_cpp
-    llm_wiki -->|"wiki retrieval"| llm
-    llm_wiki -->|"provenance"| rag
-    retrieval -->|"vector search"| index
-    ai -->|"orchestrates"| llm
-    ai -->|"semantic search"| retrieval
-    acceleration -->|"GPU dispatch"| gpu
-    observability -->|"metrics hooks"| core
-    network -->|"transport"| server
-    distributed_knowledge -->|"knowledge graph"| graph
-    distributed_knowledge -->|"distributed"| replication
-    analytics -->|"reads data"| storage
-    training -->|"fine-tunes"| llm
-    training -->|"model storage"| storage
-    content -->|"content store"| storage
-    search -->|"fulltext index"| index
-    search -->|"semantic search"| retrieval
-    security -->|"crypto primitives"| core
-    config -->|"config bootstrap"| core
-    process -->|"lifecycle"| core
-    utils -->|"utilities"| base
-    themis -->|"root aggregation"| core
-    themis -->|"plugin loader"| plugins
-    plugins -->|"plugin base"| base
+    mod_aql -->|"parses/plans"| mod_core
+    mod_query -->|"optimizes"| mod_aql
+    mod_execution -->|"executes"| mod_query
+    mod_execution -->|"reads/writes"| mod_storage
+    mod_execution -->|"uses"| mod_index
+    mod_index -->|"persists"| mod_storage
+    mod_cache -->|"caches"| mod_execution
+    mod_metadata -->|"schema store"| mod_storage
+    mod_transaction -->|"MVCC"| mod_core
+    mod_transaction -->|"data commit"| mod_storage
+    mod_transaction -->|"distributes"| mod_replication
+    mod_replication -->|"replica I/O"| mod_storage
+    mod_sharding -->|"partitions"| mod_storage
+    mod_sharding -->|"replicates shards"| mod_replication
+    mod_api -->|"routes"| mod_server
+    mod_api -->|"authenticates"| mod_auth
+    mod_server -->|"dispatches"| mod_execution
+    mod_auth -->|"primitives"| mod_security
+    mod_governance -->|"policy check"| mod_auth
+    mod_governance -->|"audit events"| mod_observability
+    mod_rag -->|"retrieves"| mod_retrieval
+    mod_rag -->|"generates"| mod_llm
+    mod_rag -->|"knowledge store"| mod_storage
+    mod_llm -->|"local inference"| mod_llama_cpp
+    mod_llm_wiki -->|"wiki retrieval"| mod_llm
+    mod_llm_wiki -->|"provenance"| mod_rag
+    mod_retrieval -->|"vector search"| mod_index
+    mod_ai -->|"orchestrates"| mod_llm
+    mod_ai -->|"semantic search"| mod_retrieval
+    mod_acceleration -->|"GPU dispatch"| mod_gpu
+    mod_observability -->|"metrics hooks"| mod_core
+    mod_network -->|"transport"| mod_server
+    mod_distributed_knowledge -->|"knowledge graph"| mod_graph
+    mod_distributed_knowledge -->|"distributed"| mod_replication
+    mod_analytics -->|"reads data"| mod_storage
+    mod_training -->|"fine-tunes"| mod_llm
+    mod_training -->|"model storage"| mod_storage
+    mod_content -->|"content store"| mod_storage
+    mod_search -->|"fulltext index"| mod_index
+    mod_search -->|"semantic search"| mod_retrieval
+    mod_security -->|"crypto primitives"| mod_core
+    mod_config -->|"config bootstrap"| mod_core
+    mod_process -->|"lifecycle"| mod_core
+    mod_utils -->|"utilities"| mod_base
+    mod_themis -->|"root aggregation"| mod_core
+    mod_themis -->|"plugin loader"| mod_plugins
+    mod_plugins -->|"plugin base"| mod_base
+
+    click mod_base href "https://github.com/makr-code/ThemisDB/blob/develop/src/base/ROADMAP.md" "themis::resource — module documentation" _blank
+    click mod_core href "https://github.com/makr-code/ThemisDB/blob/develop/src/core/ROADMAP.md" "themis::core — module documentation" _blank
+    click mod_plugins href "https://github.com/makr-code/ThemisDB/blob/develop/src/plugins/ROADMAP.md" "themis::plugins — module documentation" _blank
+    click mod_themis href "https://github.com/makr-code/ThemisDB/blob/develop/src/themis/ROADMAP.md" "themis — module documentation" _blank
+    click mod_utils href "https://github.com/makr-code/ThemisDB/blob/develop/src/utils/ROADMAP.md" "themis::utils — module documentation" _blank
+    click mod_aql href "https://github.com/makr-code/ThemisDB/blob/develop/src/aql/ROADMAP.md" "themis::aql — module documentation" _blank
+    click mod_cache href "https://github.com/makr-code/ThemisDB/blob/develop/src/cache/ROADMAP.md" "themis::cache — module documentation" _blank
+    click mod_execution href "https://github.com/makr-code/ThemisDB/blob/develop/src/execution/ROADMAP.md" "themis::execution — module documentation" _blank
+    click mod_index href "https://github.com/makr-code/ThemisDB/wiki/Index-Module" "themis::index — module documentation" _blank
+    click mod_metadata href "https://github.com/makr-code/ThemisDB/blob/develop/src/metadata/ROADMAP.md" "themis::metadata — module documentation" _blank
+    click mod_query href "https://github.com/makr-code/ThemisDB/blob/develop/src/query/ROADMAP.md" "themis::query — module documentation" _blank
+    click mod_storage href "https://github.com/makr-code/ThemisDB/wiki/Storage-Module" "themis::storage — module documentation" _blank
+    click mod_acceleration href "https://github.com/makr-code/ThemisDB/wiki/Acceleration-Module" "themis::acceleration — module documentation" _blank
+    click mod_access_model href "https://github.com/makr-code/ThemisDB/blob/develop/src/access_model/ROADMAP.md" "themis::access_model — module documentation" _blank
+    click mod_ai href "https://github.com/makr-code/ThemisDB/blob/develop/src/ai/ROADMAP.md" "themis::ai — module documentation" _blank
+    click mod_analytics href "https://github.com/makr-code/ThemisDB/blob/develop/src/analytics/ROADMAP.md" "themis::analytics — module documentation" _blank
+    click mod_api href "https://github.com/makr-code/ThemisDB/wiki/API-Module" "themis::api — module documentation" _blank
+    click mod_auth href "https://github.com/makr-code/ThemisDB/wiki/Auth-Module" "themis::auth — module documentation" _blank
+    click mod_cdc href "https://github.com/makr-code/ThemisDB/blob/develop/src/cdc/ROADMAP.md" "themis::cdc — module documentation" _blank
+    click mod_chaos href "https://github.com/makr-code/ThemisDB/blob/develop/src/chaos/ROADMAP.md" "themis::chaos — module documentation" _blank
+    click mod_chimera href "https://github.com/makr-code/ThemisDB/blob/develop/src/chimera/ROADMAP.md" "themis::chimera — module documentation" _blank
+    click mod_config href "https://github.com/makr-code/ThemisDB/blob/develop/src/config/ROADMAP.md" "themis::config — module documentation" _blank
+    click mod_content href "https://github.com/makr-code/ThemisDB/blob/develop/src/content/ROADMAP.md" "themis::content — module documentation" _blank
+    click mod_distributed_knowledge href "https://github.com/makr-code/ThemisDB/blob/develop/src/distributed_knowledge/ROADMAP.md" "themis::distributed_knowledge — module documentation" _blank
+    click mod_distributed_tensor href "https://github.com/makr-code/ThemisDB/blob/develop/src/distributed_tensor/ROADMAP.md" "themis::distributed_tensor — module documentation" _blank
+    click mod_document href "https://github.com/makr-code/ThemisDB/blob/develop/src/document/ROADMAP.md" "themis::document — module documentation" _blank
+    click mod_ethics_ai href "https://github.com/makr-code/ThemisDB/blob/develop/src/ethics_ai/ROADMAP.md" "themis::ethics_ai — module documentation" _blank
+    click mod_evaluation href "https://github.com/makr-code/ThemisDB/blob/develop/src/evaluation/ROADMAP.md" "themis::evaluation — module documentation" _blank
+    click mod_exporters href "https://github.com/makr-code/ThemisDB/blob/develop/src/exporters/ROADMAP.md" "themis::exporters — module documentation" _blank
+    click mod_failover href "https://github.com/makr-code/ThemisDB/blob/develop/src/failover/ROADMAP.md" "themis::failover — module documentation" _blank
+    click mod_geo href "https://github.com/makr-code/ThemisDB/blob/develop/src/geo/ROADMAP.md" "themis::geo — module documentation" _blank
+    click mod_governance href "https://github.com/makr-code/ThemisDB/blob/develop/src/governance/ROADMAP.md" "themis::governance — module documentation" _blank
+    click mod_gpu href "https://github.com/makr-code/ThemisDB/blob/develop/src/gpu/ROADMAP.md" "themis::gpu — module documentation" _blank
+    click mod_graph href "https://github.com/makr-code/ThemisDB/wiki/Graph-Module" "themis::graph — module documentation" _blank
+    click mod_importers href "https://github.com/makr-code/ThemisDB/blob/develop/src/importers/ROADMAP.md" "themis::importers — module documentation" _blank
+    click mod_ingestion href "https://github.com/makr-code/ThemisDB/blob/develop/src/ingestion/ROADMAP.md" "themis::ingestion — module documentation" _blank
+    click mod_llama_cpp href "https://github.com/makr-code/ThemisDB/blob/develop/src/llama_cpp/ROADMAP.md" "themis::llama_cpp — module documentation" _blank
+    click mod_llm href "https://github.com/makr-code/ThemisDB/wiki/LLM-Module" "themis::llm — module documentation" _blank
+    click mod_llm_wiki href "https://github.com/makr-code/ThemisDB/wiki/LLM-Wiki" "themis::llm_wiki — module documentation" _blank
+    click mod_maintenance href "https://github.com/makr-code/ThemisDB/blob/develop/src/maintenance/ROADMAP.md" "themis::maintenance — module documentation" _blank
+    click mod_network href "https://github.com/makr-code/ThemisDB/blob/develop/src/network/ROADMAP.md" "themis::network — module documentation" _blank
+    click mod_observability href "https://github.com/makr-code/ThemisDB/wiki/Observability-Module" "themis::observability — module documentation" _blank
+    click mod_onnx_clip href "https://github.com/makr-code/ThemisDB/blob/develop/src/onnx_clip/ROADMAP.md" "themis::onnx_clip — module documentation" _blank
+    click mod_performance href "https://github.com/makr-code/ThemisDB/blob/develop/src/performance/ROADMAP.md" "themis::performance — module documentation" _blank
+    click mod_process href "https://github.com/makr-code/ThemisDB/blob/develop/src/process/ROADMAP.md" "themis::process — module documentation" _blank
+    click mod_projects href "https://github.com/makr-code/ThemisDB/blob/develop/src/projects/ROADMAP.md" "themis::projects — module documentation" _blank
+    click mod_prompt_engineering href "https://github.com/makr-code/ThemisDB/blob/develop/src/prompt_engineering/ROADMAP.md" "themis::prompt_engineering — module documentation" _blank
+    click mod_rag href "https://github.com/makr-code/ThemisDB/wiki/RAG-Module" "themis::rag — module documentation" _blank
+    click mod_replication href "https://github.com/makr-code/ThemisDB/wiki/Replication-Module" "themis::replication — module documentation" _blank
+    click mod_retrieval href "https://github.com/makr-code/ThemisDB/blob/develop/src/retrieval/ROADMAP.md" "themis::retrieval — module documentation" _blank
+    click mod_rpc_grpc href "https://github.com/makr-code/ThemisDB/blob/develop/src/rpc_grpc/ROADMAP.md" "themis::rpc_grpc — module documentation" _blank
+    click mod_scheduler href "https://github.com/makr-code/ThemisDB/blob/develop/src/scheduler/ROADMAP.md" "themis::scheduler — module documentation" _blank
+    click mod_scraper href "https://github.com/makr-code/ThemisDB/blob/develop/src/scraper/ROADMAP.md" "themis::scraper — module documentation" _blank
+    click mod_search href "https://github.com/makr-code/ThemisDB/blob/develop/src/search/ROADMAP.md" "themis::search — module documentation" _blank
+    click mod_security href "https://github.com/makr-code/ThemisDB/wiki/Security-Module" "themis::security — module documentation" _blank
+    click mod_server href "https://github.com/makr-code/ThemisDB/blob/develop/src/server/ROADMAP.md" "themis::server — module documentation" _blank
+    click mod_sharding href "https://github.com/makr-code/ThemisDB/wiki/Sharding-Module" "themis::sharding — module documentation" _blank
+    click mod_stable_diffusion href "https://github.com/makr-code/ThemisDB/blob/develop/src/stable_diffusion/ROADMAP.md" "themis::stable_diffusion — module documentation" _blank
+    click mod_temporal href "https://github.com/makr-code/ThemisDB/blob/develop/src/temporal/ROADMAP.md" "themis::temporal — module documentation" _blank
+    click mod_tensor href "https://github.com/makr-code/ThemisDB/blob/develop/src/tensor/ROADMAP.md" "themis::tensor — module documentation" _blank
+    click mod_timeseries href "https://github.com/makr-code/ThemisDB/blob/develop/src/timeseries/ROADMAP.md" "themis::timeseries — module documentation" _blank
+    click mod_toolbox href "https://github.com/makr-code/ThemisDB/blob/develop/src/toolbox/ROADMAP.md" "themis::toolbox — module documentation" _blank
+    click mod_training href "https://github.com/makr-code/ThemisDB/blob/develop/src/training/ROADMAP.md" "themis::training — module documentation" _blank
+    click mod_transaction href "https://github.com/makr-code/ThemisDB/wiki/Transaction-Module" "themis::transaction — module documentation" _blank
+    click mod_updates href "https://github.com/makr-code/ThemisDB/blob/develop/src/updates/ROADMAP.md" "themis::updates — module documentation" _blank
+    click mod_user_storage_encrypted href "https://github.com/makr-code/ThemisDB/blob/develop/src/user_storage_encrypted/ROADMAP.md" "themis::user_storage_encrypted — module documentation" _blank
+    click mod_voice href "https://github.com/makr-code/ThemisDB/blob/develop/src/voice/ROADMAP.md" "themis::voice — module documentation" _blank
+    click mod_whisper href "https://github.com/makr-code/ThemisDB/blob/develop/src/whisper/ROADMAP.md" "themis::whisper — module documentation" _blank
 ```
 
 ## Tier Classification

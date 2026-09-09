@@ -6217,7 +6217,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-09T07:09:22.569994+00:00",
+  "generated_at": "2026-09-09T07:22:07.285466+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",

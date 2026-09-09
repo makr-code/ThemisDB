@@ -163,6 +163,28 @@ def validate_markdown(md_path: Path) -> list[str]:
             errors.append(f"Mermaid line {i} has unbalanced double-quotes: {line!r}")
             break  # report only first
 
+    # All node IDs must be prefixed with mod_ (no bare reserved keywords)
+    _MERMAID_RESERVED = {"graph", "flowchart", "subgraph", "end", "index", "config", "process"}
+    node_id_pattern = re.compile(r"^\s+(\w+)\[")
+    for i, line in enumerate(mermaid_content.splitlines(), 1):
+        m = node_id_pattern.match(line)
+        if m:
+            nid = m.group(1)
+            if not nid.startswith("mod_"):
+                errors.append(
+                    f"Mermaid line {i}: node ID '{nid}' is not prefixed with 'mod_' — "
+                    "may collide with Mermaid reserved keywords"
+                )
+            if nid.lower() in _MERMAID_RESERVED:
+                errors.append(
+                    f"Mermaid line {i}: node ID '{nid}' is a reserved Mermaid keyword"
+                )
+
+    # Must contain click directives (node links to docs)
+    click_count = mermaid_content.count("click mod_")
+    if click_count == 0:
+        errors.append("Mermaid diagram has no 'click' directives — node links to docs are missing")
+
     # Required sections in markdown
     for heading in ["## Statistics", "## Tier Classification", "## Consumer / Provider Dependencies"]:
         if heading not in text:

@@ -478,12 +478,87 @@ def build_architecture_model(repo_root: Path) -> dict[str, Any]:
 # Mermaid diagram renderer
 # ---------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------
+# Module documentation URL resolver
+# ---------------------------------------------------------------------------
+
+# Base URL for GitHub wiki pages; override via MODULE_WIKI_BASE env var at
+# generation time so the generator works with any fork or mirror.
+_GITHUB_REPO = "makr-code/ThemisDB"
+_GITHUB_BASE = f"https://github.com/{_GITHUB_REPO}"
+_WIKI_BASE = f"{_GITHUB_BASE}/wiki"
+
+# Modules that have a dedicated wiki or developer-docs page.
+# Checked against the GitHub wiki; keys are module names as they appear in
+# MODULES_AND_NAMESPACES.md.  Values are either a full URL or a wiki anchor
+# path (relative to _WIKI_BASE).
+_MODULE_WIKI_OVERRIDES: dict[str, str] = {
+    "llm_wiki": f"{_WIKI_BASE}/LLM-Wiki",
+    "rag": f"{_WIKI_BASE}/RAG-Module",
+    "transaction": f"{_WIKI_BASE}/Transaction-Module",
+    "sharding": f"{_WIKI_BASE}/Sharding-Module",
+    "replication": f"{_WIKI_BASE}/Replication-Module",
+    "graph": f"{_WIKI_BASE}/Graph-Module",
+    "index": f"{_WIKI_BASE}/Index-Module",
+    "storage": f"{_WIKI_BASE}/Storage-Module",
+    "auth": f"{_WIKI_BASE}/Auth-Module",
+    "security": f"{_WIKI_BASE}/Security-Module",
+    "api": f"{_WIKI_BASE}/API-Module",
+    "llm": f"{_WIKI_BASE}/LLM-Module",
+    "acceleration": f"{_WIKI_BASE}/Acceleration-Module",
+    "observability": f"{_WIKI_BASE}/Observability-Module",
+}
+
+
+def _module_doc_url(module_name: str) -> str:
+    """Return the documentation URL for a module.
+
+    Priority:
+    1. Explicit wiki override for well-known modules
+    2. GitHub blob link to src/<module>/ROADMAP.md on develop branch
+    """
+    if module_name in _MODULE_WIKI_OVERRIDES:
+        return _MODULE_WIKI_OVERRIDES[module_name]
+    return f"{_GITHUB_BASE}/blob/develop/src/{module_name}/ROADMAP.md"
+
+
+# ---------------------------------------------------------------------------
+# Mermaid renderer
+# ---------------------------------------------------------------------------
+
+# Mermaid keyword set — node IDs that match these must be prefixed to avoid
+# parse errors.  The list covers flowchart/graph reserved words in Mermaid ≥ 10.
+_MERMAID_RESERVED = frozenset(
+    {
+        "graph", "flowchart", "subgraph", "end", "direction",
+        "click", "style", "classDef", "class", "linkStyle",
+        "default", "start", "stop", "note", "loop", "alt",
+        "else", "opt", "par", "and", "critical", "break",
+        "rect", "title", "accTitle", "accDescr",
+        # common English words that may also be module names
+        "index", "cache", "process", "config", "search",
+    }
+)
+
+
 def _mermaid_node_id(name: str) -> str:
-    return name.replace("-", "_").replace(" ", "_")
+    """Return a safe Mermaid node identifier for a module name.
+
+    Always prefixes with 'mod_' to guarantee no collision with any current or
+    future Mermaid reserved keyword (e.g. 'graph', 'index', 'config').
+    """
+    safe = name.replace("-", "_").replace(" ", "_")
+    return f"mod_{safe}"
 
 
 def render_mermaid(model: dict[str, Any]) -> str:
-    """Render a Mermaid flowchart from the architecture model."""
+    """Render a Mermaid flowchart from the architecture model.
+
+    Each node is rendered with a click directive linking to the module's
+    documentation (src/<module>/ROADMAP.md on develop, or a wiki page for
+    well-known modules).
+    """
     lines: list[str] = ["flowchart TD"]
 
     tier_summary: dict[str, list[str]] = model.get("tier_summary", {})
@@ -492,7 +567,9 @@ def render_mermaid(model: dict[str, Any]) -> str:
         m["name"]: m for m in model.get("modules", [])
     }
 
-    # Subgraphs per tier (T0 first, descending trust)
+    all_rendered_nodes: list[tuple[str, str]] = []  # (nid, module_name)
+
+    # Subgraphs per tier (T0 first, ascending number = higher trust first)
     for tier in sorted(tier_summary.keys()):
         tier_label = TIER_NAMES.get(tier, tier)
         lines.append(f"    subgraph {tier}[\"{tier}: {tier_label}\"]")
@@ -500,20 +577,22 @@ def render_mermaid(model: dict[str, Any]) -> str:
             nid = _mermaid_node_id(mod_name)
             mod = modules_by_name.get(mod_name, {})
             ns = mod.get("namespace", "")
-            label = f"{mod_name}\\n{ns}" if ns else mod_name
+            # Use only the module name in the visible label to keep it compact;
+            # namespace is in the tooltip provided by the click directive.
+            label = mod_name
             has_priv = mod.get("has_private_plugin", False)
             has_pub = mod.get("has_public_plugin", False)
             if has_priv:
-                label += "\\n🔒plugin"
+                label += " 🔒"
             elif has_pub:
-                label += "\\n✅plugin"
+                label += " ✅"
             lines.append(f'        {nid}["{label}"]')
+            all_rendered_nodes.append((nid, mod_name))
         lines.append("    end")
 
     lines.append("")
 
-    # Edges — use only relationships that cross tiers or are T0→T1+
-    # to keep diagram readable; limit total edges
+    # Edges
     rendered_edges: set[tuple[str, str]] = set()
     for rel in relationships:
         src = _mermaid_node_id(rel["from"])
@@ -527,6 +606,17 @@ def render_mermaid(model: dict[str, Any]) -> str:
             lines.append(f'    {src} -->|"{label}"| {dst}')
         else:
             lines.append(f"    {src} --> {dst}")
+
+    lines.append("")
+
+    # Click directives — link each node to its documentation page.
+    # Format: click <nodeId> href "<url>" "<tooltip>" _blank
+    for nid, mod_name in all_rendered_nodes:
+        url = _module_doc_url(mod_name)
+        mod = modules_by_name.get(mod_name, {})
+        ns = mod.get("namespace", mod_name)
+        tooltip = f"{ns} — module documentation"
+        lines.append(f'    click {nid} href "{url}" "{tooltip}" _blank')
 
     return "\n".join(lines)
 
