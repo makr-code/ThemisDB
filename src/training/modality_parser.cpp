@@ -98,7 +98,7 @@ static bool isTableSeparator(const std::string& line) {
 // multiple consecutive-space runs of ≥3 characters separating words
 static bool isAlignedTableRow(const std::string& line) {
     const std::string& t = line;
-    if (static_cast<int>(t.size()) < 10) {
+    if (t.size() < 10) {
       return false;
     }
     size_t space_runs = 0;
@@ -221,7 +221,7 @@ static std::vector<TableBlock> detectTableBlocks(
 {
     std::vector<TableBlock> blocks;
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(lines.size())) {
+    while (i < lines.size()) {
         bool is_table = isPipeTableRow(lines[i]) || isAlignedTableRow(lines[i]);
         if (is_table) {
             size_t start = i;
@@ -287,7 +287,7 @@ TextClauseExtractor::extract(const std::string& text,
     auto sentences = detail::splitSentences(clean_text);
 
     for (const auto& sentence : sentences) {
-        if (static_cast<int>(sentence.size()) < config_.text_clause_min_length) {
+        if (sentence.size() < config_.text_clause_min_length) {
           continue;
         }
 
@@ -393,7 +393,7 @@ CitationExtractor::extract(const std::string& text,
     }
 
     auto addMatch = [&](const std::string& matched, const std::string& type) {
-        if (static_cast<int>(samples.size()) >= config_.max_citations_per_document) {
+        if (samples.size() >= config_.max_citations_per_document) {
           return;
         }
         std::string m = themis::utils::trim(matched);
@@ -428,7 +428,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_STATUTORY);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "statutory");
         }
     }
@@ -438,7 +438,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_COURT_DECISION);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "case_law");
         }
     }
@@ -448,7 +448,7 @@ CitationExtractor::extract(const std::string& text,
         auto begin = std::sregex_iterator(text.begin(), text.end(),
                                           detail::RE_EU_CITATION);
         auto end   = std::sregex_iterator();
-        for (auto it = begin; it != end && static_cast<int>(samples.size()) < config_.max_citations_per_document; ++it) {
+        for (auto it = begin; it != end && samples.size() < config_.max_citations_per_document; ++it) {
             addMatch((*it)[0].str(), "eu_regulation");
         }
     }
@@ -576,7 +576,7 @@ public:
                               + std::distance(court_begin, std::sregex_iterator{});
 
         // More than 1 citation per 500 characters → treat as CITATION document
-        double citation_density = static_cast<int>(content.size()) > 0
+        double citation_density = content.size() > 0
                                 ? static_cast<double>(citation_count) / (content.size() / 500.0)
                                 : 0.0;
         if (citation_density >= 1.0) {

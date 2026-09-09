@@ -738,4 +738,3 @@ void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
 
 } // namespace llm
 } // namespace themis
-

@@ -83,13 +83,9 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
     switch (code) {
         // Allocation errors
         case GPUDispatchErrorCode::ALLOC_SIZE_EXCEEDS_LIMIT:
-        [[fallthrough]];
         case GPUDispatchErrorCode::ALLOC_INSUFFICIENT_VRAM:
-        [[fallthrough]];
         case GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE:
-        [[fallthrough]];
         case GPUDispatchErrorCode::ALLOC_INVALID_PARAMS:
-        [[fallthrough]];
         case GPUDispatchErrorCode::ALLOC_QUOTA_EXCEEDED:
             return GPUDispatchEventType::ALLOCATION_FAILED;
 
@@ -101,35 +97,26 @@ GPUDispatchEventType GPUBackendDispatchDiagnostics::errorCodeToEventType(
             return GPUDispatchEventType::CAPABILITY_MISMATCH;
         
         case GPUDispatchErrorCode::BACKEND_TOPOLOGY_UNAVAILABLE:
-        [[fallthrough]];
         case GPUDispatchErrorCode::BACKEND_NOT_ENABLED:
-        [[fallthrough]];
         case GPUDispatchErrorCode::BACKEND_DEGRADED:
             return GPUDispatchEventType::DEVICE_DEGRADED;
 
         // Dispatch errors
         case GPUDispatchErrorCode::DISPATCH_TIMEOUT:
-        [[fallthrough]];
         case GPUDispatchErrorCode::DISPATCH_KERNEL_LAUNCH_FAILED:
-        [[fallthrough]];
         case GPUDispatchErrorCode::DISPATCH_STREAM_FULL:
-        [[fallthrough]];
         case GPUDispatchErrorCode::DISPATCH_CONCURRENT_EXECUTION_REJECTED:
-        [[fallthrough]];
         case GPUDispatchErrorCode::DISPATCH_QUERY_TYPE_UNSUPPORTED:
             return GPUDispatchEventType::DISPATCH_FAILED;
 
         // Fallback/degradation
         case GPUDispatchErrorCode::FALLBACK_CPU_DEGRADED:
-        [[fallthrough]];
         case GPUDispatchErrorCode::FALLBACK_UNAVAILABLE:
             return GPUDispatchEventType::FALLBACK_TO_CPU;
 
         // Internal/unknown
         case GPUDispatchErrorCode::INTERNAL_ERROR:
-        [[fallthrough]];
         case GPUDispatchErrorCode::SUCCESS:
-        [[fallthrough]];
         default:
             return GPUDispatchEventType::DISPATCH_FAILED;
     }

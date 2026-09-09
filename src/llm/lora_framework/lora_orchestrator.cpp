@@ -291,7 +291,7 @@ bool LoRAOrchestrator::updateMetadata(const std::string& adapter_id, const Adapt
 std::string LoRAOrchestrator::createVersion(const std::string& adapter_id, const std::string& description) {
     std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->versions.find(adapter_id);
-    const size_t next_version = (it != impl_->versions.end()) ? it->second.size() + 1 : 1;
+    const size_t next_version = (it != impl_->versions.end()) ? (it->second.size() + 1) : 1;
     const std::string version = description.empty() ? "v" + std::to_string(next_version) : description;
 
     if (!impl_->adapters.count(adapter_id)) {
@@ -514,7 +514,7 @@ MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
     return nullptr;
 }
 
-void LoRAOrchestrator::enableAdvancedFeatures(bool enable) {
+void LoRAOrchestrator::enableAdvancedFeatures([[maybe_unused]] bool enable) {
     impl_->advanced_enabled = enable;
 }
 
@@ -591,4 +591,3 @@ void LoRAOrchestrator::setDecisionRecordProcessor(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

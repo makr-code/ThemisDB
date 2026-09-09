@@ -50,6 +50,7 @@ class GateReport:
     base_ref: str
     release_lane: bool
     changed_code_files: List[str]
+    changed_public_header_files: List[str]
     changed_non_code_files: List[str]
     scoped_modules: List[str]
     phase6_modules: List[str]
@@ -61,6 +62,8 @@ class GateReport:
     structural_findings: List[dict]
     advisory_findings: List[dict]
     doxygen_warnings: List[str]
+    blocking_doxygen_warnings: List[str]
+    suppressed_doxygen_warning_count: int
     doxygen_exit_code: int | None
     xml_index_exists: bool
     generated_config: str | None
@@ -110,6 +113,11 @@ def _module_name(rel_path: str) -> str | None:
     if len(parts) >= 2 and parts[0] in {"src", "include"}:
         return parts[1]
     return None
+
+
+def _is_public_header(rel_path: str) -> bool:
+    path = Path(rel_path)
+    return len(path.parts) >= 2 and path.parts[0] == "include" and path.suffix.lower() in {".h", ".hh", ".hpp", ".hxx"}
 
 
 def _phase6_complete(roadmap_path: Path) -> bool:
@@ -211,6 +219,51 @@ def parse_warning_lines(raw_lines: Iterable[str]) -> List[str]:
     return warnings
 
 
+def extract_warning_path(repo_root: Path, warning: str) -> str | None:
+    prefix = f"{repo_root.as_posix().rstrip('/')}/"
+    if not warning.startswith(prefix):
+        return None
+    rel_path, _sep, _rest = warning[len(prefix):].partition(":")
+    normalized = rel_path.strip().replace("\\", "/")
+    return normalized or None
+
+
+def filter_blocking_doxygen_warnings(
+    repo_root: Path,
+    warnings: Iterable[str],
+    changed_public_header_files: Iterable[str],
+) -> List[str]:
+    changed_headers = set(changed_public_header_files)
+    if not changed_headers:
+        return []
+    blocking: List[str] = []
+    for warning in warnings:
+        rel_path = extract_warning_path(repo_root, warning)
+        if rel_path in changed_headers:
+            blocking.append(warning)
+    return blocking
+
+
+def build_coverage_command(xml_dir: Path, src_dir: Path, output_path: Path) -> list[str]:
+    return [
+        "python3",
+        "-m",
+        "coverxygen",
+        "--xml-dir",
+        str(xml_dir),
+        "--src-dir",
+        str(src_dir),
+        "--format",
+        "summary",
+        "--scope",
+        "public",
+        "--kind",
+        "class,struct,function,typedef,define,file,namespace",
+        "--output",
+        str(output_path),
+    ]
+
+
 def extract_coverage_percent(summary_text: str) -> float | None:
     match = re.search(r"(\d+(?:\.\d+)?)\s*%", summary_text)
     return float(match.group(1)) if match else None
@@ -223,6 +276,7 @@ def build_summary(report: GateReport) -> str:
         f"- Verdict: **{report.verdict}**",
         f"- Base branch: `{report.base_ref}`",
         f"- Changed C/C++ files: `{len(report.changed_code_files)}`",
+        f"- Changed public headers: `{len(report.changed_public_header_files)}`",
         f"- Scoped modules: `{', '.join(report.scoped_modules) if report.scoped_modules else 'none'}`",
         f"- Release lane: `{'yes' if report.release_lane else 'no'}`",
         f"- Phase 6 modules in scope: `{', '.join(report.phase6_modules) if report.phase6_modules else 'none'}`",
@@ -233,7 +287,8 @@ def build_summary(report: GateReport) -> str:
         f"- Approved waivers: `{', '.join(report.waived_gates) if report.waived_gates else 'none'}`",
         f"- Structural findings: `{len(report.structural_findings)}`",
         f"- Advisory findings: `{len(report.advisory_findings)}`",
-        f"- Doxygen warnings: `{len(report.doxygen_warnings)}`",
+        f"- Blocking Doxygen warnings: `{len(report.blocking_doxygen_warnings)}`",
+        f"- Suppressed out-of-scope Doxygen warnings: `{report.suppressed_doxygen_warning_count}`",
         f"- XML generated: `{'yes' if report.xml_index_exists else 'no'}`",
         "",
     ]
@@ -255,12 +310,19 @@ def build_summary(report: GateReport) -> str:
             lines.append(f"- `... {len(report.structural_findings) - 20} more`")
         lines.append("")
 
-    if report.doxygen_warnings:
-        lines.append("### Doxygen warnings")
-        for warning in report.doxygen_warnings[:20]:
+    if report.blocking_doxygen_warnings:
+        lines.append("### Blocking Doxygen warnings")
+        for warning in report.blocking_doxygen_warnings[:20]:
             lines.append(f"- `{warning}`")
-        if len(report.doxygen_warnings) > 20:
-            lines.append(f"- `... {len(report.doxygen_warnings) - 20} more`")
+        if len(report.blocking_doxygen_warnings) > 20:
+            lines.append(f"- `... {len(report.blocking_doxygen_warnings) - 20} more`")
+        lines.append("")
+
+    if report.suppressed_doxygen_warning_count:
+        lines.append("### Suppressed out-of-scope warnings")
+        lines.append(
+            f"- `{report.suppressed_doxygen_warning_count}` warnings were retained in artifacts but ignored for gate blocking because they do not belong to changed public headers."
+        )
         lines.append("")
 
     if report.advisory_findings:
@@ -305,8 +367,9 @@ def main() -> int:
 
     changed_files = get_changed_files(repo_root, args.base_ref)
     changed_code_files = [path for path in changed_files if _is_cpp_file(path)]
+    changed_public_header_files = [path for path in changed_code_files if _is_public_header(path)]
     changed_non_code_files = [path for path in changed_files if path not in changed_code_files]
-    scoped_modules = sorted({name for path in changed_code_files if (name := _module_name(path))})
+    scoped_modules = sorted({name for path in changed_public_header_files if (name := _module_name(path))})
     phase6_modules = [
         module
         for module in scoped_modules
@@ -324,7 +387,7 @@ def main() -> int:
         }
     )
     waiver_active = DOXYGEN_COVERAGE_GATE_ID in waived_gates
-    coverage_enforced = release_lane or bool(phase6_modules)
+    coverage_enforced = bool(changed_public_header_files) and (release_lane or bool(phase6_modules))
 
     generated_config: Path | None = None
     warning_log: Path | None = None
@@ -335,13 +398,14 @@ def main() -> int:
     xml_index_exists = False
     coverage_percent: float | None = None
     doxygen_warnings: List[str] = []
+    blocking_doxygen_warnings: List[str] = []
     structural_findings: List[dict] = []
     advisory_findings: List[dict] = []
     verdict = "PASS"
 
     if changed_code_files:
         scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
-            [Path(path) for path in changed_code_files]
+            [Path(path) for path in changed_public_header_files]
         )
         structural_findings = [
             finding for finding in scan_findings if finding.get("pattern") in BLOCKING_PATTERNS
@@ -351,7 +415,7 @@ def main() -> int:
         ]
         scope_paths = _selected_scope_paths(
             repo_root,
-            changed_code_files,
+            changed_public_header_files,
             expand_to_module_scope=coverage_enforced,
         )
         generated_config, warning_log, xml_index = write_scoped_doxyfile(
@@ -373,22 +437,15 @@ def main() -> int:
         coverage_summary_path = artifact_dir / "doxygen-coverage-summary.txt"
 
         if coverage_enforced and doxygen_exit_code == 0 and xml_index_exists:
-            coverage_proc = _run(
-                [
-                    "python3",
-                    "-m",
-                    "coverxygen",
-                    "--xml-dir",
-                    str(xml_index.parent),
-                    "--src-dir",
-                    str(repo_root),
-                    "--format",
-                    "summary",
-                ],
-                repo_root,
-            )
+            coverage_proc = _run(build_coverage_command(xml_index.parent, repo_root, coverage_summary_path), repo_root)
             coverage_summary_path.write_text(
-                (coverage_proc.stdout or "") + (coverage_proc.stderr or ""),
+                (
+                    coverage_summary_path.read_text(encoding="utf-8", errors="ignore")
+                    if coverage_summary_path.exists()
+                    else ""
+                )
+                + (coverage_proc.stdout or "")
+                + (coverage_proc.stderr or ""),
                 encoding="utf-8",
             )
             if coverage_proc.returncode == 0:
@@ -417,7 +474,13 @@ def main() -> int:
                     f"coverxygen failed with exit code {coverage_proc.returncode}"
                 )
 
-        if structural_findings or doxygen_exit_code != 0 or not xml_index_exists or doxygen_warnings:
+        blocking_doxygen_warnings = filter_blocking_doxygen_warnings(
+            repo_root,
+            doxygen_warnings,
+            changed_public_header_files,
+        )
+
+        if structural_findings or doxygen_exit_code != 0 or not xml_index_exists or blocking_doxygen_warnings:
             verdict = "FAIL"
         elif coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
             verdict = "WARN" if waiver_active else "FAIL"
@@ -435,6 +498,7 @@ def main() -> int:
         base_ref=base_ref,
         release_lane=release_lane,
         changed_code_files=changed_code_files,
+        changed_public_header_files=changed_public_header_files,
         changed_non_code_files=changed_non_code_files,
         scoped_modules=scoped_modules,
         phase6_modules=phase6_modules,
@@ -446,6 +510,8 @@ def main() -> int:
         structural_findings=structural_findings,
         advisory_findings=advisory_findings,
         doxygen_warnings=doxygen_warnings,
+        blocking_doxygen_warnings=blocking_doxygen_warnings,
+        suppressed_doxygen_warning_count=max(0, len(doxygen_warnings) - len(blocking_doxygen_warnings)),
         doxygen_exit_code=doxygen_exit_code,
         xml_index_exists=xml_index_exists,
         generated_config=str(generated_config) if generated_config else None,

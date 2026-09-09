@@ -37,7 +37,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
         // Populate typed contiguous buffers for zero-copy Arrow access
         switch (columns_[i].schema.type) {
             case DataType::INT64:
-            [[fallthrough]];
+                [[fallthrough]];
             case DataType::TIMESTAMP:
                 columns_[i].int64_buffer.push_back(
                     is_null ? int64_t(0) : std::get<int64_t>(row_data[i]));
@@ -54,7 +54,7 @@ void ArrowRecordBatch::appendRow(const std::vector<std::variant<
     ++row_count_;
 }
 
-const int64_t* ArrowRecordBatch::getInt64Data(size_t col_idx) const {
+const int64_t* ArrowRecordBatch::getInt64Data([[maybe_unused]] size_t col_idx) const {
     const auto& col = columns_.at(col_idx);
     if (col.int64_buffer.empty()) {
         return nullptr;
@@ -62,7 +62,7 @@ const int64_t* ArrowRecordBatch::getInt64Data(size_t col_idx) const {
     return col.int64_buffer.data();
 }
 
-const double* ArrowRecordBatch::getDoubleData(size_t col_idx) const {
+const double* ArrowRecordBatch::getDoubleData([[maybe_unused]] size_t col_idx) const {
     const auto& col = columns_.at(col_idx);
     if (col.double_buffer.empty()) {
         return nullptr;

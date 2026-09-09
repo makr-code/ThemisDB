@@ -223,7 +223,7 @@ bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
       return true;
     }
     return std::any_of(config_.table_filter.begin(), config_.table_filter.end(),
-                       [&](const std::string& f) {
+                       [&]([[maybe_unused]] const std::string& f) {
                            return table.find(f) != std::string::npos;
                        });
 }
@@ -233,7 +233,7 @@ bool DebeziumCDCImporter::tableAllowed(const std::string& table) const {
 // ============================================================================
 
 ImportStats DebeziumCDCImporter::importData(
-    const std::string& source_path,
+    [[maybe_unused]] const std::string& source_path,
     const ImportOptions& options,
     ProgressCallback progress_callback) {
 
@@ -247,7 +247,7 @@ ImportStats DebeziumCDCImporter::importData(
     // stream result directly so callers (and tests) observe connector
     // unavailability correctly.
     return streamEvents(options,
-        [&](const CDCEvent& event) -> bool {
+        [&]([[maybe_unused]] const CDCEvent& event) -> bool {
             if (cancelled_.load(std::memory_order_relaxed)) {
               return false;
             }
@@ -290,7 +290,7 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
 
     // ---- Mock path (for unit tests) ----------------------------------------
     if (!mock_events_.empty()) {
-        for (auto& event : mock_events_) {
+        for ([[maybe_unused]] auto& event : mock_events_) {
             if (cancelled_.load(std::memory_order_relaxed)) {
               break;
             }
@@ -580,7 +580,7 @@ json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
 
     // Build a schema summary from the injected mock events.
     json schema = json::object();
-    for (const auto& event : mock_events_) {
+    for ([[maybe_unused]] const auto& event : mock_events_) {
         if (event.table.empty()) {
           continue;
         }
@@ -610,7 +610,7 @@ json DebeziumCDCImporter::getSourceSchema(const std::string& source_path) {
 // Testing support
 // ============================================================================
 
-void DebeziumCDCImporter::setMockEventsForTesting(std::vector<CDCEvent> events) {
+void DebeziumCDCImporter::setMockEventsForTesting([[maybe_unused]] std::vector<CDCEvent> events) {
     mock_events_ = std::move(events);
 }
 

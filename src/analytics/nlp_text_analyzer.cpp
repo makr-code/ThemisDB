@@ -287,7 +287,7 @@ std::vector<Keyword> NlpTextAnalyzer::extractKeywords(std::string_view text, siz
 
     // Sort by score and limit
     std::sort(keywords.begin(), keywords.end());
-    if (keywords.size() > max_keywords) {
+    if (static_cast<int>(keywords.size()) > max_keywords) {
         keywords.resize(max_keywords);
     }
 
@@ -1078,8 +1078,10 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
     }
 
     auto ends_with = [&](std::string_view suffix, size_t min_stem) -> bool {
-        return len >= suffix.size() + min_stem &&
-               lower.compare(len - suffix.size(), suffix.size(), suffix) == 0;
+        if (len < suffix.size() + min_stem) {
+            return false;
+        }
+        return lower.compare(len - suffix.size(), suffix.size(), suffix) == 0;
     };
     auto strip = [&](size_t n, std::string_view add = "") -> std::string {
         return lower.substr(0, len - n) + std::string(add);
@@ -1167,8 +1169,10 @@ std::string NlpTextAnalyzer::applyMorphologicalRules(const std::string &lower, L
         size_t blen      = base.length();
 
         auto bends = [&](std::string_view suffix, size_t min_stem) -> bool {
-            return blen >= suffix.size() + min_stem &&
-                   base.compare(blen - suffix.size(), suffix.size(), suffix) == 0;
+            if (blen < suffix.size() + min_stem) {
+                return false;
+            }
+            return base.compare(blen - suffix.size(), suffix.size(), suffix) == 0;
         };
         auto bstrip = [&](size_t n, std::string_view add = "") -> std::string {
             return base.substr(0, blen - n) + std::string(add);
@@ -1938,8 +1942,7 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string &directory)
 
 // ========== Legal Modality Extraction ==========
 
-std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string &language_code) const {
-    (void)language_code;
+std::string NlpTextAnalyzer::getDefaultLegalConfigPath([[maybe_unused]] const std::string &language_code) const {
     return "config/nlp/legal/german_modal_verbs.yaml";
 }
 

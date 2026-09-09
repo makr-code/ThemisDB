@@ -196,12 +196,12 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
     }
 }
 
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -401,12 +401,12 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 // ICacheCoordinator – subscriber side
 // ---------------------------------------------------------------------------
 
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -501,8 +501,8 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
 /*static*/
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
-    while (sent < buf.size()) {
-        ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);
+    while (static_cast<size_t>(sent) <static_cast<int>(buf.size())) {
+        ssize_t n = ::send(fd, buf.data() + sent, static_cast<int>(buf.size()) - sent, MSG_NOSIGNAL);
         if (n <= 0)
             return false;
         sent += static_cast<size_t>(n);
@@ -768,7 +768,7 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     //   $<n>\r\n <channel>\r\n
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
-    auto readBulkString = [&](std::string &out) -> bool {
+    auto readBulkString = [&]([[maybe_unused]] std::string &out) -> bool {
         std::string line = {};
         if (!readLine(fd, line))
             return false;

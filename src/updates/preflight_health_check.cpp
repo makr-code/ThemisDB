@@ -296,4 +296,3 @@ size_t PreflightHealthChecker::checkCount() const {
 } // namespace updates
 } // namespace themis
 
-

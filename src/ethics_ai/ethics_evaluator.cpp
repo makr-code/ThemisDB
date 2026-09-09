@@ -124,7 +124,8 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
         for (const auto &arg : arguments) {
             unique_schools.insert(arg.philosophy_school);
         }
-        double diversity = static_cast<double>(unique_schools.size()) / static_cast<double>(std::max<size_t>(size_t(1), arguments.size()));
+        double diversity = static_cast<double>(unique_schools.size()) /
+                           static_cast<double>(std::max<size_t>(1, arguments.size()));
         score += diversity * 0.15;
     }
 
@@ -156,7 +157,7 @@ double EthicsEvaluator::evaluateAlignment(const EthicalDecision &decision,
 }
 
 double EthicsEvaluator::evaluateTransparency(const EthicalDecision &decision,
-                                             const std::vector<EthicalArgument> &arguments) {
+                                             [[maybe_unused]] const std::vector<EthicalArgument> &arguments) {
     double score = 0.5; // Base score
 
     // Factor 1: Decision text completeness
@@ -266,7 +267,7 @@ void EthicsEvaluator::recordDecision(double confidence, bool rag_hit, uint64_t l
     confidence_sum_micro_ += static_cast<uint64_t>(confidence * 1'000'000.0);
 }
 
-void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
+void EthicsEvaluator::setArgumentStoreSize([[maybe_unused]] uint64_t count) {
     argument_store_size_.store(count);
 }
 

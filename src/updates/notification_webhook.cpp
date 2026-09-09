@@ -148,7 +148,7 @@ void NotificationWebhook::setHttpSender(HttpSendFunc fn) {
 // Dispatch
 // ---------------------------------------------------------------------------
 
-bool NotificationWebhook::notify(const UpdateEventPayload& payload) {
+bool NotificationWebhook::notify([[maybe_unused]] const UpdateEventPayload& payload) {
     if (!slack_enabled_ && !pagerduty_enabled_) {
         LOG_WARN("NotificationWebhook::notify: no channels configured");
         return false;
@@ -232,7 +232,7 @@ std::string NotificationWebhook::buildSlackPayload(
     return body.dump();
 }
 
-bool NotificationWebhook::sendSlack(const UpdateEventPayload& payload) {
+bool NotificationWebhook::sendSlack([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildSlackPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending Slack notification (event={}, "
               "version={})", eventLabel(payload.event), payload.version);
@@ -294,7 +294,7 @@ std::string NotificationWebhook::buildPagerDutyPayload(
     return body.dump();
 }
 
-bool NotificationWebhook::sendPagerDuty(const UpdateEventPayload& payload) {
+bool NotificationWebhook::sendPagerDuty([[maybe_unused]] const UpdateEventPayload& payload) {
     const std::string body = buildPagerDutyPayload(payload);
     LOG_DEBUG("NotificationWebhook: sending PagerDuty notification (event={}, "
               "version={})", eventLabel(payload.event), payload.version);
@@ -311,7 +311,7 @@ bool NotificationWebhook::sendPagerDuty(const UpdateEventPayload& payload) {
 // Helpers
 // ---------------------------------------------------------------------------
 
-std::string NotificationWebhook::eventLabel(UpdateEvent event) const {
+std::string NotificationWebhook::eventLabel([[maybe_unused]] UpdateEvent event) const {
     switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "Update Successful";
         case UpdateEvent::UPDATE_FAILED:    return "Update Failed";
@@ -322,7 +322,7 @@ std::string NotificationWebhook::eventLabel(UpdateEvent event) const {
     return "Unknown Event";
 }
 
-std::string NotificationWebhook::slackColor(UpdateEvent event) const {
+std::string NotificationWebhook::slackColor([[maybe_unused]] UpdateEvent event) const {
     switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "good";
         case UpdateEvent::UPDATE_FAILED:    return "danger";
@@ -333,7 +333,7 @@ std::string NotificationWebhook::slackColor(UpdateEvent event) const {
     return "warning";
 }
 
-std::string NotificationWebhook::pagerDutyAction(UpdateEvent event) const {
+std::string NotificationWebhook::pagerDutyAction([[maybe_unused]] UpdateEvent event) const {
     switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "resolve";
         case UpdateEvent::ROLLBACK_SUCCESS: return "resolve";
@@ -344,7 +344,7 @@ std::string NotificationWebhook::pagerDutyAction(UpdateEvent event) const {
     return "trigger";
 }
 
-std::string NotificationWebhook::pagerDutySeverity(UpdateEvent event) const {
+std::string NotificationWebhook::pagerDutySeverity([[maybe_unused]] UpdateEvent event) const {
     switch (event) {
         case UpdateEvent::UPDATE_SUCCESS:   return "info";
         case UpdateEvent::UPDATE_FAILED:    return "critical";
@@ -367,4 +367,3 @@ std::string NotificationWebhook::toISO8601(
 
 } // namespace updates
 } // namespace themis
-

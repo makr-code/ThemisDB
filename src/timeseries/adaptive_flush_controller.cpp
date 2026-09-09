@@ -425,4 +425,3 @@ bool AdaptiveFlushController::isBackpressured() const noexcept {
 }
 
 } // namespace themis
-

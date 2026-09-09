@@ -163,9 +163,8 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 }
                 ARROW_RETURN_NOT_OK(builder.Finish(&array));
                 break;
+            default: break;
             }
-            default:
-                break;
         }
 
         arrays.push_back(array);
@@ -192,7 +191,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
     ~JSONCSVExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              const ExportOptions &options) override {
+                              [[maybe_unused]] const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
 
         ExportResult result;
@@ -213,9 +212,9 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     break;
 
                 case ExportFormat::FMT_ARROW_IPC:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case ExportFormat::FMT_ARROW_PARQUET:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case ExportFormat::FMT_ARROW_FEATHER:
                     spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                     result.status  = ExportStatus::NOT_SUPPORTED;
@@ -263,9 +262,9 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 return exportToCSV(batch);
 
             case ExportFormat::FMT_ARROW_IPC:
-            [[fallthrough]];
+                [[fallthrough]];
             case ExportFormat::FMT_ARROW_PARQUET:
-            [[fallthrough]];
+                [[fallthrough]];
             case ExportFormat::FMT_ARROW_FEATHER:
                 spdlog::warn("Arrow format requested on JSONCSVExporter; use createExporter(format)");
                 return "# ERROR: Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
@@ -315,13 +314,13 @@ class JSONCSVExporter : public IAnalyticsExporter {
     bool supportsFormat(ExportFormat format) const override {
         switch (format) {
             case ExportFormat::JSON:
-            [[fallthrough]];
+                [[fallthrough]];
             case ExportFormat::CSV:
                 return true;
             case ExportFormat::FMT_ARROW_IPC:
-            [[fallthrough]];
+                [[fallthrough]];
             case ExportFormat::FMT_ARROW_PARQUET:
-            [[fallthrough]];
+                [[fallthrough]];
             case ExportFormat::FMT_ARROW_FEATHER:
                 return false;
             default: break;
@@ -422,14 +421,10 @@ class ArrowIPCExporter : public IAnalyticsExporter {
     ~ArrowIPCExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              const ExportOptions &options) override {
+                              [[maybe_unused]] const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
-        spdlog::debug("ArrowIPC exportToFile options: batch_size={}, compress={}, codec='{}'",
-                  options.batch_size,
-                  options.compress,
-                  options.compression_codec);
 
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -490,9 +485,8 @@ class ArrowIPCExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
+    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_IPC for this exporter
-        spdlog::trace("ArrowIPC exportToString options: batch_size={}", options.batch_size);
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
@@ -643,14 +637,10 @@ class ParquetExporter : public IAnalyticsExporter {
     ~ParquetExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              const ExportOptions &options) override {
+                              [[maybe_unused]] const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
-        spdlog::debug("Feather exportToFile options: batch_size={}, compress={}, codec='{}'",
-                  options.batch_size,
-                  options.compress,
-                  options.compression_codec);
 
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
@@ -716,7 +706,7 @@ class ParquetExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch & /*batch*/, const ExportOptions & /*options*/) override {
+    std::string exportToString(const ArrowRecordBatch &, const ExportOptions &) override {
         // Parquet is a binary columnar format; exporting to a plain string is not
         // meaningful.  Throw to signal this clearly, consistent with the factory's
         // error-handling convention.  Use exportToFile() instead.
@@ -757,7 +747,7 @@ class FeatherExporter : public IAnalyticsExporter {
     ~FeatherExporter() override = default;
 
     ExportResult exportToFile(const ArrowRecordBatch &batch, const std::string &output_path,
-                              const ExportOptions &options) override {
+                              [[maybe_unused]] const ExportOptions &options) override {
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
         result.status = ExportStatus::SUCCESS;
@@ -821,9 +811,8 @@ class FeatherExporter : public IAnalyticsExporter {
         return result;
     }
 
-    std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
+    std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
         // format is implicitly FMT_ARROW_FEATHER for this exporter
-        spdlog::trace("Feather exportToString options: batch_size={}", options.batch_size);
         try {
             auto arrow_batch_result = convertToArrowRecordBatch(batch);
             if (!arrow_batch_result.ok()) {
@@ -875,8 +864,8 @@ class FeatherExporter : public IAnalyticsExporter {
             std::string data  = exportToString(batch, options);
             size_t chunk_size = options.batch_size * 100;
             size_t offset     = 0;
-            while (static_cast<size_t>(offset) <static_cast<int>(data.size())) {
-                size_t len = std::min(chunk_size, static_cast<int>(data.size()) - offset);
+            while (offset < data.size()) {
+                size_t len = std::min(chunk_size, data.size() - offset);
                 std::vector<uint8_t> chunk(data.begin() + offset, data.begin() + offset + len);
                 callback(chunk);
                 offset += len;
@@ -921,7 +910,7 @@ class FeatherExporter : public IAnalyticsExporter {
 std::unique_ptr<IAnalyticsExporter> ExporterFactory::createExporter(ExportFormat format) {
     switch (format) {
         case ExportFormat::JSON:
-        [[fallthrough]];
+            [[fallthrough]];
         case ExportFormat::CSV:
             return std::make_unique<JSONCSVExporter>();
 

@@ -270,16 +270,16 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         containment_fn_ = std::move(fn);
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0);
         const bool have_geoms = !in.geoms_a.empty() || !in.geoms_b.empty();
-        if (have_geoms && (static_cast<int>(in.geoms_a.size()) != in.count || static_cast<int>(in.geoms_b.size()) != in.count)) {
+        if (have_geoms && (in.geoms_a.size() != in.count || in.geoms_b.size() != in.count)) {
             THEMIS_WARN("CPU exact batchIntersects: geometry vector sizes ({},{}) "
                         "do not match count ({})",
-                        in.geoms_a.size(), static_cast<int>(in.geoms_b.size()), in.count);
+                        in.geoms_a.size(), in.geoms_b.size(), in.count);
         }
-        std::size_t n = std::min<std::size_t>({static_cast<std::size_t>(in.count), in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
@@ -292,7 +292,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     // GeometryCollection (decomposed into member geometries).
     // Uses ray-casting (point-in-polygon) and segment-intersection
     // to handle all cases including edge-only polygon crossings.
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         // Snapshot the injected containment fn once to avoid locking inside the loop.
         GeoContainmentFn pip;
         {
@@ -497,7 +497,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     // ST_BUFFER: expand a geometry by distance_m metres.
     // Supported types: Point → closed polygon ring, Polygon → outward expansion.
     // arc_points controls the vertex count used for curved approximations.
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points) override {
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m, int arc_points) override {
         if (arc_points < 3)
             arc_points = 3;
         if (distance_m <= 0.0) {
@@ -541,7 +541,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     }
 
     // ST_UNION / ST_DIFFERENCE implementation
-    GeometryInfo stUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stUnion(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         try {
             if (geom1.isPolygon() && geom2.isPolygon()) {
                 return cpuPolyUnion(geom1, geom2);
@@ -586,7 +586,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         return GeometryInfo{};
     }
 
-    GeometryInfo stDifference(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    GeometryInfo stDifference(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         try {
             if (geom1.isPolygon() && geom2.isPolygon()) {
                 return cpuPolyDiff(geom1, geom2);
@@ -1114,10 +1114,10 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
         return true;
     }
 
-    SpatialBatchResults batchIntersects(const SpatialBatchInputs &in) override {
+    SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0);
-        std::size_t n = std::min<std::size_t>({static_cast<std::size_t>(in.count), in.geoms_a.size(), in.geoms_b.size()});
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
@@ -1126,7 +1126,7 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
 
     // Approximate intersection check using MBR overlap.
     // Guaranteed no false negatives; may have false positives.
-    bool exactIntersects(const GeometryInfo &geom1, const GeometryInfo &geom2) override {
+    bool exactIntersects(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         const auto mbr1 = geom1.computeMBR();
         const auto mbr2 = geom2.computeMBR();
         return mbr1.intersects(mbr2);
@@ -1134,7 +1134,7 @@ class ApproximateCpuBackend final : public ISpatialComputeBackend {
 
     // stBuffer delegates to the exact backend; buffering correctness matters
     // regardless of the caller's chosen precision mode.
-    GeometryInfo stBuffer(const GeometryInfo &geom, double distance_m, int arc_points) override {
+    GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m, int arc_points) override {
         return getCpuExactBackendInstance().stBuffer(geom, distance_m, arc_points);
     }
 };
@@ -1191,5 +1191,4 @@ static int s_geo_cpu_backend_anchor = (register_builtin_cpu_backend(), 0);
 
 } // namespace geo
 } // namespace themis
-
 

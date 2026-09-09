@@ -347,7 +347,8 @@ CrossTenantPolicyInheritance::mergeDecisions(const PolicyManager::PolicyDecision
         }
         return 0; // "offen" or unknown
     };
-    if (classificationRank(override_decision.classification_level) > classificationRank(base.classification_level)) {
+    if (classificationRank(override_decision.classification_level)
+        > classificationRank(base.classification_level)) {
         merged.classification_level = override_decision.classification_level;
     }
 

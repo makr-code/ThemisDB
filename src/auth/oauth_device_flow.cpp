@@ -76,7 +76,7 @@ OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
 
     if (!config_.scopes.empty()) {
         std::string scope_str = {};
-        for (size_t i = 0; i < config_.scopes.size(); ++i) {
+        for (size_t i = 0; i <static_cast<int>(config_.scopes.size()); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }
@@ -308,10 +308,10 @@ JWTClaims OAuthDeviceFlow::authenticate(std::function<void(const DeviceCodeRespo
                     break;
 
                 case PollStatus::AccessDenied:
-                [[fallthrough]];
-case PollStatus::ExpiredToken:
-                [[fallthrough]];
-case PollStatus::Error:
+                    [[fallthrough]];
+                case PollStatus::ExpiredToken:
+                    [[fallthrough]];
+                case PollStatus::Error:
                     // pollForToken has already thrown for AccessDenied/ExpiredToken.
                     // For Error, surface a generic exception.
                     throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "OAuth device flow failed",
@@ -465,4 +465,3 @@ std::string OAuthDeviceFlow::buildFormBody(const std::vector<std::pair<std::stri
 
 } // namespace auth
 } // namespace themis
-

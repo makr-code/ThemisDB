@@ -227,7 +227,7 @@ void CrashRecoveryManager::logOperation(
     metric_ops_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void CrashRecoveryManager::logCommit(uint64_t txn_id) {
+void CrashRecoveryManager::logCommit([[maybe_unused]] uint64_t txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     committed_ids_.insert(txn_id);
@@ -241,7 +241,7 @@ void CrashRecoveryManager::logCommit(uint64_t txn_id) {
     metric_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
-void CrashRecoveryManager::logAbort(uint64_t txn_id) {
+void CrashRecoveryManager::logAbort([[maybe_unused]] uint64_t txn_id) {
     std::lock_guard<std::mutex> lk(mutex_);
     pending_ops_.erase(txn_id);
     aborted_ids_.insert(txn_id);
@@ -279,7 +279,7 @@ CrashRecoveryManager::scanInFlight() const {
                 begun.insert(entry->txn_id);
                 break;
             case EntryType::COMMIT:
-            [[fallthrough]];
+                [[fallthrough]];
             case EntryType::ABORT:
                 finished.insert(entry->txn_id);
                 break;
@@ -520,5 +520,4 @@ size_t CrashRecoveryManager::pendingTransactionCount() const {
 
 } // namespace transaction
 } // namespace themis
-
 

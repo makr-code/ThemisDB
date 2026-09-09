@@ -167,7 +167,7 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
     }
 }
 
-uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
+uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_window_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (retention_window_ms == 0) {
@@ -372,6 +372,7 @@ SSMStateRocksDBStore::findMostRecentSnapshot(const std::string& session_id) {
     }
 
     delete it;
+    it = nullptr;
     return most_recent;
 }
 

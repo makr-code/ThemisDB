@@ -339,4 +339,3 @@ bool is_mpi_available() {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

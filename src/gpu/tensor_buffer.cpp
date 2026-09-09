@@ -124,7 +124,7 @@ size_t GPUTensorBuffer::totalBytes() const noexcept {
 // fill
 // ---------------------------------------------------------------------------
 
-void GPUTensorBuffer::fill(double value) {
+void GPUTensorBuffer::fill([[maybe_unused]] double value) {
     std::lock_guard<std::mutex> lk(mutex_);
     size_t elem_bytes = Shape::elementBytes(dtype_);
     size_t n          = shape_.numElements();
@@ -160,7 +160,7 @@ void GPUTensorBuffer::fill(double value) {
                     uint32_t exp16  = static_cast<uint32_t>(exp32 + 15);
                     uint32_t mant16 = mant32 >> 13;
                     uint32_t round  = mant32 & 0x1FFFu;
-                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1u))) {
+                    if (round > 0x1000u || (round == 0x1000u && (mant16 & 1))) {
                         ++mant16;
                     }
                     if (mant16 >= 0x400u) {
@@ -288,7 +288,7 @@ GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) 
         const uint8_t *p   = bytes.data();
         const uint8_t *end = p + static_cast<int>(bytes.size()) ;
 
-        auto need = [&](size_t n) {
+        auto need = [&]([[maybe_unused]] size_t n) {
             if (p + n > end) {
                 throw std::runtime_error("GPUTensorBuffer::deserialize: truncated data");
             }
