@@ -94,6 +94,84 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 
 **Reference:** Kairouz et al. (2021) JMLR 2021, arXiv:2104.14881
 
+### C3: Graph Phase Gate Orchestration
+
+ML pipeline phase tracking using a directed-acyclic-graph (DAG) orchestrator that
+enforces per-phase gate criteria and reports gaps (missing evidence) blocking phase
+advancement.  Resolves C3 gap-tracking requirement from issue #6287.
+
+**Scope:**
+- DAG-based phase registry: named pipeline phases (nodes) + prerequisite edges.
+- Gate criteria: per-phase named metric thresholds (key ≥ threshold).
+- Gap reporting: structured `PhaseGapReport` listing unsatisfied criteria and
+  blocked-by-phase chains.
+- Topological ordering: valid execution sequence via Kahn's algorithm.
+- Completion tracking: `passedPhaseCount()` and `completionRatio()` (0.0–1.0).
+- Thread safety: shared-mutex reader/writer separation for concurrent evaluation.
+
+**Design Constraints:**
+- Public API confined to `include/graph/graph_phase_gate_orchestrator.h`; no external
+  dependencies beyond the C++ standard library.
+- `registerPhase()` must detect and reject cycles at registration time.
+- Gate evaluation is recursive (prerequisite-first); the BLOCKED status propagates
+  without re-evaluating satisfied subtrees.
+- All gate evaluation calls are read-only on the stored phase graph (shared lock);
+  writes serialise via exclusive lock.
+
+**Required Interfaces:**
+| Interface | Requirement |
+|---|---|
+| `registerPhase(name, prereqs)` | DAG construction; cycle detection; returns bool |
+| `setGateCriteria(name, criteria)` | Replace metric thresholds for a phase |
+| `attachMetric(name, key, value)` | Record an observed metric value |
+| `gateStatus(name)` | Recursive gate evaluation → PASS / FAIL / BLOCKED / PENDING |
+| `gaps(name)` | Structured gap report for a single phase |
+| `allGaps()` | All gap reports for non-PASS phases |
+| `topologicalOrder()` | Valid execution sequence (Kahn's algorithm) |
+| `completionRatio()` | Float fraction of PASS phases |
+
+**Implementation Notes:**
+- Implementation: `src/graph/graph_phase_gate_orchestrator.cpp`
+- Header: `include/graph/graph_phase_gate_orchestrator.h`
+- Tests: `tests/graph/test_graph_phase_gate_orchestration.cpp` (GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01)
+
+**Test Strategy:**
+- GRAPH_PHASE_GATE-01: empty orchestrator has zero phases and 0.0 completion ratio.
+- GRAPH_PHASE_GATE-02: root phase (no prerequisites) registers successfully.
+- GRAPH_PHASE_GATE-03: duplicate phase name registration is rejected.
+- GRAPH_PHASE_GATE-04: prerequisite referring to unregistered phase is rejected.
+- GRAPH_PHASE_GATE-05: cycle introduction is rejected at registerPhase time.
+- GRAPH_PHASE_GATE-06: unregistered phase gateStatus returns PENDING.
+- GRAPH_PHASE_GATE-07: root phase with no criteria passes immediately.
+- GRAPH_PHASE_GATE-08: gate FAIL when required metric is absent.
+- GRAPH_PHASE_GATE-09: gate FAIL when metric is below threshold.
+- GRAPH_PHASE_GATE-10: gate PASS when metric equals threshold exactly.
+- GRAPH_PHASE_GATE-11: gate BLOCKED when a prerequisite phase has not passed.
+- GRAPH_PHASE_GATE-12: gap report enumerates unsatisfied criteria and blockers.
+- GRAPH_PHASE_GATE-13: allGaps excludes phases that have PASSED.
+- GRAPH_PHASE_GATE-14: topological ordering respects prerequisite edges.
+- GRAPH_PHASE_GATE-15: completionRatio accurately reflects PASS fraction.
+- GRAPH_PHASE_GATE-BENCH-01: 20-phase linear pipeline with all gates passing
+  completes within 500 ms wall-clock time.
+
+**Performance Targets:**
+- Gate evaluation for a 20-phase linear DAG: ≤ 500 ms wall-clock (BENCH-01).
+- `gateStatus()` p99 latency for a single phase in a 100-phase DAG: ≤ 10 ms.
+
+**Security / Reliability:**
+- Cycle detection prevents unbounded recursion in gate evaluation.
+- Shared-mutex design allows concurrent reads without write serialisation pressure.
+- No external I/O or LLM dependency; orchestrator is deterministic and self-contained.
+
+**Acceptance Criteria:**
+- GRAPH_PHASE_GATE-01..15 all PASS.
+- GRAPH_PHASE_GATE-BENCH-01 completes within 500 ms.
+- Cycle injection via registerPhase is rejected (GRAPH_PHASE_GATE-05).
+
+**Status:** ✅ Implemented — `include/graph/graph_phase_gate_orchestrator.h`,
+`src/graph/graph_phase_gate_orchestrator.cpp`,
+`tests/graph/test_graph_phase_gate_orchestration.cpp`
+
 ## Wave C Dependencies and Risk Mitigation
 
 ### Blockers / Dependencies
@@ -101,11 +179,13 @@ Long-term strategic AI/ML features for enhanced safety, privacy, and governance.
 - [x] Wave A + Wave B stability checks tracked in release verification artifacts (`CTEST.md`, issues `#5038`/`#5039`)
 - [x] Constitutional AI principles formalized in ethics framework (`src/ai/cai_ethics_integration.cpp`, `tests/test_cai_safety_module.cpp`)
 - [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 + Wave issue traceability)
+- [x] Graph phase gate orchestrator implemented and tested — `include/graph/graph_phase_gate_orchestrator.h`, `tests/graph/test_graph_phase_gate_orchestration.cpp` (GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01, issue #6287)
 
 ### Risk Mitigation
 
 - C1 (CAI): Start with simple rule-based critic; LLM-based only after v0.1
 - C2 (Federated): Deploy in staging first; Byzantine-robustness is nice-to-have, not critical for v1.0
+- C3 (Graph Phase Gate): Orchestrator is self-contained (no LLM dependency); rollout risk is minimal.
 
 ### Timeline
 
