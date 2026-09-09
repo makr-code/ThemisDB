@@ -739,4 +739,3 @@ UpdateHistoryLogger* HotReloadEngine::historyLogger() {
 
 } // namespace updates
 } // namespace themis
-

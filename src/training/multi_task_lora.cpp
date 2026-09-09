@@ -50,7 +50,7 @@ public:
         tasks_.push_back(task);
     }
 
-    size_t taskCount() const { return static_cast<int>(tasks_.size()); }
+    size_t taskCount() const { return tasks_.size(); }
 
     // ──────────────────────────────────────────────────────────────────
     // Training
@@ -185,7 +185,7 @@ public:
                 // Forward: shared_hidden = B^T * input  (shared_rank output)
                 std::vector<float> hidden(shared_rank, 0.0f);
                 for (size_t k = 0; k < shared_rank; ++k) {
-                    for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(s.input.size()); ++j) {
+                    for (size_t j = 0; j < in_dim  && j < s.input.size(); ++j) {
                         hidden[k] += shared_B_[j * shared_rank + k] * s.input[j];
                     }
                 }
@@ -221,7 +221,7 @@ public:
                         // dL/d(head[k][j]) = grad_pred * hidden[k]
                         task_heads_[ti][k * in_dim + j] -= eff_lr * grad_pred * hidden[k];
                         // dL/d(B[j][k]) = grad_pred * head[k][j] * input[j]  (simplified)
-                        if (static_cast<int>(s.input.size()) > j) {
+                        if (s.input.size() > j) {
                             shared_B_[j * shared_rank + k] -= eff_lr * grad_pred
                                 * task_heads_[ti][k * in_dim + j] * s.input[j];
                         }
@@ -343,7 +343,7 @@ public:
 
         std::vector<float> hidden(cfg_.shared_rank, 0.0f);
         for (size_t k = 0; k < cfg_.shared_rank; ++k) {
-            for (size_t j = 0; j < in_dim  && static_cast<size_t>(j) <static_cast<int>(input.size()); ++j) {
+            for (size_t j = 0; j < in_dim  && j < input.size(); ++j) {
                 hidden[k] += shared_B_[j * shared_rank + k] * input[j];
             }
         }

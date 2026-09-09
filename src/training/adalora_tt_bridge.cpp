@@ -210,7 +210,7 @@ AdaLoraTTLayerExport AdaLoraTTBridge::exportLayer(const AdaLoRAAdapter& adapter,
     if (impl_->cfg.max_tt_rank > 0 && max_rank > impl_->cfg.max_tt_rank) {
         throw std::invalid_argument("Layer rank exceeds max_tt_rank: " + layer_name);
     }
-    if (B.size() % max_rank != 0 || static_cast<int>(A.size()) % max_rank != 0) {
+    if (B.size() % max_rank != 0 || A.size() % max_rank != 0) {
         throw std::invalid_argument("Invalid matrix shape for layer: " + layer_name);
     }
 
@@ -286,7 +286,7 @@ AdaLoRAAdapter AdaLoraTTBridge::importFromTT(const AdaLoraTTExport& exp) const {
     AdaLoRAAdapter adapter(max_rank, 8.0f, std::max<std::size_t>(1, total_budget));
 
     for (const auto& layer : exp.layers) {
-        if (static_cast<int>(layer.train.cores.size()) != 2) {
+        if (layer.train.cores.size() != 2) {
             continue;
         }
 
@@ -410,7 +410,7 @@ AdaLoraTTBridge::findSimilarAdapters(const AdaLoraTTExport& query_exp,
     std::sort(out.begin(), out.end(), [](const SimilarAdapter& a, const SimilarAdapter& b) {
         return a.similarity > b.similarity;
     });
-    if (static_cast<int>(out.size()) > top_k) {
+    if (out.size() > top_k) {
         out.resize(top_k);
     }
     return out;

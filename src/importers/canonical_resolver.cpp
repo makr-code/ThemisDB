@@ -213,7 +213,7 @@ std::string CanonicalEntityResolver::bestStringValue(const std::string &v1, cons
         case ResolutionPolicy::NEWEST_FIRST:
             return (v1 >= v2) ? v1 : v2;
         case ResolutionPolicy::MOST_COMPLETE:
-        [[fallthrough]];
+            [[fallthrough]];
         case ResolutionPolicy::RICHEST_MERGE:
             return (v1.size() >= v2.size()) ? v1 : v2;
         case ResolutionPolicy::EXISTING_PREFERRED:
@@ -370,4 +370,3 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
 
 } // namespace importers
 } // namespace themis
-

@@ -1124,4 +1124,3 @@ void KafkaImporterPlugin::shutdown() {
 } // namespace themis
 
 
-

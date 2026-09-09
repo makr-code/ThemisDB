@@ -15,6 +15,11 @@ Production-ready execution layer with SLA-aware query scheduling, work-stealing 
 - [x] Execution diagnostics and error reporting → COMPLETE
 - [x] Resource constraint enforcement → COMPLETE
 
+## In Progress
+
+- [~] validate `release_critical`-green CI evidence for execution-related scheduler/thread-pool paths on `develop` (Target: Q4 2026)
+- [ ] refresh representative-hardware p95/p99 baselines for queue/dequeue/steal hot paths before Wave D sign-off (Target: Q1 2027)
+
 ## Completed Initiatives
 
 ### Phase 1-3 Delivery (Q3 2026) - COMPLETE ✓

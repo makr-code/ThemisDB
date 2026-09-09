@@ -21,6 +21,8 @@
 
 #include <benchmark/benchmark.h>
 
+#include <array>
+
 #include "cdc/cdc_metrics.h"
 #include "transaction/transaction_manager.h"
 #include "transaction/distributed_transaction_manager.h"
@@ -30,7 +32,6 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 
-#include <array>
 #include <chrono>
 #include <filesystem>
 #include <memory>
@@ -73,7 +74,7 @@ void publishThroughputGate(benchmark::State& state,
 void publishLatencyGate(benchmark::State& state, double threshold_ms) {
     state.counters["gate_target_p99_ms"] = threshold_ms;
     state.counters["gate_pass"] =
-        state.counters["p99_ms"] <= threshold_ms ? 1.0 : 0.0;
+        state.counters["p99_ms"].value <= threshold_ms ? 1.0 : 0.0;
 }
 
 }  // namespace

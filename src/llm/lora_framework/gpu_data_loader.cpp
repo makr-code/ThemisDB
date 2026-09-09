@@ -377,4 +377,3 @@ bool GPUDataLoader::updateBatchSize(size_t new_batch_size) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

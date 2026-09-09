@@ -307,7 +307,7 @@ jobs:
       reduction_pct: ${{ steps.audit.outputs.reduction_pct }}
       audit_status: ${{ steps.audit.outputs.audit_status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: "Run CUDA-call audit"
         id: audit

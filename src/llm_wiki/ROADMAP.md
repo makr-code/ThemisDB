@@ -16,6 +16,38 @@
 - Strongly coupled to `llama_cpp` for local inference-backed retrieval and summarization flows
 - Uses `retrieval` and `metadata` as supporting engine modules, but owns the wiki/provenance contract itself
 
+## In Progress
+
+- [~] complete wiki-routing cost-signal expansion, provenance propagation, and route-selection regression coverage (Target: Q4 2026)
+- [~] close security/governance runtime gates (allowlist evidence gate, deny-path determinism, drift checks) with persisted audit artefacts (Target: Q4 2026)
+- [~] finalize policy-loader hot-reload safety and rollback-trigger/canary promotion tests for YAML process orchestration (Target: Q1 2027)
+
+## Planned Features
+
+- [ ] representative-hardware Recall@k and p95/p99 validation for wiki ingest/query lifecycle (Target: Q4 2026)
+- [ ] adaptive schema migration runner with compatibility matrix for mixed-version readers/writers (Target: Q1 2027)
+- [ ] release gate enforcing zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
+
+## Implementation Phases
+
+### Phase 1 — Design / API Contract
+- [x] `ILLMWikiPlugin` API, module boundary, and edition-gate contract defined (Target: Q3 2026)
+
+### Phase 2 — Core Implementation
+- [x] plugin implementation, workspace lifecycle, and ingestion/query baseline wiring delivered (Target: Q3 2026)
+
+### Phase 3 — Error Handling & Edge Cases
+- [x] guardrails, partial-failure handling, checksum/recovery semantics, and edition-gate enforcement delivered (Target: Q4 2026)
+
+### Phase 4 — Tests
+- [x] focused, integration, and wave-gate test suites for lifecycle, routing, guardrails, and policy paths delivered (Target: Q4 2026)
+
+### Phase 5 — Performance / Hardening
+- [~] benchmark closure and representative-hardware baselines pending final execution/sign-off (Target: Q1 2027)
+
+### Phase 6 — Documentation & Acceptance
+- [~] final acceptance closure depends on Wave B/D evidence freshness and governance sign-off (Target: Q1 2027)
+
 ### Phase 1-2 Complete ✅
 - [x] `ILLMWikiPlugin` public C++ SDK interface defined
 - [x] `plugin.json` manifest with edition gating

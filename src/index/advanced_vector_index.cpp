@@ -214,7 +214,7 @@ bool AdvancedVectorIndex::initializeIndex() {
 #endif
 }
 
-bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::train([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -273,7 +273,7 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
 #endif
 }
 
-bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
+bool AdvancedVectorIndex::add([[maybe_unused]] const float* vectors, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -321,7 +321,7 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
 #endif
 }
 
-bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, size_t count) {
+bool AdvancedVectorIndex::addWithIds([[maybe_unused]] const float* vectors, [[maybe_unused]] const int64_t* ids, [[maybe_unused]] size_t count) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -369,7 +369,7 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
 #endif
 }
 
-AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query, size_t k) {
+AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] const float* query, [[maybe_unused]] size_t k) {
     SearchResult result = SearchResult{};
     
 #ifdef THEMIS_HAS_FAISS
@@ -424,9 +424,9 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query
 }
 
 std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
-    const float* queries,
-    size_t num_queries,
-    size_t k
+    [[maybe_unused]] const float* queries,
+    [[maybe_unused]] size_t num_queries,
+    [[maybe_unused]] size_t k
 ) {
     std::vector<SearchResult> results(num_queries);
     
@@ -538,7 +538,7 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
     return stats;
 }
 
-bool AdvancedVectorIndex::save(const std::string& path) {
+bool AdvancedVectorIndex::save([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
@@ -577,7 +577,7 @@ bool AdvancedVectorIndex::save(const std::string& path) {
 #endif
 }
 
-bool AdvancedVectorIndex::load(const std::string& path) {
+bool AdvancedVectorIndex::load([[maybe_unused]] const std::string& path) {
 #ifdef THEMIS_HAS_FAISS
     try {
         if (index_) {
@@ -668,7 +668,7 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
             
         case WorkloadType::MIXED:
         [[fallthrough]];
-default:
+        default:
             config.nlist = base_nlist;
             config.nprobe = 64;
             config.index_type = Config::Type::IVF_PQ;
@@ -716,4 +716,3 @@ default:
 }
 
 } // namespace themis
-

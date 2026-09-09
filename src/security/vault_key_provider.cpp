@@ -288,12 +288,12 @@ struct VaultKeyProvider::Impl {
             bool transient = false;
             switch (res) {
                 case CURLE_OPERATION_TIMEDOUT:
-                [[fallthrough]];
-case CURLE_COULDNT_CONNECT:
-                [[fallthrough]];
-case CURLE_COULDNT_RESOLVE_HOST:
-                [[fallthrough]];
-case CURLE_PARTIAL_FILE:
+                    [[fallthrough]];
+                case CURLE_COULDNT_CONNECT:
+                    [[fallthrough]];
+                case CURLE_COULDNT_RESOLVE_HOST:
+                    [[fallthrough]];
+                case CURLE_PARTIAL_FILE:
                     transient = true; break;
                 default: transient = false; break;
             }
@@ -930,5 +930,3 @@ VaultKeyProvider::CacheStats VaultKeyProvider::getCacheStats() const {
 }
 
 } // namespace themis
-
-

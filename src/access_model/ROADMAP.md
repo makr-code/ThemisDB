@@ -23,6 +23,11 @@
 
 ---
 
+## In Progress
+
+- [~] keep module-level roadmap/checklist claims synchronized with source-verified wave gates and representative-hardware evidence updates (Target: Q4 2026)
+- [ ] close remaining Wave B entry dependency on Wave A global gate closure (`release_critical` green + refreshed baselines) (Target: Q4 2026)
+
 ## Implementation Phases
 
 ### Phase 1: Architecture & Interfaces ✅ (DONE)
@@ -144,6 +149,12 @@
 
 - Phase 5-6 observability, e2e/concurrency testing, and benchmark gates were completed and source-validated on 2026-08-17; keep derivative checklists synchronized with the validated source state
 - Phases 2-4 core implementation and unit/integration tests complete as of 2026-08-09
+
+---
+
+## Breaking Changes
+
+No breaking access-model contract is planned; any API/behavioral break requires migration notes and changelog synchronization before merge.
 
 ---
 

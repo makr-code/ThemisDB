@@ -407,7 +407,7 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
         uint32_t key_partition = partitionForKey(ev.key, cfg.consumer_count);
         if (key_partition == consumer_partition) {
             result.push_back(std::move(ev));
-            if (result.size() >= effective_limit) {
+            if (static_cast<int>(result.size()) >= effective_limit) {
                 break;
             }
         }
@@ -466,7 +466,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
     // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
     for (uint64_t seq : overdue_seqs) {
-        if (result.size() >= effective_limit) {
+        if (static_cast<int>(result.size()) >= effective_limit) {
             break;
         }
         try {
@@ -479,11 +479,11 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     // Step 3: Fetch new events beyond the current in-flight range.
     std::vector<InFlightRecord> new_records;
 
-    if (result.size() < effective_limit) {
+    if (static_cast<int>(result.size()) < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
         const uint64_t from_seq  = (std::max)(committed, highest_inflight);
-        const size_t remaining   = effective_limit - result.size();
+        const size_t remaining   = effective_limit - static_cast<int>(result.size()) ;
         const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000);
 
         Changefeed::ListOptions opts;
@@ -492,7 +492,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
         auto all_events = changefeed.listEvents(opts);
         for (auto &ev : all_events) {
-            if (result.size() >= effective_limit) {
+            if (static_cast<int>(result.size()) >= effective_limit) {
                 break;
             }
             if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {
@@ -575,7 +575,7 @@ size_t ConsumerGroupManager::getInFlightCount(const std::string &group_id, const
     if (cit == git->second.end()) {
         return 0;
     }
-    return static_cast<size_t>(cit->second.size());
+    return cit->second.size();
 }
 
 InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id, const std::string &consumer_id,
@@ -613,5 +613,3 @@ InFlightStats ConsumerGroupManager::getInFlightStats(const std::string &group_id
 
 } // namespace cdc
 } // namespace themis
-
-

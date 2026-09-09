@@ -1,10 +1,15 @@
 # Workflow Guidelines
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-09
+> Last Updated: 2026-09-09
+> Status: active
+
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
-## Aktive Workflows (44)
+## Aktive Workflows (45)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -20,6 +25,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/build-llm-inference.yml`
 - `.github/workflows/gate-pr-core.yml`
 - `.github/workflows/gate-pr-doxygen-governance.yml`
+- `.github/workflows/gate-pr-doc-metadata.yml`
 - `.github/workflows/release-build-matrix.yml`
 - `.github/workflows/release-mainline.yml`
 - `.github/workflows/build-widget.yml`

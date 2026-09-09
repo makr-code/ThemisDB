@@ -126,7 +126,7 @@ public:
         return insertion_order_;
     }
 
-    size_t layerCount() const { return static_cast<int>(layers_.size()); }
+    size_t layerCount() const { return layers_.size(); }
 
     // -------------------------------------------------------------------------
     // Importance update
@@ -298,9 +298,9 @@ public:
                     const std::vector<float>& B,
                     const std::vector<float>& A) {
         Layer& lay = getLayer(name);
-        if (static_cast<int>(B.size()) != lay.in_dim * lay.max_rank)
+        if (B.size() != lay.in_dim * lay.max_rank)
             throw std::invalid_argument("B size mismatch");
-        if (static_cast<int>(A.size()) != lay.max_rank * lay.out_dim)
+        if (A.size() != lay.max_rank * lay.out_dim)
             throw std::invalid_argument("A size mismatch");
         lay.B = B;
         lay.A = A;
@@ -324,7 +324,7 @@ public:
         const size_t D_out = lay.out_dim;
         const size_t r     = lay.active_rank;
 
-        if (static_cast<int>(input.size()) != batch_size * D_in)
+        if (input.size() != batch_size * D_in)
             throw std::invalid_argument("Input size mismatch");
 
         const float scaling = lay.alpha / static_cast<float>(lay.max_rank);
@@ -553,8 +553,8 @@ void AdaLoRAAdapter::saveToFile(const std::string& path,
         const float  importance  = impl_->getImportance(name);
 
         // Infer dimensions from B (in_dim × max_rank) and A (max_rank × out_dim)
-        const size_t in_dim  = (max_rank > 0) ?static_cast<int>(B.size()) / max_rank : 0;
-        const size_t out_dim = (max_rank > 0) ?static_cast<int>(A.size()) / max_rank : 0;
+        const size_t in_dim  = (max_rank > 0) ?B.size() / max_rank : 0;
+        const size_t out_dim = (max_rank > 0) ?A.size() / max_rank : 0;
 
         // alpha is not directly exposed; reconstruct as default
         // We store a synthetic alpha via importance field note: real alpha stored

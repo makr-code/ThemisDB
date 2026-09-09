@@ -36,6 +36,24 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 
 ## Implementation Phases
 
+### Phase 1 — Design / API Contract
+- [x] LoRA artifact and hybrid-retrieval contract boundaries are documented and source-linked (Target: Q3 2026)
+
+### Phase 2 — Core Implementation
+- [x] LoRA package/manifest implementation and Phase A-B hybrid retrieval wiring are delivered (Target: Q3 2026)
+
+### Phase 3 — Error Handling & Edge Cases
+- [~] fallback, timeout, and failure-injection semantics for Phase B/C rollout are partially closed; residual runtime-failure verification remains (Target: Q4 2026)
+
+### Phase 4 — Tests
+- [~] Phase A/B gates are implemented and largely validated; Phase C multi-shard environment validation remains open (Target: Q4 2026)
+
+### Phase 5 — Performance / Hardening
+- [~] benchmark gates are implemented; representative environment validation and final p95/p99 sign-off remain open (Target: Q4 2026)
+
+### Phase 6 — Documentation & Acceptance
+- [ ] acceptance documents must be bound to measured runtime evidence for final closure (Target: Q1 2027)
+
 ### LoRA Artifacts (EPIC 1.4) — COMPLETE
 
 **Phase 1: Design / API Contract**

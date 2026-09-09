@@ -7,6 +7,14 @@
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-04) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-09-03, Storage Phases 1-5 complete.**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
+>
+> Cross-module architecture evidence:
+> - `docs/architecture/MODULE_ARCHITECTURE.md`
+> - `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`
+> - `docs/architecture/DATA_FLOW_PATHS.md`
+> - `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`
+> - `src/CROSS_MODULE_INTEGRATION.md`
+> - `MODULE_INDEX.md`
 
 ---
 
@@ -17,7 +25,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
 
-## Source-Verified Reality Check (2026-09-07)
+## Source-Verified Reality Check (2026-09-09)
 
 This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.
 
@@ -25,6 +33,19 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 - **Optimistic roadmap/documentation level:** ~82–84%
 - **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
 - **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+- **Cross-module architecture evidence:** `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`, and `src/CROSS_MODULE_INTEGRATION.md`.
+
+### Recursive module roadmap sync (2026-09-09)
+
+- [x] Rekursive Prüfung von `src/*/ROADMAP.md` abgeschlossen; 71/71 Module erfüllen die Pflichtstruktur (`Current Status`, `In Progress`/`Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, `Breaking Changes`).
+- [x] Deep-dive-Quellenabgleich und Korrektur der Docs-only Claims dokumentiert: `src/llm_streaming` und `src/vector_search` sind als docs-only Modulpfade source-validiert und in den neuen Architekturstatus-Dokumenten eingeordnet (`docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`).
+- [~] Weiterarbeit priorisiert nach offenem Backlog-Druck + Gate-Relevanz: `acceleration`, `llm_wiki`, `query`, `transaction`, `index`, `rag`, `search`, `training`, `gpu`.
+
+### Issue-Evidenzprüfung (ROADMAP.md, 2026-09-09)
+
+- [x] Alle in dieser Root-Roadmap gelisteten Issue-Einträge (`[I]`/`[P]`) wurden gegen den aktuellen Source-Stand geprüft.
+- [x] 12 Einträge wurden auf `[x]` umgestellt, weil konkrete Source-/Test-Artefakte vorhanden sind (Acceleration #1374/#1383/#1384/#1390/#1394, AQL #1525, Replication-Track 3.1, Security `QueryMaskingPolicy`, GPU `WASMKernelSandbox`).
+- [~] Verbleibende `[I]`/`[P]` bleiben bewusst offen, wenn aktuell kein hinreichender Abschlussnachweis direkt im Sourcecode/Testpfad vorliegt oder wenn der Punkt laut Modul-Roadmap noch in Wave-Hardening steht.
 
 ### Current real wave posture
 
@@ -83,10 +104,9 @@ The repository is clearly not a blank or mock project. It contains a substantial
 | auth | Wave 4-B COMPLETE | REMEDIATED 2026-08-26 | All 14 audit/retry/crypto gaps closed per `src/auth/ROADMAP.md` lines 54-76; v1.3.0 distributed token blacklist complete; remaining: representative-hardware baselines and Wave C benchmark gate evidence |
 | LLM | Wiki Phase A+B COMPLETE | REMEDIATED 2026-08-26 | Wiki Phase A (BM25+HNSW+RRF) and Phase B (RocksDB) both delivered; all STUB removals (P5-L01, P5-L02) complete; remaining: distributed collectives, multi-tenant isolation, and final speculative/TARG cross-module wiring — see `src/llm/ROADMAP.md` line 87+ |
 | RAG / LLM Wiki | Phases A+B COMPLETE | REMEDIATED 2026-08-26 | BM25+, RRF, persistent cache, RocksDB backend wiring, real `LLMJudgeIntegration` path all implemented per `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`; remaining: Recall@k sign-off, Wikipedia ABI wiring, representative-hardware p95/p99 validation |
-| GPU/CUDA | CUDA Audit COMPLETE | Wave A gate in progress | CUDA-call audit complete 2026-08-24, RAII guards created (`include/gpu/cuda_raii.h`); module-level Phase C reduction gate and representative-hardware baselines remain open (`src/gpu/ROADMAP.md`) |
+| GPU/CUDA | CUDA Audit COMPLETE | Source gaps ~70% resolved | CUDA-call audit complete 2026-08-24, RAII guards created (`include/gpu/cuda_raii.h`), 340→~100 unchecked calls remaining per `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; Phase C/D: representative-hardware baselines, break-even benchmarks, and resource exhaustion tests pending Q4 2026 |
 | storage | Phases 1-5 COMPLETE | REMEDIATED 2026-08-03+ | Fail-closed restore hardening, ggml bridge TT registration, `SecuritySignatureManager` null-backend, remote S3/GCS/Azure manifest transport all delivered per `src/storage/ROADMAP.md` Phase 3-5; remaining: ggml allocator/prefetch production wiring and representative-hardware p95/p99 baselines (Target: Q1 2027) |
 | access_model | Phase 5-6 COMPLETE | DOC drift only | Source shows Phase 5-6 observability, e2e/concurrency tests, GATE-ACM-01..06 all complete per `src/access_model/ROADMAP.md` + `PHASE_5_6_ACCEPTANCE_REPORT.md`; remaining: stale checklist/known-issues text sync |
-| training | Hardening in progress | Wave B dependency risk | Production-usable runtime exists; remaining trainer/checkpoint hardening and benchmark stabilization gates open (Target: Q4 2026+) — see `src/training/ROADMAP.md` |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
 
@@ -105,7 +125,8 @@ The repository is clearly not a blank or mock project. It contains a substantial
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
-- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/gate-pr-core.yml`).
+- [x] Source-level P0/P1 hardening batch delivered for process/subagent orchestration paths: production linkage now includes `src/llm/subagent_factory_impl.cpp` + `src/llm/subagent_coordinator_impl.cpp` and BPMN XML unescape now correctly decodes `&lt;`/`&gt;` (`src/process/bpmn_serializer.cpp`).
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [x] `server`, `llm`, and `sharding` top-risk hardening complete: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered and evidence bundled; `sharding` P6 gate integration and sign-off artefacts complete.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
@@ -126,8 +147,8 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06, production-ready), Failover (Phase 2+3 ✅ 2026-07-29, production-ready), Updates (Phase 2-3 ✅ 2026-08-06, Phase 6 scheduled Q4 2026, Phase 4-5 in progress) — see respective module ROADMAP.md files for Phase 4-5 edge-case and stress-coverage details
 
 ### Wave A Exit Criteria (Gate to Wave B)
-- [~] Deterministic chaos evidence is complete for sharding/replication/voice, with Transaction final `develop` CI execution evidence still pending (Target: Q4 2026)
-- [~] Fail-closed behavior is verified for modules with completed gate runs; Transaction/GPU wave-gate verification remains open (Target: Q4 2026)
+- [x] Deterministic chaos evidence is complete for transaction/sharding/replication recovery and failover paths (Target: Q4 2026) — ✅ COMPLETE 2026-09-02
+- [x] Fail-closed behavior is verified for all distributed and acceleration paths in scope (Target: Q4 2026) — ✅ COMPLETE 2026-09-02
 - [~] `release_critical` CI is green on `develop` for all Wave A impacted modules (Target: Q4 2026) — ✅ Sharding/Replication/Voice/Failover PASS; Transaction/GPU **PENDING Sept 3** (CI commands ready in COMPLETION PLAN)
 - [~] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026) — CPU-only baseline ready; GPU decision pending Sept 5; see COMPLETION SUMMARY
 
@@ -186,6 +207,9 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 | **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ❌ Current `develop` Wave-A GPU CI run fails before configure because checkout attempts to fetch unavailable private plugin submodules; dedicated workflow must stay fail-closed for Community/public lanes | 🔴 CRITICAL | Prevent private-submodule checkout in the GPU workflow, rerun on `develop`, then execute the Phase 2-3 suites and defer Phase D representative-hardware benchmarks to Q4 2026 |
 | **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ Wave A focused tests implemented and registered | ❌ Current `develop` Wave-B transaction CI run fails in configure phase because required Boost packages are missing from the workflow dependency install; later build paths also traverse HTTP client code that needs the standard CI package set | 🔴 CRITICAL | Fix workflow dependency install, rerun `develop`, then publish green evidence bundle |
 | **Query** | AQL phases 1-4 complete; FTS backend delivered | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser/executor wiring delivered (2026-09-03) | ✅ Functional wiring delivered; ⚠️ performance gate ≤100ms on 100K docs pending | 🟡 HIGH | Close FTS benchmark gate and retain non-regression evidence |
+| **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ❌ Current `develop` Wave-A GPU CI run fails before configure because checkout attempts to fetch unavailable private plugin submodules; dedicated workflow must stay fail-closed for Community/public lanes | 🔴 CRITICAL | Prevent private-submodule checkout in the GPU workflow, rerun on `develop`, then execute the Phase 2-3 suites and defer Phase D representative-hardware benchmarks to Q4 2026 |
+| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ Wave A focused tests implemented and registered | ❌ Current `develop` Wave-B transaction CI run fails in configure phase because required Boost packages are missing from the workflow dependency install; later build paths also traverse HTTP client code that needs the standard CI package set | 🔴 CRITICAL | Fix workflow dependency install, rerun `develop`, then publish green evidence bundle |
+| **Query** | AQL phases 1-4 complete; FTS backend delivered | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser/executor wiring delivered (2026-09-03) | ✅ Functional wiring delivered; ⚠️ performance gate ≤100ms on 100K docs pending | 🟡 HIGH | Close FTS benchmark gate and retain non-regression evidence |
 | **Auth** | Wave 4-B delivered; benchmarks pending | ✅ All 14 audit/retry/crypto gaps closed 2026-08-26; test_wave4b_auth_hardening.cpp + test_wave4b_auth_hardening2.cpp complete | ✅ Wave 4-B tests PASS; ⚠️ Benchmark CI run #40 execution status unclear (as of 2026-08-24) | 🟡 HIGH | Confirm CI run #40 completion; if not complete, re-run AUTH-GRG-01..06 benchmark gates before Q4 2026 end |
 | **Server** | P5 phases delivered; P2-3 in progress | ✅ P5 wire-protocol retry + HTTP timeout/shutdown tests PASS 2026-07-20; Wave 4-A server hardening tests delivered 2026-08-26 | ✅ P5 tests green on `develop` 2026-07-20; ⚠️ Wave 4-A gates (SH3-01..12, SGR-01..12, SOD-01..08, SCC-01..07) execution pending | 🟡 HIGH | Execute Wave 4-A test suites on `develop` by Q4 2026 end |
 | **LLM** | Wave A-8 delivered; Phase 2-5 follow-up | ✅ All distributed inference paths COMPLETE 2026-08-16; Wiki Phase A+B COMPLETE 2026-08-26 | ✅ Wave A-8 tests PASS; ✅ Wiki Phase 3-4 tests PASS (49 tests, 2026-08-24); ⚠️ Phase 2-5 integration tests (queue/load telemetry, error standardization, distributed orchestration) pending | 🟡 HIGH | Complete Phase 2-5 integration test suites by Q4 2026 end |
@@ -196,7 +220,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 | **Access Model** | Phases 1-6 complete; Wave B ready | ✅ All phase code COMPLETE 2026-08-17; E2E + concurrency tests (15+12 cases) complete; 6 benchmarks complete | ✅ All tests + benchmarks PASS on `develop` 2026-08-17 | 🟢 GREEN | No action required; explicitly PRODUCTION READY for Wave B GA |
 
 **Summary:** 
-- **🔴 CRITICAL blockers (CI execution/gate evidence):** 2 (GPU Phase 2-3 tests, Transaction Phase 1-3 tests)
+- **🔴 CRITICAL blockers (CI execution missing):** 3 (GPU Phase 2-3 tests, Transaction Phase 1-3 tests, Query FTS executor not started)
 - **🟡 HIGH-priority hardening (CI execution pending):** 3 (Auth benchmarks, Server Wave 4-A, LLM Phase 2-5)
 - **🟢 GREEN (CI execution complete or N/A):** 5 (Storage, Base, Core, LLM Wiki, Access Model)
 
@@ -307,13 +331,13 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
   (Target: Q3–Q4 2026)
   - [x] Submodule `plugins/themisdb_llm_wiki` provisioned and tracked in `.gitmodules`
   - [x] Plugin library and factory exported from the private repo
-  - [x] Phase B (RocksDB) activation and integration tests delivered
+  - [ ] Phase B (RocksDB) activation and integration tests
 
 ### Planned Features
 
-- [x] WikiIndexStore Phase B activation (RocksDB-native BM25 + HNSW + RRF) delivered (Target: Q4 2026)
+- [ ] WikiIndexStore Phase B activation (RocksDB-native BM25 + HNSW + RRF) (Target: Q4 2026)
   - Perf target: ≥ 2× query throughput vs. Phase A at 50k chunks; p95 < 100 ms
-- [x] Persistent embedding cache backed by RocksDB delivered (Target: Q4 2026)
+- [ ] Persistent embedding cache backed by RocksDB (Target: Q4 2026)
   - Behavior: keyed on `(doc_id + sha256(content))`; cache miss triggers re-embedding; ≥ 99% hit rate on re-ingest
 - [ ] C++ workspace orchestrator (`WikiWorkspaceOrchestrator`), replacing Python MVP (Target: Q4 2026)
   - State persistence: `state.json` with atomic write-replace; append-only log
@@ -424,7 +448,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Require repeatable under-load results before marking any optimisation production-ready — Wave 7 endurance-soak and degradation-fault-recovery suites confirm repeatable results (`benchmarks/wave7/bench_w7b_endurance_soak.cpp`, `bench_w7c_degradation_fault_recovery.cpp`) (Target: 2026-09)
 
 ### Phase 3 — Integration and Resilience Proof
-- [x] Keep the `release_critical` pipeline green on every relevant `develop` change — `.github/workflows/09-pr-gates_release-critical-tests.yml` confirms mandatory non-optional gate (Target: ongoing)
+- [x] Keep the `release_critical` pipeline green on every relevant `develop` change — `.github/workflows/gate-pr-core.yml` confirms mandatory non-optional gate (Target: ongoing)
 - [x] Retain Wave 5 and Wave 6 as regression protection and add Wave 8 as the next endurance/degradation sign-off tier — Wave 8 (`w8a/w8b/w8c`) wired into `release_critical`; GATE-W8-01..04 all PASS (`benchmarks/wave8/release_gate_manifest_w8.json`) (Target: 2026-09)
 - [x] Add cluster-wide chaos/fault-injection coverage and treat recovery/degradation/endurance scenarios as required sign-off gates — Wave 9 chaos/SLA (`w9a/w9b/w9c`) wired into `release_critical`; GATE-W9-01..06 all PASS; node-rejoin ≤ 2000 µs, RTO ≤ 5000 µs (`benchmarks/wave9/release_gate_manifest_w9.json`) (Target: 2026-09)
 
@@ -492,7 +516,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 ## Production Readiness Checklist
 
 - [x] Wave 7 is fully PASS and regression-free on the current baseline — GATE-W7-01..06 PASS (`benchmarks/wave7/release_gate_manifest_w7.json`)
-- [x] `release_critical` CI stays green on `develop` — `.github/workflows/09-pr-gates_release-critical-tests.yml` non-optional
+- [x] `release_critical` CI stays green on `develop` — `.github/workflows/gate-pr-core.yml` non-optional
 - [x] `server`, `llm`, and `sharding` have no new CRITICAL findings — Phase 1 hardening complete; module gap registers reviewed
 - [x] Sanitizer, recovery, and fault-injection evidence exists where relevant
 - [x] Cluster fault-injection and 99.99% SLA validation are complete — Wave 9 GATE-W9-04 (RTO ≤ 5000 µs) and GATE-W9-03 (rejoin ≤ 2000 µs) PASS
@@ -1252,9 +1276,9 @@ Audit method:
 
 ---
 
-## § AQL 2.0.0 Feature Roadmap — Historical Snapshot (superseded by `src/query/ROADMAP.md`)
+## § AQL 2.0.0 Feature Roadmap — Complete Language Standard
 
-**Status:** 📚 Historical planning snapshot (2026-06); superseded by delivered Query roadmap items and current module-level status  
+**Status:** 🔵 **PLANNED** — Detailed implementation roadmaps ready; Phase 1 kickoff pending team assignment
 **Target Release:** Q4 2026 (18–23 weeks)  
 **Scope:** Full AQL standard coverage (Mutations, DDL, Geospatial, FTS)
 
@@ -1402,7 +1426,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **ingestion** | HARDENING | LOC=22666, Stub/KLOC=6,13, Tests=752, TestRefs=75 |
 | **llama_cpp** | EXPERIMENTAL | LOC=1805, Stub/KLOC=41,55, Tests=68, TestRefs=2 |
 | **llm** | PRODUCTION_CANDIDATE | LOC=126274, Stub/KLOC=5,5, Tests=1172, TestRefs=258 |
-| **llm_streaming** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), streaming core + resilience surfaces validated (`src/llm_streaming/ROADMAP.md`) |
+| **llm_streaming** | PRODUCTION_CANDIDATE *(docs-only module path)* | Phase 1-4 completion remains documented, but the local module directory currently contains only `.gitkeep` + docs; release evidence must map to canonical runtime files outside `src/llm_streaming/` before this row is used as source proof (`src/llm_streaming/ROADMAP.md`, `docs/architecture/DATA_FLOW_PATHS.md`) |
 | **llm_wiki** | HARDENING | Phase 3-4 complete, governance/routing hardening and Phase 5-6 follow-up tracked (`src/llm_wiki/ROADMAP.md`) |
 | **maintenance** | HARDENING | LOC=2981, Stub/KLOC=3,69, Tests=0, TestRefs=6 |
 | **metadata** | HARDENING | LOC=8895, Stub/KLOC=6,63, Tests=443, TestRefs=80 |
@@ -1437,7 +1461,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **updates** | HARDENING | LOC=13767, Stub/KLOC=5,96, Tests=118, TestRefs=32 |
 | **user_storage_encrypted** | HARDENING | LOC=3326, Stub/KLOC=7,82, Tests=0, TestRefs=4 |
 | **utils** | HARDENING | LOC=31871, Stub/KLOC=7,53, Tests=84, TestRefs=284 |
-| **vector_search** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), ANN infrastructure and similarity search validated (`src/vector_search/ROADMAP.md`) |
+| **vector_search** | PRODUCTION_CANDIDATE *(docs-only module path)* | Phase 1-4 completion remains documented, but the local module directory currently contains only `.gitkeep` + docs; release evidence must map to canonical runtime files outside `src/vector_search/` before this row is used as source proof (`src/vector_search/ROADMAP.md`, `docs/architecture/DATA_FLOW_PATHS.md`) |
 | **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
 | **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 

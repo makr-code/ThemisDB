@@ -1,5 +1,10 @@
 # ThemisDB Workflow Registry (Lean Core)
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-09
+> Last Updated: 2026-09-09
+> Status: active
+
 ## Zielbild
 Dieses Repository nutzt bewusst ein schlankes, release-orientiertes CI/CD-Set.
 Alle nicht zwingenden Modul-/Spezial-Workflows wurden entfernt, um Wartung,
@@ -18,6 +23,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
 - `.github/workflows/gate-pr-doxygen-governance.yml`
   — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
+- `.github/workflows/gate-pr-doc-metadata.yml`
+  — Leichtgewichtiges Markdown-Metadaten-Gate fuer geaenderte Doku-Dateien; prueft Author/Urheber, Created, Last Updated und Status mit klaren Excludes fuer Backlog-/Archiv-/Template-Dateien
 - `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
 - `.github/workflows/build-clang-fast.yml`
@@ -48,6 +55,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
 - `.github/workflows/maintenance-docs-db-build.yml`
   — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
+- `.github/workflows/maintenance-architecture-ci.yml`
+  — Architecture model generator: scans ai_context/, ai_working/, developer_llm_wiki/, api_contracts/, ARCHITECTURE.md, ROADMAP.md, docs/ and produces architecture.json + architecture.md (Mermaid diagram); schedule weekly + dispatch + path-filtered push on develop; opens PR when outputs change
 - `.github/workflows/reusable-docs-db-builder.yml`
   — Reusable: generalized folder→ThemisDB-DB pipeline; builds themis_docs_builder, hashes input tree, skips if up-to-date, uploads artifact; called by maintenance-docs-db-build.yml and any future per-folder callers
 - `.github/workflows/maintenance-ci-health.yml`
@@ -123,7 +132,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 44
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 45
 - Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.

@@ -78,8 +78,8 @@ static uint32_t seedFromName(const std::string& name) {
  */
 static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K,
                                   const std::vector<float>& B, size_t N) {
-    assert(static_cast<int>(A.size()) == M * K);
-    assert(static_cast<int>(B.size()) == K * N);
+    assert(A.size() == M * K);
+    assert(B.size() == K * N);
     std::vector<float> C(M * N, 0.0f);
     for (size_t m = 0; m < M; ++m) {
         for (size_t k = 0; k < K; ++k) {
@@ -170,13 +170,13 @@ public:
         return names;
     }
 
-    size_t layerCount() const { return static_cast<int>(layers_.size()); }
+    size_t layerCount() const { return layers_.size(); }
 
     size_t totalParameterCount() const {
         size_t total = 0;
         for (const auto& kv : layers_) {
             const auto& e = kv.second;
-            total += static_cast<int>(e.B.size()) + static_cast<int>(e.A.size()) ;  // in_dim*rank + rank*out_dim
+            total += e.B.size() + e.A.size() ;  // in_dim*rank + rank*out_dim
         }
         return total;
     }
@@ -203,16 +203,16 @@ public:
         const size_t expected_B = e.in_dim  * e.rank;
         const size_t expected_A = e.rank    * e.out_dim;
 
-        if (static_cast<int>(B.size()) != expected_B) {
+        if (B.size() != expected_B) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: B size mismatch for layer '" << layer_name
-                << "' (expected " << expected_B << ", got " <<static_cast<int>(B.size()) << ")";
+                << "' (expected " << expected_B << ", got " <<B.size() << ")";
             throw std::invalid_argument(oss.str());
         }
-        if (static_cast<int>(A.size()) != expected_A) {
+        if (A.size() != expected_A) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::setWeights: A size mismatch for layer '" << layer_name
-                << "' (expected " << expected_A << ", got " <<static_cast<int>(A.size()) << ")";
+                << "' (expected " << expected_A << ", got " <<A.size() << ")";
             throw std::invalid_argument(oss.str());
         }
 
@@ -232,25 +232,25 @@ public:
             throw std::out_of_range("LoRAAdapter::applyUpdate: unknown layer '" + layer_name + "'");
 
         LoRAWeightEntry& e = it->second;
-        if (static_cast<int>(delta_B.size()) != static_cast<int>(e.B.size())) {
+        if (delta_B.size() != e.B.size()) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_B size mismatch for layer '" << layer_name
-                << "' (expected " <<static_cast<int>(e.B.size()) << ", got " <<static_cast<int>(delta_B.size()) << ")";
+                << "' (expected " << e.B.size() << ", got " <<delta_B.size() << ")";
             throw std::invalid_argument(oss.str());
         }
-        if (static_cast<int>(delta_A.size()) != static_cast<int>(e.A.size())) {
+        if (delta_A.size() != e.A.size()) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::applyUpdate: delta_A size mismatch for layer '" << layer_name
-                << "' (expected " <<static_cast<int>(e.A.size()) << ", got " <<static_cast<int>(delta_A.size()) << ")";
+                << "' (expected " << e.A.size() << ", got " <<delta_A.size() << ")";
             throw std::invalid_argument(oss.str());
         }
 
         // B_new = B + delta_B
-        for (size_t i = 0; i <static_cast<int>(e.B.size()); ++i) {
+        for (size_t i = 0; i < e.B.size(); ++i) {
           e.B[i] += delta_B[i];
         }
         // A_new = A + delta_A
-        for (size_t i = 0; i <static_cast<int>(e.A.size()); ++i) {
+        for (size_t i = 0; i < e.A.size(); ++i) {
           e.A[i] += delta_A[i];
         }
 
@@ -261,8 +261,8 @@ public:
     }
 
     WeightUpdateResult applyBatchUpdate(const WeightUpdateBatch& batch) {
-        if (static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_B.size()) ||
-            static_cast<int>(batch.layer_names.size()) != static_cast<int>(batch.delta_A.size())) {
+        if (batch.layer_names.size() != batch.delta_B.size() ||
+            batch.layer_names.size() != batch.delta_A.size()) {
             throw std::invalid_argument(
                 "LoRAAdapter::applyBatchUpdate: batch vectors must have the same length");
         }
@@ -270,7 +270,7 @@ public:
         WeightUpdateResult result;
         result.success = true;
 
-        for (size_t i = 0; i <static_cast<int>(batch.layer_names.size()); ++i) {
+        for (size_t i = 0; i < batch.layer_names.size(); ++i) {
             const std::string& name = batch.layer_names[i];
             auto it = layers_.find(name);
             if (it == layers_.end()) {
@@ -282,8 +282,8 @@ public:
             LoRAWeightEntry& e = it->second;
 
             // Size validation per entry – on mismatch skip and count as skipped
-            if (batch.delta_B[i].size() != static_cast<int>(e.B.size()) ||
-                batch.delta_A[i].size() != static_cast<int>(e.A.size())) {
+            if (batch.delta_B[i].size() != e.B.size() ||
+                batch.delta_A[i].size() != e.A.size()) {
                 ++result.layers_skipped;
                 if (result.error_message.empty()) {
                     result.error_message =
@@ -292,10 +292,10 @@ public:
                 continue;
             }
 
-            for (size_t j = 0; j <static_cast<int>(e.B.size()); ++j) {
+            for (size_t j = 0; j < e.B.size(); ++j) {
               e.B[j] += batch.delta_B[i][j];
             }
-            for (size_t j = 0; j <static_cast<int>(e.A.size()); ++j) {
+            for (size_t j = 0; j < e.A.size(); ++j) {
               e.A[j] += batch.delta_A[i][j];
             }
             ++result.layers_updated;
@@ -317,12 +317,12 @@ public:
 
         const LoRAWeightEntry& e = it->second;
 
-        if (static_cast<int>(input.size()) != batch_size * e.in_dim) {
+        if (input.size() != batch_size * e.in_dim) {
             std::ostringstream oss = {};
             oss << "LoRAAdapter::forward: input size mismatch for layer '" << layer_name
                 << "' (expected " << (batch_size * e.in_dim)
                 << " = batch_size(" << batch_size << ") × in_dim(" << e.in_dim
-                << "), got " <<static_cast<int>(input.size()) << ")";
+                << "), got " <<input.size() << ")";
             throw std::invalid_argument(oss.str());
         }
 
@@ -369,11 +369,11 @@ public:
             const size_t expected_B = e.in_dim  * e.rank;
             const size_t expected_A = e.rank    * e.out_dim;
 
-            if (static_cast<int>(e.B.size()) != expected_B || static_cast<int>(e.A.size()) != expected_A) {
+            if (e.B.size() != expected_B || e.A.size() != expected_A) {
                 std::ostringstream oss = {};
                 oss << "LoRAAdapter::importWeights: size mismatch for entry '" << e.layer_name
-                    << "': B expected " << expected_B << " (got " <<static_cast<int>(e.B.size())
-                    << "), A expected " << expected_A << " (got " <<static_cast<int>(e.A.size()) << ")";
+                    << "': B expected " << expected_B << " (got " << e.B.size()
+                    << "), A expected " << expected_A << " (got " << e.A.size() << ")";
                 throw std::invalid_argument(oss.str());
             }
 

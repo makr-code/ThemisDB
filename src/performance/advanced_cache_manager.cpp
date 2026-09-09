@@ -432,8 +432,8 @@ void AdvancedCacheManager::put(const std::string& key,
             if (ps->stats.entries > 0) {
               --ps->stats.entries;
             }
-            ps->stats.bytes_used = ps->stats.bytes_used > static_cast<int>(lru_entry.value.size())
-                ? ps->stats.bytes_used - static_cast<int>(lru_entry.value.size()) : 0;
+            ps->stats.bytes_used = ps->stats.bytes_used > lru_entry.value.size()
+                ? ps->stats.bytes_used - lru_entry.value.size() : 0;
         }
         ps->lru_list.push_front({key, std::move(stored_value)});
         ps->index[key] = ps->lru_list.begin();
@@ -518,5 +518,4 @@ void AdvancedCacheManager::flush_all() {
 
 }  // namespace performance
 }  // namespace themis
-
 
