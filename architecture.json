@@ -389,12 +389,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "4e17d46197ca1d0f"
+      "sha256_prefix": "3983a562f05de940"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "84e7325175bb2229"
+      "sha256_prefix": "85d3e651399ea0df"
     },
     {
       "category": "governance",
@@ -414,7 +414,7 @@
     {
       "category": "governance",
       "path": "DOCUMENTATION_GOVERNANCE.md",
-      "sha256_prefix": "6934301bd580031a"
+      "sha256_prefix": "4b0c28204a0b5bc2"
     },
     {
       "category": "governance",
@@ -1273,6 +1273,11 @@
     },
     {
       "category": "docs",
+      "path": "docs/architecture/DATA_FLOW_PATHS.md",
+      "sha256_prefix": "1cde02bce51df84b"
+    },
+    {
+      "category": "docs",
       "path": "docs/architecture/FEATURE_FLAGS_REFERENCE.md",
       "sha256_prefix": "81dc77abcc6d9a86"
     },
@@ -1308,8 +1313,18 @@
     },
     {
       "category": "docs",
+      "path": "docs/architecture/MODULE_ARCHITECTURE.md",
+      "sha256_prefix": "410c8702c4b464e0"
+    },
+    {
+      "category": "docs",
       "path": "docs/architecture/MODULE_ARCHITECTURE_INDEX.md",
       "sha256_prefix": "d41451e058f29740"
+    },
+    {
+      "category": "docs",
+      "path": "docs/architecture/MODULE_INTEGRATION_CONTRACTS.md",
+      "sha256_prefix": "fa06c8e9c36d82ca"
     },
     {
       "category": "docs",
@@ -1380,6 +1395,11 @@
       "category": "docs",
       "path": "docs/architecture/REFACTORING_SUMMARY.md",
       "sha256_prefix": "2a0db2e47075511c"
+    },
+    {
+      "category": "docs",
+      "path": "docs/architecture/RELEASE_ARCHITECTURE_STATUS.md",
+      "sha256_prefix": "66f6f64520569a57"
     },
     {
       "category": "docs",
@@ -2089,7 +2109,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "e12926cbbd109cb6"
+      "sha256_prefix": "3fd1d35036ed9ef4"
     },
     {
       "category": "docs",
@@ -3019,7 +3039,7 @@
     {
       "category": "docs",
       "path": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "sha256_prefix": "5d0a20df2f955776"
+      "sha256_prefix": "93d3d2f5ee80d5ba"
     },
     {
       "category": "docs",
@@ -6217,7 +6237,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-09T07:22:07.285466+00:00",
+  "generated_at": "2026-09-09T11:30:55.047710+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8293,19 +8313,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "4e17d46197ca1d0f",
+    "ARCHITECTURE.md": "3983a562f05de940",
     "FUTURE_ENHANCEMENTS.md": "27719b9a0d59d926",
-    "ROADMAP.md": "84e7325175bb2229",
+    "ROADMAP.md": "85d3e651399ea0df",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "327db5382688c4b9",
     "ai_context/developer_llm_wiki/": "a1c14f1daa494f60",
     "ai_working/": "23010ee516eb01da",
-    "docs/": "4e41caa1db36a619"
+    "docs/": "0ebd66abb33122a8"
   },
   "statistics": {
     "ai_working_artifact_count": 64,
-    "documentation_source_count": 1166,
+    "documentation_source_count": 1170,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
     "modules_with_public_plugin": 10,
