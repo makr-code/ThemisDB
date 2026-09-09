@@ -7,6 +7,7 @@
 
 **Version:** 1.0
 **Last Updated:** 2026-09-09
+**Module Path:** `src/whisper/`
 
 ---
 

@@ -7,6 +7,7 @@
 
 **Version:** 0.0.1
 **Last Updated:** 2026-09-09
+**Module Path:** `src/onnx_clip/`
 
 ---
 

@@ -59,12 +59,13 @@ descriptions in older docs.
 | Layer | Modules | Role |
 |-------|---------|------|
 | **0 — Foundation** | `base`, `core`, `performance`, `utils` | Stateless utilities; no ThemisDB upstream deps |
+| **0b — Leaf Runtime Services** | `acceleration` | Hardware acceleration leaf module consumed by index/geo/graph/llm; no ThemisDB upstream deps |
 | **1 — Persistent Storage** | `storage`, `cache`, `metadata`, `timeseries`, `temporal` | RocksDB wrapper, MVCC, blob/columnar, schema management |
 | **2 — Distributed Infrastructure** | `sharding`, `replication`, `network`, `transaction`, `cdc`, `failover`, `maintenance` | Consensus (Raft/Paxos/Gossip), WAL shipping, 2PC, ACID, changefeed |
 | **3 — Indexing & Search** | `index`, `search`, `geo`, `graph` | HNSW/vector/spatial/graph indexes, BM25+vector hybrid search |
 | **4 — Data Processing** | `query`, `aql`, `analytics`, `execution`, `content`, `ingestion`, `toolbox`, `document` | AQL/SQL pipeline, operator execution, multimodal ingestion |
 | **5 — AI / LLM** | `llm`, `rag`, `retrieval`, `llm_wiki`, `training`, `prompt_engineering`, `llama_cpp`, `onnx_clip`, `whisper`, `stable_diffusion`, `distributed_knowledge`, `distributed_tensor` | Inference, RAG evaluation, LoRA, embeddings, vision, multi-modal |
-| **6 — Application & Protocol** | `server`, `api`, `auth`, `security`, `plugins`, `rpc_grpc`, `acceleration` | HTTP/gRPC servers, 50+ API handlers, GPU acceleration, plugin system |
+| **6 — Application & Protocol** | `server`, `api`, `auth`, `security`, `plugins`, `rpc_grpc` | HTTP/gRPC servers, 50+ API handlers, plugin system |
 | **Cross-cutting** | `access_model`, `governance`, `observability`, `scheduler`, `security`, `chaos`, `config`, `ethics_ai`, `chimera`, `process`, `projects`, `updates` | Policy, observability, governance, scheduling |
 
 ### Confirmed Cross-Module Dependency Graph

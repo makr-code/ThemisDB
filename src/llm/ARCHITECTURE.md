@@ -292,7 +292,7 @@ The module uses a layered concurrency model with explicit synchronization at key
 | observability | `include/observability/` | Inference span telemetry, throughput metrics |
 | security | `include/security/` | Prompt sanitisation, credential-isolation at inference boundary |
 | utils | `include/utils/` | Common utilities (logging, string helpers) |
-| llama_cpp | `stable-diffusion.cpp/` (external) | Underlying llama.cpp inference backend |
+| llama_cpp | `include/llama_cpp/llama_cpp_plugin.h`, `src/llama_cpp/` | llama.cpp-backed inference plugin surface loaded by the LLM module |
 | server (circular) | `include/server/mcp_server.h` | MCP tool-bridge server handle (**circular — see §Known Design Issues**) |
 
 ### Direct Downstream Consumers (modules that use this module)
@@ -374,5 +374,4 @@ The module uses a layered concurrency model with explicit synchronization at key
 | **Description** | Distributed inference collective ops (NCCL/RCCL) and per-tenant VRAM isolation not yet production-wired |
 | **Impact** | Multi-tenant deployments must use single-tenant mode; advanced GPU reduction ops unavailable |
 | **Tracking** | Wave C: https://github.com/makr-code/ThemisDB/issues/5040 |
-
 

@@ -64,7 +64,6 @@ The ingestion module composes connector intake, pipeline controls, quality gates
 | storage | `include/storage/` | Persists ingested records and checkpoint state |
 | content | `include/content/` | Hands off raw streams for content classification and extraction |
 | utils | `include/utils/` | Logging, rate-limiting, serialisation, and thread services |
-| toolbox | `include/toolbox/` (consumer interfaces) | Toolbox supplies transformation and enrichment utilities consumed during pipeline steps |
 
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
