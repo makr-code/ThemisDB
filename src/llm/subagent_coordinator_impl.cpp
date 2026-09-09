@@ -8,10 +8,14 @@
 #include "llm/subagent_factory.h"
 #include "llm/subagent.h"
 #include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
+#include <cmath>
 #include <future>
+#include <limits>
 #include <mutex>
 #include <numeric>
 #include <thread>
@@ -19,6 +23,65 @@
 
 namespace themis {
 namespace llm {
+
+namespace {
+
+std::string trim(const std::string& value) {
+    auto begin = std::find_if_not(value.begin(), value.end(),
+                                  [](unsigned char c) { return std::isspace(c) != 0; });
+    auto end = std::find_if_not(value.rbegin(), value.rend(),
+                                [](unsigned char c) { return std::isspace(c) != 0; }).base();
+    if (begin >= end) {
+        return {};
+    }
+    return std::string(begin, end);
+}
+
+std::string normalizeKey(const std::string& output) {
+    const auto trimmed = trim(output);
+    if (trimmed.empty()) {
+        return {};
+    }
+    try {
+        return nlohmann::json::parse(trimmed).dump();
+    } catch (...) {
+    }
+
+    std::string normalized;
+    normalized.reserve(trimmed.size());
+    bool previous_space = false;
+    for (unsigned char c : trimmed) {
+        const bool is_space = std::isspace(c) != 0;
+        if (is_space) {
+            if (!previous_space) {
+                normalized.push_back(' ');
+            }
+            previous_space = true;
+            continue;
+        }
+        normalized.push_back(static_cast<char>(std::tolower(c)));
+        previous_space = false;
+    }
+    return normalized;
+}
+
+float computeQualityScore(const SubagentCoordinatorResult& result) {
+    if (!result.success) {
+        return 0.0f;
+    }
+
+    float score = 0.5f;
+    const auto normalized = normalizeKey(result.output);
+    if (!normalized.empty()) {
+        score += std::min(0.3f, static_cast<float>(normalized.size()) / 400.0f);
+    }
+    if (result.latency_ms > 0) {
+        score += std::max(0.0f, 0.2f - (static_cast<float>(result.latency_ms) / 5000.0f));
+    }
+    return std::clamp(score, 0.0f, 1.0f);
+}
+
+} // namespace
 
 /** @brief Subagent coordinator implementation detail. */
 class SubagentCoordinatorImpl : public SubagentCoordinator {
@@ -110,6 +173,7 @@ public:
                 coord_result.tokens_consumed = inference_result.tokens_consumed;
                 coord_result.latency_ms = inference_result.latency_ms;
                 coord_result.trace_id = inference_result.trace_id;
+                coord_result.quality_score = computeQualityScore(coord_result);
 
                 result.per_subagent_results.push_back(coord_result);
 
@@ -139,6 +203,7 @@ public:
 
         // Merge results
         auto merge_start = std::chrono::steady_clock::now();
+        std::string merge_decision = "none";
         
         // Check if coordination succeeded based on merge strategy
         bool merge_success = false;
@@ -149,6 +214,7 @@ public:
                     if (coord_result.success) {
                         result.merged_output = coord_result.output;
                         merge_success = true;
+                        merge_decision = "first_win winner=" + coord_result.subagent_id;
                         break;
                     }
                 }
@@ -158,6 +224,8 @@ public:
                 // All must succeed
                 merge_success = (result.num_failed == 0 && result.num_successful > 0);
                 if (merge_success) {
+                    merge_decision = "all_succeed merged=" +
+                                     std::to_string(result.num_successful);
                     // Concatenate all outputs
                     for (const auto& coord_result : result.per_subagent_results) {
                         if (!result.merged_output.empty()) {
@@ -169,15 +237,30 @@ public:
                 break;
 
             case SubagentMergeStrategy::BEST_SCORE:
-                // Find result with highest quality_score
+                // Find result with highest quality_score, deterministic tie-breaks.
                 {
                     float best_score = -1.0f;
+                    int best_latency = std::numeric_limits<int>::max();
+                    std::string best_id;
                     for (const auto& coord_result : result.per_subagent_results) {
-                        if (coord_result.success && coord_result.quality_score > best_score) {
+                        if (!coord_result.success) {
+                            continue;
+                        }
+                        if (coord_result.quality_score > best_score ||
+                            (std::fabs(coord_result.quality_score - best_score) < 1e-6f &&
+                             (coord_result.latency_ms < best_latency ||
+                              (coord_result.latency_ms == best_latency &&
+                               coord_result.subagent_id < best_id)))) {
                             best_score = coord_result.quality_score;
+                            best_latency = coord_result.latency_ms;
+                            best_id = coord_result.subagent_id;
                             result.merged_output = coord_result.output;
                             merge_success = true;
                         }
+                    }
+                    if (merge_success) {
+                        merge_decision = "best_score winner=" + best_id +
+                                         " quality=" + std::to_string(best_score);
                     }
                 }
                 break;
@@ -193,25 +276,62 @@ public:
                         merge_success = true;
                     }
                 }
+                if (merge_success) {
+                    merge_decision = "ensemble contributors=" +
+                                     std::to_string(result.num_successful);
+                }
                 break;
 
             case SubagentMergeStrategy::MAJORITY_VOTE:
-                // Tally outputs by exact-match majority
+                // Tally semantically-normalized outputs with score-aware tie-breaks.
                 {
-                    std::unordered_map<std::string, size_t> tally = {};
+                    struct VoteBucket {
+                        size_t votes = 0;
+                        float total_quality = 0.0f;
+                        std::string representative;
+                    };
+                    std::unordered_map<std::string, VoteBucket> tally = {};
 
                     for (const auto& coord_result : result.per_subagent_results) {
                         if (coord_result.success) {
-                            tally[coord_result.output]++;
+                            const auto key = normalizeKey(coord_result.output);
+                            if (key.empty()) {
+                                continue;
+                            }
+                            auto& bucket = tally[key];
+                            bucket.votes++;
+                            bucket.total_quality += coord_result.quality_score;
+                            if (bucket.representative.empty()) {
+                                bucket.representative = coord_result.output;
+                            }
                         }
                     }
-                    size_t best_count = 0;
-                    for (const auto& [output, count] : tally) {
-                        if (count > best_count) {
-                            best_count = count;
-                            result.merged_output = output;
+                    size_t best_votes = 0;
+                    float best_avg_quality = -1.0f;
+                    std::string best_key;
+                    for (const auto& [key, bucket] : tally) {
+                        if (bucket.votes == 0) {
+                            continue;
+                        }
+                        const float avg_quality = bucket.total_quality /
+                                                  static_cast<float>(bucket.votes);
+                        if (bucket.votes > best_votes ||
+                            (bucket.votes == best_votes &&
+                             (avg_quality > best_avg_quality ||
+                              (std::fabs(avg_quality - best_avg_quality) < 1e-6f &&
+                               key < best_key)))) {
+                            best_votes = bucket.votes;
+                            best_avg_quality = avg_quality;
+                            best_key = key;
+                            result.merged_output = bucket.representative;
                             merge_success = true;
                         }
+                    }
+                    if (merge_success) {
+                        merge_decision =
+                            "majority_vote winner_votes=" + std::to_string(best_votes) +
+                            " avg_quality=" + std::to_string(best_avg_quality) +
+                            " unique_candidates=" + std::to_string(tally.size());
                     }
                 }
                 break;
@@ -223,9 +343,11 @@ public:
                     if (merge_result) {
                         result.merged_output = merge_result.value();
                         merge_success = true;
+                        merge_decision = "custom success";
                     } else {
                         diagnostics_.merge_failed = true;
                         diagnostics_.merge_error = "Custom merge function failed";
+                        merge_decision = "custom failed";
                     }
                 }
                 break;
@@ -250,7 +372,8 @@ public:
         result.summary = "Coordination completed: " +
                         std::to_string(result.num_successful) + " successes, " +
                         std::to_string(result.num_failed) + " failures, " +
-                        std::to_string(result.total_latency_ms) + "ms";
+                        std::to_string(result.total_latency_ms) + "ms" +
+                        ", merge=" + merge_decision;
         diagnostics_.summary = result.summary;
 
         if (result.success) {

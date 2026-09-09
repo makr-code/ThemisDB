@@ -178,6 +178,8 @@ static constexpr uint8_t MAGIC_ZSTD[8] = {'T','D','L','T','Z','S','T','D'};
 static constexpr uint8_t MAGIC_VCD[8]  = {'T','D','L','T','V','C','D','\x01'};
 static constexpr uint8_t INSTR_ADD  = 0x01;
 static constexpr uint8_t INSTR_COPY = 0x02;
+static constexpr uint64_t MAX_PATCH_ORIGINAL_SIZE_BYTES =
+    4ull * 1024ull * 1024ull * 1024ull; // 4 GiB
 
 // ============================================================================
 // Utility functions
@@ -692,9 +694,9 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         }
 
         // --- 6. Verify size ---
-        if (fd.target_size > 0 && static_cast<int>(target_data.size()) != fd.target_size) {
+        if (fd.target_size > 0 && static_cast<uint64_t>(target_data.size()) != fd.target_size) {
             LOG_WARN("Target size mismatch for {}: expected {} got {}",
-                fd.path, fd.target_size,static_cast<int>(target_data.size()));
+                fd.path, fd.target_size, static_cast<uint64_t>(target_data.size()));
             result.files_fallback.push_back(fd.path);
             fs::remove(recon_path);
             continue;
@@ -898,7 +900,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > (4ULL * 1024ULL * 1024ULL * 1024ULL)) {
+    if (orig_size == 0 || orig_size > MAX_PATCH_ORIGINAL_SIZE_BYTES) {
         LOG_ERROR("Invalid orig_size in patch: {}", orig_size);
         return false;
     }
@@ -1090,7 +1092,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > (4ULL * 1024ULL * 1024ULL * 1024ULL)) {
+    if (orig_size == 0 || orig_size > MAX_PATCH_ORIGINAL_SIZE_BYTES) {
         LOG_ERROR("Invalid orig_size in VCDIFF patch: {}", orig_size);
         return false;
     }
@@ -1164,7 +1166,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
         }
     }
 
-    if (static_cast<int>(target.size()) != orig_size) {
+    if (static_cast<uint64_t>(target.size()) != orig_size) {
         LOG_ERROR("VCDIFF: reconstructed size {} != expected {}",
             target.size(), orig_size);
         return false;
@@ -1175,6 +1177,3 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
-
-
-

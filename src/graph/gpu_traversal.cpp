@@ -53,7 +53,7 @@ bool probeGPUAvailability(int /*device*/) noexcept {
 #if defined(THEMIS_ENABLE_CUDA)
     int count = 0;
     if (cudaGetDeviceCount(&count) != cudaSuccess)
-        return false = {};
+        return false;
     return count > 0;
 #else
     return false;
