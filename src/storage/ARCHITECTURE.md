@@ -59,6 +59,16 @@ The storage module composes durable key-value persistence, MVCC/WAL lifecycle be
 | `replication` | `include/storage/wal_storage.h` (indirectly via CDC/WAL) | WAL shipped to replicas |
 | `index` | `include/storage/rocksdb_wrapper.h` | Secondary index data persistence |
 | `cache` | `include/storage/` | Cache miss back-fill reads |
+| `graph` | `include/storage/` | Graph edge/adjacency data persistence |
+| `geo` | `include/storage/` | Spatial index and geometry data persistence |
+| `analytics` | `include/storage/rocksdb_wrapper.h` | Columnar data reads for aggregations and scans |
+| `process` | `include/storage/` | Process mining event log persistence |
+| `training` | `include/storage/` | Model checkpoint and parameter persistence |
+| `document` | `include/storage/` | Document blob and index data persistence |
+| `temporal` | `include/storage/` | Temporal versioned record storage |
+| `tensor` | `include/storage/` | Dense tensor data persistence |
+| `ingestion` | `include/storage/` | Writes ingested data records to storage |
+| `content` | `include/storage/` | Content blob and metadata persistence |
 
 ---
 

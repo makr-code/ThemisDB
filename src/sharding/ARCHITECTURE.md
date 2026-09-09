@@ -56,6 +56,9 @@ The sharding module composes shard routing, consensus-aware coordination, cross-
 | `query` | `include/sharding/shard_router.h` | Federated query scatter-gather |
 | `transaction` | `include/sharding/truetime.h`, `include/sharding/wal_manager.h` | TrueTime and WAL for distributed transactions |
 | `storage` | `include/sharding/redundancy_strategy.h` | Storage consults sharding for redundancy placement |
+| `distributed_knowledge` | `include/sharding/` | Cross-shard knowledge graph coordination and partition routing |
+| `distributed_tensor` | `include/sharding/` | Cross-shard tensor collective operations and partition management |
+| `analytics` | `include/sharding/` | Shard-aware query planning for distributed aggregations |
 
 ---
 

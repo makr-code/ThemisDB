@@ -191,6 +191,10 @@ All public APIs now have comprehensive Doxygen documentation:
 | llm | `src/llm/` (context assembly budget) | LLM module triggers RAG context assembly before generation |
 | api | API orchestration handlers | External RAG query and evaluation endpoints |
 | search | `src/search/layered_retrieval_orchestrator.cpp` (Graph layer) | `LayeredRetrievalOrchestrator` invokes RAG knowledge-graph reasoning layer |
+| `ethics_ai` | `include/rag/` | Bias detection and fairness evaluation via RAG retrieval context |
+| `llm_wiki` | `include/rag/` | Wiki knowledge retrieval uses RAG pipeline for grounding |
+| `distributed_knowledge` | `include/rag/` | Cross-shard knowledge graph embedding retrieval |
+| `governance` | `include/rag/` | Governance auditing uses RAG context for policy retrieval |
 
 ---
 

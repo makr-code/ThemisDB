@@ -83,6 +83,10 @@ The index module composes core index structures, acceleration backends, lifecycl
 | search | `include/index/ann_frontdoor.h`, `include/index/vector_index.h` | Primary ANN and vector-candidate provider for search module |
 | rag | `include/index/ann_frontdoor.h`, `include/index/vector_index.h` | RAG hybrid retriever uses vector index for dense candidates |
 | llm | `include/index/` (various) | LLM module uses vector index surfaces for embedding lookup |
+| `graph` | `include/index/graph/` | Graph index used for edge/adjacency traversal |
+| `geo` | `include/index/` | Spatial index (R-Tree/geo) used for containment/distance queries |
+| `server` | `include/index/` | Direct index API access for admin and diagnostic endpoints |
+| `content` | `include/index/` | Full-text and semantic index over content data |
 
 ---
 

@@ -304,6 +304,10 @@ The module uses a layered concurrency model with explicit synchronization at key
 | query | `include/llm/lora_framework/lora_orchestrator.h` | AQL LoRA function dispatch (**circular — see §Known Design Issues**) |
 | api | `api/llm_handler.h` | HTTP/gRPC inference endpoint routing |
 | ingestion | `ingestion/llm_adapter.h` | Document enrichment via LLM inference |
+| `training` | `include/llm/lora_framework/` | LoRA adapter training drives LLM fine-tuning lifecycle |
+| `distributed_tensor` | `include/llm/` | Distributed tensor collectives for multi-GPU LLM inference |
+| `llm_wiki` | `include/llm/` | Wiki knowledge retrieval via LLM generation interfaces |
+| `governance` | `include/llm/` | AI governance bias auditing uses LLM inference interfaces |
 
 ---
 
