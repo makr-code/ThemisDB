@@ -1,6 +1,6 @@
 # Critical Data Flow Paths
 
-This document records the main cross-module execution paths that currently matter for release review and architecture gating.
+This document records the main cross-module execution paths that currently matter for release review and architecture gating. It complements the include-derived dependency inventory in `MODULE_INTEGRATION_CONTRACTS.md` with explicit runtime handler/orchestrator/coordinator evidence.
 
 ## 1. Query -> Storage -> Transaction
 

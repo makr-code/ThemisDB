@@ -5,6 +5,7 @@
 - Direct dependencies in this document are **include-derived** edges: `module A -> module B` exists when a file under `src/A/**` or `include/A/**` includes a path rooted at `B/`.
 - Scan scope: all C/C++ headers and sources under `src/**` and `include/**` in the current clone.
 - This captures **direct compile-time coupling**, not the full runtime call graph.
+- To reduce that blind spot, this document also links a **runtime integration overlay** for release-critical cross-module execution paths that are evidenced in concrete handler/orchestrator/coordinator files.
 
 ## Summary
 
@@ -16,6 +17,7 @@
 | Docs-only module paths | 3 | `ai_working`, `llm_streaming`, `vector_search` |
 | Non-trivial SCCs | 1 | one large strongly connected component remains in the include graph |
 | Zero-outgoing modules | 7 | `ai_working`, `chaos`, `evaluation`, `execution`, `llm_streaming`, `retrieval`, `vector_search` |
+| Runtime-critical integration overlay | 10 edges | explicit execution-path evidence for handler, coordinator, and orchestrator wiring |
 
 ## Coupling Hubs
 
@@ -43,6 +45,23 @@
 | SCC | Modules | Interpretation |
 |---|---|---|
 | SCC-01 | `acceleration`, `access_model`, `analytics`, `api`, `aql`, `auth`, `cache`, `cdc`, `config`, `content`, `core`, `distributed_knowledge`, `document`, `ethics_ai`, `exporters`, `geo`, `governance`, `gpu`, `graph`, `importers`, `index`, `ingestion`, `llama_cpp`, `llm`, `maintenance`, `metadata`, `network`, `observability`, `performance`, `plugins`, `projects`, `prompt_engineering`, `query`, `rag`, `replication`, `scheduler`, `security`, `server`, `sharding`, `storage`, `temporal`, `tensor`, `themis`, `timeseries`, `toolbox`, `training`, `transaction`, `updates`, `utils`, `voice` | The compile-time graph still contains one 50-module strongly connected component rooted around shared hubs such as `utils`, `storage`, `themis`, `query`, `llm`, and `server`; architectural review should treat these as tightly coupled until the include graph is flattened. |
+
+## Runtime Integration Overlay
+
+| Runtime edge | Role in execution | Evidence |
+|---|---|---|
+| `server` -> `query` | HTTP/AQL ingress dispatches query execution | `src/server/query_api_handler.cpp`, `src/server/http_server.cpp` |
+| `server` -> `llm` | LLM API requests are wired directly into inference/plugin handlers | `src/server/llm_api_handler.cpp`, `src/server/llm_grpc_service.cpp` |
+| `query` -> `storage` | query execution and entity lookup read/write RocksDB-backed storage surfaces | `include/query/query_engine.h`, `src/query/query_engine.cpp` |
+| `query` -> `transaction` | multi-statement mutations wrap storage context in rollback-aware transaction proxy | `include/query/mutation_transaction.h`, `src/query/aql_runner.cpp` |
+| `sharding` -> `transaction` | distributed commit and recovery interact with transaction-side global/recoverable coordinators | `src/sharding/distributed_transaction.cpp`, `src/transaction/global_transaction_manager.cpp` |
+| `sharding` -> `storage` | shard transaction state and WAL-backed persistence rely on shared storage contracts | `src/sharding/transaction_wal.cpp`, `src/sharding/transaction_snapshot.cpp` |
+| `search` -> `index` | ANN retrieval delegates to active vector runtime in `index` | `include/search/layered_retrieval_orchestrator.h`, `src/search/layered_retrieval_orchestrator.cpp` |
+| `search` -> `tensor` | layered retrieval invokes tensor fingerprint candidates before graph/LLM steps | `include/search/layered_retrieval_orchestrator.h`, `src/search/layered_retrieval_orchestrator.cpp` |
+| `search` -> `graph` | provenance expansion is driven by knowledge-graph reasoning in the retrieval chain | `include/search/layered_retrieval_orchestrator.h`, `src/search/layered_retrieval_orchestrator.cpp` |
+| `search` -> `llm` | final layered retrieval answer can terminate in an LLM-backed answer stage | `include/search/layered_retrieval_orchestrator.h`, `src/search/layered_retrieval_orchestrator.cpp` |
+
+**Interpretation:** use the include-derived inventory for global compile-time coupling, and use this overlay plus `docs/architecture/DATA_FLOW_PATHS.md` when the review question is about runtime orchestration, ownership, or release-critical behavior.
 
 ## Direct Dependency Inventory
 

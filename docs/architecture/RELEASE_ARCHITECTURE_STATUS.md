@@ -7,7 +7,7 @@
 | Repository version | `v2.4.0-alpha` | `ROADMAP.md`, `VERSION` |
 | Current roadmap posture | substantial implementation base, but not GA-ready | `ROADMAP.md` (`Current Status`, `Current real wave posture`, `Release-critical blockers`) |
 | Branch/release target | hardening and GA gating continue on `develop` | `ROADMAP.md`, `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md` |
-| Cross-module evidence set | module inventory, direct coupling, critical paths, and release posture are now split into dedicated architecture docs | `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `src/CROSS_MODULE_INTEGRATION.md` |
+| Cross-module evidence set | module inventory, include-derived coupling, runtime-critical execution paths, and release posture are now split into dedicated architecture docs | `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `src/CROSS_MODULE_INTEGRATION.md` |
 
 ## Footprint Posture Across `src/`
 
@@ -42,4 +42,4 @@
 | Public API / header contracts | `include/<module>/**` | confirm exported interfaces and ownership/failure behavior |
 | Module-local architecture contracts | `src/<module>/ARCHITECTURE.md` | confirm intended subsystem role and integration points |
 | Module-local maturity / release notes | `src/<module>/ROADMAP.md` | confirm phase status, blockers, and acceptance evidence |
-| Cross-module architecture evidence | `docs/architecture/*.md`, `src/CROSS_MODULE_INTEGRATION.md` | review coupling, data flows, SCCs, and docs-only caveats before release gating |
+| Cross-module architecture evidence | `docs/architecture/*.md`, `src/CROSS_MODULE_INTEGRATION.md` | review compile-time coupling together with runtime path overlays, SCCs, and docs-only caveats before release gating |
