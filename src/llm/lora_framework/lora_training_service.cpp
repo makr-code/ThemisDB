@@ -82,7 +82,7 @@ float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
         sum += diff * diff;
     }
     
-    return static_cast<bool>(sum / static_cast<float < static_cast<int>((predictions.size())));
+    return sum / static_cast<float>(predictions.size());
 }
 
 // Compute gradient of MSE loss w.r.t. predictions
@@ -881,8 +881,8 @@ public:
                     loss_history_.push_back(batch_loss);
                     
                     // Call callback if registered
-                    if ([[maybe_unused]] training_callback_) {
-                        training_callback_([[maybe_unused]] current_metrics_);
+                    if (training_callback_) {
+                        training_callback_(current_metrics_);
                     }
                     
                     // Periodic checkpointing
@@ -940,13 +940,13 @@ public:
             if (!data.samples.empty()) {
                 try {
                     // Use a portion of training data for validation (holdout validation)
-                    size_t validation_size = std::max(size_t(1),static_cast<int>(data.samples.size()) / 5);
+                    size_t validation_size = std::max<size_t>(size_t{1}, data.samples.size() / size_t{5});
                     TrainingData validation_data;
                     validation_data.dataset_name = "validation_" + data.dataset_name;
                     validation_data.metadata = data.metadata;
                     
                     // Take last 20% of data for validation (to test on unseen-during-training data)
-                    if (static_cast<int>(data.samples.size()) > validation_size) {
+                    if (data.samples.size() > validation_size) {
                         validation_data.samples.insert(
                             validation_data.samples.end(),
                             data.samples.end() - validation_size,
@@ -1071,7 +1071,7 @@ public:
     
     void registerCallback([[maybe_unused]] TrainingCallback callback) {
         training_callback_ = callback;
-        spdlog::debug([[maybe_unused]] "Registered training callback");
+        spdlog::debug("Registered training callback");
     }
     
     bool isTraining() const {
@@ -1338,7 +1338,7 @@ void LoRATrainingService::registerCallback([[maybe_unused]] TrainingCallback cal
         throw std::runtime_error("LoRATrainingService implementation is not initialized");
     }
     auto* service_impl = impl_.get();
-    service_impl->registerCallback([[maybe_unused]] callback);
+    service_impl->registerCallback(std::move(callback));
 }
 
 bool LoRATrainingService::isTraining() const {
@@ -1648,8 +1648,8 @@ TrainingResult LoRATrainingService::trainWithQuantization(
                 metrics.learning_rate
             );
             
-            if ([[maybe_unused]] service_impl->training_callback_) {
-                service_impl->training_callback_([[maybe_unused]] service_impl->current_metrics_);
+            if (service_impl->training_callback_) {
+                service_impl->training_callback_(service_impl->current_metrics_);
             }
         });
         

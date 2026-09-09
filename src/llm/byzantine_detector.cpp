@@ -260,7 +260,7 @@ float KrumDetector::computeDistance(
     float distance = 0.0f;
     
     for (size_t i = 0; i < grad1.size(); ++i) {
-        if (grad1[i].static_cast<int>(data.size()) != grad2[i].data.size()) {
+        if (grad1[i].data.size() != grad2[i].data.size()) {
             throw std::runtime_error("Gradient data sizes do not match");
         }
         

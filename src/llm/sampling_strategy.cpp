@@ -127,7 +127,7 @@ llama_token NucleusSampling::sample(
     // Sort by probability desc for nucleus filtering
     std::vector<int> order(indices.size());
     std::iota(order.begin(), order.end(), 0);
-    std::sort([[maybe_unused]] order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
+    std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
 
     // Keep smallest set with cumulative prob >= top_p_
     float cum = 0.0f;
@@ -226,7 +226,7 @@ llama_token MirostatSampling::sample(
     // Nucleus filter
     std::vector<int> order(indices.size());
     std::iota(order.begin(), order.end(), 0);
-    std::sort([[maybe_unused]] order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
+    std::sort(order.begin(), order.end(), [&](int a, int b) { return probs[a] > probs[b]; });
     float cum = 0.0f; std::vector<int> nucleus;
     for (int oi : order) { nucleus.push_back(indices[oi]); cum += probs[oi]; if (cum >= top_p) break; }
     if (nucleus.empty()) {

@@ -108,7 +108,7 @@ void emitDebugLog(fmt::format_string<Args...> fmt_str, Args&&... args) {
             } catch (const std::exception& e) {
                 spdlog::warn("quantization debug callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn([[maybe_unused]] "quantization debug callback failed with unknown exception");
+                spdlog::warn("quantization debug callback failed with unknown exception");
             }
         }
     }
@@ -432,5 +432,4 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
 } // namespace lora
 } // namespace llm
 } // namespace themis
-
 

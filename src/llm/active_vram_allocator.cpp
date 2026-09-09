@@ -854,7 +854,7 @@ bool ActiveVRAMAllocator::isOOMThresholdExceeded() const
 
 void ActiveVRAMAllocator::setOOMCallback(OOMCallback cb)
 {
-    impl_->setOOMCallback([[maybe_unused]] std::move(cb));
+    impl_->setOOMCallback(std::move(cb));
 }
 
 std::vector<ActiveVRAMAllocator::AllocationHandle>
@@ -891,4 +891,3 @@ bool ActiveVRAMAllocator::handleOutOfMemory()
 
 } // namespace llm
 } // namespace themis
-

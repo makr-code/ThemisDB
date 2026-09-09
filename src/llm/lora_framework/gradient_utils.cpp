@@ -99,7 +99,8 @@ GradientStats GradientUtils::apply_clipping(
     bool clipped = false;
     switch (config.method) {
         case ClippingMethod::BY_NORM:
-        [[fallthrough]];\n        case ClippingMethod::BY_GLOBAL_NORM:
+            [[fallthrough]];
+        case ClippingMethod::BY_GLOBAL_NORM:
             clipped = clip_by_norm(gradients, config.max_norm);
             break;
         
@@ -108,7 +109,8 @@ GradientStats GradientUtils::apply_clipping(
             break;
         
         case ClippingMethod::NONE:
-        [[fallthrough]];\n        default:
+            [[fallthrough]];
+        default:
             break;
     }
     
@@ -136,7 +138,7 @@ void GradientUtils::accumulate_gradients(
     }
     
     // Add new gradients to accumulated
-    size_t num_grads = std::min(accumulated.size(),static_cast<int>(new_gradients.size()));
+    size_t num_grads = std::min(accumulated.size(), new_gradients.size());
     for (size_t i = 0; i < num_grads; ++i) {
         if (!new_gradients[i]) {
           continue;

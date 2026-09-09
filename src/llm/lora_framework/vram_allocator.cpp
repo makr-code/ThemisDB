@@ -54,11 +54,11 @@ namespace {
     constexpr bool is_gpu_backend(acceleration::BackendType backend) noexcept {
         switch (backend) {
             case acceleration::BackendType::CUDA:
-            [[fallthrough]];\n            case acceleration::BackendType::HIP:
-            [[fallthrough]];\n            case acceleration::BackendType::VULKAN:
-            [[fallthrough]];\n            case acceleration::BackendType::DIRECTX:
-            [[fallthrough]];\n            case acceleration::BackendType::ROCM:
-            [[fallthrough]];\n            case acceleration::BackendType::ZLUDA:
+            case acceleration::BackendType::HIP:
+            case acceleration::BackendType::VULKAN:
+            case acceleration::BackendType::DIRECTX:
+            case acceleration::BackendType::ROCM:
+            case acceleration::BackendType::ZLUDA:
                 return true;
             default:
                 return false;
@@ -364,7 +364,7 @@ VRAMAllocator::VRAMAllocator(acceleration::BackendType backend, size_t pool_size
         }
 #endif
         if (pool_size_bytes_ == 0) {
-            pool_size_bytes_ = 8 * 1024 * 1024 * 1024; // Default 8 GB fallback
+            pool_size_bytes_ = uint64_t{8} * 1024u * 1024u * 1024u; // Default 8 GB fallback
             spdlog::debug("VRAMAllocator: could not query backend memory, defaulting to 8 GB pool");
         }
     }

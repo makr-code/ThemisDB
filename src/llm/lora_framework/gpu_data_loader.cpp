@@ -274,7 +274,7 @@ GPUBatch GPUDataLoader::prepareBatch([[maybe_unused]] size_t batch_idx) {
     
     // Calculate batch bounds
     size_t start_idx = batch_idx * config_.batch_size;
-    size_t end_idx = std::min(start_idx + config_.batch_size,static_cast<int>(samples_.size()));
+    size_t end_idx = std::min(start_idx + config_.batch_size, samples_.size());
     size_t actual_batch_size = end_idx - start_idx;
     
     batch.batch_size = actual_batch_size;
@@ -377,4 +377,3 @@ bool GPUDataLoader::updateBatchSize([[maybe_unused]] size_t new_batch_size) {
 } // namespace lora
 } // namespace llm
 } // namespace themis
-

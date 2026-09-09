@@ -26,13 +26,25 @@
 #include "storage/nvme_manager.h"
 
 // RocksDB forward declarations
-// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
-#ifdef THEMIS_ROCKSDB_AVAILABLE
+// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr.
+#if defined(THEMIS_ROCKSDB_AVAILABLE)
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 1
+#elif defined(__has_include)
+#if __has_include(<rocksdb/iterator.h>)
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 1
+#else
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 0
+#endif
+#else
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 0
+#endif
+
+#if THEMIS_ROCKSDB_HEADERS_AVAILABLE
 #include <rocksdb/iterator.h>
 #endif
 
 namespace rocksdb {
-#ifdef THEMIS_ROCKSDB_AVAILABLE
+#if THEMIS_ROCKSDB_HEADERS_AVAILABLE
     class TransactionDB;
     class Transaction;
     class WriteBatch;

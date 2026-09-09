@@ -418,7 +418,7 @@ bool FeedbackStorageService::createGraphLink(
     const std::string& adapter_id
 ) {
     if (!config_.graph_index && !create_graph_link_fn_) {
-        spdlog::warn([[maybe_unused]] "No graph index or callback available for creating graph link");
+        spdlog::warn("No graph index or callback available for creating graph link");
         return false;
     }
     
@@ -474,7 +474,7 @@ bool FeedbackStorageService::removeGraphLink(
     const std::string& adapter_id
 ) {
     if (!config_.graph_index && !remove_graph_link_fn_) {
-        spdlog::warn([[maybe_unused]] "No graph index or callback available for removing graph link");
+        spdlog::warn("No graph index or callback available for removing graph link");
         return false;
     }
     
