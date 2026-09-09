@@ -39,7 +39,6 @@ jobs:
         with:
           fetch-depth: 0
           submodules: false
-          fetch-depth: 0
 
       - name: "Prepare repository (strip private submodules)"
         run: |
