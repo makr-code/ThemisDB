@@ -17,6 +17,7 @@
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <mutex>
 #include <sstream>
@@ -211,9 +212,9 @@ WorkflowDefinition WorkflowLoader::fromJson(const json& j) {
         }
     }
     WorkflowValidationResult validation = WorkflowLoader::validate(def);
-    if (!validation.valid()) {
+    if (!validation.valid) {
         std::ostringstream oss;
-        oss << "TaskDecomposer::toWorkflow: invalid workflow definition";
+        oss << "WorkflowLoader::fromJson: invalid workflow definition";
         if (!validation.errors.empty()) {
             oss << " (first error: " << validation.errors.front().message << ")";
         }

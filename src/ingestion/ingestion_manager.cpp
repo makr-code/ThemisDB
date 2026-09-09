@@ -25,6 +25,7 @@
 #include "ingestion/llm_adapter.h"
 #include "ingestion/extraction_context.h"
 #include <stdexcept>
+#include <cctype>
 #include <algorithm>
 #include <thread>
 #include <mutex>
