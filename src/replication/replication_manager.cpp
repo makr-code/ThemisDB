@@ -1718,7 +1718,7 @@ void ReplicationManager::heartbeatLoop() {
             uint64_t current_term = election_->getCurrentTerm();
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-                for ([[maybe_unused]] const auto& replica : replicas_) {
+                for (const auto& replica : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer
@@ -5171,8 +5171,8 @@ int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, dou
       return 0;
     }
     // Caller must pass a sorted vector; index is clamped to valid range.
-        size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
-        return sorted[std::min(idx, sorted.size() - 1)];
+    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(static_cast<int>(sorted.size()) - 1));
+    return sorted[std::min(idx, sorted.size() - 1)];
 }
 
 ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
@@ -5542,8 +5542,8 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
           return 0;
         }
         size_t idx = static_cast<size_t>(
-                        p / 100.0 * static_cast<double>(latencies_us.size() - 1));
-                return latencies_us[std::min(idx, latencies_us.size() - 1)];
+            p / 100.0 * static_cast<double>(static_cast<int>(latencies_us.size()) - 1));
+        return latencies_us[std::min(idx, latencies_us.size() - 1)];
     };
 
     BenchmarkResult r;

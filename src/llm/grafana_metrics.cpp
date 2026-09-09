@@ -1597,4 +1597,3 @@ void MetricsServer::handleDelete(const std::string& path,
 } // namespace monitoring
 } // namespace llm
 } // namespace themis
-

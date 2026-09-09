@@ -532,6 +532,14 @@ def main() -> int:
     parser.add_argument("--chunk-overlap-tokens", type=int, default=40)
     parser.add_argument("--chunk-min-tokens", type=int, default=40)
     parser.add_argument("--chunk-max-tokens", type=int, default=360)
+    parser.add_argument(
+        "--input-dir",
+        default=None,
+        help=(
+            "Restrict markdown discovery to this directory (relative to repo root or absolute). "
+            "When omitted the full repository root is scanned."
+        ),
+    )
     args = parser.parse_args()
 
     logger.info("=" * 60)
@@ -555,7 +563,7 @@ def main() -> int:
 
     ok = build_docs_artifact(
         output_path=Path(args.output),
-        source_root=REPO_ROOT,
+        source_root=Path(args.input_dir).resolve() if args.input_dir else REPO_ROOT,
         chunk_cfg=cfg,
         embedding_cfg=ecfg,
         embedding_model=args.embedding_model,

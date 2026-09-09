@@ -328,4 +328,3 @@ std::string SearchHighlighter::snippet(const std::string& text,
 }
 
 } // namespace themis
-

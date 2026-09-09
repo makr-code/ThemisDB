@@ -268,9 +268,9 @@ std::string DynamicReflectionPromptBuilder::buildRevisionPrompt(
 
     switch (strategy_) {
     case ReflectionStrategy::SELF_REFINE:
-    [[fallthrough]];
+        [[fallthrough]];
     case ReflectionStrategy::REFLEXION:
-    [[fallthrough]];
+        [[fallthrough]];
     case ReflectionStrategy::SOCRATIC:
         out << "Revise your previous response by addressing the critique below.\n\n";
         out << "Original task:\n" << original_prompt << "\n\n";
@@ -635,4 +635,3 @@ ReflectionResult ReflectionTuner::tune(const std::string& prompt,
 
 } // namespace prompt_engineering
 } // namespace themis
-

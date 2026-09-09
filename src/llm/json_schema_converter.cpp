@@ -392,4 +392,3 @@ std::optional<ToolCall> JsonSchemaConverter::parseToolCall(const std::string& te
 
 } // namespace llm
 } // namespace themis
-

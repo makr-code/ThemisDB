@@ -30,7 +30,7 @@ namespace temporal {
 // ============================================================================
 
 // Three independent Murmur3-style finalizer hash functions.
-uint64_t BloomFilter::h1(uint64_t x) noexcept {
+uint64_t BloomFilter::h1([[maybe_unused]] uint64_t x) noexcept {
     x ^= x >> 33;
     x *= 0xff51afd7ed558ccdULL;
     x ^= x >> 33;
@@ -39,14 +39,14 @@ uint64_t BloomFilter::h1(uint64_t x) noexcept {
     return x;
 }
 
-uint64_t BloomFilter::h2(uint64_t x) noexcept {
+uint64_t BloomFilter::h2([[maybe_unused]] uint64_t x) noexcept {
     x = ((x >> 16) ^ x) * 0x45d9f3b37197344dULL;
     x = ((x >> 16) ^ x) * 0x45d9f3bULL;
     x = (x >> 16) ^ x;
     return x;
 }
 
-uint64_t BloomFilter::h3(uint64_t x) noexcept {
+uint64_t BloomFilter::h3([[maybe_unused]] uint64_t x) noexcept {
     x = ~x + (x << 21);
     x ^= x >> 24;
     x += (x << 3) + (x << 8);
@@ -65,14 +65,14 @@ BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
     bits_.assign((num_bits_ + 63) / 64, 0);
 }
 
-void BloomFilter::setBit(size_t idx) noexcept {
+void BloomFilter::setBit([[maybe_unused]] size_t idx) noexcept {
     idx %= num_bits_;
-    bits_[idx / 64] |= (1ULL << (idx % 64));
+    bits_[idx / 64] |= (1 << (idx % 64));
 }
 
-bool BloomFilter::testBit(size_t idx) const noexcept {
+bool BloomFilter::testBit([[maybe_unused]] size_t idx) const noexcept {
     idx %= num_bits_;
-    return ((bits_[idx / 64] >> (idx % 64)) & 1ULL) != 0ULL;
+    return (bits_[idx / 64] >> (idx % 64)) & 1;
 }
 
 void BloomFilter::add(int64_t value) noexcept {
@@ -468,11 +468,11 @@ TemporalTierManager::keyStats(const std::string& table_name,
 
     if (auto tit = hot_.find(table_name); tit != hot_.end())
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end())
-            s.hot_versions = kit->second.size();
+            s.hot_versions = static_cast<uint64_t>(kit->second.size());
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            s.warm_blocks = kit->second.size();
+            s.warm_blocks = static_cast<uint64_t>(kit->second.size());
             for (const auto& b : kit->second) {
                 s.warm_versions += b.version_count;
                 s.warm_bytes    += b.approx_bytes;
@@ -537,7 +537,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = hot_.find(table_name); tit != hot_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.hot_version_count = kit->second.size();
+            ctx.hot_version_count = static_cast<uint64_t>(kit->second.size());
             if (!kit->second.empty())
                 ctx.oldest_hot_sys_start = kit->second.begin()->first;
         }
@@ -545,7 +545,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 
     if (auto tit = warm_.find(table_name); tit != warm_.end()) {
         if (auto kit = tit->second.find(doc_key); kit != tit->second.end()) {
-            ctx.warm_block_count = kit->second.size();
+            ctx.warm_block_count = static_cast<uint64_t>(kit->second.size());
             for (const auto& b : kit->second) {
                 ctx.warm_versions_for_key += b.version_count;
                 ctx.warm_bytes_for_key    += b.approx_bytes;
@@ -561,7 +561,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 }
 
 size_t TemporalTierManager::flushHotToWarmLocked(
-    const std::string& table_name,
+    [[maybe_unused]] const std::string& table_name,
     const std::string& doc_key,
     HotMap&            hot_map,
     WarmBlocks&        warm_blocks) {
@@ -600,17 +600,13 @@ size_t TemporalTierManager::flushHotToWarmLocked(
         warm_blocks.push_back(std::move(blk));
     }
 
-    if (table_name.empty()) {
-        // Table-name validation is caller-side; keep flush behavior unchanged.
-    }
-
     ++stat_flush_hot_warm_;
     return to_move;
 }
 
 size_t TemporalTierManager::flushWarmToColdLocked(
     const std::string& table_name,
-    const std::string& doc_key,
+    [[maybe_unused]] const std::string& doc_key,
     WarmBlocks&        warm_blocks) {
 
     if (warm_blocks.empty()) {
@@ -638,10 +634,6 @@ size_t TemporalTierManager::flushWarmToColdLocked(
 
     total_warm_bytes_ -= oldest.approx_bytes;
     warm_blocks.erase(warm_blocks.begin());
-
-    if (doc_key.empty()) {
-        // Key validation is caller-side; keep flush behavior unchanged.
-    }
 
     ++stat_flush_warm_cold_;
     return moved;
@@ -762,4 +754,3 @@ TemporalTierManager::rangeFromBlock(const VersionBlock& block,
 
 } // namespace temporal
 } // namespace themisdb
-

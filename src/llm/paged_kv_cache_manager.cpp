@@ -404,9 +404,9 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
         case WorkloadPattern::LOW_PREFIX_REUSE:
             return CacheType::STREAMING;
         case WorkloadPattern::MIXED:
-        [[fallthrough]];
+            [[fallthrough]];
         case WorkloadPattern::UNKNOWN:
-        [[fallthrough]];
+            [[fallthrough]];
         default:
             return CacheType::STANDARD;
     }
@@ -414,4 +414,3 @@ PagedKVCacheManager::CacheType PagedKVCacheManager::selectOptimalCacheType(Workl
 
 } // namespace llm
 } // namespace themis
-

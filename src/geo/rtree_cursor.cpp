@@ -58,7 +58,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
         if (live_version_ && *live_version_ != index_version_) {
             return CursorStatus::STALE;
         }
-        if (pos_ >= static_cast<int>(hits_.size())) {
+        if (pos_ >= hits_.size()) {
             return CursorStatus::END;
         }
         entry = hits_[pos_++];
@@ -66,7 +66,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
     }
 
     std::size_t estimatedResultCount() const noexcept override {
-        return static_cast<int>(hits_.size());
+        return hits_.size();
     }
 
   private:
@@ -91,7 +91,7 @@ class RTreeKNNCursor final : public IRTreeCursor {
         if (live_version_ && *live_version_ != index_version_) {
             return CursorStatus::STALE;
         }
-        if (pos_ >= static_cast<int>(hits_.size())) {
+        if (pos_ >= hits_.size()) {
             return CursorStatus::END;
         }
         entry = hits_[pos_++];

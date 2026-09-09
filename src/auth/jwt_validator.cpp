@@ -23,8 +23,6 @@
 #include <openssl/ec.h>
 #include <openssl/ecdsa.h>
 #include <openssl/evp.h>
-#include <openssl/core_names.h>
-#include <openssl/param_build.h>
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
@@ -149,7 +147,7 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
  */
 std::string JWTValidator::decodeBase64UrlToString(const std::string &input) {
     auto bytes = decodeBase64Url(input);
-    return std::string(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+    return std::string(reinterpret_cast<const char *>(bytes.data()), bytes.size());
 }
 
 /**
@@ -385,10 +383,10 @@ const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, co
         // Pad shorter strings to cmp_len with NUL bytes before comparing.
         std::string a_padded(cmp_len, '\0');
         std::string b_padded(cmp_len, '\0');
-        std::memcpy(a_padded.data(), stored_kid.data(), stored_kid.size());
+        std::memcpy(a_padded.data(), stored_kid.data(),static_cast<int>(stored_kid.size()));
         std::memcpy(b_padded.data(), kid.data(),        target_len);
         if (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0
-            && stored_kid.size() == target_len) {
+                && static_cast<int>(stored_kid.size()) == target_len) {
             // Record first match but keep iterating to avoid early-exit leakage.
             if (match == nullptr) {
                 match = &k;
@@ -541,62 +539,58 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) {
+    if (static_cast<int>(x_bytes.size()) != coord_size || static_cast<int>(y_bytes.size()) != coord_size) {
         return false;
     }
 
-    // Build uncompressed public point 0x04 || X || Y and create EVP key via
-    // OpenSSL 3 provider API to avoid deprecated EC_KEY APIs.
-    std::vector<uint8_t> point;
-    point.reserve(1 + x_bytes.size() + y_bytes.size());
-    point.push_back(0x04);
-    point.insert(point.end(), x_bytes.begin(), x_bytes.end());
-    point.insert(point.end(), y_bytes.begin(), y_bytes.end());
+    // Build EC_KEY for the target curve.
+    using ECKeyPtr   = std::unique_ptr<EC_KEY, decltype(&EC_KEY_free)>;
+    using ECGroupPtr = std::unique_ptr<EC_GROUP, decltype(&EC_GROUP_free)>;
+    using ECPointPtr = std::unique_ptr<EC_POINT, decltype(&EC_POINT_free)>;
 
-    const char* group_name = nullptr;
-    if (nid == NID_X9_62_prime256v1) {
-        group_name = "P-256";
-    } else if (nid == NID_secp384r1) {
-        group_name = "P-384";
-    } else if (nid == NID_secp521r1) {
-        group_name = "P-521";
-    } else {
+    ECGroupPtr group(EC_GROUP_new_by_curve_name(nid), &EC_GROUP_free);
+    if (!group) {
         return false;
     }
 
-    OSSL_PARAM_BLD* bld = OSSL_PARAM_BLD_new();
-    if (!bld) {
+    ECKeyPtr ec_key(EC_KEY_new(), &EC_KEY_free);
+    if (!ec_key) {
         return false;
     }
-    if (OSSL_PARAM_BLD_push_utf8_string(bld, OSSL_PKEY_PARAM_GROUP_NAME, group_name, 0) != 1
-            || OSSL_PARAM_BLD_push_octet_string(
-                bld, OSSL_PKEY_PARAM_PUB_KEY, point.data(), point.size()) != 1) {
-        OSSL_PARAM_BLD_free(bld);
+    if (EC_KEY_set_group(ec_key.get(), group.get()) != 1) {
         return false;
     }
 
-    OSSL_PARAM* params = OSSL_PARAM_BLD_to_param(bld);
-    OSSL_PARAM_BLD_free(bld);
-    if (!params) {
+    ECPointPtr pub_point(EC_POINT_new(group.get()), &EC_POINT_free);
+    if (!pub_point) {
         return false;
     }
 
-    EVP_PKEY_CTX* pctx = EVP_PKEY_CTX_new_from_name(nullptr, "EC", nullptr);
-    EVP_PKEY* raw_pkey = nullptr;
-    const bool pkey_ok = pctx
-        && EVP_PKEY_fromdata_init(pctx) > 0
-        && EVP_PKEY_fromdata(pctx, &raw_pkey, EVP_PKEY_PUBLIC_KEY, params) > 0;
-    OSSL_PARAM_free(params);
-    EVP_PKEY_CTX_free(pctx);
-    if (!pkey_ok || !raw_pkey) {
-        EVP_PKEY_free(raw_pkey);
+    auto x_bn = utils::BIGNUMPtr(BN_bin2bn(x_bytes.data(), (int)x_bytes.size(), nullptr));
+    auto y_bn = utils::BIGNUMPtr(BN_bin2bn(y_bytes.data(), (int)y_bytes.size(), nullptr));
+    if (!x_bn || !y_bn) {
         return false;
     }
-    std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)> pkey(raw_pkey, EVP_PKEY_free);
+
+    if (EC_POINT_set_affine_coordinates_GFp(group.get(), pub_point.get(), x_bn.get(), y_bn.get(), nullptr) != 1) {
+        return false;
+    }
+    if (EC_KEY_set_public_key(ec_key.get(), pub_point.get()) != 1) {
+        return false;
+    }
+
+    // Set EC_KEY into EVP_PKEY
+    auto pkey = utils::make_evp_key();
+    if (!pkey) {
+        return false;
+    }
+    if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) {
+        return false;
+    }
 
     // JWT ECDSA signature is raw (r || s) encoding (coord_size bytes each).
     // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
-    if (signature.size() != coord_size * 2) {
+    if (static_cast<int>(signature.size()) != coord_size * 2) {
         return false;
     }
 
@@ -639,7 +633,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
     if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) {
         return false;
     }
-    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) {
+    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),static_cast<int>(header_payload.size())) != 1) {
         return false;
     }
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.data(), static_cast<size_t>(der_len)) == 1;
@@ -658,7 +652,7 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false;
     }
     auto pub_bytes = decodeBase64Url(it_x->get<std::string>());
-    if (pub_bytes.size() != 32U) {
+    if (static_cast<int>(pub_bytes.size()) != 32) {
         return false; // Ed25519 public key is exactly 32 bytes
     }
 
@@ -742,7 +736,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     }
 
     // Input validation: Check token size limit
-    if (MAX_JWT_TOKEN_SIZE > 0 && jwt.size() > static_cast<std::size_t>(MAX_JWT_TOKEN_SIZE)) {
+    if (static_cast<int>(jwt.size()) > MAX_JWT_TOKEN_SIZE) {
         utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -767,7 +761,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     while (std::getline(ss, part, '.')) {
         parts.push_back(part);
     }
-    if (parts.size() != 3U) {
+    if (static_cast<int>(parts.size()) != 3) {
         utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -808,8 +802,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     claims.sub = payload.value("sub", "");
 
     // Input validation: Check principal/subject length
-    if (MAX_PRINCIPAL_NAME_LENGTH > 0
-            && claims.sub.size() > static_cast<std::size_t>(MAX_PRINCIPAL_NAME_LENGTH)) {
+    if (static_cast<int>(claims.sub.size()) > MAX_PRINCIPAL_NAME_LENGTH) {
         utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -1067,4 +1060,3 @@ std::future<JWTClaims> JWTValidator::validateAsync(const std::string &token) {
 
 } // namespace auth
 } // namespace themis
-

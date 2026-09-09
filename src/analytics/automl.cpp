@@ -147,7 +147,7 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     fm.X.reserve(data.size());
     for (const auto &p : data) {
         std::vector<double> row(fm.names.size(), 0.0);
-        for (size_t j = 0; j < fm.names.size(); ++j) {
+        for (size_t j = 0; j <static_cast<int>(fm.names.size()); ++j) {
             auto it = p.fields.find(fm.names[j]);
             if (it != p.fields.end()) {
                 if (auto *d = std::get_if<double>(&it->second)) {
@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size() && j < mean.size(); ++j) {
+        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) <static_cast<int>(mean.size()); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -309,7 +309,7 @@ struct LabelEncoder {
         std::set<std::string> s(labels.begin(), labels.end());
         classes.assign(s.begin(), s.end());
         for (size_t i = 0; i < classes.size(); ++i) {
-            index[classes[static_cast<size_t>(i)]] = static_cast<int>(i);
+            index[classes[static_cast<size_t>(i)]] = i;
         }
     }
 
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
+            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
+            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1400,8 +1400,6 @@ std::unique_ptr<ModelBase> trainKNN(const std::vector<std::vector<double>> &X, c
 EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<double>> &X,
                           const std::vector<int> &y_cls, const std::vector<double> &y_reg, bool is_classifier,
                           int n_classes, AutoMLMetric metric) {
-    (void)metric;
-
     EvalMetrics em;
     size_t n = X.size();
     if (n == 0) {
@@ -1427,10 +1425,8 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
                 scores[i] = {s, y_cls[i]};
             }
             std::sort(scores.begin(), scores.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
-            double auc = 0.0;
-            double tp = 0.0;
-            double pos = 0;
-            double neg = 0;
+            double auc = 0.0, tp = 0.0, fp = 0.0;
+            double pos = 0, neg = 0;
             for (auto &[s, c] : scores) {
                 if (c == 1) {
                     ++pos;
@@ -1443,6 +1439,7 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
                     ++tp;
                 } else {
                     auc += tp;
+                    ++fp;
                 }
             }
             if (pos > 0 && neg > 0) {
@@ -1663,7 +1660,7 @@ ModelExplanation AutoMLModel::explainOne(const DataPoint &point) const {
               [](const auto &a, const auto &b) { return std::abs(a.second) > std::abs(b.second); });
 
     // Build top_features string
-    size_t top_n = std::min<size_t>(5, exp.feature_contributions.size());
+    size_t top_n = std::min(size_t(5), exp.feature_contributions.size());
     std::string tf = {};
     for (size_t i = 0; i < top_n; ++i) {
         if (i > 0) {
@@ -1952,7 +1949,7 @@ AutoMLModel AutoMLModel::deserialize(const std::string &data) {
     }
     // Rebuild label encoder index
     for (size_t i = 0; i < m.impl_->label_enc.classes.size(); ++i) {
-        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = static_cast<int>(i);
+        m.impl_->label_enc.index[m.impl_->label_enc.classes[static_cast<size_t>(i)]] = i;
     }
     return m;
 }

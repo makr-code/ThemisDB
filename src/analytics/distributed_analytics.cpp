@@ -77,8 +77,8 @@ using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::stri
 
 // Constants for float comparisons and retry logic
 constexpr double EPSILON = 1e-9;
-[[maybe_unused]] constexpr int MAX_RETRIES = 3;
-[[maybe_unused]] constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
+constexpr int MAX_RETRIES = 3;
+constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
 
 /**
  * Safe float comparison with epsilon tolerance.
@@ -902,7 +902,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                         }
                         // Transient: backoff = base * 2^attempt, capped, ±20% jitter.
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min<uint32_t>(static_cast<uint32_t>(attempt), 10u));
+                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
@@ -924,7 +924,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                             return;
                         }
                         const uint32_t raw_ms =
-                            retry_cfg.base_delay_ms * (1u << std::min<uint32_t>(static_cast<uint32_t>(attempt), 10u));
+                            retry_cfg.base_delay_ms * (1u << std::min(attempt, 10u));
                         const uint32_t capped_ms = std::min(raw_ms, retry_cfg.max_delay_ms);
                         const double jf = 0.8 + 0.4 * jitter_dist(rng);
                         const uint32_t delay_ms =
@@ -1185,7 +1185,7 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
             // >= 32 does not produce undefined behaviour via 1 << N overflow.
             // Max useful shift is 30: (1 << 30) * 100ms ≈ 29.8 hours, which
             // already exceeds any practical max-recovery-delay config value.
-            const uint32_t safe_shift = std::min<uint32_t>(static_cast<uint32_t>(cb_info.recovery_attempts), 30u);
+            const uint32_t safe_shift = std::min(static_cast<uint32_t>(cb_info.recovery_attempts), 30u);
             uint32_t backoff_ms = std::min(
                 config_.circuit_breaker_recovery_delay_ms * (1 << safe_shift),
                 config_.circuit_breaker_max_recovery_delay_ms);

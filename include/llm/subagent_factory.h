@@ -157,19 +157,37 @@ public:
      * @param model_loader Model cache/loader for model lifecycle.
      * @param lora_manager LoRA adapter manager for adapter lifecycle.
      * @param quota_manager Token quota manager (optional, creates local if null).
-     * @param config       Factory configuration (default: sensible defaults).
      * @return New factory instance, or error string.
      *
      * The factory does not take ownership of pointer arguments; they must
-     * remain valid for the lifetime of the factory.
+     * remain valid for the lifetime of the factory. The overload uses the
+     * default Config values when no explicit configuration is provided.
      */
     static SubagentResult<std::unique_ptr<SubagentFactory>> create(
         ILLMPlugin* plugin,
         std::shared_ptr<SharedWorkerPool> worker_pool,
         std::shared_ptr<ModelLoader> model_loader,
         std::shared_ptr<MultiLoRAManager> lora_manager,
-        std::shared_ptr<TokenQuotaManager> quota_manager = nullptr,
-        const Config& config = Config{});
+        std::shared_ptr<TokenQuotaManager> quota_manager = nullptr);
+
+    /**
+     * @brief Create a new subagent factory with explicit configuration.
+     *
+     * @param plugin       LLM inference plugin (not owned; must outlive factory).
+     * @param worker_pool  Shared worker pool for async tasks.
+     * @param model_loader Model cache/loader for model lifecycle.
+     * @param lora_manager LoRA adapter manager for adapter lifecycle.
+     * @param quota_manager Token quota manager (optional, creates local if null).
+     * @param config       Factory configuration.
+     * @return New factory instance, or error string.
+     */
+    static SubagentResult<std::unique_ptr<SubagentFactory>> create(
+        ILLMPlugin* plugin,
+        std::shared_ptr<SharedWorkerPool> worker_pool,
+        std::shared_ptr<ModelLoader> model_loader,
+        std::shared_ptr<MultiLoRAManager> lora_manager,
+        std::shared_ptr<TokenQuotaManager> quota_manager,
+        const Config& config);
 
     virtual ~SubagentFactory() = default;
 

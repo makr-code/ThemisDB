@@ -198,7 +198,7 @@ DetectionResult MedianDetector::detectByzantineShards(
     DetectionResult result = DetectionResult();
     result.detection_method = "MEDIAN";
     
-    if (static_cast<int>(shard_gradients.size()) < 2) {
+    if (shard_gradients.size() < 2) {
         // Need at least 2 shards for comparison
         return result;
     }
@@ -212,7 +212,7 @@ DetectionResult MedianDetector::detectByzantineShards(
     }
     
     // Detect outliers
-    for (size_t i = 0; i <static_cast<int>(stats.shard_ids.size()); ++i) {
+    for (size_t i = 0; i <stats.shard_ids.size(); ++i) {
         const std::string& shard_id = stats.shard_ids[i];
         float norm = stats.gradient_norms[i];
         float deviation = std::abs(norm - stats.global_median_norm);
@@ -253,7 +253,7 @@ float KrumDetector::computeDistance(
     const std::vector<GradientTensor>& grad1,
     const std::vector<GradientTensor>& grad2
 ) const {
-    if (static_cast<int>(grad1.size()) != static_cast<int>(grad2.size())) {
+    if (grad1.size() != grad2.size()) {
         throw std::runtime_error("Gradient tensor sizes do not match");
     }
     
@@ -277,7 +277,7 @@ std::vector<std::string> KrumDetector::selectKrumGradients(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
     int num_to_select
 ) const {
-    if (static_cast<int>(shard_gradients.size()) <= static_cast<size_t>(num_to_select)) {
+    if (shard_gradients.size() <= static_cast<size_t>(num_to_select)) {
         // Select all shards
         std::vector<std::string> all_shards = {};
 
@@ -357,9 +357,9 @@ DetectionResult KrumDetector::detectByzantineShards(
     DetectionResult result = DetectionResult();
     result.detection_method = "KRUM";
     
-    const auto n = static_cast<int>(shard_gradients.size());
+    const auto n = shard_gradients.size();
     
-    if (n < 2 * max_byzantine_shards_ + 3) {
+    if (n < static_cast<size_t>(2 * max_byzantine_shards_ + 3)) {
         spdlog::warn(
             "Byzantine detection: Insufficient shards for Krum (n={}, f={}). "
             "Need at least 2f+3 shards.",
@@ -441,8 +441,8 @@ std::vector<GradientTensor> BulyanDetector::computeTrimmedMean(
             std::sort(values.begin(), values.end());
             
             // Remove top and bottom trim_count values
-            size_t start = std::min<size_t>(trim_count,static_cast<int>(values.size()) / 2);
-            size_t end = static_cast<int>(values.size()) - start;
+            size_t start = std::min<size_t>(trim_count,values.size() / 2);
+            size_t end = values.size() - start;
             
             if (start < end) {
                 float sum = std::accumulate(
@@ -474,9 +474,9 @@ DetectionResult BulyanDetector::detectByzantineShards(
     DetectionResult result = DetectionResult();
     result.detection_method = "BULYAN";
     
-    const auto n = static_cast<int>(shard_gradients.size());
+    const auto n = shard_gradients.size();
     
-    if (n < 4 * max_byzantine_shards_ + 3) {
+    if (n < static_cast<size_t>(4 * max_byzantine_shards_ + 3)) {
         spdlog::warn(
             "Byzantine detection: Insufficient shards for Bulyan (n={}, f={}). "
             "Need at least 4f+3 shards.",
@@ -506,7 +506,7 @@ DetectionResult BulyanDetector::detectByzantineShards(
 std::vector<GradientTensor> BulyanDetector::aggregateRobust(
     const std::map<std::string, std::vector<GradientTensor>>& shard_gradients
 ) {
-    const auto n = static_cast<int>(shard_gradients.size());
+    const auto n = shard_gradients.size();
     const int m = n - max_byzantine_shards_ - 2;
     
     // Step 1: Use Krum to select m gradients

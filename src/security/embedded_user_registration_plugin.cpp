@@ -570,4 +570,3 @@ std::shared_ptr<IUserRegistrationPlugin> createEmbeddedUserRegistrationPlugin() 
 
 } // namespace security
 } // namespace themis
-

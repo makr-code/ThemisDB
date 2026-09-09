@@ -447,4 +447,3 @@ DistributedVectorIndexStats DistributedVectorIndex::getStats() const {
 
 } // namespace index
 } // namespace themis
-

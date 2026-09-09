@@ -76,7 +76,7 @@ public:
         shutdown();
     }
     
-    bool initialize(int dim) {
+    bool initialize([[maybe_unused]] int dim) {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         dimension = dim;
         
@@ -208,7 +208,7 @@ public:
         }
     }
     
-    bool initializeGPU(int deviceId) {
+    bool initializeGPU([[maybe_unused]] int deviceId) {
         // Create GPU-specific configuration
         GPUVectorIndex::Config gpuConfig;
         gpuConfig.backend = config.backend;
@@ -246,47 +246,46 @@ public:
         if (activeDeviceIds.empty()) {
             return -1;
         }
-
-        const size_t deviceCount = activeDeviceIds.size();
-
+        
         switch (config.partitionStrategy) {
             case PartitionStrategy::ROUND_ROBIN: {
-                // Simple round-robin based on current vector count. The selected
-                // index must refer to the active GPU slot, not a bool result.
-                const size_t totalVectors = vectorToGPU.size();
-                return static_cast<int>(totalVectors % deviceCount);
+                // Simple round-robin based on current vector count
+                size_t totalVectors = vectorToGPU.size();
+                return static_cast<int>(totalVectors % activeDeviceIds.size());
             }
-
+            
             case PartitionStrategy::HASH_BASED: {
+                // Hash the vector ID
                 std::hash<std::string> hasher;
-                const size_t hash = hasher(id);
-                return static_cast<int>(hash % deviceCount);
+                size_t hash = hasher(id);
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
-
+            
             case PartitionStrategy::RANGE_BASED: {
-                // Lexicographic range partitioning. This is intentionally a
-                // lightweight deterministic mapping until a richer range map is
-                // introduced by the production topology logic.
+                // Lexicographic range partitioning
+                // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
-                const size_t hash = hasher(id);
-                return static_cast<int>(hash % deviceCount);
+                size_t hash = hasher(id);
+                return static_cast<int>(hash % activeDeviceIds.size());
             }
-
+            
             case PartitionStrategy::BALANCED: {
-                // Choose GPU with fewest vectors.
-                size_t minVectors = std::numeric_limits<size_t>::max();
-                int selectedGPU = 0;
-
-                for (size_t i = 0; i < gpuIndices.size(); ++i) {
-                    const auto stats = gpuIndices[i]->getStatistics();
-                    if (stats.numVectors < minVectors) {
-                        minVectors = stats.numVectors;
-                        selectedGPU = static_cast<int>(i);
+                // Choose GPU with fewest vectors
+                {
+                    size_t minVectors = std::numeric_limits<size_t>::max();
+                    int selectedGPU = 0;
+                    
+                    for (size_t i = 0; i < gpuIndices.size(); ++i) {
+                        auto stats = gpuIndices[i]->getStatistics();
+                        if (stats.numVectors < minVectors) {
+                            minVectors = stats.numVectors;
+                            selectedGPU = static_cast<int>(i);
+                        }
                     }
+                    return selectedGPU;
                 }
-                return selectedGPU;
             }
-
+            
             default:
                 return 0;
         }
@@ -304,7 +303,7 @@ public:
         if (it != vectorToGPU.end()) {
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
-            if (gpuIdx >= 0 && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
+            if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
                 bool ok = gpuIndices[gpuIdx]->updateVector(id, vector);
                 if (!ok) THEMIS_WARN("MultiGPUVectorIndex::addVector: updateVector failed on gpu {} for id {}", gpuIdx, id);
                 return ok;
@@ -315,7 +314,7 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || static_cast<size_t>(gpuIdx) >= gpuIndices.size()) {
+        if (gpuIdx < 0 || gpuIdx >= static_cast<int>(gpuIndices.size())) {
             THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
             return false;
         }
@@ -337,7 +336,7 @@ public:
         }
         
         int gpuIdx = it->second;
-        if (gpuIdx >= 0 && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
+        if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
             bool success = gpuIndices[gpuIdx]->removeVector(id);
             if (success) {
                 vectorToGPU.erase(it);
@@ -369,7 +368,7 @@ public:
             auto gpuEnd = std::chrono::steady_clock::now();
 
             // Accumulate per-GPU active query time for utilization tracking
-            if (gpuIdx < perGpuQueryTimeUs.size()) {
+            if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
                 uint64_t gpuUs = static_cast<uint64_t>(
                     std::chrono::duration_cast<std::chrono::microseconds>(gpuEnd - gpuStart).count());
                 std::lock_guard<std::mutex> lock(statsMutex);
@@ -387,7 +386,7 @@ public:
         }
         
         // Merge and select top-k from all GPUs
-        if (allResults.size() > k) {
+        if (static_cast<int>(allResults.size()) > k) {
             std::partial_sort(allResults.begin(), allResults.begin() + k, allResults.end(),
                 [](const auto& a, const auto& b) { return a.distance < b.distance; });
             allResults.resize(k);
@@ -430,7 +429,7 @@ public:
                 auto gpuEnd = std::chrono::steady_clock::now();
 
                 // Record per-GPU active time
-                if (gpuIdx < perGpuQueryTimeUs.size()) {
+                if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
                     uint64_t gpuUs = static_cast<uint64_t>(
                         std::chrono::duration_cast<std::chrono::microseconds>(
                             gpuEnd - gpuStart).count());
@@ -466,7 +465,7 @@ public:
                     }
                 }
             }
-            if (allResults.size() > k) {
+            if (static_cast<int>(allResults.size()) > k) {
                 std::partial_sort(allResults.begin(), allResults.begin() + k,
                     allResults.end(),
                     [](const auto& a, const auto& b) { return a.distance < b.distance; });
@@ -542,7 +541,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0 && i < perGpuQueryTimeUs.size()) {
+            if (elapsedUs > 0.0  && static_cast<size_t>(i) <static_cast<int>(perGpuQueryTimeUs.size())) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);
@@ -572,7 +571,7 @@ public:
         // Calculate scaling efficiency
         // Ideal speedup = number of GPUs
         // Actual speedup estimated from query time improvements
-        if (gpuIndices.size() > 1) {
+        if (static_cast<int>(gpuIndices.size()) > 1) {
             // Simplified: assume linear scaling as baseline
             double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance
@@ -605,7 +604,7 @@ public:
      */
     bool rebalance() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
-        if (!initialized || gpuIndices.size() <= 1) {
+        if (!initialized || static_cast<int>(gpuIndices.size()) <= 1) {
             return false;
         }
         
@@ -660,7 +659,7 @@ MultiGPUVectorIndex::MultiGPUVectorIndex(const Config& config)
 
 MultiGPUVectorIndex::~MultiGPUVectorIndex() = default;
 
-bool MultiGPUVectorIndex::initialize(int dimension) {
+bool MultiGPUVectorIndex::initialize([[maybe_unused]] int dimension) {
     return pImpl->initialize(dimension);
 }
 
@@ -674,7 +673,7 @@ bool MultiGPUVectorIndex::addVector(const std::string& id, const std::vector<flo
 
 bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                         const std::vector<std::vector<float>>& vectors) {
-    if (ids.size() != vectors.size()) {
+    if (static_cast<int>(ids.size()) != static_cast<int>(vectors.size())) {
         return false;
     }
     
@@ -705,7 +704,7 @@ std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> MultiGPUVectorIndex:
     return pImpl->searchBatch(queries, k);
 }
 
-bool MultiGPUVectorIndex::addGPU(int deviceId) {
+bool MultiGPUVectorIndex::addGPU([[maybe_unused]] int deviceId) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
@@ -720,7 +719,7 @@ bool MultiGPUVectorIndex::addGPU(int deviceId) {
     return pImpl->initializeGPU(deviceId);
 }
 
-bool MultiGPUVectorIndex::removeGPU(int deviceId) {
+bool MultiGPUVectorIndex::removeGPU([[maybe_unused]] int deviceId) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     if (!pImpl->initialized) {
         return false;
@@ -786,7 +785,7 @@ void MultiGPUVectorIndex::setLoadBalancingMode(LoadBalancingMode mode) {
     pImpl->config.loadBalancing = mode;
 }
 
-void MultiGPUVectorIndex::setEfSearch(int ef) {
+void MultiGPUVectorIndex::setEfSearch([[maybe_unused]] int ef) {
     std::lock_guard<std::mutex> topologyLock(pImpl->topologyMutex);
     pImpl->config.efSearch = ef;
     for (auto& gpuIndex : pImpl->gpuIndices) {

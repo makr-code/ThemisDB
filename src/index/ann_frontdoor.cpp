@@ -360,7 +360,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
             }
         } else {
             const std::size_t fanout_limit = (config_.distributed_max_fanout == 0)
-                ?static_cast<int>(shard_backends.size())
+                ? shard_backends.size()
                 : std::min(config_.distributed_max_fanout, shard_backends.size());
             for (std::size_t i = 0; i < fanout_limit; ++i) {
                 execution_backends.push_back(shard_backends[i]);
@@ -466,7 +466,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     case AnnStrategy::SCANN:
     // fallthrough: both use the global IAnnIndex backend
     [[fallthrough]];
-case AnnStrategy::DISKANN: {
+    case AnnStrategy::DISKANN: {
         if (!context.scope_id.empty()) {
             if (auto backend = resolveBackend(context.scope_id); backend) {
                 result.candidates = executeSearch(*backend, query_vector, dim, k);
@@ -490,7 +490,7 @@ case AnnStrategy::DISKANN: {
     // ------------------------------------------------------------------
     case AnnStrategy::FLAT_BRUTE_FORCE:
     [[fallthrough]];
-default: {
+    default: {
         // Try scope-specific or global backend first (may itself be brute force)
         if (auto backend = resolveBackend(context.scope_id); backend) {
             result.candidates = executeSearch(*backend, query_vector, dim, k);
@@ -539,7 +539,7 @@ default: {
             std::remove_if(result.candidates.begin(), result.candidates.end(),
                            [](const AnnSearchResult& r) {
                                // NaN check: NaN != NaN; negative distance also invalid.
-                               return !(r.distance >=0.0f);
+                               return !(r.distance >= 0.0f);
                            }),
             result.candidates.end());
         const std::size_t removed = before_range_filter - static_cast<int>(result.candidates.size()) ;
@@ -641,4 +641,3 @@ double AnnFrontdoor::recallEstimate(AnnStrategy strategy) noexcept {
 
 } // namespace index
 } // namespace themis
-
