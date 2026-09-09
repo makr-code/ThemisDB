@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-09-09T11:30:55.047710+00:00`
+> Generated: `2026-09-09T12:18:13.494718+00:00`
 
 ## Statistics
 
@@ -22,8 +22,10 @@
 ## Module Architecture Diagram
 
 ```mermaid
-flowchart TD
+flowchart TB
+    %% Vertical-first layout and GitHub-friendly styling
     subgraph T0["T0: Trusted Core"]
+        direction TB
         mod_base["base"]
         mod_core["core"]
         mod_plugins["plugins"]
@@ -31,6 +33,7 @@ flowchart TD
         mod_utils["utils"]
     end
     subgraph T1["T1: Engine (Query/Storage/Index)"]
+        direction TB
         mod_aql["aql"]
         mod_cache["cache"]
         mod_execution["execution"]
@@ -40,6 +43,7 @@ flowchart TD
         mod_storage["storage"]
     end
     subgraph T3["T3: Infrastructure & Governance"]
+        direction TB
         mod_acceleration["acceleration"]
         mod_access_model["access_model"]
         mod_ai["ai"]
@@ -97,6 +101,18 @@ flowchart TD
         mod_voice["voice"]
         mod_whisper["whisper ✅"]
     end
+
+    classDef tierT0 fill:#EAF2FF,stroke:#1D4ED8,color:#0F172A,stroke-width:1.2px;
+    classDef tierT1 fill:#ECFDF3,stroke:#15803D,color:#0F172A,stroke-width:1.2px;
+    classDef tierT3 fill:#FFF7ED,stroke:#C2410C,color:#0F172A,stroke-width:1.2px;
+    classDef publicPlugin fill:#E0F2FE,stroke:#0369A1,color:#0F172A,stroke-dasharray: 3 2;
+    classDef privatePlugin fill:#FCE7F3,stroke:#9D174D,color:#0F172A,stroke-dasharray: 2 2;
+    linkStyle default stroke:#64748B,stroke-width:1.1px,opacity:0.85;
+    class mod_base,mod_core,mod_plugins,mod_themis,mod_utils tierT0;
+    class mod_aql,mod_cache,mod_execution,mod_index,mod_metadata,mod_query,mod_storage tierT1;
+    class mod_acceleration,mod_access_model,mod_ai,mod_analytics,mod_api,mod_auth,mod_cdc,mod_chaos,mod_chimera,mod_config,mod_content,mod_distributed_knowledge,mod_distributed_tensor,mod_document,mod_ethics_ai,mod_evaluation,mod_exporters,mod_failover,mod_geo,mod_governance,mod_gpu,mod_graph,mod_importers,mod_ingestion,mod_llama_cpp,mod_llm,mod_llm_wiki,mod_maintenance,mod_network,mod_observability,mod_onnx_clip,mod_performance,mod_process,mod_projects,mod_prompt_engineering,mod_rag,mod_replication,mod_retrieval,mod_rpc_grpc,mod_scheduler,mod_scraper,mod_search,mod_security,mod_server,mod_sharding,mod_stable_diffusion,mod_temporal,mod_tensor,mod_timeseries,mod_toolbox,mod_training,mod_transaction,mod_updates,mod_user_storage_encrypted,mod_voice,mod_whisper tierT3;
+    class mod_exporters,mod_geo,mod_llama_cpp,mod_scraper,mod_stable_diffusion,mod_timeseries,mod_whisper publicPlugin;
+    class mod_ethics_ai,mod_importers,mod_llm_wiki,mod_user_storage_encrypted privatePlugin;
 
     mod_aql -->|"parses/plans"| mod_core
     mod_query -->|"optimizes"| mod_aql

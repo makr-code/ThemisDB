@@ -559,7 +559,10 @@ def render_mermaid(model: dict[str, Any]) -> str:
     documentation (src/<module>/ROADMAP.md on develop, or a wiki page for
     well-known modules).
     """
-    lines: list[str] = ["flowchart TD"]
+    lines: list[str] = [
+        "flowchart TB",
+        "    %% Vertical-first layout and GitHub-friendly styling",
+    ]
 
     tier_summary: dict[str, list[str]] = model.get("tier_summary", {})
     relationships: list[dict[str, str]] = model.get("relationships", [])
@@ -568,11 +571,15 @@ def render_mermaid(model: dict[str, Any]) -> str:
     }
 
     all_rendered_nodes: list[tuple[str, str]] = []  # (nid, module_name)
+    tier_node_ids: dict[str, list[str]] = {}
+    private_plugin_nodes: list[str] = []
+    public_plugin_nodes: list[str] = []
 
     # Subgraphs per tier (T0 first, ascending number = higher trust first)
     for tier in sorted(tier_summary.keys()):
         tier_label = TIER_NAMES.get(tier, tier)
         lines.append(f"    subgraph {tier}[\"{tier}: {tier_label}\"]")
+        lines.append("        direction TB")
         for mod_name in sorted(tier_summary[tier]):
             nid = _mermaid_node_id(mod_name)
             mod = modules_by_name.get(mod_name, {})
@@ -584,11 +591,35 @@ def render_mermaid(model: dict[str, Any]) -> str:
             has_pub = mod.get("has_public_plugin", False)
             if has_priv:
                 label += " 🔒"
+                private_plugin_nodes.append(nid)
             elif has_pub:
                 label += " ✅"
+                public_plugin_nodes.append(nid)
             lines.append(f'        {nid}["{label}"]')
             all_rendered_nodes.append((nid, mod_name))
+            tier_node_ids.setdefault(tier, []).append(nid)
         lines.append("    end")
+
+    lines.extend(
+        [
+            "",
+            "    classDef tierT0 fill:#EAF2FF,stroke:#1D4ED8,color:#0F172A,stroke-width:1.2px;",
+            "    classDef tierT1 fill:#ECFDF3,stroke:#15803D,color:#0F172A,stroke-width:1.2px;",
+            "    classDef tierT3 fill:#FFF7ED,stroke:#C2410C,color:#0F172A,stroke-width:1.2px;",
+            "    classDef publicPlugin fill:#E0F2FE,stroke:#0369A1,color:#0F172A,stroke-dasharray: 3 2;",
+            "    classDef privatePlugin fill:#FCE7F3,stroke:#9D174D,color:#0F172A,stroke-dasharray: 2 2;",
+            "    linkStyle default stroke:#64748B,stroke-width:1.1px,opacity:0.85;",
+        ]
+    )
+    for tier in sorted(tier_node_ids.keys()):
+        class_name = f"tier{tier}"
+        tier_nodes = ",".join(sorted(tier_node_ids[tier]))
+        if tier_nodes:
+            lines.append(f"    class {tier_nodes} {class_name};")
+    if public_plugin_nodes:
+        lines.append(f"    class {','.join(sorted(public_plugin_nodes))} publicPlugin;")
+    if private_plugin_nodes:
+        lines.append(f"    class {','.join(sorted(private_plugin_nodes))} privatePlugin;")
 
     lines.append("")
 
