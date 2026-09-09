@@ -5,6 +5,7 @@
 #include <cctype>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <mutex>
 #include <stdexcept>
 #include <sstream>
@@ -56,6 +57,30 @@ std::vector<std::pair<std::string, uint32_t>> tokenize(const std::string& text) 
     tokens.emplace_back(current, position);
   }
   return tokens;
+}
+
+std::vector<std::string> extractNormalizedTerms(const SearchNode& node) {
+  std::vector<std::string> terms;
+  if (node.type == SearchNodeType::TERM) {
+    const auto normalized = normalizeTerm(node.term);
+    if (!normalized.empty()) {
+      terms.push_back(normalized);
+    }
+    return terms;
+  }
+
+  if (node.type == SearchNodeType::PHRASE) {
+    const auto phrase_tokens = tokenize(node.term);
+    terms.reserve(phrase_tokens.size());
+    for (const auto& [term, position] : phrase_tokens) {
+      static_cast<void>(position);
+      if (!term.empty()) {
+        terms.push_back(term);
+      }
+    }
+  }
+
+  return terms;
 }
 
 class DirectoryFtsIndex final : public FtsIndex {
@@ -319,9 +344,9 @@ struct IntermediateDocResult {
 
 std::vector<std::string> collectTerms(const SearchNode& node) {
   std::vector<std::string> terms;
-  if ((node.type == SearchNodeType::TERM || node.type == SearchNodeType::PHRASE) &&
-      !node.term.empty()) {
-    terms.push_back(node.term);
+  if (node.type == SearchNodeType::TERM || node.type == SearchNodeType::PHRASE) {
+    auto node_terms = extractNormalizedTerms(node);
+    terms.insert(terms.end(), node_terms.begin(), node_terms.end());
   }
   for (const auto& child : node.children) {
     auto child_terms = collectTerms(child);
@@ -338,18 +363,27 @@ SearchNode annotateNodeForDoc(const SearchNode& node,
   annotated.children.clear();
   annotated.children.reserve(node.children.size());
   if (node.type == SearchNodeType::TERM || node.type == SearchNodeType::PHRASE) {
-    const std::string normalized = normalizeTerm(node.term);
-    auto hit = doc.per_term.find(normalized);
-    if (hit != doc.per_term.end()) {
-      annotated.document_term_frequency = hit->second.term_freq;
-      annotated.document_length_tokens = doc_length;
-      auto df_it = dfs.find(normalized);
-      if (df_it != dfs.end()) {
-        annotated.document_frequency = df_it->second;
+    const auto normalized_terms = extractNormalizedTerms(node);
+    uint32_t min_tf = std::numeric_limits<uint32_t>::max();
+    uint32_t min_df = std::numeric_limits<uint32_t>::max();
+    bool has_match = !normalized_terms.empty();
+    for (const auto& term : normalized_terms) {
+      auto hit = doc.per_term.find(term);
+      if (hit == doc.per_term.end()) {
+        has_match = false;
+        break;
       }
+      min_tf = std::min(min_tf, hit->second.term_freq);
+      auto df_it = dfs.find(term);
+      min_df = std::min(min_df, df_it != dfs.end() ? df_it->second : 0U);
+    }
+
+    annotated.document_length_tokens = doc_length;
+    if (has_match) {
+      annotated.document_term_frequency = min_tf;
+      annotated.document_frequency = min_df;
     } else {
       annotated.document_term_frequency = 0;
-      annotated.document_length_tokens = doc_length;
       annotated.document_frequency = 0;
     }
   }
@@ -359,11 +393,69 @@ SearchNode annotateNodeForDoc(const SearchNode& node,
   return annotated;
 }
 
+bool matchPhraseTermsRecursive(
+    const std::vector<const std::vector<uint32_t>*>& positions_by_term,
+    std::size_t term_index,
+    uint32_t previous_position,
+    uint32_t max_gap,
+    bool exact_phrase) {
+  if (term_index == positions_by_term.size()) {
+    return true;
+  }
+
+  const auto& positions = *positions_by_term[term_index];
+  auto it = std::upper_bound(positions.begin(), positions.end(), previous_position);
+  for (; it != positions.end(); ++it) {
+    const uint32_t delta = *it - previous_position;
+    const bool gap_matches =
+        exact_phrase ? (delta == 1U) : (delta > 0U && delta <= max_gap);
+    if (!gap_matches) {
+      if ((exact_phrase && delta > 1U) || (!exact_phrase && delta > max_gap)) {
+        break;
+      }
+      continue;
+    }
+    if (matchPhraseTermsRecursive(
+            positions_by_term, term_index + 1U, *it, max_gap, exact_phrase)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool docMatchesQuery(const SearchNode& node, const IntermediateDocResult& doc) {
   switch (node.type) {
     case SearchNodeType::TERM:
-    case SearchNodeType::PHRASE:
       return doc.per_term.find(normalizeTerm(node.term)) != doc.per_term.end();
+    case SearchNodeType::PHRASE: {
+      const auto normalized_terms = extractNormalizedTerms(node);
+      if (normalized_terms.empty()) {
+        return false;
+      }
+      if (normalized_terms.size() == 1U) {
+        return doc.per_term.find(normalized_terms.front()) != doc.per_term.end();
+      }
+
+      std::vector<const std::vector<uint32_t>*> positions_by_term;
+      positions_by_term.reserve(normalized_terms.size());
+      for (const auto& term : normalized_terms) {
+        auto hit = doc.per_term.find(term);
+        if (hit == doc.per_term.end() || hit->second.positions.empty()) {
+          return false;
+        }
+        positions_by_term.push_back(&hit->second.positions);
+      }
+
+      const bool exact_phrase = node.proximity_distance == 0U;
+      const uint32_t max_gap = exact_phrase ? 1U : node.proximity_distance + 1U;
+      for (const auto start_position : *positions_by_term.front()) {
+        if (matchPhraseTermsRecursive(
+                positions_by_term, 1U, start_position, max_gap, exact_phrase)) {
+          return true;
+        }
+      }
+      return false;
+    }
     case SearchNodeType::AND:
       return std::all_of(node.children.begin(), node.children.end(),
                          [&](const SearchNode& child) { return docMatchesQuery(child, doc); });

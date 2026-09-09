@@ -41,6 +41,78 @@ TEST(FtsExecutorTest, UpdateAndExecuteTermQuery) {
   EXPECT_GT((*result)[0].score, 0.0F);
 }
 
+TEST(FtsExecutorTest, ExecutesExactPhraseQueriesWithTokenPositions) {
+  const auto path = makeTempIndexPath();
+  FtsExecutor executor(path.string());
+
+  IndexUpdateBatch batch;
+  batch.additions.push_back({1U, "graph database engine for analytics"});
+  batch.additions.push_back({2U, "graph scalable database engine"});
+  batch.additions.push_back({3U, "engine database graph"});
+  ASSERT_TRUE(executor.updateIndex(batch).has_value());
+
+  SearchNode query = SearchNode::makePhrase("graph database engine");
+  auto result = executor.execute(query);
+  ASSERT_TRUE(result.has_value());
+  ASSERT_EQ(result->size(), 1U);
+  EXPECT_EQ((*result)[0].doc_id, 1U);
+}
+
+TEST(FtsExecutorTest, ExecutesPhraseQueriesCaseInsensitively) {
+  const auto path = makeTempIndexPath();
+  FtsExecutor executor(path.string());
+
+  IndexUpdateBatch batch;
+  batch.additions.push_back({11U, "Graph Database Engine with mixed case"});
+  ASSERT_TRUE(executor.updateIndex(batch).has_value());
+
+  SearchNode query = SearchNode::makePhrase("GRAPH DATABASE ENGINE");
+  auto result = executor.execute(query);
+  ASSERT_TRUE(result.has_value());
+  ASSERT_EQ(result->size(), 1U);
+  EXPECT_EQ((*result)[0].doc_id, 11U);
+}
+
+TEST(FtsExecutorTest, ExecutesProximityPhraseQueriesWhenGapIsWithinBudget) {
+  const auto path = makeTempIndexPath();
+  FtsExecutor executor(path.string());
+
+  IndexUpdateBatch batch;
+  batch.additions.push_back({21U, "graph highly distributed storage engine"});
+  batch.additions.push_back({22U, "graph storage replication distributed telemetry engine"});
+  ASSERT_TRUE(executor.updateIndex(batch).has_value());
+
+  SearchNode query = SearchNode::makePhrase("graph engine");
+  query.proximity_distance = 3U;
+
+  auto result = executor.execute(query);
+  ASSERT_TRUE(result.has_value());
+  ASSERT_EQ(result->size(), 1U);
+  EXPECT_EQ((*result)[0].doc_id, 21U);
+}
+
+TEST(FtsExecutorTest, BooleanQueriesReusePhraseMatching) {
+  const auto path = makeTempIndexPath();
+  FtsExecutor executor(path.string());
+
+  IndexUpdateBatch batch;
+  batch.additions.push_back({31U, "graph database engine analytics"});
+  batch.additions.push_back({32U, "graph database cache analytics"});
+  batch.additions.push_back({33U, "graph database cache"});
+  ASSERT_TRUE(executor.updateIndex(batch).has_value());
+
+  SearchNode phrase = SearchNode::makePhrase("graph database");
+  SearchNode term = SearchNode::makeTerm("analytics");
+  SearchNode query =
+      SearchNode::makeBoolean(SearchNodeType::AND, {phrase, term});
+
+  auto result = executor.execute(query);
+  ASSERT_TRUE(result.has_value());
+  ASSERT_EQ(result->size(), 2U);
+  EXPECT_EQ((*result)[0].doc_id, 31U);
+  EXPECT_EQ((*result)[1].doc_id, 32U);
+}
+
 TEST(FtsExecutorTest, RespectsTimeoutFailClosed) {
   const auto path = makeTempIndexPath();
   FtsExecutor executor(path.string());
