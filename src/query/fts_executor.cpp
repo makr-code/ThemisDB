@@ -144,6 +144,7 @@ class DirectoryFtsIndex final : public FtsIndex {
   void addDocuments(
       const std::vector<std::pair<uint64_t, std::string>>& documents) override {
     std::lock_guard<std::mutex> lock(mu_);
+    std::unordered_set<std::string> touched_terms;
     for (const auto& [doc_id, text] : documents) {
       eraseDocumentUnsafe(doc_id);
       const auto tokens = tokenize(text);
@@ -161,18 +162,22 @@ class DirectoryFtsIndex final : public FtsIndex {
         entry.term_freq = static_cast<uint32_t>(positions.size());
         entry.positions = std::move(positions);
         auto& posting_list = postings_[term];
+        avg_tf += static_cast<float>(entry.term_freq);
         posting_list.push_back(std::move(entry));
-        std::sort(posting_list.begin(), posting_list.end(),
-                  [](const PostingListEntry& a, const PostingListEntry& b) {
-                    return a.doc_id < b.doc_id;
-                  });
-        avg_tf += static_cast<float>(posting_list.back().term_freq);
+        touched_terms.insert(term);
       }
       if (!positions_by_term.empty()) {
         avg_tf /= static_cast<float>(positions_by_term.size());
       }
       documents_[doc_id] = DocumentMetadata{
           doc_id, static_cast<uint32_t>(tokens.size()), avg_tf, "en"};
+    }
+    for (const auto& term : touched_terms) {
+      auto& posting_list = postings_[term];
+      std::sort(posting_list.begin(), posting_list.end(),
+                [](const PostingListEntry& a, const PostingListEntry& b) {
+                  return a.doc_id < b.doc_id;
+                });
     }
     persistToDiskUnsafe();
   }

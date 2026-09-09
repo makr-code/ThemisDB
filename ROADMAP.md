@@ -39,7 +39,6 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 
 - **GPU Phase C / CUDA-call reduction** remains incomplete; the dedicated Wave-A GPU CI lane is now green again on `develop` (run `34313042741`), but the module-level reduction gate and representative-hardware baselines are still open.
 - **Transaction representative-hardware / resilience evidence** remains open; the dedicated Wave-B transaction CI lane is now green again on `develop` (run `34313051247`), but representative-hardware and chaos/recovery determinism evidence are still pending.
-- **Query FTS performance gate** remains open at the release level; backend implementation, phrase/proximity executor coverage, and a production-backed benchmark harness now exist, but the `<=100ms` acceptance on 100K documents is not yet closed with representative evidence.
 - **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
 - **Final GA sign-off** is still blocked by human approval, not just implementation availability.
 
@@ -50,11 +49,10 @@ Execution on `develop` is now explicitly ordered as:
 1. Build one source-validated backlog from root/module roadmaps plus current CI evidence.
 2. Close the **Transaction** CI lane first.
 3. Close the **GPU** CI lane and keep CPU-only fallback evidence usable while representative GPU hardware is pending.
-4. Close the **Query** FTS performance gate (`<=100ms` on 100K docs).
-5. Refresh representative-hardware and p95/p99 baselines for critical modules.
-6. Execute remaining high-risk hardening in `llm`, `server`, `training`, and `llm_wiki`.
-7. Sync root governance docs only after the blocker state is re-validated.
-8. Request final human GA/program sign-off only after all critical blockers are closed.
+4. Refresh representative-hardware and p95/p99 baselines for critical modules.
+5. Execute remaining high-risk hardening in `llm`, `server`, `training`, and `llm_wiki`.
+6. Sync root governance docs only after the blocker state is re-validated.
+7. Request final human GA/program sign-off only after all critical blockers are closed.
 
 ### Practical conclusion
 
@@ -80,7 +78,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 | core | DOC/Evidence Gaps | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading delivered; remaining items are Wave D operability and refreshed evidence |
 | base | Historical Scanner Noise | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
 | server | Wave 4-A COMPLETE | REMEDIATED 2026-08-31 | gRPC-Web availability contract, RoPE DELETE disablement, MCP stdio self-disable all delivered; remaining: time-series provider DI, Wave 2-A items (see `src/server/ROADMAP.md` line 78+) |
-| query | Phase B COMPLETE | REMEDIATED 2026-09-03 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5), and FTS executor backend wiring delivered; remaining: FTS performance gate ≤100ms on 100K docs (Target: Q4 2026) — see `src/query/ROADMAP.md` line 79-80 |
+| query | Phase B COMPLETE | REMEDIATED 2026-09-09 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5), FTS executor backend wiring, phrase/proximity matching, and the ≤100ms-on-100K FTS benchmark gate are now delivered; remaining: cross-feature integration tests and broader representative-hardware baseline refresh — see `src/query/ROADMAP.md` |
 | transaction | Wave A codes COMPLETE | Mostly verification / benchmark evidence | Source code gaps closed per `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (2026-08-24); remaining: representative-hardware CI execution and chaos/recovery determinism evidence |
 | auth | Wave 4-B COMPLETE | REMEDIATED 2026-08-26 | All 14 audit/retry/crypto gaps closed per `src/auth/ROADMAP.md` lines 54-76; v1.3.0 distributed token blacklist complete; remaining: representative-hardware baselines and Wave C benchmark gate evidence |
 | LLM | Wiki Phase A+B COMPLETE | REMEDIATED 2026-08-26 | Wiki Phase A (BM25+HNSW+RRF) and Phase B (RocksDB) both delivered; all STUB removals (P5-L01, P5-L02) complete; remaining: distributed collectives, multi-tenant isolation, and final speculative/TARG cross-module wiring — see `src/llm/ROADMAP.md` line 87+ |
@@ -96,7 +94,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-09) confirms ~82–84% readiness with 3 remaining technical blockers plus final human sign-off.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-09) confirms ~82–84% readiness with 2 remaining technical blocker families plus final human sign-off.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
 > **Critical Release Blockers (must resolve before GA sign-off):**
 >
@@ -104,8 +102,6 @@ The repository is clearly not a blank or mock project. It contains a substantial
 > |---------|--------|--------|--------|
 > | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | Dedicated Wave-A GPU CI run `34313042741` is green again; remaining blocker is the reduction gate and representative-hardware evidence per `src/gpu/ROADMAP.md` | Complete reduction + hardware proof by end Q3 2026 |
 > | Transaction representative-hardware / resilience evidence | Cannot treat transaction hardening as release-grade without representative-hardware and chaos/recovery proof | Dedicated Wave-B transaction CI run `34313051247` is green again; remaining blocker is representative-hardware plus determinism/recovery evidence | Close evidence gap in Q4 2026 |
-> | Query FTS performance gate | FTS backend is implemented, but release acceptance is still open | Real phrase/proximity executor coverage and benchmark harness are now in-tree; `<=100ms` on 100K docs still pending | Close benchmark gate in Q4 2026 |
-
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
@@ -789,7 +785,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Track 1 — AQL 2.0.0 Completion** (🟡 P1, Q3–Q4 2026)
 - [x] AQL Mutations Phases 1–5 complete (2026-07-15); DDL delivered (2026-07-22)
 - [~] Geospatial parser wiring: ST_* functions need FILTER/SORT/RETURN context wiring (Target: Q3 2026)
-- [ ] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026)
+- [x] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026) — closed 2026-09-09 via `tests/query/test_fts_executor.cpp` and `benchmarks/rag/bench_fts_phase_b.cpp` (`BM_FtsPhraseQuery/100000 p95_ms=1.3638`, `BM_FtsProximityQuery/100000 p95_ms=1.53029`)
 - [ ] Cross-feature integration tests: 1000+ tests, zero v1.x regressions (Target: Q4 2026)
 - Gate model: 6 go/no-go gates in `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`
 
