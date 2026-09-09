@@ -61,7 +61,7 @@ parseManifest(const std::string& content) {
 
     // Returns true when 's' is exactly 64 lowercase hex characters.
     auto isValidSha256 = [](const std::string& s) -> bool {
-        if (static_cast<int>(s.size()) != 64) {
+        if (s.size() != 64) {
           return false;
         }
         for (char c : s) {
@@ -216,7 +216,7 @@ public:
         entries_.insert(entries_.begin(), meta);
 
         // Prune rolling window
-        while (static_cast<int>(entries_.size()) > config_.max_checkpoints) {
+        while (entries_.size() > config_.max_checkpoints) {
             const auto& oldest = entries_.back();
             std::remove(oldest.checkpoint_path.c_str());
             entries_.pop_back();
@@ -349,7 +349,7 @@ public:
         
         diag << "Checkpoint audit report:\n"
              << "  Directory: " << config_.checkpoint_dir << "\n"
-             << "  Total entries in manifest: " <<static_cast<int>(entries_.size()) << "\n";
+             << "  Total entries in manifest: " <<entries_.size() << "\n";
         
         for (size_t i = 0; i < entries_.size(); ++i) {
             const auto& entry = entries_[i];
@@ -363,7 +363,7 @@ public:
                  << ", step=" << entry.step << ")\n";
         }
         
-        diag << "  Valid checkpoints: " << valid_count << "/" <<static_cast<int>(entries_.size()) << "\n";
+        diag << "  Valid checkpoints: " << valid_count << "/" <<entries_.size() << "\n";
         
         if (diagnostics) {
           *diagnostics = diag.str();
@@ -446,7 +446,7 @@ std::optional<CheckpointManifestEntry> LoRACheckpointManager::resumeWithDiagnost
     const auto& entries = impl_->listCheckpoints();
     
     diag << "Checkpoint recovery audit:\n"
-         << "  Total manifest entries: " <<static_cast<int>(entries.size()) << "\n";
+         << "  Total manifest entries: " <<entries.size() << "\n";
     
     if (entries.empty()) {
         diag << "  Result: No checkpoints available\n";

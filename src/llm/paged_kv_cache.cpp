@@ -58,15 +58,15 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
     
     // Allocate blocks, retrying with LRU eviction up to 3 times
     auto current_blocks = block_table->getBlockMapping();
-    if (static_cast<int>(current_blocks.size()) < num_blocks_needed) {
-        size_t blocks_to_allocate = num_blocks_needed - static_cast<int>(current_blocks.size()) ;
+    if (current_blocks.size() < num_blocks_needed) {
+        size_t blocks_to_allocate = num_blocks_needed - current_blocks.size() ;
 
         constexpr int kMaxEvictionRetries = 3;
         bool allocated = false;
         for (int attempt = 0; attempt <= kMaxEvictionRetries; ++attempt) {
             block_table->allocateBlocks(blocks_to_allocate);
             current_blocks = block_table->getBlockMapping();
-            if (static_cast<int>(current_blocks.size()) >= num_blocks_needed) {
+            if (current_blocks.size() >= num_blocks_needed) {
                 allocated = true;
                 break;
             }
@@ -75,7 +75,7 @@ bool PagedKVCache::store(uint64_t sequence_id, size_t layer_id, const std::vecto
                 break;  // Nothing left to evict
             }
             // Recalculate remaining need after eviction
-            blocks_to_allocate = num_blocks_needed - static_cast<int>(current_blocks.size()) ;
+            blocks_to_allocate = num_blocks_needed - current_blocks.size() ;
         }
 
         if (!allocated) {
@@ -311,7 +311,7 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             
             std::vector<uint8_t> result = {};
 
-            result.reserve(static_cast<int>(kv_data.size()) + 8);  // +8 for metadata (min_val, scale)
+            result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
             
             // Store metadata: min_val (4 bytes) + scale (4 bytes)
             uint32_t min_bits = std::bit_cast<uint32_t>(min_val);
@@ -375,7 +375,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         
         case KVQuantizationType::INT8: {
             // INT8 dequantization with metadata
-            if (static_cast<int>(quantized_data.size()) < 8) return {};
+            if (quantized_data.size() < 8) return {};
             
             // Extract metadata
             uint32_t min_bits = 0;
@@ -390,7 +390,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
             
             std::vector<float> result = {};
 
-            result.reserve(static_cast<int>(quantized_data.size()) - 8);
+            result.reserve(quantized_data.size() - 8);
             
             // Dequantize values
             for (size_t i = 8; i < quantized_data.size(); ++i) {

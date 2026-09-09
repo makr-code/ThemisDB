@@ -7,6 +7,14 @@
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete; final GA promotion still requires closure of tracked execution/evidence blockers plus Phase 6 human governance sign-off (D-11) at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18. **Recent source validation (2026-09-02) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-08-08, Storage Phases 1-5 complete.**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
+>
+> Cross-module architecture evidence:
+> - `docs/architecture/MODULE_ARCHITECTURE.md`
+> - `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`
+> - `docs/architecture/DATA_FLOW_PATHS.md`
+> - `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`
+> - `src/CROSS_MODULE_INTEGRATION.md`
+> - `MODULE_INDEX.md`
 
 ---
 
@@ -16,6 +24,48 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
+
+## Source-Verified Reality Check (2026-09-09)
+
+This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.
+
+- **Overall source-verified implementation level:** ~72%
+- **Optimistic roadmap/documentation level:** ~82–84%
+- **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
+- **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+
+### Recursive module roadmap sync (2026-09-09)
+
+- [x] Rekursive Prüfung von `src/*/ROADMAP.md` abgeschlossen; 71/71 Module erfüllen die Pflichtstruktur (`Current Status`, `In Progress`/`Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, `Breaking Changes`).
+- [x] Deep-dive-Quellenabgleich und Korrektur der Docs-only Claims dokumentiert: `src/llm_streaming` und `src/vector_search` sind als docs-only Modulpfade source-validiert und in den neuen Architekturstatus-Dokumenten eingeordnet (`docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`).
+- [~] Weiterarbeit priorisiert nach offenem Backlog-Druck + Gate-Relevanz: `acceleration`, `llm_wiki`, `query`, `transaction`, `index`, `rag`, `search`, `training`, `gpu`.
+
+### Issue-Evidenzprüfung (ROADMAP.md, 2026-09-09)
+
+- [x] Alle in dieser Root-Roadmap gelisteten Issue-Einträge (`[I]`/`[P]`) wurden gegen den aktuellen Source-Stand geprüft.
+- [x] 12 Einträge wurden auf `[x]` umgestellt, weil konkrete Source-/Test-Artefakte vorhanden sind (Acceleration #1374/#1383/#1384/#1390/#1394, AQL #1525, Replication-Track 3.1, Security `QueryMaskingPolicy`, GPU `WASMKernelSandbox`).
+- [~] Verbleibende `[I]`/`[P]` bleiben bewusst offen, wenn aktuell kein hinreichender Abschlussnachweis direkt im Sourcecode/Testpfad vorliegt oder wenn der Punkt laut Modul-Roadmap noch in Wave-Hardening steht.
+
+### Current real wave posture
+
+| Wave | Source-verified status | Notes |
+|---|---:|---|
+| **Wave A** | ~70% | Transaction and GPU remain the main blockers; sharding/replication/voice are materially advanced |
+| **Wave B** | ~80% | Search, access model, and LLM wiki are substantially implemented; representative-hardware evidence still incomplete |
+| **Wave C** | ~75% | Security and audit primitives exist; audit and policy-gate evidence is useful but not fully end-to-end production-certified |
+| **Wave D** | ~10–20% | Mostly planning and operability work; implementation is still in early stage |
+
+### Release-critical blockers, source-validated
+
+- **GPU Phase C / CUDA-call reduction** remains incomplete; the module-level reduction gate and representative-hardware baselines are still open.
+- **Transaction Wave A CI execution evidence** remains open; focused tests exist, but the source/CI path is not fully green on the current build lane.
+- **Query FTS performance gate** remains open at the release level; backend implementation exists but performance acceptance is not closed.
+- **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
+- **Final GA sign-off** is still blocked by human approval, not just implementation availability.
+
+### Practical conclusion
+
+The repository is clearly not a blank or mock project. It contains a substantial implementation base across core, security, AI/RAG, and infrastructure areas. However, the realistic production status is not “GA ready”; it is “substantial implementation with major hardening and evidence completion still pending”.
 
 ## Research & Papers Integration (Soll-Ist Vergleich)
 
