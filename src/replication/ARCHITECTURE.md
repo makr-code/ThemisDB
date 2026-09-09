@@ -159,6 +159,8 @@ All long-running blocking operations use timeouts to ensure bounded wait times:
 | `storage` | `include/replication/` (WAL shipping to replicas via CDC/WAL path) | Storage WAL events propagated to replica nodes |
 | `failover` | `include/replication/replication_manager.h`, `include/replication/raft_v2.h` | Failover module consults replication state for leader election |
 
+> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, transaction, cache, process, content consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+
 ---
 
 ## Integration Points

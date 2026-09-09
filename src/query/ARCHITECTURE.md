@@ -490,9 +490,8 @@ When the LLM layer generates candidate AQL strings (from natural language), it *
 | Module | Via | Notes |
 |--------|-----|-------|
 | `server` | `include/query/aql_runner.h`, `include/query/aql_parser_service.h` | HTTP query dispatch from `api_gateway` |
-| `aql` (LLM integration) | `include/query/aql_parser_service.h` | One-way read-only parser access; query engine never imports `aql` (§12) |
+| `aql` (LLM integration) | `include/query/aql_parser_service.h`, `include/query/` | One-way read-only parser access via `aql_parser_service.h` (query engine never imports `aql`, §12); AQL parser outputs also routed through query execution engine |
 | `analytics` | `include/query/` | Query execution for aggregations and scan plans |
-| `aql` | `include/query/` | AQL parser outputs routed through query execution engine |
 | `process` | `include/query/` | Process mining queries over event logs |
 | `content` | `include/query/` | Full-text and structured queries over content data |
 

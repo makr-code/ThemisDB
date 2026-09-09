@@ -55,6 +55,8 @@ The cache module composes query and embedding cache behaviors into bounded, obse
 | llm | `include/cache/semantic_cache.h`, `include/cache/embedding_cache.h` | Embedding and inference-result caching to reduce model call volume |
 | sharding | `include/cache/bounded_lru_cache.h` | Bounded LRU shard-routing metadata cache for consistent-hash ring lookups |
 
+> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, transaction, replication, process, content consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+
 ## Integration Points
 
 ### Critical Integration: SemanticCache ↔ Server Query Path

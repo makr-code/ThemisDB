@@ -82,6 +82,8 @@ Compensation path
 | `sharding` | `include/transaction/recoverable_two_phase_coordinator.h` | Cross-shard 2PC coordination (managed circular dep) |
 | `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
 
+> **DOC-WEEKLY tracking note:** Batch-4 consumer entries (analytics, process, content, aql, cache, replication consumers of this module) have not yet been audited and added to this table. Extend in next DOC-WEEKLY pass.
+
 ---
 
 ## 6. Integration Points (Detailed)
