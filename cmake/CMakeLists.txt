@@ -3385,7 +3385,10 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/execution/thread_pool_manager.cpp
 )
 if(THEMIS_EXECUTION_MODULE)
-    target_compile_definitions(themis_core PUBLIC THEMIS_EXECUTION_MODULE)
+    # Defer the compile definition — themis_core is created later (add_library).
+    # Append to THEMIS_GLOBAL_COMPILE_DEFINITIONS which is applied to the target
+    # after add_library() at the "target_compile_definitions(themis_core PUBLIC …)" block.
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_EXECUTION_MODULE)
     message(STATUS "Execution module enabled (THEMIS_EXECUTION_MODULE=ON): QueryScheduler + WorkStealingThreadPool")
 endif()
 
