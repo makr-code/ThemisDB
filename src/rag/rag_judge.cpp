@@ -337,7 +337,6 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
         // PERFORMANCE OPTIMIZATION: Check injection cache first
         std::string injection_cache_key = impl_->computeInjectionCacheKey(input.documents);
         bool injection_cache_hit = false;
-        bool cached_high_severity = false;
         size_t cached_findings_count = 0;
         
         if (!injection_cache_key.empty()) {
@@ -346,14 +345,6 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
             if (cache_it != impl_->injection_cache.end()) {
                 injection_cache_hit = true;
                 cached_findings_count = cache_it->second.size();
-                // Check if any findings are high severity (CRITICAL or HIGH)
-                for (const auto& finding : cache_it->second) {
-                    if (finding.severity == security::InjectionSeverity::CRITICAL ||
-                        finding.severity == security::InjectionSeverity::HIGH) {
-                        cached_high_severity = true;
-                        break;
-                    }
-                }
                 THEMIS_DEBUG("Injection detection cache hit ({} findings)", cached_findings_count);
             }
         }
