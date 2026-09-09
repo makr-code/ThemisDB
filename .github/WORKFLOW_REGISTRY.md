@@ -1,5 +1,10 @@
 # ThemisDB Workflow Registry (Lean Core)
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-09
+> Last Updated: 2026-09-09
+> Status: active
+
 ## Zielbild
 Dieses Repository nutzt bewusst ein schlankes, release-orientiertes CI/CD-Set.
 Alle nicht zwingenden Modul-/Spezial-Workflows wurden entfernt, um Wartung,
@@ -18,6 +23,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
 - `.github/workflows/gate-pr-doxygen-governance.yml`
   — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
+- `.github/workflows/gate-pr-doc-metadata.yml`
+  — Leichtgewichtiges Markdown-Metadaten-Gate fuer geaenderte Doku-Dateien; prueft Author/Urheber, Created, Last Updated und Status mit klaren Excludes fuer Backlog-/Archiv-/Template-Dateien
 - `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
 - `.github/workflows/build-clang-fast.yml`
@@ -125,7 +132,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 44
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 45
 - Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.

@@ -1,162 +1,156 @@
-# MODULE_ARCHITECTURE
+# Cross-Module Architecture Inventory
 
-## Scope and Method
+## Scope
 
-This document maps all **72 first-level modules under `src/`** and summarizes direct module dependencies derived from in-repo include relationships.
+- This document inventories all **72** top-level `src/` module paths in the current repository clone.
+- Code-footprint counts come from colocated C/C++ files under `src/<module>/`; direct dependency counts come from module-prefix `#include` edges found under `src/**` and `include/**`.
+- The grouping below is a cross-module review aid; it does not replace module-local contracts in `src/<module>/ARCHITECTURE.md` and `src/<module>/ROADMAP.md`.
 
-- Module inventory evidence: `src/` directory listing (72 module directories).
-- Dependency evidence source: include edges in `src/<module>/**/*.(cpp|h|hpp|cc|cxx|hh)`.
-- SCC/cycle analysis basis: directed include graph built from the same source tree.
+## Layer Summary
 
-## Layered Architecture (Foundation → Application)
+| Layer | Modules | Notes |
+|---|---:|---|
+| Core Infrastructure | 5 | source-backed grouping for cross-module review |
+| Storage & Persistence | 7 | source-backed grouping for cross-module review |
+| Query & Processing | 9 | source-backed grouping for cross-module review |
+| Index & Search | 3 | includes docs-only module paths |
+| LLM & AI | 18 | includes docs-only module paths |
+| Server & API | 5 | source-backed grouping for cross-module review |
+| Security & Auth | 4 | source-backed grouping for cross-module review |
+| Distributed Systems | 9 | source-backed grouping for cross-module review |
+| Observability & Hardening | 3 | source-backed grouping for cross-module review |
+| Data Integration | 7 | source-backed grouping for cross-module review |
+| Extensibility & Lifecycle | 1 | source-backed grouping for cross-module review |
+| Source-root Docs & Analysis | 1 | non-runtime support path under `src/` |
 
-```text
-Foundation -> Storage -> Distribution -> Indexing -> Processing -> AI -> Application
-```
+## Core Infrastructure
 
-Layer baseline from root architecture/governance context:
-- `ARCHITECTURE.md`
-- `MODULE_INDEX.md`
-- module-level `src/<module>/ROADMAP.md`
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `base` | 10 | 4 | 0 | runtime code-bearing path | `src/base/ARCHITECTURE.md` · `src/base/ROADMAP.md` · `include/base/` |
+| `config` | 6 | 1 | 5 | runtime code-bearing path | `src/config/ARCHITECTURE.md` · `src/config/ROADMAP.md` · `include/config/` |
+| `core` | 12 | 9 | 7 | runtime code-bearing path | `src/core/ARCHITECTURE.md` · `src/core/ROADMAP.md` · `include/core/` |
+| `themis` | 11 | 9 | 23 | high-integration runtime hub | `src/themis/ARCHITECTURE.md` · `src/themis/ROADMAP.md` · `include/themis/` |
+| `utils` | 48 | 8 | 51 | high-integration runtime hub | `src/utils/ARCHITECTURE.md` · `src/utils/ROADMAP.md` · `include/utils/` |
 
-## 72-Module Map with Direct Dependencies
+## Storage & Persistence
 
-| Module | Layer | Direct dependencies (include-derived) | Evidence |
-|---|---|---|---|
-| `acceleration` | AI | geo, index, llm, storage, themis, utils | `src/acceleration/` |
-| `access_model` | Application | utils | `src/access_model/` |
-| `ai` | AI | utils | `src/ai/` |
-| `ai_working` | Application | none detected | `src/ai_working/` |
-| `analytics` | Processing | security, storage, themis, utils | `src/analytics/` |
-| `api` | Application | index, query, server, storage, themis, transaction, utils | `src/api/` |
-| `aql` | Processing | analytics, distributed_knowledge, index, llm, prompt_engineering, query, sharding, storage, utils | `src/aql/` |
-| `auth` | Application | security, server, utils | `src/auth/` |
-| `base` | Foundation | acceleration, observability, themis, utils | `src/base/` |
-| `cache` | Storage | index, observability, security, storage, utils | `src/cache/` |
-| `cdc` | Distribution | storage, utils | `src/cdc/` |
-| `chaos` | Foundation | none detected | `src/chaos/` |
-| `chimera` | Processing | index, query, utils | `src/chimera/` |
-| `config` | Foundation | observability | `src/config/` |
-| `content` | Processing | config, llm, security, storage, utils | `src/content/` |
-| `core` | Foundation | observability, security, themis, utils | `src/core/` |
-| `distributed_knowledge` | Distribution | none detected | `src/distributed_knowledge/` |
-| `distributed_tensor` | Distribution | observability, rag, tensor | `src/distributed_tensor/` |
-| `document` | Processing | none detected | `src/document/` |
-| `ethics_ai` | AI | query, storage, utils | `src/ethics_ai/` |
-| `evaluation` | AI | none detected | `src/evaluation/` |
-| `execution` | Processing | none detected | `src/execution/` |
-| `exporters` | Processing | governance, query, security, utils | `src/exporters/` |
-| `failover` | Distribution | none detected | `src/failover/` |
-| `geo` | Indexing | storage, temporal, themis, utils | `src/geo/` |
-| `governance` | Application | observability, security, utils | `src/governance/` |
-| `gpu` | Application | acceleration, themis, utils | `src/gpu/` |
-| `graph` | Indexing | index, llm, observability, query, security, storage, utils | `src/graph/` |
-| `image_analysis` | AI | plugins | `src/image_analysis/` |
-| `importers` | Processing | content, plugins, utils | `src/importers/` |
-| `index` | Indexing | acceleration, config, llm, observability, security, storage, themis, utils | `src/index/` |
-| `ingestion` | Processing | governance, index, storage, utils | `src/ingestion/` |
-| `llama_cpp` | AI | llm, rag, utils | `src/llama_cpp/` |
-| `llm` | AI | acceleration, cache, core, ethics_ai, governance, index, llama_cpp, metadata, observability, performance, query, rag, security, server, sharding, storage, themis, utils | `src/llm/` |
-| `llm_streaming` | Application | none detected | `src/llm_streaming/` |
-| `llm_wiki` | AI | config, importers, plugins | `src/llm_wiki/` |
-| `maintenance` | Distribution | observability, scheduler, storage, utils | `src/maintenance/` |
-| `metadata` | Storage | cdc, index, observability, storage | `src/metadata/` |
-| `network` | Distribution | index, query, security, storage, themis, timeseries, transaction, utils | `src/network/` |
-| `observability` | Application | api, core, security, utils | `src/observability/` |
-| `onnx_clip` | AI | plugins | `src/onnx_clip/` |
-| `performance` | Foundation | storage | `src/performance/` |
-| `plugins` | Application | acceleration, themis, utils | `src/plugins/` |
-| `process` | Processing | index, storage, utils | `src/process/` |
-| `projects` | Processing | none detected | `src/projects/` |
-| `prompt_engineering` | AI | distributed_knowledge, metadata, security, storage, utils | `src/prompt_engineering/` |
-| `query` | Processing | analytics, aql, geo, index, llm, metadata, observability, performance, security, sharding, storage, themis, utils | `src/query/` |
-| `rag` | AI | distributed_knowledge, document, ingestion, llm, observability, performance, prompt_engineering, security, themis, training, utils | `src/rag/` |
-| `replication` | Distribution | utils | `src/replication/` |
-| `retrieval` | AI | none detected | `src/retrieval/` |
-| `rpc_grpc` | Application | plugins | `src/rpc_grpc/` |
-| `scheduler` | Processing | cdc, query, security, storage, themis, timeseries, utils | `src/scheduler/` |
-| `scraper` | Processing | llm | `src/scraper/` |
-| `search` | Indexing | core, graph, index, llm, storage, tensor, themis, utils | `src/search/` |
-| `security` | Application | auth, core, server, storage, themis, utils | `src/security/` |
-| `server` | Application | analytics, api, aql, auth, cache, cdc, config, content, exporters, geo, governance, graph, index, llm, maintenance, metadata, network, observability, performance, plugins, prompt_engineering, query, rag, scheduler, security, sharding, storage, themis, timeseries, transaction, updates, utils, voice | `src/server/` |
-| `sharding` | Distribution | distributed_knowledge, storage, themis, transaction, utils | `src/sharding/` |
-| `stable_diffusion` | AI | plugins, utils | `src/stable_diffusion/` |
-| `storage` | Storage | cdc, index, performance, sharding, temporal, tensor, transaction, utils | `src/storage/` |
-| `temporal` | Storage | none detected | `src/temporal/` |
-| `tensor` | Indexing | index, observability, storage, utils | `src/tensor/` |
-| `themis` | Foundation | acceleration, index, network, query, timeseries, utils | `src/themis/` |
-| `timeseries` | Storage | storage, utils | `src/timeseries/` |
-| `toolbox` | Processing | aql, ingestion, rag, utils | `src/toolbox/` |
-| `training` | AI | analytics, graph, index, llm, query, storage, utils | `src/training/` |
-| `transaction` | Distribution | index, plugins, storage, utils | `src/transaction/` |
-| `updates` | Storage | utils | `src/updates/` |
-| `user_storage_encrypted` | Storage | security | `src/user_storage_encrypted/` |
-| `utils` | Foundation | config, observability, security, storage, themis | `src/utils/` |
-| `vector_search` | Indexing | none detected | `src/vector_search/` |
-| `voice` | AI | llm, utils | `src/voice/` |
-| `whisper` | AI | plugins | `src/whisper/` |
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `access_model` | 6 | 1 | 2 | runtime code-bearing path | `src/access_model/ARCHITECTURE.md` · `src/access_model/ROADMAP.md` · `include/access_model/` |
+| `cache` | 17 | 8 | 5 | runtime code-bearing path | `src/cache/ARCHITECTURE.md` · `src/cache/ROADMAP.md` · `include/cache/` |
+| `metadata` | 12 | 6 | 7 | runtime code-bearing path | `src/metadata/ARCHITECTURE.md` · `src/metadata/ROADMAP.md` · `include/metadata/` |
+| `storage` | 64 | 13 | 35 | high-integration runtime hub | `src/storage/ARCHITECTURE.md` · `src/storage/ROADMAP.md` · `include/storage/` |
+| `temporal` | 15 | 1 | 2 | runtime code-bearing path | `src/temporal/ARCHITECTURE.md` · `src/temporal/ROADMAP.md` · `include/temporal/` |
+| `timeseries` | 26 | 2 | 4 | runtime code-bearing path | `src/timeseries/ARCHITECTURE.md` · `src/timeseries/ROADMAP.md` · `include/timeseries/` |
+| `tensor` | 24 | 5 | 4 | runtime code-bearing path | `src/tensor/ARCHITECTURE.md` · `src/tensor/ROADMAP.md` · `include/tensor/` |
 
-## Critical Integration Points
+## Query & Processing
 
-### 1) Query -> Storage -> Transaction
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `analytics` | 30 | 7 | 10 | high-integration runtime hub | `src/analytics/ARCHITECTURE.md` · `src/analytics/ROADMAP.md` · `include/analytics/` |
+| `aql` | 25 | 11 | 4 | high-integration runtime hub | `src/aql/ARCHITECTURE.md` · `src/aql/ROADMAP.md` · `include/aql/` |
+| `execution` | 2 | 0 | 0 | thin code-bearing path | `src/execution/ARCHITECTURE.md` · `src/execution/ROADMAP.md` · `include/execution/` |
+| `graph` | 17 | 10 | 4 | high-integration runtime hub | `src/graph/ARCHITECTURE.md` · `src/graph/ROADMAP.md` · `include/graph/` |
+| `process` | 25 | 5 | 0 | runtime code-bearing path | `src/process/ARCHITECTURE.md` · `src/process/ROADMAP.md` · `include/process/` |
+| `query` | 73 | 17 | 15 | high-integration runtime hub | `src/query/ARCHITECTURE.md` · `src/query/ROADMAP.md` · `include/query/` |
+| `retrieval` | 2 | 0 | 0 | thin code-bearing path | `src/retrieval/ARCHITECTURE.md` · `src/retrieval/ROADMAP.md` · `include/retrieval/` |
+| `scheduler` | 10 | 9 | 3 | runtime code-bearing path | `src/scheduler/ARCHITECTURE.md` · `src/scheduler/ROADMAP.md` · `include/scheduler/` |
+| `search` | 22 | 9 | 0 | runtime code-bearing path | `src/search/ARCHITECTURE.md` · `src/search/ROADMAP.md` · `include/search/` |
 
-Evidence chain:
-- HTTP/API query entry and query handler wiring: `include/server/http_server.h:58`, `include/server/http_server.h:116-117`
-- Query handler constructs/uses query engine and storage paths: `src/server/query_api_handler.cpp:171`, `src/server/query_api_handler.cpp:329`, `src/server/query_api_handler.cpp:877`
-- Query engine storage coupling: `src/query/query_engine.cpp:31-34`, `src/query/query_engine.cpp:234-248`
-- Transaction API and distributed transaction endpoints: `src/server/transaction_api_handler.cpp:94`, `src/server/distributed_txn_api_handler.cpp:17`, `src/server/distributed_txn_api_handler.cpp:212`
+## Index & Search
 
-### 2) Sharding <-> Transaction (Cross-shard 2PC)
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `geo` | 25 | 5 | 6 | runtime code-bearing path | `src/geo/ARCHITECTURE.md` · `src/geo/ROADMAP.md` · `include/geo/` |
+| `index` | 44 | 11 | 25 | high-integration runtime hub | `src/index/ARCHITECTURE.md` · `src/index/ROADMAP.md` · `include/index/` |
+| `vector_search` | 0 | 0 | 0 | docs-only module path; no colocated C/C++ implementation files | `src/vector_search/ARCHITECTURE.md` · `src/vector_search/ROADMAP.md` |
 
-Evidence chain:
-- Transaction-side 2PC coordinator contract: `include/transaction/distributed_transaction_manager.h:16-33`
-- Transaction manager uses sharding WAL primitives: `include/transaction/distributed_transaction_manager.h:49-51`
-- Sharding 2PC coordinator references transaction recovery contracts: `src/sharding/two_phase_commit_coordinator.cpp:31`
-- PREPARE/COMMIT RPC participant protocol: `src/sharding/shard_rpc_client.cpp:304-354`
-- Cross-shard boundary tests: `tests/cross/test_cross_shard_coordinator.cpp` (2PC/3PC/SAGA/Percolator paths), `tests/cross/test_cross_shard_ssi.cpp:294-367`
+## LLM & AI
 
-### 3) RAG pipeline (LLM -> RAG -> Search -> Index -> Storage)
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `acceleration` | 29 | 6 | 8 | runtime code-bearing path | `src/acceleration/ARCHITECTURE.md` · `src/acceleration/ROADMAP.md` · `include/acceleration/` |
+| `ai` | 2 | 4 | 0 | thin code-bearing path | `src/ai/ARCHITECTURE.md` · `src/ai/ROADMAP.md` · `include/ai/` |
+| `distributed_tensor` | 37 | 3 | 0 | runtime code-bearing path | `src/distributed_tensor/ARCHITECTURE.md` · `src/distributed_tensor/ROADMAP.md` · `include/distributed_tensor/` |
+| `ethics_ai` | 30 | 4 | 3 | runtime code-bearing path | `src/ethics_ai/ARCHITECTURE.md` · `src/ethics_ai/ROADMAP.md` · `include/ethics_ai/` |
+| `evaluation` | 14 | 0 | 0 | runtime code-bearing path | `src/evaluation/ARCHITECTURE.md` · `src/evaluation/ROADMAP.md` · `include/evaluation/` |
+| `gpu` | 44 | 3 | 1 | runtime code-bearing path | `src/gpu/ARCHITECTURE.md` · `src/gpu/ROADMAP.md` · `include/gpu/` |
+| `image_analysis` | 2 | 1 | 0 | thin code-bearing path | `src/image_analysis/ARCHITECTURE.md` · `src/image_analysis/ROADMAP.md` · `src/image_analysis/` |
+| `llama_cpp` | 8 | 3 | 1 | runtime code-bearing path | `src/llama_cpp/ARCHITECTURE.md` · `src/llama_cpp/ROADMAP.md` · `include/llama_cpp/` |
+| `llm` | 189 | 22 | 18 | high-integration runtime hub | `src/llm/ARCHITECTURE.md` · `src/llm/ROADMAP.md` · `include/llm/` |
+| `llm_streaming` | 0 | 0 | 0 | docs-only module path; no colocated C/C++ implementation files | `src/llm_streaming/ARCHITECTURE.md` · `src/llm_streaming/ROADMAP.md` |
+| `llm_wiki` | 9 | 4 | 0 | runtime code-bearing path | `src/llm_wiki/ARCHITECTURE.md` · `src/llm_wiki/ROADMAP.md` · `include/llm_wiki/` |
+| `onnx_clip` | 2 | 1 | 0 | thin code-bearing path | `src/onnx_clip/ARCHITECTURE.md` · `src/onnx_clip/ROADMAP.md` · `include/onnx_clip/` |
+| `prompt_engineering` | 36 | 6 | 3 | runtime code-bearing path | `src/prompt_engineering/ARCHITECTURE.md` · `src/prompt_engineering/ROADMAP.md` · `include/prompt_engineering/` |
+| `rag` | 71 | 16 | 7 | high-integration runtime hub | `src/rag/ARCHITECTURE.md` · `src/rag/ROADMAP.md` · `include/rag/` |
+| `stable_diffusion` | 7 | 2 | 0 | runtime code-bearing path | `src/stable_diffusion/ARCHITECTURE.md` · `src/stable_diffusion/ROADMAP.md` · `include/stable_diffusion/` |
+| `training` | 16 | 8 | 1 | runtime code-bearing path | `src/training/ARCHITECTURE.md` · `src/training/ROADMAP.md` · `include/training/` |
+| `voice` | 24 | 3 | 1 | runtime code-bearing path | `src/voice/ARCHITECTURE.md` · `src/voice/ROADMAP.md` · `include/voice/` |
+| `whisper` | 7 | 1 | 0 | runtime code-bearing path | `src/whisper/ARCHITECTURE.md` · `src/whisper/ROADMAP.md` · `include/whisper/` |
 
-Evidence chain:
-- LLM orchestration drives RAG context and generateRAG: `src/llm/ai_orchestrator.cpp:919`, `src/llm/ai_orchestrator.cpp:1372-1379`
-- Search layered orchestrator includes ANN/tensor/graph/LLM stages: `src/search/layered_retrieval_orchestrator.cpp:3`, `src/search/layered_retrieval_orchestrator.cpp:9-12`
-- Search->index integration (`HybridSearch`): `src/search/hybrid_search.cpp:14-16`, `src/search/hybrid_search.cpp:189`, `src/search/hybrid_search.cpp:215`
-- Storage-side index manager surface (index retrieval and storage get): `src/storage/storage_engine.cpp:161-204`, `src/storage/storage_engine.cpp:380-393`
-- RAG integration helpers include index + storage contracts: `include/rag/rag_integration_helpers.h:15-16`
+## Server & API
 
-### 4) LLM <-> Server coupling
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `api` | 11 | 9 | 3 | runtime code-bearing path | `src/api/ARCHITECTURE.md` · `src/api/ROADMAP.md` · `include/api/` |
+| `network` | 30 | 9 | 2 | runtime code-bearing path | `src/network/ARCHITECTURE.md` · `src/network/ROADMAP.md` · `include/network/` |
+| `rpc_grpc` | 4 | 1 | 0 | runtime code-bearing path | `src/rpc_grpc/ARCHITECTURE.md` · `src/rpc_grpc/ROADMAP.md` · `include/rpc_grpc/` |
+| `scraper` | 10 | 1 | 0 | runtime code-bearing path | `src/scraper/ARCHITECTURE.md` · `src/scraper/ROADMAP.md` · `include/scraper/` |
+| `server` | 123 | 35 | 4 | high-integration runtime hub | `src/server/ARCHITECTURE.md` · `src/server/ROADMAP.md` · `include/server/` |
 
-Evidence chain:
-- Server directly includes many LLM surfaces: `src/server/http_server.cpp:78-80`, `src/server/http_server.cpp:152-155`
-- LLM module includes server MCP contract: `src/llm/mcp_tool_bridge.cpp:15`
-- This creates a direct bidirectional module dependency pair in include-graph analysis (see cycle section).
+## Security & Auth
 
-## Circular Dependency Analysis (include-graph SCC)
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `auth` | 37 | 3 | 3 | runtime code-bearing path | `src/auth/ARCHITECTURE.md` · `src/auth/ROADMAP.md` · `include/auth/` |
+| `governance` | 35 | 4 | 5 | runtime code-bearing path | `src/governance/ARCHITECTURE.md` · `src/governance/ROADMAP.md` · `include/governance/` |
+| `security` | 52 | 7 | 20 | high-integration runtime hub | `src/security/ARCHITECTURE.md` · `src/security/ROADMAP.md` · `include/security/` |
+| `user_storage_encrypted` | 5 | 1 | 0 | runtime code-bearing path | `src/user_storage_encrypted/ARCHITECTURE.md` · `src/user_storage_encrypted/ROADMAP.md` · `include/user_storage_encrypted/` |
 
-### Largest strongly connected component
+## Distributed Systems
 
-- **1 SCC with 41 modules** detected:
-  `acceleration, analytics, api, aql, auth, cache, cdc, config, content, core, ethics_ai, exporters, geo, governance, graph, index, ingestion, llama_cpp, llm, maintenance, metadata, network, observability, performance, plugins, prompt_engineering, query, rag, scheduler, security, server, sharding, storage, tensor, themis, timeseries, training, transaction, updates, utils, voice`
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `cdc` | 13 | 3 | 9 | runtime code-bearing path | `src/cdc/ARCHITECTURE.md` · `src/cdc/ROADMAP.md` · `include/cdc/` |
+| `distributed_knowledge` | 5 | 2 | 8 | runtime code-bearing path | `src/distributed_knowledge/ARCHITECTURE.md` · `src/distributed_knowledge/ROADMAP.md` · `include/distributed_knowledge/` |
+| `failover` | 4 | 3 | 0 | runtime code-bearing path | `src/failover/ARCHITECTURE.md` · `src/failover/ROADMAP.md` · `include/failover/` |
+| `maintenance` | 3 | 6 | 1 | thin code-bearing path | `src/maintenance/ARCHITECTURE.md` · `src/maintenance/ROADMAP.md` · `include/maintenance/` |
+| `projects` | 7 | 2 | 1 | runtime code-bearing path | `src/projects/ARCHITECTURE.md` · `src/projects/ROADMAP.md` · `include/projects/` |
+| `replication` | 13 | 2 | 2 | runtime code-bearing path | `src/replication/ARCHITECTURE.md` · `src/replication/ROADMAP.md` · `include/replication/` |
+| `sharding` | 95 | 6 | 14 | high-integration runtime hub | `src/sharding/ARCHITECTURE.md` · `src/sharding/ROADMAP.md` · `include/sharding/` |
+| `transaction` | 20 | 8 | 6 | runtime code-bearing path | `src/transaction/ARCHITECTURE.md` · `src/transaction/ROADMAP.md` · `include/transaction/` |
+| `updates` | 25 | 5 | 1 | runtime code-bearing path | `src/updates/ARCHITECTURE.md` · `src/updates/ROADMAP.md` · `include/updates/` |
 
-### Representative mutual dependency pairs
+## Observability & Hardening
 
-- `api <-> server`
-- `aql <-> query`
-- `auth <-> security`
-- `llm <-> server`
-- `llm <-> query`
-- `llm <-> rag`
-- `storage <-> transaction`
-- `storage <-> sharding`
-- `index <-> storage`
-- `themis <-> utils`
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `chaos` | 1 | 0 | 0 | thin code-bearing path | `src/chaos/ARCHITECTURE.md` · `src/chaos/ROADMAP.md` · `include/chaos/` |
+| `observability` | 31 | 5 | 17 | high-integration runtime hub | `src/observability/ARCHITECTURE.md` · `src/observability/ROADMAP.md` · `include/observability/` |
+| `performance` | 31 | 3 | 8 | runtime code-bearing path | `src/performance/ARCHITECTURE.md` · `src/performance/ROADMAP.md` · `include/performance/` |
 
-Evidence examples:
-- `src/server/http_server.cpp:177-181` and `src/llm/mcp_tool_bridge.cpp:15`
-- `include/transaction/distributed_transaction_manager.h:49-51` and `src/sharding/two_phase_commit_coordinator.cpp:31`
-- `src/query/query_engine.cpp:31-34` and `src/storage/storage_engine.cpp:161-204`
+## Data Integration
 
-## Notes
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `chimera` | 7 | 3 | 0 | runtime code-bearing path | `src/chimera/ARCHITECTURE.md` · `src/chimera/ROADMAP.md` · `include/chimera/` |
+| `content` | 47 | 8 | 5 | runtime code-bearing path | `src/content/ARCHITECTURE.md` · `src/content/ROADMAP.md` · `include/content/` |
+| `document` | 2 | 3 | 2 | thin code-bearing path | `src/document/ARCHITECTURE.md` · `src/document/ROADMAP.md` · `include/document/` |
+| `exporters` | 16 | 6 | 2 | runtime code-bearing path | `src/exporters/ARCHITECTURE.md` · `src/exporters/ROADMAP.md` · `include/exporters/` |
+| `importers` | 48 | 3 | 2 | runtime code-bearing path | `src/importers/ARCHITECTURE.md` · `src/importers/ROADMAP.md` · `include/importers/` |
+| `ingestion` | 38 | 6 | 6 | runtime code-bearing path | `src/ingestion/ARCHITECTURE.md` · `src/ingestion/ROADMAP.md` · `include/ingestion/` |
+| `toolbox` | 11 | 5 | 2 | runtime code-bearing path | `src/toolbox/ARCHITECTURE.md` · `src/toolbox/ROADMAP.md` · `include/toolbox/` |
 
-- `src/llm_streaming/` and `src/vector_search/` are currently docs-only module paths (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`) per module-level source evidence.
-- Architecture status and release implications are tracked in `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`.
+## Extensibility & Lifecycle
+
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `plugins` | 10 | 5 | 14 | high-integration runtime hub | `src/plugins/ARCHITECTURE.md` · `src/plugins/ROADMAP.md` · `include/plugins/` |
+
+## Source-root Docs & Analysis
+
+| Module | C/C++ files | Direct module deps | Direct consumers | Current footprint signal | Primary anchors |
+|---|---:|---:|---:|---|---|
+| `ai_working` | 0 | 0 | 0 | source-root evidence and working-notes path | `src/ai_working/` |

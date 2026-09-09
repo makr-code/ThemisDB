@@ -31,6 +31,7 @@ The root of src is a documentation and aggregation boundary above individual mod
 - stale root aggregation docs create governance and navigation drift, not direct runtime behavior changes.
 - module-local docs remain the source of truth for feature-local behavior.
 - inventory and aggregation docs must be regenerated when root or module summaries materially change.
+- repository-wide cross-module runtime review should combine MODULE_FUNCTION_USAGE_MAP with the dedicated architecture overlays in `../docs/architecture/`.
 
 ## Sourcecode Verification (Scope: src/<root>/architecture)
 
