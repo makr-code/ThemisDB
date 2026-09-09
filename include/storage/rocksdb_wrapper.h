@@ -383,8 +383,11 @@ public:
         ~WriteBatchWrapper();
 
         /// @brief Add a key-value pair to the batch.
+        /// @param key Lookup key.
+        /// @param value Value bytes.
         void put(std::string_view key, const std::vector<uint8_t>& value);
         /// @brief Delete a key from the batch.
+        /// @param key Lookup key.
         void del(std::string_view key);
 
         /// @brief Commit the batch atomically.
@@ -413,8 +416,11 @@ public:
         ~WriteBatchWithIndexWrapper();
 
         /// @brief Add a key-value pair to the batch.
+        /// @param key Lookup key.
+        /// @param value Value bytes.
         void put(std::string_view key, const std::vector<uint8_t>& value);
         /// @brief Delete a key from the batch.
+        /// @param key Lookup key.
         void del(std::string_view key);
 
         /// @brief Get from batch only.
@@ -513,6 +519,9 @@ public:
          *
          * Pops the most recent savepoint from the stack.  Returns true on
          * success; returns false if there is no outstanding savepoint.
+         *
+         * @return true if the savepoint rollback succeeded; false if no
+         * savepoint is currently active.
          */
         bool rollbackToSavePoint();
 
@@ -521,6 +530,9 @@ public:
          *
          * The writes since the savepoint become permanent within the transaction.
          * Returns true on success; false if there is no outstanding savepoint.
+         *
+         * @return true if the savepoint was discarded; false if no savepoint is
+         * currently active.
          */
         bool popSavePoint();
 
@@ -581,6 +593,7 @@ public:
         ~SafeIterator() = default;
 
         /// @brief Seek to a target key.
+        /// @param target Key to seek to.
         void Seek(const std::string& target);
         /// @brief Seek to the first key.
         void SeekToFirst();
@@ -591,10 +604,13 @@ public:
         /// @brief Move to the previous key.
         void Prev();
         /// @brief Check whether the iterator is positioned at a valid entry.
+        /// @return true when the iterator references a valid key-value pair.
         bool Valid() const;
         /// @brief Get the current key.
+        /// @return View of the current key.
         std::string_view key() const;
         /// @brief Get the current value.
+        /// @return View of the current value.
         std::string_view value() const;
 
         // Check if iterator is usable
@@ -807,6 +823,8 @@ private:
         OperationGuard& operator=(const OperationGuard&) = delete;
 
         /// @brief Get the guarded database pointer.
+        /// @return Raw pointer to the guarded transaction database, or nullptr
+        /// when no database is currently guarded.
         rocksdb::TransactionDB* get() const { return db_; }
         explicit operator bool() const { return db_ != nullptr; }
 

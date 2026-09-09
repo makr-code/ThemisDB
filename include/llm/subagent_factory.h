@@ -157,11 +157,11 @@ public:
      * @param model_loader Model cache/loader for model lifecycle.
      * @param lora_manager LoRA adapter manager for adapter lifecycle.
      * @param quota_manager Token quota manager (optional, creates local if null).
-     * @param config       Factory configuration (default: sensible defaults).
      * @return New factory instance, or error string.
      *
      * The factory does not take ownership of pointer arguments; they must
-     * remain valid for the lifetime of the factory.
+     * remain valid for the lifetime of the factory. The overload uses the
+     * default Config values when no explicit configuration is provided.
      */
     static SubagentResult<std::unique_ptr<SubagentFactory>> create(
         ILLMPlugin* plugin,
