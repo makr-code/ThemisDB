@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-09-04 (source-validated against module roadmaps and evidence bundles)
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-04) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-09-03, Storage Phases 1-5 complete.**
+**Last Updated:** 2026-09-09 (recursive module-roadmap sync + sourcecode deep-dive)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-09) confirms: recursive `src/*/ROADMAP.md` structure compliance is 71/71, with remaining continuation focus on Wave A/B blockers and source-traceability cleanup for docs-only module paths (`src/llm_streaming`, `src/vector_search`).**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -17,7 +17,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
 
-## Source-Verified Reality Check (2026-09-07)
+## Source-Verified Reality Check (2026-09-09)
 
 This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.
 
@@ -25,6 +25,12 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 - **Optimistic roadmap/documentation level:** ~82–84%
 - **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
 - **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+
+### Recursive module roadmap sync (2026-09-09)
+
+- [x] Rekursive Prüfung von `src/*/ROADMAP.md` abgeschlossen; 71/71 Module erfüllen die Pflichtstruktur (`Current Status`, `In Progress`/`Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, `Breaking Changes`).
+- [~] Deep-dive-Quellenabgleich zeigt zwei Module mit docs-only Modulpfad (`src/llm_streaming`, `src/vector_search`: jeweils `.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), deren Implementierungsclaims auf konkrete Source-/Test-/Benchmark-Pfade zurückgeführt oder als geplant/externalisiert reklassifiziert werden müssen.
+- [~] Weiterarbeit priorisiert nach offenem Backlog-Druck + Gate-Relevanz: `acceleration`, `llm_wiki`, `query`, `transaction`, `index`, `rag`, `search`, `training`, `gpu`.
 
 ### Current real wave posture
 

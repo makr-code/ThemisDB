@@ -142,6 +142,10 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - Runtime behavior depends on ingestion/content subsystem integrations and workflow profiles
 - Selected bridge and helper edge scenarios have hardening in progress (Phase 2-3, >90% complete)
 
+## Breaking Changes
+
+No breaking toolbox contract change is planned; API or behavioral breaks require migration notes and synchronized changelog entries before merge.
+
 ## Completion Status (2026-12-31)
 
 **Overall Status:** ✅ **PRODUCTION READY FOR Q4 2026 RELEASE**
