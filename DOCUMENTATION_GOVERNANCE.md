@@ -1,7 +1,9 @@
 # ThemisDB Documentation Governance
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-09
 > Status: Active
-> Last Updated: 2026-08-28
+> Last Updated: 2026-09-09
 
 This file defines source-of-truth precedence and synchronization expectations for root and module documentation.
 
@@ -41,3 +43,34 @@ Archived or ai_working artifacts are evidence/history by default and are not nor
 - Keep root docs concise and navigational.
 - Keep module implementation detail in module-local docs.
 - Use one canonical file per topic in a scope; avoid semantic duplicates.
+
+## Markdown Metadata Minimum Gate
+
+Changed Markdown files covered by `.github/workflows/gate-pr-doc-metadata.yml` must declare a minimum metadata block near the top of the document. The gate accepts either YAML front matter or a short header section and requires these fields:
+
+- `Author` or `Urheber`
+- `Created` / `Erstelldatum` in `YYYY-MM-DD`
+- `Last Updated` / `Letzte Änderung` in `YYYY-MM-DD`
+- `Status` in `draft | review | active | approved | stable | deprecated | archived`
+
+Example header section:
+
+```markdown
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-09
+**Last Updated:** 2026-09-09
+**Status:** active
+```
+
+Example front matter:
+
+```yaml
+---
+Author: ThemisDB Contributors
+Created: 2026-09-09
+Last Updated: 2026-09-09
+Status: review
+---
+```
+
+The gate intentionally excludes backlog/history/template paths that already follow dedicated governance formats, including `CHANGELOG.md`, `ROADMAP.md`, `**/FUTURE_ENHANCEMENTS.md`, archived documentation trees, issue templates, `docs/_standards/**`, `ai_working/**`, and generated developer wiki artifacts. The canonical scope and exclude list live in `.github/doc-metadata-gate.json`.

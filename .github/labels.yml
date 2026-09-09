@@ -208,6 +208,11 @@
   description: "Doxygen governance gate emitted non-blocking warning or waived coverage shortfall"
   type: warning
 
+- name: "quality/doc-metadata-failed"
+  color: "B60205"
+  description: "Markdown metadata governance gate failed on changed documentation files"
+  type: blocker
+
 - name: "maintenance"
   color: "E4E669"
   description: "Maintenance task"
