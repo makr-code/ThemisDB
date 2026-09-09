@@ -436,12 +436,39 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
+      - name: "Cache sccache"
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache wrapper"
+        run: |
+          mkdir -p ~/.local/bin
+          cat > ~/.local/bin/sccache << 'SCRIPT'
+          #!/bin/bash
+          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
+              echo "sccache 0.8.1 (wrapper)"
+              exit 0
+          fi
+          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+              echo "sccache compiler cache wrapper"
+              exit 0
+          fi
+          "$@"
+          SCRIPT
+          chmod +x ~/.local/bin/sccache
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: "Configure CMake"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=OFF
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
 
       - name: "Run chaos/recovery release-critical transaction suites"
         run: |
@@ -497,13 +524,39 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
+      - name: "Cache sccache"
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache wrapper"
+        run: |
+          mkdir -p ~/.local/bin
+          cat > ~/.local/bin/sccache << 'SCRIPT'
+          #!/bin/bash
+          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
+              echo "sccache 0.8.1 (wrapper)"
+              exit 0
+          fi
+          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+              echo "sccache compiler cache wrapper"
+              exit 0
+          fi
+          "$@"
+          SCRIPT
+          chmod +x ~/.local/bin/sccache
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: "Configure CMake with benchmarks"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
 
       - name: "Build Phase 4 benchmark"
         run: cmake --build "${{ needs.configure.outputs.build-dir }}" --target bench_transaction_phase4 --parallel ${{ github.event.inputs.parallel_jobs || 4 }}

@@ -15,6 +15,10 @@ on:
         description: "CUDA architecture for representative baseline run"
         required: false
         default: "native"
+      run_representative_hardware:
+        description: "Run self-hosted representative GPU hardware baseline capture"
+        required: false
+        default: "false"
 
 permissions:
   contents: read
@@ -357,7 +361,7 @@ jobs:
     name: "Representative GPU Hardware Baselines"
     runs-on: [self-hosted, gpu-cuda]
     timeout-minutes: 90
-    if: github.event.inputs.phase == 'all' || github.event.inputs.phase == 'baseline'
+    if: github.event.inputs.run_representative_hardware == 'true'
     steps:
       - uses: actions/checkout@v4.2.2
         with:
@@ -383,7 +387,15 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev libboost-all-dev \
             libyaml-cpp-dev libcurl4-openssl-dev \
+            sccache \
             libtbb-dev libcpp-httplib-dev
+
+      - name: "Cache sccache"
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-gpu-bench-${{ hashFiles('src/gpu/**', 'benchmarks/gpu/**') }}-${{ runner.os }}
+          restore-keys: sccache-gpu-bench-${{ runner.os }}-
 
       - name: "Configure representative GPU benchmark build"
         run: |
@@ -391,7 +403,8 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache \
             -DTHEMIS_ENABLE_CUDA=ON \
             -DTHEMIS_CUDA_ARCHITECTURES="${{ github.event.inputs.representative_cuda_arch || 'native' }}" \
             -DTHEMIS_MODELS_MODE=SKIP
@@ -502,7 +515,7 @@ jobs:
 
       - name: "Generate GPU CI report"
         run: |
-          GPU_BASELINE_STATUS="pending"
+          GPU_BASELINE_STATUS="not-requested"
           if [ "${{ needs.representative-hardware-baselines.result }}" = "success" ]; then
             GPU_BASELINE_STATUS="captured"
           elif [ "${{ needs.representative-hardware-baselines.result }}" = "failure" ]; then
