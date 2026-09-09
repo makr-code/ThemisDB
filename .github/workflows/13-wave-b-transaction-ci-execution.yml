@@ -54,7 +54,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
           fetch-depth: 0
@@ -66,7 +66,9 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -132,7 +134,7 @@ jobs:
       matrix:
         phase: [phase1, phase2, phase3, wave-a]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -143,7 +145,9 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -183,14 +187,15 @@ jobs:
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
           
           cmake --build "$BUILD_DIR" \
-            --target test_transaction_lifecycle_phase1 \
+            --target \
+            test_transaction_lifecycle_phase1 \
             test_transaction_isolation_contention_phase1 \
             test_transaction_error_path_determinism_phase1 \
             test_transaction_distributed_phase2 \
             test_transaction_saga_compensation_phase2 \
             test_transaction_fault_injection_phase3 \
             test_transaction_wave_a_closure \
-            -j ${{ github.event.inputs.parallel_jobs || 4 }} \
+            --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-${{ matrix.phase }}.log
           
           echo "compile_status=success" >> "$GITHUB_OUTPUT"
@@ -209,7 +214,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -220,7 +225,9 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -298,7 +305,7 @@ jobs:
     timeout-minutes: 45
     if: github.event_name == 'push' || github.event.inputs.phase == 'all'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -307,8 +314,11 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
