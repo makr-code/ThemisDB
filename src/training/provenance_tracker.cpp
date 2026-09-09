@@ -96,10 +96,10 @@ public:
         };
 
         size_t batch_start = 0;
-        while (static_cast<size_t>(batch_start) <static_cast<int>(records.size())) {
+        while (batch_start < records.size()) {
             // Enforce write deadline before starting each batch.
             if (has_timeout && std::chrono::steady_clock::now() >= deadline) {
-                stats.records_rejected += static_cast<int>(records.size()) - batch_start;
+                stats.records_rejected += records.size() - batch_start;
                 break;
             }
 
@@ -381,7 +381,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos,static_cast<int>(token.size()), value);
+                query.replace(pos,token.size(), value);
                 pos += value.size();
             }
         }

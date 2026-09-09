@@ -249,7 +249,7 @@ public:
             stats.selection_input_count    = sel.audit_entry.input_sample_count;
             stats.selection_output_count   = sel.selected_samples.size();
             stats.selection_filtered_count =
-                sel.audit_entry.input_sample_count - static_cast<int>(sel.selected_samples.size()) ;
+                sel.audit_entry.input_sample_count - sel.selected_samples.size() ;
 
             metrics.endStage("data_selection");
 
@@ -472,7 +472,7 @@ public:
         // Fisher-Yates with a simple LCG to avoid a heavy RNG dependency
         auto shuffle_lcg = [](std::vector<TrialPoint>& v, unsigned int seed) {
             uint64_t state = static_cast<uint64_t>(seed) * 6364136223846793005 + 1442695040888963407;
-            for (size_t i = static_cast<int>(v.size()) - 1; i > 0; --i) {
+            for (size_t i = v.size() - 1; i > 0; --i) {
                 state = state * 6364136223846793005 + 1442695040888963407;
                 size_t j = static_cast<size_t>(state >> 33) % (i + 1);
                 std::swap(v[i], v[j]);
@@ -481,7 +481,7 @@ public:
         shuffle_lcg(trials, cfg.seed);
 
         // Cap at max_trials
-        if (cfg.max_trials > 0 && static_cast<int>(trials.size()) > cfg.max_trials) {
+        if (cfg.max_trials > 0 && trials.size() > cfg.max_trials) {
             trials.resize(cfg.max_trials);
         }
 
@@ -588,7 +588,7 @@ private:
         oss << "success=" << (r.success ? "true" : "false") << "\n"
             << "elapsed=" << r.elapsed_seconds << "\n"
             << "summary=" << r.summary << "\n"
-            << "threshold_count=" <<static_cast<int>(r.thresholds.size()) << "\n";
+            << "threshold_count=" <<r.thresholds.size() << "\n";
         for (const auto& t : r.thresholds) {
             oss << "threshold[" << t.category << "]="
                 << t.threshold << " samples=" << t.sample_count
@@ -717,7 +717,7 @@ CalibrationResult ConfidenceCalibrator::calibrate() const {
         for (double yi : y) {
             blocks.push_back({yi, 1});
             // Merge blocks while the top-of-stack violates monotonicity
-            while (static_cast<int>(blocks.size()) >= 2) {
+            while (blocks.size() >= 2) {
                 auto& prev = blocks[blocks.size() - 2];
                 auto& curr = blocks[blocks.size() - 1];
                 if (prev.value > curr.value) {
@@ -809,7 +809,7 @@ void ConfidenceCalibrator::reset() {
 }
 
 size_t ConfidenceCalibrator::sampleCount() const {
-    return static_cast<int>(samples_.size());
+    return samples_.size();
 }
 
 } // namespace training
