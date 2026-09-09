@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-09-09T12:18:13.494718+00:00`
+> Generated: `2026-09-09T19:23:36.111226+00:00`
 
 ## Statistics
 
@@ -114,53 +114,70 @@ flowchart TB
     class mod_exporters,mod_geo,mod_llama_cpp,mod_scraper,mod_stable_diffusion,mod_timeseries,mod_whisper publicPlugin;
     class mod_ethics_ai,mod_importers,mod_llm_wiki,mod_user_storage_encrypted privatePlugin;
 
+    mod_plugins -->|"plugin base"| mod_base
+    mod_themis -->|"root aggregation"| mod_core
+    mod_themis -->|"plugin loader"| mod_plugins
+    mod_utils -->|"utilities"| mod_base
     mod_aql -->|"parses/plans"| mod_core
-    mod_query -->|"optimizes"| mod_aql
+    mod_cache -->|"caches"| mod_execution
+    mod_execution -->|"uses"| mod_index
     mod_execution -->|"executes"| mod_query
     mod_execution -->|"reads/writes"| mod_storage
-    mod_execution -->|"uses"| mod_index
     mod_index -->|"persists"| mod_storage
-    mod_cache -->|"caches"| mod_execution
     mod_metadata -->|"schema store"| mod_storage
+    mod_query -->|"optimizes"| mod_aql
+    mod_config -->|"config bootstrap"| mod_core
+    mod_observability -->|"metrics hooks"| mod_core
+    mod_process -->|"lifecycle"| mod_core
+    mod_security -->|"crypto primitives"| mod_core
     mod_transaction -->|"MVCC"| mod_core
-    mod_transaction -->|"data commit"| mod_storage
-    mod_transaction -->|"distributes"| mod_replication
+    mod_analytics -->|"reads data"| mod_storage
+    mod_content -->|"content store"| mod_storage
+    mod_rag -->|"knowledge store"| mod_storage
     mod_replication -->|"replica I/O"| mod_storage
-    mod_sharding -->|"partitions"| mod_storage
-    mod_sharding -->|"replicates shards"| mod_replication
-    mod_api -->|"routes"| mod_server
-    mod_api -->|"authenticates"| mod_auth
+    mod_retrieval -->|"vector search"| mod_index
+    mod_search -->|"fulltext index"| mod_index
     mod_server -->|"dispatches"| mod_execution
+    mod_sharding -->|"partitions"| mod_storage
+    mod_training -->|"model storage"| mod_storage
+    mod_transaction -->|"data commit"| mod_storage
+    mod_acceleration -->|"GPU dispatch"| mod_gpu
+    mod_ai -->|"orchestrates"| mod_llm
+    mod_ai -->|"semantic search"| mod_retrieval
+    mod_api -->|"authenticates"| mod_auth
+    mod_api -->|"routes"| mod_server
     mod_auth -->|"primitives"| mod_security
+    mod_distributed_knowledge -->|"knowledge graph"| mod_graph
+    mod_distributed_knowledge -->|"distributed"| mod_replication
     mod_governance -->|"policy check"| mod_auth
     mod_governance -->|"audit events"| mod_observability
-    mod_rag -->|"retrieves"| mod_retrieval
-    mod_rag -->|"generates"| mod_llm
-    mod_rag -->|"knowledge store"| mod_storage
     mod_llm -->|"local inference"| mod_llama_cpp
     mod_llm_wiki -->|"wiki retrieval"| mod_llm
     mod_llm_wiki -->|"provenance"| mod_rag
-    mod_retrieval -->|"vector search"| mod_index
-    mod_ai -->|"orchestrates"| mod_llm
-    mod_ai -->|"semantic search"| mod_retrieval
-    mod_acceleration -->|"GPU dispatch"| mod_gpu
-    mod_observability -->|"metrics hooks"| mod_core
     mod_network -->|"transport"| mod_server
-    mod_distributed_knowledge -->|"knowledge graph"| mod_graph
-    mod_distributed_knowledge -->|"distributed"| mod_replication
-    mod_analytics -->|"reads data"| mod_storage
-    mod_training -->|"fine-tunes"| mod_llm
-    mod_training -->|"model storage"| mod_storage
-    mod_content -->|"content store"| mod_storage
-    mod_search -->|"fulltext index"| mod_index
+    mod_rag -->|"generates"| mod_llm
+    mod_rag -->|"retrieves"| mod_retrieval
     mod_search -->|"semantic search"| mod_retrieval
-    mod_security -->|"crypto primitives"| mod_core
-    mod_config -->|"config bootstrap"| mod_core
-    mod_process -->|"lifecycle"| mod_core
-    mod_utils -->|"utilities"| mod_base
-    mod_themis -->|"root aggregation"| mod_core
-    mod_themis -->|"plugin loader"| mod_plugins
-    mod_plugins -->|"plugin base"| mod_base
+    mod_sharding -->|"replicates shards"| mod_replication
+    mod_training -->|"fine-tunes"| mod_llm
+    mod_transaction -->|"distributes"| mod_replication
+
+    linkStyle 4 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 12 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 13 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 14 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 15 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 16 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 17 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 18 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 19 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 20 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 21 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 22 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 23 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 24 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 25 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
+    linkStyle 26 stroke:#1E293B,stroke-width:1.3px,opacity:0.92;
 
     click mod_base href "https://github.com/makr-code/ThemisDB/blob/develop/src/base/ROADMAP.md" "themis::resource — module documentation" _blank
     click mod_core href "https://github.com/makr-code/ThemisDB/blob/develop/src/core/ROADMAP.md" "themis::core — module documentation" _blank
@@ -232,6 +249,8 @@ flowchart TB
     click mod_whisper href "https://github.com/makr-code/ThemisDB/blob/develop/src/whisper/ROADMAP.md" "themis::whisper — module documentation" _blank
 ```
 
+Legend: `✅` = public plugin available, `🔒` = private plugin integration.
+
 ## Tier Classification
 
 | Tier | Description | Count | Modules (sample) |
@@ -247,25 +266,91 @@ Top modules by outgoing dependency count:
 | Module | Provides to (count) | Consumes from |
 |--------|---------------------|---------------|
 | `execution` | 3 | `index`, `query`, `storage` |
-| `transaction` | 3 | `core`, `replication`, `storage` |
 | `rag` | 3 | `llm`, `retrieval`, `storage` |
-| `sharding` | 2 | `replication`, `storage` |
+| `transaction` | 3 | `core`, `replication`, `storage` |
+| `ai` | 2 | `llm`, `retrieval` |
 | `api` | 2 | `auth`, `server` |
+| `distributed_knowledge` | 2 | `graph`, `replication` |
 | `governance` | 2 | `auth`, `observability` |
 | `llm_wiki` | 2 | `llm`, `rag` |
-| `ai` | 2 | `llm`, `retrieval` |
-| `distributed_knowledge` | 2 | `graph`, `replication` |
-| `training` | 2 | `llm`, `storage` |
 | `search` | 2 | `index`, `retrieval` |
+| `sharding` | 2 | `replication`, `storage` |
 | `themis` | 2 | `core`, `plugins` |
+| `training` | 2 | `llm`, `storage` |
+| `acceleration` | 1 | `gpu` |
+| `analytics` | 1 | `storage` |
 | `aql` | 1 | `core` |
-| `query` | 1 | `aql` |
-| `index` | 1 | `storage` |
-| `cache` | 1 | `execution` |
-| `metadata` | 1 | `storage` |
-| `replication` | 1 | `storage` |
-| `server` | 1 | `execution` |
 | `auth` | 1 | `security` |
+| `cache` | 1 | `execution` |
+| `config` | 1 | `core` |
+| `content` | 1 | `storage` |
+| `index` | 1 | `storage` |
+
+Top modules by incoming dependency count:
+
+| Module | Consumed by (count) | Consumer modules |
+|--------|----------------------|------------------|
+| `storage` | 10 | `analytics`, `content`, `execution`, `index`, `metadata`, `rag`, `replication`, `sharding`, `training`, `transaction` |
+| `core` | 7 | `aql`, `config`, `observability`, `process`, `security`, `themis`, `transaction` |
+| `llm` | 4 | `ai`, `llm_wiki`, `rag`, `training` |
+| `index` | 3 | `execution`, `retrieval`, `search` |
+| `replication` | 3 | `distributed_knowledge`, `sharding`, `transaction` |
+| `retrieval` | 3 | `ai`, `rag`, `search` |
+| `auth` | 2 | `api`, `governance` |
+| `base` | 2 | `plugins`, `utils` |
+| `execution` | 2 | `cache`, `server` |
+| `server` | 2 | `api`, `network` |
+| `aql` | 1 | `query` |
+| `gpu` | 1 | `acceleration` |
+| `graph` | 1 | `distributed_knowledge` |
+| `llama_cpp` | 1 | `llm` |
+| `observability` | 1 | `governance` |
+| `plugins` | 1 | `themis` |
+| `query` | 1 | `execution` |
+| `rag` | 1 | `llm_wiki` |
+| `security` | 1 | `auth` |
+
+## Dependency Evaluation
+
+Inter-tier dependency flow counts:
+
+| Consumer Tier | Provider Tier | Relationship Count |
+|---------------|---------------|--------------------|
+| T3 | T3 | 20 |
+| T3 | T1 | 10 |
+| T1 | T1 | 7 |
+| T3 | T0 | 5 |
+| T0 | T0 | 4 |
+| T1 | T0 | 1 |
+
+Dependency label distribution:
+
+| Relationship Label | Count |
+|--------------------|-------|
+| `semantic search` | 2 |
+| `GPU dispatch` | 1 |
+| `MVCC` | 1 |
+| `audit events` | 1 |
+| `authenticates` | 1 |
+| `caches` | 1 |
+| `config bootstrap` | 1 |
+| `content store` | 1 |
+| `crypto primitives` | 1 |
+| `data commit` | 1 |
+| `dispatches` | 1 |
+| `distributed` | 1 |
+| `distributes` | 1 |
+| `executes` | 1 |
+| `fine-tunes` | 1 |
+| `fulltext index` | 1 |
+| `generates` | 1 |
+| `knowledge graph` | 1 |
+| `knowledge store` | 1 |
+| `lifecycle` | 1 |
+
+Isolated modules (no incoming/outgoing dependency): 30
+- `access_model`, `cdc`, `chaos`, `chimera`, `distributed_tensor`, `document`, `ethics_ai`, `evaluation`, `exporters`, `failover`, `geo`, `importers`, `ingestion`, `maintenance`, `onnx_clip`, `performance`, `projects`, `prompt_engineering`, `rpc_grpc`, `scheduler`, `scraper`, `stable_diffusion`, `temporal`, `tensor`, `timeseries`, `toolbox`, `updates`, `user_storage_encrypted`, `voice`, `whisper`
+
 
 ## Knowledge Sources
 

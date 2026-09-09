@@ -385,6 +385,578 @@
       "type": "report"
     }
   ],
+  "analysis": {
+    "isolated_modules": [
+      "access_model",
+      "cdc",
+      "chaos",
+      "chimera",
+      "distributed_tensor",
+      "document",
+      "ethics_ai",
+      "evaluation",
+      "exporters",
+      "failover",
+      "geo",
+      "importers",
+      "ingestion",
+      "maintenance",
+      "onnx_clip",
+      "performance",
+      "projects",
+      "prompt_engineering",
+      "rpc_grpc",
+      "scheduler",
+      "scraper",
+      "stable_diffusion",
+      "temporal",
+      "tensor",
+      "timeseries",
+      "toolbox",
+      "updates",
+      "user_storage_encrypted",
+      "voice",
+      "whisper"
+    ],
+    "relationship_label_distribution": [
+      {
+        "count": 2,
+        "label": "semantic search"
+      },
+      {
+        "count": 1,
+        "label": "GPU dispatch"
+      },
+      {
+        "count": 1,
+        "label": "MVCC"
+      },
+      {
+        "count": 1,
+        "label": "audit events"
+      },
+      {
+        "count": 1,
+        "label": "authenticates"
+      },
+      {
+        "count": 1,
+        "label": "caches"
+      },
+      {
+        "count": 1,
+        "label": "config bootstrap"
+      },
+      {
+        "count": 1,
+        "label": "content store"
+      },
+      {
+        "count": 1,
+        "label": "crypto primitives"
+      },
+      {
+        "count": 1,
+        "label": "data commit"
+      },
+      {
+        "count": 1,
+        "label": "dispatches"
+      },
+      {
+        "count": 1,
+        "label": "distributed"
+      },
+      {
+        "count": 1,
+        "label": "distributes"
+      },
+      {
+        "count": 1,
+        "label": "executes"
+      },
+      {
+        "count": 1,
+        "label": "fine-tunes"
+      },
+      {
+        "count": 1,
+        "label": "fulltext index"
+      },
+      {
+        "count": 1,
+        "label": "generates"
+      },
+      {
+        "count": 1,
+        "label": "knowledge graph"
+      },
+      {
+        "count": 1,
+        "label": "knowledge store"
+      },
+      {
+        "count": 1,
+        "label": "lifecycle"
+      },
+      {
+        "count": 1,
+        "label": "local inference"
+      },
+      {
+        "count": 1,
+        "label": "metrics hooks"
+      },
+      {
+        "count": 1,
+        "label": "model storage"
+      },
+      {
+        "count": 1,
+        "label": "optimizes"
+      },
+      {
+        "count": 1,
+        "label": "orchestrates"
+      },
+      {
+        "count": 1,
+        "label": "parses/plans"
+      },
+      {
+        "count": 1,
+        "label": "partitions"
+      },
+      {
+        "count": 1,
+        "label": "persists"
+      },
+      {
+        "count": 1,
+        "label": "plugin base"
+      },
+      {
+        "count": 1,
+        "label": "plugin loader"
+      },
+      {
+        "count": 1,
+        "label": "policy check"
+      },
+      {
+        "count": 1,
+        "label": "primitives"
+      },
+      {
+        "count": 1,
+        "label": "provenance"
+      },
+      {
+        "count": 1,
+        "label": "reads data"
+      },
+      {
+        "count": 1,
+        "label": "reads/writes"
+      },
+      {
+        "count": 1,
+        "label": "replica I/O"
+      },
+      {
+        "count": 1,
+        "label": "replicates shards"
+      },
+      {
+        "count": 1,
+        "label": "retrieves"
+      },
+      {
+        "count": 1,
+        "label": "root aggregation"
+      },
+      {
+        "count": 1,
+        "label": "routes"
+      },
+      {
+        "count": 1,
+        "label": "schema store"
+      },
+      {
+        "count": 1,
+        "label": "transport"
+      },
+      {
+        "count": 1,
+        "label": "uses"
+      },
+      {
+        "count": 1,
+        "label": "utilities"
+      },
+      {
+        "count": 1,
+        "label": "vector search"
+      },
+      {
+        "count": 1,
+        "label": "wiki retrieval"
+      }
+    ],
+    "tier_flows": [
+      {
+        "count": 20,
+        "from_tier": "T3",
+        "to_tier": "T3"
+      },
+      {
+        "count": 10,
+        "from_tier": "T3",
+        "to_tier": "T1"
+      },
+      {
+        "count": 7,
+        "from_tier": "T1",
+        "to_tier": "T1"
+      },
+      {
+        "count": 5,
+        "from_tier": "T3",
+        "to_tier": "T0"
+      },
+      {
+        "count": 4,
+        "from_tier": "T0",
+        "to_tier": "T0"
+      },
+      {
+        "count": 1,
+        "from_tier": "T1",
+        "to_tier": "T0"
+      }
+    ],
+    "top_incoming_dependencies": [
+      {
+        "consumed_by": [
+          "analytics",
+          "content",
+          "execution",
+          "index",
+          "metadata",
+          "rag",
+          "replication",
+          "sharding",
+          "training",
+          "transaction"
+        ],
+        "count": 10,
+        "module": "storage"
+      },
+      {
+        "consumed_by": [
+          "aql",
+          "config",
+          "observability",
+          "process",
+          "security",
+          "themis",
+          "transaction"
+        ],
+        "count": 7,
+        "module": "core"
+      },
+      {
+        "consumed_by": [
+          "ai",
+          "llm_wiki",
+          "rag",
+          "training"
+        ],
+        "count": 4,
+        "module": "llm"
+      },
+      {
+        "consumed_by": [
+          "execution",
+          "retrieval",
+          "search"
+        ],
+        "count": 3,
+        "module": "index"
+      },
+      {
+        "consumed_by": [
+          "distributed_knowledge",
+          "sharding",
+          "transaction"
+        ],
+        "count": 3,
+        "module": "replication"
+      },
+      {
+        "consumed_by": [
+          "ai",
+          "rag",
+          "search"
+        ],
+        "count": 3,
+        "module": "retrieval"
+      },
+      {
+        "consumed_by": [
+          "api",
+          "governance"
+        ],
+        "count": 2,
+        "module": "auth"
+      },
+      {
+        "consumed_by": [
+          "plugins",
+          "utils"
+        ],
+        "count": 2,
+        "module": "base"
+      },
+      {
+        "consumed_by": [
+          "cache",
+          "server"
+        ],
+        "count": 2,
+        "module": "execution"
+      },
+      {
+        "consumed_by": [
+          "api",
+          "network"
+        ],
+        "count": 2,
+        "module": "server"
+      },
+      {
+        "consumed_by": [
+          "query"
+        ],
+        "count": 1,
+        "module": "aql"
+      },
+      {
+        "consumed_by": [
+          "acceleration"
+        ],
+        "count": 1,
+        "module": "gpu"
+      },
+      {
+        "consumed_by": [
+          "distributed_knowledge"
+        ],
+        "count": 1,
+        "module": "graph"
+      },
+      {
+        "consumed_by": [
+          "llm"
+        ],
+        "count": 1,
+        "module": "llama_cpp"
+      },
+      {
+        "consumed_by": [
+          "governance"
+        ],
+        "count": 1,
+        "module": "observability"
+      },
+      {
+        "consumed_by": [
+          "themis"
+        ],
+        "count": 1,
+        "module": "plugins"
+      },
+      {
+        "consumed_by": [
+          "execution"
+        ],
+        "count": 1,
+        "module": "query"
+      },
+      {
+        "consumed_by": [
+          "llm_wiki"
+        ],
+        "count": 1,
+        "module": "rag"
+      },
+      {
+        "consumed_by": [
+          "auth"
+        ],
+        "count": 1,
+        "module": "security"
+      }
+    ],
+    "top_outgoing_dependencies": [
+      {
+        "consumes": [
+          "index",
+          "query",
+          "storage"
+        ],
+        "count": 3,
+        "module": "execution"
+      },
+      {
+        "consumes": [
+          "llm",
+          "retrieval",
+          "storage"
+        ],
+        "count": 3,
+        "module": "rag"
+      },
+      {
+        "consumes": [
+          "core",
+          "replication",
+          "storage"
+        ],
+        "count": 3,
+        "module": "transaction"
+      },
+      {
+        "consumes": [
+          "llm",
+          "retrieval"
+        ],
+        "count": 2,
+        "module": "ai"
+      },
+      {
+        "consumes": [
+          "auth",
+          "server"
+        ],
+        "count": 2,
+        "module": "api"
+      },
+      {
+        "consumes": [
+          "graph",
+          "replication"
+        ],
+        "count": 2,
+        "module": "distributed_knowledge"
+      },
+      {
+        "consumes": [
+          "auth",
+          "observability"
+        ],
+        "count": 2,
+        "module": "governance"
+      },
+      {
+        "consumes": [
+          "llm",
+          "rag"
+        ],
+        "count": 2,
+        "module": "llm_wiki"
+      },
+      {
+        "consumes": [
+          "index",
+          "retrieval"
+        ],
+        "count": 2,
+        "module": "search"
+      },
+      {
+        "consumes": [
+          "replication",
+          "storage"
+        ],
+        "count": 2,
+        "module": "sharding"
+      },
+      {
+        "consumes": [
+          "core",
+          "plugins"
+        ],
+        "count": 2,
+        "module": "themis"
+      },
+      {
+        "consumes": [
+          "llm",
+          "storage"
+        ],
+        "count": 2,
+        "module": "training"
+      },
+      {
+        "consumes": [
+          "gpu"
+        ],
+        "count": 1,
+        "module": "acceleration"
+      },
+      {
+        "consumes": [
+          "storage"
+        ],
+        "count": 1,
+        "module": "analytics"
+      },
+      {
+        "consumes": [
+          "core"
+        ],
+        "count": 1,
+        "module": "aql"
+      },
+      {
+        "consumes": [
+          "security"
+        ],
+        "count": 1,
+        "module": "auth"
+      },
+      {
+        "consumes": [
+          "execution"
+        ],
+        "count": 1,
+        "module": "cache"
+      },
+      {
+        "consumes": [
+          "core"
+        ],
+        "count": 1,
+        "module": "config"
+      },
+      {
+        "consumes": [
+          "storage"
+        ],
+        "count": 1,
+        "module": "content"
+      },
+      {
+        "consumes": [
+          "storage"
+        ],
+        "count": 1,
+        "module": "index"
+      }
+    ]
+  },
   "documentation_sources": [
     {
       "category": "governance",
@@ -6237,7 +6809,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-09T11:30:55.047710+00:00",
+  "generated_at": "2026-09-09T19:23:36.111226+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8326,6 +8898,7 @@
   "statistics": {
     "ai_working_artifact_count": 64,
     "documentation_source_count": 1170,
+    "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
     "modules_with_public_plugin": 10,
