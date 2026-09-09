@@ -6,13 +6,13 @@ This document lists concrete end-to-end data paths and anchors each step to code
 
 ## 1) Standard Query Path (HTTP -> Storage -> Response)
 
-```text
-HTTP request
-  -> server::HttpServer route wiring
-  -> server::QueryApiHandler::handleQuery / handleQueryAql
-  -> query::QueryEngine execution
-  -> storage reads/index lookups
-  -> HTTP response JSON
+```mermaid
+flowchart LR
+    A[HTTP Request] --> B[server::HttpServer Route Wiring]
+    B --> C[server::QueryApiHandler::handleQuery / handleQueryAql]
+    C --> D[query::QueryEngine Execution]
+    D --> E[Storage Reads / Index Lookups]
+    E --> F[HTTP JSON Response]
 ```
 
 Evidence:
@@ -24,13 +24,13 @@ Evidence:
 
 ## 2) Distributed Transaction Path (2PC across shards)
 
-```text
-Client txn request
-  -> server distributed transaction endpoint
-  -> transaction distributed coordinator
-  -> Phase 1 PREPARE on shard participants
-  -> Phase 2 COMMIT/ABORT broadcast
-  -> WAL-backed recovery for in-doubt txns
+```mermaid
+flowchart LR
+    A[Client Transaction Request] --> B[server::DistributedTxnApiHandler Endpoint]
+    B --> C[transaction::DistributedTransactionManager]
+    C --> D[Phase 1: PREPARE on Shard Participants]
+    D --> E[Phase 2: COMMIT / ABORT Broadcast]
+    E --> F[WAL-backed In-Doubt Recovery]
 ```
 
 Evidence:
@@ -43,14 +43,14 @@ Evidence:
 
 ## 3) LLM/RAG Query Path (end-to-end)
 
-```text
-LLM/RAG request
-  -> llm::AIOrchestrator RAG pipeline
-  -> RAG context + retrieval stages
-  -> search layered retrieval (ANN/tensor/graph/LLM)
-  -> index interfaces (vector/fulltext)
-  -> storage-backed index/state
-  -> generated response
+```mermaid
+flowchart LR
+    A[LLM/RAG Request] --> B[llm::AIOrchestrator RAG Pipeline]
+    B --> C[RAG Context + Retrieval Stages]
+    C --> D[search::LayeredRetrievalOrchestrator ANN/Tensor/Graph/LLM]
+    D --> E[Index Interfaces Vector/Fulltext]
+    E --> F[Storage-backed Index / State]
+    F --> G[Generated Response]
 ```
 
 Evidence:
@@ -62,9 +62,11 @@ Evidence:
 
 ## 4) LLM <-> Server control path
 
-```text
-Server-side LLM endpoints/tools
-  <-> LLM module MCP bridge/orchestrator
+```mermaid
+flowchart LR
+    A[Server-side LLM Endpoints / Tools]
+    B[LLM MCP Bridge / Orchestrator]
+    A <--> B
 ```
 
 Evidence:
