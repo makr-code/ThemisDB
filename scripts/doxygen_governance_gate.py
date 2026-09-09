@@ -151,13 +151,27 @@ def _selected_scope_paths(
     expand_to_module_scope: bool,
 ) -> List[Path]:
     if not expand_to_module_scope:
-        return [
+        headers = [
             (repo_root / rel).resolve()
             for rel in changed_code_files
             if _is_cpp_file(rel)
             and Path(rel).suffix.lower() in {".h", ".hh", ".hpp", ".hxx"}
             and (repo_root / rel).exists()
         ]
+        if headers:
+            return headers
+        # When only .cpp files changed (no headers), scope to the module include
+        # directories to avoid an empty INPUT that causes Doxygen to scan the
+        # entire repository and surface pre-existing warnings unrelated to this PR.
+        modules = sorted({name for path in changed_code_files if (name := _module_name(path))})
+        include_scope = [
+            repo_root / "include" / module
+            for module in modules
+            if (repo_root / "include" / module).is_dir()
+        ]
+        if include_scope:
+            return include_scope
+        return sorted({(repo_root / rel).parent for rel in changed_code_files if (repo_root / rel).exists()})
 
     modules = sorted({name for path in changed_code_files if (name := _module_name(path))})
     scope: List[Path] = []
