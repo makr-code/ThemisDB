@@ -68,6 +68,8 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   doc-metadata-gate:
@@ -132,6 +134,89 @@ jobs:
                   joined = "<br>".join(result["errors"])
                   print(f"| `{result['file']}` | {joined} |")
           PY
+
+      - name: Export gate outputs
+        id: gate_result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path("/tmp/doc-metadata-report.json")
+          report = {
+              "verdict": "FAIL",
+              "files_seen": 0,
+              "files_checked": 0,
+              "files_skipped": 0,
+              "files_with_errors": 0,
+              "results": [],
+          }
+          if report_path.exists():
+              report = json.loads(report_path.read_text(encoding="utf-8"))
+
+          summary_lines = [
+              "<!-- doc-metadata-gate -->",
+              "## Doc Metadata Gate",
+              "",
+              f"- Verdict: **{report['verdict']}**",
+              f"- Files seen: `{report['files_seen']}`",
+              f"- Files checked: `{report['files_checked']}`",
+              f"- Files skipped: `{report['files_skipped']}`",
+              f"- Files with errors: `{report['files_with_errors']}`",
+              f"- Workflow: `{os.environ.get('GITHUB_WORKFLOW', '')}`",
+              f"- Run: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}",
+              f"- Commit: `{os.environ.get('GITHUB_SHA', '')}`",
+          ]
+
+          if report["results"]:
+              summary_lines.extend(["", "### Errors"])
+              for result in report["results"][:20]:
+                  summary_lines.append(f"- `{result['file']}`")
+                  for error in result["errors"]:
+                      summary_lines.append(f"  - {error}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"verdict={report['verdict']}\n")
+              fh.write("summary<<EOF\n")
+              fh.write("\n".join(summary_lines))
+              fh.write("\nEOF\n")
+          PY
+
+      - name: Apply metadata failed state labels
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'quality/doc-metadata-failed,status/needs-approval'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/needs-approval,status/resolved'
+
+      - name: Clear metadata result labels on pass
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/needs-approval,status/resolved'
+
+      - name: Comment gate result on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: '<!-- doc-metadata-gate -->'
+          issue-body: ${{ steps.gate_result.outputs.summary }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
       - name: Upload metadata gate artifacts
         if: always()

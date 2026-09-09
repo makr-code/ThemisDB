@@ -71,6 +71,7 @@ Labels indicating release or quality status.
 | `breaking-change` | (AI-detected) Contains breaking changes |
 | `quality/doxygen-failed` | Doxygen governance gate failed on changed public APIs |
 | `quality/doxygen-warning` | Doxygen gate warning or waived Tier-1 coverage shortfall |
+| `quality/doc-metadata-failed` | Markdown metadata gate failed on changed in-scope documentation files |
 | `governance/doxygen-waiver` | Approved temporary waiver marker for Tier-1 Doxygen coverage escalation |
 | `severity:critical` | (AI-detected) Critical severity impact |
 | `severity:high` | (AI-detected) High severity impact |
@@ -167,6 +168,13 @@ Detected classifications are converted to labels and merged with existing labels
 - `quality/doxygen-failed` is the canonical blocker label for missing Doxygen structure, warning-log failures, or missing XML generation in scoped code changes
 - `quality/doxygen-warning` is used for advisory `@throws`/`@tparam` findings, non-blocking observation, and waived coverage shortfalls
 - `governance/doxygen-waiver` is not path-based; it is a workflow-synchronized governance marker that reflects an active PR comment approval for `T1-DOXYGEN-COVERAGE`
+
+### Workflow-driven Markdown metadata gate labeling
+
+- Triggered by `.github/workflows/gate-pr-doc-metadata.yml`
+- Uses `.github/actions/status-flags-and-issues` for idempotent PR comments and label state
+- `quality/doc-metadata-failed` is the canonical blocker label when required metadata is missing or date/status validation fails for changed in-scope Markdown files
+- `status/needs-approval` is paired with blocking metadata failures; `status/resolved` is restored once the gate passes
 
 ## Maintenance and Updates
 
