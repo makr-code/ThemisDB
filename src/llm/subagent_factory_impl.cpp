@@ -74,7 +74,7 @@ public:
         return state_;
     }
 
-    SubagentResult<void> load(int) override {
+    SubagentResult<void> load(int timeout_ms) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -107,19 +107,6 @@ public:
             return tl::make_unexpected(last_error_);
         }
 
-        if (!config_.lora_adapter_id.empty()) {
-            const bool lora_loaded =
-                plugin_->loadLoRA(config_.lora_adapter_id, config_.lora_adapter_id, 1.0f);
-            if (!lora_loaded) {
-                plugin_->unloadModel();
-                lock.lock();
-                state_ = SubagentState::ERROR;
-                last_error_ = "subagent_load_lora_failed: failed to load adapter '" +
-                              config_.lora_adapter_id + "'";
-                return tl::make_unexpected(last_error_);
-            }
-        }
-
         lock.lock();
         state_ = SubagentState::READY;
         metrics_.load_time = std::chrono::steady_clock::now();
@@ -127,7 +114,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> warm(int) override {
+    SubagentResult<void> warm(int timeout_ms) override {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -192,9 +179,6 @@ public:
         }
 
         if (plugin_) {
-            if (!config_.lora_adapter_id.empty()) {
-                (void)plugin_->unloadLoRA(config_.lora_adapter_id);
-            }
             plugin_->unloadModel();
         }
 
