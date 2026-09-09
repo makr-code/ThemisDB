@@ -49,7 +49,7 @@
 #include <atomic>
 #include <filesystem>
 #include <memory>
-#include <mutex>
+#include <optional>
 #include <shared_mutex>
 #include <string>
 #include <unordered_set>
@@ -145,8 +145,6 @@ public:
      *   "retrieval_top_k":         5,
      *   "retrieval_min_score":     0.0,
      *   "fail_open":               false,
-     *   "enforce_process_policy":  true,
-     *   "process_policy_path":     "",
      *   "lint_max_staleness_days": 30,
      *   "llm_wiki_wikipedia":      false,
      *   "splitter_max_tokens":     220,
@@ -248,12 +246,6 @@ public:
     [[nodiscard]] bool isInitialized() const noexcept { return initialized_.load(); }
 
 private:
-    struct StageGateDecision {
-        bool allowed = true;
-        std::string reason_code;
-        std::string message;
-    };
-
     // ── Internal helpers ──────────────────────────────────────────────────────
 
     /**
@@ -278,23 +270,29 @@ private:
         int   top_k,
         float min_score) const;
 
-    [[nodiscard]] StageGateDecision evaluateStageGate(
-        const char* stage_name,
-        bool immediate_execution = true) const;
-    [[nodiscard]] StageGateDecision maybeReloadProcessPolicy(
-        const char* trigger_stage);
-    [[nodiscard]] bool isInteractiveSchedule(
-        const char* stage_name) const;
-    void persistDenyEvidence(
-        const char* stage_name,
-        const std::string& reason_code,
-        const std::string& message) const;
+    /**
+     * @brief Load and validate process policy from configured YAML path.
+     *
+     * Caller must hold exclusive lock on `mutex_`.
+     *
+     * @param context_label Error-context prefix for diagnostic messages.
+     * @return Status::Ok() if policy is loaded or no policy path is configured.
+     */
+    [[nodiscard]] Status loadProcessPolicy_locked(const char* context_label);
+
+    /**
+     * @brief Reload policy when hot-reload is enabled and source file changed.
+     *
+     * Caller must hold exclusive lock on `mutex_`.
+     *
+     * @return Status::Ok() when no reload is needed or reload succeeded.
+     */
+    [[nodiscard]] Status maybeReloadProcessPolicy_locked();
 
     // ── State ─────────────────────────────────────────────────────────────────
 
     std::atomic<bool>          initialized_{false};
     mutable std::shared_mutex  mutex_;
-    mutable std::mutex         evidence_mutex_;
 
     // Configuration (set during initialize())
     std::string embedding_provider_{"hash"};
@@ -309,10 +307,9 @@ private:
     int         lint_max_staleness_days_{30};
     bool        has_wikipedia_license_{false};
     std::string process_policy_path_;
-    bool process_policy_hot_reload_{true};
-    std::filesystem::file_time_type process_policy_last_write_time_{};
-    mutable std::mutex process_policy_mutex_;
-    std::optional<::themis::llm_wiki::LLMWikiProcessPolicy> process_policy_;
+    bool        process_policy_hot_reload_{false};
+    std::optional<themis::llm_wiki::LLMWikiProcessPolicy> process_policy_;
+    std::optional<std::filesystem::file_time_type> process_policy_mtime_;
 
     // Phase A in-memory store
     std::vector<themis::llm::WikiChunk>               chunks_;

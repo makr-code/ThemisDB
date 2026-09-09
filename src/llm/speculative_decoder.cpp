@@ -280,4 +280,3 @@ int SpeculativeDecoder::sampleToken(
 
 } // namespace llm
 } // namespace themis
-

@@ -695,4 +695,3 @@ std::string ContinuousBatchScheduler::generateRequestId() {
 
 } // namespace llm
 } // namespace themis
-

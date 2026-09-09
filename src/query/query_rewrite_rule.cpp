@@ -564,4 +564,3 @@ QueryRewritePipeline QueryRewritePipeline::createDefault() {
 
 } // namespace query
 } // namespace themis
-

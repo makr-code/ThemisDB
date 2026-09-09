@@ -137,12 +137,12 @@ void InProcessCacheCoordinator::publishInvalidation(const std::string& pattern,
     }
 }
 
-void InProcessCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void InProcessCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
     entry_cb_ = std::move(callback);
 }
 
-void InProcessCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void InProcessCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -285,11 +285,11 @@ void CacheReplicationCoordinator::publishInvalidation(const std::string& pattern
     enqueueFanout(std::move(item));
 }
 
-void CacheReplicationCoordinator::subscribeEntries(EntryCallback callback) {
+void CacheReplicationCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     local_.subscribeEntries(std::move(callback));
 }
 
-void CacheReplicationCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void CacheReplicationCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     local_.subscribeInvalidations(std::move(callback));
 }
 
@@ -334,7 +334,7 @@ void CacheReplicationCoordinator::enqueueFanout(FanoutItem item) {
 
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
-        if (fanout_queue_.size() >= static_cast<size_t>(kRetryQueueCapacity)) {
+        if (static_cast<int>(fanout_queue_.size()) >= kRetryQueueCapacity) {
             THEMIS_WARN("[CacheReplicationCoordinator] fanout queue full ({} entries); "
                         "dropping invalidation for key='{}'",
                         kRetryQueueCapacity, item.key);

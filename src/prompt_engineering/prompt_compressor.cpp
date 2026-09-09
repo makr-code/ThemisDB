@@ -373,7 +373,7 @@ CompressionResult SimplePromptCompressor::compress(
             compressed = truncateTail(prompt, budget);
             break;
         case CompressionStrategy::SELECTIVE_TRIM:
-        [[fallthrough]];
+            [[fallthrough]];
         case CompressionStrategy::EMBEDDING_PRUNE:  // fallback
             compressed = selectiveTrim(prompt, budget,
                                        config.preserve_system_prompt,
@@ -422,4 +422,3 @@ std::vector<CompressionStrategy> SimplePromptCompressor::supportedStrategies() c
 
 } // namespace prompt_engineering
 } // namespace themis
-

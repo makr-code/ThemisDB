@@ -25,15 +25,26 @@
 #include "utils/expected.h"
 #include "storage/nvme_manager.h"
 
-// RocksDB is a hard requirement for this wrapper API.
-#ifndef THEMIS_ROCKSDB_AVAILABLE
-#error "RocksDBWrapper requires THEMIS_ROCKSDB_AVAILABLE with real RocksDB headers/libraries."
+// RocksDB forward declarations
+// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr.
+#if defined(THEMIS_ROCKSDB_AVAILABLE)
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 1
+#elif defined(__has_include)
+#if __has_include(<rocksdb/iterator.h>)
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 1
+#else
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 0
+#endif
+#else
+#define THEMIS_ROCKSDB_HEADERS_AVAILABLE 0
 #endif
 
-// Note: rocksdb/iterator.h is required for full Iterator definition used by std::unique_ptr.
+#if THEMIS_ROCKSDB_HEADERS_AVAILABLE
 #include <rocksdb/iterator.h>
+#endif
 
 namespace rocksdb {
+#if THEMIS_ROCKSDB_HEADERS_AVAILABLE
     class TransactionDB;
     class Transaction;
     class WriteBatch;
@@ -47,40 +58,51 @@ namespace rocksdb {
     class DB;
     class ColumnFamilyHandle;
     class EventListener;
+#else
+    // Stub declarations when RocksDB is not available
+    /** @brief Stub declarations when RocksDB is not available. */
+    class TransactionDB {};
+    /** @brief Transaction object. */
+    class Transaction {};
+    /** @brief Write batch. */
+    class WriteBatch {};
+    /** @brief Write batch with index structure. */
+    class WriteBatchWithIndex {};
+    struct Options {};
+    struct ReadOptions {};
+    struct WriteOptions {};
+    struct TransactionDBOptions {};
+    struct TransactionOptions {};
+    /** @brief Snapshot. */
+    class Snapshot {};
+    /** @brief Db. */
+    class DB {};
+    /** @brief Column family handle. */
+    class ColumnFamilyHandle {};
+    /** @brief Event event listener. */
+    class EventListener {};
+    // Iterator stub - needs to be a real class for unique_ptr to work
+    /** @brief Iterator stub - needs to be a real class for unique_ptr to work. */
+    class Iterator {};
+#endif
 }
 
 namespace themis {
 
 class BaseEntity;
 
-/// High-level wrapper around RocksDB TransactionDB for MVCC support
-/// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
-/// 
-/// Thread-safety:
-/// - **Read-safe**: Multiple threads can call read operations (get, scan, etc) concurrently
-/// - **Write-safe**: Write operations (put, delete) are thread-safe (use internal locking)
-/// - **Config-safe**: All RocksDB Options/ReadOptions/WriteOptions objects are guarded by
-///   options_mutex_ and are thread-safe for concurrent reads (all member calls use immutable
-///   object views passed to RocksDB engine). Configuration changes during construction only.
-/// - **NOT move-safe**: Move constructor and assignment should NOT be called during concurrent access
-///   - Only safe during initialization/teardown when no other threads are accessing the object
-///   - Never move during active operation
-///   - Debug mode (THEMIS_DEBUG_THREADING) will detect and log concurrent move operations
-/// - **NOT copyable**: Copy operations are deleted
-/// - **Iterator-safe**: Iterator operations use reference counting to prevent use-after-free
-/// - **close() waits**: close() waits for active operations before shutdown
-/// 
-/// @code
-/// // ✅ OK: Move during initialization
-/// std::unique_ptr<RocksDBWrapper> db = std::make_unique<RocksDBWrapper>(config);
-/// 
-/// // ❌ WRONG: Move while other threads are accessing
-/// db = std::make_unique<RocksDBWrapper>(other_config);  // Race condition!
-/// @endcode
-/// 
-/// @warning Move constructor and assignment should only be called when no other
-///          threads are accessing the object. Typically done during initialization
-///          or teardown, not during active operation.
+/**
+ * @brief High-level wrapper around RocksDB TransactionDB for MVCC support.
+ *
+ * Manages LSM-tree configuration, WAL, transactions, blob storage, and
+ * iterator safety. The wrapper is read-safe and write-safe under its internal
+ * locking discipline, but it must not be copied and should only be moved while
+ * no concurrent operations are active.
+ *
+ * @warning Move construction and move assignment are only safe during
+ *          initialization or teardown, not while other threads are using the
+ *          wrapper.
+ */
 class RocksDBWrapper {
 public:
     struct Config {
@@ -113,7 +135,7 @@ public:
         bool enable_statistics = true;          // allow disabling stats in microbenchmarks
         size_t blob_size_threshold = 4096;  // Files > 4KB go to BlobDB
         int max_background_jobs = 4;
-        
+
         // Phase 2H: Granular background thread control for high parallelism
         int max_background_compactions = -1;  // -1 = use max_background_jobs (auto)
         int max_background_flushes = -1;      // -1 = use max_background_jobs (auto)
@@ -122,7 +144,7 @@ public:
         int background_threads_low = 2;       // Compaction thread pool size
         bool enable_high_parallel_tuning = false;  // Hybrid flag: apply Phase 2H presets automatically
         int high_parallel_thread_threshold = 16;   // Turn on tuning at/above this concurrency
-        
+
         // Compaction
         bool use_universal_compaction = false;
         bool dynamic_level_bytes = true;
@@ -137,12 +159,12 @@ public:
         // Total write buffer across all CFs: 2GB default for write-heavy workloads
         // Limits total memory used by all memtables (prevents OOM on many CFs)
         size_t db_write_buffer_size_mb = 2048;  // 2GB total (was 0/unlimited)
-        
+
         // Phase 2H: Level0 file control to prevent write stalls
         int level0_file_num_compaction_trigger = 4;  // Start L0->L1 compaction
         int level0_slowdown_writes_trigger = 20;     // Slow down writes
         int level0_stop_writes_trigger = 36;         // Stop writes completely
-        
+
         bool allow_concurrent_memtable_write = true;   // v1.3.0: Allow parallel writes to different memtables
         bool enable_pipelined_write = false;           // v1.3.0: Disabled for TransactionDB - pipelined_writes incompatible with concurrent prepares
         bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
@@ -176,10 +198,10 @@ public:
         size_t async_io_readahead_size_mb = 128;        // Increased from 64MB for better throughput
         int async_io_multiget_batch_size = 100;         // MultiGet batch size
         int async_io_num_threads = 4;                   // Async I/O thread pool size
-        
+
         // v1.4.1: CPU-level Prefetch Hints for Random Access Performance
         // Software prefetch hints to improve cache hit rates for random access patterns
-        // Based on research: Chen, T-F., Baer, J-L. (1995) "Effective Hardware-Based Data Prefetching for 
+        // Based on research: Chen, T-F., Baer, J-L. (1995) "Effective Hardware-Based Data Prefetching for
         // High-Performance Processors", IEEE Transactions on Computers, vol. 44, no. 5, pp. 609-623.
         // DOI: 10.1109/12.381947
         bool enable_cpu_prefetch = true;                // Enable CPU prefetch hints
@@ -193,7 +215,7 @@ public:
         // Legacy compatibility flags used by some tests
         bool wal_enabled = true;         // maps to enable_wal
         bool create_if_missing = true;   // respected in options configuration
-        
+
         // v1.1.0: TTL (Time-To-Live) support
         bool enable_ttl = false;         // Enable TTL for automatic data expiration
         int32_t ttl_seconds = 0;         // TTL in seconds (0 = disabled)
@@ -207,7 +229,7 @@ public:
         WritePolicy write_policy = WritePolicy::WriteUnprepared;  // v1.3.0: Use WriteUnprepared for safe Snapshot Isolation + skip_prepare compatibility
         bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
         uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
-        
+
         // Data Integrity & Robustness (v1.4.1+)
         // Based on research: Bairavasundaram et al. (2008), Bonwick et al. (2010)
         // See docs/DATABASE_FILE_ROBUSTNESS.md for details
@@ -225,7 +247,7 @@ public:
         // Recommended value: 1 MiB (1048576) for balanced durability/throughput.
         // 0 = disabled (OS decides when to flush; default for backward compat).
         uint64_t wal_bytes_per_sync = 0;
-        
+
         // Checksum algorithm (v1.4.1+)
         enum class ChecksumType {
             CRC32,      // Standard, compatible
@@ -260,171 +282,182 @@ public:
         // Each thread encodes (and optionally compresses) one chunk concurrently.
         int blob_streaming_threads = 4;
     };
-    
+
     explicit RocksDBWrapper(const Config& config);
     ~RocksDBWrapper();
-    
+
     // Disable copy, allow move
     RocksDBWrapper(const RocksDBWrapper&) = delete;
     RocksDBWrapper& operator=(const RocksDBWrapper&) = delete;
     RocksDBWrapper(RocksDBWrapper&&) noexcept;
     RocksDBWrapper& operator=(RocksDBWrapper&&) noexcept;
-    
-    /// Open the database
+
+    /// @brief Open the database.
+    /// @return true on success.
     bool open();
-    
-    /// Close the database
+
+    /// @brief Close the database.
     void close();
-    
+
     /// Check if database is open
     bool isOpen() const;
 
-    /// Register a RocksDB EventListener that will receive compaction/flush/deletion
-    /// events once the database is opened.  Must be called before open().
+    /// @brief Register a RocksDB event listener.
+    /// @param listener Listener that will receive compaction/flush/deletion events.
     void addEventListener(std::shared_ptr<rocksdb::EventListener> listener);
 
     // ===== CRUD Operations =====
-    
-    /// Get value by key
+
+    /// @brief Get a value by key.
+    /// @param key Lookup key.
+    /// @return Value bytes if the key exists; std::nullopt otherwise.
     std::optional<std::vector<uint8_t>> get(std::string_view key);
-    
-    /// Convenience: Get as string (legacy test compatibility). Returns true if found.
+
+    /// @brief Get a value as a string.
+    /// @param key Lookup key.
+    /// @param out Output string.
+    /// @return true if the key exists.
     bool get(std::string_view key, std::string& out);
-    
-    /// Put key-value pair
+
+    /// @brief Store a key-value pair.
+    /// @param key Lookup key.
+    /// @param value Value bytes.
+    /// @return true on success.
     bool put(std::string_view key, const std::vector<uint8_t>& value);
-    
-    /// Convenience: Put string value (legacy test compatibility)
+
+    /// @brief Store a string value.
+    /// @param key Lookup key.
+    /// @param value String value.
+    /// @return true on success.
     bool put(std::string_view key, std::string_view value);
-    
-    /// Delete key
+
+    /// @brief Delete a key.
+    /// @param key Lookup key.
+    /// @return true if at least one entry was removed.
     bool del(std::string_view key);
 
-    /// Struct for a key-value pair used in batch writes.
+    /// @brief Struct for a key-value pair used in batch writes.
     struct KeyValuePair {
         std::string key = {};
         std::vector<uint8_t> value;
     };
 
-    /// Write multiple key-value pairs atomically in a single WriteBatch commit.
-    ///
-    /// All writes succeed or fail together.  This is significantly faster than
-    /// N individual put() calls for OLTP workloads with many small writes because
-    /// it opens only one MVCC transaction instead of N.
-    ///
-    /// @param pairs  Key-value pairs to write.
+    /// @brief Write multiple key-value pairs atomically.
+    /// @param pairs Key-value pairs to write.
     /// @return true if all writes were committed successfully.
     bool putBatch(const std::vector<KeyValuePair>& pairs);
 
     // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
 
-    /// Store a blob using the high-throughput streaming write path.
-    ///
-    /// For blobs >= Config::blob_streaming_threshold_bytes the data is split
-    /// into Config::blob_chunk_size_bytes chunks.  Chunks are encoded in
-    /// parallel by a compact thread pool (Config::blob_streaming_threads) and
-    /// then committed atomically via a single WriteBatch, bypassing per-write
-    /// transaction overhead.  A manifest key records chunk metadata so that
-    /// getBlob() can reassemble the blob transparently.
-    ///
-    /// Small blobs (< threshold) fall back to the regular put() path, so
-    /// callers need no size checks and the API is backward compatible.
-    ///
-    /// Key scheme (internal, not part of public contract):
-    ///   manifest : "__tmbs_m__:<key>"
-    ///   chunk N  : "__tmbs_c__:<key>:<6-digit-index>"
-    ///
-    /// @param key  Logical blob key (visible to getBlob() / delBlob()).
+    /// @brief Store a blob using the streaming write path.
+    /// @param key Logical blob key.
     /// @param data Blob bytes.
     /// @return true on success.
     bool putBlob(std::string_view key, const std::vector<uint8_t>& data);
 
-    /// Read a blob previously stored by putBlob() or put().
-    ///
-    /// Automatically detects whether the key was stored as a chunked blob
-    /// (reads manifest + all chunks via MultiGet and reassembles) or as a
-    /// regular value (single get()).
-    ///
+    /// @brief Read a blob previously stored by putBlob() or put().
     /// @param key Logical blob key.
     /// @return Blob bytes, or std::nullopt if not found.
     std::optional<std::vector<uint8_t>> getBlob(std::string_view key);
 
-    /// Delete a blob stored by putBlob() (removes manifest + all chunk keys).
-    /// Falls back to del() for blobs stored via the regular path.
+    /// @brief Delete a blob stored by putBlob() or put().
     /// @param key Logical blob key.
     /// @return true if at least one key was deleted.
     bool delBlob(std::string_view key);
-    
-    /// Multi-get (batch read)
+
+    /// @brief Multi-get batch read.
+    /// @param keys Lookup keys.
+    /// @return Values aligned with the input keys.
     std::vector<std::optional<std::vector<uint8_t>>> multiGet(
         const std::vector<std::string>& keys
     );
-    
+
     // ===== Atomic Batch Operations =====
-    
-    /// Create a new write batch for atomic multi-index updates (legacy compatibility)
+
+    /**
+     * @brief Wrapper for atomic multi-key write batches.
+     */
     class WriteBatchWrapper {
     public:
         explicit WriteBatchWrapper(RocksDBWrapper* db);
         ~WriteBatchWrapper();
-        
+
+        /// @brief Add a key-value pair to the batch.
+        /// @param key Lookup key.
+        /// @param value Value bytes.
         void put(std::string_view key, const std::vector<uint8_t>& value);
+        /// @brief Delete a key from the batch.
+        /// @param key Lookup key.
         void del(std::string_view key);
-        
-        /// Commit the batch atomically
+
+        /// @brief Commit the batch atomically.
+        /// @return true on success.
         bool commit();
-        
-        /// Rollback (discard) the batch
+
+        /// @brief Roll back the batch.
         void rollback();
-        
+
     private:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::WriteBatch> batch_;
         friend class RocksDBWrapper;
     };
-    
+
+    /// @brief Create a new write batch wrapper.
+    /// @return Batch wrapper instance.
     std::unique_ptr<WriteBatchWrapper> createWriteBatch();
-    
-    /// Create a write batch with index for fast reads from the batch (WBWI = Write Batch With Index)
-    /// Useful for Read-Modify-Write workloads where you need to read recently written data
-    /// before committing the batch. GetFromBatchAndDB will first check the batch before hitting DB.
+
+    /**
+     * @brief Wrapper for write batches that support indexed reads.
+     */
     class WriteBatchWithIndexWrapper {
     public:
         explicit WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key = true);
         ~WriteBatchWithIndexWrapper();
-        
+
+        /// @brief Add a key-value pair to the batch.
+        /// @param key Lookup key.
+        /// @param value Value bytes.
         void put(std::string_view key, const std::vector<uint8_t>& value);
+        /// @brief Delete a key from the batch.
+        /// @param key Lookup key.
         void del(std::string_view key);
-        
-        /// Get from batch only (very fast)
+
+        /// @brief Get from batch only.
         std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key) const;
-        
-        /// Get from batch first, then DB if not found (Read-Your-Own-Writes)
+
+        /// @brief Get from batch first, then DB if not found.
         std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key) const;
-        
-        /// Commit the batch atomically
+
+        /// @brief Commit the batch atomically.
+        /// @return true on success.
         bool commit();
-        
-        /// Rollback (discard) the batch
+
+        /// @brief Roll back the batch.
         void rollback();
-        
+
     private:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::WriteBatchWithIndex> batch_;
         friend class RocksDBWrapper;
     };
-    
+
+    /// @brief Create a write batch with index.
+    /// @param overwrite_key Allow overwriting existing keys.
+    /// @return Batch-with-index wrapper instance.
     std::unique_ptr<WriteBatchWithIndexWrapper> createWriteBatchWithIndex(bool overwrite_key = true);
-    
+
     // ===== MVCC Transaction Operations =====
-    
+
     /// Isolation level for transactions (matches themis::IsolationLevel)
     enum class TransactionIsolationLevel {
         ReadCommitted,  // Read latest committed data (no snapshot overhead)
         Snapshot        // Snapshot isolation (repeatable reads, point-in-time consistency)
     };
-    
-    /// Create a new MVCC transaction with configurable isolation level
+
+    /**
+     * @brief Wrapper for an MVCC transaction with configurable isolation level.
+     */
     class TransactionWrapper {
     public:
         /// Transaction state enum for better lifecycle management
@@ -435,45 +468,42 @@ public:
             Rolledback,      // Transaction rolled back
             Committed        // Transaction committed
         };
-        
+
         explicit TransactionWrapper(RocksDBWrapper* db, TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
         ~TransactionWrapper();
-        
-        /// Get value with isolation-dependent behavior
-        /// ReadCommitted: reads latest committed data
-        /// Snapshot: reads from transaction snapshot
+
+        /// @brief Get a value with isolation-dependent behavior.
+        /// @param key Lookup key.
+        /// @return Value bytes if found.
         std::optional<std::vector<uint8_t>> get(std::string_view key);
-        
-        /// Acquire an exclusive write lock on a key for this transaction.
-        ///
-        /// Uses RocksDB GetForUpdate internally. The exclusive lock is held until the
-        /// transaction commits or rolls back, preventing any other concurrent transaction
-        /// from acquiring a conflicting lock on the same key.
-        ///
-        /// Primary use-case: serializing unique-constraint checks in the secondary-index
-        /// write path so that two concurrent transactions cannot both pass the check and
-        /// then both commit with the same unique value (the "Concurrent-Unique-Lücke").
-        ///
-        /// Returns true  – lock acquired (key may or may not exist in the DB).
-        /// Returns false – lock acquisition failed (e.g. write-write conflict, timeout).
-        ///                 Caller should roll back and return an error.
+
+        /// @brief Acquire an exclusive write lock on a key.
+        /// @param key Lookup key.
+        /// @return true if the lock was acquired.
         bool getForUpdate(std::string_view key);
 
-        /// Put key-value pair (visible only after commit)
+        /// @brief Put a key-value pair.
+        /// @param key Lookup key.
+        /// @param value Value bytes.
+        /// @return true on success.
         bool put(std::string_view key, const std::vector<uint8_t>& value);
-        
-        /// Delete key (effective only after commit)
+
+        /// @brief Delete a key.
+        /// @param key Lookup key.
+        /// @return true on success.
         bool del(std::string_view key);
-        
-        /// Commit the transaction (may fail with conflict)
+
+        /// @brief Commit the transaction.
+        /// @return true on success.
         bool commit();
-        
-        /// Rollback the transaction
+
+        /// @brief Roll back the transaction.
         void rollback();
 
-        /// Prepare the transaction (for WritePrepared policy)
+        /// @brief Prepare the transaction.
+        /// @return true on success.
         bool prepare();
-        
+
         // ── Savepoint API ────────────────────────────────────────────────────
 
         /**
@@ -489,6 +519,9 @@ public:
          *
          * Pops the most recent savepoint from the stack.  Returns true on
          * success; returns false if there is no outstanding savepoint.
+         *
+         * @return true if the savepoint rollback succeeded; false if no
+         * savepoint is currently active.
          */
         bool rollbackToSavePoint();
 
@@ -497,19 +530,21 @@ public:
          *
          * The writes since the savepoint become permanent within the transaction.
          * Returns true on success; false if there is no outstanding savepoint.
+         *
+         * @return true if the savepoint was discarded; false if no savepoint is
+         * currently active.
          */
         bool popSavePoint();
 
         // ── Accessors ────────────────────────────────────────────────────────
 
-        /// Check if transaction is still active
+        /// @brief Check if the transaction is still active.
         bool isActive() const { return state_ == State::Active; }
-        
-        /// Get the snapshot (for debugging)
-        /// Returns error if transaction is inactive or not initialized
+
+        /// @brief Get the snapshot.
         Result<const rocksdb::Snapshot*> getSnapshot() const;
 
-        /// Reason why the most recent commit() call returned false.
+        /// @brief Reason why the most recent commit() call returned false.
         enum class CommitFailureType {
             None,        ///< No failure (commit succeeded or not yet attempted)
             Busy,        ///< RocksDB IsBusy() – write-write conflict / lock contention
@@ -518,7 +553,7 @@ public:
             CommitError, ///< Other commit error
         };
 
-        /// Return the failure classification of the last commit() call.
+        /// @brief Return the failure classification of the last commit() call.
         CommitFailureType getLastCommitFailureType() const { return last_commit_failure_type_; }
 
     private:
@@ -530,188 +565,211 @@ public:
         CommitFailureType last_commit_failure_type_ = CommitFailureType::None;
         friend class RocksDBWrapper;
     };
-    
+
     std::unique_ptr<TransactionWrapper> beginTransaction(TransactionIsolationLevel isolation = TransactionIsolationLevel::ReadCommitted);
-    
+
     // ===== Iteration / Scanning =====
-    
+
 private:
     // Forward declare OperationGuard for use in SafeIterator
     class OperationGuard;
-    
+
 public:
-    /// RAII wrapper for safe iterator usage
-    /// Automatically manages database lifecycle during iteration
-    /// Prevents use-after-free by holding OperationGuard
+    /**
+     * @brief RAII wrapper for safe iterator usage.
+     *
+     * Holds an OperationGuard so the database cannot be closed while the
+     * iterator is in use.
+     */
     class SafeIterator {
     public:
         SafeIterator(SafeIterator&& other) noexcept = default;
         SafeIterator& operator=(SafeIterator&& other) noexcept = default;
-        
+
         // No copying - enforce move semantics for safety
         SafeIterator(const SafeIterator&) = delete;
         SafeIterator& operator=(const SafeIterator&) = delete;
-        
+
         ~SafeIterator() = default;
-        
-        // Forward iterator interface
+
+        /// @brief Seek to a target key.
+        /// @param target Key to seek to.
         void Seek(const std::string& target);
+        /// @brief Seek to the first key.
         void SeekToFirst();
+        /// @brief Seek to the last key.
         void SeekToLast();
+        /// @brief Advance to the next key.
         void Next();
+        /// @brief Move to the previous key.
         void Prev();
+        /// @brief Check whether the iterator is positioned at a valid entry.
+        /// @return true when the iterator references a valid key-value pair.
         bool Valid() const;
+        /// @brief Get the current key.
+        /// @return View of the current key.
         std::string_view key() const;
+        /// @brief Get the current value.
+        /// @return View of the current value.
         std::string_view value() const;
-        
+
         // Check if iterator is usable
         explicit operator bool() const { return iterator_ != nullptr; }
-        
+
     private:
         friend class RocksDBWrapper;
-        
-        SafeIterator(std::unique_ptr<rocksdb::Iterator> iter, 
+
+        SafeIterator(std::unique_ptr<rocksdb::Iterator> iter,
                      std::unique_ptr<OperationGuard> guard)
             : iterator_(std::move(iter))
             , guard_(std::move(guard)) {}
-        
+
         std::unique_ptr<rocksdb::Iterator> iterator_;
         std::unique_ptr<OperationGuard> guard_;  // Keeps database alive
     };
-    
-    /// Creates a safe iterator with automatic lifecycle management
-    /// Preferred over newIterator() for most use cases
-    /// 
-    /// The returned SafeIterator holds an OperationGuard that prevents
-    /// the database from being closed while the iterator is in use.
-    /// 
-    /// Thread-Safety:
-    /// - Safe to call from multiple threads concurrently
-    /// - Each thread gets its own iterator instance
-    /// - Iterator itself is NOT thread-safe (use from single thread)
-    /// 
-    /// @param read_options Optional read options
-    /// @return Result<SafeIterator> with automatic lifecycle management
+
+    /// @brief Create a safe iterator with automatic lifecycle management.
+    /// @param read_options Optional read options.
+    /// @return Safe iterator wrapper or an error.
     Result<SafeIterator> newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
-    
-    /// Scan with prefix (for index scans)
+
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
+    /// @brief Scan entries that share a prefix.
+    /// @param prefix Prefix to match.
+    /// @param callback Callback invoked for each entry.
     void scanPrefix(std::string_view prefix, ScanCallback callback);
-    
-    /// Create a prefix iterator for enumeration
-    /// Returns a SafeIterator positioned at the first key with the given prefix.
-    /// The caller can iterate through all keys with that prefix by calling Valid()
-    /// and Next() on the returned iterator.
-    /// 
-    /// @param prefix Prefix to search for
-    /// @return Result<SafeIterator> positioned at prefix start, or error if iterator creation fails
+
+    /// @brief Create a prefix iterator for enumeration.
+    /// @param prefix Prefix to search for.
+    /// @return Iterator positioned at the first matching key, or an error.
     Result<SafeIterator> prefixIterator(std::string_view prefix);
-    
-    /// Scan range [start_key, end_key)
+
+    /// @brief Scan range [start_key, end_key).
+    /// @param start_key Range start.
+    /// @param end_key Range end.
+    /// @param callback Callback invoked for each entry.
     void scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
 
-    /// Iterate over a key range [start_key, end_key) using a rocksdb::Iterator.
-    /// The callback receives each (key, value) pair in order; returning false
-    /// from the callback stops iteration early.
+    /// @brief Iterate over a key range using a RocksDB iterator.
+    /// @param start_key Range start.
+    /// @param end_key Range end.
+    /// @param callback Callback invoked for each entry.
     void iterateRange(std::string_view start_key, std::string_view end_key, ScanCallback callback);
 
-    /// Full scan (use sparingly!)
+    /// @brief Scan the whole database.
+    /// @param callback Callback invoked for each entry.
     void scanAll(ScanCallback callback);
-    
+
     // v1.3.0 Phase 2: Async I/O Scan Operations
-    
-    /// Scan with async I/O and prefetching (prefix-based)
+
+    /// @brief Scan with async I/O and prefetching.
+    /// @param prefix Prefix to match.
+    /// @param limit Maximum number of rows.
     std::vector<std::pair<std::string, std::vector<uint8_t>>> scanWithAsyncIO(
         std::string_view prefix, int limit = 1000);
-    
-    /// Range query with async I/O
+
+    /// @brief Range query with async I/O.
+    /// @param start_key Range start.
+    /// @param end_key Range end.
+    /// @return Key/value pairs in range order.
     std::vector<std::pair<std::string, std::vector<uint8_t>>> rangeQueryWithAsyncIO(
         std::string_view start_key, std::string_view end_key);
-    
-    /// Reverse scan with async I/O
+
+    /// @brief Reverse scan with async I/O.
+    /// @param start_key Range start.
+    /// @param limit Maximum number of rows.
     std::vector<std::pair<std::string, std::vector<uint8_t>>> reverseScanWithAsyncIO(
         std::string_view start_key, int limit = 1000);
-    
-    /// MultiGet with async I/O optimization
+
+    /// @brief MultiGet with async I/O optimization.
+    /// @param keys Lookup keys.
+    /// @return Values aligned with the input keys.
     std::vector<std::optional<std::vector<uint8_t>>> multiGetWithAsyncIO(
         const std::vector<std::string>& keys);
-    
-    /// Create async iterator with prefetching
+
+    /// @brief Create an async iterator with prefetching.
+    /// @return Iterator or an error.
     Result<std::unique_ptr<rocksdb::Iterator>> newAsyncIterator();
-    
-    /// Create standard iterator (for comparison)
+
+    /// @brief Create a standard iterator.
+    /// @return Iterator or an error.
     Result<std::unique_ptr<rocksdb::Iterator>> newIterator();
-    
-    /// Check if async I/O is enabled
+
+    /// @brief Check if async I/O is enabled.
     bool isAsyncIOEnabled() const { return config_.enable_async_io; }
-    
+
     // ===== Statistics & Maintenance =====
-    
-    /// Get database statistics
+
+    /// @brief Get database statistics.
+    /// @return Human-readable statistics string.
     std::string getStats() const;
-    
-    /// Get active compression type (runtime query)
+
+    /// @brief Get the active compression type.
+    /// @return Compression type string.
     std::string getCompressionType() const;
-    
-    /// Trigger manual compaction
+
+    /// @brief Trigger manual compaction.
+    /// @param start_key Range start.
+    /// @param end_key Range end.
     void compactRange(std::string_view start_key, std::string_view end_key);
-    
-    /// Flush memtable to disk
+
+    /// @brief Flush memtable to disk.
     void flush();
-    
-    /// Get approximate database size in bytes
+
+    /// @brief Get the approximate database size in bytes.
+    /// @return Approximate size in bytes.
     uint64_t getApproximateSize() const;
-    
-    /// Get current configuration
+
+    /// @brief Get the current configuration.
     const Config& getConfig() const { return config_; }
 
-    /// Get the latest RocksDB sequence number (monotonically increasing with every write).
-    /// Returns 0 if the database is not open.
+    /// @brief Get the latest RocksDB sequence number.
+    /// @return Sequence number, or 0 if the database is not open.
     uint64_t getLatestSequenceNumber() const;
 
     // ===== Backup & Recovery (Checkpoints) =====
-    /// Create a RocksDB checkpoint (filesystem-level snapshot) at the given directory.
-    /// Returns true on success. Directory will be created if it doesn't exist.
+    /// @brief Create a RocksDB checkpoint.
+    /// @param checkpoint_dir Destination directory.
+    /// @return true on success.
     bool createCheckpoint(const std::string& checkpoint_dir);
 
-    /// Restore the database from a previously created checkpoint directory.
-    /// This will close the current DB, replace the DB path contents with the checkpoint,
-    /// and reopen the DB. Returns true on success.
+    /// @brief Restore the database from a previously created checkpoint directory.
+    /// @param checkpoint_dir Checkpoint directory.
+    /// @return true on success.
     bool restoreFromCheckpoint(const std::string& checkpoint_dir);
 
     // ===== v1.1.0: Advanced RocksDB Features =====
-    
-    /// Create an incremental backup (only delta since last backup)
-    /// @param backup_dir Directory to store backups
-    /// @param flush_before_backup Flush memtables before backup
-    /// @return true on success
+
+    /// @brief Create an incremental backup (only delta since last backup).
+    /// @param backup_dir Directory to store backups.
+    /// @param flush_before_backup Flush memtables before backup.
+    /// @return true on success.
     bool createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup = true);
-    
-    /// Restore from the latest backup
-    /// @param backup_dir Directory containing backups
-    /// @return true on success
+
+    /// @brief Restore from the latest backup.
+    /// @param backup_dir Directory containing backups.
+    /// @return true on success.
     bool restoreFromBackup(const std::string& backup_dir);
-    
-    /// Get number of backups available
-    /// @param backup_dir Directory containing backups
-    /// @return Number of backups
+
+    /// @brief Get number of backups available.
+    /// @param backup_dir Directory containing backups.
+    /// @return Number of backups.
     uint32_t getBackupCount(const std::string& backup_dir) const;
-    
-    /// Export RocksDB statistics as JSON (for OpenTelemetry integration)
-    /// @return JSON object with statistics
+
+    /// @brief Export RocksDB statistics as JSON.
+    /// @return JSON object with statistics.
     std::string exportStatisticsJSON() const;
-    
-    /// Get specific statistic value by ticker type
-    /// @param ticker_name Name of the ticker (e.g., "BYTES_WRITTEN", "BYTES_READ")
-    /// @return Ticker value
+
+    /// @brief Get a specific statistic value by ticker name.
+    /// @param ticker_name Name of the ticker.
+    /// @return Ticker value.
     uint64_t getStatistic(const std::string& ticker_name) const;
 
     // ===== Column Family Management =====
-    
-    /// Create or open a column family
-    /// @return Result containing column family handle (owned by DB, don't delete) or error
-    /// Error: ERR_INDEX_NOT_INITIALIZED if database is not open
-    /// Error: ERR_INDEX_CREATION_FAILED if column family creation fails
+
+    /// @brief Create or open a column family.
+    /// @param cf_name Column family name.
+    /// @return Handle or an error.
     Result<rocksdb::ColumnFamilyHandle*> getOrCreateColumnFamily(const std::string& cf_name);
 
     /// Lightweight metadata snapshot for one column family
@@ -721,25 +779,26 @@ public:
         uint64_t approx_size_bytes = 0; ///< rocksdb.total-sst-files-size
     };
 
-    /// Enumerate all open column families with lightweight statistics.
-    /// The returned snapshot is consistent under cf_handles_mutex_ but the
-    /// statistics are approximate and may lag by one compaction cycle.
-    /// @return Vector of CFInfo (empty if DB not open)
+    /// @brief Enumerate all open column families with lightweight statistics.
+    /// @return Vector of CFInfo entries, or empty if the DB is not open.
     std::vector<CFInfo> listColumnFamilies() const;
-    
-    /// Get raw RocksDB pointer for advanced operations
+
+    /// @brief Get the raw RocksDB pointer.
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
+    /// @brief Get the raw RocksDB pointer.
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
-    // Backward-compatible alias used by older tests/adapters
+    /// @brief Backward-compatible alias for getRawDB().
     rocksdb::TransactionDB* getDB() { return getRawDB(); }
+    /// @brief Backward-compatible alias for getRawDB().
     const rocksdb::TransactionDB* getDB() const { return getRawDB(); }
 
 private:
-    // RAII helper to track active operations and prevent close during operations
-    /** @brief RAII helper to track active operations and prevent close during operations. */
+    /**
+     * @brief RAII helper that tracks active operations and blocks close() while in use.
+     */
     class OperationGuard {
     public:
-        explicit OperationGuard(const RocksDBWrapper* wrapper) 
+        explicit OperationGuard(const RocksDBWrapper* wrapper)
             : wrapper_(wrapper), db_(nullptr) {
             if (wrapper_) {
                 std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
@@ -753,19 +812,22 @@ private:
                 }
             }
         }
-        
+
         ~OperationGuard() {
             if (wrapper_ && db_) {
                 wrapper_->active_operations_.fetch_sub(1, std::memory_order_release);
             }
         }
-        
+
         OperationGuard(const OperationGuard&) = delete;
         OperationGuard& operator=(const OperationGuard&) = delete;
-        
+
+        /// @brief Get the guarded database pointer.
+        /// @return Raw pointer to the guarded transaction database, or nullptr
+        /// when no database is currently guarded.
         rocksdb::TransactionDB* get() const { return db_; }
         explicit operator bool() const { return db_ != nullptr; }
-        
+
     private:
         const RocksDBWrapper* wrapper_;
         rocksdb::TransactionDB* db_;
@@ -793,13 +855,13 @@ private:
     mutable std::atomic<bool> closing_{false};
     // NVMe optimizations manager (null when enable_nvme_optimizations=false)
     std::unique_ptr<storage::NVMeManager> nvme_manager_;
-    
+
     #ifdef THEMIS_DEBUG_THREADING
     // Track if object is being moved (debug only)
     // Used to detect concurrent move operations during development
     mutable std::atomic<bool> is_being_moved_{false};
     #endif
-    
+
     void configureOptions();
     bool commitBatch(rocksdb::WriteBatch* batch);
 };

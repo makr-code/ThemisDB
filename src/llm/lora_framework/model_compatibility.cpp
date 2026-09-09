@@ -430,14 +430,11 @@ std::vector<std::string> ModelCompatibilityChecker::get_recommended_target_modul
 ) {
     switch (architecture) {
         case ModelArchitecture::LLAMA:
-        [[fallthrough]];
         case ModelArchitecture::MISTRAL:
-        [[fallthrough]];
         case ModelArchitecture::MIXTRAL:
             return {"q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"};
         
         case ModelArchitecture::GPT2:
-        [[fallthrough]];
         case ModelArchitecture::GPTJ:
             return {"c_attn", "c_proj", "c_fc"};
         

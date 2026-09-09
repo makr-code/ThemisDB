@@ -131,7 +131,7 @@ class ApplicationCustomStrategy : public IConflictResolutionStrategy {
  public:
   explicit ApplicationCustomStrategy(
       std::shared_ptr<ProcessConflictResolverCallback> callback)
-      : callback_(callback), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
+      : callback_(std::move(callback)), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
 
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
     if (!callback_) {
@@ -235,7 +235,7 @@ class ProcessConflictResolverImpl {
    * @param resolver Callback implementing ProcessConflictResolver interface
    * @thread_safe Acquires resolver_mutex_
    */
-  void RegisterResolver(std::shared_ptr<ProcessConflictResolverCallback> resolver);
+  void RegisterResolver([[maybe_unused]] std::shared_ptr<ProcessConflictResolverCallback> resolver);
 
   /**
    * @brief Detect conflicts in a batch of model versions.
@@ -273,7 +273,7 @@ class ProcessConflictResolverImpl {
     } else if (strategy_name == "FWW") {
       return std::make_unique<FirstWriteWinsStrategy>();
     } else if (strategy_name == "custom") {
-      return std::make_unique<ApplicationCustomStrategy>(callback);
+      return std::make_unique<ApplicationCustomStrategy>(std::move(callback));
     }
     // Default to LWW
     return std::make_unique<LastWriteWinsStrategy>();

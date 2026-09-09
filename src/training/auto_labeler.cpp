@@ -142,7 +142,7 @@ public:
                 }
 
                 // Flush batch when it reaches batch_size
-                if (static_cast<int>(batch.size()) >= config_.batch_size) {
+                if (batch.size() >= config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);
@@ -153,7 +153,7 @@ public:
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if (callback && processed % 10 == 0) {
-                    callback(processed,static_cast<int>(document_ids.size()),
+                    callback(processed,document_ids.size(),
                              "Processing document " + doc_id);
                 }
             } catch (...) {
@@ -339,7 +339,7 @@ public:
                     batch.push_back(std::move(sample));
                 }
 
-                if (static_cast<int>(batch.size()) >= config_.batch_size) {
+                if (batch.size() >= config_.batch_size) {
                     persistSampleBatch(batch);
                     batch.clear();
                     batch.reserve(config_.batch_size);
@@ -350,7 +350,7 @@ public:
                 total_processed_.fetch_add(1, std::memory_order_relaxed);
 
                 if (callback && processed % 10 == 0) {
-                    callback(processed,static_cast<int>(document_ids.size()),
+                    callback(processed,document_ids.size(),
                              "Labeled document " + doc_id);
                 }
             } catch (...) {
@@ -708,7 +708,7 @@ private:
             std::string token = "@" + placeholder;
             size_t pos = 0;
             while ((pos = query.find(token, pos)) != std::string::npos) {
-                query.replace(pos,static_cast<int>(token.size()), value);
+                query.replace(pos,token.size(), value);
                 pos += value.size();
             }
         }

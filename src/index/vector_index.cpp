@@ -361,7 +361,7 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
+void VectorIndexManager::setVectorEncryptionEnabled([[maybe_unused]] bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -400,7 +400,7 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 	return false;  // Default: encryption disabled (backward compatible)
 }
 
-void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
+void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled) {
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -766,7 +766,7 @@ VectorIndexManager::Status VectorIndexManager::init(std::string_view objectName,
 	return Status::OK();
 }
 
-	VectorIndexManager::Status VectorIndexManager::setEfSearch(int efSearch) {
+	VectorIndexManager::Status VectorIndexManager::setEfSearch([[maybe_unused]] int efSearch) {
 		if (efSearch <= 0) {
 		  return Status::Error("setEfSearch: efSearch muss > 0 sein");
 		}
@@ -1960,7 +1960,7 @@ VectorIndexManager::searchKnnFiltered(
 			
 		} catch (const std::exception& ex) {
 			THEMIS_WARN("searchKnnFiltered: HNSW-Suche fehlgeschlagen: {}", ex.what());
-			return {Status::Error(std::string("HNSW exception: ") + ex.what()), std::vector<Result>();
+			return {Status::Error(std::string("HNSW exception: ") + ex.what()), std::vector<Result>()};
 		}
 	}
 #endif
@@ -2553,7 +2553,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			// Check for encryption flag (Phase 2)
 			std::string encryptionFlag = {};
 			std::getline(metaFile, encryptionFlag);
-			const bool isEncrypted = (encryptionFlag == "encrypted");
+			[[maybe_unused]] const bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) {
 			  return Status::Error("loadIndex: objectName passt nicht zum Manager");
@@ -3015,7 +3015,7 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count && i < pks.size(); ++i) {
+	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <static_cast<int>(pks.size()); ++i) {
 		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);
@@ -3106,7 +3106,7 @@ VectorIndexManager::computeVariance() const {
 }
 
 std::pair<VectorIndexManager::Status, std::vector<std::string>>
-VectorIndexManager::findOutliers(float threshold) const {
+VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	if (cache_.empty()) {
 		return {Status::OK(), std::vector<std::string>()};

@@ -442,4 +442,3 @@ RetentionManager::ComplianceMetrics RetentionManager::getComplianceMetrics() con
 }
 
 } // namespace vcc
-

@@ -72,7 +72,8 @@ std::string PromptContextValue::toString() const {
             }
             return oss.str();
         }
-        default: break;
+        default:
+            break;
     }
     return {}; // unreachable
 }
@@ -415,9 +416,10 @@ static void renderNodes(
                 }
                 break;
             }
-            default: break;
-            }
+            default:
+                break;
         }
+    }
 }
 
 // ============================================================================
@@ -459,8 +461,8 @@ static void validateNodes(
                     // Validate body with a synthetic item_var
                     validateNodes(node->children, ctx, node->name, errors);
                     break;
-                }
                 default: break;
+                }
             }
         } catch (...) {
             // noexcept — swallow all exceptions inside validation
@@ -530,7 +532,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     auto ast = parse(tokens, idx,  slot_index,
                      /*inside_if=*/false, /*inside_for=*/false);
 
-    if (idx != tokens.size()) {
+    if (idx != static_cast<int>(tokens.size())) {
         throw PromptTemplateCompileError(
             "Unexpected token '" + tokens[idx].value +
             "' at index " + std::to_string(idx));
@@ -539,7 +541,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     // Collect all slot names referenced in SLOT nodes (implicit declarations)
     // so that undeclared slots get STRING defaults.
     std::function<void(const std::vector<detail::ASTNodePtr>&)> collect_slots;
-    collect_slots = [&](const std::vector<detail::ASTNodePtr>& nodes) {
+    collect_slots = [&]([[maybe_unused]] const std::vector<detail::ASTNodePtr>& nodes) {
         for (const auto& n : nodes) {
             if (n->kind == detail::ASTNode::Kind::SLOT) {
                 if (slot_index.find(n->text) == slot_index.end()) {
@@ -560,7 +562,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     std::vector<SlotDefinition> final_slots = declared_slots;
     for (const auto& [name, sd] : slot_index) {
         if (std::find_if(final_slots.begin(), final_slots.end(),
-                [&](const SlotDefinition& s) { return s.name == name; })
+                [&]([[maybe_unused]] const SlotDefinition& s) { return s.name == name; })
             == final_slots.end()) {
             final_slots.push_back(sd);
         }
@@ -577,5 +579,4 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
 
 } // namespace prompt_engineering
 } // namespace themis
-
 

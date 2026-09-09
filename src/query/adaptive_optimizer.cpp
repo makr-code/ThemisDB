@@ -656,4 +656,3 @@ void GeoPredicatePatternDetector::injectSpatialIndexHints(
 
 } // namespace query
 } // namespace themis
-

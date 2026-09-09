@@ -209,7 +209,7 @@ void GradientTensor::compress(GradientCompressionType type) {
               break;
             }
             
-            size_t k = std::max<size_t>(size_t(1), data.size() / 10);
+            size_t k = std::max<size_t>(1, data.size() / 10);
             
             // Create indices sorted by absolute value
             std::vector<std::pair<size_t, float>> indexed_vals;
@@ -327,9 +327,7 @@ void GradientTensor::decompress() {
                             (compressed[2] << 8) | compressed[3];
             
             // Initialize to zeros
-            const size_t rows = shape[0] > 0 ? static_cast<size_t>(shape[0]) : 0;
-            const size_t cols = (shape.size() > 1 && shape[1] > 0) ? static_cast<size_t>(shape[1]) : 1;
-            data.assign(rows * cols, 0.0f);
+            data.assign(shape[0] * (static_cast<int>(shape.size()) > 1 ? shape[1] : 1), 0.0f);
             
             // Fill in sparse values
             size_t pos = 4;

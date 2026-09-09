@@ -65,7 +65,7 @@ before the human sign-off in Section 9 can be granted.
 | Gate | Requirement | Evidence | Status |
 |------|-------------|----------|--------|
 | A-1 | Wave 7 all six PASS gates confirmed | `benchmarks/wave7/release_gate_manifest_w7.json` (GATE-W7-01..06 PASS) | ✅ PASS |
-| A-2 | `release_critical` CI gate on `develop` confirmed non-optional | `.github/workflows/09-pr-gates_release-critical-tests.yml` | ✅ PASS |
+| A-2 | `release_critical` CI gate on `develop` confirmed non-optional | `.github/workflows/gate-pr-core.yml` | ✅ PASS |
 | A-3 | Root governance docs synchronized | `ROADMAP.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `BRANCHING_STRATEGY.md` | ✅ PASS |
 | A-4 | Phase 5 server/llm implementation evidence retained | `CHANGELOG.md` P5-S01/S02, P5-L01/L02; 90 new tests total | ✅ PASS |
 
@@ -81,7 +81,7 @@ before the human sign-off in Section 9 can be granted.
 
 | Gate | Requirement | Evidence | Status |
 |------|-------------|----------|--------|
-| C-1 | Wave 8 (`w8a/w8b/w8c`) wired into `release_critical` | `.github/workflows/09-pr-gates_release-critical-tests.yml` + `benchmarks/wave8/` | ✅ PASS |
+| C-1 | Wave 8 (`w8a/w8b/w8c`) wired into `release_critical` | `.github/workflows/gate-pr-core.yml` + `benchmarks/wave8/` | ✅ PASS |
 | C-2 | Wave 9 (`w9a/w9b/w9c`) chaos/SLA/security suites wired | `benchmarks/wave9/` + `release_critical` targets | ✅ PASS |
 | C-3 | ASan zero new defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4 | ✅ PASS |
 | C-4 | UBSan zero new defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4 | ✅ PASS |
@@ -205,9 +205,9 @@ If a post-tag regression is discovered within the controlled promotion window:
 | **Process Phase 6 acceptance checklist** | `src/process/PHASE_6_ACCEPTANCE_CHECKLIST.md` | D-5, D-7 |
 | **Failover Phase 2+3 focused tests** | `tests/failover/test_failover_phase2_phase3_focused.cpp` | D-5, A-Support |
 | **Updates Phase 6 sign-off** | `src/updates/PRODUCTION_REQUIREMENTS.md` | D-5, D-7 |
-| **Wave A Module Integration consolidation** | `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md` | A-Support, D-5, D-7 |
-| **Module gaps consolidation** | `MODULE_GAPS_CONSOLIDATION_REPORT.md` | D-6 |
-| Release-critical CI gate | `.github/workflows/09-pr-gates_release-critical-tests.yml` | A-2, C-1, C-2 |
+| **Wave A Module Integration consolidation** | `docs/ARCHIVED/ai-working-history/compact/WAVE_REPORTS.md` | A-Support, D-5, D-7 |
+| **Module gaps consolidation** | `docs/ARCHIVED/ai-working-history/compact/GAP_CLOSURE.md` | D-6 |
+| Release-critical CI gate | `.github/workflows/gate-pr-core.yml` | A-2, C-1, C-2 |
 
 ---
 
@@ -342,7 +342,7 @@ If a post-tag regression is discovered within the controlled promotion window:
 - `VERSIONING.md` §3.1 Stable/GA Promotion Evidence
 - `ROADMAP.md` §Execution Batches (GA Hardening)
 - `BRANCHING_STRATEGY.md` — canonical branch and release-lane governance
-- `FUTURE_ENHANCEMENTS.md` §GA Release Readiness Backlog
+- `FUTURE_ENHANCEMENTS.md` (root planning index; GA readiness tasks are tracked in `ROADMAP.md` §Execution Batches and this sign-off document)
 
 ---
 

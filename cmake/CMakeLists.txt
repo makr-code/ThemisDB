@@ -3471,6 +3471,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/subagent_factory_impl.cpp
+    ../src/llm/subagent_coordinator_impl.cpp
     ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp

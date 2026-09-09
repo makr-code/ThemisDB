@@ -31,6 +31,7 @@ from scanners.gs3_step01_core_container import ContainerGapScanner
 from scanners.gs3_step01_core_memory import MemoryGapScannerImproved as MemoryGapScanner
 from scanners.gs3_step01_core_performance import PerformanceGapScanner
 from scanners.gs3_step01_core_platform import PlatformGapScanner
+from scanners.gs3_step01_core_crossplatform_crt import CrossPlatformCRTScanner
 from scanners.gs3_step01_core_raii import RAIIGapScanner
 from scanners.gs3_step01_core_reliability import ReliabilityGapScanner
 from scanners.gs3_step01_core_security import SecurityGapScanner
@@ -119,6 +120,7 @@ class UniformFullScanner(BaseGapScanner):
             ("phase1_memory_safety", MemorySafetyScanner()),
             ("phase1_error_handling", ErrorHandlingScanner()),
             ("phase1_thread_safety", ThreadSafetyScanner()),
+            ("phase1_crossplatform_crt", CrossPlatformCRTScanner()),
         ]
 
         for phase_key, scanner in modern_phase1:

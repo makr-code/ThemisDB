@@ -347,7 +347,6 @@ double GeospatialIndexSelector::getIndexTypeCostMultiplier(
             }
             
         case SpatialIndexType::NONE:
-        [[fallthrough]];
         default:
             return 1.0;
     }

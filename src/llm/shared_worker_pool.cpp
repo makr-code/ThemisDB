@@ -223,4 +223,3 @@ bool SharedWorkerPool::trySteal(size_t thread_id, Task& out_task) {
 
 } // namespace llm
 } // namespace themis
-

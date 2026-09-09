@@ -3533,7 +3533,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/enhanced/test_enhanced_query_cache.cpp")
     target_link_libraries(test_enhanced_query_cache PRIVATE
         ${TEST_LIBS}
         themis_core
-        TBB::tbb
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         Threads::Threads
     )
     
@@ -10805,7 +10805,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_scan.cpp")
     target_link_libraries(test_parallel_scan PRIVATE
         ${TEST_LIBS}
         themis_core
-        TBB::tbb
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         RocksDB::rocksdb
         Threads::Threads
     )
@@ -10840,7 +10840,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_executor.cpp")
     target_link_libraries(test_parallel_executor PRIVATE
         ${TEST_LIBS}
         themis_core
-        TBB::tbb
+        $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb>
         RocksDB::rocksdb
         Threads::Threads
     )

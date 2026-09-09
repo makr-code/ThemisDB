@@ -70,7 +70,7 @@ struct GremlinParser::Lexer {
 
     explicit Lexer(const std::string& s) : src(s) {}
 
-    char peek(size_t offset = 0) const {
+    char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
         return static_cast<bool>((p < src.size())) ? src[p] : '\0';
     }
@@ -187,7 +187,7 @@ struct GremlinParser::Parser {
 
     explicit Parser(const std::vector<Token>& toks) : tokens(toks) {}
 
-    const Token& peek(size_t offset = 0) const {
+    const Token& peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
         if (p >= static_cast<int>(tokens.size())) {
           return tokens.back();
@@ -416,7 +416,6 @@ struct GremlinParser::Parser {
                 break;
 
             case GremlinStepKind::HasNot:
-            [[fallthrough]];
             case GremlinStepKind::HasId:
                 if (check(GremlinTokenType::STRING_LIT) ||
                     check(GremlinTokenType::INT_LIT)) {
@@ -426,15 +425,10 @@ struct GremlinParser::Parser {
                 break;
 
             case GremlinStepKind::Out:
-            [[fallthrough]];
             case GremlinStepKind::In:
-            [[fallthrough]];
             case GremlinStepKind::Both:
-            [[fallthrough]];
             case GremlinStepKind::OutE:
-            [[fallthrough]];
             case GremlinStepKind::InE:
-            [[fallthrough]];
             case GremlinStepKind::BothE:
                 // out() / out("EDGE_LABEL") / out("A", "B")
                 while (!check(GremlinTokenType::RPAREN)) {
@@ -448,27 +442,18 @@ struct GremlinParser::Parser {
                 break;
 
             case GremlinStepKind::OutV:
-            [[fallthrough]];
             case GremlinStepKind::InV:
-            [[fallthrough]];
             case GremlinStepKind::BothV:
-            [[fallthrough]];
             case GremlinStepKind::Count:
-            [[fallthrough]];
             case GremlinStepKind::Dedup:
-            [[fallthrough]];
             case GremlinStepKind::Id:
-            [[fallthrough]];
             case GremlinStepKind::Label:
-            [[fallthrough]];
             case GremlinStepKind::Order:
                 // No arguments
                 break;
 
             case GremlinStepKind::Values:
-            [[fallthrough]];
             case GremlinStepKind::ValueMap:
-            [[fallthrough]];
             case GremlinStepKind::Select:
                 // values("p1") / valueMap("p1","p2") / select("a","b")
                 while (!check(GremlinTokenType::RPAREN)) {
@@ -1026,4 +1011,3 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
 
 }  // namespace query
 }  // namespace themis
-

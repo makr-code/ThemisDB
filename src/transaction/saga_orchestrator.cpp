@@ -693,4 +693,3 @@ bool SAGAOrchestrator::tryAcquireCircuitBreakerExecution(const std::string& step
 }
 
 } // namespace themis
-

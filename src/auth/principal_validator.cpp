@@ -54,7 +54,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
 
             switch (rule.type) {
                 case RuleType::BLACKLIST:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case RuleType::REGEX_DENY:
                     // Blacklist always denies
                     result.allowed       = false;
@@ -65,7 +65,7 @@ PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::str
                     return result;
 
                 case RuleType::WHITELIST:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case RuleType::REGEX_MATCH:
                     // Whitelist allows (but continue checking for blacklist)
                     result.allowed = true;
@@ -210,8 +210,9 @@ bool PrincipalValidator::matchesMappingRule(const std::string &principal, const 
             std::string prefix = pattern.substr(0, star_pos);
             std::string suffix = pattern.substr(star_pos + 1);
 
-                 return p.size() >= (prefix.size() + suffix.size()) && p.substr(0, prefix.size()) == prefix
-                     && p.substr(p.size() - suffix.size()) == suffix;
+            return p.size() >= (prefix.size() + suffix.size())
+                   && p.substr(0, prefix.size()) == prefix
+                   && p.substr(p.size() - suffix.size()) == suffix;
         } else {
             // Exact match
             return p == pattern;

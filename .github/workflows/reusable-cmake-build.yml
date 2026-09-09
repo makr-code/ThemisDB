@@ -99,6 +99,8 @@ jobs:
     name: ${{ inputs.summary_title }}
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: 120
+    env:
+      SCCACHE_GHA_ENABLED: "false"
     outputs:
       configure-outcome: ${{ steps.configure.outcome }}
       build-outcome: ${{ steps.build.outcome }}

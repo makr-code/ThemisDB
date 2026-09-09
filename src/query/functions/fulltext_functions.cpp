@@ -193,10 +193,8 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
                 else result += 'S';
                 break;
             case 'T':
-                if (next == 'H') {
-                    result += '0';
-                    i++;
-                } else if (!(next == 'C' && (i + 2 < upper.length() && upper[i + 2] == 'H'))) {
+                if (next == 'H') { result += '0'; i++; }
+                else if (!(next == 'C' && i + 2 < upper.length() && upper[i + 2] == 'H')) {
                     result += 'T';
                 }
                 break;
@@ -937,4 +935,3 @@ void registerFulltextFunctions(FunctionRegistry& registry) {
 } // namespace functions
 } // namespace query
 } // namespace themis
-

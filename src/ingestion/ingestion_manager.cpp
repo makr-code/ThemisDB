@@ -23,7 +23,9 @@
 #include "ingestion/deontic_extractor.h"
 #include "ingestion/agentic_reference_validator.h"
 #include "ingestion/llm_adapter.h"
+#include "ingestion/extraction_context.h"
 #include <stdexcept>
+#include <cctype>
 #include <algorithm>
 #include <thread>
 #include <mutex>
@@ -80,6 +82,57 @@ static std::string sourceTypeLabel(SourceType t) {
     }
 }
 
+    static bool optionEnabled(const std::unordered_map<std::string, std::string>& options,
+                              const std::string& key,
+                              bool default_value = false) {
+        const auto it = options.find(key);
+        if (it == options.end()) {
+            return default_value;
+        }
+        std::string value = it->second;
+        std::transform(value.begin(), value.end(), value.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return value == "1" || value == "true" || value == "yes" || value == "on";
+    }
+
+    static std::string optionLower(const std::unordered_map<std::string, std::string>& options,
+                                   const std::string& key) {
+        const auto it = options.find(key);
+        if (it == options.end()) {
+            return {};
+        }
+        std::string value = it->second;
+        std::transform(value.begin(), value.end(), value.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        return value;
+    }
+
+    static std::string detectMimeFromExtension(std::string ext) {
+        std::transform(ext.begin(), ext.end(), ext.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (ext == ".txt" || ext == ".md") return "text/plain";
+        if (ext == ".json") return "application/json";
+        if (ext == ".xml") return "application/xml";
+        if (ext == ".html" || ext == ".htm") return "text/html";
+        if (ext == ".pdf") return "application/pdf";
+        if (ext == ".csv") return "text/csv";
+        if (ext == ".docx") return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        return "application/octet-stream";
+    }
+
+    static FileFormat detectFormatFromExtension(std::string ext) {
+        std::transform(ext.begin(), ext.end(), ext.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (ext == ".txt") return FileFormat::TXT;
+        if (ext == ".md") return FileFormat::MD;
+        if (ext == ".json") return FileFormat::JSON;
+        if (ext == ".xml") return FileFormat::XML;
+        if (ext == ".html" || ext == ".htm") return FileFormat::HTML;
+        if (ext == ".pdf") return FileFormat::PDF;
+        if (ext == ".csv") return FileFormat::CSV;
+        if (ext == ".docx") return FileFormat::DOCX;
+        return FileFormat::UNKNOWN;
+    }
 /// Map IngestionErrorCode to its integer string for a metric label
 [[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
@@ -547,6 +600,43 @@ public:
             return stats;
         }
 
+        const auto workflow_mode = optionLower(config.options, "workflow_engine_mode");
+        const bool workflow_mode_filesystem = workflow_mode == "filesystem";
+        const bool workflow_explicit_enable =
+            optionEnabled(config.options, "workflow_engine_enable", false) ||
+            workflow_mode_filesystem;
+        const bool workflow_eligible_source =
+            config.type == SourceType::FILESYSTEM ||
+            ((config.type == SourceType::PLUGIN ||
+              config.type == SourceType::OBJECT_STORAGE) && workflow_mode_filesystem);
+        const bool should_use_workflow = workflow_eligible_source &&
+            !optionEnabled(config.options, "workflow_engine_disable", false) &&
+            (config.type == SourceType::FILESYSTEM || workflow_explicit_enable);
+
+        std::shared_ptr<WorkflowEngine> workflow_engine;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            workflow_engine = workflow_engine_;
+        }
+        if (!dry_run_ && should_use_workflow && !workflow_engine &&
+            optionEnabled(config.options, "workflow_engine_required", false)) {
+            stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                           IngestionErrorSeverity::ERROR,
+                           "Workflow engine is required but not configured",
+                           source_id);
+            return stats;
+        }
+        if (!dry_run_ && should_use_workflow && workflow_engine) {
+            auto stats = ingestFilesystemViaWorkflowEngine(config, *workflow_engine, progress_callback);
+            auto end_time = std::chrono::steady_clock::now();
+            stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
+            if (stats.elapsed_seconds > 0.0 && stats.documents_processed > 0) {
+                stats.metrics.throughput_docs_per_sec =
+                    static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
+            }
+            return stats;
+        }
+
         // Apply per-source request-rate throttle (token bucket)
         // The byte-quota is checked after ingestion when bytes_processed is known.
         if (rate_limit_config_.enabled && rate_limit_config_.requests_per_second > 0.0) {
@@ -949,7 +1039,7 @@ public:
         return stats;
     }
     
-    IngestionReport ingestAll(ProgressCallback progress_callback) {
+    IngestionReport ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
         IngestionReport report;
         report.dry_run = dry_run_;
         
@@ -991,7 +1081,7 @@ public:
             futures.reserve(enabled_sources.size());
 
             size_t submitted = 0;
-            while (static_cast<size_t>(submitted) <static_cast<int>(enabled_sources.size())) {
+            while (submitted < enabled_sources.size()) {
                 size_t wave_end = std::min(submitted + concurrency,
                                            enabled_sources.size());
                 for (size_t i = submitted; i < wave_end; ++i) {
@@ -1105,7 +1195,7 @@ public:
         return true;
     }
 
-    void setDryRun(bool enabled) { dry_run_ = enabled; }
+    void setDryRun([[maybe_unused]] bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
     void setRateLimitConfig(const RateLimitConfig& config) {
@@ -1223,7 +1313,7 @@ public:
           return preview;
         }
 
-        auto addDoc = [&](const fs::path& p) {
+        auto addDoc = [&]([[maybe_unused]] const fs::path& p) {
             std::ifstream f(p, std::ios::binary);
             if (!f) {
               return;
@@ -1267,7 +1357,7 @@ public:
         checkpoint_store_shared_ = std::move(new_store);
     }
 
-    void enableIncrementalMode(bool enabled) {
+    void enableIncrementalMode([[maybe_unused]] bool enabled) {
         incremental_mode_ = enabled;
     }
 
@@ -1321,7 +1411,7 @@ public:
         return plugin_registry_.listPlugins();
     }
 
-    void setLineageTrackingEnabled(bool enabled) {
+    void setLineageTrackingEnabled([[maybe_unused]] bool enabled) {
         std::lock_guard<std::mutex> lock(mutex_);
         lineage_enabled_ = enabled;
     }
@@ -1428,6 +1518,91 @@ public:
         }
     }
 
+    IngestionStats ingestFilesystemViaWorkflowEngine(
+        const SourceConfig& config,
+        WorkflowEngine& engine,
+        ProgressCallback progress_callback) {
+        IngestionStats stats;
+        const std::filesystem::path source_path(config.location);
+        if (!std::filesystem::exists(source_path)) {
+            stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
+                           IngestionErrorSeverity::ERROR,
+                           "Source path not found: " + config.location,
+                           config.source_id);
+            return stats;
+        }
+
+        std::vector<std::filesystem::path> files;
+        const bool recursive = optionEnabled(config.options, "recursive", true);
+        if (std::filesystem::is_regular_file(source_path)) {
+            files.push_back(source_path);
+        } else if (std::filesystem::is_directory(source_path)) {
+            if (recursive) {
+                for (const auto& entry : std::filesystem::recursive_directory_iterator(source_path)) {
+                    if (entry.is_regular_file()) {
+                        files.push_back(entry.path());
+                    }
+                }
+            } else {
+                for (const auto& entry : std::filesystem::directory_iterator(source_path)) {
+                    if (entry.is_regular_file()) {
+                        files.push_back(entry.path());
+                    }
+                }
+            }
+        } else {
+            stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                           IngestionErrorSeverity::ERROR,
+                           "Unsupported filesystem source type: " + config.location,
+                           config.source_id);
+            return stats;
+        }
+
+        const auto profile_it = config.options.find("workflow_profile");
+        const bool has_profile = profile_it != config.options.end() && !profile_it->second.empty();
+
+        const size_t total_files = files.size();
+        size_t processed_files = 0;
+        for (const auto& file : files) {
+            ExtractionContext ctx;
+            ctx.manifest.original_path = file.string();
+            ctx.manifest.file_id = file.string();
+            ctx.manifest.filename_stem = file.stem().string();
+            ctx.manifest.extension = file.extension().string();
+            ctx.manifest.detected_mime = detectMimeFromExtension(ctx.manifest.extension);
+            ctx.manifest.detected_format = detectFormatFromExtension(ctx.manifest.extension);
+
+            std::error_code ec;
+            const auto size = std::filesystem::file_size(file, ec);
+            if (!ec) {
+                ctx.manifest.file_size_bytes = size;
+            }
+
+            auto run_result = has_profile
+                ? engine.executeWithProfile(profile_it->second, ctx)
+                : engine.execute(ctx);
+            if (!run_result) {
+                stats.documents_failed++;
+                stats.addError(IngestionErrorCode::PROCESSING_FAILED,
+                               IngestionErrorSeverity::ERROR,
+                               run_result.error().message(),
+                               config.source_id,
+                               file.string());
+            } else {
+                stats.documents_processed++;
+                stats.bytes_processed += static_cast<size_t>(ctx.manifest.file_size_bytes);
+            }
+
+            ++processed_files;
+            if (progress_callback) {
+                progress_callback(config.source_id, processed_files, total_files,
+                                  "workflow_engine");
+            }
+        }
+
+        return stats;
+    }
+
     // Byte-hour tracking per source
     struct ByteWindowTracker {
         size_t bytes = 0;
@@ -1531,7 +1706,7 @@ IngestionStats IngestionManager::ingestSource(const std::string& source_id,
     return impl_->ingestSource(source_id, progress_callback);
 }
 
-IngestionReport IngestionManager::ingestAll(ProgressCallback progress_callback) {
+IngestionReport IngestionManager::ingestAll([[maybe_unused]] ProgressCallback progress_callback) {
     return impl_->ingestAll(progress_callback);
 }
 
@@ -1561,7 +1736,7 @@ bool IngestionManager::getSchemaConfig(const std::string& source_id,
     return impl_->getSchemaConfig(source_id, out);
 }
 
-void IngestionManager::setDryRun(bool enabled) {
+void IngestionManager::setDryRun([[maybe_unused]] bool enabled) {
     impl_->setDryRun(enabled);
 }
 
@@ -1613,7 +1788,7 @@ void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
     impl_->setCheckpointDir(checkpoint_dir);
 }
 
-void IngestionManager::enableIncrementalMode(bool enabled) {
+void IngestionManager::enableIncrementalMode([[maybe_unused]] bool enabled) {
     impl_->enableIncrementalMode(enabled);
 }
 
@@ -1651,7 +1826,7 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
     return impl_->listConnectorPlugins();
 }
 
-void IngestionManager::enableLineageTracking(bool enabled) {
+void IngestionManager::enableLineageTracking([[maybe_unused]] bool enabled) {
     impl_->setLineageTrackingEnabled(enabled);
 }
 
@@ -2147,7 +2322,7 @@ IngestionBuilder& IngestionBuilder::withTargetCollection(
     return *this;
 }
 
-IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
+IngestionBuilder& IngestionBuilder::withDryRun([[maybe_unused]] bool enabled) {
     opts_->dry_run = enabled;
     return *this;
 }
@@ -2396,6 +2571,3 @@ std::string IngestionAdminApi::healthJson() const {
 
 } // namespace ingestion
 } // namespace themis
-
-
-

@@ -25,7 +25,8 @@
 #include <cstdlib>
 #include <algorithm>
 
-#ifdef THEMIS_ROCKSDB_AVAILABLE
+#if defined(THEMIS_ROCKSDB_AVAILABLE) || defined(THEMIS_ENABLE_ROCKSDB_TRANSACTIONS) || \
+    (defined(__has_include) && __has_include(<rocksdb/db.h>))
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>

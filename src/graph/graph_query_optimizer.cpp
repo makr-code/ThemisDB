@@ -228,7 +228,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
 }
 
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopNeighborhood(
-    std::string_view start_vertex,
+    [[maybe_unused]] std::string_view start_vertex,
     int k,
     const QueryConstraints& constraints) {
 
@@ -448,7 +448,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     bool has_min_length = false;
     bool has_max_length = false;
     bool has_required_nodes = false;
-    bool has_forbidden_nodes = false;
+    [[maybe_unused]] bool has_forbidden_nodes = false;
     bool requires_unique = false;
     
     size_t min_length = 0;
@@ -475,7 +475,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
                 has_forbidden_nodes = true;
                 break;
             case PathConstraints::ConstraintType::UNIQUE_NODES:
-            [[fallthrough]];
+                [[fallthrough]];
             case PathConstraints::ConstraintType::NO_CYCLES:
                 requires_unique = true;
                 break;
@@ -934,10 +934,10 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
 
             for (size_t t = 0; t < effective_threads; ++t) {
                 const size_t begin_idx = t * chunk_size;
-                                if (begin_idx >= current_frontier.size()) {
+                if (begin_idx >= current_frontier.size()) {
                   break;
                 }
-                                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
+                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
 
                 futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
                     ChunkResult cr;
@@ -1935,7 +1935,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     size_t vf2_iteration_count = 0;
     bool vf2_limit_exceeded = false;
 
-    std::function<void(size_t)> backtrack = [&](size_t depth) {
+    std::function<void(size_t)> backtrack = [&]([[maybe_unused]] size_t depth) {
         if (timedOut()) { local_stats.early_terminated = true; return; }
         if (local_stats.early_terminated) {
           return;
@@ -2020,7 +2020,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
 }
 
 Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatistics(
-    std::optional<std::string_view> graph_id) {
+    [[maybe_unused]] std::optional<std::string_view> graph_id) {
     
     GraphStatistics stats;
     
@@ -2396,7 +2396,7 @@ GraphQueryOptimizer::TraversalAlgorithm GraphQueryOptimizer::selectAlgorithm(
                     candidates = {TraversalAlgorithm::BFS, TraversalAlgorithm::DFS};
                     break;
                 case QueryPattern::PATTERN_MATCH:
-                [[fallthrough]];
+                    [[fallthrough]];
                 case QueryPattern::ALL_PATHS:
                     candidates = {TraversalAlgorithm::DFS, TraversalAlgorithm::BFS};
                     break;
@@ -2461,7 +2461,7 @@ size_t GraphQueryOptimizer::estimateDepth(
     
     switch (pattern) {
         case QueryPattern::SHORTEST_PATH:
-        [[fallthrough]];
+            [[fallthrough]];
         case QueryPattern::REACHABILITY:
             // Assume average case is half the diameter
             return estimated / 2;
@@ -2634,14 +2634,14 @@ bool GraphQueryOptimizer::shouldUseParallel(
     // Some algorithms parallelize better
     switch (algorithm) {
         case TraversalAlgorithm::BFS:
-        [[fallthrough]];
+            [[fallthrough]];
         case TraversalAlgorithm::BIDIRECTIONAL:
             return true;
             
         case TraversalAlgorithm::DFS:
-        [[fallthrough]];
+            [[fallthrough]];
         case TraversalAlgorithm::ASTAR:
-        [[fallthrough]];
+            [[fallthrough]];
         case TraversalAlgorithm::DIJKSTRA:
             return false; // These don't parallelize well
         default: break;

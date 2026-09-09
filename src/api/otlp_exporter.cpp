@@ -79,9 +79,9 @@ static std::string deriveSpanId(const std::string &trace_id_32) {
 }
 
 /// StatusCode constants (OTLP spec):
-[[maybe_unused]] static constexpr int kStatusUnset = 0;
-[[maybe_unused]] static constexpr int kStatusOk    = 1;
-[[maybe_unused]] static constexpr int kStatusError = 2;
+static constexpr int kStatusUnset = 0;
+static constexpr int kStatusOk    = 1;
+static constexpr int kStatusError = 2;
 
 } // anonymous namespace
 
@@ -256,7 +256,7 @@ void OtlpExporter::enqueue(SpanData span) {
 
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
-        if (queue_.size() >= static_cast<std::size_t>(config_.max_queue_size)) {
+        if (static_cast<int>(queue_.size()) >= config_.max_queue_size) {
             // Drop the oldest span to make room (O(1) with std::deque)
             queue_.pop_front();
             dropped_count_.fetch_add(1, std::memory_order_relaxed);
@@ -310,8 +310,7 @@ void OtlpExporter::flushLoop() {
         {
             std::unique_lock<std::mutex> lk(queue_mutex_);
             queue_cv_.wait_for(lk, flush_interval, [this] {
-                return stop_.load(std::memory_order_relaxed)
-                    || queue_.size() >= static_cast<std::size_t>(config_.batch_size);
+                return stop_.load(std::memory_order_relaxed) || static_cast<int>(queue_.size()) >= config_.batch_size;
             });
 
             const size_t take = std::min(queue_.size(), config_.batch_size);
@@ -360,17 +359,11 @@ static bool isRetriableHttpCode(long code) noexcept {
 static bool isRetriableCurlError(CURLcode code) noexcept {
     switch (code) {
         case CURLE_COULDNT_RESOLVE_HOST:
-        [[fallthrough]];
         case CURLE_COULDNT_CONNECT:
-        [[fallthrough]];
         case CURLE_OPERATION_TIMEDOUT:
-        [[fallthrough]];
         case CURLE_SEND_ERROR:
-        [[fallthrough]];
         case CURLE_RECV_ERROR:
-        [[fallthrough]];
         case CURLE_GOT_NOTHING:
-        [[fallthrough]];
         case CURLE_SSL_CONNECT_ERROR:
             return true;
         default:

@@ -450,6 +450,25 @@ TEST(WorkflowOrchestration, WO_22_ToWorkflowFromFailedResultThrows) {
     EXPECT_THROW(TaskDecomposer::toWorkflow(failed), std::invalid_argument);
 }
 
+TEST(WorkflowOrchestration, WO_22b_ToWorkflowRejectsUnknownDependencies) {
+    TaskDecompositionResult result;
+    result.success = true;
+
+    SubTask a;
+    a.id = "a";
+    a.description = "A";
+    a.prompt = "prompt A";
+
+    SubTask b;
+    b.id = "b";
+    b.description = "B";
+    b.prompt = "prompt B";
+    b.depends_on = {"missing"};
+
+    result.subtasks = {a, b};
+    EXPECT_THROW(TaskDecomposer::toWorkflow(result), std::invalid_argument);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // § WO-23..25 — validate() error detection
 // ─────────────────────────────────────────────────────────────────────────────
@@ -498,4 +517,25 @@ TEST(WorkflowOrchestration, WO_25_ValidateValidDefinition) {
     auto vr = WorkflowLoader::validate(def);
     EXPECT_TRUE(vr.valid);
     EXPECT_TRUE(vr.errors.empty());
+}
+
+TEST(WorkflowOrchestration, WO_26_ValidateInvalidOutputSchema) {
+    WorkflowDefinition def;
+    def.id = "schema_wf";
+    WorkflowStep step;
+    step.id = "s1";
+    step.prompt_template = "answer";
+    step.output_schema = json::array({1, 2, 3});
+    def.steps.push_back(step);
+
+    auto vr = WorkflowLoader::validate(def);
+    EXPECT_FALSE(vr.valid);
+    bool found = false;
+    for (const auto& e : vr.errors) {
+        if (e.message.find("output_schema") != std::string::npos) {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
 }

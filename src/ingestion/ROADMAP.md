@@ -14,6 +14,9 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 - [~] benchmark stabilization for ingestion throughput, extraction, and quality-judge hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for connector, validation, and workflow incident classes (Target: Q3 2026)
   - [x] Canonical retry taxonomy bridge added in `ingestion_api_contract.h` (`toRetryTimeoutSource`, `toRetryExhaustionReason`) with focused assertions in `test_ingestion_contract_hardening_focused.cpp` (Delivered: 2026-08-09)
+- [~] route filesystem ingestion through `WorkflowEngine` profile execution path when engine is configured (Target: Q4 2026)
+  - [~] extend parity path: `workflow_engine_mode=filesystem` now enables workflow-based execution for plugin/object-storage sources that provide filesystem-backed locations (Target: Q4 2026)
+  - [x] source-integrity remediation for workflow routing core completed: compile-breaking token corruption in `workflow_engine.cpp` and malformed method scoping/call tokens in `ingestion_manager.cpp` removed; workflow dispatch path is source-validated again (Delivered: 2026-09-07)
 
 ## Planned Features
 
@@ -40,6 +43,7 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 ### Phase 2: Core Implementation
 - [ ] complete hardening for connector intake and orchestration internals (Target: Q4 2026)
 - [ ] align validation/quality/workflow behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] move `IngestionManager` filesystem main-path execution to profile-driven workflow engine routing with fail-closed processing errors (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for unsupported/degraded connector scenarios (Target: Q4 2026)

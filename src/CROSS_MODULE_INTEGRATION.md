@@ -19,5 +19,6 @@ This source-root companion points from the `src/` aggregation boundary to the ca
 - [`../docs/architecture/DATA_FLOW_PATHS.md`](../docs/architecture/DATA_FLOW_PATHS.md) — critical Query/Storage/Transaction, 2PC, RAG, and Server/LLM flows
 - [`../docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](../docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — release posture, maturity signals, and docs-only path caveats
 - [`MODULE_FUNCTION_USAGE_MAP.md`](MODULE_FUNCTION_USAGE_MAP.md) — repository-wide per-module symbol-consumer and call-site companion
-- [`ROADMAP.md`](ROADMAP.md) — source-root backlog and release gating context
+- [`../ROADMAP.md`](../ROADMAP.md) — root project roadmap and release-gating posture
+- [`ROADMAP.md`](ROADMAP.md) — source-root consolidated backlog derived from `src/*/ROADMAP.md`
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — source-root aggregation contract for `src/`
