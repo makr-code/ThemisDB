@@ -1,6 +1,6 @@
 # Architecture - Ingestion Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -55,3 +55,36 @@ The ingestion module composes connector intake, pipeline controls, quality gates
   - explicit intake/control/quality/workflow planes
   - deterministic fallback/failure boundaries
   - module-local ownership of ingestion orchestration surfaces
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Persists ingested records and checkpoint state |
+| content | `include/content/` | Hands off raw streams for content classification and extraction |
+| utils | `include/utils/` | Logging, rate-limiting, serialisation, and thread services |
+| toolbox | `include/toolbox/` (consumer interfaces) | Toolbox supplies transformation and enrichment utilities consumed during pipeline steps |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/ingestion_manager.h` | Exposes ingestion start/stop/status APIs to the server layer |
+| rag | `include/ingestion/` (base_entity, ingestion_sinks) | RAG module registers ingestion sinks to receive entity-level documents for indexing |
+
+## Integration Points
+
+### Critical Integration: Storage Checkpointing
+**Files:** `src/ingestion/ingestion_coordinator.cpp` ↔ `storage/`
+**Contract:** Ingestion coordinator writes checkpoint state to storage after each successful batch; checkpoint reads must be idempotent for restart safety.
+**Thread Safety:** Checkpoint writes are serialised per-source; concurrent source coordinators write to independent checkpoint keys.
+
+### Critical Integration: RAG Ingestion Sinks
+**Files:** `src/ingestion/ingestion_manager.cpp` ↔ `rag/ingestion_sinks`
+**Contract:** RAG registers `IngestionSink` callbacks; ingestion manager calls sinks in delivery order; sinks must not block the pipeline thread.
+**Thread Safety:** Sink callbacks are invoked on the pipeline thread; sinks requiring async work must dispatch internally.
+
+### Critical Integration: Server Ingestion Manager
+**Files:** `server/ingestion_manager.h` ↔ `include/ingestion/`
+**Contract:** Server controls ingestion run lifecycle (start/pause/stop/status) via public ingestion API; underlying connector state is opaque to the server.
+**Thread Safety:** Lifecycle methods are serialised under an internal run-state mutex.
