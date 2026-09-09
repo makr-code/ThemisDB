@@ -73,6 +73,12 @@ on:
       - '*.cpp'
       - '*.hpp'
       - '*.h'
+      - '*.cs'
+      - '*.csproj'
+      - 'tools/**/*.cs'
+      - 'tools/**/*.csproj'
+      - 'examples/**/*.cs'
+      - 'examples/**/*.csproj'
       - '.github/workflows/security-codeql.yml'
       - '.github/codeql/codeql-config.yml'
   pull_request:
@@ -120,6 +126,12 @@ on:
       - '*.cpp'
       - '*.hpp'
       - '*.h'
+      - '*.cs'
+      - '*.csproj'
+      - 'tools/**/*.cs'
+      - 'tools/**/*.csproj'
+      - 'examples/**/*.cs'
+      - 'examples/**/*.csproj'
       - '.github/workflows/security-codeql.yml'
       - '.github/codeql/codeql-config.yml'
   schedule:
@@ -217,6 +229,10 @@ jobs:
           ram: 6144
           threads: 4
 
+  analyze-csharp:
+    name: Analyze (csharp)
+    runs-on: windows-latest
+    timeout-minutes: 60
   analyze-rust:
     name: Analyze (rust)
     runs-on: ubuntu-latest
@@ -227,6 +243,25 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Select query suite
+        id: suite
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "schedule") {
+            "queries=security-and-quality" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: security-and-quality (scheduled full scan)"
+          } elseif ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            "queries=${{ inputs.query_suite }}" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: ${{ inputs.query_suite }} (manual dispatch)"
+          } else {
+            "queries=security-extended" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: security-extended (PR / push)"
+          }
       - name: Install Rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -247,6 +282,13 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
+          languages: csharp
+          build-mode: autobuild
+          config-file: .github/codeql/codeql-config.yml
+          queries: ${{ steps.suite.outputs.queries }}
+
+      - name: Autobuild C#
+        uses: github/codeql-action/autobuild@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
           languages: rust
           queries: ${{ steps.suite.outputs.queries }}
           config: |
@@ -261,6 +303,8 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
+          category: "/language:csharp"
+          output: codeql-results-csharp
           category: "/language:rust"
           ram: 4096
           threads: 2
