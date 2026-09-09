@@ -33,6 +33,10 @@ on:
         description: 'Run voice benchmark job'
         type: boolean
         default: true
+      run_critical_baselines:
+        description: 'Run broad auth/query/voice baseline refresh job'
+        type: boolean
+        default: false
       run_gpu:
         description: 'Run GPU benchmark matrix job'
         type: boolean
@@ -195,6 +199,188 @@ jobs:
           path: build/voice-bench/results/
           retention-days: 30
           if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1b. Broad Critical-Module Baseline Refresh (auth/query/voice)
+  # Manual-only lane for harvesting p95/p99 artifacts beyond the immediate
+  # GPU/transaction blocker families.
+  # ─────────────────────────────────────────────────────────────────────────
+  critical-module-baselines:
+    name: Critical Module Baselines (auth/query/voice)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    needs: [preflight-build-status]
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      (inputs.run_critical_baselines == true || inputs.run_critical_baselines == 'true')
+    env:
+      BUILD_DIR: build/critical-module-baselines
+      RESULTS_DIR: build/critical-module-baselines/results
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: Prepare repository
+        run: |
+          set -euo pipefail
+          for sm in \
+            plugins/private/themisdb_ethic_ai \
+            plugins/private/themisdb_importer \
+            plugins/private/themisdb_storage \
+            plugins/private/themisdb_llm_wiki \
+            plugins/private/themisdb_plugin_signer; do
+            git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
+          done
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          export PATH="${VCPKG_ROOT}:${PATH}"
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config sccache \
+            libbenchmark-dev librocksdb-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev libcpp-httplib-dev
+
+      - name: Cache sccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.cache/sccache
+          key: sccache-critical-baselines-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}-${{ runner.os }}
+          restore-keys: sccache-critical-baselines-${{ runner.os }}-
+
+      - name: Configure broad baseline build
+        run: |
+          set -euo pipefail
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          export PATH="${VCPKG_ROOT}:${PATH}"
+          cmake -S . -B "${BUILD_DIR}" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -DTHEMIS_ENABLE_GPU=OFF \
+            -DTHEMIS_ENABLE_CUDA=OFF \
+            -DTHEMIS_ENABLE_HIP=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_ENABLE_VOICE_ASSISTANT=ON
+
+      - name: Build broad baseline targets
+        run: |
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          export PATH="${VCPKG_ROOT}:${PATH}"
+          cmake --build "${BUILD_DIR}" \
+            --target bench_auth_hotpaths bench_fts_phase_b bench_voice_a8_baselines \
+            -j"$(nproc)"
+
+      - name: Run broad baseline benchmarks
+        run: |
+          set -euo pipefail
+          mkdir -p "${RESULTS_DIR}"
+          lscpu > "${RESULTS_DIR}/lscpu.txt"
+          free -h > "${RESULTS_DIR}/memory.txt"
+
+          AUTH_BENCH="$(find "${BUILD_DIR}" -type f -name bench_auth_hotpaths | head -n 1)"
+          QUERY_BENCH="$(find "${BUILD_DIR}" -type f -path '*bench_fts_phase_b' | head -n 1)"
+          VOICE_BENCH="$(find "${BUILD_DIR}" -type f -name bench_voice_a8_baselines | head -n 1)"
+
+          test -n "${AUTH_BENCH}" || { echo "::error::bench_auth_hotpaths not found"; exit 1; }
+          test -n "${QUERY_BENCH}" || { echo "::error::bench_fts_phase_b not found"; exit 1; }
+          test -n "${VOICE_BENCH}" || { echo "::error::bench_voice_a8_baselines not found"; exit 1; }
+
+          "${AUTH_BENCH}" \
+            --benchmark_min_time=0.05s \
+            --benchmark_repetitions=5 \
+            --benchmark_out="${RESULTS_DIR}/auth_hotpaths.json" \
+            --benchmark_out_format=json
+
+          "${QUERY_BENCH}" \
+            --benchmark_filter='BM_Fts(Phrase|Proximity)Query/(10000|100000)' \
+            --benchmark_min_time=0.05s \
+            --benchmark_repetitions=5 \
+            --benchmark_out="${RESULTS_DIR}/query_fts.json" \
+            --benchmark_out_format=json
+
+          "${VOICE_BENCH}" \
+            --benchmark_min_time=0.05s \
+            --benchmark_repetitions=5 \
+            --benchmark_out="${RESULTS_DIR}/voice_a8.json" \
+            --benchmark_out_format=json
+
+      - name: Render broad baseline summary
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          results_dir = Path("build/critical-module-baselines/results")
+
+          def load_rows(file_name, p95_key, p99_key, gate_key, unit):
+              rows = []
+              data = json.loads((results_dir / file_name).read_text(encoding="utf-8"))
+              for bench in data.get("benchmarks", []):
+                  name = bench.get("name", "")
+                  if name.endswith(("_mean", "_median", "_stddev", "_cv")):
+                      continue
+                  if p95_key not in bench or p99_key not in bench:
+                      continue
+                  gate_target = bench.get(gate_key, 0.0)
+                  gate_pass = bench.get("gate_pass")
+                  status = "N/A" if gate_pass is None or gate_target == 0.0 else ("PASS" if gate_pass >= 1.0 else "FAIL")
+                  rows.append((name, bench.get(p95_key, 0.0), bench.get(p99_key, 0.0), gate_target, status, unit))
+              return rows
+
+          sections = [
+              ("Auth hot paths", load_rows("auth_hotpaths.json", "p95_us", "p99_us", "gate_target_us", "us")),
+              ("Query FTS", load_rows("query_fts.json", "p95_ms", "p99_ms", "gate_target_ms", "ms")),
+              ("Voice Wave A8", load_rows("voice_a8.json", "p95_ns", "p99_ns", "gate_target_ns", "ns")),
+          ]
+
+          lines = [
+              "# Critical Module Baseline Summary",
+              "",
+              f"Generated from `{results_dir}`.",
+              "",
+          ]
+
+          for title, rows in sections:
+              lines.append(f"## {title}")
+              lines.append("")
+              lines.append("| Benchmark | p95 | p99 | Gate | Status |")
+              lines.append("| --- | ---: | ---: | ---: | --- |")
+              for name, p95, p99, gate, status, unit in rows:
+                  gate_cell = f"{gate:.2f} {unit}" if gate else "n/a"
+                  lines.append(f"| `{name}` | {p95:.2f} {unit} | {p99:.2f} {unit} | {gate_cell} | {status} |")
+              if not rows:
+                  lines.append("| _no rows captured_ | - | - | - | - |")
+              lines.append("")
+
+          summary_path = results_dir / "CRITICAL_MODULE_BASELINES.md"
+          summary_path.write_text("\n".join(lines), encoding="utf-8")
+          PY
+          cat "${RESULTS_DIR}/CRITICAL_MODULE_BASELINES.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload broad baseline artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: critical-module-baselines-${{ github.run_number }}
+          path: ${{ env.RESULTS_DIR }}/
+          retention-days: 30
+          if-no-files-found: error
 
   # ─────────────────────────────────────────────────────────────────────────
   # 2. GPU Benchmark Matrix (CUDA / HIP / Vulkan / CPU-fallback)
