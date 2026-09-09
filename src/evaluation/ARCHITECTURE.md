@@ -52,6 +52,15 @@ Out of scope at current stage:
 
 ### Direct Downstream Consumers (modules that use this module)
 
+> **Production consumer route: `query` module planner integration (PLANNED)**
+> The evaluation module is intended to integrate with `QueryPlanner`/`PlannerObserver`
+> in the `query` module to provide plan diagnostics and routing correctness checks.
+> This integration is explicitly listed as an open item in the evaluation ROADMAP
+> ("downstream default-workflow consumers still need planner-envelope and
+> routing-diagnostics integration"). Evaluation phase 4–6 must complete before
+> this wiring is implemented.
+
 | Module | Via | Notes |
 |--------|-----|-------|
-| _(tests only)_ | `include/evaluation/` | No production module outside `evaluation/` imports `evaluation/` headers in production code. Direct consumers are evaluation-focused test files in `tests/`. |
+| `query` _(planned)_ | `include/evaluation/` → `QueryPlanner`/`PlannerObserver` integration | Planned production route: evaluation diagnostics injected into the query planning pipeline. Blocked on evaluation Phase 4–6 completion per module ROADMAP. |
+| _(tests)_ | `include/evaluation/` | `tests/` evaluation-focused test files — current only verified consumers. |

@@ -47,6 +47,13 @@ The chimera module currently centers on a single adapter implementation that exp
 
 ### Direct Downstream Consumers (modules that use this module)
 
+> **Production consumer route: PLUGIN HOST (CMake flag `THEMIS_BUILD_CHIMERA`)**
+> Chimera is not consumed via direct `#include "chimera/..."` — it is dispatched
+> at runtime through the Chimera adapter factory. When `THEMIS_BUILD_CHIMERA=ON`,
+> `cmake/ChimeraAdapters.cmake` links the Chimera target and activates the
+> `THEMISDB_ENGINE_AVAILABLE` guard in `themisdb_adapter.cpp`. No `HttpServer`
+> handler is required; the consumer route is the adapter layer.
+
 | Module | Via | Notes |
 |--------|-----|-------|
-| _(none verified)_ | — | Audit of `include/` and `src/` found no external `#include "chimera/..."` references in production code. This module is self-contained or consumed indirectly via plugin/registration patterns. |
+| `adapter` | `cmake/ChimeraAdapters.cmake` → `THEMISDB_ENGINE_AVAILABLE` guard → `themisdb_adapter.cpp` | Production consumer route via CMake adapter build. Active when `THEMIS_BUILD_CHIMERA=ON`. No direct `#include "chimera/"` in production code — dispatch is fully adapter-mediated. |

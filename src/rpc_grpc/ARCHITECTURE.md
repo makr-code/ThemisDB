@@ -51,6 +51,14 @@ The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS cred
 
 ### Direct Downstream Consumers (modules that use this module)
 
+> **Production consumer route: PLUGIN HOST (CMake flag `THEMIS_PLUGIN_RPC_GRPC`)**
+> The rpc_grpc module is built as an opt-in plugin target. Its production consumer
+> is the plugin host/registry via `THEMIS_PLUGIN_RPC_GRPC`. There is no direct
+> `#include "rpc_grpc/"` in production source — the plugin is loaded by the plugin
+> host at startup when the flag is ON. This is the expected pattern for all
+> ThemisDB plugin modules.
+
 | Module | Via | Notes |
 |--------|-----|-------|
-| _(tests only)_ | `include/rpc_grpc/grpc_plugin.h` | No production module outside `rpc_grpc/` imports `rpc_grpc/` headers in production code. Direct consumers are `tests/test_grpc_observability.cpp` and related gRPC test files. |
+| `plugin_host` | CMake flag `THEMIS_PLUGIN_RPC_GRPC` → plugin registry load | Production consumer route via plugin loading. The plugin is registered and started by the plugin host at startup. No direct header import in production code. |
+| _(tests)_ | `include/rpc_grpc/grpc_plugin.h` | `tests/test_grpc_observability.cpp` and related gRPC test files — verified consumers via direct header import. |

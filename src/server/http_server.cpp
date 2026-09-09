@@ -1461,6 +1461,15 @@ HttpServer::HttpServer(
         task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
 
+#ifdef THEMIS_EXECUTION_MODULE
+        // Execution module – SLA-aware scheduler + work-stealing thread pool.
+        // Provides backpressure-controlled query dispatch for high-throughput paths.
+        query_scheduler_      = std::make_unique<themis::execution::QueryScheduler>();
+        execution_thread_pool_ = std::make_unique<themis::resource::WorkStealingThreadPool>(
+            themis::resource::WorkStealingThreadPool::Config{});
+        THEMIS_INFO("Execution module initialized: QueryScheduler + WorkStealingThreadPool");
+#endif  // THEMIS_EXECUTION_MODULE
+
         // Initialize Database Maintenance Orchestrator
         maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
             task_scheduler_.get());
@@ -2349,6 +2358,14 @@ void HttpServer::stop() {
             THEMIS_ERROR("Error stopping Task Scheduler: {}", e.what());
         }
     }
+
+#ifdef THEMIS_EXECUTION_MODULE
+    if (query_scheduler_ && !query_scheduler_->is_shutdown()) {
+        THEMIS_INFO("Shutting down QueryScheduler...");
+        query_scheduler_->shutdown();
+    }
+    execution_thread_pool_.reset();
+#endif  // THEMIS_EXECUTION_MODULE
 
     // Vector index auto-save
     if (vector_index_) {

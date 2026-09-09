@@ -47,6 +47,15 @@ The user_storage_encrypted module combines encrypted mount lifecycle control, pe
 
 ### Direct Downstream Consumers (modules that use this module)
 
+> **Production consumer route: INTEGRATION-READY (plugin host + HTTP handler)**
+> Handler header `include/server/encrypted_storage_api_handler.h` has been created
+> as the production HTTP consumer route. The module is built as an opt-in plugin
+> target via `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Wiring
+> `EncryptedStorageApiHandler` into `HttpServer` and the plugin host are the
+> remaining steps.
+
 | Module | Via | Notes |
 |--------|-----|-------|
-| _(tests only)_ | `include/user_storage_encrypted/multi_level_storage.hpp`, `include/user_storage_encrypted/gocryptfs_backend.hpp`, `include/user_storage_encrypted/security_level.hpp`, `include/user_storage_encrypted/key_derivation_service.hpp` | No production module outside `user_storage_encrypted/` imports these headers in production code. Consumers are `tests/test_user_storage_v03.cpp` and `tests/test_kdf_argon2_bridge.cpp`. |
+| `server` | `include/server/encrypted_storage_api_handler.h` → `EncryptedStorageApiHandler` | Planned HTTP routes: `POST /user/storage/encrypted/store`, `GET /user/storage/encrypted/retrieve/{key}`, `DELETE /user/storage/encrypted/{key}`, `GET /user/storage/encrypted/list`, `POST /user/storage/encrypted/rotate`. Gate: `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Handler header implemented; `HttpServer` wiring pending. |
+| `plugin_host` | CMake flag `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` → `MultiLevelEncryptedStorage` plugin registration | Plugin loaded at startup when flag is ON; registers as `IThemisPlugin`. |
+| _(tests)_ | `include/user_storage_encrypted/multi_level_storage.hpp`, `gocryptfs_backend.hpp`, etc. | `tests/test_user_storage_v03.cpp`, `tests/test_kdf_argon2_bridge.cpp` — current only verified consumers. |

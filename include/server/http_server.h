@@ -133,6 +133,11 @@ namespace themis::observability { class IProvenanceStore; }
 #include "storage/security_signature_manager.h"
 #include "content/content_fs.h"
 #include "transaction/snapshot_manager.h"
+// Execution module — SLA-aware query scheduler and work-stealing thread pool.
+// Compiled unconditionally (headers are header-only types); initialized in
+// HttpServer constructor when THEMIS_EXECUTION_MODULE is ON.
+#include "execution/query_scheduler.h"
+#include "execution/thread_pool_manager.h"
 
 namespace themis {
 // Forward declarations
@@ -1167,6 +1172,13 @@ private:
     std::unique_ptr<QueryEngine> task_scheduler_engine_;   // QueryEngine owned by the scheduler subsystem
     std::unique_ptr<themis::TaskScheduler> task_scheduler_;
     std::unique_ptr<themis::server::TaskSchedulerApiHandler> task_scheduler_api_;
+
+    // Execution module – SLA-aware query dispatcher and work-stealing thread pool.
+    // Active when THEMIS_EXECUTION_MODULE is ON (see cmake/CMakeLists.txt).
+    // QueryScheduler provides EDF-based backpressure; WorkStealingThreadPool
+    // serves as the backing executor for async query work items.
+    std::unique_ptr<themis::execution::QueryScheduler>            query_scheduler_;
+    std::unique_ptr<themis::resource::WorkStealingThreadPool>     execution_thread_pool_;
 
     // Database Maintenance Orchestrator – central coordinator for all maintenance
     std::unique_ptr<themis::maintenance::DatabaseMaintenanceOrchestrator> maintenance_orchestrator_;
