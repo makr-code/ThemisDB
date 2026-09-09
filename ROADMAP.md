@@ -37,8 +37,8 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 
 ### Release-critical blockers, source-validated
 
-- **GPU Phase C / CUDA-call reduction** remains incomplete; the dedicated Wave-A GPU CI lane is now green again on `develop` (run `34313042741`), but the module-level reduction gate and representative-hardware baselines are still open.
-- **Transaction representative-hardware / resilience evidence** remains open; the dedicated Wave-B transaction CI lane is now green again on `develop` (run `34313051247`), but representative-hardware and chaos/recovery determinism evidence are still pending.
+- **GPU Phase C / CUDA-call reduction** remains incomplete; the dedicated Wave-A GPU CI lane is now green again on `develop` (run `34313042741`), but the module-level reduction gate and representative-hardware baselines are still open. The representative-hardware capture path is now explicit opt-in because no self-hosted `gpu-cuda` runner was available in run `34322900559`.
+- **Transaction representative-hardware / resilience evidence** remains open; the dedicated Wave-B transaction CI lane is now green again on `develop` (run `34313051247`), but representative-hardware and chaos/recovery determinism evidence are still pending. The failed evidence run `34322902518` was traced to mandatory sccache policy violations in the new jobs and has been patched for rerun.
 - **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
 - **Final GA sign-off** is still blocked by human approval, not just implementation availability.
 

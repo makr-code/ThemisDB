@@ -292,8 +292,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [x] Focused regression closure: 83 focused tests delivered across lifecycle (Phase 1), distributed coordination (Phase 2), fault-injection (Phase 3), and Wave A closure batch (2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
 - [x] Chaos/fault-injection evidence: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02 delivered in `test_transaction_wave_a_closure.cpp` (15 tests, registered `release_critical`).
 - [x] Fail-closed verification: coordinator crash-recovery (WAL replay idempotent), SAGA circuit-breaker (threshold enforcement), Byzantine-vote forced ABORT, cross-shard partition TIMEOUT surfacing — all verified by dedicated test cases.
-- [~] Build/run confirmation note (2026-09-09): dedicated Wave-B CI is green again and now includes explicit chaos/recovery evidence plus Phase 4 baseline artifact jobs; fresh artifact capture is still pending.
-- [~] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` is now CMake/CTest-wired and exported by the dedicated workflow; baseline capture and gate refresh remain open until the next verified run.
+- [~] Build/run confirmation note (2026-09-09): dedicated Wave-B CI is green again and now includes explicit chaos/recovery evidence plus Phase 4 baseline artifact jobs; run `34322902518` failed because the new jobs violated the repository-wide sccache requirement during `Configure CMake`, and a rerun has been prepared with that fix.
+- [~] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` is now CMake/CTest-wired and exported by the dedicated workflow; baseline capture and gate refresh remain open until the patched rerun produces verified artifacts.
 - [x] Dedicated transaction CI lane green on `develop`: run `34313051247` restored the Wave-B workflow to PASS.
 - [~] Next closure item: execute the new chaos/recovery and Phase 4 artifact jobs on `develop`, then promote the resulting hardware-backed evidence into the roadmap/gate record.
 
