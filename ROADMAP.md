@@ -105,6 +105,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 > | Transaction CI execution evidence (Wave A focused tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; current `develop` CI run fails in configure phase due missing `fmt` dependency in workflow lane | Fix workflow dependency install and re-run immediately |
 > | Query FTS performance gate | FTS backend delivered; release gate still open | ≤100ms on 100K docs pending | Close benchmark gate in Q4 2026 |
 > | Root ROADMAP sync issues (stale claims and inconsistencies) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; corrections in progress | Before Q3 2026 end |
+> | Circular dep resolution (#5039/#5040) | `llm` cannot be compiled independently; `llm`↔`server` and `llm`↔`query` coupling | Open — Wave D | Q1 2027 |
 
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.

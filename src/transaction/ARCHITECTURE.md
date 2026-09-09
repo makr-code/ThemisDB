@@ -61,7 +61,7 @@ Compensation path
 | Used by | `src/server/` | API-driven transaction endpoints |
 | Used by | `src/sharding/` | distributed coordination and WAL-related integration |
 
-## Module Dependencies
+## 5. Module Dependencies
 
 ### Direct Upstream Dependencies (this module uses)
 
@@ -84,7 +84,7 @@ Compensation path
 
 ---
 
-## 9. Integration Points (Detailed)
+## 6. Integration Points (Detailed)
 
 ### Critical Integration: Transaction → Storage (Persistence)
 **Files:** `src/transaction/transaction_manager.cpp` ↔ `include/storage/rocksdb_wrapper.h`
@@ -106,23 +106,21 @@ Compensation path
 
 ---
 
-## 8. Sourcecode Verification (Module: transaction/architecture)
-
-## 5. Threading and Concurrency Model
+## 7. Threading and Concurrency Model
 
 - `TransactionManager` is designed for concurrent caller access.
 - Individual transaction objects are single-owner/single-thread usage.
 - Distributed coordinator paths use internal synchronization for shared state.
 - Lock and deadlock helper paths are used to bound contention behavior.
 
-## 6. Security and Reliability Considerations
+## 8. Security and Reliability Considerations
 
 - Invalid transaction transitions are rejected via status/error paths.
 - Distributed coordination uses durability hooks and recovery paths to limit in-doubt exposure.
 - Compensation flows are expected to be idempotent and replay-safe.
 - Timeout and liveness checks are part of runtime guardrails for distributed coordination.
 
-## 6.1 Memory Management & RAII Patterns
+## 8.1 Memory Management & RAII Patterns
 
 ### Core Principles
 - **Prefer `std::unique_ptr` and `std::make_unique`** for exclusive ownership.
@@ -153,14 +151,14 @@ Compensation path
 - Saga orchestrator tests validate plugin creation/destruction cycles.
 - No manual cleanup code in application paths (all RAII-based).
 
-## 7. Known Limitations and Future Work
+## 9. Known Limitations and Future Work
 
 - Additional benchmark evidence is needed for some high-contention distributed envelopes.
 - Some long-tail distributed fault combinations remain under ongoing hardening.
 - Documentation and guardrails continue to be aligned with active source changes.
 - C plugin interface pattern in saga_orchestrator_plugin.cpp may be refactored to use a factory in future versions.
 
-## 8. Sourcecode Verification (Module: transaction/architecture)
+## 10. Sourcecode Verification (Module: transaction/architecture)
 
 - Verified files:
   - `src/transaction/transaction_manager.cpp`
