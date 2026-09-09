@@ -274,7 +274,7 @@ std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std
     }
     std::tm tm_val{};
     int year, mon, day, hour, min, sec;
-    if (::sscanf_s(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
+    if (std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
         throw std::runtime_error("SAML: Failed to parse datetime: " + s);
     }
     tm_val.tm_year  = year - 1900;
