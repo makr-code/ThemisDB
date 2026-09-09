@@ -1242,6 +1242,65 @@ HttpServer::HttpServer(
         THEMIS_WARN("Ethics AI API Handler skipped: " + std::string(e.what()));
     }
 
+    // Initialize AI Plugin API handler (production consumer route for ai module).
+#ifdef THEMIS_ENABLE_LLM
+    try {
+        ai_plugin_api_ = std::make_unique<themis::server::AiPluginApiHandler>(
+            storage_,
+            auth_
+        );
+        THEMIS_INFO("AI Plugin API handler initialized (endpoints: /ai/plugins/*)");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("AI Plugin API handler skipped: {}", e.what());
+    }
+#endif  // THEMIS_ENABLE_LLM
+
+    // Initialize Scraper Plugin API handler (production consumer route for scraper module).
+#ifdef THEMIS_PLUGIN_SCRAPER
+    try {
+        auto renderer = std::make_shared<themis::scraper::SubprocessJSRenderer>();
+        auto writer   = std::make_shared<themis::scraper::InMemoryScraperMetadataWriter>();
+        scraper_plugin_api_ = std::make_unique<themis::server::ScraperPluginApiHandler>(
+            storage_,
+            auth_,
+            std::move(renderer),
+            std::move(writer)
+        );
+        THEMIS_INFO("Scraper Plugin API handler initialized (endpoints: /scraper/*)");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Scraper Plugin API handler skipped: {}", e.what());
+    }
+#endif  // THEMIS_PLUGIN_SCRAPER
+
+    // Initialize Encrypted Storage API handler (production consumer route for user_storage_encrypted module).
+#ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+    try {
+        auto enc_store = std::make_shared<themis::plugins::MultiLevelEncryptedStorage>();
+        encrypted_storage_api_ = std::make_unique<themis::server::EncryptedStorageApiHandler>(
+            storage_,
+            auth_,
+            std::move(enc_store)
+        );
+        THEMIS_INFO("Encrypted Storage API handler initialized (endpoints: /user/storage/encrypted/*)");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Encrypted Storage API handler skipped: {}", e.what());
+    }
+#endif  // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+
+    // Initialize Chaos Admin API handler (admin/staging only, never production).
+#ifdef THEMIS_CHAOS_ADMIN
+    try {
+        chaos_scheduler_  = std::make_shared<themis::chaos::ChaosScheduler>();
+        chaos_admin_api_  = std::make_unique<themis::server::ChaosAdminApiHandler>(
+            auth_,
+            chaos_scheduler_
+        );
+        THEMIS_WARN("Chaos Admin API handler initialized (dev/staging only — endpoints: /admin/chaos/*)");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Chaos Admin API handler skipped: {}", e.what());
+    }
+#endif  // THEMIS_CHAOS_ADMIN
+
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
         try {
@@ -4837,8 +4896,84 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
-#if THEMIS_ENABLE_LLM
-    // Early routing for core LLM API endpoints used by connector-mode tests.
+    // Route: AI Plugin API (/ai/plugins/*)
+    {
+        const auto& p = path_only;
+        if (p.rfind("/ai/plugins/", 0) == 0 || p.rfind("/api/ai/plugins/", 0) == 0) {
+            if (auto auth_err = requireAccess(req, "ai", "ai.plugins", p)) {
+                return *auth_err;
+            }
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (ai_plugin_api_) {
+                auto response = ai_plugin_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                recordLatency(std::chrono::duration_cast<std::chrono::microseconds>(end - start));
+                span.setStatus(true);
+                return response;
+            }
+        }
+    }
+
+    // Route: Scraper Plugin API (/scraper/*)
+    {
+        const auto& p = path_only;
+        if (p.rfind("/scraper/", 0) == 0 || p.rfind("/api/scraper/", 0) == 0) {
+            if (auto auth_err = requireAccess(req, "scraper", "scraper.crawl", p)) {
+                return *auth_err;
+            }
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (scraper_plugin_api_) {
+                auto response = scraper_plugin_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                recordLatency(std::chrono::duration_cast<std::chrono::microseconds>(end - start));
+                span.setStatus(true);
+                return response;
+            }
+        }
+    }
+
+    // Route: Encrypted Storage API (/user/storage/encrypted/*)
+    {
+        const auto& p = path_only;
+        if (p.rfind("/user/storage/encrypted/", 0) == 0
+            || p.rfind("/api/user/storage/encrypted/", 0) == 0) {
+            if (auto auth_err = requireAccess(req, "user_storage", "user_storage.encrypted", p)) {
+                return *auth_err;
+            }
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (encrypted_storage_api_) {
+                auto response = encrypted_storage_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                recordLatency(std::chrono::duration_cast<std::chrono::microseconds>(end - start));
+                span.setStatus(true);
+                return response;
+            }
+        }
+    }
+
+#ifdef THEMIS_CHAOS_ADMIN
+    // Route: Chaos Admin API (/admin/chaos/*) — requires admin role.
+    {
+        const auto& p = path_only;
+        if (p.rfind("/admin/chaos/", 0) == 0) {
+            if (auto auth_err = requireAccess(req, "admin", "admin.chaos", p)) {
+                return *auth_err;
+            }
+            std::lock_guard<std::mutex> lock(api_handlers_mutex_);
+            if (chaos_admin_api_) {
+                auto response = chaos_admin_api_->handle(req, target);
+                applyGovernanceHeaders(req, response);
+                auto end = std::chrono::steady_clock::now();
+                recordLatency(std::chrono::duration_cast<std::chrono::microseconds>(end - start));
+                span.setStatus(true);
+                return response;
+            }
+        }
+    }
+#endif  // THEMIS_CHAOS_ADMIN
     {
         std::string llm_path = target;
         auto qpos = llm_path.find('?');
