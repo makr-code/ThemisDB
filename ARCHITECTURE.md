@@ -15,7 +15,9 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (62 integrated modules)
+### `/src/` - Implementation (72 top-level module paths)
+
+> Use `docs/architecture/MODULE_ARCHITECTURE.md` for the full 72-path inventory. The table below is the high-signal runtime overview plus selected support paths.
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -376,9 +378,23 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 
 ---
 
+## Cross-Module Architecture Evidence
+
+Use these source-backed companion documents for architecture review across module boundaries:
+
+- [`docs/architecture/MODULE_ARCHITECTURE.md`](docs/architecture/MODULE_ARCHITECTURE.md) — all 72 `src/` module paths grouped by layer with footprint signals
+- [`docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`](docs/architecture/MODULE_INTEGRATION_CONTRACTS.md) — direct inter-module dependency mapping and SCC findings
+- [`docs/architecture/DATA_FLOW_PATHS.md`](docs/architecture/DATA_FLOW_PATHS.md) — critical Query → Storage → Transaction, 2PC, RAG, and Server ↔ LLM paths
+- [`docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — release posture, maturity signals, and docs-only path caveats
+- [`src/CROSS_MODULE_INTEGRATION.md`](src/CROSS_MODULE_INTEGRATION.md) — source-root companion index for the `src/` aggregation boundary
+
+> Counting note: `src/` contains 72 top-level module paths, while some older tier summaries still refer to the 62 integrated runtime modules that exclude thin/docs-only support paths. Use `docs/architecture/MODULE_ARCHITECTURE.md` for the full current inventory.
+
+---
+
 ## Module Classification (Core, Integrated Modules, Plugins)
 
-For a comprehensive classification of all 62 modules and their architectural tier assignment, see:
+For a comprehensive classification of all 72 top-level `src/` module paths and their architectural tier assignment, see:
 
 **Primary:** [`ai_context/ARCHITECTURE_CLASSIFICATION.md`](ai_context/ARCHITECTURE_CLASSIFICATION.md)  
 **Companion:** [`ai_context/MODULES_AND_NAMESPACES.md`](ai_context/MODULES_AND_NAMESPACES.md) (with tier, namespace, and plugin version columns)  

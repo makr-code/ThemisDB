@@ -25,6 +25,7 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 - **Optimistic roadmap/documentation level:** ~82–84%
 - **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
 - **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+- **Cross-module architecture evidence:** `docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`, `docs/architecture/DATA_FLOW_PATHS.md`, `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`, and `src/CROSS_MODULE_INTEGRATION.md`.
 
 ### Recursive module roadmap sync (2026-09-09)
 
@@ -1406,7 +1407,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **ingestion** | HARDENING | LOC=22666, Stub/KLOC=6,13, Tests=752, TestRefs=75 |
 | **llama_cpp** | EXPERIMENTAL | LOC=1805, Stub/KLOC=41,55, Tests=68, TestRefs=2 |
 | **llm** | PRODUCTION_CANDIDATE | LOC=126274, Stub/KLOC=5,5, Tests=1172, TestRefs=258 |
-| **llm_streaming** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), streaming core + resilience surfaces validated (`src/llm_streaming/ROADMAP.md`) |
+| **llm_streaming** | PRODUCTION_CANDIDATE *(docs-only module path)* | Phase 1-4 completion remains documented, but the local module directory currently contains only `.gitkeep` + docs; release evidence must map to canonical runtime files outside `src/llm_streaming/` before this row is used as source proof (`src/llm_streaming/ROADMAP.md`, `docs/architecture/DATA_FLOW_PATHS.md`) |
 | **llm_wiki** | HARDENING | Phase 3-4 complete, governance/routing hardening and Phase 5-6 follow-up tracked (`src/llm_wiki/ROADMAP.md`) |
 | **maintenance** | HARDENING | LOC=2981, Stub/KLOC=3,69, Tests=0, TestRefs=6 |
 | **metadata** | HARDENING | LOC=8895, Stub/KLOC=6,63, Tests=443, TestRefs=80 |
@@ -1441,7 +1442,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **updates** | HARDENING | LOC=13767, Stub/KLOC=5,96, Tests=118, TestRefs=32 |
 | **user_storage_encrypted** | HARDENING | LOC=3326, Stub/KLOC=7,82, Tests=0, TestRefs=4 |
 | **utils** | HARDENING | LOC=31871, Stub/KLOC=7,53, Tests=84, TestRefs=284 |
-| **vector_search** | PRODUCTION_CANDIDATE | Phase 1-4 complete (2026-08-10), ANN infrastructure and similarity search validated (`src/vector_search/ROADMAP.md`) |
+| **vector_search** | PRODUCTION_CANDIDATE *(docs-only module path)* | Phase 1-4 completion remains documented, but the local module directory currently contains only `.gitkeep` + docs; release evidence must map to canonical runtime files outside `src/vector_search/` before this row is used as source proof (`src/vector_search/ROADMAP.md`, `docs/architecture/DATA_FLOW_PATHS.md`) |
 | **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
 | **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 
