@@ -43,3 +43,10 @@ The user_storage_encrypted module combines encrypted mount lifecycle control, pe
   - backend, key-management, and orchestration plane split
   - explicit failure boundaries for backend and scheduler behavior
   - module-local ownership of encrypted storage lifecycle behavior
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/user_storage_encrypted/multi_level_storage.hpp`, `include/user_storage_encrypted/gocryptfs_backend.hpp`, `include/user_storage_encrypted/security_level.hpp`, `include/user_storage_encrypted/key_derivation_service.hpp` | No production module outside `user_storage_encrypted/` imports these headers in production code. Consumers are `tests/test_user_storage_v03.cpp` and `tests/test_kdf_argon2_bridge.cpp`. |

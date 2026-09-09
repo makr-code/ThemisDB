@@ -221,3 +221,12 @@ Image queries can use analysis results:
 - [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
 - [`../../include/image_analysis/image_processor.h`](../../include/image_analysis/image_processor.h) — Public API
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `plugins` | `include/plugins/image_analysis_interface.h` (re-export from `include/image_analysis/`) | Plugin adapters for image analysis (`image_analysis_manager.h`, `tesseract_ocr_plugin.h`, `yolov8_onnx_plugin.h`) implement the shared interface (`include/plugins/`) |
+| `onnx_clip` | `include/plugins/image_analysis_interface.h` | ONNX CLIP plugin implements the shared image analysis interface for embedding-based vision queries (`src/onnx_clip/onnx_clip_plugin.h`) |

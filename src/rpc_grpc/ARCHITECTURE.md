@@ -47,3 +47,10 @@ The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS cred
   - lifecycle + credentials/service + streaming/observability plane split
   - explicit failure boundaries for lifecycle, credentials, and registration
   - module-local ownership of gRPC transport plugin behavior
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/rpc_grpc/grpc_plugin.h` | No production module outside `rpc_grpc/` imports `rpc_grpc/` headers in production code. Direct consumers are `tests/test_grpc_observability.cpp` and related gRPC test files. |

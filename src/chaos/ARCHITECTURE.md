@@ -43,3 +43,10 @@ The chaos module centers on two cooperating runtime components: a fault registry
   - explicit registry and scheduler separation
   - bounded callback and pending-state control surfaces
   - deterministic in-process simulation-oriented runtime model
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/chaos/chaos_framework.h` | No production module outside `chaos/` imports `chaos/` headers. Direct consumers are `tests/test_chaos_framework.cpp` and `tests/test_chaos_stress.cpp`. |

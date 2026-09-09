@@ -179,3 +179,11 @@ if (queue_depth >= max_queue_depth):
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
 - [`../../include/execution/query_scheduler.h`](../../include/execution/query_scheduler.h) — Public API
 - [`../../include/execution/thread_pool_manager.h`](../../include/execution/thread_pool_manager.h) — Public API
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/execution/thread_pool_manager.h`, `include/execution/query_scheduler.h` | No production module outside `execution/` imports `execution/` headers. Direct consumers are `tests/integration/test_resource_pooling.cpp` and `tests/integration/test_load_balancing.cpp`. |

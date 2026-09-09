@@ -146,3 +146,12 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 - [`src/cache/ARCHITECTURE.md`](../cache/ARCHITECTURE.md) — Cache module
 - [`src/storage/ARCHITECTURE.md`](../storage/ARCHITECTURE.md) — Storage module
 
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `cache` | `include/access_model/access_coordinator.h`, `include/access_model/access_tier_interface.h` | `AdaptiveQueryCache` uses `AccessCoordinator` and `AccessTier` interface for opt-in tier-transition coordination (`include/cache/adaptive_query_cache.h:12-13`) |
+| `storage` | `include/access_model/access_coordinator.h` | `TieredStorageManager` registers as an `AccessTier` for hot→warm→cold migration coordination (`include/storage/tiered_storage.h`) |

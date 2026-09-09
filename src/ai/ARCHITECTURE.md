@@ -61,3 +61,11 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/ai/ai_plugin_generator.h`, `include/ai/cai_ethics_integration.h` | No production module outside `ai/` imports `ai/` headers. Direct consumers are `tests/test_ai_plugin_generator.cpp` and `tests/test_cai_safety_module.cpp`. |

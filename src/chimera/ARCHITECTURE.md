@@ -43,3 +43,10 @@ The chimera module currently centers on a single adapter implementation that exp
   - single-adapter module composition in current source layout
   - explicit lifecycle and dispatch plane separation
   - bounded structured error behavior for unsupported paths
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(none verified)_ | — | Audit of `include/` and `src/` found no external `#include "chimera/..."` references in production code. This module is self-contained or consumed indirectly via plugin/registration patterns. |

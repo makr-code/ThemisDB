@@ -47,3 +47,11 @@ Out of scope at current stage:
 - Active planner hardening bench: `benchmarks/epic2_evaluation/planner_decision_bench.cc`
 - Remaining contracts/implementations: still phase-gated per local module docs
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/evaluation/` | No production module outside `evaluation/` imports `evaluation/` headers in production code. Direct consumers are evaluation-focused test files in `tests/`. |

@@ -76,3 +76,10 @@ All scraper errors are routed to a `ScraperFaultClass` via `faultClassOf()`:
 - `kWritePath` — Metadata / relational / graph / vector write failures
 - `kCrawlControl` — Pagination limits, burst throttle, source catalog issues
 - `kInternal` — Unclassified errors
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| _(tests only)_ | `include/scraper/scraper_plugin.h`, `include/scraper/scraper_diagnostics.h`, `include/scraper/scraper_burst_controller.h`, etc. | No production module outside `scraper/` imports `scraper/` headers in production code. Consumers are focused scraper test files in `tests/scraper/`. |
