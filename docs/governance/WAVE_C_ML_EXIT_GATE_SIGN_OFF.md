@@ -1,5 +1,9 @@
 # Wave C ML Strategic Planning — Exit Gate Sign-Off
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-09
+**Last Updated:** 2026-09-09
+**Status:** approved
 **Document Status:** Complete (2026-09-09)
 **Wave:** C — Strategic ML Enhancements (AI sub-wave: CAI + Federated + Graph Phase Gate)
 **Tracking Issue:** [#6287](https://github.com/makr-code/ThemisDB/issues/6287)

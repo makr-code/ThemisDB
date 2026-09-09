@@ -90,8 +90,14 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            git fetch origin "${{ github.base_ref }}" --depth=1
-            git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}...HEAD" > /tmp/doc-metadata-files.txt
+            BASE_REF="${{ github.base_ref }}"
+            git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+            if git merge-base "origin/${BASE_REF}" HEAD >/dev/null 2>&1; then
+              git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" > /tmp/doc-metadata-files.txt
+            else
+              echo "::warning::No merge base found for origin/${BASE_REF}...HEAD; falling back to two-dot diff."
+              git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}..HEAD" > /tmp/doc-metadata-files.txt
+            fi
           elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
             git diff --name-only --diff-filter=ACMR "${{ github.event.before }}" "${{ github.sha }}" > /tmp/doc-metadata-files.txt
           else
