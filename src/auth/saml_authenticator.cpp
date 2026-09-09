@@ -13,6 +13,7 @@
 #include "auth/saml_authenticator.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 #include <iomanip>
 #include <openssl/bio.h>
@@ -274,7 +275,13 @@ std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std
     }
     std::tm tm_val{};
     int year, mon, day, hour, min, sec;
-    if (std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec) != 6) {
+    int parsed_fields = 0;
+#ifdef _WIN32
+    parsed_fields = ::sscanf_s(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec);
+#else
+    parsed_fields = std::sscanf(s.c_str(), "%4d-%2d-%2dT%2d:%2d:%2d", &year, &mon, &day, &hour, &min, &sec);
+#endif
+    if (parsed_fields != 6) {
         throw std::runtime_error("SAML: Failed to parse datetime: " + s);
     }
     tm_val.tm_year  = year - 1900;

@@ -616,4 +616,3 @@ ScopedIoUringTimer::~ScopedIoUringTimer() noexcept {
 } // namespace phase4
 } // namespace performance
 } // namespace themis
-

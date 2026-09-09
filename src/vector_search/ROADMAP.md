@@ -15,6 +15,16 @@ Production-candidate vector search infrastructure providing approximate nearest 
 - [x] Indexing and rebuilding operations (Phase 3) → COMPLETE
 - [x] Error handling and edge cases (Phase 3) → COMPLETE
 
+### Sourcecode Deep-Dive Evidence (2026-09-09)
+
+- `src/vector_search/` currently contains docs-only artefacts (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`) and no colocated `.cpp/.h` implementation files.
+- Follow-up required: map roadmap claims to active implementation/test/benchmark source paths or reclassify module status as planned/externalized until colocated source exists.
+
+## In Progress
+
+- [~] Phase 5 performance hardening for SIMD, mmap-backed index scaling, and concurrent query behavior (Target: Q4 2026)
+- [ ] Wave D evidence closure for representative-hardware p95/p99 baselines and runbook-backed operability (Target: Q1 2027)
+
 ## Completed Initiatives
 
 ### Phase 1-4 Delivery (Q2-Q3 2026) - COMPLETE ✓

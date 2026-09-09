@@ -40,7 +40,9 @@ Complete Phase 1–6 delivery with contract frozen, error taxonomy defined, focu
 - [x] API contract freeze: PerfError taxonomy, CacheStats, PoolAcquireResult, CostEstimate frozen v1.0
   - evidence: `include/performance/performance_api_contract.h` §Error Taxonomy
 - [x] error taxonomy definition: 7 standardized error codes (PERF_COMPILE_TIMEOUT..PERF_STATS_UNAVAILABLE)
-  - evidence: `include/performance/performance_api_contract.h`## Implementation Phases
+  - evidence: `include/performance/performance_api_contract.h`
+
+## Implementation Phases
 
 ### Phase 1: Design / API Contract
 - [x] freeze measurement/optimization/memory-hardware contracts for active major line (Target: Q3 2026)

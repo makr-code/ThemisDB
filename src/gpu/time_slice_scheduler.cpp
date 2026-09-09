@@ -108,7 +108,7 @@ size_t GPUTimeSliceScheduler::queueDepth(const std::string &tenant_id) const {
     if (it == tenants_.end()) {
         return 0;
     }
-    return static_cast<bool>(it- < static_cast<int>(second.queue.size()));
+    return it->second.queue.size();
 }
 
 // ============================================================================

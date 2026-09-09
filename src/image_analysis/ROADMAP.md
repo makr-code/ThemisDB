@@ -14,6 +14,11 @@ Production-ready image analysis with multi-engine support for OCR and object det
 - [x] Feature extraction and caching layer → COMPLETE
 - [x] Multi-backend abstraction and lifecycle management → COMPLETE
 
+## In Progress
+
+- [~] keep release evidence synchronized for `release_critical` CI and representative-hardware benchmark refresh cycles (Target: Q4 2026)
+- [ ] expand regression depth for long-duration mixed OCR/object-detection workloads in Wave D operability hardening (Target: Q1 2027)
+
 ## Completed Initiatives
 
 ### Phase 1-3 Delivery (Q3 2026) - COMPLETE ✓

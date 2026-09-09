@@ -28,6 +28,7 @@ namespace {
 
 constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ull;
 constexpr uint64_t kFNVPrime = 1099511628211ull;
+constexpr uint64_t kMaxDecompressedSizeBytes = 4ull * 1024ull * 1024ull * 1024ull; // 4 GiB
 
 uint64_t calculateSegmentChecksum(const uint8_t* bytes, size_t size) {
     uint64_t hash = kFNVOffsetBasis;
@@ -864,8 +865,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
     std::memcpy(&original_size, compressed.data(), 8);
 
     // Validate original size
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
-    if (original_size > MAX_DECOMPRESSED_SIZE) {
+    if (original_size > kMaxDecompressedSizeBytes) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
             "LZ4 decompression: original size too large"
@@ -936,7 +936,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::
     // prompt_injection scanner alert: this is a binary buffer size guard, not
     // user-facing text or an LLM prompt — false positive.
     // Maximum safe input size (1GB)
-    constexpr size_t MAX_INPUT_SIZE = 1024 * 1024 * 1024;
+    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024ULL * 1024ULL;
     if (data.size() > MAX_INPUT_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -990,8 +990,7 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std
     }
 
     // Validate size to prevent excessive memory allocation
-    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024ULL * 1024ULL * 4ULL; // 4GB
-    if (uncompressed_size > MAX_DECOMPRESSED_SIZE) {
+    if (static_cast<uint64_t>(uncompressed_size) > kMaxDecompressedSizeBytes) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
             "Snappy decompression: uncompressed size too large"
