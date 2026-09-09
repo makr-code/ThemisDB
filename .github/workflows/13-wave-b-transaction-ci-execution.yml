@@ -60,38 +60,13 @@ jobs:
           fetch-depth: 0
 
       - name: "Setup build environment"
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev \
-            librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
-
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
-          path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
-
-      - name: "Install sccache"
-        run: |
-          mkdir -p ~/.local/bin
-          cat > ~/.local/bin/sccache << 'SCRIPT'
-          #!/bin/bash
-          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
-              echo "sccache 0.8.1 (wrapper)"
-              exit 0
-          fi
-          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-              echo "sccache compiler cache wrapper"
-              exit 0
-          fi
-          "$@"
-          SCRIPT
-          chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          cc: gcc
+          cxx: g++
+          extra-packages: >-
+            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
+            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Configure CMake (community-release)"
         id: configure
@@ -104,7 +79,7 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
-            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)" \
             2>&1 | tee cmake-config.log
           
           if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
@@ -137,45 +112,22 @@ jobs:
           submodules: false
 
       - name: "Setup build environment"
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev \
-            librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
-
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
-          path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
-
-      - name: "Install sccache wrapper"
-        run: |
-          mkdir -p ~/.local/bin
-          cat > ~/.local/bin/sccache << 'SCRIPT'
-          #!/bin/bash
-          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
-              echo "sccache 0.8.1 (wrapper)"
-              exit 0
-          fi
-          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-              echo "sccache compiler cache wrapper"
-              exit 0
-          fi
-          "$@"
-          SCRIPT
-          chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          cc: gcc
+          cxx: g++
+          extra-packages: >-
+            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
+            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Configure CMake"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=OFF
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)"
 
       - name: "Compile ${{ matrix.phase }} tests"
         id: compile
@@ -214,45 +166,22 @@ jobs:
           submodules: false
 
       - name: "Setup build environment"
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev \
-            librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
-
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
-          path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
-
-      - name: "Install sccache wrapper"
-        run: |
-          mkdir -p ~/.local/bin
-          cat > ~/.local/bin/sccache << 'SCRIPT'
-          #!/bin/bash
-          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
-              echo "sccache 0.8.1 (wrapper)"
-              exit 0
-          fi
-          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-              echo "sccache compiler cache wrapper"
-              exit 0
-          fi
-          "$@"
-          SCRIPT
-          chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          cc: gcc
+          cxx: g++
+          extra-packages: >-
+            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
+            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Configure CMake"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=OFF
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)"
 
       - name: "Run smoke tests (3 critical)"
         id: smoke
@@ -303,44 +232,22 @@ jobs:
           submodules: false
 
       - name: "Setup build environment"
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
-
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
-          path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
-          restore-keys: sccache-${{ runner.os }}-
-
-      - name: "Install sccache wrapper"
-        run: |
-          mkdir -p ~/.local/bin
-          cat > ~/.local/bin/sccache << 'SCRIPT'
-          #!/bin/bash
-          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
-              echo "sccache 0.8.1 (wrapper)"
-              exit 0
-          fi
-          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-              echo "sccache compiler cache wrapper"
-              exit 0
-          fi
-          "$@"
-          SCRIPT
-          chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          cc: gcc
+          cxx: g++
+          extra-packages: >-
+            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
+            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Configure CMake"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=OFF
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM="$(command -v sccache)"
 
       - name: "Run all transaction tests"
         id: full-tests
