@@ -126,6 +126,10 @@ check (SHA-256) are all implemented.
 - DirectML backend requires Windows; silently falls back to CPU on Linux.
 - SHA-256 model integrity check requires OpenSSL at build time (`THEMIS_HAS_OPENSSL`); skipped without it.
 
+## Breaking Changes
+
+No breaking ONNX-CLIP API changes are planned; any contract break must ship with migration guidance and changelog updates in the same change.
+
 ## Latente Symbole (Unused-Functions-Audit)
 
 _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_

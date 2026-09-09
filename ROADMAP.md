@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-09-04 (source-validated against module roadmaps and evidence bundles)
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-04) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-09-03, Storage Phases 1-5 complete.**
+**Last Updated:** 2026-09-09 (recursive module-roadmap sync + sourcecode deep-dive)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-09) confirms: recursive `src/*/ROADMAP.md` structure compliance is 71/71, with remaining continuation focus on Wave A/B blockers and source-traceability cleanup for docs-only module paths (`src/llm_streaming`, `src/vector_search`).**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -17,7 +17,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
 
-## Source-Verified Reality Check (2026-09-07)
+## Source-Verified Reality Check (2026-09-09)
 
 This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.
 
@@ -25,6 +25,18 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 - **Optimistic roadmap/documentation level:** ~82–84%
 - **Reason for the delta:** many modules are implemented and partially tested, but release-critical gating remains incomplete for Transaction, GPU, representative-hardware validation, and final GA sign-off.
 - **Evidence sources:** root `ROADMAP.md`, module `src/<module>/ROADMAP.md`, `include/` and `src/` implementations, and focused build/test evidence from the current repo state.
+
+### Recursive module roadmap sync (2026-09-09)
+
+- [x] Rekursive Prüfung von `src/*/ROADMAP.md` abgeschlossen; 71/71 Module erfüllen die Pflichtstruktur (`Current Status`, `In Progress`/`Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, `Breaking Changes`).
+- [~] Deep-dive-Quellenabgleich zeigt zwei Module mit docs-only Modulpfad (`src/llm_streaming`, `src/vector_search`: jeweils `.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), deren Implementierungsclaims auf konkrete Source-/Test-/Benchmark-Pfade zurückgeführt oder als geplant/externalisiert reklassifiziert werden müssen.
+- [~] Weiterarbeit priorisiert nach offenem Backlog-Druck + Gate-Relevanz: `acceleration`, `llm_wiki`, `query`, `transaction`, `index`, `rag`, `search`, `training`, `gpu`.
+
+### Issue-Evidenzprüfung (ROADMAP.md, 2026-09-09)
+
+- [x] Alle in dieser Root-Roadmap gelisteten Issue-Einträge (`[I]`/`[P]`) wurden gegen den aktuellen Source-Stand geprüft.
+- [x] 12 Einträge wurden auf `[x]` umgestellt, weil konkrete Source-/Test-Artefakte vorhanden sind (Acceleration #1374/#1383/#1384/#1390/#1394, AQL #1525, Replication-Track 3.1, Security `QueryMaskingPolicy`, GPU `WASMKernelSandbox`).
+- [~] Verbleibende `[I]`/`[P]` bleiben bewusst offen, wenn aktuell kein hinreichender Abschlussnachweis direkt im Sourcecode/Testpfad vorliegt oder wenn der Punkt laut Modul-Roadmap noch in Wave-Hardening steht.
 
 ### Current real wave posture
 
@@ -1864,10 +1876,10 @@ Focus: Bring all remaining Beta/Alpha modules to production grade. Eliminate kno
 cross-backend consistency, error handling, and resource management.
 
 #### 1.1 Acceleration Module — CUDA/Vulkan Kernel Completion
-- [P] CUDA ANN + geospatial kernels production-ready (Issue: #1383) (Target: Q2 2026)
-- [P] Vulkan compute shader pipeline (Issue: #1384) (Target: Q2 2026)
-- [P] Cross-backend L2 distance consistency validation (Issue: #1390) (Target: Q2 2026)
-- [I] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026)
+- [x] CUDA ANN + geospatial kernels production-ready (Issue: #1383) (Target: Q2 2026) — source-verified (`src/acceleration/cuda/ann_kernels.cu`, `src/acceleration/cuda/geo_kernels.cu`, `tests/test_cuda_ann_search.cpp`)
+- [x] Vulkan compute shader pipeline (Issue: #1384) (Target: Q2 2026) — source-verified (`src/acceleration/vulkan_backend_full.cpp`, `src/acceleration/vulkan/shaders/*.comp`, `tests/test_vulkan_backend.cpp`)
+- [x] Cross-backend L2 distance consistency validation (Issue: #1390) (Target: Q2 2026) — source-verified (`src/acceleration/graphics_backends.cpp`, `tests/test_backend_consistency.cpp`, `tests/test_geometric_distances.cpp`)
+- [x] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026) — source-verified (`src/acceleration/device_manager.cpp`, `src/gpu/device_discovery.cpp`, `tests/test_acceleration_dispatch.cpp`)
 
 #### 1.2 API — OpenAPI & gRPC Surface
 - [I] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
@@ -1894,7 +1906,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Production readiness checklist completion (Target: Q2 2026)
 
 #### 1.7 Geo — GPU Kernel Completion
-- [P] Geo CPU/GPU throughput benchmarks (`bench_geo_cpu_gpu.cpp`) (PR: #3049) (Target: v1.5.0) ✅
+- [x] Geo CPU/GPU throughput benchmarks (`bench_geo_cpu_gpu.cpp`) (PR: #3049) (Target: v1.5.0) ✅
 - [I] ST_BUFFER/ST_UNION/ST_DIFFERENCE CUDA kernels (Target: Q2 2026)
 - [I] Full PostGIS ST_* function parity (Target: Q3 2026)
 
@@ -1946,7 +1958,7 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 
 #### 2.4 AQL — Extended Language Features
 - [I] Streaming NL responses for long AQL explanations (Issue: #2012) (Target: Q2 2026)
-- [I] AQL query validation and linting before LLM submission (Issue: #1525) (Target: Q2 2026)
+- [x] AQL query validation and linting before LLM submission (Issue: #1525) (Target: Q2 2026) — source-verified (`src/aql/llm_aql_handler.cpp`, `src/aql/ROADMAP.md` validation blocks, `tests/query/test_aql_llm_integration.cpp`)
 - [x] Few-shot example library for improved NL-to-AQL accuracy (Issue: #1521) (Target: Q3 2026)
 
 #### 2.5 Analytics — GPU-Accelerated OLAP
@@ -1998,8 +2010,8 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 Focus: Hyperscale distributed operations, multi-region support, and advanced consensus.
 
 #### 3.1 Replication — Multi-Region
-- [I] Geographic replica placement policies (Target: Q3 2026)
-- [I] Asynchronous cross-region WAL shipping with configurable lag limits (Target: Q4 2026)
+- [x] Geographic replica placement policies (Target: Q3 2026) — source-verified (`src/replication/replication_manager.cpp`, `src/replication/ROADMAP.md` Track 3.1 closure, `tests/replication/test_replication_geo_placement_policies.cpp`)
+- [x] Asynchronous cross-region WAL shipping with configurable lag limits (Target: Q4 2026) — source-verified (`src/replication/async_wal_shipper.cpp`, `src/replication/ROADMAP.md` Track 3.1 closure, `tests/replication/test_replication_async_wal_lag_alerts.cpp`)
 
 #### 3.2 Sharding — Global Distribution
 - [I] Automatic shard rebalancing on cluster topology changes (Target: Q3 2026)
@@ -2091,7 +2103,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 
 #### 5.1 Security
-- [P] `QueryMaskingPolicy` — dynamic PII field masking of query results (PR: #3050) (Target: v1.5.0) ✅
+- [x] `QueryMaskingPolicy` — dynamic PII field masking of query results (PR: #3050) (Target: v1.5.0) ✅ source-verified (`src/security/query_masking_policy.cpp`, `include/security/query_masking_policy.h`, `tests/query/test_query_masking_policy.cpp`)
 - [I] Zero-trust continuous verification framework (Issue: #1541) (Target: Q1 2027)
 - [x] HSM integration for production key management (PKCS#11 real provider in `src/security/hsm_provider_pkcs11.cpp`, stub fail-fast guards in `src/security/hsm_provider.cpp`, security metrics and checker in `include/security/`, deployment docs in `docs/security/HSM_PRODUCTION_SETUP.md`; build with `-DTHEMIS_ENABLE_HSM_REAL=ON`; Phase 2 complete; acceptance criteria: PKCS#11 signing/key-management tests passing, no stub code path in ENTERPRISE/HYPERSCALER production builds, CI enforced)
 - [I] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
@@ -2106,8 +2118,8 @@ Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 - [I] Automated CCPA/CPRA data subject rights fulfilment (Target: Q1 2027)
 
 #### 5.4 Acceleration — Security Audit
-- [P] Plugin/driver interaction security hardening (Issue: #1394) (Target: Q1 2027)
-- [I] Shader integrity verification (Issue: #1384) (Target: Q1 2027)
+- [x] Plugin/driver interaction security hardening (Issue: #1394) (Target: Q1 2027) — source-verified (`src/acceleration/plugin_security.cpp`, `tests/acceleration/test_acceleration_plugin_security_hardening.cpp`)
+- [x] Shader integrity verification (Issue: #1384) (Target: Q1 2027) — source-verified (`src/acceleration/shader_integrity.cpp`, `src/acceleration/vulkan/shaders/*.comp`, `tests/test_vulkan_compute_shader_hardening.cpp`)
 
 ---
 
@@ -2255,7 +2267,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
-- [P] `WASMKernelSandbox` — isolated execution environment for untrusted GPU kernel blobs (PR: #3051) (Target: v1.5.0) ✅
+- [x] `WASMKernelSandbox` — isolated execution environment for untrusted GPU kernel blobs (PR: #3051) (Target: v1.5.0) ✅ source-verified (`src/gpu/wasm_kernel_sandbox.cpp`, `include/themis/gpu/wasm_kernel_sandbox.h`, `tests/gpu/test_gpu_wasm_kernel_sandbox.cpp`)
 - [I] Plugin marketplace manifest standard (Issue: #1556) (Target: Q2 2027)
 - [I] WASM-based plugin isolation for untrusted code (Issue: #1572) (Target: Q3 2027)
 - [I] Remote plugin loading from authenticated registry (Issue: #1562) (Target: Q4 2027)

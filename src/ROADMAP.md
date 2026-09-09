@@ -1,13 +1,13 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: current | generated: 2026-03-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | generated: 2026-09-09 | source: recursive src/*/ROADMAP.md + src module deep-dive -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
 # ThemisDB — Consolidated Source Roadmap
 
-> **Purpose:** This document aggregates every open TODO, stub-replacement, and planned feature
-> from all 50 module `FUTURE_ENHANCEMENTS.md` files.
+> **Purpose:** This document aggregates open TODOs, hardening tasks, and planned features
+> from module roadmaps in `src/*/ROADMAP.md`.
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
@@ -23,20 +23,39 @@ For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as th
 
 ---
 
+## Recursive Roadmap Deep-Dive Snapshot (2026-09-09)
+
+- **Scope checked:** 71 module roadmaps in `src/*/ROADMAP.md` plus module directory deep-dive for source/test/benchmark footprint.
+- **Governance structure status:** 71/71 module roadmaps now contain `Current Status`, `In Progress` and/or `Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, and `Breaking Changes`.
+- **Highest remaining backlog pressure (open checkbox count):**
+  - `acceleration` (42), `llm_wiki` (39), `query` (35), `transaction` (32), `index` (28), `rag` (26), `search` (24), `training` (22), `gpu` (20).
+- **Sourcecode deep-dive findings requiring follow-up:**
+  - `src/llm_streaming/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
+  - `src/vector_search/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
+  - Canonical continuation should either (a) link to the real implementation location in-source, or (b) downgrade roadmap claims to planned/externalized state until source paths exist.
+
+### Immediate continuation track (next updates)
+- [ ] Resolve source-traceability for `llm_streaming` and `vector_search` by binding roadmap claims to concrete `src/` + `tests/` + `benchmarks/` paths or by reclassifying status (Target: Q4 2026).
+- [ ] Execute release-critical backlog closure in `acceleration`, `query`, `transaction`, `index`, `gpu`, and `rag` with representative-hardware evidence refresh (Target: Q4 2026).
+- [ ] Re-run recursive roadmap deep-dive after each Wave A/B closure batch and sync this consolidated source roadmap (Target: ongoing).
+
+---
+
 ## Table of Contents
 
-1. [How to Use for GitHub Issue Creation](#how-to-use-for-github-issue-creation)
-2. [Status & Priority Legend](#status--priority-legend)
-3. [Statistics](#statistics)
-4. [🔴 Critical Priority](#-critical-priority)
-5. [🟠 High Priority — Immediate (≤ v1.4.0)](#-high-priority--immediate--v140)
-6. [🟠 High Priority — Near-term (v1.5.0 – v1.8.0)](#-high-priority--near-term-v150--v180)
-7. [🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)](#-medium-priority--near-term-v150--v180)
-8. [🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)](#-medium-priority--mid-term-v190--v200)
-9. [🟢 Low Priority — Future (v1.9.0+)](#-low-priority--future-v190)
-10. [Cross-Cutting Concerns](#cross-cutting-concerns)
-11. [Milestone Summary](#milestone-summary)
-12. [Suggested GitHub Label Taxonomy](#suggested-github-label-taxonomy)
+1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-09)](#recursive-roadmap-deep-dive-snapshot-2026-09-09)
+2. [How to Use for GitHub Issue Creation](#how-to-use-for-github-issue-creation)
+3. [Status & Priority Legend](#status--priority-legend)
+4. [Statistics](#statistics)
+5. [🔴 Critical Priority](#-critical-priority)
+6. [🟠 High Priority — Immediate (≤ v1.4.0)](#-high-priority--immediate--v140)
+7. [🟠 High Priority — Near-term (v1.5.0 – v1.8.0)](#-high-priority--near-term-v150--v180)
+8. [🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)](#-medium-priority--near-term-v150--v180)
+9. [🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)](#-medium-priority--mid-term-v190--v200)
+10. [🟢 Low Priority — Future (v1.9.0+)](#-low-priority--future-v190)
+11. [Cross-Cutting Concerns](#cross-cutting-concerns)
+12. [Milestone Summary](#milestone-summary)
+13. [Suggested GitHub Label Taxonomy](#suggested-github-label-taxonomy)
 
 ---
 

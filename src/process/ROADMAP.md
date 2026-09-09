@@ -14,6 +14,11 @@ Production-capable process modeling runtime with hardened edge-case behavior, un
 - [x] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
 - [x] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
 
+## In Progress
+
+- [~] maintain wave-gate evidence freshness (`release_critical` CI + representative-hardware baseline updates) for continued production status (Target: Q4 2026)
+- [ ] extend long-duration stress and operability runbook validation as Wave D contribution (Target: Q1 2027)
+
 ## Completed Initiatives
 
 ### High-Churn Hardening Initiative (Phases 1-6) - COMPLETE ✓
