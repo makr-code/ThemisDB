@@ -52,13 +52,13 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 
 // CURL progress callback
 int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t /*ultotal*/, curl_off_t /*ulnow*/) {
-    auto* callback = static_cast<DownloadProgressCallback*>([[maybe_unused]] clientp);
-    if ([[maybe_unused]] callback && *callback) {
+    auto* callback = static_cast<DownloadProgressCallback*>(clientp);
+    if (callback && *callback) {
         std::string status = "downloading";
         if (dlnow == dltotal && dltotal > 0) {
             status = "completed";
         }
-        ([[maybe_unused]] *callback)(static_cast<size_t>(dlnow), static_cast<size_t>(dltotal), status);
+        (*callback)(static_cast<size_t>(dlnow), static_cast<size_t>(dltotal), status);
     }
     return 0;
 }
@@ -483,7 +483,7 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &output_file);
         
         // Enable progress tracking if callback provided
-        if ([[maybe_unused]] progress_callback) {
+        if (progress_callback) {
             curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_callback_wrapper);
             curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &progress_callback);
             curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
@@ -674,7 +674,7 @@ std::optional<ModelDownloadConfig> loadModelConfigFromYAML(
             return std::nullopt;
         }
 
-        auto apply_model_node = [&]([[maybe_unused]] const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
+        auto apply_model_node = [&](const YAML::Node& model) -> std::optional<ModelDownloadConfig> {
             if (!model || !model.IsMap()) {
                 return std::nullopt;
             }

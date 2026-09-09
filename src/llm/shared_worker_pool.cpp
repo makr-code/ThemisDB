@@ -79,7 +79,7 @@ size_t SharedWorkerPool::queueDepth() const {
     size_t depth = global_queue_.size();
     for (const auto& q : thread_queues_) {
         std::lock_guard<std::mutex> tlock(q->mutex);
-        depth += q-> static_cast<int>(tasks.size());
+        depth += q->tasks.size();
     }
     return depth;
 }
@@ -130,7 +130,7 @@ bool SharedWorkerPool::isRunning() const {
 // Private — Worker Thread
 // ═══════════════════════════════════════════════════════════
 
-void SharedWorkerPool::workerLoop([[maybe_unused]] size_t thread_id) {
+void SharedWorkerPool::workerLoop(size_t thread_id) {
     spdlog::debug("SharedWorkerPool worker {} started", thread_id);
 
     auto& local_q = *thread_queues_[thread_id];
@@ -223,4 +223,3 @@ bool SharedWorkerPool::trySteal(size_t thread_id, Task& out_task) {
 
 } // namespace llm
 } // namespace themis
-

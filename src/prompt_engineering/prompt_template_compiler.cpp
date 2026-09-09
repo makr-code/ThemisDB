@@ -71,8 +71,9 @@ std::string PromptContextValue::toString() const {
                 oss << chunks[i].first;
             }
             return oss.str();
-        default: break;
         }
+        default:
+            break;
     }
     return {}; // unreachable
 }
@@ -414,8 +415,9 @@ static void renderNodes(
                                 val.str_val, out);
                 }
                 break;
-            default: break;
             }
+            default:
+                break;
         }
     }
 }
@@ -577,5 +579,4 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
 
 } // namespace prompt_engineering
 } // namespace themis
-
 

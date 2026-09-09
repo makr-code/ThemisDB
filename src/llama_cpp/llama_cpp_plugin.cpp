@@ -167,7 +167,7 @@ bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
     std::lock_guard<std::mutex> lock(mutex_);
     // Remove existing entry with same id
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     loras_.push_back({lora_id, lora_path, scale});
     return true;
@@ -177,7 +177,7 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     const auto before = loras_.size();
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
-                                [&]([[maybe_unused]] const LoRAEntry& e){ return e.id == lora_id; }),
+                                [&](const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
     return static_cast<int>(loras_.size()) < before;
 }
@@ -211,16 +211,16 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     // this file found no unbounded raw-pointer arithmetic — findings are
     // false-positives from the scanner.  No change required.
     constexpr int kStreamCallbackMaxRetries = 3;
-    auto invokeStreamCallback = [&]([[maybe_unused]] const std::string& token) {
-        for ([[maybe_unused]] int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
+    auto invokeStreamCallback = [&](const std::string& token) {
+        for (int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
             try {
-                request.stream_callback([[maybe_unused]] token);
+                request.stream_callback(token);
                 return; // success
             } catch (const std::bad_alloc&) {
                 ++error_count_;
                 return; // non-retryable; abort immediately
             } catch (...) {
-                if ([[maybe_unused]] attempt < kStreamCallbackMaxRetries - 1) {
+                if (attempt < kStreamCallbackMaxRetries - 1) {
                     ++stream_retry_count_; // transient — will retry
                 } else {
                     ++error_count_; // all retries exhausted
@@ -327,8 +327,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             if (bridged.span_id.empty()) {
                 bridged.span_id = request.span_id;
             }
-            if ([[maybe_unused]] request.stream_callback && !bridged.text.empty()) {
-                invokeStreamCallback([[maybe_unused]] bridged.text);
+            if (request.stream_callback && !bridged.text.empty()) {
+                invokeStreamCallback(bridged.text);
             }
             ++inference_count_;
             return bridged;
@@ -393,8 +393,8 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
             text = "[stub:" + request.prompt.substr(0, 40) + "]";
         }
 
-        if ([[maybe_unused]] request.stream_callback) {
-            invokeStreamCallback([[maybe_unused]] text);
+        if (request.stream_callback) {
+            invokeStreamCallback(text);
         }
         response.text             = text;
         response.success          = true;
@@ -451,7 +451,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
     }
 
     // Configure the assembler from the loaded model's context window.
-    // Honour an explicit override from the caller (rag_contex[[maybe_unused]] t.max_context_token[[maybe_unused]] s).
+    // Honour an explicit override from the caller (rag_context.max_context_tokens).
     themis::rag::RAGContextAssemblerConfig cfg;
     cfg.model_context_tokens =
         (rag_context.max_context_tokens > 0)
@@ -709,12 +709,12 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
     // SECURITY: Validate GGUF magic bytes and size bound before processing.
     // GGUF magic: 0x47 0x47 0x55 0x46 ('G','G','U','F')
     constexpr size_t kMinLoRASize = 8;
-    constexpr size_t kMaxLoRASize = 2 * 1024 * 1024 * 1024; // 2 GB
+    constexpr size_t kMaxLoRASize = size_t{2} * 1024 * 1024 * 1024; // 2 GB
 
-    if (static_cast<int>(data.size()) < kMinLoRASize) {
+    if (data.size() < kMinLoRASize) {
         return false; // Too small — cannot contain a valid header
     }
-    if (static_cast<int>(data.size()) > kMaxLoRASize) {
+    if (data.size() > kMaxLoRASize) {
         return false; // Size bound — prevent heap exhaustion
     }
     // Magic bytes check: GGUF signature
@@ -912,10 +912,10 @@ std::vector<std::vector<float>> LlamaCppPlugin::computeTargetLogitsForTokens(
 
 llm::InferenceResponse LlamaCppPlugin::generateStream(
         llm::InferenceRequest request,
-        std::function<void([[maybe_unused]] const std::string& token)> token_callback) {
+        std::function<void(const std::string& token)> token_callback) {
     // Inject the caller-supplied callback and delegate to generate(), which
     // already dispatches stream_callback when it is set.
-    request.stream_callback = std::move([[maybe_unused]] token_callback);
+    request.stream_callback = std::move(token_callback);
     return generate(request);
 }
 

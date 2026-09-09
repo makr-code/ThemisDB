@@ -175,7 +175,7 @@ void PagedKVCache::sharePrefix(uint64_t new_sequence_id, uint64_t parent_sequenc
     block_tables_[new_sequence_id] = new_block_table;
 }
 
-std::shared_ptr<BlockTable> PagedKVCache::getBlockTable([[maybe_unused]] uint64_t sequence_id) {
+std::shared_ptr<BlockTable> PagedKVCache::getBlockTable(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = block_tables_.find(sequence_id);
@@ -186,7 +186,7 @@ std::shared_ptr<BlockTable> PagedKVCache::getBlockTable([[maybe_unused]] uint64_
     return nullptr;
 }
 
-void PagedKVCache::removeSequence([[maybe_unused]] uint64_t sequence_id) {
+void PagedKVCache::removeSequence(uint64_t sequence_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto it = block_tables_.find(sequence_id);
@@ -342,8 +342,9 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
                 result.push_back((high << 4) | (low & 0x0F));
             }
             return result;
-        default: break;
         }
+        default:
+            break;
     }
     
     return {};
@@ -413,8 +414,9 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                 }
             }
             return result;
-        default: break;
         }
+        default:
+            break;
     }
     
     return {};
@@ -459,7 +461,7 @@ int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
     return 32;  // Default to FP32 (no quantization)
 }
 
-uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
+uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
     // Range: [-448, +448], ~4-5% precision loss vs FP16
     
@@ -474,14 +476,14 @@ uint8_t PagedKVCache::quantizeToNVFP4([[maybe_unused]] float value) {
     
     // Adjust exponent to fit in 2 bits (shift from 8-bit bias to 2-bit bias)
     uint32_t exp_4bit = (exp_bias > 127) ? ((exp_bias - 127) >> 5) : 0;
-    exp_4bit = std::min(exp_4bit, 3);  // Clamp to 2 bits
+    exp_4bit = std::min(exp_4bit, 3u);  // Clamp to 2 bits
     
     const uint32_t packed_bits = ((sign & 0x1u) << 7) | ((exp_4bit & 0x3u) << 5) | ((mantissa & 0x1u) << 4);
     uint8_t result = static_cast<uint8_t>(packed_bits);
     return result;
 }
 
-float PagedKVCache::dequantizeFromNVFP4([[maybe_unused]] uint8_t packed) {
+float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
     // NVFP4: [s1e2m1] format — reconstruct to FP32
     
     if (packed == 0x00) {

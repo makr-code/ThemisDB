@@ -23,7 +23,7 @@ std::vector<float> LLMAQLEmbeddingBridge::embed(const std::string& text) {
         return {};
     }
     try {
-        return handler_.executeEmbed([[maybe_unused]] text);
+        return handler_.executeEmbed(text);
     } catch (const std::exception& e) {
         spdlog::warn("[BRIDGE:ExecutionFailed] LLMAQLEmbeddingBridge::embed(): executeEmbed failed ({}); "
                       "few-shot ranking falls back to Jaccard", e.what());

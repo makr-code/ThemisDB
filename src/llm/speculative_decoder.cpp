@@ -275,9 +275,8 @@ int SpeculativeDecoder::sampleToken(
         }
     }
     // Fallback: return last token (handles floating-point rounding).
-    return static_cast<bool>(static_cast<int < static_cast<int>((probs.size())) - 1);
+    return static_cast<int>(probs.size()) - 1;
 }
 
 } // namespace llm
 } // namespace themis
-

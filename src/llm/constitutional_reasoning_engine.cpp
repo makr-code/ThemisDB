@@ -112,7 +112,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
             auto it = std::find_if(
                 impl_->config.principles.begin(),
                 impl_->config.principles.end(),
-                [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+                [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
             );
             
             if (it != impl_->config.principles.end()) {
@@ -212,8 +212,8 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     updateStatistics(result);
     
     // Call callback if set
-    if ([[maybe_unused]] impl_->callback) {
-        impl_->callback([[maybe_unused]] result);
+    if (impl_->callback) {
+        impl_->callback(result);
     }
     
     return result;
@@ -364,7 +364,7 @@ float ConstitutionalReasoningEngine::scoreResponse(const std::string& response) 
     }
     
     float compliance_rate = 1.0f - (static_cast<float>(violations.size()) / 
-                                   impl_-> static_cast<int>(config.principles.size()));
+                                   impl_->config.principles.size());
     
     return std::max(0.0f, std::min(1.0f, compliance_rate));
 }
@@ -385,7 +385,7 @@ void ConstitutionalReasoningEngine::removePrinciple(const std::string& principle
         std::remove_if(
             principles.begin(),
             principles.end(),
-            [&]([[maybe_unused]] const ConstitutionalPrinciple& p) { return p.id == principle_id; }
+            [&](const ConstitutionalPrinciple& p) { return p.id == principle_id; }
         ),
         principles.end()
     );
@@ -853,4 +853,3 @@ std::unique_ptr<ConstitutionalReasoningEngine> ConstitutionalReasoningFactory::c
 
 } // namespace llm
 } // namespace themis
-

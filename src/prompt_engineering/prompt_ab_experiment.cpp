@@ -445,7 +445,7 @@ bool PromptABExperimentFramework::checkSignificanceLocked(
     eit->second.stopped_at = std::chrono::system_clock::now();
 
     // Fire winner callback (outside the critical path; capture by value).
-    if ([[maybe_unused]] winner_callback_) {
+    if (winner_callback_) {
         const std::string wid =
             (winner == ExperimentVariant::TREATMENT)
             ? eit->second.treatment_version_id
@@ -565,7 +565,7 @@ std::vector<ExperimentOutcome> PromptABExperimentFramework::getOutcomes(
 
 void PromptABExperimentFramework::setWinnerCallback([[maybe_unused]] WinnerCallback cb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    winner_callback_ = std::move([[maybe_unused]] cb);
+    winner_callback_ = std::move(cb);
 }
 
 // ============================================================================
@@ -647,5 +647,4 @@ std::vector<ExperimentDescriptor> SimplePromptABFramework::listExperiments() con
 
 } // namespace prompt_engineering
 } // namespace themis
-
 

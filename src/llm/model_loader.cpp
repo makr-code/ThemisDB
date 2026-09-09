@@ -50,7 +50,7 @@ static void llamaLoadLogCaptureCallback(ggml_log_level level, const char* text, 
     auto* state = static_cast<LlamaLoadLogCaptureState*>(user_data);
 
     // Preserve pre-existing llama.cpp logging behavior so diagnostics are not hidden.
-    if ([[maybe_unused]] state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
+    if (state->passthrough_callback != nullptr && state->passthrough_callback != llamaLoadLogCaptureCallback) {
         state->passthrough_callback(level, text, state->passthrough_user_data);
     }
 
@@ -612,12 +612,12 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     return result;
 }
 
-size_t LazyModelLoader::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
+size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
     std::lock_guard<std::mutex> lock(mutex_);
     return evictLRUUnlocked();
 }
 
-size_t LazyModelLoader::evictLRUUnlocked([[maybe_unused]] size_t target_vram_mb) {
+size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
     if (models_.empty()) {
         return 0;
     }
@@ -856,7 +856,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     bool custom_loader_success = false;
     std::vector<int> attempted_gpu_layers;
 
-    auto loadModelWithGpuFallback = [&]([[maybe_unused]] const char* stage) -> llama_model* {
+    auto loadModelWithGpuFallback = [&](const char* stage) -> llama_model* {
         std::vector<int> candidates = {};
 
         if (requested_gpu_layers > 0) {

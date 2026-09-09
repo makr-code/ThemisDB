@@ -124,7 +124,8 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
         for (const auto &arg : arguments) {
             unique_schools.insert(arg.philosophy_school);
         }
-        double diversity = static_cast<double>(unique_schools.size()) / std::max(size_t(1),static_cast<int>(arguments.size()));
+        double diversity = static_cast<double>(unique_schools.size()) /
+                           static_cast<double>(std::max<size_t>(1, arguments.size()));
         score += diversity * 0.15;
     }
 
@@ -205,7 +206,7 @@ double EthicsEvaluator::computeConfidence(const std::vector<EthicalArgument> &ar
     for (const auto &arg : arguments) {
         sum += strengthToScore(arg.strength);
     }
-    return static_cast<bool>(sum / static_cast<double < static_cast<int>((arguments.size())));
+    return sum / static_cast<double>(arguments.size());
 }
 
 double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arguments) {
@@ -220,11 +221,13 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
         int vote = 0;
         switch (arg.argument_type) {
             case ArgumentType::PRO:
-            [[fallthrough]];\n            case ArgumentType::SYNTHESIS:
+            [[fallthrough]];
+            case ArgumentType::SYNTHESIS:
                 vote = 1;
                 break;
             case ArgumentType::CONTRA:
-            [[fallthrough]];\n            case ArgumentType::REBUTTAL:
+            [[fallthrough]];
+            case ArgumentType::REBUTTAL:
                 vote = -1;
                 break;
             default:
@@ -247,7 +250,7 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
             ++agreeing;
         }
     }
-    return static_cast<bool>(static_cast<double>(agreeing) / static_cast<double < static_cast<int>((school_votes.size())));
+    return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
 }
 
 // ============================================================================
