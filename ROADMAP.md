@@ -37,9 +37,9 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 
 ### Release-critical blockers, source-validated
 
-- **GPU Phase C / CUDA-call reduction** remains incomplete; the module-level reduction gate and representative-hardware baselines are still open.
-- **Transaction Wave A CI execution evidence** remains open; focused tests exist, but the current Wave-B transaction CI lane is blocked by missing Boost/system HTTP dependency provisioning in the workflow jobs.
-- **Query FTS performance gate** remains open at the release level; backend implementation exists but performance acceptance is not closed.
+- **GPU Phase C / CUDA-call reduction** remains incomplete; the dedicated Wave-A GPU CI lane is now green again on `develop` (run `34313042741`), but the module-level reduction gate and representative-hardware baselines are still open.
+- **Transaction representative-hardware / resilience evidence** remains open; the dedicated Wave-B transaction CI lane is now green again on `develop` (run `34313051247`), but representative-hardware and chaos/recovery determinism evidence are still pending.
+- **Query FTS performance gate** remains open at the release level; backend implementation, phrase/proximity executor coverage, and a production-backed benchmark harness now exist, but the `<=100ms` acceptance on 100K documents is not yet closed with representative evidence.
 - **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
 - **Final GA sign-off** is still blocked by human approval, not just implementation availability.
 
@@ -96,16 +96,15 @@ The repository is clearly not a blank or mock project. It contains a substantial
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-02) confirms ~82–84% readiness with 4 critical blockers and 3 high-priority hardening items.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-09) confirms ~82–84% readiness with 3 remaining technical blockers plus final human sign-off.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
 > **Critical Release Blockers (must resolve before GA sign-off):**
 >
 > | Blocker | Impact | Status | Target |
 > |---------|--------|--------|--------|
-> | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | Reduction gate remains open per `src/gpu/ROADMAP.md` | Must complete 50% reduction by end Q3 2026 |
-> | Transaction CI execution evidence (Wave A focused tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; current `develop` Wave-B transaction CI run fails in configure phase because Boost packages are missing from the workflow jobs, and later build lanes also need the HTTP client package set used by the main build workflows | Fix workflow dependency install and re-run immediately |
-> | Query FTS performance gate | FTS backend delivered; release gate still open | ≤100ms on 100K docs pending | Close benchmark gate in Q4 2026 |
-> | Root ROADMAP sync issues (stale claims and inconsistencies) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; corrections in progress | Before Q3 2026 end |
+> | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | Dedicated Wave-A GPU CI run `34313042741` is green again; remaining blocker is the reduction gate and representative-hardware evidence per `src/gpu/ROADMAP.md` | Complete reduction + hardware proof by end Q3 2026 |
+> | Transaction representative-hardware / resilience evidence | Cannot treat transaction hardening as release-grade without representative-hardware and chaos/recovery proof | Dedicated Wave-B transaction CI run `34313051247` is green again; remaining blocker is representative-hardware plus determinism/recovery evidence | Close evidence gap in Q4 2026 |
+> | Query FTS performance gate | FTS backend is implemented, but release acceptance is still open | Real phrase/proximity executor coverage and benchmark harness are now in-tree; `<=100ms` on 100K docs still pending | Close benchmark gate in Q4 2026 |
 
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
@@ -114,9 +113,9 @@ The repository is clearly not a blank or mock project. It contains a substantial
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [x] `server`, `llm`, and `sharding` top-risk hardening complete: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered and evidence bundled; `sharding` P6 gate integration and sign-off artefacts complete.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
-- [~] Phase 1-6 execution contract largely complete: implementation closure is broad, but Transaction/GPU CI and hardware-gate evidence remain open before final GA promotion.
+- [~] Phase 1-6 execution contract largely complete: implementation closure is broad, but representative-hardware and remaining benchmark-gate evidence are still open before final GA promotion.
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
-- [~] Core-first residual source-gap queue revalidated (2026-09-09): major reductions in Auth, LLM, GPU, and Query modules; remaining high-priority items are Transaction CI lane repair, GPU CI lane repair, GPU Phase D representative-hardware baselines, Query FTS performance-gate closure, and Transaction representative-hardware CI validation. Follow-up hardening and benchmarking batches remain scheduled for Q4 2026 after Wave A CI-green confirmation on representative hardware. (Target: Q4 2026).
+- [~] Core-first residual source-gap queue revalidated (2026-09-09): major reductions in Auth, LLM, GPU, and Query modules; dedicated Transaction/GPU CI lanes are green again, and the remaining high-priority items are GPU Phase D representative-hardware baselines, Query FTS performance-gate closure, Transaction representative-hardware/chaos evidence, and the cross-module p95/p99 refresh set. Follow-up hardening and benchmarking batches remain scheduled for Q4 2026 after the restored Wave A/B CI-green confirmation. (Target: Q4 2026).
 
 ## Program Execution Model (Wave A → B → C → D)
 

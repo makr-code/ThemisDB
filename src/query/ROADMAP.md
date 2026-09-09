@@ -77,6 +77,8 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - [x] parseSearchClause() implemented; wired into parseQuery() (2026-08-09)
     - [x] search_clause field added to Query struct (2026-08-09)
     - [x] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026) — delivered 2026-09-03 (Block 2)
+    - [x] Phrase/proximity executor behavior is now source-covered with focused `FtsExecutor` tests (exact phrase, case-insensitive phrase, bounded proximity, boolean reuse, timeout, OOM) and production-backed matching over posting-list positions (2026-09-09)
+    - [x] Benchmark harness now exercises the real `FtsExecutor` on an on-disk 10K/100K corpus in `benchmarks/rag/bench_fts_phase_b.cpp` instead of the former synthetic token simulation (2026-09-09)
     - [ ] Performance gate: ≤100ms on 100K documents (Target: Q4 2026)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
