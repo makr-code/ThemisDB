@@ -31,6 +31,9 @@ on:
   push:
     branches: [ "develop", "community" ]
     paths:
+      - 'clients/rust/**/*.rs'
+      - 'clients/rust/Cargo.toml'
+      - 'clients/rust/Cargo.lock'
       - 'src/**/*.c'
       - 'src/**/*.cc'
       - 'src/**/*.cpp'
@@ -70,11 +73,20 @@ on:
       - '*.cpp'
       - '*.hpp'
       - '*.h'
+      - '*.cs'
+      - '*.csproj'
+      - 'tools/**/*.cs'
+      - 'tools/**/*.csproj'
+      - 'examples/**/*.cs'
+      - 'examples/**/*.csproj'
       - '.github/workflows/security-codeql.yml'
       - '.github/codeql/codeql-config.yml'
   pull_request:
     branches: [ "develop", "community" ]
     paths:
+      - 'clients/rust/**/*.rs'
+      - 'clients/rust/Cargo.toml'
+      - 'clients/rust/Cargo.lock'
       - 'src/**/*.c'
       - 'src/**/*.cc'
       - 'src/**/*.cpp'
@@ -114,6 +126,12 @@ on:
       - '*.cpp'
       - '*.hpp'
       - '*.h'
+      - '*.cs'
+      - '*.csproj'
+      - 'tools/**/*.cs'
+      - 'tools/**/*.csproj'
+      - 'examples/**/*.cs'
+      - 'examples/**/*.csproj'
       - '.github/workflows/security-codeql.yml'
       - '.github/codeql/codeql-config.yml'
   schedule:
@@ -210,3 +228,83 @@ jobs:
           output: codeql-results
           ram: 6144
           threads: 4
+
+  analyze-csharp:
+    name: Analyze (csharp)
+    runs-on: windows-latest
+    timeout-minutes: 60
+  analyze-rust:
+    name: Analyze (rust)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Select query suite
+        id: suite
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "schedule") {
+            "queries=security-and-quality" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: security-and-quality (scheduled full scan)"
+          } elseif ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            "queries=${{ inputs.query_suite }}" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: ${{ inputs.query_suite }} (manual dispatch)"
+          } else {
+            "queries=security-extended" >> $env:GITHUB_OUTPUT
+            Write-Host "CodeQL suite: security-extended (PR / push)"
+          }
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Select query suite
+        id: suite
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "queries=security-and-quality" >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "queries=${{ inputs.query_suite }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "queries=security-extended" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          languages: csharp
+          build-mode: autobuild
+          config-file: .github/codeql/codeql-config.yml
+          queries: ${{ steps.suite.outputs.queries }}
+
+      - name: Autobuild C#
+        uses: github/codeql-action/autobuild@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+          languages: rust
+          queries: ${{ steps.suite.outputs.queries }}
+          config: |
+            paths:
+              - clients/rust/src
+
+      - name: Build Rust client
+        run: |
+          cd clients/rust
+          cargo build --release 2>&1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
+        with:
+          category: "/language:csharp"
+          output: codeql-results-csharp
+          category: "/language:rust"
+          ram: 4096
+          threads: 2
