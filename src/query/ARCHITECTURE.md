@@ -3,7 +3,7 @@
 # Query Module — Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-07-13
+**Last Updated:** 2026-09-09
 **Module Path:** `src/query/`
 
 ---
@@ -463,6 +463,62 @@ When the LLM layer generates candidate AQL strings (from natural language), it *
 - **Parser call duration:** ≤ 500ms (includes AST construction and diagnostics)
 - **Timeout handling:** Convert to `ParseResult::error` if exceeded
 - **Backward compatibility:** Query engine continues to work if LLM layer is unavailable
+
+---
+
+## 14. Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/storage_engine.h` | Collection scans and document reads |
+| `index` | `include/index/ann_frontdoor.h`, `include/index/vector/`, `include/index/spatial/`, `include/index/graph/` | Index lookups (vector, B-tree, spatial, graph) |
+| `sharding` | `include/sharding/shard_router.h` | Shard-aware query routing via `shard_router` |
+| `analytics` | `include/analytics/columnar/`, `include/analytics/incremental_view/`, `include/analytics/process_mining/` | Analytical sub-plan execution |
+| `llm` | `include/llm/lora_framework/lora_orchestrator.h` | LLM INFER/EMBED commands; bidirectional bridge (see §12) |
+| `distributed_knowledge` | `include/distributed_knowledge/federated_rag_merger.h` | Federated RAG merge in `query_federation.cpp` |
+| `scheduler` | `include/scheduler/` | Continuous-query scheduling |
+| `security` | `include/security/` | Collection access checks in `query_engine.cpp` |
+| `utils` | `include/utils/` | Utility helpers |
+| `metadata` | `include/metadata/` | Schema and statistics for cost-based optimization |
+| `cache` | `include/cache/` | Query result caching (`query_cache_manager.cpp`) |
+| `geo` | `include/geo/` | ST_* geospatial function execution |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/query/aql_runner.h`, `include/query/aql_parser_service.h` | HTTP query dispatch from `api_gateway` |
+| `aql` (LLM integration) | `include/query/aql_parser_service.h` | One-way read-only parser access; query engine never imports `aql` (§12) |
+
+---
+
+## 15. Integration Points
+
+### Critical Integration: Query → Storage (Collection Scan)
+**Files:** `src/query/query_engine.cpp` ↔ `include/storage/rocksdb_wrapper.h`
+**Contract:** `QueryEngine` calls storage scan API with collection name and key range; documents returned as serialized byte spans. Storage does not interpret query predicates.
+**Thread Safety:** Storage scan handles are per-call; concurrent queries obtain independent handles.
+**Failure Mode:** Storage I/O errors propagate as `kStorageError` status; query engine aborts the operator pipeline and returns HTTP 500.
+
+### Critical Integration: Query → Index (ANN / Spatial / Graph Lookup)
+**Files:** `src/query/query_engine.cpp` ↔ `include/index/ann_frontdoor.h` + `include/index/spatial/` + `include/index/graph/`
+**Contract:** Optimizer selects index type; engine calls typed lookup APIs returning document-ID sets or scored candidates. Missing index falls back to full scan with warning.
+**Thread Safety:** Index lookups are read-only and concurrent-safe per index type documentation.
+**Failure Mode:** Index not found → full scan fallback (logged); index error → query abort with 500.
+
+### Critical Integration: Query ↔ LLM (Bidirectional)
+**Files:** `src/query/query_engine.cpp` → `include/llm/lora_framework/lora_orchestrator.h`; `src/llm/` → `include/query/aql_parser_service.h`
+**Contract:** Query engine calls LLM orchestrator for INFER/EMBED operators; LLM layer calls query parser service for AQL validation (one-way, via stable abstract interface only — query engine never imports llm headers).
+**Thread Safety:** LLM calls are async-queue-mediated; parser service is stateless.
+**Failure Mode:** LLM unavailability → operator returns null embedding / inference error; AQL validation failure → LLM layer retries once then returns error to user.
+
+### Critical Integration: Query → Sharding (Federated Routing)
+**Files:** `src/query/query_federation.cpp` ↔ `include/sharding/shard_router.h`
+**Contract:** Federation layer asks shard router for shard topology; scatter-gather dispatches sub-plans per shard; results merged with scope enforcement.
+**Thread Safety:** Shard router is read-safe; per-shard sub-execution is parallelised.
+**Failure Mode:** Shard unavailability → partial result with warning; all shards unavailable → 503.
 
 ---
 

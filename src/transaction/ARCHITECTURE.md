@@ -3,7 +3,7 @@
 # Transaction Module - Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-05-31
+**Last Updated:** 2026-09-09
 **Module Path:** `src/transaction/`
 
 ## 1. Overview
@@ -60,6 +60,53 @@ Compensation path
 | Used by | `src/query/` | query-driven mutation transactions |
 | Used by | `src/server/` | API-driven transaction endpoints |
 | Used by | `src/sharding/` | distributed coordination and WAL-related integration |
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/history_manager.h` | Durable KV writes, MVCC history reads, WAL |
+| `index` | `include/index/secondary/`, `include/index/graph/`, `include/index/vector/` | Index updates co-ordinated within transaction boundaries |
+| `sharding` | `include/sharding/truetime.h`, `include/sharding/wal_manager.h` | TrueTime timestamps for distributed ordering; WAL append |
+| `plugins` | `include/plugins/` | Plugin hooks called during commit/rollback lifecycle |
+| `utils` | `include/utils/` | Utility helpers (error codes, logging) |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/transaction/transaction_manager.h` | API-driven transaction endpoints |
+| `query` | `include/transaction/transaction_manager.h` | Mutation transactions for DML statements |
+| `sharding` | `include/transaction/recoverable_two_phase_coordinator.h` | Cross-shard 2PC coordination (managed circular dep) |
+| `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
+
+---
+
+## 9. Integration Points (Detailed)
+
+### Critical Integration: Transaction → Storage (Persistence)
+**Files:** `src/transaction/transaction_manager.cpp` ↔ `include/storage/rocksdb_wrapper.h`
+**Contract:** Each `commit()` call drives a batch write to RocksDB via the wrapper; `rollback()` discards in-memory mutations. WAL entry written before commit return.
+**Thread Safety:** `TransactionManager` is concurrent-safe; individual `Transaction` objects are single-owner.
+**Failure Mode:** Storage write failure → transaction aborted; WAL write failure → `kDurabilityError` returned, no partial commit.
+
+### Critical Integration: Transaction ↔ Sharding (2PC Circular)
+**Files:** `src/transaction/distributed_transaction_manager.cpp` ↔ `include/sharding/truetime.h`; `src/sharding/cross_shard_transaction.cpp` ↔ `include/transaction/recoverable_two_phase_coordinator.h`
+**Contract:** Sharding layer invokes `RecoverableTwoPhaseCoordinator` from transaction module to drive distributed prepare/commit; TrueTime from sharding provides commit timestamps. Managed circular dependency — sharding imports transaction header; transaction imports sharding TrueTime only.
+**Thread Safety:** Coordinator uses internal mutex for shared state; TrueTime reads are lock-free.
+**Failure Mode:** Prepare failure → automatic abort broadcast; coordinator crash → recovery via WAL replay on restart.
+
+### Critical Integration: Transaction → Index (Co-ordinated Updates)
+**Files:** `src/transaction/transaction_manager.cpp` ↔ `include/index/secondary/`, `include/index/graph/`, `include/index/vector/`
+**Contract:** Index updates are enqueued within the transaction scope and applied atomically on commit (or discarded on rollback). Index update errors trigger transaction abort.
+**Thread Safety:** Index update queues are per-transaction; no shared mutable state.
+**Failure Mode:** Index write error → transaction aborted; index inconsistency triggers reconciliation on next startup.
+
+---
+
+## 8. Sourcecode Verification (Module: transaction/architecture)
 
 ## 5. Threading and Concurrency Model
 
