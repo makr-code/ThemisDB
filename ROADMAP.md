@@ -7,6 +7,14 @@
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-09) confirms: recursive `src/*/ROADMAP.md` structure compliance is 71/71, with remaining continuation focus on Wave A/B blockers and source-traceability cleanup for docs-only module paths (`src/llm_streaming`, `src/vector_search`).**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
+>
+> Cross-module architecture evidence:
+> - `docs/architecture/MODULE_ARCHITECTURE.md`
+> - `docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`
+> - `docs/architecture/DATA_FLOW_PATHS.md`
+> - `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`
+> - `src/CROSS_MODULE_INTEGRATION.md`
+> - `MODULE_INDEX.md`
 
 ---
 
@@ -29,7 +37,7 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 ### Recursive module roadmap sync (2026-09-09)
 
 - [x] Rekursive Prüfung von `src/*/ROADMAP.md` abgeschlossen; 71/71 Module erfüllen die Pflichtstruktur (`Current Status`, `In Progress`/`Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, `Breaking Changes`).
-- [~] Deep-dive-Quellenabgleich zeigt zwei Module mit docs-only Modulpfad (`src/llm_streaming`, `src/vector_search`: jeweils `.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), deren Implementierungsclaims auf konkrete Source-/Test-/Benchmark-Pfade zurückgeführt oder als geplant/externalisiert reklassifiziert werden müssen.
+- [x] Deep-dive-Quellenabgleich und Korrektur der Docs-only Claims dokumentiert: `src/llm_streaming` und `src/vector_search` sind als docs-only Modulpfade source-validiert und in den neuen Architekturstatus-Dokumenten eingeordnet (`docs/architecture/MODULE_ARCHITECTURE.md`, `docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`).
 - [~] Weiterarbeit priorisiert nach offenem Backlog-Druck + Gate-Relevanz: `acceleration`, `llm_wiki`, `query`, `transaction`, `index`, `rag`, `search`, `training`, `gpu`.
 
 ### Issue-Evidenzprüfung (ROADMAP.md, 2026-09-09)
