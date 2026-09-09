@@ -184,7 +184,7 @@ static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_pe
 // Estimate Jaccard similarity from two MinHash signatures
 static double jaccardEstimate(const std::vector<uint32_t>& a,
                                const std::vector<uint32_t>& b) {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+    if (a.size() != b.size() || a.empty()) {
       return 0.0;
     }
     size_t matches = 0;
@@ -614,7 +614,7 @@ public:
         auto take = [](const std::vector<DataSample>& src,
                        size_t from, size_t to,
                        size_t count) -> std::vector<DataSample> {
-            if (from >= static_cast<int>(src.size())) return {};
+            if (from >= src.size()) return {};
             to = std::min(to, src.size());
             count = std::min(count, to - from);
             return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
@@ -662,31 +662,31 @@ public:
             // Stage 1: Quality Filtering
             auto s1 = filterByQuality(input);
             if (cb) {
-              cb("quality_filter",static_cast<int>(s1.size()), "Stage 1: quality filtering done");
+              cb("quality_filter",s1.size(), "Stage 1: quality filtering done");
             }
 
             // Stage 2: Deduplication
             auto s2 = deduplicate(s1);
             if (cb) {
-              cb("deduplication",static_cast<int>(s2.size()), "Stage 2: deduplication done");
+              cb("deduplication",s2.size(), "Stage 2: deduplication done");
             }
 
             // Stage 3: Cluster-based sampling
             auto s3 = clusterAndSample(s2, 0);
             if (cb) {
-              cb("clustering",static_cast<int>(s3.size()), "Stage 3: cluster sampling done");
+              cb("clustering",s3.size(), "Stage 3: cluster sampling done");
             }
 
             // Stage 4: Scoring (in-place)
             scoreQualityAndDifficulty(s3);
             if (cb) {
-              cb("scoring",static_cast<int>(s3.size()), "Stage 4: quality/difficulty scoring done");
+              cb("scoring",s3.size(), "Stage 4: quality/difficulty scoring done");
             }
 
             // Stage 5: Curriculum stratified sampling
             auto s5 = stratifiedSample(s3, 0);
             if (cb) {
-              cb("curriculum_sampling",static_cast<int>(s5.size()), "Stage 5: curriculum sampling done");
+              cb("curriculum_sampling",s5.size(), "Stage 5: curriculum sampling done");
             }
 
             result.selected_samples = std::move(s5);
@@ -699,9 +699,9 @@ public:
                 result.audit_entry.config_hash       = detail::hashConfig(config_);
                 result.audit_entry.input_sample_count  = input.size();
                 result.audit_entry.output_sample_count = result.selected_samples.size();
-                result.audit_entry.filtered_by_quality = static_cast<int>(input.size()) - static_cast<int>(s1.size()) ;
-                result.audit_entry.filtered_by_dedup   = static_cast<int>(s1.size()) - static_cast<int>(s2.size()) ;
-                result.audit_entry.filtered_by_cluster = static_cast<int>(s2.size()) - static_cast<int>(s3.size()) ;
+                result.audit_entry.filtered_by_quality = input.size() - s1.size() ;
+                result.audit_entry.filtered_by_dedup   = s1.size() - s2.size() ;
+                result.audit_entry.filtered_by_cluster = s2.size() - s3.size() ;
                 for (const auto& s : result.selected_samples) {
                     result.audit_entry.selected_ids.push_back(s.id);
                     if (!s.domain.empty()) {
@@ -864,10 +864,10 @@ static std::string trimLeft(const std::string& s) {
 }
 
 static std::string stripQuotes(const std::string& s) {
-    if ((static_cast<int>(s.size()) >= 2 &&
+    if ((s.size() >= 2 &&
         ((s.front() == '"' && s.back() == '"') ||
          (s.front() == '\'' && s.back() == '\''))))
-        return s.substr(1, static_cast<int>(s.size()) - 2);
+        return s.substr(1, s.size() - 2);
     return s;
 }
 
@@ -1011,7 +1011,7 @@ static LoRADataSelectionConfig parseYAMLText(const std::string& text,
         if (indent == 6 && state == State::IN_DOMAIN_LIST &&
                 !current_domain.empty()) {
             // List item: - "keyword"
-            if (static_cast<int>(content.size()) > 2 && content.substr(0, 2) == "- ") {
+            if (content.size() > 2 && content.substr(0, 2) == "- ") {
                 std::string kw = stripQuotes(trimLeft(content.substr(2)));
                 cfg.domain_keywords[current_domain].push_back(kw);
             }
@@ -1050,7 +1050,7 @@ static std::string jsonEscape(const std::string& s) {
     // reserve(size+4) pre-allocates worst-case capacity for the common path;
     // the += character loop below is O(n) — no quadratic reallocation.
     // (Scanner flag "string_concat_loop" is a false positive here.)
-    out.reserve(static_cast<int>(s.size()) + 4);
+    out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         if      (c == '"') {
           out += "\\\"";
@@ -1208,7 +1208,7 @@ static SelfImprovementConfig parseSelfImprovementYAML(
         // indent==4: new list item (`- metric: ...`), indent==6: continuation fields
         if (((indent == 4 || indent == 6) &&
             (state == State::IN_ADAPTIVE_RULES || state == State::IN_RULE))) {
-            if (indent == 4 && static_cast<int>(content.size()) >= 2 && content.substr(0, 2) == "- ") {
+            if (indent == 4 && content.size() >= 2 && content.substr(0, 2) == "- ") {
                 // Start of a new rule
                 commitRule();
                 state = State::IN_RULE;
@@ -1314,7 +1314,7 @@ public:
           ++j;
         }
         double threshold = 0.0;
-        if (j >= static_cast<int>(condition.size())) return false; // malformed condition: no threshold
+        if (j >= condition.size()) return false; // malformed condition: no threshold
         try { threshold = std::stod(condition.substr(j)); }
         catch (...) { return false; } // malformed threshold: treat as not triggered
 
