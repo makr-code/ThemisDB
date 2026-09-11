@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Wave B ML Enhancements Exit-Gate Sign-Off (2026-09-09, Issue #6286)
+
+- **[B1] Self-RAG** (`SelfRAGController` + `InferenceEnhancementEngine`): iterative retrieve-critique loop, binary retrieval gate, 3-class critic (Relevant/Partial/Irrelevant), max-round exhaustion path. ALCE-01..05 acceptance tests pass (`tests/rag/test_self_rag_alce.cpp`).
+- **[B2] RotatE KGC** (`RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine`, `KnowledgeGraphReasoner`): relation-as-rotation embedding, negative-sampling triple loss, tail/head link prediction. KGC-01..15 tests pass (`tests/test_rotate_completion.cpp`).
+- **[B3] Multi-Task LoRA** (`MultiTaskLoRA`): shared LoRA base with task-specific projections, domain-gating, configurable joint loss, 3-task benchmark. MTL acceptance tests pass (`tests/training/test_multitask_lora_acceptance_gates.cpp`).
+- Wave B ML exit-gate signed off in `ROADMAP.md` §Wave B Exit Criteria; CI evidence archived. Unblocks Wave C (`#5040`).
+- Bibliography consolidated in `docs/research/ml_enhancements_bibliography.md` (Wave B + Wave C references in single document, YAML front matter added).
+
 ### Wave 9 Block 1 — gRPC Core Service Layer (2026-08-26)
 
 - **[W9-1]** `Create` RPC wired: `db_->put(collection:key, data)` with optional `txn_mgr_` session from `transaction_id` field; response includes key + timestamp.
