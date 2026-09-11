@@ -46,7 +46,7 @@ runs:
   steps:
     - name: Download metrics
       if: inputs.metrics-artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v4.1.3
       with:
         name: ${{ inputs.metrics-artifact }}
         path: ${{ inputs.metrics-dir }}
