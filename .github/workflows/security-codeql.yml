@@ -315,5 +315,6 @@ jobs:
         uses: github/codeql-action/analyze@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
         with:
           category: "/language:rust"
+          output: codeql-results-rust
           ram: 4096
           threads: 2
