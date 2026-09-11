@@ -159,12 +159,20 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
 - [x] LLM Wiki Phase A+B: ✅ COMPLETE 2026-08-26 — Phase A (BM25+HNSW+RRF) and Phase B (RocksDB backend) both delivered; in-memory fallback retained for test environments; persistence round-trip verified; representative-hardware p95/p99 evidence pending Q4 2026. See `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
-
 - [x] Analytics: federated query coordinator per-shard retry (AN1, exponential backoff + jitter) + forecasting model CRC-32 integrity check (AN2) — ✅ COMPLETE 2026-08-26 (8 tests; see `src/analytics/ROADMAP.md`)
+
+### Wave B ML Enhancements (Sub-waves B1–B3) — ✅ SIGNED OFF 2026-09-09 (Issue #6286)
+
+> References: `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`, `docs/research/ml_enhancements_bibliography.md`
+
+- [x] **B1 — Self-RAG** (`SelfRAGController` + `InferenceEnhancementEngine`): iterative retrieve-critique loop, binary retrieval gate, 3-class critic (Relevant/Partial/Irrelevant), max-round exhaustion path — ✅ COMPLETE; ALCE-01..05 acceptance tests pass (`tests/rag/test_self_rag_alce.cpp`). Acceptance: hallucination reduction ≥ 20%, latency ≤ 1.5×, Precision@K ≥ 0.85.
+- [x] **B2 — RotatE KGC** (`RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine`, `KnowledgeGraphReasoner`): relation-as-rotation embedding, negative-sampling triple loss, tail/head link prediction — ✅ COMPLETE; KGC-01..15 tests pass (`tests/test_rotate_completion.cpp`). Acceptance: MRR ≥ 0.35, Hits@10 ≥ 0.55, inference ≤ 50 ms.
+- [x] **B3 — Multi-Task LoRA** (`MultiTaskLoRA`): shared LoRA base with task-specific projections, domain-gating mechanism, configurable joint loss, 3-task benchmark — ✅ COMPLETE; MTL acceptance tests pass (`tests/training/test_multitask_lora_acceptance_gates.cpp`). Acceptance: avg task perf ≥ +8%, training overhead ≤ 15%.
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
 - [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
+- [x] Wave B ML Enhancements (B1 Self-RAG, B2 RotatE KGC, B3 Multi-Task LoRA) exit-gate signed off — ALCE-01..05 + KGC-01..15 + MTL acceptance tests implemented and passing; CI evidence archival complete (2026-09-09, Issue #6286). See `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`.
 - [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
 ### Wave C — Security Production Validation (Q4 2026)
