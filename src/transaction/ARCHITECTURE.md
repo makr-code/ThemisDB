@@ -82,6 +82,8 @@ Compensation path
 | `sharding` | `include/transaction/recoverable_two_phase_coordinator.h`, `include/transaction/distributed_transaction_manager.h` | Cross-shard 2PC coordination and distributed transaction management (managed circular dep) |
 | `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
 | `analytics` | `include/transaction/snapshot_manager.h` | `diff_engine` uses snapshot reads for consistent analytical diff computation (`include/analytics/diff_engine.h:16`) |
+| `api` | `include/transaction/transaction_manager.h` | gRPC service wires `TransactionManager` to expose explicit begin/commit/rollback RPC endpoints (`src/api/themisdb_grpc_service.cpp:18,243,265`) |
+| `network` | `include/transaction/transaction_manager.h` | Wire-protocol server drives transaction lifecycle (begin, commit, rollback) for native client connections (`src/network/wire_protocol_server.cpp:53,324,2216`) |
 
 ---
 
