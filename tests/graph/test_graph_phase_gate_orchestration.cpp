@@ -4,7 +4,8 @@
  *        GRAPH_PHASE_GATE-BENCH-01).
  *
  * Acceptance criteria for Wave C C3 (issue #6287):
- *  - Phase gate DAG construction, cycle detection, and topological ordering
+ *  - Phase gate DAG construction, acyclic registration enforcement, and
+ *    topological ordering
  *  - Gate criteria evaluation and gap reporting
  *  - Metric attachment, threshold evaluation, and prerequisite blocking
  *  - Completion ratio and passedPhaseCount tracking
