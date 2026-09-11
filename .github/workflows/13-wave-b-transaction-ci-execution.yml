@@ -70,7 +70,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -132,7 +132,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -196,7 +196,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -271,7 +271,7 @@ jobs:
             libbz2-dev liblz4-dev libzstd-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
