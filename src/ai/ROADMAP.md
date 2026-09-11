@@ -39,7 +39,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### Long-term (Q3 2027+)
 - [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
 - [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..15 + FEDERATED-BENCH-01 coverage — `tests/test_federated_privacy_training.cpp`
-- [x] Wave C C3: Graph phase gate orchestrator — DAG-based ML pipeline phase tracking with gate criteria, gap reporting, cycle detection, and GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 coverage — `include/graph/graph_phase_gate_orchestrator.h`, `tests/graph/test_graph_phase_gate_orchestration.cpp` (issue #6287)
+- [x] Wave C C3: Graph phase gate orchestrator — DAG-based ML pipeline phase tracking with gate criteria, gap reporting, acyclic registration enforcement, and GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 coverage — `include/graph/graph_phase_gate_orchestrator.h`, `tests/graph/test_graph_phase_gate_orchestration.cpp` (issue #6287)
 - [x] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01), `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
 - [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)

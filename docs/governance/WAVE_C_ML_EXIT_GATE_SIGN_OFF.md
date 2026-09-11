@@ -77,7 +77,7 @@ This document records the formal exit-gate sign-off for all three sub-waves.
 
 | ID | Criterion | Evidence | Status |
 |----|-----------|----------|--------|
-| C3-AC-1 | DAG construction with cycle detection | `GRAPH_PHASE_GATE-02..05` | ✅ PASS |
+| C3-AC-1 | DAG construction with acyclic registration enforcement | `GRAPH_PHASE_GATE-02..05` | ✅ PASS |
 | C3-AC-2 | Gate evaluation: PASS / FAIL / BLOCKED / PENDING states | `GRAPH_PHASE_GATE-06..11` | ✅ PASS |
 | C3-AC-3 | Gap reporting enumerates unsatisfied criteria and blockers | `GRAPH_PHASE_GATE-12..13` | ✅ PASS |
 | C3-AC-4 | Topological ordering respects prerequisites | `GRAPH_PHASE_GATE-14` | ✅ PASS |
@@ -93,7 +93,7 @@ This document records the formal exit-gate sign-off for all three sub-waves.
 
 ### Key Capabilities
 
-- DAG-based phase registry: `registerPhase(name, prerequisites)` with cycle detection.
+- DAG-based phase registry: `registerPhase(name, prerequisites)` with acyclic registration enforcement.
 - Per-phase metric gate criteria: `setGateCriteria(name, criteria)`.
 - Metric attachment and querying: `attachMetric()`, `getMetric()`.
 - Recursive gate evaluation: `gateStatus()` → PASS / FAIL / BLOCKED / PENDING.

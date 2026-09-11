@@ -112,7 +112,9 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 **Design Constraints:**
 - Public API confined to `include/graph/graph_phase_gate_orchestrator.h`; no external
   dependencies beyond the C++ standard library.
-- `registerPhase()` must detect and reject cycles at registration time.
+- `registerPhase()` must preserve an acyclic public registration path by
+  requiring already-registered prerequisites and rejecting self-referential
+  registrations.
 - Gate evaluation is recursive (prerequisite-first); the BLOCKED status propagates
   without re-evaluating satisfied subtrees.
 - All gate evaluation calls are read-only on the stored phase graph (shared lock);
@@ -121,7 +123,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 **Required Interfaces:**
 | Interface | Requirement |
 |---|---|
-| `registerPhase(name, prereqs)` | DAG construction; cycle detection; returns bool |
+| `registerPhase(name, prereqs)` | DAG construction; acyclic registration enforcement; returns bool |
 | `setGateCriteria(name, criteria)` | Replace metric thresholds for a phase |
 | `attachMetric(name, key, value)` | Record an observed metric value |
 | `gateStatus(name)` | Recursive gate evaluation → PASS / FAIL / BLOCKED / PENDING |
@@ -140,7 +142,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 - GRAPH_PHASE_GATE-02: root phase (no prerequisites) registers successfully.
 - GRAPH_PHASE_GATE-03: duplicate phase name registration is rejected.
 - GRAPH_PHASE_GATE-04: prerequisite referring to unregistered phase is rejected.
-- GRAPH_PHASE_GATE-05: cycle introduction is rejected at registerPhase time.
+- GRAPH_PHASE_GATE-05: self-referential and duplicate registrations are rejected.
 - GRAPH_PHASE_GATE-06: unregistered phase gateStatus returns PENDING.
 - GRAPH_PHASE_GATE-07: root phase with no criteria passes immediately.
 - GRAPH_PHASE_GATE-08: gate FAIL when required metric is absent.
@@ -166,7 +168,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 **Acceptance Criteria:**
 - GRAPH_PHASE_GATE-01..15 all PASS.
 - GRAPH_PHASE_GATE-BENCH-01 completes within 500 ms.
-- Cycle injection via registerPhase is rejected (GRAPH_PHASE_GATE-05).
+- Acyclic registration constraints are enforced (GRAPH_PHASE_GATE-05).
 
 **Status:** ✅ Implemented — `include/graph/graph_phase_gate_orchestrator.h`,
 `src/graph/graph_phase_gate_orchestrator.cpp`,

@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 using namespace themis::graph;
@@ -70,17 +71,46 @@ TEST(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_04_RejectUnknownPrerequisite)
 }
 
 // ============================================================================
-// GRAPH_PHASE_GATE-05: registerPhase rejects cycles
+// GRAPH_PHASE_GATE-05: registerPhase rejects self/duplicate invalid registrations
 // ============================================================================
-TEST(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_05_RejectCycles) {
+TEST(GraphPhaseGateOrchestration,
+     GRAPH_PHASE_GATE_05_RejectSelfAndDuplicateRegistrations) {
     GraphPhaseGateOrchestrator orch;
     EXPECT_TRUE(orch.registerPhase("a", {}));
     EXPECT_TRUE(orch.registerPhase("b", {"a"}));
-    // Attempting to add "a" again with "b" as prerequisite would create a→b→a cycle.
-    // Since "a" is already registered the duplicate check fires first.
+
+    EXPECT_FALSE(orch.registerPhase("self", {"self"}))
+        << "GRAPH_PHASE_GATE-05: self-referential registration must be rejected";
     EXPECT_FALSE(orch.registerPhase("a", {"b"}))
-        << "GRAPH_PHASE_GATE-05: cycle introduction must be rejected";
+        << "GRAPH_PHASE_GATE-05: duplicate registration must be rejected";
     EXPECT_EQ(orch.phaseCount(), 2u);
+}
+
+TEST(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_MoveSemanticsTransferState) {
+    static_assert(std::is_move_constructible_v<GraphPhaseGateOrchestrator>);
+    static_assert(std::is_move_assignable_v<GraphPhaseGateOrchestrator>);
+
+    GraphPhaseGateOrchestrator source;
+    ASSERT_TRUE(source.registerPhase("root", {}));
+    ASSERT_TRUE(source.setGateCriteria("root", {{"score", 0.7f, ""}}));
+    ASSERT_TRUE(source.attachMetric("root", "score", 0.8f));
+
+    GraphPhaseGateOrchestrator moved(std::move(source));
+    EXPECT_TRUE(moved.hasPhase("root"));
+    EXPECT_EQ(moved.gateStatus("root"), GateStatus::PASS);
+    EXPECT_EQ(source.phaseCount(), 0u);
+    EXPECT_FALSE(source.hasPhase("root"));
+    EXPECT_TRUE(source.registerPhase("reused_source", {}));
+    EXPECT_TRUE(source.hasPhase("reused_source"));
+
+    GraphPhaseGateOrchestrator assigned;
+    assigned = std::move(moved);
+    EXPECT_TRUE(assigned.hasPhase("root"));
+    EXPECT_EQ(assigned.gateStatus("root"), GateStatus::PASS);
+    EXPECT_EQ(moved.phaseCount(), 0u);
+    EXPECT_FALSE(moved.hasPhase("root"));
+    EXPECT_TRUE(moved.registerPhase("reused_moved", {}));
+    EXPECT_TRUE(moved.hasPhase("reused_moved"));
 }
 
 // ============================================================================

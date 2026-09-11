@@ -19,6 +19,37 @@
 namespace themis {
 namespace graph {
 
+void GraphPhaseGateOrchestrator::transferFrom(
+    GraphPhaseGateOrchestrator& other) noexcept
+{
+    phases_ = std::move(other.phases_);
+    other.phases_.clear();
+}
+
+GraphPhaseGateOrchestrator::GraphPhaseGateOrchestrator(
+    GraphPhaseGateOrchestrator&& other) noexcept
+{
+    // `this` is still under construction, so only the source mutex needs to be
+    // locked while the phase graph is transferred.
+    std::unique_lock<std::shared_mutex> lock(other.mutex_);
+    transferFrom(other);
+}
+
+GraphPhaseGateOrchestrator& GraphPhaseGateOrchestrator::operator=(
+    GraphPhaseGateOrchestrator&& other) noexcept
+{
+    if (this == &other) {
+        return *this;
+    }
+
+    std::unique_lock<std::shared_mutex> this_lock(mutex_, std::defer_lock);
+    std::unique_lock<std::shared_mutex> other_lock(other.mutex_, std::defer_lock);
+    std::lock(this_lock, other_lock);
+
+    transferFrom(other);
+    return *this;
+}
+
 // ---------------------------------------------------------------------------
 // registerPhase
 // ---------------------------------------------------------------------------
@@ -39,6 +70,9 @@ bool GraphPhaseGateOrchestrator::registerPhase(
 
     // Verify all prerequisites exist.
     for (const auto& pre : prerequisites) {
+        if (pre == phase_name) {
+            return false;  // self-reference would break the DAG invariant
+        }
         if (phases_.count(pre) == 0) {
             return false;  // prerequisite not yet registered
         }
@@ -50,14 +84,9 @@ bool GraphPhaseGateOrchestrator::registerPhase(
     node.prerequisites = prerequisites;
     phases_.emplace(phase_name, std::move(node));
 
-    // Cycle check: a new edge from each prerequisite to `phase_name` could
-    // introduce a cycle only if `phase_name` is already reachable from itself
-    // through the prerequisite chain.  Since we just added the node, the only
-    // new paths are those that end at `phase_name`.  We detect a cycle by
-    // running DFS from `phase_name` and checking if we reach `phase_name`
-    // again via an existing edge.
-    //
-    // Implementation: full DFS cycle detection on the updated graph.
+    // Defensive invariant check: the public API shape already prevents cycle
+    // introduction by only allowing prerequisites that are pre-registered.
+    // Keep the DFS as a safety net in case future mutations relax that rule.
     std::unordered_set<std::string> visited;
     std::unordered_set<std::string> rec_stack;
     for (const auto& [name, _] : phases_) {

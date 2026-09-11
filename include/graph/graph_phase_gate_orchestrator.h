@@ -15,8 +15,9 @@
  *   configured thresholds and all prerequisite phases are themselves PASSED.
  * - Gap reporting: returns the set of missing metrics or failing prerequisites
  *   that block a phase from passing ("gap tracking").
- * - Cycle detection: `registerPhase()` rejects edges that would introduce a
- *   cycle to keep the DAG invariant.
+ * - DAG invariant enforcement: `registerPhase()` only accepts prerequisites
+ *   that are already registered, and rejects duplicate or self-referential
+ *   registrations to keep the phase graph acyclic.
  * - Topological ordering: `topologicalOrder()` returns a valid execution
  *   sequence for the full pipeline.
  *
@@ -138,11 +139,13 @@ public:
     GraphPhaseGateOrchestrator()  = default;
     ~GraphPhaseGateOrchestrator() = default;
 
-    // Non-copyable; explicitly movable.
+    // Non-copyable; movable by transferring the phase graph while each
+    // instance keeps its own mutex. Moved-from instances remain valid and
+    // empty so they can be safely reused.
     GraphPhaseGateOrchestrator(const GraphPhaseGateOrchestrator&)            = delete;
     GraphPhaseGateOrchestrator& operator=(const GraphPhaseGateOrchestrator&) = delete;
-    GraphPhaseGateOrchestrator(GraphPhaseGateOrchestrator&&)                 = default;
-    GraphPhaseGateOrchestrator& operator=(GraphPhaseGateOrchestrator&&)      = default;
+    GraphPhaseGateOrchestrator(GraphPhaseGateOrchestrator&& other) noexcept;
+    GraphPhaseGateOrchestrator& operator=(GraphPhaseGateOrchestrator&& other) noexcept;
 
     // -----------------------------------------------------------------------
     // DAG construction
@@ -154,11 +157,13 @@ public:
      * @param phase_name   Unique name for the phase.  Must be non-empty.
      * @param prerequisites Names of phases that must PASS before this one can
      *                      advance.  May be empty for root phases.
-     * @return `true` on success; `false` if `phase_name` is already registered
-     *         or a prerequisite cycle would be introduced.
+     * @return `true` on success; `false` if `phase_name` is empty, already
+     *         registered, self-referential, or depends on an unknown
+     *         prerequisite.
      *
      * @note Prerequisites must have been registered previously (forward
-     *       references are not supported).
+     *       references are not supported), which keeps the public registration
+     *       path acyclic.
      */
     bool registerPhase(const std::string&              phase_name,
                        const std::vector<std::string>& prerequisites);
@@ -270,8 +275,12 @@ public:
      * Phases with no prerequisites appear first.  The order is stable
      * (deterministic for a given registration sequence).
      *
-     * @return An empty vector if the graph contains a cycle (should not
-     *         happen since `registerPhase` prevents cycle introduction).
+     * @return A valid phase order for every normal registration path. Returns
+     *         an empty vector only if the internal DAG invariant has been
+     *         violated unexpectedly (for example by a future mutation path
+     *         bypassing `registerPhase()`). Callers should treat an empty
+     *         result as a fatal diagnostic condition rather than a recoverable
+     *         scheduling outcome.
      */
     [[nodiscard]]
     std::vector<std::string> topologicalOrder() const;
@@ -318,6 +327,10 @@ private:
 
     /// @brief Internal gap computation (no locking).
     PhaseGapReport computeGaps(const std::string& phase_name) const;
+
+    /// @brief Transfer phase state from another instance while the caller holds
+    ///        the required exclusive lock(s). Leaves `other` valid and empty.
+    void transferFrom(GraphPhaseGateOrchestrator& other) noexcept;
 
     // -----------------------------------------------------------------------
     // State
