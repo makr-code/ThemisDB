@@ -1,6 +1,6 @@
 # Vector Search Module — Architecture
 
-<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-09-09 -->
 
 ## Overview
 
@@ -278,3 +278,31 @@ Used in document retrieval:
 - [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
 - [`../../include/vector_search/vector_index.h`](../../include/vector_search/vector_index.h) — Public API
+
+## Implementation Status
+
+> **No source implementation.** This module path contains only `.gitkeep`, `README.md`, and `ARCHITECTURE.md`. Implementation claimed in docs is externalized or planned; all claims must be treated as aspirational until source is delivered.
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| index | `include/index/` | Foundational index structures (HNSW, IVF) reused by vector search |
+| storage | `include/storage/` | Planned: persistence of serialised vector indices |
+| utils | `include/utils/` (simd_distance.cpp) | SIMD-accelerated distance computation helpers |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| rag | `include/vector_search/vector_index.h` | RAG uses ANN index for embedding similarity retrieval |
+| server | `include/vector_search/` | Server exposes vector similarity query APIs |
+
+## Integration Points
+
+### Critical Integration: ANN Index for RAG
+**Files:** (planned) `include/vector_search/vector_index.h` ↔ `rag/`
+**Contract:** RAG calls `VectorIndex::search(query_embedding, k)` and receives ranked embedding IDs; index must not mutate result objects after delivery.
+**Thread Safety:** Planned: read queries concurrent-safe; index mutations (insert/delete) serialised.
+
+> **All integration claims above are aspirational until source implementation is delivered.**

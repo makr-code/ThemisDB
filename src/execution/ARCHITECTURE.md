@@ -179,3 +179,19 @@ if (queue_depth >= max_queue_depth):
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
 - [`../../include/execution/query_scheduler.h`](../../include/execution/query_scheduler.h) — Public API
 - [`../../include/execution/thread_pool_manager.h`](../../include/execution/thread_pool_manager.h) — Public API
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: `server` — WIRED (guarded by `THEMIS_EXECUTION_MODULE`)**
+> `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h`
+> are now included in `include/server/http_server.h`. `HttpServer` holds
+> `query_scheduler_` and `execution_thread_pool_` members initialised in the
+> constructor when `THEMIS_EXECUTION_MODULE` is ON. Full dispatch wiring
+> (routing inbound query work items through `QueryScheduler`) is the next step.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/execution/query_scheduler.h` → `HttpServer::query_scheduler_`; `include/execution/thread_pool_manager.h` → `HttpServer::execution_thread_pool_` | Members declared and initialised in `http_server.h`/`http_server.cpp` under `#ifdef THEMIS_EXECUTION_MODULE`. SLA-aware EDF dispatch and work-stealing pool available; per-request enqueue wiring is the remaining step. |
+| _(tests)_ | `include/execution/thread_pool_manager.h`, `include/execution/query_scheduler.h` | `tests/integration/test_resource_pooling.cpp`, `tests/integration/test_load_balancing.cpp` — verified consumers. |

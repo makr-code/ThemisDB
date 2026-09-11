@@ -51,3 +51,10 @@ The updates module composes update state management, release manifest and delta-
   - state/manifest + patch/migration + rollout/operations plane split
   - explicit failure boundaries for state, patch, migration, and rollout faults
   - module-local ownership of update behavior
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/updates/hot_reload_engine.h`, `include/updates/manifest_database.h`, `include/updates/updates_diagnostic_emitter.h` | Hot-reload API handler drives live plugin/config reload; async job, changefeed, entity handlers, and rate limiter emit update diagnostics (`include/server/hot_reload_api_handler.h`, `src/server/async_job_api_handler.cpp`, `src/server/changefeed_api_handler.cpp`, `src/server/entity_api_handler.cpp`, `src/server/rate_limiter_v2.cpp`) |

@@ -1,6 +1,6 @@
 # Architecture - Replication Module
 
-<!-- Status: current | validated: 2026-08-18 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Wave A Block 2: Lock Ordering & Timeout Hardening -->
 
@@ -141,6 +141,54 @@ All long-running blocking operations use timeouts to ensure bounded wait times:
 - **Condition Variable Waits:** `cv.wait_for(lock, timeout, predicate)`
 - **Default Timeout:** 1-5 seconds depending on operation
 - **Configuration:** Via `replication.timeout_ms` and related config keys
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| `cdc` | `include/replication/schema_cdc.h` (via `cdc/schema_registry`) | Schema change events consumed during logical replication |
+| `utils` | `include/utils/` | Utility helpers (encoding, error codes, logging) |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/replication/replication_manager.h` | Replication admin and status API endpoints |
+| `storage` | `include/replication/` (WAL shipping to replicas via CDC/WAL path) | Storage WAL events propagated to replica nodes |
+| `failover` | `include/replication/replication_manager.h`, `include/replication/raft_v2.h` | Failover module consults replication state for leader election; `auto_failover_manager` and `disaster_recovery_manager` both import `replication_manager.h` |
+| `temporal` | `include/replication/multi_master_replication.h` | `temporal_conflict_resolver` imports multi-master replication state to resolve concurrent write conflicts across temporal branches (`include/temporal/temporal_conflict_resolver.h:34`) |
+
+---
+
+## Integration Points
+
+### Critical Integration: Replication → CDC / Schema Registry
+**Files:** `src/replication/logical_replication.cpp` ↔ `include/cdc/schema_registry.h` (via `include/replication/schema_cdc.h`)
+**Contract:** Logical replication subscribes to schema change events from CDC schema registry to maintain schema-aware replication slots. Schema version is embedded in each logical event for consumer compatibility validation.
+**Thread Safety:** Schema registry reads are concurrent-safe; logical replication uses `shared_mutex` (Level 1 in lock hierarchy) for slot access.
+**Failure Mode:** Schema registry unavailable → logical replication pauses the affected slot and emits a lag alert; does not corrupt data.
+
+### Critical Integration: Replication — Raft V2 Leader Election
+**Files:** `src/replication/raft_v2.cpp` ↔ `include/replication/raft_v2.h`
+**Contract:** RaftV2 manages leader election and log replication; leader promotion triggers `replication_manager` failover callbacks. Config changes require quorum before being applied.
+**Thread Safety:** Config state uses Level-2 `config_mutex_`; election state uses Level-2 per-resource mutex. I/O (WAL append) executes outside all locks per Wave A Block 2 hardening.
+**Failure Mode:** Loss of quorum → cluster read-only; stale leader detection → automatic step-down; WAL failure → abort with explicit error (not silent).
+
+### Critical Integration: Replication — Async WAL Shipping
+**Files:** `src/replication/async_wal_shipper.cpp` ↔ `include/replication/async_wal_shipper.h`
+**Contract:** WAL segments are queued and shipped to replica endpoints asynchronously. Queue is bounded; backpressure is applied on overflow. All callbacks and network I/O execute outside Level-3 locks.
+**Thread Safety:** Level-3 locks (`queue_mutex_`, `callback_mutex_`, `stats_mutex_`) guard queue and stats; callbacks invoked without any lock held.
+**Failure Mode:** Network failure → retried with exponential backoff up to configured budget; queue overflow → oldest entry dropped with sequence gap marker; lag alert fired.
+
+### Critical Integration: Replication — Conflict Resolution (Multi-Master)
+**Files:** `src/replication/conflict_resolution.cpp` ↔ `include/replication/conflict_resolution.h`, `include/replication/crdt_types.h`
+**Contract:** On concurrent writes from multiple masters, conflict resolver applies strategy (HLC/LWW/CRDT) to produce deterministic merge outcome. Resolver is called synchronously on the apply path.
+**Thread Safety:** CRDT merge operations are stateless and concurrent-safe; LWW comparisons are lock-free.
+**Failure Mode:** Unresolvable conflict (strategy mismatch) → operation flagged for manual review in audit log; data not silently overwritten.
+
+---
 
 ## Sourcecode Verification (Module: replication/architecture)
 

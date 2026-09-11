@@ -47,3 +47,20 @@ Out of scope at current stage:
 - Active planner hardening bench: `benchmarks/epic2_evaluation/planner_decision_bench.cc`
 - Remaining contracts/implementations: still phase-gated per local module docs
 - Dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: `query` module planner integration (PLANNED)**
+> The evaluation module is intended to integrate with `QueryPlanner`/`PlannerObserver`
+> in the `query` module to provide plan diagnostics and routing correctness checks.
+> This integration is explicitly listed as an open item in the evaluation ROADMAP
+> ("downstream default-workflow consumers still need planner-envelope and
+> routing-diagnostics integration"). Evaluation phase 4–6 must complete before
+> this wiring is implemented.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `query` _(planned)_ | `include/evaluation/` → `QueryPlanner`/`PlannerObserver` integration | Planned production route: evaluation diagnostics injected into the query planning pipeline. Blocked on evaluation Phase 4–6 completion per module ROADMAP. |
+| _(tests)_ | `include/evaluation/` | `tests/` evaluation-focused test files — current only verified consumers. |

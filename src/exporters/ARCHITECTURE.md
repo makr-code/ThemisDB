@@ -55,3 +55,11 @@ The exporters module composes format-specific exporters, stream/delta/join orche
   - explicit format/orchestration/safety/operations planes
   - bounded failure behavior in policy and export execution paths
   - module-local ownership of export orchestration and integrations
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/exporters/exporter_interface.h`, `include/exporters/aql_predicate_filter.h`, `include/exporters/exporter_errors.h` | Export API handler resolves exporter implementations and applies AQL predicate filters during export runs (`include/server/export_api_handler.h`, `src/server/export_api_handler.cpp`) |
+| `llm` | `include/exporters/jsonl_llm_exporter.h` | Training data iterator uses the JSONL LLM exporter for streaming fine-tuning dataset emission (`include/llm/training_data_iterator.h`) |

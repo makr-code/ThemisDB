@@ -50,3 +50,10 @@ The projects module composes lifecycle state management, immutable project snaps
   - lifecycle/versioning + diff/template + collaboration/observability plane split
   - explicit failure boundaries for invalid transitions, snapshots, locks, and conflicts
   - module-local ownership of project-domain behavior surfaces
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `document` | `include/projects/DocumentManager/document_manager.h` | Deprecated document manager adapter bridges the legacy projects-scoped `DocumentManager` API (`include/document/document_manager_deprecated.h`) |

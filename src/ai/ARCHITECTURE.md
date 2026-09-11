@@ -61,3 +61,17 @@ Wave C C1/C2 safety-gate and telemetry integrations also extend into production 
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: INTEGRATION-READY**
+> Handler header `include/server/ai_plugin_api_handler.h` has been created as the
+> production integration point. Wiring into `HttpServer` constructor and CMake
+> target linkage are the remaining steps before GA.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/server/ai_plugin_api_handler.h` → `AiPluginApiHandler` | Planned production route: `POST /ai/plugins/generate`, `GET /ai/plugins/list`, `GET /ai/plugins/{id}/status`. Handler header is implemented; `HttpServer` constructor wiring and CMake target linkage pending. |
+| _(tests)_ | `include/ai/ai_plugin_generator.h`, `include/ai/cai_ethics_integration.h` | `tests/test_ai_plugin_generator.cpp`, `tests/test_cai_safety_module.cpp` — current only verified consumers. |

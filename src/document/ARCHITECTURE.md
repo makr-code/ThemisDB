@@ -1,6 +1,6 @@
 # Architecture - Document Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -54,3 +54,29 @@ The document module composes store, lifecycle, schema, merge, exchange, and snap
   - explicit store/lifecycle/schema and diff/merge planes
   - bounded Result-based failure semantics for document operations
   - module-local ownership of round-trip document snapshot persistence
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Persists document objects and snapshot state |
+| metadata | `include/metadata/` | Schema evolution and versioning checks for document schemas |
+| utils | `include/utils/` | Logging, audit, and serialisation helpers |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/document/` | Server exposes document store, lifecycle, and schema APIs |
+
+## Integration Points
+
+### Critical Integration: Storage Document Persistence
+**Files:** `src/document/round_trip_editor.cpp`, `include/document/document_store.h` ↔ `storage/`
+**Contract:** Document store delegates all persistence to storage interfaces; round-trip snapshot IDs are generated deterministically and must be stable within a session.
+**Thread Safety:** Document CRUD operations use Result-based error propagation; concurrent access to the same document ID is serialised by the storage layer.
+
+### Critical Integration: Metadata Schema Evolution
+**Files:** `include/document/document_schema_evolution.h` ↔ `metadata/`
+**Contract:** Schema evolution checks query metadata for registered schema versions before allowing structural mutations; schema seal is enforced by metadata module.
+**Thread Safety:** Schema reads are concurrent-safe; schema mutations require the metadata write lock.

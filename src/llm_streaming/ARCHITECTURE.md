@@ -1,6 +1,6 @@
 # LLM Streaming Module — Architecture
 
-<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-09-09 -->
 
 ## Overview
 
@@ -255,3 +255,29 @@ Streaming receives tokens from LLM inference as they are produced:
 - [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
 - [`../../include/llm_streaming/streaming_server.h`](../../include/llm_streaming/streaming_server.h) — Public API
+
+## Implementation Status
+
+> **No source implementation.** This module path contains only `.gitkeep`, `README.md`, and `ARCHITECTURE.md`. Implementation claimed in docs is externalized or planned; all claims must be treated as aspirational until source is delivered.
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llm | `include/llm/` | LLM inference layer produces tokens consumed by the streaming pipeline |
+| utils | `include/utils/` | Thread-pool, rate-limiter, and logging helpers for stream management |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/llm_streaming/streaming_server.h` | Server delivers token streams to gRPC (ServerWriter) and HTTP (SSE) clients |
+
+## Integration Points
+
+### Critical Integration: LLM Token Production
+**Files:** (planned) streaming pipeline ↔ `llm/`
+**Contract:** LLM calls `onToken(token, finish_reason)` callback; streaming layer handles backpressure via `isBackpressured()` check before each token delivery.
+**Thread Safety:** Token callbacks must be safe to call from LLM inference thread; streaming layer serialises delivery under per-stream state.
+
+> **All integration claims above are aspirational until source implementation is delivered.**

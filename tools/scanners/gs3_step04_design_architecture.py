@@ -28,6 +28,12 @@ class ThemisArchitectureRulesScan:
             "core": {"server", "query"},
             "storage": {"server", "query"},
             "llm": {"server"},  # known coupling risk (Appendix A.3)
+            # Toolbox boundary: ingestion must never depend on toolbox.
+            # toolbox→ingestion is the canonical direction (one-way enforced).
+            # Ref: include/toolbox/ingestion_toolbox.h header contract,
+            #      src/toolbox/ARCHITECTURE.md §Dependency Direction Rule,
+            #      src/ARCHITECTURE.md §Unified Dependency Map.
+            "ingestion": {"toolbox"},
         }
 
     def scan_files(self, file_list: List[Path]) -> List[Dict]:

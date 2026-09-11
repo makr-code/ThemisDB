@@ -441,3 +441,54 @@ grep "add_executable\|bench" benchmarks/epic2_evaluation/CMakeLists.txt
 **Created:** 2026-08-18  
 **Status:** Template ready for use; awaiting Module Owner signature  
 **Last Updated:** 2026-08-18T00:00:00Z
+
+---
+
+## Part 4: Production Consumer Route Gate (Added 2026-09-09)
+
+### Gate Description
+
+Integration of the `evaluation` module into the `query` module's `QueryPlanner` /
+`PlannerObserver` pipeline (the "production consumer route") is **explicitly blocked**
+until this document's Part 1–3 sign-off is complete **and** all three of the following
+Phase 4–6 exit criteria are satisfied.
+
+This gate was added as part of the DOC-WEEKLY consumer-route pass
+(see `src/evaluation/ARCHITECTURE.md § Direct Downstream Consumers`).
+
+### Gate Exit Criteria
+
+| # | Criterion | Status | Owner |
+|---|-----------|--------|-------|
+| 1 | Phase 4 test targets execute without failure in CI (at least 7 focused test binaries from `tests/epic2_evaluation/CMakeLists.txt`) | ⏸ BLOCKED (build env) | Module Owner |
+| 2 | Phase 5 benchmark baselines captured and recorded in `benchmarks/epic2_evaluation/README.md` (latency, fallback rate, degradation guardrails) | ⏸ BLOCKED (build env) | Module Owner |
+| 3 | Phase 6 sign-off completed (all three role sign-offs in §Part 1–3 above, with dates) | ⏳ PENDING | Module Owner, Reviewer, Release Manager |
+
+### Blocking Integration Step
+
+Once all three criteria are met, the following integration step becomes unblocked:
+
+```
+src/query/query_planner.cpp  (or equivalent observer hook)
+  └─> #include "evaluation/query_planner.h"
+  └─> PlannerObserver::onPlanComplete() → evaluation diagnostics
+```
+
+The concrete integration target is:
+- `include/evaluation/query_planner.h` → `QueryPlannerObserver` interface
+- Wire via `QueryPlanner::registerObserver()` in `src/query/query_planner.cpp`
+- Activation CMake flag: `THEMIS_EVALUATION_PLANNER_OBSERVER` (to be added when gate passes)
+
+### CI Gate Enforcement
+
+Until this gate is cleared, CI jobs **must not** enable `THEMIS_EVALUATION_PLANNER_OBSERVER`.
+The flag does not yet exist; it will be added only after sign-off completion.
+
+Any PR that adds a `#include "evaluation/..."` outside of `src/evaluation/` or `tests/`
+without this gate being cleared is a hard review blocker.
+
+### Gate Cleared By
+
+**Cleared by:** _________________________________  
+**Date:** _________________________________  
+**Evidence ref:** _________________________________  
