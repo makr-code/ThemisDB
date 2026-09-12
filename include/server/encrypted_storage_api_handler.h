@@ -2,7 +2,7 @@
  * @file encrypted_storage_api_handler.h
  * @brief HTTP handler for the User Encrypted Storage API.
  *
- * Exposes `themis::plugins::MultiLevelEncryptedStorage` as production HTTP
+ * Exposes `themis::plugins::user_storage::MultiLevelEncryptedStorage` as production HTTP
  * endpoints under `/user/storage/encrypted/`. This header is the production
  * consumer route for the `user_storage_encrypted` module — previously the
  * module had only test consumers.
@@ -52,7 +52,7 @@ namespace server {
 /**
  * @brief HTTP handler for user encrypted storage endpoints.
  *
- * Wraps `themis::plugins::MultiLevelEncryptedStorage` and exposes store/
+ * Wraps `themis::plugins::user_storage::MultiLevelEncryptedStorage` and exposes store/
  * retrieve/delete/list/rotate operations via an authenticated REST API.
  *
  * ### Thread safety

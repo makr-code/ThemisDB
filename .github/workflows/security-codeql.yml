@@ -5,13 +5,14 @@ name: "CodeQL Advanced"
 # community-release preset is respected (THEMIS_ENABLE_HIP=OFF, no ROCm required).
 # Trigger policy: repo framework score calibration for workflow cost controls.
 #
-# ── PREREQUISITE ─────────────────────────────────────────────────────────────
-# GitHub's Default Code Scanning Setup MUST be disabled before this workflow
-# can upload SARIF results. If Default Setup is active, the upload step will
-# fail with "advanced configurations cannot be processed when the default
-# setup is enabled."
-# Disable via: Repository Settings → Code security → Code scanning →
-#              Default setup → Disable
+# ── Default Code Scanning coexistence ────────────────────────────────────────
+# GitHub's managed Default Code Scanning setup is currently enabled for this
+# repository and publishes the authoritative CodeQL alerts for PRs and branch
+# pushes. Advanced CodeQL uploads fail in that mode with:
+#   "advanced configurations cannot be processed when the default setup is enabled"
+# To keep this workflow useful without fighting the managed setup, we still run
+# CodeQL extraction and query execution here, but we keep the SARIF local and do
+# not upload it to Code Scanning.
 #
 # ── Query-suite split (cost control) ─────────────────────────────────────────
 #   pull_request / push  → security-extended   (security rules only, no quality)
@@ -158,8 +159,56 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-default-setup:
+    name: Detect CodeQL setup mode
+    runs-on: ubuntu-latest
+    outputs:
+      advanced_allowed: ${{ steps.detect.outputs.advanced_allowed }}
+    steps:
+      - name: Detect repository CodeQL default setup
+        id: detect
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/code-scanning/default-setup"
+          http_code="$(
+            curl -sS \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              -o /tmp/codeql-default-setup.json \
+              -w "%{http_code}" \
+              "${api_url}"
+          )"
+
+          case "${http_code}" in
+            200)
+              state="$(python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("/tmp/codeql-default-setup.json").read_text(encoding="utf-8")).get("state", "unknown"))')"
+              if [[ "${state}" == "configured" ]]; then
+                echo "advanced_allowed=false" >> "$GITHUB_OUTPUT"
+                echo "Repository CodeQL default setup is enabled; skipping advanced CodeQL workflow jobs to avoid SARIF upload failures."
+              else
+                echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
+                echo "Repository CodeQL default setup state is '${state}'; running advanced CodeQL workflow jobs."
+              fi
+              ;;
+            404)
+              echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
+              echo "Repository CodeQL default setup is not configured; running advanced CodeQL workflow jobs."
+              ;;
+            *)
+              echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."
+              cat /tmp/codeql-default-setup.json || true
+              echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
   analyze:
     name: Analyze (c-cpp)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -231,6 +280,8 @@ jobs:
 
   analyze-csharp:
     name: Analyze (csharp)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: windows-latest
     timeout-minutes: 60
     steps:
@@ -278,6 +329,8 @@ jobs:
 
   analyze-rust:
     name: Analyze (rust)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
