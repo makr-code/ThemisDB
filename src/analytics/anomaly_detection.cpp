@@ -400,13 +400,16 @@ double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
 std::vector<std::pair<double, size_t>> knn(const std::vector<std::vector<double>> &train,
                                            const std::vector<double> &query, int k) {
     std::vector<std::pair<double, size_t>> dists;
+    if (k <= 0) {
+        return dists;
+    }
     dists.reserve(train.size());
     for (size_t i = 0; i < train.size(); ++i) {
         dists.emplace_back(euclidean(train[i], query), i);
     }
-    int kk = std::min(k, dists.size());
+    const size_t kk = std::min(dists.size(), static_cast<size_t>(k));
     std::partial_sort(dists.begin(), dists.begin() + kk, dists.end());
-    dists.resize(static_cast<size_t>(kk));
+    dists.resize(kk);
     return dists;
 }
 
@@ -568,7 +571,7 @@ struct AnomalyDetector::Impl {
         if (lof_train.empty()) {
             return 0.0;
         }
-        int k           = std::min(static_cast<int>(cfg.k_neighbors), lof_train.size());
+        const int k = static_cast<int>(std::min(lof_train.size(), static_cast<size_t>(cfg.k_neighbors)));
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) {
             return 0.0;
@@ -657,7 +660,7 @@ struct AnomalyDetector::Impl {
         }
 
         if (cfg.method == AnomalyMethod::ISOLATION_FOREST) {
-            int sub_size = std::min(cfg.max_samples, data.size());
+            const int sub_size = static_cast<int>(std::min(data.size(), static_cast<size_t>(cfg.max_samples)));
             int hl       = static_cast<int>(std::ceil(std::log2(static_cast<double>(sub_size))));
             iforest_c_n  = iforestC(static_cast<double>(sub_size));
 
@@ -682,7 +685,7 @@ struct AnomalyDetector::Impl {
                 lof_train.push_back(impl_extractForLof(p));
             }
 
-            int k = std::min(cfg.k_neighbors, lof_train.size());
+            const int k = static_cast<int>(std::min(lof_train.size(), static_cast<size_t>(cfg.k_neighbors)));
             lof_lrd.resize(lof_train.size(), 1.0);
             lof_max = 1.0;
 
@@ -778,7 +781,7 @@ struct AnomalyDetector::Impl {
         if (lof_train.empty()) {
             return contrib;
         }
-        int k           = std::min(static_cast<int>(cfg.k_neighbors), lof_train.size());
+        const int k = static_cast<int>(std::min(lof_train.size(), static_cast<size_t>(cfg.k_neighbors)));
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) {
             return contrib;

@@ -793,8 +793,9 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     metadata_entity.setField("recommended_action", decision.recommended_action);
     metadata_entity.setField("confidence", decision.confidence);
     metadata_entity.setField("keywords", std::string(json(keywords).dump()));
-    metadata_entity.setField("timestamp", std::chrono::system_clock::now().time_since_epoch().count());
-    metadata_entity.setField("principle_count", decision.principle_citations.size());
+    metadata_entity.setField("timestamp", static_cast<int64_t>(
+        std::chrono::system_clock::now().time_since_epoch().count()));
+    metadata_entity.setField("principle_count", static_cast<int64_t>(decision.principle_citations.size()));
     metadata_entity.setField("metrics_avg", 
         (decision.metrics.consistency + decision.metrics.fairness + 
          decision.metrics.transparency + decision.metrics.feasibility + 

@@ -20,9 +20,21 @@
 #include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
+#include <chrono>
+#include <ctime>
+#include <functional>
+#include <iomanip>
 #include <sstream>
 
 namespace themis::server {
+
+namespace {
+
+std::string hashContent(const std::string& content) {
+    return std::to_string(std::hash<std::string>{}(content));
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction / destruction
@@ -41,6 +53,20 @@ ScraperPluginApiHandler::ScraperPluginApiHandler(
 }
 
 ScraperPluginApiHandler::~ScraperPluginApiHandler() = default;
+
+std::string ScraperPluginApiHandler::toIso8601Now() {
+    const auto now = std::chrono::system_clock::now();
+    const std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm tm_utc{};
+#ifdef _WIN32
+    gmtime_s(&tm_utc, &t);
+#else
+    gmtime_r(&t, &tm_utc);
+#endif
+    std::ostringstream oss;
+    oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%SZ");
+    return oss.str();
+}
 
 // ---------------------------------------------------------------------------
 // Dispatch
@@ -105,7 +131,7 @@ http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
     const http::request<http::string_body>& req)
 {
     try {
-        auto body       = nlohmann::json::parse(req.body());
+        auto body = nlohmann::json::parse(req.body());
         const std::string url = body.value("url", "");
         if (url.empty()) {
             http::response<http::string_body> resp{http::status::bad_request, req.version()};
@@ -115,29 +141,84 @@ http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
             return resp;
         }
 
-        themis::scraper::RenderRequest render_req;
-        render_req.url            = url;
-        render_req.wait_for_js    = body.value("wait_for_js", true);
-        render_req.timeout_ms     = body.value("timeout_ms", 30000);
-        render_req.extract_links  = body.value("extract_links", false);
+        themis::scraper::JsRenderRequest render_req;
+        render_req.url = url;
+        render_req.timeout_ms = body.value("timeout_ms", 30000);
+        render_req.wait_selector = body.value("wait_selector", std::string{});
+        if (body.contains("headers") && body["headers"].is_object()) {
+            render_req.headers = body["headers"].get<std::map<std::string, std::string>>();
+        }
+        if (body.contains("extra_args") && body["extra_args"].is_array()) {
+            render_req.extra_args = body["extra_args"].get<std::vector<std::string>>();
+        }
 
         const auto result = renderer_->render(render_req);
 
-        // Persist metadata via writer.
-        themis::scraper::ScraperMetadata meta;
-        meta.url          = url;
-        meta.job_id       = result.job_id;
-        meta.status       = result.status;
-        meta.content_hash = result.content_hash;
-        writer_->write(meta);
+        const std::string job_id = "scrape-" + std::to_string(next_job_id_.fetch_add(1));
+        ScraperJobRecord job;
+        job.job_id = job_id;
+        job.url = url;
+        job.created_at = toIso8601Now();
+
+        if (result.success) {
+            const std::string source_name = body.value("source_name", std::string{"api"});
+            const std::string gov_source_id = body.value("gov_source_id", std::string{});
+            themis::scraper::GapContext gap;
+            gap.gap_id = body.value("gap_id", std::string{});
+            gap.description = body.value("gap_description", std::string{});
+            if (body.contains("gap_keywords") && body["gap_keywords"].is_array()) {
+                gap.keywords = body["gap_keywords"].get<std::vector<std::string>>();
+            }
+
+            themis::scraper::EvaluationResult eval;
+            eval.quality_score = 1.0;
+            eval.gap_relevance = 1.0;
+            eval.summary = "ingested via scraper API";
+
+            const std::string title = body.value("title", url);
+            const auto rel = themis::scraper::ScraperRecordBuilder::buildRelational(
+                url,
+                title,
+                result.html,
+                source_name,
+                gov_source_id,
+                eval,
+                gap);
+            const auto node = themis::scraper::ScraperRecordBuilder::buildNode(rel);
+            const auto edges = themis::scraper::ScraperRecordBuilder::buildEdges(rel, eval);
+            const auto vec = themis::scraper::ScraperRecordBuilder::buildVector(rel);
+
+            const auto write_result = writer_->write(rel, node, edges, vec);
+            if (!write_result.success) {
+                job.status = "failed";
+                job.message = write_result.error.empty() ? "metadata write failed" : write_result.error;
+            } else {
+                job.status = "completed";
+                job.message = "ok";
+            }
+
+            job.content = result.html;
+            job.content_hash = hashContent(result.html);
+        } else {
+            job.status = "failed";
+            job.message = result.error.empty() ? "render failed" : result.error;
+            job.content_hash.clear();
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(jobs_mutex_);
+            jobs_[job_id] = job;
+        }
 
         nlohmann::json resp_body{
-            {"job_id", result.job_id},
-            {"status", result.status},
+            {"job_id", job_id},
+            {"status", job.status},
             {"url",    url},
+            {"message", job.message},
         };
 
-        http::response<http::string_body> resp{http::status::accepted, req.version()};
+        const auto status = job.status == "completed" ? http::status::accepted : http::status::bad_gateway;
+        http::response<http::string_body> resp{status, req.version()};
         resp.set(http::field::content_type, "application/json");
         resp.body() = resp_body.dump();
         resp.prepare_payload();
@@ -163,117 +244,102 @@ http::response<http::string_body> ScraperPluginApiHandler::handleCrawl(
 http::response<http::string_body> ScraperPluginApiHandler::handleListJobs(
     const http::request<http::string_body>& req)
 {
-    try {
-        const auto jobs = writer_->listJobs();
-        nlohmann::json arr = nlohmann::json::array();
-        for (const auto& j : jobs) {
+    nlohmann::json arr = nlohmann::json::array();
+    {
+        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        for (const auto& [id, job] : jobs_) {
             arr.push_back({
-                {"job_id",       j.job_id},
-                {"url",          j.url},
-                {"status",       j.status},
-                {"created_at",   j.created_at},
+                {"job_id", id},
+                {"url", job.url},
+                {"status", job.status},
+                {"created_at", job.created_at},
+                {"message", job.message}
             });
         }
-        http::response<http::string_body> resp{http::status::ok, req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = arr.dump();
-        resp.prepare_payload();
-        return resp;
-    } catch (const std::exception& ex) {
-        http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = std::string(R"({"error":)") + nlohmann::json(ex.what()).dump() + "}";
-        resp.prepare_payload();
-        return resp;
     }
+
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::content_type, "application/json");
+    resp.body() = arr.dump();
+    resp.prepare_payload();
+    return resp;
 }
 
 http::response<http::string_body> ScraperPluginApiHandler::handleJobStatus(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
-    try {
-        const auto status = writer_->getJobStatus(job_id);
-        if (!status) {
-            http::response<http::string_body> resp{http::status::not_found, req.version()};
-            resp.set(http::field::content_type, "application/json");
-            resp.body() = R"({"error":"job not found"})";
-            resp.prepare_payload();
-            return resp;
-        }
-        nlohmann::json resp_body{
-            {"job_id", job_id},
-            {"status", status->status},
-            {"progress_pct", status->progress_pct},
-        };
-        http::response<http::string_body> resp{http::status::ok, req.version()};
+    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    const auto it = jobs_.find(job_id);
+    if (it == jobs_.end()) {
+        http::response<http::string_body> resp{http::status::not_found, req.version()};
         resp.set(http::field::content_type, "application/json");
-        resp.body() = resp_body.dump();
-        resp.prepare_payload();
-        return resp;
-    } catch (const std::exception& ex) {
-        http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = std::string(R"({"error":)") + nlohmann::json(ex.what()).dump() + "}";
+        resp.body() = R"({"error":"job not found"})";
         resp.prepare_payload();
         return resp;
     }
+
+    const ScraperJobRecord& job = it->second;
+    nlohmann::json resp_body{
+        {"job_id", job.job_id},
+        {"status", job.status},
+        {"created_at", job.created_at},
+        {"message", job.message}
+    };
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::content_type, "application/json");
+    resp.body() = resp_body.dump();
+    resp.prepare_payload();
+    return resp;
 }
 
 http::response<http::string_body> ScraperPluginApiHandler::handleJobResult(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
-    try {
-        const auto result = writer_->getJobResult(job_id);
-        if (!result) {
-            http::response<http::string_body> resp{http::status::not_found, req.version()};
-            resp.set(http::field::content_type, "application/json");
-            resp.body() = R"({"error":"job not found or result not ready"})";
-            resp.prepare_payload();
-            return resp;
-        }
-        nlohmann::json resp_body{
-            {"job_id",       job_id},
-            {"url",          result->url},
-            {"content",      result->content},
-            {"content_hash", result->content_hash},
-            {"links",        result->links},
-        };
-        http::response<http::string_body> resp{http::status::ok, req.version()};
+    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    const auto it = jobs_.find(job_id);
+    if (it == jobs_.end()) {
+        http::response<http::string_body> resp{http::status::not_found, req.version()};
         resp.set(http::field::content_type, "application/json");
-        resp.body() = resp_body.dump();
-        resp.prepare_payload();
-        return resp;
-    } catch (const std::exception& ex) {
-        http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = std::string(R"({"error":)") + nlohmann::json(ex.what()).dump() + "}";
+        resp.body() = R"({"error":"job not found or result not ready"})";
         resp.prepare_payload();
         return resp;
     }
+
+    const ScraperJobRecord& job = it->second;
+    nlohmann::json resp_body{
+        {"job_id", job.job_id},
+        {"url", job.url},
+        {"content", job.content},
+        {"content_hash", job.content_hash},
+        {"links", job.links},
+        {"status", job.status}
+    };
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::content_type, "application/json");
+    resp.body() = resp_body.dump();
+    resp.prepare_payload();
+    return resp;
 }
 
 http::response<http::string_body> ScraperPluginApiHandler::handleCancelJob(
     const http::request<http::string_body>& req,
     const std::string& job_id)
 {
-    try {
-        const bool cancelled = renderer_->cancelJob(job_id);
-        http::response<http::string_body> resp{
-            cancelled ? http::status::no_content : http::status::not_found,
-            req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = cancelled ? "" : R"({"error":"job not found"})";
-        resp.prepare_payload();
-        return resp;
-    } catch (const std::exception& ex) {
-        http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
-        resp.set(http::field::content_type, "application/json");
-        resp.body() = std::string(R"({"error":)") + nlohmann::json(ex.what()).dump() + "}";
-        resp.prepare_payload();
-        return resp;
+    bool deleted = false;
+    {
+        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        deleted = jobs_.erase(job_id) > 0;
     }
+
+    http::response<http::string_body> resp{
+        deleted ? http::status::no_content : http::status::not_found,
+        req.version()};
+    resp.set(http::field::content_type, "application/json");
+    resp.body() = deleted ? "" : R"({"error":"job not found"})";
+    resp.prepare_payload();
+    return resp;
 }
 
 }  // namespace themis::server

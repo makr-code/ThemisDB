@@ -630,9 +630,8 @@ std::vector<json> MarkdownProcessor::chunk(
                 while (iss >> tok) {
                   tokens.push_back(tok);
                 }
-                int take = std::min(overlap, tokens.size());
-                 for (size_t i = tokens.size() - static_cast<size_t>(take);
-                     i < tokens.size(); ++i) {
+                                const size_t take = std::min(tokens.size(), static_cast<size_t>(overlap));
+                                for (size_t i = tokens.size() - take; i < tokens.size(); ++i) {
                     if (!overlap_text.empty()) {
                       overlap_text += ' ';
                     }

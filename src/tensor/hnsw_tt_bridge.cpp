@@ -342,7 +342,10 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
         results.push_back({ cid, 1.0f - sim, tn });
     }
 
-    int actual_k = std::min(k, results.size());
+    if (k <= 0 || results.empty()) {
+        return {};
+    }
+    const size_t actual_k = std::min(results.size(), static_cast<size_t>(k));
     std::partial_sort(results.begin(),
                       results.begin() + actual_k,
                       results.end(),
@@ -350,7 +353,7 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
                          const TensorSearchResult& b) {
                           return a.distance < b.distance;
                       });
-    results.resize(static_cast<size_t>(actual_k));
+    results.resize(actual_k);
 
     const_cast<HnswTTBridge*>(this)->stats_.total_searches++;
     return results;

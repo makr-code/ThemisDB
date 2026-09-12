@@ -331,8 +331,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
 
         // Label: first 3 node names joined with "; "
         std::ostringstream label_ss = {};
-        const int label_count = std::min(pc.node_ids.size(), 3);
-        for (int i = 0; i < label_count; ++i) {
+                const size_t label_count = std::min(pc.node_ids.size(), static_cast<size_t>(3));
+        for (size_t i = 0; i < label_count; ++i) {
             if (i > 0) {
               label_ss << "; ";
             }

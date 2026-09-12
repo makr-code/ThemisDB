@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <random>
 #include <cctype>
+#include <limits>
 
 using json = nlohmann::json;
 
@@ -375,10 +376,10 @@ TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) 
         batch.label_ids.push_back(sample.label_ids);
         batch.sequence_lengths.push_back(sample.input_ids.size());
         
-        batch.max_sequence_length = std::max(
-            batch.max_sequence_length, 
-            sample.input_ids.size()
-        );
+        const int sample_length = static_cast<int>(std::min(
+            sample.input_ids.size(),
+            static_cast<size_t>(std::numeric_limits<int>::max())));
+        batch.max_sequence_length = std::max(batch.max_sequence_length, sample_length);
     }
     
     // Pad sequences if needed

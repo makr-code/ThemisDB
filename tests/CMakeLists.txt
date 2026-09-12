@@ -26754,12 +26754,12 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp")
             GTest::gtest_main
             Boost::system
     )
-    include(GoogleTest)
-    gtest_discover_tests(themis_secidx_tests
-        DISCOVERY_MODE PRE_TEST
+    # NOTE: this binary currently crashes during --gtest_list_tests on some
+    # Windows setups (Access Violation), which breaks global CTest discovery.
+    # Register a plain CTest entry to keep discovery stable for unrelated tests.
+    add_test(NAME themis_secidx_tests COMMAND themis_secidx_tests --gtest_color=yes)
+    set_tests_properties(themis_secidx_tests PROPERTIES
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
     )
 
     # Sync runtime DLLs next to the secidx test binary so CTest discovery
