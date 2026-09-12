@@ -35,7 +35,7 @@ TensorCompressionRoutingAccelerator::compressToInt8(const std::vector<float>& in
 #if defined(THEMIS_ENABLE_CUDA) && THEMIS_ENABLE_CUDA
     if (!force_cpu) {
         std::vector<int8_t> out(input.size(), 0);
-        const int rc = themisCudaCompressToInt8Host(input.data(), out.data(), static_cast<int>(input.size()), scale);
+        const int rc = themisCudaCompressToInt8Host(input.data(), out.data(), input.size(), scale);
         if (rc == 0) {
             ++stats_.gpu_compression_calls;
             return out;
@@ -61,7 +61,7 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
 
     const std::size_t dim = tensor.size();
     for (const auto& route : route_weights) {
-        if (static_cast<int>(route.size()) != dim) {
+        if (route.size() != dim) {
             return {};
         }
     }
@@ -79,7 +79,7 @@ TensorCompressionRoutingAccelerator::computeRoutingScores(
         const int rc = themisCudaComputeRoutingScoresHost(tensor.data(),
                                                           packed.data(),
                                                           out.data(),
-                                                          static_cast<int>(route_weights.size()),
+                                                          route_weights.size(),
                                                           static_cast<int>(dim));
         if (rc == 0) {
             ++stats_.gpu_routing_calls;

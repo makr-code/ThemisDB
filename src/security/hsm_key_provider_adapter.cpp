@@ -285,7 +285,7 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata
 ) {
-    if (static_cast<int>(key_bytes.size()) != 32) {
+    if (key_bytes.size() != 32) {
         throw std::invalid_argument("Key must be exactly 32 bytes for AES-256");
     }
      
@@ -384,7 +384,7 @@ bool HSMKeyProviderAdapter::isHSMReady() const {
 std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
     std::vector<uint8_t> dek(32); // 256 bits for AES-256
     
-    if (RAND_bytes(dek.data(), static_cast<int>(dek.size())) != 1) {
+    if (RAND_bytes(dek.data(), dek.size()) != 1) {
         unsigned long err = ERR_get_error();
         char err_buf[256];
         ERR_error_string_n(err, err_buf, sizeof(err_buf));
@@ -560,7 +560,7 @@ void HSMKeyProviderAdapter::putCachedDEK(const std::string& cache_key, const std
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     // Check cache size limit
-    if (static_cast<int>(dek_cache_.size()) >= config_.max_cache_size) {
+    if (dek_cache_.size() >= config_.max_cache_size) {
         // Evict least recently used entry
         auto oldest = dek_cache_.begin();
         for (auto it = dek_cache_.begin(); it != dek_cache_.end(); ++it) {

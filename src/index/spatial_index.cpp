@@ -176,7 +176,7 @@ std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
 
         bool fully_inside = (n.x0 >= qx_lo && x1 <= qx_hi &&
                              n.y0 >= qy_lo && y1 <= qy_hi);
-        bool budget_full  = (static_cast<int>(ranges.size()) >= max_ranges - 1);
+        bool budget_full  = (ranges.size() >= max_ranges - 1);
 
         if (fully_inside || n.bits == 0 || budget_full) {
             // Emit this range.  Merge with the previous entry when adjacent to
@@ -298,16 +298,16 @@ void SpatialIndexManager::ensureRTree(std::string_view table) const {
     // Value format: JSON {"mbr":{"minx":...,"miny":...,"maxx":...,"maxy":...}}
     const std::string pk_prefix = getSpatialKeyPrefix(table) + "pk:";
     constexpr std::size_t kMortonChars = 16; // 64-bit Morton code: 16 hex characters
-    const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
+    const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
 
     std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
     auto& cache = mbr_cache_[table_str];
 
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view v) {
-            if (static_cast<int>(k.size()) <= pk_strip) {
+            if (k.size() <= pk_strip) {
                 THEMIS_WARN("SpatialIndexManager::ensureRTree: malformed per-PK key "
-                            "for table='{}' (len={})", table_str,static_cast<int>(k.size()));
+                            "for table='{}' (len={})", table_str,k.size());
                 return true;
             }
             std::string pk(k.substr(pk_strip));
@@ -596,7 +596,7 @@ SpatialIndexManager::Status SpatialIndexManager::bulkLoad(
         std::shared_lock<std::shared_mutex> rlock(rtree_mutex_);
         THEMIS_INFO("SpatialIndexManager::bulkLoad: table='{}', entries={}, "
                     "geo_index_bytes_allocated={}",
-                    table_str,static_cast<int>(entries.size()),
+                    table_str,entries.size(),
                     rtrees_[table_str].memoryBytes());
     }
 
@@ -974,7 +974,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (static_cast<int>(rtree.size()) > 0) {
+        if (rtree.size() > 0) {
             rtree_populated = true;
             candidate_keys = rtree.intersects(query_bbox);
             const auto& cache = mbr_cache_[table_str];
@@ -1199,7 +1199,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
         // LOCK: Tier 1 (Global R-tree protection, read-only) — Phase 3 A-5
         std::shared_lock<std::shared_mutex> slock(rtree_mutex_);
         const auto& rtree = rtrees_[table_str];
-        if (static_cast<int>(rtree.size()) > 0) {
+        if (rtree.size() > 0) {
             rtree_populated = true;
             candidate_keys = rtree.contains(x, y);
             const auto& cache = mbr_cache_[table_str];
@@ -1277,7 +1277,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
         });
     
     // Limit results
-    if (static_cast<int>(results.size()) > limit) {
+    if (results.size() > limit) {
         results.resize(limit);
     }
     
@@ -1324,7 +1324,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     std::vector<SpatialResult> candidates;
 
     // Double the search window until we have k candidates or exceed world bounds.
-    for (size_t iter = 0; iter < kMaxExpansionIter && static_cast<int>(candidates.size()) < k; ++iter) {
+    for (size_t iter = 0; iter < kMaxExpansionIter && candidates.size() < k; ++iter) {
         geo::MBR bbox(x - radius, y - radius, x + radius, y + radius);
         // Clamp to table bounds
         bbox.minx = std::max(bbox.minx, bounds.minx);
@@ -1351,7 +1351,7 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
                   return a.distance < b.distance;
               });
 
-    if (static_cast<int>(candidates.size()) > k) {
+    if (candidates.size() > k) {
         candidates.resize(k);
     }
     return candidates;
@@ -1377,9 +1377,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchZRange(
     db_.scanRange(pk_prefix, pk_prefix + "~",
         [&](std::string_view k, std::string_view value) {
             constexpr std::size_t kMortonChars = 16;
-            const std::size_t pk_strip = static_cast<int>(pk_prefix.size()) + kMortonChars + 1; // +1 for ':'
+            const std::size_t pk_strip = pk_prefix.size() + kMortonChars + 1; // +1 for ':'
             // Validate key length and the expected ':' separator between morton code and PK.
-            if (static_cast<int>(k.size()) <= pk_strip) {
+            if (k.size() <= pk_strip) {
               return true;
             }
             if (k[pk_prefix.size() + kMortonChars] != ':') {

@@ -747,7 +747,7 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
 
 std::string ContentManager::computeSHA256(const std::string& blob) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(blob.data()),static_cast<int>(blob.size()), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(blob.data()),blob.size(), digest);
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
@@ -896,11 +896,11 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
             size_t compressed_size = original_size;
             float compression_ratio = 1.0f;
             
-            if (should_compress(meta.mime_type,static_cast<int>(bb.size()))) {
+            if (should_compress(meta.mime_type,bb.size())) {
 #ifdef THEMIS_HAS_ZSTD
-                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()),static_cast<int>(bb.size()), zstd_level);
+                auto comp = utils::zstd_compress(reinterpret_cast<const uint8_t*>(bb.data()),bb.size(), zstd_level);
                 // Only use compressed version if it actually reduces size (avoid decompression overhead for incompressible data)
-                if (!comp.empty() && static_cast<int>(comp.size()) <static_cast<int>(bb.size())) {
+                if (!comp.empty() && comp.size() <bb.size()) {
                     to_store = std::move(comp);
                     compressed_size = to_store.size();
                     compression_ratio = static_cast<float>(original_size) / static_cast<float>(compressed_size);
@@ -933,7 +933,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     meta.compression_type.clear();
                     if (!comp.empty()) {
                         THEMIS_INFO("Content blob {} skipped compression (would increase size: {}B -> {}B)", 
-                                   meta.id, original_size,static_cast<int>(comp.size()));
+                                   meta.id, original_size,comp.size());
                     }
                 }
 #else
@@ -981,7 +981,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                     auto meta_info = kp->getKeyMetadata(encryption_key_id, 0);
                     // HKDF ableiten (info = "content_blob")
                     std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
+                    auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",key_bytes.size());
                     auto blobEnc = field_encryption_->encryptWithKey(std::string(to_store.begin(), to_store.end()), encryption_key_id, meta_info.version, derived_key);
                     json bjson = blobEnc.toJson();
                     std::string benc = bjson.dump();
@@ -1113,16 +1113,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                 // Note: BaseEntity for vector index uses "chunks:" prefix and includes embedding
                 if (!c.embedding.empty() && vector_index_) {
                     if (vector_index_->getDimension() == 0) {
-                        (void)vector_index_->init("chunks", static_cast<int>(c.embedding.size()), VectorIndexManager::Metric::COSINE);
+                        (void)vector_index_->init("chunks", c.embedding.size(), VectorIndexManager::Metric::COSINE);
                     }
-                    if (vector_index_->getDimension() == static_cast<int>(c.embedding.size())) {
+                    if (vector_index_->getDimension() == c.embedding.size()) {
                         BaseEntity e = BaseEntity::fromFields(
                             std::string("chunks:") + c.id,
                             BaseEntity::FieldMap{{"content_id", c.content_id}, {"seq_num", static_cast<int64_t>(c.seq_num)}, {"mime_type", meta.mime_type}, {"chunk_type", c.chunk_type}, {"embedding", c.embedding}}
                         );
                         auto st = vector_index_->addEntity(e);
                         if (!st.ok) THEMIS_WARN("Vector index addEntity failed: {}", st.message);
-                        embedding_dim = static_cast<int>(c.embedding.size());
+                        embedding_dim = c.embedding.size();
                     }
                     // Keep the first chunk's embedding for content-level storage.
                     if (first_chunk_embedding.empty()) {
@@ -1196,7 +1196,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                         auto dek = kp->getKey("dek");
                         auto meta_info = kp->getKeyMetadata("dek", 0);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,dek.size());
                         auto blobEnc = field_encryption_->encryptWithKey(plain, std::string("dek"), meta_info.version, derived);
                         std::string enc_b64 = blobEnc.toBase64();
                         // Metadaten ersetzen: <f>_encrypted + <f>_enc Flag, Original entfernen/neutralisieren
@@ -1228,7 +1228,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         }
 
     // Content-Meta aktualisieren/speichern (verschlüsselte Felder markiert)
-        meta.chunk_count = static_cast<int>(chunk_ids.size());
+        meta.chunk_count = chunk_ids.size();
         meta.chunked = meta.chunk_count > 0;
         if (meta.created_at == 0) {
           meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
@@ -1330,7 +1330,7 @@ std::optional<ContentMeta> ContentManager::getContentMeta(const std::string& con
                         std::string b64 = enc_section[enc_key].get<std::string>();
                         auto blob = EncryptedBlob::fromBase64(b64);
                         std::string info = std::string("vector_meta:") + f;
-                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,static_cast<int>(dek.size()));
+                        auto derived = themis::utils::HKDFCache::threadLocal().derive_cached(dek, salt, info,dek.size());
                         std::string plain = field_encryption_->decryptWithKey(blob, derived);
                         auto pj = json::parse(plain);
                         j[f] = pj; // wiederherstellen
@@ -1369,7 +1369,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
             auto kp = field_encryption_->getKeyProvider();
             auto key_bytes = kp->getKey(blob.key_id, blob.key_version);
             std::vector<uint8_t> salt(ctx.begin(), ctx.end());
-            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",static_cast<int>(key_bytes.size()));
+            auto derived_key = themis::utils::HKDFCache::threadLocal().derive_cached(key_bytes, salt, "content_blob",key_bytes.size());
             std::string plain = field_encryption_->decryptWithKey(blob, derived_key);
             
             // Lazy Re-Encryption: Check if blob uses outdated key version
@@ -1391,7 +1391,7 @@ std::optional<std::string> ContentManager::getContentBlob(const std::string& con
                 try {
                     // Re-encrypt with latest key version
                     auto latest_key = kp->getKey(blob.key_id); // no version arg -> latest
-                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob",static_cast<int>(latest_key.size()));
+                    auto latest_derived = themis::utils::HKDFCache::threadLocal().derive_cached(latest_key, salt, "content_blob",latest_key.size());
                     auto new_blob = field_encryption_->encryptWithKey(plain, blob.key_id, latest_version, latest_derived);
                     json new_bj = new_blob.toJson();
                     std::string new_raw = new_bj.dump();
@@ -1747,7 +1747,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::sort(result.begin(), result.end(), 
         [](const auto& a, const auto& b) { return a.second > b.second; });
     
-    if (static_cast<int>(result.size()) > static_cast<size_t>(k)) {
+    if (result.size() > static_cast<size_t>(k)) {
         result.resize(k);
     }
     
@@ -1864,7 +1864,7 @@ std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
     }
 
     std::sort(out.begin(), out.end(), [](const auto& a, const auto& b){ return a.second > b.second; });
-    if (static_cast<int>(out.size()) > static_cast<size_t>(k)) {
+    if (out.size() > static_cast<size_t>(k)) {
       out.resize(static_cast<size_t>(k));
     }
     return out;
@@ -1923,7 +1923,7 @@ std::optional<std::string> ContentManager::resolvePath(const std::string& virtua
             if (j.contains("virtual_path") && j["virtual_path"].get<std::string>() == normalized) {
                 // Extract content ID from key "content:<uuid>"
                 std::string key_str(key);
-                if (static_cast<int>(key_str.size()) > 8) {
+                if (key_str.size() > 8) {
                     result = key_str.substr(8); // Skip "content:"
                 }
                 return false; // Stop scanning
@@ -1979,7 +1979,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
                 if (j.contains("virtual_path")) {
                     std::string vpath = j["virtual_path"].get<std::string>();
                     // Check if this is a direct child
-                    if (static_cast<int>(vpath.size()) > static_cast<int>(prefix.size()) && vpath.rfind(prefix, 0) == 0) {
+                    if (vpath.size() > prefix.size() && vpath.rfind(prefix, 0) == 0) {
                         std::string remainder = vpath.substr(prefix.size());
                         // Direct child if no more slashes
                         if (remainder.find('/') == std::string::npos) {
@@ -2510,7 +2510,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                             cm.created_at = now;
                             chunks_json.push_back(cm.toJson());
                         }
-                        meta.chunk_count = static_cast<int>(chunks_json.size());
+                        meta.chunk_count = chunks_json.size();
                         meta.chunked     = !chunks_json.empty();
                         return true;
                     },
@@ -2589,7 +2589,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                             cm.created_at = now;
                             chunks_json.push_back(cm.toJson());
                         }
-                        meta.chunk_count = static_cast<int>(chunks_json.size());
+                        meta.chunk_count = chunks_json.size();
                         meta.chunked     = !chunks_json.empty();
                         return true;
                     },
@@ -2670,12 +2670,12 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                     cm.created_at = now;
                     chunks_json.push_back(cm.toJson());
                 }
-                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunk_count = chunks_json.size();
                 meta.chunked     = !chunks_json.empty();
             }
 
             THEMIS_INFO("OCR extraction: {} chars, {} chunks from '{}' ({})",
-                        ocr_text.size(),static_cast<int>(chunks_json.size()), filename, detected_mime);
+                        ocr_text.size(),chunks_json.size(), filename, detected_mime);
         } else {
             THEMIS_INFO("OCR extraction returned no text for '{}' ({})",
                         filename, detected_mime);
@@ -2760,7 +2760,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         {"category", static_cast<int>(category)}
     };
     if (!chunks_json.empty()) {
-        result.metadata["chunk_count"] = static_cast<int>(chunks_json.size());
+        result.metadata["chunk_count"] = chunks_json.size();
     }
     
     return result;
@@ -2872,7 +2872,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             if (n == 0) {
               break;
             }
-            if (static_cast<int>(buffer.size()) + n > max_buffered_bytes) {
+            if (buffer.size() + n > max_buffered_bytes) {
                 result.error_message =
                     "File exceeds max_buffered_bytes (" + std::to_string(max_buffered_bytes) +
                     ") for non-streaming content type '" + detected_mime + "'";
@@ -2925,7 +2925,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
             THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
             sha256_ctx.reset();
         } else {
-            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(),static_cast<int>(header_buf.size()));
+            EVP_DigestUpdate(sha256_ctx.get(), header_buf.data(),header_buf.size());
         }
     } else {
         THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
@@ -3009,8 +3009,8 @@ ContentManager::IngestResult ContentManager::ingestStream(
 
         if (!cm.embedding.empty() && vector_index_) {
             if (vector_index_->getDimension() == 0)
-                vector_index_->init("chunks", static_cast<int>(cm.embedding.size()), VectorIndexManager::Metric::COSINE);
-            if (vector_index_->getDimension() == static_cast<int>(cm.embedding.size())) {
+                vector_index_->init("chunks", cm.embedding.size(), VectorIndexManager::Metric::COSINE);
+            if (vector_index_->getDimension() == cm.embedding.size()) {
                 BaseEntity e = BaseEntity::fromFields(
                     std::string("chunks:") + cm.id,
                     BaseEntity::FieldMap{
@@ -3032,13 +3032,13 @@ ContentManager::IngestResult ContentManager::ingestStream(
     std::string carry;  // incomplete segment carried over between read iterations
     auto flushCarry = [&](bool force) {
         size_t pos = 0;
-        while (static_cast<size_t>(pos) <static_cast<int>(carry.size())) {
-            size_t remaining = static_cast<int>(carry.size()) - pos;
+        while (pos < carry.size()) {
+            size_t remaining = carry.size() - pos;
             if (!force && remaining < static_cast<size_t>(text_chunk_chars))
                 break;  // wait for more data
             size_t end = pos + std::min(static_cast<size_t>(text_chunk_chars), remaining);
             // Prefer to split on newline boundary when close
-            if (static_cast<int>(carry.size()) > end) {
+            if (carry.size() > end) {
                 size_t nl = carry.find('\n', end > 0 ? end - 1 : 0);
                 if (nl != std::string::npos && nl < pos + static_cast<size_t>(text_chunk_chars) * 2)
                     end = nl + 1;
@@ -3097,7 +3097,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         return oss.str();
     }();
     meta.text_extracted   = true;
-    meta.chunk_count      = static_cast<int>(chunk_ids.size());
+    meta.chunk_count      = chunk_ids.size();
     meta.chunked          = meta.chunk_count > 0;
 
     std::string mkey = std::string("content:") + meta.id;
@@ -3127,7 +3127,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }
 
     THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
-                total_bytes,static_cast<int>(chunk_ids.size()), filename);
+                total_bytes,chunk_ids.size(), filename);
 
     result.success            = true;
     result.primary_content_id = content_id;
@@ -3135,7 +3135,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
         {"content_id",  content_id},
         {"mime_type",   detected_mime},
         {"category",    static_cast<int>(ContentCategory::TEXT)},
-        {"chunk_count", static_cast<int>(chunk_ids.size())},
+        {"chunk_count", chunk_ids.size()},
         {"total_bytes", total_bytes},
         {"streaming",   true}
     };

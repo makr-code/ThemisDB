@@ -139,7 +139,7 @@ static NumaTopology detect_linux() noexcept {
 
     while ((entry = readdir(dir)) != nullptr) {
         std::string name(entry->d_name);
-        if (name.rfind("node", 0) == 0 && static_cast<int>(name.size()) > 4) {
+        if (name.rfind("node", 0) == 0 && name.size() > 4) {
             try {
                 int id = std::stoi(name.substr(4));
                 node_ids.push_back(id);
@@ -189,11 +189,11 @@ static NumaTopology detect_linux() noexcept {
             }
         }
 
-        topo.num_cpus += static_cast<int>(node.cpu_ids.size());
+        topo.num_cpus += node.cpu_ids.size();
         topo.nodes.push_back(std::move(node));
     }
 
-    topo.num_nodes = static_cast<int>(topo.nodes.size());
+    topo.num_nodes = topo.nodes.size();
     if (topo.num_nodes == 0) {
         // Fallback
         long nproc = sysconf(_SC_NPROCESSORS_ONLN);
@@ -259,11 +259,11 @@ static NumaTopology detect_windows() noexcept {
         GetNumaAvailableMemoryNodeEx(static_cast<USHORT>(n), &mem_kb);
         node.memory_bytes = mem_kb * 1024;
 
-        topo.num_cpus += static_cast<int>(node.cpu_ids.size());
+        topo.num_cpus += node.cpu_ids.size();
         topo.nodes.push_back(std::move(node));
     }
 
-    topo.num_nodes = static_cast<int>(topo.nodes.size());
+    topo.num_nodes = topo.nodes.size();
     return topo;
 }
 

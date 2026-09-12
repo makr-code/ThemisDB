@@ -126,7 +126,7 @@ std::string MultiStepRAGOrchestrator::substitute(
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos,static_cast<int>(placeholder.size()), value);
+        result.replace(pos,placeholder.size(), value);
         pos += value.size();
     }
     return result;
@@ -146,7 +146,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
     for (auto& c : upper) {
       c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
     }
-    if (upper.find("NONE") != std::string::npos && static_cast<int>(llm_response.size()) < 20) {
+    if (upper.find("NONE") != std::string::npos && llm_response.size() < 20) {
         return aspects;
     }
 
@@ -162,7 +162,7 @@ std::vector<std::string> MultiStepRAGOrchestrator::parseOpenAspects(
             continue;
         }
         aspects.push_back(trimmed.substr(0, kMaxAspectChars));
-        if (static_cast<int>(aspects.size()) >= kMaxAspectsPerIteration) {
+        if (aspects.size() >= kMaxAspectsPerIteration) {
             break;
         }
     }
@@ -247,7 +247,7 @@ MultiStepRAGOrchestrator::partitionIntoBatches(
             batches.push_back(std::move(current_batch));
             current_tokens = 0;
 
-            if (static_cast<int>(batches.size()) >= config_.max_map_steps) {
+            if (batches.size() >= config_.max_map_steps) {
               break;
             }
         }
@@ -273,16 +273,16 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     const InferenceFn&                 infer) const
 {
     MultiStepRAGResult result = {};
-    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}",static_cast<int>(query.size()));
+    if (query.empty() || query.size() > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: invalid query size={}",query.size());
         return result;
     }
-    if (static_cast<int>(documents.size()) > std::numeric_limits<int>::max()) {
-        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}",static_cast<int>(documents.size()));
+    if (documents.size() > std::numeric_limits<int>::max()) {
+        spdlog::warn("MultiStepRAG::runMapReduce rejected: too many documents={}",documents.size());
         return result;
     }
     for (const auto& doc : documents) {
-        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
+        if (doc.content.size() > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runMapReduce rejected: oversize chunk");
             return result;
         }
@@ -317,7 +317,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
     AssembledContext single = assembler_.assemble(
         documents, config_.system_prompt, query);
 
-    if (static_cast<int>(single.chunks_used.size()) == static_cast<int>(documents.size()) && !single.was_truncated) {
+    if (single.chunks_used.size() == documents.size() && !single.was_truncated) {
         // Everything fits — no need for map-reduce.
         const std::string prompt = buildMapPrompt(single.chunks_used, query);
         result.final_answer   = infer(prompt, bounded_max_tokens);
@@ -347,7 +347,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         result.was_truncated,
         map_max_tok);
 
-    if (config_.enable_parallel_map && static_cast<int>(batches.size()) > 1) {
+    if (config_.enable_parallel_map && batches.size() > 1) {
         // F-029: Launch all map steps in parallel.
         // LIFETIME: batches and query are local variables / parameters that
         // outlive all futures — get() is called before returning.
@@ -399,7 +399,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runMapReduce(
         return result;
     }
 
-    if (static_cast<int>(result.steps.size()) == 1) {
+    if (result.steps.size() == 1) {
         result.final_answer = result.steps.front();
         spdlog::info(
             "MultiStepRAG::runMapReduce complete: steps={} final_answer_chars={}",
@@ -433,12 +433,12 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
     const RetrievalFn&                 retrieve) const
 {
     MultiStepRAGResult result = {};
-    if (query.empty() || static_cast<int>(query.size()) > kMaxQueryChars) {
-        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}",static_cast<int>(query.size()));
+    if (query.empty() || query.size() > kMaxQueryChars) {
+        spdlog::warn("MultiStepRAG::runIterative rejected: invalid query size={}",query.size());
         return result;
     }
     for (const auto& doc : documents) {
-        if (static_cast<int>(doc.content.size()) > kMaxChunkChars) {
+        if (doc.content.size() > kMaxChunkChars) {
             spdlog::warn("MultiStepRAG::runIterative rejected: oversize chunk");
             return result;
         }
@@ -508,7 +508,7 @@ MultiStepRAGResult MultiStepRAGOrchestrator::runIterative(
             break;
         }
          
-        if (static_cast<int>(gap_response.size()) > kMaxGapResponseChars) {
+        if (gap_response.size() > kMaxGapResponseChars) {
             spdlog::warn("MultiStepRAG::runIterative gap-response too large; stopping refinement");
             break;
         }

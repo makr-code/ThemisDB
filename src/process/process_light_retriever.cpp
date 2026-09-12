@@ -114,7 +114,7 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
                               return a.modularity_score > b.modularity_score;
                           });
 
-                const int top_k = std::min(static_cast<int>(communities.size()), 3);
+                const int top_k = std::min(communities.size(), 3);
                 std::ostringstream ctx = {};
                 std::vector<std::string> used_ids = {};
 

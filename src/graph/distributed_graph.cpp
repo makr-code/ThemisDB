@@ -149,7 +149,7 @@ std::vector<std::string> DistributedGraphManager::shardIds() const {
 
 size_t DistributedGraphManager::shardCount() const {
     std::shared_lock<std::shared_mutex> lock(shards_mutex_);
-    return static_cast<int>(shards_.size());
+    return shards_.size();
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ShardGraphExecutor>>>
@@ -465,10 +465,10 @@ DistributedGraphManager::optimizePlan(std::string_view start_vertex,
     plan.use_index                = true;
     plan.use_cache                = false;
     plan.enable_early_termination = true;
-    plan.enable_parallel          = static_cast<int>(shards.size()) > 1;
+    plan.enable_parallel          = shards.size() > 1;
 
     // Shard-aware plan fields (v1.8.0).
-    plan.is_distributed          = static_cast<int>(shards.size()) > 1;
+    plan.is_distributed          = shards.size() > 1;
     plan.recommended_parallelism = effectiveParallelism(shards.size());
     for (auto &[sid, _] : shards) {
         plan.shard_ids.push_back(sid);

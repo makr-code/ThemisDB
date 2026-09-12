@@ -169,7 +169,7 @@ std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificate(const 
 }
 
 std::optional<ShardCertificateInfo> PKIShardCertificate::parseCertificatePEM(const std::string& pem_data) {
-    auto bio = utils::make_bio_mem_buf(pem_data.c_str(), static_cast<int>(pem_data.size()));
+    auto bio = utils::make_bio_mem_buf(pem_data.c_str(), pem_data.size());
     if (!bio) {
         return std::nullopt;
     }

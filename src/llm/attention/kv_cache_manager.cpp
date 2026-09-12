@@ -136,7 +136,7 @@ void KVCacheManager::appendToken(uint64_t seq_id, const KVTensor& kv) {
     // kv_block_size > 0 is guaranteed by the constructor guard.
     size_t slot_in_block = static_cast<size_t>(table.num_tokens) % config_.kv_block_size;
     size_t offset = slot_in_block * kv.data.size();
-    if (offset + static_cast<int>(kv.data.size()) <= block.data.size()) {
+    if (offset + kv.data.size() <= block.data.size()) {
         std::memcpy(block.data.data() + offset, kv.data.data(), 
                     kv.data.size() * sizeof(float));
     }
@@ -199,7 +199,7 @@ const BlockTable* KVCacheManager::getBlockTable(uint64_t seq_id) const {
 }
 
 const Block* KVCacheManager::getBlock(int block_id) const {
-    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
+    if (block_id < 0 || block_id >= blocks_.size()) {
         return nullptr;
     }
     return &blocks_[block_id];
@@ -210,14 +210,14 @@ AttentionMemoryStats KVCacheManager::getStats() const {
     
     AttentionMemoryStats stats;
     
-    stats.blocks_used = static_cast<int>(blocks_.size()) - static_cast<int>(free_blocks_.size()) ;
+    stats.blocks_used = blocks_.size() - free_blocks_.size() ;
     stats.blocks_free = free_blocks_.size();
     
     size_t block_size = calculateBlockSize();
     stats.kv_cache_bytes = blocks_.size() * block_size * sizeof(float);
     stats.total_memory_bytes = stats.kv_cache_bytes;
     
-    if (static_cast<int>(blocks_.size()) > 0) {
+    if (blocks_.size() > 0) {
         stats.fragmentation_rate = static_cast<double>(free_blocks_.size()) / blocks_.size();
     }
     
@@ -237,7 +237,7 @@ AttentionMemoryStats KVCacheManager::getStats() const {
 
 size_t KVCacheManager::getFreeBlockCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(free_blocks_.size());
+    return free_blocks_.size();
 }
 
 int KVCacheManager::allocateBlock() {
@@ -255,7 +255,7 @@ int KVCacheManager::allocateBlock() {
 }
 
 void KVCacheManager::freeBlock(int block_id) {
-    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
+    if (block_id < 0 || block_id >= blocks_.size()) {
         return;
     }
     

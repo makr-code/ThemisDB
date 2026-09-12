@@ -155,8 +155,8 @@ int WikiChunkSplitter::flushSection(const std::string&              file_path,
         running_tokens += line_tokens[i];
     }
     // Flush remaining
-    if (static_cast<int>(lines.size()) > chunk_start) {
-        emit(chunk_start,static_cast<int>(lines.size()));
+    if (lines.size() > chunk_start) {
+        emit(chunk_start,lines.size());
     }
 
     (void)window_start; // suppress unused warning

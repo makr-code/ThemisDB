@@ -219,7 +219,7 @@ ModuleHashVerificationResult ModuleHashVerifier::verifyModule(
 }
 
 size_t ModuleHashVerifier::manifestSize() const {
-    return static_cast<int>(manifest_.size());
+    return manifest_.size();
 }
 
 std::optional<std::string> ModuleHashVerifier::getExpectedHash(

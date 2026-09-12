@@ -88,7 +88,7 @@ void CrossShardForeignKeyValidator::removeConstraint(
         std::remove_if(constraints_.begin(), constraints_.end(),
             [&](const CrossShardFKConstraint& c) { return c.name == constraint_name; }),
         constraints_.end());
-    if (static_cast<int>(constraints_.size()) < before) {
+    if (constraints_.size() < before) {
         spdlog::debug("CrossShardFKValidator: removed constraint '{}'", constraint_name);
     }
 }
@@ -110,7 +110,7 @@ void CrossShardForeignKeyValidator::setAllShardIds(std::vector<std::string> shar
 
 std::size_t CrossShardForeignKeyValidator::constraintCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(constraints_.size());
+    return constraints_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -234,7 +234,7 @@ std::vector<FKViolation> CrossShardForeignKeyValidator::validate(
         spdlog::warn(
             "CrossShardFKValidator: txn {} has {} FK violation(s) "
             "({} non-deferrable)",
-            transaction_id,static_cast<int>(violations.size()), non_deferrable);
+            transaction_id,violations.size(), non_deferrable);
     }
 
     return violations;

@@ -119,8 +119,8 @@ inline int themis_ctz(unsigned int x) noexcept {
 }
 
 inline void reserve_filter_output(std::vector<uint32_t>& out, size_t n) {
-    if (n <= (out.max_size() - static_cast<int>(out.size()) )) {
-        out.reserve(static_cast<int>(out.size()) + n);
+    if (n <= (out.max_size() - out.size() )) {
+        out.reserve(out.size() + n);
     }
 }
 
@@ -151,7 +151,7 @@ size_t scalar_filter(const T* data, size_t n, FilterOp op, T thr,
             out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 // ============================================================================
@@ -214,7 +214,7 @@ size_t avx2_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
             out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 /// AVX2 kernel for int64 (4 lanes per iteration).
@@ -266,7 +266,7 @@ size_t avx2_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
             out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 /// AVX2 kernel for float32 (8 lanes per iteration).
@@ -301,7 +301,7 @@ size_t avx2_filter_f32(const float* data, size_t n, FilterOp op, float thr,
             out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 /// AVX2 kernel for float64 (4 lanes per iteration).
@@ -336,7 +336,7 @@ size_t avx2_filter_f64(const double* data, size_t n, FilterOp op, double thr,
             out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 #endif // AVX2 / AVX512
@@ -409,7 +409,7 @@ size_t neon_filter_i32(const int32_t* data, size_t n, FilterOp op, int32_t thr,
           out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 // ── int64 (2 lanes, AArch64) ─────────────────────────────────────────────────
@@ -444,7 +444,7 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
           out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 // ── float32 (4 lanes) ────────────────────────────────────────────────────────
@@ -479,7 +479,7 @@ size_t neon_filter_f32(const float* data, size_t n, FilterOp op, float thr,
           out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 // ── float64 (2 lanes, AArch64) ───────────────────────────────────────────────
@@ -514,7 +514,7 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
           out.push_back(static_cast<uint32_t>(i));
         }
     }
-    return static_cast<int>(out.size()) - before;
+    return out.size() - before;
 }
 
 #endif // THEMIS_SIMD_FILTER_NEON

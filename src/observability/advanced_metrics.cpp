@@ -36,9 +36,9 @@ double AdvancedMetrics::computeQuantile(const std::vector<double>& sorted_vals,
     }
 
     // Nearest-rank method: index = floor(q * (n - 1)), clamped to [0, n-1].
-    size_t idx = static_cast<size_t>(q * static_cast<double>(static_cast<int>(sorted_vals.size()) - 1));
-    if (idx >= static_cast<int>(sorted_vals.size())) {
-      idx = static_cast<int>(sorted_vals.size()) - 1;
+    size_t idx = static_cast<size_t>(q * static_cast<double>(sorted_vals.size() - 1));
+    if (idx >= sorted_vals.size()) {
+      idx = sorted_vals.size() - 1;
     }
     return sorted_vals[idx];
 }
@@ -52,7 +52,7 @@ void AdvancedMetrics::recordSummary(const std::string& name, double value) {
     auto& data = summary_data_[name];
     data.values.push_back(value);
     data.sum += value;
-    if (static_cast<int>(data.values.size()) > kMaxSummarySamples) {
+    if (data.values.size() > kMaxSummarySamples) {
         data.sum -= data.values.front();
         data.values.pop_front();
     }
@@ -111,7 +111,7 @@ void AdvancedMetrics::recordExponentialHistogram(const std::string& name,
     } else {
         data.values.push_back(value);
         data.sum += value;
-        if (static_cast<int>(data.values.size()) > kMaxExpHistSamples) {
+        if (data.values.size() > kMaxExpHistSamples) {
             data.sum -= data.values.front();
             data.values.pop_front();
         }
@@ -199,7 +199,7 @@ void AdvancedMetrics::recordTimeWeightedAverage(const std::string& name,
     // Prune samples that fall outside the sliding window.
     if (window.count() > 0) {
         auto cutoff = now - window;
-        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
+        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }
@@ -217,7 +217,7 @@ double AdvancedMetrics::getTimeWeightedAverage(const std::string& name) const {
 
     // With a single sample there is no elapsed time to weight by; return the
     // sample value directly.
-    if (static_cast<int>(deque.size()) == 1) {
+    if (deque.size() == 1) {
         return deque.front().value;
     }
 
@@ -256,7 +256,7 @@ void AdvancedMetrics::recordRate(const std::string& name, double value,
     // Prune samples older than the interval window.
     if (interval.count() > 0) {
         auto cutoff = now - interval;
-        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
+        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }

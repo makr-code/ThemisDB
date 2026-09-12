@@ -55,7 +55,7 @@ ConversationContext::ConversationContext(size_t max_history)
 
 void ConversationContext::addTurn(const std::string& user_input, const std::string& assistant_response) {
     history_.emplace_back(user_input, assistant_response);
-    if (static_cast<int>(history_.size()) > max_history_) {
+    if (history_.size() > max_history_) {
         history_.erase(history_.begin());
     }
 }
@@ -82,7 +82,7 @@ const std::vector<std::pair<std::string, std::string>>& ConversationContext::get
 
 std::string ConversationContext::buildContextString(size_t max_turns) const {
     std::ostringstream oss = {};
-    size_t start = (static_cast<int>(history_.size()) > max_turns) ? static_cast<int>(history_.size()) - max_turns : 0;
+    size_t start = (history_.size() > max_turns) ? history_.size() - max_turns : 0;
     for (size_t i = start; i < history_.size(); ++i) {
         oss << "User: " << history_[i].first << "\n";
         oss << "Assistant: " << history_[i].second << "\n";
@@ -96,7 +96,7 @@ void ConversationContext::clear() {
 }
 
 size_t ConversationContext::turnCount() const {
-    return static_cast<int>(history_.size());
+    return history_.size();
 }
 
 bool ConversationContext::hasEntity(const std::string& key) const {
@@ -200,11 +200,11 @@ std::vector<NamedEntity> VoiceIntentDetector::extractDateEntities(const std::str
         size_t pos = lower.find(pattern);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos,static_cast<int>(pattern.size()));
+            ent.text = text.substr(pos,pattern.size());
             ent.type = type;
             ent.confidence = 0.85f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset = static_cast<int>(pos + static_cast<int>(pattern.size()) );
+            ent.end_offset = static_cast<int>(pos + pattern.size() );
             entities.push_back(ent);
         }
     }
@@ -242,11 +242,11 @@ std::vector<NamedEntity> VoiceIntentDetector::extractMetricEntities(const std::s
         size_t pos = lower.find(kw);
         if (pos != std::string::npos) {
             NamedEntity ent;
-            ent.text = text.substr(pos,static_cast<int>(kw.size()));
+            ent.text = text.substr(pos,kw.size());
             ent.type = "METRIC";
             ent.confidence = 0.75f;
             ent.start_offset = static_cast<int>(pos);
-            ent.end_offset   = static_cast<int>(pos + static_cast<int>(kw.size()) );
+            ent.end_offset   = static_cast<int>(pos + kw.size() );
             entities.push_back(ent);
         }
     }

@@ -98,7 +98,7 @@ splitSentences(const std::string& text) {
     }
 
     // Trailing fragment (no terminal punctuation)
-    if (static_cast<int>(text.size()) > start) {
+    if (text.size() > start) {
         std::string tail = text.substr(start);
         const size_t ltrim = tail.find_first_not_of(" \t\r\n");
         if (ltrim != std::string::npos) {
@@ -119,10 +119,10 @@ std::string extractOverlapTail(const std::string& text,
     if (text.empty() || overlap_tokens == 0) return {};
     const size_t overlap_chars =
         static_cast<size_t>(static_cast<double>(overlap_tokens) * chars_per_token);
-    if (overlap_chars >= static_cast<int>(text.size())) {
+    if (overlap_chars >= text.size()) {
       return text;
     }
-    return text.substr(static_cast<int>(text.size()) - overlap_chars);
+    return text.substr(text.size() - overlap_chars);
 }
 
 } // anonymous namespace

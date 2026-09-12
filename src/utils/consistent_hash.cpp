@@ -132,7 +132,7 @@ std::vector<std::string> ConsistentHashRing::getNodes(const std::string& key, si
 
 size_t ConsistentHashRing::nodeCount() const {
     std::shared_lock lock(mutex_);
-    return static_cast<int>(nodes_.size());
+    return nodes_.size();
 }
 
 bool ConsistentHashRing::empty() const {

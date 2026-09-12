@@ -152,7 +152,7 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
         // Build and send RATE_LIMITED response if we have a request ID.
         // The send_to call is intentionally outside the stats lock to avoid
         // holding a mutex during a blocking I/O operation.
-        if (static_cast<int>(data.size()) >= kUdpFastPathHeaderSize) {
+        if (data.size() >= kUdpFastPathHeaderSize) {
             uint32_t req_id_be = 0;
             std::memcpy(&req_id_be, data.data() + 4, 4);
             uint32_t request_id = ntohl(req_id_be);
@@ -343,7 +343,7 @@ std::vector<uint8_t> UDPFastPath::dispatchPing(uint32_t request_id) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
-    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize) {
+    if (data.size() < kUdpFastPathHeaderSize) {
         return false;
     }
     // Magic bytes
@@ -358,7 +358,7 @@ bool UDPFastPath::validatePacket(const std::vector<uint8_t>& data) {
     uint16_t payload_len_be;
     std::memcpy(&payload_len_be, data.data() + 8, 2);
     const uint16_t payload_len = ntohs(payload_len_be);
-    if (static_cast<int>(data.size()) < kUdpFastPathHeaderSize + payload_len) {
+    if (data.size() < kUdpFastPathHeaderSize + payload_len) {
         return false;
     }
     return true;

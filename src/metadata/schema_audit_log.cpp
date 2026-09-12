@@ -202,7 +202,7 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getRecentHistory(
     size_t limit) const
 {
     auto all = getHistory(table_name);
-    if (static_cast<int>(all.size()) > limit) {
+    if (all.size() > limit) {
         // Return most recent `limit` entries (last N after ascending sort)
         return std::vector<SchemaAuditEntry>(all.end() - static_cast<std::ptrdiff_t>(limit), all.end());
     }

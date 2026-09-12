@@ -51,7 +51,7 @@ namespace {
         throw std::runtime_error("portableSha256Hex: EVP_MD_CTX_new failed");
     }
     if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1
-        || EVP_DigestUpdate(ctx, input.data(),static_cast<int>(input.size())) != 1) {
+        || EVP_DigestUpdate(ctx, input.data(),input.size()) != 1) {
         EVP_MD_CTX_free(ctx);
         throw std::runtime_error("portableSha256Hex: EVP_Digest init/update failed");
     }
@@ -275,7 +275,7 @@ public:
                 break;
             }
         }
-        if (leaf_idx == static_cast<int>(sorted.size())) {
+        if (leaf_idx == sorted.size()) {
             return std::nullopt; // not in batch
         }
 
@@ -291,7 +291,7 @@ public:
         std::vector<nlohmann::json> proof_path;
         size_t idx = leaf_idx;
 
-        while (static_cast<int>(layer.size()) > 1) {
+        while (layer.size() > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back()); // duplicate last leaf
             }
@@ -303,7 +303,7 @@ public:
                 // Collect sibling for our proof path
                 if (i == idx || i + 1 == idx) {
                     size_t sibling_i = (idx % 2 == 0) ? idx + 1 : idx - 1;
-                    if (static_cast<int>(layer.size()) > sibling_i) {
+                    if (layer.size() > sibling_i) {
                         std::string position = (sibling_i > idx) ? "right" : "left";
                         proof_path.push_back({
                             {"hash",     layer[sibling_i]},
@@ -376,7 +376,7 @@ private:
     }
 
     [[nodiscard]] static std::string buildTree(std::vector<std::string> layer) {
-        while (static_cast<int>(layer.size()) > 1) {
+        while (layer.size() > 1) {
             if (layer.size() % 2 != 0) {
                 layer.push_back(layer.back());
             }
@@ -619,7 +619,7 @@ public:
         std::string receipts_root = {};
         if (!receipt_hashes.empty()) {
             std::vector<std::string> layer = receipt_hashes;
-            while (static_cast<int>(layer.size()) > 1) {
+            while (layer.size() > 1) {
                 if (layer.size() % 2 != 0) {
                   layer.push_back(layer.back());
                 }

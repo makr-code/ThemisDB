@@ -313,7 +313,7 @@ std::string DistributedTokenBlacklist::encodeExpiry(
 std::chrono::system_clock::time_point DistributedTokenBlacklist::decodeExpiry(
     const std::string& val)
 {
-    if (static_cast<int>(val.size()) != 8) {
+    if (val.size() != 8) {
         throw std::runtime_error("Invalid expiry encoding");
     }
     
@@ -456,7 +456,7 @@ void DistributedTokenBlacklist::add(
                                       "JTI must not be empty",
                                       "Attempted to add an empty JTI to the revocation blacklist"));
     }
-    if (static_cast<int>(jti.size()) > kMaxJtiLen) {
+    if (jti.size() > kMaxJtiLen) {
         throw AuthException(AuthError(AuthErrorCode::REVOCATION_ENTRY_INVALID,
                                       "JTI exceeds maximum allowed length",
                                       "JTI length " + std::to_string(jti.size())
@@ -806,7 +806,7 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
         }
         
         for (const auto& [jti, expiry] : entries) {
-            if (static_cast<int>(jti.size()) > kMaxJtiLen) {
+            if (jti.size() > kMaxJtiLen) {
               continue;
             }
             const auto secs = static_cast<int64_t>(
@@ -820,7 +820,7 @@ void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
             if (!sendAll(fd, jlen_buf, 2)) {
               return;
             }
-            if (!jti.empty() && !sendAll(fd, jti.data(),static_cast<int>(jti.size()))) {
+            if (!jti.empty() && !sendAll(fd, jti.data(),jti.size())) {
               return;
             }
             if (!sendAll(fd, exp_buf, 8)) {
@@ -977,7 +977,7 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
         
         // Send entries: jti_len[2] + jti[jti_len] + expiry[8]
         for (const auto& [jti, expiry] : entries) {
-            if (static_cast<int>(jti.size()) > kMaxJtiLen) {
+            if (jti.size() > kMaxJtiLen) {
               continue;
             }
             const auto secs = static_cast<int64_t>(
@@ -989,7 +989,7 @@ bool DistributedTokenBlacklist::pushRevisionsToFollower(const std::string& peer_
             
             if (!sendAll(fd, jlen_buf, 2))
                 throw std::runtime_error("send jti_len failed");
-            if (!jti.empty() && !sendAll(fd, jti.data(),static_cast<int>(jti.size())))
+            if (!jti.empty() && !sendAll(fd, jti.data(),jti.size()))
                 throw std::runtime_error("send jti failed");
             if (!sendAll(fd, exp_buf, 8))
                 throw std::runtime_error("send expiry failed");

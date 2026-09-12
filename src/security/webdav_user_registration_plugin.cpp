@@ -54,7 +54,7 @@ bool starts_with(const std::string& value, const char* prefix) {
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-    if (host_start >= static_cast<int>(url.size())) {
+    if (host_start >= url.size()) {
         return {};
     }
 
@@ -401,7 +401,7 @@ public:
             users.push_back(std::move(data));
         }
 
-        THEMIS_INFO("WebDAV plugin: Synced {} users",static_cast<int>(users.size()));
+        THEMIS_INFO("WebDAV plugin: Synced {} users",users.size());
         return themis::Ok(std::move(users));
 #else
         return themis::Err<std::vector<UserRegistrationData>>(

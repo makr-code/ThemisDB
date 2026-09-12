@@ -73,7 +73,7 @@ TensorFingerprintGraph::columnMeans(const std::vector<float>& data,
 
 float TensorFingerprintGraph::cosineSimilarity(const std::vector<float>& a,
                                                 const std::vector<float>& b) noexcept {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+    if (a.size() != b.size() || a.empty()) {
       return 0.0f;
     }
 
@@ -244,7 +244,7 @@ TensorFingerprintGraph::findSimilarByFingerprint(
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (static_cast<int>(results.size()) > k) {
+    if (results.size() > k) {
       results.resize(k);
     }
 
@@ -283,7 +283,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 storage::TensorTrainDecomposer::innerProduct(query_train, query_train);
         }
 
-        candidates.reserve(static_cast<int>(entries_.size()) > 0 ? static_cast<int>(entries_.size()) - 1 : 0);
+        candidates.reserve(entries_.size() > 0 ? entries_.size() - 1 : 0);
         for (const auto& [key, entry] : entries_) {
             if (key == query_key) {
               continue;
@@ -398,7 +398,7 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
               [](const SimilarityResult& a, const SimilarityResult& b) {
                   return a.score > b.score;
               });
-    if (static_cast<int>(results.size()) > k) {
+    if (results.size() > k) {
       results.resize(k);
     }
 
@@ -427,7 +427,7 @@ TensorFingerprintGraph::entry(const std::string& adapter_key) const {
 
 std::size_t TensorFingerprintGraph::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return static_cast<int>(entries_.size());
+    return entries_.size();
 }
 
 std::vector<std::string> TensorFingerprintGraph::adapterKeys() const {

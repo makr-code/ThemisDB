@@ -48,39 +48,39 @@ inline std::vector<uint8_t> toBytes(std::string_view sv) {
 // static
 std::string SecondaryIndexManager::makeFulltextTFKey(std::string_view table, std::string_view column, std::string_view token, std::string_view pk) {
 	std::string key = {};
-	key.reserve(5 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(token.size()) + 1 + static_cast<int>(pk.size()) );
+	key.reserve(5 + table.size() + 1 + column.size() + 1 + token.size() + 1 + pk.size() );
 	key += "fttf:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(),column.size());
 	key += ":";
-	key.append(token.data(),static_cast<int>(token.size()));
+	key.append(token.data(),token.size());
 	key += ":";
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(),pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenKey(std::string_view table, std::string_view column, std::string_view pk) {
 	std::string key = {};
-	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1 + static_cast<int>(pk.size()) );
+	key.reserve(7 + table.size() + 1 + column.size() + 1 + pk.size() );
 	key += "ftdlen:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(),column.size());
 	key += ":";
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(),pk.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view table, std::string_view column) {
 	std::string key = {};
-	key.reserve(7 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) + 1);
+	key.reserve(7 + table.size() + 1 + column.size() + 1);
 	key += "ftdlen:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(),column.size());
 	key += ":";
 	return key;
 }
@@ -129,17 +129,17 @@ index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() cons
 // static
 std::string SecondaryIndexManager::makeIndexMetaKey(std::string_view table, std::string_view column) {
 	std::string key = {};
-	key.reserve(8 + static_cast<int>(table.size()) + 1 + static_cast<int>(column.size()) );
+	key.reserve(8 + table.size() + 1 + column.size() );
 	key += "idxmeta:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
-	key.append(column.data(),static_cast<int>(column.size()));
+	key.append(column.data(),column.size());
 	return key;
 }
 
 // static
 std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view table, const std::vector<std::string>& columns) {
-	size_t total = 8 + static_cast<int>(table.size()) + 1;
+	size_t total = 8 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -149,7 +149,7 @@ std::string SecondaryIndexManager::makeCompositeIndexMetaKey(std::string_view ta
 	std::string key = {};
 	key.reserve(total);
 	key += "idxmeta:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -171,7 +171,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::vector<std::string> encoded_values = {};
 
 	encoded_values.reserve(values.size());
-	size_t total = 4 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ;
+	size_t total = 4 + table.size() + 1 + pk.size() ;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -185,7 +185,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -198,7 +198,7 @@ std::string SecondaryIndexManager::makeCompositeIndexKey(std::string_view table,
 		key += encoded;
 		key += ":";
 	}
-	key.append(pk.data(),static_cast<int>(pk.size()));
+	key.append(pk.data(),pk.size());
 	return key;
 }
 
@@ -208,7 +208,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	std::vector<std::string> encoded_values = {};
 
 	encoded_values.reserve(values.size());
-	size_t total = 4 + static_cast<int>(table.size()) + 1;
+	size_t total = 4 + table.size() + 1;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		total += columns[i].size();
 		if (i > 0) {
@@ -222,7 +222,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 	std::string key = {};
 	key.reserve(total);
 	key += "idx:";
-	key.append(table.data(),static_cast<int>(table.size()));
+	key.append(table.data(),table.size());
 	key += ":";
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) {
@@ -243,7 +243,7 @@ std::string SecondaryIndexManager::makeCompositeIndexPrefix(std::string_view tab
 std::string SecondaryIndexManager::makeUniqueSentinelKey_(
 		std::string_view table, std::string_view col, std::string_view encodedVal) {
 	std::string key = {};
-	key.reserve(5 + static_cast<int>(table.size()) + static_cast<int>(col.size()) + static_cast<int>(encodedVal.size()) );
+	key.reserve(5 + table.size() + col.size() + encodedVal.size() );
 	key += "uidx:";
 	key += table;
 	key += ":";
@@ -263,7 +263,7 @@ std::string SecondaryIndexManager::makeCompositeUniqueSentinelKey_(
 	std::vector<std::string> encodedVals = {};
 
 	encodedVals.reserve(values.size());
-	size_t total = 5 + static_cast<int>(table.size()) + 1; // "uidx:" + table + ":"
+	size_t total = 5 + table.size() + 1; // "uidx:" + table + ":"
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) total += 1; // "+"
 		total += columns[i].size();
@@ -300,13 +300,13 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	// ordering matches numeric ordering for ORDER BY on range indices.
 	bool all_digits = !raw.empty();
 	for (char ch : raw) { if (!std::isdigit(static_cast<unsigned char>(ch))) { all_digits = false; break; } }
-	if (all_digits && static_cast<int>(raw.size()) <= 20) {
+	if (all_digits && raw.size() <= 20) {
 		// Pad to 20 characters (large enough for typical integers)
 		const size_t width = 20;
-		if (static_cast<int>(raw.size()) < width) {
-		  out.append(width - static_cast<int>(raw.size()) , '0');
+		if (raw.size() < width) {
+		  out.append(width - raw.size() , '0');
 		}
-		out.append(raw.data(),static_cast<int>(raw.size()));
+		out.append(raw.data(),raw.size());
 		return out;
 	}
 
@@ -507,7 +507,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createCompositeIndex(std::s
 	if (table.empty() || columns.empty()) {
 		return Status::Error("createCompositeIndex: table/columns darf nicht leer sein");
 	}
-	if (static_cast<int>(columns.size()) < 2) {
+	if (columns.size() < 2) {
 		return Status::Error("createCompositeIndex: mindestens 2 Spalten erforderlich (nutze createIndex für Single-Column)");
 	}
 	for (const auto& col : columns) {
@@ -777,7 +777,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 	SecondaryIndexMetadataCache::instance().invalidate(table);
 	
 		THEMIS_INFO("Fulltext Index erstellt: {}.{} (stemming={}, lang={}, stopwords_enabled={}, stopwords={}, normalize_umlauts={})", 
-			table, column, config.stemming_enabled, config.language, config.stopwords_enabled,static_cast<int>(config.stopwords.size()), config.normalize_umlauts);
+			table, column, config.stemming_enabled, config.language, config.stopwords_enabled,config.stopwords.size(), config.normalize_umlauts);
 	return Status::OK();
 }
 
@@ -1039,17 +1039,17 @@ bool SecondaryIndexManager::evaluatePartialPredicate_(const BaseEntity& entity, 
 		}
 
 		std::string field = trim(expr.substr(0, pos));
-		std::string rhs   = trim(expr.substr(pos + static_cast<int>(op.size()) ));
+		std::string rhs   = trim(expr.substr(pos + op.size() ));
 
 		if (field.empty()) {
 		  continue;
 		}
 
 		// Strip surrounding quotes from string literals
-		if (static_cast<int>(rhs.size()) >= 2 &&
+		if (rhs.size() >= 2 &&
 		    ((rhs.front() == '\'' && rhs.back() == '\'') ||
 		     (rhs.front() == '"'  && rhs.back() == '"'))) {
-			rhs = rhs.substr(1, static_cast<int>(rhs.size()) - 2);
+			rhs = rhs.substr(1, rhs.size() - 2);
 		}
 
 		auto fieldVal = entity.extractField(field);
@@ -1455,7 +1455,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				std::vector<std::string> columns;
 				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 				size_t start = 0;
-				while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+				while (start < col.size()) {
 					size_t pos = col.find('+', start);
 					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
 					columns.emplace_back(col.substr(start, pos - start));
@@ -1529,7 +1529,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			std::vector<std::string> columns;
 			columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 			size_t start = 0;
-			while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -1958,7 +1958,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			// Composite
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -2223,7 +2223,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>>
 SecondaryIndexManager::scanKeysEqualComposite(std::string_view table,
 											  const std::vector<std::string>& columns,
 											  const std::vector<std::string>& values) const {
-	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
+	if (columns.size() != values.size()) {
 		return {Status::Error("scanKeysEqualComposite: Anzahl Spalten und Werte stimmt nicht überein"), std::vector<std::string>()};
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2284,7 +2284,7 @@ size_t SecondaryIndexManager::estimateCountEqualComposite(std::string_view table
 	if (capped) {
 	  *capped = false;
 	}
-	if (static_cast<int>(columns.size()) != static_cast<int>(values.size())) {
+	if (columns.size() != values.size()) {
 	  return 0;
 	}
 	if (!hasCompositeIndex(table, columns)) {
@@ -2347,7 +2347,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 	uint64_t steps = 0;
 	if (!reversed) {
 		db_.scanRange(startKey, endKey, [&result, limit, &steps](std::string_view key, [[maybe_unused]] std::string_view value){
-            if (static_cast<int>(result.size()) >= limit) {
+            if (result.size() >= limit) {
               return false;
             }
             size_t lastColon = key.rfind(':');
@@ -2368,7 +2368,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
             return true;
         });
         std::reverse(tmp.begin(), tmp.end());
-        if (static_cast<int>(tmp.size()) > limit) {
+        if (tmp.size() > limit) {
           tmp.resize(limit);
         }
         result = std::move(tmp);
@@ -2431,7 +2431,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (const auto& pk : sameValuePks) {
 					if (pk > anchorPk) {
 						out.emplace_back(pk);
-						if (static_cast<int>(out.size()) >= limit) return {Status::OK(), std::move(out)};
+						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			} else {
@@ -2440,7 +2440,7 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 				for (auto it = sameValuePks.rbegin(); it != sameValuePks.rend(); ++it) {
 					if (*it < anchorPk) {
 						out.emplace_back(*it);
-						if (static_cast<int>(out.size()) >= limit) return {Status::OK(), std::move(out)};
+						if (out.size() >= limit) return {Status::OK(), std::move(out)};
 					}
 				}
 			}
@@ -2476,13 +2476,13 @@ std::pair<SecondaryIndexManager::Status, std::vector<std::string>> SecondaryInde
 			}
 
 			// Rest auffüllen
-			auto [st2, more] = scanKeysRange(table, column, lb, ub, il, iu, limit - static_cast<int>(out.size()) , reversed);
+			auto [st2, more] = scanKeysRange(table, column, lb, ub, il, iu, limit - out.size() , reversed);
 			if (!st2.ok) return {st2, std::vector<std::string>()};
 
 			// Anhängen
 			for (const auto& pk : more) {
 				out.emplace_back(pk);
-				if (static_cast<int>(out.size()) >= limit) {
+				if (out.size() >= limit) {
 				  break;
 				}
 			}
@@ -2738,7 +2738,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	auto parsePhrases = [](std::string_view q) {
 		std::vector<std::string> phrases = {};
 
-		phrases.reserve(std::max<size_t>(1,static_cast<int>(q.size()) / 16));
+		phrases.reserve(std::max<size_t>(1,q.size() / 16));
 		std::string cleaned = {};
 		cleaned.reserve(q.size());
 		bool in_quotes = false;
@@ -2770,7 +2770,7 @@ SecondaryIndexManager::computeBM25Scores_(
 	if (tokens.empty() && !phrases.empty()) {
 		// Fallback: use tokens from phrases to generate candidates
 		std::string concat = {};
-		concat.reserve(static_cast<int>(cleanedQuery.size()) + static_cast<int>(query.size()) );
+		concat.reserve(cleanedQuery.size() + query.size() );
 		for (size_t i = 0; i < phrases.size(); ++i) {
 			if (i) {
 			  concat.push_back(' ');
@@ -2809,7 +2809,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
 	std::sort(tokenResults.begin(), tokenResults.end(),
-	          [](const auto& a, const auto& b) { return static_cast<bool>( static_cast<int>(a.size()) < static_cast<int>(b.size())); });
+	          [](const auto& a, const auto& b) { return static_cast<bool>( a.size() < b.size()); });
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {
@@ -2896,7 +2896,7 @@ SecondaryIndexManager::computeBM25Scores_(
 		  universe.insert(pk);
 		}
 	}
-	const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
+	const double N = static_cast<double>(std::max<size_t>(1,universe.size()));
 
 	// DocLength laden für Kandidaten (für avgdl)
 	std::unordered_map<std::string, double> docLen = {};
@@ -3114,7 +3114,7 @@ SecondaryIndexManager::scanFulltextPhrase(
 			}
 		}
 		
-		if (static_cast<int>(results.size()) >= limit) {
+		if (results.size() >= limit) {
 			break;
 		}
 	}
@@ -3196,11 +3196,11 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	db_.scanPrefix(prefix, [&](std::string_view key, [[maybe_unused]] std::string_view val) {
 		// Extract token from ftidx:table:column:token:pk
 		std::string keyStr(key);
-		size_t thirdColon = keyStr.find(':',static_cast<int>(prefix.size()));
+		size_t thirdColon = keyStr.find(':',prefix.size());
 		if (thirdColon != std::string::npos) {
 			size_t fourthColon = keyStr.find(':', thirdColon + 1);
 			if (fourthColon != std::string::npos) {
-				std::string token = keyStr.substr(prefix.size(), thirdColon - static_cast<int>(prefix.size()) );
+				std::string token = keyStr.substr(prefix.size(), thirdColon - prefix.size() );
 				std::string pk = keyStr.substr(fourthColon + 1);
 				
 				// Check token against all query tokens
@@ -3239,7 +3239,7 @@ SecondaryIndexManager::scanFulltextFuzzy(
 	});
 	
 	// Return top-k results
-	if (static_cast<int>(results.size()) > limit) {
+	if (results.size() > limit) {
 		results.resize(limit);
 	}
 	
@@ -3254,7 +3254,7 @@ bool SecondaryIndexManager::isNullOrEmpty_(const std::optional<std::string>& val
 std::vector<std::string> SecondaryIndexManager::tokenize(std::string_view text) {
 	std::vector<std::string> tokens = {};
 
-	tokens.reserve(std::max<size_t>(1,static_cast<int>(text.size()) / 5));
+	tokens.reserve(std::max<size_t>(1,text.size() / 5));
 	std::string current = {};
 	current.reserve(std::min<size_t>(text.size(), 32));
 	
@@ -3402,7 +3402,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		// Composite index
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <static_cast<int>(column.size())) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3591,7 +3591,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		// Parse columns
 		std::vector<std::string> columns;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <static_cast<int>(column.size())) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3728,7 +3728,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	} else if (column.find('+') != std::string::npos) {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <static_cast<int>(column.size())) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3891,7 +3891,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	} else if (indexType == "composite") {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <static_cast<int>(column.size())) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3999,7 +3999,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 	if (columnStr.find('+') != std::string::npos && !found) {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <static_cast<int>(columnStr.size())) {
+		while (pos < columnStr.size()) {
 			size_t p = columnStr.find('+', pos);
 			if (p == std::string::npos) {
 			  p = columnStr.size();
@@ -4018,7 +4018,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 			for (const auto& c : cols) {
 			  totalLen += c.size();
 			}
-			totalLen += (static_cast<int>(cols.size()) - 1) * 2; // ", " separators
+			totalLen += (cols.size() - 1) * 2; // ", " separators
 			colList.reserve(totalLen);
 			for (size_t i = 0; i < cols.size(); ++i) {
 				if (i > 0) {
@@ -4397,7 +4397,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				std::vector<std::string> columns;
 				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 				size_t start = 0;
-				while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+				while (start < col.size()) {
 					size_t pos = col.find('+', start);
 					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
 					columns.emplace_back(col.substr(start, pos - start));
@@ -4478,7 +4478,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			// Parse columns
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -4914,7 +4914,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			// Composite
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <static_cast<int>(col.size())) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));

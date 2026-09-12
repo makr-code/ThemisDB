@@ -118,7 +118,7 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::searchMultiEmbedding
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
     THEMIS_DEBUG("CrossLingualSearch::searchMultiEmbedding: {} lists fused -> {} candidates",
-                 ranked_lists.size(),static_cast<int>(merged.size()));
+                 ranked_lists.size(),merged.size());
 
     return applyHintsAndFinalize(std::move(merged), language_hints);
 }
@@ -207,11 +207,11 @@ std::vector<CrossLingualSearch::Result> CrossLingualSearch::applyHintsAndFinaliz
     std::sort(results.begin(), results.end(),
               [](const Result& a, const Result& b) { return a.score > b.score; });
 
-    if (static_cast<int>(results.size()) > config_.k) {
+    if (results.size() > config_.k) {
         results.resize(config_.k);
     }
 
-    THEMIS_DEBUG("CrossLingualSearch: {} results (k={})",static_cast<int>(results.size()), config_.k);
+    THEMIS_DEBUG("CrossLingualSearch: {} results (k={})",results.size(), config_.k);
     return results;
 }
 

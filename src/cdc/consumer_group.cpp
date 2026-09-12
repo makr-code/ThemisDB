@@ -277,10 +277,10 @@ std::vector<std::string> ConsumerGroupManager::listGroups() const {
         }
 
         // Only emit config keys (not offset keys)
-        if (static_cast<int>(key.size()) > static_cast<int>(config_sfx.size())
-            && key.compare(static_cast<int>(key.size()) - static_cast<int>(config_sfx.size()) ,static_cast<int>(config_sfx.size()), config_sfx) == 0) {
+        if (key.size() > config_sfx.size()
+            && key.compare(key.size() - config_sfx.size() ,config_sfx.size(), config_sfx) == 0) {
             // Strip prefix and suffix to get group_id
-            std::string gid = key.substr(prefix.size(), static_cast<int>(key.size()) - static_cast<int>(prefix.size()) - static_cast<int>(config_sfx.size()) );
+            std::string gid = key.substr(prefix.size(), key.size() - prefix.size() - config_sfx.size() );
             if (!gid.empty()) {
                 groups.push_back(std::move(gid));
             }
@@ -407,7 +407,7 @@ std::vector<Changefeed::ChangeEvent> ConsumerGroupManager::fetchEvents(const std
         uint32_t key_partition = partitionForKey(ev.key, cfg.consumer_count);
         if (key_partition == consumer_partition) {
             result.push_back(std::move(ev));
-            if (static_cast<int>(result.size()) >= effective_limit) {
+            if (result.size() >= effective_limit) {
                 break;
             }
         }
@@ -466,7 +466,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
     // Step 2: Re-fetch and return timed-out (overdue) in-flight events.
     for (uint64_t seq : overdue_seqs) {
-        if (static_cast<int>(result.size()) >= effective_limit) {
+        if (result.size() >= effective_limit) {
             break;
         }
         try {
@@ -479,11 +479,11 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
     // Step 3: Fetch new events beyond the current in-flight range.
     std::vector<InFlightRecord> new_records;
 
-    if (static_cast<int>(result.size()) < effective_limit) {
+    if (result.size() < effective_limit) {
         // Start after the highest in-flight sequence (or committed, whichever is
         // larger) to avoid duplicating events already tracked as in-flight.
         const uint64_t from_seq  = (std::max)(committed, highest_inflight);
-        const size_t remaining   = effective_limit - static_cast<int>(result.size()) ;
+        const size_t remaining   = effective_limit - result.size() ;
         const size_t fetch_limit = std::min<size_t>(remaining * static_cast<size_t>(cfg.consumer_count), 10000);
 
         Changefeed::ListOptions opts;
@@ -492,7 +492,7 @@ ConsumerGroupManager::fetchEventsAtLeastOnce(const std::string &group_id, const 
 
         auto all_events = changefeed.listEvents(opts);
         for (auto &ev : all_events) {
-            if (static_cast<int>(result.size()) >= effective_limit) {
+            if (result.size() >= effective_limit) {
                 break;
             }
             if (partitionForKey(ev.key, cfg.consumer_count) != consumer_partition) {

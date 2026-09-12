@@ -373,7 +373,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::SimilarityCall) {
                 auto sim = std::static_pointer_cast<SimilarityCallExpr>(spec.expression);
                 const auto& args = sim->arguments;
-                if (static_cast<int>(args.size()) < 2 || static_cast<int>(args.size()) > 3) {
+                if (args.size() < 2 || args.size() > 3) {
                     return TranslationResult::Error("SIMILARITY() requires 2-3 arguments: SIMILARITY(doc.embedding, [vector] [, k])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {
@@ -403,7 +403,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 }
 
                 size_t k = 10;
-                if (static_cast<int>(args.size()) == 3) {
+                if (args.size() == 3) {
                     if (args[2]->getType() != ASTNodeType::Literal) {
                         return TranslationResult::Error("SIMILARITY() third argument k must be integer literal");
                     }
@@ -453,7 +453,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (spec.expression->getType() == ASTNodeType::ProximityCall) {
                 auto prox = std::static_pointer_cast<ProximityCallExpr>(spec.expression);
                 const auto& args = prox->arguments;
-                if (static_cast<int>(args.size()) != 2) {
+                if (args.size() != 2) {
                     return TranslationResult::Error("PROXIMITY() requires exactly 2 arguments: PROXIMITY(doc.location, [lon,lat])");
                 }
                 if (args[0]->getType() != ASTNodeType::FieldAccess) {
@@ -597,7 +597,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
                 // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
                 constexpr size_t kMaxDNFDisjuncts = 1000;
-                if (disjQuery.disjuncts.size() * static_cast<int>(disjuncts.size()) > kMaxDNFDisjuncts) {
+                if (disjQuery.disjuncts.size() * disjuncts.size() > kMaxDNFDisjuncts) {
                     return TranslationResult::Error(
                         "OR query too complex: DNF expansion would produce " +
                         std::to_string(disjQuery.disjuncts.size() * disjuncts.size()) +
@@ -611,13 +611,13 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                         ConjunctiveQuery combined;
                         combined.table = existing.table;
                         // Merge equality predicates (Q3: pre-allocate)
-                        combined.predicates.reserve(existing.predicates.size() + static_cast<int>(incoming.predicates.size()) );
+                        combined.predicates.reserve(existing.predicates.size() + incoming.predicates.size() );
                         combined.predicates = existing.predicates;
                         combined.predicates.insert(combined.predicates.end(),
                                                    incoming.predicates.begin(),
                                                    incoming.predicates.end());
                         // Merge range predicates (Q3: pre-allocate)
-                        combined.rangePredicates.reserve(existing.rangePredicates.size() + static_cast<int>(incoming.rangePredicates.size()) );
+                        combined.rangePredicates.reserve(existing.rangePredicates.size() + incoming.rangePredicates.size() );
                         combined.rangePredicates = existing.rangePredicates;
                         combined.rangePredicates.insert(combined.rangePredicates.end(),
                                                         incoming.rangePredicates.begin(),
@@ -1587,14 +1587,14 @@ std::vector<ConjunctiveQuery> AQLTranslator::convertToDNF(
                     merged.table = table;
                     
                     // Merge predicates (Q3: pre-allocate combined size)
-                    merged.predicates.reserve(leftConj.predicates.size() + static_cast<int>(rightConj.predicates.size()) );
+                    merged.predicates.reserve(leftConj.predicates.size() + rightConj.predicates.size() );
                     merged.predicates = leftConj.predicates;
                     merged.predicates.insert(merged.predicates.end(), 
                                             rightConj.predicates.begin(), 
                                             rightConj.predicates.end());
                     
                     // Merge range predicates (Q3: pre-allocate combined size)
-                    merged.rangePredicates.reserve(leftConj.rangePredicates.size() + static_cast<int>(rightConj.rangePredicates.size()) );
+                    merged.rangePredicates.reserve(leftConj.rangePredicates.size() + rightConj.rangePredicates.size() );
                     merged.rangePredicates = leftConj.rangePredicates;
                     merged.rangePredicates.insert(merged.rangePredicates.end(),
                                                  rightConj.rangePredicates.begin(),

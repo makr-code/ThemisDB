@@ -261,7 +261,7 @@ uint64_t RaftLog::getLastLogTerm() const {
 /** @brief Return number of in-memory log entries. */
 size_t RaftLog::size() const {
     std::lock_guard<std::timed_mutex> lock(mutex_);
-    return static_cast<int>(log_.size());
+    return log_.size();
 }
 
 /** @brief Estimate in-memory footprint of current log entries in bytes. */
@@ -271,7 +271,7 @@ size_t RaftLog::estimatedSizeBytes() const {
     constexpr size_t kEntryOverhead = sizeof(uint64_t) * 3;
     size_t total = 0;
     for (const auto& [idx, entry] : log_) {
-        total += kEntryOverhead + static_cast<int>(entry.command.size()) ;
+        total += kEntryOverhead + entry.command.size() ;
     }
     return total;
 }
@@ -432,7 +432,7 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         }
 
         // 2. Compute checksum of raw (pre-compression) state data
-        const std::string checksum = computeChecksum(state_data.data(),static_cast<int>(state_data.size()));
+        const std::string checksum = computeChecksum(state_data.data(),state_data.size());
 
         // 3. Compress with ZSTD level 3
         auto compressed = themis::utils::zstd_compress(state_data, config_.compression_level);
@@ -533,13 +533,13 @@ bool RaftSnapshotManager::createAndInstall(RaftLog& log,
         }
 
         const double ratio = uncompressed_size > 0
-            ? static_cast<double>(uncompressed_size) / std::max<size_t>(1,static_cast<int>(compressed.size()))
+            ? static_cast<double>(uncompressed_size) / std::max<size_t>(1,compressed.size())
             : 1.0;
 
         spdlog::info("RaftSnapshotManager: created snapshot index={} term={} "
                      "uncompressed={}B compressed={}B ratio={:.2f}x path={}",
                      snapshot_index, snapshot_term,
-                     uncompressed_size,static_cast<int>(compressed.size()), ratio, path);
+                     uncompressed_size,compressed.size(), ratio, path);
 
         // 5. Compact the in-memory Raft log
         log.compactUpTo(snapshot_index, snapshot_term);
@@ -672,14 +672,14 @@ std::optional<RaftSnapshot> RaftSnapshotManager::loadSnapshot(uint64_t snapshot_
                 return std::nullopt;
             }
             // Verify decompressed size matches the stored metadata
-            if (static_cast<int>(decompressed.size()) != snap.uncompressed_size) {
+            if (decompressed.size() != snap.uncompressed_size) {
                 spdlog::error("RaftSnapshotManager: decompressed size mismatch for snapshot {}: "
                               "expected {} got {}",
-                              snapshot_index, snap.uncompressed_size,static_cast<int>(decompressed.size()));
+                              snapshot_index, snap.uncompressed_size,decompressed.size());
                 return std::nullopt;
             }
             const std::string actual_checksum =
-                computeChecksum(decompressed.data(),static_cast<int>(decompressed.size()));
+                computeChecksum(decompressed.data(),decompressed.size());
             if (actual_checksum != snap.checksum) {
                 spdlog::error("RaftSnapshotManager: checksum mismatch for snapshot {} "
                               "(expected={} actual={})",
@@ -721,7 +721,7 @@ std::vector<uint64_t> RaftSnapshotManager::listSnapshots() const {
             const std::string name = entry.path().filename().string();
             // Format: raft_snapshot_<index>.bin
             if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
-                const std::string id_str = name.substr(14, static_cast<int>(name.size()) - 18);
+                const std::string id_str = name.substr(14, name.size() - 18);
                 try {
                     ids.push_back(std::stoull(id_str));
                 } catch (const std::invalid_argument&) {
@@ -805,7 +805,7 @@ std::optional<RaftSnapshotChunk> RaftSnapshotManager::getChunk(uint64_t snapshot
         }
         file.close();
 
-        chunk.checksum = computeChecksum(chunk.data.data(),static_cast<int>(chunk.data.size()));
+        chunk.checksum = computeChecksum(chunk.data.data(),chunk.data.size());
         return chunk;
 
     } catch (const std::exception& e) {
@@ -830,7 +830,7 @@ void RaftSnapshotManager::cleanupOldSnapshots() {
                 }
                 const std::string name = entry.path().filename().string();
                 if (name.rfind("raft_snapshot_", 0) == 0 && name.ends_with(".bin")) {
-                    const std::string id_str = name.substr(14, static_cast<int>(name.size()) - 18);
+                    const std::string id_str = name.substr(14, name.size() - 18);
                     try {
                         ids.push_back(std::stoull(id_str));
                     } catch (const std::invalid_argument&) {

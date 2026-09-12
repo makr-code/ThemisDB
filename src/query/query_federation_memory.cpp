@@ -187,7 +187,7 @@ bool ResultAccumulator::addResultWithSize(
 
     // Check if shard has too many batches
     auto& shard_batches = shard_batches_[shard_id];
-    if (static_cast<int>(shard_batches.size()) >= policy_.max_batches_per_shard_) {
+    if (shard_batches.size() >= policy_.max_batches_per_shard_) {
         spdlog::warn(
             "Shard {} has exceeded max batches: {}",
             shard_id,
@@ -295,7 +295,7 @@ bool ResultAccumulator::isUnderPressure() const {
 size_t ResultAccumulator::getResultCount(const std::string& shard_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = shard_batches_.find(shard_id);
-    return static_cast<bool>(it != shard_batches_.end() ? it- < static_cast<int>(second.size())) : 0;
+    return static_cast<bool>(it != shard_batches_.end() ? it- < second.size()) : 0;
 }
 
 size_t ResultAccumulator::getTotalResultCount() const {
@@ -419,7 +419,7 @@ void ResultAccumulator::truncateResults() {
     uint64_t freed = 0;
 
     for (auto& [shard_id, batches] : shard_batches_) {
-        while (static_cast<int>(batches.size()) > 1) {
+        while (batches.size() > 1) {
             const auto& batch = batches.back();
             freed += batch.size_bytes;
             current_memory_bytes_ -= batch.size_bytes;

@@ -299,13 +299,13 @@ MergeEngine::MergeResult MergeEngine::merge(
     result.stats.conflicts_detected = conflicts.size();
     result.stats.has_conflicts = !conflicts.empty();
     
-    spdlog::debug("Detected {} conflicts",static_cast<int>(conflicts.size()));
+    spdlog::debug("Detected {} conflicts",conflicts.size());
     
     // If fail_on_conflict or fast_forward strategy with conflicts
     if ((options.fail_on_conflict || options.strategy == MergeStrategy::FAST_FORWARD) 
         && !conflicts.empty()) {
         result.success = false;
-        result.message = fmt::format("Merge aborted: {} conflicts detected",static_cast<int>(conflicts.size()));
+        result.message = fmt::format("Merge aborted: {} conflicts detected",conflicts.size());
         spdlog::warn("Merge aborted due to conflicts");
         return result;
     }
@@ -317,7 +317,7 @@ MergeEngine::MergeResult MergeEngine::merge(
         resolved_changes = resolveConflicts(conflicts, options);
         
         // Check if all conflicts were resolved
-        if (static_cast<int>(resolved_changes.size()) <static_cast<int>(conflicts.size()) && options.strategy == MergeStrategy::MANUAL) {
+        if (resolved_changes.size() <conflicts.size() && options.strategy == MergeStrategy::MANUAL) {
             result.success = false;
             result.message = "Merge requires manual conflict resolution";
             spdlog::warn("Unresolved conflicts remain");
@@ -352,7 +352,7 @@ MergeEngine::MergeResult MergeEngine::merge(
     );
     
     result.stats.changes_applied = result.changes_applied.size();
-    result.stats.conflicts_manual = static_cast<int>(conflicts.size()) - result.stats.conflicts_auto_resolved;
+    result.stats.conflicts_manual = conflicts.size() - result.stats.conflicts_auto_resolved;
     
     // Apply changes if not dry-run
     if (!options.dry_run) {

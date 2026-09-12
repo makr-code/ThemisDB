@@ -85,7 +85,7 @@ struct Op {
     std::string value;  // empty for REMOVE
 
     size_t byteSize() const noexcept {
-        return sizeof(Op) + static_cast<int>(key.size()) + static_cast<int>(value.size()) ;
+        return sizeof(Op) + key.size() + value.size() ;
     }
 };
 
@@ -105,7 +105,7 @@ struct Node {
 
     // ── Internal-node fields ──────────────────────────────────────────
     // pivot_keys[i] is the smallest key in child[i+1].
-    std::vector<std::string> pivot_keys;     // size == static_cast<int>(children.size()) - 1
+    std::vector<std::string> pivot_keys;     // size == children.size() - 1
     std::vector<NodePtr>     children;
 
     // Write buffer for this internal node.
@@ -193,7 +193,7 @@ NodePtr splitLeaf(Node& leaf, std::string& out_pivot) {
 // pivot to the pivot key that moves up.
 NodePtr splitInternal(Node& node, std::string& out_pivot) {
     // Number of children: node.children.size()
-    // Number of pivots: static_cast<int>(node.pivot_keys.size()) == static_cast<int>(node.children.size()) - 1
+    // Number of pivots: node.pivot_keys.size() == node.children.size() - 1
     size_t n_children = node.children.size();
     size_t mid_child  = n_children / 2;
 
@@ -363,7 +363,7 @@ struct WomTree::Impl {
                 // to ci+1 in node.children.
                 size_t children_before = node.children.size();
                 maybeSplitChild(node, ci);
-                if (static_cast<int>(node.children.size()) > children_before) {
+                if (node.children.size() > children_before) {
                     ++splits_so_far;  // Account for the newly-inserted right leaf.
                 }
             } else {
@@ -424,7 +424,7 @@ struct WomTree::Impl {
         if (!child.is_leaf) {
           return;
         }
-        if (static_cast<int>(child.data.size()) <= config.leaf_capacity) {
+        if (child.data.size() <= config.leaf_capacity) {
           return;
         }
 

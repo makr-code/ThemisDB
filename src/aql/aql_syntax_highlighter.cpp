@@ -355,7 +355,7 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(const std::strin
         if (tok.type != AQLTokenType::STRING) {
             continue;
         }
-        if (static_cast<int>(tok.value.size()) < 2) {
+        if (tok.value.size() < 2) {
             errors.push_back({tok.line, tok.column, "Unterminated string literal"});
             continue;
         }

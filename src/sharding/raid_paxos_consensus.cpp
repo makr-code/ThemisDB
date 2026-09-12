@@ -74,18 +74,18 @@ bool RAIDPaxosConsensus::initialize(
     }
     
     spdlog::info("RAIDPaxosConsensus initialized: node={}, mode={}, cluster_size={}",
-                node_id_, raidModeToString(raid_config_.raid_mode),static_cast<int>(cluster_nodes_.size()));
+                node_id_, raidModeToString(raid_config_.raid_mode),cluster_nodes_.size());
     
     return true;
 }
 
 bool RAIDPaxosConsensus::hasQuorum(const std::set<std::string>& responses) const {
     // Get total shards (assuming cluster_nodes_ indices correspond to shard indices)
-    int total_shards = static_cast<int>(cluster_nodes_.size());
+    int total_shards = cluster_nodes_.size();
     int required_quorum = raid_config_.calculateQuorumSize(total_shards);
     
     // Check if we have enough responses
-    bool has_quorum = static_cast<int>(responses.size()) >= static_cast<size_t>(required_quorum);
+    bool has_quorum = responses.size() >= static_cast<size_t>(required_quorum);
     
     if (!has_quorum) {
         spdlog::debug("RAIDPaxosConsensus: Quorum not met. "
@@ -156,7 +156,7 @@ int RAIDPaxosConsensus::getMaxTolerableFailures() const {
 }
 
 int RAIDPaxosConsensus::calculateRAIDQuorumSize() const {
-    int total_shards = static_cast<int>(cluster_nodes_.size());
+    int total_shards = cluster_nodes_.size();
     return raid_config_.calculateQuorumSize(total_shards);
 }
 
@@ -250,7 +250,7 @@ void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
         // Check if we can still maintain quorum
         int max_failures = getMaxTolerableFailuresInternal();
         
-        if (static_cast<int>(failed_shards_.size()) > max_failures) {
+        if (failed_shards_.size() > max_failures) {
             spdlog::error("RAIDPaxosConsensus: Too many shard failures! "
                         "Failed: {}, Max tolerable: {}, Mode: {}",
                         failed_shards_.size(), max_failures,
@@ -320,7 +320,7 @@ bool RAIDPaxosConsensus::initializeRAIDState() {
     // RAID 5 specific initialization
     if (raid_config_.raid_mode == RAIDMode::PARITY) {
         if (raid_config_.parity_shard_index < 0 ||
-            raid_config_.parity_shard_index >= static_cast<int>(cluster_nodes_.size())) {
+            raid_config_.parity_shard_index >= cluster_nodes_.size()) {
             spdlog::error("RAIDPaxosConsensus: Invalid parity shard index: {}",
                         raid_config_.parity_shard_index);
             return false;
@@ -328,7 +328,7 @@ bool RAIDPaxosConsensus::initializeRAIDState() {
         
         // Verify data shard indices
         for (int idx : raid_config_.data_shard_indices) {
-            if (idx < 0 || idx >= static_cast<int>(cluster_nodes_.size())) {
+            if (idx < 0 || idx >= cluster_nodes_.size()) {
                 spdlog::error("RAIDPaxosConsensus: Invalid data shard index: {}", idx);
                 return false;
             }
@@ -343,7 +343,7 @@ bool RAIDPaxosConsensus::validateRAIDConfiguration() const {
 }
 
 int RAIDPaxosConsensus::getMaxTolerableFailuresInternal() const {
-    int total_shards = static_cast<int>(cluster_nodes_.size());
+    int total_shards = cluster_nodes_.size();
     return raid_config_.getMaxTolerableFailures(total_shards);
 }
 

@@ -51,7 +51,7 @@ namespace {
         }
         long long parsed = 0;
         const char* begin = raw.data();
-        const char* end = raw.data() + static_cast<int>(raw.size()) ;
+        const char* end = raw.data() + raw.size() ;
         const auto [ptr, ec] = std::from_chars(begin, end, parsed);
         if (ec != std::errc{} || ptr != end) {
             return std::nullopt;
@@ -129,12 +129,12 @@ namespace {
     }
 
     std::optional<std::chrono::milliseconds> parseGrpcTimeout(const std::string& timeout) {
-        if (static_cast<int>(timeout.size()) < 2) {
+        if (timeout.size() < 2) {
             return std::nullopt;
         }
 
         const char unit = timeout.back();
-        const auto value = parseStrictPositiveInteger(timeout.substr(0, static_cast<int>(timeout.size()) - 1));
+        const auto value = parseStrictPositiveInteger(timeout.substr(0, timeout.size() - 1));
         if (!value.has_value()) {
             return std::nullopt;
         }
@@ -661,7 +661,7 @@ json ThemisRPCService::handleDeleteInternal(
                 themis::plugins::rpc::RPCErrorCode::TRANSACTION_CONFLICT,
                 "Referential integrity violation: " +
                     std::to_string(direct_children.size()) + " child entit" +
-                    (static_cast<int>(direct_children.size()) == 1 ? "y" : "ies") +
+                    (direct_children.size() == 1 ? "y" : "ies") +
                     " reference this entity. Use cascade=true to delete them."
             );
         }
@@ -854,7 +854,7 @@ json ThemisRPCService::handleBatchGetInternal(
         
         json result = {
             {"results", results_array},
-            {"count",static_cast<int>(results_array.size())}
+            {"count",results_array.size()}
         };
         
         return createSuccess(result);
@@ -1539,7 +1539,7 @@ json ThemisRPCService::handleGeoQueryInternal(
         
         json result = {
             {"results", results},
-            {"count",static_cast<int>(results.size())},
+            {"count",results.size()},
             {"query_type", query_type},
             {"collection", collection}
         };
@@ -2561,7 +2561,7 @@ json ThemisRPCService::handleGetIndexOperationsInternal(
 
         json result = {
             {"indexes", indexes},
-            {"count",static_cast<int>(indexes.size())},
+            {"count",indexes.size()},
             {"operations_supported", json::array({
                 "create_index",
                 "drop_index",
@@ -2706,7 +2706,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
                         "$limit value must be non-negative"
                     );
                 }
-                if (static_cast<int>(results.size()) > static_cast<size_t>(limit)) {
+                if (results.size() > static_cast<size_t>(limit)) {
                     json limited = json::array();
                     for (size_t i = 0; i < static_cast<size_t>(limit); ++i) {
                         limited.push_back(results[i]);
@@ -2748,7 +2748,7 @@ json ThemisRPCService::handleAggregationPipelineInternal(
         
         json result = {
             {"results", results},
-            {"count",static_cast<int>(results.size())}
+            {"count",results.size()}
         };
         
         return createSuccess(result);
@@ -2828,7 +2828,7 @@ json ThemisRPCService::handleListCollectionsInternal(
         
         json result = {
             {"collections", collections_array},
-            {"count",static_cast<int>(collections.size())}
+            {"count",collections.size()}
         };
         
         return createSuccess(result);

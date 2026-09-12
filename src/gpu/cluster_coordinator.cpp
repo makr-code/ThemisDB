@@ -144,7 +144,7 @@ GPUClusterCoordinator::Placement GPUClusterCoordinator::selectDevice(uint64_t re
         float best_sum = -1.0f;
 
         for (int i = 0; i < topology_.num_gpus; ++i) {
-            if (i >= static_cast<int>(local_devices_.size())) {
+            if (i >= local_devices_.size()) {
                 break;
             }
             const auto &dev = local_devices_[static_cast<size_t>(i)];
@@ -247,9 +247,9 @@ GPUClusterCoordinator::ClusterHealth GPUClusterCoordinator::clusterHealth() cons
     std::lock_guard<std::mutex> lock(mutex_);
 
     ClusterHealth h;
-    h.total_nodes          = static_cast<int>(topology_.nodes.size());
+    h.total_nodes          = topology_.nodes.size();
     h.healthy_nodes        = h.total_nodes; // all registered nodes assumed healthy
-    h.total_gpus           = static_cast<int>(local_devices_.size());
+    h.total_gpus           = local_devices_.size();
     h.nvlink_available     = topology_.has_nvlink;
     h.infiniband_available = topology_.has_infiniband;
     return h;
@@ -419,7 +419,7 @@ std::vector<GPUClusterCoordinator::NodeInfo> GPUClusterCoordinator::getOnlineNod
 
 size_t GPUClusterCoordinator::totalNodes() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(nodes_.size());
+    return nodes_.size();
 }
 
 size_t GPUClusterCoordinator::onlineNodeCount() const {

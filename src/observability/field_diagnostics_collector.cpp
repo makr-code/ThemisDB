@@ -171,7 +171,7 @@ bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
     }
 
     // Buffer full: evict oldest event to make room; count the eviction as dropped
-    if (static_cast<int>(event_buffer_.size()) >= config_.max_buffer_size) {
+    if (event_buffer_.size() >= config_.max_buffer_size) {
         event_buffer_.pop_front();
         events_dropped_++;
     }
@@ -260,7 +260,7 @@ void FieldDiagnosticsCollector::clearBuffer() {
  */
 size_t FieldDiagnosticsCollector::getBufferSize() const {
     std::shared_lock<std::shared_mutex> lock(buffer_mu_);
-    return static_cast<int>(event_buffer_.size());
+    return event_buffer_.size();
 }
 
 /**

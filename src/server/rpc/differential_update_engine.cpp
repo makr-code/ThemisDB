@@ -178,7 +178,7 @@ public:
         auto boundaries = rabin_->FindChunkBoundaries(data);
         std::vector<ChunkInfo> manifest = {};
 
-        if (static_cast<int>(boundaries.size()) >= 2) {
+        if (boundaries.size() >= 2) {
             for (size_t i = 0; i < boundaries.size() - 1; i++) {
                 uint64_t start = boundaries[i];
                 uint64_t end   = boundaries[i + 1];
@@ -209,7 +209,7 @@ public:
             auto it = by_index.find(idx);
             if (it == by_index.end()) { continue; }
             const ChunkInfo& ci = *it->second;
-            if (ci.offset + ci.size > static_cast<int>(data.size())) { continue; }
+            if (ci.offset + ci.size > data.size()) { continue; }
             chunks[idx] = data.substr(ci.offset, ci.size);
         }
 
@@ -249,7 +249,7 @@ private:
         uint32_t index = 0;
         
         for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
-            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(static_cast<int>(data.size()) - offset)));
+            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(data.size() - offset)));
             
             ChunkInfo info;
             info.offset = offset;

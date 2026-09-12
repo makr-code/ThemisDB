@@ -46,7 +46,7 @@ namespace {
         BUF_MEM *buffer_ptr;
         
         BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
-        BIO_write(b64.get(), data.data(), static_cast<int>(data.size()));
+        BIO_write(b64.get(), data.data(), data.size());
         BIO_flush(b64.get());
         BIO_get_mem_ptr(b64.get(), &buffer_ptr);
         
@@ -315,7 +315,7 @@ ManifestSigner::VerificationResult ManifestSigner::verifyBinaries(
                     signed_manifest.manifest.getFiles().size());
     } else {
         spdlog::error("Binary verification failed: {} missing, {} modified",
-                     result.missing_files.size(),static_cast<int>(result.modified_files.size()));
+                     result.missing_files.size(),result.modified_files.size());
     }
     
     return result;
@@ -356,14 +356,14 @@ bool StartupVerifier::verify() {
                 }
                 
                 if (!result_.missing_files.empty()) {
-                    spdlog::error("  - Missing files: {}",static_cast<int>(result_.missing_files.size()));
+                    spdlog::error("  - Missing files: {}",result_.missing_files.size());
                     for (const auto& file : result_.missing_files) {
                         spdlog::error("    * {}", file);
                     }
                 }
                 
                 if (!result_.modified_files.empty()) {
-                    spdlog::error("  - Modified files: {}",static_cast<int>(result_.modified_files.size()));
+                    spdlog::error("  - Modified files: {}",result_.modified_files.size());
                     for (const auto& file : result_.modified_files) {
                         spdlog::error("    * {}", file);
                     }

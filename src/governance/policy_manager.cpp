@@ -181,8 +181,8 @@ bool PolicyRule::appliesTo(const std::string &resource, const std::string &actio
             break;
         }
         // Simple wildcard matching: "data/*" matches "data/anything"
-        if (pattern.back() == '*' && static_cast<int>(pattern.size()) > 1) {
-            std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
+        if (pattern.back() == '*' && pattern.size() > 1) {
+            std::string prefix = pattern.substr(0, pattern.size() - 1);
             if (resource.find(prefix) == 0) {
                 resource_match = true;
                 break;
@@ -298,7 +298,7 @@ bool PolicyManager::loadRules(const std::string &path) {
                 rules_[rule.id] = rule;
             }
 
-            THEMIS_INFO("Loaded {} policy rules from YAML: {}",static_cast<int>(rules_.size()), path);
+            THEMIS_INFO("Loaded {} policy rules from YAML: {}",rules_.size(), path);
             return true;
 
         } else {
@@ -335,7 +335,7 @@ bool PolicyManager::saveRules(const std::string &path) {
         nlohmann::json j = exportRules();
         file << j.dump(2);
 
-        THEMIS_INFO("Saved {} policy rules to {}",static_cast<int>(rules_.size()), path);
+        THEMIS_INFO("Saved {} policy rules to {}",rules_.size(), path);
         return true;
 
     } catch (const std::exception &e) {
@@ -521,7 +521,7 @@ PolicyManager::ValidationResult PolicyManager::validateRules() const {
 PolicyManager::PolicyStats PolicyManager::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     PolicyStats stats;
-    stats.total_rules = static_cast<int>(rules_.size());
+    stats.total_rules = rules_.size();
 
     for (const auto &[id, rule] : rules_) {
         if (rule.enabled) {
@@ -565,7 +565,7 @@ bool PolicyManager::importRules(const nlohmann::json &j) {
             rules_[rule.id] = rule;
         }
 
-        THEMIS_INFO("Imported {} policy rules",static_cast<int>(rules_.size()));
+        THEMIS_INFO("Imported {} policy rules",rules_.size());
         return true;
 
     } catch (const std::exception &e) {
@@ -582,8 +582,8 @@ bool PolicyManager::matchPattern(const std::string &pattern, const std::string &
         return true;
     }
     // Simple wildcard matching
-    if (pattern.back() == '*' && static_cast<int>(pattern.size()) > 1) {
-        std::string prefix = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
+    if (pattern.back() == '*' && pattern.size() > 1) {
+        std::string prefix = pattern.substr(0, pattern.size() - 1);
         return value.find(prefix) == 0;
     }
     return false;

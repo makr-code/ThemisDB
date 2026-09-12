@@ -518,7 +518,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     const std::string& expected_digest)
 {
     // expected_digest is in the form "sha256:<hex>".
-    if (static_cast<int>(expected_digest.size()) <= 7 ||
+    if (expected_digest.size() <= 7 ||
         expected_digest.substr(0, 7) != "sha256:") {
         return false;
     }
@@ -602,7 +602,7 @@ Result<OciManifest> OciRegistryClient::fetchManifest(const OciReference& ref) {
     }
 
     THEMIS_INFO("OciRegistryClient: fetched manifest for {} ({} layers)",
-                ref.toString(),static_cast<int>(manifest.layers.size()));
+                ref.toString(),manifest.layers.size());
 
     return Ok(manifest);
 }
@@ -649,7 +649,7 @@ Result<std::string> OciRegistryClient::pullPluginBinary(
 
     // 3. Build destination file path from digest (sha256:<hex> -> <hex>.plugin).
     std::string digest = plugin_layer->digest;
-    std::string digest_hex = (static_cast<int>(digest.size()) > 7 && digest.substr(0, 7) == "sha256:")
+    std::string digest_hex = (digest.size() > 7 && digest.substr(0, 7) == "sha256:")
                              ? digest.substr(7)
                              : digest;
 

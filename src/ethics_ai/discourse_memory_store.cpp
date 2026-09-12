@@ -30,7 +30,7 @@ int DiscourseMemoryStore::countTokens(const std::string &text) noexcept {
 
 std::string DiscourseMemoryStore::compressPosition(const std::string &position_abstract, int max_tokens) noexcept {
     const std::size_t max_chars = static_cast<std::size_t>(max_tokens) * 4;
-    if (static_cast<int>(position_abstract.size()) <= max_chars) {
+    if (position_abstract.size() <= max_chars) {
         return position_abstract;
     }
     return position_abstract.substr(0, max_chars) + "...";
@@ -57,7 +57,7 @@ void DiscourseMemoryStore::storeEpisode(const DiscourseRoundOutput &output) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto &buf = episodes_[entry.school_id];
     buf.push_back(std::move(entry));
-    if (static_cast<int>(buf.size()) > config_.max_episodes_per_school) {
+    if (buf.size() > config_.max_episodes_per_school) {
         buf.erase(buf.begin()); // evict oldest
     }
 }
@@ -73,7 +73,7 @@ void DiscourseMemoryStore::storeEpisode(const EpisodicMemoryEntry &entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     auto &buf = episodes_[compressed.school_id];
     buf.push_back(std::move(compressed));
-    if (static_cast<int>(buf.size()) > config_.max_episodes_per_school) {
+    if (buf.size() > config_.max_episodes_per_school) {
         buf.erase(buf.begin()); // evict oldest
     }
 }
@@ -91,7 +91,7 @@ std::vector<EpisodicMemoryEntry> DiscourseMemoryStore::getEpisodesForSchool(cons
     }
 
     const auto &buf = it->second;
-    const int count = std::min(max_episodes, static_cast<int>(buf.size()));
+    const int count = std::min(max_episodes, buf.size());
     if (count <= 0) {
         return {};
     }
@@ -99,7 +99,7 @@ std::vector<EpisodicMemoryEntry> DiscourseMemoryStore::getEpisodesForSchool(cons
     // Return newest-first (reverse of the ring buffer which stores oldest→newest)
     std::vector<EpisodicMemoryEntry> result;
     result.reserve(static_cast<std::size_t>(count));
-    for (int i = static_cast<int>(buf.size()) - 1; i >= static_cast<int>(buf.size()) - count; --i) {
+    for (int i = buf.size() - 1; i >= buf.size() - count; --i) {
         result.push_back(buf[static_cast<std::size_t>(i)]);
     }
     return result;

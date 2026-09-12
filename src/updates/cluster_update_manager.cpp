@@ -418,7 +418,7 @@ bool ClusterUpdateManager::isCancelled() const {
 }
 
 size_t ClusterUpdateManager::totalNodes() const {
-    return static_cast<int>(sorted_nodes_.size());
+    return sorted_nodes_.size();
 }
 
 // ---------------------------------------------------------------------------

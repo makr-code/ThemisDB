@@ -39,7 +39,7 @@ namespace {
 /// Escape a string for JSON embedding (minimal: only required characters).
 std::string jsonEscape(const std::string& s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 4);
+    out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  out += "\\\""; break;
@@ -183,7 +183,7 @@ public:
         // In-process ring buffer
         if (config_.max_retained_entries > 0) {
             buffer_.push_back(entry);
-            while (static_cast<int>(buffer_.size()) > config_.max_retained_entries) {
+            while (buffer_.size() > config_.max_retained_entries) {
                 buffer_.pop_front();
             }
         }
@@ -256,7 +256,7 @@ public:
 
         {
             std::lock_guard<std::mutex> lk(async_mu_);
-            if (static_cast<int>(async_queue_.size()) >= config_.async_queue_max_size) {
+            if (async_queue_.size() >= config_.async_queue_max_size) {
                 ++async_overflows_;
                 p->set_value(); // drop the task
                 return f;

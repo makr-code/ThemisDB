@@ -341,7 +341,7 @@ std::string PromptTemplateManager::replacePlaceholders(
     
     // Replace {context} with concatenated documents
     std::ostringstream context_stream = {};
-    for (size_t i = 0; i <static_cast<int>(input.documents.size()); ++i) {
+    for (size_t i = 0; i <input.documents.size(); ++i) {
         context_stream << "Document " << (i + 1) << ":\n"
                       << input.documents[i].content << "\n\n";
     }

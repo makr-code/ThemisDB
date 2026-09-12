@@ -90,20 +90,20 @@ bool SecureTransportClient::compressData(const std::string& data,
     }
     
     // Only compress if data exceeds threshold
-    if (static_cast<int>(data.size()) < config_.compression_threshold) {
+    if (data.size() < config_.compression_threshold) {
         return false;
     }
     
     try {
         if (config_.compression == Config::CompressionType::Zstd) {
             auto compressed_bytes = utils::zstd_compress(data, config_.compression_level);
-            if (!compressed_bytes.empty() && static_cast<int>(compressed_bytes.size()) <static_cast<int>(data.size())) {
+            if (!compressed_bytes.empty() && compressed_bytes.size() <data.size()) {
                 compressed = std::string(compressed_bytes.begin(), compressed_bytes.end());
                 if (compression_codec != nullptr) {
                     *compression_codec = "zstd";
                 }
                 spdlog::debug("SecureTransportClient: Compressed {} -> {} bytes (ratio: {:.2f}x)",
-                             data.size(),static_cast<int>(compressed.size()),
+                             data.size(),compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }
@@ -111,13 +111,13 @@ bool SecureTransportClient::compressData(const std::string& data,
         if (config_.compression == Config::CompressionType::LZ4) {
             std::string lz4_output = {};
             const bool compressed_ok = lz4CompressFn_ && lz4CompressFn_(data, lz4_output);
-            if (compressed_ok && !lz4_output.empty() && static_cast<int>(lz4_output.size()) <static_cast<int>(data.size())) {
+            if (compressed_ok && !lz4_output.empty() && lz4_output.size() <data.size()) {
                 compressed = std::move(lz4_output);
                 if (compression_codec != nullptr) {
                     *compression_codec = "lz4";
                 }
                 spdlog::debug("SecureTransportClient: LZ4 compressed {} -> {} bytes (ratio: {:.2f}x)",
-                             data.size(),static_cast<int>(compressed.size()),
+                             data.size(),compressed.size(),
                              static_cast<double>(data.size()) / compressed.size());
                 return true;
             }

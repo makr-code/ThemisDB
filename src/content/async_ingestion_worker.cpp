@@ -205,7 +205,7 @@ std::string AsyncIngestionWorker::submitFile(const std::string &blob, const std:
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
+        if (job_queue_.size() >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -248,12 +248,12 @@ std::string AsyncIngestionWorker::submitStream(std::istream &stream, const std::
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {
@@ -309,12 +309,12 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(std::istream &stream
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if ((static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
+        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return (static_cast<int>(job_queue_.size()) + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
+            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                    || !running_.load() || shutdown_requested_.load();
         });
         if (!running_.load() || shutdown_requested_.load()) {
@@ -362,7 +362,7 @@ std::string AsyncIngestionWorker::submitArchive(const std::string &blob, const s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
+        if (job_queue_.size() >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -396,13 +396,13 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     job.config = config;
     job.user_context = user_context;
     job.created_at = getCurrentTimeMs();
-    job.total_items = static_cast<int>(files.size());
+    job.total_items = files.size();
     // started_at, completed_at, processed_items, progress default to 0/0.0f (CON-014)
     
     // Store file list in config
     json file_list = json::array();
     for (const auto &[filename, blob] : files) {
-        file_list.push_back({{"filename", filename}, {"size",static_cast<int>(blob.size())}});
+        file_list.push_back({{"filename", filename}, {"size",blob.size()}});
     }
     job.config["files"]  = file_list;
     job.config["_blobs"] = json::array(); // Will be filled with actual blobs
@@ -415,7 +415,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
+        if (job_queue_.size() >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 
@@ -431,7 +431,7 @@ std::string AsyncIngestionWorker::submitBatch(const std::vector<std::pair<std::s
     queue_cv_.notify_one();
 
     if (config_.verbose_logging) {
-        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id,static_cast<int>(files.size()));
+        THEMIS_INFO("Batch job submitted: {} ({} files)", job.job_id,files.size());
     }
 
     return job.job_id;
@@ -508,7 +508,7 @@ json AsyncIngestionWorker::getStatistics() {
 
     return json{{"running", running_.load()},
                 {"worker_count", config_.worker_thread_count},
-                {"queue_size",static_cast<int>(job_queue_.size())},
+                {"queue_size",job_queue_.size()},
                 {"max_queue_size", config_.max_queue_size},
                 {"max_queue_depth", config_.max_queue_depth},
                 {"jobs",
@@ -517,7 +517,7 @@ json AsyncIngestionWorker::getStatistics() {
                   {"completed", completed},
                   {"failed", failed},
                   {"cancelled", cancelled},
-                  {"total",static_cast<int>(job_history_.size())}}},
+                  {"total",job_history_.size()}}},
                 {"stats",
                  {{"total_processed", total_jobs_processed_.load()},
                   {"total_failed", total_jobs_failed_.load()},
@@ -630,7 +630,7 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
             total_jobs_processed_.fetch_add(1);
 
             if (config_.verbose_logging) {
-                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id,static_cast<int>(job.content_ids.size()));
+                THEMIS_INFO("Worker {} completed job {} ({} items)", worker_id, job.job_id,job.content_ids.size());
             }
 
             // Fulfill promise for ingestStream() callers
@@ -773,7 +773,7 @@ void AsyncIngestionWorker::processArchive(IngestionJob &job) {
     job.content_ids.insert(job.content_ids.end(), result.extracted_content_ids.begin(),
                            result.extracted_content_ids.end());
     job.result_metadata = result.metadata;
-    job.total_items     = static_cast<int>(result.extracted_content_ids.size()) + 1;
+    job.total_items     = result.extracted_content_ids.size() + 1;
     job.processed_items = job.total_items;
     job.progress        = 1.0f;
 
@@ -927,7 +927,7 @@ std::string AsyncIngestionWorker::submitSourceJob(const IngestionSource &source,
     {
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(job_queue_.size()) >= config_.max_queue_size) {
+        if (job_queue_.size() >= config_.max_queue_size) {
             throw std::runtime_error("Job queue full");
         }
 

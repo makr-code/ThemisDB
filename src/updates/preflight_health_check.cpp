@@ -290,7 +290,7 @@ PreflightCheckResult PreflightHealthChecker::runAll() {
 }
 
 size_t PreflightHealthChecker::checkCount() const {
-    return static_cast<int>(checks_.size());
+    return checks_.size();
 }
 
 } // namespace updates

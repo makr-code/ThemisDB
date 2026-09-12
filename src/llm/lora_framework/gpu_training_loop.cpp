@@ -297,7 +297,7 @@ void GPUTrainingLoop::initializeOptimizer() {
     
     optimizer_->add_parameters(params);
     
-    spdlog::info("Optimizer initialized with {} parameters",static_cast<int>(params.size()));
+    spdlog::info("Optimizer initialized with {} parameters",params.size());
 }
 
 void GPUTrainingLoop::initializeMemoryManagement() {
@@ -354,7 +354,7 @@ void GPUTrainingLoop::initializeCheckpointing() {
     }
     
     // Count total layers
-    int total_layers = static_cast<int>(layers_.size());
+    int total_layers = layers_.size();
     if (multi_gpu_layer_) {
         total_layers = 1;  // Multi-GPU layer counts as one
     }
@@ -691,7 +691,7 @@ GPUTensor createEmbeddingsOnGPU(
 ) {
     // Get batch size and sequence length from token_ids shape
     auto shape = token_ids.shape();
-    if (static_cast<int>(shape.size()) < 2) {
+    if (shape.size() < 2) {
         throw std::invalid_argument("token_ids must be at least 2D (batch_size, seq_len)");
     }
     

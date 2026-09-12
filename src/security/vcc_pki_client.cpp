@@ -60,7 +60,7 @@ bool starts_with(const std::string& value, const char* prefix) {
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-    if (host_start >= static_cast<int>(url.size())) {
+    if (host_start >= url.size()) {
         return {};
     }
 
@@ -303,7 +303,7 @@ struct VCCPKIClient::Impl {
         if (method == "POST") {
             curl_easy_setopt(curl, CURLOPT_POST, 1L);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,static_cast<int>(body.size()));
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,body.size());
         } else if (method == "GET") {
             curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
         }

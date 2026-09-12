@@ -210,7 +210,7 @@ size_t PredicatePushdownRule::apply(nlohmann::json& plan,
                 filters.push_back(std::move(child));
             } else {
                 if (hasType(child, "scan") && scan_index < 0) {
-                    scan_index = static_cast<int>(others.size());
+                    scan_index = others.size();
                 }
                 others.push_back(std::move(child));
             }
@@ -528,7 +528,7 @@ void QueryRewritePipeline::clearRules() {
 }
 
 size_t QueryRewritePipeline::ruleCount() const {
-    return static_cast<int>(rules_.size());
+    return rules_.size();
 }
 
 RewriteStats QueryRewritePipeline::run(nlohmann::json& plan,

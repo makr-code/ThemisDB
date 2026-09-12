@@ -330,7 +330,7 @@ class MultiGPUVectorBackend::Impl {
             case CommBackend::NCCL: {
                 ncclBackend = std::make_unique<NCCLVectorBackend>();
                 NCCLVectorBackend::Config ncclCfg;
-                ncclCfg.worldSize    = static_cast<int>(deviceIds.size());
+                ncclCfg.worldSize    = deviceIds.size();
                 ncclCfg.rank         = 0;
                 ncclCfg.deviceIds    = deviceIds;
                 ncclCfg.enableP2P    = config.enableP2P;
@@ -352,7 +352,7 @@ class MultiGPUVectorBackend::Impl {
             case CommBackend::RCCL: {
                 rcclBackend = std::make_unique<RCCLVectorBackend>();
                 RCCLVectorBackend::Config rcclCfg;
-                rcclCfg.worldSize    = static_cast<int>(deviceIds.size());
+                rcclCfg.worldSize    = deviceIds.size();
                 rcclCfg.rank         = 0;
                 rcclCfg.deviceIds    = deviceIds;
                 rcclCfg.enableP2P    = config.enableP2P;

@@ -147,7 +147,7 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
         const size_t cb = mb.count(t);
         inter += std::min(ca, cb);
     }
-    const size_t union_sz = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - inter;
+    const size_t union_sz = ta.size() + tb.size() - inter;
     if (union_sz == 0) {
       return 0.0;
     }
@@ -171,7 +171,7 @@ double jaccardTokenSimilarity(const std::string& a, const std::string& b) {
 size_t editDistance(const std::string& a, const std::string& b) {
     // Safety cap: use char-difference for very large strings
     constexpr size_t MAX_LEN = 10'000;
-    if (static_cast<int>(a.size()) > MAX_LEN || static_cast<int>(b.size()) > MAX_LEN) {
+    if (a.size() > MAX_LEN || b.size() > MAX_LEN) {
         // Approximate: Hamming distance on common prefix length
         size_t diffs = 0;
         const size_t common = std::min(a.size(), b.size());
@@ -181,7 +181,7 @@ size_t editDistance(const std::string& a, const std::string& b) {
             }
         }
         diffs += static_cast<size_t>(
-            static_cast<int>(a.size()) > static_cast<int>(b.size()) ? static_cast<int>(a.size()) - static_cast<int>(b.size()) : static_cast<int>(b.size()) - static_cast<int>(a.size()) );
+            a.size() > b.size() ? a.size() - b.size() : b.size() - a.size() );
         return diffs;
     }
 

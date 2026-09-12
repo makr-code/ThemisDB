@@ -113,7 +113,7 @@ InMemoryTensorBackend::listKeys(const std::string& prefix) const {
     std::vector<std::string> result = {};
 
     for (const auto& kv : store_) {
-        if (kv.first.substr(0,static_cast<int>(prefix.size())) == prefix)
+        if (kv.first.substr(0,prefix.size()) == prefix)
             result.push_back(kv.first);
     }
     std::sort(result.begin(), result.end());
@@ -310,7 +310,7 @@ bool TensorNetworkStorageEngine::put(const TensorFieldKey&            key,
     for (auto n : mode_sizes) {
       expected *= n;
     }
-    if (static_cast<int>(data.size()) != expected)
+    if (data.size() != expected)
         throw std::invalid_argument("TensorNetworkStorageEngine::put: size mismatch");
 
     // Decompose

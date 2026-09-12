@@ -44,8 +44,8 @@ MVCCStore::MVCCStore(
 
 std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestamp ts) {
     std::string key = {};
-    key.reserve(static_cast<int>(base_key.size()) + 1 + 8);
-    key.append(base_key.data(),static_cast<int>(base_key.size()));
+    key.reserve(base_key.size() + 1 + 8);
+    key.append(base_key.data(),base_key.size());
     key.push_back('\x00');
     key.append(ts.encodeToString());
     return key;
@@ -53,8 +53,8 @@ std::string MVCCStore::encodeVersionedKey(std::string_view base_key, HLCTimestam
 
 std::string MVCCStore::encodeVersionPrefix(std::string_view base_key) {
     std::string prefix = {};
-    prefix.reserve(static_cast<int>(base_key.size()) + 1);
-    prefix.append(base_key.data(),static_cast<int>(base_key.size()));
+    prefix.reserve(base_key.size() + 1);
+    prefix.append(base_key.data(),base_key.size());
     prefix.push_back('\x00');
     return prefix;
 }
@@ -64,11 +64,11 @@ HLCTimestamp MVCCStore::decodeTimestamp(std::string_view versioned_key) {
     // The separator '\x00' is at position (size - 9); the timestamp follows it.
     // We use a fixed offset from the end (not rfind) because the 8-byte
     // big-endian timestamp may itself contain '\x00' bytes.
-    if (static_cast<int>(versioned_key.size()) < 9) {
+    if (versioned_key.size() < 9) {
         return HLCTimestamp{};  // not a valid versioned key
     }
     const auto* ts_bytes = reinterpret_cast<const uint8_t*>(
-        versioned_key.data() + static_cast<int>(versioned_key.size()) - 8
+        versioned_key.data() + versioned_key.size() - 8
     );
     return HLCTimestamp::decodeFromBytes(ts_bytes);
 }
@@ -182,7 +182,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string seek_key = {};
     if (ts.value == UINT64_MAX) {
         // Append '\x01' (> '\x00') to step past all versions of this base key.
-        seek_key = std::string(key.data(),static_cast<int>(key.size()));
+        seek_key = std::string(key.data(),key.size());
         seek_key.push_back('\x01');
     } else {
         seek_key = encodeVersionedKey(key, HLCTimestamp(ts.value + 1));
@@ -214,8 +214,8 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     std::string_view found_key = it.key();
 
     // Verify the found key belongs to the same base key (shares the prefix).
-    if (static_cast<int>(found_key.size()) <static_cast<int>(prefix.size()) ||
-        found_key.substr(0,static_cast<int>(prefix.size())) != std::string_view(prefix)) {
+    if (found_key.size() <prefix.size() ||
+        found_key.substr(0,prefix.size()) != std::string_view(prefix)) {
         return std::nullopt;
     }
 
@@ -232,7 +232,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
     // valid string_view data() pointer is safe — false positives.
     return std::vector<uint8_t>(
         reinterpret_cast<const uint8_t*>(raw_val.data()),
-        reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
+        reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size() 
     );
 }
 
@@ -251,7 +251,7 @@ void MVCCStore::scanVersions(
         entry.timestamp = decodeTimestamp(vkey);
         entry.value.assign(
             reinterpret_cast<const uint8_t*>(raw_val.data()),
-            reinterpret_cast<const uint8_t*>(raw_val.data()) + static_cast<int>(raw_val.size()) 
+            reinterpret_cast<const uint8_t*>(raw_val.data()) + raw_val.size() 
         );
         return callback(entry);
     });
@@ -328,9 +328,9 @@ void MVCCStore::scanBaseKeys(std::function<bool(std::string_view base_key)> call
     std::vector<std::string> base_keys;
 
     db_->scanAll([&](std::string_view vkey, std::string_view) -> bool {
-        if (static_cast<int>(vkey.size()) >= 9 &&
+        if (vkey.size() >= 9 &&
             static_cast<unsigned char>(vkey[vkey.size() - 9]) == '\x00') {
-            base_keys.emplace_back(vkey.data(), static_cast<int>(vkey.size()) - 9);
+            base_keys.emplace_back(vkey.data(), vkey.size() - 9);
         }
         return true;
     });

@@ -377,7 +377,7 @@ ExternalAdapterProvenance LoRAProvenanceManager::importExternalAdapter(
         // Adapter hash sanity check
         if (provenance.adapter_hash.empty()) {
             provenance.validation_errors.push_back("Missing adapter hash");
-        } else if (static_cast<int>(provenance.adapter_hash.size()) != 64) {
+        } else if (provenance.adapter_hash.size() != 64) {
             provenance.validation_errors.push_back(
                 "Adapter hash must be a 64-character hex SHA-256 digest");
         }
@@ -550,7 +550,7 @@ bool LoRAProvenanceManager::verifyAuditChain(
 
 std::string LoRAProvenanceManager::sha256Hex(const std::string& data) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.data()),static_cast<int>(data.size()), digest);
+    SHA256(reinterpret_cast<const unsigned char*>(data.data()),data.size(), digest);
     return digestToHex(digest);
 }
 

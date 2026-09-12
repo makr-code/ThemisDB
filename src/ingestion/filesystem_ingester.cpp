@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 // ---------------------------------------------------------------------------
 
 BinaryMimeType detectBinaryMimeType(const std::string& raw) {
-    if (static_cast<int>(raw.size()) < 4) {
+    if (raw.size() < 4) {
       return BinaryMimeType::UNKNOWN;
     }
 
@@ -158,10 +158,10 @@ static std::string extractXmlText(const std::string& raw,
         : pugi::parse_default;
     // Try lenient parsing for HTML
     pugi::xml_parse_result result =
-        doc.load_buffer(raw.data(),static_cast<int>(raw.size()), parse_flags);
+        doc.load_buffer(raw.data(),raw.size(), parse_flags);
     if (!result && is_html) {
         // Retry with declaration stripping for malformed HTML
-        result = doc.load_buffer(raw.data(),static_cast<int>(raw.size()),
+        result = doc.load_buffer(raw.data(),raw.size(),
                                   pugi::parse_default | pugi::parse_fragment
                                   | pugi::parse_pi);
     }
@@ -237,7 +237,7 @@ static std::string runExternalConverter(const std::string& cmd) {
     std::string result = {};
     std::array<char, 4096> buf = {};
 
-    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe) != nullptr) {
+    while (std::fgets(buf.data(), buf.size(), pipe) != nullptr) {
         result += buf.data();
     }
 #if defined(_WIN32)
@@ -266,7 +266,7 @@ static std::string shellEscapePath(const std::string& path) {
 #else
     // POSIX single-quote escaping
     std::string escaped = {};
-    escaped.reserve(static_cast<int>(path.size()) + 2);
+    escaped.reserve(path.size() + 2);
     escaped += '\'';
     for (char c : path) {
         if (c == '\'') {
@@ -538,7 +538,7 @@ public:
                                 ++processed;
                                 if (progress_callback &&
                                     (processed % 10 == 0 ||
-                                     processed == static_cast<int>(files_to_process.size()))) {
+                                     processed == files_to_process.size())) {
                                     progress_callback(config_.source_id, processed,
                                                       files_to_process.size(),
                                                       "Validation failed: " +
@@ -568,7 +568,7 @@ public:
                     // Report progress
                     if (progress_callback &&
                         (processed % 10 == 0 ||
-                         processed == static_cast<int>(files_to_process.size()))) {
+                         processed == files_to_process.size())) {
                         progress_callback(config_.source_id, processed, 
                                         files_to_process.size(),
                                         "Processing: " + file_path.filename().string());

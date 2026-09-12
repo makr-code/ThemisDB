@@ -109,13 +109,13 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
 {
     if (layers.empty() || flat_vectors.empty()) {
         THEMIS_WARN("cpuHnswSearch: empty graph layers or flat_vectors (layers={} flat_vectors={})",
-                    layers.size(),static_cast<int>(flat_vectors.size()));
+                    layers.size(),flat_vectors.size());
         return {};
     }
 
     // Entry point: node 0 at the top layer
     int32_t entry = 0;
-    int num_layers = static_cast<int>(layers.size());
+    int num_layers = layers.size();
 
     // Traverse upper layers with ef=1
     for (int layer = num_layers - 1; layer > 0; --layer) {
@@ -176,7 +176,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
                                   dim, metric);
         candidates.push({d, node_id});
         results.push({d, node_id});
-        if (static_cast<int>(results.size()) > ef) {
+        if (results.size() > ef) {
           results.pop();
         }
     };
@@ -213,7 +213,7 @@ cpuHnswSearch(const std::vector<HnswLayerGraph>& layers,
     }
     std::sort(out.begin(), out.end(),
               [](const auto& a, const auto& b){ return a.score < b.score; });
-    if (static_cast<int>(out.size()) > k) {
+    if (out.size() > k) {
       out.resize(k);
     }
     return out;
@@ -796,7 +796,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
                             const size_t take = std::min(static_cast<size_t>(k),
                                                          cands.size());
-                            if (take > 0  && static_cast<size_t>(take) <static_cast<int>(cands.size())) {
+                            if (take > 0  && take < cands.size()) {
                                 std::partial_sort(
                                     cands.begin(),
                                     cands.begin() + static_cast<ptrdiff_t>(take),

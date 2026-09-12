@@ -145,7 +145,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
     }
 
     [[maybe_unused]] const auto src      = reinterpret_cast<const char*>(val.data());
-    [[maybe_unused]] const auto src_size = static_cast<int>(val.size());
+    [[maybe_unused]] const auto src_size = val.size();
     [[maybe_unused]] const auto orig_u32 = static_cast<uint32_t>(val.size());
 
 #ifdef THEMIS_ENABLE_LZ4
@@ -175,7 +175,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
         if (!compressed_body.empty()) {
             // Frame: [tag(1)] [snappy_data] (Snappy encodes original size internally)
             std::string out = {};
-            out.reserve(1 + static_cast<int>(compressed_body.size()) );
+            out.reserve(1 + compressed_body.size() );
             out += static_cast<char>(kTagSnappy);
             out += compressed_body;
             return out;
@@ -222,7 +222,7 @@ std::string AdvancedCacheManager::compress(const std::string& val,
 
     // Passthrough: [tag(1)] [original data]
     std::string out = {};
-    out.reserve(1 + static_cast<int>(val.size()) );
+    out.reserve(1 + val.size() );
     out += static_cast<char>(kTagPassthrough);
     out += val;
     return out;
@@ -236,11 +236,11 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
     if (tag == kTagPassthrough) {
         // Strip leading tag byte and return original data.
-        return static_cast<int>(val.size()) > 1 ? val.substr(1) : std::string{};
+        return val.size() > 1 ? val.substr(1) : std::string{};
     }
 
 #ifdef THEMIS_ENABLE_LZ4
-    if (tag == kTagLZ4 && static_cast<int>(val.size()) > 5) {
+    if (tag == kTagLZ4 && val.size() > 5) {
         const uint32_t orig_size =
             read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
         if (orig_size == 0) return {};
@@ -259,9 +259,9 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 #endif
 
 #ifdef THEMIS_ENABLE_SNAPPY
-    if (tag == kTagSnappy && static_cast<int>(val.size()) > 1) {
+    if (tag == kTagSnappy && val.size() > 1) {
         std::string out = {};
-        if (snappy::Uncompress(&val[1], static_cast<int>(val.size()) - 1, &out)) {
+        if (snappy::Uncompress(&val[1], val.size() - 1, &out)) {
             return out;
         }
         return val.substr(1);
@@ -269,14 +269,14 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 #endif
 
 #ifdef THEMIS_ENABLE_ZSTD
-    if (tag == kTagZstd && static_cast<int>(val.size()) > 5) {
+    if (tag == kTagZstd && val.size() > 5) {
         const uint32_t orig_size =
             read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
         if (orig_size == 0) return {};
         std::string out(orig_size, '\0');
         const size_t decoded = ZSTD_decompress(
             &out[0], orig_size,
-            &val[5], static_cast<int>(val.size()) - 5);
+            &val[5], val.size() - 5);
         if (!ZSTD_isError(decoded) && decoded == orig_size) {
             return out;
         }
@@ -303,7 +303,7 @@ std::string AdvancedCacheManager::decompress(const std::string& val,
 
     // Unknown tag (data written by a build with a library we don't have):
     // return the payload without the tag byte as the safest fallback.
-    return static_cast<int>(val.size()) > 1 ? val.substr(1) : std::string{};
+    return val.size() > 1 ? val.substr(1) : std::string{};
 }
 
 // ---------------------------------------------------------------------------

@@ -34,8 +34,8 @@ PrincipalValidator::PrincipalValidator(const Config &config) : config_(config) {
     utils::Logger::info("Principal Validator initialized:");
     utils::Logger::info("  Default allow: {}", config_.default_allow);
     utils::Logger::info("  Audit logging: {}", config_.enable_audit_logging);
-    utils::Logger::info("  Rules: {}",static_cast<int>(config_.rules.size()));
-    utils::Logger::info("  Mapping rules: {}",static_cast<int>(config_.mapping_rules.size()));
+    utils::Logger::info("  Rules: {}",config_.rules.size());
+    utils::Logger::info("  Mapping rules: {}",config_.mapping_rules.size());
 }
 
 PrincipalValidator::ValidationResult PrincipalValidator::validate(const std::string &principal,

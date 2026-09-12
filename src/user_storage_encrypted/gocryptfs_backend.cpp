@@ -71,7 +71,7 @@ inline Result<std::string> validatePath(const std::string& path) {
     }
 
     // Must be absolute (/) or relative with ./ prefix
-    if ((path[0] != '/' && ( static_cast<int>(path.size()) < 2 || path.substr(0, 2) != "./")) {
+    if ((path[0] != '/' && ( path.size() < 2 || path.substr(0, 2) != "./")) {
         return Result<std::string>::error(
             "Path must be absolute (start with /) or relative (start with ./) to prevent shell injection"
         );
@@ -116,7 +116,7 @@ inline Result<std::string> validateHexKey(const std::string& hex_key) {
     }
 
     // Reasonable size limit: 256 bytes = 512 hex chars (max for typical keys)
-    if (static_cast<int>(hex_key.size()) > 512) {
+    if (hex_key.size() > 512) {
         return Result<std::string>::error(
             "Hex key exceeds maximum length (512 characters)"
         );
@@ -509,7 +509,7 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
         auto n = timed_io.write(ptr + written, static_cast<size_t>(total - written));
         if (!n.has_value()) {
             // Timeout or I/O error
-            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
+            secureZero(hex_key.data(),hex_key.size());
             if (errno == EAGAIN) {
                 return Result<void>::error("Timeout: write to key stdin pipe blocked");
             }
@@ -520,14 +520,14 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
               continue;
             }
             // Securely clear before returning error.
-            secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
+            secureZero(hex_key.data(),hex_key.size());
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         written += n.value();
     }
 
     // Securely clear key material from the stack buffer.
-    secureZero(hex_key.data(),static_cast<int>(hex_key.size()));
+    secureZero(hex_key.data(),hex_key.size());
     return Result<void>();
 #endif
 }
@@ -576,7 +576,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 
         std::vector<char*> c_args = {};
 
-        c_args.reserve(static_cast<int>(args.size()) + 1);
+        c_args.reserve(args.size() + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -757,7 +757,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
 
         std::vector<char*> c_args = {};
 
-        c_args.reserve(static_cast<int>(args.size()) + 1);
+        c_args.reserve(args.size() + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }

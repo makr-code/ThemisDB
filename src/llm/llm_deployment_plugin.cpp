@@ -65,7 +65,7 @@ std::chrono::system_clock::time_point iso8601ToTime(const std::string& iso) {
     }
 
     // Strip the trailing 'Z' before parsing
-    std::string datetime_part = iso.substr(0, static_cast<int>(iso.size()) - 1);
+    std::string datetime_part = iso.substr(0, iso.size() - 1);
 
     std::tm tm_val = {};
     std::istringstream ss(datetime_part);
@@ -698,7 +698,7 @@ std::vector<AuditEntry> LLMDeploymentPlugin::getAuditLog(size_t limit) const {
     // Return most recent entries
     std::vector<AuditEntry> result = {};
 
-    size_t start = static_cast<int>(audit_log_.size()) - limit;
+    size_t start = audit_log_.size() - limit;
     result.insert(result.end(), audit_log_.begin() + start, audit_log_.end());
     
     return result;
@@ -914,7 +914,7 @@ void LLMDeploymentPlugin::loadModelRegistry() {
             model_registry_.push_back(status);
         }
         
-        LOG_INFO("Loaded {} models from registry",static_cast<int>(model_registry_.size()));
+        LOG_INFO("Loaded {} models from registry",model_registry_.size());
         
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to load model registry: {}", e.what());
@@ -974,7 +974,7 @@ std::optional<ModelSource> LLMDeploymentPlugin::findBestSource(const std::string
         return src;
     }
 
-    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id,static_cast<int>(sorted_sources.size()));
+    LOG_ERROR("No source contains model '{}'; checked {} source(s)", model_id,sorted_sources.size());
     return std::nullopt;
 }
 

@@ -22,7 +22,7 @@ SynopsisStore::SynopsisStore(size_t max_tuples, size_t max_bytes)
 
 bool SynopsisStore::insert(SynopsisTuple tuple) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (static_cast<int>(tuples_.size()) >= max_tuples_) {
+    if (tuples_.size() >= max_tuples_) {
         return false;
     }
     const auto extra = tuple.payload.size();
@@ -53,7 +53,7 @@ std::deque<SynopsisTuple> SynopsisStore::snapshot() const {
 
 size_t SynopsisStore::size() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(tuples_.size());
+    return tuples_.size();
 }
 
 size_t SynopsisStore::bytes() const noexcept {

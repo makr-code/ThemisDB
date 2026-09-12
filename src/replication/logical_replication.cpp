@@ -397,7 +397,7 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
         }
     };
 
-    if (!config_.parallel_decoding || static_cast<int>(slots_copy.size()) <= 1) {
+    if (!config_.parallel_decoding || slots_copy.size() <= 1) {
         process_slots_sequential();
         return;
     }
@@ -421,7 +421,7 @@ void LogicalReplicationManager::onWALEntryApplied(const WALEntry& entry) {
             try {
                 while (true) {
                     const size_t idx = next_index.fetch_add(1);
-                    if (idx >= static_cast<int>(slots_copy.size())) {
+                    if (idx >= slots_copy.size()) {
                       break;
                     }
                     auto [f, e] = process_slot(slots_copy[idx]);
@@ -552,10 +552,10 @@ bool LogicalReplicationManager::evaluateRowFilter(const std::string& expression,
 
     std::string field = trimCopy(expression.substr(0, pos));
     std::string value = trimCopy(expression.substr(pos + 2));
-    if (static_cast<int>(value.size()) >= 2 &&
+    if (value.size() >= 2 &&
         ((value.front() == '"' && value.back() == '"') ||
          (value.front() == '\'' && value.back() == '\''))) {
-        value = value.substr(1, static_cast<int>(value.size()) - 2);
+        value = value.substr(1, value.size() - 2);
     }
 
     auto it = payload.find(field);
@@ -780,9 +780,9 @@ void LogicalReplicationManager::persistSlot(const SlotRuntime& slot) const {
                 ::_write(fd, payload.data(),
                          static_cast<unsigned int>(payload.size()));
 #else
-                ::write(fd, payload.data(),static_cast<int>(payload.size()));
+                ::write(fd, payload.data(),payload.size());
 #endif
-            if (written < 0 || static_cast<size_t>(written) != static_cast<int>(payload.size())) {
+            if (written < 0 || static_cast<size_t>(written) != payload.size()) {
 #ifdef _WIN32
                 ::_close(fd);
 #else

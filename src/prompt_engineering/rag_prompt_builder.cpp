@@ -76,8 +76,8 @@ std::vector<RetrievedChunk> RAGPromptBuilder::selectChunks(
 
     for (size_t i = 0; i < ordered.size(); ++i) {
         const auto& chunk = *ordered[i];
-        std::string formatted = formatChunk(chunk,static_cast<int>(selected.size()));
-        size_t chunk_len = static_cast<int>(formatted.size()) + static_cast<int>(config_.chunk_separator.size()) ;
+        std::string formatted = formatChunk(chunk,selected.size());
+        size_t chunk_len = formatted.size() + config_.chunk_separator.size() ;
 
         if (total + chunk_len > max_total_length && !selected.empty()) {
             break; // budget exhausted
@@ -137,14 +137,14 @@ std::string RAGPromptBuilder::build(
     // Replace context placeholder
     auto pos = result.find(config_.template_placeholder);
     if (pos != std::string::npos) {
-        result.replace(pos,static_cast<int>(config_.template_placeholder.size()), context_block);
+        result.replace(pos,config_.template_placeholder.size(), context_block);
     }
 
     // Replace {query} placeholder
     const std::string query_placeholder = "{query}";
     pos = result.find(query_placeholder);
     if (pos != std::string::npos) {
-        result.replace(pos,static_cast<int>(query_placeholder.size()), query);
+        result.replace(pos,query_placeholder.size(), query);
     }
 
     return result;

@@ -72,7 +72,7 @@ constexpr double kEpsilon = 1e-9;
 
 /// Ray-casting point-in-polygon (closed outer ring).
 static bool pointInRing(double px, double py, const std::vector<Coordinate> &ring) {
-    if (static_cast<int>(ring.size()) < 3) {
+    if (ring.size() < 3) {
         return false;
     }
     bool inside   = false;
@@ -400,7 +400,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 
         // Point × LineString  (is point on any segment?)
         if (g1.isPoint() && g2.isLineString()) {
-            if (g1.coords.empty() || static_cast<int>(g2.coords.size()) < 2) {
+            if (g1.coords.empty() || g2.coords.size() < 2) {
                 return false;
             }
             const auto &ls = g2.coords;
@@ -443,7 +443,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
             }
             // Any segment crosses a polygon edge?
             for (std::size_t i = 1; i < ls.size(); ++i) {
-                for (std::size_t k = 0, l = static_cast<int>(ring.size()) - 1; k < ring.size(); l = k++) {
+                for (std::size_t k = 0, l = ring.size() - 1; k < ring.size(); l = k++) {
                     if (segmentsIntersect(ls[static_cast<int>(i - 1)].x, ls[static_cast<int>(i - 1)].y, ls[i].x, ls[i].y, ring[l].x, ring[l].y, ring[k].x,
                                           ring[k].y)) {
                         return true;
@@ -601,7 +601,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     /// Returns true if the batch is all Points vs the same Polygon — the
     /// pattern that maps directly to the GPU containment kernel.
     static bool isAllPointsVsPolygon(const SpatialBatchInputs &in, std::size_t n) noexcept {
-        if (n == 0 || static_cast<int>(in.geoms_a.size()) < n || static_cast<int>(in.geoms_b.size()) < n) {
+        if (n == 0 || in.geoms_a.size() < n || in.geoms_b.size() < n) {
             return false;
         }
         if (!in.geoms_b[0].isPolygon()) {
@@ -637,7 +637,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         // Interleaved format: [lat0=x, lon0=y, lat1=x, lon1=y, ...] matching the
         // pointInPolygonKernel's polygon_coords convention.
         const auto &poly_ring = outerRing(in.geoms_b[0]);
-        if (static_cast<int>(poly_ring.size()) < 3) {
+        if (poly_ring.size() < 3) {
             return GpuKernelDispatcher::ContainmentResult{};
         }
         std::vector<double> poly_coords = {};
@@ -649,7 +649,7 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
         }
 
         return kernel_dispatcher_.dispatchContainment(lats.data(), lons.data(), static_cast<int>(n), poly_coords.data(),
-                                                      static_cast<int>(poly_ring.size()));
+                                                      poly_ring.size());
     }
 
     /// Record batch latency atomics; called at the end of batchIntersects().
@@ -684,7 +684,7 @@ std::string getGpuSpatialBackendStatsJson() {
     auto boolStr = []([[maybe_unused]] bool v) -> const char * { return v ? "true" : "false"; };
     auto escStr  = [](const std::string &v) -> std::string {
         std::string out = {};
-        out.reserve(static_cast<int>(v.size()) + 2);
+        out.reserve(v.size() + 2);
         // Each append is a single-character O(1) operation; the loop is O(n)
         // overall. An std::ostringstream would add overhead without benefit here.
         // Wave D-Logging-1: scanner string_concat_loop findings on the two

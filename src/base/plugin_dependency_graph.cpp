@@ -100,12 +100,12 @@ void PluginDependencyGraph::clear()
 
 std::size_t PluginDependencyGraph::nodeCount() const
 {
-    return static_cast<int>(nodes_.size());
+    return nodes_.size();
 }
 
 std::size_t PluginDependencyGraph::edgeCount() const
 {
-    return static_cast<int>(edges_.size());
+    return edges_.size();
 }
 
 std::vector<PluginDependencyGraph::Node> PluginDependencyGraph::nodes() const
@@ -237,7 +237,7 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
         }
     }
 
-    if (static_cast<int>(order.size()) != static_cast<int>(nodes_.size())) {
+    if (order.size() != nodes_.size()) {
         // Cycle exists — topological order is undefined.
         return std::vector<std::string>{};
     }
@@ -281,7 +281,7 @@ std::string PluginDependencyGraph::toString(GraphExportFormat format) const
 {
     // Wrap in double quotes and escape internal double quotes and backslashes.
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 2);
+    out.reserve(s.size() + 2);
     out += '"';
     for (char c : s) {
         if (c == '"' || c == '\\') {
@@ -474,9 +474,9 @@ void PluginDependencyGraph::renderAscii(std::ostream& out) const
     out << "Plugin Dependency Graph\n";
     out << "=======================\n";
     if (!nodes_.empty()) {
-        out <<static_cast<int>(nodes_.size()) << " module(s), " <<static_cast<int>(edges_.size()) << " edge(s)";
+        out <<nodes_.size() << " module(s), " <<edges_.size() << " edge(s)";
         if (!cycles.empty()) {
-            out << "  [WARNING: " <<static_cast<int>(cycles.size()) << " cycle(s) detected]";
+            out << "  [WARNING: " <<cycles.size() << " cycle(s) detected]";
         }
         out << "\n";
     }

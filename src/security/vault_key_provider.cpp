@@ -54,7 +54,7 @@ namespace {
     std::string extract_url_host(const std::string& url) {
         const size_t scheme_pos = url.find("://");
         const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-        if (host_start >= static_cast<int>(url.size())) {
+        if (host_start >= url.size()) {
             return {};
         }
 
@@ -158,7 +158,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
         "0123456789+/";
     
     std::string result = {};
-    result.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    result.reserve(((data.size() + 2) / 3) * 4);
     int val = 0, valb = -6;
     for (uint8_t c : data) {
         val = (val << 8) + c;
@@ -328,7 +328,7 @@ struct VaultKeyProvider::Impl {
     }
     
     void evictLRU() {
-        if (static_cast<int>(cache.size()) < (size_t)config.cache_capacity) {
+        if (cache.size() < (size_t)config.cache_capacity) {
             return;
         }
         
@@ -820,7 +820,7 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     const std::vector<uint8_t>& key_bytes,
     const KeyMetadata& metadata) {
     
-    if (static_cast<int>(key_bytes.size()) != 32) {
+    if (key_bytes.size() != 32) {
         throw KeyOperationException("Key must be exactly 32 bytes (256 bits)");
     }
     

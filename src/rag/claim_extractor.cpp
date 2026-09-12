@@ -87,7 +87,7 @@ std::vector<Claim> ClaimExtractor::extract(const std::string& text) {
         }
     }
     
-    THEMIS_DEBUG("Extracted {} claims",static_cast<int>(claims.size()));
+    THEMIS_DEBUG("Extracted {} claims",claims.size());
     return claims;
 }
 
@@ -209,7 +209,7 @@ double ClaimExtractor::calculateFaithfulness(
 SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     const std::vector<std::string>& samples
 ) {
-    THEMIS_DEBUG("Evaluating self-consistency across {} samples",static_cast<int>(samples.size()));
+    THEMIS_DEBUG("Evaluating self-consistency across {} samples",samples.size());
     
     ConsistencyResult result;
     result.consistency_score = 0.0;
@@ -219,7 +219,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         return result;
     }
     
-    if (static_cast<int>(samples.size()) == 1) {
+    if (samples.size() == 1) {
         result.consistency_score = 1.0;
         result.confidence = 1.0;
         result.consensus_answer = samples[0];
@@ -247,7 +247,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
     result.consensus_answer = extractConsensus(samples);
     
     // Use LLM to identify specific agreements/disagreements
-    if (static_cast<int>(samples.size()) <= 5) {  // Only for small sets to avoid token limits
+    if (samples.size() <= 5) {  // Only for small sets to avoid token limits
         PromptTemplate consistency_tmpl = PromptLibrary::getConsistencyCheckPrompt();
         
         std::ostringstream samples_str = {};
@@ -258,7 +258,7 @@ SelfConsistencyEvaluator::ConsistencyResult SelfConsistencyEvaluator::evaluate(
         std::unordered_map<std::string, std::string> vars;
         vars["query"] = "Multiple samples comparison";
         vars["response1"] = samples[0];
-        vars["response2"] = static_cast<int>(samples.size()) > 1 ? samples[1] : samples[0];
+        vars["response2"] = samples.size() > 1 ? samples[1] : samples[0];
         
         std::string prompt = consistency_tmpl.format(vars);
         std::string llm_response = LLMIntegration::generate(prompt);
@@ -293,7 +293,7 @@ std::string SelfConsistencyEvaluator::extractConsensus(
         return "";
     }
     
-    if (static_cast<int>(samples.size()) == 1) {
+    if (samples.size() == 1) {
         return samples[0];
     }
     

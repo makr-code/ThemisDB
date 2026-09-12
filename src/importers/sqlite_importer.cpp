@@ -133,9 +133,9 @@ static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove quotes if present (both double and backtick for SQLite)
-        if (((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`'))) {
-            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
+        if (((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`'))) {
+            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
         }
         return true;
     }
@@ -186,7 +186,7 @@ bool SQLiteImporter::validateSource(const std::string& source_path,
      
     while (std::getline(file, line) && lines_checked < 50) {
         // Truncate overly long header lines
-        if (static_cast<int>(line.size()) > kMaxHeaderLineLength) {
+        if (line.size() > kMaxHeaderLineLength) {
             THEMIS_WARN("SQLite header line {} exceeds max length ({}); truncating",
                        lines_checked, kMaxHeaderLineLength);
             line.resize(kMaxHeaderLineLength);
@@ -376,7 +376,7 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
         ++lines_processed;
          
         // Truncate overly long lines
-        if (static_cast<int>(line.size()) > kMaxLineLength) {
+        if (line.size() > kMaxLineLength) {
             THEMIS_WARN("SQLite schema line {} exceeds max length ({}); truncating",
                        lines_processed, kMaxLineLength);
             line.resize(kMaxLineLength);
@@ -384,11 +384,11 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
          
         // Skip comments and empty lines
         if (line.empty() ||
-            (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))
+            (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
             continue;
 
         // Bounds check on accumulated SQL
-        if (static_cast<int>(current_sql.size()) + static_cast<int>(line.size()) + 1 > kMaxSqlLength) {
+        if (current_sql.size() + line.size() + 1 > kMaxSqlLength) {
             THEMIS_WARN("SQLite SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
             current_sql.clear();
             continue;
@@ -478,7 +478,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
          
         while (std::getline(file, hdr_line) && hdr_lines < 50) {
             // Truncate overly long header lines
-            if (static_cast<int>(hdr_line.size()) > kMaxHeaderLineLength) {
+            if (hdr_line.size() > kMaxHeaderLineLength) {
                 THEMIS_WARN("SQLite import header line {} exceeds max length ({}); truncating",
                            hdr_lines, kMaxHeaderLineLength);
                 hdr_line.resize(kMaxHeaderLineLength);
@@ -538,7 +538,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         // Skip empty lines and SQL comments (-- ...)
         if (line.empty() ||
-            (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-')) {
+            (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
 
@@ -546,7 +546,7 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
+            current_sql.size() > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -800,7 +800,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (static_cast<size_t>(k) <static_cast<int>(col_def.size())) {
+        while (k < col_def.size()) {
             char c = col_def[k];
             if (c == '(') {
                 ++tdep; col_type += c;
@@ -901,7 +901,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
     std::string values_payload = match[5].str();
     size_t pos = 0;
 
-    while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
+    while (pos < values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -909,7 +909,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= static_cast<int>(values_payload.size())) {
+        if (pos >= values_payload.size()) {
           break;
         }
         if (values_payload[pos] != '(') { ++pos; continue; }
@@ -951,7 +951,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
         if (!eff_schema.columns.empty() &&
-            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
+            values.size() != eff_schema.columns.size()) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -1087,7 +1087,7 @@ json SQLiteImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
     entity["_type"] = schema.name;
-    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && i < schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
     return entity;

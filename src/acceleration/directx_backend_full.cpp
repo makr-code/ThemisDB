@@ -400,7 +400,7 @@ public:
             queries, numQueries, dim, vectors, numVectors, useL2);
 
         // Guard against an unexpectedly sized result from computeDistances
-        if (static_cast<int>(distances.size()) != numQueries * numVectors) {
+        if (distances.size() != numQueries * numVectors) {
             throw std::runtime_error(
                 "[DirectX] batchKnnSearch: computeDistances returned unexpected size "
                 "(expected " + std::to_string(numQueries * numVectors) +
@@ -419,7 +419,7 @@ public:
 
             for (size_t v = 0; v < numVectors; ++v) {
                 heap.push({ row[v], static_cast<uint32_t>(v) });
-                if (static_cast<int>(heap.size()) > actualK) {
+                if (heap.size() > actualK) {
                   heap.pop();
                 }
             }
@@ -487,7 +487,7 @@ private:
 #else
             flags = D3DCOMPILE_OPTIMIZATION_LEVEL3;
 #endif
-            HRESULT hr = D3DCompile(hlsl.c_str(),static_cast<int>(hlsl.size()), debugName,
+            HRESULT hr = D3DCompile(hlsl.c_str(),hlsl.size(), debugName,
                                     nullptr, nullptr, "CSMain", "cs_5_0",
                                     flags, 0, &shaderBlob, &errorBlob);
             if (FAILED(hr)) {

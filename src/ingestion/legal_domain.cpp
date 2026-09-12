@@ -110,7 +110,7 @@ std::string parseGermanMonth(const std::string& month) {
 
 /// Zero-pad a 1-2 digit number string to 2 digits.
 std::string pad2(const std::string& s) {
-    if (static_cast<int>(s.size()) == 1) {
+    if (s.size() == 1) {
       return "0" + s;
     }
     return s;
@@ -310,7 +310,7 @@ std::vector<std::pair<std::size_t, GesetzNode>> GesetzParser::extractParagraphsW
             current_body += line;
         }
 
-        line_offset += static_cast<int>(line.size()) + 1;
+        line_offset += line.size() + 1;
     }
 
     finalizeParagraph(current_offset, current_number, current_heading, current_body);
@@ -558,7 +558,7 @@ void BehoerdenMapper::setFallback(
 }
 
 std::size_t BehoerdenMapper::mappingCount() const {
-    return static_cast<int>(builtin_.size()) + static_cast<int>(custom_.size()) ;
+    return builtin_.size() + custom_.size() ;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -655,7 +655,7 @@ BaseEntity BescheidExtractor::toEntity(const BescheidEntity& be,
     if (!be.auflagen.empty()) {
         // Serialize auflagen list as a semicolon-delimited string
         std::string auflagen_str = {};
-        for (std::size_t i = 0; i <static_cast<int>(be.auflagen.size()); ++i) {
+        for (std::size_t i = 0; i <be.auflagen.size(); ++i) {
             if (i > 0) {
               auflagen_str += "; ";
             }
@@ -786,7 +786,7 @@ std::string LegalEntityExport::escapeIriComponent(const std::string& s) {
 
 std::string LegalEntityExport::escapeTurtleLiteral(const std::string& s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 16);
+    out.reserve(s.size() + 16);
     for (char c : s) {
         switch (c) {
         case '"':  out += "\\\""; break;

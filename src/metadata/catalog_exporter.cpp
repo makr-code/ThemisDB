@@ -252,7 +252,7 @@ CatalogExporter::PublishResult CatalogExporter::sendToAtlas(const json& payload)
             if (resp.contains("mutatedEntities")) {
                 for (const auto& [op, arr] : resp["mutatedEntities"].items()) {
                     if (arr.is_array()) {
-                      count += static_cast<int>(arr.size());
+                      count += arr.size();
                     }
                 }
             }

@@ -64,12 +64,12 @@ Graph buildGraph(const json& normalized) {
           continue;
         }
         if (g.node_index.find(id) == g.node_index.end()) {
-            g.node_index[id] = static_cast<int>(g.node_ids.size());
+            g.node_index[id] = g.node_ids.size();
             g.node_ids.push_back(id);
         }
     }
 
-    const int n = static_cast<int>(g.node_ids.size());
+    const int n = g.node_ids.size();
     g.adj.resize(n);
     g.degree.assign(n, 0.f);
 
@@ -135,7 +135,7 @@ bool louvainPhase(
     const Graph& g,
     float resolution)
 {
-    const int n = static_cast<int>(g.node_ids.size());
+    const int n = g.node_ids.size();
     bool improved = false;
 
     for (int u = 0; u < n; ++u) {
@@ -204,7 +204,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     Graph g = buildGraph(normalized);
-    const int n = static_cast<int>(g.node_ids.size());
+    const int n = g.node_ids.size();
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
@@ -331,7 +331,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
 
         // Label: first 3 node names joined with "; "
         std::ostringstream label_ss = {};
-        const int label_count = std::min(static_cast<int>(pc.node_ids.size()), 3);
+        const int label_count = std::min(pc.node_ids.size(), 3);
         for (int i = 0; i < label_count; ++i) {
             if (i > 0) {
               label_ss << "; ";
@@ -350,7 +350,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Sort by size descending
     std::sort(communities.begin(), communities.end(),
               [](const ProcessCommunity& a, const ProcessCommunity& b) {
-                  return static_cast<bool>( static_cast<int>(a.node_ids.size()) < static_cast<int>(b.node_ids.size()));
+                  return static_cast<bool>( a.node_ids.size() < b.node_ids.size());
               });
 
     THEMIS_INFO("ProcessCommunityDetector: detected {} communities for model '{}'",
@@ -375,7 +375,7 @@ std::string ProcessCommunityDetector::generateReport(
     const bool german = (language == "de");
     std::ostringstream oss = {};
 
-    const int n = static_cast<int>(community.node_ids.size());
+    const int n = community.node_ids.size();
 
     if (german) {
         oss << "Gemeinschaft '" << community.community_id << "': "

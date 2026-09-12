@@ -458,13 +458,13 @@ bool TransactionSnapshotManager::deleteSnapshot(uint64_t snapshot_id) {
 void TransactionSnapshotManager::cleanupOldSnapshots() {
     auto snapshots = listSnapshots();
     
-    if (static_cast<int>(snapshots.size()) <= max_snapshots_) {
+    if (snapshots.size() <= max_snapshots_) {
         return;
     }
     
     // Delete oldest snapshots (they're at the end of the sorted list)
-    size_t to_delete = static_cast<int>(snapshots.size()) - max_snapshots_;
-    for (size_t i = static_cast<int>(snapshots.size()) - to_delete; i < snapshots.size(); i++) {
+    size_t to_delete = snapshots.size() - max_snapshots_;
+    for (size_t i = snapshots.size() - to_delete; i < snapshots.size(); i++) {
         deleteSnapshot(snapshots[i]);
     }
     

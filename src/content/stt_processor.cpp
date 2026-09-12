@@ -157,7 +157,7 @@ ContentExtractionResult STTProcessor::extract(const std::vector<uint8_t> &blob, 
         metadata["transcription"] = {{"language", transcription.detected_language},
                                      {"confidence", transcription.average_confidence},
                                      {"duration_ms", transcription.audio_duration_ms},
-                                     {"segment_count",static_cast<int>(transcription.segments.size())}};
+                                     {"segment_count",transcription.segments.size()}};
 
         // Add segments with timestamps
         json segments_json = json::array();
@@ -760,7 +760,7 @@ TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &p
         }
 
         // Run transcription
-        int ret = whisper_full(ctx, wparams, pcm_data.data(), static_cast<int>(pcm_data.size()));
+        int ret = whisper_full(ctx, wparams, pcm_data.data(), pcm_data.size());
 
         if (ret != 0) {
             result.success       = false;
@@ -864,7 +864,7 @@ TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &p
 #endif
 
     // Apply speaker diarization when requested and more than one segment exists.
-    if (options.value("speaker_diarization", false) && static_cast<int>(result.segments.size()) >= 2) {
+    if (options.value("speaker_diarization", false) && result.segments.size() >= 2) {
         result.segments = performSpeakerDiarization(result.segments, pcm_data);
     }
 
@@ -883,7 +883,7 @@ STTProcessor::performSpeakerDiarization(const std::vector<TranscriptionSegment> 
 std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vector<TranscriptionSegment> &segments,
                                                                 const std::vector<float> &pcm_data, int max_speakers) {
     // Need at least 2 segments and PCM data to perform meaningful diarization.
-    if (static_cast<int>(segments.size()) < 2 || pcm_data.empty()) {
+    if (segments.size() < 2 || pcm_data.empty()) {
         return segments;
     }
 
@@ -992,7 +992,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(const std::vecto
     };
 
     // Extract and normalise a feature vector for every segment.
-    const int n_segs = static_cast<int>(segments.size());
+    const int n_segs = segments.size();
     std::vector<std::vector<float>> features;
     features.reserve(static_cast<size_t>(n_segs));
     for (const auto &seg : segments) {

@@ -66,7 +66,7 @@ SparseVector NeuralSparseRetrieval::sanitize(const SparseVector& raw, size_t max
     }
 
     // Keep only the top max_terms by weight
-    if (static_cast<int>(pairs.size()) > max_terms) {
+    if (pairs.size() > max_terms) {
         std::partial_sort(pairs.begin(),
                           pairs.begin() + static_cast<std::ptrdiff_t>(max_terms),
                           pairs.end(),
@@ -138,7 +138,7 @@ void NeuralSparseRetrieval::addDocument(const std::string& doc_id,
 
     insertVector(doc_id, sanitized);
     THEMIS_DEBUG("NeuralSparseRetrieval::addDocument: doc='{}' indexed with {} terms",
-                 doc_id,static_cast<int>(sanitized.size()));
+                 doc_id,sanitized.size());
 }
 
 // ============================================================================
@@ -185,7 +185,7 @@ void NeuralSparseRetrieval::clear() {
 // ============================================================================
 
 size_t NeuralSparseRetrieval::size() const {
-    return static_cast<int>(forward_index_.size());
+    return forward_index_.size();
 }
 
 // ============================================================================
@@ -270,7 +270,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
                   return a.raw_score > b.raw_score;
               });
 
-    if (static_cast<int>(results.size()) > top_k) {
+    if (results.size() > top_k) {
         results.resize(top_k);
     }
 
@@ -279,7 +279,7 @@ NeuralSparseRetrieval::search(const SparseVector& query_vec, size_t k) const {
     }
 
     THEMIS_INFO("NeuralSparseRetrieval::search: query_terms={} -> {} results",
-                query_vec.size(),static_cast<int>(results.size()));
+                query_vec.size(),results.size());
 
     return results;
 }

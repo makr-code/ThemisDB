@@ -210,7 +210,7 @@ ReplicationObserver::calculateHealthScore() const
         }
         else if (r.health_status == HealthStatus::DEGRADED) ++degraded;
     }
-    const int total = static_cast<int>(replicas.size());
+    const int total = replicas.size();
     // Each failed replica costs 30 points; each degraded costs 10
     score.availability_score = std::max(0,
         100 - (failed * 30) - (degraded * 10));

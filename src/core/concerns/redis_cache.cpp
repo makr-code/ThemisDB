@@ -159,7 +159,7 @@ RedisCache::RedisCache(const RedisCacheConfig &config)
     // Build the consistent hash ring.
     buildHashRing();
 
-    THEMIS_INFO("RedisCache: initialized with {} node(s), {} ring positions",static_cast<int>(nodes_.size()),static_cast<int>(hash_ring_.size()));
+    THEMIS_INFO("RedisCache: initialized with {} node(s), {} ring positions",nodes_.size(),hash_ring_.size());
 }
 
 RedisCache::~RedisCache() {
@@ -180,7 +180,7 @@ void RedisCache::buildHashRing() {
     for (size_t ni = 0; ni  < nodes_.size(); ++ni) {
         for (int v = 0; v < config_.virtual_nodes_per_node; ++v) {
             std::string vkey = nodes_[ni]->host + ":" + std::to_string(nodes_[ni]->port) + "#" + std::to_string(v);
-            uint32_t pos     = fnv1a32(vkey.data(),static_cast<int>(vkey.size()));
+            uint32_t pos     = fnv1a32(vkey.data(),vkey.size());
             hash_ring_[pos]  = ni;
         }
     }
@@ -195,7 +195,7 @@ size_t RedisCache::nodeIndexForKey(std::string_view key) const {
     }
 
     const std::string prefixed = config_.key_prefix + std::string(key);
-    uint32_t h                 = fnv1a32(prefixed.data(),static_cast<int>(prefixed.size()));
+    uint32_t h                 = fnv1a32(prefixed.data(),prefixed.size());
 
     auto it = hash_ring_.lower_bound(h);
     if (it == hash_ring_.end()) {
@@ -206,14 +206,14 @@ size_t RedisCache::nodeIndexForKey(std::string_view key) const {
 
 std::string RedisCache::nodeForKey(std::string_view key) const {
     size_t idx = nodeIndexForKey(key);
-    if (idx >= static_cast<int>(nodes_.size())) {
+    if (idx >= nodes_.size()) {
         return "";
     }
     return nodes_[idx]->host + ":" + std::to_string(nodes_[idx]->port);
 }
 
 size_t RedisCache::hashRingSize() const {
-    return static_cast<int>(hash_ring_.size());
+    return hash_ring_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -353,7 +353,7 @@ bool RedisCache::sendAll(SocketFd fd, const std::string &buf) noexcept {
             return false;
         }
 #else
-        ssize_t sent = ::send(fd, buf.data() + total, static_cast<int>(buf.size()) - total, MSG_NOSIGNAL);
+        ssize_t sent = ::send(fd, buf.data() + total, buf.size() - total, MSG_NOSIGNAL);
         if (sent <= 0)
             return false;
 #endif
@@ -895,11 +895,11 @@ bool RedisCache::readPubSubMessage(SocketFd fd, std::string &channel_out, std::s
     }
 
     // parts[0] = "message", parts[1] = channel, parts[2] = payload
-    if (static_cast<int>(parts.size()) >= 3 && parts[0] == "message") {
+    if (parts.size() >= 3 && parts[0] == "message") {
         channel_out = parts[1];
         payload_out = parts[2];
-    } else if (static_cast<int>(parts.size()) >= 2) {
-        channel_out = (static_cast<int>(parts.size()) > 1) ? parts[1] : "";
+    } else if (parts.size() >= 2) {
+        channel_out = (parts.size() > 1) ? parts[1] : "";
     }
     return true;
 }

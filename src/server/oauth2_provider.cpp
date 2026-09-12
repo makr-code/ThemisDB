@@ -283,7 +283,7 @@ nlohmann::json OAuth2Provider::doTokenExchange(const std::string& code,
 nlohmann::json OAuth2Provider::handleAuthorize(const std::string& state,
                                                 const std::string& redirect_uri)
 {
-    if (!state.empty() && static_cast<int>(state.size()) > config_.max_state_length) {
+    if (!state.empty() && state.size() > config_.max_state_length) {
         return makeError(400, "state parameter exceeds maximum allowed length");
     }
 
@@ -521,7 +521,7 @@ nlohmann::json OAuth2Provider::handleIntrospect(const std::string& token)
             result["roles"] = claims.roles;
         }
         if (!claims.audience.empty()) {
-            if (static_cast<int>(claims.audience.size()) == 1) {
+            if (claims.audience.size() == 1) {
                 result["aud"] = claims.audience[0];
             } else {
                 result["aud"] = claims.audience;

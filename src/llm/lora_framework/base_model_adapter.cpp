@@ -69,7 +69,7 @@ bool BaseModelAdapter::loadModel(const std::string& model_path) {
     spdlog::info("  Architecture: {}", architecture_.architecture);
     spdlog::info("  Layers: {}", architecture_.num_layers);
     spdlog::info("  Hidden size: {}", architecture_.hidden_size);
-    spdlog::info("  Adaptable layers: {}",static_cast<int>(adaptable_layers_.size()));
+    spdlog::info("  Adaptable layers: {}",adaptable_layers_.size());
     
     return true;
 }
@@ -240,7 +240,7 @@ bool BaseModelAdapter::parseLayerInfo(const TensorMetadata& tensor, BaseLayerInf
     }
     
     // For 2D weight matrices: shape is typically [out_features, in_features] in GGUF
-    if (static_cast<int>(layer_info.shape.size()) == 2) {
+    if (layer_info.shape.size() == 2) {
         layer_info.out_features = layer_info.shape[0];
         layer_info.in_features = layer_info.shape[1];
         return true;
@@ -313,9 +313,9 @@ std::optional<Tensor> BaseModelAdapter::getLayerWeights(const std::string& layer
         
         // Copy data (assuming float32 for now - can extend for quantized types)
         size_t expected_size = tensor.size() * sizeof(float);
-        if (static_cast<int>(tensor_data.size()) >= expected_size) {
+        if (tensor_data.size() >= expected_size) {
             const float* src = reinterpret_cast<const float*>(tensor_data.data());
-            std::copy(src, src + static_cast<int>(tensor.size()) , tensor.data().begin());
+            std::copy(src, src + tensor.size() , tensor.data().begin());
         } else {
             spdlog::warn("Tensor data size mismatch for layer: {}", layer_name);
             return std::nullopt;
@@ -478,7 +478,7 @@ std::vector<float> BaseModelAdapter::getTokenEmbedding(int token_id) const {
     }
     
     // Add to cache if not full
-    if (static_cast<int>(embedding_cache_.size()) < MAX_CACHE_SIZE) {
+    if (embedding_cache_.size() < MAX_CACHE_SIZE) {
         embedding_cache_[token_id] = embedding;
     }
     
@@ -537,7 +537,7 @@ void BaseModelAdapter::logCacheStats() const {
     }
     
     spdlog::info("Embedding cache stats:");
-    spdlog::info("  Cache size: {}/{}",static_cast<int>(embedding_cache_.size()), MAX_CACHE_SIZE);
+    spdlog::info("  Cache size: {}/{}",embedding_cache_.size(), MAX_CACHE_SIZE);
     spdlog::info("  Cache hits: {}", cache_hits_);
     spdlog::info("  Cache misses: {}", cache_misses_);
     spdlog::info("  Hit rate: {:.1f}%", hit_rate);
@@ -583,7 +583,7 @@ bool LoRAEnhancedModel::initialize() {
     
     if (active_layers_.empty()) {
         std::string modules_str = {};
-        for (size_t i = 0; i <static_cast<int>(config_.target_modules.size()); ++i) {
+        for (size_t i = 0; i <config_.target_modules.size(); ++i) {
             if (i > 0) {
               modules_str += ", ";
             }
@@ -593,7 +593,7 @@ bool LoRAEnhancedModel::initialize() {
         return false;
     }
     
-    spdlog::info("Found {} layers to adapt",static_cast<int>(active_layers_.size()));
+    spdlog::info("Found {} layers to adapt",active_layers_.size());
     
     // Create LoRA adapters for each target layer
     if (!createLoRAAdapters()) {

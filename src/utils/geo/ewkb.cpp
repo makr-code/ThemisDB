@@ -368,7 +368,7 @@ GeometryInfo EWKBParser::parsePolygon(const uint8_t*& ptr, bool has_z, bool is_l
 
 // Parse EWKB
 GeometryInfo EWKBParser::parse(const std::vector<uint8_t>& ewkb) {
-    if (static_cast<int>(ewkb.size()) < 5) {
+    if (ewkb.size() < 5) {
         throw std::runtime_error("EWKB: Invalid size (< 5 bytes)");
     }
     
@@ -543,7 +543,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         double x = coords.at(0).get<double>();
         double y = coords.at(1).get<double>();
         validateWGS84(x, y);
-        if (static_cast<int>(coords.size()) > 2) {
+        if (coords.size() > 2) {
             geom.type = GeometryType::PointZ;
             geom.has_z = true;
             geom.coords.emplace_back(x, y, coords.at(2).get<double>());
@@ -592,7 +592,7 @@ static GeometryInfo parseGeoJSONGeomImpl(const json& j, int depth) {
         const auto& lines_arr = j.at("coordinates");
         const auto& first_coord = (!lines_arr.empty() && !lines_arr.at(0).empty())
                                   ? lines_arr.at(0).at(0) : json{};
-        bool has_z = !first_coord.empty() && static_cast<int>(first_coord.size()) > 2;
+        bool has_z = !first_coord.empty() && first_coord.size() > 2;
         geom.type = has_z ? GeometryType::MultiLineStringZ : GeometryType::MultiLineString;
         geom.has_z = has_z;
         geom.geometries.reserve(lines_arr.size());
@@ -762,7 +762,7 @@ GeometryInfo EWKBParser::parseWKT(const std::string& wkt_raw) {
         geom.rings.reserve(ring_groups.size());
         for (auto ring : ring_groups) {
             if (!ring.empty() && ring.front() == '(' && ring.back() == ')') {
-                ring = ring.substr(1, static_cast<int>(ring.size()) - 2);
+                ring = ring.substr(1, ring.size() - 2);
             }
             auto coord_tokens = splitTopLevel(ring, ',');
             std::vector<Coordinate> coords = {};
@@ -804,7 +804,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "LINESTRING EMPTY";
         }
         oss << "LINESTRING(";
-        for (size_t i = 0; i <static_cast<int>(geom.coords.size()); ++i) {
+        for (size_t i = 0; i <geom.coords.size(); ++i) {
             const auto& c = geom.coords[i];
             if (i > 0) {
                 oss << ",";
@@ -823,7 +823,7 @@ std::string EWKBParser::toWKT(const GeometryInfo& geom) {
             return "POLYGON EMPTY";
         }
         oss << "POLYGON(";
-        for (size_t r = 0; r <static_cast<int>(geom.rings.size()); ++r) {
+        for (size_t r = 0; r <geom.rings.size(); ++r) {
             if (r > 0) {
                 oss << ",";
             }

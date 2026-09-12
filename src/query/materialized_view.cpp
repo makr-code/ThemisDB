@@ -174,10 +174,10 @@ Result<void> MaterializedView::refresh(bool incremental,
         ++stats_.incremental_updates;
         THEMIS_DEBUG("MaterializedView '{}': incremental refresh, "
                      "current row count={}",
-                     def_.name,static_cast<int>(rows_.size()));
+                     def_.name,rows_.size());
     } else {
         // Full refresh: replace snapshot with the supplied rows.
-        if (static_cast<int>(new_rows.size()) > config_.max_rows) {
+        if (new_rows.size() > config_.max_rows) {
             return ErrVoid(
                 errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                 "new_rows count " + std::to_string(new_rows.size()) +
@@ -203,7 +203,7 @@ Result<void> MaterializedView::refresh(bool incremental,
         rows_ = std::move(new_rows);
         ++stats_.full_refreshes;
         THEMIS_INFO("MaterializedView '{}': full refresh, row count={} (with scope tags)",
-                    def_.name,static_cast<int>(rows_.size()));
+                    def_.name,rows_.size());
     }
 
     stats_.current_row_count = rows_.size();
@@ -282,14 +282,14 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
             ++stats_.delta_inserts;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE INSERT, "
-                         "rows={}", def_.name,static_cast<int>(rows_.size()));
+                         "rows={}", def_.name,rows_.size());
             break;
         case DeltaOp::DELETE:
             applyDelete_locked(row);
             ++stats_.delta_deletes;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE DELETE, "
-                         "rows={}", def_.name,static_cast<int>(rows_.size()));
+                         "rows={}", def_.name,rows_.size());
             break;
         case DeltaOp::UPDATE:
             applyDelete_locked(row);
@@ -297,7 +297,7 @@ void MaterializedView::applyDeltaJson(DeltaOp op, const nlohmann::json& row) {
             ++stats_.delta_updates;
             ++stats_.incremental_updates;
             THEMIS_DEBUG("MaterializedView '{}': IMMEDIATE UPDATE, "
-                         "rows={}", def_.name,static_cast<int>(rows_.size()));
+                         "rows={}", def_.name,rows_.size());
             break;
         }
         stats_.current_row_count = rows_.size();
@@ -354,7 +354,7 @@ void MaterializedView::applyAggregateDelta(DeltaOp           op,
 // ============================================================================
 
 void MaterializedView::applyInsert_locked(const nlohmann::json& row) {
-    if (static_cast<int>(rows_.size()) >= config_.max_rows) {
+    if (rows_.size() >= config_.max_rows) {
         THEMIS_WARN("MaterializedView '{}': max_rows={} reached, "
                     "skipping INSERT delta",
                     def_.name, config_.max_rows);
@@ -447,8 +447,8 @@ bool MaterializedView::canRewrite(const std::string&      query_aql,
         // The character immediately after the view name must not be an
         // identifier character (letter, digit, or underscore) so that we
         // don't accidentally match "sales_by_region_extended".
-        const std::size_t after = pos + static_cast<int>(upper_name.size()) ;
-        if (static_cast<int>(upper_q.size()) > after) {
+        const std::size_t after = pos + upper_name.size() ;
+        if (upper_q.size() > after) {
             const char next = upper_q[after];
             if (std::isalnum(static_cast<unsigned char>(next)) || next == '_') {
                 pos = after;

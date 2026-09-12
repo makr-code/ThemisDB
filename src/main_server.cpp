@@ -1758,7 +1758,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("Prometheus metrics exporter configured for WALShipper");
                 
                 g_wal_shipper->start();
-                THEMIS_INFO("WALShipper started with {} replica(s)",static_cast<int>(replicas.size()));
+                THEMIS_INFO("WALShipper started with {} replica(s)",replicas.size());
             } catch (const std::exception& e) {
                 THEMIS_ERROR("Failed to start WALShipper: {}", e.what());
             }
@@ -1809,7 +1809,7 @@ int main(int argc, char* argv[]) {
                 }
 
                 multi_primary_coordinator = std::make_shared<themis::sharding::MultiPrimaryCoordinator>(mp_cfg);
-                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes",static_cast<int>(mp_cfg.primary_node_ids.size()));
+                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes",mp_cfg.primary_node_ids.size());
 
                 // Health monitor (optional)
                 themis::sharding::HealthMonitorConfig hm_cfg;
@@ -3125,7 +3125,7 @@ int main(int argc, char* argv[]) {
         // Dynamic endpoint discovery from HttpServer (feature-aware, always in sync)
         try {
             auto endpoints = g_server->getRegisteredEndpoints();
-            THEMIS_INFO("Available endpoints ({} total):",static_cast<int>(endpoints.size()));
+            THEMIS_INFO("Available endpoints ({} total):",endpoints.size());
             
             // Group endpoints by category for improved readability
             std::string current_category = {};

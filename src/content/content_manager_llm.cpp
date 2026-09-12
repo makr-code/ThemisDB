@@ -124,7 +124,7 @@ std::vector<std::string> ContentManager::generateTags(const std::string &content
             tags = parseTags(tags_text);
 
             // Limit to max_tags
-            if (static_cast<int>(tags.size()) > static_cast<size_t>(max_tags)) {
+            if (tags.size() > static_cast<size_t>(max_tags)) {
                 tags.resize(max_tags);
             }
         }
@@ -359,7 +359,7 @@ std::vector<std::string> ContentManager::parseTags(const std::string &tags_text)
         tag.erase(0, tag.find_first_not_of(" \t\n\r"));
         tag.erase(tag.find_last_not_of(" \t\n\r") + 1);
 
-        if (!tag.empty() && static_cast<int>(tag.size()) <= 50) { // Reasonable tag length
+        if (!tag.empty() && tag.size() <= 50) { // Reasonable tag length
             tags.push_back(tag);
         }
     }

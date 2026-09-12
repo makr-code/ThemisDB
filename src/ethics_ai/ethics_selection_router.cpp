@@ -46,13 +46,13 @@ std::vector<std::string> tokenise(const std::string& text) {
         if (std::isalnum(ch) || ch > 127) { // keep umlauts
             cur += static_cast<char>(std::tolower(ch));
         } else if (!cur.empty()) {
-            if (static_cast<int>(cur.size()) >= 3) {
+            if (cur.size() >= 3) {
               tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (static_cast<int>(cur.size()) >= 3) {
+    if (cur.size() >= 3) {
       tokens.push_back(cur);
     }
     return tokens;
@@ -121,7 +121,7 @@ static constexpr double kSigmoidBias = 1.0;
 /// Cosine similarity between two dense float vectors.
 /// Returns 0.0 if either vector is empty or has mismatched dimensions.
 double cosineSimilarityVec(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
       return 0.0;
     }
     double dot = 0.0, norm_a = 0.0, norm_b = 0.0;
@@ -373,7 +373,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
                   [](const RouterCandidate& a, const RouterCandidate& b) {
                       return a.semantic_score > b.semantic_score;
                   });
-        if (static_cast<int>(result.size()) > config.stage2_top_k) {
+        if (result.size() > config.stage2_top_k) {
             result.resize(config.stage2_top_k);
         }
         return result;
@@ -428,7 +428,7 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
               [](const RouterCandidate& a, const RouterCandidate& b) {
                   return a.semantic_score > b.semantic_score;
               });
-    if (static_cast<int>(result.size()) > config.stage2_top_k) {
+    if (result.size() > config.stage2_top_k) {
         result.resize(config.stage2_top_k);
     }
     return result;

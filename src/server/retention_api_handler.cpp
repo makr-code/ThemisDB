@@ -95,7 +95,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     }
 
     // Pagination
-    int total = static_cast<int>(filtered.size());
+    int total = filtered.size();
     int page = std::max(1, filter.page);
     int page_size = std::max(1, std::min(1000, filter.page_size)); // Cap at 1000
     int start = (page - 1) * page_size;
@@ -197,7 +197,7 @@ json RetentionApiHandler::getHistory(size_t limit) {
     
     return json{
         {"items", items},
-        {"total",static_cast<int>(actions.size())},
+        {"total",actions.size()},
         {"limit", limit}
     };
 }

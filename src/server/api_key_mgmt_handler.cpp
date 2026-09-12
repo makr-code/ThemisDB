@@ -165,7 +165,7 @@ nlohmann::json ApiKeyMgmtHandler::createKey(const nlohmann::json& body) {
             }
         }
 
-        THEMIS_INFO("API Key created: id='{}' name='{}' permissions={}", key_id, name,static_cast<int>(permissions.size()));
+        THEMIS_INFO("API Key created: id='{}' name='{}' permissions={}", key_id, name,permissions.size());
 
         // Return full record including the one-time secret
         nlohmann::json resp = recordToJson(rec);
@@ -185,8 +185,8 @@ nlohmann::json ApiKeyMgmtHandler::listKeys() {
         for (const auto& [id, rec] : keys_) {
             items.push_back(recordToJson(rec));
         }
-        THEMIS_INFO("API Key list: {} keys",static_cast<int>(items.size()));
-        return {{"items", items}, {"total", static_cast<int>(items.size())}};
+        THEMIS_INFO("API Key list: {} keys",items.size());
+        return {{"items", items}, {"total", items.size()}};
 
     } catch (const std::exception& ex) {
         THEMIS_ERROR("ApiKeyMgmtHandler::listKeys failed: {}", ex.what());

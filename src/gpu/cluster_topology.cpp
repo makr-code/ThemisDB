@@ -61,7 +61,7 @@ const char *interconnectTypeName(InterconnectType t) noexcept {
 
 GPUClusterTopology GPUClusterTopology::detect(const std::vector<DeviceInfo> &devices) {
     GPUClusterTopology topo;
-    topo.num_gpus = static_cast<int>(devices.size());
+    topo.num_gpus = devices.size();
 
     if (devices.empty()) {
         return topo;

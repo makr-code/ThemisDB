@@ -82,7 +82,7 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
     if (segment.empty()) {
       return false;
     }
-    if (static_cast<int>(segment.size()) > 1024) return false; // arbitrary sane limit
+    if (segment.size() > 1024) return false; // arbitrary sane limit
     // Reject traversal or separators
     if (segment.find("..") != std::string::npos) {
       return false;

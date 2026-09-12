@@ -37,7 +37,7 @@ PIIPseudonymizer::PIIPseudonymizer(std::shared_ptr<themis::RocksDBWrapper> db,
     if (!key_provider->hasKey(key_id_)) {
         // Generate random 256-bit key
         std::vector<uint8_t> key_bytes(32);
-        if (RAND_bytes(key_bytes.data(), static_cast<int>(key_bytes.size())) != 1) {
+        if (RAND_bytes(key_bytes.data(), key_bytes.size()) != 1) {
             auto ctx = themis::utils::makeErrorContext(
                 themis::utils::ErrorCode::CRYPTO_KEY_DERIVATION_FAILED,
                 "OpenSSL RAND_bytes failed – cannot generate PII mapping key; "

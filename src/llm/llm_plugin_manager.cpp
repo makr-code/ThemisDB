@@ -376,8 +376,8 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
                 const std::string root_str = root_canonical.string();
                 const std::string res_str  = resolved.string();
                 if (res_str.rfind(root_str, 0) != 0 ||
-                    (static_cast<int>(res_str.size()) > static_cast<int>(root_str.size()) &&
-                     res_str[static_cast<int>(root_str.size())] != fs::path::preferred_separator)) {
+                    (res_str.size() > root_str.size() &&
+                     res_str[root_str.size()] != fs::path::preferred_separator)) {
                     spdlog::error("LLMPluginManager::loadModel: path '{}' is outside "
                                   "THEMIS_MODEL_ROOT '{}'", path, model_root_str);
                     return false;
@@ -837,7 +837,7 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
                 const std::string model_id = req.value("model_id", std::string{"default"});
                 return json{{"status",         "ok"},
                             {"model_id",       model_id},
-                            {"prompt_chars",static_cast<int>(prompt.size())},
+                            {"prompt_chars",prompt.size()},
                             {"estimated_tokens", tokens},
                             {"method",         "CHAR_HEURISTIC"}}.dump();
             } catch (const std::exception& ex) {
@@ -1107,7 +1107,7 @@ std::unique_ptr<ILLMPlugin> LLMPluginManager::CreatePluginSafe(
     
     try {
         spdlog::debug("CreatePluginSafe: creating '{}' with config bytes={} (content redacted)",
-                     plugin_name,static_cast<int>(config_json.size()));
+                     plugin_name,config_json.size());
 
         // NOTE: Actual plugin factory would be called here
         // This is a safe pattern that ensures:
@@ -1244,7 +1244,7 @@ std::vector<int32_t> LLMPluginManager::ProcessTokensSafe(
             result.push_back(static_cast<int32_t>(i));
         }
         
-        spdlog::debug("ProcessTokensSafe: processed {} tokens",static_cast<int>(result.size()));
+        spdlog::debug("ProcessTokensSafe: processed {} tokens",result.size());
         return result;
         
     } catch (const std::exception& e) {

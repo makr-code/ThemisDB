@@ -43,7 +43,7 @@ namespace {
         }
     }
 
-    return printable_count == static_cast<int>(payload.size());
+    return printable_count == payload.size();
 }
 
 [[nodiscard]] std::string extractTranscriptCandidate(const std::string& payload) {
@@ -152,7 +152,7 @@ VoiceLivenessDetector::VerificationResult VoiceLivenessDetector::verifyResponse(
         result.reason = "Empty response payload";
         return result;
     }
-    if (static_cast<int>(audio_response.size()) > config_.max_response_bytes) {
+    if (audio_response.size() > config_.max_response_bytes) {
         result.reason = "Response payload too large";
         return result;
     }
@@ -271,11 +271,11 @@ bool VoiceLivenessDetector::isReplayedChallenge(uint64_t challenge_id) const {
 
 size_t VoiceLivenessDetector::getActiveChallengeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(active_challenges_.size());
+    return active_challenges_.size();
 }
 
 std::string VoiceLivenessDetector::speechToText(const std::string& audio) {
-    if (audio.empty() || static_cast<int>(audio.size()) > config_.max_response_bytes) {
+    if (audio.empty() || audio.size() > config_.max_response_bytes) {
         return {};
     }
 
@@ -294,7 +294,7 @@ std::string VoiceLivenessDetector::generateRandomChallenge() {
     static std::random_device rd;
     static std::mt19937 gen(rd());
 
-    std::uniform_int_distribution<uint64_t> dis(0, static_cast<int>(CHALLENGE_PHRASES.size()) - 1);
+    std::uniform_int_distribution<uint64_t> dis(0, CHALLENGE_PHRASES.size() - 1);
     return CHALLENGE_PHRASES[static_cast<size_t>(dis(gen))];
 }
 

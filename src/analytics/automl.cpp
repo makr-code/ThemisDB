@@ -147,7 +147,7 @@ FeatMatrix extractFeatures(const std::vector<DataPoint> &data, const std::string
     fm.X.reserve(data.size());
     for (const auto &p : data) {
         std::vector<double> row(fm.names.size(), 0.0);
-        for (size_t j = 0; j <static_cast<int>(fm.names.size()); ++j) {
+        for (size_t j = 0; j <fm.names.size(); ++j) {
             auto it = p.fields.find(fm.names[j]);
             if (it != p.fields.end()) {
                 if (auto *d = std::get_if<double>(&it->second)) {
@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) <static_cast<int>(mean.size()); ++j) {
+        for (size_t j = 0; j < x.size() && j < mean.size(); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -325,7 +325,7 @@ struct LabelEncoder {
     }
 
     std::string decode(int i) const {
-        if (i < 0 || i >= static_cast<int>(classes.size())) {
+        if (i < 0 || i >= classes.size()) {
             return "";
         }
         return classes[static_cast<size_t>(i)];
@@ -470,7 +470,7 @@ struct DecisionTree {
         auto &nd = nodes.back();
 
         // --- Leaf criteria ---
-        if (static_cast<int>(idx.size()) <= min_samples_leaf || depth >= max_depth) {
+        if (idx.size() <= min_samples_leaf || depth >= max_depth) {
             nd.is_leaf     = true;
             nd.leaf_value  = computeLeafValue(y_cls, y_reg, idx);
             nd.class_probs = computeClassProbs(y_cls, idx);
@@ -501,7 +501,7 @@ struct DecisionTree {
             }
             std::sort(vals.begin(), vals.end());
             vals.erase(std::unique(vals.begin(), vals.end()), vals.end());
-            if (static_cast<int>(vals.size()) < 2) {
+            if (vals.size() < 2) {
                 continue;
             }
 
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <static_cast<int>(p.size()); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1421,7 +1421,7 @@ EvalMetrics evaluateModel(const ModelBase &model, const std::vector<std::vector<
             std::vector<std::pair<double, int>> scores(n);
             for (size_t i = 0; i < n; ++i) {
                 auto p    = model.predictProbaOne(X[i]);
-                double s  = (static_cast<int>(p.size()) >= 2) ? p[1] : 0.5;
+                double s  = (p.size() >= 2) ? p[1] : 0.5;
                 scores[i] = {s, y_cls[i]};
             }
             std::sort(scores.begin(), scores.end(), [](const auto &a, const auto &b) { return a.first > b.first; });
@@ -1533,8 +1533,8 @@ struct AutoMLModel::Impl {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
             bool is_sq       = false;
-            if (static_cast<int>(base.size()) > 2 && base.substr(static_cast<int>(base.size()) - 2) == "^2") {
-                base  = base.substr(0, static_cast<int>(base.size()) - 2);
+            if (base.size() > 2 && base.substr(base.size() - 2) == "^2") {
+                base  = base.substr(0, base.size() - 2);
                 is_sq = true;
             }
             auto it = p.fields.find(base);
@@ -1839,10 +1839,10 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
         // We call predictProbaOne on a zero vector to confirm the model is
         // live; for serialisation we use the stored metadata and produce
         // a self-contained weight block that downstream tooling can load.
-        js << "    \"weights_shape\": [" <<static_cast<int>(classes.size()) << ", " <<static_cast<int>(feat.size()) << "],\n";
+        js << "    \"weights_shape\": [" <<classes.size() << ", " <<feat.size() << "],\n";
         js << "    \"weights\": [\n";
         // Produce one weight row per class (logistic) or single row (linear)
-        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && static_cast<int>(classes.size()) > 0) ?static_cast<int>(classes.size()) : 1;
+        size_t n_rows = (algo == ModelAlgorithm::LOGISTIC_REGRESSION && classes.size() > 0) ?classes.size() : 1;
         for (size_t r = 0; r < n_rows; ++r) {
             // Estimate weights by evaluating model response to unit vectors
             js << "      [";
@@ -1878,8 +1878,8 @@ std::string AutoMLModel::exportONNX(const std::string &path) const {
     } else {
         // DecisionTree, RandomForest, GradientBoosting:
         // Emit a summary: depth, n_estimators, n_classes.
-        js << "    \"n_features\": " <<static_cast<int>(feat.size()) << ",\n";
-        js << "    \"n_classes\": " << (classes.empty() ? 1 : static_cast<int>(classes.size())) << "\n";
+        js << "    \"n_features\": " <<feat.size() << ",\n";
+        js << "    \"n_classes\": " << (classes.empty() ? 1 : classes.size()) << "\n";
     }
 
     js << "  }\n";
@@ -2099,7 +2099,7 @@ AutoML::~AutoML() = default;
 EvalMetrics AutoML::crossValidate(const std::vector<DataPoint> &data, const AutoMLConfig &config,
                                   ModelAlgorithm algorithm,
                                   const std::map<std::string, double> &hyperparameters) const {
-    if (static_cast<int>(data.size()) < 2) {
+    if (data.size() < 2) {
         return {};
     }
 
@@ -2227,7 +2227,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
                 for (const auto &c : candidates) {
                     best = std::max(best, c.cv_score);
                 }
-                progress(static_cast<int>(candidates.size()), max_trials, best);
+                progress(candidates.size(), max_trials, best);
             }
         }
     }
@@ -2251,7 +2251,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     result.feat_names = feat_names;
     result.candidates = candidates;
 
-    if (config.ensemble && static_cast<int>(candidates.size()) > 1 && config.ensemble_top_k > 1) {
+    if (config.ensemble && candidates.size() > 1 && config.ensemble_top_k > 1) {
         size_t top_k       = std::min(static_cast<size_t>(config.ensemble_top_k), candidates.size());
         auto ens           = std::make_unique<EnsembleModel>();
         ens->is_classifier = is_classifier;
@@ -2389,12 +2389,12 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     }
     
     // Check dimensions match
-    if (static_cast<int>(features.size()) != static_cast<int>(target.size())) {
+    if (features.size() != target.size()) {
         return {false, "Feature matrix rows must match target vector size"};
     }
     
     // Check minimum samples
-    if (static_cast<int>(features.size()) < 2) {
+    if (features.size() < 2) {
         return {false, "At least 2 training samples required"};
     }
     
@@ -2433,7 +2433,7 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     // For classification, check minimum number of classes
     if (task == AutoMLTask::CLASSIFICATION) {
         std::set<double> unique_classes(target.begin(), target.end());
-        if (static_cast<int>(unique_classes.size()) < 2) {
+        if (unique_classes.size() < 2) {
             return {false, "Classification requires at least 2 distinct classes"};
         }
     }
@@ -2452,7 +2452,7 @@ ModelAlgorithm AutoML::selectMetalearner(
         throw std::invalid_argument("Features and target must not be empty");
     }
     
-    if (static_cast<int>(features.size()) != static_cast<int>(target.size())) {
+    if (features.size() != target.size()) {
         throw std::invalid_argument("Features and target size mismatch");
     }
     
@@ -2534,7 +2534,7 @@ ModelAlgorithm AutoML::selectEnsembleMethod(
     const std::vector<EvalMetrics>& candidate_metrics) const noexcept {
     
     // If only one model, no ensemble benefit
-    if (static_cast<int>(candidate_metrics.size()) <= 1) {
+    if (candidate_metrics.size() <= 1) {
         return ModelAlgorithm::ENSEMBLE;  // Soft voting (default ensemble)
     }
     
@@ -2563,7 +2563,7 @@ ModelAlgorithm AutoML::selectEnsembleMethod(
     double diversity = (max_f1 - min_f1) + (max_acc - min_acc);
     
     // Select ensemble method based on model characteristics
-    if (diversity > 0.2 && static_cast<int>(candidate_metrics.size()) >= 3) {
+    if (diversity > 0.2 && candidate_metrics.size() >= 3) {
         // High diversity: stacking would be beneficial (if implemented)
         // For now, return voting as production-ready method
         return ModelAlgorithm::ENSEMBLE;

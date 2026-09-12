@@ -222,7 +222,7 @@ struct YOLOv8OnnxPlugin::Impl {
                     std::vector<float>& tensor_out,
                     int& orig_w, int& orig_h) const {
 #ifdef HAVE_OPENCV
-        cv::Mat encoded(1, static_cast<int>(image_data.size()), CV_8UC1,
+        cv::Mat encoded(1, image_data.size(), CV_8UC1,
                         const_cast<uint8_t*>(image_data.data()));
         cv::Mat img = cv::imdecode(encoded, cv::IMREAD_COLOR);
         if (img.empty()) {
@@ -270,10 +270,10 @@ struct YOLOv8OnnxPlugin::Impl {
         result.success = true;
         result.model_name = "yolov8";
 
-        const int num_classes = static_cast<int>(labels.size());
+        const int num_classes = labels.size();
         const int num_anchors = 8400; // standard for 640×640
         // raw layout: channel-major [84, 8400] – stride = num_anchors
-        if (static_cast<int>(raw.size()) < static_cast<size_t>(84) * num_anchors) {
+        if (raw.size() < static_cast<size_t>(84) * num_anchors) {
             result.success = false;
             result.error_message = "Unexpected output tensor size";
             return result;
@@ -345,7 +345,7 @@ struct YOLOv8OnnxPlugin::Impl {
                             : std::to_string(ci.cls);
             result.detections.push_back(box);
 
-            if (static_cast<int>(result.detections.size()) >=
+            if (result.detections.size() >=
                 max_detections) {
                 break;
             }
@@ -400,8 +400,8 @@ struct YOLOv8OnnxPlugin::Impl {
         auto mem_info = Ort::MemoryInfo::CreateCpu(
             OrtAllocatorType::OrtArenaAllocator, OrtMemType::OrtMemTypeDefault);
         Ort::Value input_val = Ort::Value::CreateTensor<float>(
-            mem_info, input_tensor.data(),static_cast<int>(input_tensor.size()),
-            input_shape.data(),static_cast<int>(input_shape.size()));
+            mem_info, input_tensor.data(),input_tensor.size(),
+            input_shape.data(),input_shape.size());
 
         const char* in_names[]  = {input_name.c_str()};
         const char* out_names[] = {output_name.c_str()};

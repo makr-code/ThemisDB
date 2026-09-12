@@ -417,7 +417,7 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
                 "' contains forbidden substring '--'");
         }
         static constexpr size_t kMaxFieldLength = 256;
-        if (static_cast<int>(value.size()) > kMaxFieldLength) {
+        if (value.size() > kMaxFieldLength) {
             throw std::invalid_argument(
                 "Export request field '" + field_name + "' exceeds maximum length");
         }
@@ -513,7 +513,7 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    std::string auth_str(auth_header.data(),static_cast<int>(auth_header.size()));
+    std::string auth_str(auth_header.data(),auth_header.size());
     
     // Check for "Bearer <token>" format
     if (auth_str.find("Bearer ") != 0) {
@@ -533,10 +533,10 @@ bool ExportApiHandler::validateAdminToken(
     // timing-oracle attacks that could allow an attacker to recover the
     // admin token one byte at a time by measuring response latency.
     const std::string expected(admin_token);
-    if (static_cast<int>(token.size()) != static_cast<int>(expected.size())) {
+    if (token.size() != expected.size()) {
         return false;
     }
-    return CRYPTO_memcmp(token.data(), expected.data(),static_cast<int>(expected.size())) == 0;
+    return CRYPTO_memcmp(token.data(), expected.data(),expected.size()) == 0;
 }
 
 http::response<http::string_body> ExportApiHandler::jsonResponse(

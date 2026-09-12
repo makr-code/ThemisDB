@@ -60,7 +60,7 @@ namespace {
         std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
         std::smatch matches = {};
         
-        if (std::regex_match(auth_str, matches, bearer_regex) && static_cast<int>(matches.size()) == 2) {
+        if (std::regex_match(auth_str, matches, bearer_regex) && matches.size() == 2) {
             return matches[1].str();
         }
         
@@ -337,8 +337,8 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     // Validates all user-supplied fields before they reach the inference engine.
     {
         static constexpr std::size_t kMaxPromptBytes = 1 * 1024 * 1024; // 1 MB
-        if (static_cast<int>(prompt.size()) > kMaxPromptBytes) {
-            THEMIS_WARN("[SEC] Input validation failed: field=prompt reason=too_large size={}",static_cast<int>(prompt.size()));
+        if (prompt.size() > kMaxPromptBytes) {
+            THEMIS_WARN("[SEC] Input validation failed: field=prompt reason=too_large size={}",prompt.size());
             return createErrorResponse(http::status::bad_request,
                 "prompt too large",
                 "prompt must be <= 1 MB");
@@ -531,8 +531,8 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     // ── B2-INPUT-VALIDATION (2026-08-26 Wave-7 Security Hardening) ─────────
     {
         static constexpr std::size_t kMaxQueryBytes = 1 * 1024 * 1024; // 1 MB
-        if (static_cast<int>(query.size()) > kMaxQueryBytes) {
-            THEMIS_WARN("[SEC] Input validation failed: field=query reason=too_large size={}",static_cast<int>(query.size()));
+        if (query.size() > kMaxQueryBytes) {
+            THEMIS_WARN("[SEC] Input validation failed: field=query reason=too_large size={}",query.size());
             return createErrorResponse(http::status::bad_request,
                 "prompt too large",
                 "query must be <= 1 MB");
@@ -702,7 +702,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
             {"collection_effective", collection},
             {"rag_mode_effective", rag_mode},
             {"retrieval_attempted", !collection.empty()},
-            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+            {"documents_retrieved", rag_context.documents.size()},
             {"documents_rejected", static_cast<int>(rejected_documents)},
             {"top_k_effective", rag_context.top_k},
             {"max_context_tokens_effective", rag_context.max_context_tokens},
@@ -773,7 +773,7 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         
         json response_body = {
             {"embedding", embedding_vector},
-            {"dimensions",static_cast<int>(embedding.size())},
+            {"dimensions",embedding.size()},
             {"text_length", text.length()}
         };
         
@@ -808,8 +808,8 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
             auto pos = qs.find(prefix);
             if (pos == std::string::npos) return {};
             auto end = qs.find('&', pos);
-            std::string raw = qs.substr(pos + static_cast<int>(prefix.size()) ,
-                end == std::string::npos ? std::string::npos : end - pos - static_cast<int>(prefix.size()) );
+            std::string raw = qs.substr(pos + prefix.size() ,
+                end == std::string::npos ? std::string::npos : end - pos - prefix.size() );
             // Basic URL-decode
             std::string decoded = {};
             decoded.reserve(raw.size());
@@ -1005,7 +1005,7 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
         
         json response_data = {
             {"models", models},
-            {"total", static_cast<int>(models.size())}
+            {"total", models.size()}
         };
         
         return createJsonResponse(response_data);
@@ -1292,10 +1292,10 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
         
         json response_data = {
             {"loras", loras},
-            {"total", static_cast<int>(loras.size())}
+            {"total", loras.size()}
         };
 
-        THEMIS_INFO("LLMApiHandler::handleListLoRAs success: total={}",static_cast<int>(loras.size()));
+        THEMIS_INFO("LLMApiHandler::handleListLoRAs success: total={}",loras.size());
         
         return createJsonResponse(response_data);
     } catch (const std::exception& e) {
@@ -2087,7 +2087,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
         
         json response_data = {
             {"feedback", feedback_array},
-            {"count",static_cast<int>(feedback_array.size())},
+            {"count",feedback_array.size()},
             {"limit", limit}
         };
         

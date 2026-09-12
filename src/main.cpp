@@ -242,7 +242,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("Inserting user: {}", entity.toJson());
             if (db.put(key, blob)) {
                 THEMIS_INFO("Successfully inserted entity with key: {}", key);
-                THEMIS_INFO("Blob size: {} bytes",static_cast<int>(blob.size()));
+                THEMIS_INFO("Blob size: {} bytes",blob.size());
             }
             
             // Retrieve and parse
@@ -429,7 +429,7 @@ int main(int argc, char* argv[]) {
             themis::query::QueryOptimizer opt(idxm);
             auto plan = opt.chooseOrderForAndQuery(q, 1000);
             std::string orderStr = {};
-            for (size_t i = 0; i <static_cast<int>(plan.orderedPredicates.size()); ++i) {
+            for (size_t i = 0; i <plan.orderedPredicates.size(); ++i) {
                 if (i) {
                   orderStr += ", ";
                 }

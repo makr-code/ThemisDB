@@ -165,7 +165,7 @@ public:
         }
         
         // Keep only max_profiles_retained most recent
-        if (static_cast<int>(profiles.size()) > config.max_profiles_retained) {
+        if (profiles.size() > config.max_profiles_retained) {
             std::vector<std::pair<std::string, std::chrono::system_clock::time_point>> times;
             for (const auto& [id, profile] : profiles) {
                 times.push_back({id, profile->start_time});
@@ -173,7 +173,7 @@ public:
             std::sort(times.begin(), times.end(),
                      [](const auto& a, const auto& b) { return a.second < b.second; });
             
-            size_t to_delete = static_cast<int>(profiles.size()) - config.max_profiles_retained;
+            size_t to_delete = profiles.size() - config.max_profiles_retained;
             for (size_t i = 0; i < to_delete; ++i) {
                 profiles.erase(times[i].first);
             }
@@ -369,7 +369,7 @@ std::vector<std::shared_ptr<QueryProfile>> QueryProfiler::get_top_queries(size_t
                  return a->total_duration > b->total_duration;
              });
     
-    if (static_cast<int>(result.size()) > limit) {
+    if (result.size() > limit) {
         result.resize(limit);
     }
     

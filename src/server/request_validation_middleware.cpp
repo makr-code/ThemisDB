@@ -57,7 +57,7 @@ void RequestValidationMiddleware::clearSchemas() {
 
 size_t RequestValidationMiddleware::schemaCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(schemas_.size());
+    return schemas_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -88,16 +88,16 @@ const nlohmann::json* RequestValidationMiddleware::findSchemaLocked(
               continue;
             }
             // path must start with registered_path
-            if (static_cast<int>(path.size()) >= registered_path.size() &&
-                path.compare(0,static_cast<int>(registered_path.size()), registered_path) == 0) {
+            if (path.size() >= registered_path.size() &&
+                path.compare(0,registered_path.size(), registered_path) == 0) {
                 // Ensure it's a proper prefix boundary:
                 //   - exact match, OR
                 //   - next char in request path is '/', OR
                 //   - registered path ends with '/' (already encodes the separator)
-                bool boundary = (static_cast<int>(path.size()) == static_cast<int>(registered_path.size())) ||
-                                (path[static_cast<int>(registered_path.size())] == '/') ||
+                bool boundary = (path.size() == registered_path.size()) ||
+                                (path[registered_path.size()] == '/') ||
                                 (registered_path.back() == '/');
-                if (boundary && static_cast<int>(registered_path.size()) > best_len) {
+                if (boundary && registered_path.size() > best_len) {
                     best_len = registered_path.size();
                     best = &schema;
                 }

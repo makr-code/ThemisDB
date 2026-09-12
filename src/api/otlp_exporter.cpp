@@ -59,9 +59,9 @@ static std::string normaliseTraceId(const std::string &raw) {
         }
     }
     // Pad to 32 hex chars (zero-pad on the right if shorter, truncate if longer)
-    if (static_cast<int>(out.size()) < 32) {
+    if (out.size() < 32) {
         out.resize(32, '0');
-    } else if (static_cast<int>(out.size()) > 32) {
+    } else if (out.size() > 32) {
         out = out.substr(0, 32);
     }
     return out;
@@ -72,10 +72,10 @@ static std::string normaliseTraceId(const std::string &raw) {
 /// to avoid a full random generator in the hot path.
 static std::string deriveSpanId(const std::string &trace_id_32) {
     // Use the last 16 hex chars of the trace ID as the span ID.
-    if (static_cast<int>(trace_id_32.size()) >= 16) {
+    if (trace_id_32.size() >= 16) {
         return trace_id_32.substr(16, 16);
     }
-    return trace_id_32 + std::string(16 - static_cast<int>(trace_id_32.size()) , '0');
+    return trace_id_32 + std::string(16 - trace_id_32.size() , '0');
 }
 
 /// StatusCode constants (OTLP spec):
@@ -256,7 +256,7 @@ void OtlpExporter::enqueue(SpanData span) {
 
     {
         std::lock_guard<std::mutex> lk(queue_mutex_);
-        if (static_cast<int>(queue_.size()) >= config_.max_queue_size) {
+        if (queue_.size() >= config_.max_queue_size) {
             // Drop the oldest span to make room (O(1) with std::deque)
             queue_.pop_front();
             dropped_count_.fetch_add(1, std::memory_order_relaxed);
@@ -310,7 +310,7 @@ void OtlpExporter::flushLoop() {
         {
             std::unique_lock<std::mutex> lk(queue_mutex_);
             queue_cv_.wait_for(lk, flush_interval, [this] {
-                return stop_.load(std::memory_order_relaxed) || static_cast<int>(queue_.size()) >= config_.batch_size;
+                return stop_.load(std::memory_order_relaxed) || queue_.size() >= config_.batch_size;
             });
 
             const size_t take = std::min(queue_.size(), config_.batch_size);
@@ -389,7 +389,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
         if (!curl) {
             THEMIS_ERROR("OtlpExporter: ERR_OTLP_CURL_INIT_FAILED — curl_easy_init() returned null; "
                     "{} spans lost. Verify libcurl is correctly linked and the process has "
-                    "sufficient memory.",static_cast<int>(batch.size()));
+                    "sufficient memory.",batch.size());
             const auto n = static_cast<uint64_t>(batch.size());
             dropped_count_.fetch_add(n, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
@@ -470,7 +470,7 @@ void OtlpExporter::flushBatch(std::vector<SpanData> &batch) {
                 prom_exported_->Increment(static_cast<double>(n));
             }
 #endif
-            THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})",static_cast<int>(batch.size()), http_code);
+            THEMIS_DEBUG("OtlpExporter: exported {} spans (HTTP {})",batch.size(), http_code);
             if (owns_handle) {
                 if (tmp_headers) {
                     curl_slist_free_all(tmp_headers);

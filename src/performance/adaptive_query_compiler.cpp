@@ -136,15 +136,15 @@ static bool compareString(const std::string& lhs,
               pattern = pattern.substr(1);
             }
             if (suffix_wild) {
-              pattern = pattern.substr(0, static_cast<int>(pattern.size()) - 1);
+              pattern = pattern.substr(0, pattern.size() - 1);
             }
             if (prefix_wild && suffix_wild)
                 return lhs.find(pattern) != std::string::npos;
             if (prefix_wild)
-                return static_cast<bool>( static_cast<int>(lhs.size()) < static_cast<int>(= pattern.size())) &&
-                       lhs.substr(static_cast<int>(lhs.size()) - static_cast<int>(pattern.size()) ) == pattern;
+                return lhs.size() >= pattern.size() &&
+                       lhs.substr(lhs.size() - pattern.size()) == pattern;
             if (suffix_wild)
-                return lhs.substr(0,static_cast<int>(pattern.size())) == pattern;
+                return lhs.substr(0,pattern.size()) == pattern;
             return lhs == pattern;
         }
         default: return false;
@@ -253,7 +253,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
 
     switch (query.op_type) {
         case QueryOpType::Filter:
-            ir << "  ; Filter specialisation: " <<static_cast<int>(query.predicates.size())
+            ir << "  ; Filter specialisation: " <<query.predicates.size()
                << " predicate(s)\n";
             for (const auto& p : query.predicates) {
                 ir << "  ; predicate: " << p.column << " op val\n";
@@ -274,7 +274,7 @@ static std::string generateLLVMIR(const ParsedQuery& query,
             break;
         case QueryOpType::Projection:
             ir << "  ; Projection specialisation: "
-               <<static_cast<int>(query.select_columns.size()) << " column(s)\n";
+               <<query.select_columns.size() << " column(s)\n";
             break;
         default:
             ir << "  ; Generic specialisation\n";
@@ -852,8 +852,8 @@ private:
           return base;
         }
 
-        size_t start = std::min(query.offset,static_cast<int>(base.rows.size()));
-        size_t end   = std::min(start + query.limit,static_cast<int>(base.rows.size()));
+        size_t start = std::min(query.offset,base.rows.size());
+        size_t end   = std::min(start + query.limit,base.rows.size());
 
         QueryResult result;
         result.rows = std::vector<QueryRow>(base.rows.begin() + static_cast<ptrdiff_t>(start),
@@ -891,7 +891,7 @@ private:
 
         cq.llvm_ir   = generateLLVMIR(query, schema, ir_opts);
         cq.assembly  = generateAssembly(query, ir_opts);
-        cq.code_size_bytes = static_cast<int>(cq.llvm_ir.size()) + static_cast<int>(cq.assembly.size()) ;
+        cq.code_size_bytes = cq.llvm_ir.size() + cq.assembly.size() ;
 
         // Build the type-specialised execution closure.
         // The closure captures copies of all compile-time constants so the
@@ -1035,7 +1035,7 @@ private:
                         QueryRow out;
                         out.column_names.push_back(agg_fn + "_result");
                         out.values.push_back(QueryValue{applyAggFunction(
-                            agg_fn, acc,static_cast<int>(base.rows.size()))});
+                            agg_fn, acc,base.rows.size())});
                         QueryResult r;
                         r.rows.push_back(std::move(out));
                         return r;

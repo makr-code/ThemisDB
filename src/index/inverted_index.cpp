@@ -383,7 +383,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
           universe.insert(pk);
         }
 
-    const double N = static_cast<double>(std::max<size_t>(1,static_cast<int>(universe.size())));
+    const double N = static_cast<double>(std::max<size_t>(1,universe.size()));
 
     std::unordered_map<std::string, double> docLen;
     double totalLen = 0.0;
@@ -441,7 +441,7 @@ InvertedIndex::computeBM25_(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (static_cast<int>(scored.size()) > limit) {
+    if (scored.size() > limit) {
       scored.resize(limit);
     }
     return {Status::OK(), std::move(scored)};
@@ -531,7 +531,7 @@ InvertedIndex::searchPhrase(std::string_view table, std::string_view column,
         } catch (...) {
             // skip unreadable documents
         }
-        if (static_cast<int>(results.size()) >= limit) {
+        if (results.size() >= limit) {
           break;
         }
     }
@@ -629,7 +629,7 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
                   return a.score > b.score;
               });
 
-    if (static_cast<int>(results.size()) > limit) {
+    if (results.size() > limit) {
       results.resize(limit);
     }
     return {Status::OK(), std::move(results)};

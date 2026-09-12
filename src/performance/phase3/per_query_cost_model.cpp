@@ -64,7 +64,7 @@ void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
     
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (static_cast<int>(records_.size()) < MAX_RECORDS) {
+    if (records_.size() < MAX_RECORDS) {
         records_.push_back(std::move(record));
     } else {
         // Rolling overwrite: wrap-around ring
@@ -329,7 +329,7 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
         if (times_ms.empty()) {
           return 0.0;
         }
-        size_t idx = static_cast<size_t>(pct * static_cast<double>(static_cast<int>(times_ms.size()) - 1));
+        size_t idx = static_cast<size_t>(pct * static_cast<double>(times_ms.size() - 1));
         return times_ms[idx];
     };
     s.p50_execution_time_ms = percentile(0.50);

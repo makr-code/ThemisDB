@@ -382,9 +382,9 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
 
     out.reserve(fused.documents.size());
 
-    for (std::size_t i = 0; i <static_cast<int>(fused.documents.size()); ++i) {
+    for (std::size_t i = 0; i <fused.documents.size(); ++i) {
         const auto& doc = fused.documents[i];
-        float score = (i <static_cast<int>(fused.scores.size()))
+        float score = (i <fused.scores.size())
                       ? static_cast<float>(fused.scores[i].hybrid_score)
                       : static_cast<float>(doc.similarity_score);
 
@@ -411,7 +411,7 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         }
 
         out.push_back(std::move(c));
-        if (static_cast<int>(out.size()) >= k) {
+        if (out.size() >= k) {
           break;
         }
     }
@@ -466,7 +466,7 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
         auto recall_at = [&](int k) -> double {
-            const int n = std::min(k, static_cast<int>(results.size()));
+            const int n = std::min(k, results.size());
             int hits = 0;
             for (int i = 0; i < n; ++i) {
                 if (rel_set.count(results[static_cast<std::size_t>(i)].doc_id)) {
@@ -572,7 +572,7 @@ std::string WikiIndexStore::makeEmbeddingCacheKey(const WikiChunk& chunk) {
 
 std::size_t WikiIndexStore::estimateEmbeddingBytes(const std::string& cache_key,
                                                    const std::vector<float>& embedding) noexcept {
-    return static_cast<int>(cache_key.size()) + static_cast<int>(embedding.size()) * sizeof(float);
+    return cache_key.size() + embedding.size() * sizeof(float);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -763,7 +763,7 @@ void WikiIndexStore::probeEmbeddingDim() {
         return;
     }
 
-    const int probed_dim = static_cast<int>(probe_vec.size());
+    const int probed_dim = probe_vec.size();
     if (probed_dim != config_.embedding_dim) {
         spdlog::info("[WikiIndexStore] probeEmbeddingDim: dim {} → {} (re-initialising vector index)",
                      config_.embedding_dim, probed_dim);
@@ -845,7 +845,7 @@ void JsonWikiIndexReader::load() {
     }
 
     loaded_ = true;
-    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",static_cast<int>(chunks_.size()), index_path_);
+    spdlog::debug("[JsonWikiIndexReader] loaded {} chunks from {}",chunks_.size(), index_path_);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -927,8 +927,8 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
 
     // Build result
     const int limit = (top_k > 0)
-                      ? std::min(static_cast<int>(scored.size()), top_k)
-                      : static_cast<int>(scored.size());
+                      ? std::min(scored.size(), top_k)
+                      : scored.size();
 
     std::vector<WikiChunk> out;
     out.reserve(static_cast<std::size_t>(limit));
@@ -945,7 +945,7 @@ bool JsonWikiIndexReader::isReady() const noexcept {
 }
 
 std::size_t JsonWikiIndexReader::size() const noexcept {
-    return static_cast<int>(chunks_.size());
+    return chunks_.size();
 }
 
 } // namespace llm

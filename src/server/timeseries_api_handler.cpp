@@ -161,7 +161,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleQuery(
         
         nlohmann::json response = {
             {"metric", metric},
-            {"count",static_cast<int>(points.size())},
+            {"count",points.size()},
             {"data", nlohmann::json::array()}
         };
         
@@ -453,7 +453,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
             storage_->scanPrefix("wm:cagg:", [&materialized](std::string_view key, std::string_view value) {
                 const std::string key_str(key);
                 constexpr std::string_view kPrefix = "wm:cagg:";
-                if (key_str.rfind(kPrefix, 0) == 0 && static_cast<int>(key_str.size()) > static_cast<int>(kPrefix.size())) {
+                if (key_str.rfind(kPrefix, 0) == 0 && key_str.size() > kPrefix.size()) {
                     materialized.push_back({
                         {"aggregate_id", key_str.substr(kPrefix.size())},
                         {"watermark_ms", std::string(value)}
@@ -475,7 +475,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
         nlohmann::json response = {
             {"aggregates", functions},
             {"materialized_aggregates", materialized},
-            {"materialized_count",static_cast<int>(materialized.size())},
+            {"materialized_count",materialized.size()},
             {"source", aggregate_source},
             {"degraded_mode", degraded_mode}
         };
@@ -553,7 +553,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
 
         nlohmann::json response = {
             {"policies", policies},
-            {"policy_count",static_cast<int>(policies.size())},
+            {"policy_count",policies.size()},
             {"source", policy_source},
             {"degraded_mode", degraded_mode}
         };
@@ -673,9 +673,9 @@ http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWr
         themis::Result<themis::timeseries::PromWriteRequest> decode_result =
             (content_encoding == "identity")
             ? themis::timeseries::PromWriteRequest::decode(
-                reinterpret_cast<const uint8_t*>(body.data()),static_cast<int>(body.size()))
+                reinterpret_cast<const uint8_t*>(body.data()),body.size())
             : themis::timeseries::PromWriteRequest::decodeSnappy(
-                reinterpret_cast<const uint8_t*>(body.data()),static_cast<int>(body.size()));
+                reinterpret_cast<const uint8_t*>(body.data()),body.size());
 
         if (!decode_result) {
             span.setStatus(false, "decode_failed");

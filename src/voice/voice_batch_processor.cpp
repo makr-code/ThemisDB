@@ -89,7 +89,7 @@ std::string VoiceBatchProcessor::submitBatch(
 
     summary.avg_wer  = wer_count  > 0 ? total_wer  / static_cast<float>(wer_count)  : -1.0f;
     summary.avg_pesq = pesq_count > 0 ? total_pesq / static_cast<float>(pesq_count) : -1.0f;
-    summary.status = summary.failed_items == static_cast<int>(items.size()) ? BatchJobStatus::FAILED : BatchJobStatus::COMPLETED;
+    summary.status = summary.failed_items == items.size() ? BatchJobStatus::FAILED : BatchJobStatus::COMPLETED;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -116,7 +116,7 @@ std::vector<BatchItemResult> VoiceBatchProcessor::processBatchSync(
             results.push_back(processItem(items[j]));
         }
         if (progress_cb) {
-            progress_cb(job_id, end,static_cast<int>(items.size()));
+            progress_cb(job_id, end,items.size());
         }
     }
 
@@ -420,7 +420,7 @@ float VoiceBatchProcessor::computeNoiseFloor(
 
     // Take the quietest 10% of frames as noise floor estimate
     std::sort(frame_rms.begin(), frame_rms.end());
-    size_t n = std::max<size_t>(1,static_cast<int>(frame_rms.size()) / 10);
+    size_t n = std::max<size_t>(1,frame_rms.size() / 10);
     float sum = 0.0f;
     for (size_t i = 0; i < n; ++i) {
       sum += frame_rms[i];
@@ -432,7 +432,7 @@ float VoiceBatchProcessor::computeNoiseFloor(
 
 std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& data) const {
     // Treat pairs of bytes as little-endian int16, convert to [-1, 1] float
-    if (static_cast<int>(data.size()) < 2) {
+    if (data.size() < 2) {
         // Fallback: treat each byte as unsigned 8-bit sample
         std::vector<float> samples = {};
 

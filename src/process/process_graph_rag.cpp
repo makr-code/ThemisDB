@@ -49,7 +49,7 @@ namespace {
 /// Cosine similarity between two float vectors; returns 0.0 when either is
 /// empty or the norms are zero.
 float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
       return 0.f;
     }
     float dot = 0.f, na = 0.f, nb = 0.f;
@@ -76,7 +76,7 @@ float jaccardSimilarity(const std::set<std::string>& a,
           ++intersection;
         }
     }
-    const size_t union_size = static_cast<int>(a.size()) + static_cast<int>(b.size()) - intersection;
+    const size_t union_size = a.size() + b.size() - intersection;
     if (union_size == 0) {
       return 0.f;
     }
@@ -192,7 +192,7 @@ ProcessGraphRag::buildKnowledgeGraph(std::string_view model_id) const {
     }
 
     SPDLOG_INFO("[process_graph_rag] built KG for model '{}': {} nodes, {} edges",
-                model_id,static_cast<int>(kg.nodes.size()),static_cast<int>(kg.edges.size()));
+                model_id,kg.nodes.size(),kg.edges.size());
     return kg;
 }
 
@@ -389,7 +389,7 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
           node_ids.push_back(nid);
         }
     }
-    const int N = static_cast<int>(node_ids.size());
+    const int N = node_ids.size();
     if (N == 0) return {};
 
     std::unordered_map<std::string, int> node_index;
@@ -545,7 +545,7 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
         
         // Create diagnostic incident for retrieval failure
         DiagnosticContext ctx_diag;
-        ctx_diag.recordResourceMetric("instance_id_length",static_cast<int>(instance_id.size()));
+        ctx_diag.recordResourceMetric("instance_id_length",instance_id.size());
         ctx_diag.recordResourceMetric("query_length", query.length());
         ctx_diag.setRemediationSuggestion(
             "Requested process instance '" + std::string(instance_id) + "' not found in storage. "
@@ -818,7 +818,7 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
 
     // Attachment count
     auto atts = linker_.getAttachments(instance_id);
-    summary["attachments_count"] = static_cast<int>(atts.size());
+    summary["attachments_count"] = atts.size();
 
     // Compliance tags
     json ctags = json::array();
@@ -1116,7 +1116,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
               [](const SimilarCase& a, const SimilarCase& b) {
                   return a.similarity > b.similarity;
               });
-    if (static_cast<int>(candidates.size()) > k) {
+    if (candidates.size() > k) {
         candidates.resize(static_cast<size_t>(k));
     }
 
@@ -1142,7 +1142,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(keine)";
         } else {
-            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
+            for (size_t i = 0; i <ctx.active_nodes.size(); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1153,7 +1153,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.visited_nodes.empty()) {
             ss << "Verlauf: ";
-            for (size_t i = 0; i <static_cast<int>(ctx.visited_nodes.size()); ++i) {
+            for (size_t i = 0; i <ctx.visited_nodes.size(); ++i) {
                 if (i > 0) {
                   ss << " → ";
                 }
@@ -1189,7 +1189,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
+            for (size_t i = 0; i <ctx.compliance_tags.size(); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1246,7 +1246,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
         if (ctx.active_nodes.empty()) {
             ss << "(none)";
         } else {
-            for (size_t i = 0; i <static_cast<int>(ctx.active_nodes.size()); ++i) {
+            for (size_t i = 0; i <ctx.active_nodes.size(); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1278,7 +1278,7 @@ std::string ProcessGraphRag::assemblePrompt_(const ProcessRagContext& ctx,
 
         if (!ctx.compliance_tags.empty()) {
             ss << "\nCompliance: ";
-            for (size_t i = 0; i <static_cast<int>(ctx.compliance_tags.size()); ++i) {
+            for (size_t i = 0; i <ctx.compliance_tags.size(); ++i) {
                 if (i > 0) {
                   ss << ", ";
                 }
@@ -1498,7 +1498,7 @@ void ProcessGraphRag::recordNodeCompletion(
     samples.push_back(static_cast<double>(dwell_ms));
 
     constexpr size_t kMaxSamples = 200;
-    if (static_cast<int>(samples.size()) > kMaxSamples)
+    if (samples.size() > kMaxSamples)
         samples.erase(samples.begin());
 
     agg["node_name"]  = std::string(node_name);
@@ -1540,7 +1540,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
                 std::vector<double> sorted_samples = samples;
                 std::sort(sorted_samples.begin(), sorted_samples.end());
                 size_t idx = static_cast<size_t>(
-                    static_cast<double>(static_cast<int>(sorted_samples.size()) - 1) * 0.95);
+                    static_cast<double>(sorted_samples.size() - 1) * 0.95);
                 p95 = sorted_samples[idx];
             }
 
@@ -1559,7 +1559,7 @@ std::vector<ProcessGraphRag::NodeDwellStats> ProcessGraphRag::analyzeBottlenecks
                   return a.avg_dwell_ms > b.avg_dwell_ms;
               });
 
-    if (static_cast<int>(result.size()) > top_n)
+    if (result.size() > top_n)
         result.resize(static_cast<size_t>(top_n));
 
     return result;

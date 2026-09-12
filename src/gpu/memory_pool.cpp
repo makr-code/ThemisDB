@@ -64,7 +64,7 @@ public:
             } else {
                 pool_.wasted_bytes_ = 0;
             }
-            if (static_cast<int>(pool_.slabs_.size()) > slab_idx_) {
+            if (pool_.slabs_.size() > slab_idx_) {
                 pool_.slabs_[slab_idx_].is_free = true;
                 pool_.slabs_[slab_idx_].owner_tag.clear();
                 pool_.slabs_[slab_idx_].request_size = 0;
@@ -300,7 +300,7 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
 
 size_t GPUMemoryPool::numSlabs() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(slabs_.size());
+    return slabs_.size();
 }
 
 size_t GPUMemoryPool::freeSlabs() const {

@@ -36,7 +36,7 @@ struct TOTPSecretEncryption::Impl {
     Config config;
 
     explicit Impl(const Config &cfg) : config(cfg) {
-        if (static_cast<int>(config.master_key.size()) != 32) {
+        if (config.master_key.size() != 32) {
             throw std::invalid_argument("Master key must be 32 bytes for AES-256");
         }
     }
@@ -47,7 +47,7 @@ struct TOTPSecretEncryption::Impl {
         // ensures zeroing is visible at the point of use and survives any future
         // refactoring that might replace SecureBuffer with a plain std::vector.
         if (!config.master_key.empty()) {
-            OPENSSL_cleanse(config.master_key.data(),static_cast<int>(config.master_key.size()) * sizeof(uint8_t));
+            OPENSSL_cleanse(config.master_key.data(),config.master_key.size() * sizeof(uint8_t));
         }
     }
 };
@@ -155,7 +155,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::EncryptedSecret::des
         parts.push_back(part);
     }
 
-    if (static_cast<int>(parts.size()) != 5) {
+    if (parts.size() != 5) {
         throw std::runtime_error("Invalid encrypted secret format");
     }
 
@@ -208,7 +208,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
 
         // Encrypt the plaintext
         std::vector<uint8_t> plaintext(plaintext_secret.begin(), plaintext_secret.end());
-        result.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+        result.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
         int len = 0;
         if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size()))
@@ -307,7 +307,7 @@ std::string TOTPSecretEncryption::deserializeAndDecrypt(const std::string &seria
 }
 
 void TOTPSecretEncryption::rotateKey(const SecureBuffer<uint8_t> &new_master_key, int new_version) {
-    if (static_cast<int>(new_master_key.size()) != 32) {
+    if (new_master_key.size() != 32) {
         throw std::invalid_argument("New master key must be 32 bytes for AES-256");
     }
 
@@ -382,7 +382,7 @@ TOTPSecretRotationManager::SecretVersion TOTPSecretRotationManager::rotateSecret
     // Add new secret
     SecretVersion new_version;
     new_version.secret     = new_secret;
-    new_version.version    = static_cast<int>(secrets.size()) + 1;
+    new_version.version    = secrets.size() + 1;
     new_version.created_at = now;
     new_version.is_active  = true;
 
@@ -434,7 +434,7 @@ size_t TOTPSecretRotationManager::cleanupExpiredSecrets() {
                                      [this](const SecretVersion &sv) { return !isSecretValid(sv); }),
                       secrets.end());
 
-        cleaned += (original_size - static_cast<int>(secrets.size()) );
+        cleaned += (original_size - secrets.size() );
     }
 
     if (cleaned > 0) {

@@ -153,7 +153,7 @@ double LearningMetrics::computeStdDev(
     const std::deque<double>& data,
     double mean
 ) const {
-    if (static_cast<int>(data.size()) < 2) {
+    if (data.size() < 2) {
       return 0.0;
     }
     double variance = 0.0;
@@ -161,12 +161,12 @@ double LearningMetrics::computeStdDev(
         double diff = v - mean;
         variance += diff * diff;
     }
-    variance /= static_cast<double>(static_cast<int>(data.size()) - 1);
+    variance /= static_cast<double>(data.size() - 1);
     return std::sqrt(variance);
 }
 
 double LearningMetrics::computeTrend(const std::deque<double>& data) const {
-    if (static_cast<int>(data.size()) < 2) {
+    if (data.size() < 2) {
       return 0.0;
     }
     double n  = static_cast<double>(data.size());

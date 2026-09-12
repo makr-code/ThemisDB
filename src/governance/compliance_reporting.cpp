@@ -126,11 +126,11 @@ std::string ComplianceReporter::generateHTMLOptimized(
     // Estimate capacity: reasonable buffer for headers and rows
     size_t estimated_size = 2048;  // Base HTML structure
     for (const auto& header : headers) {
-        estimated_size += static_cast<int>(header.size()) + 20;  // Add markup overhead
+        estimated_size += header.size() + 20;  // Add markup overhead
     }
     for (const auto& row : rows) {
         for (const auto& cell : row) {
-            estimated_size += static_cast<int>(cell.size()) + 20;
+            estimated_size += cell.size() + 20;
         }
     }
     
@@ -272,10 +272,10 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     const std::vector<std::string>& actions
 ) const {
     CoverageResult result;
-    result.total_resources_checked = static_cast<int>(resources.size());
+    result.total_resources_checked = resources.size();
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
-                 resources.size(),static_cast<int>(actions.size()));
+                 resources.size(),actions.size());
     
     for (const auto& resource : resources) {
         bool is_covered = false;
@@ -315,7 +315,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     std::vector<OverlapResult> overlaps;
     auto all_rules = policy_mgr.listRules();
     
-    THEMIS_DEBUG("Detecting overlaps among {} policy rules",static_cast<int>(all_rules.size()));
+    THEMIS_DEBUG("Detecting overlaps among {} policy rules",all_rules.size());
     
     // Group rules by resource and action patterns
     std::unordered_map<std::string, std::vector<std::string>> pattern_map;
@@ -335,20 +335,20 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
     
     // Identify patterns with multiple rules
     for (const auto& [pattern, rule_ids] : pattern_map) {
-        if (static_cast<int>(rule_ids.size()) > 1) {
+        if (rule_ids.size() > 1) {
             OverlapResult overlap;
             
             size_t colon_pos = pattern.find(':');
             overlap.resource_pattern = pattern.substr(0, colon_pos);
             overlap.action_pattern = pattern.substr(colon_pos + 1);
             overlap.overlapping_rule_ids = rule_ids;
-            overlap.overlap_count = static_cast<int>(rule_ids.size());
+            overlap.overlap_count = rule_ids.size();
             
             overlaps.push_back(overlap);
         }
     }
     
-    THEMIS_INFO("Detected {} overlapping patterns",static_cast<int>(overlaps.size()));
+    THEMIS_INFO("Detected {} overlapping patterns",overlaps.size());
     
     return overlaps;
 }
@@ -359,7 +359,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
 ) const {
     std::vector<std::string> gaps;
 
-    THEMIS_DEBUG("Finding gaps for {} expected resources",static_cast<int>(expected_resources.size()));
+    THEMIS_DEBUG("Finding gaps for {} expected resources",expected_resources.size());
 
     // Consider explicit-action rules when evaluating resource-level coverage.
     const auto action_candidates = collect_action_candidates(policy_mgr);
@@ -374,7 +374,7 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
         }
     }
 
-    THEMIS_INFO("Found {} resource gaps",static_cast<int>(gaps.size()));
+    THEMIS_INFO("Found {} resource gaps",gaps.size());
 
     return gaps;
 }
@@ -479,7 +479,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
     std::vector<ComplianceGap> gaps;
     const auto action_candidates = collect_action_candidates(policy_mgr);
     
-    THEMIS_DEBUG("Detecting compliance gaps for {} requirements",static_cast<int>(requirements_snapshot.size()));
+    THEMIS_DEBUG("Detecting compliance gaps for {} requirements",requirements_snapshot.size());
     
     for (const auto& req : requirements_snapshot) {
         if (!checkRequirement(req, policy_mgr)) {
@@ -546,7 +546,7 @@ ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
         }
     }
     
-    THEMIS_INFO("Detected {} compliance gaps",static_cast<int>(gaps.size()));
+    THEMIS_INFO("Detected {} compliance gaps",gaps.size());
     
     return gaps;
 }
@@ -569,7 +569,7 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
         }
     }
     
-    status.total_requirements = static_cast<int>(filtered_reqs.size());
+    status.total_requirements = filtered_reqs.size();
     
     for (const auto& req : filtered_reqs) {
         if (checkRequirement(req, policy_mgr)) {
@@ -614,7 +614,7 @@ bool ComplianceGapDetector::loadRequirements(const std::string& path) {
             }
         }
         
-        THEMIS_INFO("Loaded {} compliance requirements from {}",static_cast<int>(requirements_.size()), path);
+        THEMIS_INFO("Loaded {} compliance requirements from {}",requirements_.size(), path);
         return true;
         
     } catch (const std::exception& e) {
@@ -786,13 +786,13 @@ std::string ComplianceReporter::ComplianceStatusReport::toHTML() const {
     html << "<p>Overall Compliance: <strong>" << std::fixed << std::setprecision(2) 
          << overall_compliance << "%</strong></p>";
     
-    html << "<h2>Compliant Controls (" <<static_cast<int>(compliant_controls.size()) << ")</h2><ul>";
+    html << "<h2>Compliant Controls (" <<compliant_controls.size() << ")</h2><ul>";
     for (const auto& control : compliant_controls) {
         html << "<li class='compliant'>" << control << "</li>";
     }
     html << "</ul>";
     
-    html << "<h2>Non-Compliant Controls (" <<static_cast<int>(non_compliant_controls.size()) << ")</h2><ul>";
+    html << "<h2>Non-Compliant Controls (" <<non_compliant_controls.size() << ")</h2><ul>";
     for (const auto& control : non_compliant_controls) {
         html << "<li class='non-compliant'>" << control << "</li>";
     }
@@ -831,7 +831,7 @@ std::string ComplianceReporter::AccessControlMatrix::toCSV() const {
         csv << entry.role << ",";
         csv << entry.resource << ",";
         csv << "\"";
-        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
+        for (size_t i = 0; i <entry.allowed_actions.size(); i++) {
             if (i > 0) {
               csv << ";";
             }
@@ -861,7 +861,7 @@ std::string ComplianceReporter::AccessControlMatrix::toHTML() const {
         html << "<tr><td>" << entry.role << "</td>";
         html << "<td>" << entry.resource << "</td>";
         html << "<td>";
-        for (size_t i = 0; i <static_cast<int>(entry.allowed_actions.size()); i++) {
+        for (size_t i = 0; i <entry.allowed_actions.size(); i++) {
             if (i > 0) {
               html << ", ";
             }
@@ -910,7 +910,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toCSV() const {
         csv << risk.severity << ",";
         csv << "\"" << risk.description << "\",";
         csv << "\"";
-        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
+        for (size_t i = 0; i <risk.affected_resources.size(); i++) {
             if (i > 0) {
               csv << ";";
             }
@@ -955,7 +955,7 @@ std::string ComplianceReporter::RiskAssessmentReport::toHTML() const {
         html << "<td>" << risk.severity << "</td>";
         html << "<td>" << risk.description << "</td>";
         html << "<td>";
-        for (size_t i = 0; i <static_cast<int>(risk.affected_resources.size()); i++) {
+        for (size_t i = 0; i <risk.affected_resources.size(); i++) {
             if (i > 0) {
               html << ", ";
             }
@@ -1054,7 +1054,7 @@ ComplianceReporter::PolicySummaryReport ComplianceReporter::generatePolicySummar
     PolicySummaryReport report;
     auto all_rules = policy_mgr.listRules();
     
-    report.total_rules = static_cast<int>(all_rules.size());
+    report.total_rules = all_rules.size();
     report.generated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     
     for (const auto& rule : all_rules) {
@@ -1172,7 +1172,7 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
         }
     }
     
-    THEMIS_INFO("Generated access control matrix with {} entries",static_cast<int>(matrix.entries.size()));
+    THEMIS_INFO("Generated access control matrix with {} entries",matrix.entries.size());
     
     return matrix;
 }
@@ -1291,7 +1291,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         }
     }
     
-    report.total_changes = static_cast<int>(report.changes.size());
+    report.total_changes = report.changes.size();
     
     THEMIS_INFO("Generated change history report: {} changes", report.total_changes);
     
@@ -1323,7 +1323,7 @@ std::string csvEscape(const std::string& val) {
       return val;
     }
     std::string out = {};
-    out.reserve(static_cast<int>(val.size()) + 2);
+    out.reserve(val.size() + 2);
     out += '"';
     for (char c : val) {
         if (c == '"') out += '"'; // RFC 4180: escape double-quote by doubling
@@ -1520,7 +1520,7 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
         page_streams.back() += std::to_string(static_cast<int>(MARGIN)) + " " +
                                std::to_string(static_cast<int>(y)) + " Td\n";
         // Truncate very long lines
-        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }
@@ -1540,7 +1540,7 @@ std::string buildPDF(const std::string& title, const std::vector<std::string>& l
     //   3+P..3+2P-1: Content streams
     //   3+2P: Font F1 (Helvetica-Bold)
     //   3+2P+1: Font F2 (Helvetica)
-    int P = static_cast<int>(page_streams.size());
+    int P = page_streams.size();
     int base_page   = 3;
     int base_stream = base_page + P;
     int font_f1_id  = base_stream + P;
@@ -1727,11 +1727,11 @@ std::string ComplianceReporter::CcpaReport::toCSV() const {
     csv << "opt_out_count," << opt_out_count << "\n";
     csv << "ccpa_compliant_rules," << ccpa_compliant_rules << "\n";
     csv << "ccpa_non_compliant_rules," << ccpa_non_compliant_rules << "\n";
-    csv << "missing_right_to_know_count," <<static_cast<int>(missing_right_to_know.size()) << "\n";
-    csv << "missing_right_to_delete_count," <<static_cast<int>(missing_right_to_delete.size()) << "\n";
-    csv << "missing_opt_out_of_sale_count," <<static_cast<int>(missing_opt_out_of_sale.size()) << "\n";
-    csv << "missing_data_portability_count," <<static_cast<int>(missing_data_portability.size()) << "\n";
-    csv << "third_party_disclosure_count," <<static_cast<int>(third_party_disclosure_rule_ids.size()) << "\n";
+    csv << "missing_right_to_know_count," <<missing_right_to_know.size() << "\n";
+    csv << "missing_right_to_delete_count," <<missing_right_to_delete.size() << "\n";
+    csv << "missing_opt_out_of_sale_count," <<missing_opt_out_of_sale.size() << "\n";
+    csv << "missing_data_portability_count," <<missing_data_portability.size() << "\n";
+    csv << "third_party_disclosure_count," <<third_party_disclosure_rule_ids.size() << "\n";
     csv << "generated_at," << generated_at << "\n";
     return csv.str();
 }
@@ -1821,7 +1821,7 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
         "CCPA report: {} compliant, {} non-compliant rules; {} opt-out subjects; "
         "{} third-party disclosure candidates",
         report.ccpa_compliant_rules, report.ccpa_non_compliant_rules,
-        report.opt_out_count,static_cast<int>(report.third_party_disclosure_rule_ids.size()));
+        report.opt_out_count,report.third_party_disclosure_rule_ids.size());
 
     return report;
 }

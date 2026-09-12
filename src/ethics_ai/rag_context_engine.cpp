@@ -126,13 +126,13 @@ RAGContextEngine::getBestPractices(const std::string &category, double min_satis
     std::vector<std::string> results = {};
 
     for (const auto &school : kSchools) {
-        if (static_cast<int>(results.size()) >= limit) {
+        if (results.size() >= limit) {
             break;
         }
         auto res = store_->getArgumentsByPhilosophy(school, {}, 50);
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
-                if (static_cast<int>(results.size()) >= limit) {
+                if (results.size() >= limit) {
                     break;
                 }
                 double strength_score = 0.5;
@@ -181,7 +181,7 @@ RAGContextEngine::vectorSemanticSearch(const std::vector<float> &query_embedding
         if (auto *args = std::get_if<std::vector<EthicalArgument>>(&res)) {
             for (const auto &arg : *args) {
                 std::vector<float> arg_emb = generateEmbedding(arg.content);
-                if (static_cast<int>(arg_emb.size()) != static_cast<int>(query_embedding.size())) {
+                if (arg_emb.size() != query_embedding.size()) {
                     continue;
                 }
                 double dot = 0.0, qnorm = 0.0, anorm = 0.0;
@@ -297,7 +297,7 @@ double RAGContextEngine::calculateTextSimilarity(const std::string &text1, const
             ++intersection_count;
         }
     }
-    size_t union_count = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection_count;
+    size_t union_count = set1.size() + set2.size() - intersection_count;
     return union_count > 0 ? static_cast<double>(intersection_count) / union_count : 0.0;
 }
 

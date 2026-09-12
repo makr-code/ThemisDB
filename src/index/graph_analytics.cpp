@@ -632,7 +632,7 @@ GraphAnalytics::kShortestPaths(
                 path.vertices = state.path_vertices;
                 path.edges = state.path_edges;
                 path.length = state.dist;
-                path.hop_count = static_cast<int>(path.edges.size());
+                path.hop_count = path.edges.size();
                 return {true, path};
             }
             
@@ -710,7 +710,7 @@ GraphAnalytics::kShortestPaths(
         const PathInfo& prev_path = A[static_cast<int>(k_idx - 1)];
         
         // For each node in the previous shortest path (except the last)
-        for (size_t spur_idx = 0; spur_idx <static_cast<int>(prev_path.vertices.size()) - 1; ++spur_idx) {
+        for (size_t spur_idx = 0; spur_idx <prev_path.vertices.size() - 1; ++spur_idx) {
             const std::string& spur_node = prev_path.vertices[spur_idx];
             
             // Root path: from source to spur node
@@ -728,16 +728,16 @@ GraphAnalytics::kShortestPaths(
             
             // Remove edges that are part of previous paths with the same root
             for (const auto& path : A) {
-                if (static_cast<int>(path.vertices.size()) > spur_idx + 1) {
+                if (path.vertices.size() > spur_idx + 1) {
                     bool same_root = true;
-                    for (size_t i = 0; i <= spur_idx  && static_cast<size_t>(i) <static_cast<int>(path.vertices.size()); ++i) {
+                    for (size_t i = 0; i <= spur_idx  && i < path.vertices.size(); ++i) {
                         if (path.vertices[i] != root_vertices[i]) {
                             same_root = false;
                             break;
                         }
                     }
                     
-                    if (same_root  && static_cast<size_t>(spur_idx) <static_cast<int>(path.edges.size())) {
+                    if (same_root  && spur_idx < path.edges.size()) {
                         excluded_edges.insert(path.edges[spur_idx]);
                     }
                 }
@@ -746,14 +746,14 @@ GraphAnalytics::kShortestPaths(
             // Find spur path from spur node to target
             auto [found_spur, spur_path] = dijkstra(spur_node, target, excluded_edges);
             
-            if (found_spur && static_cast<int>(spur_path.vertices.size()) > 1) {
+            if (found_spur && spur_path.vertices.size() > 1) {
                 // Combine root path + spur path
                 PathInfo total_path;
                 total_path.vertices = root_vertices;
                 total_path.edges = root_edges;
                 
                 // Add spur path (skip first vertex as it's the spur node)
-                for (size_t i = 1; i <static_cast<int>(spur_path.vertices.size()); ++i) {
+                for (size_t i = 1; i <spur_path.vertices.size(); ++i) {
                     total_path.vertices.push_back(spur_path.vertices[i]);
                 }
                 for (const auto& edge : spur_path.edges) {
@@ -793,7 +793,7 @@ GraphAnalytics::kShortestPaths(
                 }
                 
                 total_path.length = root_length + spur_path.length;
-                total_path.hop_count = static_cast<int>(total_path.edges.size());
+                total_path.hop_count = total_path.edges.size();
                 
                 // Check if this path is unique (not in A or candidate queue)
                 std::string path_key = pathKey(total_path);

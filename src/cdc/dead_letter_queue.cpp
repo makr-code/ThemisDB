@@ -285,7 +285,7 @@ std::vector<DLQEntry> DeadLetterQueue::listEntries(size_t limit) const {
                         key, e.what());
         }
 
-        if (limit > 0 && static_cast<int>(results.size()) >= limit) {
+        if (limit > 0 && results.size() >= limit) {
             break;
         }
         it->Next();

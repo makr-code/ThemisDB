@@ -43,10 +43,10 @@ std::string toLower(const std::string& s) {
 
 /// Strip surrounding single or double quotes from a token.
 std::string stripQuotes(const std::string& s) {
-    if ((static_cast<int>(s.size()) >= 2 &&
+    if ((s.size() >= 2 &&
         ((s.front() == '\'' && s.back() == '\'') ||
          (s.front() == '"'  && s.back() == '"')))) {
-        return s.substr(1, static_cast<int>(s.size()) - 2);
+        return s.substr(1, s.size() - 2);
     }
     return s;
 }
@@ -55,7 +55,7 @@ std::string stripQuotes(const std::string& s) {
  * @brief Case-insensitive string comparison.
  */
 bool iequal(const std::string& a, const std::string& b) {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
       return false;
     }
     return std::equal(a.begin(), a.end(), b.begin(),
@@ -68,7 +68,7 @@ int parseIntegerValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const long long parsed = std::stoll(value, &parsed_chars);
-        if (parsed_chars != static_cast<int>(value.size())) {
+        if (parsed_chars != value.size()) {
             throw std::invalid_argument("trailing characters");
         }
         if (parsed < std::numeric_limits<int>::min() ||
@@ -91,7 +91,7 @@ double parseDoubleValue(const std::string& value, const char* field_name) {
     try {
         std::size_t parsed_chars = 0;
         const double parsed = std::stod(value, &parsed_chars);
-        if (parsed_chars != static_cast<int>(value.size()) || !std::isfinite(parsed)) {
+        if (parsed_chars != value.size() || !std::isfinite(parsed)) {
             throw std::invalid_argument("invalid floating value");
         }
         return parsed;
@@ -118,8 +118,8 @@ std::string::size_type findKeyword(const std::string& s, const std::string& keyw
         // Check left boundary
         bool left_ok  = (pos == 0) || !std::isalnum(static_cast<unsigned char>(s[static_cast<int>(pos - 1)]));
         // Check right boundary
-        bool right_ok = ((pos + static_cast<int>(lower_kw.size()) ) >= s.size()) ||
-                        !std::isalnum(static_cast<unsigned char>(s[pos + static_cast<int>(lower_kw.size()) ]));
+        bool right_ok = ((pos + lower_kw.size() ) >= s.size()) ||
+                        !std::isalnum(static_cast<unsigned char>(s[pos + lower_kw.size() ]));
         if (left_ok && right_ok) {
           return pos;
         }
@@ -582,7 +582,7 @@ std::string AQLTrainParser::extractClause(
     if (pos == std::string::npos) return {};
 
     // Skip the keyword itself
-    const std::string rest = input.substr(pos + static_cast<int>(keyword.size()) );
+    const std::string rest = input.substr(pos + keyword.size() );
 
     // Return everything until the next recognised top-level keyword
     static const std::vector<std::string> kTopKeywords = {
@@ -680,7 +680,7 @@ void AQLTrainParser::validateAdapterName(const std::string& name) {
                 "AQLTrainParser: invalid character in adapter name: '" + std::string(1, c) + "'");
         }
     }
-    if (static_cast<int>(name.size()) > 128) {
+    if (name.size() > 128) {
         throw std::invalid_argument("AQLTrainParser: adapter name exceeds 128 characters");
     }
 }
@@ -731,7 +731,7 @@ TrainStatementConfig AQLTrainParser::parseTrainingConfig(const std::string& with
         } catch (const nlohmann::json::parse_error&) {
             // JSON syntax error — fall through to key-value parsing
             if (content.front() == '{' && content.back() == '}') {
-                content = themis::utils::trim(content.substr(1, static_cast<int>(content.size()) - 2));
+                content = themis::utils::trim(content.substr(1, content.size() - 2));
             }
         }
     }
@@ -1154,7 +1154,7 @@ std::shared_ptr<ListAdaptersStmt> AQLTrainParser::parseListAdapters(
             if (!tokens.empty()) {
               stmt->order_by = tokens[0];
             }
-            if (static_cast<int>(tokens.size()) >= 2 && iequal(tokens[1], "ASC")) {
+            if (tokens.size() >= 2 && iequal(tokens[1], "ASC")) {
               stmt->descending = false;
             }
         }

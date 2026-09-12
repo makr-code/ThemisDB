@@ -104,7 +104,7 @@ double computeMean(const std::vector<double> &v) {
 }
 
 double computeVarianceFromMean(const std::vector<double> &v, double mean) {
-    if (static_cast<int>(v.size()) < 2) {
+    if (v.size() < 2) {
         return 0.0;
     }
     double acc = 0.0;
@@ -123,12 +123,12 @@ double computeMedian(std::vector<double> v) { // takes by value – sorted local
     if (v.empty()) {
         return 0.0;
     }
-    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2, v.end());
+    std::nth_element(v.begin(), v.begin() + v.size() / 2, v.end());
     if (v.size() % 2 == 1) {
         return v[v.size() / 2];
     }
     double hi = v[v.size() / 2];
-    std::nth_element(v.begin(), v.begin() + static_cast<int>(v.size()) / 2 - 1, v.end());
+    std::nth_element(v.begin(), v.begin() + v.size() / 2 - 1, v.end());
     return (v[v.size() / 2 - 1] + hi) * 0.5;
 }
 
@@ -201,7 +201,7 @@ std::vector<double> column(const FeatureMatrix &fm, size_t col) {
 
     out.reserve(fm.rows.size());
     for (const auto &row : fm.rows) {
-        if (static_cast<int>(row.size()) > col) {
+        if (row.size() > col) {
             out.push_back(row[col]);
         }
     }
@@ -295,7 +295,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
             }
         }
 
-        if (static_cast<int>(idx.size()) <= 1 || h >= height_limit) {
+        if (idx.size() <= 1 || h >= height_limit) {
             // leaf – split_feature remains -1
             continue;
         }
@@ -361,7 +361,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
     int node  = 0;
     int depth = 0;
-    while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
+    while (node >= 0  && static_cast<size_t>(node) < tree.nodes.size()) {
         const IFNode &n = tree.nodes[static_cast<size_t>(node)];
         if (n.split_feature < 0) {
             // leaf: add adjustment for remaining points
@@ -404,7 +404,7 @@ std::vector<std::pair<double, size_t>> knn(const std::vector<std::vector<double>
     for (size_t i = 0; i < train.size(); ++i) {
         dists.emplace_back(euclidean(train[i], query), i);
     }
-    int kk = std::min(k, static_cast<int>(dists.size()));
+    int kk = std::min(k, dists.size());
     std::partial_sort(dists.begin(), dists.begin() + kk, dists.end());
     dists.resize(static_cast<size_t>(kk));
     return dists;
@@ -487,7 +487,7 @@ struct AnomalyDetector::Impl {
     // ---- Per-feature anomaly scores ----
     std::vector<double> zscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(means.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
             c[i]      = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
@@ -496,7 +496,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> modZscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(medians.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
             c[i]       = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
@@ -505,7 +505,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> iqrContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <static_cast<int>(q1.size()); ++i) {
+        for (size_t i = 0; i < x.size() && i < q1.size(); ++i) {
             double fence_lo = q1[i] - 1.5 * iqr[i];
             double fence_hi = q3[i] + 1.5 * iqr[i];
             double range    = (iqr[i] > 1e-10) ? iqr[i] : 1.0;
@@ -568,7 +568,7 @@ struct AnomalyDetector::Impl {
         if (lof_train.empty()) {
             return 0.0;
         }
-        int k           = std::min(static_cast<int>(cfg.k_neighbors), static_cast<int>(lof_train.size()));
+        int k           = std::min(static_cast<int>(cfg.k_neighbors), lof_train.size());
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) {
             return 0.0;
@@ -657,14 +657,14 @@ struct AnomalyDetector::Impl {
         }
 
         if (cfg.method == AnomalyMethod::ISOLATION_FOREST) {
-            int sub_size = std::min(cfg.max_samples, static_cast<int>(data.size()));
+            int sub_size = std::min(cfg.max_samples, data.size());
             int hl       = static_cast<int>(std::ceil(std::log2(static_cast<double>(sub_size))));
             iforest_c_n  = iforestC(static_cast<double>(sub_size));
 
             std::mt19937 rng(42);
             forest.clear();
             forest.reserve(static_cast<size_t>(cfg.n_estimators));
-            std::uniform_int_distribution<uint64_t> idx_dist(0, static_cast<int>(data.size()) - 1);
+            std::uniform_int_distribution<uint64_t> idx_dist(0, data.size() - 1);
 
             for (int t = 0; t < cfg.n_estimators; ++t) {
                 std::vector<size_t> sample(static_cast<size_t>(sub_size));
@@ -682,7 +682,7 @@ struct AnomalyDetector::Impl {
                 lof_train.push_back(impl_extractForLof(p));
             }
 
-            int k = std::min(cfg.k_neighbors, static_cast<int>(lof_train.size()));
+            int k = std::min(cfg.k_neighbors, lof_train.size());
             lof_lrd.resize(lof_train.size(), 1.0);
             lof_max = 1.0;
 
@@ -693,7 +693,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
+                if (neighbours.size() > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -715,7 +715,7 @@ struct AnomalyDetector::Impl {
                 neighbours.erase(std::remove_if(neighbours.begin(), neighbours.end(),
                                                 [i](const auto &pr) { return pr.second == i; }),
                                  neighbours.end());
-                if (static_cast<int>(neighbours.size()) > static_cast<size_t>(k)) {
+                if (neighbours.size() > static_cast<size_t>(k)) {
                     neighbours.resize(static_cast<size_t>(k));
                 }
                 if (neighbours.empty()) {
@@ -746,7 +746,7 @@ struct AnomalyDetector::Impl {
         for (const auto &tree : forest) {
             int node  = 0;
             int depth = 0;
-            while (node >= 0  && static_cast<size_t>(node) < static_cast<int>(tree.nodes.size())) {
+            while (node >= 0  && static_cast<size_t>(node) < tree.nodes.size()) {
                 const IFNode &nd = tree.nodes[static_cast<size_t>(node)];
                 if (nd.split_feature < 0) {
                     break; // leaf
@@ -778,13 +778,13 @@ struct AnomalyDetector::Impl {
         if (lof_train.empty()) {
             return contrib;
         }
-        int k           = std::min(static_cast<int>(cfg.k_neighbors), static_cast<int>(lof_train.size()));
+        int k           = std::min(static_cast<int>(cfg.k_neighbors), lof_train.size());
         auto neighbours = knn(lof_train, x, k);
         if (neighbours.empty()) {
             return contrib;
         }
         for (const auto &[dist, idx] : neighbours) {
-            for (size_t f = 0; f < n_features  && static_cast<size_t>(f) < lof_train[idx].size(); ++f) {
+            for (size_t f = 0; f < n_features && f < lof_train[idx].size(); ++f) {
                 double d = x[f] - lof_train[idx][f];
                 contrib[f] += d * d;
             }
@@ -813,7 +813,7 @@ struct AnomalyDetector::Impl {
             auto sub               = std::make_unique<AnomalyDetector>(sub_cfg);
             sub->train(data);
             sub_detectors.push_back(std::move(sub));
-            double w = (i <static_cast<int>(cfg.ensemble_weights.size())) ? cfg.ensemble_weights[i] : 1.0;
+            double w = (i <cfg.ensemble_weights.size()) ? cfg.ensemble_weights[i] : 1.0;
             sub_weights.push_back(w);
         }
     }
@@ -1208,7 +1208,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         ++points_seen_;
 
         window_.push_back(point);
-        while (static_cast<int>(window_.size()) > config_.window_size) {
+        while (window_.size() > config_.window_size) {
             window_.pop_front();
         }
 

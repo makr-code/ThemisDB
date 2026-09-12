@@ -240,7 +240,7 @@ std::pair<bool,bool> cpuid_detect_amd_sev()
 std::vector<uint8_t> sha256(const std::vector<uint8_t>& data)
 {
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
-    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
+    SHA256(data.data(),data.size(), digest.data());
     return digest;
 }
 
@@ -272,7 +272,7 @@ void aes256gcm_encrypt(
     int len = 0;
     if (!plaintext.empty()) {
         if (EVP_EncryptUpdate(ctx.get(), ciphertext_out.data(), &len,
-                              plaintext.data(), static_cast<int>(plaintext.size())) != 1)
+                              plaintext.data(), plaintext.size()) != 1)
             throw std::runtime_error("ConfidentialComputing: EVP_EncryptUpdate failed");
     }
     int final_len = 0;
@@ -292,10 +292,10 @@ std::vector<uint8_t> aes256gcm_decrypt(
     const std::vector<uint8_t>& ciphertext,
     const std::vector<uint8_t>& tag)
 {
-    if (static_cast<int>(iv.size()) != 12) {
+    if (iv.size() != 12) {
       throw std::runtime_error("ConfidentialComputing: invalid IV length");
     }
-    if (static_cast<int>(tag.size()) != 16) {
+    if (tag.size() != 16) {
       throw std::runtime_error("ConfidentialComputing: invalid tag length");
     }
 
@@ -317,7 +317,7 @@ std::vector<uint8_t> aes256gcm_decrypt(
     int len = 0;
     if (!ciphertext.empty()) {
         if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len,
-                              ciphertext.data(), static_cast<int>(ciphertext.size())) != 1)
+                              ciphertext.data(), ciphertext.size()) != 1)
             throw std::runtime_error("ConfidentialComputing: EVP_DecryptUpdate failed");
     }
     if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, 16,
@@ -347,7 +347,7 @@ public:
     // lifetime without external dependencies.
     explicit ConfidentialComputingBase(TeeType tee_type) : tee_type_(tee_type)
     {
-        if (RAND_bytes(sealing_key_.data(), static_cast<int>(sealing_key_.size())) != 1)
+        if (RAND_bytes(sealing_key_.data(), sealing_key_.size()) != 1)
             throw std::runtime_error("ConfidentialComputing: failed to generate sealing key");
     }
 
@@ -463,7 +463,7 @@ protected:
         // On non-driver systems return zeros so seal/unseal still work.
         std::vector<uint8_t> zeros(64, 0);
         auto rpt = getAttestationReport(zeros);
-        if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 176) {
+        if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 176) {
             // MRTD is at offset 128, length 48 bytes in the TDREPORT structure
             std::vector<uint8_t> mrtd(rpt.raw_report.begin() + 128,
                                       rpt.raw_report.begin() + 176);
@@ -564,7 +564,7 @@ protected:
         if (tee_type_ == TeeType::AMD_SEV_SNP) {
             std::vector<uint8_t> zeros(64, 0);
             auto rpt = getAttestationReport(zeros);
-            if (!rpt.raw_report.empty() && static_cast<int>(rpt.raw_report.size()) >= 0x60 + 48) {
+            if (!rpt.raw_report.empty() && rpt.raw_report.size() >= 0x60 + 48) {
                 std::vector<uint8_t> meas(rpt.raw_report.begin() + 0x60,
                                           rpt.raw_report.begin() + 0x60 + 48);
                 return sha256(meas);

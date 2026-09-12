@@ -288,7 +288,7 @@ bool TokenBucketRateLimiter::redisConnect() {
 
     std::unique_lock<std::mutex> lk(redis_pool_.pool_mu);
     // Grow or replenish the pool to pool_size slots.
-    if (static_cast<int>(redis_pool_.slots.size()) < pool_size) {
+    if (redis_pool_.slots.size() < pool_size) {
         redis_pool_.slots.resize(pool_size);
     }
     int healthy = 0;
@@ -534,7 +534,7 @@ bool PerClientRateLimiter::allowRequest(
     auto it = client_buckets_.find(client_id);
     if (it == client_buckets_.end()) {
         // Enforce max clients limit
-        if (static_cast<int>(client_buckets_.size()) >= config_.max_clients) {
+        if (client_buckets_.size() >= config_.max_clients) {
             THEMIS_WARN("PerClientRateLimiter: Max clients ({}) reached, rejecting new client: {}",
                         config_.max_clients, client_id);
             return false;
@@ -589,7 +589,7 @@ PerClientRateLimiter::getClientMetrics(const std::string& client_id) const {
 
 size_t PerClientRateLimiter::getActiveClients() const {
     std::lock_guard<std::mutex> lock(clients_mutex_);
-    return static_cast<int>(client_buckets_.size());
+    return client_buckets_.size();
 }
 
 void PerClientRateLimiter::cleanupIdleClients() {
