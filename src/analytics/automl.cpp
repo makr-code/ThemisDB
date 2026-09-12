@@ -2193,7 +2193,7 @@ static TrainingCoreResult doTrainCore(const std::vector<DataPoint> &data, AutoML
     int max_trials  = std::max(1, config.max_trials);
 
     // We evenly distribute trials across algorithms
-    int trials_per_algo = std::max(1, max_trials / algos.size());
+    int trials_per_algo = std::max(1, max_trials / static_cast<int>(algos.size()));
 
     for (ModelAlgorithm algo : algos) {
         auto grid = defaultHPGrid(algo);

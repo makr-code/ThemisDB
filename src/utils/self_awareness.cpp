@@ -24,6 +24,13 @@
 #ifdef _WIN32
     #include <windows.h>
     #include <psapi.h>
+#elif defined(__APPLE__)
+    #include <sys/sysctl.h>
+    #include <sys/statvfs.h>
+    #include <sys/time.h>
+    #include <mach/mach.h>
+    #include <unistd.h>
+    #include <stdlib.h>
 #else
     #include <sys/sysinfo.h>
     #include <sys/statvfs.h>
@@ -255,6 +262,68 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
         }
     }
     
+#elif defined(__APPLE__)
+    // macOS implementation using sysctl and Mach APIs
+    {
+        // Total physical memory via sysctl
+        uint64_t mem_total = 0;
+        size_t size = sizeof(mem_total);
+        if (sysctlbyname("hw.memsize", &mem_total, &size, nullptr, 0) == 0) {
+            metrics.memory_total_bytes = mem_total;
+        }
+
+        // Available/used memory via mach host statistics
+        vm_statistics64_data_t vm_stat;
+        mach_msg_type_number_t count = HOST_VM_INFO64_COUNT;
+        if (host_statistics64(mach_host_self(), HOST_VM_INFO64,
+                              reinterpret_cast<host_info64_t>(&vm_stat), &count) == KERN_SUCCESS) {
+            const uint64_t page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
+            metrics.memory_available_bytes = vm_stat.free_count * page_size;
+            metrics.memory_used_bytes = metrics.memory_total_bytes - metrics.memory_available_bytes;
+            if (metrics.memory_total_bytes > 0) {
+                metrics.memory_usage_percent =
+                    static_cast<double>(metrics.memory_used_bytes) / metrics.memory_total_bytes;
+            }
+        }
+
+        // Load averages
+        double loads[3] = {0.0, 0.0, 0.0};
+        if (getloadavg(loads, 3) == 3) {
+            metrics.cpu_load_1min  = loads[0];
+            metrics.cpu_load_5min  = loads[1];
+            metrics.cpu_load_15min = loads[2];
+        }
+
+        // Uptime via sysctl kern.boottime
+        struct timeval boottime;
+        size_t btsz = sizeof(boottime);
+        if (sysctlbyname("kern.boottime", &boottime, &btsz, nullptr, 0) == 0) {
+            metrics.uptime_seconds =
+                static_cast<uint64_t>(std::time(nullptr) - boottime.tv_sec);
+        }
+    }
+
+    // Disk usage (statvfs is POSIX; available on macOS)
+    {
+        struct statvfs st;
+        const char* path = "/var/lib/themisdb";
+        if (statvfs(path, &st) != 0) { statvfs("/tmp", &st); }
+        metrics.disk_total_bytes = st.f_blocks * st.f_frsize;
+        metrics.disk_available_bytes = st.f_bavail * st.f_frsize;
+        metrics.disk_used_bytes = metrics.disk_total_bytes - metrics.disk_available_bytes;
+        if (metrics.disk_total_bytes > 0) {
+            metrics.disk_usage_percent =
+                static_cast<double>(metrics.disk_used_bytes) / metrics.disk_total_bytes;
+        }
+    }
+
+    metrics.thread_count = std::thread::hardware_concurrency();
+    const unsigned int hw = std::thread::hardware_concurrency();
+    metrics.cpu_usage_percent = (hw > 0) ? metrics.cpu_load_1min / hw : 0.0;
+
+    // fd count: getdtablesize() returns the soft limit (approximate open fds)
+    metrics.open_file_descriptors = static_cast<uint32_t>(getdtablesize());
+
 #else
     // Linux implementation using system calls
     struct sysinfo si;

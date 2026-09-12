@@ -729,7 +729,7 @@ ArimaParams fitARIMA(const std::vector<double> &y, int p, int d, int q) {
     }
 
     // AR coefficients via Yule-Walker
-    int actual_p = std::min(p, yc.size() - 1);
+    int actual_p = std::min(p, static_cast<int>(yc.size()) - 1);
     if (actual_p > 0) {
         params.ar_coeffs = yuleWalker(yc, actual_p);
     } else {

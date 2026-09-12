@@ -780,8 +780,8 @@ void ProcessPatternMatcher::clearCache() {
 
 int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::string> &a,
                                                     const std::vector<std::string> &b) const {
-    const int m = a.size();
-    const int n = b.size();
+    const int m = static_cast<int>(a.size());
+    const int n = static_cast<int>(b.size());
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {

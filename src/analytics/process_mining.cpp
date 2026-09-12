@@ -663,7 +663,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + t.events.size(); });
+                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
 
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -779,7 +779,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + t.events.size(); });
+                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
 
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
