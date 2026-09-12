@@ -282,6 +282,8 @@ private:
     float       retrieval_min_score_{0.0f};
     bool        fail_open_{false};
     int         lint_max_staleness_days_{30};
+    int         splitter_max_tokens_{220};
+    int         splitter_overlap_tokens_{40};
     bool        has_wikipedia_license_{false};
 
     // Phase A in-memory store

@@ -1756,6 +1756,10 @@ set(THEMIS_INGESTION_SOURCES
 )
 
 set(THEMIS_NETWORK_SOURCES
+    # Execution module implementation required by HttpServer wiring.
+    ../src/execution/query_scheduler.cpp
+    ../src/execution/thread_pool_manager.cpp
+
     # HTTP Server (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_shutdown_manager.cpp>
@@ -1801,6 +1805,12 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
+    # AI plugin API handler used by HttpServer when LLM routes are enabled.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ai_plugin_api_handler.cpp>
+    # Scraper plugin API handler used by HttpServer when scraper plugin is enabled.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/server/scraper_plugin_api_handler.cpp>
+    # Encrypted storage API handler used by HttpServer when encrypted-storage plugin is enabled.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED}>>:../src/server/encrypted_storage_api_handler.cpp>
     # Maintenance Orchestrator (always compiled when HTTP server is on)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
