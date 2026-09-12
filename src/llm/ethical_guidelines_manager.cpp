@@ -47,8 +47,6 @@ EthicalGuidelinesManager::EthicalGuidelinesManager(const std::string& config_pat
     }
 }
 
-EthicalGuidelinesManager::~EthicalGuidelinesManager() {
-}
 
 bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
     std::lock_guard<std::mutex> lock(mutex_);

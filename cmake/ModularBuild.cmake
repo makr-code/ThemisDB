@@ -1578,6 +1578,7 @@ endif()
 # These work without llama.cpp integration and prevent circular module dependencies
 # The stub provides deterministic fallbacks for EmbeddedLLM, EmbeddedLLMManager, etc.
 set(THEMIS_LLM_API_SOURCES
+    ../src/llm/prompt_policy.cpp
     ../src/llm/llm_factory_stub.cpp
     ../src/llm/embedded_llm_stub.cpp
     ../src/llm/api/docs_assistant_adapter.cpp
