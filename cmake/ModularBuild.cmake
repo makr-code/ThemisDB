@@ -722,6 +722,8 @@ set(THEMIS_QUERY_SOURCES
     
     # Analytics
     ../src/analytics/olap.cpp
+    ../src/gpu/query_accelerator.cpp
+    ../src/gpu/graph_cache.cpp
     # Data export: JSON/CSV always available; Arrow/Parquet/Feather when THEMIS_HAS_ARROW
     ../src/analytics/analytics_export.cpp
     ../src/analytics/arrow_export.cpp
@@ -2050,8 +2052,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/kernel_timeout_enforcer.cpp
         ../src/gpu/load_balancer.cpp
         ../src/gpu/tensor_buffer.cpp
-        ../src/gpu/query_accelerator.cpp
-        ../src/gpu/graph_cache.cpp
         ../src/gpu/training_loop.cpp
         ../src/gpu/rocm_backend.cpp
         ../src/gpu/cluster_topology.cpp

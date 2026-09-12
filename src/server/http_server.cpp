@@ -1266,7 +1266,7 @@ HttpServer::HttpServer(
     // Initialize Encrypted Storage API handler (production consumer route for user_storage_encrypted module).
 #ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     try {
-        auto enc_store = std::make_shared<themis::plugins::MultiLevelEncryptedStorage>();
+        auto enc_store = std::make_shared<themis::plugins::user_storage::MultiLevelEncryptedStorage>();
         encrypted_storage_api_ = std::make_unique<themis::server::EncryptedStorageApiHandler>(
             storage_,
             auth_,
@@ -5657,8 +5657,6 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
-#endif
-
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
     // Safe methods (GET, HEAD) and OPTIONS are always skipped.

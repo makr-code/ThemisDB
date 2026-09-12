@@ -167,12 +167,6 @@ static const EVP_MD* selectDigest(const std::string& algo){
     return EVP_sha256();
 }
 
-static std::string hex(const std::vector<uint8_t>& data){
-    static const char* d = "0123456789abcdef"; std::string out; out.reserve(data.size()*2);
-    for(auto b: data){ out.push_back(d[(b>>4)&0xF]); out.push_back(d[b&0xF]); }
-    return out;
-}
-
 static std::string b64Encode(const std::vector<uint8_t>& data){
     TSA_BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
     TSA_BIO_ptr mem_ptr(BIO_new(BIO_s_mem()));
