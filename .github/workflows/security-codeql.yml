@@ -275,7 +275,6 @@ jobs:
         with:
           category: "/language:c-cpp"
           output: codeql-results
-          upload: never
           ram: 6144
           threads: 4
 
@@ -325,7 +324,6 @@ jobs:
         with:
           category: "/language:csharp"
           output: codeql-results-csharp
-          upload: never
           ram: 4096
           threads: 2
 
@@ -371,6 +369,5 @@ jobs:
         with:
           category: "/language:rust"
           output: codeql-results-rust
-          upload: never
           ram: 4096
           threads: 2
