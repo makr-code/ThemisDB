@@ -22,10 +22,16 @@
 #include <cstdlib>
 #include <fstream>
 #include <functional>
-#include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+
+#if defined(HAVE_YAML_CPP) || defined(THEMIS_HAS_YAML_CPP) || __has_include(<yaml-cpp/yaml.h>)
+#include <yaml-cpp/yaml.h>
+#define THEMIS_UTILS_HAS_YAML_CPP 1
+#else
+#define THEMIS_UTILS_HAS_YAML_CPP 0
+#endif
 
 namespace {
 
@@ -251,6 +257,10 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 }
 
 bool PIIDetector::loadFromYaml(const std::string& path) {
+#if !THEMIS_UTILS_HAS_YAML_CPP
+    last_error_ = "yaml-cpp not available; YAML PII configuration loading is disabled";
+    return false;
+#else
     try {
         // Use ConfigPathResolver to handle both new and legacy paths
         std::string resolved = {};
@@ -371,6 +381,7 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
         last_error_ = std::string("Error loading YAML: ") + e.what();
         return false;
     }
+#endif
 }
 
 void PIIDetector::initializeDefaultEngine() {
@@ -611,4 +622,3 @@ std::vector<PIIFinding> PIIDetector::deduplicateFindings(
 }
 
 } // namespace themis::utils
-

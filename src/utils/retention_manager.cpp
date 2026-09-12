@@ -15,7 +15,13 @@
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
+
+#if defined(HAVE_YAML_CPP) || defined(THEMIS_HAS_YAML_CPP) || __has_include(<yaml-cpp/yaml.h>)
 #include <yaml-cpp/yaml.h>
+#define THEMIS_UTILS_HAS_YAML_CPP 1
+#else
+#define THEMIS_UTILS_HAS_YAML_CPP 0
+#endif
 
 namespace vcc {
 
@@ -290,6 +296,10 @@ RetentionManager::RetentionStats RetentionManager::getPolicyStats(const std::str
 }
 
 bool RetentionManager::loadPolicies(const std::string& config_path) {
+#if !THEMIS_UTILS_HAS_YAML_CPP
+    last_error_ = "yaml-cpp not available; retention policy loading is disabled";
+    return false;
+#else
     try {
         YAML::Node config = YAML::LoadFile(config_path);
 
@@ -344,6 +354,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
         spdlog::error("RetentionManager: {}", last_error_);
         return false;
     }
+#endif
 }
 
 void RetentionManager::logAction(const RetentionAction& action) {

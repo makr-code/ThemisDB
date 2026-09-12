@@ -12,7 +12,6 @@
 
 #include "utils/self_awareness.h"
 #include <stdexcept>
-#include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -20,6 +19,13 @@
 #include <ctime>
 #include <thread>
 #include <spdlog/spdlog.h>
+
+#if defined(HAVE_YAML_CPP) || defined(THEMIS_HAS_YAML_CPP) || __has_include(<yaml-cpp/yaml.h>)
+#include <yaml-cpp/yaml.h>
+#define THEMIS_UTILS_HAS_YAML_CPP 1
+#else
+#define THEMIS_UTILS_HAS_YAML_CPP 0
+#endif
 
 #ifdef _WIN32
     #include <windows.h>
@@ -36,7 +42,11 @@ namespace themis::util {
 // Load configuration from YAML
 SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yaml_path) {
     Config config;
-    
+
+#if !THEMIS_UTILS_HAS_YAML_CPP
+    (void)yaml_path;
+    return config;
+#else
     try {
         YAML::Node root = YAML::LoadFile(yaml_path);
         
@@ -82,8 +92,9 @@ SelfAwareness::Config SelfAwareness::Config::loadFromYAML(const std::string& yam
     } catch (const char *) {
         // Use defaults if config fails to load
     }
-    
+
     return config;
+#endif
 }
 
 // Constructor
@@ -681,4 +692,3 @@ nlohmann::json SelfAwareness::getStatistics() const {
 }
 
 } // namespace themis::util
-
