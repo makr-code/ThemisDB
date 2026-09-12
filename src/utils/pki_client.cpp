@@ -36,11 +36,17 @@
 #include <cstring>
 #include <cctype>
 #include <string_view>
-#include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <iomanip>
 #include <fmt/format.h>
+
+#if __has_include(<curl/curl.h>)
+#include <curl/curl.h>
+#define THEMIS_UTILS_HAS_CURL 1
+#else
+#define THEMIS_UTILS_HAS_CURL 0
+#endif
 
 namespace themis {
 namespace utils {
@@ -354,6 +360,11 @@ static std::string generate_csr_pem(const PKIConfig& cfg) {
 // Submits a PEM-encoded PKCS#10 CSR to {ca_url}/sign-csr and returns the
 // signed certificate PEM on success.  Returns empty string on failure.
 static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string& csr_pem) {
+#if !THEMIS_UTILS_HAS_CURL
+    (void)cfg;
+    (void)csr_pem;
+    return {};
+#else
     if (cfg.ca_url.empty() || csr_pem.empty()) return {};
 
     std::string url = cfg.ca_url;
@@ -418,6 +429,7 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
     }
     std::cerr << "PKI CSR: CA response did not contain a certificate PEM\n";
     return {};
+#endif
 }
 
 // Extracts the serial number from a PEM-encoded certificate string.
@@ -481,6 +493,7 @@ static bool verify_cert_chain(const PKIConfig& cfg) {
 }
 
 // Configure CURL handle with certificate pinning
+#if THEMIS_UTILS_HAS_CURL
 [[nodiscard]] static bool configure_curl_pinning(CURL* curl, const PKIConfig* cfg) {
     if (!cfg || !cfg->enable_cert_pinning || cfg->pinned_cert_fingerprints.empty()) {
         return true; // Pinning disabled
@@ -499,6 +512,7 @@ static bool verify_cert_chain(const PKIConfig& cfg) {
         curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY, pinned_public_key->c_str());
     return pin_rc == CURLE_OK;
 }
+#endif
 
 VCCPKIClient::VCCPKIClient(PKIConfig cfg) : cfg_(std::move(cfg)) {}
 
@@ -528,6 +542,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     (void)nid_for_algorithm(res.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST signing first
+#if THEMIS_UTILS_HAS_CURL
     if (!cfg_.endpoint.empty()) {
         try {
             nlohmann::json req;
@@ -624,6 +639,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
             // ignore and fallback
         }
     }
+#endif
 
     // Try real RSA signing if key is available and hash length matches
     if ((!cfg_.key_path.empty()) && (expected_len == 0 || hash_bytes.size() == expected_len)) {
@@ -762,6 +778,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         (void)nid_for_algorithm(sig.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST verify first
+#if THEMIS_UTILS_HAS_CURL
     if (!cfg_.endpoint.empty()) {
         try {
             nlohmann::json req;
@@ -849,6 +866,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
             // ignore and fallback
         }
     }
+#endif
 
     // Try real RSA verify if certificate is available and hash length matches.
     // When trust_store_path is also configured, first validate the full X.509 chain
