@@ -188,7 +188,7 @@ jobs:
         run: |
           echo "  Installing macOS build dependencies via Homebrew..."
           brew update --quiet
-          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp
+          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp googletest
           echo "  ✅ Homebrew packages installed"
           cmake --version
           ninja --version
