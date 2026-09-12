@@ -266,6 +266,15 @@ jobs:
       run: |
         set -euo pipefail
         mkdir -p internal llama.cpp models vcpkg/downloads
+        touch internal/.gitkeep models/.gitkeep
+        git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+        git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+
+        test -f vcpkg/scripts/buildsystems/vcpkg.cmake
+        test -f whisper.cpp/CMakeLists.txt
+        test -f stable-diffusion.cpp/CMakeLists.txt
+        test -e ffmpeg
+        test -e external/GIUF
 
         if [ ! -f llama.cpp/CMakeLists.txt ]; then
           LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+"([^"]+)"/' cmake/Dependencies.cmake | head -n 1)"
@@ -296,6 +305,9 @@ jobs:
             fi
           fi
         fi
+
+        mkdir -p llama.cpp/models
+        touch llama.cpp/models/.gitkeep
 
         test -f llama.cpp/CMakeLists.txt
 

@@ -90,6 +90,8 @@ RUN set -eux; \
     echo "Architecture: ${ARCH} -> ${TRIPLET}"
 
 # Copy vcpkg configuration and overlay ports
+RUN mkdir -p /opt/vcpkg/downloads
+COPY vcpkg/downloads/ /opt/vcpkg/downloads/
 COPY vcpkg-configuration.json ./
 # Ensure overlay-ports directory exists before COPY so that any stale
 # GHA build-cache entry for this layer is invalidated on the first run
@@ -210,6 +212,11 @@ COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
 COPY ports ./ports
+COPY vcpkg ./vcpkg
+COPY whisper.cpp ./whisper.cpp
+COPY stable-diffusion.cpp ./stable-diffusion.cpp
+COPY ffmpeg ./ffmpeg
+COPY external ./external
 COPY plugins ./plugins
 COPY scripts ./scripts
 COPY tools ./tools
