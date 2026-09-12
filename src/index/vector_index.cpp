@@ -2228,7 +2228,7 @@ VectorIndexManager::searchKnnRadius(
 	const std::vector<std::string>* whitelistPks
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != dim_) {
+	if (query.size() != static_cast<size_t>(dim_)) {
 		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
@@ -2318,7 +2318,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	SecondaryIndexManager* secondaryIdx
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != dim_) {
+	if (query.size() != static_cast<size_t>(dim_)) {
 		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 

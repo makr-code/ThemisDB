@@ -57,6 +57,19 @@ static std::string joinPath(const std::string& dir, const std::string& file) {
 #endif
 }
 
+static std::string trimWhitespace(std::string value) {
+    const auto first = std::find_if_not(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+    if (first == value.end()) {
+        return "";
+    }
+    const auto last = std::find_if_not(value.rbegin(), value.rend(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    }).base();
+    return std::string(first, last);
+}
+
 } // anonymous namespace
 
 // ── USBVolumeHardening::computeVolumeHash ─────────────────────────────────────
@@ -349,4 +362,3 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
 
 } // namespace security
 } // namespace themis
-

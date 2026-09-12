@@ -314,7 +314,7 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || gpuIdx >= gpuIndices.size()) {
+        if (gpuIdx < 0 || static_cast<size_t>(gpuIdx) >= gpuIndices.size()) {
             THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
             return false;
         }
