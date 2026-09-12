@@ -90,8 +90,6 @@ RUN set -eux; \
     echo "Architecture: ${ARCH} -> ${TRIPLET}"
 
 # Copy vcpkg configuration and overlay ports
-RUN mkdir -p /opt/vcpkg/downloads
-COPY vcpkg/downloads/ /opt/vcpkg/downloads/
 COPY vcpkg-configuration.json ./
 # Ensure overlay-ports directory exists before COPY so that any stale
 # GHA build-cache entry for this layer is invalidated on the first run
