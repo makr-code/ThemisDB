@@ -1119,7 +1119,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t pos = 0;
-            while (static_cast<size_t>(pos) <inner.size()) {
+            while (pos < inner.size()) {
                 size_t comma = inner.find(',', pos);
                 std::string token = (comma == std::string::npos) ? inner.substr(pos) : inner.substr(pos, comma - pos);
                 // trim token
@@ -1167,7 +1167,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t start = 0;
-            while (static_cast<size_t>(start) <inner.size()) {
+            while (start < inner.size()) {
                 size_t comma = inner.find(',', start);
                 std::string token = (comma == std::string::npos) ? inner.substr(start) : inner.substr(start, comma - start);
                 // trim token

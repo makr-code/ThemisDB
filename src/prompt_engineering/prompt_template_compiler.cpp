@@ -236,7 +236,7 @@ static std::vector<detail::ASTNodePtr> parse(
 {
     std::vector<detail::ASTNodePtr> nodes;
 
-    while (static_cast<size_t>(idx) <tokens.size()) {
+    while (idx < tokens.size()) {
         const Token& tok = tokens[idx];
 
         switch (tok.kind) {

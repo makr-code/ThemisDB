@@ -1301,7 +1301,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             ft = DetectedFieldType::DOUBLE;
         }
         // Defensive bounds check to prevent potential out-of-bounds access
-        if (static_cast<size_t>(i) <columns.size()) {
+        if (i < columns.size()) {
             detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
         } else {
             THEMIS_WARN("Column index {} exceeds columns.size() = {}", i,columns.size());

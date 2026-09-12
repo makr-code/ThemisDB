@@ -184,7 +184,7 @@ static bool findJsonStringValueRe(const std::string& json,
     ++pos;
     value.clear();
     bool esc = false;
-    while (static_cast<size_t>(pos) <json.size()) {
+    while (pos < json.size()) {
         char c = json[pos++];
         if (esc) {
             switch (c) {

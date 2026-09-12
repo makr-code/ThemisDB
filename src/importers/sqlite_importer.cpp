@@ -800,7 +800,7 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (static_cast<size_t>(k) <col_def.size()) {
+        while (k < col_def.size()) {
             char c = col_def[k];
             if (c == '(') {
                 ++tdep; col_type += c;
@@ -901,7 +901,7 @@ bool SQLiteImporter::parseInsert(const std::string& sql,
     std::string values_payload = match[5].str();
     size_t pos = 0;
 
-    while (static_cast<size_t>(pos) <values_payload.size()) {
+    while (pos < values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -1087,7 +1087,7 @@ json SQLiteImporter::convertRowToEntity(const TableSchema& schema,
                                         const std::vector<std::string>& values) {
     json entity;
     entity["_type"] = schema.name;
-    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <schema.columns.size(); ++i) {
+    for (size_t i = 0; i < values.size()  && i < schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
     return entity;

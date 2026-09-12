@@ -427,7 +427,7 @@ void EmbeddingProvider::evictCacheIfNeeded() {
     
     // Remove oldest 20%
     size_t to_remove = config_.max_cache_entries / 5;
-    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) <entries.size(); ++i) {
+    for (size_t i = 0; i < to_remove  && i < entries.size(); ++i) {
         cache_.erase(entries[i].first);
     }
     

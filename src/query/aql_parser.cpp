@@ -236,7 +236,7 @@ public:
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
         
-        while (static_cast<size_t>(pos_) <input_.size()) {
+        while (pos_ < input_.size()) {
             skipWhitespace();
             if (pos_ >= input_.size()) {
               break;

@@ -485,7 +485,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // One shared detector instance for inline scanning of un-screened documents.
     security::PromptInjectionDetector inline_detector;
 
-    for (size_t i = 0; i < results.size()  && static_cast<size_t>(i) <inputs.size(); ++i) {
+    for (size_t i = 0; i < results.size()  && i < inputs.size(); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
 

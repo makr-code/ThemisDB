@@ -397,7 +397,7 @@ std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars)
 
     std::ostringstream wrapped = {};
     size_t start = 0;
-    while (static_cast<size_t>(start) <text.size()) {
+    while (start < text.size()) {
         size_t end = start + static_cast<size_t>(max_chars);
         if (end >= text.size()) {
             wrapped << text.substr(start);

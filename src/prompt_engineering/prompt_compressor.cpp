@@ -245,7 +245,7 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
     // from the end until we exceed budget.
     std::vector<size_t> kept_indices = {};
 
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <paragraphs.size(); ++i)
+    for (size_t i = 0; i < sys_end  && i < paragraphs.size(); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);
          i < paragraphs.size(); ++i)
@@ -298,7 +298,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     // Build result: system + summary placeholder + tail
     std::string result = {};
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <paragraphs.size(); ++i) {
+    for (size_t i = 0; i < sys_end  && i < paragraphs.size(); ++i) {
         if (!result.empty()) {
           result += "\n\n";
         }

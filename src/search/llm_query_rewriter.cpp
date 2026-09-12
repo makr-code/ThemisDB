@@ -183,7 +183,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {
             ++i;
         }
-        if (i > 0  && static_cast<size_t>(i) <line.size() &&
+        if (i > 0  && i < line.size() &&
             (line[i] == '.' || line[i] == ')' || line[i] == ':')) {
             ++i; // skip separator
             while (i < line.size() && line[i] == ' ') ++i; // skip space(s)

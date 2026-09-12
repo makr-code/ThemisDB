@@ -215,7 +215,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::sort(right.begin(), right.end(), keyFn(op.right_key_col));
 
     size_t li = 0, ri = 0;
-    while (li < left.size()  && static_cast<size_t>(ri) <right.size()) {
+    while (li < left.size()  && ri < right.size()) {
         const uint64_t lk = (op.left_key_col  < left[li].size())  ? left[li][op.left_key_col]   : UINT64_MAX;
         const uint64_t rk = (op.right_key_col < right[ri].size()) ? right[ri][op.right_key_col] : UINT64_MAX;
 
@@ -224,7 +224,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
 
         // Equal keys — collect all matching right rows for this key.
         size_t ri_start = ri;
-        while (static_cast<size_t>(ri) <right.size()) {
+        while (ri < right.size()) {
             const uint64_t rk2 = (op.right_key_col < right[ri].size())
                                       ? right[ri][op.right_key_col] : UINT64_MAX;
             if (rk2 != lk) {
@@ -232,7 +232,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++ri;
         }
-        while (static_cast<size_t>(li) <left.size()) {
+        while (li < left.size()) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;
             if (lk2 != lk) {

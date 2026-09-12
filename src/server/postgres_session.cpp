@@ -2136,7 +2136,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     std::string colsList = query.substr(colsStart + 1, colsEnd - colsStart - 1);
     std::vector<std::string> columns;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <colsList.size()) {
+    while (pos < colsList.size()) {
         size_t commaPos = colsList.find(',', pos);
         if (commaPos == std::string::npos) {
           commaPos = colsList.size();
@@ -2197,7 +2197,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
-    for (size_t i = 0; i < columns.size()  && static_cast<size_t>(i) <values.size(); ++i) {
+    for (size_t i = 0; i < columns.size()  && i < values.size(); ++i) {
         if (i > 0) {
           cypher += ", ";
         }

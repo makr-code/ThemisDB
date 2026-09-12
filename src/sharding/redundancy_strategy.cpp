@@ -582,7 +582,7 @@ void ReedSolomonCoder::gf_matrix_mul(
     result.assign(rows, 0);
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < matrix[i].size()  && static_cast<size_t>(j) <vec.size(); j++) {
+        for (size_t j = 0; j < matrix[i].size() && j < vec.size(); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -691,7 +691,7 @@ void CauchyReedSolomonCoder::gf_matrix_mul(
     
     for (size_t i = 0; i < rows; i++) {
         uint8_t sum = 0;
-        for (size_t j = 0; j < cols  && static_cast<size_t>(j) <vec.size(); j++) {
+        for (size_t j = 0; j < cols && j < vec.size(); j++) {
             sum ^= gf_mul(matrix[i][j], vec[j]);
         }
         result[i] = sum;
@@ -2029,7 +2029,7 @@ WriteResult RedundancyStrategy::writeStripe(
     written_shards.reserve(target_shards.size());
     failed_shards.reserve(target_shards.size());
     
-    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         
@@ -2161,7 +2161,7 @@ WriteResult RedundancyStrategy::writeParity(
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     
-    for (size_t i = 0; i < chunks.size()  && static_cast<size_t>(i) <target_shards.size(); ++i) {
+    for (size_t i = 0; i < chunks.size() && i < target_shards.size(); ++i) {
         const auto& chunk = chunks[i];
         const auto& shard_id = target_shards[i];
         bool is_parity = i >= data_shards;
@@ -3522,7 +3522,7 @@ bool RedundancyStrategy::recoverDocument(
         }
 
         uint32_t restored = 0;
-        for (size_t i = 0; i < shards.size()  && static_cast<size_t>(i) <all_chunks.size(); ++i) {
+        for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
             if (chunk_opts[i]) continue;  // chunk was already present
 
             bool is_parity = (i >= k);

@@ -102,7 +102,7 @@ static std::string resolveUrl(const std::string& base,
     auto q = base.find('?');
     std::string base_path = (q != std::string::npos) ? base.substr(0, q) : base;
     auto slash = base_path.rfind('/');
-    if (slash == std::string::npos  || static_cast<size_t>(slash) <origin.size()) {
+    if (slash == std::string::npos  || slash < origin.size()) {
         return origin + '/' + href;
     }
     return base_path.substr(0, slash + 1) + href;
@@ -199,7 +199,7 @@ static std::string htmlToText(const std::string& html) {
 static std::vector<std::string> extractHrefs(const std::string& html) {
     std::vector<std::string> hrefs;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <html.size()) {
+    while (pos < html.size()) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
         if (a_pos == std::string::npos) {
@@ -267,7 +267,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     size_t pos = 0;
     const std::string open  = "<loc>";
     const std::string close = "</loc>";
-    while (static_cast<size_t>(pos) <xml.size()) {
+    while (pos < xml.size()) {
         auto start = xml.find(open, pos);
         if (start == std::string::npos) {
           break;

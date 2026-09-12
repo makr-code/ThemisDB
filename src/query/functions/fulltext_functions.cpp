@@ -260,7 +260,7 @@ std::string applyHighlight(const std::string& text,
     result.reserve(text.size() + 64);
     size_t i = 0;
 
-    while (static_cast<size_t>(i) <text.size()) {
+    while (i < text.size()) {
         // Skip non-alnum prefix until next word boundary
         if (!std::isalnum(static_cast<unsigned char>(text[i]))) {
             result += text[i++];
@@ -297,7 +297,7 @@ size_t bestSnippetOffset(const std::string& lower,
     // Collect all match start positions
     std::vector<size_t> positions;
     size_t i = 0;
-    while (static_cast<size_t>(i) <lower.size()) {
+    while (i < lower.size()) {
         if (!std::isalnum(static_cast<unsigned char>(lower[i]))) { ++i; continue; }
         size_t end = i;
         while (end < lower.size() &&

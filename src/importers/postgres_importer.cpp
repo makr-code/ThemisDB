@@ -2670,7 +2670,7 @@ json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std
     json entity;
     entity["_type"] = schema.name;
     
-    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <schema.columns.size(); i++) {
+    for (size_t i = 0; i < values.size()  && i < schema.columns.size(); i++) {
         entity[schema.columns[i]] = values[i];
     }
 

@@ -541,7 +541,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0  && static_cast<size_t>(i) <perGpuQueryTimeUs.size()) {
+            if (elapsedUs > 0.0  && i < perGpuQueryTimeUs.size()) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);

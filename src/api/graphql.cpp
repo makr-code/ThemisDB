@@ -126,7 +126,7 @@ Parser::Result Parser::parseDocument() {
         return result;
     }
 
-    while (static_cast<size_t>(pos_) <source_.size()) {
+    while (pos_ < source_.size()) {
         auto opResult = parseOperation();
         if (opResult) {
             result.document.operations.push_back(std::move(*opResult));
@@ -193,7 +193,7 @@ themis::Result<Operation> Parser::parseOperation() {
 
     // Optional variable definitions
     if (match('(')) {
-        while (!peek(')')  && static_cast<size_t>(pos_) <source_.size()) {
+        while (!peek(')')  && pos_ < source_.size()) {
             skipWhitespace();
             auto varDefResult = parseVariableDefinition();
             if (!varDefResult) {
@@ -216,7 +216,7 @@ themis::Result<Operation> Parser::parseOperation() {
         return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
 
-    while (!peek('}')  && static_cast<size_t>(pos_) <source_.size()) {
+    while (!peek('}')  && pos_ < source_.size()) {
         skipWhitespace();
         auto fieldResult = parseField(1); // Start at depth 1
         if (!fieldResult) {
@@ -290,7 +290,7 @@ themis::Result<Field> Parser::parseField(size_t depth) {
 
     // Arguments
     if (match('(')) {
-        while (!peek(')')  && static_cast<size_t>(pos_) <source_.size()) {
+        while (!peek(')')  && pos_ < source_.size()) {
             skipWhitespace();
             auto argNameResult = parseName();
             if (!argNameResult) {
@@ -325,7 +325,7 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     }
 
     if (match('{')) {
-        while (!peek('}')  && static_cast<size_t>(pos_) <source_.size()) {
+        while (!peek('}')  && pos_ < source_.size()) {
             skipWhitespace();
             auto nestedFieldResult = parseField(depth + 1); // Increment depth for nested fields
             if (!nestedFieldResult) {
@@ -417,7 +417,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // List
     if (match('[')) {
         ValueList list;
-        while (!peek(']')  && static_cast<size_t>(pos_) <source_.size()) {
+        while (!peek(']')  && pos_ < source_.size()) {
             skipWhitespace();
             auto valResult = parseValue();
             if (!valResult) {
@@ -437,7 +437,7 @@ themis::Result<std::shared_ptr<Value>> Parser::parseValue() {
     // Object
     if (match('{')) {
         ValueMap obj;
-        while (!peek('}')  && static_cast<size_t>(pos_) <source_.size()) {
+        while (!peek('}')  && pos_ < source_.size()) {
             skipWhitespace();
             auto keyResult = parseName();
             if (!keyResult) {
@@ -553,7 +553,7 @@ themis::Result<VariableDefinition> Parser::parseVariableDefinition() {
 }
 
 void Parser::skipWhitespace() {
-    while (static_cast<size_t>(pos_) <source_.size()) {
+    while (pos_ < source_.size()) {
         char c = source_[pos_];
         if (c == ' ' || c == '\t' || c == '\r' || c == ',') {
             ++pos_;
