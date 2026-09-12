@@ -309,6 +309,18 @@ jobs:
 
         test -f llama.cpp/CMakeLists.txt
 
+    - name: Detect host CA bundle
+      id: host-ca
+      shell: bash
+      run: |
+        set -euo pipefail
+        CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")')"
+        if [ -z "${CA_BUNDLE_PATH}" ] || [ ! -f "${CA_BUNDLE_PATH}" ]; then
+          echo "::error::Unable to locate host CA bundle"
+          exit 1
+        fi
+        echo "path=${CA_BUNDLE_PATH}" >> "${GITHUB_OUTPUT}"
+
     - name: Build and push Docker image
       id: build
       uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
@@ -316,7 +328,7 @@ jobs:
         context: .
         file: ./docker/Dockerfile.unified
         secret-files: |
-          extra_ca_bundle=/etc/ssl/certs/ca-certificates.crt
+          extra_ca_bundle=${{ steps.host-ca.outputs.path }}
         push: |
           ${{
             (github.event_name == 'release') ||

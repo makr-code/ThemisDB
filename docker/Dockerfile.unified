@@ -50,6 +50,8 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
         THEMIS_CA_BUNDLE=/tmp/themis-extra-ca.crt; \
     fi && \
     if [ -n "${THEMIS_CA_BUNDLE}" ]; then \
+        awk 'BEGIN { cert = 0 } /-----BEGIN CERTIFICATE-----/ { cert += 1 } cert { print > sprintf("/usr/local/share/ca-certificates/themis-extra-ca-%03d.crt", cert) }' "${THEMIS_CA_BUNDLE}" && \
+        update-ca-certificates && \
         export SSL_CERT_FILE="${THEMIS_CA_BUNDLE}" CURL_CA_BUNDLE="${THEMIS_CA_BUNDLE}" GIT_SSL_CAINFO="${THEMIS_CA_BUNDLE}"; \
     fi && \
     rm -rf /var/lib/apt/lists/* && \
