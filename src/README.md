@@ -25,7 +25,8 @@ Use the root [`../ROADMAP.md`](../ROADMAP.md) module-status table as canonical s
 | Status | Module groups | Interpretation |
 |---|---|---|
 | Production-ready / minor gaps | `server`, `storage`, `network`, `auth`, `security`, `cache`, `failover`, `maintenance`, `updates`, `process`, `execution`, `analytics` | Source and audit evidence are largely closed; remaining work is mostly hardening, diagnostics, or benchmark refresh. |
-| Hardening in progress | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai`, `search`, `training`, `retrieval` | Code exists and is production-shaped, but the module still carries real source gaps or evidence debt. |
+| Hardening in progress | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai`, `search`, `training` | Code exists and is production-shaped, but the module still carries real source gaps or evidence debt. |
+| Thin / placeholder (minimal source) | `retrieval` | Module directory exists with one implementation file (`lora_package`); classified as `THIN/PLACEHOLDER` in [`MODULE_INDEX.md`](../MODULE_INDEX.md). Roadmap work is needed before production hardening begins. |
 | Docs-only module path (evidence mismatch) | `llm_streaming`, `vector_search` | Module-local roadmaps still describe production-candidate delivery, but local module directories currently contain docs artefacts only and no colocated `.cpp/.h` implementation files. |
 | Planned / externalization | `chimera`, selected plugin-externalization paths | The feature surface is documented and tracked, but the implementation boundary is still being finalized. |
 

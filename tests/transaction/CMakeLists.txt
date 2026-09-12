@@ -173,9 +173,12 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
     )
 
     target_link_libraries(test_transaction_distributed_2pc_focused PRIVATE
+        ${TEST_LIBS}
         GTest::gtest
         GTest::gtest_main
         themis_base
+        RocksDB::rocksdb
+        spdlog::spdlog
         Threads::Threads
     )
 

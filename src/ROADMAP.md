@@ -55,12 +55,12 @@ For the per-module current state, use the root [`../ROADMAP.md`](../ROADMAP.md) 
 2. [How to Use Legacy Issue-Seed Tables for GitHub Issues](#how-to-use-legacy-issue-seed-tables-for-github-issues)
 3. [Status & Priority Legend](#status--priority-legend)
 4. [Statistics](#statistics)
-5. [🔴 Legacy Issue-Seed Priority — Critical](#-legacy-issue-seed-priority--critical)
-6. [🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)](#-legacy-issue-seed-priority--high-immediate--v140)
-7. [🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)](#-legacy-issue-seed-priority--high-near-term-v150--v180)
-8. [🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)](#-legacy-issue-seed-priority--medium-near-term-v150--v180)
-9. [🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)](#-legacy-issue-seed-priority--medium-mid-term-v190--v200)
-10. [🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)](#-legacy-issue-seed-priority--low-future-v190)
+5. [🔴 Legacy Issue-Seed Priority — Critical](#legacy-priority-critical)
+6. [🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)](#legacy-priority-high-immediate)
+7. [🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)](#legacy-priority-high-near-term)
+8. [🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)](#legacy-priority-medium-near-term)
+9. [🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)](#legacy-priority-medium-mid-term)
+10. [🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)](#legacy-priority-low-future)
 11. [Cross-Cutting Concerns](#cross-cutting-concerns)
 12. [Milestone Summary](#milestone-summary)
 13. [Suggested GitHub Label Taxonomy](#suggested-github-label-taxonomy)
@@ -207,6 +207,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
+<a id="legacy-priority-critical"></a>
+
 ## 🔴 Legacy Issue-Seed Priority — Critical
 
 > ⚠️ Legacy issue-seed snapshot: use this block as issue history/context; use source-validated module-roadmap checkboxes for current closure state.
@@ -221,6 +223,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 | 4 | themis | Module Loader Implementation | v1.7.0 | `build`, `module:themis`, `infrastructure` | #3828 | [→ Detail](themis/FUTURE_ENHANCEMENTS.md#module-loader-implementation) |
 
 ---
+
+<a id="legacy-priority-high-immediate"></a>
 
 ## 🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)
 
@@ -260,6 +264,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 | 34 | aql | Bounded Conversation History with Context-Window Budget | v1.6.0 | `correctness`, `module:aql` | #3862 | [→ Detail](aql/FUTURE_ENHANCEMENTS.md#9--bounded-conversation-history-with-context-window-budget) |
 
 ---
+
+<a id="legacy-priority-high-near-term"></a>
 
 ## 🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)
 
@@ -364,6 +370,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
+<a id="legacy-priority-medium-near-term"></a>
+
 ## 🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027.
@@ -463,6 +471,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
+<a id="legacy-priority-medium-mid-term"></a>
+
 ## 🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)
 
 > Calendar: Q2–Q3 2027.
@@ -486,6 +496,8 @@ The priority tables below are a historical issue-seed extraction and are **not**
 | 233 | transaction | Optimistic Concurrency Control (OCC) | v1.8.0 | `feature`, `transactions`, `module:transaction` | #4063 | [→ Detail](transaction/FUTURE_ENHANCEMENTS.md#optimistic-concurrency-control-occ) |
 
 ---
+
+<a id="legacy-priority-low-future"></a>
 
 ## 🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)
 

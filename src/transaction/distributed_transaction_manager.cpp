@@ -306,6 +306,9 @@ DistributedTransactionManager::beginDistributed(
     rec.created_at   = std::chrono::system_clock::now();
     rec.timeout      = rec.created_at + config_.default_txn_timeout;
 
+    logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id,
+             "participants=" + std::to_string(participants.size()));
+
     {
         std::lock_guard<std::mutex> lock(mutex_);
         const size_t active_transactions = std::count_if(
@@ -319,9 +322,6 @@ DistributedTransactionManager::beginDistributed(
             throw std::runtime_error(
                 "DistributedTransactionManager::beginDistributed: max_active_transactions limit reached");
         }
-
-        logToWAL(themis::sharding::WALEntryType::BEGIN_TX, txn_id,
-                 "participants=" + std::to_string(participants.size()));
 
         // Sprint 8 Phase 1 (GAP A-1): Transaction ID (txn_id) is captured BEFORE move.
         // This ensures all subsequent operations use the copied txn_id, not the moved object.
