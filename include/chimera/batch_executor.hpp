@@ -171,5 +171,3 @@ public:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_BATCH_EXECUTOR_HPP

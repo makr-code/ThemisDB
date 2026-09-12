@@ -100,7 +100,7 @@ struct ConnectionPoolState {
 static thread_local ConnectionPoolState g_mysql_connection_pool;
 
 /// Maps MySQL-specific error patterns to ImporterErrorCode
-static ImportErrorCode mapMySQLErrorToCode(const std::string& error_msg) {
+[[maybe_unused]] static ImportErrorCode mapMySQLErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error reporting
     const auto msg_lower = [](std::string s) {
         for (auto& c : s) {

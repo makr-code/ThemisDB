@@ -116,7 +116,7 @@ namespace {
 /// Extract the value of the `Retry-After` response header from a raw
 /// header block captured by headerCaptureCb().  Returns an empty string
 /// when the header is absent.
-static std::string extractRetryAfterHeader(const std::string &raw_headers) {
+[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string &raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
     std::string line = {};

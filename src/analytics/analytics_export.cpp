@@ -163,8 +163,8 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
                 }
                 ARROW_RETURN_NOT_OK(builder.Finish(&array));
                 break;
-            default: break;
             }
+            default: break;
         }
 
         arrays.push_back(array);

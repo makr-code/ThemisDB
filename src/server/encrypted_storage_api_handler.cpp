@@ -31,7 +31,7 @@ namespace themis::server {
 EncryptedStorageApiHandler::EncryptedStorageApiHandler(
     std::shared_ptr<RocksDBWrapper>                              storage,
     std::shared_ptr<themis::AuthMiddleware>                      auth,
-    std::shared_ptr<themis::plugins::MultiLevelEncryptedStorage> enc_storage)
+    std::shared_ptr<themis::plugins::user_storage::MultiLevelEncryptedStorage> enc_storage)
     : storage_(std::move(storage))
     , auth_(std::move(auth))
     , enc_storage_(std::move(enc_storage))

@@ -298,12 +298,10 @@ ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
 nlohmann::json CorrelationGroup::toJson() const {
     nlohmann::json j;
     j["correlation_id"] = correlation_id;
-    j["first_event_time_ms"] = first_event_time_ms;
-    j["last_event_time_ms"] = last_event_time_ms;
-    j["event_count"] = event_count;
-    j["actor_ids"] = nlohmann::json(actor_ids);
-    j["module_names"] = nlohmann::json(module_names);
-    j["related_event_ids"] = nlohmann::json(related_event_ids);
+    j["created_at_ms"] = created_at_ms;
+    j["last_updated_ms"] = last_updated_ms;
+    j["event_ids"] = nlohmann::json(event_ids);
+    j["causality_chain"] = nlohmann::json(causality_chain);
     return j;
 }
 

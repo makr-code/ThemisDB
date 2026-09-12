@@ -158,11 +158,6 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 		return Status::Error("addEdge: QW-45 Guard - edge ID cannot be empty");
 	}
 
-	// Variablen verwendet in addEdge-Überladung
-	const std::string& eid = *eidOpt;
-	const std::string& from = *fromOpt;
-	const std::string& to = *toOpt;
-
 	auto batch = db_.createWriteBatch();
 	if (!batch) {
 	  return Status::Error("addEdge: Konnte WriteBatch nicht erstellen");
