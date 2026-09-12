@@ -59,9 +59,12 @@
 #include "auth/oidc_provider.h"
 #include "auth/distributed_token_blacklist.h"
 
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <memory>
+#include <numeric>
 #include <random>
 #include <string>
 #include <vector>
@@ -89,6 +92,56 @@ static constexpr int kRepetitions = 5;
 
 /// Number of JTI entries pre-loaded for hit/miss benchmarks.
 static constexpr int kBlacklistPreloadSize = 1000;
+
+struct LatencySummary {
+    double p50_us = 0.0;
+    double p95_us = 0.0;
+    double p99_us = 0.0;
+    double avg_us = 0.0;
+};
+
+double percentile(std::vector<double> samples, double fraction) {
+    if (samples.empty()) {
+        return 0.0;
+    }
+    std::sort(samples.begin(), samples.end());
+    const auto raw_index =
+        static_cast<double>(samples.size() - 1U) * std::clamp(fraction, 0.0, 1.0);
+    const auto lower_index = static_cast<std::size_t>(std::floor(raw_index));
+    const auto upper_index = static_cast<std::size_t>(std::ceil(raw_index));
+    if (lower_index == upper_index) {
+        return samples[lower_index];
+    }
+    const auto weight = raw_index - static_cast<double>(lower_index);
+    return samples[lower_index] +
+           ((samples[upper_index] - samples[lower_index]) * weight);
+}
+
+LatencySummary summarizeLatencies(const std::vector<double>& samples_us) {
+    LatencySummary summary = {};
+    if (samples_us.empty()) {
+        return summary;
+    }
+
+    summary.p50_us = percentile(samples_us, 0.50);
+    summary.p95_us = percentile(samples_us, 0.95);
+    summary.p99_us = percentile(samples_us, 0.99);
+    summary.avg_us = std::accumulate(samples_us.begin(), samples_us.end(), 0.0) /
+                     static_cast<double>(samples_us.size());
+    return summary;
+}
+
+void publishLatencyCounters(benchmark::State& state,
+                            const std::vector<double>& samples_us,
+                            double gate_target_us) {
+    const auto summary = summarizeLatencies(samples_us);
+    state.counters["p50_us"] = summary.p50_us;
+    state.counters["p95_us"] = summary.p95_us;
+    state.counters["p99_us"] = summary.p99_us;
+    state.counters["avg_us"] = summary.avg_us;
+    state.counters["gate_target_us"] = gate_target_us;
+    state.counters["gate_pass"] = summary.p99_us <= gate_target_us ? 1.0 : 0.0;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -135,12 +188,24 @@ static void BM_AHP02_BlacklistIsRevoked_Hit(benchmark::State &state) {
     }
     std::mt19937_64 rng(kAhpCanonicalSeed);
     std::uniform_int_distribution<int> dist(0, kBlacklistPreloadSize - 1);
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(bl->isRevoked(makeJti(dist(rng))));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 1.0);
     state.SetLabel("GATE-AHP-01: p99 <= 1 us");
 }
-BENCHMARK(BM_AHP02_BlacklistIsRevoked_Hit)->Repetitions(kRepetitions)->ReportAggregatesOnly(true);
+BENCHMARK(BM_AHP02_BlacklistIsRevoked_Hit)
+    ->UseManualTime()
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
 
 // ===========================================================================
 // AHP-03 — Token-blacklist lookup: MISS (JTI absent)
@@ -157,12 +222,25 @@ static void BM_AHP03_BlacklistIsRevoked_Miss(benchmark::State &state) {
         (void)bl->isRevoked("jti-ahp-miss-warmup-" + std::to_string(i));
     }
     int miss_counter = kBlacklistPreloadSize;
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
-        benchmark::DoNotOptimize(bl->isRevoked("jti-ahp-miss-" + std::to_string(miss_counter++)));
+        const auto start = std::chrono::steady_clock::now();
+        benchmark::DoNotOptimize(
+            bl->isRevoked("jti-ahp-miss-" + std::to_string(miss_counter++)));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 1.0);
     state.SetLabel("GATE-AHP-02: p99 <= 1 us");
 }
-BENCHMARK(BM_AHP03_BlacklistIsRevoked_Miss)->Repetitions(kRepetitions)->ReportAggregatesOnly(true);
+BENCHMARK(BM_AHP03_BlacklistIsRevoked_Miss)
+    ->UseManualTime()
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
 
 // ===========================================================================
 // AHP-04 — Session create
@@ -183,12 +261,24 @@ static void BM_AHP04_SessionCreate(benchmark::State &state) {
     for (int i = 0; i < kWarmupIterations; ++i) {
         (void)sm.createSession("bench-user-warmup");
     }
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(sm.createSession("bench-user-ahp04"));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 5000.0);
     state.SetLabel("GATE-AHP-03: p99 <= 5 ms");
 }
-BENCHMARK(BM_AHP04_SessionCreate)->Repetitions(kRepetitions)->ReportAggregatesOnly(true);
+BENCHMARK(BM_AHP04_SessionCreate)
+    ->UseManualTime()
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
 
 // ===========================================================================
 // AHP-05 — Session validate
@@ -210,12 +300,24 @@ static void BM_AHP05_SessionValidate(benchmark::State &state) {
     for (int i = 0; i < kWarmupIterations; ++i) {
         (void)sm.validateSession(sid);
     }
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(sm.validateSession(sid));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 1000.0);
     state.SetLabel("GATE-AHP-04: p99 <= 1 ms");
 }
-BENCHMARK(BM_AHP05_SessionValidate)->Repetitions(kRepetitions)->ReportAggregatesOnly(true);
+BENCHMARK(BM_AHP05_SessionValidate)
+    ->UseManualTime()
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
 
 // ===========================================================================
 // AHP-06 — DistributedTokenBlacklist::add() (RocksDB single-node)
@@ -258,13 +360,22 @@ BENCHMARK_DEFINE_F(DistributedBlacklistFixture, AHP06_DistributedAdd)(benchmark:
     for (int i = 0; i < kWarmupIterations; ++i) {
         bl->add("warm-" + std::to_string(i), futureExpiry());
     }
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         bl->add("bench-" + std::to_string(counter++), futureExpiry());
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 2000.0);
     state.SetLabel("GATE-AHP-05: p99 <= 2 ms");
 }
 BENCHMARK_REGISTER_F(DistributedBlacklistFixture, AHP06_DistributedAdd)
-    ->UseRealTime()
+    ->UseManualTime()
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 
@@ -289,13 +400,22 @@ BENCHMARK_DEFINE_F(DistributedBlacklistFixture, AHP07_DistributedIsRevoked)(benc
     }
     std::mt19937_64 rng(kAhpCanonicalSeed);
     std::uniform_int_distribution<int> dist(0, kBlacklistPreloadSize - 1);
+    auto samples_us = std::vector<double>{};
+    samples_us.reserve(static_cast<std::size_t>(state.max_iterations));
     for (auto _ : state) {
+        const auto start = std::chrono::steady_clock::now();
         benchmark::DoNotOptimize(bl->isRevoked(makeJti(dist(rng))));
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed_us =
+            std::chrono::duration<double, std::micro>(end - start).count();
+        samples_us.push_back(elapsed_us);
+        state.SetIterationTime(elapsed_us * 1e-6);
     }
+    publishLatencyCounters(state, samples_us, 1.0);
     state.SetLabel("GATE-AHP-06: p99 <= 1 us warm");
 }
 BENCHMARK_REGISTER_F(DistributedBlacklistFixture, AHP07_DistributedIsRevoked)
-    ->UseRealTime()
+    ->UseManualTime()
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 

@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-09-02 (source-validated against module roadmaps and evidence bundles)
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete; final GA promotion still requires closure of tracked execution/evidence blockers plus Phase 6 human governance sign-off (D-11) at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. Wave C (Security Production Validation) complete with all exit criteria passing 2026-08-18. **Recent source validation (2026-09-02) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-08-08, Storage Phases 1-5 complete.**
+**Last Updated:** 2026-09-09 (source-validated against module roadmaps, evidence bundles, and recent CI logs)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Recent source validation (2026-09-04) confirms: Auth Wave 4-B complete 2026-08-26, LLM Wiki Phase B complete 2026-08-26, GPU CUDA audit complete 2026-08-24, Query Phase B complete 2026-09-03, Storage Phases 1-5 complete.**
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 >
@@ -58,11 +58,22 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 
 ### Release-critical blockers, source-validated
 
-- **GPU Phase C / CUDA-call reduction** remains incomplete; the module-level reduction gate and representative-hardware baselines are still open.
-- **Transaction Wave A CI execution evidence** remains open; focused tests exist, but the source/CI path is not fully green on the current build lane.
-- **Query FTS performance gate** remains open at the release level; backend implementation exists but performance acceptance is not closed.
+- **GPU Phase C / CUDA-call reduction** remains incomplete; the dedicated Wave-A GPU CI lane is now green again on `develop` (run `34313042741`), but the module-level reduction gate and representative-hardware baselines are still open. The representative-hardware capture path is now explicit opt-in because no self-hosted `gpu-cuda` runner was available in run `34322900559`.
+- **Transaction representative-hardware / resilience evidence** remains open; the dedicated Wave-B transaction CI lane is now green again on `develop` (run `34313051247`), but representative-hardware and chaos/recovery determinism evidence are still pending. The failed evidence run `34322902518` was traced to mandatory sccache policy violations in the new jobs and has been patched for rerun.
 - **Representative-hardware validation** is still missing for several critical modules, so the project is not yet release-grade in a strict production sense.
 - **Final GA sign-off** is still blocked by human approval, not just implementation availability.
+
+### Findings Fix Program (2026-09-09, source-validated)
+
+Execution on `develop` is now explicitly ordered as:
+
+1. Build one source-validated backlog from root/module roadmaps plus current CI evidence.
+2. Close the **Transaction** CI lane first.
+3. Close the **GPU** CI lane and keep CPU-only fallback evidence usable while representative GPU hardware is pending.
+4. Refresh representative-hardware and p95/p99 baselines for critical modules. Broad auth/query/voice baseline capture automation is now queued via `Build: Benchmarks` run `34345454063` while transaction rerun `34341799895` is still pending.
+5. Execute remaining high-risk hardening in `llm`, `server`, `training`, and `llm_wiki`.
+6. Sync root governance docs only after the blocker state is re-validated.
+7. Request final human GA/program sign-off only after all critical blockers are closed.
 
 ### Practical conclusion
 
@@ -88,7 +99,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 | core | DOC/Evidence Gaps | Mostly DOC / evidence gaps | Runtime adapter registry and plugin loading delivered; remaining items are Wave D operability and refreshed evidence |
 | base | Historical Scanner Noise | Mostly historical scanner noise | `src/base/MODULE_GAPS.md` re-scan shows 0 actionable current gaps; remaining items are documented false positives or follow-up docs |
 | server | Wave 4-A COMPLETE | REMEDIATED 2026-08-31 | gRPC-Web availability contract, RoPE DELETE disablement, MCP stdio self-disable all delivered; remaining: time-series provider DI, Wave 2-A items (see `src/server/ROADMAP.md` line 78+) |
-| query | Phase B COMPLETE | REMEDIATED 2026-08-08 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5) all delivered; remaining: FTS executor backend wiring (Target: Q4 2026) — see `src/query/ROADMAP.md` line 29+, line 79-80 |
+| query | Phase B COMPLETE | REMEDIATED 2026-09-09 | Thread-safety hardening, federation retry metadata, AQL LLM integration (Phase 1-4), AQL mutations (Phase 1-5), FTS executor backend wiring, phrase/proximity matching, and the ≤100ms-on-100K FTS benchmark gate are now delivered; remaining: cross-feature integration tests and broader representative-hardware baseline refresh — see `src/query/ROADMAP.md` |
 | transaction | Wave A codes COMPLETE | Mostly verification / benchmark evidence | Source code gaps closed per `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` (2026-08-24); remaining: representative-hardware CI execution and chaos/recovery determinism evidence |
 | auth | Wave 4-B COMPLETE | REMEDIATED 2026-08-26 | All 14 audit/retry/crypto gaps closed per `src/auth/ROADMAP.md` lines 54-76; v1.3.0 distributed token blacklist complete; remaining: representative-hardware baselines and Wave C benchmark gate evidence |
 | LLM | Wiki Phase A+B COMPLETE | REMEDIATED 2026-08-26 | Wiki Phase A (BM25+HNSW+RRF) and Phase B (RocksDB) both delivered; all STUB removals (P5-L01, P5-L02) complete; remaining: distributed collectives, multi-tenant isolation, and final speculative/TARG cross-module wiring — see `src/llm/ROADMAP.md` line 87+ |
@@ -103,12 +114,14 @@ The repository is clearly not a blank or mock project. It contains a substantial
 
 ## Current Status
 
-> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-02) confirms ~82–84% readiness with 4 critical blockers and 3 high-priority hardening items.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
+> **Q3/Q4 2026 Milestone Targets:** ~83% completion by end of Q3 2026; ~86% completion by end of Q4 2026 (from ~80% current source-backed baseline). **Current source validation (2026-09-09) confirms ~82–84% readiness with 2 remaining technical blocker families plus final human sign-off.** See `## Q3 2026 Milestone (~83%)` and `## Q4 2026 Milestone (~86%)` sections below for the full implementation plan.
 >
 > **Critical Release Blockers (must resolve before GA sign-off):**
 >
 > | Blocker | Impact | Status | Target |
 > |---------|--------|--------|--------|
+> | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | Dedicated Wave-A GPU CI run `34313042741` is green again; the workflow now computes source-derived CUDA-audit output and has a representative-hardware artifact lane, but authoritative self-hosted benchmark evidence is still pending per `src/gpu/ROADMAP.md` | Complete reduction + hardware proof by end Q3 2026 |
+> | Transaction representative-hardware / resilience evidence | Cannot treat transaction hardening as release-grade without representative-hardware and chaos/recovery proof | Dedicated Wave-B transaction CI run `34313051247` is green again; chaos/recovery and Phase 4 baseline artifact jobs are now wired, but the next verified run must still produce authoritative hardware-backed evidence | Close evidence gap in Q4 2026 |
 > | GPU Phase C CUDA-call closure (340→170 migration) | Phase D blocked; GPU acceleration not recommended for production | ~28 of 340 resolved; ~140 remain | Must complete 50% reduction by end Q3 2026 |
 > | Transaction CI execution evidence (73 Phase 1-3 tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; NO `develop` CI run yet | Run immediately (should have been done 2026-08-31) |
 > | Query FTS executor backend wiring | Q4 deadline at risk (lexer/parser complete; executor not started) | 0% implementation progress | Begin immediately; 4-6 weeks estimated |
@@ -123,20 +136,20 @@ The repository is clearly not a blank or mock project. It contains a substantial
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [x] `server`, `llm`, and `sharding` top-risk hardening complete: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered and evidence bundled; `sharding` P6 gate integration and sign-off artefacts complete.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
-- [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
+- [~] Phase 1-6 execution contract largely complete: implementation closure is broad, but representative-hardware and remaining benchmark-gate evidence are still open before final GA promotion.
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
-- [~] Core-first residual source-gap queue revalidated (2026-09-02): major reductions in Auth, LLM, GPU, and Query modules; remaining high-priority items are GPU Phase D representative-hardware baselines, Query FTS executor backend wiring, and Transaction representative-hardware CI validation. Follow-up hardening and benchmarking batches scheduled for Q4 2026 after Wave A CI-green confirmation on representative hardware. (Target: Q4 2026).
+- [~] Core-first residual source-gap queue revalidated (2026-09-09): major reductions in Auth, LLM, GPU, and Query modules; dedicated Transaction/GPU CI lanes are green again, and the remaining high-priority items are authoritative GPU representative-hardware artifacts, authoritative Transaction chaos/Phase-4 hardware artifacts, and the cross-module p95/p99 refresh set. Follow-up hardening and benchmarking batches remain scheduled for Q4 2026 after the restored Wave A/B CI-green confirmation. (Target: Q4 2026).
 
 ## Program Execution Model (Wave A → B → C → D)
 
 Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ### Wave A — Runtime Reliability First (Q3–Q4 2026)
-- [~] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026) — evidence bundle updated 2026-08-25: **73 tests registered `release_critical`** (8 TXN-RECOVERY/SAGA + 5 TXN-TIMEOUT/BYZANTINE + 2 TXN-XSHARD + 14 TXN-PHASE2 + 12 TXN-CASCADE + 15 TXN-DETERMINISM + 17 smoke tests), full evidence in `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; **CI execution PENDING Sept 3 (due date)**. Representative-hardware baselines and full CI validation pending; see `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md` and `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md`
+- [~] Transaction: close crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure evidence with authoritative CI artifacts (Target: Q3–Q4 2026) — focused `release_critical` suites are implemented and documented in `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; dedicated workflow automation now covers chaos/recovery execution and Phase 4 baseline capture, but the next verified run on `develop` must still publish the authoritative artifacts. See `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md` and `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md`
 - [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, ✅ technical closure complete 2026-08-17 in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, CI PASS)
 - [x] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026, ✅ COMPLETE 2026-08-18, CI PASS)
 - [x] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026) — ✅ COMPLETE 2026-08-26: 40 tests (V1/V2/V3 suites), all PASS; representative-hardware baselines pending Q4 2026; see `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
-- [~] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026) — **36 tests registered `release_critical`** (12 GPU-TIMEOUT + 12 GPU-FALLBACK + 6 GPU-MEMORY + 6 GPU-DETERMINISM), RAII guards created 2026-08-24 (`include/gpu/cuda_raii.h`: `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`), **CUDA-call audit complete: 340→28 remaining (93% reduction, target 50% MET)**; **CI execution PENDING Sept 3 (due date)**. Representative-hardware baselines pending Q4 2026; see `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md` and `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md`
+- [~] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026) — `release_critical` GPU suites and RAII guards (`include/gpu/cuda_raii.h`: `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`) are in place; the dedicated workflow now emits source-derived reduction output and a representative-hardware artifact path, but module-level reduction and authoritative self-hosted benchmark evidence remain open (`src/gpu/ROADMAP.md`).
 - [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06, production-ready), Failover (Phase 2+3 ✅ 2026-07-29, production-ready), Updates (Phase 2-3 ✅ 2026-08-06, Phase 6 scheduled Q4 2026, Phase 4-5 in progress) — see respective module ROADMAP.md files for Phase 4-5 edge-case and stress-coverage details
 
 ### Wave A Exit Criteria (Gate to Wave B)
@@ -146,10 +159,10 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [~] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026) — CPU-only baseline ready; GPU decision pending Sept 5; see COMPLETION SUMMARY
 
 ### Wave A Closure Batch (current execution order)
-- [~] Batch A1 — Transaction verification + chaos evidence: **73 tests delivered** (8 TXN-RECOVERY/SAGA + 5 TXN-TIMEOUT/BYZANTINE + 2 TXN-XSHARD + 14 TXN-PHASE2-TIMEOUT + 12 TXN-CASCADE + 15 TXN-DETERMINISM + 17 smoke), all registered `release_critical` (2026-08-25); **CI execution PENDING Sept 3** (command: `cmake --preset community-release ... && ctest -L transaction|release_critical`). Representative-hardware baselines optional; CPU-only approved for Wave B exit. See `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md`, `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md` (Target: Q3–Q4 2026)
+- [~] Batch A1 — Transaction verification + chaos evidence: focused transaction suites are delivered and registered `release_critical`; dedicated Wave-B CI is green again and now captures chaos/recovery plus Phase 4 baseline artifacts, but authoritative artifact output from the refreshed jobs is still pending. See `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md`, `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md` (Target: Q3–Q4 2026)
 - [x] Batch A2 — Replication geo placement + WAL lag controls: ✅ COMPLETE 2026-08-18 (20 tests, CI PASS)
 - [x] Batch A3 — Voice fail-closed hardening: ✅ COMPLETE 2026-08-26 (40 tests, CI PASS)
-- [~] Batch A4 — GPU fallback/timeout safety: **36 tests delivered** (12 GPU-TIMEOUT + 12 GPU-FALLBACK + 6 GPU-MEMORY + 6 GPU-DETERMINISM), all registered `release_critical` (2026-08-24); **CUDA-call migration 93% complete** (340→28 remaining, target 50% MET); RAII guards (`CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`) confirmed in `include/gpu/cuda_raii.h`; **CI execution PENDING Sept 3** (command: `cmake --preset community-release ... && ctest -L gpu|release_critical`). Representative-hardware baselines optional; CPU-only approved for Wave B exit. See `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md`, `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md` (Target: Q3–Q4 2026)
+- [~] Batch A4 — GPU fallback/timeout safety: focused GPU suites are delivered and registered `release_critical`; RAII guards (`CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`) confirmed in `include/gpu/cuda_raii.h`; the dedicated workflow is green again and now carries source-derived CUDA-audit plus representative-hardware artifact capture, but module-level reduction proof and self-hosted baseline output remain open in `src/gpu/ROADMAP.md`. See `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md`, `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md` (Target: Q3–Q4 2026)
 - [x] Batch A5 — Sharding multi-shard/rebalance closure: ✅ COMPLETE 2026-08-17 (24 tests, CI PASS)
 - [x] **Batch A-Query** — Query planning determinism + exception safety + null safety: ✅ COMPLETE 2026-08-17 (69+ HIGH gaps fixed)
 - [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready
@@ -205,9 +218,12 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 
 | Module | Phase Status | Code Evidence | CI Execution Status | Risk | Action |
 |--------|--------------|---|---|---|---|
-| **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ⚠️ Phase 2-3 tests implemented but Phase D hardware benchmarks not yet executed | 🔴 CRITICAL | Run Phase 2-3 tests on `develop` immediately; Phase D representative-hardware benchmarks deferred to Q4 2026 |
-| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ 73 focused tests implemented (UPH-01..73, TXN-01..73) 2026-08-24 | ❌ NO CI execution evidence on `develop` yet (should have been done 2026-08-31) | 🔴 CRITICAL | Run full Phase 1-3 test suite immediately: `cmake --build /tmp/build --target run_tests --config Release 2>&1 | grep -E '(transaction|PASSED|FAILED)'` |
-| **Query** | AQL phases 1-4 complete; FTS executor 0% | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser COMPLETE (2026-08-09) | ✅ AQL tests green on `develop` 2026-08-05; ⚠️ FTS executor backend NOT STARTED | 🔴 CRITICAL | Begin FTS executor implementation immediately; target Q4 2026 completion with performance gate (≤100ms on 100K docs) |
+| **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ❌ Current `develop` Wave-A GPU CI run fails before configure because checkout attempts to fetch unavailable private plugin submodules; dedicated workflow must stay fail-closed for Community/public lanes | 🔴 CRITICAL | Prevent private-submodule checkout in the GPU workflow, rerun on `develop`, then execute the Phase 2-3 suites and defer Phase D representative-hardware benchmarks to Q4 2026 |
+| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ Wave A focused tests implemented and registered | ❌ Current `develop` Wave-B transaction CI run fails in configure phase because required Boost packages are missing from the workflow dependency install; later build paths also traverse HTTP client code that needs the standard CI package set | 🔴 CRITICAL | Fix workflow dependency install, rerun `develop`, then publish green evidence bundle |
+| **Query** | AQL phases 1-4 complete; FTS backend delivered | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser/executor wiring delivered (2026-09-03) | ✅ Functional wiring delivered; ⚠️ performance gate ≤100ms on 100K docs pending | 🟡 HIGH | Close FTS benchmark gate and retain non-regression evidence |
+| **GPU/CUDA** | Phase 2-3 delivered; Phase D pending | ✅ RAII guards, timeout enforcement, resource exhaustion tests all implemented 2026-08-24 | ❌ Current `develop` Wave-A GPU CI run fails before configure because checkout attempts to fetch unavailable private plugin submodules; dedicated workflow must stay fail-closed for Community/public lanes | 🔴 CRITICAL | Prevent private-submodule checkout in the GPU workflow, rerun on `develop`, then execute the Phase 2-3 suites and defer Phase D representative-hardware benchmarks to Q4 2026 |
+| **Transaction** | Phases 1-3 delivered; Phase 4 in progress | ✅ Wave A focused tests implemented and registered | ❌ Current `develop` Wave-B transaction CI run fails in configure phase because required Boost packages are missing from the workflow dependency install; later build paths also traverse HTTP client code that needs the standard CI package set | 🔴 CRITICAL | Fix workflow dependency install, rerun `develop`, then publish green evidence bundle |
+| **Query** | AQL phases 1-4 complete; FTS backend delivered | ✅ AQL integration tests PASS (validation SLA COMPLETE 2026-08-05); FTS lexer/parser/executor wiring delivered (2026-09-03) | ✅ Functional wiring delivered; ⚠️ performance gate ≤100ms on 100K docs pending | 🟡 HIGH | Close FTS benchmark gate and retain non-regression evidence |
 | **Auth** | Wave 4-B delivered; benchmarks pending | ✅ All 14 audit/retry/crypto gaps closed 2026-08-26; test_wave4b_auth_hardening.cpp + test_wave4b_auth_hardening2.cpp complete | ✅ Wave 4-B tests PASS; ⚠️ Benchmark CI run #40 execution status unclear (as of 2026-08-24) | 🟡 HIGH | Confirm CI run #40 completion; if not complete, re-run AUTH-GRG-01..06 benchmark gates before Q4 2026 end |
 | **Server** | P5 phases delivered; P2-3 in progress | ✅ P5 wire-protocol retry + HTTP timeout/shutdown tests PASS 2026-07-20; Wave 4-A server hardening tests delivered 2026-08-26 | ✅ P5 tests green on `develop` 2026-07-20; ⚠️ Wave 4-A gates (SH3-01..12, SGR-01..12, SOD-01..08, SCC-01..07) execution pending | 🟡 HIGH | Execute Wave 4-A test suites on `develop` by Q4 2026 end |
 | **LLM** | Wave A-8 delivered; Phase 2-5 follow-up | ✅ All distributed inference paths COMPLETE 2026-08-16; Wiki Phase A+B COMPLETE 2026-08-26 | ✅ Wave A-8 tests PASS; ✅ Wiki Phase 3-4 tests PASS (49 tests, 2026-08-24); ⚠️ Phase 2-5 integration tests (queue/load telemetry, error standardization, distributed orchestration) pending | 🟡 HIGH | Complete Phase 2-5 integration test suites by Q4 2026 end |
@@ -807,7 +823,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Track 1 — AQL 2.0.0 Completion** (🟡 P1, Q3–Q4 2026)
 - [x] AQL Mutations Phases 1–5 complete (2026-07-15); DDL delivered (2026-07-22)
 - [~] Geospatial parser wiring: ST_* functions need FILTER/SORT/RETURN context wiring (Target: Q3 2026)
-- [ ] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026)
+- [x] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026) — closed 2026-09-09 via `tests/query/test_fts_executor.cpp` and `benchmarks/rag/bench_fts_phase_b.cpp` (`BM_FtsPhraseQuery/100000 p95_ms=1.3638`, `BM_FtsProximityQuery/100000 p95_ms=1.53029`)
 - [ ] Cross-feature integration tests: 1000+ tests, zero v1.x regressions (Target: Q4 2026)
 - Gate model: 6 go/no-go gates in `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`
 
@@ -1276,7 +1292,7 @@ Audit method:
 
 ## § AQL 2.0.0 Feature Roadmap — Complete Language Standard
 
-**Status:** 🔵 **PLANNED** — Detailed implementation roadmaps ready; Phase 1 kickoff pending team assignment  
+**Status:** 🔵 **PLANNED** — Detailed implementation roadmaps ready; Phase 1 kickoff pending team assignment
 **Target Release:** Q4 2026 (18–23 weeks)  
 **Scope:** Full AQL standard coverage (Mutations, DDL, Geospatial, FTS)
 

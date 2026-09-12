@@ -8,6 +8,7 @@ on:
       - "src/transaction/**"
       - "tests/transaction/**"
       - "include/transaction/**"
+      - "benchmarks/transaction/**"
       - ".github/workflows/13-wave-b-transaction-ci-execution.yml"
   pull_request:
     branches:
@@ -16,10 +17,11 @@ on:
       - "src/transaction/**"
       - "tests/transaction/**"
       - "include/transaction/**"
+      - "benchmarks/transaction/**"
   workflow_dispatch:
     inputs:
       phase:
-        description: "Test phase to run (all, phase1, phase2, phase3, wave-a)"
+        description: "Test phase to run (all, phase1, phase2, phase3, wave-a, phase4)"
         required: false
         default: "all"
       parallel_jobs:
@@ -54,7 +56,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
           fetch-depth: 0
@@ -67,16 +69,19 @@ jobs:
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             libboost-filesystem-dev libboost-system-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Set up compiler cache"
         uses: ./.github/actions/setup-cpp-build
         with:
-          cc: gcc
-          cxx: g++
-          extra-packages: >-
-            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
-            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
 
       - name: "Configure CMake (community-release)"
         id: configure
@@ -117,7 +122,7 @@ jobs:
       matrix:
         phase: [phase1, phase2, phase3, wave-a]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -129,16 +134,19 @@ jobs:
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             libboost-filesystem-dev libboost-system-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Set up compiler cache"
         uses: ./.github/actions/setup-cpp-build
         with:
-          cc: gcc
-          cxx: g++
-          extra-packages: >-
-            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
-            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
 
       - name: "Configure CMake"
         run: |
@@ -155,14 +163,15 @@ jobs:
           BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
           
           cmake --build "$BUILD_DIR" \
-            --target test_transaction_lifecycle_phase1 \
+            --target \
+            test_transaction_lifecycle_phase1 \
             test_transaction_isolation_contention_phase1 \
             test_transaction_error_path_determinism_phase1 \
             test_transaction_distributed_phase2 \
             test_transaction_saga_compensation_phase2 \
             test_transaction_fault_injection_phase3 \
             test_transaction_wave_a_closure \
-            -j ${{ github.event.inputs.parallel_jobs || 4 }} \
+            --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-${{ matrix.phase }}.log
           
           echo "compile_status=success" >> "$GITHUB_OUTPUT"
@@ -181,7 +190,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -193,16 +202,19 @@ jobs:
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             libboost-filesystem-dev libboost-system-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Set up compiler cache"
         uses: ./.github/actions/setup-cpp-build
         with:
-          cc: gcc
-          cxx: g++
-          extra-packages: >-
-            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
-            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
 
       - name: "Configure CMake"
         run: |
@@ -257,7 +269,7 @@ jobs:
     timeout-minutes: 45
     if: github.event_name == 'push' || github.event.inputs.phase == 'all'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -266,18 +278,22 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev \
             libboost-filesystem-dev libboost-system-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev
+            libbz2-dev liblz4-dev libzstd-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libcpp-httplib-dev
 
       - name: "Set up compiler cache"
         uses: ./.github/actions/setup-cpp-build
         with:
-          cc: gcc
-          cxx: g++
-          extra-packages: >-
-            libspdlog-dev nlohmann-json3-dev librocksdb-dev libssl-dev
-            zlib1g-dev libbz2-dev liblz4-dev libzstd-dev
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
 
       - name: "Configure CMake"
         run: |
@@ -355,7 +371,7 @@ jobs:
     timeout-minutes: 30
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           submodules: false
 
@@ -374,33 +390,20 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
-          key: sccache-${{ hashFiles('src/transaction/**') }}-${{ runner.os }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
           restore-keys: sccache-${{ runner.os }}-
 
-      - name: "Install sccache wrapper"
-        run: |
-          mkdir -p ~/.local/bin
-          cat > ~/.local/bin/sccache << 'SCRIPT'
-          #!/bin/bash
-          if [[ "$1" == "--version" || "$1" == "-V" ]]; then
-              echo "sccache 0.8.1 (wrapper)"
-              exit 0
-          fi
-          if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-              echo "sccache compiler cache wrapper"
-              exit 0
-          fi
-          "$@"
-          SCRIPT
-          chmod +x ~/.local/bin/sccache
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
 
       - name: "Configure CMake"
         run: |
           cmake --preset community-release \
             -B "${{ needs.configure.outputs.build-dir }}" \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_BUILD_BENCHMARKS=OFF
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
 
       - name: "Run chaos/recovery release-critical transaction suites"
         run: |
@@ -433,9 +436,120 @@ jobs:
             ${{ needs.configure.outputs.build-dir }}/transaction-chaos-evidence/TRANSACTION_CHAOS_HARDWARE.md
           retention-days: 30
 
+  phase4-benchmark-baseline:
+    name: "Phase 4 Benchmark Baseline"
+    needs: configure
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          submodules: false
+
+      - name: "Setup benchmark build environment"
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            libbenchmark-dev libfmt-dev libspdlog-dev nlohmann-json3-dev \
+            librocksdb-dev libssl-dev zlib1g-dev \
+            libbz2-dev liblz4-dev libzstd-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev \
+            libcpp-httplib-dev
+
+      - name: "Cache sccache"
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
+          restore-keys: sccache-${{ runner.os }}-
+
+      - name: "Install sccache"
+        run: sudo apt-get install -y --no-install-recommends sccache
+
+      - name: "Configure CMake with benchmarks"
+        run: |
+          cmake --preset community-release \
+            -B "${{ needs.configure.outputs.build-dir }}" \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
+
+      - name: "Build Phase 4 benchmark"
+        run: cmake --build "${{ needs.configure.outputs.build-dir }}" --target bench_transaction_phase4 --parallel ${{ github.event.inputs.parallel_jobs || 4 }}
+
+      - name: "Run Phase 4 benchmark baseline"
+        run: |
+          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
+          mkdir -p "$BUILD_DIR/transaction-phase4-benchmark"
+          lscpu > "$BUILD_DIR/transaction-phase4-benchmark/lscpu.txt"
+          free -h > "$BUILD_DIR/transaction-phase4-benchmark/memory.txt"
+          "$BUILD_DIR/benchmarks/transaction/bench_transaction_phase4" \
+            --benchmark_min_time=0.2s \
+            --benchmark_repetitions=5 \
+            --benchmark_out="$BUILD_DIR/transaction-phase4-benchmark/phase4_baseline.json" \
+            --benchmark_out_format=json
+
+      - name: "Render Phase 4 benchmark summary"
+        run: |
+          BUILD_DIR="${{ needs.configure.outputs.build-dir }}"
+          python3 - "$BUILD_DIR/transaction-phase4-benchmark/phase4_baseline.json" "$BUILD_DIR/transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          source = Path(sys.argv[1])
+          target = Path(sys.argv[2])
+          data = json.loads(source.read_text(encoding="utf-8"))
+          rows = []
+          for bench in data.get("benchmarks", []):
+              name = bench.get("name", "")
+              if name.endswith(("_mean", "_median", "_stddev", "_cv")):
+                  continue
+              rows.append(
+                  (
+                      name,
+                      bench.get("txns_per_sec", 0.0),
+                      bench.get("p95_ms", 0.0),
+                      bench.get("p99_ms", 0.0),
+                      bench.get("gate_pass", 0.0),
+                  )
+              )
+
+          lines = [
+              "# Transaction Phase 4 Baseline Summary",
+              "",
+              "| Benchmark | txns/sec | p95 ms | p99 ms | Status |",
+              "| --- | ---: | ---: | ---: | --- |",
+          ]
+          for name, txns_per_sec, p95_ms, p99_ms, gate_pass in rows:
+              status = "PASS" if gate_pass >= 1.0 else "FAIL"
+              lines.append(
+                  f"| `{name}` | {txns_per_sec:.2f} | {p95_ms:.3f} | {p99_ms:.3f} | {status} |"
+              )
+          target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          PY
+
+      - name: "Upload Phase 4 benchmark artifacts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transaction-phase4-benchmark
+          path: |
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/phase4_baseline.json
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/lscpu.txt
+            ${{ needs.configure.outputs.build-dir }}/transaction-phase4-benchmark/memory.txt
+          retention-days: 30
+
   collect-artifacts:
     name: "Collect Build Artifacts"
-    needs: [configure, compile-tests, smoke-tests, chaos-recovery-evidence]
+    needs: [configure, compile-tests, smoke-tests, chaos-recovery-evidence, phase4-benchmark-baseline]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -450,6 +564,7 @@ jobs:
           cp -r transaction-test-results transaction-ci-results/ || true
           cp -r test-summary transaction-ci-results/ || true
           cp -r transaction-chaos-recovery-evidence transaction-ci-results/ || true
+          cp -r transaction-phase4-benchmark transaction-ci-results/ || true
           
           zip -r transaction-ci-results.zip transaction-ci-results || true
           
@@ -464,7 +579,7 @@ jobs:
 
   publish-results:
     name: "Publish CI Results"
-    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, collect-artifacts]
+    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -473,6 +588,15 @@ jobs:
 
       - name: "Generate CI report"
         run: |
+          PHASE4_STATUS="pending"
+          if [ "${{ needs.phase4-benchmark-baseline.result }}" = "success" ]; then
+            PHASE4_STATUS="captured"
+          elif [ "${{ needs.phase4-benchmark-baseline.result }}" = "failure" ]; then
+            PHASE4_STATUS="failed"
+          elif [ "${{ needs.phase4-benchmark-baseline.result }}" = "skipped" ]; then
+            PHASE4_STATUS="skipped"
+          fi
+
           {
             echo "# Wave B Transaction CI Execution Report"
             echo ""
@@ -486,9 +610,14 @@ jobs:
             echo "- Smoke Tests: ✅ 3/3 tests passed"
             echo "- Full Suite: ✅ All tests passed"
             echo "- Chaos / Recovery evidence: ${{ needs.chaos-recovery-evidence.result }}"
+            echo "- Phase 4 benchmark baseline: ${PHASE4_STATUS}"
             echo ""
             echo "## Artifacts"
             echo "- transaction-ci-results.zip"
+            if [ -f transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md ]; then
+              echo ""
+              cat transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
+            fi
           } > CI_REPORT.md
 
       - name: "Upload final report"

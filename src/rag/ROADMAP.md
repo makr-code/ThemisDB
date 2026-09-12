@@ -221,8 +221,10 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ### FTS Enhancement
 
-- [ ] **[Phrase and proximity query operators]** Implement phrase query (`"exact phrase"`) and proximity query (`NEAR/k`) in FTS layer on top of BM25+ positional scorer (Target: Q4 2026)
-- [ ] **[FTS performance gate]** ≤100ms query time on 100K-doc corpus at p95; validate in `benchmarks/rag/bench_fts_phase_b.cpp` (Target: Q4 2026)
+- [x] **[Phrase and proximity query operators]** Implement phrase query (`"exact phrase"`) and proximity query (`NEAR/k`) in FTS layer on top of BM25+ positional scorer (Target: Q4 2026)
+  - **Evidence**: `src/query/fts_executor.cpp` now evaluates exact phrase and bounded proximity matches over posting-list positions; focused coverage in `tests/query/test_fts_executor.cpp`.
+- [x] **[FTS performance gate]** ≤100ms query time on 100K-doc corpus at p95; validate in `benchmarks/rag/bench_fts_phase_b.cpp` (Target: Q4 2026)
+  - **Evidence**: `benchmarks/rag/bench_fts_phase_b.cpp` now emits p50/p95/p99 + `gate_pass`; 2026-09-09 local run showed `p95_ms=1.3638` for `BM_FtsPhraseQuery/100000` and `p95_ms=1.53029` for `BM_FtsProximityQuery/100000`.
 
 ### TensorRagCostModel
 
