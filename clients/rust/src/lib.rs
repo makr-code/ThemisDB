@@ -338,16 +338,16 @@ impl ThemisClient {
         }
         for endpoint in &config.endpoints {
             if !endpoint.starts_with("https://") {
-                return Err(ThemisError::InvalidConfig(format!(
-                    "endpoint must use HTTPS to protect sensitive data in transit: {endpoint}"
-                )));
+                return Err(ThemisError::InvalidConfig(
+                    "endpoint must use HTTPS to protect sensitive data in transit".into(),
+                ));
             }
         }
         if let Some(meta) = &config.metadata_endpoint {
             if !meta.starts_with("https://") {
-                return Err(ThemisError::InvalidConfig(format!(
-                    "metadata_endpoint must use HTTPS to protect sensitive data in transit: {meta}"
-                )));
+                return Err(ThemisError::InvalidConfig(
+                    "metadata_endpoint must use HTTPS to protect sensitive data in transit".into(),
+                ));
             }
         }
         let client = Client::builder()
@@ -1321,14 +1321,16 @@ fn normalize(endpoint: &str) -> String {
 }
 
 /// Return a redacted version of `url` that contains only the scheme and host,
-/// omitting the path and query string to avoid leaking entity keys or user
+/// omitting the path, query string, and fragment to avoid leaking entity keys or user
 /// identifiers (such as UUIDs) into log output.
 fn redact_url_path(url: &str) -> String {
     // Find end of scheme (e.g. "https://")
     if let Some(after_scheme) = url.find("://") {
         let rest = &url[after_scheme + 3..];
-        // Find start of path after authority
-        let host_end = rest.find('/').unwrap_or(rest.len());
+        // Find start of path, query, or fragment after authority — whichever comes first
+        let host_end = rest
+            .find(|c| c == '/' || c == '?' || c == '#')
+            .unwrap_or(rest.len());
         let host = &rest[..host_end];
         let scheme = &url[..after_scheme];
         format!("{scheme}://{host}/<redacted>")
@@ -1536,6 +1538,14 @@ mod tests {
         );
         assert_eq!(
             redact_url_path("https://example.com/health"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(
+            redact_url_path("https://example.com?key=secret-uuid"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(
+            redact_url_path("https://example.com#fragment"),
             "https://example.com/<redacted>"
         );
         assert_eq!(redact_url_path("not-a-url"), "<redacted>");
