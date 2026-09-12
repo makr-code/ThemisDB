@@ -207,7 +207,7 @@ bool InferenceEngineEnhanced::generate(
     stats_.total_prompt_tokens += input_token_ids.size();
     
     spdlog::debug("InferenceEngineEnhanced: Started generation for request {} (prompt_tokens={})",
-                 request_id,static_cast<int>(input_token_ids.size()));
+                 request_id,input_token_ids.size());
     
     // For batch mode, generate all tokens at once
     if (mode == InferenceMode::BATCH) {
@@ -483,7 +483,7 @@ double InferenceEngineEnhanced::verifyDraftTokens(
     
     // Update speculative decoding stats
     stats_.total_speculative_acceptances += accepted_count;
-    stats_.total_speculative_rejections += (static_cast<int>(draft_token_ids.size()) - accepted_count);
+    stats_.total_speculative_rejections += (draft_token_ids.size() - accepted_count);
     
     spdlog::debug("InferenceEngineEnhanced: Verified draft tokens for request {} (acceptance={:.2f}%)",
                  request_id, acceptance_rate * 100.0);

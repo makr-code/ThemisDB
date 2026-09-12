@@ -76,7 +76,7 @@ bool OfficeProcessor::isAvailable() {
 }
 
 OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) {
-    if (static_cast<int>(blob.size()) < 4) {
+    if (blob.size() < 4) {
         return OfficeDocumentType::UNKNOWN;
     }
 
@@ -85,7 +85,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
     std::memcpy(&sig, blob.data(), 4);
     if (sig != ZIP_SIGNATURE) {
         // Check for legacy Office formats (OLE Compound Document)
-        if (static_cast<int>(blob.size()) >= 8) {
+        if (blob.size() >= 8) {
             const unsigned char *data = reinterpret_cast<const unsigned char *>(blob.data());
             // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
             if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 && data[4] == 0xA1
@@ -104,7 +104,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string &blob) 
             }
         }
         // Check for RTF
-        if (static_cast<int>(blob.size()) >= 5 && blob.substr(0, 5) == "{\\rtf") {
+        if (blob.size() >= 5 && blob.substr(0, 5) == "{\\rtf") {
             return OfficeDocumentType::RTF;
         }
         return OfficeDocumentType::UNKNOWN;
@@ -155,7 +155,7 @@ ExtractionResult OfficeProcessor::extract(const std::string &blob, const Content
         return result;
     }
 
-    if (static_cast<int>(blob.size()) > MAX_OFFICE_BLOB_BYTES) {
+    if (blob.size() > MAX_OFFICE_BLOB_BYTES) {
         result.error_message = "Office payload exceeds maximum supported size";
         result.metadata["size_bytes"] = blob.size();
         result.metadata["max_size_bytes"] = MAX_OFFICE_BLOB_BYTES;
@@ -413,7 +413,7 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
                             if (type && std::string(type) == "s") {
                                 // Shared string reference
                                 int idx = std::stoi(v_node.child_value());
-                                if (idx >= 0  && static_cast<size_t>(idx) < static_cast<int>(shared_strings.size())) {
+                                if (idx >= 0  && static_cast<size_t>(idx) < shared_strings.size()) {
                                     value = shared_strings[idx];
                                 }
                             } else {
@@ -639,7 +639,7 @@ std::string OfficeProcessor::readZipEntry(const std::string &zip_blob, const std
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),zip_blob.size(), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);
@@ -732,7 +732,7 @@ std::vector<std::string> OfficeProcessor::listZipEntries(const std::string &zip_
     zip_error_t error;
     zip_error_init(&error);
 
-    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),static_cast<int>(zip_blob.size()), 0, &error);
+    zip_source_t *source = zip_source_buffer_create(zip_blob.data(),zip_blob.size(), 0, &error);
 
     if (!source) {
         zip_error_fini(&error);
@@ -804,7 +804,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     result.metadata["extraction_method"] = "libreoffice_headless";
 
     // Validate OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1 (all 8 bytes)
-    if (static_cast<int>(blob.size()) < 8) {
+    if (blob.size() < 8) {
         result.error_message = "Legacy Office document too small (< 8 bytes)";
         return result;
     }
@@ -1021,8 +1021,8 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(const std::string 
     std::string in_basename = (slash_pos != std::string::npos) ? in_full.substr(slash_pos + 1) : in_full;
     // Strip the original extension and append .txt
     std::size_t ext_len      = strlen(ext);
-    std::string out_basename = (static_cast<int>(in_basename.size()) > ext_len)
-                                   ? in_basename.substr(0, static_cast<int>(in_basename.size()) - ext_len) + ".txt"
+    std::string out_basename = (in_basename.size() > ext_len)
+                                   ? in_basename.substr(0, in_basename.size() - ext_len) + ".txt"
                                    : in_basename + ".txt";
     std::string out_path     = tmp_dir + "/" + out_basename;
     guard.out_file           = out_path;

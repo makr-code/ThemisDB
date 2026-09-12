@@ -10,14 +10,16 @@
 # ============================================================================
 FROM ubuntu:latest AS base
 
-ARG EXTRA_CA_CERT_B64=""
 ARG TARGETARCH
+ARG EXTRA_CA_CERT_B64=""
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ENV CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+ENV GIT_SSL_CAINFO=/etc/ssl/certs/ca-certificates.crt
 ARG HTTP_PROXY=""
 ARG HTTPS_PROXY=""
 ARG ALL_PROXY=""
@@ -37,13 +39,22 @@ ADD https://github.com/microsoft/vcpkg/archive/10b7a178346f3f0abef60cecd5130e295
 # Install build essentials (combined layer for efficiency)
 RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-base-${TARGETARCH},target=/var/lib/apt,sharing=locked \
+    --mount=type=secret,id=extra_ca_bundle,required=false,target=/tmp/themis-host-ca.crt \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
         automake libtool && \
-    if [ -n "${EXTRA_CA_CERT_B64}" ]; then \
-        echo "${EXTRA_CA_CERT_B64}" | base64 -d > /usr/local/share/ca-certificates/themis-extra-ca.crt && \
-        update-ca-certificates; \
+    THEMIS_CA_BUNDLE="" && \
+    if [ -s /tmp/themis-host-ca.crt ]; then \
+        THEMIS_CA_BUNDLE=/tmp/themis-host-ca.crt; \
+    elif [ -n "${EXTRA_CA_CERT_B64}" ]; then \
+        echo "${EXTRA_CA_CERT_B64}" | base64 -d > /tmp/themis-extra-ca.crt && \
+        THEMIS_CA_BUNDLE=/tmp/themis-extra-ca.crt; \
+    fi && \
+    if [ -n "${THEMIS_CA_BUNDLE}" ]; then \
+        awk 'BEGIN { cert = 0; file = "" } /-----BEGIN CERTIFICATE-----/ { if (file != "") close(file); cert += 1; file = sprintf("/usr/local/share/ca-certificates/themis-extra-ca-%03d.crt", cert) } cert { print > file } END { if (file != "") close(file) }' "${THEMIS_CA_BUNDLE}" && \
+        update-ca-certificates && \
+        export SSL_CERT_FILE="${THEMIS_CA_BUNDLE}" CURL_CA_BUNDLE="${THEMIS_CA_BUNDLE}" GIT_SSL_CAINFO="${THEMIS_CA_BUNDLE}"; \
     fi && \
     rm -rf /var/lib/apt/lists/* && \
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
@@ -149,18 +160,32 @@ RUN mkdir -p /opt/themis-models
 COPY scripts/download-tinyllama-hf.sh /usr/local/bin/download-tinyllama-hf.sh
 RUN chmod +x /usr/local/bin/download-tinyllama-hf.sh
 
-# Optional local model fallback input:
-# - models/**/*tinyllama*.gguf
-# - llama.cpp/models/**/*tinyllama*.gguf
-# (controlled via .dockerignore to keep context small)
-RUN mkdir -p /opt/local-models/models /opt/local-models/llama-cpp-models
-COPY models/ /opt/local-models/models/
-
-# Copy llama.cpp source (excluding build/, models/, etc. via .dockerignore)
-COPY llama.cpp ./llama.cpp
-
-# Copy only whitelisted local TinyLlama candidates from llama.cpp/models.
-COPY llama.cpp/models/ /opt/local-models/llama-cpp-models/
+RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
+    set -eux; \
+    mkdir -p /opt/local-models/models /opt/local-models/llama-cpp-models /opt/llama.cpp; \
+    if [ -d /tmp/build-context/models ]; then \
+        cp -a /tmp/build-context/models/. /opt/local-models/models/; \
+    fi; \
+    if [ -d /tmp/build-context/llama.cpp/models ]; then \
+        cp -a /tmp/build-context/llama.cpp/models/. /opt/local-models/llama-cpp-models/; \
+    fi; \
+    if [ -d /tmp/build-context/llama.cpp ] && [ -f /tmp/build-context/llama.cpp/CMakeLists.txt ]; then \
+        cp -a /tmp/build-context/llama.cpp/. /opt/llama.cpp/; \
+    else \
+        LLAMA_CPP_GIT_TAG="$(sed -n 's/.*set([[:space:]]*LLAMA_CPP_GIT_TAG[[:space:]]*"\([^"]*\)".*/\1/p' /tmp/build-context/cmake/Dependencies.cmake | head -n 1)"; \
+        if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then \
+            echo "ERROR: Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"; \
+            exit 1; \
+        fi; \
+        rm -rf /opt/llama.cpp; \
+        echo "llama.cpp not present in Docker context; fetching pinned revision ${LLAMA_CPP_GIT_TAG}"; \
+        if printf '%s' "${LLAMA_CPP_GIT_TAG}" | grep -Eq '^[0-9a-fA-F]{5,40}$'; then \
+            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
+            git -C /opt/llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"; \
+        else \
+            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
+        fi; \
+    fi
 
 # Build if LLM is enabled
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \
@@ -208,11 +233,21 @@ COPY cmake ./cmake
 COPY include ./include
 COPY src ./src
 COPY proto ./proto
-COPY internal ./internal
 COPY ports ./ports
+COPY vcpkg ./vcpkg
+COPY whisper.cpp ./whisper.cpp
+COPY stable-diffusion.cpp ./stable-diffusion.cpp
+COPY ffmpeg ./ffmpeg
+COPY external ./external
 COPY plugins ./plugins
 COPY scripts ./scripts
 COPY tools ./tools
+RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
+    set -eux; \
+    mkdir -p /src/internal; \
+    if [ -d /tmp/build-context/internal ]; then \
+        cp -a /tmp/build-context/internal/. /src/internal/; \
+    fi
 
 # Copy vcpkg config from deps stage (not from host!)
 COPY --from=deps /build/vcpkg.json ./vcpkg.json

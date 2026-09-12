@@ -323,7 +323,7 @@ float quantization_error(const std::vector<float>& original,
     std::vector<float> reconstructed;
     dequantize(quantized, reconstructed);
     
-    if (static_cast<int>(original.size()) != static_cast<int>(reconstructed.size())) {
+    if (original.size() != reconstructed.size()) {
         throw std::invalid_argument("Size mismatch in quantization_error");
     }
     
@@ -395,7 +395,7 @@ void quantize_block_params(const std::vector<QuantizationBlock>& blocks,
     }
     
     spdlog::debug("Double quantization: {} blocks -> {} bytes",
-                  blocks.size(), static_cast<int>(quantized_scales.size()) + static_cast<int>(quantized_zeros.size()) );
+                  blocks.size(), quantized_scales.size() + quantized_zeros.size() );
 }
 
 void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
@@ -404,7 +404,7 @@ void dequantize_block_params(const std::vector<uint8_t>& quantized_scales,
                              float global_zero,
                              std::vector<QuantizationBlock>& blocks) {
     
-    if (static_cast<int>(quantized_scales.size()) != static_cast<int>(quantized_zeros.size())) {
+    if (quantized_scales.size() != quantized_zeros.size()) {
         throw std::invalid_argument("Scale and zero point sizes must match");
     }
     

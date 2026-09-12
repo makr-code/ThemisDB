@@ -97,7 +97,7 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     if (text.empty() || terms.empty() || window_size == 0) {
       return 0;
     }
-    if (static_cast<int>(text.size()) <= window_size) {
+    if (text.size() <= window_size) {
       return 0;
     }
 

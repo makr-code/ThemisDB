@@ -69,7 +69,7 @@ std::string OcrProcessor::getTesseractVersion() {
 // ---------------------------------------------------------------------------
 
 /*static*/ bool OcrProcessor::isSupportedImageFormat(const std::string &blob) {
-    if (static_cast<int>(blob.size()) < 4) {
+    if (blob.size() < 4) {
         return false;
     }
 
@@ -243,7 +243,7 @@ std::string OcrProcessor::runTesseract(const std::string &blob,
     api.End();
 
     // Enforce max text size
-    if (static_cast<int>(text.size()) > config_.max_text_size) {
+    if (text.size() > config_.max_text_size) {
         text.resize(config_.max_text_size);
     }
     // Sanitize: remove control characters to prevent injection into the document store
@@ -296,7 +296,7 @@ ExtractionResult OcrProcessor::extract(const std::string &blob, const ContentTyp
 
         if (config_.extract_metadata) {
             result.metadata["ocr_language"]     = config_.language;
-            result.metadata["ocr_text_length"]  = static_cast<int>(result.text.size());
+            result.metadata["ocr_text_length"]  = result.text.size();
             result.metadata["content_ocr_text"] = result.text;
             result.metadata["mime_type"]        = content_type.mime_type;
             result.metadata["ocr_input_dpi"]    = preprocess_info.original_dpi;
@@ -357,7 +357,7 @@ std::vector<json> OcrProcessor::chunk(const ExtractionResult &extraction_result,
         bool is_terminal = (text[i] == '.' || text[i] == '!' || text[i] == '?');
         bool followed_by_space
             = ((i + 1 < text.size()) && (text[i + 1] == ' ' || text[i + 1] == '\n' || text[i + 1] == '\r'));
-        bool at_end = (i + 1 == static_cast<int>(text.size()));
+        bool at_end = (i + 1 == text.size());
         if ((is_terminal && (followed_by_space || at_end))) {
             sentences.push_back(current);
             current.clear();

@@ -454,7 +454,7 @@ private:
 
     void appendEvent(const KernelEvent& ev) {
         events_.push_back(ev);
-        while (static_cast<int>(events_.size()) > config_.max_events_retained) {
+        while (events_.size() > config_.max_events_retained) {
             events_.pop_front();
         }
     }

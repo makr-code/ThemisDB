@@ -51,7 +51,7 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
     body_out = markdown;
 
     // Must start with "---" on its own line
-    if (static_cast<int>(markdown.size()) < 3 || markdown.substr(0, 3) != "---") {
+    if (markdown.size() < 3 || markdown.substr(0, 3) != "---") {
         return fm;
     }
     size_t first_nl = markdown.find('\n');
@@ -113,26 +113,26 @@ json MarkdownProcessor::parseFrontmatter(const std::string& markdown,
 
         // Inline YAML list: key: [a, b, c]
         if (!value.empty() && value.front() == '[' && value.back() == ']') {
-            std::string inner = value.substr(1, static_cast<int>(value.size()) - 2);
+            std::string inner = value.substr(1, value.size() - 2);
             json arr = json::array();
             std::istringstream list_ss(inner);
             std::string item = {};
             while (std::getline(list_ss, item, ',')) {
                 std::string ti = trimCopy(item);
-                if ((static_cast<int>(ti.size()) >= 2 &&
+                if ((ti.size() >= 2 &&
                     ((ti.front() == '"' && ti.back() == '"') ||
                      (ti.front() == '\'' && ti.back() == '\'')))) {
-                    ti = ti.substr(1, static_cast<int>(ti.size()) - 2);
+                    ti = ti.substr(1, ti.size() - 2);
                 }
                 arr.push_back(ti);
             }
             fm[key] = arr;
         } else {
             // Scalar — strip optional surrounding quotes
-            if ((static_cast<int>(value.size()) >= 2 &&
+            if ((value.size() >= 2 &&
                 ((value.front() == '"' && value.back() == '"') ||
                  (value.front() == '\'' && value.back() == '\'')))) {
-                value = value.substr(1, static_cast<int>(value.size()) - 2);
+                value = value.substr(1, value.size() - 2);
             }
             fm[key] = value;
         }
@@ -161,7 +161,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string sl = trimCopy(line);
-            bool is_fence = static_cast<int>(sl.size()) >= 3 &&
+            bool is_fence = sl.size() >= 3 &&
                             (sl.substr(0, 3) == "```" || sl.substr(0, 3) == "~~~");
 
             if (!in_fenced_code && is_fence) {
@@ -171,7 +171,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
                 continue;
             }
             if (in_fenced_code) {
-                if (is_fence && sl.substr(0,static_cast<int>(fence_marker.size())) == fence_marker) {
+                if (is_fence && sl.substr(0,fence_marker.size()) == fence_marker) {
                     in_fenced_code = false;
                     fence_marker.clear();
                     out << '\n';
@@ -187,7 +187,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string tl = trimCopy(line);
-            if (static_cast<int>(tl.size()) >= 3) {
+            if (tl.size() >= 3) {
                 char c = tl[0];
                 if (c == '-' || c == '*' || c == '_') {
                     bool is_hr = true;
@@ -204,7 +204,7 @@ std::string MarkdownProcessor::stripMarkdown(const std::string& markdown,
         // ----------------------------------------------------------------
         {
             std::string tl = trimCopy(line);
-            if (static_cast<int>(tl.size()) >= 2) {
+            if (tl.size() >= 2) {
                 bool all_eq   = tl.find_first_not_of('=') == std::string::npos;
                 bool all_dash = tl.find_first_not_of('-') == std::string::npos;
                 if (all_eq || all_dash) { out << '\n'; continue; }
@@ -537,7 +537,7 @@ ExtractionResult MarkdownProcessor::extract(
     text = normalizeWhitespace(text);
 
     // 4. Enforce max_text_length
-    if (config_.max_text_length > 0 && static_cast<int>(text.size()) > config_.max_text_length) {
+    if (config_.max_text_length > 0 && text.size() > config_.max_text_length) {
         text = text.substr(0, config_.max_text_length);
     }
 
@@ -630,9 +630,8 @@ std::vector<json> MarkdownProcessor::chunk(
                 while (iss >> tok) {
                   tokens.push_back(tok);
                 }
-                int take = std::min(overlap, static_cast<int>(tokens.size()));
-                 for (size_t i = tokens.size() - static_cast<size_t>(take);
-                     i < tokens.size(); ++i) {
+                                const size_t take = std::min(tokens.size(), static_cast<size_t>(overlap));
+                                for (size_t i = tokens.size() - take; i < tokens.size(); ++i) {
                     if (!overlap_text.empty()) {
                       overlap_text += ' ';
                     }

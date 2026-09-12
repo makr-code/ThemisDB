@@ -160,7 +160,7 @@ Questions:)";
                 if (question.is_string()) {
                     questions.push_back(question.get<std::string>());
                     
-                    if (static_cast<int>(questions.size()) >= impl_->config.num_reverse_questions) {
+                    if (questions.size() >= impl_->config.num_reverse_questions) {
                         break;
                     }
                 }
@@ -175,7 +175,7 @@ Questions:)";
         questions.push_back(answer);
     }
     
-    THEMIS_DEBUG("Generated {} reverse questions",static_cast<int>(questions.size()));
+    THEMIS_DEBUG("Generated {} reverse questions",questions.size());
     return questions;
 }
 
@@ -270,7 +270,7 @@ std::vector<std::string> RelevanceEvaluator::detectNoise(
         }
     }
     
-    THEMIS_DEBUG("Detected {} potentially irrelevant segments",static_cast<int>(irrelevant_segments.size()));
+    THEMIS_DEBUG("Detected {} potentially irrelevant segments",irrelevant_segments.size());
     return irrelevant_segments;
 }
 

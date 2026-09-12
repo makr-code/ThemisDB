@@ -105,7 +105,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
             if (dist <= threshold_m) {
                 results.push_back({key_a, key_b, dist});
 
-                if (static_cast<int>(results.size()) >= config.max_pairs) {
+                if (results.size() >= config.max_pairs) {
                     THEMIS_WARN("spatialJoin: max_pairs limit ({}) reached; "
                                 "result set may be incomplete",
                                 config.max_pairs);
@@ -204,7 +204,7 @@ struct SpatialJoinIterator::Impl {
             const auto &[key_a, geom_a] = (*outer_ptr)[outer_idx];
             const Coordinate centroid_a = geometryCentroid(geom_a);
 
-            while (static_cast<size_t>(cand_idx) <static_cast<int>(candidates.size())) {
+            while (cand_idx < candidates.size()) {
                 const std::string &key_b = candidates[cand_idx++];
                 auto it                  = inner_key_idx.find(key_b);
                 if (it == inner_key_idx.end()) {

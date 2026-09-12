@@ -51,8 +51,8 @@ static uint32_t readU32LE(const uint8_t* p) {
 
 bool WavAudioChunkReader::canRead(const std::string& path) const {
     const std::string lower = toLower(path);
-    return static_cast<int>(lower.size()) >= 4 &&
-           lower.substr(static_cast<int>(lower.size()) - 4) == ".wav";
+    return lower.size() >= 4 &&
+           lower.substr(lower.size() - 4) == ".wav";
 }
 
 std::map<std::string, std::string> WavAudioChunkReader::getMetadata(const std::string& path) const {
@@ -89,7 +89,7 @@ std::vector<float> WavAudioChunkReader::readFile(const std::string& path,
 std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& data,
                                                   float& out_sample_rate) {
     // Validate RIFF header
-    if (static_cast<int>(data.size()) < 44 ||
+    if (data.size() < 44 ||
         data[0] != 'R' || data[1] != 'I' || data[2] != 'F' || data[3] != 'F' ||
         data[8] != 'W' || data[9] != 'A' || data[10] != 'V' || data[11] != 'E') {
         throw std::runtime_error("WavAudioChunkReader: not a valid RIFF/WAV file");
@@ -106,7 +106,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
     while (pos + 8 <= data.size()) {
         const uint32_t chunk_size = readU32LE(&data[pos + 4]);
         if (data[pos] == 'f' && data[pos+1] == 'm' && data[pos+2] == 't' && data[pos+3] == ' ') {
-            if (pos + 8 + 16 > static_cast<int>(data.size())) {
+            if (pos + 8 + 16 > data.size()) {
               break;
             }
             audio_format   = readU16LE(&data[pos + 8]);
@@ -134,7 +134,7 @@ std::vector<float> WavAudioChunkReader::parseWav(const std::vector<uint8_t>& dat
 
             const size_t data_start = pos + 8;
             const size_t data_bytes = std::min(static_cast<size_t>(chunk_size),
-                                               static_cast<int>(data.size()) - data_start);
+                                               data.size() - data_start);
 
             out_sample_rate = static_cast<float>(sample_rate);
 
@@ -193,8 +193,8 @@ bool FfmpegAudioChunkReader::canRead(const std::string& path) const {
         return s;
     }();
     for (const char* ext : {".mp3", ".ogg", ".flac", ".m4a", ".aac", ".opus", ".wma", ".webm"}) {
-        if (static_cast<int>(lower.size()) >= std::strlen(ext) &&
-            lower.substr(static_cast<int>(lower.size()) - std::strlen(ext)) == ext) {
+        if (lower.size() >= std::strlen(ext) &&
+            lower.substr(lower.size() - std::strlen(ext)) == ext) {
             return true;
         }
     }
@@ -282,7 +282,7 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     std::array<char, 65536> buf = {};
 
     while (!std::feof(pipe.get())) {
-        const size_t n = std::fread(buf.data(), 1,static_cast<int>(buf.size()), pipe.get());
+        const size_t n = std::fread(buf.data(), 1,buf.size(), pipe.get());
         if (n == 0) {
           break;
         }

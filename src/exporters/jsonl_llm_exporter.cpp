@@ -321,7 +321,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back(error_msg);
                 metrics_->recordError("exporter_exception");
 
-                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+                if (stats.errors.size() >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }
@@ -334,7 +334,7 @@ ExportStats JSONLLLMExporter::exportEntities(const std::vector<BaseEntity> &enti
                 stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                 metrics_->recordError("generic_exception");
 
-                if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+                if (stats.errors.size() >= options.max_errors) {
                     THEMIS_ERROR("Max errors reached, stopping export");
                     break;
                 }
@@ -1097,9 +1097,9 @@ std::string JSONLLLMExporter::getQualityMetricsReport() const {
         if (!runtime_metrics_.validation_errors.empty() && config_.structured_gen.log_validation_errors) {
             // Show only last 10 errors to avoid huge reports
             size_t start
-                = static_cast<int>(runtime_metrics_.validation_errors.size()) > 10 ?static_cast<int>(runtime_metrics_.validation_errors.size()) - 10 : 0;
+                = runtime_metrics_.validation_errors.size() > 10 ?runtime_metrics_.validation_errors.size() - 10 : 0;
             j["schema_validation"]["recent_errors"] = json::array();
-            for (size_t i = start; i <static_cast<int>(runtime_metrics_.validation_errors.size()); ++i) {
+            for (size_t i = start; i <runtime_metrics_.validation_errors.size(); ++i) {
                 j["schema_validation"]["recent_errors"].push_back(runtime_metrics_.validation_errors[i]);
             }
         }

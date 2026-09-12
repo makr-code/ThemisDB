@@ -115,7 +115,7 @@ bool SyntheticSSMStub::restoreState(const SSMStateSnapshot& snapshot) {
     }
 
     // Validate size
-    if (static_cast<int>(snapshot.state_data.size()) != sizeof(float) * HIDDEN_DIM) {
+    if (snapshot.state_data.size() != sizeof(float) * HIDDEN_DIM) {
         return false;  // Corrupted snapshot
     }
 

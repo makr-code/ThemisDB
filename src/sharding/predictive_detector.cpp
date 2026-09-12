@@ -386,7 +386,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     
     // Helper: compute trend (linear regression slope)
     auto compute_trend = [](const std::vector<double>& values) -> float {
-        if (static_cast<int>(values.size()) < 2) {
+        if (values.size() < 2) {
           return 0.0f;
         }
         
@@ -433,7 +433,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(static_cast<float>(history.back().retry_count));
     
     // Pad to 50 features with zeros
-    while ( static_cast<int>(features.size()) < 50) {
+    while ( features.size() < 50) {
         features.push_back(0.0f);
     }
     
@@ -462,7 +462,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
         std::lock_guard<std::mutex> fn_lock(predict_fn_mutex_);
         if (predict_fn_) {
             auto output = predict_fn_(features);
-            if (static_cast<int>(output.size()) >= 2) {
+            if (output.size() >= 2) {
                 prediction.failure_probability = output[0];
                 prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
             }
@@ -483,7 +483,7 @@ FailurePrediction PredictiveFailureDetector::runInference(
     // Run model inference
     auto output = model_->predict(features);
     
-    if (static_cast<int>(output.size()) >= 2) {
+    if (output.size() >= 2) {
         prediction.failure_probability = output[0];
         prediction.predicted_days_to_failure = static_cast<uint32_t>(output[1]);
     }

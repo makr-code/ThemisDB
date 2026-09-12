@@ -33,7 +33,7 @@ namespace {
 /// Build canonical triple key (shared between InferenceStore and KnowledgeGraphReasoner).
 static std::string makeTripleKey(const themis::graph::Triple &t) {
     std::string k = {};
-    k.reserve(t.subject.size() + static_cast<int>(t.predicate.size()) + static_cast<int>(t.object.size()) + 2);
+    k.reserve(t.subject.size() + t.predicate.size() + t.object.size() + 2);
     k += t.subject;
     k += '\0';
     k += t.predicate;
@@ -86,7 +86,7 @@ void InferenceStore::store(Triple fact, std::string rule_id, std::vector<Triple>
     }
 
     // Evict oldest entry when full.
-    if (static_cast<int>(entries_.size()) >= kMaxTriples && !insertion_order_.empty()) {
+    if (entries_.size() >= kMaxTriples && !insertion_order_.empty()) {
         entries_.erase(insertion_order_.front());
         insertion_order_.pop_front();
     }
@@ -156,7 +156,7 @@ void InferenceStore::evictExpired() {
 
 std::size_t InferenceStore::size() const {
     std::shared_lock lock(mutex_);
-    return static_cast<int>(entries_.size());
+    return entries_.size();
 }
 
 void InferenceStore::clear() {
@@ -193,7 +193,7 @@ bool KnowledgeGraphReasoner::addRule(Rule rule) {
 
 std::size_t KnowledgeGraphReasoner::ruleCount() const {
     std::shared_lock lock(rules_mutex_);
-    return static_cast<int>(rules_.size());
+    return rules_.size();
 }
 
 void KnowledgeGraphReasoner::clearRules() {
@@ -221,7 +221,7 @@ void KnowledgeGraphReasoner::addFact(Triple fact) {
 
 std::size_t KnowledgeGraphReasoner::factCount() const {
     std::shared_lock lock(facts_mutex_);
-    return static_cast<int>(base_facts_.size());
+    return base_facts_.size();
 }
 
 void KnowledgeGraphReasoner::clearFacts() {
@@ -267,7 +267,7 @@ void KnowledgeGraphReasoner::clearFacts() {
 /*static*/ void KnowledgeGraphReasoner::matchConditions(const std::vector<Triple> &conditions, std::size_t cond_idx,
                                                         const std::vector<Triple> &facts, Bindings bindings,
                                                         std::vector<Bindings> &out) {
-    if (cond_idx >= static_cast<int>(conditions.size())) {
+    if (cond_idx >= conditions.size()) {
         out.push_back(std::move(bindings));
         return;
     }

@@ -238,7 +238,7 @@ void GRPCServer::registerService(void* service_impl) {
     }
 
     services_.push_back(service);
-    std::cout << "[RPC-I] Service registered (count=" <<static_cast<int>(services_.size()) << ")" << std::endl;
+    std::cout << "[RPC-I] Service registered (count=" <<services_.size() << ")" << std::endl;
 }
 
 std::string GRPCServer::getAddress() const {
@@ -476,7 +476,7 @@ void GRPCServer::logAccess(const std::string& method, int status_code,
     // Build a minimal JSON object (no external JSON library required)
     auto jsEscape = [](const std::string& s) {
         std::string out = {};
-        out.reserve(static_cast<int>(s.size()) + 2);
+        out.reserve(s.size() + 2);
         out += '"';
         for (char c : s) {
             if      (c == '"') {

@@ -77,7 +77,7 @@ static std::string extractUserId(const http::request<http::string_body>& req, st
     }
     
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         return "";
@@ -208,7 +208,7 @@ http::response<http::string_body> ContentApiHandler::handleGetBlob(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
+        auto id = path.substr(prefix.size(), pos - prefix.size() );
         std::string user_ctx = extractUserId(req, auth_);
         auto blob = content_manager.getContentBlob(id, user_ctx);
         if (!blob) {
@@ -244,7 +244,7 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
+        auto id = path.substr(prefix.size(), pos - prefix.size() );
         auto chunks = content_manager.getContentChunks(id);
         nlohmann::json arr = nlohmann::json::array();
         for (const auto& c : chunks) {
@@ -255,7 +255,7 @@ http::response<http::string_body> ContentApiHandler::handleGetChunks(
             }
             arr.push_back(std::move(j));
         }
-        nlohmann::json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
+        nlohmann::json resp = { {"count",chunks.size()}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -291,7 +291,7 @@ http::response<http::string_body> ContentApiHandler::handleHybridSearch(
             resp.push_back({{"pk", result.first}, {"score", result.second}});
         }
         nlohmann::json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -464,7 +464,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
+        if (fusedResults.size() > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         
@@ -478,7 +478,7 @@ http::response<http::string_body> ContentApiHandler::handleFusionSearch(
         }
         
         nlohmann::json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -564,7 +564,7 @@ http::response<http::string_body> ContentApiHandler::handleFulltextSearch(
         }
         
         nlohmann::json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"results", resp},
             {"table", table},
             {"column", column},

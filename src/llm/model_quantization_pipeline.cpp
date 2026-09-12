@@ -73,8 +73,8 @@ lora::QuantizedModel ModelQuantizationPipeline::load(
 ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
 {
     // 1) File with .gguf extension
-    if (static_cast<int>(path.size()) > 5 &&
-        path.substr(static_cast<int>(path.size()) - 5) == ".gguf") {
+    if (path.size() > 5 &&
+        path.substr(path.size() - 5) == ".gguf") {
         return ModelFormat::GGUF;
     }
 
@@ -118,8 +118,8 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
     if (fs::is_directory(dir)) {
         for (const auto& entry : fs::directory_iterator(dir)) {
             const std::string fname = entry.path().filename().string();
-            if (static_cast<int>(fname.size()) > 12 &&
-                fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
+            if (fname.size() > 12 &&
+                fname.substr(fname.size() - 12) == ".safetensors") {
                 // Quickly read just the JSON header to check tensor names
                 std::ifstream sf(entry.path(), std::ios::binary);
                 if (sf) {
@@ -245,7 +245,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
             const uint64_t begin = val["data_offsets"][0].get<uint64_t>();
             const uint64_t end   = val["data_offsets"][1].get<uint64_t>();
             // Validate offsets against the data buffer to prevent OOB reads
-            if (begin > end || end > static_cast<int>(result.data.size())) {
+            if (begin > end || end > result.data.size()) {
                 throw std::runtime_error(
                     "Safetensors: tensor '" + it.key() +
                     "' has out-of-bounds data_offsets in " + file_path);
@@ -266,8 +266,8 @@ std::vector<std::string> ModelQuantizationPipeline::find_safetensor_shards(
 
     for (const auto& entry : fs::directory_iterator(dir)) {
         const std::string fname = entry.path().filename().string();
-        if (static_cast<int>(fname.size()) > 12 &&
-            fname.substr(static_cast<int>(fname.size()) - 12) == ".safetensors") {
+        if (fname.size() > 12 &&
+            fname.substr(fname.size() - 12) == ".safetensors") {
             shards.push_back(entry.path().string());
         }
     }
@@ -546,16 +546,16 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             auto pos_zeros  = name.rfind(".zeros");
 
             if (pos_weight != std::string::npos &&
-                pos_weight == static_cast<int>(name.size()) - 7) {
+                pos_weight == name.size() - 7) {
                 layers[name.substr(0, pos_weight)].weight = &desc;
             } else if (pos_qweight != std::string::npos &&
-                       pos_qweight == static_cast<int>(name.size()) - 8) {
+                       pos_qweight == name.size() - 8) {
                 layers[name.substr(0, pos_qweight)].weight = &desc;
             } else if (pos_scales != std::string::npos &&
-                       pos_scales == static_cast<int>(name.size()) - 7) {
+                       pos_scales == name.size() - 7) {
                 layers[name.substr(0, pos_scales)].scales = &desc;
             } else if (pos_zeros != std::string::npos &&
-                       pos_zeros == static_cast<int>(name.size()) - 6) {
+                       pos_zeros == name.size() - 6) {
                 layers[name.substr(0, pos_zeros)].zeros = &desc;
             }
         }
@@ -573,7 +573,7 @@ lora::QuantizedModel ModelQuantizationPipeline::load_awq(
             const auto& sd = *bufs.scales;
             const auto& zd = *bufs.zeros;
 
-            if (static_cast<int>(wd.shape.size()) < 2) {
+            if (wd.shape.size() < 2) {
               continue;
             }
 
@@ -687,11 +687,11 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             auto pos_qz = name.rfind(".qzeros");
             auto pos_sc = name.rfind(".scales");
 
-            if (pos_qw != std::string::npos && pos_qw == static_cast<int>(name.size()) - 8) {
+            if (pos_qw != std::string::npos && pos_qw == name.size() - 8) {
                 layers[name.substr(0, pos_qw)].qweight = &desc;
-            } else if (pos_qz != std::string::npos && pos_qz == static_cast<int>(name.size()) - 7) {
+            } else if (pos_qz != std::string::npos && pos_qz == name.size() - 7) {
                 layers[name.substr(0, pos_qz)].qzeros = &desc;
-            } else if (pos_sc != std::string::npos && pos_sc == static_cast<int>(name.size()) - 7) {
+            } else if (pos_sc != std::string::npos && pos_sc == name.size() - 7) {
                 layers[name.substr(0, pos_sc)].scales = &desc;
             }
         }
@@ -709,7 +709,7 @@ lora::QuantizedModel ModelQuantizationPipeline::load_gptq(
             const auto& zd = *bufs.qzeros;
             const auto& sd = *bufs.scales;
 
-            if (static_cast<int>(wd.shape.size()) < 2) {
+            if (wd.shape.size() < 2) {
               continue;
             }
 

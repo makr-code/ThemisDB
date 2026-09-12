@@ -414,9 +414,9 @@ void BackendAwareLlamaModelHandle::allocateGPUMemory(
     }
     
     // Multi-GPU setup
-    if (static_cast<int>(config.secondary_gpus.size()) > 0) {
+    if (config.secondary_gpus.size() > 0) {
         spdlog::info("Multi-GPU setup detected: {} GPUs", 
-                    1 + static_cast<int>(config.secondary_gpus.size()) );
+                    1 + config.secondary_gpus.size() );
         
         // Enable peer-to-peer access
         if (config.enable_peer_to_peer) {

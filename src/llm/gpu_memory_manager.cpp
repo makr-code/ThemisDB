@@ -394,7 +394,7 @@ GPUMemoryManager::~GPUMemoryManager() {
     // Just log what we're cleaning up
     for (const auto& [model_id, allocs] : allocations_) {
         spdlog::info("Cleaning up memory for model: {} ({} allocations)", 
-                     model_id,static_cast<int>(allocs.size()));
+                     model_id,allocs.size());
     }
     
     // Clear allocations - this will trigger holder destructors
@@ -435,7 +435,7 @@ void GPUMemoryManager::initializeGPU() {
         
         // Initialize multi-GPU support (v1.4.0)
         if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-            spdlog::info("Initializing multi-GPU support with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
+            spdlog::info("Initializing multi-GPU support with {} GPUs",config_.gpu_devices.size());
             available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices, deviceCount);
 
             if (available_gpus_.empty()) {
@@ -492,7 +492,7 @@ void GPUMemoryManager::initializeGPU() {
         }
         
         spdlog::info("GPU Memory Manager: Running with real CUDA support");
-        spdlog::info("  Available GPUs: {}",static_cast<int>(available_gpus_.size()));
+        spdlog::info("  Available GPUs: {}",available_gpus_.size());
     } else {
         gpu_available_ = false;
         spdlog::warn("No usable CUDA GPU detected: {}", cudaGetErrorString(err));
@@ -512,7 +512,7 @@ void GPUMemoryManager::initializeGPU() {
     
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs",static_cast<int>(config_.gpu_devices.size()));
+        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs",config_.gpu_devices.size());
         available_gpus_ = sanitizeGpuDeviceList(config_.gpu_devices);
         if (available_gpus_.empty()) {
             spdlog::warn("No valid configured GPUs remain after validation, falling back to primary GPU {}",
@@ -537,7 +537,7 @@ void GPUMemoryManager::initializeGPU() {
     }
     
     spdlog::info("GPU Memory Manager: CUDA not enabled at build time; GPU runtime remains unavailable");
-    spdlog::info("  Tracked GPU slots: {}",static_cast<int>(available_gpus_.size()));
+    spdlog::info("  Tracked GPU slots: {}",available_gpus_.size());
 #endif
 
     // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
@@ -560,7 +560,7 @@ void GPUMemoryManager::shutdownGPU() {
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         // Disable peer access if it was enabled
-        if (config_.enable_peer_access && static_cast<int>(available_gpus_.size()) > 1) {
+        if (config_.enable_peer_access && available_gpus_.size() > 1) {
             for (size_t i = 0; i < available_gpus_.size(); ++i) {
                 int src_gpu = available_gpus_[i];
                 cudaError_t set_err = cudaSetDevice(src_gpu);
@@ -1177,7 +1177,7 @@ bool GPUMemoryManager::defragment() {
     // Iterate through each model and consolidate fragmented allocations
     for (auto& [model_id, allocs] : allocations_) {
         // Skip if model has only one allocation (not fragmented)
-        if (static_cast<int>(allocs.size()) <= 1) {
+        if (allocs.size() <= 1) {
             continue;
         }
         
@@ -1195,20 +1195,20 @@ bool GPUMemoryManager::defragment() {
         }
         
         // Defragment GPU memory if there are multiple GPU allocations
-        if (static_cast<int>(gpu_allocs.size()) > 1) {
+        if (gpu_allocs.size() > 1) {
             if (defragmentModelGPU(model_id, gpu_allocs)) {
-                allocations_consolidated += static_cast<int>(gpu_allocs.size()) - 1;
+                allocations_consolidated += gpu_allocs.size() - 1;
             }
         }
         
         // Defragment CPU memory if there are multiple CPU allocations
-        if (static_cast<int>(cpu_allocs.size()) > 1) {
+        if (cpu_allocs.size() > 1) {
             if (defragmentModelCPU(model_id, cpu_allocs)) {
-                allocations_consolidated += static_cast<int>(cpu_allocs.size()) - 1;
+                allocations_consolidated += cpu_allocs.size() - 1;
             }
         }
         
-        if (static_cast<int>(gpu_allocs.size()) > 1 || static_cast<int>(cpu_allocs.size()) > 1) {
+        if (gpu_allocs.size() > 1 || cpu_allocs.size() > 1) {
             models_defragmented++;
         }
     }
@@ -1236,7 +1236,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
     // Defragment each device separately
     for (const auto& [device_id, device_allocs] : per_device_allocs) {
-        if (static_cast<int>(device_allocs.size()) <= 1) {
+        if (device_allocs.size() <= 1) {
             continue;
         }
 
@@ -1380,7 +1380,7 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
 
 bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id, 
                                           const std::vector<MemoryAllocation>& cpu_allocs) {
-    if (static_cast<int>(cpu_allocs.size()) <= 1) {
+    if (cpu_allocs.size() <= 1) {
         return false;
     }
     
@@ -1397,7 +1397,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate pinned allocations
-    if (static_cast<int>(pinned_allocs.size()) > 1) {
+    if (pinned_allocs.size() > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : pinned_allocs) {
             total_ram += alloc.ram_bytes;
@@ -1481,7 +1481,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
     }
     
     // Consolidate regular allocations
-    if (static_cast<int>(regular_allocs.size()) > 1) {
+    if (regular_allocs.size() > 1) {
         size_t total_ram = 0;
         for (const auto& alloc : regular_allocs) {
             total_ram += alloc.ram_bytes;
@@ -2401,7 +2401,7 @@ float GPUMemoryManager::getAverageGPULoad() const {
 bool GPUMemoryManager::needsLoadRebalancing([[maybe_unused]] float threshold) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (static_cast<int>(available_gpus_.size()) < 2) {
+    if (available_gpus_.size() < 2) {
         return false;  // No need to rebalance with single GPU
     }
     

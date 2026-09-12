@@ -65,7 +65,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
         return -1;
     }
     try {
-        return std::stoi(content.substr(pos + static_cast<int>(zoneIdKey.size()) ));
+        return std::stoi(content.substr(pos + zoneIdKey.size() ));
     } catch (...) {
         return -1;
     }
@@ -94,7 +94,7 @@ bool ModuleLoader::verifyAuthenticodeSignature(const std::string& modulePath,
                                                std::string& signerInfo) const {
     // Convert UTF-8 path to wide string for Windows API
     int wideLen = MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
-                                      static_cast<int>(modulePath.size()), nullptr, 0);
+                                      modulePath.size(), nullptr, 0);
     if (wideLen == 0) {
         spdlog::error("verifyAuthenticodeSignature: path conversion failed for: {}",
                       modulePath);
@@ -102,7 +102,7 @@ bool ModuleLoader::verifyAuthenticodeSignature(const std::string& modulePath,
     }
     std::wstring widePath(wideLen, L'\0');
     MultiByteToWideChar(CP_UTF8, 0, modulePath.c_str(),
-                        static_cast<int>(modulePath.size()), &widePath[0], wideLen);
+                        modulePath.size(), &widePath[0], wideLen);
 
     WINTRUST_FILE_INFO fileInfo = {};
     fileInfo.cbStruct      = sizeof(WINTRUST_FILE_INFO);

@@ -95,7 +95,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 
         json response_body = {
             {"shards", result},
-            {"total",static_cast<int>(shards.size())}
+            {"total",shards.size()}
         };
         return makeResponse(http::status::ok, response_body.dump(), req);
 
@@ -138,8 +138,8 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 
             json entry = {
                 {"region",         region},
-                {"total_shards",static_cast<int>(all_shards.size())},
-                {"healthy_shards",static_cast<int>(healthy_shards.size())},
+                {"total_shards",all_shards.size()},
+                {"healthy_shards",healthy_shards.size()},
                 {"has_majority_quorum", has_quorum},
                 {"zones",          zones_arr}
             };
@@ -148,7 +148,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 
         json response_body = {
             {"regions",       result},
-            {"total_regions",static_cast<int>(regions.size())}
+            {"total_regions",regions.size()}
         };
         return makeResponse(http::status::ok, response_body.dump(), req);
 
@@ -197,8 +197,8 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
                 degraded_regions.push_back({
                     {"region", region},
                     {"healthy_fraction", ratio},
-                    {"healthy_shards",static_cast<int>(health.size())},
-                    {"total_shards",static_cast<int>(all.size())}
+                    {"healthy_shards",health.size()},
+                    {"total_shards",all.size()}
                 });
             } else {
                 healthy_regions.push_back(region);
@@ -217,9 +217,9 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
 
         json response_body = {
             {"overall_status",   overall_status},
-            {"total_shards",static_cast<int>(all_shards.size())},
-            {"healthy_shards",static_cast<int>(healthy_all.size())},
-            {"total_regions",static_cast<int>(regions.size())},
+            {"total_shards",all_shards.size()},
+            {"healthy_shards",healthy_all.size()},
+            {"total_regions",regions.size()},
             {"healthy_regions",  healthy_regions},
             {"degraded_regions", degraded_regions},
             {"failed_regions",   failed_regions}

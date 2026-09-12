@@ -722,6 +722,8 @@ set(THEMIS_QUERY_SOURCES
     
     # Analytics
     ../src/analytics/olap.cpp
+    ../src/gpu/query_accelerator.cpp
+    ../src/gpu/graph_cache.cpp
     # Data export: JSON/CSV always available; Arrow/Parquet/Feather when THEMIS_HAS_ARROW
     ../src/analytics/analytics_export.cpp
     ../src/analytics/arrow_export.cpp
@@ -1578,6 +1580,7 @@ endif()
 # These work without llama.cpp integration and prevent circular module dependencies
 # The stub provides deterministic fallbacks for EmbeddedLLM, EmbeddedLLMManager, etc.
 set(THEMIS_LLM_API_SOURCES
+    ../src/llm/prompt_policy.cpp
     ../src/llm/llm_factory_stub.cpp
     ../src/llm/embedded_llm_stub.cpp
     ../src/llm/api/docs_assistant_adapter.cpp
@@ -1754,6 +1757,10 @@ set(THEMIS_INGESTION_SOURCES
 )
 
 set(THEMIS_NETWORK_SOURCES
+    # Execution module implementation required by HttpServer wiring.
+    ../src/execution/query_scheduler.cpp
+    ../src/execution/thread_pool_manager.cpp
+
     # HTTP Server (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_shutdown_manager.cpp>
@@ -1799,6 +1806,16 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
+    # AI plugin API handler used by HttpServer when LLM routes are enabled.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ai_plugin_api_handler.cpp>
+    # AI plugin generator implementation required by AiPluginApiHandler.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/ai/ai_plugin_generator.cpp>
+    # Scraper plugin API handler used by HttpServer when scraper plugin is enabled.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/server/scraper_plugin_api_handler.cpp>
+    # Scraper metadata writer implementation required by ScraperPluginApiHandler.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/scraper/scraper_metadata_writer.cpp>
+    # Encrypted storage API handler implementation used by HttpServer.
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/encrypted_storage_api_handler.cpp>
     # Maintenance Orchestrator (always compiled when HTTP server is on)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>
@@ -2050,8 +2067,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/kernel_timeout_enforcer.cpp
         ../src/gpu/load_balancer.cpp
         ../src/gpu/tensor_buffer.cpp
-        ../src/gpu/query_accelerator.cpp
-        ../src/gpu/graph_cache.cpp
         ../src/gpu/training_loop.cpp
         ../src/gpu/rocm_backend.cpp
         ../src/gpu/cluster_topology.cpp
@@ -2535,6 +2550,9 @@ function(themis_build_modular)
     endif()
     if(THEMIS_MODULE_CONTENT)
         list(APPEND _themis_network_deps themis_content)
+    endif()
+    if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted)
+        list(APPEND _themis_network_deps themis_user_storage_encrypted)
     endif()
     if(TARGET themis_api_proto)
         list(APPEND _themis_network_deps themis_api_proto)

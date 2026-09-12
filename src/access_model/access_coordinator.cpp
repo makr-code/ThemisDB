@@ -65,7 +65,7 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         override {
         std::lock_guard<std::mutex> lock(mutex_);
         tiers_ = tiers;
-        THEMIS_INFO("AccessCoordinator initialized with {} tiers",static_cast<int>(tiers_.size()));
+        THEMIS_INFO("AccessCoordinator initialized with {} tiers",tiers_.size());
         return true;
     }
 

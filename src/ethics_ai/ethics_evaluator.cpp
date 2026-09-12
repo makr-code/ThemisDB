@@ -113,7 +113,7 @@ double EthicsEvaluator::evaluateFairness(const EthicalDecision &decision,
     double score = 0.65; // Base score
 
     // Factor 1: Multi-philosophy consideration
-    if (static_cast<int>(decision.supporting_philosophies.size()) > 1) {
+    if (decision.supporting_philosophies.size() > 1) {
         score += 0.2;
     }
 
@@ -240,7 +240,7 @@ double EthicsEvaluator::computeConsensus(const std::vector<EthicalArgument> &arg
     if (school_votes.empty()) {
         return 1.0;
     }
-    if (static_cast<int>(school_votes.size()) == 1) {
+    if (school_votes.size() == 1) {
         return 1.0;
     }
 

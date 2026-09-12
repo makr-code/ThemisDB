@@ -69,7 +69,7 @@ json WasmHandlerEntry::toJson() const {
         {"created_at",       created_at},
         {"updated_at",       updated_at},
         {"invocation_count", invocation_count.load(std::memory_order_relaxed)},
-        {"wasm_size_bytes",static_cast<int>(wasm_bytes.size())},
+        {"wasm_size_bytes",wasm_bytes.size()},
         {"module_info", json{
             {"valid",        module_info.valid},
             {"wasm_version", module_info.wasm_version},
@@ -122,7 +122,7 @@ std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encode
     int i = 0;
     unsigned char char4[4];
     unsigned char char3[3];
-    int len = static_cast<int>(encoded.size());
+    int len = encoded.size();
 
     int idx = 0;
     while (idx < len && encoded[idx] != '=' && isBase64(
@@ -266,7 +266,7 @@ bool WasmHandlerRegistry::hasHandler(const std::string& id) const {
 
 size_t WasmHandlerRegistry::size() const {
     std::shared_lock lock(registry_mutex_);
-    return static_cast<int>(registry_.size());
+    return registry_.size();
 }
 
 std::vector<json> WasmHandlerRegistry::listHandlers(
@@ -502,7 +502,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleList(
         const std::string key   = "tenant_id=";
         auto kpos = query.find(key);
         if (kpos != std::string::npos) {
-            tenant_filter = query.substr(kpos + static_cast<int>(key.size()) );
+            tenant_filter = query.substr(kpos + key.size() );
             const auto amp = tenant_filter.find('&');
             if (amp != std::string::npos) {
               tenant_filter = tenant_filter.substr(0, amp);

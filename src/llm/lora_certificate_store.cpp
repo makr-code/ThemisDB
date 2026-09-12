@@ -191,8 +191,7 @@ bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
       return false;
     }
 
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(),
-                               static_cast<int>(cert_pem.size()));
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
     if (!bio) {
       return false;
     }
@@ -224,9 +223,9 @@ std::optional<std::string> LoRACertificateStore::searchSystemStore(
 
     // Validate fingerprint format before iterating the store.
     // A SHA-256 fingerprint must be exactly 64 lowercase hex chars.
-    if (static_cast<int>(fingerprint.size()) != 64) {
+    if (fingerprint.size() != 64) {
         spdlog::debug("LoRACertificateStore: skipping system store — fingerprint "
-                      "size {} is not 64",static_cast<int>(fingerprint.size()));
+                      "size {} is not 64",fingerprint.size());
         return std::nullopt;
     }
     for (char c : fingerprint) {

@@ -70,7 +70,7 @@ void LigraProcessor::process_sparse(const Frontier& frontier, const VertexFunc& 
     // Simple parallel processing (would use thread pool in production)
     std::vector<std::thread> threads = {};
 
-    size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
+    size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
     
     auto it = active.begin();
     for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
@@ -129,7 +129,7 @@ Frontier LigraProcessor::process_edges(
     
     // Use lock-free atomic operations for frontier updates in sparse mode
     // Check current frontier size to determine strategy
-    if (frontier.is_dense_mode() || static_cast<int>(frontier.size()) > num_vertices_ * 0.1) {
+    if (frontier.is_dense_mode() || frontier.size() > num_vertices_ * 0.1) {
         // For dense mode or large frontiers, switch to dense representation
         next_frontier.switch_to_dense();
         std::vector<std::atomic<bool>> atomic_dense(num_vertices_);
@@ -138,7 +138,7 @@ Frontier LigraProcessor::process_edges(
         }
         
         process_vertices(frontier, [&](NodeID src) {
-            if (src >= static_cast<int>(adj_list.size())) {
+            if (src >= adj_list.size()) {
               return;
             }
             
@@ -165,7 +165,7 @@ Frontier LigraProcessor::process_edges(
         const auto& active = frontier.get_sparse();
         std::vector<std::thread> threads = {};
 
-        size_t chunk_size = (static_cast<int>(active.size()) + num_threads_ - 1) / num_threads_;
+        size_t chunk_size = (active.size() + num_threads_ - 1) / num_threads_;
         
         auto it = active.begin();
         for (size_t t = 0; t < num_threads_ && it != active.end(); t++) {
@@ -178,7 +178,7 @@ Frontier LigraProcessor::process_edges(
             threads.emplace_back([t, it, chunk_end, &adj_list, &func, &thread_buffers]() {
                 for (auto v_it = it; v_it != chunk_end; ++v_it) {
                     NodeID src = *v_it;
-                    if (src >= static_cast<int>(adj_list.size())) {
+                    if (src >= adj_list.size()) {
                       continue;
                     }
                     
@@ -221,7 +221,7 @@ std::vector<int> LigraProcessor::parallel_bfs(
     current.add(start_vertex);
     
     int level = 0;
-    while (static_cast<int>(current.size()) > 0) {
+    while (current.size() > 0) {
         level++;
         
         // EdgeMap: visit all neighbors of current frontier

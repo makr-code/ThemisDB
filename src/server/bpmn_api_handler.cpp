@@ -66,7 +66,7 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -102,7 +102,7 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
 
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         // Malformed or missing Bearer token -> 401 Unauthorized
@@ -126,7 +126,7 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
 }
 
 std::string BpmnApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
-    if (static_cast<int>(target.size()) <= prefix.size()) {
+    if (target.size() <= prefix.size()) {
         return "";
     }
     

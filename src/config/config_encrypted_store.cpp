@@ -33,7 +33,7 @@ static const char kB64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstu
 
 std::string base64Encode(const std::vector<uint8_t> &data) {
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
 
     const std::size_t len = data.size();
     for (std::size_t i = 0; i < len; i += 3) {
@@ -201,7 +201,7 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 
 std::size_t ConfigEncryptedStore::size() const {
     std::shared_lock<std::shared_mutex> lock(mutex_);
-    return static_cast<int>(store_.size());
+    return store_.size();
 }
 
 void ConfigEncryptedStore::clear() {
@@ -285,7 +285,7 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
         KeyMaterial km;
         km.version   = j.at("key_version").get<uint32_t>();
         km.key_bytes = base64Decode(j.at("key_bytes").get<std::string>());
-        if (static_cast<int>(km.key_bytes.size()) != 32) {
+        if (km.key_bytes.size() != 32) {
             throw ConfigEncryptionException("deserialize: key_bytes must be exactly 32 bytes, got "
                                             + std::to_string(km.key_bytes.size()));
         }
@@ -314,7 +314,7 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
 
 std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
     std::vector<uint8_t> key(32);
-    if (RAND_bytes(key.data(), static_cast<int>(key.size())) != 1) {
+    if (RAND_bytes(key.data(), key.size()) != 1) {
         throw ConfigEncryptionException("generateKey: RAND_bytes failed");
     }
     return key;
@@ -322,7 +322,7 @@ std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
 
 std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), iv.size()) != 1) {
         throw ConfigEncryptionException("generateIV: RAND_bytes failed");
     }
     return iv;
@@ -356,7 +356,7 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
     }
 
     const auto *pt   = reinterpret_cast<const unsigned char *>(plaintext.data());
-    const int pt_len = static_cast<int>(plaintext.size());
+    const int pt_len = plaintext.size();
 
     std::vector<uint8_t> ciphertext(plaintext.size());
     int len = 0;
@@ -379,10 +379,10 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
 
 std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciphertext, const std::vector<uint8_t> &key,
                                                 const std::vector<uint8_t> &iv, const std::vector<uint8_t> &tag) {
-    if (static_cast<int>(iv.size()) != 12) {
+    if (iv.size() != 12) {
         throw ConfigEncryptionException("aesGcmDecrypt: IV must be 12 bytes");
     }
-    if (static_cast<int>(tag.size()) != 16) {
+    if (tag.size() != 16) {
         throw ConfigEncryptionException("aesGcmDecrypt: tag must be 16 bytes");
     }
 
@@ -410,7 +410,7 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciph
 
     std::vector<uint8_t> plaintext_buf(ciphertext.size());
     int len = 0;
-    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len, ciphertext.data(), static_cast<int>(ciphertext.size()))
+    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len, ciphertext.data(), ciphertext.size())
         != 1) {
         throw ConfigEncryptionException("aesGcmDecrypt: EVP_DecryptUpdate failed");
     }

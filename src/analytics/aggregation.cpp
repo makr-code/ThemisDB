@@ -285,7 +285,7 @@ void Aggregator::feed(const AggregationRow& row)
 
 std::size_t Aggregator::group_count() const noexcept
 {
-    return static_cast<int>(groups_.size());
+    return groups_.size();
 }
 
 // ---------------------------------------------------------------------------

@@ -31,7 +31,7 @@ static bool isVariable(const std::string &s) {
 
 static std::string jsonEscape(const std::string &s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 4);
+    out.reserve(s.size() + 4);
     for (char c : s) {
         if (c == '"') {
             out += "\\\"";
@@ -483,7 +483,7 @@ GoalResult ExpertSystemEngine::queryGoal(const TriplePattern &goal) {
     std::shared_lock<std::shared_mutex> lock(mutex_);
     GoalResult result;
     result.success    = backwardChainDLS(goal, result.proof_trace, 0, cfg_.max_backward_chain_depth);
-    result.depth_used = static_cast<int>(result.proof_trace.size());
+    result.depth_used = result.proof_trace.size();
     return result;
 }
 

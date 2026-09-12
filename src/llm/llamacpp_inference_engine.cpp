@@ -356,7 +356,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
                 tokens.push_back(std::move(tok));
             }
         }
-        if (static_cast<int>(tokens.size()) >= 4) {
+        if (tokens.size() >= 4) {
             std::unordered_map<std::string, int> bigram_count;
             int repeated = 0;
             for (size_t i = 0; i + 1 < tokens.size(); ++i) {
@@ -367,7 +367,7 @@ double LLMOutputValidator::estimateCoherence(const std::string& text) {
                 }
             }
             double bigram_repeat_ratio = static_cast<double>(repeated) /
-                                         static_cast<double>(static_cast<int>(tokens.size()) - 1);
+                                         static_cast<double>(tokens.size() - 1);
             if (bigram_repeat_ratio > 0.40) {
                 score *= 0.5;  // >40% of bigrams are repeated
             } else if (bigram_repeat_ratio > 0.20) {

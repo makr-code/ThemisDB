@@ -286,7 +286,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (results.empty()) {
         return judge::EvaluationResult{};
     }
-    if (static_cast<int>(results.size()) == 1) {
+    if (results.size() == 1) {
         return results[0];
     }
 
@@ -381,7 +381,7 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
 double DistributedRAGEvaluator::computeAgreement(
     const std::vector<judge::EvaluationResult>& results)
 {
-    if (static_cast<int>(results.size()) <= 1) { return 1.0; }
+    if (results.size() <= 1) { return 1.0; }
 
     // Agreement = 1 - normalised standard deviation of overall_score
     double sum  = 0.0;

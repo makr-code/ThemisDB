@@ -44,7 +44,7 @@ std::string RocksDBTokenBlacklist::encodeExpiry(std::chrono::system_clock::time_
 }
 
 std::chrono::system_clock::time_point RocksDBTokenBlacklist::decodeExpiry(const std::string &val) {
-    if (static_cast<int>(val.size()) < 8) {
+    if (val.size() < 8) {
         return std::chrono::system_clock::time_point{};
     }
     int64_t secs = 0;
@@ -104,14 +104,14 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::DB* db_instance = nullptr;
+    std::unique_ptr<rocksdb::DB> db_instance;
     rocksdb::Status s
         = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_instance);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());
     }
-    db_ = db_instance;
+    db_ = db_instance.release();
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
     for (size_t i = 0; i < existing_cfs.size(); ++i) {

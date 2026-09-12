@@ -172,7 +172,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + e.what());
                     metrics_->recordError("exporter_exception");
 
-                    if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+                    if (stats.errors.size() >= options.max_errors) {
                         THEMIS_ERROR("StreamingExporter: max errors reached, stopping");
                         limit_reached = true;
                         break;
@@ -185,7 +185,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     stats.errors.push_back("Entity " + entity.getPrimaryKey() + ": " + std::string(e.what()));
                     metrics_->recordError("std_exception");
 
-                    if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+                    if (stats.errors.size() >= options.max_errors) {
                         THEMIS_ERROR("StreamingExporter: max errors reached, stopping");
                         limit_reached = true;
                         break;
@@ -252,7 +252,7 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
                     throw ExportIOException("Failed to rename encrypted file: " + rename_ec.message(), enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception &e) {
+            } catch (const std::exception &) {
                 std::error_code ec = {};
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

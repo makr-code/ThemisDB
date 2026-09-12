@@ -130,7 +130,7 @@ std::string extractiveSummary(
     std::vector<size_t> selected_indices;
     size_t chars_used = 0;
     for (const auto& [score, idx] : scored) {
-        if (static_cast<int>(selected_indices.size()) >= max_sentences) {
+        if (selected_indices.size() >= max_sentences) {
           break;
         }
         const size_t len = all_sentences[idx].size();
@@ -184,7 +184,7 @@ std::string buildMultiDocPrompt(
     size_t max_chars)
 {
     std::ostringstream oss = {};
-    oss << "Summarize the following " <<static_cast<int>(id_content.size()) << " document(s)";
+    oss << "Summarize the following " <<id_content.size() << " document(s)";
     if (!query.empty()) {
         oss << " to answer the query: \"" << query << "\"";
     }
@@ -223,7 +223,7 @@ struct DocumentSummarizer::Impl {
         std::unordered_set<std::string> terms = {};
 
         for (auto& w : tokeniseWords(query)) {
-            if (static_cast<int>(w.size()) > 2) { // skip stop-word candidates
+            if (w.size() > 2) { // skip stop-word candidates
                 terms.insert(w);
             }
         }
@@ -312,7 +312,7 @@ DocumentSummary DocumentSummarizer::summarize(const std::string& document_id,
                                                const std::string& query) const
 {
     THEMIS_DEBUG("DocumentSummarizer::summarize doc={} chars={}",
-                 document_id,static_cast<int>(content.size()));
+                 document_id,content.size());
     return impl_->summarizeOne(document_id, content, query,
                                impl_->config.max_summary_chars);
 }

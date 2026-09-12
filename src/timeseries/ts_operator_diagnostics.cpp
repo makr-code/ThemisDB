@@ -38,7 +38,7 @@ void TsOperatorDiagnostics::recordIncident(
             error_code
         };
         std::lock_guard<std::mutex> lock(mutex_);
-        if (static_cast<int>(incidents_.size()) >= kMaxIncidents) {
+        if (incidents_.size() >= kMaxIncidents) {
             incidents_.erase(incidents_.begin());
         }
         incidents_.push_back(std::move(inc));
@@ -65,7 +65,7 @@ std::vector<TsIncident> TsOperatorDiagnostics::recentIncidents(
     std::lock_guard<std::mutex> lock(mutex_);
     if (incidents_.empty()) return {};
     std::vector<TsIncident> result(incidents_.rbegin(), incidents_.rend());
-    if (max_count > 0 && static_cast<int>(result.size()) > max_count) {
+    if (max_count > 0 && result.size() > max_count) {
         result.resize(max_count);
     }
     return result;
@@ -140,8 +140,8 @@ int64_t TsOperatorDiagnostics::nowNs() noexcept {
 
 TsIncidentSeverity TsOperatorDiagnostics::severityFromId(std::string_view id) noexcept {
     auto has_suffix = [&](std::string_view s) {
-        return static_cast<bool>( static_cast<int>(id.size()) < static_cast<int>(= s.size())) &&
-               id.substr(static_cast<int>(id.size()) - static_cast<int>(s.size()) ) == s;
+        return id.size() >= s.size() &&
+               id.substr(id.size() - s.size()) == s;
     };
     auto contains_sub = [&](std::string_view sub) {
         return id.find(sub) != std::string_view::npos;

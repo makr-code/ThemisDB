@@ -84,7 +84,7 @@ static std::string base64Decode(const std::string &encoded) {
  */
 static std::string base64Encode(const std::string &data) {
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
 
     uint32_t buf = 0;
     int bits     = 0;
@@ -295,7 +295,7 @@ AdaptiveQueryCache::WarmupResult AdaptiveQueryCache::warmupFromLog(const std::st
             }
 
             // Check per-tenant quota (honour limits even during warmup).
-            if (!checkTenantQuota(tenant_id,static_cast<int>(decoded.size()))) {
+            if (!checkTenantQuota(tenant_id,decoded.size())) {
                 THEMIS_DEBUG("warmupFromLog: line {}: tenant '{}' quota exceeded, skipping", line_number, tenant_id);
                 total_skipped.fetch_add(1, std::memory_order_relaxed);
                 enhanced_metrics_.warmup_entries_skipped++;

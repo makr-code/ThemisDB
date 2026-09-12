@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <random>
 #include <cctype>
+#include <limits>
 
 using json = nlohmann::json;
 
@@ -129,7 +130,7 @@ bool DataLoader::loadFromFile(const std::string& filepath) {
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples",static_cast<int>(samples_.size()));
+    spdlog::info("Loaded {} samples",samples_.size());
     return true;
 }
 
@@ -190,7 +191,7 @@ bool DataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sampl
         shuffle();
     }
     
-    spdlog::info("Loaded {} samples from memory",static_cast<int>(samples_.size()));
+    spdlog::info("Loaded {} samples from memory",samples_.size());
     return true;
 }
 
@@ -334,14 +335,14 @@ void DataLoader::tokenizeSample(InstructionDataSample& sample) {
     
     // Truncate if needed
     if (config_.truncate_to_max_length && 
-        static_cast<int>(sample.input_ids.size()) > static_cast<size_t>(config_.max_sequence_length)) {
+        sample.input_ids.size() > static_cast<size_t>(config_.max_sequence_length)) {
         sample.input_ids.resize(config_.max_sequence_length);
         sample.label_ids.resize(config_.max_sequence_length);
     }
 }
 
 size_t DataLoader::num_batches() const {
-    return (static_cast<int>(samples_.size()) + config_.batch_size - 1) / config_.batch_size;
+    return (samples_.size() + config_.batch_size - 1) / config_.batch_size;
 }
 
 TrainingBatch DataLoader::getNextBatch() {
@@ -365,7 +366,7 @@ TrainingBatch DataLoader::getNextBatch() {
 
 TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) {
     TrainingBatch batch;
-    batch.batch_size = static_cast<int>(batch_indices.size());
+    batch.batch_size = batch_indices.size();
     batch.max_sequence_length = 0;
     
     // Collect samples and find max length
@@ -375,10 +376,10 @@ TrainingBatch DataLoader::createBatch(const std::vector<size_t>& batch_indices) 
         batch.label_ids.push_back(sample.label_ids);
         batch.sequence_lengths.push_back(sample.input_ids.size());
         
-        batch.max_sequence_length = std::max(
-            batch.max_sequence_length, 
-            static_cast<int>(sample.input_ids.size())
-        );
+        const int sample_length = static_cast<int>(std::min(
+            sample.input_ids.size(),
+            static_cast<size_t>(std::numeric_limits<int>::max())));
+        batch.max_sequence_length = std::max(batch.max_sequence_length, sample_length);
     }
     
     // Pad sequences if needed
@@ -393,12 +394,12 @@ void DataLoader::padBatch(TrainingBatch& batch) {
     int target_length = config_.pad_to_max_length ? 
         config_.max_sequence_length : batch.max_sequence_length;
     
-    for (size_t i = 0; i <static_cast<int>(batch.input_ids.size()); ++i) {
+    for (size_t i = 0; i <batch.input_ids.size(); ++i) {
         auto& input_seq = batch.input_ids[i];
         auto& label_seq = batch.label_ids[i];
         
         // Pad to target length
-        while ( static_cast<int>(input_seq.size()) < static_cast<size_t>(target_length)) {
+        while ( input_seq.size() < static_cast<size_t>(target_length)) {
             input_seq.push_back(config_.pad_token_id);
             label_seq.push_back(-100);  // -100 is ignored in loss calculation
         }
@@ -428,7 +429,7 @@ void DataLoader::shuffle() {
 }
 
 std::optional<InstructionDataSample> DataLoader::getSample(size_t idx) const {
-    if (idx >= static_cast<int>(samples_.size())) {
+    if (idx >= samples_.size()) {
         return std::nullopt;
     }
     return samples_[idx];
@@ -567,7 +568,7 @@ trainValSplit(const std::vector<InstructionDataSample>& samples, float validatio
     }
     
     size_t val_size = static_cast<size_t>(samples.size() * validation_split);
-    size_t train_size = static_cast<int>(samples.size()) - val_size;
+    size_t train_size = samples.size() - val_size;
     
     std::vector<InstructionDataSample> train_samples(
         samples.begin(), samples.begin() + train_size);

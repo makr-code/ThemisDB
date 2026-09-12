@@ -214,11 +214,11 @@ uint64_t SSMStateRocksDBStore::compact([[maybe_unused]] uint64_t retention_windo
                 status = db_->Delete(write_opts, key);
             }
             if (!status.ok()) {
-                return static_cast<int>(keys_to_delete.size()) - 1;  // Return partial count
+                return keys_to_delete.size() - 1;  // Return partial count
             }
         }
 
-        return static_cast<int>(keys_to_delete.size());
+        return keys_to_delete.size();
     } catch (...) {
         return 0;
     }

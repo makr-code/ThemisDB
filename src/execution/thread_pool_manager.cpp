@@ -153,7 +153,7 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
             std::lock_guard<std::mutex> lk(latency_mutex_);
             latency_samples_us_.push_back(elapsed_us);
             // Cap sample buffer at 10 000 entries.
-            if (static_cast<int>(latency_samples_us_.size()) > 10000) {
+            if (latency_samples_us_.size() > 10000) {
                 latency_samples_us_.erase(latency_samples_us_.begin(),
                                           latency_samples_us_.begin() + 1000);
             }
@@ -163,7 +163,7 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
     // Mark queue as inactive.
     {
         std::lock_guard<std::mutex> lk(queues_mutex_);
-        if (static_cast<int>(queues_.size()) > thread_idx) {
+        if (queues_.size() > thread_idx) {
             queues_[thread_idx]->active.store(false, std::memory_order_relaxed);
         }
     }

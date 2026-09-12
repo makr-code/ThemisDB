@@ -46,7 +46,7 @@ static bool valueIsInteger(const std::string& s) {
     if (s[0] == '+' || s[0] == '-') {
       ++start;
     }
-    if (start == static_cast<int>(s.size())) {
+    if (start == s.size()) {
       return false;
     }
     for (size_t i = start; i < s.size(); ++i) {
@@ -64,7 +64,7 @@ static bool valueIsDouble(const std::string& s) {
     try {
         size_t pos = 0;
         (void)std::stod(s, &pos);
-        return pos == static_cast<int>(s.size());
+        return pos == s.size();
     } catch (...) {
         return false;
     }
@@ -355,7 +355,7 @@ std::string
 SchemaAutoDetector::validateStringCoercion(const std::string& value)
 {
     // PHASE-2-HARDENING: String length enforcement (max 4KB per field)
-    if (static_cast<int>(value.size()) > TypeCoercionConfig::kMaxStringFieldLength) {
+    if (value.size() > TypeCoercionConfig::kMaxStringFieldLength) {
         return "String value exceeds maximum length (" +
                std::to_string(TypeCoercionConfig::kMaxStringFieldLength) + " bytes)";
     }

@@ -148,7 +148,7 @@ std::string buildQueryString(
             l == "suche" || l == "recherche" || l == "buscar" || l == "zoek")
             return true;
         // Prefix match: starts with "q=" or "search"
-        if (static_cast<int>(l.size()) >= 1 && l[0] == 'q' && (static_cast<int>(l.size()) == 1 || l[1] == '_' || l[1] == '-'))
+        if (l.size() >= 1 && l[0] == 'q' && (l.size() == 1 || l[1] == '_' || l[1] == '-'))
             return true;
         // Substring keywords (multilingual)
         static const std::array<std::string, 22> kKeywords = {{
@@ -442,7 +442,7 @@ SearchResultPage HtmlSearchEngine::parseResults(
 
         // Snippet: all remaining text
         item.snippet = extractText(li.first_child().value());
-        if (static_cast<int>(item.snippet.size()) > 300) {
+        if (item.snippet.size() > 300) {
           item.snippet = item.snippet.substr(0, 300) + "…";
         }
 

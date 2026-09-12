@@ -67,7 +67,7 @@ BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
 
 void BloomFilter::setBit([[maybe_unused]] size_t idx) noexcept {
     idx %= num_bits_;
-    bits_[idx / 64] |= (1 << (idx % 64));
+    bits_[idx / 64] |= (1ULL << (idx % 64));
 }
 
 bool BloomFilter::testBit([[maybe_unused]] size_t idx) const noexcept {
@@ -167,7 +167,7 @@ bool TemporalTierManager::insert(const std::string& table_name,
     if (decision == TierDecision::FLUSH_WARM_TO_COLD) {
         flushWarmToColdLocked(table_name, doc.key, warm_blocks);
         // Also flush hot → warm if still over limit
-        if (static_cast<int>(hot_map.size()) > policy_.hot_max_versions_per_key) {
+        if (hot_map.size() > policy_.hot_max_versions_per_key) {
             flushHotToWarmLocked(table_name, doc.key, hot_map, warm_blocks);
         }
     } else if (decision == TierDecision::FLUSH_HOT_TO_WARM) {
@@ -572,11 +572,11 @@ size_t TemporalTierManager::flushHotToWarmLocked(
 
     // How many versions to move: everything beyond hot_max
     const size_t keep = policy_.hot_max_versions_per_key;
-    if (static_cast<int>(hot_map.size()) <= keep) {
+    if (hot_map.size() <= keep) {
       return 0;
     }
 
-    const size_t to_move = static_cast<int>(hot_map.size()) - keep;
+    const size_t to_move = hot_map.size() - keep;
 
     // Collect oldest `to_move` versions (the front of the sorted map)
     std::vector<VersionedDocument> batch;
@@ -653,7 +653,7 @@ VersionBlock TemporalTierManager::makeBlock(
     VersionBlock blk;
     blk.doc_key       = doc_key;
     blk.version_count = versions.size();
-    blk.bloom         = BloomFilter(static_cast<int>(versions.size()) + 1);
+    blk.bloom         = BloomFilter(versions.size() + 1);
     blk.entries.reserve(versions.size());
 
     uint64_t total_bytes = 0;

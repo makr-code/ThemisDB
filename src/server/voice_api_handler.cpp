@@ -1814,7 +1814,7 @@ bool VoiceApiHandler::validateBearerToken(
     }
 
     const auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+        std::string_view(auth_header.data(),auth_header.size()));
     if (!token || token->empty()) {
         THEMIS_DEBUG("VoiceApiHandler: missing or empty bearer token");
         return false;
@@ -1984,7 +1984,7 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
     static const char b64_table[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
@@ -1996,13 +1996,13 @@ std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
         out.push_back(b64_table[ n        & 63]);
         i += 3;
     }
-    if (i + 1 == static_cast<int>(data.size())) {
+    if (i + 1 == data.size()) {
         uint32_t n = static_cast<uint32_t>(data[i]) << 16;
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == static_cast<int>(data.size())) {
+    } else if (i + 2 == data.size()) {
         uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
                    | (static_cast<uint32_t>(data[i + 1]) << 8);
         out.push_back(b64_table[(n >> 18) & 63]);
@@ -2117,9 +2117,9 @@ std::string VoiceApiHandler::parseQueryParam(
     // Note: percent-encoded characters are not decoded.
     std::string search = key + '=';
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
-        if (query.compare(pos,static_cast<int>(search.size()), search) == 0) {
-            std::string value = query.substr(pos + static_cast<int>(search.size()) );
+    while (pos < query.size()) {
+        if (query.compare(pos,search.size(), search) == 0) {
+            std::string value = query.substr(pos + search.size() );
             auto amp = value.find('&');
             return (amp != std::string::npos) ? value.substr(0, amp) : value;
         }

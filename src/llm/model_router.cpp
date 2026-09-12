@@ -191,7 +191,7 @@ void ModelRouter::clearRules() {
 
 size_t ModelRouter::ruleCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(rules_.size());
+    return rules_.size();
 }
 
 RoutingResult ModelRouter::route(const std::string& prompt,

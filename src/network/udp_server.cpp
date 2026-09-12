@@ -248,7 +248,7 @@ void UDPServer::handleDatagram(udp::endpoint sender, std::vector<uint8_t> data) 
         THEMIS_WARN("[UDPServer] rate-limited source {}", anonymizeIpForLog(ip));
 
         // Send RATE_LIMITED ACK if we can read a seq_num
-        if (static_cast<int>(data.size()) >= kUdpServerHeaderSize) {
+        if (data.size() >= kUdpServerHeaderSize) {
             uint32_t seq_be = 0;
             std::memcpy(&seq_be, data.data() + 4, 4);
             sendAck(sender, ntohl(seq_be), UdpServerStatus::RATE_LIMITED);
@@ -373,7 +373,7 @@ bool UDPServer::checkDuplicate(const std::string& ip, uint32_t seq_num) {
     entry.seq_set.insert(seq_num);
 
     // Evict oldest when window is full
-    if (static_cast<int>(entry.seq_queue.size()) > config_.dedup_window_size) {
+    if (entry.seq_queue.size() > config_.dedup_window_size) {
         const uint32_t oldest = entry.seq_queue.front();
         entry.seq_queue.pop_front();
         entry.seq_set.erase(oldest);
@@ -535,7 +535,7 @@ void UDPServer::batchFlushLoop() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
-    if (static_cast<int>(data.size()) < kUdpServerHeaderSize) {
+    if (data.size() < kUdpServerHeaderSize) {
         return false;
     }
     if (data[0] != kUdpServerMagic0 || data[1] != kUdpServerMagic1) {
@@ -548,7 +548,7 @@ bool UDPServer::validatePacket(const std::vector<uint8_t>& data) {
     uint16_t plen_be;
     std::memcpy(&plen_be, data.data() + 9, 2);
     const uint16_t payload_len = ntohs(plen_be);
-    if (static_cast<int>(data.size()) < kUdpServerHeaderSize + payload_len) {
+    if (data.size() < kUdpServerHeaderSize + payload_len) {
         return false;
     }
     return true;

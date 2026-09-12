@@ -219,7 +219,7 @@ static size_t jsonExtractSizeT(const std::string& json,
     while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
       ++pos;
     }
-    if (pos >= static_cast<int>(json.size())) {
+    if (pos >= json.size()) {
       return 0;
     }
     // Parse digits

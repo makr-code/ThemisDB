@@ -573,7 +573,7 @@ TEST(LlamaCppPluginFocusedTests, P2_ConcurrentGenerateBatchCorrectResponseCount)
             batch.push_back(req);
         }
         const auto results = plugin.generateBatch(batch);
-        if (static_cast<int>(results.size()) != kBatchSize) {
+        if (results.size() != kBatchSize) {
             ++wrong_size_count;
         }
     };

@@ -196,8 +196,8 @@ std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result = {};
 
     // Estimate capacity: fixed header (24 bytes) + lengths (4*4) + string contents
-    size_t estimated_size = 24 + 16 + static_cast<int>(operation.size()) + static_cast<int>(collection.size()) + 
-                           static_cast<int>(document_id.size()) + static_cast<int>(data.size()) + static_cast<int>(checksum.size()) ;
+    size_t estimated_size = 24 + 16 + operation.size() + collection.size() + 
+                           document_id.size() + data.size() + checksum.size() ;
     result.reserve(estimated_size);
     
     // BATCH A ANNOTATION: Write Consensus and Replication Pipeline
@@ -222,7 +222,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     
     auto appendUint64 = [&result](uint64_t val) {
         // BATCH A OPTIMIZATION: Reserve space for 8 bytes once
-        result.reserve(static_cast<int>(result.size()) + 8);
+        result.reserve(result.size() + 8);
         for (int i = 7; i >= 0; --i) {
             result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
         }
@@ -231,7 +231,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     auto appendString = [&result](const std::string& s) {
         // BATCH A OPTIMIZATION: Avoid insert() which can reallocate; use direct append
         uint32_t len = static_cast<uint32_t>(s.size());
-        result.reserve(static_cast<int>(result.size()) + 4 + static_cast<int>(s.size()) );
+        result.reserve(result.size() + 4 + s.size() );
         result.push_back(static_cast<uint8_t>((len >> 24) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 16) & 0xFF));
         result.push_back(static_cast<uint8_t>((len >> 8) & 0xFF));
@@ -263,8 +263,8 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     constexpr size_t MIN_HEADER_SIZE = 24;  // 3 uint64 values = 24 bytes
     constexpr uint32_t MAX_STRING_LENGTH = 1024 * 1024 * 100;  // 100 MB limit per field
     
-    if (static_cast<int>(data.size()) < MIN_HEADER_SIZE) {
-        THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})",static_cast<int>(data.size()), MIN_HEADER_SIZE);
+    if (data.size() < MIN_HEADER_SIZE) {
+        THEMIS_DEBUG("WALEntry::deserialize: buffer too small ({} < {})",data.size(), MIN_HEADER_SIZE);
         return std::nullopt;
     }
     
@@ -272,7 +272,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     
     auto readUint64 = [&data, &pos]() -> uint64_t {
         // BATCH D FIX: Explicit bounds check on every read
-        if (pos + 8 > static_cast<int>(data.size())) {
+        if (pos + 8 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for uint64 at offset {}", pos);
             throw std::out_of_range("uint64 read exceeds buffer boundary");
         }
@@ -285,7 +285,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     
     auto readString = [&data, &pos](uint32_t max_len) -> std::string {
         // BATCH D FIX: Length validation before allocation
-        if (pos + 4 > static_cast<int>(data.size())) {
+        if (pos + 4 > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string length at offset {}", pos);
             throw std::out_of_range("string length read exceeds buffer boundary");
         }
@@ -302,7 +302,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
             throw std::out_of_range("string length exceeds maximum allowed");
         }
         
-        if (pos + len > static_cast<int>(data.size())) {
+        if (pos + len > data.size()) {
             THEMIS_ERROR("WALEntry::deserialize: insufficient bytes for string data at offset {} (need {})",
                         pos, len);
             throw std::out_of_range("string data read exceeds buffer boundary");
@@ -508,7 +508,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
         // Write length prefix
         uint32_t len = static_cast<uint32_t>(serialized.size());
         ofs.write(reinterpret_cast<char*>(&len), sizeof(len));
-        ofs.write(reinterpret_cast<char*>(serialized.data()),static_cast<int>(serialized.size()));
+        ofs.write(reinterpret_cast<char*>(serialized.data()),serialized.size());
         
         if (config_.wal_sync_on_commit) {
             ofs.flush();
@@ -531,7 +531,7 @@ std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t lim
     // instead of a hardcoded magic number so operators can tune I/O patience.
     const uint32_t FILE_IO_TIMEOUT_MS = config_.file_io_timeout_ms;
     
-    for (uint64_t seg = segment_id; static_cast<int>(entries.size()) < limit; ++seg) {
+    for (uint64_t seg = segment_id; entries.size() < limit; ++seg) {
         std::string segment_path = config_.wal_directory + "/wal_" + 
                                    std::to_string(seg) + ".log";
         
@@ -1560,7 +1560,7 @@ bool ReplicationManager::enableMultiRegion(const std::string& region_id,
         election_->setClusterSize(static_cast<uint32_t>(replicas_.size()) + 1);
     }
     
-    THEMIS_INFO("Multi-region replication enabled with {} peer regions",static_cast<int>(peer_regions.size()));
+    THEMIS_INFO("Multi-region replication enabled with {} peer regions",peer_regions.size());
     return true;
 }
 
@@ -1637,7 +1637,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
 bool ReplicationManager::setupCascadingReplication(const std::string& source_replica,
                                                    const std::vector<std::string>& target_replicas) {
     THEMIS_INFO("Setting up cascading replication: {} -> {} targets",
-               source_replica,static_cast<int>(target_replicas.size()));
+               source_replica,target_replicas.size());
     
     // In production, configure source replica to replicate to targets
     // This reduces load on primary by having intermediate replicas
@@ -1693,7 +1693,7 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     }
     
     oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
-    oss << "themisdb_cluster_nodes_total " <<static_cast<int>(health.size()) << "\n";
+    oss << "themisdb_cluster_nodes_total " <<health.size() << "\n";
     
     // Add replication lag metrics per replica
     oss << "\n# HELP themisdb_replication_lag_per_replica Replication lag per replica\n"
@@ -1722,6 +1722,7 @@ void ReplicationManager::heartbeatLoop() {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer
+                    (void)replica;
                 }
             }
             // Reset the leader's own heartbeat timer to avoid self-election
@@ -2201,7 +2202,7 @@ int64_t LWWConflictResolver::extractTimestamp(const std::string& json_doc) {
     while ((pos < json_doc.size()) && (json_doc[pos] == ' ' || json_doc[pos] == ':')) {
         ++pos;
     }
-    if (pos >= static_cast<int>(json_doc.size())) {
+    if (pos >= json_doc.size()) {
         return -1;
     }
     // Parse the integer value
@@ -2288,7 +2289,7 @@ std::string CRDTConflictResolver::resolve(
     {
         std::map<std::string, int64_t> fields;
         size_t p = 0;
-        while (static_cast<size_t>(p) <static_cast<int>(doc.size())) {
+        while (p < doc.size()) {
             // Find next key (starts with '"')
             auto kstart = doc.find('"', p);
             if (kstart == std::string::npos) {
@@ -2350,7 +2351,7 @@ std::string CRDTConflictResolver::resolve(
             // Find all occurrences of key and replace the first numeric value
             while ((pos = merged.find(search, pos)) != std::string::npos) {
                 // Skip to value
-                size_t vp = pos + static_cast<int>(search.size()) ;
+                size_t vp = pos + search.size() ;
                 while ((vp < merged.size()) && (merged[vp] == ' ' || merged[vp] == ':')) {
                   ++vp;
                 }
@@ -2602,7 +2603,7 @@ VectorClock VectorClock::fromJson(const std::string& json) {
     
     VectorClock vc;
     size_t p = 0;
-    while (static_cast<size_t>(p) <static_cast<int>(json.size())) {
+    while (p < json.size()) {
         auto kstart = json.find('"', p);
         if (kstart == std::string::npos) {
           break;
@@ -2682,7 +2683,7 @@ MMWriteEntry LastWriteWinsResolver::resolve(
     auto compute_mm_checksum = [](const MMWriteEntry& entry) {
         std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),content.size(), hash);
         std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -2776,7 +2777,7 @@ MMWriteEntry CRDTMergeResolver::resolve(
     // Keep checksum aligned with merged payload and metadata-carrying fields.
     std::string content = result.operation + result.collection + result.document_id + result.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),content.size(), hash);
     std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -2864,7 +2865,7 @@ std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& 
 static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     std::map<std::string, int64_t> fields;
     size_t p = 0;
-    while (static_cast<size_t>(p) <static_cast<int>(doc.size())) {
+    while (p < doc.size()) {
         auto ks = doc.find('"', p);
         if (ks == std::string::npos) {
           break;
@@ -2911,7 +2912,7 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
     }
     if (pos >= doc.size() || doc[pos] != '{') return "";
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) <static_cast<int>(doc.size())) {
+    while (pos < doc.size()) {
         if (doc[pos] == '{') ++depth;
         else if (doc[pos] == '}') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
         ++pos;
@@ -2971,7 +2972,7 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
       return "";
     }
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) <static_cast<int>(doc.size())) {
+    while (pos < doc.size()) {
         if (doc[pos] == '[') {
           ++depth;
         }
@@ -3048,7 +3049,7 @@ std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes
 
     for (const auto& w : writes) {
         size_t p = 0;
-        while (p <static_cast<int>(w.data.size())) {
+        while (p <w.data.size()) {
             auto qs = w.data.find('"', p);
             if (qs == std::string::npos) {
               break;
@@ -3099,7 +3100,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
         auto addArr = extractSubArray(w.data, "add");
         // Each inner element looks like ["element","tag"]
         size_t p = 0;
-        while (static_cast<size_t>(p) <static_cast<int>(addArr.size())) {
+        while (p < addArr.size()) {
             auto lb = addArr.find('[', p);
             if (lb == std::string::npos) {
               break;
@@ -3110,7 +3111,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
             }
             std::string pair = addArr.substr(lb + 1, rb - lb - 1);
             auto tokens = extractJsonArrayStrings("[" + pair + "]");
-            if (static_cast<int>(tokens.size()) == 2) {
+            if (tokens.size() == 2) {
                 auto it = tokens.begin();
                 std::string elem = *it++;
                 std::string tag  = *it;
@@ -3234,14 +3235,14 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
         size_t p = 0;
         // Skip leading '[' if present
         while (p < src.size() && src[p] != '{') ++p;
-        while (static_cast<size_t>(p) <static_cast<int>(src.size())) {
+        while (p < src.size()) {
             auto ob = src.find('{', p);
             if (ob == std::string::npos) {
               break;
             }
             // Find matching '}'
             size_t depth = 0, oe = ob;
-            while (static_cast<size_t>(oe) <static_cast<int>(src.size())) {
+            while (oe < src.size()) {
                 if (src[oe] == '{') ++depth;
                 else if (src[oe] == '}') { if (--depth == 0) break; }
                 ++oe;
@@ -3409,20 +3410,20 @@ std::vector<uint8_t> MMWriteEntry::serialize() const {
 }
 
 std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>& raw) {
-    if (static_cast<int>(raw.size()) < 4) {
+    if (raw.size() < 4) {
       return std::nullopt;
     }
     size_t pos = 0;
 
     auto readUint64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (size_t i = 0; i < 8  && static_cast<size_t>(pos) <static_cast<int>(raw.size()); ++i, ++pos)
+        for (size_t i = 0; i < 8  && pos < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
     auto readUint32 = [&]() -> uint32_t {
         uint32_t v = 0;
-        for (size_t i = 0; i < 4  && static_cast<size_t>(pos) <static_cast<int>(raw.size()); ++i, ++pos)
+        for (size_t i = 0; i < 4  && pos < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
@@ -3432,13 +3433,13 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
         // Prevents buffer overrun by verifying:
         // 1. Sufficient bytes available for length field (4 bytes)
         // 2. Sufficient bytes available for string payload
-        if (pos + 4 > static_cast<int>(raw.size())) { 
+        if (pos + 4 > raw.size()) { 
             parse_ok = false; 
             THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string length at offset {}", pos); 
             return {};  // Production behavior: signal truncation, allow parser to fail gracefully
         }
         uint32_t len = readUint32();
-        if (pos + len > static_cast<int>(raw.size())) { 
+        if (pos + len > raw.size()) { 
             parse_ok = false; 
             THEMIS_WARN("MMWriteEntry::deserialize: truncated while reading string payload (len={}) at offset {}", len, pos); 
             return {};  // Production behavior: signal truncation, prevent buffer overrun
@@ -3594,7 +3595,7 @@ std::string MultiMasterReplicationManager::write(
     {
         std::string content = operation + collection + document_id + data;
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),content.size(), hash);
         std::ostringstream oss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
             oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -3868,7 +3869,7 @@ MultiMasterReplicationManager::TopologySnapshot MultiMasterReplicationManager::g
 
     {
         std::shared_lock<std::shared_mutex> lock(peers_mutex_);
-        snapshot.nodes.reserve(snapshot.nodes.size() + static_cast<int>(peers_.size()) );
+        snapshot.nodes.reserve(snapshot.nodes.size() + peers_.size() );
         snapshot.edges.reserve(peers_.size() * 2);
 
         for (const auto& [peer_id, peer] : peers_) {
@@ -3970,7 +3971,7 @@ void MultiMasterReplicationManager::replicationLoop() {
                     committed_writes_log_.push_back(entry);
                     // Cap to 2× max_pending_writes to bound memory.
                     const size_t cap = static_cast<size_t>(config_.max_pending_writes) * 2;
-                    while (static_cast<int>(committed_writes_log_.size()) > cap) {
+                    while (committed_writes_log_.size() > cap) {
                         committed_writes_log_.pop_front();
                     }
                 }
@@ -4321,7 +4322,7 @@ void ParallelReplicationWorker::submit(const WALEntry& entry) {
     {
         std::lock_guard<std::mutex> q_lock(queue_mutex_);
         // Enforce max queue size: drop oldest if full
-        while (static_cast<int>(work_queue_.size()) >= config_.queue_size) {
+        while (work_queue_.size() >= config_.queue_size) {
             work_queue_.pop();
         }
         in_flight_count_.fetch_add(1);
@@ -4533,12 +4534,12 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         // Without a session token a plain quorum check suffices, so we can
         // stop as soon as we have enough responses.  With a session token we
         // need the full picture to correctly count qualifying replicas.
-        if (session_token.empty() && static_cast<int>(responses.size()) >= required) {
+        if (session_token.empty() && responses.size() >= required) {
           break;
         }
     }
 
-    if (static_cast<int>(responses.size()) < required) {
+    if (responses.size() < required) {
         THEMIS_WARN("QuorumRead: only {}/{} replicas responded for {}/{}",
                     responses.size(), required, collection, document_id);
         return QuorumReadResult{false, "", 0, false, {}, ""};
@@ -4555,7 +4556,7 @@ QuorumReadManager::QuorumReadResult QuorumReadManager::read(
         }
     }
 
-    if (!session_token.empty() && static_cast<int>(qualifying.size()) < required) {
+    if (!session_token.empty() && qualifying.size() < required) {
         THEMIS_WARN("QuorumRead: SESSION not satisfied for {}/{} – "
                     "only {}/{} replicas at required_version={}",
                     collection, document_id,
@@ -4639,8 +4640,8 @@ uint64_t QuorumReadManager::parseSessionToken(const std::string& token) const {
     auto exp_pos = token.find("exp=");
     if (exp_pos != std::string::npos) {
         const std::string exp_prefix = "exp=";
-        auto val_start = exp_pos + static_cast<int>(exp_prefix.size()) ;
-        if (static_cast<int>(token.size()) > val_start) {
+        auto val_start = exp_pos + exp_prefix.size() ;
+        if (token.size() > val_start) {
             try {
                 int64_t expiry_ms = std::stoll(token.substr(val_start));
                 auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -4890,12 +4891,12 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
             return data;
 
         case CompressionAlgorithm::LZ4: {
-            int bound = LZ4_compressBound(static_cast<int>(data.size()));
+            int bound = LZ4_compressBound(data.size());
             std::vector<uint8_t> out(static_cast<size_t>(bound));
             int compressed = LZ4_compress_default(
                 reinterpret_cast<const char*>(data.data()),
                 reinterpret_cast<char*>(out.data()),
-                static_cast<int>(data.size()),
+                data.size(),
                 bound
             );
             if (compressed <= 0) {
@@ -4911,7 +4912,7 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
             std::vector<uint8_t> out(bound);
             size_t compressed = ZSTD_compress(
                 out.data(), bound,
-                data.data(),static_cast<int>(data.size()),
+                data.data(),data.size(),
                 config_.compression_level
             );
             if (ZSTD_isError(compressed)) {
@@ -4923,9 +4924,9 @@ std::vector<uint8_t> CompressedReplicationStream::compress(
         }
 
         case CompressionAlgorithm::SNAPPY: {
-            std::string input(reinterpret_cast<const char*>(data.data()),static_cast<int>(data.size()));
+            std::string input(reinterpret_cast<const char*>(data.data()),data.size());
             std::string output = {};
-            snappy::Compress(input.data(),static_cast<int>(input.size()), &output);
+            snappy::Compress(input.data(),input.size(), &output);
             return std::vector<uint8_t>(output.begin(), output.end());
         }
 
@@ -4963,8 +4964,8 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             int result = LZ4_decompress_safe(
                 reinterpret_cast<const char*>(compressed.data()),
                 reinterpret_cast<char*>(out.data()),
-                static_cast<int>(compressed.size()),
-                static_cast<int>(out.size())
+                compressed.size(),
+                out.size()
             );
             if (result < 0) {
                 THEMIS_ERROR("LZ4 decompression failed");
@@ -4975,7 +4976,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
         }
 
         case CompressionAlgorithm::ZSTD: {
-            uint64_t dsize = ZSTD_getFrameContentSize(compressed.data(),static_cast<int>(compressed.size()));
+            uint64_t dsize = ZSTD_getFrameContentSize(compressed.data(),compressed.size());
             if (dsize == ZSTD_CONTENTSIZE_UNKNOWN || dsize == ZSTD_CONTENTSIZE_ERROR) {
                 THEMIS_ERROR("ZSTD: cannot determine decompressed size");
                 return {};  // Production behavior: return empty on size error
@@ -4983,7 +4984,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             std::vector<uint8_t> out(dsize);
             size_t result = ZSTD_decompress(
                 out.data(), dsize,
-                compressed.data(),static_cast<int>(compressed.size())
+                compressed.data(),compressed.size()
             );
             if (ZSTD_isError(result)) {
                 THEMIS_ERROR("ZSTD decompression error: {}", ZSTD_getErrorName(result));
@@ -4997,7 +4998,7 @@ std::vector<uint8_t> CompressedReplicationStream::decompress(
             std::string input(reinterpret_cast<const char*>(compressed.data()),
                               compressed.size());
             std::string output = {};
-            if (!snappy::Uncompress(input.data(),static_cast<int>(input.size()), &output)) {
+            if (!snappy::Uncompress(input.data(),input.size(), &output)) {
                 THEMIS_ERROR("Snappy decompression failed");
                 return {};  // Production behavior: return empty on error
             }
@@ -5077,7 +5078,7 @@ void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
         if (sequence_number > highest_acked_.load()) {
             highest_acked_.store(sequence_number);
         }
-        if (static_cast<int>(pending_.size()) >= config_.max_batch_size) {
+        if (pending_.size() >= config_.max_batch_size) {
             flushPending();
         }
     }
@@ -5161,7 +5162,7 @@ void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_
     auto& history = lag_history_[replica_id];
     history.push_back({std::chrono::system_clock::now(), lag_ms});
     // Rolling window: drop oldest entries beyond max_history_per_replica
-    while (static_cast<int>(history.size()) > config_.max_history_per_replica) {
+    while (history.size() > config_.max_history_per_replica) {
         history.pop_front();
     }
 }
@@ -5171,7 +5172,7 @@ int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, dou
       return 0;
     }
     // Caller must pass a sorted vector; index is clamped to valid range.
-    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(static_cast<int>(sorted.size()) - 1));
+    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
     return sorted[std::min(idx, sorted.size() - 1)];
 }
 
@@ -5265,7 +5266,7 @@ std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottle
     std::vector<Bottleneck> bottlenecks;
 
     for (const auto& [replica_id, history] : lag_history_) {
-        if (static_cast<int>(history.size()) < 2) {
+        if (history.size() < 2) {
           continue;
         }
 
@@ -5542,7 +5543,7 @@ ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
           return 0;
         }
         size_t idx = static_cast<size_t>(
-            p / 100.0 * static_cast<double>(static_cast<int>(latencies_us.size()) - 1));
+            p / 100.0 * static_cast<double>(latencies_us.size() - 1));
         return latencies_us[std::min(idx, latencies_us.size() - 1)];
     };
 
@@ -5596,7 +5597,7 @@ void CDCManager::unsubscribe(uint64_t subscription_id) {
 
 size_t CDCManager::subscriptionCount() const {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
-    return static_cast<int>(subscriptions_.size());
+    return subscriptions_.size();
 }
 
 void CDCManager::onWALEntryApplied(const WALEntry& entry) {
@@ -5683,7 +5684,7 @@ void CrossClusterPublication::removeRemoteSubscriber(uint64_t subscriber_id) {
 
 size_t CrossClusterPublication::subscriberCount() const {
     std::shared_lock<std::shared_mutex> lock(subs_mutex_);
-    return static_cast<int>(subscribers_.size());
+    return subscribers_.size();
 }
 
 uint64_t CrossClusterPublication::publishedCount() const {
@@ -5847,8 +5848,8 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     // Security: Validates format to prevent injection attacks via malformed hex.
     
     // Validate: must be non-empty, even-length, and contain only hex digits
-    if (hex.empty() || static_cast<int>(hex.size()) % 2 != 0) {
-        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})",static_cast<int>(hex.size()));
+    if (hex.empty() || hex.size() % 2 != 0) {
+        THEMIS_WARN("WALArchivalManager::hexToBytes: invalid hex length (size={})",hex.size());
         return {};  // Production behavior: return empty on format error
     }
     for (char c : hex) {
@@ -5873,7 +5874,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const std::vector<uint8_t>& key) {
     // Generate a cryptographically secure random 12-byte IV via OpenSSL RAND_bytes
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), iv.size()) != 1) {
         THEMIS_ERROR("WALArchival: RAND_bytes failed; cannot generate encryption IV");
         return {};  // return empty to signal failure; caller must not store this
     }
@@ -5892,7 +5893,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, 12, nullptr);
     EVP_EncryptInit_ex(ctx, nullptr, nullptr, key.data(), iv.data());
     EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
-                      data.data(), static_cast<int>(data.size()));
+                      data.data(), data.size());
     ct_len = len;
     EVP_EncryptFinal_ex(ctx, ciphertext.data() + ct_len, &len);
     ct_len += len;
@@ -5912,8 +5913,8 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& key) {
     // Minimum: IV(12) + Tag(16) = 28 bytes
-    if (static_cast<int>(data.size()) < 28) {
-        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})",static_cast<int>(data.size()));
+    if (data.size() < 28) {
+        THEMIS_WARN("WALArchival: decryptAesGcm: input too small (size={})",data.size());
         return std::nullopt;
     }
 
@@ -5955,7 +5956,7 @@ std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
     size_t bound = ZSTD_compressBound(data.size());
     std::vector<uint8_t> out(bound);
     size_t compressed = ZSTD_compress(
-        out.data(), bound, data.data(),static_cast<int>(data.size()), /*level=*/3);
+        out.data(), bound, data.data(),data.size(), /*level=*/3);
     if (ZSTD_isError(compressed)) {
         return data;  // fall back to uncompressed on error
     }
@@ -6084,7 +6085,7 @@ uint32_t WALArchivalManager::archiveSegments(
                 continue;
             }
             std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
-            if (static_cast<int>(key.size()) != 32) {
+            if (key.size() != 32) {
                 THEMIS_ERROR("WALArchival: encrypt_at_rest enabled but encryption_key_hex "
                              "is not a valid 64-hex-char (32-byte) AES-256 key; "
                              "refusing to archive {} without encryption",
@@ -6134,7 +6135,7 @@ uint32_t WALArchivalManager::archiveSegments(
         ++archived;
 
         THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes, compressed={}, encrypted={})",
-                    segment_id, dest,static_cast<int>(payload.size()),
+                    segment_id, dest,payload.size(),
                     meta.compressed, meta.encrypted);
     }
 
@@ -6192,7 +6193,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
             return std::nullopt;
         }
         std::vector<uint8_t> key = hexToBytes(config_.encryption_key_hex);
-        if (static_cast<int>(key.size()) != 32) {
+        if (key.size() != 32) {
             THEMIS_ERROR("WALArchival: invalid encryption key length for segment {}",
                          segment_id);
             return std::nullopt;
@@ -6210,7 +6211,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
     }
 
     // Decompress with ZSTD
-    uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(),static_cast<int>(raw.size()));
+    uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(),raw.size());
     if (decompressed_size == ZSTD_CONTENTSIZE_ERROR ||
         decompressed_size == ZSTD_CONTENTSIZE_UNKNOWN) {
         THEMIS_ERROR("WALArchival: cannot determine decompressed size for segment {}",
@@ -6219,7 +6220,7 @@ std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
     }
     std::vector<uint8_t> out(decompressed_size);
     size_t result = ZSTD_decompress(
-        out.data(),static_cast<int>(out.size()), raw.data(),static_cast<int>(raw.size()));
+        out.data(),out.size(), raw.data(),raw.size());
     if (ZSTD_isError(result)) {
         THEMIS_ERROR("WALArchival: decompression failed for segment {}", segment_id);
         return std::nullopt;
@@ -6343,11 +6344,11 @@ uint32_t WALArchivalManager::runArchivalCycle() {
 
     // Archive everything beyond the local_retention_segments threshold
     std::sort(candidates.begin(), candidates.end());
-    if (static_cast<int>(candidates.size()) <= config_.local_retention_segments) {
+    if (candidates.size() <= config_.local_retention_segments) {
       return 0;
     }
 
-    candidates.resize(static_cast<int>(candidates.size()) - config_.local_retention_segments);
+    candidates.resize(candidates.size() - config_.local_retention_segments);
     uint32_t archived = archiveSegments(candidates);
     purgeExpired();
     return archived;

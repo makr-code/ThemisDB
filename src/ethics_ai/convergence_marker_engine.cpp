@@ -54,7 +54,7 @@ std::vector<ConvergenceMarker> ConvergenceMarkerEngine::detectConvergences(
 {
     std::vector<ConvergenceMarker> markers;
 
-    if (static_cast<int>(round_outputs.size()) < 2) {
+    if (round_outputs.size() < 2) {
         return markers;
     }
 
@@ -185,7 +185,7 @@ std::string ConvergenceMarkerEngine::buildConvergencePreamble(
 
     // Hard trim to max_tokens
     const int max_chars = max_tokens * 4;
-    if (static_cast<int>(result.size()) > max_chars) {
+    if (result.size() > max_chars) {
         result = result.substr(0, static_cast<size_t>(max_chars));
     }
 

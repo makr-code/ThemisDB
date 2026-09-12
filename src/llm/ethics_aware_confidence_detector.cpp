@@ -289,7 +289,7 @@ float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     auto imperatives = detectImperatives(text);
     
     // Count total violations
-    const auto violations = static_cast<int>(patronizing.size() + static_cast<int>(imperatives.size()) );
+    const auto violations = static_cast<int>(patronizing.size() + imperatives.size() );
     
     // Check if human choice is preserved
     bool preserves_choice = checkChoicePreservation(text);
@@ -571,7 +571,7 @@ std::string EthicsAwareConfidenceDetector::generateReasoning(const ConfidenceRes
     }
     
     if (result.has_patronizing_language) {
-        oss << "Detected patronizing language (" <<static_cast<int>(result.patronizing_phrases.size()) 
+        oss << "Detected patronizing language (" <<result.patronizing_phrases.size() 
             << " instances). ";
     }
     

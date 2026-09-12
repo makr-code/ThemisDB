@@ -2188,7 +2188,7 @@ if(_themis_enable_unified_tests)
     # module tests are visible as first-class CTest entries.
     include(GoogleTest)
     gtest_discover_tests(themis_tests
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         DISCOVERY_TIMEOUT 300
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests>
         PROPERTIES LABELS "all;unified;discovered"
@@ -26754,12 +26754,12 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp")
             GTest::gtest_main
             Boost::system
     )
-    include(GoogleTest)
-    gtest_discover_tests(themis_secidx_tests
-        DISCOVERY_MODE PRE_TEST
+    # NOTE: this binary currently crashes during --gtest_list_tests on some
+    # Windows setups (Access Violation), which breaks global CTest discovery.
+    # Register a plain CTest entry to keep discovery stable for unrelated tests.
+    add_test(NAME themis_secidx_tests COMMAND themis_secidx_tests --gtest_color=yes)
+    set_tests_properties(themis_secidx_tests PROPERTIES
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
     )
 
     # Sync runtime DLLs next to the secidx test binary so CTest discovery
@@ -26798,13 +26798,12 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp" AND
             GTest::gtest_main
             Boost::system
     )
-    include(GoogleTest)
-    gtest_discover_tests(themis_tests_critical
-        DISCOVERY_MODE PRE_TEST
-        DISCOVERY_TIMEOUT 300
+    # NOTE: this binary can crash during --gtest_list_tests on some Windows
+    # setups, which breaks global CTest discovery in VS Code. Register a
+    # static CTest entry instead of dynamic GoogleTest discovery.
+    add_test(NAME themis_tests_critical COMMAND themis_tests_critical --gtest_color=yes)
+    set_tests_properties(themis_tests_critical PROPERTIES
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
     )
 
     if(WIN32)
@@ -26850,7 +26849,7 @@ if(THEMIS_ENABLE_LLM)
     # endif()
     # include(GoogleTest)
     # gtest_discover_tests(themis_llm_tests
-    #     DISCOVERY_MODE PRE_TEST
+    #     DISCOVERY_MODE POST_BUILD
     #     WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
     #     EXTRA_ARGS --gtest_color=yes
     #     CONFIGURATIONS Release Debug
@@ -26869,7 +26868,7 @@ if(THEMIS_ENABLE_LLM)
                 GTest::gtest_main
         )
         gtest_discover_tests(test_phase1_flash_attention
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
@@ -26888,7 +26887,7 @@ if(THEMIS_ENABLE_LLM)
                 GTest::gtest_main
         )
         gtest_discover_tests(test_phase1_kv_cache_reuse
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
@@ -26913,7 +26912,7 @@ if(THEMIS_ENABLE_DISKANN)
     target_compile_definitions(test_ann_index PRIVATE THEMIS_ENABLE_DISKANN)
 endif()
 gtest_discover_tests(test_ann_index
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
     EXTRA_ARGS --gtest_color=yes
     CONFIGURATIONS Release Debug
@@ -26930,7 +26929,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/erasure/test_erasure_coding_backend.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_erasure_coding_backend
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -26947,7 +26946,7 @@ target_link_libraries(test_search_highlighter
     PRIVATE themis_core GTest::gtest GTest::gtest_main
 )
 gtest_discover_tests(test_search_highlighter
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_highlighter>
     EXTRA_ARGS --gtest_color=yes
     CONFIGURATIONS Release Debug
@@ -26961,7 +26960,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_hybrid_search.c
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_distributed_hybrid_search
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -26977,7 +26976,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/knowledge/test_knowledge_gap_retrieval_callb
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_knowledge_gap_retrieval_callback
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -26992,7 +26991,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/bitemporal/test_bitemporal_join.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_bitemporal_join
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27013,7 +27012,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_snapshot_manager
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27036,7 +27035,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_interval_tree_index.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_interval_tree_index
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_interval_tree_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27063,7 +27062,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_compressor.cpp")
         target_link_libraries(test_temporal_compressor PRIVATE ${THEMIS_LZ4_TARGET})
     endif()
     gtest_discover_tests(test_temporal_compressor
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_compressor>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27086,7 +27085,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_cdc.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_cdc
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_cdc>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27110,7 +27109,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_migrator.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_migrator
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_migrator>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27134,7 +27133,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_retention_manager
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_retention_manager>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27157,7 +27156,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_conflict_resolver
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_conflict_resolver>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27181,7 +27180,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_aggregator
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_aggregator>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27207,7 +27206,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp")
         PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
     )
     gtest_discover_tests(test_temporal_query_engine
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_query_engine>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27226,7 +27225,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/ts/test_ts_auto_buffer_adaptive.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_ts_auto_buffer_adaptive
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27242,7 +27241,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp"
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_adaptive_flush_controller
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27257,7 +27256,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_chunk_level_encryption
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27273,7 +27272,7 @@ if(THEMIS_ENABLE_CUDA)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_cuda_hnsw_graph_traversal
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27286,7 +27285,7 @@ if(THEMIS_ENABLE_CUDA)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_cuda_ann_search
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27302,7 +27301,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_wasm_runtime_injector
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27318,7 +27317,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/module/test_module_sandbox_wasm_injection.cp
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(WasmSandboxInjectionFocusedTests
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27333,7 +27332,7 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_voice_browser_streaming
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_browser_streaming>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27346,7 +27345,7 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_voice_telephony
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_telephony>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27367,7 +27366,7 @@ if(THEMIS_ENABLE_DISKANN)
             GTest::gtest_main
     )
     gtest_discover_tests(test_diskann
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_diskann>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27384,7 +27383,7 @@ if(THEMIS_ENABLE_BWTREE)
             GTest::gtest_main
     )
     gtest_discover_tests(test_bwtree
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bwtree>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27401,7 +27400,7 @@ if(THEMIS_ENABLE_SPLINTERDB)
             GTest::gtest_main
     )
     gtest_discover_tests(test_splinterdb
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_splinterdb>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27418,7 +27417,7 @@ if(THEMIS_ENABLE_GUNROCK)
             GTest::gtest_main
     )
     gtest_discover_tests(test_gunrock
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gunrock>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27435,7 +27434,7 @@ if(THEMIS_ENABLE_BAO)
             GTest::gtest_main
     )
     gtest_discover_tests(test_bao
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27452,7 +27451,7 @@ if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
             GTest::gtest_main
     )
     gtest_discover_tests(test_per_query_cost_model
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_per_query_cost_model>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27469,7 +27468,7 @@ target_link_libraries(test_simd_distance
         GTest::gtest_main
 )
 gtest_discover_tests(test_simd_distance
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27488,7 +27487,7 @@ target_link_libraries(test_memory_pressure
         GTest::gtest_main
 )
 gtest_discover_tests(test_memory_pressure
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_memory_pressure>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27505,7 +27504,7 @@ if(THEMIS_ENABLE_PMEM)
             GTest::gtest_main
     )
     gtest_discover_tests(test_pmem_storage
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27523,7 +27522,7 @@ if(THEMIS_ENABLE_PMU_COUNTERS)
             GTest::gtest_main
     )
     gtest_discover_tests(test_pmu_counters
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmu_counters>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27540,7 +27539,7 @@ target_link_libraries(test_workload_predictor
         GTest::gtest_main
 )
 gtest_discover_tests(test_workload_predictor
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27557,7 +27556,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/workload/test_workload_adaptive_optimizer.cp
             GTest::gtest_main
     )
     gtest_discover_tests(test_workload_adaptive_optimizer
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27575,7 +27574,7 @@ if(THEMIS_ENABLE_RABITQ)
             GTest::gtest_main
     )
     gtest_discover_tests(test_rabitq_product_quantizer
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27593,7 +27592,7 @@ if(THEMIS_ENABLE_CICADA)
             GTest::gtest_main
     )
     gtest_discover_tests(test_cicada
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cicada>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27610,7 +27609,7 @@ target_link_libraries(test_cycle_metrics
         GTest::gtest_main
 )
 gtest_discover_tests(test_cycle_metrics
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cycle_metrics>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27626,7 +27625,7 @@ target_link_libraries(test_numa_topology
         GTest::gtest_main
 )
 gtest_discover_tests(test_numa_topology
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_topology>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27643,7 +27642,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp")
             GTest::gtest_main
     )
     gtest_discover_tests(test_advanced_cache_manager
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27661,7 +27660,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/numa/test_numa_memory_manager.cpp")
             GTest::gtest_main
     )
     gtest_discover_tests(test_numa_memory_manager
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27689,7 +27688,7 @@ if(THEMIS_ENABLE_LLM)
     target_compile_definitions(test_rag_ttft_benchmark PRIVATE THEMIS_ENABLE_LLM)
 endif()
 gtest_discover_tests(test_rag_ttft_benchmark
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rag_ttft_benchmark>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27705,7 +27704,7 @@ target_link_libraries(test_wire_perf_benchmark
         GTest::gtest_main
 )
 gtest_discover_tests(test_wire_perf_benchmark
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wire_perf_benchmark>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27721,7 +27720,7 @@ target_link_libraries(test_adaptive_batch_tuner
         GTest::gtest_main
 )
 gtest_discover_tests(test_adaptive_batch_tuner
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_batch_tuner>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -27739,7 +27738,7 @@ if(THEMIS_ENABLE_IO_URING)
             GTest::gtest_main
     )
     gtest_discover_tests(test_io_uring_zero_copy
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27758,7 +27757,7 @@ if(THEMIS_ENABLE_GPU)
             GTest::gtest_main
     )
     gtest_discover_tests(test_gpu_graph_cache
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27774,7 +27773,7 @@ if(THEMIS_ENABLE_GPU)
             GTest::gtest_main
     )
     gtest_discover_tests(test_gpu_query_accelerator
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27790,7 +27789,7 @@ if(THEMIS_ENABLE_GPU)
             GTest::gtest_main
     )
     gtest_discover_tests(test_gpu_stream_manager
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27815,7 +27814,7 @@ if(THEMIS_ENABLE_GPU)
                 GTest::gtest_main
         )
         gtest_discover_tests(${_name}
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
@@ -27854,7 +27853,7 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
             GTest::gtest_main
     )
     gtest_discover_tests(test_gpu_vector_index
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -27872,7 +27871,7 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
                 GTest::gtest_main
         )
         gtest_discover_tests(test_multi_gpu_vector_index
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
@@ -27891,7 +27890,7 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
                 GTest::gtest_main
         )
         gtest_discover_tests(test_collective_backends
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
@@ -27911,7 +27910,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/database/test_database_domain_auto_labeler.c
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_database_domain_auto_labeler
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_database_domain_auto_labeler>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27942,7 +27941,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestr
         target_link_libraries(test_continuous_learning_orchestrator PRIVATE themis_llm_ext)
     endif()
     gtest_discover_tests(test_continuous_learning_orchestrator
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27959,7 +27958,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/incremental/test_incremental_lora_trainer.cp
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_incremental_lora_trainer
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_incremental_lora_trainer>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27976,7 +27975,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/gossip/test_gossip_custom_handler.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_gossip_custom_handler
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gossip_custom_handler>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -27993,7 +27992,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_adaptive_shard_router
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28010,7 +28009,7 @@ target_link_libraries(test_transaction_semantic_advisor
     PRIVATE themis_core GTest::gtest GTest::gtest_main
 )
 gtest_discover_tests(test_transaction_semantic_advisor
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_transaction_semantic_advisor>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -28027,7 +28026,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/schema/test_schema_dead_weight_detector.cpp"
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_schema_dead_weight_detector
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_schema_dead_weight_detector>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28045,7 +28044,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/intent/test_intent_classifier.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_intent_classifier
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_intent_classifier>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28063,7 +28062,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/workload/test_workload_fingerprint_engine.cp
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_workload_fingerprint_engine
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_fingerprint_engine>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28081,7 +28080,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/explainability/test_explainability_reason_bu
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_explainability_reason_builder
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_explainability_reason_builder>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28098,7 +28097,7 @@ target_link_libraries(test_storage_layout_advisor
     PRIVATE themis_core GTest::gtest GTest::gtest_main
 )
 gtest_discover_tests(test_storage_layout_advisor
-    DISCOVERY_MODE PRE_TEST
+    DISCOVERY_MODE POST_BUILD
     WORKING_DIRECTORY $<TARGET_FILE_DIR:test_storage_layout_advisor>
     EXTRA_ARGS --gtest_color=yes
 )
@@ -28121,7 +28120,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_knowledge.cpp")
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(test_distributed_knowledge
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28146,7 +28145,7 @@ if(THEMIS_BUILD_CHIMERA)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(ThemisDBAdapterFocusedTests
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:ThemisDBAdapterFocusedTests>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -28165,7 +28164,7 @@ if(THEMIS_BUILD_CHIMERA)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(ChimeraStreamingFocusedTests
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraStreamingFocusedTests>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -28184,7 +28183,7 @@ if(THEMIS_BUILD_CHIMERA)
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
     gtest_discover_tests(ChimeraPreparedStatementFocusedTests
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:ChimeraPreparedStatementFocusedTests>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
@@ -28357,7 +28356,7 @@ macro(_tensor_focused_test _name)
             PRIVATE themis_core GTest::gtest GTest::gtest_main
         )
         gtest_discover_tests(${_name}_focused
-            DISCOVERY_MODE PRE_TEST
+            DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}_focused>
             EXTRA_ARGS --gtest_color=yes
         )
@@ -28422,7 +28421,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_tensor_fingerprint_graph.cpp" 
     )
 
     gtest_discover_tests(test_tensor_fingerprint_graph_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_tensor_fingerprint_graph_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28459,7 +28458,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
     )
 
     gtest_discover_tests(test_gpu_traversal_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_traversal_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28497,7 +28496,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_rotate_completion.cpp")
     )
 
     gtest_discover_tests(test_rotate_completion_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rotate_completion_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28535,7 +28534,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_rotate_completion_acceptance.c
     )
 
     gtest_discover_tests(test_rotate_completion_acceptance_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rotate_completion_acceptance_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28572,7 +28571,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_self_rag_alce.cpp")
     )
 
     gtest_discover_tests(test_self_rag_alce_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_self_rag_alce_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28609,7 +28608,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_task_lora_ablation.cpp")
     )
 
     gtest_discover_tests(test_multi_task_lora_ablation_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_task_lora_ablation_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28646,7 +28645,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_multitask_lora_acceptance_g
     )
 
     gtest_discover_tests(test_multitask_lora_acceptance_gates_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multitask_lora_acceptance_gates_focused>
         EXTRA_ARGS --gtest_color=yes
     )
@@ -28828,3 +28827,4 @@ else()
     add_custom_target(themis_release_critical_tests)
     message(WARNING "themis_release_critical_tests: no release_critical targets collected — check test registration")
 endif()
+

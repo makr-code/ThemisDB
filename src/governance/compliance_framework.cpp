@@ -63,7 +63,7 @@ ComplianceRequirement ComplianceRequirement::fromJson(const nlohmann::json& j) {
       req.is_mandatory = j["is_mandatory"].get<bool>();
     }
     if (j.contains("version")) {
-      req.version = j["version"].get<std::string>();
+      req.version = j["version"].get<int>();
     }
     if (j.contains("created_at_ms")) {
       req.created_at_ms = j["created_at_ms"].get<int64_t>();
@@ -123,7 +123,7 @@ ComplianceControl ComplianceControl::fromJson(const nlohmann::json& j) {
       ctl.evidence_types = j["evidence_types"].get<std::vector<std::string>>();
     }
     if (j.contains("version")) {
-      ctl.version = j["version"].get<std::string>();
+      ctl.version = j["version"].get<int>();
     }
     if (j.contains("created_at_ms")) {
       ctl.created_at_ms = j["created_at_ms"].get<int64_t>();
@@ -179,7 +179,7 @@ nlohmann::json ComplianceContext::toJson() const {
         {"enabled_frameworks", enabled_frameworks},
         {"policy_state", policy_state},
         {"control_status", control_status},
-        {"evidence_count", static_cast<int>(evidence.size())},
+        {"evidence_count", evidence.size()},
         {"validation_time_ms", validation_time_ms},
         {"metadata", metadata}
     };
@@ -211,9 +211,9 @@ nlohmann::json ComplianceStatusReport::toJson() const {
         {"na_requirements", na_requirements},
         {"compliance_score", compliance_score},
         {"overall_status", static_cast<int>(overall_status)},
-        {"violations_count", static_cast<int>(violations.size())},
+        {"violations_count", violations.size()},
         {"violations", violations_json},
-        {"evidence_count", static_cast<int>(evidence.size())},
+        {"evidence_count", evidence.size()},
         {"evidence", evidence_json}
     };
 }
@@ -239,7 +239,7 @@ nlohmann::json ComplianceValidationResult::toJson() const {
         {"validation_time_ms", validation_time_ms},
         {"elapsed_ms", elapsed_ms},
         {"framework_reports", reports},
-        {"violations_count", static_cast<int>(all_violations.size())},
+        {"violations_count", all_violations.size()},
         {"violations", violations}
     };
 }
@@ -359,7 +359,7 @@ int ComplianceFrameworkRegistry::getRequirementCount(ComplianceFramework fw) con
     
     auto it = requirements_by_framework_.find(fw);
     if (it != requirements_by_framework_.end()) {
-        return static_cast<bool>(it- < static_cast<int>(second.size()));
+        return static_cast<int>(it->second.size());
     }
     return 0;
 }
@@ -369,7 +369,7 @@ int ComplianceFrameworkRegistry::getControlCount(ComplianceFramework fw) const {
     
     auto it = controls_by_framework_.find(fw);
     if (it != controls_by_framework_.end()) {
-        return static_cast<bool>(it- < static_cast<int>(second.size()));
+        return static_cast<int>(it->second.size());
     }
     return 0;
 }

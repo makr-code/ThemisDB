@@ -425,8 +425,8 @@ bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
 std::string ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6(const std::string& ip) {
     // IPv4-mapped IPv6 addresses start with ::ffff: in text form
     constexpr std::string_view kPrefix = "::ffff:";
-    if (static_cast<int>(ip.size()) > static_cast<int>(kPrefix.size()) &&
-        ip.substr(0,static_cast<int>(kPrefix.size())) == kPrefix) {
+    if (ip.size() > kPrefix.size() &&
+        ip.substr(0,kPrefix.size()) == kPrefix) {
         std::string candidate = ip.substr(kPrefix.size());
         uint32_t dummy = 0;
         if (parseIpv4(candidate, dummy)) {

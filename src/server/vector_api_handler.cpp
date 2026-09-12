@@ -171,7 +171,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             try {
                 // Einfaches Cursor-Format: numerischer Offset als String
                 std::string cur = body_json["cursor"].get<std::string>();
-                if (static_cast<int>(cur.size()) > 64) {
+                if (cur.size() > 64) {
                     span.setStatus(false, "Cursor too long");
                     return makeErrorResponse(http::status::bad_request,
                         "Field 'cursor' exceeds maximum allowed length", req);
@@ -202,7 +202,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             for (size_t i = start; i < end; ++i) {
                 items.push_back({{"pk", results[i].pk}, {"distance", results[i].distance}});
             }
-            bool has_more = static_cast<int>(results.size()) > end;
+            bool has_more = results.size() > end;
             json response = {
                 {"items", items},
                 {"batch_size", end - start},
@@ -220,7 +220,7 @@ http::response<http::string_body> VectorApiHandler::handleSearch(
             for (const auto& result : results) {
                 resultJson.push_back({{"pk", result.pk}, {"distance", result.distance}});
             }
-            json response = {{"results", resultJson}, {"k", k}, {"count",static_cast<int>(results.size())}};
+            json response = {{"results", resultJson}, {"k", k}, {"count",results.size()}};
             span.setAttribute("vector.results_count", static_cast<int64_t>(results.size()));
             span.setStatus(true);
             return makeResponse(http::status::ok, response.dump(), req);
@@ -815,7 +815,7 @@ std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess
     }
 
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
@@ -836,7 +836,7 @@ AuthContext VectorApiHandler::extractAuthContext(const http::request<http::strin
     // Extract from Authorization header
     const auto auth_header = req[http::field::authorization];
     if (!auth_header.empty()) {
-        std::string auth_value(auth_header.data(),static_cast<int>(auth_header.size()));
+        std::string auth_value(auth_header.data(),auth_header.size());
         // Simple extraction - in real impl, parse JWT or other tokens
         // For now, just extract basic info from headers
     }

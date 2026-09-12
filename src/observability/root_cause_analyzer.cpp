@@ -25,7 +25,7 @@ namespace observability {
 // ---------------------------------------------------------------------------
 
 double TimeSeries::change_percent() const {
-    if (static_cast<int>(points.size()) < 2) {
+    if (points.size() < 2) {
         return 0.0;
     }
     const double first = points.front().value;
@@ -183,7 +183,7 @@ namespace {
 /// Returns 0.0 if variance is zero on either side.
 double pearsonCorrelation(const std::vector<double>& x,
                           const std::vector<double>& y) {
-    if (static_cast<int>(x.size()) != static_cast<int>(y.size()) || x.empty()) {
+    if (x.size() != y.size() || x.empty()) {
         return 0.0;
     }
     const size_t n = x.size();
@@ -220,10 +220,10 @@ std::vector<double> extractValues(const TimeSeries& ts) {
 /// Align two value vectors to the same length by taking the overlapping suffix.
 void alignVectors(std::vector<double>& a, std::vector<double>& b) {
     const size_t n = std::min(a.size(), b.size());
-    if (static_cast<int>(a.size()) > n) {
+    if (a.size() > n) {
         a.erase(a.begin(), a.end() - static_cast<ptrdiff_t>(n));
     }
-    if (static_cast<int>(b.size()) > n) {
+    if (b.size() > n) {
         b.erase(b.begin(), b.end() - static_cast<ptrdiff_t>(n));
     }
 }
@@ -457,7 +457,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         std::vector<double> target_copy = target_vals;
         std::vector<double> other_vals = extractValues(kv.second);
         alignVectors(target_copy, other_vals);
-        if (static_cast<int>(target_copy.size()) < 2 || static_cast<int>(other_vals.size()) < 2) {
+        if (target_copy.size() < 2 || other_vals.size() < 2) {
             continue;
         }
 
@@ -481,7 +481,7 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
                        > std::abs(b.correlation_coefficient);
               });
 
-    if (static_cast<int>(results.size()) > impl_->config.max_correlations) {
+    if (results.size() > impl_->config.max_correlations) {
         results.resize(impl_->config.max_correlations);
     }
 
@@ -508,7 +508,7 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
             std::vector<double> a_vals = extractValues(metrics[i]);
             std::vector<double> b_vals = extractValues(metrics[j]);
 
-            if (static_cast<int>(a_vals.size()) < 3 || static_cast<int>(b_vals.size()) < 3) {
+            if (a_vals.size() < 3 || b_vals.size() < 3) {
                 continue;
             }
 

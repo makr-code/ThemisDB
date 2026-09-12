@@ -89,7 +89,7 @@ bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
     // Convert UTF-8 path to wide string for the Windows API.
     int wideLen = MultiByteToWideChar(CP_UTF8, 0,
                                       modulePath.c_str(),
-                                      static_cast<int>(modulePath.size()),
+                                      modulePath.size(),
                                       nullptr, 0);
     if (wideLen == 0) {
         spdlog::error("ModuleSignatureVerifier::verifyAuthenticodeSignature: "
@@ -99,7 +99,7 @@ bool ModuleSignatureVerifier::verifyAuthenticodeSignature(
     std::wstring widePath(wideLen, L'\0');
     MultiByteToWideChar(CP_UTF8, 0,
                         modulePath.c_str(),
-                        static_cast<int>(modulePath.size()),
+                        modulePath.size(),
                         &widePath[0], wideLen);
 
     WINTRUST_FILE_INFO fileInfo = {};
@@ -265,10 +265,10 @@ bool ModuleSignatureVerifier::verifyGPGSignature(
         const std::string marker = "from \"";
         std::size_t pos = output.find(marker);
         if (pos != std::string::npos) {
-            std::size_t end = output.find('"', pos + static_cast<int>(marker.size()) );
+            std::size_t end = output.find('"', pos + marker.size() );
             if (end != std::string::npos) {
-                signerInfo = output.substr(pos + static_cast<int>(marker.size()) ,
-                                           end - pos - static_cast<int>(marker.size()) );
+                signerInfo = output.substr(pos + marker.size() ,
+                                           end - pos - marker.size() );
             }
         }
         spdlog::info("ModuleSignatureVerifier: GPG OK for '{}' (signer: {})",

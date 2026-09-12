@@ -149,7 +149,7 @@ public:
                 const auto& male_emb = male_it->second;
                 const auto& female_emb = female_it->second;
                 
-                if (static_cast<int>(male_emb.size()) == static_cast<int>(female_emb.size())) {
+                if (male_emb.size() == female_emb.size()) {
                     std::vector<float> diff(male_emb.size());
                     for (size_t i = 0; i < male_emb.size(); ++i) {
                         diff[i] = male_emb[i] - female_emb[i];
@@ -199,7 +199,7 @@ public:
                 const auto& low_emb = low_it->second;
                 const auto& high_emb = high_it->second;
                 
-                if (static_cast<int>(low_emb.size()) == static_cast<int>(high_emb.size())) {
+                if (low_emb.size() == high_emb.size()) {
                     std::vector<float> diff(low_emb.size());
                     for (size_t i = 0; i < low_emb.size(); ++i) {
                         diff[i] = low_emb[i] - high_emb[i];
@@ -246,7 +246,7 @@ public:
             }
             const auto& lhs = left_it->second;
             const auto& rhs = right_it->second;
-            if (static_cast<int>(lhs.size()) != static_cast<int>(rhs.size())) {
+            if (lhs.size() != rhs.size()) {
                 continue;
             }
             std::vector<float> diff(lhs.size(), 0.0f);
@@ -282,7 +282,7 @@ public:
         }
         
         const auto& word_emb = it->second;
-        if (static_cast<int>(word_emb.size()) != static_cast<int>(bias_vector.size())) {
+        if (word_emb.size() != bias_vector.size()) {
             return 0.0;
         }
         
@@ -506,7 +506,7 @@ std::vector<judge::BiasScore> FairnessDetector::detectBiasBatch(
         throw std::runtime_error("FairnessDetector not initialized");
     }
 
-    THEMIS_DEBUG("Batch bias detection for {} documents",static_cast<int>(documents.size()));
+    THEMIS_DEBUG("Batch bias detection for {} documents",documents.size());
     
     std::vector<judge::BiasScore> results = {};
 
@@ -538,7 +538,7 @@ FairnessDetector::filterByBiasThreshold(const std::vector<std::string>& document
     }
     
     THEMIS_INFO("Filtered {} documents by bias threshold {}: {} passed",
-               documents.size(), config_.bias_threshold,static_cast<int>(filtered.size()));
+               documents.size(), config_.bias_threshold,filtered.size());
     
     return filtered;
 }

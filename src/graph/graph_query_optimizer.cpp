@@ -63,8 +63,8 @@ static bool nodeMatchesLabels(GraphIndexManager& mgr,
             // Verify it is a complete token (preceded by start-of-string or ',')
             bool valid_start = (pos == 0) || (labels_str[static_cast<int>(pos - 1)] == ',');
             // Verify it is a complete token (followed by end-of-string or ',')
-            std::string::size_type end = pos + static_cast<int>(lbl.size()) ;
-            bool valid_end = (end == static_cast<int>(labels_str.size())) || (labels_str[end] == ',');
+            std::string::size_type end = pos + lbl.size() ;
+            bool valid_end = (end == labels_str.size()) || (labels_str[end] == ',');
             if (valid_start && valid_end) {
               return true;
             }
@@ -82,7 +82,7 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
                               const GraphQueryOptimizer::QueryConstraints& constraints) {
     if (!constraints.node_labels.empty()) {
         std::string hint = "Node labels (OR): ";
-        for (size_t i = 0; i <static_cast<int>(constraints.node_labels.size()); ++i) {
+        for (size_t i = 0; i <constraints.node_labels.size(); ++i) {
             if (i > 0) {
               hint += ", ";
             }
@@ -92,7 +92,7 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
     }
     if (!constraints.excluded_edge_types.empty()) {
         std::string hint = "Excluded edge types: ";
-        for (size_t i = 0; i <static_cast<int>(constraints.excluded_edge_types.size()); ++i) {
+        for (size_t i = 0; i <constraints.excluded_edge_types.size(); ++i) {
             if (i > 0) {
               hint += ", ";
             }
@@ -519,7 +519,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     std::ostringstream oss = {};
     oss << "Constrained path finding from '" << start_vertex << "' to '" << end_vertex << "'\n";
     oss << "Algorithm: " << (plan.algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << "\n";
-    oss << "Constraints: " <<static_cast<int>(constraint_list.size()) << " active\n";
+    oss << "Constraints: " <<constraint_list.size() << " active\n";
     oss << "Estimated depth: " << estimated_depth << "\n";
     oss << "Estimated cost: " << plan.estimated_cost << "\n";
     if (has_min_length) {
@@ -711,7 +711,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeTemporalBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                static_cast<int>(result.size()) >= constraints.max_results.value()) {
+                result.size() >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
@@ -880,7 +880,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
             result.push_back(node);
             local_stats.nodes_explored++;
             if (constraints.max_results.has_value() &&
-                static_cast<int>(result.size()) >= constraints.max_results.value()) {
+                result.size() >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 break;
             }
@@ -896,7 +896,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         bool vertex_error = false;
         std::string error_vertex = {};
 
-        if (!use_parallel || static_cast<int>(current_frontier.size()) < effective_threads) {
+        if (!use_parallel || current_frontier.size() < effective_threads) {
             // Sequential expansion
             for (const auto& node : current_frontier) {
                 auto [status, neighbors] = graph_manager_.outNeighbors(node);
@@ -928,7 +928,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
                 std::string error_vertex = {};
             };
 
-            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + effective_threads - 1) / effective_threads;
+            const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
             std::vector<std::future<ChunkResult>> futures;
             std::atomic<bool> any_error{false};
 
@@ -1125,7 +1125,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         }
         
         if (constraints.max_results.has_value() && 
-            static_cast<int>(result.size()) >= constraints.max_results.value()) {
+            result.size() >= constraints.max_results.value()) {
             local_stats.early_terminated = true;
             break;
         }
@@ -1344,7 +1344,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
 
                 // Chunk S into at most nthreads groups.
                 const size_t chunk_size =
-                    std::max<size_t>(1, (static_cast<int>(S.size()) + nthreads - 1) / nthreads);
+                    std::max<size_t>(1, (S.size() + nthreads - 1) / nthreads);
                 std::vector<std::future<TaskOutput>> futures;
 
                 for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
@@ -1800,7 +1800,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // A 10-vertex cap is generous for practical subgraph queries while still
     // bounding the worst-case search space to a tractable level.
     static constexpr size_t kMaxPatternVertices = 10;
-    if (static_cast<int>(pattern_vertices.size()) > kMaxPatternVertices) {
+    if (pattern_vertices.size() > kMaxPatternVertices) {
         return Err<SubgraphIsomorphismResult>(
             errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
             "SubgraphIsomorphism: pattern size " +
@@ -1825,7 +1825,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
     // Use pattern vertex count as depth proxy for cost estimation
     // (0.1 converts cost units → ms; same factor used in optimizeXxx plan construction)
     local_stats.estimated_cost_ms =
-        estimateCost(TraversalAlgorithm::DFS,static_cast<int>(pattern_vertices.size()), constraints) * 0.1;
+        estimateCost(TraversalAlgorithm::DFS,pattern_vertices.size(), constraints) * 0.1;
 
     if (pattern_vertices.empty()) {
         // Empty pattern matches trivially with an empty mapping
@@ -1978,7 +1978,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
             used_data_vertices.erase(dv);
             // Early termination on max_results
             if (constraints.max_results.has_value() &&
-                static_cast<int>(result.matches.size()) >= constraints.max_results.value()) {
+                result.matches.size() >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
                 return;
             }
@@ -2135,7 +2135,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
         explanation += "Parallelism: " + std::to_string(plan.recommended_parallelism) + "\n";
         if (!plan.shard_ids.empty()) {
             explanation += "Shards: ";
-            for (size_t i = 0; i <static_cast<int>(plan.shard_ids.size()); ++i) {
+            for (size_t i = 0; i <plan.shard_ids.size(); ++i) {
                 if (i > 0) {
                   explanation += ", ";
                 }
@@ -2195,7 +2195,7 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
     }
 
     // Enforce size limit: evict LRU entry when at capacity
-    if (plan_cache_max_size_ > 0 && static_cast<int>(plan_cache_.size()) >= plan_cache_max_size_) {
+    if (plan_cache_max_size_ > 0 && plan_cache_.size() >= plan_cache_max_size_) {
         const std::string& lru_key = plan_cache_lru_.back();
         plan_cache_.erase(lru_key);
         plan_cache_lru_.pop_back();
@@ -2654,7 +2654,7 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     execution_history_.push_back(stats);
     
     // Keep history bounded
-    if (static_cast<int>(execution_history_.size()) > MAX_HISTORY_SIZE) {
+    if (execution_history_.size() > MAX_HISTORY_SIZE) {
         execution_history_.erase(execution_history_.begin());
     }
 
@@ -2979,7 +2979,7 @@ size_t GraphQueryOptimizer::onGraphChange(const GraphChangeSet& changes) {
         p.callback(p.delta);
     }
 
-    return static_cast<int>(pending.size());
+    return pending.size();
 }
 
 // Analytics Module Integration (Issue #1821)

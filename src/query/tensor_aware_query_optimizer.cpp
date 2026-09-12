@@ -414,7 +414,7 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
 
                 for (const auto& nbr_id : nbrs) {
                     if (graph_rank_map.count(nbr_id) == 0) {
-                        int grank = static_cast<int>(graph_list.size());
+                        int grank = graph_list.size();
                         graph_rank_map.emplace(nbr_id, grank);
                         graph_list.push_back(nbr_id);
                     }
@@ -435,25 +435,25 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
     // Collect all unique node IDs and compute RRF score from both lists.
     std::unordered_map<std::string, HybridAnnGraphResult> fused = {};
 
-    fused.reserve(static_cast<int>(ann_list.size()) + static_cast<int>(graph_list.size()) );
+    fused.reserve(ann_list.size() + graph_list.size() );
 
     // Seed from ANN list
-    for (int r = 0; r < static_cast<int>(ann_list.size()); ++r) {
-        const auto& id = ann_list[static_cast<size_t>(r)];
+    for (size_t r = 0; r < ann_list.size(); ++r) {
+        const auto& id = ann_list[r];
         auto& entry = fused[id];
         entry.node_id   = id;
-        entry.ann_rank  = r;
+        entry.ann_rank  = static_cast<int>(r);
         entry.rrf_score += 1.0 / (query.rrf_k + static_cast<double>(r) + 1.0);
     }
     // Add from graph list
-    for (int r = 0; r < static_cast<int>(graph_list.size()); ++r) {
-        const auto& id = graph_list[static_cast<size_t>(r)];
+    for (size_t r = 0; r < graph_list.size(); ++r) {
+        const auto& id = graph_list[r];
         auto& entry = fused[id];
         if (entry.node_id.empty()) {
             entry.node_id    = id;
             entry.from_graph = true;
         }
-        entry.graph_rank  = r;
+        entry.graph_rank  = static_cast<int>(r);
         entry.rrf_score  += 1.0 / (query.rrf_k + static_cast<double>(r) + 1.0);
     }
 
@@ -468,12 +468,12 @@ std::vector<HybridAnnGraphResult> planAnnGraphHybrid(
               [](const HybridAnnGraphResult& a, const HybridAnnGraphResult& b) {
                   return a.rrf_score > b.rrf_score;  // descending
               });
-    if (static_cast<int>(results.size()) > query.top_k) {
+    if (results.size() > query.top_k) {
         results.resize(query.top_k);
     }
 
     THEMIS_INFO("planAnnGraphHybrid: fused {} ANN + {} graph → {} results in {:.1f}ms",
-                ann_list.size(),static_cast<int>(graph_list.size()),static_cast<int>(results.size()), elapsed_ms());
+                ann_list.size(),graph_list.size(),results.size(), elapsed_ms());
 
     return results;
 }

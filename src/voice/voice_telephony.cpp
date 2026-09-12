@@ -106,16 +106,16 @@ int16_t alawToPcm(uint8_t alaw_byte) {
  * Returns empty vector if the packet is too short.
  */
 std::vector<uint8_t> stripRtpHeader(const std::vector<uint8_t>& pkt) {
-    if (static_cast<int>(pkt.size()) < 12) return {};
+    if (pkt.size() < 12) return {};
     size_t offset = 12;
     uint8_t cc = pkt[0] & 0x0F;   // CSRC count
     offset += 4 * cc;             // skip CSRC list
     if (pkt[0] & 0x10) {           // extension bit
-        if (static_cast<int>(pkt.size()) < offset + 4) return {};
+        if (pkt.size() < offset + 4) return {};
         uint16_t ext_len = static_cast<uint16_t>((pkt[offset + 2] << 8) | pkt[offset + 3]);
         offset += 4 + 4 * ext_len;
     }
-    if (offset >= static_cast<int>(pkt.size())) return {};
+    if (offset >= pkt.size()) return {};
     return std::vector<uint8_t>(pkt.begin() + static_cast<std::ptrdiff_t>(offset),
                                  pkt.end());
 }
@@ -138,7 +138,7 @@ CallTranscript runCallStt(const CallID&                call_id,
 
     std::ostringstream oss = {};
     oss << "[" << (is_final ? "final" : "partial")
-        << ":" <<static_cast<int>(samples.size()) << "samples]";
+        << ":" <<samples.size() << "samples]";
     ct.text = oss.str();
     return ct;
 }
@@ -338,7 +338,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 
     // TASK 2.6: RTP packet validation (error code 6910)
     // CRITICAL GAP 12: Reject oversized RTP packets
-    if (static_cast<int>(rtp_packet.size()) < 12) {
+    if (rtp_packet.size() < 12) {
         THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
                     rtp_packet.size());
         return empty;
@@ -351,7 +351,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     
     // CRITICAL GAP 12 (continued): Enforce oversized packet limit
     static constexpr size_t kMaxRtpPacketSize = 32 * 1024;
-    if (static_cast<int>(rtp_packet.size()) > kMaxRtpPacketSize) {
+    if (rtp_packet.size() > kMaxRtpPacketSize) {
         THEMIS_WARN("SipCallSession: RTP packet exceeds size limit ({} > {} bytes), rejecting (error 6910)",
                     rtp_packet.size(), kMaxRtpPacketSize);
         return empty;
@@ -469,7 +469,7 @@ SipCallSession::synthesizeTts(const std::string& text) {
         for (auto& frame : frames) {
             std::vector<uint8_t> pkt = {};
 
-            pkt.reserve(12 + static_cast<int>(frame.size()) );
+            pkt.reserve(12 + frame.size() );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = static_cast<uint8_t>(
@@ -710,7 +710,7 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
         for (auto& frame : frames) {
             std::vector<uint8_t> pkt = {};
 
-            pkt.reserve(12 + static_cast<int>(frame.size()) );
+            pkt.reserve(12 + frame.size() );
             pkt.resize(12, 0);
             pkt[0] = 0x80; // V=2, P=0, X=0, CC=0
             pkt[1] = 111;  // dynamic Opus payload type
@@ -849,7 +849,7 @@ TelephonyBridge::TelephonyBridge(Config config)
 
 CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
+    size_t total = sip_calls_.size() + webrtc_calls_.size() ;
     if (total >= config_.max_concurrent_calls) {
         THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                     config_.max_concurrent_calls);
@@ -866,7 +866,7 @@ CallID TelephonyBridge::acceptSipCall(SipCallSession::Config config) {
     auto id = session->start();
     sip_calls_.emplace(id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted SIP call {} (active={})",
-                id,static_cast<int>(sip_calls_.size()));
+                id,sip_calls_.size());
     return id;
 }
 
@@ -895,7 +895,7 @@ void TelephonyBridge::terminateSipCall(const CallID& call_id) {
     it->second->end();
     sip_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated SIP call {} (active={})",
-                call_id,static_cast<int>(sip_calls_.size()));
+                call_id,sip_calls_.size());
 }
 
 std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
@@ -910,7 +910,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     {
         std::lock_guard<std::mutex> lock_sip(sip_mutex_);
         std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-        size_t total = static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
+        size_t total = sip_calls_.size() + webrtc_calls_.size() ;
         if (total >= config_.max_concurrent_calls) {
             THEMIS_WARN("TelephonyBridge: max_concurrent_calls ({}) reached",
                         config_.max_concurrent_calls);
@@ -926,7 +926,7 @@ std::string TelephonyBridge::acceptWebRtcOffer(WebRtcCallSession::Config config,
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
     webrtc_calls_.emplace(out_call_id, std::move(session));
     THEMIS_INFO("TelephonyBridge: accepted WebRTC call {} (active={})",
-                out_call_id,static_cast<int>(webrtc_calls_.size()));
+                out_call_id,webrtc_calls_.size());
     return answer;
 }
 
@@ -961,7 +961,7 @@ void TelephonyBridge::terminateWebRtcCall(const CallID& call_id) {
     it->second->end();
     webrtc_calls_.erase(it);
     THEMIS_INFO("TelephonyBridge: terminated WebRTC call {} (active={})",
-                call_id,static_cast<int>(webrtc_calls_.size()));
+                call_id,webrtc_calls_.size());
 }
 
 void TelephonyBridge::terminateCall(const CallID& call_id) {
@@ -972,17 +972,17 @@ void TelephonyBridge::terminateCall(const CallID& call_id) {
 size_t TelephonyBridge::activeCallCount() const noexcept {
     std::lock_guard<std::mutex> lock_sip(sip_mutex_);
     std::lock_guard<std::mutex> lock_rtc(webrtc_mutex_);
-    return static_cast<int>(sip_calls_.size()) + static_cast<int>(webrtc_calls_.size()) ;
+    return sip_calls_.size() + webrtc_calls_.size() ;
 }
 
 size_t TelephonyBridge::activeSipCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(sip_mutex_);
-    return static_cast<int>(sip_calls_.size());
+    return sip_calls_.size();
 }
 
 size_t TelephonyBridge::activeWebRtcCallCount() const noexcept {
     std::lock_guard<std::mutex> lock(webrtc_mutex_);
-    return static_cast<int>(webrtc_calls_.size());
+    return webrtc_calls_.size();
 }
 
 CallState TelephonyBridge::callState(const CallID& call_id) const {

@@ -135,7 +135,7 @@ struct TraceContext {
   static TraceContext FromHeader(const std::string& header) {
     TraceContext ctx;
     // Simplified parsing; production version uses full RFC compliance
-    if (static_cast<int>(header.size()) >= 55) {  // "00-<32>-<16>-<2>"
+    if (header.size() >= 55) {  // "00-<32>-<16>-<2>"
       ctx.trace_id = header.substr(3, 32);
       ctx.span_id = header.substr(36, 16);
     }
@@ -449,7 +449,7 @@ void ProcessTelemetryIntegrationImpl::RecordSpan(
   span_history_.push_back(span);
 
   // Trim buffer if exceeds max size
-  if (static_cast<int>(span_history_.size()) > kMaxSpanBufferSize) {
+  if (span_history_.size() > kMaxSpanBufferSize) {
     span_history_.erase(span_history_.begin());
   }
 
@@ -540,7 +540,7 @@ std::string ProcessTelemetryIntegrationImpl::SerializeSpanOtlp(
 bool ProcessTelemetryIntegrationImpl::SendSpansToCollector(
     const std::vector<std::string>& span_jsons) {
   // Simplified: log export (production version uses HTTP POST)
-  utils::Logger::Info("ExportSpans: sending %zu spans to %s",static_cast<int>(span_jsons.size()),
+  utils::Logger::Info("ExportSpans: sending %zu spans to %s",span_jsons.size(),
                       config_.otel_exporter_endpoint.c_str());
   return true;
 }

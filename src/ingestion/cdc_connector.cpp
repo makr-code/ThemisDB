@@ -60,7 +60,7 @@ static const char* operationToString(CdcConnector::CdcEvent::Operation op) {
 /// Simple JSON string escaping (no external dependencies).
 static std::string jsonEscape(const std::string& s) {
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 4);
+    out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         if (c == '"')       { out += "\\\""; }
         else if (c == '\\') { out += "\\\\"; }
@@ -263,13 +263,13 @@ parseColToken(const std::string& line, size_t& pos) {
 
     pos = rb + 2; // skip ']:'
 
-    if (pos >= static_cast<int>(line.size())) return {col, ""};
+    if (pos >= line.size()) return {col, ""};
 
     std::string val = {};
     if (line[pos] == '\'') {
         // Single-quoted string; '' is an escaped single quote
         ++pos;
-        while (static_cast<size_t>(pos) <static_cast<int>(line.size())) {
+        while (pos < line.size()) {
             char c = line[pos];
             if (c == '\'') {
                 if (pos + 1 < line.size() && line[pos + 1] == '\'') {
@@ -303,7 +303,7 @@ static std::unordered_map<std::string, std::string>
 parseColSet(const std::string& line, size_t& pos) {
     std::unordered_map<std::string, std::string> result = {};
 
-    while (static_cast<size_t>(pos) <static_cast<int>(line.size())) {
+    while (pos < line.size()) {
         auto [c, v] = parseColToken(line, pos);
         if (c.empty()) {
           break;

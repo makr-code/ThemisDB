@@ -87,7 +87,7 @@ bool writeBlobToFile(const std::string &path, const std::string &blob) {
         if (!file) {
             return false;
         }
-        file.write(blob.data(),static_cast<int>(blob.size()));
+        file.write(blob.data(),blob.size());
         return file.good();
     } catch (...) {
         return false;
@@ -127,7 +127,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
     }
 
     // Check magic bytes first
-    if (static_cast<int>(blob.size()) >= 4) {
+    if (blob.size() >= 4) {
         uint32_t magic32 = 0;
         std::memcpy(&magic32, blob.data(), 4);
         if (magic32 == ZIP_MAGIC) {
@@ -135,7 +135,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    if (static_cast<int>(blob.size()) >= 2) {
+    if (blob.size() >= 2) {
         uint16_t magic16;
         std::memcpy(&magic16, blob.data(), 2);
         if (magic16 == GZIP_MAGIC) {
@@ -143,14 +143,14 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    if (static_cast<int>(blob.size()) >= 6) {
+    if (blob.size() >= 6) {
         if (std::memcmp(blob.data(), SEVEN_ZIP_MAGIC, 6) == 0) {
             return ArchiveFormat::SEVEN_ZIP;
         }
     }
 
     // Check for TAR signature at offset 257
-    if (static_cast<int>(blob.size()) >= 262) {
+    if (blob.size() >= 262) {
         if (std::memcmp(blob.data() + 257, TAR_MAGIC, 5) == 0) {
             return ArchiveFormat::TAR;
         }
@@ -444,7 +444,7 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata &metadata, std::str
         }
 
         // Check path length
-        if (static_cast<int>(member.path.size()) > config_.max_path_length) {
+        if (member.path.size() > config_.max_path_length) {
             error_message = "Archive member path too long: " + member.path;
             return false;
         }
@@ -642,7 +642,7 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string &blob, Ar
                 result.error_message = "TAR.GZ: inflate error";
                 return result;
             }
-            const std::size_t written = static_cast<int>(out_buf.size()) - zs.avail_out;
+            const std::size_t written = out_buf.size() - zs.avail_out;
             raw_tar.insert(raw_tar.end(), out_buf.begin(), out_buf.begin() + written);
         } while (ret != Z_STREAM_END);
         inflateEnd(&zs);
@@ -904,7 +904,7 @@ ArchiveProcessorResult ArchiveProcessor::process(const std::string &blob, const 
         {"format", static_cast<int>(format)},          {"encrypted", metadata.is_encrypted},
         {"member_count", metadata.member_count},       {"file_count", metadata.file_count},
         {"directory_count", metadata.directory_count}, {"total_uncompressed_size", metadata.total_uncompressed_size},
-        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count",static_cast<int>(extraction.extracted_files.size())},
+        {"extraction_strategy", "EXTRACT_AND_INGEST"}, {"extracted_file_count",extraction.extracted_files.size()},
         {"temp_directory", extraction.temp_directory}};
 
     // Add extracted file list

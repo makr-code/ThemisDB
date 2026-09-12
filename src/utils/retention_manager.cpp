@@ -34,7 +34,7 @@ RetentionManager::RetentionManager(const std::string& config_path)
         }
     }
     
-    spdlog::info("RetentionManager: Initialized with {} policy/policies",static_cast<int>(policies_.size()));
+    spdlog::info("RetentionManager: Initialized with {} policy/policies",policies_.size());
 }
 
 bool RetentionManager::registerPolicy(const RetentionPolicy& policy) {
@@ -346,7 +346,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
             registerPolicy(policy);
         }
 
-        spdlog::info("RetentionManager: Loaded {} policies from '{}'",static_cast<int>(policies_.size()), config_path);
+        spdlog::info("RetentionManager: Loaded {} policies from '{}'",policies_.size(), config_path);
         return true;
 
     } catch (const std::exception& e) {
@@ -360,7 +360,7 @@ bool RetentionManager::loadPolicies(const std::string& config_path) {
 void RetentionManager::logAction(const RetentionAction& action) {
     // Add to history (keep last 10000 actions)
     action_history_.push_back(action);
-    if (static_cast<int>(action_history_.size()) > 10000) {
+    if (action_history_.size() > 10000) {
         action_history_.erase(action_history_.begin());
     }
     

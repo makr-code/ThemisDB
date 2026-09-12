@@ -134,7 +134,10 @@ public:
         }
 
         // partial sort — only need top k
-        int actual_k = std::min(k, static_cast<int>(results.size()));
+        if (k <= 0 || results.empty()) {
+            return {};
+        }
+        const size_t actual_k = std::min(results.size(), static_cast<size_t>(k));
         std::partial_sort(results.begin(),
                           results.begin() + actual_k,
                           results.end(),
@@ -142,7 +145,7 @@ public:
                              const TensorSearchResult& b) {
                               return a.distance < b.distance;
                           });
-        results.resize(static_cast<size_t>(actual_k));
+        results.resize(actual_k);
 
         // update rolling average (const method — cast is intentional)
         auto* mutable_self = const_cast<FlatTensorIndex*>(this);
@@ -369,7 +372,7 @@ public:
 
     [[nodiscard]] size_t size() const override {
         std::shared_lock lock(rw_mutex_);
-        return static_cast<int>(store_.size());
+        return store_.size();
     }
 
     [[nodiscard]] TensorIndexStats stats() const override {
@@ -410,7 +413,7 @@ private:
     static float ttInnerProduct(const storage::TTTrain& A,
                                  const storage::TTTrain& B) {
         const size_t d = A.cores.size();
-        if (d == 0 || d != static_cast<int>(B.cores.size())) {
+        if (d == 0 || d != B.cores.size()) {
           return 0.0f;
         }
 
@@ -440,7 +443,7 @@ private:
                         for (size_t s = 0; s < rAl; ++s) {
                             for (size_t t = 0; t < rBl; ++t) {
                                 size_t tIdx = s * rBl + t; // T is (rAl × rBl)
-                                if (tIdx >= static_cast<int>(T.size())) {
+                                if (tIdx >= T.size()) {
                                   continue;
                                 }
                                 acc += T[tIdx]

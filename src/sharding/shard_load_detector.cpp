@@ -82,7 +82,7 @@ void ShardLoadDetector::updateShardLoad(const std::string& shard_id, const Shard
     // Append to per-shard history for forecasting; enforce ring-buffer size
     auto& history = shard_load_history_[shard_id];
     history.push_back(load);
-    while (static_cast<int>(history.size()) > kMaxHistorySamples) {
+    while (history.size() > kMaxHistorySamples) {
         history.pop_front();
     }
     
@@ -123,7 +123,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
     LoadImbalanceResult result;
     
     // Check minimum requirements
-    if (static_cast<int>(shard_loads_.size()) < config_.min_shards_for_detection) {
+    if (shard_loads_.size() < config_.min_shards_for_detection) {
         result.reason = "Insufficient shards for detection (min: " + 
                        std::to_string(config_.min_shards_for_detection) + ")";
         return result;
@@ -149,7 +149,7 @@ LoadImbalanceResult ShardLoadDetector::detectImbalance() const {
         generateRebalanceRecommendations(shard_loads_, result);
         
         THEMIS_WARN("Load imbalance detected: {} (hotspots: {}, cold: {})",
-                   result.reason,static_cast<int>(result.hotspot_shards.size()),static_cast<int>(result.cold_shards.size()));
+                   result.reason,result.hotspot_shards.size(),result.cold_shards.size());
         
         if (metrics_) {
             metrics_->incrementCounter("themis_load_imbalance_detections_total");
@@ -369,7 +369,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
     // Generate recommendations: move data from hottest to coldest
     size_t num_recommendations = std::min(result.hotspot_shards.size(), result.cold_shards.size());
     
-    for (size_t i = 0; i < num_recommendations  && static_cast<size_t>(i) <static_cast<int>(load_rankings.size()) / 2; i++) {
+    for (size_t i = 0; i < num_recommendations  && i < load_rankings.size() / 2; i++) {
         LoadImbalanceResult::RebalanceRecommendation rec;
         rec.source_shard = load_rankings[i].first;
         rec.target_shard = load_rankings[load_rankings.size() - 1 - i].first;
@@ -392,7 +392,7 @@ void ShardLoadDetector::generateRebalanceRecommendations(
         result.recommendations.push_back(rec);
     }
     
-    THEMIS_INFO("Generated {} rebalance recommendations",static_cast<int>(result.recommendations.size()));
+    THEMIS_INFO("Generated {} rebalance recommendations",result.recommendations.size());
 }
 
 /** @brief Compute weighted composite shard load score. */
@@ -527,7 +527,7 @@ nlohmann::json ShardLoadDetector::getStatistics() const {
 
 /** @brief Fit linear trend model over value series (index-based x-axis). */
 std::pair<double, double> ShardLoadDetector::linearRegression(const std::vector<double>& values) {
-    if (static_cast<int>(values.size()) < 2) {
+    if (values.size() < 2) {
         return {0.0, values.empty() ? 0.0 : values[0]};
     }
 
@@ -601,7 +601,7 @@ std::optional<LoadForecast> ShardLoadDetector::forecastLoad(
     // Determine how many additional samples the horizon corresponds to.
     // We estimate the inter-sample interval from the history timestamps.
     double steps_ahead = 1.0;
-    if (static_cast<int>(history.size()) >= 2) {
+    if (history.size() >= 2) {
         const auto& first = history.front();
         const auto& last  = history.back();
         auto total_duration = std::chrono::duration_cast<std::chrono::milliseconds>(

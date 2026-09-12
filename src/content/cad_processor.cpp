@@ -218,7 +218,7 @@ std::vector<ContentChunk> CADProcessor::chunk(const ContentExtractionResult &res
     const auto &cad = result.cad.value();
 
     // Create chunks for each part
-    for (size_t i = 0; i <static_cast<int>(cad.part_ids.size()); ++i) {
+    for (size_t i = 0; i <cad.part_ids.size(); ++i) {
         ContentChunk chunk;
 
         std::ostringstream text = {};
@@ -331,9 +331,9 @@ CADExtractionData CADProcessor::parseSTL(const std::vector<uint8_t> &blob) {
 
     // Check if ASCII or binary STL
     bool is_ascii
-        = static_cast<int>(blob.size()) > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
+        = blob.size() > 5 && blob[0] == 's' && blob[1] == 'o' && blob[2] == 'l' && blob[3] == 'i' && blob[4] == 'd';
 
-    if (!is_ascii && static_cast<int>(blob.size()) >= 84) {
+    if (!is_ascii && blob.size() >= 84) {
         // Binary STL
         // Header: 80 bytes
         // Triangle count: 4 bytes (uint32)

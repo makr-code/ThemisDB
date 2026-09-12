@@ -190,7 +190,7 @@ struct Token {
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(expr.size())) {
+    while (i < expr.size()) {
         char c = expr[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             ++i;
@@ -241,7 +241,7 @@ std::vector<Token> tokenize(const std::string &expr) {
                 ++i;
             }
             tokens.push_back({TokType::STRING, expr.substr(start, i - start)});
-            if (static_cast<int>(expr.size()) > i) {
+            if (expr.size() > i) {
                 ++i;
             }
         } else if (c == '(') {
@@ -589,7 +589,7 @@ EventStream::PushResult EventStream::push(Event event) {
 }
 
 std::optional<Event> EventStream::pull(uint32_t partition_id) {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -605,7 +605,7 @@ std::optional<Event> EventStream::pull(uint32_t partition_id) {
 }
 
 std::optional<Event> EventStream::peek(uint32_t partition_id) const {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -617,7 +617,7 @@ std::optional<Event> EventStream::peek(uint32_t partition_id) const {
 }
 
 float EventStream::getFillLevel(uint32_t partition_id) const {
-    if (partition_id >= static_cast<int>(partitions_.size())) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return 0.0f;
     }
     size_t max_pp = config_.buffer_size / partitions_.size();
@@ -686,7 +686,7 @@ void PatternMatcher::buildNFA() {
         NFAState s;
         s.state_id            = i;
         s.expected_event_type = ev_types[i];
-        s.is_accepting        = (i + 1 == static_cast<int>(ev_types.size()));
+        s.is_accepting        = (i + 1 == ev_types.size());
         if (i + 1 < ev_types.size()) {
             s.transitions.push_back(i + 1);
         }
@@ -785,7 +785,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
     }
 
     // NEGATION: complete if NOT followed by the second event type after first matched
-    if (config_.type == PatternType::NEGATION && static_cast<int>(config_.event_types.size()) == 2) {
+    if (config_.type == PatternType::NEGATION && config_.event_types.size() == 2) {
         // Start a partial match on first event type
         if (matchesEventType(event, config_.event_types[0]) && evaluateCondition(event)) {
             PartialMatch pm;
@@ -872,7 +872,7 @@ std::vector<PatternMatch> PatternMatcher::processEvent(const Event &event) {
             }
 
             // Check if all required event types have been seen
-            bool all_seen = (static_cast<int>(seen.size()) == static_cast<int>(config_.event_types.size()));
+            bool all_seen = (seen.size() == config_.event_types.size());
             if (!all_seen) {
                 // Fallback detailed check in case sizes don't match exactly
                 // (e.g., duplicates or special handling)
@@ -1201,7 +1201,7 @@ void WindowManager::handleSlidingWindow(const Event &event) {
         }
 
         // Prune old closed windows
-        while (static_cast<int>(windows_.size()) > 100 && windows_.front().closed) {
+        while (windows_.size() > 100 && windows_.front().closed) {
             windows_.pop_front();
         }
     }
@@ -1278,7 +1278,7 @@ void WindowManager::handleCountWindow(const Event &event) {
         Window &current = windows_.back();
         current.events.push_back(event);
         current.end = event.timestamp;
-        if (config_.count > 0 && static_cast<int>(current.events.size()) >= config_.count) {
+        if (config_.count > 0 && current.events.size() >= config_.count) {
             batch = closeWindow(current);
             Window nw;
             nw.start = event.timestamp;
@@ -1541,7 +1541,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::DISTINCT_COUNT:
             return static_cast<int64_t>(s.distinct_values.size());
         case AggregationType::VARIANCE: {
-            if (static_cast<int>(s.values.size()) < 2) {
+            if (s.values.size() < 2) {
                 return 0.0;
             }
             double mean = s.sum / static_cast<double>(s.count);
@@ -1552,7 +1552,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
             return var / static_cast<double>(s.count - 1);
         }
         case AggregationType::STDDEV: {
-            if (static_cast<int>(s.values.size()) < 2) {
+            if (s.values.size() < 2) {
                 return 0.0;
             }
             double mean = s.sum / static_cast<double>(s.count);
@@ -1576,7 +1576,7 @@ CepFieldValue Aggregator::computeResult(const AggregationState &s) const {
         case AggregationType::TOPN: {
             auto sorted = s.values;
             std::sort(sorted.rbegin(), sorted.rend());
-            if (static_cast<int>(sorted.size()) > 10) {
+            if (sorted.size() > 10) {
                 sorted.resize(10);
             }
             std::vector<std::string> strs = {};
@@ -1648,7 +1648,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
-                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) <static_cast<int>(group_by_fields_.size())) {
+                    while (std::getline(iss, token, '|')  && fi < group_by_fields_.size()) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
                     }
                 }
@@ -2315,11 +2315,11 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
             for (auto pit = param_begin; pit != param_end; ++pit) {
                 std::smatch pm  = *pit;
                 std::string val = {};
-                if (static_cast<int>(pm.size()) > 1 && pm[1].matched) {
+                if (pm.size() > 1 && pm[1].matched) {
                     val = pm[1].str();
-                } else if (static_cast<int>(pm.size()) > 2 && pm[2].matched) {
+                } else if (pm.size() > 2 && pm[2].matched) {
                     val = pm[2].str();
-                } else if (static_cast<int>(pm.size()) > 3) {
+                } else if (pm.size() > 3) {
                     val = pm[3].str();
                 }
                 if (!val.empty()) {
@@ -2331,7 +2331,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (static_cast<int>(params.size()) > 1) {
+                if (params.size() > 1) {
                     ac.template_str = params[1];
                 }
             } else if (ac.type == ActionType::ALERT) {
@@ -2339,17 +2339,17 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string &epl) {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (static_cast<int>(params.size()) > 1) {
+                if (params.size() > 1) {
                     cfg.tags["severity"] = params[1];
                 }
-                if (static_cast<int>(params.size()) > 2) {
+                if (params.size() > 2) {
                     ac.template_str = params[2];
                 }
             } else {
                 if (!params.empty()) {
                     ac.target = params[0];
                 }
-                if (static_cast<int>(params.size()) > 1) {
+                if (params.size() > 1) {
                     ac.template_str = params[1];
                 }
             }
@@ -2719,7 +2719,7 @@ void CEPEngine::addAlert(Alert alert) {
         std::lock_guard lk(alerts_mutex_);
         alerts_.push_back(alert);
         // Keep at most 10000 alerts
-        while (static_cast<int>(alerts_.size()) > 10000) {
+        while (alerts_.size() > 10000) {
             alerts_.pop_front();
         }
         ++alerts_generated_;

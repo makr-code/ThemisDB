@@ -12,6 +12,10 @@ foreach(_src IN LISTS GEO_MODULE_TEST_SOURCES)
     add_executable(${_target} "${_src}")
     target_sources(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/src/geo/geo_backend_dispatch.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_policy.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/phase2_phase3_hardening.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_edge_case_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_operator_diagnostics.cpp
     )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -51,6 +55,10 @@ foreach(_src IN LISTS GEO_AUTOGEN_PREFIX_TEST_SOURCES)
     add_executable(${_target} "${_src}")
     target_sources(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/src/geo/geo_backend_dispatch.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_policy.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/phase2_phase3_hardening.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_edge_case_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/geo/geo_operator_diagnostics.cpp
     )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include

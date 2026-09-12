@@ -517,7 +517,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             if (with_checksum) {
                 // Bounds check before reading CRC
                 const std::size_t required_size = header.payload_length + CHECKSUM_SIZE;
-                if (static_cast<int>(read_buffer_.size()) < required_size) {
+                if (read_buffer_.size() < required_size) {
                     send_error(0x04, "Incomplete message with checksum");
                     return;
                 }
@@ -536,7 +536,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
             // Dispatch to the appropriate handler.  Because this lambda
             // captures `this` (as `self`), private members are accessible.
             const OpCode opcode = header.get_opcode();
-            const int    isz    = static_cast<int>(payload.size());
+            const int    isz    = payload.size();
 #if defined(THEMIS_WIRE_V1_PROTO_AVAILABLE) && THEMIS_WIRE_V1_PB_HEADER_FOUND
             // Helper lambda: log a parse failure and send an error response.
             auto on_parse_fail = [this](const char* name) {
@@ -786,10 +786,10 @@ void WireProtocolSession::async_write_response(
 
 void WireProtocolSession::send_error(uint32_t           err_code,
                                      const std::string& message) {
-    std::vector<uint8_t> payload(4 + static_cast<int>(message.size()) );
+    std::vector<uint8_t> payload(4 + message.size() );
     const uint32_t code_be = htonl(err_code);
     std::memcpy(payload.data(), &code_be, 4);
-    std::memcpy(payload.data() + 4, message.data(),static_cast<int>(message.size()));
+    std::memcpy(payload.data() + 4, message.data(),message.size());
 
     WireFrameHeader hdr{};
     hdr.magic          = WIRE_MAGIC;
@@ -997,7 +997,7 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
         const auto batch_sz = req.batch_size() > 0 ? req.batch_size() : 100;
         v1::QueryResult qr;
 
-        if (static_cast<int>(results.size()) > batch_sz) {
+        if (results.size() > batch_sz) {
             // Large result-set: store remainder in per-session cursor map.
             for (uint32_t i = 0; i < batch_sz; ++i)
                 qr.add_results(results[i]);
@@ -1608,7 +1608,7 @@ void WireProtocolServer::stop() {
 
 size_t WireProtocolServer::active_sessions() const {
     std::lock_guard<std::mutex> lock(state_mutex_);
-    return static_cast<int>(sessions_.size());
+    return sessions_.size();
 }
 
 uint64_t WireProtocolServer::total_connections() const {

@@ -82,8 +82,8 @@ bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) 
         auto data = tensor->cpu_data();
         if (tensor_size == 0) {
             tensor_size = data.size();
-        } else if (static_cast<int>(data.size()) != tensor_size) {
-            spdlog::error("CustomAllReduce shape mismatch: {} vs {}",static_cast<int>(data.size()), tensor_size);
+        } else if (data.size() != tensor_size) {
+            spdlog::error("CustomAllReduce shape mismatch: {} vs {}",data.size(), tensor_size);
             return false;
         }
 
@@ -148,7 +148,7 @@ bool CustomAllReduce::broadcast(GPUTensor& tensor, int root) {
             
             Device target_device = ctx_.get_device(i);
             GPUTensor target_tensor({tensor.size()}, target_device);
-            gpu_to_gpu_copy(tensor, target_tensor, 0,static_cast<int>(tensor.size()));
+            gpu_to_gpu_copy(tensor, target_tensor, 0,tensor.size());
         }
     }
     
@@ -194,7 +194,7 @@ void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,
     
     std::vector<float> cpu_buffer = src.cpu_data();
     
-    if (offset > 0  || static_cast<size_t>(count) <static_cast<int>(cpu_buffer.size())) {
+    if (offset > 0  || count < cpu_buffer.size()) {
         std::vector<float> partial(cpu_buffer.begin() + offset, 
                                    cpu_buffer.begin() + offset + count);
         dst.upload(partial);

@@ -3,8 +3,8 @@
 ThemisDB Architecture Generator
 ================================
 Scans repository knowledge sources and produces:
-  - architecture.json  (repo root) — machine-readable architecture model
-  - architecture.md    (repo root) — Mermaid diagram rendered from the JSON
+  - ARCHITECTURE.JSON  (repo root) — machine-readable architecture model
+  - ARCHITECTURE.md    (repo root) — Mermaid diagram rendered from the JSON
 
 Source inputs (in priority order):
   ai_context/MODULES_AND_NAMESPACES.md     — canonical module/namespace table
@@ -22,8 +22,8 @@ Usage:
 
 Options:
   --repo-root PATH   Path to repository root (default: two levels up from this file)
-  --json-out PATH    Output JSON path (default: <repo-root>/architecture.json)
-  --md-out PATH      Output Markdown path (default: <repo-root>/architecture.md)
+  --json-out PATH    Output JSON path (default: <repo-root>/ARCHITECTURE.JSON)
+  --md-out PATH      Output Markdown path (default: <repo-root>/ARCHITECTURE.md)
   --dry-run          Print outputs to stdout instead of writing files
 """
 
@@ -928,12 +928,12 @@ def main() -> int:
     parser.add_argument(
         "--json-out",
         default=None,
-        help="Output JSON path (default: <repo-root>/architecture.json)",
+        help="Output JSON path (default: <repo-root>/ARCHITECTURE.JSON)",
     )
     parser.add_argument(
         "--md-out",
         default=None,
-        help="Output Markdown path (default: <repo-root>/architecture.md)",
+        help="Output Markdown path (default: <repo-root>/ARCHITECTURE.md)",
     )
     parser.add_argument(
         "--dry-run",
@@ -953,8 +953,8 @@ def main() -> int:
         print(f"ERROR: repo root not found: {repo_root}", file=sys.stderr)
         return 1
 
-    json_out = Path(args.json_out) if args.json_out else repo_root / "architecture.json"
-    md_out = Path(args.md_out) if args.md_out else repo_root / "architecture.md"
+    json_out = Path(args.json_out) if args.json_out else repo_root / "ARCHITECTURE.JSON"
+    md_out = Path(args.md_out) if args.md_out else repo_root / "ARCHITECTURE.md"
 
     print(f"[architecture-generator] repo root: {repo_root}", file=sys.stderr)
     print("[architecture-generator] scanning knowledge sources …", file=sys.stderr)
@@ -965,10 +965,10 @@ def main() -> int:
     md_text = render_markdown(model)
 
     if args.dry_run:
-        print("=== architecture.json ===")
+        print("=== ARCHITECTURE.JSON ===")
         print(json_text[:2000], "…" if len(json_text) > 2000 else "")
         print()
-        print("=== architecture.md ===")
+        print("=== ARCHITECTURE.md ===")
         print(md_text[:2000], "…" if len(md_text) > 2000 else "")
         return 0
 

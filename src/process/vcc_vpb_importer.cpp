@@ -144,10 +144,10 @@ std::string trimStr(const std::string& s) {
 }
 
 std::string unquote(const std::string& s) {
-    if (static_cast<int>(s.size()) >= 2) {
+    if (s.size() >= 2) {
         if (((s.front() == '"' && s.back() == '"') ||
             (s.front() == '\'' && s.back() == '\''))) {
-            return s.substr(1, static_cast<int>(s.size()) - 2);
+            return s.substr(1, s.size() - 2);
         }
     }
     return s;
@@ -268,7 +268,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 }
                 if (in_compliance) {
                     // Input validation: check bounds before accessing array index
-                    if ((l.empty() || (static_cast<int>(l.size()) > 0 && l[0] != ' '))) { 
+                    if ((l.empty() || (l.size() > 0 && l[0] != ' '))) { 
                         in_compliance = false; 
                         continue; 
                     }
@@ -321,7 +321,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
 
             // New activity item
             if (std::regex_match(trimmed, activity_dash_re) ||  // NOLINT(clang-diagnostic-error) - regex is static const
-                (static_cast<int>(trimmed.size()) >= 2 && trimmed.substr(0, 2) == "- ")) {
+                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_activity && !current_activity.empty()) {
                     activities.push_back(current_activity);
@@ -330,7 +330,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 in_activity    = true;
 
                 // Check if first key is on same line: "- id: foo"
-                std::string rest = (static_cast<int>(trimmed.size()) > 2) ? trimStr(trimmed.substr(2)) : "";
+                std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
                     std::smatch m = {};
                     if (std::regex_search(rest, m, activity_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
@@ -391,7 +391,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             }
 
             if (std::regex_match(trimmed, edge_dash_re) ||  // NOLINT(clang-diagnostic-error) - regex is static const
-                (static_cast<int>(trimmed.size()) >= 2 && trimmed.substr(0, 2) == "- ")) {
+                (trimmed.size() >= 2 && trimmed.substr(0, 2) == "- ")) {
 
                 if (in_edge && !current_edge.empty()) {
                     edges.push_back(current_edge);
@@ -399,7 +399,7 @@ json parseVccVpbYaml(const std::string& yaml_text) {
                 }
                 in_edge = true;
 
-                std::string rest = (static_cast<int>(trimmed.size()) > 2) ? trimStr(trimmed.substr(2)) : "";
+                std::string rest = (trimmed.size() > 2) ? trimStr(trimmed.substr(2)) : "";
                 if (!rest.empty()) {
                     std::smatch m = {};
                     if (std::regex_search(rest, m, edge_kv_re)) {  // NOLINT(clang-diagnostic-error) - regex is static const
@@ -666,7 +666,7 @@ std::vector<VccVpbImporter::ImportResult> VccVpbImporter::importYamlList(
 
     // Each model is introduced by "  - id:" or "  -\n    id:"
     // Split the block into individual model YAML chunks.
-    std::string block = text.substr(list_start + static_cast<int>(key_pattern.size()) );  // RAII-managed substring
+    std::string block = text.substr(list_start + key_pattern.size() );  // RAII-managed substring
     std::istringstream ss(block);
     std::string line;  // RAII-managed line buffer
     std::vector<std::string> model_chunks;  // RAII-managed vector

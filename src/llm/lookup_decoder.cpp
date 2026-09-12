@@ -72,8 +72,8 @@ void LookupDecoder::loadStaticNgrams(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     for (const auto& [key, cont] : ngrams) {
-        if (static_cast<int>(key.size()) >= config_.ngram_min &&
-            static_cast<int>(key.size()) <= config_.ngram_max &&
+        if (key.size() >= config_.ngram_min &&
+            key.size() <= config_.ngram_max &&
             !cont.empty()) {
             std::vector<int> trimmed(
                 cont.begin(),
@@ -111,7 +111,7 @@ std::vector<int> LookupDecoder::proposeDraftTokens(
 
     // Probe from longest to shortest n-gram (greedy longest match).
     for (size_t n = config_.ngram_max; n >= config_.ngram_min; --n) {
-        if (static_cast<int>(context_tokens.size()) < n) {
+        if (context_tokens.size() < n) {
           continue;
         }
 
@@ -153,7 +153,7 @@ void LookupDecoder::insertEntry(std::vector<int> key,
                                  std::vector<int> continuation)
 {
     // Evict oldest entry if at capacity.
-    if (static_cast<int>(index_.size()) >= config_.max_index_entries &&
+    if (index_.size() >= config_.max_index_entries &&
         !insertion_order_.empty()) {
         const auto& oldest = insertion_order_.front();
         index_.erase(oldest);
@@ -170,7 +170,7 @@ void LookupDecoder::indexTokens(const std::vector<int>& tokens) {
     // Slide a window of size [ngram_min..ngram_max] across the token sequence.
     // For each window: key = first n tokens, continuation = tokens after the key.
     for (size_t n = config_.ngram_min; n <= config_.ngram_max; ++n) {
-        if (static_cast<int>(tokens.size()) <= n) continue;  // need at least one continuation token
+        if (tokens.size() <= n) continue;  // need at least one continuation token
 
         for (size_t start = 0; start + n < tokens.size(); ++start) {
             std::vector<int> key(tokens.begin() + static_cast<ptrdiff_t>(start),

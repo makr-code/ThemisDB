@@ -188,7 +188,7 @@ class V2SessionImpl : public V2Session {
             hdr.flags |= static_cast<uint16_t>(V2FrameFlags::END_STREAM);
 
         // Use compressed payload only when it actually saves bytes
-        if (!compressed_buf.empty() && static_cast<int>(compressed_buf.size()) <static_cast<int>(data.size())) {
+        if (!compressed_buf.empty() && compressed_buf.size() <data.size()) {
             payload = &compressed_buf;
             if (cfg_.enable_zstd_compression) {
                 hdr.flags |= static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
@@ -452,7 +452,7 @@ class V2SessionImpl : public V2Session {
             }
             case V2FrameType::RST_STREAM: {
                 uint32_t ec = 0;
-                if (static_cast<int>(payload.size()) >= 4)
+                if (payload.size() >= 4)
                     std::memcpy(&ec, payload.data(), 4), ec = ntohl32(ec);
                 if (rst_handler_)
                     rst_handler_(hdr.stream_id, ec);
@@ -475,7 +475,7 @@ class V2SessionImpl : public V2Session {
                 break;
             }
             case V2FrameType::WINDOW_UPDATE: {
-                if (static_cast<int>(payload.size()) >= 4) {
+                if (payload.size() >= 4) {
                     uint32_t inc = 0;
                     std::memcpy(&inc, payload.data(), 4);
                     inc = ntohl32(inc) & 0x7FFFFFFF; // strip reserved bit
@@ -509,7 +509,7 @@ class V2SessionImpl : public V2Session {
                 }
                 // PRIORITY frame payload (RFC 7540 §6.3): 5 bytes
                 //   E (1 bit) | Stream Dependency (31 bits) | Weight (8 bits)
-                if (static_cast<int>(payload.size()) < 5)
+                if (payload.size() < 5)
                     break;
                 uint32_t dep_field = 0;
                 std::memcpy(&dep_field, payload.data(), 4);
@@ -596,12 +596,12 @@ class V2SessionImpl : public V2Session {
     static std::unordered_map<std::string, std::string> decodeHeaders(const std::vector<uint8_t> &payload) {
         std::unordered_map<std::string, std::string> headers = {};
 
-        std::string text(reinterpret_cast<const char *>(payload.data()),static_cast<int>(payload.size()));
+        std::string text(reinterpret_cast<const char *>(payload.data()),payload.size());
         std::istringstream ss(text);
         std::string line = {};
         while (std::getline(ss, line)) {
             // Guard against excessively long lines
-            if (static_cast<int>(line.size()) > MAX_HEADER_FIELD_SIZE)
+            if (line.size() > MAX_HEADER_FIELD_SIZE)
                 continue;
             auto pos = line.find(':');
             if (pos == std::string::npos)
@@ -719,7 +719,7 @@ class V2Server::Impl {
 
     size_t active_connections() const {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
-        return static_cast<int>(sessions_.size());
+        return sessions_.size();
     }
 
     uint64_t total_streams_opened() const {

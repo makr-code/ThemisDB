@@ -196,12 +196,12 @@ bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
 
 bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch) const {
     // Check minimum batch size
-    if (static_cast<int>(batch.size()) < config_.min_batch_size) {
+    if (batch.size() < config_.min_batch_size) {
         return false;
     }
     
     // Check maximum batch size (trigger training if exceeded)
-    if (static_cast<int>(batch.size()) >= config_.max_batch_size) {
+    if (batch.size() >= config_.max_batch_size) {
         return true;
     }
     
@@ -209,7 +209,7 @@ bool TrainingTriggerPlugin::onTrainingTrigger(const std::vector<Feedback>& batch
     float avg_rating = calculateAverageRating(batch);
     if (avg_rating < config_.min_avg_rating) {
         // Low rating - might indicate model issues, trigger training sooner
-        return static_cast<int>(batch.size()) >= config_.min_batch_size;
+        return batch.size() >= config_.min_batch_size;
     }
     
     // Check time since oldest feedback

@@ -413,7 +413,7 @@ static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *t
 
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (static_cast<int>(heap.size()) > topK) {
+            if (heap.size() > topK) {
                 heap.pop(); // ejects largest (highest dist, or equal dist + highest index)
             }
         }

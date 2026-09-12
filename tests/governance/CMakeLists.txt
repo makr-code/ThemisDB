@@ -30,6 +30,16 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
         )
     endif()
 
+    # Compliance framework focused tests require concrete registry/mapping/
+    # validator implementation symbols.
+    if(_stem STREQUAL "test_compliance_framework")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/governance/compliance_framework.cpp
+            ${THEMIS_ROOT_DIR}/src/governance/compliance_mapping.cpp
+            ${THEMIS_ROOT_DIR}/src/governance/compliance_validator.cpp
+        )
+    endif()
+
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

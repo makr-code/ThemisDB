@@ -71,7 +71,7 @@ public:
     EncryptedStorageApiHandler(
         std::shared_ptr<RocksDBWrapper>                               storage,
         std::shared_ptr<themis::AuthMiddleware>                       auth,
-        std::shared_ptr<themis::plugins::user_storage::MultiLevelEncryptedStorage>  enc_storage);
+        std::shared_ptr<themis::plugins::user_storage::MultiLevelEncryptedStorage> enc_storage);
 
     ~EncryptedStorageApiHandler();
 

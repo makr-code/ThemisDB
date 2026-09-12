@@ -101,7 +101,7 @@ static size_t readWasmName(const uint8_t *data, const uint8_t *end, std::string 
 std::string WasmModuleInfo::summary() const {
     std::ostringstream oss = {};
     oss << (valid ? "valid" : "invalid") << " wasm v" << wasm_version << " size=" << byte_size << "B"
-        << " imports=" <<static_cast<int>(imports.size()) << " exports=" <<static_cast<int>(exports.size());
+        << " imports=" <<imports.size() << " exports=" <<exports.size();
     if (!module_name.empty()) {
         oss << " name=\"" << module_name << "\"";
     }
@@ -120,7 +120,7 @@ std::string WasmModuleInfo::summary() const {
     WasmModuleInfo info;
     info.byte_size = bytes.size();
 
-    if (static_cast<int>(bytes.size()) < 8) {
+    if (bytes.size() < 8) {
         return info; // Too small to be a valid WASM binary
     }
 
@@ -142,7 +142,7 @@ std::string WasmModuleInfo::summary() const {
 
     // Parse sections to collect imports and exports
     const uint8_t *p   = bytes.data() + 8;
-    const uint8_t *end = bytes.data() + static_cast<int>(bytes.size()) ;
+    const uint8_t *end = bytes.data() + bytes.size() ;
 
     while (p < end) {
         if (p + 1 > end) {
@@ -377,7 +377,7 @@ void WasmPluginSandbox::clearHostFunctions() {
 }
 
 size_t WasmPluginSandbox::hostFunctionCount() const noexcept {
-    return static_cast<int>(host_fns_.size());
+    return host_fns_.size();
 }
 
 // =============================================================================
@@ -436,9 +436,9 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const s
     module_info_ = WasmModuleValidator::validate(bytes);
 
     if (!module_info_.module_name.empty()) {
-        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_info_.module_name,static_cast<int>(bytes.size()));
+        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_info_.module_name,bytes.size());
     } else {
-        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_name,static_cast<int>(bytes.size()));
+        spdlog::debug("WasmPluginSandbox: loading '{}' ({} bytes)", module_name,bytes.size());
     }
 
     // --- 2. Parse import/export sections and check allowlist --------------
@@ -481,7 +481,7 @@ bool WasmPluginSandbox::loadFromBytes(const std::vector<uint8_t> &bytes, const s
     // Initialise the fuel counter from the configured budget (UINT64_MAX when
     // max_instructions == 0 signals "unlimited").
     fuel_remaining_ = (config_.max_instructions == 0) ? UINT64_MAX : config_.max_instructions;
-    spdlog::info("WasmPluginSandbox: '{}' loaded (imports={} exports={})", effective_name,static_cast<int>(module_info_.imports.size()),
+    spdlog::info("WasmPluginSandbox: '{}' loaded (imports={} exports={})", effective_name,module_info_.imports.size(),
                  module_info_.exports.size());
     return true;
 }
@@ -595,7 +595,7 @@ uint64_t WasmPluginSandbox::remainingFuel() const noexcept {
 // =============================================================================
 
 bool WasmPluginSandbox::validateWasmHeader(const std::vector<uint8_t> &bytes) {
-    if (static_cast<int>(bytes.size()) < 8) {
+    if (bytes.size() < 8) {
         last_error_ = "Binary too small to be a valid WASM module (" + std::to_string(bytes.size()) + " bytes)";
         spdlog::error("WasmPluginSandbox: {}", last_error_);
         return false;
@@ -659,7 +659,7 @@ bool WasmPluginSandbox::checkImportAllowlist() {
 
     if (!unknown.empty()) {
         std::ostringstream oss = {};
-        oss << "WASM module requires " <<static_cast<int>(unknown.size()) << " unregistered host function(s): ";
+        oss << "WASM module requires " <<unknown.size() << " unregistered host function(s): ";
         for (size_t i = 0; i < unknown.size(); ++i) {
             if (i) {
                 oss << ", ";
@@ -715,7 +715,7 @@ bool WasmPluginSandbox::launchOsSandbox(const std::string &module_name) {
     // avoid re-calling the accessor on each iteration, and build the prefixed
     // string with append() instead of operator+ to skip one temporary per call.
     const auto& os_warnings = os_sandbox_->launchWarnings();
-    load_warnings_.reserve(static_cast<int>(load_warnings_.size()) + static_cast<int>(os_warnings.size()) );
+    load_warnings_.reserve(load_warnings_.size() + os_warnings.size() );
     for (const auto &w : os_warnings) {
         load_warnings_.push_back(std::string("[OS sandbox] ").append(w));
         spdlog::debug("WasmPluginSandbox: OS sandbox warning: {}", w);

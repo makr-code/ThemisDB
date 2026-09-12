@@ -65,27 +65,27 @@ std::string LLMMetaAnalyzer::buildPrompt(
 ) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate task description and input size to prevent memory exhaustion
-    if (static_cast<int>(task_description.size()) > 10000) {
+    if (task_description.size() > 10000) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: task_description exceeds maximum ({})", 
                    task_description.size());
         throw std::invalid_argument("Task description exceeds maximum size");
     }
     
-    if (static_cast<int>(input_text.size()) > 100000) {
+    if (input_text.size() > 100000) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: input_text exceeds maximum ({})", 
                    input_text.size());
         throw std::invalid_argument("Input text exceeds maximum size");
     }
     
     // Validate criteria count and individual sizes
-    if (static_cast<int>(criteria.size()) > 100) {
+    if (criteria.size() > 100) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criteria count exceeds maximum ({})", 
                    criteria.size());
         throw std::invalid_argument("Criteria count exceeds maximum");
     }
     
     for (const auto& criterion : criteria) {
-        if (static_cast<int>(criterion.size()) > 10000) {
+        if (criterion.size() > 10000) {
             THEMIS_WARN("LLMMetaAnalyzer::buildPrompt: criterion exceeds maximum size ({})", 
                        criterion.size());
             throw std::invalid_argument("Individual criterion exceeds maximum size");
@@ -128,17 +128,17 @@ std::string LLMMetaAnalyzer::buildPromptWithCoT(
 ) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate all inputs to prevent memory exhaustion and injection attacks
-    if (static_cast<int>(task_description.size()) > 10000) {
+    if (task_description.size() > 10000) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: task_description exceeds maximum");
         throw std::invalid_argument("Task description exceeds maximum size");
     }
     
-    if (static_cast<int>(input_text.size()) > 100000) {
+    if (input_text.size() > 100000) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: input_text exceeds maximum");
         throw std::invalid_argument("Input text exceeds maximum size");
     }
     
-    if (static_cast<int>(criteria.size()) > 100 || static_cast<int>(examples.size()) > 50) {
+    if (criteria.size() > 100 || examples.size() > 50) {
         THEMIS_WARN("LLMMetaAnalyzer::buildPromptWithCoT: criteria/examples count exceeds maximum");
         throw std::invalid_argument("Criteria or examples count exceeds maximum");
     }
@@ -263,7 +263,7 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
 }
 
 std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
-    THEMIS_DEBUG("LLM call with prompt length: {}",static_cast<int>(prompt.size()));
+    THEMIS_DEBUG("LLM call with prompt length: {}",prompt.size());
 
     if (impl_) {
         impl_->total_calls++;
@@ -285,7 +285,7 @@ std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
             request.request_id = "meta_" + std::to_string(req_counter.fetch_add(1));
 
             auto response = engine->submit(request).get();
-            THEMIS_DEBUG("LLMMetaAnalyzer::callLLM response length: {}",static_cast<int>(response.text.size()));
+            THEMIS_DEBUG("LLMMetaAnalyzer::callLLM response length: {}",response.text.size());
             return response.text;
         } catch (const std::exception& e) {
             THEMIS_ERROR("LLMMetaAnalyzer::callLLM engine error: {}", e.what());
@@ -317,8 +317,8 @@ void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& met
 std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
     // ── INPUT VALIDATION ────────────────────────────────────────────────────
     // Validate input size for cache key computation
-    if (static_cast<int>(input.size()) > 100000) {
-        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})",static_cast<int>(input.size()));
+    if (input.size() > 100000) {
+        THEMIS_WARN("LLMMetaAnalyzer::computeCacheKey: input exceeds maximum ({})",input.size());
         throw std::invalid_argument("Input for cache key exceeds maximum size");
     }
     // ── end input validation ────────────────────────────────────────────────

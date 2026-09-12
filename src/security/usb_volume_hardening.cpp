@@ -48,14 +48,6 @@ using USBVolume_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBVolume_EVP_MD_CT
 
 namespace {
 
-/// Trim leading/trailing ASCII whitespace (space, tab, CR, LF) from a string.
-static std::string trimWhitespace(std::string s) {
-    auto notSpace = [](unsigned char c){ return !std::isspace(c); };
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), notSpace));
-    s.erase(std::find_if(s.rbegin(), s.rend(), notSpace).base(), s.end());
-    return s;
-}
-
 /// Build the platform-correct path separator for a file on the volume.
 static std::string joinPath(const std::string& dir, const std::string& file) {
 #if defined(_WIN32)
@@ -135,14 +127,14 @@ bool USBVolumeHardening::verifyVolumeHash(const std::string& mount_path,
         return false;
     }
 
-    if (static_cast<int>(actual.size()) != static_cast<int>(expected_hash.size())) {
+    if (actual.size() != expected_hash.size()) {
         THEMIS_WARN("USBVolumeHardening: volume hash length mismatch (actual={} expected={})",
-                    actual.size(),static_cast<int>(expected_hash.size()));
+                    actual.size(),expected_hash.size());
         return false;
     }
 
     // Constant-time comparison to prevent timing attacks.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(),static_cast<int>(actual.size())) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_hash.data(),actual.size()) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: volume hash mismatch — possible FAT manipulation");
     }
@@ -243,7 +235,7 @@ std::string USBVolumeHardening::getUSBDeviceSerial(const std::string& mount_path
     // Step 2: Get the base device name (strip /dev/ prefix and partition suffix).
     // e.g. /dev/sdb1 → sdb, /dev/mmcblk0p1 → mmcblk0
     std::string dev_name = device;
-    if (static_cast<int>(dev_name.size()) > 5 && dev_name.substr(0, 5) == "/dev/") {
+    if (dev_name.size() > 5 && dev_name.substr(0, 5) == "/dev/") {
         dev_name = dev_name.substr(5);
     }
 
@@ -342,13 +334,13 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
         return false;
     }
 
-    if (static_cast<int>(actual.size()) != static_cast<int>(expected_serial.size())) {
+    if (actual.size() != expected_serial.size()) {
         THEMIS_WARN("USBVolumeHardening: USB serial length mismatch — possible cloned device");
         return false;
     }
 
     // Constant-time comparison.
-    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(),static_cast<int>(actual.size())) == 0);
+    bool match = (CRYPTO_memcmp(actual.data(), expected_serial.data(),actual.size()) == 0);
     if (!match) {
         THEMIS_WARN("USBVolumeHardening: USB serial mismatch — possible cloned USB device");
     }

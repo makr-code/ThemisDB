@@ -45,7 +45,7 @@ ProTeGiGradient HeuristicProTeGiProvider::computeGradient(
     // Build a heuristic critique based on prompt characteristics
     std::ostringstream critique = {};
     critique << "The prompt produced errors on "
-             << num_errors << "/" <<static_cast<int>(errors.size()) << " examples (rate="
+             << num_errors << "/" <<errors.size() << " examples (rate="
              << gradient.error_rate << "). ";
 
     if (gradient.error_rate > 0.5) {
@@ -234,7 +234,7 @@ ProTeGiResult ProTeGiOptimizer::optimize(
         }
 
         // Trim to effective_beam_width
-        if (static_cast<int>(scored.size()) > effective_beam_width) {
+        if (scored.size() > effective_beam_width) {
             scored.resize(effective_beam_width);
         }
 
@@ -332,7 +332,7 @@ std::vector<TestCase> ProTeGiOptimizer::sampleMiniBatch(
     const std::vector<TestCase>& test_cases,
     size_t n) const
 {
-    if (n >= static_cast<int>(test_cases.size())) {
+    if (n >= test_cases.size()) {
         return test_cases;
     }
 
@@ -361,7 +361,7 @@ std::vector<std::string> ProTeGiOptimizer::defaultErrorFn(
     errors.reserve(mini_batch.size());
 
     for (const auto& tc : mini_batch) {
-        if (static_cast<int>(tc.expected_output.size()) > static_cast<int>(prompt.size())) {
+        if (tc.expected_output.size() > prompt.size()) {
             errors.push_back("Expected output longer than prompt; prompt may lack detail.");
         } else {
             errors.push_back("");  // no error

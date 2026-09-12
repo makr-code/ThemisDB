@@ -341,7 +341,7 @@ public:
         uint32_t parity_shards
     ) override {
         const size_t chunk_size =
-            (static_cast<int>(data.size()) + data_shards - 1) / data_shards;
+            (data.size() + data_shards - 1) / data_shards;
 
         // Build padded data chunks
         std::vector<std::vector<uint8_t>> data_chunks(data_shards,
@@ -349,7 +349,7 @@ public:
         for (uint32_t i = 0; i < data_shards; ++i) {
             size_t off = static_cast<size_t>(i) * chunk_size;
             size_t sz  = (off < data.size())
-                ? std::min(chunk_size, static_cast<int>(data.size()) - off) : 0;
+                ? std::min(chunk_size, data.size() - off) : 0;
             if (sz > 0)
                 std::memcpy(data_chunks[i].data(), data.data() + off, sz);
         }
@@ -402,11 +402,11 @@ public:
         for (uint32_t i = 0; i < total_shards; ++i) {
             if (!missing_set.count(i) && available_chunks.count(i))
                 present_indices.push_back(i);
-            if (static_cast<int>(present_indices.size()) == data_shards) {
+            if (present_indices.size() == data_shards) {
               break;
             }
         }
-        if (static_cast<int>(present_indices.size()) < data_shards)
+        if (present_indices.size() < data_shards)
             throw std::runtime_error(
                 "OpenCL decode: insufficient chunks to recover data");
 
@@ -474,7 +474,7 @@ public:
         // all stripes can be laid out in a flat buffer with the same stride.
         size_t max_block = 0;
         for (const auto& b : data_blocks)
-            max_block = std::max(max_block,static_cast<int>(b.size()));
+            max_block = std::max(max_block,b.size());
         const size_t chunk_size = (max_block + data_shards - 1) / data_shards;
         const size_t stripe_data_bytes =
             static_cast<size_t>(data_shards) * chunk_size;
@@ -494,7 +494,7 @@ public:
                 size_t off = d * chunk_size;
                 size_t src_off = off;
                 size_t sz = (src_off < block.size())
-                    ? std::min(chunk_size, static_cast<int>(block.size()) - src_off) : 0;
+                    ? std::min(chunk_size, block.size() - src_off) : 0;
                 if (sz > 0)
                     std::memcpy(flat_data.data()
                                 + s * stripe_data_bytes + d * chunk_size,
@@ -609,7 +609,7 @@ public:
                     std::vector<uint8_t> chunk(chunk_size, 0);
                     size_t off = d * chunk_size;
                     size_t sz  = (off < block.size())
-                        ? std::min(chunk_size, static_cast<int>(block.size()) - off) : 0;
+                        ? std::min(chunk_size, block.size() - off) : 0;
                     if (sz > 0)
                         std::memcpy(chunk.data(), block.data() + off, sz);
                     stripe_chunks.push_back(std::move(chunk));

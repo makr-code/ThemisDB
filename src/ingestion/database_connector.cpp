@@ -60,8 +60,8 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
 
     // Must start with "jdbc:"
     const std::string prefix = "jdbc:";
-    if (static_cast<int>(url.size()) <= prefix.size() ||
-        url.substr(0,static_cast<int>(prefix.size())) != prefix) {
+    if (url.size() <= prefix.size() ||
+        url.substr(0,prefix.size()) != prefix) {
         return result;
     }
 
@@ -84,7 +84,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     // SQLite uses a file path, not a host/port
     if (result.subprotocol == "sqlite") {
         // jdbc:sqlite:/path/to/file.db  → database = /path/to/file.db
-        if (static_cast<int>(after_sub.size()) >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+        if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
             after_sub = after_sub.substr(2);
         }
         result.database = after_sub;
@@ -92,7 +92,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
     }
 
     // Strip leading "//"
-    if (static_cast<int>(after_sub.size()) >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
+    if (after_sub.size() >= 2 && after_sub[0] == '/' && after_sub[1] == '/') {
         after_sub = after_sub.substr(2);
     }
 
@@ -110,7 +110,7 @@ static JdbcUrl parseJdbcUrl(const std::string& url) {
         const std::string dbkey = "databaseName=";
         auto pos = params.find(dbkey);
         if (pos != std::string::npos) {
-            std::string val = params.substr(pos + static_cast<int>(dbkey.size()) );
+            std::string val = params.substr(pos + dbkey.size() );
             auto semi2 = val.find(';');
             db_part = (semi2 != std::string::npos) ? val.substr(0, semi2) : val;
         }
@@ -210,7 +210,7 @@ static std::string buildOdbcConnectionString(
     std::size_t pos = static_cast<std::size_t>(it - cs.begin()) + target.size();
     auto end = result.find(';', pos);
     if (end == std::string::npos) {
-        result.replace(pos, static_cast<int>(result.size()) - pos, "***");
+        result.replace(pos, result.size() - pos, "***");
     } else {
         result.replace(pos, end - pos, "***");
     }
@@ -230,7 +230,7 @@ static std::string rowToJson(const DatabaseConnector::DbRow& row) {
         // Simple JSON string escaping
         auto escape = [](const std::string& s) -> std::string {
             std::string out = {};
-            out.reserve(static_cast<int>(s.size()) + 4);
+            out.reserve(s.size() + 4);
             for (unsigned char c : s) {
                 if (c == '"')  { out += "\\\""; }
                 else if (c == '\\') { out += "\\\\"; }

@@ -298,12 +298,10 @@ ComplianceEvidence ComplianceEvidence::fromJson(const nlohmann::json& j) {
 nlohmann::json CorrelationGroup::toJson() const {
     nlohmann::json j;
     j["correlation_id"] = correlation_id;
-    j["first_event_time_ms"] = first_event_time_ms;
-    j["last_event_time_ms"] = last_event_time_ms;
-    j["event_count"] = event_count;
-    j["actor_ids"] = nlohmann::json(actor_ids);
-    j["module_names"] = nlohmann::json(module_names);
-    j["related_event_ids"] = nlohmann::json(related_event_ids);
+    j["created_at_ms"] = created_at_ms;
+    j["last_updated_ms"] = last_updated_ms;
+    j["event_ids"] = nlohmann::json(event_ids);
+    j["causality_chain"] = nlohmann::json(causality_chain);
     return j;
 }
 
@@ -376,7 +374,7 @@ void OperationalAuditLogger::logEvent(
     
     // Store event
     events_.push_back(event);
-    event_map_[event.event_id] = static_cast<int>(events_.size()) - 1;
+    event_map_[event.event_id] = events_.size() - 1;
     
     // Update actor index
     if (!actor_id.empty()) {
@@ -406,7 +404,7 @@ void OperationalAuditLogger::logEvent(
     performance_metrics_.total_operations++;
     
     // Enforce circular buffer size limit
-    if (static_cast<int>(events_.size()) > max_events_) {
+    if (events_.size() > max_events_) {
         // Remove oldest event
         const auto& oldest_event = events_.front();
         
@@ -534,7 +532,7 @@ void OperationalAuditLogger::logPolicyLifecycle(
 
 size_t OperationalAuditLogger::getTotalEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(events_.size());
+    return events_.size();
 }
 
 OperationalEvent* OperationalAuditLogger::getEventById(const std::string& event_id) {
@@ -718,7 +716,7 @@ nlohmann::json OperationalAuditLogger::exportEvents(
     auto events = queryEventsByTimeRange(start_ms, end_ms);
     
     // Apply limit
-    if (limit > 0 && static_cast<int>(events.size()) > limit) {
+    if (limit > 0 && events.size() > limit) {
         events.resize(limit);
     }
     
@@ -762,8 +760,8 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
         size_t p99_idx = (sorted_times.size() * 99) / 100;
         
         stats["logging_latency_p50_us"] = sorted_times[p50_idx];
-        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, static_cast<int>(sorted_times.size()) - 1)];
-        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, static_cast<int>(sorted_times.size()) - 1)];
+        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, sorted_times.size() - 1)];
+        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, sorted_times.size() - 1)];
     }
     
     return stats;
@@ -916,8 +914,8 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     stats["max_latency_ms"] = sorted_latencies.back();
     stats["avg_latency_ms"] = sum / sorted_latencies.size();
     stats["p50_latency_ms"] = sorted_latencies[p50_idx];
-    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, static_cast<int>(sorted_latencies.size()) - 1)];
-    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, static_cast<int>(sorted_latencies.size()) - 1)];
+    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, sorted_latencies.size() - 1)];
+    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, sorted_latencies.size() - 1)];
     stats["total_correlations"] = correlations_.size();
     
     return stats;
@@ -995,7 +993,7 @@ void ComplianceEvidenceCollector::recordEvidence(
     
     // Store evidence
     evidence_list_.push_back(evidence);
-    evidence_map_[evidence.evidence_id] = static_cast<int>(evidence_list_.size()) - 1;
+    evidence_map_[evidence.evidence_id] = evidence_list_.size() - 1;
     evidence_count_++;
     
     // Index by requirement

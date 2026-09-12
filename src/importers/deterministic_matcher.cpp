@@ -150,8 +150,8 @@ double SemanticMatcher::jaroSimilarity(const std::string &s1, const std::string 
         return 1.0;
     }
 
-    const int len1       = static_cast<int>(s1.size());
-    const int len2       = static_cast<int>(s2.size());
+    const int len1       = s1.size();
+    const int len2       = s2.size();
     const int match_dist = std::max(std::max(len1, len2) / 2 - 1, 0);
 
     std::vector<bool> s1_matched(static_cast<size_t>(len1), false);
@@ -293,7 +293,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
     std::string code(1, upper[0]);
     char prev = (upper[0] >= 'A' && upper[0] <= 'Z') ? table[static_cast<unsigned char>(upper[0]) - 'A'] : '0';
 
-    for (size_t i = 1; i < upper.size() && static_cast<int>(code.size()) < 4; ++i) {
+    for (size_t i = 1; i < upper.size() && code.size() < 4; ++i) {
         if (upper[i] < 'A' || upper[i] > 'Z') {
             continue;
         }
@@ -303,7 +303,7 @@ std::string SemanticMatcher::computeSoundex(const std::string &name) {
         }
         prev = c;
     }
-    while ( static_cast<int>(code.size()) < 4) {
+    while ( code.size() < 4) {
         code += '0';
     }
     return code;
@@ -326,7 +326,7 @@ double SemanticMatcher::soundexMatch(const std::string &name1, const std::string
         return 1.0;
     }
     // Partial match: first character plus at least one digit matches.
-    if (code1[0] == code2[0] && static_cast<int>(code1.size()) >= 2 && static_cast<int>(code2.size()) >= 2 && code1[1] == code2[1]) {
+    if (code1[0] == code2[0] && code1.size() >= 2 && code2.size() >= 2 && code1[1] == code2[1]) {
         return 0.5;
     }
     return 0.0;
@@ -390,7 +390,7 @@ std::string SemanticMatcher::normalizePhoneNumber(const std::string &phone) {
     }
     // Strip leading country code heuristic: if digits start with "1" and
     // length is 11, drop the leading "1" (North American number).
-    if (static_cast<int>(digits.size()) == 11 && digits[0] == '1') {
+    if (digits.size() == 11 && digits[0] == '1') {
         digits = digits.substr(1);
     }
     return digits;
@@ -409,7 +409,7 @@ double SemanticMatcher::scorePhonePair(const std::string &p1, const std::string 
 }
 
 double SemanticMatcher::vectorSimilarity(const std::vector<float> &v1, const std::vector<float> &v2) {
-    if (v1.empty() || v2.empty() || static_cast<int>(v1.size()) != static_cast<int>(v2.size())) {
+    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
         return 0.0;
     }
 
@@ -533,7 +533,7 @@ std::vector<EntityMatchScore> SemanticMatcher::findSimilarEntities(const json &i
         return a.overall_confidence > b.overall_confidence;
     });
 
-    if (static_cast<int>(results.size()) > config.max_results) {
+    if (results.size() > config.max_results) {
         results.resize(config.max_results);
     }
     return results;

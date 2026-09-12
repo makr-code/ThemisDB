@@ -35,7 +35,7 @@ bool CounterMergeOperator::Merge(const rocksdb::Slice& key,
 
     // Parse new value as integer
     int64_t delta = 0;
-    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , delta);
+    auto result = std::from_chars(value.data(), value.data() + value.size() , delta);
     if (result.ec != std::errc()) {
         spdlog::warn("CounterMergeOperator: failed to parse delta for key='{}' (logger_attached={})",
                      key_dbg,
@@ -81,12 +81,12 @@ bool AppendMergeOperator::Merge(const rocksdb::Slice& key,
                       has_logger);
     }
     if (existing_value) {
-        new_value->reserve(existing_value->size() + static_cast<int>(delimiter_.size()) + static_cast<int>(value.size()) );
+        new_value->reserve(existing_value->size() + delimiter_.size() + value.size() );
         new_value->assign(existing_value->data(), existing_value->size());
         new_value->append(delimiter_);
-        new_value->append(value.data(),static_cast<int>(value.size()));
+        new_value->append(value.data(),value.size());
     } else {
-        new_value->assign(value.data(),static_cast<int>(value.size()));
+        new_value->assign(value.data(),value.size());
     }
     return true;
 }
@@ -119,7 +119,7 @@ bool SetMergeOperator::Merge(const rocksdb::Slice& key,
     }
 
     // Parse and add new values (comma-separated)
-    std::string value_str(value.data(),static_cast<int>(value.size()));
+    std::string value_str(value.data(),value.size());
     std::stringstream ss(value_str);
     std::string item = {};
     while (std::getline(ss, item, ',')) {
@@ -153,7 +153,7 @@ bool MaxMergeOperator::Merge(const rocksdb::Slice& key,
 
     // Parse new value as double
     double new_val = 0.0;
-    auto result = std::from_chars(value.data(), value.data() + static_cast<int>(value.size()) , new_val);
+    auto result = std::from_chars(value.data(), value.data() + value.size() , new_val);
     if (result.ec != std::errc()) {
         spdlog::warn("MaxMergeOperator: failed to parse new value for key='{}' (logger_attached={})",
                      key_dbg,

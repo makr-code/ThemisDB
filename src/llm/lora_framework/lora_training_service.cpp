@@ -72,7 +72,7 @@ void LoRATrainingService::clearModelPathProviderFn() {
 
 // Simple MSE loss function
 float compute_mse_loss(const Tensor& predictions, const Tensor& targets) {
-    if (static_cast<int>(predictions.size()) != static_cast<int>(targets.size())) {
+    if (predictions.size() != targets.size()) {
         throw std::invalid_argument("Predictions and targets must have same size");
     }
     
@@ -271,7 +271,7 @@ public:
             
             spdlog::info("Starting on-the-fly training for adapter: {}", adapter_id);
             spdlog::info("  Model: {}", is_phi3_model ? "Phi-3" : "Generic");
-            spdlog::info("  Training samples: {}",static_cast<int>(data.size()));
+            spdlog::info("  Training samples: {}",data.size());
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
             if (!local_config.target_modules.empty()) {
@@ -379,7 +379,7 @@ public:
                 throw std::runtime_error("Failed to load training data");
             }
             
-            spdlog::info("Loaded {} samples into DataLoader",static_cast<int>(data_loader.size()));
+            spdlog::info("Loaded {} samples into DataLoader",data_loader.size());
             spdlog::info("Number of batches per epoch: {}", data_loader.num_batches());
             
             // Initialize LoRA or QLoRA model
@@ -636,7 +636,7 @@ public:
                         spdlog::debug("Skipping empty training batch at step {}", step);
                         continue;
                     }
-                    if (static_cast<int>(batch.label_ids.size()) != batch_size) {
+                    if (batch.label_ids.size() != batch_size) {
                         spdlog::warn(
                             "Skipping malformed training batch at step {}: input/label row count mismatch ({} vs {})",
                             step,
@@ -673,7 +673,7 @@ public:
                                     } else {
                                         // Use real embeddings (average over sequence for now)
                                         // In production, this would be the actual transformer input
-                                        const size_t emb_depth = (hidden_dim > 0) ?static_cast<int>(input_embeddings.size()) / hidden_dim : 0;
+                                        const size_t emb_depth = (hidden_dim > 0) ?input_embeddings.size() / hidden_dim : 0;
                                         const size_t row_input_seq = batch.input_ids[i].size();
                                         const size_t eff_input_seq = std::min(row_input_seq, emb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
@@ -698,7 +698,7 @@ public:
                                         }
                                     } else {
                                         // Use real embeddings for target
-                                        const size_t temb_depth = (hidden_dim > 0) ?static_cast<int>(target_embeddings.size()) / hidden_dim : 0;
+                                        const size_t temb_depth = (hidden_dim > 0) ?target_embeddings.size() / hidden_dim : 0;
                                         const size_t row_target_seq = batch.label_ids[i].size();
                                         const size_t eff_target_seq = std::min(row_target_seq, temb_depth);
                                         for (size_t j = 0; j < hidden_dim; ++j) {
@@ -848,7 +848,7 @@ public:
                         if (gradient_accumulator->should_step()) {
                             auto accumulated_grads = gradient_accumulator->get_accumulated_gradients();
                             // Attach accumulated gradients to parameter grad fields (avoid copy assignment)
-                            for (size_t i = 0; i < gradients.size()  && static_cast<size_t>(i) <static_cast<int>(accumulated_grads.size()); ++i) {
+                            for (size_t i = 0; i < gradients.size()  && i < accumulated_grads.size(); ++i) {
                                 if (gradients[i] && accumulated_grads[i]) {
                                     // Initialize or update the grad tensor
                                     if (!gradients[i]->grad) {
@@ -1037,7 +1037,7 @@ public:
         }
         
         spdlog::info("Batch training with {} datasets, total {} samples", 
-                     dataset.size(),static_cast<int>(combined.size()));
+                     dataset.size(),combined.size());
         
         return trainOnTheFly(adapter_id, combined, hyperparameters);
     }
@@ -2040,7 +2040,7 @@ std::unique_ptr<QuantizedModel> LoRATrainingService::loadQuantizedBaseModel(
         
         // Add transformer layers with proper names from model
         if (!layer_names.empty()) {
-            spdlog::info("Loading {} transformer layers from GGUF",static_cast<int>(layer_names.size()));
+            spdlog::info("Loading {} transformer layers from GGUF",layer_names.size());
             for (const auto& layer_name : layer_names) {
                 // Load weights for each layer
                 // In production, this would load actual quantized weights
@@ -2242,7 +2242,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         auto start_time = std::chrono::system_clock::now();
         
         spdlog::info("Starting distributed training for adapter: {}", adapter_id);
-        spdlog::info("  Participant shards: {}",static_cast<int>(service_config.participant_shards.size()));
+        spdlog::info("  Participant shards: {}",service_config.participant_shards.size());
         spdlog::info("  Coordinator shard: {}", service_config.coordinator_shard);
         
         // 1. Create DistributedTrainingConfig from service config
@@ -2340,7 +2340,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         LoRAHyperparameters hyper = hyperparameters.value_or(service_config.default_hyperparameters);
         
         // 6. Execute training steps with gradient synchronization
-        int total_steps = hyper.num_epochs * (static_cast<int>(data.size()) / hyper.batch_size);
+        int total_steps = hyper.num_epochs * (data.size() / hyper.batch_size);
         spdlog::info("Starting distributed training: {} epochs, {} total steps", 
                     hyper.num_epochs, total_steps);
         
@@ -2480,7 +2480,7 @@ TrainingResult LoRATrainingService::trainDistributed(
             }
         }
         result.metrics["active_shards"] = active_shards;
-        result.metrics["total_shards"] = static_cast<int>(service_config.participant_shards.size());
+        result.metrics["total_shards"] = service_config.participant_shards.size();
         
         // Add per-shard loss tracking from last successful step
         if (!last_step_result.per_shard_loss.empty()) {
@@ -2512,7 +2512,7 @@ TrainingResult LoRATrainingService::trainDistributed(
         spdlog::info("Distributed training completed successfully");
         spdlog::info("  Total steps: {}", stats.total_steps_completed);
         spdlog::info("  Successful steps: {}", successful_steps);
-        spdlog::info("  Active shards: {}/{}", active_shards,static_cast<int>(service_config.participant_shards.size()));
+        spdlog::info("  Active shards: {}/{}", active_shards,service_config.participant_shards.size());
         spdlog::info("  Avg sync time: {:.2f}ms", stats.avg_sync_time_ms);
         spdlog::info("  Effective speedup: {:.2f}x", stats.effective_speedup);
         

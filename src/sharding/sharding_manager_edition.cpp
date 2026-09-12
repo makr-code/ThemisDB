@@ -29,7 +29,7 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Edition constraint check
-    if (static_cast<int>(shard_nodes_.size()) >= static_cast<size_t>(GetMaxShardNodes())) {
+    if (shard_nodes_.size() >= static_cast<size_t>(GetMaxShardNodes())) {
         throw std::runtime_error(fmt::format(
             "Cannot add shard node. Edition limit reached: {} nodes maximum ({} edition)",
             GetMaxShardNodes(), edition::EDITION_STRING));
@@ -41,13 +41,13 @@ void ShardingManager::AddShardNode(const ShardNodeInfo& node) {
 
 size_t ShardingManager::GetNodeCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(shard_nodes_.size());
+    return shard_nodes_.size();
 }
 
 int ShardingManager::GetRemainingNodeCapacity() const {
     std::lock_guard<std::mutex> lock(mutex_);
     int max_nodes = GetMaxShardNodes();
-    int current_nodes = static_cast<int>(shard_nodes_.size());
+    int current_nodes = shard_nodes_.size();
     return std::max(0, max_nodes - current_nodes);
 }
 
@@ -167,7 +167,7 @@ std::vector<std::string> ShardingManager::GetShardsForKeyRange(
 
     std::vector<std::string> result = {};
 
-    const int n = static_cast<int>(all_shards.size());
+    const int n = all_shards.size();
 
     // Walk clockwise from start_idx to end_idx (inclusive), wrapping around.
     int idx = start_idx;

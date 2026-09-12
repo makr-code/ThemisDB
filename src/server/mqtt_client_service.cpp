@@ -539,18 +539,18 @@ void MqttClientService::doRead() {
 }
 
 void MqttClientService::processBuffer() {
-    while (static_cast<int>(packet_buf_.size()) >= 2) {
+    while (packet_buf_.size() >= 2) {
         // Fixed header: type byte
         uint8_t type_flags = packet_buf_[0];
 
         // Decode remaining length
         auto [rem_len, hdr_extra] = detail::decodeVarLen(
             packet_buf_.data() + 1,
-            static_cast<int>(packet_buf_.size()) - 1);
+            packet_buf_.size() - 1);
         if (hdr_extra == 0) break; // incomplete length
 
         size_t total = 1 + hdr_extra + rem_len;
-        if (static_cast<int>(packet_buf_.size()) < total) break; // incomplete payload
+        if (packet_buf_.size() < total) break; // incomplete payload
 
         const uint8_t* payload = packet_buf_.data() + 1 + hdr_extra;
         uint8_t type = type_flags >> 4;
@@ -643,7 +643,7 @@ void MqttClientService::onPublishReceived(const std::string& topic,
 void MqttClientService::enqueuePacket(std::vector<uint8_t> packet) {
     {
         std::lock_guard<std::mutex> lk(outbound_mutex_);
-        if (static_cast<int>(outbound_queue_.size()) >= config_.max_outbound_queue) {
+        if (outbound_queue_.size() >= config_.max_outbound_queue) {
             ++stats_.publish_errors;
             return;
         }

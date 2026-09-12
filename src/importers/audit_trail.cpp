@@ -109,7 +109,7 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(const AuditEven
     unsigned int digest_len = 0;
     EVP_MD_CTX *ctx         = EVP_MD_CTX_new();
     EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, payload.data(),static_cast<int>(payload.size()));
+    EVP_DigestUpdate(ctx, payload.data(),payload.size());
     EVP_DigestFinal_ex(ctx, digest, &digest_len);
     EVP_MD_CTX_free(ctx);
 
@@ -133,7 +133,7 @@ void AuditedImporter::ImmutableAuditLog::recordEvent(const AuditEvent &event) {
 }
 
 bool AuditedImporter::ImmutableAuditLog::verifyIntegrity() const {
-    if (static_cast<int>(events_.size()) != static_cast<int>(chain_hashes_.size())) {
+    if (events_.size() != chain_hashes_.size()) {
         return false;
     }
     std::string prev = "0000000000000000";
@@ -176,7 +176,7 @@ json AuditedImporter::ImmutableAuditLog::exportForSIEM(const std::string &format
 }
 
 size_t AuditedImporter::ImmutableAuditLog::size() const {
-    return static_cast<int>(events_.size());
+    return events_.size();
 }
 
 const std::vector<AuditedImporter::AuditEvent> &AuditedImporter::ImmutableAuditLog::events() const {
@@ -194,7 +194,7 @@ void AuditedImporter::ImmutableAuditLog::emitAuditEvent(const AuditEvent& event)
     // Bounded: buffer limited to 100,000 events; drops oldest when full
 
     // Buffer overflow handling: if we're at max capacity, drop oldest event
-    if (static_cast<int>(events_.size()) >= kMaxAuditBufferSize) {
+    if (events_.size() >= kMaxAuditBufferSize) {
         // Drop oldest event (FIFO)
         if (!events_.empty()) {
             events_.erase(events_.begin());

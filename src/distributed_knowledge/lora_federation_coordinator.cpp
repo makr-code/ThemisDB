@@ -100,7 +100,7 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
     // Preview aggregation once the minimum participant threshold is reached.
     // This keeps explicit trigger-based round commits intact while still
     // exposing early signal via lastDelta()/filteredGradientsCount().
-    if (static_cast<int>(pending_gradients_.size()) >= config_.min_participants) {
+    if (pending_gradients_.size() >= config_.min_participants) {
         const uint64_t saved_round = current_round_;
         const auto saved_pending = pending_gradients_;
         const auto saved_last_delta = last_delta_;
@@ -180,7 +180,7 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
-    if (static_cast<int>(pending_gradients_.size()) < config_.min_participants) {
+    if (pending_gradients_.size() < config_.min_participants) {
         throw std::runtime_error("LoRAFederationCoordinator::triggerAggregation: insufficient "
                                  "participants ("
                                  + std::to_string(pending_gradients_.size()) + " < "
@@ -237,7 +237,7 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
             }
         }
         // Re-check participant count after filtering
-        if (static_cast<int>(pending_gradients_.size()) < config_.min_participants) {
+        if (pending_gradients_.size() < config_.min_participants) {
             throw std::runtime_error("LoRAFederationCoordinator::doAggregation: insufficient "
                                      "participants after outlier filtering ("
                                      + std::to_string(pending_gradients_.size()) + " < "
@@ -372,7 +372,7 @@ uint64_t LoRAFederationCoordinator::currentRound() const {
 
 size_t LoRAFederationCoordinator::submittedCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(pending_gradients_.size());
+    return pending_gradients_.size();
 }
 
 std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
@@ -383,7 +383,7 @@ std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
 nlohmann::json LoRAFederationCoordinator::getStats() const {
     std::lock_guard<std::mutex> lk(mutex_);
     return {{"current_round", current_round_},
-            {"pending_gradients",static_cast<int>(pending_gradients_.size())},
+            {"pending_gradients",pending_gradients_.size()},
             {"total_rounds_completed", total_rounds_completed_},
             {"total_gradients_processed", total_gradients_processed_},
             {"total_gradients_filtered", total_gradients_filtered_},
@@ -552,7 +552,7 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold) {
             }
         }
 
-        if (static_cast<int>(norms.size()) < 2) {
+        if (norms.size() < 2) {
             // Cannot compute statistics with fewer than 2 samples — accept all
             return true;
         }

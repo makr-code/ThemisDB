@@ -27,7 +27,9 @@
 #include "geo/gpu_kernel_dispatcher.h"
 #include "geo/gpu_buffer_guard.h"
 
+#if defined(THEMIS_GEO_HIP) && __has_include(<hip/hip_runtime.h>)
 #include <hip/hip_runtime.h>
+#endif
 #include <cstdint>
 #include <cstring>
 

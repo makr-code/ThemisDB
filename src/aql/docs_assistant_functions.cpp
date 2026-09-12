@@ -364,7 +364,7 @@ std::string DocsAssistantFunctions::extractSearchQuery(const std::string &query)
 std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::DocumentEntry> &docs) {
     // Format search results as text
     std::ostringstream result = {};
-    result << "Found " <<static_cast<int>(docs.size()) << " relevant documents:\n\n";
+    result << "Found " <<docs.size() << " relevant documents:\n\n";
 
     for (size_t i = 0; i < docs.size(); ++i) {
         result << (i + 1) << ". " << docs[i].file_name << " (relevance: " << std::fixed << std::setprecision(2)

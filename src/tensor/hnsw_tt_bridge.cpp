@@ -215,7 +215,7 @@ struct HnswTTBridge::HnswLayer {
           return active_count_;
         }
 #endif
-        return static_cast<int>(sketches.size());
+        return sketches.size();
     }
 };
 
@@ -238,7 +238,7 @@ struct HnswTTBridge::TTStore {
         auto it = trains.find(id);
         return (it != trains.end()) ? &it->second : nullptr;
     }
-    size_t size() const { return static_cast<int>(trains.size()); }
+    size_t size() const { return trains.size(); }
 };
 
 // ============================================================================
@@ -342,7 +342,10 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
         results.push_back({ cid, 1.0f - sim, tn });
     }
 
-    int actual_k = std::min(k, static_cast<int>(results.size()));
+    if (k <= 0 || results.empty()) {
+        return {};
+    }
+    const size_t actual_k = std::min(results.size(), static_cast<size_t>(k));
     std::partial_sort(results.begin(),
                       results.begin() + actual_k,
                       results.end(),
@@ -350,7 +353,7 @@ HnswTTBridge::search(const storage::TTTrain& query, int k) const {
                          const TensorSearchResult& b) {
                           return a.distance < b.distance;
                       });
-    results.resize(static_cast<size_t>(actual_k));
+    results.resize(actual_k);
 
     const_cast<HnswTTBridge*>(this)->stats_.total_searches++;
     return results;
@@ -646,7 +649,7 @@ float HnswTTBridge::ttCosineSimilarity(const storage::TTTrain& a,
 float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                                               const storage::TTTrain& B) {
     const size_t d = A.cores.size();
-    if (d == 0 || d != static_cast<int>(B.cores.size())) {
+    if (d == 0 || d != B.cores.size()) {
       return 0.0f;
     }
 
@@ -667,7 +670,7 @@ float HnswTTBridge::ttInnerProductFromTrains(const storage::TTTrain& A,
                     for (size_t s = 0; s < rAl; ++s) {
                         for (size_t t = 0; t < rBl; ++t) {
                             size_t tIdx = s * rBl + t;
-                            if (tIdx >= static_cast<int>(T.size())) {
+                            if (tIdx >= T.size()) {
                               continue;
                             }
                             acc += T[tIdx]

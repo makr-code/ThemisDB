@@ -90,7 +90,7 @@ void WorkloadCapture::recordQuery() {
 
 size_t WorkloadCapture::eventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(events_.size());
+    return events_.size();
 }
 
 uint64_t WorkloadCapture::totalQueries() const {

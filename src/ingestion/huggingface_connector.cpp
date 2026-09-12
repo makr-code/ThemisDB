@@ -115,7 +115,7 @@ static size_t hfJsonExtractSizeT(const std::string& json,
     while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) {
       ++pos;
     }
-    if (pos >= static_cast<int>(json.size())) {
+    if (pos >= json.size()) {
       return 0;
     }
     size_t val = 0;
@@ -561,8 +561,8 @@ private:
                 }
             }
             stats.documents_processed += chunk_size;
-            stats.bytes_processed += static_cast<int>(response.body.size()) > 0
-                                     ?static_cast<int>(response.body.size())
+            stats.bytes_processed += response.body.size() > 0
+                                     ?response.body.size()
                                      : chunk_size * 1024;
             processed += chunk_size;
             
@@ -605,8 +605,8 @@ private:
             size_t total_docs = getDocumentCount();
             // In production: parse JSON/Parquet from response.body
             stats.documents_processed = total_docs;
-            stats.bytes_processed = static_cast<int>(response.body.size()) > 0
-                                    ?static_cast<int>(response.body.size())
+            stats.bytes_processed = response.body.size() > 0
+                                    ?response.body.size()
                                     : total_docs * 1024;
             
             if (callback) {

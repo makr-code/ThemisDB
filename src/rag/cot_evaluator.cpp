@@ -156,7 +156,7 @@ std::vector<ReasoningStep> CoTEvaluator::parseCoTResponse(const std::string& res
         }
     }
     
-    THEMIS_DEBUG("Parsed {} reasoning steps",static_cast<int>(steps.size()));
+    THEMIS_DEBUG("Parsed {} reasoning steps",steps.size());
     return steps;
 }
 
@@ -225,7 +225,7 @@ std::vector<std::string> CoTEvaluator::validateLogicConsistency(
                                     terms_j.begin(), terms_j.end(),
                                     std::inserter(common, common.begin()));
                 
-                if (static_cast<int>(common.size()) >= 2) {
+                if (common.size() >= 2) {
                     std::ostringstream inconsistency = {};
                     inconsistency << "Potential contradiction between Step " 
                                  << step_i.step_number << " and Step " 
@@ -328,7 +328,7 @@ CoTEvaluationResult CoTEvaluator::evaluate(
     }
     
     THEMIS_INFO("CoT evaluation complete: score={:.2f}, steps={}, consistent={}",
-                result.final_score,static_cast<int>(result.reasoning_steps.size()), result.logic_consistent);
+                result.final_score,result.reasoning_steps.size(), result.logic_consistent);
     
     return result;
 }

@@ -436,7 +436,7 @@ bool DPDKServer::start() {
     for (auto &s : eal_arg_strs) {
         eal_argv.push_back(const_cast<char *>(s.c_str()));
     }
-    int eal_argc = static_cast<int>(eal_argv.size());
+    int eal_argc = eal_argv.size();
 
     // -------------------------------------------------------------------------
     // 2. Initialise DPDK EAL.

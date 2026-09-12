@@ -204,7 +204,7 @@ MultiGPUMemoryCoordinator::distributeModelWeights(
     DistributionPlan plan;
     plan.strategy = DistributionStrategy::TENSOR_PARALLEL;
     plan.gpu_ids = gpu_ids;
-    plan.tensor_parallel_size = static_cast<int>(gpu_ids.size());
+    plan.tensor_parallel_size = gpu_ids.size();
     plan.pipeline_parallel_size = 1;
     
     // Split model evenly across GPUs (tensor parallelism)
@@ -237,7 +237,7 @@ MultiGPUMemoryCoordinator::distributeLayers(
     plan.strategy = DistributionStrategy::PIPELINE_PARALLEL;
     plan.gpu_ids = gpu_ids;
     plan.tensor_parallel_size = 1;
-    plan.pipeline_parallel_size = static_cast<int>(gpu_ids.size());
+    plan.pipeline_parallel_size = gpu_ids.size();
     
     // Distribute layers across GPUs
     size_t layers_per_gpu = num_layers / gpu_ids.size();
@@ -303,7 +303,7 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
         );
         
         // Ensure at least 1 if total_batch_size > 0
-        if (i == static_cast<int>(gpu_ids.size()) - 1) {
+        if (i == gpu_ids.size() - 1) {
             batch_for_gpu = total_batch_size - assigned;  // Give remainder to last GPU
         }
         
@@ -318,13 +318,13 @@ MultiGPUMemoryCoordinator::balanceInferenceLoad(
 }
 
 bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
-    if (static_cast<int>(gpu_ids.size()) < 2) {
+    if (gpu_ids.size() < 2) {
         spdlog::warn("MultiGPUMemoryCoordinator::enableP2P: Need at least 2 GPUs");
         return false;
     }
     
 #ifdef THEMIS_ENABLE_CUDA
-    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} GPUs",static_cast<int>(gpu_ids.size()));
+    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} GPUs",gpu_ids.size());
     
     int success_count = 0;
     int fail_count = 0;
@@ -401,7 +401,7 @@ bool MultiGPUMemoryCoordinator::enableP2P(const std::vector<int>& gpu_ids) {
     return success_count > 0;
     
 #elif defined(THEMIS_ENABLE_HIP)
-    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} HIP GPUs",static_cast<int>(gpu_ids.size()));
+    spdlog::info("MultiGPUMemoryCoordinator: Enabling P2P access for {} HIP GPUs",gpu_ids.size());
     
     int success_count = 0;
     int fail_count = 0;

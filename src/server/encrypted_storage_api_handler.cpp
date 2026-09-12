@@ -21,8 +21,32 @@
 
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <chrono>
 
 namespace themis::server {
+
+namespace {
+
+using themis::plugins::user_storage::SecurityLevel;
+using themis::plugins::user_storage::User;
+
+SecurityLevel scopeToLevel(const std::string& scope) {
+    if (scope == "offen" || scope == "public") {
+        return SecurityLevel::OFFEN;
+    }
+    if (scope == "vs-nfd" || scope == "restricted") {
+        return SecurityLevel::VS_NFD;
+    }
+    if (scope == "geheim" || scope == "secret") {
+        return SecurityLevel::GEHEIM;
+    }
+    if (scope == "streng-geheim" || scope == "top-secret") {
+        return SecurityLevel::STRENG_GEHEIM;
+    }
+    return SecurityLevel::OFFEN;
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction / destruction
@@ -113,7 +137,27 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleStore(
             return resp;
         }
 
-        enc_storage_->store(scope, key, value);
+        const auto level = scopeToLevel(scope);
+        const auto now_ms = static_cast<int64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count());
+
+        User user;
+        user.user_id = key;
+        user.username = key;
+        user.email = value;
+        user.full_name = key;
+        user.classification = level;
+        user.created_at_ms = now_ms;
+        user.updated_at_ms = now_ms;
+
+        const auto write_result = enc_storage_->createUser(user, level);
+        if (write_result.isError()) {
+            http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
+            resp.set(http::field::content_type, "application/json");
+            resp.body() = nlohmann::json{{"error", write_result.error()}}.dump();
+            resp.prepare_payload();
+            return resp;
+        }
 
         http::response<http::string_body> resp{http::status::created, req.version()};
         resp.set(http::field::content_type, "application/json");
@@ -143,17 +187,21 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleRetrieve(
     const std::string& key)
 {
     try {
-        const auto value = enc_storage_->retrieve(key);
-        if (!value) {
+        const std::string scope = "offen";
+        const auto level = scopeToLevel(scope);
+        const auto read_result = enc_storage_->getUser(key, level);
+        if (read_result.isError()) {
             http::response<http::string_body> resp{http::status::not_found, req.version()};
             resp.set(http::field::content_type, "application/json");
             resp.body() = R"({"error":"key not found"})";
             resp.prepare_payload();
             return resp;
         }
+        const auto& user = read_result.value();
+
         http::response<http::string_body> resp{http::status::ok, req.version()};
         resp.set(http::field::content_type, "application/json");
-        resp.body() = nlohmann::json{{"key", key}, {"value", *value}}.dump();
+        resp.body() = nlohmann::json{{"key", key}, {"value", user.email}}.dump();
         resp.prepare_payload();
         return resp;
     } catch (const std::exception& ex) {
@@ -171,7 +219,9 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleDelete(
     const std::string& key)
 {
     try {
-        const bool removed = enc_storage_->remove(key);
+        const auto level = scopeToLevel("offen");
+        const auto delete_result = enc_storage_->deleteUser(key, level);
+        const bool removed = !delete_result.isError();
         http::response<http::string_body> resp{
             removed ? http::status::no_content : http::status::not_found,
             req.version()};
@@ -192,10 +242,18 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
     try {
-        const auto keys = enc_storage_->listKeys();
+        const auto list_result = enc_storage_->listUsers(scopeToLevel("offen"));
+        if (list_result.isError()) {
+            http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
+            resp.set(http::field::content_type, "application/json");
+            resp.body() = nlohmann::json{{"error", list_result.error()}}.dump();
+            resp.prepare_payload();
+            return resp;
+        }
+
         nlohmann::json resp_body = nlohmann::json::array();
-        for (const auto& k : keys) {
-            resp_body.push_back(k);
+        for (const auto& user : list_result.value()) {
+            resp_body.push_back(user.user_id);
         }
         http::response<http::string_body> resp{http::status::ok, req.version()};
         resp.set(http::field::content_type, "application/json");
@@ -218,7 +276,15 @@ http::response<http::string_body> EncryptedStorageApiHandler::handleRotate(
         auto body = nlohmann::json::parse(req.body());
         const std::string scope = body.value("scope", "user");
 
-        enc_storage_->rotateKeys(scope);
+        const auto rotate_result = enc_storage_->rotateKey(scopeToLevel(scope));
+        if (rotate_result.isError()) {
+            http::response<http::string_body> resp{http::status::internal_server_error, req.version()};
+            resp.set(http::field::content_type, "application/json");
+            resp.body() = nlohmann::json{{"error", rotate_result.error()}}.dump();
+            resp.prepare_payload();
+            return resp;
+        }
+
         THEMIS_INFO("EncryptedStorageApiHandler: key rotation triggered for scope={}", scope);
 
         http::response<http::string_body> resp{http::status::ok, req.version()};

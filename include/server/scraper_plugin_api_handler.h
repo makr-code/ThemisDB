@@ -36,7 +36,12 @@
 #include "scraper/scraper_metadata_writer.h"
 
 #include <memory>
+#include <mutex>
 #include <string>
+#include <unordered_map>
+#include <vector>
+#include <atomic>
+#include <cstdint>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -93,6 +98,19 @@ public:
         const std::string&                      target);
 
 private:
+    struct ScraperJobRecord {
+        std::string job_id;
+        std::string url;
+        std::string status;
+        std::string created_at;
+        std::string message;
+        std::string content;
+        std::string content_hash;
+        std::vector<std::string> links;
+    };
+
+    static std::string toIso8601Now();
+
     /// @name Route handlers
     /// @{
     http::response<http::string_body> handleCrawl(
@@ -114,6 +132,9 @@ private:
     std::shared_ptr<themis::AuthMiddleware>                  auth_;
     std::shared_ptr<themis::scraper::IScraperJSRenderer>     renderer_;
     std::shared_ptr<themis::scraper::IScraperMetadataWriter> writer_;
+    std::mutex jobs_mutex_;
+    std::unordered_map<std::string, ScraperJobRecord> jobs_;
+    std::atomic<std::uint64_t> next_job_id_{1};
 };
 
 }  // namespace server

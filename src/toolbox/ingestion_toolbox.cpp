@@ -190,7 +190,7 @@ std::vector<ingestion::BaseEntity> IngestionToolbox::extractEntities(
     const uint64_t latency_ms = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     const bool success = !entity_set.nodes.empty()
-                         || static_cast<int>(text.size()) < kMinTextSizeForValidation;
+                         || text.size() < kMinTextSizeForValidation;
     recordExtraction(entity_set.nodes.size(), latency_ms, success);
 
     return entity_set.nodes;
@@ -213,8 +213,8 @@ ingestion::BaseEntitySet IngestionToolbox::extractEntitySet(
     const uint64_t latency_ms = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
     const bool success = !entity_set.nodes.empty() || !entity_set.chunks.empty()
-                         || static_cast<int>(text.size()) < kMinTextSizeForValidation;
-    recordExtraction(entity_set.nodes.size() + static_cast<int>(entity_set.chunks.size()) ,
+                         || text.size() < kMinTextSizeForValidation;
+    recordExtraction(entity_set.nodes.size() + entity_set.chunks.size() ,
                      latency_ms, success);
 
     return entity_set;

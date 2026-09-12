@@ -119,7 +119,7 @@ namespace {
 bool startsWithHttps(const std::string& url) {
     constexpr char kHttpsPrefix[] = "https://";
     constexpr std::size_t kPrefixLen = sizeof(kHttpsPrefix) - 1;
-    if (static_cast<int>(url.size()) < kPrefixLen) {
+    if (url.size() < kPrefixLen) {
         return false;
     }
     return std::equal(
@@ -165,12 +165,6 @@ static const EVP_MD* selectDigest(const std::string& algo){
       return EVP_sha512();
     }
     return EVP_sha256();
-}
-
-static std::string hex(const std::vector<uint8_t>& data){
-    static const char* d = "0123456789abcdef"; std::string out; out.reserve(data.size()*2);
-    for(auto b: data){ out.push_back(d[(b>>4)&0xF]); out.push_back(d[b&0xF]); }
-    return out;
 }
 
 static std::string b64Encode(const std::vector<uint8_t>& data){
@@ -295,7 +289,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
     if (EVP_DigestInit_ex(ctx.get(), md, nullptr) != 1) {
         throw std::runtime_error("EVP_DigestInit_ex failed");
     }
-    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
+    EVP_DigestUpdate(ctx.get(), data.data(),data.size());
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &outlen) != 1) {
         throw std::runtime_error("EVP_DigestFinal_ex failed");
     }
@@ -604,7 +598,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
           return false;
         }
         
-        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(),static_cast<int>(hash.size()))==0);
+        bool match = (os->length == (int)hash.size() && std::memcmp(os->data, hash.data(),hash.size())==0);
         return match;
     } catch (const std::exception& e) {
         THEMIS_ERROR("verifyTimestampForHash error: {}", e.what());
@@ -628,7 +622,7 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
     try {
         // Convert DER to PEM format
         const unsigned char* p = cached_tsa_cert_.data();
-        if (static_cast<int>(cached_tsa_cert_.size()) > static_cast<std::size_t>(LONG_MAX)) {
+        if (cached_tsa_cert_.size() > static_cast<std::size_t>(LONG_MAX)) {
             THEMIS_ERROR("getTSACertificate error: cached TSA cert exceeds OpenSSL size limit");
             return std::nullopt;
         }
@@ -701,7 +695,7 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     // Validate timestamp token structure
     const unsigned char* p = token.token_der.data();
     // Safe cast: d2i_PKCS7 expects long, ensure we don't overflow
-    if (static_cast<int>(token.token_der.size()) > static_cast<size_t>(LONG_MAX)) {
+    if (token.token_der.size() > static_cast<size_t>(LONG_MAX)) {
         validation_errors_.push_back("Token size exceeds maximum allowed");
         return false;
     }
@@ -808,7 +802,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     validation_errors_.clear();
     
     // Validate certificate size
-    if (static_cast<int>(tsa_cert.size()) > static_cast<size_t>(INT_MAX)) {
+    if (tsa_cert.size() > static_cast<size_t>(INT_MAX)) {
         validation_errors_.push_back("TSA certificate size exceeds maximum allowed");
         return false;
     }

@@ -247,12 +247,12 @@ std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
               [](const MultiModalResult& a, const MultiModalResult& b) {
                   return a.score > b.score;
               });
-    if (static_cast<int>(results.size()) > config_.k) {
+    if (results.size() > config_.k) {
         results.resize(config_.k);
     }
 
     THEMIS_DEBUG("MultiModalSearch::fuseRRF: {} lists -> {} results (k={})",
-                 ranked_lists.size(),static_cast<int>(results.size()), config_.k);
+                 ranked_lists.size(),results.size(), config_.k);
     return results;
 }
 

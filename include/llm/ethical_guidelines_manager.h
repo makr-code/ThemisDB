@@ -18,16 +18,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
-
-// Forward declare PhilosophyProfile from ethics AI plugin
-namespace themis {
-namespace plugins {
-namespace ethics {
-    struct PhilosophyProfile;
-    struct Status;
-}
-}
-}
+#include "ethics_ai/ethics_ai_types.h"
 
 namespace themis {
 namespace llm {
@@ -121,7 +112,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~EthicalGuidelinesManager();
+    ~EthicalGuidelinesManager() = default;
     
     // ═══════════════════════════════════════════════════════════
     // Core functionality

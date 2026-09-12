@@ -1897,7 +1897,7 @@ HttpServer::HttpServer(
                     "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
                     "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
-        THEMIS_INFO("CORS: allowed origins configured ({} entries)",static_cast<int>(cors_allowed_origins_.size()));
+        THEMIS_INFO("CORS: allowed origins configured ({} entries)",cors_allowed_origins_.size());
     } else {
         THEMIS_INFO("CORS: no origins allowed by default (set THEMIS_CORS_ALLOW_ALL=1 for dev)");
     }
@@ -2803,7 +2803,7 @@ namespace {
         
         std::string query_string = target_str.substr(query_pos + 1);
         size_t pos = 0;
-        while (static_cast<size_t>(pos) <static_cast<int>(query_string.size())) {
+        while (pos < query_string.size()) {
             auto eq_pos = query_string.find('=', pos);
             if (eq_pos == std::string::npos) {
               break;
@@ -3298,8 +3298,8 @@ namespace {
         static constexpr std::string_view kSilenceSuffix{"/silence"};
         if (method == http::verb::post &&
             path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kAlertsPrefix.size()) + static_cast<int>(kSilenceSuffix.size()) &&
-            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kSilenceSuffix.size()) ) == kSilenceSuffix) {
+            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
+            path_only.substr(path_only.size() - kSilenceSuffix.size() ) == kSilenceSuffix) {
             return Route::ObservabilityAlertSilencePost;
         }
     }
@@ -3461,13 +3461,13 @@ namespace {
     }
     // /v1/admin/cache/tenant/{id}/stats must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 23 &&
-        path_only.rfind("/stats") == static_cast<int>(path_only.size()) - 6 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/stats") == path_only.size() - 6 &&
         method == http::verb::get) return Route::AdminCacheTenantStatsGet;
     // /v1/admin/cache/tenant/{id}/quota must be matched before the tenant evict DELETE
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 23 &&
-        path_only.rfind("/quota") == static_cast<int>(path_only.size()) - 6 &&
+        path_only.size() > 23 &&
+        path_only.rfind("/quota") == path_only.size() - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) {
       return Route::AdminCacheEvictTenantDelete;
@@ -3500,7 +3500,7 @@ namespace {
     if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) {
       return Route::AdminRepairScanPost;
     }
-    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && static_cast<int>(path_only.size()) > 22 &&
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
         method == http::verb::get) return Route::AdminRepairJobStatusGet;
     if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) {
       return Route::AdminRepairDashboardGet;
@@ -3510,14 +3510,14 @@ namespace {
       return Route::AdminModulesGet;
     }
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 18 &&
-        path_only.rfind("/load") == static_cast<int>(path_only.size()) - 5 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/load") == path_only.size() - 5 &&
         method == http::verb::post) return Route::AdminModulesLoadPost;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 18 &&
+        path_only.size() > 18 &&
         method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 18 &&
+        path_only.size() > 18 &&
         method == http::verb::get) return Route::AdminModuleStatusGet;
     if (target == "/prompt_template" && method == http::verb::post) {
       return Route::PromptTemplatePost;
@@ -3751,10 +3751,10 @@ namespace {
         // PKI endpoints
         if (path_only.rfind("/api/pki/", 0) == 0 && method == http::verb::post) {
             // Expect: /api/pki/:key_id/sign or /api/pki/:key_id/verify
-            if (static_cast<int>(path_only.size()) >= 5 && path_only.compare(static_cast<int>(path_only.size()) - 5, 5, "/sign") == 0) {
+            if (path_only.size() >= 5 && path_only.compare(path_only.size() - 5, 5, "/sign") == 0) {
               return Route::PkiSignPost;
             }
-            if (static_cast<int>(path_only.size()) >= 7 && path_only.compare(static_cast<int>(path_only.size()) - 7, 7, "/verify") == 0) {
+            if (path_only.size() >= 7 && path_only.compare(path_only.size() - 7, 7, "/verify") == 0) {
               return Route::PkiVerifyPost;
             }
         }
@@ -3842,7 +3842,7 @@ namespace {
       return Route::ExportJsonlLlmPost;
     }
     if (path_only.rfind("/api/v1/export/", 0) == 0 &&
-        path_only.rfind("/status") == static_cast<int>(path_only.size()) - 7 &&
+        path_only.rfind("/status") == path_only.size() - 7 &&
         method == http::verb::get) return Route::ExportStatusGet;
     // Update API endpoints
     if (path_only == "/api/updates" && method == http::verb::get) {
@@ -3902,11 +3902,11 @@ namespace {
         const std::string task_prefix = "/api/v1/bpmn/task/";
         const std::string complete_suffix = "/complete";
         if (path_only.rfind(task_prefix, 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(task_prefix.size()) + static_cast<int>(complete_suffix.size()) &&
-            path_only.compare(static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ,static_cast<int>(complete_suffix.size()), complete_suffix) == 0) {
+            path_only.size() > task_prefix.size() + complete_suffix.size() &&
+            path_only.compare(path_only.size() - complete_suffix.size() ,complete_suffix.size(), complete_suffix) == 0) {
             // Ensure there is a non-empty taskId segment between prefix and suffix
             const std::size_t task_id_start = task_prefix.size();
-            const std::size_t suffix_pos = static_cast<int>(path_only.size()) - static_cast<int>(complete_suffix.size()) ;
+            const std::size_t suffix_pos = path_only.size() - complete_suffix.size() ;
             // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
             std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
             if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
@@ -4018,7 +4018,7 @@ namespace {
             return Route::ContentGet;
         }
         // ContentFS binary blob API (/api/v1/content/fs/{pk})
-        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && static_cast<int>(path_only.size()) > 19) {
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
             if (method == http::verb::get) {
               return Route::ContentFsGet;
             }
@@ -4152,8 +4152,8 @@ namespace {
     // MVCC versioning API endpoints
     // Note: /versions suffix checked first to avoid matching it as a key named "versions"
     if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
-        static_cast<int>(path_only.size()) > 18 &&
-        path_only.rfind("/versions") == static_cast<int>(path_only.size()) - 9) {
+        path_only.size() > 18 &&
+        path_only.rfind("/versions") == path_only.size() - 9) {
         if (method == http::verb::get) {
           return Route::MvccKeyVersionsGet;
         }
@@ -4161,7 +4161,7 @@ namespace {
           return Route::MvccKeyVersionsDelete;
         }
     }
-    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 18) {
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
         if (method == http::verb::get) {
           return Route::MvccKeyGet;
         }
@@ -4187,7 +4187,7 @@ namespace {
     {
         static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
         if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kGrpcWebPrefix.size())) {
+            path_only.size() > kGrpcWebPrefix.size()) {
             if (method == http::verb::options) {
               return Route::GrpcWebOptions;
             }
@@ -4210,21 +4210,21 @@ namespace {
         static constexpr std::string_view kInvokeSuffix{"/invoke"};
         if (method == http::verb::post &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kInvokeSuffix.size()) &&
-            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kInvokeSuffix.size()) ) == kInvokeSuffix)
+            path_only.size() > kFnInvokePrefix.size() + kInvokeSuffix.size() &&
+            path_only.substr(path_only.size() - kInvokeSuffix.size() ) == kInvokeSuffix)
             return Route::ServerlessFnInvokePost;
 
         // /api/v1/functions/{id}/versions  (GET)
         static constexpr std::string_view kVersionsSuffix{"/versions"};
         if (method == http::verb::get &&
             path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size()) + static_cast<int>(kVersionsSuffix.size()) &&
-            path_only.substr(static_cast<int>(path_only.size()) - static_cast<int>(kVersionsSuffix.size()) ) == kVersionsSuffix)
+            path_only.size() > kFnInvokePrefix.size() + kVersionsSuffix.size() &&
+            path_only.substr(path_only.size() - kVersionsSuffix.size() ) == kVersionsSuffix)
             return Route::ServerlessFnVersionsGet;
 
         // /api/v1/functions/{id}  (GET / PUT / DELETE)
         if (path_only.rfind(kFnInvokePrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kFnInvokePrefix.size())) {
+            path_only.size() > kFnInvokePrefix.size()) {
             if (method == http::verb::get) {
               return Route::ServerlessFnGet;
             }
@@ -4251,7 +4251,7 @@ namespace {
             }
         }
         if (path_only.rfind(kJobsPrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kJobsPrefix.size())) {
+            path_only.size() > kJobsPrefix.size()) {
             if (method == http::verb::get) {
               return Route::AsyncJobStatusGet;
             }
@@ -4269,7 +4269,7 @@ namespace {
           return Route::ApiKeyListGet;
         }
     }
-    if (path_only.rfind("/api/keys/", 0) == 0 && static_cast<int>(path_only.size()) > 10) {
+    if (path_only.rfind("/api/keys/", 0) == 0 && path_only.size() > 10) {
         if (method == http::verb::get) {
           return Route::ApiKeyGet;
         }
@@ -4292,7 +4292,7 @@ namespace {
           return Route::SessionDeleteOthers;
         }
     }
-    if (path_only.rfind("/auth/sessions/", 0) == 0 && static_cast<int>(path_only.size()) > 15) {
+    if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
         if (method == http::verb::delete_) {
           return Route::SessionDeleteById;
         }
@@ -4320,7 +4320,7 @@ namespace {
     {
         static constexpr std::string_view kUdfPrefix{"/api/v1/query/udfs/"};
         if (path_only.rfind(kUdfPrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kUdfPrefix.size())) {
+            path_only.size() > kUdfPrefix.size()) {
             if (method == http::verb::get) {
               return Route::UdfGet;
             }
@@ -4348,7 +4348,7 @@ namespace {
     {
         static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
         if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kTasksPrefix.size())) {
+            path_only.size() > kTasksPrefix.size()) {
             std::string rest = path_only.substr(kTasksPrefix.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4409,7 +4409,7 @@ namespace {
         }
         // /api/v1/maintenance/schedules/{id}[/run]
         if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kMaintSchedulesPfx.size())) {
+            path_only.size() > kMaintSchedulesPfx.size()) {
             std::string rest = path_only.substr(kMaintSchedulesPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4438,7 +4438,7 @@ namespace {
             return Route::MaintenanceJobsGet;
         // /api/v1/maintenance/jobs/{id}[/cancel]
         if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
-            static_cast<int>(path_only.size()) > static_cast<int>(kMaintJobsPfx.size())) {
+            path_only.size() > kMaintJobsPfx.size()) {
             std::string rest = path_only.substr(kMaintJobsPfx.size());
             auto slash = rest.find('/');
             if (slash == std::string::npos) {
@@ -4463,7 +4463,7 @@ namespace {
             }
         }
         if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
-            static_cast<int>(path_only.size()) > 24) {
+            path_only.size() > 24) {
             if (method == http::verb::delete_) {
               return Route::RetentionPolicyDelete;
             }
@@ -4477,7 +4477,7 @@ namespace {
         if (path_only == "/api/saga/flush" && method == http::verb::post)
             return Route::SAGAFlushPost;
         if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
-            static_cast<int>(path_only.size()) > 18) {
+            path_only.size() > 18) {
             std::string rest = path_only.substr(18);
             auto slash_pos = rest.find('/');
             if (slash_pos == std::string::npos) {
@@ -4503,7 +4503,7 @@ namespace {
         }
         // /v1/queries/continuous/:name
         // /v1/queries/continuous/:name/results
-        if (static_cast<int>(path_only.size()) > 23 &&
+        if (path_only.size() > 23 &&
             path_only.substr(0, 23) == "/v1/queries/continuous/")
         {
             const std::string rest_cq = path_only.substr(23);  // ":name" or ":name/results"
@@ -4526,13 +4526,13 @@ namespace {
         // ── AI Safety Layer — HILG Approval endpoints (ASL-6) ──────────────
         // POST /v1/ai/approve/{operation_id}
         if (path_only.rfind("/v1/ai/approve/", 0) == 0 &&
-            static_cast<int>(path_only.size()) > 15 &&
+            path_only.size() > 15 &&
             method == http::verb::post) {
             return Route::AiApprovePendingPost;
         }
         // POST /v1/ai/deny/{operation_id}
         if (path_only.rfind("/v1/ai/deny/", 0) == 0 &&
-            static_cast<int>(path_only.size()) > 12 &&
+            path_only.size() > 12 &&
             method == http::verb::post) {
             return Route::AiDenyPendingPost;
         }
@@ -4543,7 +4543,7 @@ namespace {
         }
         // POST /v1/ai/rollback/{snapshot_id}  (ASL-10)
         if (path_only.rfind("/v1/ai/rollback/", 0) == 0 &&
-            static_cast<int>(path_only.size()) > 16 &&
+            path_only.size() > 16 &&
             method == http::verb::post) {
             return Route::AiRollbackPost;
         }
@@ -5274,8 +5274,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                         {"max_tokens_requested", max_tokens_requested},
                         {"hit_max_tokens_limit", hit_max_tokens_limit},
                         {"non_empty_text", non_empty_text},
-                        {"prompt_length", static_cast<int>(prompt.size())},
-                        {"generated_length", static_cast<int>(llm_response.text.size())},
+                        {"prompt_length", prompt.size()},
+                        {"generated_length", llm_response.text.size()},
                         {"tokens_per_second", tokens_per_second},
                         {"ms_per_token", ms_per_token}
                     };
@@ -5397,7 +5397,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                             {"text", llm_response.text},
                             {"model", llm_response.model_id.empty() ? llm_request.model_id : llm_response.model_id},
                             {"rag_mode_effective", rag_mode},
-                            {"documents_retrieved", static_cast<int>(rag_context.documents.size())},
+                            {"documents_retrieved", rag_context.documents.size()},
                             {"top_k_effective", rag_context.top_k},
                             {"max_context_tokens_effective", rag_context.max_context_tokens},
                             {"response_budget_tokens_effective", rag_context.response_budget_tokens},
@@ -5781,7 +5781,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                         const auto auth_header = req[http::field::authorization];
                         if (!auth_header.empty()) {
                             auto bearer = themis::AuthMiddleware::extractBearerToken(
-                                std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+                                std::string_view(auth_header.data(),auth_header.size()));
                             token_ok = (bearer && *bearer == expected_tok);
                         }
                     }
@@ -6639,7 +6639,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     });
                 }
                 response = makeResponse(http::status::ok,
-                    json{{"modules", arr}, {"count",static_cast<int>(arr.size())}}.dump(), req);
+                    json{{"modules", arr}, {"count",arr.size()}}.dump(), req);
             } catch (const std::exception& e) {
                 response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
             }
@@ -7993,17 +7993,17 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Strip trailing sub-resource segment if present
             for (const auto* suffix : {"/invoke", "/versions"}) {
                 const std::string_view sv{suffix};
-                if (static_cast<int>(id.size()) > static_cast<int>(sv.size()) &&
-                    id.substr(static_cast<int>(id.size()) - static_cast<int>(sv.size()) ) == sv) {
-                    id = id.substr(0, static_cast<int>(id.size()) - static_cast<int>(sv.size()) );
+                if (id.size() > sv.size() &&
+                    id.substr(id.size() - sv.size() ) == sv) {
+                    id = id.substr(0, id.size() - sv.size() );
                     break;
                 }
             }
             const auto route_method = req.method();
-            const bool has_invoke  = static_cast<int>(fn_path.size()) > 7 &&
-                fn_path.substr(static_cast<int>(fn_path.size()) - 7) == "/invoke";
-            const bool has_versions = static_cast<int>(fn_path.size()) > 9 &&
-                fn_path.substr(static_cast<int>(fn_path.size()) - 9) == "/versions";
+            const bool has_invoke  = fn_path.size() > 7 &&
+                fn_path.substr(fn_path.size() - 7) == "/invoke";
+            const bool has_versions = fn_path.size() > 9 &&
+                fn_path.substr(fn_path.size() - 9) == "/versions";
             if (has_invoke)
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
@@ -8165,7 +8165,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+                        std::string_view(auth_header.data(),auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:register");
                         if (authz.authorized) {
@@ -8389,7 +8389,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 auto auth_header = req[http::field::authorization];
                 if (!auth_header.empty()) {
                     auto token = themis::AuthMiddleware::extractBearerToken(
-                        std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+                        std::string_view(auth_header.data(),auth_header.size()));
                     if (token) {
                         auto authz = auth_->authorize(*token, "task:execute");
                         if (authz.authorized) {
@@ -8847,7 +8847,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     auto key = seg + "=";
                     auto pos = qs.find(key);
                     if (pos != std::string::npos) {
-                        auto val = qs.substr(pos + static_cast<int>(key.size()) );
+                        auto val = qs.substr(pos + key.size() );
                         if (auto end = val.find('&'); end != std::string::npos) {
                           val = val.substr(0, end);
                         }
@@ -9335,8 +9335,8 @@ http::response<http::string_body> HttpServer::handlePkiSign(
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
         // key_id currently contains "<key_id>/sign" -> trim suffix
-        if (static_cast<int>(key_id.size()) > 5 && key_id.compare(static_cast<int>(key_id.size()) - 5, 5, "/sign") == 0) {
-            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 5);
+        if (key_id.size() > 5 && key_id.compare(key_id.size() - 5, 5, "/sign") == 0) {
+            key_id = key_id.substr(0, key_id.size() - 5);
         }
         if (key_id.empty()) {
           return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
@@ -9384,8 +9384,8 @@ http::response<http::string_body> HttpServer::handlePkiVerify(
         // Extract key_id from path: /api/pki/:key_id/verify
         auto path = std::string(req.target());
         auto key_id = extractPathParam(path, "/api/pki/");
-        if (static_cast<int>(key_id.size()) > 7 && key_id.compare(static_cast<int>(key_id.size()) - 7, 7, "/verify") == 0) {
-            key_id = key_id.substr(0, static_cast<int>(key_id.size()) - 7);
+        if (key_id.size() > 7 && key_id.compare(key_id.size() - 7, 7, "/verify") == 0) {
+            key_id = key_id.substr(0, key_id.size() - 7);
         }
         if (key_id.empty()) {
           return makeErrorResponse(http::status::bad_request, "Missing key_id", req);
@@ -9874,7 +9874,7 @@ http::response<http::string_body> HttpServer::handleSessionCreate(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+            std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9923,7 +9923,7 @@ http::response<http::string_body> HttpServer::handleSessionList(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+            std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9957,7 +9957,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeById(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+            std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -9989,7 +9989,7 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
             return makeErrorResponse(http::status::unauthorized, "Missing Authorization header", req);
         }
         auto token = themis::AuthMiddleware::extractBearerToken(
-            std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+            std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             return makeErrorResponse(http::status::unauthorized, "Invalid Bearer token format", req);
         }
@@ -10554,7 +10554,7 @@ namespace {
         std::string date = s.substr(0, tpos);
         std::string rest = s.substr(tpos + 1);
         // Parse date
-        if (static_cast<int>(date.size()) != 10) {
+        if (date.size() != 10) {
           return 0;
         }
         std::istringstream dss(date);
@@ -10595,7 +10595,7 @@ namespace {
             else if (tz_lead == '+' || tz_lead == '-') {
                 tz_sign = (tz_lead == '+') ? +1 : -1;
                 // format ±HH:MM
-                if (static_cast<int>(tzpart.size()) >= 6 && tzpart[3] == ':') {
+                if (tzpart.size() >= 6 && tzpart[3] == ':') {
                     try {
                         tz_h = std::stoi(tzpart.substr(1,2));
                         tz_m = std::stoi(tzpart.substr(4,2));
@@ -10772,7 +10772,7 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             // W1-S02: amortised eviction of stale buckets to prevent unbounded map growth.
             // Triggered on each access — erases entries whose window expired more than
             // one full window ago (i.e., at least 2 × window_ms in the past).
-            if (static_cast<int>(audit_rate_buckets_.size()) > 128) {
+            if (audit_rate_buckets_.size() > 128) {
                 const uint64_t evict_cutoff = now - 2 * window_ms;
                 for (auto bucket_it = audit_rate_buckets_.begin();
                      bucket_it != audit_rate_buckets_.end(); ) {
@@ -11106,7 +11106,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireScope(
     res.prepare_payload();
         return res;
     }
-    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+    auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),auth_header.size()));
     if (!token) {
         http::response<http::string_body> res{http::status::unauthorized, req.version()};
         res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11180,7 +11180,7 @@ std::optional<http::response<http::string_body>> HttpServer::requireAccess(
             return res;
         }
         // Authorization header presence validated
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11313,7 +11313,7 @@ HttpServer::AuthContext HttpServer::extractAuthContext(const http::request<http:
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -11377,7 +11377,7 @@ http::response<http::string_body> HttpServer::handlePiiRevealByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11526,7 +11526,7 @@ http::response<http::string_body> HttpServer::handlePiiDeleteByUuid(
             res.prepare_payload();
             return res;
         }
-        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+        auto token = themis::AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),auth_header.size()));
         if (!token) {
             http::response<http::string_body> res{http::status::unauthorized, req.version()};
             res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
@@ -11661,7 +11661,7 @@ http::response<http::string_body> HttpServer::handlePiiListMappings(
     auto getParam = [&](const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
+        auto val = query.substr(pos + key.size() + 1);
         auto amp = val.find('&');
         if (amp != std::string::npos) {
           val = val.substr(0, amp);
@@ -11761,7 +11761,7 @@ http::response<http::string_body> HttpServer::handlePiiExportCsv(
     auto getParam = [&](const std::string& key) -> std::string {
         auto pos = query.find(key + "=");
         if (pos == std::string::npos) return {};
-        auto val = query.substr(pos + static_cast<int>(key.size()) + 1);
+        auto val = query.substr(pos + key.size() + 1);
         auto amp = val.find('&');
         if (amp != std::string::npos) {
           val = val.substr(0, amp);
@@ -12123,7 +12123,7 @@ http::response<http::string_body> HttpServer::handleGetContentBlob(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
+        auto id = path.substr(prefix.size(), pos - prefix.size() );
     auto auth_ctx = extractAuthContext(req);
     std::string user_ctx = auth_ctx.user_id;
     auto blob = content_manager.getContentBlob(id, user_ctx);
@@ -12163,7 +12163,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
         if (pos == std::string::npos) {
           return makeErrorResponse(http::status::bad_request, "Invalid path", req);
         }
-        auto id = path.substr(prefix.size(), pos - static_cast<int>(prefix.size()) );
+        auto id = path.substr(prefix.size(), pos - prefix.size() );
         auto chunks = content_manager.getContentChunks(id);
         json arr = json::array();
         arr.get_ref<json::array_t&>().reserve(chunks.size());
@@ -12175,7 +12175,7 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
             }
             arr.push_back(std::move(j));
         }
-        json resp = { {"count",static_cast<int>(chunks.size())}, {"chunks", std::move(arr)} };
+        json resp = { {"count",chunks.size()}, {"chunks", std::move(arr)} };
         return makeResponse(http::status::ok, resp.dump(), req);
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
@@ -12212,7 +12212,7 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
             resp.push_back({{"pk", pk}, {"score", score}});
         }
         json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"results", resp}
         };
         return makeResponse(http::status::ok, out.dump(), req);
@@ -12275,7 +12275,7 @@ http::response<http::string_body> HttpServer::handleFulltextSearch(
         }
         
         json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"results", resp},
             {"table", table},
             {"column", column},
@@ -12381,7 +12381,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             int kRrf = body.value("k_rrf", 60);
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
+            scores.reserve(textResults.size() + vectorResults.size() );
 
             // Text contributions
             for (size_t i = 0; i < textResults.size(); ++i) {
@@ -12421,7 +12421,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             
             std::unordered_map<std::string, double> scores = {};
 
-            scores.reserve(static_cast<int>(textResults.size()) + static_cast<int>(vectorResults.size()) );
+            scores.reserve(textResults.size() + vectorResults.size() );
             
             // Text contributions
             for (const auto& res : textResults) {
@@ -12452,7 +12452,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         // Limit to top-k
-        if (static_cast<int>(fusedResults.size()) > static_cast<size_t>(k)) {
+        if (fusedResults.size() > static_cast<size_t>(k)) {
             fusedResults.resize(k);
         }
         
@@ -12467,7 +12467,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         }
         
         json out = {
-            {"count",static_cast<int>(resp.size())},
+            {"count",resp.size()},
             {"fusion_mode", fusionMode},
             {"table", table},
             {"results", resp}
@@ -13583,7 +13583,7 @@ void HttpServer::Session::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+                    std::string_view(auth_header.data(),auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -13936,7 +13936,7 @@ void HttpServer::SslSession::processRequest() {
                     return;
                 }
                 auto token = themis::AuthMiddleware::extractBearerToken(
-                    std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+                    std::string_view(auth_header.data(),auth_header.size()));
                 if (!token) {
                     response_.result(http::status::unauthorized);
                     response_.set(http::field::content_type, "application/json");
@@ -14125,7 +14125,7 @@ http::response<http::string_body> HttpServer::handleIndexStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
+                while (pos < query.size()) {
                     size_t eq = query.find('=', pos);
                     if (eq == std::string::npos) {
                       break;
@@ -14249,7 +14249,7 @@ http::response<http::string_body> HttpServer::handleIndexReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
+            {"indexes_rebuilt",all_stats.size()}
         };
         
         // Include stats for each index
@@ -14506,7 +14506,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
     if (auth_ && auth_->isEnabled()) {
         if (req.find("Authorization") != req.end()) {
             std::string auth_header = std::string(req["Authorization"]);
-            if (static_cast<int>(auth_header.size()) > 7 && auth_header.substr(0, 7) == "Bearer ") {
+            if (auth_header.size() > 7 && auth_header.substr(0, 7) == "Bearer ") {
                 std::string token = auth_header.substr(7);
                 auto ctx = auth_->extractContext(token);
                 if (ctx) {
@@ -15456,7 +15456,7 @@ static std::string extractContentFsPk(const http::request<http::string_body>& re
       path = path.substr(0, qpos);
     }
     // prefix is "/api/v1/content/fs/"  (19 chars)
-    if (static_cast<int>(path.size()) > 19) {
+    if (path.size() > 19) {
       return path.substr(19);
     }
     return {};
@@ -15497,7 +15497,7 @@ http::response<http::string_body> HttpServer::handleContentFsPut(
             result.error().message(), req);
     }
 
-    json body = {{"pk", pk}, {"size",static_cast<int>(data.size())}, {"mime", mime}};
+    json body = {{"pk", pk}, {"size",data.size()}, {"mime", mime}};
     if (sha256_hint) {
       body["sha256"] = *sha256_hint;
     }

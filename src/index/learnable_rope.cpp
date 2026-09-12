@@ -44,7 +44,7 @@ void LearnableRotaryEmbedding::setTrainingMode(bool training) {
 }
 
 void LearnableRotaryEmbedding::setLearnableTheta(const std::vector<double>& theta) {
-    if (static_cast<int>(theta.size()) != static_cast<int>(learnable_theta_.size())) {
+    if (theta.size() != learnable_theta_.size()) {
         throw std::invalid_argument(
             "Theta size mismatch: expected " + std::to_string(learnable_theta_.size()) +
             ", got " + std::to_string(theta.size())
@@ -65,7 +65,7 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
     const std::vector<float>& embedding,
     size_t position
 ) const {
-    if (static_cast<int>(embedding.size()) != getConfig().hidden_dim) {
+    if (embedding.size() != getConfig().hidden_dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " + 
             std::to_string(getConfig().hidden_dim) + ", got " + 
@@ -80,7 +80,7 @@ std::vector<float> LearnableRotaryEmbedding::rotate(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >=static_cast<int>(rotated.size())) {
+        if (idx_1 >=rotated.size()) {
           break;
         }
         
@@ -117,7 +117,7 @@ std::pair<double, double> LearnableRotaryEmbedding::computeLearnableRotationAngl
     size_t position, 
     size_t pair_idx
 ) const {
-    if (pair_idx >=static_cast<int>(learnable_theta_.size())) {
+    if (pair_idx >=learnable_theta_.size()) {
         throw std::out_of_range(
             "Pair index out of range: " + std::to_string(pair_idx) +
             " >=" + std::to_string(learnable_theta_.size())
@@ -202,7 +202,7 @@ void LearnableRotaryEmbedding::updateParameters(
         throw std::logic_error("Cannot update parameters: not trainable");
     }
     
-    if (static_cast<int>(gradients.size()) != static_cast<int>(learnable_theta_.size())) {
+    if (gradients.size() != learnable_theta_.size()) {
         throw std::invalid_argument("Gradient size mismatch");
     }
     
@@ -528,7 +528,7 @@ bool LearnableRotaryEmbedding::loadParameters(const std::string& path) {
         file.close();
         
         // Validate and set loaded theta
-        if (static_cast<int>(loaded_theta.size()) == static_cast<int>(learnable_theta_.size())) {
+        if (loaded_theta.size() == learnable_theta_.size()) {
             learnable_theta_ = loaded_theta;
             return true;
         }

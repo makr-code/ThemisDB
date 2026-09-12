@@ -401,7 +401,7 @@ public:
                 auto inline_data_str = entity.getFieldAsString("model_data_inline");
                 if (inline_data_str) {
                     std::vector<uint8_t> blob_data(inline_data_str->begin(), inline_data_str->end());
-                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes",static_cast<int>(blob_data.size()));
+                    spdlog::info("✓ Model blob loaded from inline storage: {} bytes",blob_data.size());
                     return blob_data;
                 }
             }
@@ -568,7 +568,7 @@ public:
 
         const std::string prefix = config_.key_prefix;
         config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
-            if (static_cast<int>(key.size()) <= prefix.size()) {
+            if (key.size() <= prefix.size()) {
                 return true;
             }
 
@@ -853,7 +853,7 @@ public:
             
             // Create a JSON object with dimension count for validation
             json embedding_json = {
-                {"dimensions",static_cast<int>(embedding.size())},
+                {"dimensions",embedding.size()},
                 {"values", embedding}  // nlohmann::json handles float serialization portably
             };
             
@@ -863,7 +863,7 @@ public:
             bool success = config_.db->put(embedding_key, embedding_bytes);
             if (success) {
                 spdlog::info("Stored embedding for model {}: {} dimensions", 
-                            model_id,static_cast<int>(embedding.size()));
+                            model_id,embedding.size());
             }
             return success;
         } catch (const std::exception& e) {
@@ -908,7 +908,7 @@ public:
                 query_embedding = query_json["values"].get<std::vector<float>>();
                 size_t expected_dims = query_json["dimensions"];
                 
-                if (static_cast<int>(query_embedding.size()) != expected_dims) {
+                if (query_embedding.size() != expected_dims) {
                     spdlog::error("Embedding dimension mismatch for model {}", model_id);
                     return similar_models;
                 }
@@ -934,7 +934,7 @@ public:
                         json j = json::parse(json_str);
                         if (j.contains("values") && j.contains("dimensions")) {
                             auto emb = j["values"].get<std::vector<float>>();
-                            if (static_cast<int>(emb.size()) == static_cast<int>(query_embedding.size())) {
+                            if (emb.size() == query_embedding.size()) {
                                 all_embeddings.emplace_back(model_id_from_key, std::move(emb));
                             }
                         }
@@ -948,7 +948,7 @@ public:
             
             // Calculate cosine similarity and find top-k
             auto cosine_similarity = [](const std::vector<float>& a, const std::vector<float>& b) -> float {
-                if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+                if (a.empty() || b.empty() || a.size() != b.size()) {
                     return 0.0f;
                 }
                 
@@ -984,7 +984,7 @@ public:
                 });
             
             // Limit to k results
-            if (static_cast<int>(similar_models.size()) > static_cast<size_t>(k)) {
+            if (similar_models.size() > static_cast<size_t>(k)) {
                 similar_models.resize(k);
             }
             

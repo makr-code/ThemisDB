@@ -211,7 +211,7 @@ bool PolicyApprovalWorkflow::approveChange(
     }
     
     // Check if we have enough approvals
-    if (static_cast<int>(status.approved_by_list.size()) >= status.required_approvers) {
+    if (status.approved_by_list.size() >= status.required_approvers) {
         status.current_state = ApprovalState::APPROVED;
         status.approved_by   = approver;
         status.approved_at   = std::chrono::duration_cast<std::chrono::milliseconds>(

@@ -51,7 +51,7 @@ static const double kCpuPi      = 3.14159265358979323846;
 // Helper function to check point-in-polygon using ray casting algorithm
 // This provides a reasonable fallback when Boost.Geometry is not available
 static bool pointInPolygon(double px, double py, const std::vector<Coordinate> &polygon) {
-    if (static_cast<int>(polygon.size()) < 3) {
+    if (polygon.size() < 3) {
         return false;
     }
 
@@ -520,7 +520,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             }
             if (geom.isPolygon()) {
                 const std::vector<Coordinate> &ring_in = geom.rings.empty() ? geom.coords : geom.rings[0];
-                if (static_cast<int>(ring_in.size()) < 3) {
+                if (ring_in.size() < 3) {
                     return GeometryInfo{};
                 }
                 const auto mbr          = geom.computeMBR();
@@ -704,7 +704,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
         // Reserve capacity for intersection vertices before inserting them
         // to avoid repeated reallocations in the push_back loop.
-        A.reserve(static_cast<int>(A.size()) + static_cast<int>(ips.size()) );
+        A.reserve(A.size() + ips.size() );
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -714,7 +714,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             A.push_back(v);
         }
         std::stable_sort(A.begin(), A.end(), [](const GHVert &a, const GHVert &b) { return a.alpha < b.alpha; });
-        B.reserve(static_cast<int>(B.size()) + static_cast<int>(ips.size()) );
+        B.reserve(B.size() + ips.size() );
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -781,8 +781,8 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     // Collect one union polygon ring starting from an unvisited A-exiting intersection.
     // Returns an empty vector if no suitable start vertex is found.
     static std::vector<Coordinate> ghTraverseUnion(std::vector<GHVert> &A, std::vector<GHVert> &B) {
-        const int na = static_cast<int>(A.size());
-        const int nb = static_cast<int>(B.size());
+        const int na = A.size();
+        const int nb = B.size();
         int start_a  = -1;
         for (int i = 0; i < na; ++i) {
             if (A[i].is_isect && !A[i].used && !A[i].ent_B) {
@@ -803,7 +803,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 
         for (int iter = 0; iter < na + nb + 8; ++iter) {
             if (on_A) {
-                if (cur_a == start_a && static_cast<int>(ring.size()) > 1) {
+                if (cur_a == start_a && ring.size() > 1) {
                     break;
                 }
                 GHVert &v = A[cur_a];
@@ -837,7 +837,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             }
         }
         // Close the ring if not already closed.
-        if (static_cast<int>(ring.size()) > 2
+        if (ring.size() > 2
             && (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon
                 || std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
             ring.push_back(ring[0]);
@@ -848,8 +848,8 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     // Collect one difference polygon ring starting from an unvisited A-exiting
     // intersection.  Returns an empty vector if none is found.
     static std::vector<Coordinate> ghTraverseDiff(std::vector<GHVert> &A, std::vector<GHVert> &B) {
-        const int na = static_cast<int>(A.size());
-        const int nb = static_cast<int>(B.size());
+        const int na = A.size();
+        const int nb = B.size();
         int start_a  = -1;
         for (int i = 0; i < na; ++i) {
             if (A[i].is_isect && !A[i].used && !A[i].ent_B) {
@@ -870,7 +870,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 
         for (int iter = 0; iter < na + nb + 8; ++iter) {
             if (on_A) {
-                if (cur_a == start_a && static_cast<int>(ring.size()) > 1) {
+                if (cur_a == start_a && ring.size() > 1) {
                     break;
                 }
                 GHVert &v = A[cur_a];
@@ -905,7 +905,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
                 }
             }
         }
-        if (static_cast<int>(ring.size()) > 2
+        if (ring.size() > 2
             && (std::abs(ring.back().x - ring.front().x) > kCpuEpsilon
                 || std::abs(ring.back().y - ring.front().y) > kCpuEpsilon)) {
             ring.push_back(ring[0]);
@@ -922,7 +922,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     static GeometryInfo cpuPolyUnion(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
-        if (static_cast<int>(ring1.size()) < 3 || static_cast<int>(ring2.size()) < 3) {
+        if (ring1.size() < 3 || ring2.size() < 3) {
             return GeometryInfo{};
         }
 
@@ -975,7 +975,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         GeometryInfo result(GeometryType::Polygon);
         for (;;) {
             auto r = ghTraverseUnion(A, B);
-            if (static_cast<int>(r.size()) < 4) {
+            if (r.size() < 4) {
                 break;
             }
             result.rings.push_back(std::move(r));
@@ -994,10 +994,10 @@ class CpuExactBackend final : public ISpatialComputeBackend {
     static GeometryInfo cpuPolyDiff(const GeometryInfo &geom1, const GeometryInfo &geom2) {
         const auto &ring1 = outerRing(geom1);
         const auto &ring2 = outerRing(geom2);
-        if (static_cast<int>(ring1.size()) < 3) {
+        if (ring1.size() < 3) {
             return GeometryInfo{};
         }
-        if (static_cast<int>(ring2.size()) < 3) {
+        if (ring2.size() < 3) {
             return geom1;
         }
 
@@ -1050,7 +1050,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         GeometryInfo result(GeometryType::Polygon);
         for (;;) {
             auto r = ghTraverseDiff(A, B);
-            if (static_cast<int>(r.size()) < 4) {
+            if (r.size() < 4) {
                 break;
             }
             result.rings.push_back(std::move(r));

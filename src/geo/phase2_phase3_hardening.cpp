@@ -35,6 +35,8 @@
 #include <chrono>
 #include <array>
 #include <atomic>
+#include <algorithm>
+#include <cmath>
 #include <thread>
 #include <memory>
 #include <sstream>
@@ -71,7 +73,7 @@ namespace geo {
  * @param tolerance   Relative tolerance (default 1e-9 per contract)
  * @return true if results are within tolerance; false if divergence detected
  */
-[[nodiscard]] inline bool isDistanceResultConsistent(
+[[nodiscard]] bool isDistanceResultConsistent(
     double cpu_result,
     double gpu_result,
     double tolerance = 1e-9) noexcept {
@@ -105,7 +107,7 @@ namespace geo {
  * @param count    Number of test points
  * @return true if all entries match; false if any divergence detected
  */
-[[nodiscard]] inline bool isContainmentResultConsistent(
+[[nodiscard]] bool isContainmentResultConsistent(
     const std::vector<uint8_t>& cpu_mask,
     const std::vector<uint8_t>& gpu_mask,
     std::size_t count) noexcept {
@@ -131,7 +133,7 @@ namespace geo {
  * @param lat Latitude in decimal degrees
  * @return true if both lon and lat are finite and within bounds; false otherwise
  */
-[[nodiscard]] inline bool isValidWgs84CoordinatePair(
+[[nodiscard]] bool isValidWgs84CoordinatePair(
     double lon,
     double lat) noexcept {
     return std::isfinite(lon) && std::isfinite(lat) &&
@@ -151,11 +153,11 @@ namespace geo {
  * @return true if ring is closed and has ≥4 vertices (including closing point);
  *         false if open, too small, or sizes mismatch
  */
-[[nodiscard]] inline bool isRingClosed(
+[[nodiscard]] bool isRingClosed(
     const std::vector<double>& lons,
     const std::vector<double>& lats) noexcept {
     // Minimum 4 vertices: 3 unique + 1 closing point
-    if (static_cast<int>(lons.size()) < 4 || static_cast<int>(lats.size()) < 4 || static_cast<int>(lons.size()) != static_cast<int>(lats.size())) {
+    if (lons.size() < 4 || lats.size() < 4 || lons.size() != lats.size()) {
         return false;
     }
 
@@ -172,7 +174,7 @@ namespace geo {
  * @param count Number of coordinates in the LineString
  * @return true if count >= 2; false otherwise
  */
-[[nodiscard]] inline bool lineStringHasMinimumVertices(
+[[nodiscard]] bool lineStringHasMinimumVertices(
     std::size_t count) noexcept {
     return count >= 2;
 }
@@ -186,7 +188,7 @@ namespace geo {
  * @param count Number of coordinates in the ring (including closing point)
  * @return true if count >= 4; false otherwise
  */
-[[nodiscard]] inline bool polygonExteriorRingHasMinimumVertices(
+[[nodiscard]] bool polygonExteriorRingHasMinimumVertices(
     std::size_t count) noexcept {
     return count >= 4;
 }
@@ -211,7 +213,7 @@ namespace geo {
  * @return true if all results have MBRs intersecting the query box;
  *         false if any result is outside the query box
  */
-[[nodiscard]] inline bool isSpatialIndexQueryConsistent(
+[[nodiscard]] bool isSpatialIndexQueryConsistent(
     const std::array<double, 4>& query_bbox,
     const std::vector<std::array<double, 4>>& result_mbrs) noexcept {
     const double q_minx = query_bbox[0];
@@ -277,18 +279,7 @@ struct BackendFallbackDiagnostic {
      * @brief Format diagnostic as human-readable error message.
      * @return Formatted string suitable for logging or user error reporting
      */
-    [[nodiscard]] std::string formatMessage() const noexcept {
-        std::ostringstream oss = {};
-        oss << "Geo backend fallback: operation=" << operation_name
-            << " geom_a=" << geometry_type_a << " geom_b=" << geometry_type_b
-            << " batch_size=" << batch_size
-            << " backend=" << backend_name << " device=" << device_name
-            << " failure=" << failure_reason << " error_code=" << error_code
-            << " elapsed_us=" << elapsed_micros
-            << " fallback=" << (fallback_taken ? "yes" : "no")
-            << " verified=" << (result_verified ? "yes" : "no");
-        return oss.str();
-    }
+    [[nodiscard]] std::string formatMessage() const noexcept;
 };
 
 /**
@@ -302,22 +293,13 @@ struct BackendFallbackDiagnostic {
  */
 class GeometryValidationErrorBuilder {
 public:
-    explicit GeometryValidationErrorBuilder() noexcept = default;
-
     /**
      * @brief Build error message for non-finite coordinates.
      */
     [[nodiscard]] static std::string nonFiniteCoordinate(
         double value,
         const std::string& coord_name,
-        std::size_t coord_index) noexcept {
-        std::ostringstream oss = {};
-        oss << "Geometry validation failed: " << coord_name
-            << "[" << coord_index << "] is not finite (value=" << value << "); "
-            << "expected a finite real number in [-180, 180] for longitude "
-            << "or [-90, 90] for latitude";
-        return oss.str();
-    }
+        std::size_t coord_index) noexcept;
 
     /**
      * @brief Build error message for out-of-bounds coordinate.
@@ -326,27 +308,14 @@ public:
         double value,
         const std::string& coord_name,
         double min_bound,
-        double max_bound) noexcept {
-        std::ostringstream oss = {};
-        oss << "Geometry validation failed: " << coord_name
-            << " is out of bounds (value=" << value << "); "
-            << "expected range [" << min_bound << ", " << max_bound << "]";
-        return oss.str();
-    }
+        double max_bound) noexcept;
 
     /**
      * @brief Build error message for unclosed polygon ring.
      */
     [[nodiscard]] static std::string unclosedRing(
         std::size_t ring_index,
-        std::size_t vertex_count) noexcept {
-        std::ostringstream oss = {};
-        oss << "Geometry validation failed: polygon ring " << ring_index
-            << " is not closed (first and last coordinates differ); "
-            << "ring has " << vertex_count << " vertices; "
-            << "RFC 7946 requires rings to be closed (first == last)";
-        return oss.str();
-    }
+        std::size_t vertex_count) noexcept;
 
     /**
      * @brief Build error message for insufficient vertices.
@@ -354,29 +323,86 @@ public:
     [[nodiscard]] static std::string insufficientVertices(
         const std::string& geometry_type,
         std::size_t actual_count,
-        std::size_t required_min) noexcept {
-        std::ostringstream oss = {};
-        oss << "Geometry validation failed: " << geometry_type
-            << " has insufficient vertices (actual=" << actual_count
-            << ", required_minimum=" << required_min << "); "
-            << "see RFC 7946 for minimum requirements per geometry type";
-        return oss.str();
-    }
+        std::size_t required_min) noexcept;
 
     /**
      * @brief Build error message for geometry too large.
      */
     [[nodiscard]] static std::string geometryTooLarge(
         std::size_t coordinate_count,
-        std::size_t max_allowed) noexcept {
-        std::ostringstream oss = {};
-        oss << "Geometry validation failed: geometry is too large "
-            << "(coordinate_count=" << coordinate_count
-            << ", max_allowed=" << max_allowed << "); "
-            << "split into smaller geometries or increase system limits";
-        return oss.str();
-    }
+        std::size_t max_allowed) noexcept;
 };
+
+std::string BackendFallbackDiagnostic::formatMessage() const noexcept {
+    std::ostringstream oss = {};
+    oss << "Geo backend fallback: operation=" << operation_name
+        << " geom_a=" << geometry_type_a << " geom_b=" << geometry_type_b
+        << " batch_size=" << batch_size
+        << " backend=" << backend_name << " device=" << device_name
+        << " failure=" << failure_reason << " error_code=" << error_code
+        << " elapsed_us=" << elapsed_micros
+        << " fallback=" << (fallback_taken ? "yes" : "no")
+        << " verified=" << (result_verified ? "yes" : "no");
+    return oss.str();
+}
+
+std::string GeometryValidationErrorBuilder::nonFiniteCoordinate(
+    double value,
+    const std::string& coord_name,
+    std::size_t coord_index) noexcept {
+    std::ostringstream oss = {};
+    oss << "Geometry validation failed: " << coord_name
+        << "[" << coord_index << "] is not finite (value=" << value << "); "
+        << "expected a finite real number in [-180, 180] for longitude "
+        << "or [-90, 90] for latitude";
+    return oss.str();
+}
+
+std::string GeometryValidationErrorBuilder::coordinateOutOfBounds(
+    double value,
+    const std::string& coord_name,
+    double min_bound,
+    double max_bound) noexcept {
+    std::ostringstream oss = {};
+    oss << "Geometry validation failed: " << coord_name
+        << " is out of bounds (value=" << value << "); "
+        << "expected range [" << min_bound << ", " << max_bound << "]";
+    return oss.str();
+}
+
+std::string GeometryValidationErrorBuilder::unclosedRing(
+    std::size_t ring_index,
+    std::size_t vertex_count) noexcept {
+    std::ostringstream oss = {};
+    oss << "Geometry validation failed: polygon ring " << ring_index
+        << " is not closed (first and last coordinates differ); "
+        << "ring has " << vertex_count << " vertices; "
+        << "RFC 7946 requires rings to be closed (first == last)";
+    return oss.str();
+}
+
+std::string GeometryValidationErrorBuilder::insufficientVertices(
+    const std::string& geometry_type,
+    std::size_t actual_count,
+    std::size_t required_min) noexcept {
+    std::ostringstream oss = {};
+    oss << "Geometry validation failed: " << geometry_type
+        << " has insufficient vertices (actual=" << actual_count
+        << ", required_minimum=" << required_min << "); "
+        << "see RFC 7946 for minimum requirements per geometry type";
+    return oss.str();
+}
+
+std::string GeometryValidationErrorBuilder::geometryTooLarge(
+    std::size_t coordinate_count,
+    std::size_t max_allowed) noexcept {
+    std::ostringstream oss = {};
+    oss << "Geometry validation failed: geometry is too large "
+        << "(coordinate_count=" << coordinate_count
+        << ", max_allowed=" << max_allowed << "); "
+        << "split into smaller geometries or increase system limits";
+    return oss.str();
+}
 
 } // namespace geo
 } // namespace themis

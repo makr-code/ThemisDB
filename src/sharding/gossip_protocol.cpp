@@ -190,7 +190,7 @@ std::vector<PeerInfo> GossipProtocol::getHealthyPeers() const {
 
 size_t GossipProtocol::getPeerCount() const {
     std::lock_guard<std::mutex> lock(peers_mutex_);
-    return static_cast<int>(peers_.size());
+    return peers_.size();
 }
 
 void GossipProtocol::addPeer(const PeerInfo& peer) {
@@ -201,7 +201,7 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
         std::lock_guard<std::mutex> lock(peers_mutex_);
 
         // Check max peers limit
-        if (static_cast<int>(peers_.size()) >= config_.max_peers &&
+        if (peers_.size() >= config_.max_peers &&
             peers_.find(peer.peer_id) == peers_.end()) {
             return;  // At capacity, don't add new peers
         }
@@ -823,7 +823,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
         const int decoded_len = EVP_DecodeBlock(
             sig.data(),
             reinterpret_cast<const unsigned char*>(b64.data()),
-            static_cast<int>(b64.size())
+            b64.size()
         );
         if (decoded_len <= 0) {
             spdlog::warn("GossipProtocol: base64 decode failed for signature from '{}'",
@@ -840,7 +840,7 @@ bool GossipProtocol::verifyMessage(const GossipMessage& message) const {
 
         if (ctx) {
             if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) == 1 &&
-                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(),static_cast<int>(to_verify.size())) == 1 &&
+                EVP_DigestVerifyUpdate(ctx.get(), to_verify.data(),to_verify.size()) == 1 &&
                 EVP_DigestVerifyFinal(ctx.get(),
                                       sig.data(),
                                       static_cast<size_t>(sig_len)) == 1) {
@@ -874,7 +874,7 @@ bool GossipProtocol::checkRateLimit(const std::string& peer_id) {
     );
     
     // Check limit
-    if (static_cast<int>(timestamps.size()) >= config_.rate_limit_per_peer) {
+    if (timestamps.size() >= config_.rate_limit_per_peer) {
         return false;  // Rate limited
     }
     

@@ -616,7 +616,7 @@ void QUICClient::Stream::send(const std::vector<uint8_t> &data) {
     // the ngtcp2 write path; here we record that a send was requested.
     // A production expansion would call ngtcp2_conn_writev_stream() via the
     // owning client's I/O thread.
-    THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}",static_cast<int>(data.size()), stream_id_);
+    THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}",data.size(), stream_id_);
 }
 
 std::vector<uint8_t> QUICClient::Stream::receive() {
@@ -652,11 +652,11 @@ QUICClient::~QUICClient() {
 /* static */
 bool QUICClient::parseUrl(const std::string &url, std::string &host, uint16_t &port) {
     constexpr std::string_view kScheme = "quic://";
-    if (static_cast<int>(url.size()) <static_cast<int>(kScheme.size())) {
+    if (url.size() <kScheme.size()) {
         return false;
     }
     std::string_view sv(url);
-    if (sv.substr(0,static_cast<int>(kScheme.size())) != kScheme) {
+    if (sv.substr(0,kScheme.size()) != kScheme) {
         return false;
     }
     sv.remove_prefix(kScheme.size());

@@ -69,8 +69,8 @@ ExporterType exporterFromString(const std::string& name) {
 /// Return the canonical OTLP traces endpoint URL.
 std::string resolveOtlpTracesEndpoint(const std::string& base) {
     constexpr std::string_view kSuffix = "/v1/traces";
-    if (static_cast<int>(base.size()) >= kSuffix.size() &&
-        base.compare(static_cast<int>(base.size()) - static_cast<int>(kSuffix.size()) ,static_cast<int>(kSuffix.size()), kSuffix) == 0) {
+    if (base.size() >= kSuffix.size() &&
+        base.compare(base.size() - kSuffix.size() ,kSuffix.size(), kSuffix) == 0) {
         return base;
     }
     return base + std::string(kSuffix);
@@ -518,7 +518,7 @@ SpanContext OpenTelemetryTracer::extractContext(
     ctx.span_id  = span_id;
 
     // Parse sampled flag from flags byte (last 2 hex chars of traceparent)
-    if (static_cast<int>(traceparent.size()) >= 55) {
+    if (traceparent.size() >= 55) {
         std::string flags = traceparent.substr(53, 2);
         ctx.sampled = (flags == "01");
     }

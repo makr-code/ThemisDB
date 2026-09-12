@@ -42,8 +42,8 @@ namespace {
 
 // Strip surrounding double-quotes if present
 static std::string stripQuotes(const std::string& s) {
-    if (static_cast<int>(s.size()) >= 2 && s.front() == '"' && s.back() == '"') {
-        return s.substr(1, static_cast<int>(s.size()) - 2);
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
     }
     return s;
 }
@@ -55,10 +55,10 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
     } else if (op == "!=") {
         return lhs != rhs;
     } else if (op == "STARTS_WITH") {
-        return lhs.size() >= rhs.size() && lhs.compare(0, static_cast<int>(rhs.size()), rhs) == 0;
+        return lhs.size() >= rhs.size() && lhs.compare(0, rhs.size(), rhs) == 0;
     } else if (op == "ENDS_WITH") {
         return lhs.size() >= rhs.size() &&
-               lhs.compare(static_cast<int>(lhs.size()) - static_cast<int>(rhs.size()), static_cast<int>(rhs.size()), rhs) == 0;
+               lhs.compare(lhs.size() - rhs.size(), rhs.size(), rhs) == 0;
     } else if (op == "CONTAINS") {
         return lhs.find(rhs) != std::string::npos;
     }
@@ -472,14 +472,14 @@ void EventTrigger::rebuildConditionCache_() const {
     // Split on AND
     std::vector<std::string> raw_clauses;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(condition.size())) {
+    while (pos < condition.size()) {
         size_t found = condition.find(AND_SEP, pos);
         if (found == std::string::npos) {
             raw_clauses.push_back(themis::utils::trim(condition.substr(pos)));
             break;
         }
         raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));
-        pos = found + static_cast<int>(AND_SEP.size()) ;
+        pos = found + AND_SEP.size() ;
     }
 
     for (const auto& raw : raw_clauses) {
@@ -515,7 +515,7 @@ void EventTrigger::rebuildConditionCache_() const {
             }
         }
 
-        if (static_cast<int>(tokens.size()) < 3) {
+        if (tokens.size() < 3) {
             THEMIS_WARN("EventTrigger: malformed condition clause '{}', skipping", raw);
             continue;
         }
@@ -651,7 +651,7 @@ void EventTriggerManager::startAll() {
         }
     }
     
-    THEMIS_INFO("Started all event triggers (count={})",static_cast<int>(triggers_.size()));
+    THEMIS_INFO("Started all event triggers (count={})",triggers_.size());
 }
 
 void EventTriggerManager::stopAll() {
@@ -663,7 +663,7 @@ void EventTriggerManager::stopAll() {
         }
     }
     
-    THEMIS_INFO("Stopped all event triggers (count={})",static_cast<int>(triggers_.size()));
+    THEMIS_INFO("Stopped all event triggers (count={})",triggers_.size());
 }
 
 } // namespace themis

@@ -150,7 +150,7 @@ void EvaluationCache::put(
     }
 
     // Evict LRU entry if at capacity
-    while (static_cast<int>(cache_.size()) >= config_.max_entries) {
+    while (cache_.size() >= config_.max_entries) {
         evictLRU();
     }
 
@@ -241,7 +241,7 @@ void EvaluationCache::invalidate(
 
 void EvaluationCache::warmCache(
     RAGJudge& judge, const std::vector<EvaluationInput>& queries) {
-    THEMIS_INFO("EvaluationCache: warming cache with {} queries",static_cast<int>(queries.size()));
+    THEMIS_INFO("EvaluationCache: warming cache with {} queries",queries.size());
 
     for (const auto& input : queries) {
         // Skip if already cached
@@ -253,7 +253,7 @@ void EvaluationCache::warmCache(
         put(input.query, input.generated_answer, result);
     }
 
-    THEMIS_INFO("EvaluationCache: warm-up complete, cache size={}",static_cast<int>(cache_.size()));
+    THEMIS_INFO("EvaluationCache: warm-up complete, cache size={}",cache_.size());
 }
 
 CacheStatistics EvaluationCache::getStatistics() const {

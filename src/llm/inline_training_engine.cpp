@@ -746,7 +746,7 @@ TrainingResult InlineTrainingEngine::trainLoop(
                         }
                     }
                     std::sort(ckpts.begin(), ckpts.end());
-                    while (static_cast<int>(ckpts.size()) > cfg.max_checkpoints_to_keep) {
+                    while (ckpts.size() > cfg.max_checkpoints_to_keep) {
                         fs::remove_all(ckpts.front().second);
                         ckpts.erase(ckpts.begin());
                     }

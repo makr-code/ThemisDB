@@ -175,7 +175,7 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
                 converged = true;
                 workingSet = newResults;
                 THEMIS_INFO("Recursive CTE '{}' converged after {} iterations with {} rows",
-                           cte.name, iteration,static_cast<int>(workingSet.size()));
+                           cte.name, iteration,workingSet.size());
                 break;
             }
             
@@ -194,13 +194,13 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             }
             
             // Check result size limit
-            if (static_cast<int>(newResults.size()) > recursiveConfig_.max_result_size) {
+            if (newResults.size() > recursiveConfig_.max_result_size) {
                 THEMIS_ERROR("Recursive CTE '{}' exceeded max result size ({} > {})",
-                            cte.name,static_cast<int>(newResults.size()), recursiveConfig_.max_result_size);
+                            cte.name,newResults.size(), recursiveConfig_.max_result_size);
                 return ErrVoid(
                     ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                     fmt::format("Recursive CTE '{}' exceeded max result size ({} > {})",
-                               cte.name,static_cast<int>(newResults.size()), recursiveConfig_.max_result_size)
+                               cte.name,newResults.size(), recursiveConfig_.max_result_size)
                 );
             }
             
@@ -209,7 +209,7 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             workingSet = newResults;
             
             THEMIS_DEBUG("Recursive CTE '{}' iteration {}: {} rows",
-                        cte.name, iteration,static_cast<int>(workingSet.size()));
+                        cte.name, iteration,workingSet.size());
         }
         
         // Check if we hit max iterations without converging
@@ -243,7 +243,7 @@ bool CTEEvaluator::areResultsEqual(
     const std::vector<nlohmann::json>& a,
     const std::vector<nlohmann::json>& b
 ) const {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
         return false;
     }
     
@@ -513,10 +513,10 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateScalarSubquery(
         }
         
         // Validate single-row constraint for scalar subquery
-        if (static_cast<int>(results.size()) > 1) {
+        if (results.size() > 1) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_SUBQUERY_FAILED,
-                fmt::format("Scalar subquery returned {} rows (expected 1)",static_cast<int>(results.size()))
+                fmt::format("Scalar subquery returned {} rows (expected 1)",results.size())
             );
         }
         
@@ -602,7 +602,7 @@ Result<nlohmann::json> SubqueryEvaluator::evaluateArraySubquery(
         for (auto& row : results) {
             arr.push_back(std::move(row));
         }
-        THEMIS_DEBUG("Correlated subquery returned {} row(s)",static_cast<int>(arr.size()));
+        THEMIS_DEBUG("Correlated subquery returned {} row(s)",arr.size());
         return Ok(std::move(arr));
 
     } catch (const std::exception& e) {

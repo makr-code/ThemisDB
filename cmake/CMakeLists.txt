@@ -2374,8 +2374,10 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ai_plugin_api_handler.cpp>
     # Scraper Plugin API handler — gated by THEMIS_PLUGIN_SCRAPER.
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/server/scraper_plugin_api_handler.cpp>
-    # Encrypted Storage API handler — gated by THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED.
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED}>>:../src/server/encrypted_storage_api_handler.cpp>
+    # Encrypted Storage API handler — only compile when the plugin target exists.
+    # This prevents unresolved externals in modular builds where the feature flag
+    # may be enabled but the plugin target is skipped (e.g. missing prerequisites).
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<TARGET_EXISTS:themis_user_storage_encrypted>>:../src/server/encrypted_storage_api_handler.cpp>
     # Chaos Admin API handler — gated by THEMIS_CHAOS_ADMIN (dev/staging only).
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_CHAOS_ADMIN}>>:../src/server/chaos_admin_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
@@ -5391,21 +5393,17 @@ endif()
 
 # THEMIS_PLUGIN_SCRAPER and THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED must be
 # visible to themis_core so the handler sources compile with their guards set.
+get_target_property(_themis_core_type themis_core TYPE)
+set(_themis_core_plugin_scope PUBLIC)
+if(_themis_core_type STREQUAL "INTERFACE_LIBRARY")
+    set(_themis_core_plugin_scope INTERFACE)
+endif()
+
 if(THEMIS_PLUGIN_SCRAPER)
-    get_target_property(_themis_core_type themis_core TYPE)
-    if(_themis_core_type STREQUAL "INTERFACE_LIBRARY")
-        target_compile_definitions(themis_core INTERFACE THEMIS_PLUGIN_SCRAPER)
-    else()
-        target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_SCRAPER)
-    endif()
+    target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_SCRAPER)
 endif()
 if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
-    get_target_property(_themis_core_type themis_core TYPE)
-    if(_themis_core_type STREQUAL "INTERFACE_LIBRARY")
-        target_compile_definitions(themis_core INTERFACE THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
-    else()
-        target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
-    endif()
+    target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
 endif()
 
 target_link_libraries(themis_server
@@ -5648,7 +5646,7 @@ if(THEMIS_BUILD_TOOLS AND EXISTS "${THEMIS_ROOT_DIR}/tools/themis_config_wx/main
 
         message(STATUS "themis_config_wx: enabled")
     else()
-        message(WARNING "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
+        message(STATUS "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
     endif()
 endif()
 
@@ -5824,6 +5822,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${THEMIS_ROOT_DIR}/src/user_storage_encrypted/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/user_storage_encrypted
                          ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
+
+        # Modular-build wiring: themis_network is created before enterprise plugin
+        # subdirectories are added, so attach the plugin dependency here once both
+        # targets exist.
+        if(THEMIS_BUILD_MODULAR AND TARGET themis_network AND TARGET themis_user_storage_encrypted)
+            target_link_libraries(themis_network PUBLIC themis_user_storage_encrypted)
+        endif()
     endif()
 
     # Scraper Plugin – src/scraper/

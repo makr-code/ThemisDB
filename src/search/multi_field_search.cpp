@@ -169,12 +169,12 @@ std::vector<MultiFieldBoostedSearch::Result> MultiFieldBoostedSearch::search(
                   return a.score > b.score;
               });
 
-    if (static_cast<int>(results.size()) > config_.k) {
+    if (results.size() > config_.k) {
         results.resize(config_.k);
     }
 
     THEMIS_INFO("MultiFieldBoostedSearch: query='{}' fields={} -> {} results",
-                query,static_cast<int>(fields.size()),static_cast<int>(results.size()));
+                query,fields.size(),results.size());
 
     return results;
 }

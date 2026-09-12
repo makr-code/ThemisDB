@@ -54,7 +54,7 @@ std::optional<double> parseNumber(std::string_view sv) {
         const std::string s(sv);
         size_t pos = 0;
         double result = std::stod(s, &pos);
-        if (pos == static_cast<int>(s.size())) {
+        if (pos == s.size()) {
           return result;
         }
         return std::nullopt;
@@ -66,12 +66,12 @@ std::optional<double> parseNumber(std::string_view sv) {
 /// Evaluate a FEEL range expression like [a..b], (a..b], [a..b), (a..b)
 /// against a numeric JSON value.
 bool evaluateRange(std::string_view expr, const json& value) {
-    if (static_cast<int>(expr.size()) < 4) {
+    if (expr.size() < 4) {
       return false;
     }
     const bool left_closed  = (expr.front() == '[');
     const bool right_closed = (expr.back() == ']');
-    const std::string_view inner = expr.substr(1, static_cast<int>(expr.size()) - 2);
+    const std::string_view inner = expr.substr(1, expr.size() - 2);
 
     const auto dot_pos = inner.find("..");
     if (dot_pos == std::string_view::npos) {
@@ -134,8 +134,8 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // String literal: "value"
-    if (static_cast<int>(expr.size()) >= 2 && expr.front() == '"' && expr.back() == '"') {
-        const std::string expected(expr.substr(1, static_cast<int>(expr.size()) - 2));
+    if (expr.size() >= 2 && expr.front() == '"' && expr.back() == '"') {
+        const std::string expected(expr.substr(1, expr.size() - 2));
         if (value.is_string()) {
           return value.get<std::string>() == expected;
         }
@@ -143,7 +143,7 @@ bool evaluateRange(std::string_view expr, const json& value) {
     }
 
     // Numeric comparison operators: >=, <=, !=, >, <, =
-    if (static_cast<int>(expr.size()) >= 2) {
+    if (expr.size() >= 2) {
         std::string_view op = {};
         std::string_view rhs_sv = {};
 
@@ -308,7 +308,7 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     // Security guard: 10 MiB
     // Use explicit unsigned multiplication to avoid overflow warnings
     constexpr size_t MAX_DMN_SIZE = 10 * 1024 * 1024;  // 10 MiB
-    if (static_cast<int>(dmn_xml.size()) > MAX_DMN_SIZE) {
+    if (dmn_xml.size() > MAX_DMN_SIZE) {
         SPDLOG_ERROR("[DmnEvaluator] DMN XML exceeds 10 MiB size limit");
         return false;
     }
@@ -408,8 +408,8 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
                 in_input_entry = false;
             } else if (tag_lower == "outputentry" && in_rule) {
                 // Determine which output column this is
-                const int out_idx = static_cast<int>(current_rule.output_values.size());
-                if (out_idx < static_cast<int>(dt.output_columns.size())) {
+                const int out_idx = current_rule.output_values.size();
+                if (out_idx < dt.output_columns.size()) {
                     current_rule.output_values[dt.output_columns[out_idx]] = current_text;
                 }
                 in_output_entry = false;

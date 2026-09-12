@@ -56,7 +56,7 @@ static std::vector<float> jsonToFloats(const json& arr) {
                                                      const std::string& path) {
     const json* current = &root;
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(path.size())) {
+    while (pos < path.size()) {
         const auto next = path.find('.', pos);
         const auto token = (next == std::string::npos)
             ? path.substr(pos)
@@ -216,7 +216,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 2)
+        if (args.size() < 2)
             throw std::invalid_argument("TENSOR_SIMILARITY: requires 2 arguments");
         TTTrain a = buildTrain(args[0], ctx);
         TTTrain b = buildTrain(args[1], ctx);
@@ -285,7 +285,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 3)
+        if (args.size() < 3)
             throw std::invalid_argument("TENSOR_SLICE: requires 3 arguments (tensor, dim, idx)");
         TTTrain a   = buildTrain(args[0], ctx);
         // TC-16: guard against negative user-supplied dim/idx — negative int wraps
@@ -342,10 +342,10 @@ public:
         if (args.empty())
             throw std::invalid_argument("TENSOR_COMPRESS: requires at least 1 argument");
         TTTrain a   = buildTrain(args[0], ctx);
-        double eps  = (static_cast<int>(args.size()) > 1) ? args[1].get<double>() : 0.01;
+        double eps  = (args.size() > 1) ? args[1].get<double>() : 0.01;
         // TC-18: guard against negative max_rank — wraps to huge size_t.
         std::size_t mr = 0;
-        if (static_cast<int>(args.size()) > 2) {
+        if (args.size() > 2) {
             int mrI = args[2].get<int>();
             if (mrI < 0) {
               throw std::invalid_argument("TENSOR_COMPRESS: max_rank must be >= 0");
@@ -438,7 +438,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 4)
+        if (args.size() < 4)
             throw std::invalid_argument(
                 "TENSOR_CONTRACT: requires 4 arguments (a, b, modes_a, modes_b)");
 
@@ -501,7 +501,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 2)
+        if (args.size() < 2)
             throw std::invalid_argument(
                 "TENSOR_PROJECT: requires 2 arguments (t, mode)");
 
@@ -558,7 +558,7 @@ public:
 
     json execute(const std::vector<json>& args,
                  const FunctionContext& /*ctx*/) const override {
-        if (static_cast<int>(args.size()) < 2)
+        if (args.size() < 2)
             throw std::invalid_argument(
                 "TENSOR_DECOMPOSE: requires at least 2 arguments (data, shape)");
 
@@ -573,7 +573,7 @@ public:
         }
 
         auto max_rank = [&]() -> std::size_t {
-            if (static_cast<int>(args.size()) > 2) {
+            if (args.size() > 2) {
                 // TC-19: guard against negative max_rank — wraps to huge size_t.
                 int mrI = args[2].get<int>();
                 if (mrI < 0) {
@@ -583,7 +583,7 @@ public:
             }
             return 0;
         }();
-        double eps = (static_cast<int>(args.size()) > 3) ? args[3].get<double>() : 0.01;
+        double eps = (args.size() > 3) ? args[3].get<double>() : 0.01;
 
         TensorTrainConfig cfg;
         cfg.eps      = eps;

@@ -57,7 +57,7 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
 
 bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
-    const char* end = begin + static_cast<int>(value.size()) ;
+    const char* end = begin + value.size() ;
     auto [ptr, ec] = std::from_chars(begin, end, parsed);
     return ec == std::errc{} && ptr == end;
 }
@@ -65,7 +65,7 @@ bool tryParseInt(const std::string& value, int& parsed) {
 bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
-    if (end_ptr != value.c_str() + static_cast<int>(value.size()) ) {
+    if (end_ptr != value.c_str() + value.size() ) {
         return false;
     }
 
@@ -90,7 +90,7 @@ PIIDetector::PIIDetector(std::string config_path,
         initializeDefaultEngine();
     }
     
-    spdlog::info("PIIDetector: Initialized with {} engine(s)",static_cast<int>(engines_.size()));
+    spdlog::info("PIIDetector: Initialized with {} engine(s)",engines_.size());
 }
 
 bool PIIDetector::reload(const std::string& config_path) {
@@ -119,7 +119,7 @@ bool PIIDetector::reload(const std::string& config_path) {
         config_path_ = config_path;
     }
     
-    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}",static_cast<int>(engines_.size()), path);
+    spdlog::info("PIIDetector: Reloaded {} engine(s) from {}",engines_.size(), path);
     return true;
 }
 
@@ -235,7 +235,7 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
     std::scoped_lock lock(mutex_);
 
     nlohmann::json metadata = {
-        {"total_engines",static_cast<int>(engines_.size())},
+        {"total_engines",engines_.size()},
         {"enabled_engines", 0},
         {"pki_verification_enabled", pki_client_ != nullptr},
         {"engines", nlohmann::json::array()}
@@ -431,7 +431,7 @@ void PIIDetector::initializeDefaultEngine() {
         }
     }
 
-    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)",static_cast<int>(engines_.size()));
+    spdlog::info("PIIDetector: Initialized with {} embedded unsigned engine(s)",engines_.size());
 }
 
 bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
@@ -581,7 +581,7 @@ void PIIDetector::scanJsonRecursive(
 std::vector<PIIFinding> PIIDetector::deduplicateFindings(
     std::vector<PIIFinding> findings) {
     
-    if (static_cast<int>(findings.size()) <= 1) {
+    if (findings.size() <= 1) {
         return findings;
     }
     

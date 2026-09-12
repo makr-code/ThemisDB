@@ -189,7 +189,7 @@ ConstitutionalReasoningResult ConstitutionalReasoningEngine::reason(
     // Generate revision reasoning
     if (result.was_revised) {
         std::ostringstream oss = {};
-        oss << "Revised to address " <<static_cast<int>(result.critiques.size()) << " critique(s). ";
+        oss << "Revised to address " <<result.critiques.size() << " critique(s). ";
         oss << "Improvement: " << (result.improvement * 100) << "%. ";
         oss << "Iterations: " << result.iterations << ".";
         result.revision_reasoning = oss.str();

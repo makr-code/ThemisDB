@@ -93,7 +93,7 @@ bool devicesValid(int src, int dst, const std::vector<DeviceInfo> &devs) {
     if (src < 0 || dst < 0) {
         return false;
     }
-    const int n = static_cast<int>(devs.size());
+    const int n = devs.size();
     return src < n && dst < n && src != dst;
 }
 

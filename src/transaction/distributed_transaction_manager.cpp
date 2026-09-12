@@ -331,7 +331,7 @@ DistributedTransactionManager::beginDistributed(
 
     ++stat_total_;
     THEMIS_DEBUG("DistributedTransactionManager [{}] beginDistributed txn={} participants={}",
-                 coordinator_id_, txn_id,static_cast<int>(participants.size()));
+                 coordinator_id_, txn_id,participants.size());
     return txn_id;
 }
 
@@ -1405,9 +1405,7 @@ bool DistributedTransactionManager::runPhase2Unlocked(
                          coordinator_id_, do_commit ? "COMMIT" : "ABORT", part.node_id, part.endpoint,
                          txn_id);
             all_delivered = false;
-            // Do NOT continue processing — mark failure and stop trying to deliver to other
-            // participants in this batch. The caller will handle transaction abort/retry.
-            break;
+            continue;
         }
         IDistributedParticipantCallback* cb  = part.callback;
         const std::string                nid = part.node_id;
@@ -1558,7 +1556,7 @@ void DistributedTransactionManager::batchFlushLoop() {
         }
 
         THEMIS_DEBUG("DistributedTransactionManager [{}] batch-flush: {} transactions",
-                     coordinator_id_,static_cast<int>(batch.size()));
+                     coordinator_id_,batch.size());
 
         // Execute Phase-1 directly in the flush thread.
         // runPhase1Unlocked() already parallelizes participant calls via the

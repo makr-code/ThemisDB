@@ -276,7 +276,7 @@ std::string FederationReplicaManagerImpl::ApplyEntryLocked(
 
   utils::Logger::Debug(
       "ApplyEntry: node=%s, index=%llu, term=%llu, state_size=%zu",
-      node_id_.c_str(), log_index, log_term,static_cast<int>(state_.size()));
+      node_id_.c_str(), log_index, log_term,state_.size());
 
   // Check if snapshot needed
   if (entries_applied_ % kSnapshotIntervalEntries == 0) {

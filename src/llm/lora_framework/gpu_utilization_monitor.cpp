@@ -113,7 +113,7 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryMetrics() {
     metrics_history_.push_back(metrics);
     
     // Keep only last 100 samples
-    if (static_cast<int>(metrics_history_.size()) > 100) {
+    if (metrics_history_.size() > 100) {
         metrics_history_.erase(metrics_history_.begin());
     }
     
@@ -167,12 +167,12 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::getAverageMetrics(size_t n
     
     // Take last N samples
     size_t start_idx = 0;
-    if (static_cast<int>(metrics_history_.size()) > num_samples) {
-        start_idx = static_cast<int>(metrics_history_.size()) - num_samples;
+    if (metrics_history_.size() > num_samples) {
+        start_idx = metrics_history_.size() - num_samples;
     }
     
     Metrics avg;
-    size_t count = static_cast<int>(metrics_history_.size()) - start_idx;
+    size_t count = metrics_history_.size() - start_idx;
     
     for (size_t i = start_idx; i < metrics_history_.size(); ++i) {
         const auto& m = metrics_history_[i];

@@ -90,7 +90,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
             result.visited.push_back(node);
             ++result.nodes_explored;
 
-            if (config.max_results > 0 && static_cast<int>(result.visited.size()) >= config.max_results) {
+            if (config.max_results > 0 && result.visited.size() >= config.max_results) {
                 return result;
             }
         }
@@ -102,7 +102,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
         std::vector<std::string> next_frontier;
 
         const bool use_fan_out_parallel
-            = config.fan_out_threshold > 0 && static_cast<int>(current_frontier.size()) >= static_cast<size_t>(config.fan_out_threshold);
+            = config.fan_out_threshold > 0 && current_frontier.size() >= static_cast<size_t>(config.fan_out_threshold);
 
         if (use_fan_out_parallel) {
             // Parallel fan-out expansion: split the frontier into chunks and
@@ -110,8 +110,8 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleBFS(const s
             // produces a raw list of candidate neighbors; de-duplication against
             // the shared visited set is done serially by the main thread after
             // all tasks complete (no data races).
-            const size_t nthreads   = effectiveThreadCount(config,static_cast<int>(current_frontier.size()));
-            const size_t chunk_size = (static_cast<int>(current_frontier.size()) + nthreads - 1) / nthreads;
+            const size_t nthreads   = effectiveThreadCount(config,current_frontier.size());
+            const size_t chunk_size = (current_frontier.size() + nthreads - 1) / nthreads;
 
             struct ChunkResult {
                 std::vector<std::string> candidates;
@@ -228,7 +228,7 @@ ParallelTraversal::SourceTraversalResult ParallelTraversal::runSingleDFS(const s
         result.visited.push_back(current);
         ++result.nodes_explored;
 
-        if (config.max_results > 0 && static_cast<int>(result.visited.size()) >= config.max_results) {
+        if (config.max_results > 0 && result.visited.size() >= config.max_results) {
             break;
         }
 
@@ -302,7 +302,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceBFS(c
 
     auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t max_concurrent = effectiveThreadCount(config,static_cast<int>(sources.size()));
+    const size_t max_concurrent = effectiveThreadCount(config,sources.size());
 
     std::vector<SourceTraversalResult> per_source = {};
 
@@ -351,7 +351,7 @@ Result<ParallelTraversal::MultiSourceResult> ParallelTraversal::multiSourceDFS(c
 
     auto wall_start = std::chrono::steady_clock::now();
 
-    const size_t max_concurrent = effectiveThreadCount(config,static_cast<int>(sources.size()));
+    const size_t max_concurrent = effectiveThreadCount(config,sources.size());
 
     std::vector<SourceTraversalResult> per_source = {};
 

@@ -54,7 +54,7 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
     // validate the sub-buffer length before calling here; the minimum-size
     // check and try/catch below guard against malformed data.  Higher-level
     // integrity (WAL CRC, RocksDB checksums) is enforced by the storage layer.
-    if (static_cast<int>(bytes.size()) < 33) {
+    if (bytes.size() < 33) {
       return std::nullopt;
     }
     std::size_t pos = 0;
@@ -83,7 +83,7 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
         qc.scale  = readF32();
         qc.mean   = readF32();
         std::size_t dlen = static_cast<std::size_t>(readU64());
-        if (pos + dlen > static_cast<int>(bytes.size())) {
+        if (pos + dlen > bytes.size()) {
           return std::nullopt;
         }
         qc.data.assign(bytes.begin() + pos, bytes.begin() + pos + dlen);
@@ -150,10 +150,10 @@ std::vector<uint8_t> QuantizedTrain::serialize() const {
 
 std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // model_integrity_gap scanner alert: size guard and bounds-checked sub-buffer
-    // slicing (pos + clen > static_cast<int>(bytes.size())) prevent over-read; blob integrity is
+    // slicing (pos + clen > bytes.size()) prevent over-read; blob integrity is
     // guaranteed by the storage layer (WAL CRC / RocksDB checksums) before
     // reaching this point — false positive at the deserializer level.
-    if (static_cast<int>(bytes.size()) < 9) {
+    if (bytes.size() < 9) {
       return std::nullopt;
     }
     std::size_t pos = 0;
@@ -187,7 +187,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
         qt.cores.resize(nc);
         for (auto& c : qt.cores) {
             std::size_t clen = static_cast<std::size_t>(readU64());
-            if (pos + clen > static_cast<int>(bytes.size())) {
+            if (pos + clen > bytes.size()) {
               return std::nullopt;
             }
             std::vector<uint8_t> cb(bytes.begin() + pos, bytes.begin() + pos + clen);

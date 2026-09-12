@@ -262,7 +262,7 @@ public:
         // before opening any file (CWE-862 / CWE-22).
         if (path.empty() ||
             path.find("..") != std::string::npos ||
-            static_cast<int>(path.size()) != std::strlen(path.c_str())) {
+            path.size() != std::strlen(path.c_str())) {
             throw std::runtime_error("[ShaderIntegrity] Rejected unsafe shader path");
         }
 
@@ -4140,7 +4140,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                       break;
                     }
                     // Guard against cycles in predecessor array
-                    if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
+                    if (path.size() > numVertices) { path.clear(); break; }
                 }
                 if (!path.empty()) {
                     std::reverse(path.begin(), path.end());
@@ -4186,7 +4186,7 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
             if (static_cast<uint32_t>(cur) == sv) {
               break;
             }
-            if (static_cast<int>(path.size()) > numVertices) { path.clear(); break; }
+            if (path.size() > numVertices) { path.clear(); break; }
         }
         if (!path.empty()) {
             std::reverse(path.begin(), path.end());
@@ -4280,7 +4280,7 @@ static int vulkan_ann_topk_dispatch(
 
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (static_cast<int>(heap.size()) > topK) {
+            if (heap.size() > topK) {
               heap.pop();
             }
         }

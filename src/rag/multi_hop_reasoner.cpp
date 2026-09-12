@@ -59,7 +59,7 @@ std::string substitute(const std::string& tmpl,
     const std::string placeholder = "{" + key + "}";
     size_t pos = 0;
     while ((pos = result.find(placeholder, pos)) != std::string::npos) {
-        result.replace(pos,static_cast<int>(placeholder.size()), value);
+        result.replace(pos,placeholder.size(), value);
         pos += value.size();
     }
     return result;
@@ -102,7 +102,7 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
           continue;
         }
         // Remove leading digit+dot or dash/star
-        if ((static_cast<int>(t.size()) >= 2 &&
+        if ((t.size() >= 2 &&
             ((std::isdigit(static_cast<unsigned char>(t[0])) && t[1] == '.') ||
             t[0] == '-' || t[0] == '*'))) {
             t = themis::utils::trim(t.substr(t.find_first_not_of("0123456789.-* \t")));
@@ -112,7 +112,7 @@ std::vector<std::string> MultiHopReasoner::parseDecompositionResponse(
         }
     }
     // Cap at max_hops
-    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
+    if (sub_queries.size() > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
     return sub_queries;
@@ -150,14 +150,14 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
     }
 
     // If only one sentence, return it as-is (single hop)
-    if (static_cast<int>(sentences.size()) <= 1) {
+    if (sentences.size() <= 1) {
         parts.push_back(q);
         return parts;
     }
 
     for (const auto& s : sentences) {
         parts.push_back(s);
-        if (static_cast<int>(parts.size()) >= config_.max_hops) {
+        if (parts.size() >= config_.max_hops) {
           break;
         }
     }
@@ -249,7 +249,7 @@ std::string MultiHopReasoner::composeAnswer(
     if (partial_answers.empty()) return {};
 
     // If only one hop, its answer IS the final answer
-    if (static_cast<int>(partial_answers.size()) == 1) {
+    if (partial_answers.size() == 1) {
       return hop_records[0].intermediate_answer;
     }
 
@@ -302,7 +302,7 @@ MultiHopResult MultiHopReasoner::reason(
     }
 
     // Cap sub-queries at max_hops
-    if (static_cast<int>(sub_queries.size()) > config_.max_hops) {
+    if (sub_queries.size() > config_.max_hops) {
         sub_queries.resize(config_.max_hops);
     }
 
@@ -347,14 +347,14 @@ MultiHopResult MultiHopReasoner::reason(
         }
 
         // Early stopping: if this was the only sub-query, stop here
-        if (config_.early_stopping && static_cast<int>(sub_queries.size()) == 1) {
+        if (config_.early_stopping && sub_queries.size() == 1) {
             result.early_stopped = true;
             break;
         }
     }
 
     result.hit_hop_limit = (result.hops_executed >= config_.max_hops &&
-                             static_cast<int>(sub_queries.size()) >= config_.max_hops);
+                             sub_queries.size() >= config_.max_hops);
 
     // Step 3: Deduplicate collected documents
     result.all_documents = deduplicateDocs(result.all_documents);

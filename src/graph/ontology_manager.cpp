@@ -98,7 +98,7 @@ static std::string parseString(const std::string &s, std::size_t &pos) {
         }
         ++pos;
     }
-    if (static_cast<int>(s.size()) > pos) {
+    if (s.size() > pos) {
         ++pos; // skip closing '"'
     }
     return result;
@@ -124,7 +124,7 @@ static std::vector<std::string> parseStringArray(const std::string &s, std::size
         }
         skipWs(s, pos);
     }
-    if (static_cast<int>(s.size()) > pos) {
+    if (s.size() > pos) {
         ++pos; // skip ']'
     }
     return result;
@@ -164,7 +164,7 @@ parseObject(const std::string &s, std::size_t &pos,
         }
         skipWs(s, pos);
     }
-    if (static_cast<int>(s.size()) > pos) {
+    if (s.size() > pos) {
         ++pos; // skip closing brace
     }
     return fields;
@@ -214,10 +214,10 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
         }
     };
 
-    while (static_cast<size_t>(i) <static_cast<int>(lines.size())) {
+    while (i < lines.size()) {
         const std::string &raw = lines[i];
         // count leading spaces
-        int indent = 0;
+        size_t indent = 0;
         while (indent < raw.size() && raw[indent] == ' ') {
             ++indent;
         }
@@ -412,7 +412,7 @@ bool OntologyManager::isA(std::string_view conceptName, std::string_view superCo
         std::unique_lock<std::shared_mutex> wl(isa_cache_mutex_);
         // Double-check after acquiring write lock
         if (isa_cache_.find(cache_key) == isa_cache_.end()) {
-            if (static_cast<int>(isa_cache_.size()) >= kIsACacheCapacity) {
+            if (isa_cache_.size() >= kIsACacheCapacity) {
                 evictIsACacheEntry();
             }
             isa_cache_[cache_key] = result;
@@ -565,7 +565,7 @@ bool OntologyManager::parseJson(const std::string &text) {
         return false;
     }
 
-    while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
+    while (pos < text.size()) {
         skipWs(text, pos);
         if (pos < text.size() && text[pos] == '}') {
             break;
@@ -657,7 +657,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
     }
 
     std::size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(lines.size())) {
+    while (i < lines.size()) {
         std::string raw = trimYaml(lines[i]);
         if (raw.empty() || raw[0] == '#') {
             ++i;
@@ -675,7 +675,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
         // Determine indent of entries in this section
         int entry_indent = -1;
         std::size_t look = i;
-        while (static_cast<size_t>(look) <static_cast<int>(lines.size())) {
+        while (look < lines.size()) {
             std::string l = lines[look];
             int ind       = 0;
             while (ind < l.size() && l[ind] == ' ') {

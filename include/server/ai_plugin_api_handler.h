@@ -26,7 +26,13 @@
 #include "ai/ai_plugin_generator.h"
 
 #include <memory>
+#include <mutex>
+#include <optional>
 #include <string>
+#include <unordered_map>
+#include <vector>
+#include <atomic>
+#include <cstdint>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 
@@ -81,6 +87,17 @@ public:
         const std::string&                      target);
 
 private:
+    struct PluginJobRecord {
+        std::string job_id;
+        std::string plugin_name;
+        std::string status;
+        std::string created_at;
+        std::string error_message;
+        std::optional<themis::plugins::ai::GeneratedPlugin> generated;
+    };
+
+    static std::string toIso8601Now();
+
     /// @name Route handlers
     /// @{
     http::response<http::string_body> handleGenerate(
@@ -98,6 +115,9 @@ private:
     std::shared_ptr<RocksDBWrapper>                   storage_;
     std::shared_ptr<themis::AuthMiddleware>            auth_;
     std::unique_ptr<themis::plugins::ai::AIPluginGenerator> generator_;
+    std::mutex jobs_mutex_;
+    std::unordered_map<std::string, PluginJobRecord> jobs_;
+    std::atomic<std::uint64_t> next_job_id_{1};
 };
 
 }  // namespace server

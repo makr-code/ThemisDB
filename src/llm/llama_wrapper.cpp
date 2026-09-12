@@ -160,7 +160,7 @@ void validateTokenArray(const std::vector<llama_token>& tokens, size_t min_size,
         throw std::invalid_argument(error_msg);
     }
     
-    if (static_cast<int>(tokens.size()) < min_size) {
+    if (tokens.size() < min_size) {
         const std::string error_msg = "LlamaWrapper: Token array size (" + std::to_string(tokens.size()) + 
                                       ") is below minimum (" + std::to_string(min_size) + ") in " + context_name;
         spdlog::error("{}", error_msg);
@@ -710,7 +710,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         }
         
         model_data = *blob_data_opt;
-        spdlog::info("✓ Model blob retrieved: {} bytes",static_cast<int>(model_data.size()));
+        spdlog::info("✓ Model blob retrieved: {} bytes",model_data.size());
         
         // Step 3: Decryption is already handled by loadModelBlob()
         // The data returned from loadModelBlob() is already decrypted if encryption was enabled
@@ -831,7 +831,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
         
         // Verify file size
         auto file_size = std::filesystem::file_size(temp_model_path);
-        if (file_size != static_cast<int>(model_data.size())) {
+        if (file_size != model_data.size()) {
             spdlog::error("File size mismatch: expected {}, got {}", 
                          model_data.size(), file_size);
             std::filesystem::remove(temp_model_path);
@@ -1339,7 +1339,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_;
-        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        response.tokens_prompt = prompt_tokens.size();
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -1450,7 +1450,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         // 5. Detokenize generated tokens
         response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        response.tokens_generated = generated_tokens.size();
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -1543,7 +1543,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 spdlog::debug("Tool calling: model output could not be parsed as a tool call "
                               "(expected one of {} tool(s), output snippet: '{}')",
                               request.tools.size(),
-                              response.text.substr(0, std::min<std::size_t>(80,static_cast<int>(response.text.size()))));
+                              response.text.substr(0, std::min<std::size_t>(80,response.text.size())));
             }
         }
         
@@ -1760,7 +1760,7 @@ std::vector<std::vector<float>> LlamaWrapper::computeTargetLogitsForTokens(
     };
 
     std::vector<std::vector<float>> target_logits;
-    target_logits.reserve(static_cast<int>(draft_token_ids.size()) + 1);
+    target_logits.reserve(draft_token_ids.size() + 1);
     target_logits.push_back(copy_last_logits());
 
     for (const int token_id : draft_token_ids) {
@@ -2069,7 +2069,7 @@ bool LlamaWrapper::importLoRA(
     }
     
     spdlog::info("Importing LoRA from remote shard: {} ({} bytes)",
-                 lora_id,static_cast<int>(data.size()));
+                 lora_id,data.size());
     
     // Delegate to multi-LoRA manager
     return lora_manager->importLoRA(lora_id, data, current_model_id_);
@@ -2097,7 +2097,7 @@ std::string LlamaWrapper::formatPromptForRAG(
     
     // Add context documents
     oss << "Context:\n";
-    for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
+    for (size_t i = 0; i <rag_context.documents.size(); ++i) {
         const auto& doc = rag_context.documents[i];
         std::string sanitized_content = {};
         if (!sanitizePromptText(doc.content, sanitized_content, nullptr, nullptr)) {
@@ -2287,7 +2287,7 @@ std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     }
     
     // Allocate buffer for tokens (estimate: text length + special tokens)
-    const std::size_t estimated_tokens = static_cast<int>(text.size()) + (add_bos ? 1 : 0) + 8;
+    const std::size_t estimated_tokens = text.size() + (add_bos ? 1 : 0) + 8;
     if (estimated_tokens > static_cast<std::size_t>(std::numeric_limits<int32_t>::max())) {
         throw std::runtime_error("Input too large for llama_tokenize");
     }
@@ -2821,7 +2821,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_ + " (speculative)";
-        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        response.tokens_prompt = prompt_tokens.size();
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -2864,7 +2864,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         size_t total_speculations = 0;
         size_t total_accepted = 0;
         
-        while ( static_cast<int>(generated_tokens.size()) < static_cast<size_t>(max_tokens)) {
+        while ( generated_tokens.size() < static_cast<size_t>(max_tokens)) {
             // 3a. Draft model generates N candidate tokens
             std::vector<llama_token> draft_tokens = {};
 
@@ -2986,7 +2986,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         // 5. Detokenize and finalize response
         response.text = detokenizeInternal(target_context, generated_tokens);
-        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        response.tokens_generated = generated_tokens.size();
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -3097,7 +3097,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         response.trace_id   = request.trace_id;
         response.span_id    = request.span_id;
         response.model_used = current_model_id_;
-        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        response.tokens_prompt = prompt_tokens.size();
         
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
@@ -3181,7 +3181,7 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         }
         
         response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        response.tokens_generated = generated_tokens.size();
         
         // Phase 2: Store token probabilities in response for knowledge gap detection
         response.logprobs = token_probabilities;
@@ -3365,7 +3365,7 @@ void LlamaWrapper::initializeBuiltinGrammars() {
     builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
     builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
     
-    spdlog::debug("Loaded {} built-in grammars from {}",static_cast<int>(builtin_grammars_.size()), grammars_path);
+    spdlog::debug("Loaded {} built-in grammars from {}",builtin_grammars_.size(), grammars_path);
 }
 
 std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
@@ -3681,7 +3681,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                             llama_batch prefix_batch = llama_batch_get_one(
                                 prefix_tokens.data(), static_cast<int32_t>(prefix_tokens.size()));
                             if (llama_decode(lctx, prefix_batch) == 0) {
-                                n_past += static_cast<int>(prefix_tokens.size());
+                                n_past += prefix_tokens.size();
                             } else {
                                 spdlog::warn("generateVision: prefix llama_decode failed; continuing without image-prefill context");
                             }
@@ -3696,7 +3696,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
                             }
                             int n_patches = vision_encoder->getNumPatches();
                             if (n_patches <= 0) {
-                                n_patches = static_cast<int>(emb_vec.size()) /
+                                n_patches = emb_vec.size() /
                                             vision_encoder->getEmbeddingDimension();
                             }
                             llava_image_embed embed_data;
@@ -3799,7 +3799,7 @@ void LlamaWrapper::transitionToState(WrapperState new_state, const std::string& 
     state_history_.push_back(transition);
     
     // Limit history size to prevent unbounded memory growth
-    if (static_cast<int>(state_history_.size()) > MAX_STATE_HISTORY) {
+    if (state_history_.size() > MAX_STATE_HISTORY) {
         state_history_.erase(state_history_.begin());
     }
     

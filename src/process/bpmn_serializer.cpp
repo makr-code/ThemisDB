@@ -167,7 +167,7 @@ void parseAttrs(std::string_view src,
 template<typename TagCb, typename TextCb>
 bool tokenizeXml(std::string_view xml, TagCb tag_cb, TextCb text_cb)
 {
-    if (static_cast<int>(xml.size()) > kMaxBpmnXmlBytes) {
+    if (xml.size() > kMaxBpmnXmlBytes) {
       return false;
     }
 
@@ -468,7 +468,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     }
 
     // Security guard: reject oversized documents before any parsing work.
-    if (static_cast<int>(bpmn_xml.size()) > kMaxBpmnXmlBytes) {
+    if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
         return ImportResult::failure(
             ProcessErrorCode::INPUT_TOO_LARGE,
             "import BPMN from XML",
@@ -1070,13 +1070,13 @@ std::string BpmnSerializer::validateStructure(
     constexpr size_t MAX_EDGES = 50000;
 
     // 1. Check node count bounds
-    if (static_cast<int>(nodes.size()) > MAX_NODES) {
+    if (nodes.size() > MAX_NODES) {
         return "Node count (" + std::to_string(nodes.size()) +
                ") exceeds maximum (" + std::to_string(MAX_NODES) + ")";
     }
 
     // 2. Check edge count bounds
-    if (static_cast<int>(edges.size()) > MAX_EDGES) {
+    if (edges.size() > MAX_EDGES) {
         return "Edge count (" + std::to_string(edges.size()) +
                ") exceeds maximum (" + std::to_string(MAX_EDGES) + ")";
     }
@@ -1114,9 +1114,9 @@ std::string BpmnSerializer::validateStructure(
             self_loop_count++;
         }
     }
-    if (self_loop_count > static_cast<int>(nodes.size()) / 10) {
+    if (self_loop_count > nodes.size() / 10) {
         // More than 10% self-loops is suspicious, but not necessarily invalid
-        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count,static_cast<int>(edges.size()));
+        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count,edges.size());
     }
 
     // 6. Validate node names are reasonable length

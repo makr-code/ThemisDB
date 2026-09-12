@@ -141,7 +141,7 @@ void ApproximatePercentile::add(const nlohmann::json& value) {
     total_weight_ += 1.0;
 
     // Compress when we have many centroids to keep memory bounded.
-    if (static_cast<int>(centroids_.size()) > compression_ * 10) {
+    if (centroids_.size() > compression_ * 10) {
         compress();
     }
 }
@@ -262,7 +262,7 @@ void SamplingAggregator::add(const nlohmann::json& value) {
     const double v = value.get<double>();
     ++total_seen_;
 
-    if (static_cast<int>(reservoir_.size()) < sample_size_) {
+    if (reservoir_.size() < sample_size_) {
         reservoir_.push_back(v);
     } else {
         // Reservoir sampling: replace a random element.

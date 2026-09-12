@@ -43,7 +43,7 @@ void PersonalizedRanker::recordInteraction(const UserInteraction& interaction) {
     std::lock_guard<std::mutex> lock(mu_);
 
     auto& user_history = history_[interaction.user_id];
-    if (static_cast<int>(user_history.size()) >= config_.max_interactions_per_user) {
+    if (user_history.size() >= config_.max_interactions_per_user) {
         // Evict oldest interaction (front of the vector)
         user_history.erase(user_history.begin());
     }
@@ -132,7 +132,7 @@ void PersonalizedRanker::applyPersonalization(
               });
 
     THEMIS_DEBUG("PersonalizedRanker::applyPersonalization: user='{}', {} candidates",
-                 user_id,static_cast<int>(candidates.size()));
+                 user_id,candidates.size());
 }
 
 // ============================================================================
@@ -155,7 +155,7 @@ std::vector<UserInteraction> PersonalizedRanker::getUserInteractions(
 
 size_t PersonalizedRanker::userCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return static_cast<int>(history_.size());
+    return history_.size();
 }
 
 void PersonalizedRanker::clearUser(const std::string& user_id) {

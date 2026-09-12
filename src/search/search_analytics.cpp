@@ -44,7 +44,7 @@ void SearchAnalytics::record(const std::string& query,
     ev.is_zero_result = (result_count == 0);
 
     std::lock_guard<std::mutex> lock(mu_);
-    if (static_cast<int>(events_.size()) >= config_.max_events) {
+    if (events_.size() >= config_.max_events) {
         // Evict the oldest entry
         events_.erase(events_.begin());
     }
@@ -67,7 +67,7 @@ std::vector<SearchEvent> SearchAnalytics::getZeroResultQueries(size_t limit) con
     for (auto it = events_.rbegin(); it != events_.rend(); ++it) {
         if (it->is_zero_result) {
             result.push_back(*it);
-            if (static_cast<int>(result.size()) >= limit) {
+            if (result.size() >= limit) {
               break;
             }
         }
@@ -79,9 +79,9 @@ std::vector<SearchEvent> SearchAnalytics::getRecentEvents(size_t limit) const {
     std::lock_guard<std::mutex> lock(mu_);
     std::vector<SearchEvent> result = {};
 
-    size_t n = std::min(limit,static_cast<int>(events_.size()));
+    size_t n = std::min(limit,events_.size());
     result.reserve(n);
-    for (auto it = events_.rbegin(); it != events_.rend() && static_cast<int>(result.size()) < n; ++it) {
+    for (auto it = events_.rbegin(); it != events_.rend() && result.size() < n; ++it) {
         result.push_back(*it);
     }
     return result; // most-recent first
@@ -116,7 +116,7 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     std::vector<double> sorted_lat = latencies;
     std::sort(sorted_lat.begin(), sorted_lat.end());
     auto percentile = [&](double p) -> double {
-        size_t idx = static_cast<size_t>(p * static_cast<double>(static_cast<int>(sorted_lat.size()) - 1));
+        size_t idx = static_cast<size_t>(p * static_cast<double>(sorted_lat.size() - 1));
         return sorted_lat[idx];
     };
     m.p95_latency_ms = percentile(0.95);
@@ -129,10 +129,10 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     // Top queries (up to 20 by frequency)
     std::vector<std::pair<std::string, size_t>> freq_vec(query_freq.begin(), query_freq.end());
     std::partial_sort(freq_vec.begin(),
-                      freq_vec.begin() + std::min(size_t{20},static_cast<int>(freq_vec.size())),
+                      freq_vec.begin() + std::min(size_t{20},freq_vec.size()),
                       freq_vec.end(),
                       [](const auto& a, const auto& b) { return a.second > b.second; });
-    for (size_t i = 0; i < std::min(size_t{20},static_cast<int>(freq_vec.size())); ++i) {
+    for (size_t i = 0; i < std::min(size_t{20},freq_vec.size()); ++i) {
         m.top_queries[freq_vec[i].first] = freq_vec[i].second;
     }
 
@@ -151,7 +151,7 @@ SearchAnalytics::getTopQueries(size_t limit) const {
     }
 
     std::vector<std::pair<std::string, size_t>> result(freq.begin(), freq.end());
-    size_t n = std::min(limit,static_cast<int>(result.size()));
+    size_t n = std::min(limit,result.size());
     std::partial_sort(result.begin(), result.begin() + static_cast<std::ptrdiff_t>(n),
                       result.end(),
                       [](const auto& a, const auto& b) {
@@ -168,7 +168,7 @@ SearchAnalytics::getTopQueries(size_t limit) const {
 
 size_t SearchAnalytics::eventCount() const {
     std::lock_guard<std::mutex> lock(mu_);
-    return static_cast<int>(events_.size());
+    return events_.size();
 }
 
 void SearchAnalytics::clear() {

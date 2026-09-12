@@ -270,9 +270,8 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    rocksdb::DB* db_raw = nullptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_raw);
-    std::unique_ptr<rocksdb::DB> db_instance(db_raw);
+    std::unique_ptr<rocksdb::DB> db_instance;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
@@ -651,7 +650,7 @@ void CapabilityAutoGenerator::loadPersistedState() {
         std::lock_guard<std::mutex> lock(mutex_);
         state_db_->iterateRange(start_key, end_key,
             [&](std::string_view key, std::string_view value) -> bool {
-                if (static_cast<int>(key.size()) <= STATE_KEY_PREFIX.size()) {
+                if (key.size() <= STATE_KEY_PREFIX.size()) {
                   return true;
                 }
                 std::string shard_id(key.substr(STATE_KEY_PREFIX.size()));

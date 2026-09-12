@@ -1075,7 +1075,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         in_degree[id] = 0;
     }
     for (const auto& [id, deps] : adj) {
-        in_degree[id] += static_cast<int>(deps.size());
+        in_degree[id] += deps.size();
     }
 
     // Queue nodes with no dependencies
@@ -1114,7 +1114,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         }
     }
 
-    if (static_cast<int>(order.size()) != static_cast<int>(task_ids.size())) {
+    if (order.size() != task_ids.size()) {
         throw std::runtime_error(
             "TaskScheduler::executeDAG: dependency graph contains a cycle");
     }
@@ -1185,7 +1185,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     std::set<std::string> completed;  // succeeded tasks
     std::set<std::string> processed;  // all tasks we have decided about
 
-    while ( static_cast<int>(processed.size()) <static_cast<int>(task_ids.size())) {
+    while ( processed.size() <task_ids.size()) {
         // Collect tasks that are ready (all deps completed successfully)
         std::vector<std::string> wave = {};
 
@@ -2310,7 +2310,7 @@ void TaskScheduler::saveTasks() {
         chmod(filepath.c_str(), S_IRUSR | S_IWUSR);
         #endif
         
-        THEMIS_DEBUG("Saved {} tasks to disk with secure permissions",static_cast<int>(tasks_.size()));
+        THEMIS_DEBUG("Saved {} tasks to disk with secure permissions",tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
     }
@@ -2427,7 +2427,7 @@ void TaskScheduler::loadTasks() {
             registerTask(task);
         }
         
-        THEMIS_INFO("Loaded {} tasks from disk",static_cast<int>(tasks_.size()));
+        THEMIS_INFO("Loaded {} tasks from disk",tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load tasks: {}", e.what());
     }
@@ -2692,7 +2692,7 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) {
     }
     
     // Check if limit is exceeded
-    if (static_cast<int>(times.size()) >= max_executions) {
+    if (times.size() >= max_executions) {
         // Log security event for rate limit exceeded
         if (audit_manager_) {
             scheduler::TaskSecurityEvent security_event;

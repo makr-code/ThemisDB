@@ -1,7 +1,6 @@
 {
   "name": "themisdb",
   "version": "2.4.0",
-  "builtin-baseline": "5cd4931b18d49c77074703cf293a7837ac7506fa",
   "dependencies": [
     "zlib",
     "rocksdb",
@@ -36,5 +35,33 @@
     "hwloc",
     "faiss",
     "pugixml"
-  ]
+  ],
+  "features": {
+    "llm": {
+      "description": "Enable LLM-related ThemisDB build integration",
+      "dependencies": []
+    },
+    "mcp": {
+      "description": "Enable MCP-related ThemisDB build integration",
+      "dependencies": []
+    },
+    "mqtt": {
+      "description": "Enable MQTT protocol support",
+      "dependencies": []
+    },
+    "rpc": {
+      "description": "Enable RPC protocol support",
+      "dependencies": [
+        {
+          "name": "grpc",
+          "default-features": false
+        },
+        "protobuf"
+      ]
+    },
+    "websocket": {
+      "description": "Enable WebSocket protocol support",
+      "dependencies": []
+    }
+  }
 }

@@ -182,7 +182,7 @@ std::string DynamicReflectionPromptBuilder::buildSelfAwareContextHeader(
 
     if (ctx.has_uncertain_claims) {
         out << "Your previous response contained uncertainty markers (";
-        for (size_t i = 0; i <static_cast<int>(ctx.uncertainty_markers.size()); ++i) {
+        for (size_t i = 0; i <ctx.uncertainty_markers.size(); ++i) {
             if (i > 0) {
               out << ", ";
             }
@@ -366,7 +366,7 @@ bool ReflectionHallucinationGuard::detectHallucinationSignals(
 bool ReflectionHallucinationGuard::isDiverging(
     const std::vector<double>& trajectory) const {
 
-    if (static_cast<int>(trajectory.size()) < window_ + 1) {
+    if (trajectory.size() < window_ + 1) {
         return false;
     }
 
@@ -526,7 +526,7 @@ ReflectionStep ReflectionTuner::runIteration(
         std::ostringstream crit_out = {};
         if (ctx.has_uncertain_claims) {
             crit_out << "The response contains uncertainty markers (";
-            for (size_t i = 0; i <static_cast<int>(ctx.uncertainty_markers.size()); ++i) {
+            for (size_t i = 0; i <ctx.uncertainty_markers.size(); ++i) {
                 if (i > 0) {
                   crit_out << ", ";
                 }
@@ -562,7 +562,7 @@ bool ReflectionTuner::shouldConverge(const ReflectionResult& result,
     if (step.quality_score >= config_.convergence_threshold) {
         return true;
     }
-    if (static_cast<int>(result.steps.size()) >= 2 &&
+    if (result.steps.size() >= 2 &&
         std::abs(step.quality_delta) < config_.min_delta_improvement) {
         return true;
     }

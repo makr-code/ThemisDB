@@ -592,7 +592,7 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
     int enabled = 0, total = 0;
     {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-        total = static_cast<int>(schedules_.size());
+        total = schedules_.size();
         for (auto& [id, e] : schedules_) {
             if (e.enabled) {
               ++enabled;
@@ -624,7 +624,7 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     // Orchestrator counts
     {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-        report.total_schedules = static_cast<int>(schedules_.size());
+        report.total_schedules = schedules_.size();
         for (auto& [id, e] : schedules_) {
             if (e.enabled) {
               ++report.enabled_schedules;
@@ -1507,7 +1507,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     // emitted in the same relative order as entry.tasks (Kahn's seeding).
     std::unordered_map<int, std::size_t> taskIndex = {};
 
-    for (std::size_t i = 0; i <static_cast<int>(entry.tasks.size()); ++i) {
+    for (std::size_t i = 0; i <entry.tasks.size(); ++i) {
         taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
 
@@ -1597,7 +1597,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
 
     // If not all tasks were emitted, at least one cycle exists.
-    if (static_cast<int>(result.size()) != static_cast<int>(entry.tasks.size())) {
+    if (result.size() != entry.tasks.size()) {
         throw std::invalid_argument(
             "task_dependencies: circular dependency detected");
     }
@@ -1612,7 +1612,7 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
 void DatabaseMaintenanceOrchestrator::recordDispatchOutcome(DispatchOutcome outcome) {
     std::lock_guard<std::mutex> lock(ring_buffer_mutex_);
     dispatch_ring_buffer_.push_back(std::move(outcome));
-    while (static_cast<int>(dispatch_ring_buffer_.size()) > ring_buffer_capacity_) {
+    while (dispatch_ring_buffer_.size() > ring_buffer_capacity_) {
         dispatch_ring_buffer_.pop_front();
     }
 }

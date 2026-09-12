@@ -217,7 +217,7 @@ bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& r
         
         // Check if adding this entry would exceed limits
         if (!batch.empty() && 
-            (static_cast<int>(batch.size()) >= config_.batch_size || 
+            (batch.size() >= config_.batch_size || 
              batch_bytes + entry_size > config_.max_batch_bytes)) {
             // Ship current batch
             if (!shipBatch(replica.endpoint, batch)) {
@@ -583,7 +583,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
     static constexpr char kB64Chars[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
     for (size_t i = 0; i < data.size(); i += 3) {
         const uint8_t b0 = data[i];
         const uint8_t b1 = (i + 1 < data.size()) ? data[i + 1] : 0;
@@ -599,7 +599,7 @@ static std::string base64Encode(const std::vector<uint8_t>& data) {
 /** @brief Verify chunk checksum using SHA-256 over chunk payload. */
 /* static */ bool WALShipper::verifyChunkChecksum(const SnapshotChunk& chunk) {
     const std::string computed =
-        chunkSha256(chunk.data.data(),static_cast<int>(chunk.data.size()));
+        chunkSha256(chunk.data.data(),chunk.data.size());
     return computed == chunk.checksum;
 }
 

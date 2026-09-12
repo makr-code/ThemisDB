@@ -631,7 +631,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::list(
             }
 
             results.push_back(std::move(r));
-            if (limit > 0 && static_cast<int>(results.size()) >= limit) return false; // stop
+            if (limit > 0 && results.size() >= limit) return false; // stop
         } catch (...) {
             // Skip malformed records
         }
@@ -659,7 +659,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (rec) {
                 results.push_back(std::move(*rec));
             }
-            if (limit > 0 && static_cast<int>(results.size()) >= limit) {
+            if (limit > 0 && results.size() >= limit) {
               break;
             }
         }
@@ -689,7 +689,7 @@ std::vector<ProcessModelRecord> ProcessModelManager::search(
             if (match_field(r.name) || match_field(r.name_en) ||
                 match_field(r.description) || match_field(r.description_en)) {
                 results.push_back(std::move(r));
-                if (limit > 0 && static_cast<int>(results.size()) >= limit) {
+                if (limit > 0 && results.size() >= limit) {
                   return false;
                 }
             }
@@ -725,7 +725,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
                   continue;
                 }
                 candidates.emplace_back(std::move(*rec), sim);
-                if (k > 0 && static_cast<int>(candidates.size()) >= k) {
+                if (k > 0 && candidates.size() >= k) {
                   break;
                 }
             }
@@ -742,7 +742,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
               return true;
             }
             auto r = ProcessModelRecord::fromDocument(doc);
-            if (r.embedding.empty() || static_cast<int>(r.embedding.size()) != static_cast<int>(query_embedding.size()))
+            if (r.embedding.empty() || r.embedding.size() != query_embedding.size())
                 return true;
 
             // Compute cosine similarity
@@ -766,7 +766,7 @@ std::vector<std::pair<ProcessModelRecord, float>> ProcessModelManager::findSimil
     std::sort(candidates.begin(), candidates.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    if (k > 0 && static_cast<int>(candidates.size()) > k) {
+    if (k > 0 && candidates.size() > k) {
         candidates.resize(k);
     }
 

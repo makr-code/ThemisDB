@@ -86,7 +86,7 @@ int GeoReplicaPlacementManager::dcPreferenceScore(
         }
     }
     // Not in preference list: rank after all explicit preferences
-    return static_cast<int>(pref.size());
+    return pref.size();
 }
 
 // ---------------------------------------------------------------------------

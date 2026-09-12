@@ -267,7 +267,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
             while (!word.empty() && !std::isalnum(static_cast<unsigned char>(word.back()))) {
                 word.pop_back();
             }
-            if (static_cast<int>(word.size()) >= 3) { // ignore very short words
+            if (word.size() >= 3) { // ignore very short words
                 ++word_freq[word];
             }
         }
@@ -339,7 +339,7 @@ CompressionResult PriorRoundCompressor::compressStructuredSummary(const EthicalA
         }
 
         // Slight position bias: first and last sentences often contain thesis / verdict
-        if (i == 0 || i == static_cast<int>(sentences.size()) - 1) {
+        if (i == 0 || i == sentences.size() - 1) {
             score += 0.5f;
         }
 

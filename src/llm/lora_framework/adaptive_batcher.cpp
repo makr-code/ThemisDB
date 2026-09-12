@@ -134,7 +134,7 @@ void AdaptiveBatcher::updateUtilization(float utilization) {
     recent_utilizations_.push_back(utilization);
     
     // Keep only last 100 values
-    if (static_cast<int>(recent_utilizations_.size()) > 100) {
+    if (recent_utilizations_.size() > 100) {
         recent_utilizations_.erase(recent_utilizations_.begin());
     }
 }

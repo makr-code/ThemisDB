@@ -588,7 +588,7 @@ bool MongoDBImporter::parseJsonLines(const std::string& file_path,
 
         // Per-line size guard
         if (options.max_row_size_bytes > 0 &&
-            static_cast<int>(line.size()) > options.max_row_size_bytes) {
+            line.size() > options.max_row_size_bytes) {
             addError(stats, ImportErrorCode::ROW_TOO_LARGE, ImportErrorSeverity::WARNING,
                      "Document line too large (" + std::to_string(line.size()) +
                      " bytes); skipped",
@@ -682,7 +682,7 @@ bool MongoDBImporter::parseJsonArray(const std::string& file_path,
         batch_count++;
 
         if (options.batch_size > 0 && batch_count >= options.batch_size) {
-            reportProgress(callback, "data", stats.imported_records,static_cast<int>(arr.size()));
+            reportProgress(callback, "data", stats.imported_records,arr.size());
             batch_count = 0;
         }
     }

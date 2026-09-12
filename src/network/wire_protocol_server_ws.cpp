@@ -232,7 +232,7 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
     if (ws_.got_binary()) {
         // Binary frame: raw wire-protocol bytes
         const auto* data = static_cast<const uint8_t*>(buffer_.data().data());
-        std::vector<uint8_t> payload(data, data + static_cast<int>(buffer_.size()) );
+        std::vector<uint8_t> payload(data, data + buffer_.size() );
         processBinaryFrame(payload);
     } else {
         // Text frame: JSON message
@@ -387,7 +387,7 @@ std::vector<uint8_t> WireProtocolWebSocketSession::buildBinaryResponseFrame(
 {
     std::vector<uint8_t> frame = {};
 
-    frame.reserve(kWireHeaderSize + static_cast<int>(payload.size()) );
+    frame.reserve(kWireHeaderSize + payload.size() );
     frame.insert(frame.end(), std::begin(kWireMagic), std::end(kWireMagic));
     frame.push_back(0x01u);
     frame.push_back(resp_opcode);
@@ -520,7 +520,7 @@ void WireProtocolWebSocketSession::handleBinaryDelete(const uint8_t* payload_dat
 
 void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>& data)
 {
-    if (static_cast<int>(data.size()) < kWireHeaderSize) {
+    if (data.size() < kWireHeaderSize) {
         sendBinaryError(0x0008u, "Binary frame too short (minimum 12-byte header required)");
         return;
     }
@@ -546,7 +546,7 @@ void WireProtocolWebSocketSession::processBinaryFrame(const std::vector<uint8_t>
 
     const bool has_checksum = !(flags & kWireSkipChecksumFlag);
     const size_t expected_size = kWireHeaderSize + payload_size + (has_checksum ? 4 : 0);
-    if (static_cast<int>(data.size()) < expected_size) {
+    if (data.size() < expected_size) {
         sendBinaryError(0x000Au, "Binary frame incomplete");
         return;
     }

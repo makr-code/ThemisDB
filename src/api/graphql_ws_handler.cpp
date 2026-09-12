@@ -61,7 +61,7 @@ void GraphQLWsHandler::reset() {
 
 size_t GraphQLWsHandler::activeSubscriptionCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(subscriptions_.size());
+    return subscriptions_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -170,7 +170,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
             THEMIS_WARN("GraphQLWsHandler: duplicate subscription id '{}'", id);
             return {buildError(id, "Subscriber for " + id + " already exists")};
         }
-        if (static_cast<int>(subscriptions_.size()) >= limits_.max_subscriptions) {
+        if (subscriptions_.size() >= limits_.max_subscriptions) {
             THEMIS_WARN("GraphQLWsHandler: max_subscriptions ({}) reached for id '{}'",
                         limits_.max_subscriptions, id);
             return {buildError(id, "Maximum concurrent subscriptions exceeded")};
@@ -290,7 +290,7 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     }
 
     THEMIS_INFO("GraphQLWsHandler: subscription '{}' registered (query: {} chars)",
-                id,static_cast<int>(query.size()));
+                id,query.size());
 
     // Flush any frames that may have been queued by the CDC callback between
     // wiring and registering (timing edge case – normally empty).

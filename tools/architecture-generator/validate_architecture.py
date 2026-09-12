@@ -2,11 +2,11 @@
 """
 ThemisDB Architecture Validator
 =================================
-Validates the generated architecture.json and architecture.md files.
+Validates the generated ARCHITECTURE.JSON and ARCHITECTURE.md files.
 
 Checks:
   - JSON schema structure (required top-level keys, types, non-empty arrays)
-  - Mermaid syntax sanity in architecture.md
+  - Mermaid syntax sanity in ARCHITECTURE.md
   - Source hash presence
   - statistics block completeness
 
@@ -56,7 +56,7 @@ REQUIRED_STATS_KEYS = [
 
 
 def validate_json(json_path: Path) -> list[str]:
-    """Validate architecture.json structure and return a list of error messages."""
+    """Validate ARCHITECTURE.JSON structure and return a list of error messages."""
     errors: list[str] = []
 
     if not json_path.exists():
@@ -118,7 +118,7 @@ def validate_json(json_path: Path) -> list[str]:
 
 
 def validate_markdown(md_path: Path) -> list[str]:
-    """Validate architecture.md for Mermaid block presence and basic syntax."""
+    """Validate ARCHITECTURE.md for Mermaid block presence and basic syntax."""
     errors: list[str] = []
 
     if not md_path.exists():
@@ -128,13 +128,13 @@ def validate_markdown(md_path: Path) -> list[str]:
 
     # Must contain a Mermaid code block
     if "```mermaid" not in text:
-        errors.append("architecture.md does not contain a ```mermaid code block")
+        errors.append("ARCHITECTURE.md does not contain a ```mermaid code block")
         return errors
 
     # Extract Mermaid block
     mermaid_match = re.search(r"```mermaid\n(.*?)```", text, re.DOTALL)
     if not mermaid_match:
-        errors.append("Could not extract Mermaid block from architecture.md")
+        errors.append("Could not extract Mermaid block from ARCHITECTURE.md")
         return errors
 
     mermaid_content = mermaid_match.group(1).strip()
@@ -188,18 +188,18 @@ def validate_markdown(md_path: Path) -> list[str]:
     # Required sections in markdown
     for heading in ["## Statistics", "## Tier Classification", "## Consumer / Provider Dependencies"]:
         if heading not in text:
-            errors.append(f"architecture.md missing expected section: '{heading}'")
+            errors.append(f"ARCHITECTURE.md missing expected section: '{heading}'")
 
     # Auto-generated banner
     if "Auto-generated" not in text:
-        errors.append("architecture.md missing 'Auto-generated' banner")
+        errors.append("ARCHITECTURE.md missing 'Auto-generated' banner")
 
     return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Validate generated architecture.json and architecture.md"
+        description="Validate generated ARCHITECTURE.JSON and ARCHITECTURE.md"
     )
     parser.add_argument(
         "--repo-root",
@@ -209,12 +209,12 @@ def main() -> int:
     parser.add_argument(
         "--json-path",
         default=None,
-        help="Explicit path to architecture.json",
+        help="Explicit path to ARCHITECTURE.JSON",
     )
     parser.add_argument(
         "--md-path",
         default=None,
-        help="Explicit path to architecture.md",
+        help="Explicit path to ARCHITECTURE.md",
     )
     args = parser.parse_args()
 
@@ -223,8 +223,8 @@ def main() -> int:
     else:
         repo_root = Path(__file__).resolve().parent.parent.parent
 
-    json_path = Path(args.json_path) if args.json_path else repo_root / "architecture.json"
-    md_path = Path(args.md_path) if args.md_path else repo_root / "architecture.md"
+    json_path = Path(args.json_path) if args.json_path else repo_root / "ARCHITECTURE.JSON"
+    md_path = Path(args.md_path) if args.md_path else repo_root / "ARCHITECTURE.md"
 
     all_errors: list[str] = []
 

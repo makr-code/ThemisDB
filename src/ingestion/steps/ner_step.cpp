@@ -139,8 +139,8 @@ std::string buildNerPrompt(const std::string& text,
     for (const auto& t : types) {
       type_list += t + ", ";
     }
-    if (static_cast<int>(type_list.size()) > 2) {
-      type_list.resize(static_cast<int>(type_list.size()) - 2);
+    if (type_list.size() > 2) {
+      type_list.resize(type_list.size() - 2);
     }
 
     return "Extract named entities from the following " + language
@@ -250,7 +250,7 @@ public:
         if (ctx.text_language.empty() && !lang.empty())
             ctx.text_language = lang;
 
-        const std::size_t added = static_cast<int>(ctx.entities.size()) - prior_count;
+        const std::size_t added = ctx.entities.size() - prior_count;
         if (added == 0) {
             ctx.warnings.push_back(
                 "builtin.ner_de: no entities extracted from text");

@@ -154,11 +154,11 @@ float NoiseSuppressor::processRNNoiseFrames(
 
     // Fallback: spectral-gate noise suppression (no external library).
     // Estimate noise floor from leading samples and attenuate below threshold.
-    if (static_cast<int>(samples_48k.size()) < 2) {
+    if (samples_48k.size() < 2) {
       return 0.0f;
     }
 
-    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples_48k.size()) / 10);
+    size_t noise_end = std::max<size_t>(1,samples_48k.size() / 10);
     float  sum_sq    = 0.0f;
     for (size_t i = 0; i < noise_end; ++i) {
       sum_sq += samples_48k[i] * samples_48k[i];
@@ -242,7 +242,7 @@ float AudioPreprocessingPipeline::computeNoiseFloor(const std::vector<float>& sa
       return 0.0f;
     }
     // Estimate noise from the first 100ms-equivalent samples (first 10% of buffer)
-    size_t noise_end = std::max<size_t>(1,static_cast<int>(samples.size()) / 10);
+    size_t noise_end = std::max<size_t>(1,samples.size() / 10);
     float sum_sq = 0.0f;
     for (size_t i = 0; i < noise_end; ++i) {
       sum_sq += samples[i] * samples[i];
@@ -444,7 +444,7 @@ PreprocessingResult AudioPreprocessingPipeline::process(
 
     // TASK 2.2: Bounded chunk handling — reject frames > 512KB immediately
     // Error code 6700: Input size validation failed
-    if (static_cast<int>(raw_audio.size()) > kMaxAudioFrameSizeBytes) {
+    if (raw_audio.size() > kMaxAudioFrameSizeBytes) {
         res.error_message = "Audio frame exceeds maximum size (512KB) - error 6700";
         spdlog::error("AudioPreprocessingPipeline::process: input size {} bytes exceeds limit (error 6700)",
                       raw_audio.size());
@@ -619,7 +619,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
     result.detected_bits_per_sample = declared_bits_per_sample;
     
     // Phase 3.1: Size validation (fail-closed)
-    if (raw_audio.empty() || static_cast<int>(raw_audio.size()) < MIN_AUDIO_SIZE_BYTES) {
+    if (raw_audio.empty() || raw_audio.size() < MIN_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too small (min: " + 
             std::to_string(MIN_AUDIO_SIZE_BYTES) + " bytes)";
@@ -627,7 +627,7 @@ AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
         return result;
     }
     
-    if (static_cast<int>(raw_audio.size()) > MAX_AUDIO_SIZE_BYTES) {
+    if (raw_audio.size() > MAX_AUDIO_SIZE_BYTES) {
         result.valid = false;
         result.error_message = "Audio payload too large (max: " + 
             std::to_string(MAX_AUDIO_SIZE_BYTES) + " bytes)";
@@ -721,7 +721,7 @@ bool AudioPreprocessingPipeline::isCodecSupported(DetectedAudioCodec codec) cons
 DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
-    if (static_cast<int>(raw_audio.size()) < 4) {
+    if (raw_audio.size() < 4) {
       return DetectedAudioCodec::UNKNOWN;
     }
     
@@ -731,7 +731,7 @@ DetectedAudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
     }
     
     // Check for FLAC header ('fLaC' = 0x66 0x4C 0x61 0x43)
-    if (static_cast<int>(raw_audio.size()) >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
+    if (raw_audio.size() >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
         raw_audio[2] == 0x61 && raw_audio[3] == 0x43) {
         return DetectedAudioCodec::FLAC;
     }
@@ -749,17 +749,17 @@ bool AudioPreprocessingPipeline::validateFrameHeader(
     const std::vector<uint8_t>& raw_audio) const
 {
     // Minimum frame size: check for truncation
-    if (static_cast<int>(raw_audio.size()) < 4) {
+    if (raw_audio.size() < 4) {
         return false;
     }
     
     // Check for valid RIFF header for WAV
-    if (static_cast<int>(raw_audio.size()) >= 12) {
+    if (raw_audio.size() >= 12) {
         if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
             raw_audio[2] == 'F' && raw_audio[3] == 'F') {
             // Valid RIFF header, check size field matches payload
             uint32_t size = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
-            if (size > static_cast<int>(raw_audio.size())) {
+            if (size > raw_audio.size()) {
                 return false; // Truncated
             }
         }
@@ -775,7 +775,7 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
     // Detect suspicious patterns that might indicate buffer overflow attempt
     
     // Pattern 1: All bytes same (likely fuzz-generated)
-    if (static_cast<int>(raw_audio.size()) > 10) {
+    if (raw_audio.size() > 10) {
         bool all_same = true;
         uint8_t first = raw_audio[0];
         for (size_t i = 1; i < std::min(raw_audio.size(), size_t(100)); ++i) {
@@ -785,13 +785,13 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
             }
         }
         // If all bytes are identical for more than 10 bytes, suspicious
-        if (all_same && static_cast<int>(raw_audio.size()) > 10) {
+        if (all_same && raw_audio.size() > 10) {
             return true;
         }
     }
     
     // Pattern 2: Check for obvious integer overflow attempts in size fields
-    if (static_cast<int>(raw_audio.size()) >= 8) {
+    if (raw_audio.size() >= 8) {
         uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
         if (size_field > MAX_AUDIO_SIZE_BYTES) {
             return true;

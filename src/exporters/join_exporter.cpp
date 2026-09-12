@@ -241,7 +241,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("exporter_exception");
 
-            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+            if (stats.errors.size() >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }
@@ -255,7 +255,7 @@ ExportStats JoinExporter::exportEntities(
             );
             metrics_->recordError("generic_exception");
 
-            if (static_cast<int>(stats.errors.size()) >= options.max_errors) {
+            if (stats.errors.size() >= options.max_errors) {
                 THEMIS_ERROR("JoinExporter: max errors reached, stopping export");
                 break;
             }
@@ -406,7 +406,7 @@ size_t JoinExporter::estimateEntityBytes(const BaseEntity& entity) {
     // Use serialised JSON length as a conservative proxy for heap usage.
     const std::string serialised = entity.toJson();
     // Add primary key + per-entry overhead.
-    return static_cast<int>(serialised.size()) + entity.getPrimaryKey().size() + 64;
+    return serialised.size() + entity.getPrimaryKey().size() + 64;
 }
 
 } // namespace themis::exporters

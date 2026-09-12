@@ -229,7 +229,7 @@ http::response<http::string_body> IndexApiHandler::handleStats(
                 std::string query = target.substr(query_start + 1);
                 // Simple query parser: table=X&column=Y
                 size_t pos = 0;
-                while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
+                while (pos < query.size()) {
                     size_t eq = query.find('=', pos);
                     if (eq == std::string::npos) {
                       break;
@@ -370,7 +370,7 @@ http::response<http::string_body> IndexApiHandler::handleReindex(
         json resp = {
             {"success", true},
             {"table", table},
-            {"indexes_rebuilt",static_cast<int>(all_stats.size())}
+            {"indexes_rebuilt",all_stats.size()}
         };
         
         // Include stats for each index

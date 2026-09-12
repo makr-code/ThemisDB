@@ -64,7 +64,7 @@ double MLAnomalyDetector::mean(const std::vector<double>& v) {
 }
 
 double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
-    if (static_cast<int>(v.size()) < 2) {
+    if (v.size() < 2) {
       return 0.0;
     }
     double ss = 0.0;
@@ -77,12 +77,12 @@ double MLAnomalyDetector::stddev(const std::vector<double>& v, double mu) {
 
 double MLAnomalyDetector::medianIntervalMs(const ForecastSeries& series) const {
     const auto& pts = series.points();
-    if (static_cast<int>(pts.size()) < 2) {
+    if (pts.size() < 2) {
       return 0.0;
     }
     std::vector<int64_t> diffs = {};
 
-    diffs.reserve(static_cast<int>(pts.size()) - 1);
+    diffs.reserve(pts.size() - 1);
     for (size_t i = 1; i < pts.size(); ++i) {
         diffs.push_back(pts[i].timestamp_ms - pts[static_cast<int>(i - 1)].timestamp_ms);
     }
@@ -120,7 +120,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
           continue;
         }
         auto neighbours = regionQuery(i);
-        if (static_cast<int>(neighbours.size()) < cfg_.dbscan_min_samples) {
+        if (neighbours.size() < cfg_.dbscan_min_samples) {
             labels[i] = NOISE;
             continue;
         }
@@ -137,7 +137,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
             }
             labels[nidx] = label;
             auto nn = regionQuery(nidx);
-            if (static_cast<int>(nn.size()) >= cfg_.dbscan_min_samples) {
+            if (nn.size() >= cfg_.dbscan_min_samples) {
                 queue.insert(queue.end(), nn.begin(), nn.end());
             }
         }
@@ -146,7 +146,7 @@ std::vector<int> MLAnomalyDetector::dbscanLabels(
 }
 
 double MLAnomalyDetector::changePointScore(const std::vector<double>& values) const {
-    if (static_cast<int>(values.size()) < cfg_.min_training_points / 2) {
+    if (values.size() < cfg_.min_training_points / 2) {
       return 0.0;
     }
     size_t mid = values.size() / 2;
@@ -278,7 +278,7 @@ void MLAnomalyDetector::train(const std::vector<ForecastSeries>& training_data) 
                              }),
                  merged.end());
 
-    if (static_cast<int>(merged.size()) < cfg_.min_training_points) {
+    if (merged.size() < cfg_.min_training_points) {
         throw std::invalid_argument(
             "MLAnomalyDetector::train requires at least " +
             std::to_string(cfg_.min_training_points) + " points");
@@ -379,7 +379,7 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
     }
 
     // Forecast expected values for the same horizon.
-    auto forecast_points = forecast_model_.predict(static_cast<int>(pts.size()));
+    auto forecast_points = forecast_model_.predict(pts.size());
     std::vector<double> values = {};
 
     values.reserve(pts.size());

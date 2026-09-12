@@ -118,7 +118,7 @@ std::string base64Encode(const std::vector<uint8_t>& bytes) {
     static const char kTable[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve((static_cast<int>(bytes.size()) + 2) / 3 * 4);
+    out.reserve((bytes.size() + 2) / 3 * 4);
     for (size_t i = 0; i < bytes.size(); i += 3) {
         uint32_t b = static_cast<uint32_t>(bytes[i]) << 16;
         if (i + 1 < bytes.size()) {
@@ -213,7 +213,7 @@ json ProfileSnapshot::toJSON() const {
         {"type", profileTypeName(type)},
         {"timestamp_ms", ts},
         {"duration_s", duration.count()},
-        {"data_size_bytes",static_cast<int>(data.size())},
+        {"data_size_bytes",data.size()},
         {"data_base64", base64Encode(data)}
     };
 }
@@ -372,7 +372,7 @@ public:
 
         // Deduplicate lists (they may be long; cap at 20 entries for usability)
         auto trim = [](std::vector<std::string>& v) {
-            if (static_cast<int>(v.size()) > 20) {
+            if (v.size() > 20) {
               v.resize(20);
             }
         };
@@ -527,7 +527,7 @@ private:
     void addSnapshot(ProfileType type, const ProfileSnapshot& snap) {
         auto& vec = history_[type];
         vec.push_back(snap);
-        while (static_cast<int>(vec.size()) > config_.max_snapshots_retained) {
+        while (vec.size() > config_.max_snapshots_retained) {
             vec.erase(vec.begin());
         }
     }
