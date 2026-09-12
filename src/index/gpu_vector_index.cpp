@@ -917,8 +917,8 @@ public:
         const std::vector<std::vector<float>>& queries, size_t k) {
 
         if (!hipBackend || vectorData.empty() || queries.empty() || !hasValidDimension()) {
-            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
-                        static_cast<bool>(hipBackend),vectorData.size(),queries.size());
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={} expected_dim={})",
+                        static_cast<bool>(hipBackend),vectorData.size(),queries.size(), expectedDimension());
             return {};
         }
 
