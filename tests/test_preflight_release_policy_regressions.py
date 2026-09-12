@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import re
 import unittest
 from pathlib import Path
 
@@ -20,14 +21,13 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
     def test_ai_safety_chaos_links_themis_llm_when_available(self) -> None:
         cmake_text = TESTS_CMAKELISTS.read_text(encoding="utf-8")
-        start = cmake_text.index('if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.cpp")')
-        end = cmake_text.index('message(STATUS "  AiSafetyChaos: CHAOS-01..CHAOS-12', start)
-        ai_safety_chaos_block = cmake_text[start:end]
-
-        self.assertIn("if(TARGET themis_llm)", ai_safety_chaos_block)
-        self.assertIn(
-            "target_link_libraries(test_ai_safety_chaos PRIVATE themis_llm)",
-            ai_safety_chaos_block,
+        self.assertRegex(
+            cmake_text,
+            re.compile(
+                r'if\(EXISTS "\$\{CMAKE_CURRENT_SOURCE_DIR\}/security/ai_safety/test_ai_safety_chaos\.cpp"\)'
+                r".*?if\(TARGET themis_llm\)\s+target_link_libraries\(test_ai_safety_chaos PRIVATE themis_llm\)\s+endif\(\)",
+                re.DOTALL,
+            ),
         )
 
 
