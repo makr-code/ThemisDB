@@ -2228,8 +2228,8 @@ VectorIndexManager::searchKnnRadius(
 	const std::vector<std::string>* whitelistPks
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (dim_ < 0) {
-		return {Status::Error("searchKnnRadius: Query dimension mismatch"), std::vector<Result>()};
+	if (dim_ <= 0) {
+		return {Status::Error("searchKnnRadius: Invalid index dimension"), std::vector<Result>()};
 	}
 	const auto expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
@@ -2322,8 +2322,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	SecondaryIndexManager* secondaryIdx
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (dim_ < 0) {
-		return {Status::Error("searchKnnRadiusPreFiltered: Query dimension mismatch"), std::vector<Result>()};
+	if (dim_ <= 0) {
+		return {Status::Error("searchKnnRadiusPreFiltered: Invalid index dimension"), std::vector<Result>()};
 	}
 	const auto expected_dim = static_cast<size_t>(dim_);
 	if (query.size() != expected_dim) {
