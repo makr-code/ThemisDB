@@ -5657,8 +5657,6 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
-#endif
-
     // Request body validation (JSON Schema per endpoint)
     // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
     // Safe methods (GET, HEAD) and OPTIONS are always skipped.
