@@ -13,7 +13,7 @@
 
 ## Module Status Snapshot
 
-For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as the canonical overview.
+For the per-module current state, use the root [`../ROADMAP.md`](../ROADMAP.md) module-status table as canonical source evidence; [`../MODULE_INDEX.md`](../MODULE_INDEX.md) remains a navigation aid.
 
 | Status | Module groups | Notes |
 |---|---|---|
