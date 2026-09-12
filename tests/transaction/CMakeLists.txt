@@ -164,7 +164,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
     add_executable(test_transaction_distributed_2pc_focused
         test_transaction_distributed_2pc.cpp
         ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
     )
 
     target_include_directories(test_transaction_distributed_2pc_focused PRIVATE
@@ -174,7 +174,9 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_2pc.cpp")
 
     target_link_libraries(test_transaction_distributed_2pc_focused PRIVATE
         ${TEST_LIBS}
-        themis_core
+        GTest::gtest
+        GTest::gtest_main
+        themis_base
         RocksDB::rocksdb
         spdlog::spdlog
         Threads::Threads

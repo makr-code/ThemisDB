@@ -20,7 +20,6 @@
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <memory>
-#include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -28,12 +27,22 @@
 #include <cmath>
 #include <filesystem>
 
+#if defined(HAVE_YAML_CPP) || defined(THEMIS_HAS_YAML_CPP) || __has_include(<yaml-cpp/yaml.h>)
+#include <yaml-cpp/yaml.h>
+#define THEMIS_UTILS_HAS_YAML_CPP 1
+#else
+#define THEMIS_UTILS_HAS_YAML_CPP 0
+#endif
+
 namespace themis::util {
 
 // Load configuration from YAML
 CapabilityAutoGenerator::Config CapabilityAutoGenerator::Config::loadFromYAML(const std::string& yaml_path) {
     Config config;
-    
+
+#if !THEMIS_UTILS_HAS_YAML_CPP
+    throw std::runtime_error("yaml-cpp not available; capability auto-generator YAML loading is disabled");
+#else
     try {
         YAML::Node root = YAML::LoadFile(yaml_path);
         
@@ -90,8 +99,9 @@ CapabilityAutoGenerator::Config CapabilityAutoGenerator::Config::loadFromYAML(co
     } catch (const std::exception& e) {
         throw std::runtime_error("Failed to load capability auto-gen config: " + std::string(e.what()));
     }
-    
+
     return config;
+#endif
 }
 
 // Constructor
@@ -468,6 +478,11 @@ bool CapabilityAutoGenerator::saveCapability(
     const sharding::DomainCapability& capability,
     const nlohmann::json& audit_info
 ) {
+#if !THEMIS_UTILS_HAS_YAML_CPP
+    auditLog(shard_id, {{"error", "yaml-cpp not available; capability YAML serialization is disabled"},
+                        {"status", "save_failed"}});
+    return false;
+#else
     // Serialize DomainCapability to YAML using yaml-cpp
     // and atomically write to output_directory/<shard_id>.yaml
     try {
@@ -534,6 +549,7 @@ bool CapabilityAutoGenerator::saveCapability(
 
     auditLog(shard_id, audit_info);
     return true;
+#endif
 }
 
 // Audit logging

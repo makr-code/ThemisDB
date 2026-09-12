@@ -73,8 +73,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Set up compiler cache"
-        uses: ./.github/actions/setup-cpp-build
+      - name: "Cache sccache"
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -138,8 +138,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Set up compiler cache"
-        uses: ./.github/actions/setup-cpp-build
+      - name: "Cache sccache"
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -206,8 +206,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Set up compiler cache"
-        uses: ./.github/actions/setup-cpp-build
+      - name: "Cache sccache"
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -285,8 +285,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Set up compiler cache"
-        uses: ./.github/actions/setup-cpp-build
+      - name: "Cache sccache"
+        uses: actions/cache@v4
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -606,9 +606,9 @@ jobs:
             echo ""
             echo "## Results Summary"
             echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}"
-            echo "- Test Compilation: ✅ 86/86 tests compiled"
-            echo "- Smoke Tests: ✅ 3/3 tests passed"
-            echo "- Full Suite: ✅ All tests passed"
+            echo "- Test Compilation: ${{ needs.compile-tests.result }}"
+            echo "- Smoke Tests: ${{ needs.smoke-tests.result }}"
+            echo "- Full Suite: ${{ needs.full-transaction-test-suite.result }}"
             echo "- Chaos / Recovery evidence: ${{ needs.chaos-recovery-evidence.result }}"
             echo "- Phase 4 benchmark baseline: ${PHASE4_STATUS}"
             echo ""

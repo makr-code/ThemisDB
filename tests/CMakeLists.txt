@@ -25521,7 +25521,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/incremental/test_in
         ${TEST_LIBS}
         themis_core
         nlohmann_json::nlohmann_json
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         spdlog::spdlog
         Threads::Threads
     )

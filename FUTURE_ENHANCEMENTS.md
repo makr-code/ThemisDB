@@ -30,6 +30,14 @@ The enhancement plan must follow the same evidence discipline as the roadmap its
 3. Convert audit and security evidence from design-validation into end-to-end proof.
 4. Finish Wave D operability and soak-test work only after Wave A/B evidence is stable.
 
+### Wave-Closure implementation sequence (active)
+
+1. **Wave A residual gates first:** Transaction + GPU authoritative evidence, `release_critical` closure, and p95/p99 refresh for Wave-A modules.
+2. **Wave B residual hardening second:** close remaining high-pressure modules (`query`, `acceleration`, `llm_wiki`, `llm`, `index`, `rag`, `search`, `updates`) plus Query↔Index↔Storage and LLM↔RAG↔LLM_Wiki integration evidence.
+3. **Wave C sign-off third:** consolidate sustained-load `auth`/`security`/`governance` security evidence and fail-closed boundary validation into final compliance package.
+4. **Wave D sign-off fourth:** close operability/runbook/diagnostics/alerts/recovery and operator-readiness gates with refreshed chaos/failover/recovery baselines.
+5. **Only after 1–4:** final root-governance sync and human GA/program sign-off request.
+
 ### Findings-fix execution order (2026-09-09)
 
 1. Build a source-validated remediation backlog from `ROADMAP.md`, module roadmaps, and current CI logs.

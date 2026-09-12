@@ -11,13 +11,14 @@
 
 ## Module Status Snapshot
 
-The authoritative per-module matrix lives in [`MODULE_INDEX.md`](MODULE_INDEX.md). This audit keeps the high-level grouping visible:
+The canonical per-module status source is the root [`../ROADMAP.md`](../ROADMAP.md) module table; [`../MODULE_INDEX.md`](../MODULE_INDEX.md) remains a navigation index. This audit keeps the high-level grouping visible:
 
 | Status | Module groups | Audit posture |
 |---|---|---|
 | Stable / production-ready | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | Current audit stack treats these as the lower-risk baseline with residual hardening or documentation tasks. |
-| Real gaps still present | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules still require source-level follow-up, either because gaps remain or because evidence refresh is pending. |
-| Planned / partially externalized | `chimera`, `user_storage`, plugin externalization tracks | These are not yet fully owned by a closed implementation path and remain tracked as planned work. |
+| Real gaps still present | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai`, `search`, `training`, `retrieval` | These modules still require source-level follow-up, either because gaps remain or because evidence refresh is pending. |
+| Docs-only module path (evidence mismatch) | `llm_streaming`, `vector_search` | Module-local roadmaps still describe production-candidate delivery, but local module directories currently contain docs artefacts only and no colocated `.cpp/.h` implementation files. |
+| Planned / partially externalized | `chimera`, plugin externalization tracks | These are not yet fully owned by a closed implementation path and remain tracked as planned work. |
 
 ---
 

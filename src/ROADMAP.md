@@ -1,6 +1,6 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: current | generated: 2026-09-09 | source: recursive src/*/ROADMAP.md + src module deep-dive -->
+<!-- Status: current | generated: 2026-09-12 | source: recursive src/*/ROADMAP.md + src module deep-dive -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
@@ -8,27 +8,28 @@
 
 > **Purpose:** This document aggregates open TODOs, hardening tasks, and planned features
 > from module roadmaps in `src/*/ROADMAP.md`.
-> It is sorted by **Priority → Target Version → Module** and is the canonical input for
-> creating GitHub Issues with full implementation context.
+> It combines a **source-validated current posture** (status snapshot + checklist totals)
+> with a **legacy issue-seed priority backlog snapshot** (pending full regeneration).
 
 ## Module Status Snapshot
 
-For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as the canonical overview.
+For the per-module current state, use the root [`../ROADMAP.md`](../ROADMAP.md) module-status table as canonical source evidence; [`../MODULE_INDEX.md`](../MODULE_INDEX.md) remains a navigation aid.
 
 | Status | Module groups | Notes |
 |---|---|---|
 | Production-ready / mostly closed | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | These modules are largely in the documentation/readiness phase rather than core implementation phase. |
-| Active hardening | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules still carry real code or evidence gaps and remain the main source of roadmap work. |
-| Planned / externalization | `chimera`, `user_storage`, plugin externalization tracks | Planning exists, but the implementation boundary is still being finalized. |
+| Active hardening | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai`, `search`, `training`, `retrieval` | These modules still carry real code or evidence gaps and remain the main source of roadmap work. |
+| Docs-only module path (evidence mismatch) | `llm_streaming`, `vector_search` | Module-local roadmaps still describe production-candidate delivery, but the local module directories currently contain only docs artefacts and no colocated `.cpp/.h` implementation files. |
+| Planned / externalization | `chimera`, plugin externalization tracks | Planning exists, but the implementation boundary is still being finalized. |
 
 ---
 
-## Recursive Roadmap Deep-Dive Snapshot (2026-09-09)
+## Recursive Roadmap Deep-Dive Snapshot (2026-09-12)
 
 - **Scope checked:** 71 module roadmaps in `src/*/ROADMAP.md` plus module directory deep-dive for source/test/benchmark footprint.
 - **Governance structure status:** 71/71 module roadmaps now contain `Current Status`, `In Progress` and/or `Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, and `Breaking Changes`.
 - **Highest remaining backlog pressure (open checkbox count):**
-  - `acceleration` (42), `llm_wiki` (39), `query` (35), `transaction` (32), `index` (28), `rag` (26), `search` (24), `training` (22), `gpu` (20).
+  - `query` (59), `acceleration` (42), `llm_wiki` (40), `llm` (40), `transaction` (32), `index` (28), `updates` (27), `search` (27), `rag` (24).
 - **Sourcecode deep-dive findings requiring follow-up:**
   - `src/llm_streaming/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
   - `src/vector_search/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
@@ -39,29 +40,36 @@ For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as th
 - [ ] Execute release-critical backlog closure in `acceleration`, `query`, `transaction`, `index`, `gpu`, and `rag` with representative-hardware evidence refresh (Target: Q4 2026).
 - [ ] Re-run recursive roadmap deep-dive after each Wave A/B closure batch and sync this consolidated source roadmap (Target: ongoing).
 
+### Wave Closure Implementation Sequence (2026-09-12)
+- [ ] Wave A completion: finalize Transaction + GPU authoritative representative-hardware and chaos/recovery evidence, then close remaining `release_critical` + p95/p99 gates for Wave-A modules (Target: Q4 2026).
+- [ ] Wave B finish: close remaining hardening blocks in `query`, `acceleration`, `llm_wiki`, `llm`, `index`, `rag`, `search`, `updates`, including Query↔Index↔Storage and LLM↔RAG↔LLM_Wiki integration evidence (Target: Q4 2026).
+- [ ] Wave C validation: consolidate sustained-load security/compliance evidence for `auth`/`security`/`governance` and fail-closed boundary behavior into final sign-off package (Target: Q4 2026).
+- [ ] Wave D operability: close runbook/diagnostics/alerts/recovery and operator-readiness gates with refreshed chaos/failover/recovery evidence (Target: Q1 2027).
+- [ ] Enforce final order: Wave-A residual gates → Wave-B hardening → Wave-C security sign-off → Wave-D operability sign-off → final governance sync + human GA sign-off (Target: Q1 2027).
+
 ---
 
 ## Table of Contents
 
-1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-09)](#recursive-roadmap-deep-dive-snapshot-2026-09-09)
-2. [How to Use for GitHub Issue Creation](#how-to-use-for-github-issue-creation)
+1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-12)](#recursive-roadmap-deep-dive-snapshot-2026-09-12)
+2. [How to Use Legacy Issue-Seed Tables for GitHub Issues](#how-to-use-legacy-issue-seed-tables-for-github-issues)
 3. [Status & Priority Legend](#status--priority-legend)
 4. [Statistics](#statistics)
-5. [🔴 Critical Priority](#-critical-priority)
-6. [🟠 High Priority — Immediate (≤ v1.4.0)](#-high-priority--immediate--v140)
-7. [🟠 High Priority — Near-term (v1.5.0 – v1.8.0)](#-high-priority--near-term-v150--v180)
-8. [🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)](#-medium-priority--near-term-v150--v180)
-9. [🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)](#-medium-priority--mid-term-v190--v200)
-10. [🟢 Low Priority — Future (v1.9.0+)](#-low-priority--future-v190)
+5. [🔴 Legacy Issue-Seed Priority — Critical](#legacy-priority-critical)
+6. [🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)](#legacy-priority-high-immediate)
+7. [🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)](#legacy-priority-high-near-term)
+8. [🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)](#legacy-priority-medium-near-term)
+9. [🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)](#legacy-priority-medium-mid-term)
+10. [🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)](#legacy-priority-low-future)
 11. [Cross-Cutting Concerns](#cross-cutting-concerns)
 12. [Milestone Summary](#milestone-summary)
 13. [Suggested GitHub Label Taxonomy](#suggested-github-label-taxonomy)
 
 ---
 
-## How to Use for GitHub Issue Creation
+## How to Use Legacy Issue-Seed Tables for GitHub Issues
 
-Each row in the tables below maps to **one GitHub Issue**. Columns:
+Each row in the legacy priority tables below maps to **one GitHub Issue candidate**. Columns:
 
 | Column | GitHub Issue Field |
 |--------|--------------------|
@@ -121,6 +129,66 @@ See: <Detail link>
 
 ## Statistics
 
+### Source-Validated Checklist Totals (2026-09-12)
+
+Derived from recursive `src/*/ROADMAP.md` checkbox scan:
+
+| Checklist state | Count |
+|---|---:|
+| `[x]` done | 3068 |
+| `[~]` in progress | 377 |
+| `[ ]` open | 1028 |
+| `[I]` / `[P]` issue/pr-linked | 7 |
+
+> Interpretation: the source roadmap corpus already contains a large closed set; the open set above is the actionable remainder.
+
+### Source-Validated Module Closure/Backlog Breakdown (2026-09-12)
+
+Top remaining open backlog by module (from `src/*/ROADMAP.md` checkbox scan):
+
+| Module | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| query | 59 | 7 | 44 | 40.0% |
+| acceleration | 42 | 14 | 42 | 42.9% |
+| llm_wiki | 40 | 15 | 38 | 40.9% |
+| transaction | 32 | 18 | 80 | 61.5% |
+| index | 28 | 8 | 37 | 50.7% |
+| search | 27 | 5 | 153 | 82.7% |
+| updates | 27 | 2 | 40 | 58.0% |
+| rag | 24 | 15 | 50 | 56.2% |
+| training | 22 | 4 | 15 | 36.6% |
+| chimera | 21 | 10 | 16 | 34.0% |
+
+Representative modules with most checklist work already closed:
+
+| Module | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| failover | 0 | 0 | 42 | 100.0% |
+| api | 0 | 0 | 38 | 100.0% |
+| access_model | 2 | 1 | 100 | 97.1% |
+| ai | 3 | 0 | 79 | 96.3% |
+| image_analysis | 1 | 1 | 36 | 94.7% |
+| analytics | 8 | 2 | 127 | 92.7% |
+
+### Legacy-Priority Module Coverage vs Current Closure (2026-09-12)
+
+For the 42 modules that appear in the legacy issue-seed priority tables below, current module-roadmap checklist state is:
+
+| Scope | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| Legacy-priority module set (42 modules) | 678 | 249 | 1769 | 65.6% |
+
+Done-share buckets across those 42 legacy-priority modules:
+
+- **100% done (1):** `api`
+- **80%+ done (9):** `analytics`, `aql`, `auth`, `base`, `content`, `llm`, `maintenance`, `network`, `utils`
+- **60–79% done (15):** `cache`, `config`, `core`, `geo`, `importers`, `metadata`, `observability`, `performance`, `plugins`, `replication`, `security`, `server`, `sharding`, `storage`, `transaction`
+- **<60% done (17):** `acceleration`, `cdc`, `chimera`, `exporters`, `governance`, `gpu`, `graph`, `index`, `ingestion`, `query`, `rag`, `scheduler`, `temporal`, `themis`, `timeseries`, `training`, `updates`
+
+### Legacy Issue-Seed Priority Snapshot (historical)
+
+The priority tables below are a historical issue-seed extraction and are **not** a direct 1:1 representation of still-open source gaps.
+
 | Priority | Count |
 |----------|-------|
 | 🔴 Critical | 4 |
@@ -139,8 +207,12 @@ See: <Detail link>
 
 ---
 
-## 🔴 Critical Priority
+<a id="legacy-priority-critical"></a>
 
+## 🔴 Legacy Issue-Seed Priority — Critical
+
+> ⚠️ Legacy issue-seed snapshot: use this block as issue history/context; use source-validated module-roadmap checkboxes for current closure state.
+>
 > Block release. Must be fixed before any production deployment.
 
 | # | Module | Title | Target | Labels | Issue | Detail |
@@ -152,7 +224,9 @@ See: <Detail link>
 
 ---
 
-## 🟠 High Priority — Immediate (≤ v1.4.0)
+<a id="legacy-priority-high-immediate"></a>
+
+## 🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)
 
 > Calendar: Q2 2026. Required for the next minor release.
 
@@ -191,7 +265,9 @@ See: <Detail link>
 
 ---
 
-## 🟠 High Priority — Near-term (v1.5.0 – v1.8.0)
+<a id="legacy-priority-high-near-term"></a>
+
+## 🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027.
 
@@ -294,7 +370,9 @@ See: <Detail link>
 
 ---
 
-## 🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)
+<a id="legacy-priority-medium-near-term"></a>
+
+## 🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027.
 
@@ -393,7 +471,9 @@ See: <Detail link>
 
 ---
 
-## 🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)
+<a id="legacy-priority-medium-mid-term"></a>
+
+## 🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)
 
 > Calendar: Q2–Q3 2027.
 
@@ -417,7 +497,9 @@ See: <Detail link>
 
 ---
 
-## 🟢 Low Priority — Future (v1.9.0+)
+<a id="legacy-priority-low-future"></a>
+
+## 🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)
 
 > Calendar: 2027+. Scheduled opportunistically.
 
