@@ -1,6 +1,6 @@
 # Architecture - Utils Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -46,3 +46,32 @@ The utils module groups foundational helper subsystems that other ThemisDB modul
   - observability, privacy/key, and runtime service plane split
   - explicit failure boundaries for shared utility behavior
   - module-local ownership of cross-cutting helper infrastructure
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| (none — Layer 0) | stdlib, nlohmann/json, spdlog | No ThemisDB module dependencies; relies only on third-party and standard libraries |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| ALL modules | `include/utils/` | Every ThemisDB module consumes at least one utils surface (logging, compression, thread-pool, tracing, etc.) |
+
+## Integration Points
+
+### Critical Integration: Observability Pipeline
+**Files:** `src/utils/audit_logger.cpp`, `src/utils/tracing.cpp`
+**Contract:** All audit-log and trace calls across ThemisDB route through utils helpers; output format is fixed (structured JSON / W3C TraceContext); callers must not build log payloads outside these helpers.
+**Thread Safety:** Logger and tracer helpers are thread-safe; each call is independently atomic; no cross-call ordering guarantees.
+
+### Critical Integration: Thread-Pool Services
+**Files:** `src/utils/thread_pool_manager.cpp`
+**Contract:** Modules obtain worker threads from the shared pool; tasks must not capture pool references beyond their own lifetime.
+**Thread Safety:** Thread pool is fully thread-safe; submit() may be called from any thread concurrently.
+
+### Critical Integration: Compression Codec
+**Files:** `src/utils/zstd_codec.cpp`
+**Contract:** Codec is stateless and re-entrant; compressor/decompressor instances are not shared across threads without external synchronisation.
+**Thread Safety:** Stateless encode/decode calls are safe; streaming context objects must not be shared.

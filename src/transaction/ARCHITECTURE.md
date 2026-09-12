@@ -3,7 +3,7 @@
 # Transaction Module - Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-05-31
+**Last Updated:** 2026-09-09
 **Module Path:** `src/transaction/`
 
 ## 1. Overview
@@ -61,21 +61,69 @@ Compensation path
 | Used by | `src/server/` | API-driven transaction endpoints |
 | Used by | `src/sharding/` | distributed coordination and WAL-related integration |
 
-## 5. Threading and Concurrency Model
+## 5. Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/history_manager.h` | Durable KV writes, MVCC history reads, WAL |
+| `index` | `include/index/secondary/`, `include/index/graph/`, `include/index/vector/` | Index updates co-ordinated within transaction boundaries |
+| `sharding` | `include/sharding/truetime.h`, `include/sharding/wal_manager.h` | TrueTime timestamps for distributed ordering; WAL append |
+| `plugins` | `include/plugins/` | Plugin hooks called during commit/rollback lifecycle |
+| `utils` | `include/utils/` | Utility helpers (error codes, logging) |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/transaction/transaction_manager.h`, `include/transaction/snapshot_manager.h`, `include/transaction/branch_manager.h`, `include/transaction/merge_engine.h` | API-driven transaction, snapshot, branch, and merge endpoints |
+| `query` | `include/transaction/transaction_manager.h` | Mutation transactions for DML statements |
+| `sharding` | `include/transaction/recoverable_two_phase_coordinator.h`, `include/transaction/distributed_transaction_manager.h` | Cross-shard 2PC coordination and distributed transaction management (managed circular dep) |
+| `storage` | `include/transaction/snapshot_manager.h` | Storage calls back to snapshot manager for MVCC snapshots |
+| `analytics` | `include/transaction/snapshot_manager.h` | `diff_engine` uses snapshot reads for consistent analytical diff computation (`include/analytics/diff_engine.h:16`) |
+| `api` | `include/transaction/transaction_manager.h` | gRPC service wires `TransactionManager` to expose explicit begin/commit/rollback RPC endpoints (`src/api/themisdb_grpc_service.cpp:18,243,265`) |
+| `network` | `include/transaction/transaction_manager.h` | Wire-protocol server drives transaction lifecycle (begin, commit, rollback) for native client connections (`src/network/wire_protocol_server.cpp:53,324,2216`) |
+
+---
+
+## 6. Integration Points (Detailed)
+
+### Critical Integration: Transaction → Storage (Persistence)
+**Files:** `src/transaction/transaction_manager.cpp` ↔ `include/storage/rocksdb_wrapper.h`
+**Contract:** Each `commit()` call drives a batch write to RocksDB via the wrapper; `rollback()` discards in-memory mutations. WAL entry written before commit return.
+**Thread Safety:** `TransactionManager` is concurrent-safe; individual `Transaction` objects are single-owner.
+**Failure Mode:** Storage write failure → transaction aborted; WAL write failure → `kDurabilityError` returned, no partial commit.
+
+### Critical Integration: Transaction ↔ Sharding (2PC Circular)
+**Files:** `src/transaction/distributed_transaction_manager.cpp` ↔ `include/sharding/truetime.h`; `src/sharding/cross_shard_transaction.cpp` ↔ `include/transaction/recoverable_two_phase_coordinator.h`
+**Contract:** Sharding layer invokes `RecoverableTwoPhaseCoordinator` from transaction module to drive distributed prepare/commit; TrueTime from sharding provides commit timestamps. Managed circular dependency — sharding imports transaction header; transaction imports sharding TrueTime only.
+**Thread Safety:** Coordinator uses internal mutex for shared state; TrueTime reads are lock-free.
+**Failure Mode:** Prepare failure → automatic abort broadcast; coordinator crash → recovery via WAL replay on restart.
+
+### Critical Integration: Transaction → Index (Co-ordinated Updates)
+**Files:** `src/transaction/transaction_manager.cpp` ↔ `include/index/secondary/`, `include/index/graph/`, `include/index/vector/`
+**Contract:** Index updates are enqueued within the transaction scope and applied atomically on commit (or discarded on rollback). Index update errors trigger transaction abort.
+**Thread Safety:** Index update queues are per-transaction; no shared mutable state.
+**Failure Mode:** Index write error → transaction aborted; index inconsistency triggers reconciliation on next startup.
+
+---
+
+## 7. Threading and Concurrency Model
 
 - `TransactionManager` is designed for concurrent caller access.
 - Individual transaction objects are single-owner/single-thread usage.
 - Distributed coordinator paths use internal synchronization for shared state.
 - Lock and deadlock helper paths are used to bound contention behavior.
 
-## 6. Security and Reliability Considerations
+## 8. Security and Reliability Considerations
 
 - Invalid transaction transitions are rejected via status/error paths.
 - Distributed coordination uses durability hooks and recovery paths to limit in-doubt exposure.
 - Compensation flows are expected to be idempotent and replay-safe.
 - Timeout and liveness checks are part of runtime guardrails for distributed coordination.
 
-## 6.1 Memory Management & RAII Patterns
+## 8.1 Memory Management & RAII Patterns
 
 ### Core Principles
 - **Prefer `std::unique_ptr` and `std::make_unique`** for exclusive ownership.
@@ -106,14 +154,14 @@ Compensation path
 - Saga orchestrator tests validate plugin creation/destruction cycles.
 - No manual cleanup code in application paths (all RAII-based).
 
-## 7. Known Limitations and Future Work
+## 9. Known Limitations and Future Work
 
 - Additional benchmark evidence is needed for some high-contention distributed envelopes.
 - Some long-tail distributed fault combinations remain under ongoing hardening.
 - Documentation and guardrails continue to be aligned with active source changes.
 - C plugin interface pattern in saga_orchestrator_plugin.cpp may be refactored to use a factory in future versions.
 
-## 8. Sourcecode Verification (Module: transaction/architecture)
+## 10. Sourcecode Verification (Module: transaction/architecture)
 
 - Verified files:
   - `src/transaction/transaction_manager.cpp`

@@ -4,7 +4,7 @@
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · THREADING.md · OPERATIONS.md -->
 
 Version: 2.0 (Phase 6 Enhanced)
-Last Updated: 2026-08-17
+Last Updated: 2026-09-09
 Module Path: src/llm/
 Status: PRODUCTION (Wave 5 GA)
 
@@ -270,4 +270,108 @@ The module uses a layered concurrency model with explicit synchronization at key
 - **CONFIGURATION.md:** Configuration options, environment variables, tuning guide
 - **ROADMAP.md:** Feature pipeline and release planning
 - **FUTURE_ENHANCEMENTS.md:** Planned enhancements and Wave C work
+
+---
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| acceleration | `include/acceleration/compute_backend.h`, `include/acceleration/device_manager.h` | GPU/CPU backend dispatch, hardware-accelerated kernel execution |
+| cache | `include/cache/` | KV-cache page management and response-cache integration |
+| index | `include/index/ann_frontdoor.h`, `include/index/vector_index.h` | Vector search during RAG-side retrieval triggered from inference paths |
+| storage | `include/storage/` (base entity) | Persistent model-state and response-cache RocksDB back-end |
+| query | `include/query/` (AQL evaluation) | AQL query parsing executed within inference context (**circular — see §Known Design Issues**) |
+| rag | `include/rag/rag_context_assembler.h`, `include/rag/rag_ingestion_bridge.h` | Context-window assembly budget, retrieval integration |
+| sharding | `include/sharding/` | Distributed/federated inference shard coordination |
+| ethics_ai | `include/ethics_ai/` | Bias and constitutional-reasoning policy checks |
+| governance | `include/governance/` | Decision-record enforcement and audit trail |
+| metadata | `include/metadata/` | Model-card metadata, capability tagging |
+| observability | `include/observability/` | Inference span telemetry, throughput metrics |
+| security | `include/security/` | Prompt sanitisation, credential-isolation at inference boundary |
+| utils | `include/utils/` | Common utilities (logging, string helpers) |
+| llama_cpp | `include/llama_cpp/llama_cpp_plugin.h`, `src/llama_cpp/` | llama.cpp-backed inference plugin surface loaded by the LLM module |
+| server (circular) | `include/server/mcp_server.h` | MCP tool-bridge server handle (**circular — see §Known Design Issues**) |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| rag | `include/llm/inference_engine.h`, `include/llm/context_window_budget.h`, `include/llm/llm_plugin_interface.h` | RAG inference calls and context-window budget computation |
+| search | `include/search/llm_reranker.h` (injected `LlmBackend` callback) | Optional LLM re-ranking step in `HybridSearch` and `LayeredRetrievalOrchestrator` |
+| query | `include/llm/lora_framework/lora_orchestrator.h` | AQL LoRA function dispatch (**circular — see §Known Design Issues**) |
+| api | `api/llm_handler.h` | HTTP/gRPC inference endpoint routing |
+| ingestion | `ingestion/llm_adapter.h` | Document enrichment via LLM inference |
+| `training` | `include/llm/lora_framework/` | LoRA adapter training drives LLM fine-tuning lifecycle |
+| `distributed_tensor` | `include/llm/` | Distributed tensor collectives for multi-GPU LLM inference |
+| `llm_wiki` | `include/llm/` | Wiki knowledge retrieval via LLM generation interfaces |
+| `governance` | `include/llm/` | AI governance bias auditing uses LLM inference interfaces |
+
+---
+
+## Integration Points
+
+### Critical Integration: ILLMPlugin — Hot-Plug Backend Interface
+**Files:** `include/llm/llm_plugin_interface.h` ↔ `src/llm/llm_plugin_manager.cpp`
+**Contract:** Plugins implement `ILLMPlugin` (pure-virtual, `class ILLMPlugin` line 338) for llama.cpp, ONNX, Whisper, and custom backends. `llm_plugin_manager.cpp` loads/unloads plugins under `model_load_mutex_` (single-writer, multiple-reader).
+**Thread Safety:** Plugin methods must be re-entrant; lifecycle transitions (load/unload) acquire exclusive write lock.
+**Failure Mode:** Plugin load failure → skip plugin, try next backend, log `Status::kFailedPrecondition`; no crash.
+
+### Critical Integration: LlmReranker Backend — Search Injection Point
+**Files:** `include/search/llm_reranker.h` ↔ `src/llm/async_inference_engine.cpp`
+**Contract:** `LlmReranker::LlmBackend` is a `std::function<std::string(const std::string&)>` injected at construction. Missing backend → `llm_unavailable` result returned; no mock fallback (`LLMJudgeIntegration` similarly fail-closed).
+**Thread Safety:** Caller is responsible for `LlmBackend` callable thread-safety; `LlmReranker` instance itself is not thread-safe — use per-thread instances.
+**Failure Mode:** Backend returns empty/error → `SearchStats::rerank_fallback = true`; original ranking preserved.
+
+### Critical Integration: ContextWindowBudget — RAG Budget Handoff
+**Files:** `include/llm/context_window_budget.h` ↔ `src/rag/rag_context_assembler.cpp`
+**Contract:** `ContextWindowBudget::compute()` is called by RAG assembler to derive the maximum retrieval-context token slice. Response reservation guaranteed at `max(min_response_tokens, 20% window)`.
+**Thread Safety:** Stateless computation; safe for concurrent calls.
+**Failure Mode:** Zero-budget configuration → assembler returns empty context with explicit error, does not proceed.
+
+### Critical Integration: MCP Tool Bridge → Server (Circular)
+**Files:** `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`
+**Contract:** `mcp_tool_bridge.cpp` acquires a handle to the running MCP server to register LLM tool descriptors. This creates a compile-time circular include between `llm` and `server`.
+**Thread Safety:** Server handle acquired once at startup under server-init lock; tool registration is single-threaded at boot.
+**Failure Mode:** Server not yet initialised → bridge defers registration; tools unavailable until server ready.
+
+### Critical Integration: LoRA Orchestrator ↔ Query (Circular)
+**Files:** `src/query/functions/lora_functions.cpp` ↔ `include/llm/lora_framework/lora_orchestrator.h`
+**Contract:** AQL exposes LoRA activation as a query function; `lora_functions.cpp` includes `lora_orchestrator.h`. Conversely, `src/llm/` includes `query/` headers for AQL evaluation.
+**Thread Safety:** LoRA hot-swap protected by `adapter_lifecycle_mutex_`; AQL dispatch is read-only during execution.
+**Failure Mode:** Circular dependency managed at link time; no runtime deadlock risk identified, but build-order sensitivity exists (see §Known Design Issues).
+
+---
+
+## Known Design Issues
+
+### Issue 1 — Circular Dependency: `llm` ↔ `server`
+
+| Property | Detail |
+|----------|--------|
+| **Files** | `src/llm/mcp_tool_bridge.cpp` includes `include/server/mcp_server.h` |
+| **Direction** | `llm` → `server` (compile-time include); `server` → `llm` (runtime service call) |
+| **Risk** | Build-order sensitivity; linker cycle if not broken via forward declaration or DI |
+| **Mitigation status** | Forward declaration partially applied; full DI refactor tracked in Wave C |
+| **Tracking** | Follow-on Wave C issue: https://github.com/makr-code/ThemisDB/issues/5040 |
+
+### Issue 2 — Circular Dependency: `llm` ↔ `query`
+
+| Property | Detail |
+|----------|--------|
+| **Files** | `src/llm/` includes `query/` (AQL evaluation); `src/query/functions/lora_functions.cpp` includes `include/llm/lora_framework/lora_orchestrator.h` |
+| **Direction** | Bidirectional at include level |
+| **Risk** | Header inclusion cycle; potential for ODR violations if not carefully gated |
+| **Mitigation status** | Currently managed via `#pragma once` guards and careful include ordering; refactor to interface injection planned |
+| **Tracking** | Wave B tracking issue: https://github.com/makr-code/ThemisDB/issues/5039 |
+
+### Issue 3 — Open: Distributed Collectives + Multi-Tenant Isolation
+
+| Property | Detail |
+|----------|--------|
+| **Description** | Distributed inference collective ops (NCCL/RCCL) and per-tenant VRAM isolation not yet production-wired |
+| **Impact** | Multi-tenant deployments must use single-tenant mode; advanced GPU reduction ops unavailable |
+| **Tracking** | Wave C: https://github.com/makr-code/ThemisDB/issues/5040 |
 

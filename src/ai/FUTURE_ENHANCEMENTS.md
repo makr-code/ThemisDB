@@ -208,6 +208,7 @@ advancement.  Resolves C3 gap-tracking requirement from issue #6287.
 - Wave C Issue: `#5040`
 - Wave A Issue: `#5038`
 - Wave B Issue: `#5039`
+- Wave B ML Enhancements exit-gate sign-off: `#6286` ✅ SIGNED OFF 2026-09-09
 ## Wave B: High-Value ML Enhancements (Q1–Q2 2027)
 
 ### Scope
@@ -271,4 +272,5 @@ Research-backed AI/ML features for mid-term deployment (Q1–Q2 2027). Builds on
 
 - Research Bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Roadmap: `ROADMAP.md`
-- issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+- issue scope (original): `https://github.com/makr-code/ThemisDB/issues/5039`
+- exit-gate sign-off: `https://github.com/makr-code/ThemisDB/issues/6286` ✅ SIGNED OFF 2026-09-09

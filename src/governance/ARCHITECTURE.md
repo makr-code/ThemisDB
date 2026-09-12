@@ -1,6 +1,6 @@
 # Architecture - Governance Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -56,3 +56,29 @@ The governance module composes policy evaluation/lifecycle, compliance controls,
   - explicit policy/compliance/data-governance/operations planes
   - bounded deterministic failure behavior for invalid/degraded paths
   - module-local ownership of governance orchestration surfaces
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` | Logging, audit trail, and observability helpers |
+| observability (utils) | `include/utils/tracing.h` | Telemetry emission for governance decisions and compliance events |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/compliance_reporter.h`, `policy_manager.h` | Server exposes compliance reporting and policy management endpoints |
+| llm | `include/governance/` | LLM module consults governance for ethics-enforcement and model-governance policies |
+
+## Integration Points
+
+### Critical Integration: Server Policy Management
+**Files:** `src/governance/policy_manager.cpp`, `policy_engine.cpp` ↔ `server/policy_manager.h`
+**Contract:** Server delegates all policy load/eval/version operations to the governance module; governance is the sole authority for access and compliance decisions.
+**Thread Safety:** Policy reads are concurrent-safe; policy mutations acquire an internal write lock.
+
+### Critical Integration: LLM Ethics Enforcement
+**Files:** `src/governance/model_governance.cpp` ↔ `llm/`
+**Contract:** LLM module calls governance model-governance check before serving output; a deny decision fails the LLM operation closed.
+**Thread Safety:** Governance enforcement calls are stateless read operations; concurrent calls are safe.

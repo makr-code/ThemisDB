@@ -1,7 +1,11 @@
 # Architecture - Search Module
 
-<!-- Status: current | validated: 2026-08-06 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
+Last Updated: 2026-09-09
+Module Path: src/search/
+Status: PRODUCTION (Wave B GA, 2026-08-17/18; Score 95/100, 0 gaps)
 
 ## Overview
 
@@ -135,3 +139,60 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+
+---
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| index | `include/index/ann_frontdoor.h` (`ANNFrontdoor`) | ANN candidate retrieval for vector search plane |
+| index | `include/index/vector_index.h` (`IVectorIndex`) | Direct vector-index access in `HybridSearch` |
+| metadata | `include/metadata/` | Metadata filtering applied during candidate generation |
+| llm | `include/search/llm_reranker.h` → `LlmBackend` callback injected from `llm` module | Optional LLM re-ranking of fused candidates (`LlmReranker`); injected, not directly included |
+| query | `include/query/` (FTS index surface) | Full-text search lexical candidate path |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| rag | `src/rag/hybrid_retriever.cpp` | RAG hybrid retrieval delegates to `HybridSearch` |
+| api | API query handlers | External search endpoint routing |
+| llm | `src/llm/ai_orchestrator.cpp` | Orchestrator triggers layered search for context fetching |
+
+---
+
+## Integration Points
+
+### Critical Integration: HybridSearch v2.0 — Lexical + Vector Fusion (Contract Frozen)
+**Files:** `include/search/hybrid_search.h` ↔ `src/search/hybrid_search.cpp`
+**Contract:** `HybridSearch::search()` is unconditionally `noexcept`. Score 95/100; 0 open gaps. Supports RRF and linear-combination fusion, configurable distance metrics (COSINE, DOT, L2), bounded by `max_k`/`max_candidates`. Contract frozen at v2.0.0 (2026-08-06).
+**Thread Safety:** Single instance NOT thread-safe; callers must synchronise or use per-thread instances.
+**Failure Mode:** Backend candidate deficit → `SearchStats::partial_result = true`; fusion errors → `SearchStats::fusion_failed = true`; re-rank fallback → `SearchStats::rerank_fallback = true`.
+
+### Critical Integration: LlmReranker — Injected LLM Backend
+**Files:** `include/search/llm_reranker.h` ↔ `src/search/llm_reranker.cpp`
+**Contract:** `LlmReranker::LlmBackend` is a `std::function<std::string(const std::string&)>`. No mock fallback — missing or null backend returns `llm_unavailable` and original ranking is preserved. `LLMJudgeIntegration` is equally fail-closed.
+**Thread Safety:** `LlmReranker` instance is NOT thread-safe; `LlmBackend` callable must be re-entrant if shared.
+**Failure Mode:** Backend null or throws → `rerank_fallback = true`; search result returned without re-ranking.
+
+### Critical Integration: ANNFrontdoor — Stable ABI for Vector Index
+**Files:** `include/index/ann_frontdoor.h` ↔ `src/search/hybrid_search.cpp`, `src/search/layered_retrieval_orchestrator.cpp`
+**Contract:** `ANNFrontdoor` is the stable public ABI entry-point for ANN queries. Contract frozen at Wave B. `LayeredRetrievalOrchestrator` (v3.0.0) uses it as its ANN layer (first in 4-layer chain: ANN→Tensor→Graph→LLM).
+**Thread Safety:** `ANNFrontdoor` must be thread-safe for concurrent `search()` calls; orchestrator does not add additional locking.
+**Failure Mode:** ANN layer timeout → `TIMEOUT_SKIP` status; orchestrator continues to next layer.
+
+### Critical Integration: LayeredRetrievalOrchestrator — 4-Layer Pipeline (Wave B)
+**Files:** `include/search/layered_retrieval_orchestrator.h` ↔ `src/search/layered_retrieval_orchestrator.cpp`
+**Contract:** v3.0.0. Four-stage pipeline: ANN → Tensor → Graph → LLM. Per-layer hard deadline enforcement. All errors captured in `LayeredRetrievalResult`; never throws. OpenTelemetry tracing per layer. Performance: p99 ≤ 200 ms (ANN+Tensor), ≤ 300 ms (full 4-layer with LLM). Memory bounded ~13.5 KB/query.
+**Thread Safety:** Thread-safe for concurrent `execute()` calls if backends are individually thread-safe.
+**Failure Mode:** Missing backend or timeout → `FALLBACK` or `TIMEOUT_SKIP`; chain continues with remaining layers.
+
+### Critical Integration: DistributedHybridSearch v2.2.0 — Cross-Shard Merge
+**Files:** `include/search/distributed_hybrid_search.h` ↔ `src/search/distributed_hybrid_search.cpp`
+**Contract:** RRF-based global rank fusion across shards. Configurable `skip_failed_shards`. `mergeShardResults()` detects merge underflow and high-overlap variance via `SearchStats`. Partial results flagged explicitly.
+**Thread Safety:** Shard queries run concurrently; result merge is single-threaded per request.
+**Failure Mode:** Shard failure → `SearchStats::shards_failed > 0`, `partial_result = true`; surviving shard results remain consistent.
+

@@ -1,6 +1,6 @@
 # Architecture - Cache Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -40,7 +40,43 @@ The cache module composes query and embedding cache behaviors into bounded, obse
 - degraded coordination backends surface explicit runtime degradation.
 - invalidation/warmup failures remain bounded and observable.
 
-## Sourcecode Verification (Module: cache/architecture)
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` (hashing, time, concurrency helpers) | Cache key hashing, TTL computation, and internal locking primitives |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/cache/semantic_cache.h`, `include/cache/adaptive_query_cache.h`, `include/cache/cache_hit_rate_slo_monitor.h` | Semantic result reuse and SLO monitoring for HTTP query responses |
+| `query` | `include/cache/adaptive_query_cache.h`, `include/cache/workload_cache_strategy.h` (via `include/query/query_cache_manager.h`, `include/query/workload_cache_strategy.h`) | Plan-level result reuse and workload-adaptive cache strategy before execution engine invocation |
+| `llm` | `include/cache/semantic_cache.h`, `include/cache/embedding_cache.h` | Embedding and inference-result caching to reduce model call volume; LLM prefix cache (`src/llm/llm_prefix_cache.cpp`) also uses `cache/` headers |
+| `sharding` | `include/cache/bounded_lru_cache.h` | Bounded LRU shard-routing metadata cache for consistent-hash ring lookups |
+| `content` | `include/cache/bounded_lru_cache.h` | `deduplication_checker` uses bounded LRU for fingerprint deduplication (`include/content/deduplication_checker.h:20`) |
+
+## Integration Points
+
+### Critical Integration: SemanticCache ↔ Server Query Path
+**Files:** `include/cache/semantic_cache.h` ↔ `src/server/http_server.cpp`
+**Contract:** `SemanticCache::lookup(embedding_key)` returns a cached result or `MISS`; on `MISS` the server executes the full query and calls `SemanticCache::insert()` with the result. Invalidation events (from storage writes) must precede any subsequent `lookup()` seeing stale data.
+**Thread Safety:** `SemanticCache` is concurrency-safe via internal `std::shared_mutex`; `insert()` and `lookup()` may be called from any request thread.
+**Failure Mode:** Cache backend degradation (Redis unavailable) falls back to `MISS` behavior; the server continues with full execution. A `cache.backend_errors` counter is incremented.
+
+### Critical Integration: AdaptiveQueryCache ↔ Query Module
+**Files:** `include/cache/adaptive_query_cache.h` ↔ `src/query/` execution entry point
+**Contract:** `AdaptiveQueryCache::get(query_fingerprint)` is called before the query planner; a hit returns a pinned result set that the query layer forwards directly. `put()` is called post-execution with the result and a computed eviction score.
+**Thread Safety:** Cache entries are reference-counted; concurrent reads are lock-free, writes serialised per bucket.
+**Failure Mode:** Cache corruption or capacity overflow causes silent eviction; the query layer always falls through to execution on a miss.
+
+### Critical Integration: CacheHitRateSloMonitor ↔ Server SLO Reporting
+**Files:** `include/cache/cache_hit_rate_slo_monitor.h` ↔ `src/server/` metrics pipeline
+**Contract:** `CacheHitRateSloMonitor::record(hit_or_miss)` updates a rolling hit-rate window; `checkSlo()` returns a breach signal consumed by the server's SLO alerting path.
+**Thread Safety:** Counter updates are atomic; `checkSlo()` reads are linearisable.
+**Failure Mode:** Monitor failure is non-fatal; SLO breach reporting may be delayed but cache operation continues.
+
+
 
 - Verified files:
   - src/cache/adaptive_query_cache.cpp

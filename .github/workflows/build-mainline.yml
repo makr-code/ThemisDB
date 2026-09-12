@@ -238,7 +238,6 @@ jobs:
           set -euo pipefail
           T0=$(date +%s)
           NCPU="$(sysctl -n hw.logicalcpu)"
-          BUILD_OK=0
           BUILD_WARN=0
 
           build_target() {

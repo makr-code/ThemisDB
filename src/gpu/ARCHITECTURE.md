@@ -101,3 +101,10 @@ managers map this to `nullptr` returns or error-log paths as appropriate.
   - deterministic fallback/degraded behavior boundaries
   - module-local ownership of GPU orchestration surfaces
   - unified IVRAMPolicy hierarchy across namespaces
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `themis` | `include/gpu/cuda_raii.h`, `include/gpu/gpu_backend_dispatch_diagnostics.h` | `themis/gpu/stream_manager.h` wraps CUDA RAII lifetime management; `themis/gpu/gpu_backend_dispatch_diagnostics.h` re-exports the GPU backend diagnostics surface (`include/themis/gpu/stream_manager.h`, `include/themis/gpu/gpu_backend_dispatch_diagnostics.h`) |

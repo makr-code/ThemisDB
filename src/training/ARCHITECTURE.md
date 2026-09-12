@@ -1,6 +1,6 @@
 # Architecture - Training Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -50,6 +50,34 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
   - dataset + adapter-training + governance/orchestration plane split
   - explicit failure boundaries for training, checkpoint, and enrichment faults
   - module-local ownership of training behavior
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llm | `include/llm/` | LLM inference layer provides model interfaces for adapter training and serving handoff |
+| rag | `include/rag/` | RAG module provides document/entity data feeds for auto-labeling and graph enrichment |
+| index | `include/index/` | Index structures used for embedding lookups during data-selection and evaluation |
+| storage | `include/storage/` | Persists training checkpoints and adapter artifacts |
+| observability (utils) | `include/utils/tracing.h`, `audit_logger.h` | Training pipeline audit and telemetry |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| rag | `include/training/` (lora_data_selection.h) | RAG data-selection step calls training module for LoRA dataset curation |
+
+## Integration Points
+
+### Critical Integration: LLM Adapter Serving Handoff
+**Files:** `src/training/lora_adapter.cpp`, `lora_adapter_merger.cpp` ↔ `llm/`
+**Contract:** Trained adapters are handed to the LLM module via a standardised serving-handoff interface; adapter format must match the LLM module's expected schema.
+**Thread Safety:** Handoff is a one-time atomic swap; no concurrent writes to the adapter object are permitted after handoff.
+
+### Critical Integration: RAG LoRA Data Selection
+**Files:** `src/training/training_pipeline.cpp` ↔ `rag/lora_data_selection.h`
+**Contract:** RAG calls training data-selection to filter and score training samples; selection outputs are deterministic for the same input dataset snapshot.
+**Thread Safety:** Selection runs as an isolated pipeline stage; no shared mutable state with RAG during selection.
 
 ## Planning Traceability
 

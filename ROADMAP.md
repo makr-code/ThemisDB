@@ -113,6 +113,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 > | Transaction CI execution evidence (73 Phase 1-3 tests) | Cannot validate recovery/SAGA behavior without CI green evidence | Tests implemented; NO `develop` CI run yet | Run immediately (should have been done 2026-08-31) |
 > | Query FTS executor backend wiring | Q4 deadline at risk (lexer/parser complete; executor not started) | 0% implementation progress | Begin immediately; 4-6 weeks estimated |
 > | Root ROADMAP sync issues (stale claims and inconsistencies) | GA sign-off decision based on incorrect status claims | Identified in 2026-09-02 validation; corrections in progress | Before Q3 2026 end |
+> | Circular dep resolution (#5039/#5040) | `llm` cannot be compiled independently; `llm`↔`server` and `llm`↔`query` coupling | Open — Wave D | Q1 2027 |
 
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
@@ -158,12 +159,20 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [x] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026, COMPLETE 2026-08-17/18 per `src/search/ROADMAP.md` + `src/search/WAVE_B_DOCUMENTATION_CLOSURE.md`)
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026, COMPLETE 2026-08-17 per `src/access_model/ROADMAP.md`)
 - [x] LLM Wiki Phase A+B: ✅ COMPLETE 2026-08-26 — Phase A (BM25+HNSW+RRF) and Phase B (RocksDB backend) both delivered; in-memory fallback retained for test environments; persistence round-trip verified; representative-hardware p95/p99 evidence pending Q4 2026. See `src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
-
 - [x] Analytics: federated query coordinator per-shard retry (AN1, exponential backoff + jitter) + forecasting model CRC-32 integrity check (AN2) — ✅ COMPLETE 2026-08-26 (8 tests; see `src/analytics/ROADMAP.md`)
+
+### Wave B ML Enhancements (Sub-waves B1–B3) — ✅ SIGNED OFF 2026-09-09 (Issue #6286)
+
+> References: `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`, `docs/research/ml_enhancements_bibliography.md`
+
+- [x] **B1 — Self-RAG** (`SelfRAGController` + `InferenceEnhancementEngine`): iterative retrieve-critique loop, binary retrieval gate, 3-class critic (Relevant/Partial/Irrelevant), max-round exhaustion path — ✅ COMPLETE; ALCE-01..05 acceptance tests pass (`tests/rag/test_self_rag_alce.cpp`). Acceptance: hallucination reduction ≥ 20%, latency ≤ 1.5×, Precision@K ≥ 0.85.
+- [x] **B2 — RotatE KGC** (`RotatEModel`, `LinkPredictionHead`, `KGCompletionEngine`, `KnowledgeGraphReasoner`): relation-as-rotation embedding, negative-sampling triple loss, tail/head link prediction — ✅ COMPLETE; KGC-01..15 tests pass (`tests/test_rotate_completion.cpp`). Acceptance: MRR ≥ 0.35, Hits@10 ≥ 0.55, inference ≤ 50 ms.
+- [x] **B3 — Multi-Task LoRA** (`MultiTaskLoRA`): shared LoRA base with task-specific projections, domain-gating mechanism, configurable joint loss, 3-task benchmark — ✅ COMPLETE; MTL acceptance tests pass (`tests/training/test_multitask_lora_acceptance_gates.cpp`). Acceptance: avg task perf ≥ +8%, training overhead ≤ 15%.
 
 ### Wave B Exit Criteria (Gate to Wave C)
 - [x] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026) — Search Wave-B closure evidence recorded
 - [x] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026) — GATE-ACM-01..06 closed
+- [x] Wave B ML Enhancements (B1 Self-RAG, B2 RotatE KGC, B3 Multi-Task LoRA) exit-gate signed off — ALCE-01..05 + KGC-01..15 + MTL acceptance tests implemented and passing; CI evidence archival complete (2026-09-09, Issue #6286). See `src/ai/ROADMAP.md`, `src/ai/FUTURE_ENHANCEMENTS.md`.
 - [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
 ### Wave C — Security Production Validation (Q4 2026)
@@ -2681,6 +2690,31 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
 | 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
+
+### Architecture: Circular Dependency Issues (source-validated 2026-09-09)
+
+The following circular include dependencies are formally tracked. They are design debt requiring
+resolution before the affected modules can be independently compiled, packaged, or tested in isolation.
+
+| ID | Pair | Evidence | Severity | Status | Target |
+|----|------|----------|----------|--------|--------|
+| TBD-LLM-SERVER | `llm` ↔ `server` | `src/llm/mcp_tool_bridge.cpp` → `server/mcp_server.h`; `src/server/lora_api_handler.cpp` → `llm/lora_framework/lora_orchestrator.h` | HIGH — prevents independent `llm` compilation | Open | Q1 2027 |
+| TBD-LLM-QUERY | `llm` ↔ `query` | `src/llm/` includes `query/` (AQL); `src/query/functions/lora_functions.cpp` includes `llm/lora_framework/lora_orchestrator.h` | MEDIUM — bidirectional, forward-declarations partially mitigate | Open | Q1 2027 |
+| — | `sharding` ↔ `transaction` | `include/sharding/cross_shard_transaction.h` ↔ `include/transaction/recoverable_two_phase_coordinator.h` | LOW — managed dep, correct init order required | Managed | No target |
+
+**Resolution path for TBD-LLM-SERVER (`llm` ↔ `server`):**
+- [ ] Extract MCP tool bridge protocol to a neutral `mcp/mcp_protocol.h` header (no server-side state)
+- [ ] `server/mcp_server.h` forward-declares the protocol types; `llm/mcp_tool_bridge.cpp` uses protocol types only
+- [ ] Verify: `llm` must compile without `server/` in include path
+
+**Resolution path for TBD-LLM-QUERY (`llm` ↔ `query`):**
+- [ ] Move `lora_functions.cpp` AQL wiring to an adapter in `aql/lora_aql_adapter.cpp` (depends on both, owned by neither)
+- [ ] `llm` exports `lora_orchestrator` only via `themis/llm/lora_orchestrator_interface.h` (already exists)
+- [ ] `query` includes only the interface header, not the concrete `lora_orchestrator.h`
+- [ ] Verify: `query` must compile without `llm/lora_framework/lora_orchestrator.h`
+
+> **Canonical sources:** `src/ARCHITECTURE.md` §Confirmed Circular Dependencies; `src/llm/ARCHITECTURE.md` §Known Design Issues.
+> **SOT domain:** architecture-governance. **Level:** level3. **Milestone:** DOC-WEEKLY-2026-37.
 
 ---
 

@@ -1,6 +1,6 @@
 # Architecture - Ethics AI Module
 
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -113,4 +113,30 @@ DiscourseMode::LAYERED_FAST     (implemented)
   - explicit profile/discourse/context/evaluation planes
   - bounded deterministic failure behavior in lifecycle and profile paths
   - module-local orchestration for ethics reasoning runtime flows
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llm | `include/llm/` | LLM inference used for ethics evaluation scoring and discourse generation |
+| observability (utils) | `include/utils/tracing.h`, `audit_logger.h` | Audit trail for ethics decisions and discourse outcomes |
+| utils | `include/utils/` | Logging and thread services |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| llm | `include/ethics_ai/` | LLM module enforces ethics evaluation on generated outputs before delivery |
+
+## Integration Points
+
+### Critical Integration: LLM Ethics Enforcement
+**Files:** `src/ethics_ai/ethics_evaluator.cpp`, `ethics_ai_plugin.cpp` ↔ `llm/`
+**Contract:** LLM invokes ethics evaluation after inference; a failing ethics verdict blocks output delivery. `EthicsSelectionRouter` selects active schools; discourse mode is configured per-deployment.
+**Thread Safety:** Ethics evaluation is stateless for a given input; concurrent evaluation calls are safe. `DiscourseOrchestrator` internal state is protected under its own mutex.
+
+### Critical Integration: RAG Context Engine
+**Files:** `src/ethics_ai/rag_context_engine.cpp` ↔ `rag/` (indirect, via LLM context pipeline)
+**Contract:** RAG context engine assembles supporting evidence for ethics discourse arguments; evidence is treated as read-only input to discourse reasoning.
+**Thread Safety:** Context assembly is read-only; concurrent calls are safe.
   - LDM Ebene-1/2/3 and Mirror-School-Modus implemented and verified

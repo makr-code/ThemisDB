@@ -76,3 +76,18 @@ All scraper errors are routed to a `ScraperFaultClass` via `faultClassOf()`:
 - `kWritePath` — Metadata / relational / graph / vector write failures
 - `kCrawlControl` — Pagination limits, burst throttle, source catalog issues
 - `kInternal` — Unclassified errors
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: INTEGRATION-READY (plugin host + HTTP handler)**
+> Handler header `include/server/scraper_plugin_api_handler.h` has been created as
+> the production HTTP consumer route. The scraper module is built as an opt-in
+> plugin target via `THEMIS_PLUGIN_SCRAPER`. Wiring `ScraperPluginApiHandler` into
+> `HttpServer` and the plugin host are the remaining steps.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/server/scraper_plugin_api_handler.h` → `ScraperPluginApiHandler` | Planned HTTP routes: `POST /scraper/crawl`, `GET /scraper/jobs`, `GET /scraper/jobs/{id}/status`, `GET /scraper/jobs/{id}/result`, `DELETE /scraper/jobs/{id}`. Gate: `THEMIS_PLUGIN_SCRAPER`. Handler header implemented; `HttpServer` wiring pending. |
+| `plugin_host` | CMake flag `THEMIS_PLUGIN_SCRAPER` → plugin registry load | Plugin loaded at startup when `THEMIS_PLUGIN_SCRAPER=ON`. |
+| _(tests)_ | `include/scraper/scraper_plugin.h`, `include/scraper/scraper_diagnostics.h`, etc. | `tests/scraper/` test files — current only direct verified consumers. |

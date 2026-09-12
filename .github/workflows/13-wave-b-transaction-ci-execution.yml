@@ -69,8 +69,8 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -131,8 +131,8 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -195,8 +195,8 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++
@@ -270,8 +270,8 @@ jobs:
             librocksdb-dev libssl-dev zlib1g-dev \
             libbz2-dev liblz4-dev libzstd-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc
           cxx: g++

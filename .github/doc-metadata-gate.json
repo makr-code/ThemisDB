@@ -5,7 +5,6 @@
     "security/**/*.md",
     "ai_context/**/*.md",
     ".github/**/*.md",
-    "src/*/*.md",
     "tests/**/*.md",
     "README.md",
     "QUICKSTART.md",
