@@ -158,18 +158,32 @@ RUN mkdir -p /opt/themis-models
 COPY scripts/download-tinyllama-hf.sh /usr/local/bin/download-tinyllama-hf.sh
 RUN chmod +x /usr/local/bin/download-tinyllama-hf.sh
 
-# Optional local model fallback input:
-# - models/**/*tinyllama*.gguf
-# - llama.cpp/models/**/*tinyllama*.gguf
-# (controlled via .dockerignore to keep context small)
-RUN mkdir -p /opt/local-models/models /opt/local-models/llama-cpp-models
-COPY models/ /opt/local-models/models/
-
-# Copy llama.cpp source (excluding build/, models/, etc. via .dockerignore)
-COPY llama.cpp ./llama.cpp
-
-# Copy only whitelisted local TinyLlama candidates from llama.cpp/models.
-COPY llama.cpp/models/ /opt/local-models/llama-cpp-models/
+RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
+    set -eux; \
+    mkdir -p /opt/local-models/models /opt/local-models/llama-cpp-models /opt/llama.cpp; \
+    if [ -d /tmp/build-context/models ]; then \
+        cp -a /tmp/build-context/models/. /opt/local-models/models/; \
+    fi; \
+    if [ -d /tmp/build-context/llama.cpp/models ]; then \
+        cp -a /tmp/build-context/llama.cpp/models/. /opt/local-models/llama-cpp-models/; \
+    fi; \
+    if [ -d /tmp/build-context/llama.cpp ] && [ -f /tmp/build-context/llama.cpp/CMakeLists.txt ]; then \
+        cp -a /tmp/build-context/llama.cpp/. /opt/llama.cpp/; \
+    else \
+        LLAMA_CPP_GIT_TAG="$(perl -ne 'print \"$1\\n\" if /set\\s*\\(\\s*LLAMA_CPP_GIT_TAG\\s+\"([^\"]+)\"/' /tmp/build-context/cmake/Dependencies.cmake | head -n 1)"; \
+        if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then \
+            echo "ERROR: Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"; \
+            exit 1; \
+        fi; \
+        rm -rf /opt/llama.cpp; \
+        echo "llama.cpp not present in Docker context; fetching pinned revision ${LLAMA_CPP_GIT_TAG}"; \
+        if printf '%s' "${LLAMA_CPP_GIT_TAG}" | grep -Eq '^[0-9a-fA-F]{5,40}$'; then \
+            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
+            git -C /opt/llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"; \
+        else \
+            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git /opt/llama.cpp; \
+        fi; \
+    fi
 
 # Build if LLM is enabled
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \
@@ -217,7 +231,6 @@ COPY cmake ./cmake
 COPY include ./include
 COPY src ./src
 COPY proto ./proto
-COPY internal ./internal
 COPY ports ./ports
 COPY vcpkg ./vcpkg
 COPY whisper.cpp ./whisper.cpp
@@ -227,6 +240,12 @@ COPY external ./external
 COPY plugins ./plugins
 COPY scripts ./scripts
 COPY tools ./tools
+RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
+    set -eux; \
+    mkdir -p /src/internal; \
+    if [ -d /tmp/build-context/internal ]; then \
+        cp -a /tmp/build-context/internal/. /src/internal/; \
+    fi
 
 # Copy vcpkg config from deps stage (not from host!)
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
