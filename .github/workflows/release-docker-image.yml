@@ -268,7 +268,7 @@ jobs:
         mkdir -p internal models vcpkg/downloads
 
         if [ ! -f llama.cpp/CMakeLists.txt ]; then
-          LLAMA_CPP_GIT_TAG="$(sed -n 's/^[[:space:]]*set(LLAMA_CPP_GIT_TAG \"\([^\"]*\)\".*/\1/p' cmake/Dependencies.cmake | head -n 1)"
+          LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+"([^"]+)"/' cmake/Dependencies.cmake | head -n 1)"
           if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then
             echo "::error::Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"
             exit 1
@@ -278,6 +278,11 @@ jobs:
           rm -rf llama.cpp
           git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
           git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
+          ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse --short=${#LLAMA_CPP_GIT_TAG} HEAD)"
+          if [ "${ACTUAL_LLAMA_CPP_COMMIT}" != "${LLAMA_CPP_GIT_TAG}" ]; then
+            echo "::error::llama.cpp checkout mismatch: expected ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
+            exit 1
+          fi
         fi
 
         test -f llama.cpp/CMakeLists.txt
