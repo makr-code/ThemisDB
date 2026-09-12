@@ -73,7 +73,7 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
         return {};
     }
     
-    BIO* mem = BIO_new_mem_buf(encoded.data(), encoded.size());
+    BIO* mem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
     if (!mem) {
         BIO_free(b64);
         return {};

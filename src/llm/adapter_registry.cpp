@@ -428,8 +428,7 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     // supplied (useful in test/CI environments).
     if (!private_key.empty()) {
         // BATCH 2: RAII wrapper for BIO - automatically freed at scope exit
-        ScopedBIO bio(BIO_new_mem_buf(private_key.data(),
-                                       private_key.size()));
+        ScopedBIO bio(BIO_new_mem_buf(private_key.data(), static_cast<int>(private_key.size())));
         
         // BATCH 2: RAII wrapper for EVP_PKEY - automatically freed at scope exit
         ScopedEVPKey pkey(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));

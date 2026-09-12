@@ -282,9 +282,9 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
         stack.pop_back();
 
         // Allocate node; write index back to parent before building children.
-        int node_id = tree.nodes.size();
+        int node_id = static_cast<int>(tree.nodes.size());
         IFNode node;
-        node.size = idx.size();
+        node.size = static_cast<int>(idx.size());
         tree.nodes.push_back(node);
 
         if (parent_id >= 0) {

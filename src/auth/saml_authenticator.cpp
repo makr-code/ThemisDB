@@ -73,7 +73,7 @@ SAMLAuthenticator::~SAMLAuthenticator() {
 
 void SAMLAuthenticator::loadIdPCertificate() {
     BIO *bio
-        = BIO_new_mem_buf(config_.idp_certificate_pem.data(), config_.idp_certificate_pem.size());
+        = BIO_new_mem_buf(config_.idp_certificate_pem.data(), static_cast<int>(config_.idp_certificate_pem.size()));
     if (!bio) {
         throw std::runtime_error("SAML: Failed to create BIO for IdP certificate");
     }
@@ -243,7 +243,7 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string &relay_sta
 
 std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
     BIO *b64_bio = BIO_new(BIO_f_base64());
-    BIO *mem_bio = BIO_new_mem_buf(input.data(), input.size());
+    BIO *mem_bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.size()));
     if (!b64_bio || !mem_bio) {
         BIO_free(b64_bio);
         BIO_free(mem_bio);
@@ -592,7 +592,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     // ----------------------------------------------------------------
     // Step 3: Load SP private key from the secure loader
     // ----------------------------------------------------------------
-    BIO *key_bio = BIO_new_mem_buf(sp_key_pem.data(), sp_key_pem.size());
+    BIO *key_bio = BIO_new_mem_buf(sp_key_pem.data(), static_cast<int>(sp_key_pem.size()));
     if (!key_bio) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "Failed to allocate BIO for SP private key");

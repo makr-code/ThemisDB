@@ -372,7 +372,7 @@ std::vector<uint8_t> MFAAuthenticator::hmacSHA1(
     unsigned int hash_len = 0;
     
     HMAC(EVP_sha1(), 
-         key.data(), key.size(),
+         key.data(), static_cast<int>(key.size()),
          message.data(), message.size(),
          hash, &hash_len);
     

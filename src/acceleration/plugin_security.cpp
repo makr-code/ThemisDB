@@ -519,7 +519,7 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
 
     // Step 2: Load X.509 certificate from PEM string
     BIO *bio
-        = BIO_new_mem_buf(signature.signingCertificate.data(), signature.signingCertificate.size());
+        = BIO_new_mem_buf(signature.signingCertificate.data(), static_cast<int>(signature.signingCertificate.size()));
     if (!bio) {
         return false;
     }
@@ -593,7 +593,7 @@ bool PluginSecurityVerifier::verifyCertificateChain(const std::string &certifica
     }
 
     // Create BIO from certificate PEM string
-    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
+    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }
@@ -670,7 +670,7 @@ bool PluginSecurityVerifier::checkCRL(const std::string &certificate) {
     }
 
     // Load certificate
-    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
+    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }
@@ -849,7 +849,7 @@ bool PluginSecurityVerifier::checkOCSP(const std::string &certificate) {
     }
 
     // Load certificate
-    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
+    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
     if (!bio) {
         return false;
     }

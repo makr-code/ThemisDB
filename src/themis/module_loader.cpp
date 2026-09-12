@@ -1694,8 +1694,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
         return false;
     }
 
-    BIO* bio = BIO_new_mem_buf(publicKeyPem.data(),
-                               publicKeyPem.size());
+    BIO* bio = BIO_new_mem_buf(publicKeyPem.data(), static_cast<int>(publicKeyPem.size()));
     if (!bio) {
         error = "BIO_new_mem_buf failed";
         return false;

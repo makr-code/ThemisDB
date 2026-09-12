@@ -64,7 +64,7 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
             return false;
         }
         
-        bio = BIO_new_mem_buf(cleaned_input.data(), cleaned_input.size());
+        bio = BIO_new_mem_buf(cleaned_input.data(), static_cast<int>(cleaned_input.size()));
         if (!bio) {
             BIO_free(b64);
             spdlog::error("Failed to create memory BIO");

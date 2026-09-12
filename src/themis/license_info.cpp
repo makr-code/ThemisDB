@@ -317,7 +317,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), encoded.size());
+    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
     if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
     if (!b64) { BIO_free(bmem); return {}; }

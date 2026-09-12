@@ -74,7 +74,7 @@ std::string opensslError() {
 
 // Parse PEM certificate; returns nullptr on failure
 UniqueX509 parsePEM(const std::string &pem) {
-    UniqueBIO bio(BIO_new_mem_buf(pem.data(), pem.size()));
+    UniqueBIO bio(BIO_new_mem_buf(pem.data(), static_cast<int>(pem.size())));
     if (!bio) {
         return nullptr;
     }
@@ -127,7 +127,7 @@ bool MTLSAuthenticator::initCAStore() {
     }
 
     // Load one or more PEM-encoded CA certs from the concatenated PEM string
-    UniqueBIO bio(BIO_new_mem_buf(config_.ca_cert_pem.data(), config_.ca_cert_pem.size()));
+    UniqueBIO bio(BIO_new_mem_buf(config_.ca_cert_pem.data(), static_cast<int>(config_.ca_cert_pem.size())));
     if (!bio) {
         return false;
     }
@@ -155,7 +155,7 @@ bool MTLSAuthenticator::initCAStore() {
 }
 
 bool MTLSAuthenticator::initCRL() {
-    UniqueBIO bio(BIO_new_mem_buf(config_.crl_pem.data(), config_.crl_pem.size()));
+    UniqueBIO bio(BIO_new_mem_buf(config_.crl_pem.data(), static_cast<int>(config_.crl_pem.size())));
     if (!bio) {
         return false;
     }
@@ -316,7 +316,7 @@ MTLSClaims MTLSAuthenticator::authenticate(const std::string &cert_pem) {
 
 MTLSClaims MTLSAuthenticator::authenticateDER(const std::vector<uint8_t> &cert_der) {
     // Convert DER to PEM
-    UniqueBIO der_bio(BIO_new_mem_buf(cert_der.data(), cert_der.size()));
+    UniqueBIO der_bio(BIO_new_mem_buf(cert_der.data(), static_cast<int>(cert_der.size())));
     if (!der_bio) {
         throw AuthException(AuthError(AuthErrorCode::MTLS_CERT_INVALID, "Certificate authentication failed",
                                       "Failed to create BIO for DER input"));

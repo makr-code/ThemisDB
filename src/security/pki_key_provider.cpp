@@ -98,7 +98,7 @@ PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
     }
     
     // Parse certificate using OpenSSL
-    PKI_BIO_ptr bio(BIO_new_mem_buf(cert_pem.data(), cert_pem.size()));
+    PKI_BIO_ptr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO for certificate");
     }

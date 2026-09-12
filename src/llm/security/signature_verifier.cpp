@@ -203,7 +203,7 @@ RSA_SHA256_Verifier::loadCertificate(const std::string& cert_pem) {
     
     // Create BIO from PEM string
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
+        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
         BIO_free
     );
     
@@ -284,7 +284,7 @@ SignatureVerificationResult CertificateChainVerifier::verify(
     try {
         // 1. Load certificate from PEM
         std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-            BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
+            BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
             BIO_free
         );
         
@@ -478,7 +478,7 @@ SignatureVerificationResult CRLChecker::verify(
     try {
         // 1. Load certificate from PEM
         std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-            BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
+            BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
             BIO_free
         );
         
@@ -582,7 +582,7 @@ X509_CRL* CRLChecker::downloadAndParseCRL() const {
                                   static_cast<long>(raw.size()));
     if (!crl) {
         // Try PEM
-        BIO* bio = BIO_new_mem_buf(raw.data(), raw.size());
+        BIO* bio = BIO_new_mem_buf(raw.data(), static_cast<int>(raw.size()));
         if (bio) {
             crl = PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
             BIO_free(bio);
@@ -853,7 +853,7 @@ ECDSA_SHA256_Verifier::loadCertificate(const std::string& cert_pem) {
     spdlog::debug("Loading EC certificate from PEM");
     
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
+        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
         BIO_free
     );
     
@@ -1158,7 +1158,7 @@ ECDSA_SHA384_Verifier::loadCertificate(const std::string& cert_pem) {
     spdlog::debug("Loading EC certificate from PEM");
     
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
+        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
         BIO_free
     );
     

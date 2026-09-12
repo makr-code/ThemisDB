@@ -122,7 +122,7 @@ namespace {
     
     // Base64 decode helper
     std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
-        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), encoded.size());
+        BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
         if (!bmem) {
           return std::nullopt;
         }

@@ -191,8 +191,7 @@ bool LoRACertificateStore::fingerprintMatches(const std::string& cert_pem,
       return false;
     }
 
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(),
-                               cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
     if (!bio) {
       return false;
     }

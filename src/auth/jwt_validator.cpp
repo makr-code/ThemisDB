@@ -119,7 +119,7 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
         base64 += '=';
     }
 
-    BIO *bmem = BIO_new_mem_buf(base64.data(), base64.size());
+    BIO *bmem = BIO_new_mem_buf(base64.data(), static_cast<int>(base64.size()));
     if (!bmem) {
         return {};
     }

@@ -1082,7 +1082,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Parse PEM certificate to DER format
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(),cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
     if(!bio){
         THEMIS_ERROR("importCertificate: Failed to create BIO");
         releaseSession(sess);

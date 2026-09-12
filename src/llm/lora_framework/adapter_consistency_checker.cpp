@@ -80,7 +80,7 @@ public:
 
         // When a PEM public key is provided, use Ed25519 / RSA EVP verification.
         if (!public_key.empty()) {
-            BIO* bio = BIO_new_mem_buf(public_key.data(), public_key.size());
+            BIO* bio = BIO_new_mem_buf(public_key.data(), static_cast<int>(public_key.size()));
             if (!bio) {
               return false;
             }

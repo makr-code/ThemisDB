@@ -1112,11 +1112,11 @@ std::vector<double> predictSARIMA(const SARIMAParams &p, int steps) {
         // Seasonal integration (D=1): pred_val += seas_buf[k % m]
         // (We approximate by adding back the seasonal value from the buffer)
         if (p.D >= 1 && m >= 2 && !seas_buf.empty()) {
-            int si = seas_buf.size() - m + (k % m);
+            int si = static_cast<int>(seas_buf.size()) - static_cast<int>(m) + static_cast<int>(k % m);
             if (si < 0)
                 si = 0;
-            if (si >= seas_buf.size()) {
-                si = seas_buf.size() - 1;
+            if (static_cast<size_t>(si) >= seas_buf.size()) {
+                si = static_cast<int>(seas_buf.size()) - 1;
             }
             pred_val += seas_buf[static_cast<size_t>(si)];
         }
@@ -1190,7 +1190,7 @@ static double prophetTrend(double t_norm, double k, double m_off, const std::vec
 /// Evaluate Fourier seasonality component at time t_days.
 static double prophetFourier(double t_days, double period, const std::vector<double> &coeffs) {
     double s  = 0.0;
-    int order = coeffs.size() / 2;
+    int order = static_cast<int>(coeffs.size() / 2);
     for (int n = 1; n <= order; ++n) {
         double freq = 2.0 * 3.14159265358979323846 * static_cast<double>(n) * t_days / period;
         s += coeffs[static_cast<size_t>(2 * n - 2)] * std::cos(freq);

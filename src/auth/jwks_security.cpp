@@ -412,7 +412,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }
