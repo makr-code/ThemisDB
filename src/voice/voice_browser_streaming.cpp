@@ -272,7 +272,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
       return empty;
     }
 
-    // CRITICAL GAP 7: Reject empty chunks fail-closed
+    // Validation rule 7: reject empty chunks fail-closed.
     if (audio_chunk.empty()) {
         std::string msg = "VoiceStreamingSession: empty audio chunk rejected (error 6920)";
         THEMIS_WARN("{}", msg);
@@ -294,7 +294,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
         return empty;
     }
     
-    // CRITICAL GAP 8: Reject malformed frames
+    // Validation rule 8: reject malformed frames.
     if (!isChunkFrameAligned(impl_->config, audio_chunk)) {
         std::string msg = "VoiceStreamingSession: malformed or frame-misaligned audio chunk (error 6904), size=" +
                           std::to_string(audio_chunk.size());
@@ -306,7 +306,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     }
 
     // TASK 2.5: Enforce max frame size
-    // CRITICAL GAP 9: Oversized individual frame rejection
+    // Validation rule 9: reject oversized individual frames.
     if (audio_chunk.size() > impl_->config.max_frame_bytes) {
         std::string msg = "VoiceStreamingSession: frame too large (oversized rejection: " +
                           std::to_string(audio_chunk.size()) + " > " +
@@ -328,7 +328,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     }
 
     // TASK 2.5: Bounded buffer overflow detection and rejection
-    // CRITICAL GAP 10: Oversized session buffer rejection
+    // Validation rule 10: reject oversized session buffers.
     // Error code 6900: Buffer overflow
     size_t new_total = impl_->buffer_size_bytes + audio_chunk.size() ;
     if (new_total > kMaxBufferSizeBytes) {
