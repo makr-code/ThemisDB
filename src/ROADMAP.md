@@ -40,6 +40,13 @@ For the per-module current state, use the root [`../ROADMAP.md`](../ROADMAP.md) 
 - [ ] Execute release-critical backlog closure in `acceleration`, `query`, `transaction`, `index`, `gpu`, and `rag` with representative-hardware evidence refresh (Target: Q4 2026).
 - [ ] Re-run recursive roadmap deep-dive after each Wave A/B closure batch and sync this consolidated source roadmap (Target: ongoing).
 
+### Wave Closure Implementation Sequence (2026-09-12)
+- [ ] Wave A completion: finalize Transaction + GPU authoritative representative-hardware and chaos/recovery evidence, then close remaining `release_critical` + p95/p99 gates for Wave-A modules (Target: Q4 2026).
+- [ ] Wave B finish: close remaining hardening blocks in `query`, `acceleration`, `llm_wiki`, `llm`, `index`, `rag`, `search`, `updates`, including Query↔Index↔Storage and LLM↔RAG↔LLM_Wiki integration evidence (Target: Q4 2026).
+- [ ] Wave C validation: consolidate sustained-load security/compliance evidence for `auth`/`security`/`governance` and fail-closed boundary behavior into final sign-off package (Target: Q4 2026).
+- [ ] Wave D operability: close runbook/diagnostics/alerts/recovery and operator-readiness gates with refreshed chaos/failover/recovery evidence (Target: Q1 2027).
+- [ ] Enforce final order: Wave-A residual gates → Wave-B hardening → Wave-C security sign-off → Wave-D operability sign-off → final governance sync + human GA sign-off (Target: Q1 2027).
+
 ---
 
 ## Table of Contents

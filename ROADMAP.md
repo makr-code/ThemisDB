@@ -144,6 +144,32 @@ The repository is clearly not a blank or mock project. It contains a substantial
 
 Execution targets `develop` and must follow strict wave-gate sequencing.
 
+### Wave Closure Implementation Contract (2026-09-12)
+
+This execution contract is the active implementation sequence to close hardening status and reach production-ready sign-off.
+
+#### 1) Wave A completion (highest priority)
+- [ ] Transaction: publish authoritative representative-hardware + chaos/recovery evidence artifacts and close remaining Wave-A gate items (Target: Q4 2026)
+- [ ] GPU: continue Phase-C CUDA-call closure, finalize timeout/RAII/fallback hardening, and publish representative-hardware benchmark artifacts (Target: Q4 2026)
+- [ ] Wave-A exit gates: enforce `release_critical` green on `develop` for all Wave-A modules and refresh p95/p99 baselines for transaction/gpu/voice/sharding/replication (Target: Q4 2026)
+
+#### 2) Wave B hardening finish (after Wave A gates)
+- [ ] Close highest-pressure module backlogs in `query`, `acceleration`, `llm_wiki`, `llm`, `index`, `rag`, `search`, and `updates` via closure batches (correctness/performance/operability) with testable evidence (Target: Q4 2026)
+- [ ] Close cross-module integration hardening for Query↔Index↔Storage and LLM↔RAG↔LLM_Wiki, then refresh representative-hardware baselines (Target: Q4 2026)
+
+#### 3) Wave C security production validation
+- [ ] Consolidate sustained-load security evidence across `auth`/`security`/`governance` and affected runtime modules (Target: Q4 2026)
+- [ ] Re-validate policy/audit/boundary fail-closed behavior end-to-end and bundle unresolved compliance/security findings into final sign-off package (Target: Q4 2026)
+
+#### 4) Wave D operability hardening
+- [ ] Finalize operator runbooks, diagnostics, alerts, and recovery procedures for all release-critical paths (Target: Q1 2027)
+- [ ] Revalidate chaos/failover/recovery evidence against refreshed baselines and close operator-readiness gates (incident handling, rollback, SLO/SLA) (Target: Q1 2027)
+
+#### 5) Final release ordering (must follow)
+- [ ] Enforce execution order: Wave-A residual gates → Wave-B residual hardening → Wave-C security sign-off → Wave-D operability sign-off (Target: Q1 2027)
+- [ ] Perform final root-governance sync and request human GA/program sign-off only after all critical blockers are closed (Target: Q1 2027)
+- [ ] Keep status reporting source-validated from module roadmaps + evidence artifacts; do not use legacy issue-seed tables as release evidence (Target: ongoing)
+
 ### Wave A — Runtime Reliability First (Q3–Q4 2026)
 - [~] Transaction: close crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure evidence with authoritative CI artifacts (Target: Q3–Q4 2026) — focused `release_critical` suites are implemented and documented in `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; dedicated workflow automation now covers chaos/recovery execution and Phase 4 baseline capture, but the next verified run on `develop` must still publish the authoritative artifacts. See `ai_working/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md` and `ai_working/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md`
 - [x] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026, ✅ technical closure complete 2026-08-17 in `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, CI PASS)
