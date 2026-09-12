@@ -45,24 +45,24 @@ For the per-module current state, use the root [`../ROADMAP.md`](../ROADMAP.md) 
 ## Table of Contents
 
 1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-12)](#recursive-roadmap-deep-dive-snapshot-2026-09-12)
-2. [How to Use for GitHub Issue Creation](#how-to-use-for-github-issue-creation)
+2. [How to Use Legacy Issue-Seed Tables for GitHub Issues](#how-to-use-legacy-issue-seed-tables-for-github-issues)
 3. [Status & Priority Legend](#status--priority-legend)
 4. [Statistics](#statistics)
-5. [🔴 Critical Priority](#-critical-priority)
-6. [🟠 High Priority — Immediate (≤ v1.4.0)](#-high-priority--immediate--v140)
-7. [🟠 High Priority — Near-term (v1.5.0 – v1.8.0)](#-high-priority--near-term-v150--v180)
-8. [🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)](#-medium-priority--near-term-v150--v180)
-9. [🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)](#-medium-priority--mid-term-v190--v200)
-10. [🟢 Low Priority — Future (v1.9.0+)](#-low-priority--future-v190)
+5. [🔴 Legacy Issue-Seed Priority — Critical](#-legacy-issue-seed-priority--critical)
+6. [🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)](#-legacy-issue-seed-priority--high-immediate--v140)
+7. [🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)](#-legacy-issue-seed-priority--high-near-term-v150--v180)
+8. [🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)](#-legacy-issue-seed-priority--medium-near-term-v150--v180)
+9. [🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)](#-legacy-issue-seed-priority--medium-mid-term-v190--v200)
+10. [🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)](#-legacy-issue-seed-priority--low-future-v190)
 11. [Cross-Cutting Concerns](#cross-cutting-concerns)
 12. [Milestone Summary](#milestone-summary)
 13. [Suggested GitHub Label Taxonomy](#suggested-github-label-taxonomy)
 
 ---
 
-## How to Use for GitHub Issue Creation
+## How to Use Legacy Issue-Seed Tables for GitHub Issues
 
-Each row in the tables below maps to **one GitHub Issue**. Columns:
+Each row in the legacy priority tables below maps to **one GitHub Issue candidate**. Columns:
 
 | Column | GitHub Issue Field |
 |--------|--------------------|
@@ -157,7 +157,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🔴 Critical Priority
+## 🔴 Legacy Issue-Seed Priority — Critical
 
 > ⚠️ Legacy issue-seed snapshot: use this block as issue history/context; use source-validated module-roadmap checkboxes for current closure state.
 >
@@ -172,7 +172,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🟠 High Priority — Immediate (≤ v1.4.0)
+## 🟠 Legacy Issue-Seed Priority — High Immediate (≤ v1.4.0)
 
 > Calendar: Q2 2026. Required for the next minor release.
 
@@ -211,7 +211,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🟠 High Priority — Near-term (v1.5.0 – v1.8.0)
+## 🟠 Legacy Issue-Seed Priority — High Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027.
 
@@ -314,7 +314,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🟡 Medium Priority — Near-term (v1.5.0 – v1.8.0)
+## 🟡 Legacy Issue-Seed Priority — Medium Near-term (v1.5.0 – v1.8.0)
 
 > Calendar: Q3 2026 – Q1 2027.
 
@@ -413,7 +413,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🟡 Medium Priority — Mid-term (v1.9.0 – v2.0.0)
+## 🟡 Legacy Issue-Seed Priority — Medium Mid-term (v1.9.0 – v2.0.0)
 
 > Calendar: Q2–Q3 2027.
 
@@ -437,7 +437,7 @@ The priority tables below are a historical issue-seed extraction and are **not**
 
 ---
 
-## 🟢 Low Priority — Future (v1.9.0+)
+## 🟢 Legacy Issue-Seed Priority — Low Future (v1.9.0+)
 
 > Calendar: 2027+. Scheduled opportunistically.
 
