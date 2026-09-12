@@ -38,14 +38,14 @@ namespace {
 
 // ============================================================================
 // BATCH A-8: Fail-closed limits for malformed/oversized stream rejection
-// CRITICAL GAPS 1-11: Implement comprehensive stream validation
+// Validation rules 1-11 for comprehensive stream validation
 // ============================================================================
 
 // Per-chunk and session-wide limits for fail-closed rejection
-constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // 64 KB per chunk (CRITICAL GAP 6)
-constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buffer (CRITICAL GAP 7)
-constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (CRITICAL GAP 8)
-constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (CRITICAL GAP 9)
+constexpr size_t MAX_VOICE_CHUNK_SIZE = 64 * 1024;        // 64 KB per chunk (validation rule 6)
+constexpr size_t MAX_STREAM_BUFFER = 2 * 1024 * 1024;     // 2 MB cumulative buffer (validation rule 7)
+constexpr size_t MAX_SESSION_STREAMS = 10;                // Max streams per session (validation rule 8)
+constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format version (validation rule 9)
 
 /**
  * @brief Validate audio payload for oversized or empty conditions.
@@ -55,12 +55,12 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * @return true if payload should be rejected; false if acceptable
  */
 [[nodiscard]] bool isRejectedVoicePayload(const std::vector<uint8_t>& audio_data) {
-    // CRITICAL GAP 1: Reject empty payloads
+    // Validation rule 1: reject empty payloads.
     if (audio_data.empty()) {
         THEMIS_WARN("Voice stream: empty audio payload rejected");
         return true;
     }
-    // CRITICAL GAP 2: Reject oversized payloads that could cause OOM
+    // Validation rule 2: reject oversized payloads that could cause OOM.
     // Use stricter per-chunk limit from BATCH A-8 spec
     if (audio_data.size() > MAX_VOICE_CHUNK_SIZE) {
         THEMIS_WARN("Voice stream chunk exceeds max size: {} bytes > {} bytes max", 
@@ -80,7 +80,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * - CLOSING → TERMINATED
  * - TERMINATED → (no transitions allowed)
  * 
- * CRITICAL GAP 10: Prevent invalid state transitions
+ * Validation rule 10: prevent invalid state transitions.
  * 
  * @param current_state Current session state
  * @param next_state Proposed next state
@@ -136,7 +136,7 @@ constexpr uint8_t VALID_FRAME_VERSION = 1;                // Frame format versio
  * 
  * Logs rejection reason with error code for audit and debugging.
  * 
- * CRITICAL GAP 11: Emit diagnostics on rejection
+ * Validation rule 11: emit diagnostics on rejection.
  * 
  * @param reason Human-readable rejection reason
  * @param error_code Voice module error code (7xxx range)
@@ -282,7 +282,7 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
-            // CRITICAL GAP 4: Audit logging for authenticate() with detailed diagnostics
+            // Validation rule 4: audit logging for authenticate() with detailed diagnostics.
             logVoiceAuthenticationAudit(uid, session_id, "process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
                         uid, session_id,audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
@@ -447,7 +447,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
         const std::string& uid = auth_session.user_id;
         if (!uid.empty()) {
             auto auth_result = voice_authenticator_.authenticate(uid, audio_data);
-            // CRITICAL GAP 5: Audit logging for stream authenticate() with detailed diagnostics
+            // Validation rule 5: audit logging for stream authenticate() with detailed diagnostics.
             logVoiceAuthenticationAudit(uid, session_id, "stream_process_voice_command", auth_result);
             THEMIS_INFO("[AUDIT] voice_authenticate_stream: user_id={}, session_id={}, audio_size={}, result={}, timestamp_ms={}",
                         uid, session_id,audio_data.size(), auth_result.authenticated, auth_result.timestamp_ms);
@@ -849,7 +849,7 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     const std::vector<uint8_t>& audio_sample)
 {
     auto result = voice_authenticator_.authenticate(user_id, audio_sample);
-    // CRITICAL GAP 6: Audit logging for authenticateSpeaker() with detailed diagnostics
+    // Validation rule 6: audit logging for authenticateSpeaker() with detailed diagnostics.
     logVoiceAuthenticationAudit(user_id, "", "authenticate_speaker", result);
     THEMIS_INFO("[AUDIT] voice_authenticate_speaker: user_id={}, audio_size={}, result={}, timestamp_ms={}, reason={}",
                 user_id,audio_sample.size(), result.authenticated, result.timestamp_ms, result.decision_reason);

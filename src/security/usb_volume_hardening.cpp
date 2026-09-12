@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <string_view>
 #include <vector>
 #include <cctype>
 #include <algorithm>
@@ -55,6 +56,23 @@ static std::string joinPath(const std::string& dir, const std::string& file) {
 #else
     return dir + "/" + file;
 #endif
+}
+
+/// @brief Trim leading and trailing ASCII whitespace from a sysfs string value.
+/// @param value Input string view read from sysfs; may be empty or whitespace-only.
+/// @return The trimmed string, or an empty string when @p value contains no
+///         non-whitespace characters.
+static std::string trimWhitespace(std::string_view value) {
+    const auto first = std::find_if_not(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    });
+    if (first == value.end()) {
+        return {};
+    }
+    const auto last = std::find_if_not(value.rbegin(), value.rend(), [](unsigned char ch) {
+        return std::isspace(ch) != 0;
+    }).base();
+    return std::string(first, last);
 }
 
 } // anonymous namespace
@@ -349,4 +367,3 @@ bool USBVolumeHardening::verifyUSBSerial(const std::string& mount_path,
 
 } // namespace security
 } // namespace themis
-

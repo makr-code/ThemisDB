@@ -416,11 +416,11 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
            0, nullptr);
     
     // Add kevent with timeout to prevent indefinite blocking
-    struct timespec timeout = {};
-    timeout.tv_sec = 1;  // 1 second timeout for kevent operations
-    timeout.tv_nsec = 0;
+    struct timespec registration_timeout = {};
+    registration_timeout.tv_sec = 1;  // 1 second timeout for kevent operations
+    registration_timeout.tv_nsec = 0;
     
-    if (kevent(kq, &change, 1, nullptr, 0, &timeout) == -1) {
+    if (kevent(kq, &change, 1, nullptr, 0, &registration_timeout) == -1) {
         THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
         return;  // Both kq_guard and dir_guard will automatically cleanup
     }
@@ -479,12 +479,12 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     
     // Monitor loop
     struct kevent event;
-    struct timespec timeout;
-    timeout.tv_sec = 1;
-    timeout.tv_nsec = 0;
+    struct timespec event_timeout = {};
+    event_timeout.tv_sec = 1;
+    event_timeout.tv_nsec = 0;
     
     while (running_) {
-        int nev = kevent(kq, nullptr, 0, &event, 1, &timeout);
+        int nev = kevent(kq, nullptr, 0, &event, 1, &event_timeout);
         
         if (nev < 0) {
             if (errno != EINTR) {
