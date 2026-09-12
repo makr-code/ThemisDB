@@ -265,7 +265,7 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        mkdir -p internal models vcpkg/downloads
+        mkdir -p internal llama.cpp models vcpkg/downloads
 
         if [ ! -f llama.cpp/CMakeLists.txt ]; then
           LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+"([^"]+)"/' cmake/Dependencies.cmake | head -n 1)"
@@ -277,7 +277,7 @@ jobs:
           echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
           rm -rf llama.cpp
           if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{5,40}$ ]]; then
-            git clone --filter=blob:none https://github.com/ggerganov/llama.cpp.git llama.cpp
+            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
             git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
             ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
             case "${ACTUAL_LLAMA_CPP_COMMIT}" in
