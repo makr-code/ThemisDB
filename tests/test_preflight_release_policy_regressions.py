@@ -14,9 +14,9 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
         workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
 
-        self.assertIn(
-            "brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb yaml-cpp googletest",
+        self.assertRegex(
             workflow_text,
+            re.compile(r"brew install[^\n]*\bgoogletest\b"),
         )
 
     def test_ai_safety_chaos_links_themis_llm_when_available(self) -> None:
