@@ -67,7 +67,7 @@ BloomFilter::BloomFilter(size_t expected_elements, size_t bits_per_elem) {
 
 void BloomFilter::setBit([[maybe_unused]] size_t idx) noexcept {
     idx %= num_bits_;
-    bits_[idx / 64] |= (1 << (idx % 64));
+    bits_[idx / 64] |= (1ULL << (idx % 64));
 }
 
 bool BloomFilter::testBit([[maybe_unused]] size_t idx) const noexcept {

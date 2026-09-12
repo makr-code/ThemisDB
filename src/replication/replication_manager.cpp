@@ -1722,6 +1722,7 @@ void ReplicationManager::heartbeatLoop() {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer
+                    (void)replica;
                 }
             }
             // Reset the leader's own heartbeat timer to avoid self-election

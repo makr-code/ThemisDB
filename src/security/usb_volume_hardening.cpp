@@ -48,14 +48,6 @@ using USBVolume_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBVolume_EVP_MD_CT
 
 namespace {
 
-/// Trim leading/trailing ASCII whitespace (space, tab, CR, LF) from a string.
-static std::string trimWhitespace(std::string s) {
-    auto notSpace = [](unsigned char c){ return !std::isspace(c); };
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), notSpace));
-    s.erase(std::find_if(s.rbegin(), s.rend(), notSpace).base(), s.end());
-    return s;
-}
-
 /// Build the platform-correct path separator for a file on the volume.
 static std::string joinPath(const std::string& dir, const std::string& file) {
 #if defined(_WIN32)

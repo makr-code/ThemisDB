@@ -5391,11 +5391,17 @@ endif()
 
 # THEMIS_PLUGIN_SCRAPER and THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED must be
 # visible to themis_core so the handler sources compile with their guards set.
+get_target_property(_themis_core_type themis_core TYPE)
+set(_themis_core_plugin_scope PUBLIC)
+if(_themis_core_type STREQUAL "INTERFACE_LIBRARY")
+    set(_themis_core_plugin_scope INTERFACE)
+endif()
+
 if(THEMIS_PLUGIN_SCRAPER)
-    target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_SCRAPER)
+    target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_SCRAPER)
 endif()
 if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
-    target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
+    target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
 endif()
 
 target_link_libraries(themis_server
