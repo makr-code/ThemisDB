@@ -55,7 +55,7 @@ static uint32_t ht_crc32(const void* data, size_t len) {
 }
 
 static void appendCrc32(std::vector<uint8_t>& buf) {
-    uint32_t crc = ht_crc32(buf.data(),static_cast<int>(buf.size()));
+    uint32_t crc = ht_crc32(buf.data(),buf.size());
     for (int i = 0; i < 4; ++i) {
       buf.push_back(static_cast<uint8_t>(crc >> (8 * i)));
     }
@@ -246,9 +246,9 @@ void writeF64(std::vector<uint8_t>& buf, double v) {
 }
 
 void writeFloats(std::vector<uint8_t>& buf, const std::vector<float>& v) {
-    writeU64(buf,static_cast<int>(v.size()));
+    writeU64(buf,v.size());
     const uint8_t* p = reinterpret_cast<const uint8_t*>(v.data());
-    buf.insert(buf.end(), p, p + static_cast<int>(v.size()) * sizeof(float));
+    buf.insert(buf.end(), p, p + v.size() * sizeof(float));
 }
 
 void serializeNode(std::vector<uint8_t>& buf, const HTNode* node) {
@@ -890,8 +890,8 @@ HierarchicalTuckerDecomposer::decompose(
         }
         N *= s;
     }
-    if (static_cast<int>(data.size()) != N)
-        throw std::invalid_argument("HTDecomposer: static_cast<int>(data.size()) != product of shape");
+    if (data.size() != N)
+        throw std::invalid_argument("HTDecomposer: data.size() != product of shape");
 
     // ── Step 1: HOSVD — compute mode-k SVDs for leaf bases ────────────────────
     std::vector<std::vector<float>> U_cache(d);  // U_cache[k] ∈ [n_k × r_k]

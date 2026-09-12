@@ -162,7 +162,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
     // before invoking deserialize.  The raw deserialiser intentionally does not
     // re-verify the HMAC to avoid double-computing it; callers must always invoke
     // the integrity check before deserialization.
-    if (static_cast<int>(bytes.size()) < 8) {
+    if (bytes.size() < 8) {
       return std::nullopt;
     }
     std::size_t pos = 0;
@@ -171,7 +171,7 @@ std::optional<TTTrain> TTTrain::deserialize(const std::vector<uint8_t>& bytes) {
         // uncaught_exception scanner alert: this throw is enclosed by the
         // surrounding try/catch below, which converts parse failures to
         // std::nullopt — false positive.
-        if (pos + 8 > static_cast<int>(bytes.size())) {
+        if (pos + 8 > bytes.size()) {
           throw std::runtime_error("TTTrain::deserialize: underflow");
         }
         uint64_t v = 0;
@@ -642,7 +642,7 @@ std::pair<TTTrain, DecompositionStats>
 TensorTrainDecomposer::decompose(const std::vector<float>&       data,
                                   const std::vector<std::size_t>& mode_sizes,
                                   const TensorTrainConfig&         cfg) const {
-    if (static_cast<int>(mode_sizes.size()) < 2)
+    if (mode_sizes.size() < 2)
         // uncaught_exception scanner alert: this is a public API precondition
         // failure at the decompose() boundary and callers are expected to handle
         // invalid_argument — false positive.
@@ -652,11 +652,11 @@ TensorTrainDecomposer::decompose(const std::vector<float>&       data,
     for (auto n : mode_sizes) {
       total *= n;
     }
-    if (static_cast<int>(data.size()) != total)
+    if (data.size() != total)
         // uncaught_exception scanner alert: this is also public API boundary
         // validation for decompose(), not an unhandled internal exception — false
         // positive.
-        throw std::invalid_argument("TensorTrainDecomposer: static_cast<int>(data.size()) != product(mode_sizes)");
+        throw std::invalid_argument("TensorTrainDecomposer: data.size() != product(mode_sizes)");
 
     auto t0 = std::chrono::steady_clock::now();
 

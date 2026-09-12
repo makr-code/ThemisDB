@@ -165,7 +165,7 @@ json CanonicalEntityResolver::reconcileObjectField(const json &obj1, const json 
             // Prefer longer / non-null value.
             const std::string v1 = result[key].is_string() ? result[key].get<std::string>() : result[key].dump();
             const std::string v2 = it.value().is_string() ? it.value().get<std::string>() : it.value().dump();
-            if (static_cast<int>(v2.size()) > static_cast<int>(v1.size())) {
+            if (v2.size() > v1.size()) {
                 result[key] = it.value();
             }
         }
@@ -181,7 +181,7 @@ double CanonicalEntityResolver::scoreFieldQuality(const std::string & /*field_na
     }
 
     double score = 1.0;
-    if (policy.min_length > 0 && static_cast<int>(value.size()) < policy.min_length) {
+    if (policy.min_length > 0 && value.size() < policy.min_length) {
         score *= 0.5;
     }
     if (policy.prefer_digits_only) {
@@ -275,7 +275,7 @@ CanonicalEntityResolver::createGoldenRecord(const std::vector<std::pair<std::str
             }
         }
     } else if (policy == ResolutionPolicy::INCOMING_PREFERRED) {
-        base_idx = static_cast<int>(linked_entities.size()) - 1;
+        base_idx = linked_entities.size() - 1;
     }
     // EXISTING_PREFERRED → base_idx = 0 (already set).
     // RICHEST_MERGE / CUSTOM_RULES → start from 0 and iterate all.

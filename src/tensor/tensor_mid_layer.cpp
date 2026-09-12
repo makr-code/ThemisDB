@@ -207,7 +207,7 @@ std::vector<SimilarityResult> TensorMidLayer::mergeSimilarityResults(
               [](const auto& lhs, const auto& rhs) {
                   return lhs.score > rhs.score;
               });
-    if (top_k > 0 && static_cast<int>(out.size()) > top_k) {
+    if (top_k > 0 && out.size() > top_k) {
         out.resize(top_k);
     }
     return out;

@@ -236,7 +236,7 @@ nlohmann::json LetEvaluator::evaluateFieldAccess(
         if (numeric) {
             try {
                 size_t idx = static_cast<size_t>(std::stoull(f));
-                if (static_cast<int>(baseValue.size()) > idx) {
+                if (baseValue.size() > idx) {
                     return baseValue[idx];
                 }
             } catch (...) {
@@ -262,7 +262,7 @@ nlohmann::json LetEvaluator::getNestedValue(
             // Try to parse key as array index
             try {
                 size_t idx = std::stoull(key);
-                if (static_cast<int>(current.size()) > idx) {
+                if (current.size() > idx) {
                     current = current[idx];
                 } else {
                     return nlohmann::json(nullptr);
@@ -491,7 +491,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Point(x, y) - Create a 2D Point geometry
     // Returns: GeoJSON object {"type": "Point", "coordinates": [x, y]}
     if (funcName == "ST_Point") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Point expects 2 arguments: ST_Point(x, y)");
         }
         double x = toNumber(evaluateExpression(args[0], currentDoc));
@@ -507,7 +507,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // Input: GeoJSON object or EWKB binary string
     // Output: GeoJSON string representation
     if (funcName == "ST_AsGeoJSON") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_AsGeoJSON expects 1 argument");
         }
         auto geom = evaluateExpression(args[0], currentDoc);
@@ -536,7 +536,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Distance(geom1, geom2) - Euclidean distance between two geometries
     // Returns: Distance in coordinate system units (typically meters for geographic data)
     if (funcName == "ST_Distance") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Distance expects 2 arguments: ST_Distance(geom1, geom2)");
         }
         
@@ -588,7 +588,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Intersects(geom1, geom2) - Test if two geometries spatially intersect
     // Returns: Boolean true if geometries intersect
     if (funcName == "ST_Intersects") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Intersects expects 2 arguments: ST_Intersects(geom1, geom2)");
         }
         
@@ -620,7 +620,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Within(geom1, geom2) - Test if geom1 is completely inside geom2
     // Returns: Boolean true if geom1 is within geom2
     if (funcName == "ST_Within") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Within expects 2 arguments: ST_Within(geom1, geom2)");
         }
         
@@ -652,7 +652,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     return {j["coordinates"][0].get<double>(),
                             j["coordinates"][1].get<double>()};
             }
-            if (j.is_array() && static_cast<int>(j.size()) >= 2)
+            if (j.is_array() && j.size() >= 2)
                 return {j[0].get<double>(), j[1].get<double>()};
             throw std::runtime_error("ST_Within: g1 must be a GeoJSON Point or [x,y] array");
         };
@@ -662,7 +662,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         // Uses the horizontal ray cast to the right; boundary crossings are counted.
         auto pointInRing = [](double px, double py,
                                const nlohmann::json& ring) -> bool {
-            if (!ring.is_array() || static_cast<int>(ring.size()) < 3) {
+            if (!ring.is_array() || ring.size() < 3) {
               return false;
             }
             const std::size_t n = ring.size();
@@ -746,7 +746,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             }
 
             // Fallback for bbox [minx, miny, maxx, maxy] or Point degenerate case.
-            if (g2j.is_array() && static_cast<int>(g2j.size()) == 4) {
+            if (g2j.is_array() && g2j.size() == 4) {
                 return (px >= g2j[0].get<double>() && px <= g2j[2].get<double>()
                      && py >= g2j[1].get<double>() && py <= g2j[3].get<double>());
             }
@@ -771,7 +771,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_GeomFromGeoJSON(json_string) - Parse GeoJSON string to geometry object
     // Returns: GeoJSON object (same as ST_Point returns)
     if (funcName == "ST_GeomFromGeoJSON") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_GeomFromGeoJSON expects 1 argument: ST_GeomFromGeoJSON(json_string)");
         }
         
@@ -805,7 +805,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Contains(g1, g2) - Test if g1 completely contains g2
     // Returns: Boolean true if g1 contains g2 (inverse of ST_Within)
     if (funcName == "ST_Contains") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Contains expects 2 arguments: ST_Contains(geom1, geom2)");
         }
         
@@ -834,7 +834,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                             double maxy = std::numeric_limits<double>::lowest();
                             
                             for (const auto& coord : exteriorRing) {
-                                if (coord.is_array() && static_cast<int>(coord.size()) >= 2) {
+                                if (coord.is_array() && coord.size() >= 2) {
                                     double x = coord[0].get<double>();
                                     double y = coord[1].get<double>();
                                     minx = std::min(minx, x);
@@ -865,7 +865,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_DWithin(g1, g2, distance) - Check if geometries are within distance
     // Returns: Boolean true if distance between g1 and g2 <= distance
     if (funcName == "ST_DWithin") {
-        if (static_cast<int>(args.size()) != 3) {
+        if (args.size() != 3) {
             throw std::runtime_error("ST_DWithin expects 3 arguments: ST_DWithin(geom1, geom2, distance)");
         }
         
@@ -901,7 +901,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_HasZ(geom) - Check if geometry has Z coordinate
     // Returns: Boolean true if geometry is 3D
     if (funcName == "ST_HasZ") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_HasZ expects 1 argument");
         }
         
@@ -911,7 +911,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             const auto& coords = geom["coordinates"];
             std::string type = geom["type"];
             
-            if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
+            if (type == "Point" && coords.is_array() && coords.size() >= 3) {
                 return true;
             }
             if (((type == "LineString" || type == "MultiPoint") && coords.is_array() && !coords.empty())) {
@@ -933,7 +933,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Z(point) - Extract Z coordinate from Point
     // Returns: Z value or null if no Z
     if (funcName == "ST_Z") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_Z expects 1 argument");
         }
         
@@ -951,7 +951,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZMin(geom) - Extract minimum Z value from geometry
     // Returns: Minimum Z or null if 2D
     if (funcName == "ST_ZMin") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_ZMin expects 1 argument");
         }
         
@@ -966,13 +966,13 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         double zmin = std::numeric_limits<double>::max();
         bool hasZ = false;
         
-        if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
+        if (type == "Point" && coords.is_array() && coords.size() >= 3) {
             return coords[2];
         }
         
         if (((type == "LineString" || type == "MultiPoint") && coords.is_array())) {
             for (const auto& pt : coords) {
-                if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                if (pt.is_array() && pt.size() >= 3) {
                     double z = pt[2].get<double>();
                     zmin = std::min(zmin, z);
                     hasZ = true;
@@ -984,7 +984,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& ring : coords) {
                 if (ring.is_array()) {
                     for (const auto& pt : ring) {
-                        if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                        if (pt.is_array() && pt.size() >= 3) {
                             double z = pt[2].get<double>();
                             zmin = std::min(zmin, z);
                             hasZ = true;
@@ -1000,7 +1000,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZMax(geom) - Extract maximum Z value from geometry
     // Returns: Maximum Z or null if 2D
     if (funcName == "ST_ZMax") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_ZMax expects 1 argument");
         }
         
@@ -1015,13 +1015,13 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         double zmax = std::numeric_limits<double>::lowest();
         bool hasZ = false;
         
-        if (type == "Point" && coords.is_array() && static_cast<int>(coords.size()) >= 3) {
+        if (type == "Point" && coords.is_array() && coords.size() >= 3) {
             return coords[2];
         }
         
         if (((type == "LineString" || type == "MultiPoint") && coords.is_array())) {
             for (const auto& pt : coords) {
-                if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                if (pt.is_array() && pt.size() >= 3) {
                     double z = pt[2].get<double>();
                     zmax = std::max(zmax, z);
                     hasZ = true;
@@ -1033,7 +1033,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             for (const auto& ring : coords) {
                 if (ring.is_array()) {
                     for (const auto& pt : ring) {
-                        if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                        if (pt.is_array() && pt.size() >= 3) {
                             double z = pt[2].get<double>();
                             zmax = std::max(zmax, z);
                             hasZ = true;
@@ -1050,7 +1050,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // Returns: GeoJSON object
     // Supports: POINT, LINESTRING, POLYGON (simplified WKT parser)
     if (funcName == "ST_GeomFromText") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_GeomFromText expects 1 argument: ST_GeomFromText(wkt_string)");
         }
         
@@ -1119,7 +1119,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t pos = 0;
-            while (static_cast<size_t>(pos) <static_cast<int>(inner.size())) {
+            while (pos < inner.size()) {
                 size_t comma = inner.find(',', pos);
                 std::string token = (comma == std::string::npos) ? inner.substr(pos) : inner.substr(pos, comma - pos);
                 // trim token
@@ -1167,7 +1167,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
             // Tokenize by comma: each token is a point (x y [z])
             size_t start = 0;
-            while (static_cast<size_t>(start) <static_cast<int>(inner.size())) {
+            while (start < inner.size()) {
                 size_t comma = inner.find(',', start);
                 std::string token = (comma == std::string::npos) ? inner.substr(start) : inner.substr(start, comma - start);
                 // trim token
@@ -1213,7 +1213,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_AsText(geom) - Convert geometry to WKT (Well-Known Text)
     // Returns: WKT string representation
     if (funcName == "ST_AsText") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_AsText expects 1 argument");
         }
         
@@ -1232,13 +1232,13 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::ostringstream wkt = {};
         
         if (type == "Point") {
-            if (!coords.is_array() || static_cast<int>(coords.size()) < 2) {
+            if (!coords.is_array() || coords.size() < 2) {
                 return nlohmann::json(nullptr);
             }
             
             wkt << "POINT(";
             wkt << coords[0].get<double>() << " " << coords[1].get<double>();
-            if (static_cast<int>(coords.size()) >= 3) {
+            if (coords.size() >= 3) {
                 wkt << " " << coords[2].get<double>();
             }
             wkt << ")";
@@ -1254,9 +1254,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                   wkt << ", ";
                 }
                 const auto& pt = coords[i];
-                if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
+                if (pt.is_array() && pt.size() >= 2) {
                     wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                    if (static_cast<int>(pt.size()) >= 3) {
+                    if (pt.size() >= 3) {
                         wkt << " " << pt[2].get<double>();
                     }
                 }
@@ -1281,9 +1281,9 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                           wkt << ", ";
                         }
                         const auto& pt = ring[i];
-                        if (pt.is_array() && static_cast<int>(pt.size()) >= 2) {
+                        if (pt.is_array() && pt.size() >= 2) {
                             wkt << pt[0].get<double>() << " " << pt[1].get<double>();
-                            if (static_cast<int>(pt.size()) >= 3) {
+                            if (pt.size() >= 3) {
                                 wkt << " " << pt[2].get<double>();
                             }
                         }
@@ -1303,7 +1303,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_3DDistance(g1, g2) - 3D Euclidean distance between geometries
     // Returns: Distance in 3D space
     if (funcName == "ST_3DDistance") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_3DDistance expects 2 arguments: ST_3DDistance(geom1, geom2)");
         }
         
@@ -1315,10 +1315,10 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             if (geojson.is_object() && geojson.contains("type") && geojson["type"] == "Point") {
                 if (geojson.contains("coordinates") && geojson["coordinates"].is_array()) {
                     const auto& coords = geojson["coordinates"];
-                    if (static_cast<int>(coords.size()) >= 2) {
+                    if (coords.size() >= 2) {
                         double x = coords[0].get<double>();
                         double y = coords[1].get<double>();
-                        double z = static_cast<int>(coords.size()) >= 3 ? coords[2].get<double>() : 0.0;
+                        double z = coords.size() >= 3 ? coords[2].get<double>() : 0.0;
                         return {x, y, z};
                     }
                 }
@@ -1341,7 +1341,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_Force2D(geom) - Remove Z coordinates from geometry
     // Returns: 2D geometry (GeoJSON without Z)
     if (funcName == "ST_Force2D") {
-        if (static_cast<int>(args.size()) != 1) {
+        if (args.size() != 1) {
             throw std::runtime_error("ST_Force2D expects 1 argument");
         }
         
@@ -1356,7 +1356,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         
         // Helper to strip Z from coordinate array
         auto strip2D = [](const nlohmann::json& coord) -> nlohmann::json {
-            if (coord.is_array() && static_cast<int>(coord.size()) >= 2) {
+            if (coord.is_array() && coord.size() >= 2) {
                 return nlohmann::json::array({coord[0], coord[1]});
             }
             return coord;
@@ -1392,7 +1392,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     // ST_ZBetween(geom, zmin, zmax) - Check if any coordinate's Z is within [zmin, zmax]
     // Returns: Boolean; null/false if geometry has no Z
     if (funcName == "ST_ZBetween") {
-        if (static_cast<int>(args.size()) != 3) {
+        if (args.size() != 3) {
             throw std::runtime_error("ST_ZBetween expects 3 arguments: ST_ZBetween(geom, zmin, zmax)");
         }
 
@@ -1410,7 +1410,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         auto inRange = [&]([[maybe_unused]] double z){ return z >= zmin && z <= zmax; };
 
         if (type == "Point") {
-            if (coords.is_array() && static_cast<int>(coords.size()) >= 3) {
+            if (coords.is_array() && coords.size() >= 3) {
                 double z = coords[2].get<double>();
                 return inRange(z);
             }
@@ -1419,7 +1419,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         if (type == "LineString" || type == "MultiPoint") {
             if (coords.is_array()) {
                 for (const auto& pt : coords) {
-                    if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                    if (pt.is_array() && pt.size() >= 3) {
                         double z = pt[2].get<double>();
                         if (inRange(z)) {
                           return true;
@@ -1434,7 +1434,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                 for (const auto& ring : coords) {
                     if (ring.is_array()) {
                         for (const auto& pt : ring) {
-                            if (pt.is_array() && static_cast<int>(pt.size()) >= 3) {
+                            if (pt.is_array() && pt.size() >= 3) {
                                 double z = pt[2].get<double>();
                                 if (inRange(z)) {
                                   return true;
@@ -1452,7 +1452,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
     // ST_Buffer(geom, distance) - MVP: Point -> square Polygon buffer; others: simple MBR expansion if Polygon
     if (funcName == "ST_Buffer") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Buffer expects 2 arguments: ST_Buffer(geom, distance)");
         }
         auto geom = evaluateExpression(args[0], currentDoc);
@@ -1463,7 +1463,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         std::string type = geom["type"];
         if (type == "Point") {
             const auto& c = geom["coordinates"];
-            if (!c.is_array() || static_cast<int>(c.size()) < 2) {
+            if (!c.is_array() || c.size() < 2) {
               throw std::runtime_error("ST_Buffer: invalid Point");
             }
             double x=c[0].get<double>(), y=c[1].get<double>();
@@ -1487,7 +1487,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             const auto& ext = rings[0];
             double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
             double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
-            for (const auto& pt : ext) if (pt.is_array() && static_cast<int>(pt.size())>=2) {
+            for (const auto& pt : ext) if (pt.is_array() && pt.size()>=2) {
                 double x=pt[0].get<double>(), y=pt[1].get<double>();
                 minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
             }
@@ -1504,7 +1504,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
 
     // ST_Union(g1, g2) - MVP: return MBR union as Polygon
     if (funcName == "ST_Union") {
-        if (static_cast<int>(args.size()) != 2) {
+        if (args.size() != 2) {
             throw std::runtime_error("ST_Union expects 2 arguments: ST_Union(g1, g2)");
         }
         auto g1 = evaluateExpression(args[0], currentDoc);
@@ -1521,7 +1521,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                         double minx=std::numeric_limits<double>::max(), miny=std::numeric_limits<double>::max();
                         double maxx=std::numeric_limits<double>::lowest(), maxy=std::numeric_limits<double>::lowest();
                         const auto& ext = rings[0];
-                        for (const auto& pt : ext) if (pt.is_array() && static_cast<int>(pt.size())>=2) {
+                        for (const auto& pt : ext) if (pt.is_array() && pt.size()>=2) {
                             double x=pt[0].get<double>(), y=pt[1].get<double>();
                             minx=std::min(minx,x); miny=std::min(miny,y); maxx=std::max(maxx,x); maxy=std::max(maxy,y);
                         }

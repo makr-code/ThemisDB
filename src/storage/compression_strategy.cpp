@@ -98,7 +98,7 @@ CompressionResult CompressionStrategyManager::compress(
     }
     
     // Check if compression was beneficial
-    if (static_cast<int>(result.data.size()) >= size * 0.95f) {
+    if (result.data.size() >= size * 0.95f) {
         // Less than 5% savings, store uncompressed
         result.data.assign(data, data + size);
         result.method_used = CompressionMethod::NONE;
@@ -116,7 +116,7 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
         return data;
     }
     
-    utils::CompressionTimer timer(method_to_string(method),static_cast<int>(data.size()), false);
+    utils::CompressionTimer timer(method_to_string(method),data.size(), false);
     std::vector<uint8_t> result;
     
     switch (method) {
@@ -544,12 +544,12 @@ std::vector<uint8_t> RLECodec::decompress(const std::vector<uint8_t>& data) {
     
     std::vector<uint8_t> result = {};
 
-    const size_t reserve_size = (static_cast<int>(data.size()) > (std::numeric_limits<size_t>::max() / 2))
+    const size_t reserve_size = (data.size() > (std::numeric_limits<size_t>::max() / 2))
         ? std::numeric_limits<size_t>::max()
         : data.size() * 2;
     result.reserve(reserve_size);  // Heuristic for fewer reallocations
     const uint8_t* ptr = data.data();
-    const uint8_t* end = ptr + static_cast<int>(data.size()) ;
+    const uint8_t* end = ptr + data.size() ;
     
     while (ptr < end) {
         if (ptr + 1 >= end) break;  // Need at least count + value
@@ -648,15 +648,15 @@ std::vector<uint8_t> SimpleDictionaryCodec::compress(const uint8_t* data, size_t
     }
     
     // Only beneficial if dictionary is small
-    if (static_cast<int>(dictionary.size()) > 128) {
-        THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression",static_cast<int>(dictionary.size()));
+    if (dictionary.size() > 128) {
+        THEMIS_DEBUG("SimpleDictionaryCodec::compress: dictionary too large ({}), skipping compression",dictionary.size());
         return {};  // Not beneficial
     }
     
     // Format: [dict_size:1][dictionary...][indices...]
     std::vector<uint8_t> result = {};
 
-    result.reserve(1 + static_cast<int>(dictionary.size()) + static_cast<int>(indices.size()) );
+    result.reserve(1 + dictionary.size() + indices.size() );
     
     result.push_back(static_cast<uint8_t>(dictionary.size()));
     result.insert(result.end(), dictionary.begin(), dictionary.end());
@@ -671,8 +671,8 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     // Read dictionary size
     uint8_t dict_size = data[0];
     
-    if (static_cast<int>(data.size()) < static_cast<size_t>(1 + dict_size)) {
-        THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})",static_cast<int>(data.size()), dict_size);
+    if (data.size() < static_cast<size_t>(1 + dict_size)) {
+        THEMIS_WARN("SimpleDictionaryCodec::decompress: invalid format (data.size={} dict_size={})",data.size(), dict_size);
         return {};  // Invalid format
     }
     
@@ -682,7 +682,7 @@ std::vector<uint8_t> SimpleDictionaryCodec::decompress(const std::vector<uint8_t
     // Decode indices
     std::vector<uint8_t> result = {};
 
-    result.reserve(static_cast<int>(data.size()) - 1 - dict_size);
+    result.reserve(data.size() - 1 - dict_size);
     for (size_t i = 1 + dict_size; i < data.size(); ++i) {
         uint8_t idx = data[i];
         if (idx >= dict_size) {

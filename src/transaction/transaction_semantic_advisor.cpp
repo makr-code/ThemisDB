@@ -83,7 +83,7 @@ TransactionSemanticAdvisor::analyzeBatch(
                         hint.reason               = "same_entity_competing_writes";
                     }
 
-                    hint_index[i] = static_cast<int>(hints.size());
+                    hint_index[i] = hints.size();
                     hints.push_back(std::move(hint));
                     assigned[i] = static_cast<int>(i);
                 }
@@ -105,7 +105,7 @@ TransactionSemanticAdvisor::analyzeBatch(
         }
     }
 
-    emitDecisionRecord(hints.size(),static_cast<int>(pending_txs.size()));
+    emitDecisionRecord(hints.size(),pending_txs.size());
     return hints;
 }
 
@@ -149,7 +149,7 @@ double TransactionSemanticAdvisor::entityOverlap(
     }
 
     // Jaccard: shared / union
-    size_t union_size = static_cast<int>(a.entity_map.size()) + static_cast<int>(b.entity_map.size()) - shared;
+    size_t union_size = a.entity_map.size() + b.entity_map.size() - shared;
     return static_cast<double>(shared) / static_cast<double>(union_size);
 }
 

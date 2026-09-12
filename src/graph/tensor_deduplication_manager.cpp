@@ -199,7 +199,7 @@ TTTrain TensorDeduplicationManager::computeDelta(const TTTrain &ref, const TTTra
     auto ref_dense = ref.reconstruct();
     auto new_dense = new_train.reconstruct();
 
-    if (static_cast<int>(ref_dense.size()) != static_cast<int>(new_dense.size())) {
+    if (ref_dense.size() != new_dense.size()) {
         // Incompatible shapes; return new_train unchanged (no delta possible)
         return new_train;
     }
@@ -223,7 +223,7 @@ TTTrain TensorDeduplicationManager::addTrains(const TTTrain &a, const TTTrain &b
     auto da = a.reconstruct();
     auto db = b.reconstruct();
 
-    if (static_cast<int>(da.size()) != static_cast<int>(db.size())) {
+    if (da.size() != db.size()) {
         return a; // incompatible
     }
 
@@ -643,7 +643,7 @@ static std::vector<uint8_t> serializeDedupSnapshot(const themis::graph::Persiste
 
     std::vector<uint8_t> buf = {};
 
-    buf.reserve(static_cast<int>(graph_bytes.size()) + static_cast<int>(records.size()) * 256 + 64);
+    buf.reserve(graph_bytes.size() + records.size() * 256 + 64);
     writeLE<uint64_t>(buf, kDedupSnapshotMagic);
     writeLE<uint32_t>(buf, kDedupSnapshotVersion);
     writeLE<uint64_t>(buf, static_cast<uint64_t>(graph_bytes.size()));
@@ -963,7 +963,7 @@ static bool deserializeMutationJournal(const std::vector<uint8_t> &buf, std::vec
 }
 
 static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &entries) {
-    if (static_cast<int>(entries.size()) < 2) {
+    if (entries.size() < 2) {
         return;
     }
 
@@ -995,7 +995,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 
 [[nodiscard]] static std::string mutationJournalKeyForSnapshot(const std::string &snapshot_key) {
     std::string key = {};
-    key.reserve((sizeof(kMutationJournalMetaPrefix) - 1) + static_cast<int>(snapshot_key.size()) );
+    key.reserve((sizeof(kMutationJournalMetaPrefix) - 1) + snapshot_key.size() );
     key.append(kMutationJournalMetaPrefix);
     key.append(snapshot_key);
     return key;
@@ -1003,7 +1003,7 @@ static void compactMutationJournalEntries(std::vector<MutationJournalEntry> &ent
 
 [[nodiscard]] static std::string legacyMutationJournalKeyForSnapshot(const std::string &snapshot_key) {
     std::string key = {};
-    key.reserve(static_cast<int>(snapshot_key.size()) + 5);
+    key.reserve(snapshot_key.size() + 5);
     key.append(snapshot_key);
     key.append("::wal");
     return key;

@@ -58,7 +58,7 @@ std::vector<float> normalizeScores(const std::vector<float>& scores) {
 float linearCombination(const std::vector<float>& scores,
                        const std::vector<float>& weights) {
     float sum = 0.0f;
-    for (size_t i = 0; i < scores.size()  && static_cast<size_t>(i) <static_cast<int>(weights.size()); ++i) {
+    for (size_t i = 0; i < scores.size()  && i < weights.size(); ++i) {
         sum += scores[i] * weights[i];
     }
     return sum;
@@ -115,7 +115,7 @@ MultiVectorSearch::search(
     // Validate dimensions are consistent
     size_t expected_dim = query.vectors[0].size();
     for (const auto& vec : query.vectors) {
-        if (static_cast<int>(vec.size()) != expected_dim) {
+        if (vec.size() != expected_dim) {
             return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                             "MultiVectorSearch::search - all query vectors must have same dimension");
         }
@@ -142,7 +142,7 @@ MultiVectorSearch::search(
     }
     
     // Validate weights for strategies that need them
-    if (static_cast<int>(weights.size()) != static_cast<int>(query.vectors.size())) {
+    if (weights.size() != query.vectors.size()) {
         return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "Weight count must match query vector count");
     }
@@ -282,7 +282,7 @@ MultiVectorSearch::search(
               });
     
     // Take only top_k results
-    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
+    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     
@@ -474,7 +474,7 @@ MultiVectorSearch::hybridSearch(
             case FusionStrategy::LEARNED_FUSION:
                 // Learned fusion uses optimized weights (similar to linear combination)
                 // Weights should be pre-computed using optimizeWeights() method
-                if (config.weights.empty() || static_cast<int>(config.weights.size()) != static_cast<int>(fusion_scores.size())) {
+                if (config.weights.empty() || config.weights.size() != fusion_scores.size()) {
                     return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
                 }
@@ -492,7 +492,7 @@ MultiVectorSearch::hybridSearch(
               });
     
     // Take only top_k results
-    if (static_cast<int>(fused_results.size()) > static_cast<size_t>(config.top_k)) {
+    if (fused_results.size() > static_cast<size_t>(config.top_k)) {
         fused_results.resize(config.top_k);
     }
     
@@ -553,7 +553,7 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments cannot be empty");
     }
     
-    if (static_cast<int>(queries.size()) != static_cast<int>(relevance_judgments.size())) {
+    if (queries.size() != relevance_judgments.size()) {
         return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments must have same size");
     }

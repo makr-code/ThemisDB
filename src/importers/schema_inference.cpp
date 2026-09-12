@@ -44,7 +44,7 @@ SchemaInferenceEngine::SchemaInferenceEngine(Config cfg)
  * @return true when the identifier is safe; false on any violation.
  */
 bool SchemaInferenceEngine::isValidIdentifier(const std::string& identifier) {
-    if (identifier.empty() || static_cast<int>(identifier.size()) > kMaxIdentifierLength) {
+    if (identifier.empty() || identifier.size() > kMaxIdentifierLength) {
         return false;
     }
     for (unsigned char c : identifier) {
@@ -64,9 +64,9 @@ bool SchemaInferenceEngine::columnNameSimilar(const std::string& a,
     // Strip common suffixes (_id, _fk, _key) and compare stems
     auto stripSuffix = [](std::string s) -> std::string {
         for (const auto& suf : {"_id", "_fk", "_key", "_ref"}) {
-            if (static_cast<int>(s.size()) > std::strlen(suf) &&
-                s.compare(static_cast<int>(s.size()) - std::strlen(suf), std::strlen(suf), suf) == 0) {
-                s.resize(static_cast<int>(s.size()) - std::strlen(suf));
+            if (s.size() > std::strlen(suf) &&
+                s.compare(s.size() - std::strlen(suf), std::strlen(suf), suf) == 0) {
+                s.resize(s.size() - std::strlen(suf));
             }
         }
         return s;
@@ -92,7 +92,7 @@ double SchemaInferenceEngine::jaccardSimilarity(const std::vector<std::string>& 
           ++intersection;
         }
     }
-    size_t union_size = static_cast<int>(setA.size()) + static_cast<int>(setB.size()) - intersection;
+    size_t union_size = setA.size() + setB.size() - intersection;
     return union_size == 0 ? 0.0 : static_cast<double>(intersection) / union_size;
 }
 
@@ -104,7 +104,7 @@ SchemaInferenceEngine::inferImplicitRelationships(
     std::vector<InferredSchema> results;
 
     // ── I2: Bounds check – reject oversized inputs to prevent O(n²) blow-up ──
-    if (static_cast<int>(schemas.size()) > kMaxTableCount) {
+    if (schemas.size() > kMaxTableCount) {
         // Return empty; callers should chunk large schema sets before calling.
         return results;
     }
@@ -117,7 +117,7 @@ SchemaInferenceEngine::inferImplicitRelationships(
             continue;
         }
         for (const auto& col : schema.columns) {
-            if (static_cast<int>(col.size()) > kMaxIdentifierLength) {
+            if (col.size() > kMaxIdentifierLength) {
                 // Oversized column names are a sign of corrupt/adversarial data;
                 // skip the entire table to stay safe.
                 break;
@@ -266,7 +266,7 @@ SchemaInferenceEngine::detectSemanticTypes(
     }
 
     // ── I2: Bounds check ─────────────────────────────────────────────────────
-    if (static_cast<int>(schemas.size()) > kMaxTableCount) {
+    if (schemas.size() > kMaxTableCount) {
         return result;  // Input too large; reject defensively
     }
 
@@ -334,7 +334,7 @@ SchemaInferenceEngine::validateSchemaStructure(
             continue;  // Skip this schema due to critical error
         }
 
-        if (static_cast<int>(schema.name.size()) > kMaxIdentifierLength) {
+        if (schema.name.size() > kMaxIdentifierLength) {
             SchemaStructureError err;
             err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
             err.table_name = schema.name;
@@ -354,7 +354,7 @@ SchemaInferenceEngine::validateSchemaStructure(
         // Check column validity
         std::unordered_set<std::string> seen_columns = {};
 
-        if (static_cast<int>(schema.columns.size()) > kMaxColumnCount) {
+        if (schema.columns.size() > kMaxColumnCount) {
             SchemaStructureError err;
             err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
             err.table_name = schema.name;
@@ -387,7 +387,7 @@ SchemaInferenceEngine::validateSchemaStructure(
             seen_columns.insert(col);
 
             // Check column name size
-            if (static_cast<int>(col.size()) > kMaxIdentifierLength) {
+            if (col.size() > kMaxIdentifierLength) {
                 SchemaStructureError err;
                 err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
                 err.table_name = schema.name;
@@ -526,7 +526,7 @@ SchemaInferenceEngine::estimateCardinalities(
     std::vector<CardinalityEstimate> estimates;
 
     // ── I2: Bounds check ─────────────────────────────────────────────────────
-    if (static_cast<int>(schemas.size()) > kMaxTableCount) {
+    if (schemas.size() > kMaxTableCount) {
         return estimates;  // Input too large; reject defensively
     }
 
@@ -536,7 +536,7 @@ SchemaInferenceEngine::estimateCardinalities(
     
     for (const auto& schema : schemas) {
         // Check column count bounds per table
-        if (static_cast<int>(schema.columns.size()) > kMaxColumnCount) {
+        if (schema.columns.size() > kMaxColumnCount) {
             // Skip this table to prevent resource exhaustion
             continue;
         }

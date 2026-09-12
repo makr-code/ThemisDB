@@ -44,7 +44,7 @@ size_t MigrationTestResult::passedCount() const {
 }
 
 size_t MigrationTestResult::failedCount() const {
-    return static_cast<int>(test_results.size()) - passedCount();
+    return test_results.size() - passedCount();
 }
 
 // ============================================================================
@@ -161,7 +161,7 @@ MigrationTestResult SchemaMigrationTester::testMigration(
 
     result.success = true;
     LOG_INFO("Schema migration staging tests passed for table '{}' ({} tests)",
-             table_name,static_cast<int>(result.test_results.size()));
+             table_name,result.test_results.size());
     return result;
 }
 

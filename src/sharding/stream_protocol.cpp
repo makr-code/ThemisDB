@@ -203,7 +203,7 @@ std::vector<uint8_t> StreamMessageHeader::serialize() const {
  * @return Parsed header or std::nullopt for malformed/short input.
  */
 std::optional<StreamMessageHeader> StreamMessageHeader::deserialize(const std::vector<uint8_t>& data) {
-    if (static_cast<int>(data.size()) < SIZE) {
+    if (data.size() < SIZE) {
         return std::nullopt;
     }
     
@@ -256,7 +256,7 @@ bool StreamChunk::verify() const {
     if (data.empty()) {
         return checksum == 0;
     }
-    return calculateCRC32(data.data(),static_cast<int>(data.size())) == checksum;
+    return calculateCRC32(data.data(),data.size()) == checksum;
 }
 
 /** @brief Serialize chunk metadata and payload into transport bytes. */
@@ -264,7 +264,7 @@ std::vector<uint8_t> StreamChunk::serialize() const {
     std::vector<uint8_t> result;
     
     // Reserve space
-    result.reserve(24 + static_cast<int>(data.size()) );
+    result.reserve(24 + data.size() );
     
     // file_offset (8 bytes, big-endian)
     for (int i = 7; i >= 0; --i) {
@@ -308,7 +308,7 @@ std::vector<uint8_t> StreamChunk::serialize() const {
  */
 std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& data) {
     // W2-S03: Chunk metadata validation - fail-closed on malformed inputs
-    if (static_cast<int>(data.size()) < 24) {
+    if (data.size() < 24) {
         return std::nullopt;
     }
     
@@ -357,7 +357,7 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
     }
     
     // Fail-closed if compressed_size doesn't match payload size
-    size_t payload_size = static_cast<int>(data.size()) - pos;
+    size_t payload_size = data.size() - pos;
     if (chunk.compressed_size != payload_size) {
         return std::nullopt;
     }
@@ -369,7 +369,7 @@ std::optional<StreamChunk> StreamChunk::deserialize(const std::vector<uint8_t>& 
     }
     
     // data
-    if (static_cast<int>(data.size()) > pos) {
+    if (data.size() > pos) {
         chunk.data.assign(data.begin() + pos, data.end());
     }
     
@@ -455,13 +455,13 @@ std::vector<uint8_t> StreamCompressor::compress(
     
 #ifdef THEMIS_HAS_LZ4
     if (algorithm == CompressionAlgorithm::LZ4) {
-        int max_dst_size = LZ4_compressBound(static_cast<int>(data.size()));
+        int max_dst_size = LZ4_compressBound(data.size());
         std::vector<uint8_t> compressed(max_dst_size);
         
         int compressed_size = LZ4_compress_default(
             reinterpret_cast<const char*>(data.data()),
             reinterpret_cast<char*>(compressed.data()),
-            static_cast<int>(data.size()),
+            data.size(),
             max_dst_size
         );
         
@@ -516,7 +516,7 @@ std::vector<uint8_t> StreamCompressor::decompress(
         int decompressed_size = LZ4_decompress_safe(
             reinterpret_cast<const char*>(data.data()),
             reinterpret_cast<char*>(decompressed.data()),
-            static_cast<int>(data.size()),
+            data.size(),
             static_cast<int>(uncompressed_size)
         );
         
@@ -1255,7 +1255,7 @@ void StreamTransferTask::abort() {
 void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
     {
         std::lock_guard<std::mutex> lock(progress_mutex_);
-        if (static_cast<int>(chunks_acked_.size()) > chunk_index) {
+        if (chunks_acked_.size() > chunk_index) {
             chunks_acked_[chunk_index] = true;
         }
     }
@@ -1314,7 +1314,7 @@ void StreamTransferTask::transferLoop() {
         bool transfer_complete = false;
         {
             std::lock_guard<std::mutex> lock(progress_mutex_);
-            if (static_cast<int>(chunks_acked_.size()) > next_chunk_to_send_) {
+            if (chunks_acked_.size() > next_chunk_to_send_) {
                 chunk_index = next_chunk_to_send_;
                 already_acked = chunks_acked_[chunk_index];
                 has_chunk = true;
@@ -1384,7 +1384,7 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
     if (config_.compression != CompressionAlgorithm::NONE) {
         auto compressed = StreamCompressor::compress(
             chunk.data, config_.compression, config_.compression_level);
-        if (static_cast<int>(compressed.size()) < chunk.uncompressed_size) {
+        if (compressed.size() < chunk.uncompressed_size) {
             chunk.compressed_size = static_cast<uint32_t>(compressed.size());
             chunk.data = std::move(compressed);
         } else {
@@ -1430,8 +1430,8 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
         spdlog::error("Invalid chunk index for staging write");
         return false;
     }
-    if (static_cast<int>(chunk.data.size()) > 1024 * 1024 * 1024) {  // 1GB max chunk
-        spdlog::error("Chunk data exceeds maximum size ({})",static_cast<int>(chunk.data.size()));
+    if (chunk.data.size() > 1024 * 1024 * 1024) {  // 1GB max chunk
+        spdlog::error("Chunk data exceeds maximum size ({})",chunk.data.size());
         return false;
     }
     
@@ -1455,7 +1455,7 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
             out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
             out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
             out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
-            out.write(reinterpret_cast<const char*>(chunk.data.data()),static_cast<int>(chunk.data.size()));
+            out.write(reinterpret_cast<const char*>(chunk.data.data()),chunk.data.size());
 
             if (!out.good()) {
                 spdlog::warn("Failed to write chunk data to file: {}", chunk_file.string());
@@ -1541,7 +1541,7 @@ bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
         return false;
     }
 
-    if (chunk.compressed_size != static_cast<int>(chunk.data.size()) || chunk.uncompressed_size == 0 ||
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
         chunk.compressed_size > chunk.uncompressed_size) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to inconsistent size metadata" << std::endl;
@@ -1653,7 +1653,7 @@ bool StreamReceiveTask::verifyIntegrity() const {
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
-    if (chunk.compressed_size != static_cast<int>(chunk.data.size()) || chunk.uncompressed_size == 0 ||
+    if (chunk.compressed_size != chunk.data.size() || chunk.uncompressed_size == 0 ||
         chunk.compressed_size > chunk.uncompressed_size) {
         std::cerr << "Rejecting chunk " << chunk.chunk_index
                   << " due to invalid payload metadata" << std::endl;
@@ -1674,7 +1674,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
         // Data is compressed, decompress it
         write_data = StreamCompressor::decompress(
             chunk.data, config_.compression, chunk.uncompressed_size);
-        if (static_cast<int>(write_data.size()) != chunk.uncompressed_size) {
+        if (write_data.size() != chunk.uncompressed_size) {
             std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
             return false;
         }
@@ -1683,7 +1683,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     // Verify checksum
-    uint32_t computed_checksum = calculateCRC32(write_data.data(),static_cast<int>(write_data.size()));
+    uint32_t computed_checksum = calculateCRC32(write_data.data(),write_data.size());
     if (computed_checksum != chunk.checksum) {
         std::cerr << "Checksum mismatch for chunk " << chunk.chunk_index 
                   << " (expected: " << chunk.checksum 
@@ -1709,7 +1709,7 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     }
 
     file.seekp(chunk.file_offset);
-    file.write(reinterpret_cast<const char*>(write_data.data()),static_cast<int>(write_data.size()));
+    file.write(reinterpret_cast<const char*>(write_data.data()),write_data.size());
     
     if (!file.good()) {
         std::cerr << "Failed to write chunk " << chunk.chunk_index 
@@ -1742,7 +1742,7 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
     // network_->sendMessage(config_.peer_address, retry_msg);
     
     // Mark chunk as not received so it can be processed again
-    if (static_cast<int>(chunks_received_.size()) > chunk_index) {
+    if (chunks_received_.size() > chunk_index) {
         std::lock_guard<std::mutex> lock(write_mutex_);
         chunks_received_[chunk_index] = false;
     }

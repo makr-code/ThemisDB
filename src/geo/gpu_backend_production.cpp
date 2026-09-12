@@ -61,7 +61,7 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided return zero mask immediately.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 
@@ -164,12 +164,12 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     // Point-in-polygon test using ray-casting algorithm
     bool pointInPolygon(const Coordinate &point, const GeometryInfo &polygon) const {
         const auto &ring = polygon.rings.empty() ? polygon.coords : polygon.rings[0];
-        if (static_cast<int>(ring.size()) < 3) {
+        if (ring.size() < 3) {
             return false;
         }
 
         bool inside = false;
-        size_t j    = static_cast<int>(ring.size()) - 1;
+        size_t j    = ring.size() - 1;
 
         for (size_t i = 0; i < ring.size(); j = i++) {
             if (((ring[i].y > point.y) != (ring[j].y > point.y))
@@ -204,8 +204,8 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
     }
 
     bool checkEdgeIntersections(const std::vector<Coordinate> &ring1, const std::vector<Coordinate> &ring2) const {
-        for (size_t i = 0, j = static_cast<int>(ring1.size()) - 1; i < ring1.size(); j = i++) {
-            for (size_t k = 0, l = static_cast<int>(ring2.size()) - 1; k < ring2.size(); l = k++) {
+        for (size_t i = 0, j = ring1.size() - 1; i < ring1.size(); j = i++) {
+            for (size_t k = 0, l = ring2.size() - 1; k < ring2.size(); l = k++) {
                 if (segmentsIntersect(ring1[j], ring1[i], ring2[l], ring2[k])) {
                     return true;
                 }
@@ -355,7 +355,7 @@ class CudaBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 
@@ -437,7 +437,7 @@ class CudaBackend final : public ISpatialComputeBackend {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
             for (size_t j = 0; j < candidate_indices.size(); ++j) {
-                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
+                out.mask[candidate_indices[j]] = (j <exact_results.mask.size()) ? exact_results.mask[j] : 0;
             }
         }
 
@@ -688,7 +688,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
         }
 
         // When no geometry data is provided, return zero-filled mask.
-        if (static_cast<int>(in.geoms_a.size()) < in.count || static_cast<int>(in.geoms_b.size()) < in.count) {
+        if (in.geoms_a.size() < in.count || in.geoms_b.size() < in.count) {
             return out;
         }
 
@@ -829,7 +829,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             candidates.count   = candidate_indices.size();
             auto exact_results = cpu_exact_.batchIntersects(candidates);
             for (size_t j = 0; j < candidate_indices.size(); ++j) {
-                out.mask[candidate_indices[j]] = (j <static_cast<int>(exact_results.mask.size())) ? exact_results.mask[j] : 0;
+                out.mask[candidate_indices[j]] = (j <exact_results.mask.size()) ? exact_results.mask[j] : 0;
             }
         }
 

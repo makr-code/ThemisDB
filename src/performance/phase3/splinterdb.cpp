@@ -60,7 +60,7 @@ public:
     
     size_t size() const {
         std::lock_guard<std::mutex> lock(mutex_);
-        return static_cast<int>(tasks_.size());
+        return tasks_.size();
     }
 
 private:

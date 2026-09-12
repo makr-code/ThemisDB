@@ -190,7 +190,7 @@ struct CypherParser::Lexer {
 
         while (true) {
             skipWhitespace();
-            if (pos >= static_cast<int>(src.size())) {
+            if (pos >= src.size()) {
               break;
             }
 
@@ -205,7 +205,7 @@ struct CypherParser::Lexer {
                 std::string s = {};
                 while (pos < src.size() && peek() != delim) {
                     char c = advance();
-                    if (c == '\\'  && static_cast<size_t>(pos) <static_cast<int>(src.size())) {
+                    if (c == '\\' && pos < src.size()) {
                         char esc = advance();
                         switch (esc) {
                             case 'n':  s += '\n'; break;
@@ -217,7 +217,7 @@ struct CypherParser::Lexer {
                         s += c;
                     }
                 }
-                if (static_cast<int>(src.size()) > pos) advance();  // closing delimiter
+                if (src.size() > pos) advance();  // closing delimiter
                 tok.type  = TokenType::STRING_LIT;
                 tok.value = std::move(s);
                 tokens.push_back(std::move(tok));
@@ -232,7 +232,7 @@ struct CypherParser::Lexer {
                   num += advance();
                 }
                 bool is_float = false;
-                while (static_cast<size_t>(pos) <static_cast<int>(src.size())) {
+                while (pos < src.size()) {
                     if (std::isdigit(static_cast<unsigned char>(peek()))) {
                         num += advance();
                         continue;
@@ -281,7 +281,7 @@ struct CypherParser::Lexer {
                 std::string id = {};
                 while (pos < src.size() && peek() != '`')
                     id += advance();
-                if (static_cast<int>(src.size()) > pos) {
+                if (src.size() > pos) {
                   advance();
                 }
                 tok.type  = TokenType::IDENT;
@@ -1037,11 +1037,11 @@ std::string CypherToAQLTranspiler::literalToAQL(const CypherLiteralValue& val) {
             return oss.str();
         } else {
             // std::string – escape inner double quotes
-            if (static_cast<int>(v.size()) >= 2 && v.front() == '[' && v.back() == ']') {
+            if (v.size() >= 2 && v.front() == '[' && v.back() == ']') {
                 return v;
             }
             std::string out = {};
-            out.reserve(static_cast<int>(v.size()) + 2);
+            out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
                 if (c == '"' || c == '\\') {
@@ -1224,9 +1224,9 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
                     << " GRAPH \"" << graph_name << "\"\n";
 
                 // Multi-type filter: e._type IN ["T1","T2",…]
-                if (static_cast<int>(rel.types.size()) > 1) {
+                if (rel.types.size() > 1) {
                     std::string type_list = {};
-                    for (size_t i = 0; i <static_cast<int>(rel.types.size()); ++i) {
+                    for (size_t i = 0; i <rel.types.size(); ++i) {
                         if (i) {
                           type_list += ", ";
                         }
@@ -1260,7 +1260,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         // ----------------------------------------------------------------
         if (!ast.order_by.empty()) {
             aql << "SORT ";
-            for (size_t i = 0; i <static_cast<int>(ast.order_by.size()); ++i) {
+            for (size_t i = 0; i <ast.order_by.size(); ++i) {
                 if (i) {
                   aql << ", ";
                 }
@@ -1295,7 +1295,7 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
         if (!ast.return_items.empty() && ast.return_items[0].star) {
             if (all_vars.empty()) {
                 aql << "{}\n";
-            } else if (static_cast<int>(all_vars.size()) == 1) {
+            } else if (all_vars.size() == 1) {
                 aql << all_vars[0] << "\n";
             } else {
                 aql << "{";
@@ -1309,12 +1309,12 @@ Result<std::string> CypherToAQLTranspiler::transpile(const CypherASTNode& ast) {
             }
         } else if (!ast.return_items.empty()) {
             // Multiple items → wrap in an object; single item → return directly.
-            if (static_cast<int>(ast.return_items.size()) == 1) {
+            if (ast.return_items.size() == 1) {
                 const auto& item = ast.return_items[0];
                 aql << (!item.alias.empty() ? item.alias : item.expression) << "\n";
             } else {
                 aql << "{";
-                for (size_t i = 0; i <static_cast<int>(ast.return_items.size()); ++i) {
+                for (size_t i = 0; i <ast.return_items.size(); ++i) {
                     if (i) {
                       aql << ", ";
                     }

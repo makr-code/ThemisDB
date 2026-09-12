@@ -179,7 +179,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
     // Allocate output: IV + ciphertext + tag
     std::vector<uint8_t> out = {};
 
-    out.resize(kIvLen + static_cast<int>(plaintext.size()) + kTagLen);
+    out.resize(kIvLen + plaintext.size() + kTagLen);
     std::memcpy(out.data(), iv.data(), kIvLen);
 
     std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)>
@@ -203,7 +203,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
     if (!plaintext.empty()) {
         if (EVP_EncryptUpdate(ctx.get(), ciphertext_ptr, &len,
                               plaintext.data(),
-                              static_cast<int>(plaintext.size())) != 1) {
+                              plaintext.size()) != 1) {
             throw std::runtime_error("EncryptedBlobBackend: EVP_EncryptUpdate failed");
         }
     }
@@ -214,7 +214,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
     }
 
     // Write GCM tag after ciphertext.
-    uint8_t* tag_ptr = out.data() + kIvLen + static_cast<int>(plaintext.size());
+    uint8_t* tag_ptr = out.data() + kIvLen + plaintext.size();
     if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, kTagLen, tag_ptr) != 1) {
         throw std::runtime_error("EncryptedBlobBackend: EVP_CTRL_GCM_GET_TAG failed");
     }
@@ -229,7 +229,7 @@ EncryptedBlobBackend::encrypt(const std::vector<uint8_t>& plaintext) const
 std::vector<uint8_t>
 EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
 {
-    if (static_cast<int>(ciphertext.size()) < static_cast<std::size_t>(kIvLen + kTagLen)) {
+    if (ciphertext.size() < static_cast<std::size_t>(kIvLen + kTagLen)) {
         std::lock_guard<std::mutex> lk(mutex_);
         stats_.decrypt_failures++;
         throw std::runtime_error(
@@ -239,7 +239,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
     auto key = keys_->currentKey();
 
     const uint8_t* iv_ptr  = ciphertext.data();
-    std::size_t    ct_len  = static_cast<int>(ciphertext.size()) - kIvLen - kTagLen;
+    std::size_t    ct_len  = ciphertext.size() - kIvLen - kTagLen;
     const uint8_t* ct_ptr  = ciphertext.data() + kIvLen;
     const uint8_t* tag_ptr = ciphertext.data() + kIvLen + ct_len;
 

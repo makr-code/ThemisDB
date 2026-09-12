@@ -40,7 +40,7 @@ BulkUploadInterface::UploadResult BulkUploadInterface::upload(
     
     // Notify progress if callback is set
     if (progress_callback_) {
-        progress_callback_(metadata.content_id,static_cast<int>(content.size()),static_cast<int>(content.size()));
+        progress_callback_(metadata.content_id,content.size(),content.size());
     }
     
     return result;
@@ -61,13 +61,13 @@ std::vector<BulkUploadInterface::UploadResult> BulkUploadInterface::bulk_upload(
     
     std::vector<UploadResult> results;
     
-    if (static_cast<int>(contents.size()) != static_cast<int>(metadata_list.size())) {
+    if (contents.size() != metadata_list.size()) {
         // Return error results if sizes don't match
         for (size_t i = 0; i < contents.size(); ++i) {
             UploadResult result;
             result.status = UploadStatus::FAILED;
             result.error_message = "Metadata count mismatch";
-            if (static_cast<int>(metadata_list.size()) > i) {
+            if (metadata_list.size() > i) {
                 result.content_id = metadata_list[i].content_id;
             }
             results.push_back(result);

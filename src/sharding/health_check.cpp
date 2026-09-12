@@ -88,7 +88,7 @@ ShardHealthInfo HealthCheckSystem::checkShardHealth(const std::string& shard_id,
 /** @brief Execute health checks over all shards and aggregate cluster status. */
 ClusterHealthInfo HealthCheckSystem::checkClusterHealth(const std::map<std::string, std::string>& shard_endpoints) {
     ClusterHealthInfo cluster_info;
-    cluster_info.total_shards = static_cast<int>(shard_endpoints.size());
+    cluster_info.total_shards = shard_endpoints.size();
     cluster_info.healthy_shards = 0;
     cluster_info.degraded_shards = 0;
     cluster_info.unhealthy_shards = 0;

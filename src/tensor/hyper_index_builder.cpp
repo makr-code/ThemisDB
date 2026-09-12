@@ -185,7 +185,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
 
         values.reserve(rows.size());
         for (const auto& row : rows) {
-            if (static_cast<int>(row.numeric_values.size()) > numeric_index) {
+            if (row.numeric_values.size() > numeric_index) {
                 values.push_back(row.numeric_values[numeric_index]);
             }
         }
@@ -209,7 +209,7 @@ std::vector<std::vector<double>> buildNumericThresholds(
                 quantile * value_count);
             const auto idx = std::min<std::size_t>(
                 quantile_index,
-                static_cast<int>(values.size()) - 1);
+                values.size() - 1);
             out.push_back(values[idx]);
         }
     }
@@ -255,7 +255,7 @@ std::vector<std::vector<std::string>> buildCategoryOrders(
         std::unordered_map<std::string, std::size_t> frequencies = {};
 
         for (const auto& row : rows) {
-            if (static_cast<int>(row.category_values.size()) > category_index) {
+            if (row.category_values.size() > category_index) {
                 ++frequencies[row.category_values[category_index]];
             }
         }
@@ -557,7 +557,7 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         const std::vector<ColumnSchema>& schema,
         const std::vector<TableRow>&     rows,
         const HyperIndexConfig&          cfg) {
-    if (static_cast<int>(schema.size()) < 2) {
+    if (schema.size() < 2) {
         throw std::invalid_argument("schema must have at least 2 columns, got: " +
                                     std::to_string(schema.size()));
     }
@@ -606,12 +606,12 @@ HyperIndexTensor HyperIndexBuilder::fromSchema(
         auto buckets = bucketiseRow(
             row, schema, numeric_thresholds, category_orders, bucket_count);
         applyForeignKeyPropagation(
-            buckets, cfg.fk_graph.edges, cfg.fk_graph,static_cast<int>(schema.size()), bucket_count);
+            buckets, cfg.fk_graph.edges, cfg.fk_graph,schema.size(), bucket_count);
 
         if (bucket_assignment_fn) {
             auto assigned = bucket_assignment_fn(
                 tenant_id, schema, row, row_idx, buckets);
-            if (static_cast<int>(assigned.size()) != static_cast<int>(schema.size())) {
+            if (assigned.size() != schema.size()) {
                 throw std::runtime_error(
                     "bucket assignment bridge returned " +
                     std::to_string(assigned.size()) +

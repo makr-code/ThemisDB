@@ -158,7 +158,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
             {"status", step.status}
         }.dump();
         
-        if (static_cast<int>(step_json.size()) > 1024 * 1024) {  // 1MB per step limit
+        if (step_json.size() > 1024 * 1024) {  // 1MB per step limit
             ErrorContext ctx(
                 ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "SAGA step payload exceeds 1MB limit",
@@ -188,7 +188,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
     }
     
     // Check if buffer would overflow (SAGA_EVENT_LOSS)
-    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size) {
+    if (buffer_.size() >= cfg_.batch_size) {
         ErrorContext ctx(
             ErrorCode::SAGA_EVENT_LOSS,
             "SAGA step buffer full; triggering auto-flush",
@@ -215,7 +215,7 @@ void SAGALogger::logStep(const SAGAStep& step) {
         now - batch_start_time_
     );
     
-    if (static_cast<int>(buffer_.size()) >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
+    if (buffer_.size() >= cfg_.batch_size || elapsed >= cfg_.batch_interval) {
         signAndFlushBatch();
     }
 }
@@ -255,7 +255,7 @@ std::string SAGALogger::generateBatchId() const {
 
 std::vector<uint8_t> SAGALogger::sha256(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
-    ::SHA256(data.data(),static_cast<int>(data.size()), out.data());
+    ::SHA256(data.data(),data.size(), out.data());
     return out;
 }
 
@@ -342,7 +342,7 @@ void SAGALogger::signAndFlushBatch() {
         // 3. Build ciphertext for hashing: iv || ciphertext || tag
         std::vector<uint8_t> to_hash = {};
 
-        to_hash.reserve(blob.iv.size() + static_cast<int>(blob.ciphertext.size()) + static_cast<int>(blob.tag.size()) );
+        to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size() );
         to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
         to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
         to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());

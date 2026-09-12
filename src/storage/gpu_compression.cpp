@@ -160,7 +160,7 @@ static constexpr uint8_t kGpuMagic[kGpuMagicSize] = {
 
 /// Returns true if @p data starts with the GPU container magic bytes.
 [[maybe_unused]] static bool has_gpu_magic(const std::vector<uint8_t>& data) {
-    return static_cast<int>(data.size()) >= kGpuMagicSize &&
+    return data.size() >= kGpuMagicSize &&
            memcmp(data.data(), kGpuMagic, kGpuMagicSize) == 0;
 }
 

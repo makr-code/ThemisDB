@@ -157,7 +157,7 @@ static void parseAttrs(std::string_view src,
 template<typename TagCb, typename TextCb>
 bool tokenizeFimXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
     constexpr size_t kMaxSize = 50 * 1024 * 1024;
-    if (static_cast<int>(xml.size()) > kMaxSize) {
+    if (xml.size() > kMaxSize) {
       return false;
     }
 
@@ -303,14 +303,14 @@ std::string extractBpmnPayload(std::string_view catalogue_xml, size_t start_pos)
     if (end1 != std::string_view::npos && end2 != std::string_view::npos) {
         // Use whichever closes first (choose the one matching the opener)
         size_t end = (pos2 != std::string_view::npos && pos == pos2)
-                     ? end2 + static_cast<int>(kClose2.size()) 
-                     : end1 + static_cast<int>(kClose1.size()) ;
+                     ? end2 + kClose2.size() 
+                     : end1 + kClose1.size() ;
         return std::string(catalogue_xml.substr(pos, end - pos));
     }
     if (end1 != std::string_view::npos)
-        return std::string(catalogue_xml.substr(pos, end1 + static_cast<int>(kClose1.size()) - pos));
+        return std::string(catalogue_xml.substr(pos, end1 + kClose1.size() - pos));
     if (end2 != std::string_view::npos)
-        return std::string(catalogue_xml.substr(pos, end2 + static_cast<int>(kClose2.size()) - pos));
+        return std::string(catalogue_xml.substr(pos, end2 + kClose2.size() - pos));
     return {};
 }
 

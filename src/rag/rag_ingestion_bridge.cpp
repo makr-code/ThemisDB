@@ -46,7 +46,7 @@ std::string trimCopy(const std::string& in) {
 }
 
 std::string truncateCopy(const std::string& in, std::size_t max_chars) {
-    if (static_cast<int>(in.size()) <= max_chars) {
+    if (in.size() <= max_chars) {
         return in;
     }
     return in.substr(0, max_chars);
@@ -141,8 +141,8 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Bound check: text <= kMaxDocumentChars (5 MiB)
     // Prevents memory exhaustion and ensures bounded ingestion time
-    if (static_cast<int>(text.size()) > kMaxDocumentChars) {
-        spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})",static_cast<int>(text.size()));
+    if (text.size() > kMaxDocumentChars) {
+        spdlog::warn("RAGIngestionBridge::indexDocument rejected: text too large ({})",text.size());
         return IndexResult{
             .ok    = false,
             .error = "input too large"
@@ -150,7 +150,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Collection name validation: must be non-empty, <= 256 chars, no control chars
     // Control char check prevents injection attacks and ensures clean metadata
-    if (trimmed_collection.empty() || static_cast<int>(trimmed_collection.size()) > kMaxCollectionChars ||
+    if (trimmed_collection.empty() || trimmed_collection.size() > kMaxCollectionChars ||
         hasControlCharacters(trimmed_collection)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid collection");
         return IndexResult{
@@ -159,7 +159,7 @@ IndexResult RAGIngestionBridge::indexDocument(
         };
     }
     // MIME type validation: must be non-empty, <= 128 chars, no control chars
-    if (trimmed_mime.empty() || static_cast<int>(trimmed_mime.size()) > kMaxMimeChars ||
+    if (trimmed_mime.empty() || trimmed_mime.size() > kMaxMimeChars ||
         hasControlCharacters(trimmed_mime)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid mime");
         return IndexResult{
@@ -169,7 +169,7 @@ IndexResult RAGIngestionBridge::indexDocument(
     }
     // Filename validation: must be non-empty, <= 512 chars, no control chars
     // Filename used for workflow routing (e.g., PDF vs plain text handling)
-    if (trimmed_filename.empty() || static_cast<int>(trimmed_filename.size()) > kMaxFilenameChars ||
+    if (trimmed_filename.empty() || trimmed_filename.size() > kMaxFilenameChars ||
         hasControlCharacters(trimmed_filename)) {
         spdlog::warn("RAGIngestionBridge::indexDocument rejected: invalid filename");
         return IndexResult{
@@ -290,7 +290,7 @@ IndexResult RAGIngestionBridge::indexDocument(
                 chunk.metadata["text"] = bounded_content;
                 chunk.metadata["body"] = bounded_content;
             }
-            if (static_cast<int>(chunk.text_snippet.size()) > kMaxChunkSnippetChars) {
+            if (chunk.text_snippet.size() > kMaxChunkSnippetChars) {
                 chunk.text_snippet.resize(kMaxChunkSnippetChars);
             }
         }
@@ -460,7 +460,7 @@ std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
     // deterministic document key for idempotent upserts.
     const std::size_t h1 = std::hash<std::string>{}(text);
     const std::size_t h2 = std::hash<std::string>{}(
-        static_cast<int>(text.size()) > 32 ? text.substr(text.size() / 2) : text
+        text.size() > 32 ? text.substr(text.size() / 2) : text
     );
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0')
@@ -528,7 +528,7 @@ IndexResult RAGIngestionBridge::indexOptimizerLog(
     // Build a structured text document from the optimizer-log entry.
     // The plan_json is capped at 2 048 chars to stay within the chunk budget.
     const std::string plan_snippet =
-        static_cast<int>(plan_json.size()) > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
+        plan_json.size() > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
 
     std::ostringstream doc = {};
     doc << "optimizer_log\n"

@@ -34,7 +34,7 @@ size_t ColumnSegment::byteSize() const noexcept {
         case SegmentDType::String: {
             size_t total = n; // null bitmap
             for (const auto& s : string_data) {
-              total += static_cast<int>(s.size()) + sizeof(std::string);
+              total += s.size() + sizeof(std::string);
             }
             return total;
         }
@@ -238,7 +238,7 @@ void ColumnarCache::clear() {
 
 size_t ColumnarCache::size() const noexcept {
     std::lock_guard<std::mutex> lk(mu_);
-    return static_cast<int>(store_.size());
+    return store_.size();
 }
 
 size_t ColumnarCache::pinnedCount() const noexcept {

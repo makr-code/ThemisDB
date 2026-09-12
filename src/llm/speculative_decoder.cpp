@@ -58,15 +58,15 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
     const std::vector<std::vector<float>>&       target_logits
 ) {
     // ── Pre-condition checks ─────────────────────────────────────────
-    if (static_cast<int>(draft_tokens.size()) != static_cast<int>(draft_logits.size())) {
+    if (draft_tokens.size() != draft_logits.size()) {
         throw std::invalid_argument(
             "draft_tokens.size() must equal draft_logits.size()");
     }
-    if (static_cast<int>(target_logits.size()) != static_cast<int>(draft_tokens.size()) + 1) {
+    if (target_logits.size() != draft_tokens.size() + 1) {
         std::ostringstream msg = {};
-        msg << "target_logits.size() (" <<static_cast<int>(target_logits.size())
-            << ") must be static_cast<int>(draft_tokens.size()) + 1 ("
-            << (static_cast<int>(draft_tokens.size()) + 1) << ")";
+        msg << "target_logits.size() (" <<target_logits.size()
+            << ") must be draft_tokens.size() + 1 ("
+            << (draft_tokens.size() + 1) << ")";
         throw std::invalid_argument(msg.str());
     }
     if (draft_tokens.empty()) {
@@ -275,7 +275,7 @@ int SpeculativeDecoder::sampleToken(
         }
     }
     // Fallback: return last token (handles floating-point rounding).
-    return static_cast<int>(probs.size()) - 1;
+    return probs.size() - 1;
 }
 
 } // namespace llm

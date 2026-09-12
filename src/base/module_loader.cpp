@@ -614,7 +614,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
+    spdlog::info("Unloading all modules ({} loaded)",loadedModules_.size());
     
     auto& auditor = PluginSecurityAuditor::instance();
     uint64_t now = static_cast<uint64_t>(std::time(nullptr));
@@ -1214,7 +1214,7 @@ bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResul
         return true;  // No health checks = pass
     }
     
-    spdlog::info("Running {} health checks for module: {}",static_cast<int>(healthChecks_.size()), module.name);
+    spdlog::info("Running {} health checks for module: {}",healthChecks_.size(), module.name);
     
     for (const auto& [checkName, checkFunc] : healthChecks_) {
         auto startTime = std::chrono::steady_clock::now();
@@ -1348,7 +1348,7 @@ int ModuleLoader::getZoneIdentifier(const std::string& modulePath) const {
         return -1;
     }
     try {
-        return std::stoi(content.substr(pos + static_cast<int>(zoneIdKey.size()) ));
+        return std::stoi(content.substr(pos + zoneIdKey.size() ));
     } catch (const std::invalid_argument &) {
         return -1;
     } catch (const std::out_of_range &) {
@@ -1563,7 +1563,7 @@ ModuleLoader::getExtendedAttributes(const std::string& modulePath) const {
     size_t pos = 0;
     while (pos < static_cast<size_t>(listSize)) {
         std::string name = &namesBuf[pos];
-        pos += static_cast<int>(name.size()) + 1;
+        pos += name.size() + 1;
 
         ssize_t valueSize = getxattr(modulePath.c_str(), name.c_str(), nullptr, 0);
         if (valueSize < 0) {

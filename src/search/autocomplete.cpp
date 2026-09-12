@@ -46,7 +46,7 @@ AutocompleteEngine::AutocompleteEngine(SecondaryIndexManager* index,
 std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                                                       const std::string& table,
                                                       const std::string& column) const {
-    if (static_cast<int>(prefix.size()) < config_.min_prefix_length) {
+    if (prefix.size() < config_.min_prefix_length) {
         return {};
     }
 
@@ -88,11 +88,11 @@ std::vector<Suggestion> AutocompleteEngine::suggest(const std::string& prefix,
                   });
     }
 
-    if (static_cast<int>(combined.size()) > config_.max_suggestions) {
+    if (combined.size() > config_.max_suggestions) {
         combined.resize(config_.max_suggestions);
     }
 
-    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix,static_cast<int>(combined.size()));
+    THEMIS_DEBUG("AutocompleteEngine::suggest('{}') -> {} suggestions", prefix,combined.size());
     return combined;
 }
 
@@ -149,7 +149,7 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
             s.score = 1.0;
             suggestions.push_back(std::move(s));
         }
-        if (static_cast<int>(suggestions.size()) >= limit) {
+        if (suggestions.size() >= limit) {
           break;
         }
     }
@@ -180,7 +180,7 @@ std::vector<Suggestion> AutocompleteEngine::suggestPopular(const std::string& pr
 
     std::vector<Suggestion> suggestions = {};
 
-    for (size_t i = 0; i < std::min(limit,static_cast<int>(matches.size())); ++i) {
+    for (size_t i = 0; i < std::min(limit,matches.size()); ++i) {
         Suggestion s;
         s.text = matches[i].first;
         s.score = static_cast<double>(matches[i].second) * config_.popular_boost;

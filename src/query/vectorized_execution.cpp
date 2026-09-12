@@ -197,7 +197,7 @@ Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::execute(
     }
 
     // Apply limit last (after all operators have run)
-    if (plan.limit().has_value() && static_cast<int>(result.size()) > *plan.limit()) {
+    if (plan.limit().has_value() && result.size() > *plan.limit()) {
         result.resize(*plan.limit());
     }
 
@@ -273,7 +273,7 @@ ColumnBatch VectorizedExecutionEngine::jsonToColumnBatch(
           continue;
         }
         for (const auto& [key, _] : row.items()) {
-            if (col_index.emplace(key, static_cast<int>(col_names.size())).second) {
+            if (col_index.emplace(key, col_names.size()).second) {
                 col_names.push_back(key);
             }
         }

@@ -96,7 +96,7 @@ static std::string derive_fallback_cert_serial(const std::string& cert_pem,
     }
 
     unsigned char digest[SHA256_DIGEST_LENGTH] = {0};
-    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()),static_cast<int>(seed.size()), digest)) {
+    if (!SHA256(reinterpret_cast<const unsigned char*>(seed.data()),seed.size(), digest)) {
         return {};
     }
 
@@ -118,7 +118,7 @@ static std::string ossl_error() {
 
 // AES-256-GCM encrypt: returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (static_cast<int>(key.size()) != 32) {
+    if (key.size() != 32) {
         throw std::runtime_error("AES-256-GCM encryption: invalid key size (expected 32 bytes, got " + 
                                 std::to_string(key.size()) + ")");
     }
@@ -130,7 +130,7 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
     if (!ctx) {
         throw std::runtime_error("AES-256-GCM encryption: EVP_CIPHER_CTX_new failed: " + ossl_error());
     }
-    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
+    std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -159,17 +159,17 @@ static std::vector<uint8_t> stub_aes_encrypt(const std::vector<uint8_t>& key, co
 
 // AES-256-GCM decrypt: expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (static_cast<int>(key.size()) != 32) {
+    if (key.size() != 32) {
         throw std::runtime_error("AES-256-GCM decryption: invalid key size (expected 32 bytes, got " +
                                 std::to_string(key.size()) + ")");
     }
-    if (static_cast<int>(encrypted.size()) < 12 + 16) {
+    if (encrypted.size() < 12 + 16) {
         throw std::runtime_error("AES-256-GCM decryption: encrypted data too short (expected at least " +
                                 std::to_string(12 + 16) + " bytes, got " + 
                                 std::to_string(encrypted.size()) + ")");
     }
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
+    size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());

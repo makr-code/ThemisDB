@@ -94,7 +94,7 @@ uint64_t SseConnectionManager::registerConnection(
             conn->id, from_seq, key_prefix);
 
         // Mark to start background polling if first connection
-        if (static_cast<int>(connections_.size()) == 1 && !running_) {
+        if (connections_.size() == 1 && !running_) {
             running_ = true;
             start_background = true;
         }

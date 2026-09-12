@@ -27,7 +27,7 @@ namespace server {
 void ChunkedResponseWriter::appendChunk(std::string& out, const std::string& data) {
     // chunk-size in hex
     std::ostringstream hex = {};
-    hex << std::hex <<static_cast<int>(data.size());
+    hex << std::hex <<data.size();
     out += hex.str();
     out += "\r\n";
     out += data;
@@ -44,7 +44,7 @@ std::string ChunkedResponseWriter::encodeChunkedBody(
     std::string body = {};
     // Pre-allocate: rough estimate (hex digits + CRLF overhead per chunk)
     for (const auto& frag : fragments) {
-        body.reserve(static_cast<int>(body.size()) + static_cast<int>(frag.size()) + 16);
+        body.reserve(body.size() + frag.size() + 16);
         if (!frag.empty()) {
             appendChunk(body, frag);
         }
@@ -168,7 +168,7 @@ http::response<http::string_body> ChunkedResponseWriter::fromStream(
 std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded) {
     std::string result = {};
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(encoded.size())) {
+    while (pos < encoded.size()) {
         // Find CRLF that ends the chunk-size line
         size_t crlf = encoded.find("\r\n", pos);
         if (crlf == std::string::npos) {
@@ -190,11 +190,11 @@ std::string ChunkedResponseWriter::decodeChunkedBody(const std::string& encoded)
             // Terminal chunk
             break;
         }
-        if (pos + chunk_size > static_cast<int>(encoded.size())) {
+        if (pos + chunk_size > encoded.size()) {
             // Truncated – take what we have
             THEMIS_WARN("decodeChunkedBody: truncated chunk (expected {} bytes, {} available); returning partial data",
-                        chunk_size, static_cast<int>(encoded.size()) - pos);
-            result.append(encoded, pos, static_cast<int>(encoded.size()) - pos);
+                        chunk_size, encoded.size() - pos);
+            result.append(encoded, pos, encoded.size() - pos);
             break;
         }
         result.append(encoded, pos, chunk_size);

@@ -279,7 +279,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     
     metrics.quality_tests_total = tests.size();
     metrics.quality_tests_passed = quality_passed_count;
-    metrics.quality_score_pct = (static_cast<int>(tests.size()) > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
+    metrics.quality_score_pct = (tests.size() > 0) ? (quality_passed_count * 100.0 / tests.size()) : 0.0;
     bool quality_passed = metrics.quality_score_pct >= 80.0;
     
     // 7. SLA threshold validation
@@ -373,9 +373,9 @@ bool ProductionValidator::validateQuality(const std::string& model_id) {
         }
     }
     
-    double score = (static_cast<int>(tests.size()) > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
+    double score = (tests.size() > 0) ? (passed * 100.0 / static_cast<double>(tests.size())) : 0.0;
     
-    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed,static_cast<int>(tests.size()), score);
+    spdlog::info("Quality test results: {}/{} passed ({:.1f}%)", passed,tests.size(), score);
     
     return score >= 80.0;  // 80% threshold
 }
@@ -690,7 +690,7 @@ bool ProductionValidator::testModelLoading() {
         // A freshly constructed loader should list no models.
         auto loaded_models = loader.listLoadedModels();
         passed = loaded_models.empty();
-        spdlog::info("  LazyModelLoader instantiated; loaded_models={}",static_cast<int>(loaded_models.size()));
+        spdlog::info("  LazyModelLoader instantiated; loaded_models={}",loaded_models.size());
     } catch (const std::exception& e) {
         spdlog::error("LazyModelLoader construction failed (context: model loader initialization): {}", e.what());
         passed = false;
@@ -974,7 +974,7 @@ double ProductionValidator::calculatePercentile(
         return 0.0;
     }
     
-    if (static_cast<int>(data.size()) == 1) {
+    if (data.size() == 1) {
         return data[0];
     }
     
@@ -982,12 +982,12 @@ double ProductionValidator::calculatePercentile(
     std::vector<double> mutable_copy = data;
     
     size_t index = static_cast<size_t>(
-        (percentile / 100.0) * (static_cast<int>(mutable_copy.size()) - 1)
+        (percentile / 100.0) * (mutable_copy.size() - 1)
     );
     
     // Ensure index is valid
-    if (index >= static_cast<int>(mutable_copy.size())) {
-        index = static_cast<int>(mutable_copy.size()) - 1;
+    if (index >= mutable_copy.size()) {
+        index = mutable_copy.size() - 1;
     }
     
     // Partially sort to find the element at the percentile position
@@ -1004,7 +1004,7 @@ void ProductionValidator::recordLatency(double latency_ms) {
     
     // Keep only last 10000 samples to avoid memory bloat
     // Using deque for O(1) removal from front instead of O(n) with vector
-    if (static_cast<int>(latency_samples_.size()) > 10000) {
+    if (latency_samples_.size() > 10000) {
         latency_samples_.pop_front();
     }
 }
@@ -1675,7 +1675,7 @@ bool IntegrationTestSuite::testBurstTraffic() {
         return false;
     }
 
-    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)",static_cast<int>(ids.size()), rejected);
+    spdlog::info("  Burst: {} accepted, {} rejected (backpressure)",ids.size(), rejected);
 
     for (const auto& id : ids) {
       scheduler.cancelRequest(id);
@@ -1738,7 +1738,7 @@ IntegrationTestSuite::runAllTests() {
                                   [](const auto& r) { return r.passed; });
     
     spdlog::info("=== Integration Tests: {}/{} passed ===",
-                 passed,static_cast<int>(results.size()));
+                 passed,results.size());
     
     return results;
 }
@@ -1757,7 +1757,7 @@ std::string ProductionValidator::generateBenchmarkPrompt(int variant) {
         "How does sharding improve database scalability?"
     };
     
-    if (variant < 0 || variant >= static_cast<int>(prompts.size())) {
+    if (variant < 0 || variant >= prompts.size()) {
         variant = 0;
     }
     

@@ -88,7 +88,7 @@ std::map<std::string, std::string> parseTopLevelFields(const std::string& json)
 
     try {
         const char* p   = json.c_str();
-        const char* end = p + static_cast<int>(json.size()) ;
+        const char* end = p + json.size() ;
 
         // Skip leading whitespace and opening '{'
         while ((p < end && (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r'))) {
@@ -265,7 +265,7 @@ std::string buildJson(const std::map<std::string, std::string>& fields)
             } else {
                 // Slow path: escaping is needed, create escaped copy once
                 std::string escaped_key = {};
-                escaped_key.reserve(static_cast<int>(key.size()) + 4);  // Reserve for typical escape overhead
+                escaped_key.reserve(key.size() + 4);  // Reserve for typical escape overhead
                 for (char c : key) {
                     if (c == '"') {
                         escaped_key += "\\\"";
@@ -290,7 +290,7 @@ std::string computeMmChecksum(const MMWriteEntry& entry)
 {
     std::string content = entry.operation + entry.collection + entry.document_id + entry.data;
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),static_cast<int>(content.size()), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),content.size(), hash);
     std::ostringstream oss = {};
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
@@ -383,7 +383,7 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
         throw std::invalid_argument("ThreeWayMergeResolver::selectBase requires non-empty writes vector");
     }
     
-    if (static_cast<int>(writes.size()) == 1) {
+    if (writes.size() == 1) {
       return writes[0];
     }
 
@@ -408,9 +408,9 @@ MMWriteEntry ThreeWayMergeResolver::selectBase(
     }
     
     // BATCH D FIX: Bounds check before access
-    if (best_idx >= static_cast<int>(writes.size())) {
+    if (best_idx >= writes.size()) {
         THEMIS_ERROR("ThreeWayMergeResolver::selectBase: best_idx {} out of bounds (size {})",
-                    best_idx,static_cast<int>(writes.size()));
+                    best_idx,writes.size());
         return writes[0];
     }
     
@@ -504,7 +504,7 @@ MMWriteEntry ThreeWayMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("ThreeWayMergeResolver::resolve requires at least one conflicting write");
     }
-    if (static_cast<int>(conflicting_writes.size()) == 1) {
+    if (conflicting_writes.size() == 1) {
       return conflicting_writes[0];
     }
 
@@ -617,7 +617,7 @@ std::string FieldLevelMergeResolver::mergeFields(
 
             if (strategy_ == MergeStrategy::INTERSECT) {
                 // Only include if all writes have the key
-                if (static_cast<int>(present_indices.size()) != static_cast<int>(writes.size())) {
+                if (present_indices.size() != writes.size()) {
                   continue;
                 }
             }
@@ -654,7 +654,7 @@ std::string FieldLevelMergeResolver::mergeFields(
                     // Latest HLC wins for conflicting fields
                     size_t best = present_indices[0];
                     for (size_t idx : present_indices) {
-                        if (idx >= static_cast<int>(writes.size())) {
+                        if (idx >= writes.size()) {
                             THEMIS_ERROR("FieldLevelMergeResolver: index {} out of bounds", idx);
                             continue;
                         }
@@ -705,7 +705,7 @@ MMWriteEntry FieldLevelMergeResolver::resolve(
     if (conflicting_writes.empty()) {
         throw std::invalid_argument("FieldLevelMergeResolver::resolve requires at least one conflicting write");
     }
-    if (static_cast<int>(conflicting_writes.size()) == 1) {
+    if (conflicting_writes.size() == 1) {
       return conflicting_writes[0];
     }
 

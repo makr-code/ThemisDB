@@ -52,7 +52,7 @@ AggregatedMetrics PromptEvaluator::evaluateBatch(
 ) const {
     AggregatedMetrics agg = {};
     
-    if (static_cast<int>(outputs.size()) != static_cast<int>(expected.size())) {
+    if (outputs.size() != expected.size()) {
         THEMIS_ERROR("Output and expected vectors must have same size");
         return agg;
     }
@@ -149,7 +149,7 @@ double PromptEvaluator::computeSemanticSimilarity(
         }
     }
     
-    size_t union_size = static_cast<int>(set1.size()) + static_cast<int>(set2.size()) - intersection;
+    size_t union_size = set1.size() + set2.size() - intersection;
     
     if (union_size == 0) {
         return 1.0;

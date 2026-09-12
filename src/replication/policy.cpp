@@ -143,9 +143,9 @@ ReplicationPolicy::validatePolicy(const Policy& policy) const
 
     const auto replicas   = manager_->getReplicas();
     const int  healthy    = countHealthy(replicas);
-    const int  total      = static_cast<int>(replicas.size());
+    const int  total      = replicas.size();
     const auto datacenters = collectDatacenters(replicas);
-    const int  dc_count   = static_cast<int>(datacenters.size());
+    const int  dc_count   = datacenters.size();
 
     // 1. Minimum replicas
     if (healthy < static_cast<int>(policy.min_replicas)) {

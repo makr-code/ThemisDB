@@ -158,7 +158,7 @@ void NetworkAuditLog::record(AuditEvent event) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
 
-        if (static_cast<int>(buffer_.size()) >= config_.max_entries) {
+        if (buffer_.size() >= config_.max_entries) {
             buffer_.pop_front();
             ++total_evicted_;
         }
@@ -240,7 +240,7 @@ std::vector<AuditEvent> NetworkAuditLog::getRecentEvents(size_t n) const {
     if (n == 0 || n >= buffer_.size()) {
         return std::vector<AuditEvent>(buffer_.begin(), buffer_.end());
     }
-    const size_t skip = static_cast<int>(buffer_.size()) - n;
+    const size_t skip = buffer_.size() - n;
     return std::vector<AuditEvent>(buffer_.begin() + static_cast<std::ptrdiff_t>(skip),
                                    buffer_.end());
 }
@@ -284,7 +284,7 @@ std::string NetworkAuditLog::truncatedSha256Hex(const std::string& input) {
     if (input.empty()) return {};
 
     const auto digest = sha256(
-        reinterpret_cast<const uint8_t*>(input.data()),static_cast<int>(input.size()));
+        reinterpret_cast<const uint8_t*>(input.data()),input.size());
 
     // Encode first 8 bytes as 16 lower-case hex characters.
     std::ostringstream oss = {};

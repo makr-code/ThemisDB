@@ -257,10 +257,10 @@ std::string applyHighlight(const std::string& text,
                    [](unsigned char c){ return std::tolower(c); });
 
     std::string result = {};
-    result.reserve(static_cast<int>(text.size()) + 64);
+    result.reserve(text.size() + 64);
     size_t i = 0;
 
-    while (static_cast<size_t>(i) <static_cast<int>(text.size())) {
+    while (i < text.size()) {
         // Skip non-alnum prefix until next word boundary
         if (!std::isalnum(static_cast<unsigned char>(text[i]))) {
             result += text[i++];
@@ -290,14 +290,14 @@ std::string applyHighlight(const std::string& text,
 size_t bestSnippetOffset(const std::string& lower,
                          const std::unordered_set<std::string>& terms,
                          size_t windowSize) {
-    if (static_cast<int>(lower.size()) <= windowSize) {
+    if (lower.size() <= windowSize) {
       return 0;
     }
 
     // Collect all match start positions
     std::vector<size_t> positions;
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(lower.size())) {
+    while (i < lower.size()) {
         if (!std::isalnum(static_cast<unsigned char>(lower[i]))) { ++i; continue; }
         size_t end = i;
         while (end < lower.size() &&
@@ -335,8 +335,8 @@ size_t bestSnippetOffset(const std::string& lower,
             ++bestStart;
         }
     }
-    if (bestStart >= static_cast<int>(lower.size())) {
-        bestStart = static_cast<int>(lower.size()) > windowSize ? (static_cast<int>(lower.size()) - windowSize) : 0;
+    if (bestStart >= lower.size()) {
+        bestStart = lower.size() > windowSize ? (lower.size() - windowSize) : 0;
     }
     return bestStart;
 }
@@ -373,14 +373,14 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 3) {
+        if (args.size() < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
         size_t limit = 1000;
-        if (static_cast<int>(args.size()) > 3 && args[3].is_object() && args[3].contains("limit")) {
+        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
@@ -438,14 +438,14 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 3) {
+        if (args.size() < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto phrase     = args[2].get<std::string>();
         size_t limit = 1000;
-        if (static_cast<int>(args.size()) > 3 && args[3].is_object() && args[3].contains("limit")) {
+        if (args.size() > 3 && args[3].is_object() && args[3].contains("limit")) {
             const auto& lv = args[3]["limit"];
             if (lv.is_number_integer()) {
                 int raw = lv.get<int>();
@@ -503,21 +503,21 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& ctx) const override {
-        if (static_cast<int>(args.size()) < 3) {
+        if (args.size() < 3) {
           return json::array();
         }
         const auto collection = args[0].get<std::string>();
         const auto field      = args[1].get<std::string>();
         const auto query      = args[2].get<std::string>();
         int maxDistance = 2;
-        if (static_cast<int>(args.size()) > 3 && args[3].is_number_integer()) {
+        if (args.size() > 3 && args[3].is_number_integer()) {
             maxDistance = args[3].get<int>();
             if (maxDistance < 0) {
               maxDistance = 0;
             }
         }
         size_t limit = 1000;
-        if (static_cast<int>(args.size()) > 4 && args[4].is_number_integer()) {
+        if (args.size() > 4 && args[4].is_number_integer()) {
             int raw = args[4].get<int>();
             if (raw > 0) {
               limit = static_cast<size_t>(raw);
@@ -585,7 +585,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (static_cast<int>(args.size()) < 2) {
+        if (args.size() < 2) {
           return "";
         }
         if (!args[0].is_string()) {
@@ -596,7 +596,7 @@ public:
         std::string openTag     = "<em>";
         std::string closeTag    = "</em>";
 
-        if (static_cast<int>(args.size()) > 2 && args[2].is_object()) {
+        if (args.size() > 2 && args[2].is_object()) {
             if (args[2].contains("openTag")  && args[2]["openTag"].is_string())
                 openTag  = args[2]["openTag"].get<std::string>();
             if (args[2].contains("closeTag") && args[2]["closeTag"].is_string())
@@ -650,7 +650,7 @@ public:
     }
 
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (static_cast<int>(args.size()) < 2) {
+        if (args.size() < 2) {
           return "";
         }
         if (!args[0].is_string()) {
@@ -663,7 +663,7 @@ public:
         std::string closeTag    = "</em>";
         std::string separator   = "...";
 
-        if (static_cast<int>(args.size()) > 2 && args[2].is_object()) {
+        if (args.size() > 2 && args[2].is_object()) {
             const auto& opts = args[2];
             if (opts.contains("windowSize") && opts["windowSize"].is_number_integer()) {
                 int raw = opts["windowSize"].get<int>();
@@ -681,7 +681,7 @@ public:
 
         auto terms = queryTermSet(args[1]);
 
-        if (static_cast<int>(text.size()) <= windowSize) {
+        if (text.size() <= windowSize) {
             // Text fits — just highlight the whole thing
             return applyHighlight(text, terms, openTag, closeTag);
         }
@@ -735,13 +735,13 @@ public:
     }
     
     json execute(const std::vector<json>& args, const FunctionContext& /*ctx*/) const override {
-        if (static_cast<int>(args.size()) < 2) {
+        if (args.size() < 2) {
           return 0.0;
         }
         
         std::string s1 = args[0].get<std::string>();
         std::string s2 = args[1].get<std::string>();
-        int n = static_cast<int>(args.size()) > 2 ? args[2].get<int>() : 2;
+        int n = args.size() > 2 ? args[2].get<int>() : 2;
         
         if (s1.empty() || s2.empty()) {
           return 0.0;
@@ -768,7 +768,7 @@ public:
             }
         }
         
-        const size_t totalSz = static_cast<int>(ngrams1.size()) + static_cast<int>(ngrams2.size()) ;
+        const size_t totalSz = ngrams1.size() + ngrams2.size() ;
         if (totalSz == 0) {
           return 0.0;
         }
@@ -874,7 +874,7 @@ public:
         }
         
         std::string word = args[0].get<std::string>();
-        int maxLen = static_cast<int>(args.size()) > 1 ? args[1].get<int>() : 6;
+        int maxLen = args.size() > 1 ? args[1].get<int>() : 6;
         
         return metaphone(word, maxLen);
     }

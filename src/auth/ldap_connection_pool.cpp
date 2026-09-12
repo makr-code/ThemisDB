@@ -87,7 +87,7 @@ LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig &config) : config_(c
     }
     spdlog::info("LDAPConnectionPool: initialised pool (server={}, min_idle={}, "
                  "max_size={}, pre-connected={})",
-                 config_.server_url, config_.min_idle, config_.max_size, static_cast<int>(idle_.size()));
+                 config_.server_url, config_.min_idle, config_.max_size, idle_.size());
 #else
     spdlog::warn("LDAPConnectionPool: LDAP support not compiled in — pool disabled");
 #endif
@@ -212,7 +212,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
             const int active = active_count_.load();
             spdlog::warn("LDAPConnectionPool::checkout: timeout waiting for "
                          "connection (active={}, idle={}) — throwing PROVIDER_DEGRADED",
-                         active, static_cast<int>(idle_.size()));
+                         active, idle_.size());
             // [W8-17] Emit structured audit event so operators can correlate pool
             // saturation with downstream auth failures via their SIEM/alerting.
             if (audit_logger_) {

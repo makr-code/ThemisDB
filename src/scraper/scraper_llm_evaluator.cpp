@@ -49,10 +49,10 @@ bool ScraperLLMEvaluator::isLlmAvailable() const {
         const std::string& text,
         const GapContext&  gap) {
     // Truncate to ~3000 chars to stay within context window
-    const std::string snippet = (static_cast<int>(text.size()) > 3000) ? text.substr(0, 3000) + "…" : text;
+    const std::string snippet = (text.size() > 3000) ? text.substr(0, 3000) + "…" : text;
 
     std::ostringstream keywords_str = {};
-    for (std::size_t i = 0; i <static_cast<int>(gap.keywords.size()); ++i) {
+    for (std::size_t i = 0; i <gap.keywords.size(); ++i) {
         if (i > 0) {
           keywords_str << ", ";
         }

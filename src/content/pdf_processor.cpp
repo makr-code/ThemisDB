@@ -64,7 +64,7 @@ std::string PDFProcessor::getLibraryVersion() {
 
 bool PDFProcessor::isPDFValid(const std::string &blob) {
     // Check PDF header signature
-    if (static_cast<int>(blob.size()) < 8) {
+    if (blob.size() < 8) {
         return false;
     }
     // PDF starts with %PDF-x.x
@@ -89,7 +89,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
 
     // Extract PDF version from header
     std::string version = "1.0";
-    if (static_cast<int>(blob.size()) >= 8) {
+    if (blob.size() >= 8) {
         // %PDF-1.7
         std::string header = blob.substr(0, 8);
         std::regex version_regex("%PDF-(\\d+\\.\\d+)");
@@ -109,9 +109,9 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
 
         if (!config_.password.empty()) {
             doc.reset(
-                poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size()), config_.password, config_.password));
+                poppler::document::load_from_raw_data(data.data(),data.size(), config_.password, config_.password));
         } else {
-            doc.reset(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
+            doc.reset(poppler::document::load_from_raw_data(data.data(),data.size()));
         }
 
         if (!doc) {
@@ -164,7 +164,7 @@ ExtractionResult PDFProcessor::extract(const std::string &blob, const ContentTyp
             } else {
                 // Simple reading-order extraction
                 poppler::byte_array bytes = page->text().to_utf8();
-                page_text                 = std::string(bytes.data(),static_cast<int>(bytes.size()));
+                page_text                 = std::string(bytes.data(),bytes.size());
             }
 
             poppler::rectf rect = page->page_rect();
@@ -248,12 +248,12 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string &blob) {
 
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),data.size()));
 
     if (doc) {
         auto to_string = [](const poppler::ustring &us) -> std::string {
             poppler::byte_array bytes = us.to_utf8();
-            return std::string(bytes.data(),static_cast<int>(bytes.size()));
+            return std::string(bytes.data(),bytes.size());
         };
 
         metadata.title    = to_string(doc->get_title());
@@ -313,7 +313,7 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string &blob) {
 
 #if PDF_LIBRARY_AVAILABLE
     std::vector<char> data(blob.begin(), blob.end());
-    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),static_cast<int>(data.size())));
+    std::unique_ptr<poppler::document> doc(poppler::document::load_from_raw_data(data.data(),data.size()));
 
     if (!doc)
         return pages;
@@ -335,7 +335,7 @@ std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string &blob) {
         } else {
             // Simple text extraction (reading order from poppler)
             poppler::byte_array text_bytes = page->text().to_utf8();
-            info.text                      = std::string(text_bytes.data(),static_cast<int>(text_bytes.size()));
+            info.text                      = std::string(text_bytes.data(),text_bytes.size());
         }
 
         // Get dimensions
@@ -372,7 +372,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
 
     for (const auto &box : boxes) {
         poppler::byte_array bytes = box.text().to_utf8();
-        std::string text(bytes.data(),static_cast<int>(bytes.size()));
+        std::string text(bytes.data(),bytes.size());
         if (text.empty())
             continue;
 
@@ -397,7 +397,7 @@ std::string PDFProcessor::assembleTextWithLayout(const std::vector<poppler::text
     });
 
     // Store (x, y) positions for each item
-    positions_out.reserve(static_cast<int>(positions_out.size()) + static_cast<int>(items.size()) );
+    positions_out.reserve(positions_out.size() + items.size() );
     for (const auto &item : items) {
         positions_out.push_back({item.x, item.y});
     }
@@ -592,7 +592,7 @@ int PDFProcessor::countTokens(const std::string &text) {
 std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
     // PDF date format: D:YYYYMMDDHHmmSSOHH'mm'
     // Convert to ISO 8601
-    if (static_cast<int>(pdf_date.size()) < 10) {
+    if (pdf_date.size() < 10) {
         return "";
     }
 
@@ -601,14 +601,14 @@ std::string PDFProcessor::parsePDFDate(const std::string &pdf_date) {
         date = date.substr(2);
     }
 
-    if (static_cast<int>(date.size()) < 8) {
+    if (date.size() < 8) {
         return "";
     }
 
     std::ostringstream iso = {};
     iso << date.substr(0, 4) << "-" << date.substr(4, 2) << "-" << date.substr(6, 2);
 
-    if (static_cast<int>(date.size()) >= 14) {
+    if (date.size() >= 14) {
         iso << "T" << date.substr(8, 2) << ":" << date.substr(10, 2) << ":" << date.substr(12, 2);
     }
 

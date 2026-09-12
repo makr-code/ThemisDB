@@ -70,7 +70,7 @@ namespace {
             if (!is_base64_char) {
                 return false;
             }
-            if (ch == '='  && static_cast<size_t>(i) < static_cast<int>(input.size()) - padding) {
+            if (ch == '='  && static_cast<size_t>(i) < input.size() - padding) {
                 return false;
             }
         }
@@ -132,7 +132,7 @@ namespace {
         auto bio = utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
         
         std::vector<unsigned char> decoded(encoded.size());
-        int decoded_len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
+        int decoded_len = BIO_read(bio.get(), decoded.data(), decoded.size());
         
         if (decoded_len < 0) {
             return std::nullopt;
@@ -342,7 +342,7 @@ std::optional<std::string> SignedRequestSigner::signData(const std::string& data
     }
     
     // Update with data
-    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(),static_cast<int>(data.size())) != 1) {
+    if (EVP_DigestSignUpdate(md_ctx.get(), data.c_str(),data.size()) != 1) {
         return std::nullopt;
     }
     
@@ -462,7 +462,7 @@ bool SignedRequestVerifier::verifyNonce(uint64_t nonce, uint64_t timestamp_ms) {
         return rejectWithAuditCode(kAuditNonceReplay, "nonce=" + std::to_string(nonce));
     }
 
-    while (static_cast<int>(seen_nonces_.size()) >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
+    while (seen_nonces_.size() >= config_.max_nonce_cache && !nonce_fifo_.empty()) {
         const NonceEntry oldest = nonce_fifo_.front();
         nonce_fifo_.pop_front();
         const auto it = seen_nonces_.find(oldest.nonce);
@@ -577,7 +577,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     }
 
     // Step 2: Parse the certificate and extract the public key.
-    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
+    auto bio = utils::make_bio_mem_buf(cert_pem.c_str(), cert_pem.size());
     if (!bio) {
       return false;
     }
@@ -639,7 +639,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
         if (EVP_DigestVerifyInit(md_ctx.get(), nullptr, EVP_sha256(), nullptr, pubkey.get()) != 1) {
             return false;
         }
-        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(),static_cast<int>(canonical.size())) != 1) {
+        if (EVP_DigestVerifyUpdate(md_ctx.get(), canonical.c_str(),canonical.size()) != 1) {
             return false;
         }
         return EVP_DigestVerifyFinal(md_ctx.get(), signature_bytes->data(), signature_bytes->size()) == 1;

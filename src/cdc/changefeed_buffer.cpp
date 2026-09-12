@@ -230,7 +230,7 @@ size_t ChangefeedBuffer::flushInternal(bool lock_held) {
     stats_.last_flush_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Flushed {} total events from {} buffers", 
-                 total_flushed,static_cast<int>(buffers_.size()));
+                 total_flushed,buffers_.size());
     
     return total_flushed;
 }

@@ -80,7 +80,7 @@ PaxosWALEntry PaxosWALEntry::fromWALEntry(const WALEntry& entry) {
 size_t PaxosWALEntry::size() const {
     // Approximate size: type + timestamp + slot + round + node_id + data
     return sizeof(type) + sizeof(timestamp) + sizeof(slot) + sizeof(round) +
-           static_cast<int>(node_id.size()) + data.dump().size();
+           node_id.size() + data.dump().size();
 }
 
 // ============================================================================

@@ -38,7 +38,7 @@ ChainOfThoughtBuilder& ChainOfThoughtBuilder::addStep(
     if (!label.empty()) {
         step.label = label;
     } else if (config_.number_steps) {
-        step.label = config_.step_prefix + std::to_string(static_cast<int>(steps_.size()) + 1);
+        step.label = config_.step_prefix + std::to_string(steps_.size() + 1);
     }
 
     steps_.push_back(std::move(step));
@@ -62,7 +62,7 @@ void ChainOfThoughtBuilder::clear() {
 }
 
 size_t ChainOfThoughtBuilder::stepCount() const {
-    return static_cast<int>(steps_.size());
+    return steps_.size();
 }
 
 const CoTConfig& ChainOfThoughtBuilder::getConfig() const {

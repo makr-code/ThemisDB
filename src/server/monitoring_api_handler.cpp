@@ -320,9 +320,9 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
         response["modules"] = {
             {"compiled_in", modules_compiled},
             {"not_compiled", modules_disabled},
-            {"total",static_cast<int>(build_config.modules.size())},
-            {"compiled_count",static_cast<int>(modules_compiled.size())},
-            {"disabled_count",static_cast<int>(modules_disabled.size())}
+            {"total",build_config.modules.size()},
+            {"compiled_count",modules_compiled.size()},
+            {"disabled_count",modules_disabled.size()}
         };
 
         // Add API versioning information (supported versions, deprecation policy).
@@ -801,7 +801,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
                 level_rows.emplace_back(it.key(), val);
             }
             auto parse_level_index = [](const std::string& level) -> int {
-                if ((static_cast<int>(level.size()) > 1 && (level[0] == 'L' || level[0] == 'l'))) {
+                if ((level.size() > 1 && (level[0] == 'L' || level[0] == 'l'))) {
                     try {
                         return std::stoi(level.substr(1));
                     } catch (...) {
@@ -1212,9 +1212,9 @@ namespace {
 
     std::string_view query = target.substr(query_pos + 1);
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(query.size())) {
+    while (pos < query.size()) {
         const auto amp = query.find('&', pos);
-        const auto token_end = (amp == std::string_view::npos) ?static_cast<int>(query.size()) : amp;
+        const auto token_end = (amp == std::string_view::npos) ?query.size() : amp;
         const auto eq = query.find('=', pos);
 
         if (eq != std::string_view::npos && eq < token_end) {
@@ -1469,7 +1469,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
             try {
                 std::size_t consumed = 0;
                 out = std::stoll(value, &consumed);
-                return consumed == static_cast<int>(value.size());
+                return consumed == value.size();
             } catch (...) {
                 THEMIS_WARN("monitoring_api_handler: unhandled exception caught");
                 return false;
@@ -1568,7 +1568,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityProve
                   });
 
         bool truncated = false;
-        if (static_cast<int>(records.size()) > limit) {
+        if (records.size() > limit) {
             records.resize(limit);
             truncated = true;
         }
@@ -1766,7 +1766,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
                     std::string arr = loop_context.substr(arr_start + 1, arr_end - arr_start);
                     // Split on "},{" boundaries
                     size_t cur = 0;
-                    while (static_cast<size_t>(cur) <static_cast<int>(arr.size())) {
+                    while (cur < arr.size()) {
                         auto next = arr.find("},{", cur);
                         if (next == std::string::npos) {
                             loop_items.push_back(arr.substr(cur));
@@ -1866,7 +1866,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     if (lic) {
         // Mask the license key: show only the first 8 characters.
         std::string masked_key = lic->license_key;
-        if (static_cast<int>(masked_key.size()) > 8) {
+        if (masked_key.size() > 8) {
             masked_key = masked_key.substr(0, 8) + "...";
         }
         body["license_key"]      = masked_key;

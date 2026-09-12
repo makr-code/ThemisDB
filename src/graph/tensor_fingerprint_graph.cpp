@@ -88,7 +88,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
 
     // Core-wise Frobenius norms
     fp.core_norms.resize(train.cores.size());
-    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()); ++k) {
+    for (std::size_t k = 0; k <train.cores.size(); ++k) {
         double sn = 0.0;
         for (float v : train.cores[k].data) {
             sn += (double)v * v;
@@ -106,9 +106,9 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     std::vector<uint64_t> elements;
     elements.reserve(512);
 
-    for (std::size_t k = 0; k <static_cast<int>(train.cores.size()) && k < 32; ++k) {
+    for (std::size_t k = 0; k <train.cores.size() && k < 32; ++k) {
         const auto &core = train.cores[k];
-        for (std::size_t i = 0; i <static_cast<int>(core.data.size()) && i < 64; ++i) {
+        for (std::size_t i = 0; i <core.data.size() && i < 64; ++i) {
             // Quantise to 256 levels
             int8_t q         = static_cast<int8_t>(std::max(
                 -128.0f, std::min(127.0f, core.data[i] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f) * 127.0f)));
@@ -119,7 +119,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
     }
 
     // Also hash core norms
-    for (std::size_t k = 0; k <static_cast<int>(fp.core_norms.size()); ++k) {
+    for (std::size_t k = 0; k <fp.core_norms.size(); ++k) {
         uint32_t quantised_norm = 0;
         float scaled   = fp.core_norms[k] / (fp.total_norm > 1e-6f ? fp.total_norm : 1.0f);
         scaled         = std::max(0.0f, std::min(1.0f, scaled));
@@ -133,7 +133,7 @@ TensorFingerprint TensorFingerprintGraph::computeFingerprint(const TTTrain &trai
         return fp;
     }
 
-    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs,static_cast<int>(fp.minhash.size()));
+    const std::size_t hash_count = std::min<std::size_t>(cfg_.num_hash_funcs,fp.minhash.size());
     std::vector<uint64_t> a_params(hash_count);
     std::vector<uint64_t> b_params(hash_count);
     std::vector<uint64_t> min_hash(hash_count, std::numeric_limits<uint64_t>::max());
@@ -170,7 +170,7 @@ uint64_t TensorFingerprintGraph::bandHash(const TensorFingerprint &fp, std::size
     uint64_t h = fnv1a64(&band_idx, sizeof(band_idx));
     for (std::size_t r = 0; r < rows_per_band; ++r) {
         std::size_t idx = band_start + r;
-        if (static_cast<int>(fp.minhash.size()) > idx) {
+        if (fp.minhash.size() > idx) {
             h ^= fp.minhash[idx];
             h *= 0x100000001b3ULL;
         }
@@ -228,12 +228,12 @@ std::unordered_set<std::string> TensorFingerprintGraph::lshCandidates(const Tens
         if (it != lsh_buckets_.end()) {
             for (const auto &id : it->second) {
                 candidates.insert(id);
-                if (static_cast<int>(candidates.size()) >= cfg_.max_candidates) {
+                if (candidates.size() >= cfg_.max_candidates) {
                     break;
                 }
             }
         }
-        if (static_cast<int>(candidates.size()) >= cfg_.max_candidates) {
+        if (candidates.size() >= cfg_.max_candidates) {
             break;
         }
     }
@@ -455,7 +455,7 @@ std::vector<SimilarTensorResult> TensorFingerprintGraph::findSimilar(const TTTra
 
     std::sort(results.begin(), results.end(),
               [](const SimilarTensorResult &a, const SimilarTensorResult &b) { return a.similarity > b.similarity; });
-    if (static_cast<int>(results.size()) > top_k) {
+    if (results.size() > top_k) {
         results.resize(top_k);
     }
     return results;
@@ -755,7 +755,7 @@ void TensorFingerprintGraph::upsertPersistedNode(const PersistedFingerprintNode 
 
 std::size_t TensorFingerprintGraph::nodeCount() const noexcept {
     std::unique_lock<std::mutex> lk(mutex_);
-    return static_cast<int>(nodes_.size());
+    return nodes_.size();
 }
 
 std::size_t TensorFingerprintGraph::edgeCount() const noexcept {

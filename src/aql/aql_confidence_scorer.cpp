@@ -135,7 +135,7 @@ std::vector<std::string> AQLConfidenceScorer::extractCollections(const std::stri
         }
         std::string stripped(it, line.end());
 
-        if (static_cast<int>(stripped.size()) > 2 && stripped[0] == '-' && stripped[1] == ' ') {
+        if (stripped.size() > 2 && stripped[0] == '-' && stripped[1] == ' ') {
             std::string rest = stripped.substr(2);
             // Trim leading spaces after the dash
             rest.erase(rest.begin(),
@@ -184,7 +184,7 @@ bool AQLConfidenceScorer::containsKeyword(const std::string &aql_lower, const st
     std::size_t pos = 0;
     while ((pos = aql_lower.find(keyword, pos)) != std::string::npos) {
         bool leftOk  = (pos == 0) || !isWordChar(aql_lower[static_cast<int>(pos - 1)]);
-        bool rightOk = (pos + static_cast<int>(keyword.size()) >= aql_lower.size()) || !isWordChar(aql_lower[pos + static_cast<int>(keyword.size()) ]);
+        bool rightOk = (pos + keyword.size() >= aql_lower.size()) || !isWordChar(aql_lower[pos + keyword.size() ]);
         if (leftOk && rightOk) {
             return true;
         }

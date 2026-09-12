@@ -265,7 +265,7 @@ void AutoRebalancer::monitorLoop() {
                             // Check max concurrent operations
                             {
                                 std::lock_guard<std::mutex> lock(mutex_);
-                                if (static_cast<int>(active_operations_.size()) >= config_.max_concurrent_operations) {
+                                if (active_operations_.size() >= config_.max_concurrent_operations) {
                                     THEMIS_WARN("Max concurrent operations reached, queuing remaining");
                                     break;
                                 }
@@ -505,11 +505,11 @@ std::string AutoRebalancer::signOperation(const std::string& operation_id) const
     
     // Encode signature as Base64 using OpenSSL
     // Calculate required buffer size: ((input_len + 2) / 3) * 4 + 1 for null terminator
-    size_t b64_len = ((static_cast<int>(signature.size()) + 2) / 3) * 4 + 1;
+    size_t b64_len = ((signature.size() + 2) / 3) * 4 + 1;
     std::vector<unsigned char> b64_buf(b64_len);
     
     int encoded_len = EVP_EncodeBlock(b64_buf.data(), signature.data(), 
-                                       static_cast<int>(signature.size()));
+                                       signature.size());
     
     std::string sig_b64 = {};
     if (encoded_len > 0) {
@@ -540,7 +540,7 @@ bool AutoRebalancer::canTriggerRebalance() const {
     }
     
     // Check max concurrent operations
-    if (static_cast<int>(active_operations_.size()) >= config_.max_concurrent_operations) {
+    if (active_operations_.size() >= config_.max_concurrent_operations) {
         return false;
     }
     
@@ -574,7 +574,7 @@ bool AutoRebalancer::isWithinSafetyLimits(const LoadImbalanceResult& imbalance) 
     }
     
     // For now, allow if we have reasonable recommendations
-    return static_cast<int>(imbalance.recommendations.size()) <= config_.max_concurrent_operations * 2;
+    return imbalance.recommendations.size() <= config_.max_concurrent_operations * 2;
 }
 
 /** @brief Remove completed operations from active map and update history/counters. */
@@ -775,7 +775,7 @@ void AutoRebalancer::evaluateAndExecuteSplits() {
         return;
     }
 
-    THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated",static_cast<int>(proposals.size()));
+    THEMIS_INFO("HotShardSplitPolicy: {} split proposal(s) generated",proposals.size());
     split_proposals_total_ += proposals.size();
 
     if (metrics_) {
@@ -914,12 +914,12 @@ void AutoRebalancer::handleTopologyChange() {
     }
     
     // Topology has changed - detect join or leave
-    bool is_join = static_cast<int>(current_topology.size()) > static_cast<int>(last_known_topology_.size());
-    bool is_leave = static_cast<int>(current_topology.size()) <static_cast<int>(last_known_topology_.size());
+    bool is_join = current_topology.size() > last_known_topology_.size();
+    bool is_leave = current_topology.size() <last_known_topology_.size();
     
     THEMIS_WARN("Topology change detected: {} (was {}, now {} nodes)",
                is_join ? "JOIN" : (is_leave ? "LEAVE" : "UNKNOWN"),
-               last_known_topology_.size(),static_cast<int>(current_topology.size()));
+               last_known_topology_.size(),current_topology.size());
     
     if (!config_.auto_trigger_enabled) {
         last_known_topology_ = current_topology;

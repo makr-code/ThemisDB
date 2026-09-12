@@ -113,7 +113,7 @@ void PromptQualityEvaluator::checkRepetition(
     double                     max_repetition,
     std::vector<QualityCheck>& failed) const {
     const auto tokens = tokenize(text);
-    if (static_cast<int>(tokens.size()) < 2) {
+    if (tokens.size() < 2) {
         return;  // not enough tokens to form bigrams
     }
 
@@ -124,7 +124,7 @@ void PromptQualityEvaluator::checkRepetition(
         bigram_counts[tokens[i] + '\0' + tokens[i + 1]]++;
     }
 
-    const size_t total_bigrams = static_cast<int>(tokens.size()) - 1;
+    const size_t total_bigrams = tokens.size() - 1;
     size_t repeated = 0;
     for (const auto& [bigram, count] : bigram_counts) {
         if (count > 1) {
@@ -156,7 +156,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     report.threshold = config.min_score_threshold;
 
     // Count total checks: one per injection pattern + 1 diversity + 1 repetition.
-    const size_t total_checks = static_cast<int>(config.injection_blocklist.size()) + 2;
+    const size_t total_checks = config.injection_blocklist.size() + 2;
 
     checkInjection(text, config.injection_blocklist, report.failed_checks);
     checkTokenDiversity(text, config.min_token_diversity, report.failed_checks);
@@ -165,7 +165,7 @@ QualityReport PromptQualityEvaluator::evaluateText(
     if (total_checks == 0) {
         report.score = 1.0;
     } else {
-        const size_t passed = total_checks - static_cast<int>(report.failed_checks.size()) ;
+        const size_t passed = total_checks - report.failed_checks.size() ;
         report.score = static_cast<double>(passed) /
                        static_cast<double>(total_checks);
     }

@@ -53,7 +53,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     if (user_id.empty()) {
         return false;
     }
-    if (static_cast<int>(audio_samples.size()) < config.min_samples) {
+    if (audio_samples.size() < config.min_samples) {
         return false;
     }
 
@@ -98,7 +98,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
         total_quality += quality;
     }
 
-    if (static_cast<int>(feature_vectors.size()) < config.min_samples) {
+    if (feature_vectors.size() < config.min_samples) {
         return false;  // not enough high-quality samples
     }
 
@@ -129,7 +129,7 @@ bool VoiceBiometricAuthenticator::enroll_voice(
     profile.feature_vector = std::move(mean_fv);
     profile.quality_score  = total_quality / n;
     profile.created_at_ms  = nowMs();
-    profile.num_samples    = static_cast<int>(feature_vectors.size());
+    profile.num_samples    = feature_vectors.size();
 
     out_profile_id               = profile.id;
     profiles_[profile.id]        = std::move(profile);
@@ -242,7 +242,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         result.reason = "empty_audio";
         return result;
     }
-    if ((audio_sample.size() % 2) != 0 || static_cast<int>(audio_sample.size()) < 320) {
+    if ((audio_sample.size() % 2) != 0 || audio_sample.size() < 320) {
         result.reason = "insufficient_audio";
         return result;
     }
@@ -252,7 +252,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         result.reason = "no_samples";
         return result;
     }
-    if (static_cast<int>(samples.size()) < 1600) {
+    if (samples.size() < 1600) {
         result.reason = "insufficient_audio";
         return result;
     }
@@ -271,7 +271,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         }
     }
     mean_abs /= static_cast<float>(samples.size());
-    mean_abs_delta /= static_cast<float>(std::max<size_t>(1, static_cast<int>(samples.size()) - 1));
+    mean_abs_delta /= static_cast<float>(std::max<size_t>(1, samples.size() - 1));
 
     const float clipping_ratio =
         static_cast<float>(clipping_count) / static_cast<float>(samples.size());
@@ -361,7 +361,7 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     constexpr size_t kReplayFrameSamples = 320;  // 20 ms at 16 kHz
     size_t frame_pairs = 0;
     size_t repeated_pairs = 0;
-    if (static_cast<int>(samples.size()) >= (2 * kReplayFrameSamples)) {
+    if (samples.size() >= (2 * kReplayFrameSamples)) {
         for (size_t offset = kReplayFrameSamples;
              offset + kReplayFrameSamples <= samples.size();
              offset += kReplayFrameSamples) {
@@ -785,7 +785,7 @@ float VoiceBiometricAuthenticator::cosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) const
 {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+    if (a.size() != b.size() || a.empty()) {
         return 0.0f;
     }
     float dot = 0.0f;

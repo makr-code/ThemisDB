@@ -59,7 +59,7 @@ static constexpr size_t EVENT_TYPES_PARAM_LEN = sizeof("event_types=") - 1;
 static std::set<Changefeed::ChangeEventType> parseEventTypes(const std::string& types_str) {
     std::set<Changefeed::ChangeEventType> result = {};
 
-    if (static_cast<int>(types_str.size()) > EVENT_TYPES_MAX_LEN) {
+    if (types_str.size() > EVENT_TYPES_MAX_LEN) {
         THEMIS_WARN("parseEventTypes: input too long ({} bytes, max {} allowed), ignoring",
                     types_str.size(), EVENT_TYPES_MAX_LEN);
         return result;
@@ -131,7 +131,7 @@ void AsyncSSEStream::onChangeEvent(const Changefeed::ChangeEvent& evt) noexcept 
         std::lock_guard<std::mutex> lock(queue_mutex_);
 
         // Check for backpressure
-        if (static_cast<int>(event_queue_.size()) >= config_.max_buffered_events) {
+        if (event_queue_.size() >= config_.max_buffered_events) {
             dropped_events_.fetch_add(1, std::memory_order_relaxed);
 
             if (config_.drop_oldest_on_overflow && !event_queue_.empty()) {
@@ -420,7 +420,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleGet(
         
         // OP-AUDIT-002: Log successful query with latency and correlation ID
         THEMIS_DEBUG("Changefeed GET success (correlation_id={}, events={}, latency_ms={})",
-                    correlation_id,static_cast<int>(events.size()), query_latency.count());
+                    correlation_id,events.size(), query_latency.count());
         
         return makeResponse(http::status::ok, response.dump(), req);
         
@@ -595,13 +595,13 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 size_t cid_end = query_str.find('&', cid_pos);
                 std::string cid_str = query_str.substr(cid_pos + 12,
                     cid_end == std::string::npos ? std::string::npos : cid_end - cid_pos - 12);
-                if (!cid_str.empty() && static_cast<int>(cid_str.size()) <= CONSUMER_ID_MAX_LEN &&
+                if (!cid_str.empty() && cid_str.size() <= CONSUMER_ID_MAX_LEN &&
                     isValidChangefeedIdentifier(cid_str)) {
                     consumer_id = std::move(cid_str);
                 } else if (!cid_str.empty() && !isValidChangefeedIdentifier(cid_str)) {
                     return makeErrorResponse(http::status::bad_request,
                                              "Invalid consumer_id", req);
-                } else if (static_cast<int>(cid_str.size()) > CONSUMER_ID_MAX_LEN) {
+                } else if (cid_str.size() > CONSUMER_ID_MAX_LEN) {
                     THEMIS_WARN("changefeed: consumer_id exceeds max length ({}), ignoring", CONSUMER_ID_MAX_LEN);
                 }
             }
@@ -1226,7 +1226,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     
     if (!token) {
@@ -1322,7 +1322,7 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     
     // Extract and validate token
     auto token = AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     
     if (!token) {

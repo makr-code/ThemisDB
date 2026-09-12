@@ -81,7 +81,7 @@ void SloReporter::record(const std::string& slo_name, bool good_request,
     state.samples.push_back({timestamp, good_request});
 
     // Evict oldest samples if we exceed max_samples_per_slo.
-    while (static_cast<int>(state.samples.size()) > config_.max_samples_per_slo) {
+    while (state.samples.size() > config_.max_samples_per_slo) {
         state.samples.pop_front();
     }
 }
@@ -152,7 +152,7 @@ std::string SloReporter::generateReport() const {
     auto statuses = getAllStatuses();
     std::ostringstream oss = {};
     oss << "=== ThemisDB SLO Compliance Report ===\n\n";
-    oss << "SLOs evaluated: " <<static_cast<int>(statuses.size()) << "\n\n";
+    oss << "SLOs evaluated: " <<statuses.size() << "\n\n";
 
     for (const auto& s : statuses) {
         oss << "--- " << s.name << " ---\n";
@@ -191,7 +191,7 @@ json SloReporter::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"slo_count",static_cast<int>(statuses.size())},
+        {"slo_count",statuses.size()},
         {"slos",            arr}
     };
 }
@@ -207,7 +207,7 @@ void SloReporter::clear() {
 
 size_t SloReporter::sloCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(slos_.size());
+    return slos_.size();
 }
 
 // ---------------------------------------------------------------------------

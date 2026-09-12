@@ -116,7 +116,7 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
     
     // Extract Bearer token
     auto token = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token) {
         return ctx; // Invalid token format -> empty context
@@ -149,7 +149,7 @@ std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess
     }
     
     auto token_opt = themis::AuthMiddleware::extractBearerToken(
-        std::string_view(auth_header.data(),static_cast<int>(auth_header.size()))
+        std::string_view(auth_header.data(),auth_header.size())
     );
     if (!token_opt) {
         return makeErrorResponse(http::status::unauthorized, "Invalid Authorization header format", req);
@@ -219,7 +219,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         // Retrieve entity blob (persisted JSON string)
         // Keys are stored as relational keys (entity:table:pk), not raw table:pk.
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
+        if (pos == std::string::npos || pos == 0 || pos == key.size() -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -426,7 +426,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
+        if (pos == std::string::npos || pos == 0 || pos == key.size() -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -677,7 +677,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                         span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
                         span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
                         THEMIS_DEBUG("RAID write successful for {}: {} shards written in {}ms", 
-                                   key,static_cast<int>(write_result.written_shards.size()), write_result.latency.count());
+                                   key,write_result.written_shards.size(), write_result.latency.count());
                     }
                 }
             } catch (const std::exception& e) {
@@ -746,7 +746,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
         json response = {
             {"success", true},
             {"key", key},
-            {"blob_size",static_cast<int>(blob_str.size())}
+            {"blob_size",blob_str.size()}
         };
         return makeResponse(http::status::created, response.dump(), req);
 
@@ -788,7 +788,7 @@ http::response<http::string_body> EntityApiHandler::handleDelete(
 
         // Split key into table:pk
         auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
+        if (pos == std::string::npos || pos == 0 || pos == key.size() -1) {
             span.setStatus(false, "Invalid key format");
             return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
         }
@@ -957,7 +957,7 @@ http::response<http::string_body> EntityApiHandler::handleBatch(
                 
                 // Parse key format (table:pk)
                 auto pos = key.find(':');
-                if (pos == std::string::npos || pos == 0 || pos == static_cast<int>(key.size()) -1) {
+                if (pos == std::string::npos || pos == 0 || pos == key.size() -1) {
                     errors.push_back({
                         {"index", i},
                         {"key", key},
@@ -1247,7 +1247,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
           line.pop_back();
         }
 
-        if (static_cast<int>(documents.size()) >= kMaxDocuments) {
+        if (documents.size() >= kMaxDocuments) {
             span.setStatus(false, "Too many documents");
             return makeErrorResponse(http::status::bad_request,
                 "Request exceeds maximum of " + std::to_string(kMaxDocuments) + " documents",
@@ -1307,7 +1307,7 @@ http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
 
     json result = {
         {"inserted",    inserted},
-        {"total",       static_cast<int64_t>(static_cast<int>(documents.size()) + static_cast<int>(errors.size()) )},
+        {"total",       static_cast<int64_t>(documents.size() + errors.size() )},
         {"error_count", static_cast<int64_t>(errors.size())}
     };
     if (!errors.empty()) {

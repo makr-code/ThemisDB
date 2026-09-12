@@ -642,7 +642,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
         
         json response_data = {
             {"adapters", adapters},
-            {"total",static_cast<int>(filtered_adapters.size())},
+            {"total",filtered_adapters.size()},
             {"limit", limit},
             {"offset", offset}
         };
@@ -1077,7 +1077,7 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
         return false;
     }
 
-    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),static_cast<int>(auth_header.size())));
+    auto token = AuthMiddleware::extractBearerToken(std::string_view(auth_header.data(),auth_header.size()));
     if (!token) {
         return false;
     }
@@ -1342,7 +1342,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
                 {"adapter_id", adapter_id},
                 {"version", version},
                 {"status", "received"},
-                {"bytes_received",static_cast<int>(weights_data.size())},
+                {"bytes_received",weights_data.size()},
                 {"compressed", compressed},
                 {"timestamp", std::chrono::system_clock::now().time_since_epoch().count()}
             };
@@ -1476,7 +1476,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",static_cast<int>(entries.size())},
+        {"count",entries.size()},
         {"entries",    arr}
     });
 }
@@ -1509,7 +1509,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     }
     return createJsonResponse(json{
         {"adapter_id", adapter_id},
-        {"count",static_cast<int>(snaps.size())},
+        {"count",snaps.size()},
         {"snapshots",  arr}
     });
 }

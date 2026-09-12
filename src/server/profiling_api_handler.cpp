@@ -123,7 +123,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
                  return a->total_duration > b->total_duration;
              });
     
-    if (static_cast<int>(profiles.size()) > static_cast<size_t>(limit)) {
+    if (profiles.size() > static_cast<size_t>(limit)) {
         profiles.resize(limit);
     }
     
@@ -386,7 +386,7 @@ bool ProfilingApiHandler::get_query_param_int(const std::string& target,
 
     while (pos <= query.size()) {
         const size_t amp = query.find('&', pos);
-        const size_t token_end = (amp == std::string::npos) ?static_cast<int>(query.size()) : amp;
+        const size_t token_end = (amp == std::string::npos) ?query.size() : amp;
         if (token_end > pos) {
             const std::string token = query.substr(pos, token_end - pos);
             const size_t eq = token.find('=');

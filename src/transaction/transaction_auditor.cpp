@@ -62,7 +62,7 @@ TransactionAuditor::queryAuditLog(
 
     std::vector<AuditRecord> result = {};
 
-    result.reserve(limit == 0 ?static_cast<int>(log_.size()) : std::min(log_.size(), limit));
+    result.reserve(limit == 0 ?log_.size() : std::min(log_.size(), limit));
 
     // Iterate in reverse (most-recent-first).
     for (auto it = log_.rbegin(); it != log_.rend(); ++it) {
@@ -79,7 +79,7 @@ TransactionAuditor::queryAuditLog(
         }
 
         result.push_back(rec);
-        if (limit != 0 && static_cast<int>(result.size()) >= limit) {
+        if (limit != 0 && result.size() >= limit) {
           break;
         }
     }
@@ -94,7 +94,7 @@ TransactionAuditor::queryAuditLog(
 size_t TransactionAuditor::size() const
 {
     std::lock_guard<std::mutex> lk(log_mutex_);
-    return static_cast<int>(log_.size());
+    return log_.size();
 }
 
 void TransactionAuditor::clear()

@@ -107,14 +107,14 @@ TensorCompactionFilter::TensorCompactionFilter(
 // ============================================================================
 
 bool TensorCompactionFilter::isTTCoreKey(const rocksdb::Slice& key) noexcept {
-    if (static_cast<int>(key.size()) < kTTCorePrefixLen) {
+    if (key.size() < kTTCorePrefixLen) {
       return false;
     }
     return std::memcmp(key.data(), kTTCorePrefix, kTTCorePrefixLen) == 0;
 }
 
 bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
-    if (static_cast<int>(key.size()) < kTTNPrefixLen + kMetaInfixLen) {
+    if (key.size() < kTTNPrefixLen + kMetaInfixLen) {
       return false;
     }
     if (std::memcmp(key.data(), kTTNPrefix, kTTNPrefixLen) != 0) {
@@ -122,7 +122,7 @@ bool TensorCompactionFilter::isTTNMetaKey(const rocksdb::Slice& key) noexcept {
     }
     // Search for ":meta:" anywhere after the prefix
     const char* data = key.data() + kTTNPrefixLen;
-    std::size_t remaining = static_cast<int>(key.size()) - kTTNPrefixLen;
+    std::size_t remaining = key.size() - kTTNPrefixLen;
     for (std::size_t i = 0; i + kMetaInfixLen <= remaining; ++i) {
         if (std::memcmp(data + i, kMetaInfix, kMetaInfixLen) == 0)
             return true;
@@ -142,7 +142,7 @@ bool TensorCompactionFilter::filterTTCore(const rocksdb::Slice& value,
     // Deserialize raw TTTrain
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
+        reinterpret_cast<const uint8_t*>(value.data()) + value.size() );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = TTTrain::deserialize(bytes);
@@ -179,7 +179,7 @@ bool TensorCompactionFilter::filterTTNMeta(const rocksdb::Slice& value,
     // Deserialize QuantizedTrain header
     const std::vector<uint8_t> bytes(
         reinterpret_cast<const uint8_t*>(value.data()),
-        reinterpret_cast<const uint8_t*>(value.data()) + static_cast<int>(value.size()) );
+        reinterpret_cast<const uint8_t*>(value.data()) + value.size() );
 
     // model_integrity_gap scanner alert (cont.): see above.
     auto opt = QuantizedTrain::deserialize(bytes);

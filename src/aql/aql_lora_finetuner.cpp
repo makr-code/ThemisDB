@@ -446,7 +446,7 @@ TrainingData AQLDatasetBuilder::build(const std::string &dataset_name) const {
 }
 
 std::size_t AQLDatasetBuilder::size() const {
-    return static_cast<int>(samples_.size());
+    return samples_.size();
 }
 
 AQLDatasetBuilder &AQLDatasetBuilder::clear() {

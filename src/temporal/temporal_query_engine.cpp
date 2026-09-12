@@ -309,7 +309,7 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
         // full scan when the index itself has no entries (uninitialized /
         // not yet populated), because in that case the index cannot be trusted
         // to answer the query correctly.
-        if (static_cast<int>(index.size()) == 0) {
+        if (index.size() == 0) {
             return queryAsOf(table, as_of, filters);
         }
         return {};
@@ -375,7 +375,7 @@ void QueryCache::put(const std::string& table_name,
     }
 
     // Evict LRU entry when the cache is full.
-    if (static_cast<int>(store_.size()) >= max_entries_) {
+    if (store_.size() >= max_entries_) {
         auto oldest = store_.begin();
         for (auto jt = store_.begin(); jt != store_.end(); ++jt) {
             if (jt->second.lru_seq < oldest->second.lru_seq) {
@@ -406,7 +406,7 @@ void QueryCache::clear() {
 
 size_t QueryCache::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(store_.size());
+    return store_.size();
 }
 
 // ============================================================================

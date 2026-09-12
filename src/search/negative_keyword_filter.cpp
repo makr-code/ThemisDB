@@ -71,7 +71,7 @@ NegativeKeywordFilter::parseQuery(const std::string& raw_query) {
             continue;
         }
 
-        if (static_cast<int>(token.size()) >= 2 && token[0] == '-') {
+        if (token.size() >= 2 && token[0] == '-') {
             // Minus-prefix syntax: `-term`
             std::string neg(token.begin() + 1, token.end());
             std::transform(neg.begin(), neg.end(), neg.begin(),
@@ -167,8 +167,8 @@ NegativeKeywordFilter::filter(
     THEMIS_DEBUG(
         "NegativeKeywordFilter: {}/{} candidates survived NOT filter "
         "(excluded {} docs for {} negative terms)",
-        filtered.size(),static_cast<int>(candidate_pks.size()),
-        excluded.size(),static_cast<int>(negative_terms.size()));
+        filtered.size(),candidate_pks.size(),
+        excluded.size(),negative_terms.size());
 
     return {last_error, std::move(filtered)};
 }

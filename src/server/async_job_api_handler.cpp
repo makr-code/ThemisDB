@@ -324,7 +324,7 @@ std::string AsyncJobApiHandler::extractJobId(const std::string& target) {
     }
 
     static constexpr std::string_view kPrefix{"/v2/jobs/"};
-    if (static_cast<int>(path.size()) <= kPrefix.size()) return {};
+    if (path.size() <= kPrefix.size()) return {};
     if (path.rfind(kPrefix.data(), 0) != 0) return {};
     return path.substr(kPrefix.size());
 }
@@ -584,7 +584,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
 
     // OP-AUDIT-002: Log job submission with correlation ID (informational)
     THEMIS_INFO("AsyncJob {} submitted: query_length={}, correlation_id={}", 
-               job->id,static_cast<int>(aql_query.size()), correlation_id);
+               job->id,aql_query.size(), correlation_id);
 
     // OP-LATENCY-002: Include correlation ID in response for tracing
     auto response_json = json{

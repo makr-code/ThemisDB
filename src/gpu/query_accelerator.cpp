@@ -265,7 +265,7 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
     // captured graph (CPU simulation: execute normally but note the cache hit).
     // On a miss we capture the new shape for future replays.
     if (graph_cache_enabled_) {
-        QueryShape shape = makeShape(QueryShape::OpType::SCAN,static_cast<int>(rows.size()));
+        QueryShape shape = makeShape(QueryShape::OpType::SCAN,rows.size());
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -388,7 +388,7 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
     // Graph cache check — include sort order in the param hash ---------------
     if (graph_cache_enabled_) {
         uint64_t param   = static_cast<uint64_t>(order);
-        QueryShape shape = makeShape(QueryShape::OpType::SORT,static_cast<int>(rows.size()), param);
+        QueryShape shape = makeShape(QueryShape::OpType::SORT,rows.size(), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -517,7 +517,7 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
     // Graph cache check — include AggFunc in the param hash ------------------
     if (graph_cache_enabled_) {
         uint64_t param   = static_cast<uint64_t>(func);
-        QueryShape shape = makeShape(QueryShape::OpType::AGGREGATE,static_cast<int>(rows.size()), param);
+        QueryShape shape = makeShape(QueryShape::OpType::AGGREGATE,rows.size(), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;
@@ -664,12 +664,12 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
         return result;
     }
 
-    bool use_gpu    = shouldUseGPU(static_cast<int>(left.size()) + static_cast<int>(right.size()) );
+    bool use_gpu    = shouldUseGPU(left.size() + right.size() );
     result.used_gpu = use_gpu;
 
     // Graph cache check — key on total row count -----------------------------
     if (graph_cache_enabled_) {
-        size_t total     = static_cast<int>(left.size()) + static_cast<int>(right.size()) ;
+        size_t total     = left.size() + right.size() ;
         QueryShape shape = makeShape(QueryShape::OpType::JOIN, total);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
@@ -689,7 +689,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     JoinKeyFn probe_key                = right_key;
     bool swapped                       = false;
 
-    if (static_cast<int>(right.size()) <static_cast<int>(left.size())) {
+    if (right.size() <left.size()) {
         std::swap(build_side, probe_side);
         std::swap(build_key, probe_key);
         swapped = true;
@@ -786,7 +786,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
                 bytes += r.data.size();
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.total_joins;
-            recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, true);
+            recordOp(left.size() + right.size() , bytes, true);
             return result;
         }
         result.used_gpu = false;
@@ -822,7 +822,7 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
     }
     std::lock_guard<std::mutex> lk(mutex_);
     ++stats_.total_joins;
-    recordOp(static_cast<int>(left.size()) + static_cast<int>(right.size()) , bytes, result.used_gpu);
+    recordOp(left.size() + right.size() , bytes, result.used_gpu);
 
     return result;
 }
@@ -836,7 +836,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     DotProductResult result;
     result.precision_used = config_.precision_mode;
 
-    if (a.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || a.size() != b.size()) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_dot_products;
         recordOp(0, 0, false);
@@ -866,7 +866,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         themis::acceleration::raii::CublasHandle blas;
         try {
             if (blas.create()) {
-                const int n = static_cast<int>(a.size());
+                const int n = a.size();
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: cublasSdot with RAII GPU memory ---
@@ -1017,7 +1017,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 ++stats_.fp16_ops;
             else if (config_.precision_mode == PrecisionMode::BF16)
                 ++stats_.bf16_ops;
-            recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, true);
+            recordOp(a.size(),a.size() * sizeof(float) * 2, true);
             return result;
         }
         result.used_gpu = false;
@@ -1032,7 +1032,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         themis::acceleration::raii::HipblasHandle blas;
         try {
             if (blas.create()) {
-                const int n = static_cast<int>(a.size());
+                const int n = a.size();
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: hipblasSdot with RAII GPU memory ---
@@ -1146,7 +1146,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 ++stats_.fp16_ops;
             else if (config_.precision_mode == PrecisionMode::BF16)
                 ++stats_.bf16_ops;
-            recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, true);
+            recordOp(a.size(),a.size() * sizeof(float) * 2, true);
             return result;
         }
         result.used_gpu = false;
@@ -1183,7 +1183,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     } else if (config_.precision_mode == PrecisionMode::BF16) {
         ++stats_.bf16_ops;
     }
-    recordOp(a.size(),static_cast<int>(a.size()) * sizeof(float) * 2, result.used_gpu);
+    recordOp(a.size(),a.size() * sizeof(float) * 2, result.used_gpu);
 
     return result;
 }
@@ -1198,8 +1198,8 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
     AnnResult result;
 
     // Validate inputs --------------------------------------------------------
-    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || static_cast<int>(queries.size()) != numQueries * dim
-        || static_cast<int>(database.size()) != numVectors * dim) {
+    if (dim == 0 || k == 0 || numQueries == 0 || numVectors == 0 || queries.size() != numQueries * dim
+        || database.size() != numVectors * dim) {
         std::lock_guard<std::mutex> lk(mutex_);
         ++stats_.total_ann_searches;
         recordOp(0, 0, false);
@@ -1349,9 +1349,9 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
                 dist = -dot;
             }
 
-            if (static_cast<int>(heap.size()) < actual_k) {
+            if (heap.size() < actual_k) {
                 heap.emplace_back(dist, vi);
-                if (static_cast<int>(heap.size()) == actual_k) {
+                if (heap.size() == actual_k) {
                     std::make_heap(heap.begin(), heap.end());
                 }
             } else if (dist < heap.front().first) {
@@ -1397,7 +1397,7 @@ GPUQueryAccelerator::TopKResult GPUQueryAccelerator::topK(std::vector<Row> rows,
     // Graph cache check — pack k and order into the param hash ----------------
     if (graph_cache_enabled_) {
         uint64_t param   = static_cast<uint64_t>(k) ^ (static_cast<uint64_t>(order) << 32);
-        QueryShape shape = makeShape(QueryShape::OpType::TOPK,static_cast<int>(rows.size()), param);
+        QueryShape shape = makeShape(QueryShape::OpType::TOPK,rows.size(), param);
         if (graph_cache_.lookup(shape)) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++stats_.graph_cache_hits;

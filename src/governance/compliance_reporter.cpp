@@ -90,14 +90,14 @@ static std::string buildComplianceReportHTML(const ComplianceReport &report) {
          << "</table>";
 
     if (!report.gaps.empty()) {
-        html << "<h2>Compliance Gaps (" <<static_cast<int>(report.gaps.size()) << ")</h2>"
+        html << "<h2>Compliance Gaps (" <<report.gaps.size() << ")</h2>"
              << "<table><tr><th>Type</th><th>Severity</th>"
              << "<th>Description</th><th>Affected Resources</th></tr>";
         for (const auto &gap : report.gaps) {
             html << "<tr><td>" << gap.gap_type << "</td>"
                  << "<td class='gap-" << gap.severity << "'>" << gap.severity << "</td>"
                  << "<td>" << gap.description << "</td>"
-                 << "<td>" <<static_cast<int>(gap.affected_resources.size()) << " resource(s)</td></tr>";
+                 << "<td>" <<gap.affected_resources.size() << " resource(s)</td></tr>";
         }
         html << "</table>";
     } else {
@@ -185,7 +185,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
         }
         page_streams.back()
             += std::to_string(static_cast<int>(MARGIN)) + " " + std::to_string(static_cast<int>(y)) + " Td\n";
-        std::string display = static_cast<int>(line.size()) > 100 ? line.substr(0, 97) + "..." : line;
+        std::string display = line.size() > 100 ? line.substr(0, 97) + "..." : line;
         page_streams.back() += "(" + reporter_escapePDFString(display) + ") Tj\n";
         y -= LINE_H;
     }
@@ -197,7 +197,7 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     pdf += "%PDF-1.4\n";
     pdf += "%\xE2\xE3\xCF\xD3\n";
 
-    int P           = static_cast<int>(page_streams.size());
+    int P           = page_streams.size();
     int base_page   = 3;
     int base_stream = base_page + P;
     int font_f1_id  = base_stream + P;
@@ -373,7 +373,7 @@ ComplianceReporter::ComplianceReporter(std::shared_ptr<PolicyManager> policy_man
 
 CoverageAnalysis ComplianceReporter::analyzeCoverage(const std::vector<std::string> &resources) const {
     CoverageAnalysis analysis;
-    analysis.total_resources_analyzed = static_cast<int>(resources.size());
+    analysis.total_resources_analyzed = resources.size();
 
     auto rules = policy_manager_->listRules();
 
@@ -841,7 +841,7 @@ std::string ComplianceReporter::reportToCSV(const ComplianceReport &report) cons
     csv << "\nGap Type,Severity,Description,Affected Count\n";
     for (const auto &gap : report.gaps) {
         csv << gap.gap_type << "," << gap.severity << ","
-            << "\"" << gap.description << "\"," <<static_cast<int>(gap.affected_resources.size()) << "\n";
+            << "\"" << gap.description << "\"," <<gap.affected_resources.size() << "\n";
     }
 
     return csv.str();
@@ -904,7 +904,7 @@ BiasAuditReport ComplianceReporter::generateBiasAuditReport(
                 actual_entropy -= p * std::log(p);
             }
         }
-        const double max_entropy    = (static_cast<int>(group_map.size()) > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
+        const double max_entropy    = (group_map.size() > 1) ? std::log(static_cast<double>(group_map.size())) : 1.0;
         fs.demographic_parity_score = (max_entropy > 0.0) ? (actual_entropy / max_entropy) : 1.0;
 
         // Clamp to [0, 1]

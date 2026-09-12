@@ -166,8 +166,8 @@ nlohmann::json RetentionManager::getCumulativeStats() const {
     return {{"total_deleted", total_deleted_},
             {"total_archived", total_archived_},
             {"total_space_freed_bytes", total_space_freed_bytes_},
-            {"archive_size",static_cast<int>(archive_.size())},
-            {"registered_policies",static_cast<int>(policies_.size())}};
+            {"archive_size",archive_.size()},
+            {"registered_policies",policies_.size()}};
 }
 
 // ============================================================================
@@ -451,7 +451,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             size_t keep_from_eligible = (policy.max_versions_per_key > protected_count)
                                             ? policy.max_versions_per_key - protected_count
                                             : 0;
-            if (static_cast<int>(eligible.size()) <= keep_from_eligible) {
+            if (eligible.size() <= keep_from_eligible) {
               continue;
             }
 
@@ -461,7 +461,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
                           return a.sys_time.start < b.sys_time.start;
                       });
 
-            size_t eligible_to_delete = static_cast<int>(eligible.size()) - keep_from_eligible;
+            size_t eligible_to_delete = eligible.size() - keep_from_eligible;
             size_t count_to_delete    = std::min(eligible_to_delete, batch_remaining);
             batch_remaining -= count_to_delete;
 

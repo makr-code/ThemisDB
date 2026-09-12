@@ -419,7 +419,7 @@ static std::string valueToString(const std::optional<Value> &opt_val) {
             } else {
                 // vector<uint8_t> — binary blob
                 std::ostringstream oss = {};
-                oss << "<binary:" <<static_cast<int>(v.size()) << ">";
+                oss << "<binary:" <<v.size() << ">";
                 return oss.str();
             }
         },
@@ -921,7 +921,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
         ofs.write(reinterpret_cast<const char *>(page.values.data()), static_cast<std::streamsize>(page.values.size()));
         file_offset += page.values.size();
 
-        int64_t col_size = static_cast<int64_t>(page.header.size() + static_cast<int>(page.values.size()) );
+        int64_t col_size = static_cast<int64_t>(page.header.size() + page.values.size() );
         row_group_total_bytes += col_size;
 
         ColumnChunkInfo info;
@@ -961,7 +961,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     // ofs closes via RAII when it goes out of scope.
     stats.bytes_written = file_offset;
 
-    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count,static_cast<int>(columns.size()), file_offset);
+    THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count,columns.size(), file_offset);
 
     return stats;
 }

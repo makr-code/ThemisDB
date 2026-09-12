@@ -175,7 +175,7 @@ void LoRARopeAdapterRegistry::clear() {
 
 size_t LoRARopeAdapterRegistry::size() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(adapters_.size());
+    return adapters_.size();
 }
 
 // ============================================================================
@@ -248,7 +248,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapter(
         size_t idx_0 = pair_idx * 2;
         size_t idx_1 = pair_idx * 2 + 1;
         
-        if (idx_1 >= static_cast<int>(rotated.size())) {
+        if (idx_1 >= rotated.size()) {
           break;
         }
         
@@ -272,7 +272,7 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
     const std::vector<size_t>& positions,
     const std::string& adapter_name
 ) const {
-    if (static_cast<int>(embeddings.size()) != static_cast<int>(positions.size())) {
+    if (embeddings.size() != positions.size()) {
         throw std::invalid_argument("Embeddings and positions size mismatch");
     }
     
@@ -324,7 +324,7 @@ std::vector<float> LoRARotaryEmbedding::rotateWithAdapterBlend(
         return rotate(embedding, position);  // No adapters, return base rotation
     }
     
-    if (static_cast<int>(adapter_names.size()) != static_cast<int>(weights.size())) {
+    if (adapter_names.size() != weights.size()) {
         throw std::invalid_argument("Adapter names and weights size mismatch");
     }
     

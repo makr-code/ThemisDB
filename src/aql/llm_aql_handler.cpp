@@ -487,7 +487,7 @@ bool AQLConversationSession::empty() const {
 }
 
 std::size_t AQLConversationSession::size() const {
-    return static_cast<int>(history_.size());
+    return history_.size();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -912,8 +912,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer"},
-                {"prompt_bytes",static_cast<int>(prompt.size())},
-                {"response_bytes",static_cast<int>(result.size())},
+                {"prompt_bytes",prompt.size()},
+                {"response_bytes",result.size()},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1036,8 +1036,8 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
             prompt,
             LLMAQLHandler::json{
                 {"operation", "infer_streaming"},
-                {"prompt_bytes",static_cast<int>(prompt.size())},
-                {"response_bytes",static_cast<int>(response.text.size())},
+                {"prompt_bytes",prompt.size()},
+                {"response_bytes",response.text.size()},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"latency_ms", latency.count()},
@@ -1247,8 +1247,8 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
             query,
             LLMAQLHandler::json{
                 {"operation", "rag"},
-                {"query_bytes",static_cast<int>(query.size())},
-                {"response_bytes",static_cast<int>(result.size())},
+                {"query_bytes",query.size()},
+                {"response_bytes",result.size()},
                 {"input_tokens", input_tokens},
                 {"output_tokens", output_tokens},
                 {"retrieved_docs", retrieved_docs},
@@ -1719,7 +1719,7 @@ void LLMAQLHandler::logAnnotations(const std::vector<AQLAnnotation> &annotations
         = query_preview.size() > MAX_PREVIEW ? query_preview.substr(0, MAX_PREVIEW) + "..." : query_preview;
 
     std::ostringstream warn_msg = {};
-    warn_msg << function_name << " produced " <<static_cast<int>(annotations.size()) << " potential syntax issue(s) for query \""
+    warn_msg << function_name << " produced " <<annotations.size() << " potential syntax issue(s) for query \""
              << preview << "\":";
     for (const auto &ann : annotations) {
         warn_msg << "\n  Line " << ann.line << ", Col " << ann.column << ": " << ann.message;
@@ -1733,7 +1733,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
     sanitizePromptInput(schema_context, "schema_context", impl_->validation_limits_.max_schema_context_length);
 
     spdlog::debug("NL-to-AQL: Starting translation for query: {}", 
-                  static_cast<int>(nl_query.size()) > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
+                  nl_query.size() > 100 ? nl_query.substr(0, 100) + "..." : nl_query);
 
     const TranslationValidationMode mode = impl_->validation_mode_;
     const size_t max_attempts = getConfiguredRetryAttempts(mode, impl_->config_.validation_config);
@@ -1759,7 +1759,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
 
             // Use chat interface for better results
             auto response = executeChat(messages);
-            spdlog::debug("NL-to-AQL: LLM generated {} chars of response",static_cast<int>(response.size()));
+            spdlog::debug("NL-to-AQL: LLM generated {} chars of response",response.size());
 
             // Clean up response – strip markdown fences and trim whitespace
             std::string aql_query = stripMarkdownFences(std::move(response));
@@ -2052,8 +2052,8 @@ std::string LLMAQLHandler::executeChat(const std::vector<llm::ChatMessage> &mess
             original_query,
             LLMAQLHandler::json{
                 {"operation", "chat"},
-                {"message_count",static_cast<int>(messages.size())},
-                {"response_bytes",static_cast<int>(response.size())}},
+                {"message_count",messages.size()},
+                {"response_bytes",response.size()}},
             LLMErrorCode::INFERENCE_FAILED);
         return response;
 
@@ -2204,7 +2204,7 @@ std::string LLMAQLHandler::translateNLToAQLWithExamples(const std::string &nl_qu
             }
 
             spdlog::debug("translateNLToAQLWithExamples: injected {} examples for query \"{}\"", injected_count,
-                          static_cast<int>(nl_query.size()) > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
+                          nl_query.size() > 60 ? nl_query.substr(0, 60) + "..." : nl_query);
 
             return aql_query;
 
@@ -2285,7 +2285,7 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                 continue;
             }
 
-            if (static_cast<int>(line.size()) >= 7 && line.substr(0, 7) == "SCORE: ") {
+            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
                 try {
                     result.score = std::stof(line.substr(7));
                     // Clamp to [0, 1]
@@ -2294,10 +2294,10 @@ LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(const st
                     result.score = -1.0f;
                 }
                 in_suggestions = false;
-            } else if (static_cast<int>(line.size()) >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
                 result.explanation = line.substr(13);
                 in_suggestions     = false;
-            } else if (static_cast<int>(line.size()) >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
                 in_suggestions         = true;
                 std::string suggestion = line.substr(12);
                 if (suggestion != "None" && !suggestion.empty()) {

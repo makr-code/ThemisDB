@@ -141,7 +141,7 @@ std::string GeoLineString::toGeoJSON() const {
 
 ValidationResult GeoLineString::validate() const {
     ValidationResult vr = {};
-    if (static_cast<int>(coords_.size()) < 2) {
+    if (coords_.size() < 2) {
         vr.addError({"INSUFFICIENT_POSITIONS",
                      "GeoLineString requires at least 2 positions, got " + std::to_string(coords_.size())});
     }
@@ -159,7 +159,7 @@ namespace {
 
 ValidationResult validateRing(const GeoPolygon::Ring &ring, CrsId crs, const std::string &name, bool must_be_ccw) {
     ValidationResult vr = {};
-    if (static_cast<int>(ring.size()) < 4) {
+    if (ring.size() < 4) {
         vr.addError({"INSUFFICIENT_RING_POSITIONS",
                      name + ": ring requires >= 4 positions, got " + std::to_string(ring.size())});
         return vr; // Cannot check further
@@ -259,7 +259,7 @@ std::string GeoMultiPolygon::toGeoJSON() const {
         // Find "coordinates":[...] and extract the [...] part
         const auto pos = polyJson.find("\"coordinates\":");
         if (pos != std::string::npos) {
-            os << polyJson.substr(pos + 14, static_cast<int>(polyJson.size()) - pos - 15);
+            os << polyJson.substr(pos + 14, polyJson.size() - pos - 15);
         }
     }
     os << "]}";

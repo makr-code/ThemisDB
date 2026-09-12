@@ -67,7 +67,7 @@ CanaryRollout::CanaryRollout(std::shared_ptr<HotReloadEngine> engine,
     }
 
     LOG_INFO("CanaryRollout initialised: version={} node={} stages={}",
-             config_.version, config_.node_id,static_cast<int>(config_.stages.size()));
+             config_.version, config_.node_id,config_.stages.size());
 }
 
 // ---------------------------------------------------------------------------
@@ -318,7 +318,7 @@ CanaryStatus CanaryRollout::status() const {
     s.current_stage = current_stage_;
     s.total_stages = config_.stages.size();
     s.current_percentage =
-        current_stage_ <static_cast<int>(config_.stages.size())
+        current_stage_ <config_.stages.size()
             ? config_.stages[current_stage_].percentage
             : 1.0;
     s.this_node_included = isNodeInStage(current_stage_);
@@ -489,7 +489,7 @@ ReloadResult CanaryDeployment::deploy() {
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
                     cb = stage_complete_cb_;
-                    if (static_cast<int>(stages_.size()) > completed_stage) {
+                    if (stages_.size() > completed_stage) {
                         stage_info = stages_[completed_stage];
                     }
                 }
@@ -585,7 +585,7 @@ void CanaryDeployment::reportError() {
 void CanaryDeployment::reportLatency(std::chrono::microseconds latency) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (static_cast<int>(latency_samples_us_.size()) >= kMaxLatencySamples) {
+        if (latency_samples_us_.size() >= kMaxLatencySamples) {
             latency_samples_us_.pop_front();  // O(1) for deque
         }
         latency_samples_us_.push_back(latency.count());

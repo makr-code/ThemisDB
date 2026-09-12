@@ -386,10 +386,10 @@ HuggingFaceIngestionPlugin::FetchResult HuggingFaceIngestionPlugin::fetchBatch(
         // Check if there are more rows
         if (response.contains("features") && response.contains("num_rows_total")) {
             size_t total = response["num_rows_total"].get<size_t>();
-            result.has_more = (offset + static_cast<int>(result.documents.size()) ) < total;
+            result.has_more = (offset + result.documents.size() ) < total;
         } else {
             // Assume more if we got a full batch
-            result.has_more = (static_cast<int>(result.documents.size()) >= limit);
+            result.has_more = (result.documents.size() >= limit);
         }
         
     } catch (const std::exception& e) {
@@ -444,7 +444,7 @@ bool HuggingFaceIngestionPlugin::loadFromCache(
                 docs.push_back(doc);
             }
             
-            THEMIS_INFO("Loaded {} documents from cache: {}",static_cast<int>(docs.size()), cache_file);
+            THEMIS_INFO("Loaded {} documents from cache: {}",docs.size(), cache_file);
             return true;
         }
         
@@ -475,7 +475,7 @@ void HuggingFaceIngestionPlugin::saveToCache(
         std::ofstream file(cache_file);
         file << cache_data.dump();  // Compact format to save space
         
-        THEMIS_INFO("Saved {} documents to cache: {}",static_cast<int>(docs.size()), cache_file);
+        THEMIS_INFO("Saved {} documents to cache: {}",docs.size(), cache_file);
         
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to save cache {}: {}", cache_file, e.what());
@@ -540,7 +540,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             documents.insert(documents.end(), result.documents.begin(), result.documents.end());
             
             // Update progress
-            job.processed_items = static_cast<int>(documents.size());
+            job.processed_items = documents.size();
             if (job.total_items > 0) {
                 job.progress = static_cast<float>(job.processed_items) / job.total_items;
             }
@@ -551,8 +551,8 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             // Note: For production use, remove or make this limit configurable
             // This 10k limit is for demonstration/testing to avoid excessive API usage
             size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches
-            if (!result.has_more || static_cast<int>(documents.size()) >= max_docs_limit) {
-                if (static_cast<int>(documents.size()) >= max_docs_limit) {
+            if (!result.has_more || documents.size() >= max_docs_limit) {
+                if (documents.size() >= max_docs_limit) {
                     THEMIS_INFO("Reached document limit of {} (configurable in future versions)", 
                         max_docs_limit);
                 }
@@ -566,7 +566,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
         plugin->saveToCache(dataset_name, split, documents);
     }
     
-    job.total_items = static_cast<int>(documents.size());
+    job.total_items = documents.size();
     
     // Ingest documents into ContentManager
     for (size_t i = 0; i < documents.size(); ++i) {
@@ -599,7 +599,7 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     job.result_metadata["from_cache"] = from_cache;
     
     THEMIS_INFO("HuggingFace job {} completed: {} documents ingested", 
-        job.job_id,static_cast<int>(job.content_ids.size()));
+        job.job_id,job.content_ids.size());
 }
 
 json HuggingFaceIngestionPlugin::documentToContentSpec(
@@ -660,7 +660,7 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
         {"chunk_type", "text"},
         {"text", text_content},
         {"start_offset", 0},
-        {"end_offset", static_cast<int>(text_content.size())},
+        {"end_offset", text_content.size()},
         {"created_at", std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count()}

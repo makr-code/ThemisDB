@@ -149,7 +149,7 @@ WakeWordDetectionResult WakeWordDetector::processAudioChunk(
     }
 
     // Trim buffer to the most recent max_samples
-    if (static_cast<int>(sample_buffer_.size()) > max_samples) {
+    if (sample_buffer_.size() > max_samples) {
         sample_buffer_.erase(
             sample_buffer_.begin(),
             sample_buffer_.begin() +

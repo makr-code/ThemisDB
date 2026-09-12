@@ -459,10 +459,10 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
         if (current_change.has_value()) {
             const auto& existing = current_change->snapshot;
             if (existing.name == new_schema.name &&
-                static_cast<int>(existing.properties.size()) == static_cast<int>(new_schema.properties.size()))
+                existing.properties.size() == new_schema.properties.size())
             {
                 bool identical = true;
-                for (size_t i = 0; i <static_cast<int>(existing.properties.size()) && identical; ++i) {
+                for (size_t i = 0; i <existing.properties.size() && identical; ++i) {
                     if (existing.properties[i].name != new_schema.properties[i].name ||
                         existing.properties[i].type != new_schema.properties[i].type) {
                         identical = false;
@@ -479,7 +479,7 @@ VersionResult<bool> SchemaVersionManager::validateMigration(
     }
 
     spdlog::info("SchemaVersionManager: dry-run validation passed for table '{}' ({} columns)",
-                 table_name,static_cast<int>(new_schema.properties.size()));
+                 table_name,new_schema.properties.size());
     return VersionResult<bool>::success(true);
 }
 

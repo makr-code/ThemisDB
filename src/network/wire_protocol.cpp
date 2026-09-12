@@ -128,7 +128,7 @@ std::vector<uint8_t> PacketParser::read_bytes(
 
 WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
 {
-    if (static_cast<int>(buf.size()) < kWireProtocolMinPacketSize) {
+    if (buf.size() < kWireProtocolMinPacketSize) {
         throw ParseError("buffer too short: need at least " +
                          std::to_string(kWireProtocolMinPacketSize) +
                          " bytes, got " + std::to_string(buf.size()));
@@ -251,10 +251,10 @@ std::vector<uint8_t> PacketBuilder::build_query_result(
     std::size_t total_row_bytes = 0;
     for (const auto& row : rows) {
         // 4 bytes per-row length prefix + row data.
-        if (total_row_bytes + 4 + static_cast<int>(row.size()) < total_row_bytes) {
+        if (total_row_bytes + 4 + row.size() < total_row_bytes) {
             throw std::length_error("PacketBuilder: row data overflows uint32_t");
         }
-        total_row_bytes += 4 + static_cast<int>(row.size()) ;
+        total_row_bytes += 4 + row.size() ;
     }
 
     // 4-byte row-count header + all row bytes.

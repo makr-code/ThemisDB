@@ -120,7 +120,7 @@ bool TemporalSnapshotManager::isAlive(const SnapshotHandle& handle) const {
 
 size_t TemporalSnapshotManager::snapshotCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(snapshots_.size());
+    return snapshots_.size();
 }
 
 SnapshotMetadata TemporalSnapshotManager::getSnapshotMetadata(
@@ -167,13 +167,13 @@ size_t TemporalSnapshotManager::garbageCollectByAge(Timestamp max_age_ms) {
         ++total_gc_collected_;
     }
 
-    return static_cast<int>(to_remove.size());
+    return to_remove.size();
 }
 
 size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    if (static_cast<int>(snapshots_.size()) <= max_snapshots) {
+    if (snapshots_.size() <= max_snapshots) {
         return 0;
     }
 
@@ -185,7 +185,7 @@ size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
     }
     std::sort(ordered.begin(), ordered.end());
 
-    const size_t to_remove_count = static_cast<int>(snapshots_.size()) - max_snapshots;
+    const size_t to_remove_count = snapshots_.size() - max_snapshots;
     for (size_t i = 0; i < to_remove_count; ++i) {
         snapshots_.erase(ordered[i].second);
         ++total_released_;
@@ -197,7 +197,7 @@ size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
 
 nlohmann::json TemporalSnapshotManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return {{"active_snapshots",static_cast<int>(snapshots_.size())},
+    return {{"active_snapshots",snapshots_.size()},
             {"total_created", total_created_},
             {"total_released", total_released_},
             {"total_gc_collected", total_gc_collected_},

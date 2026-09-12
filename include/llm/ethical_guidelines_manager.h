@@ -121,7 +121,7 @@ public:
     /**
      * @brief Destructor
      */
-    ~EthicalGuidelinesManager();
+    ~EthicalGuidelinesManager() = default;
     
     // ═══════════════════════════════════════════════════════════
     // Core functionality

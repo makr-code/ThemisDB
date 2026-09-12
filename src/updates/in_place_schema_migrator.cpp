@@ -76,7 +76,7 @@ bool InPlaceSchemaMigrator::isAdditiveMigration(
     }
 
     // to_schema must add at least one new column
-    return static_cast<bool>( static_cast<int>(to_schema.properties.size()) < static_cast<int>(from_schema.properties.size()));
+    return static_cast<bool>( to_schema.properties.size() < from_schema.properties.size());
 }
 
 // ----------------------------------------------------------------------------
@@ -97,7 +97,7 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
 
     std::vector<std::string> added = {};
 
-    added.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
+    added.reserve(to_schema.properties.size() - from_schema.properties.size() );
     for (const auto& p : to_schema.properties) {
         if (from_names.find(p.name) == from_names.end()) {
             added.push_back(p.name);
@@ -131,7 +131,7 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     }
 
     // Added columns: present in to_schema but not in from_schema
-    result.added_columns.reserve(to_schema.properties.size() - static_cast<int>(from_schema.properties.size()) );
+    result.added_columns.reserve(to_schema.properties.size() - from_schema.properties.size() );
     for (const auto& p : to_schema.properties) {
         if (from_map.find(p.name) == from_map.end()) {
             result.added_columns.push_back(p);
@@ -139,7 +139,7 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
     }
 
     // Removed columns: present in from_schema but not in to_schema
-    result.removed_columns.reserve(from_schema.properties.size() - static_cast<int>(to_schema.properties.size()) );
+    result.removed_columns.reserve(from_schema.properties.size() - to_schema.properties.size() );
     for (const auto& p : from_schema.properties) {
         if (to_map.find(p.name) == to_map.end()) {
             result.removed_columns.push_back(p);
@@ -180,8 +180,8 @@ MigrationChangePreview InPlaceSchemaMigrator::preview(
         // Use stringstream for efficient string concatenation (Error Code: 7451)
         std::ostringstream oss = {};
         oss << "Migration preview: migration is not purely additive "
-            << "(" <<static_cast<int>(result.removed_columns.size()) << " removed, "
-            <<static_cast<int>(result.modified_columns.size()) << " modified); "
+            << "(" <<result.removed_columns.size() << " removed, "
+            <<result.modified_columns.size() << " modified); "
             << "use SchemaMigrationTester for destructive or type-changing migrations";
         result.error_message = oss.str();
     }
@@ -232,7 +232,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     // Use ostringstream for efficient string building (Error Code: 7470)
     std::ostringstream msg_stream = {};
     msg_stream << "in-place additive migration: added " 
-               <<static_cast<int>(result.added_columns.size()) << " column(s)";
+               <<result.added_columns.size() << " column(s)";
     auto ver_result = version_mgr.createSchemaVersion(
         table_name,
         author,
@@ -251,7 +251,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
 
     // Use stringstream for efficient string concatenation (Error Code: 7452)
     std::ostringstream cols_stream = {};
-    for (size_t i = 0; i <static_cast<int>(result.added_columns.size()); ++i) {
+    for (size_t i = 0; i <result.added_columns.size(); ++i) {
         if (i) {
           cols_stream << ", ";
         }
@@ -260,7 +260,7 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     LOG_INFO(
         "InPlaceSchemaMigrator: table '{}' migrated in-place to v{}; "
         "added {} column(s): {}",
-        table_name, result.schema_version,static_cast<int>(result.added_columns.size()),
+        table_name, result.schema_version,result.added_columns.size(),
         cols_stream.str());
 
     return result;

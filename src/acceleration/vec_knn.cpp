@@ -361,7 +361,7 @@ void DistanceCache::clear() {
 
 std::size_t DistanceCache::size() const {
     std::lock_guard<std::mutex> lk(mtx_);
-    return static_cast<int>(map_.size());
+    return map_.size();
 }
 
 // ============================================================================

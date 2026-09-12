@@ -76,10 +76,10 @@ static std::string objStorageJsonExtractString(const std::string& json,
 
 /// Determine whether a key refers to a JSON object (ends with .json).
 static bool isJsonKey(const std::string& key) {
-    if (static_cast<int>(key.size()) < 5) {
+    if (key.size() < 5) {
       return false;
     }
-    std::string suffix = key.substr(static_cast<int>(key.size()) - 5);
+    std::string suffix = key.substr(key.size() - 5);
     // case-insensitive compare ".json"
     std::transform(suffix.begin(), suffix.end(), suffix.begin(),
                    [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
@@ -645,7 +645,7 @@ private:
                     auto& stream = *dl.Value.BodyStream;
                     std::vector<uint8_t> buf(4096);
                     size_t n = 0;
-                    while ((n = stream.Read(buf.data(),static_cast<int>(buf.size()))) > 0) {
+                    while ((n = stream.Read(buf.data(),buf.size())) > 0) {
                         body.append(reinterpret_cast<char*>(buf.data()), n);
                     }
 

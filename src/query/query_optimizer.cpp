@@ -638,7 +638,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 			double selectivity = distributed_model_->calculatePredicateSelectivity(
 				q.predicates, q.table);
 			
-			if (!distributed_model_->shouldPrunePartition(info,static_cast<int>(available_shards.size()), selectivity)) {
+			if (!distributed_model_->shouldPrunePartition(info,available_shards.size(), selectivity)) {
 				pruned_shards.push_back(info.shard_id);
 			}
 		}
@@ -647,7 +647,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 			plan.shard_ids = pruned_shards;
 			plan.use_partition_pruning = true;
 			spdlog::info("QueryOptimizer: Partition pruning reduced shards from {} to {}", 
-						 available_shards.size(),static_cast<int>(pruned_shards.size()));
+						 available_shards.size(),pruned_shards.size());
 		}
 	}
 	
@@ -657,7 +657,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 		shard_infos, available_threads);
 	
 	// Enable NUMA awareness for large distributed queries
-	if (static_cast<int>(plan.shard_ids.size()) >= 4 && available_threads >= 8) {
+	if (plan.shard_ids.size() >= 4 && available_threads >= 8) {
 		plan.enable_numa_awareness = true;
 		
 		if (NumaAwareOptimizer::isNumaAvailable()) {
@@ -674,7 +674,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 	}
 	
 	// Determine join strategy for multi-shard queries
-	if (static_cast<int>(plan.shard_ids.size()) > 1) {
+	if (plan.shard_ids.size() > 1) {
 		size_t estimated_results = 1000;
 		plan.join_strategy = estimated_results < 10000 ? "broadcast" : "repartition";
 	}

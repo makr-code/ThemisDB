@@ -87,8 +87,8 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
 
     const size_t expected_elements = n_tokens * config_.embedding_dim;
 
-    if (static_cast<int>(keys.size()) != expected_elements ||
-        static_cast<int>(values.size()) != expected_elements) {
+    if (keys.size() != expected_elements ||
+        values.size() != expected_elements) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
     }
 
@@ -272,7 +272,7 @@ KVCacheBufferPool::PoolStats KVCacheBufferPool::getPoolStats() const {
     return PoolStats{
         .total_buffers = buffers_.size(),
         .available_buffers = available,
-        .acquired_buffers = static_cast<int>(buffers_.size()) - available
+        .acquired_buffers = buffers_.size() - available
     };
 }
 

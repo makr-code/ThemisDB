@@ -142,7 +142,7 @@ static std::string toBase64(const std::vector<uint8_t>& data) {
       return "";
     }
     // EVP_EncodeBlock adds null terminator and pads with '='
-    size_t outLen = ((static_cast<int>(data.size()) + 2) / 3) * 4;
+    size_t outLen = ((data.size() + 2) / 3) * 4;
     std::vector<unsigned char> encoded(outLen + 1);
     int len = EVP_EncodeBlock(encoded.data(), data.data(), (int)data.size());
     return std::string((char*)encoded.data(), len);
@@ -165,12 +165,12 @@ static std::vector<uint8_t> fromBase64(const std::string& b64) {
 
 // AES-256-GCM encrypt (fallback): returns iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& data) {
-    if (static_cast<int>(key.size()) != 32) return {};
+    if (key.size() != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
-    std::vector<uint8_t> ciphertext(static_cast<int>(data.size()) + 16);
+    std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
     int len = 0, ct_len = 0;
     bool ok =
@@ -197,9 +197,9 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
 
 // AES-256-GCM decrypt (fallback): expects iv(12) || ciphertext || tag(16)
 static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& key, const std::vector<uint8_t>& encrypted) {
-    if (static_cast<int>(key.size()) != 32 || static_cast<int>(encrypted.size()) < 12 + 16) return {};
+    if (key.size() != 32 || encrypted.size() < 12 + 16) return {};
     const uint8_t* iv  = encrypted.data();
-    size_t ct_len      = static_cast<int>(encrypted.size()) - 12 - 16;
+    size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
     HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
@@ -543,7 +543,7 @@ static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
         THEMIS_ERROR("sha256: EVP_DigestInit_ex failed");
         return {};
     }
-    EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size()));
+    EVP_DigestUpdate(ctx.get(), data.data(),data.size());
     if (EVP_DigestFinal_ex(ctx.get(), out.data(), &len) != 1) {
         THEMIS_ERROR("sha256: EVP_DigestFinal_ex failed");
         return {};
@@ -559,9 +559,9 @@ static const uint8_t SHA256_DER_PREFIX[] = {
 
 // Append DER prefix + digest for raw RSA PKCS#1v1.5 signing
 static std::vector<uint8_t> makeDigestInfo(const std::vector<uint8_t>& digest){
-    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + static_cast<int>(digest.size()) );
+    std::vector<uint8_t> di(sizeof(SHA256_DER_PREFIX) + digest.size() );
     std::memcpy(di.data(), SHA256_DER_PREFIX, sizeof(SHA256_DER_PREFIX));
-    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(),static_cast<int>(digest.size()));
+    std::memcpy(di.data()+sizeof(SHA256_DER_PREFIX), digest.data(),digest.size());
     return di;
 }
 
@@ -618,7 +618,7 @@ void HSMProvider::discoverCertificateSession(SessionEntry& s){
                 std::vector<unsigned char> der(valAttr.ulValueLen); valAttr.pValue=der.data();
                 if(api->C_GetAttributeValue(s.handle, s.certObj, &valAttr, 1)==CKR_OK){
                     const unsigned char* p = der.data(); 
-                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p,static_cast<int>(der.size())));
+                    HSM_P11_X509_ptr x(d2i_X509(nullptr, &p,der.size()));
                     if(x.get()){
                         ASN1_INTEGER* si = X509_get_serialNumber(x.get());
                         if(si){
@@ -1012,7 +1012,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     
     CK_ATTRIBUTE pub_template[] = {
         {CKA_CLASS, &cls_pub, sizeof(cls_pub)},
-        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
+        {CKA_LABEL, (void*)label.c_str(),label.size()},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VERIFY, &ck_true, sizeof(ck_true)},
         {CKA_MODULUS_BITS, &modulus_bits, sizeof(modulus_bits)},
@@ -1022,7 +1022,7 @@ bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, b
     // Private key template
     CK_ATTRIBUTE priv_template[] = {
         {CKA_CLASS, &cls_priv, sizeof(cls_priv)},
-        {CKA_LABEL, (void*)label.c_str(),static_cast<int>(label.size())},
+        {CKA_LABEL, (void*)label.c_str(),label.size()},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_PRIVATE, &ck_true, sizeof(ck_true)},
         {CKA_SENSITIVE, &ck_true, sizeof(ck_true)},
@@ -1082,7 +1082,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     }
     
     // Parse PEM certificate to DER format
-    BIO* bio = BIO_new_mem_buf(cert_pem.data(),static_cast<int>(cert_pem.size()));
+    BIO* bio = BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size()));
     if(!bio){
         THEMIS_ERROR("importCertificate: Failed to create BIO");
         releaseSession(sess);
@@ -1137,7 +1137,7 @@ bool HSMProvider::importCertificate(const std::string& key_label, const std::str
     CK_ATTRIBUTE cert_template[] = {
         {CKA_CLASS, &cert_class, sizeof(cert_class)},
         {CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
-        {CKA_LABEL, (void*)key_label.c_str(),static_cast<int>(key_label.size())},
+        {CKA_LABEL, (void*)key_label.c_str(),key_label.size()},
         {CKA_TOKEN, &ck_true, sizeof(ck_true)},
         {CKA_VALUE, der.get(), (CK_ULONG)der_len}
     };
@@ -1216,7 +1216,7 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
     if(api->C_GetAttributeValue(sess->handle, sess->certObj, &valAttr, 1) != CKR_OK) {
       return std::nullopt;
     }
-    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p,static_cast<int>(der.size())); if(!x) return std::nullopt;
+    const unsigned char* p = der.data(); X509* x = d2i_X509(nullptr, &p,der.size()); if(!x) return std::nullopt;
     BIO* mem = BIO_new(BIO_s_mem());
     PEM_write_bio_X509(mem, x);
     X509_free(x);

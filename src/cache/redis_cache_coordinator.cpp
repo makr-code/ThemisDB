@@ -172,7 +172,7 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
             continue; // will retry on next attempt
         }
         redisReply *reply = static_cast<redisReply *>(
-            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),static_cast<int>(payload.size())));
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),payload.size()));
 
         if (reply == nullptr || pub_ctx_->err) {
             THEMIS_WARN("RedisCacheCoordinator::publishEntry: PUBLISH failed: {}",
@@ -262,7 +262,7 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
             continue; // will retry on next attempt
         }
         redisReply *reply = static_cast<redisReply *>(
-            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),static_cast<int>(payload.size())));
+            redisCommand(pub_ctx_, "PUBLISH %s %b", channel_.c_str(), payload.data(),payload.size()));
 
         if (reply == nullptr || pub_ctx_->err) {
             THEMIS_WARN("RedisCacheCoordinator::publishInvalidation: PUBLISH failed: {}",
@@ -708,8 +708,8 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int md_len = 0;
 
-    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), static_cast<int>(config_.hmac_secret.size()),
-              reinterpret_cast<const unsigned char *>(payload.data()), static_cast<int>(payload.size()), md, &md_len)) {
+    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), config_.hmac_secret.size(),
+              reinterpret_cast<const unsigned char *>(payload.data()), payload.size(), md, &md_len)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
         return {};
     }
@@ -749,11 +749,11 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
         }
 
         // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
-        if (static_cast<int>(received_sig.size()) != static_cast<int>(expected_sig.size())) {
+        if (received_sig.size() != expected_sig.size()) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),static_cast<int>(expected_sig.size())) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),expected_sig.size()) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }
@@ -885,14 +885,14 @@ public:
         if (ttl_secs > 0) {
             r = static_cast<redisReply*>(
                 redisCommand(ctx_, "SET %b %b EX %d",
-                             key.data(),static_cast<int>(key.size()),
-                             value.data(),static_cast<int>(value.size()),
+                             key.data(),key.size(),
+                             value.data(),value.size(),
                              ttl_secs));
         } else {
             r = static_cast<redisReply*>(
                 redisCommand(ctx_, "SET %b %b",
-                             key.data(),static_cast<int>(key.size()),
-                             value.data(),static_cast<int>(value.size())));
+                             key.data(),key.size(),
+                             value.data(),value.size()));
         }
         const bool ok = r && r->type != REDIS_REPLY_ERROR;
         if (r) {
@@ -912,7 +912,7 @@ public:
           return std::nullopt;
         }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "GET %b", key.data(),static_cast<int>(key.size())));
+            redisCommand(ctx_, "GET %b", key.data(),key.size()));
         if (!r) {
           return std::nullopt;
         }
@@ -935,7 +935,7 @@ public:
           return -1;
         }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "DEL %b", key.data(),static_cast<int>(key.size())));
+            redisCommand(ctx_, "DEL %b", key.data(),key.size()));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
         if (r) {
@@ -956,7 +956,7 @@ public:
           return -1;
         }
         redisReply* r = static_cast<redisReply*>(
-            redisCommand(ctx_, "EXPIRE %b %d", key.data(),static_cast<int>(key.size()), seconds));
+            redisCommand(ctx_, "EXPIRE %b %d", key.data(),key.size(), seconds));
         const int n = (r && r->type == REDIS_REPLY_INTEGER)
                           ? static_cast<int>(r->integer) : -1;
         if (r) {

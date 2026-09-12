@@ -60,7 +60,7 @@ bool isValidUiApiBasePrefix(const std::string& value) {
     size_t start = 1;
     while (start <= value.size()) {
         const auto end = value.find('/', start);
-        const auto len = (end == std::string::npos) ? static_cast<int>(value.size()) - start : end - start;
+        const auto len = (end == std::string::npos) ? value.size() - start : end - start;
         if (len > 0) {
             const auto segment = value.substr(start, len);
             if (!validator.validatePathSegment(segment)) {
@@ -162,8 +162,8 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
             {"primary_lsn",     primary_lsn},
             {"nodes",           nodes},
             {"edges",           edges},
-            {"total_nodes",static_cast<int>(nodes.size())},
-            {"replica_count",static_cast<int>(replicas.size())}
+            {"total_nodes",nodes.size()},
+            {"replica_count",replicas.size()}
         };
 
         return makeResponse(http::status::ok, response_body.dump(),
@@ -207,8 +207,8 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
         }
 
         json response_body = {
-            {"overall_status", healthy_replicas == static_cast<int>(replicas.size()) ? "HEALTHY" : "DEGRADED"},
-            {"total_nodes", static_cast<int>(replicas.size()) + 1},
+            {"overall_status", healthy_replicas == replicas.size() ? "HEALTHY" : "DEGRADED"},
+            {"total_nodes", replicas.size() + 1},
             {"healthy_replicas", healthy_replicas},
             {"failed_replicas", failed_replicas},
             {"max_replication_lag_ms", max_lag_ms},

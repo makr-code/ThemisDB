@@ -89,7 +89,7 @@ public:
                   << " of " << config.worldSize << std::endl;
         
         // Set device for this rank
-        if (!config.deviceIds.empty() && config.rank < static_cast<int>(config.deviceIds.size())) {
+        if (!config.deviceIds.empty() && config.rank < config.deviceIds.size()) {
             CUDA_CHECK(cudaSetDevice(config.deviceIds[config.rank]));
         } else {
             CUDA_CHECK(cudaSetDevice(config.rank));
@@ -137,8 +137,8 @@ public:
           return true;
         }
         
-        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
-            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
+        for (size_t i = 0; i <config.deviceIds.size(); ++i) {
+            for (size_t j = i + 1; j <config.deviceIds.size(); ++j) {
                 int canAccess = 0;
                 cudaDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
@@ -172,7 +172,7 @@ public:
     
     bool checkNVLinkAvailable() {
         // Simple check: if P2P is available between any two devices, assume NVLink
-        if (static_cast<int>(config.deviceIds.size()) < 2) {
+        if (config.deviceIds.size() < 2) {
           return false;
         }
         
@@ -184,8 +184,8 @@ public:
     int countNVLinks() {
         // Simplified: count P2P-capable device pairs
         int count = 0;
-        for (size_t i = 0; i <static_cast<int>(config.deviceIds.size()); ++i) {
-            for (size_t j = i + 1; j <static_cast<int>(config.deviceIds.size()); ++j) {
+        for (size_t i = 0; i <config.deviceIds.size(); ++i) {
+            for (size_t j = i + 1; j <config.deviceIds.size(); ++j) {
                 int canAccess = 0;
                 cudaDeviceCanAccessPeer(&canAccess, config.deviceIds[i], config.deviceIds[j]);
                 if (canAccess) {
@@ -572,7 +572,7 @@ std::string NCCLVectorBackend::getNCCLVersionString() {
 }
 
 bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
-    if (static_cast<int>(deviceIds.size()) < 2) {
+    if (deviceIds.size() < 2) {
       return false;
     }
     

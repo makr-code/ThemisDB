@@ -106,7 +106,7 @@ std::string StreamingHandler::formatChunkedData(const std::string& data) {
     //   <hex-length>\r\n<data>\r\n
     // An empty data string produces the terminal zero-length chunk.
     std::ostringstream oss = {};
-    oss << std::hex <<static_cast<int>(data.size()) << "\r\n" << data << "\r\n";
+    oss << std::hex <<data.size() << "\r\n" << data << "\r\n";
     return oss.str();
 }
 

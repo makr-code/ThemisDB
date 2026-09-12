@@ -85,13 +85,13 @@ FacetedSearch::computeFacet(const std::string& table,
 
         result.value_counts[field_value]++;
         result.total_docs++;
-        if (max_values > 0 && static_cast<int>(result.value_counts.size()) >= max_values) {
+        if (max_values > 0 && result.value_counts.size() >= max_values) {
           break;
         }
     }
 
     THEMIS_DEBUG("FacetedSearch::computeFacet({}.{}): {} distinct values, {} docs",
-                 table, column,static_cast<int>(result.value_counts.size()), result.total_docs);
+                 table, column,result.value_counts.size(), result.total_docs);
     return {SecondaryIndexManager::Status::OK(), result};
 }
 
@@ -213,7 +213,7 @@ FacetedSearch::discoverFacetableColumns(const std::string& table) const {
     }
 
     THEMIS_DEBUG("FacetedSearch::discoverFacetableColumns({}): {} facetable columns",
-                 table,static_cast<int>(columns.size()));
+                 table,columns.size());
     return {SecondaryIndexManager::Status::OK(), std::move(columns)};
 }
 
@@ -234,7 +234,7 @@ FacetedSearch::computeDynamicFacets(const std::string& table,
     }
 
     THEMIS_DEBUG("FacetedSearch::computeDynamicFacets({}): {} facets computed",
-                 table,static_cast<int>(facets.size()));
+                 table,facets.size());
     return {SecondaryIndexManager::Status::OK(), std::move(facets)};
 }
 

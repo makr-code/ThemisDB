@@ -256,7 +256,7 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(
 
     auto root_thoughts = generator->generate(problem, {}, config.branching_factor);
     // Push in reverse so we pop highest-index first (matches BFS order)
-    for (int i = static_cast<int>(root_thoughts.size()) - 1; i >= 0; --i) {
+    for (int i = root_thoughts.size() - 1; i >= 0; --i) {
         frontier.push(makeNode(root_thoughts[i], {}, 0));
     }
 
@@ -299,7 +299,7 @@ ToTResult TreeOfThoughtsBuilder::solveDFS(
             std::vector<std::string> child_path = node.path;
             child_path.push_back(node.thought);
             auto children = generator->generate(problem, child_path, config.branching_factor);
-            for (int i = static_cast<int>(children.size()) - 1; i >= 0; --i) {
+            for (int i = children.size() - 1; i >= 0; --i) {
                 frontier.push(makeNode(children[i], child_path, node.depth + 1));
             }
         }
@@ -346,7 +346,7 @@ ToTResult TreeOfThoughtsBuilder::solveBeam(
     auto sort_beam = [](std::vector<ToTNode>& b, size_t width) {
         std::sort(b.begin(), b.end(),
                   [](const ToTNode& a, const ToTNode& x) { return a.score > x.score; });
-        if (static_cast<int>(b.size()) > width) {
+        if (b.size() > width) {
             b.resize(width);
         }
     };
@@ -434,7 +434,7 @@ std::string TreeOfThoughtsBuilder::synthesiseAnswer(
     ans << "\nConclusion: The best path through the problem \""
         << problem.substr(0, std::min(problem.size(), size_t(60)))
         << "\" has been identified through "
-        <<static_cast<int>(best_path.size()) << " reasoning step(s).";
+        <<best_path.size() << " reasoning step(s).";
     return ans.str();
 }
 
@@ -475,7 +475,7 @@ std::string TreeOfThoughtsBuilder::buildEvaluationPrompt(
 
     if (!node.path.empty()) {
         out << "Reasoning path:\n";
-        for (size_t i = 0; i <static_cast<int>(node.path.size()); ++i) {
+        for (size_t i = 0; i <node.path.size(); ++i) {
             out << "Step " << (i + 1) << ": " << node.path[i] << "\n";
         }
     }

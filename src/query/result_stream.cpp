@@ -62,7 +62,7 @@ bool ResultStream<T>::hasNext() const {
     }
     
     // Check if we have buffered data
-    if (static_cast<int>(buffer_.size()) > buffer_pos_) {
+    if (buffer_.size() > buffer_pos_) {
         return true;
     }
     
@@ -87,7 +87,7 @@ Result<T> ResultStream<T>::next() {
     }
     
     // Handle streaming mode
-    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
+    if (buffer_pos_ >= buffer_.size()) {
         // Need to fill buffer
         auto fill_result = fillBuffer();
         if (!fill_result) {
@@ -186,7 +186,7 @@ Result<void> ResultStream<T>::skip([[maybe_unused]] size_t count) {
         }
         
         size_t new_offset = cursor_.offset + count;
-        if (new_offset >= static_cast<int>(materialized_data_.size())) {
+        if (new_offset >= materialized_data_.size()) {
             cursor_.offset = materialized_data_.size();
             cursor_.has_more = false;
         } else {
@@ -246,7 +246,7 @@ Result<void> ResultStream<T>::fillBuffer() {
     
     // Check buffer size and apply backpressure if needed
     if (config_.enable_backpressure && 
-        static_cast<int>(buffer_.size()) >= config_.backpressure_threshold) {
+        buffer_.size() >= config_.backpressure_threshold) {
         stats_.backpressure_active = true;
     }
     
@@ -295,7 +295,7 @@ void ResultStream<T>::updateCursor(const T& item) {
         // For other numeric/scalar types the offset-based cursor is sufficient.
     }
 
-    if (buffer_pos_ >= static_cast<int>(buffer_.size())) {
+    if (buffer_pos_ >= buffer_.size()) {
         // Reached end of current buffer
         if (buffer_.empty()) {
             cursor_.has_more = false;

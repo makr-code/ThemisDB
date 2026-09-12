@@ -236,7 +236,7 @@ nlohmann::json SessionApiHandler::listSessions(
 
     return {
         {"sessions", arr},
-        {"total",static_cast<int>(arr.size())}
+        {"total",arr.size()}
     };
 }
 

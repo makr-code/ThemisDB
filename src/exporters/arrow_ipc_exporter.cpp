@@ -171,7 +171,7 @@ class FBuf {
     // Format: uint32 length | data bytes | '\0' | padding-to-4
     // Returns C_obj = cursor AFTER the length field (= object reference).
     uint32_t preString(const std::string &s) {
-        size_t data_len  = static_cast<int>(s.size()) + 1; // data + null terminator
+        size_t data_len  = s.size() + 1; // data + null terminator
         size_t padded    = ((data_len + 3) / 4) * 4;
         size_t pad_count = padded - data_len;
 
@@ -182,7 +182,7 @@ class FBuf {
         // Prepend null terminator
         preByte(0);
         // Prepend string bytes in REVERSE (so they appear forward in final)
-        for (int i = static_cast<int>(s.size()) - 1; i >= 0; --i) {
+        for (int i = s.size() - 1; i >= 0; --i) {
             preByte(static_cast<uint8_t>(s[i]));
         }
         // Prepend length
@@ -204,7 +204,7 @@ class FBuf {
     uint32_t preOffsetVector(const std::vector<uint32_t> &refs) {
         // Prepend elements in REVERSE order (last element first) so they appear
         // in forward order in the final buffer.
-        for (int i = static_cast<int>(refs.size()) - 1; i >= 0; --i) {
+        for (int i = refs.size() - 1; i >= 0; --i) {
             preUOffset(refs[i]);
         }
         pre32(static_cast<int32_t>(refs.size()));
@@ -598,7 +598,7 @@ static std::string fieldToString(const BaseEntity &entity, const std::string &co
                 return oss.str();
             } else {
                 std::ostringstream oss = {};
-                oss << "<binary:" <<static_cast<int>(v.size()) << ">";
+                oss << "<binary:" <<v.size() << ">";
                 return oss.str();
             }
         },
@@ -655,7 +655,7 @@ static BatchBody buildBatchBody(const std::vector<BaseEntity> &entities, const s
         int32_t offset_cursor = 0;
         std::vector<uint8_t> offsets_buf = {};
 
-        offsets_buf.reserve((static_cast<int>(vals.size()) + 1) * 4);
+        offsets_buf.reserve((vals.size() + 1) * 4);
         auto append_i32 = [&]([[maybe_unused]] int32_t v) {
             uint32_t u = static_cast<uint32_t>(v);
             offsets_buf.push_back(static_cast<uint8_t>(u & 0xFF));
@@ -750,7 +750,7 @@ static std::vector<uint8_t> buildFooterFB(const std::vector<std::string> &col_na
 
     // recordBatches vector: each Block is a struct (inline), 24 bytes
     // Prepend blocks in reverse order
-    for (int i = static_cast<int>(record_batch_blocks.size()) - 1; i >= 0; --i) {
+    for (int i = record_batch_blocks.size() - 1; i >= 0; --i) {
         const auto &blk = record_batch_blocks[i];
         fb.pre64(blk.body_length);      // bodyLength int64
         fb.pre32(0);                    // padding int32
@@ -932,7 +932,7 @@ ExportStats ArrowIPCExporter::exportFallback(const std::vector<BaseEntity> &enti
     // Schema message frame
     [[maybe_unused]] int64_t schema_frame_start = file_pos;
     writeMessageFrame(out, schema_msg, {});
-    // frame size: 4 (continuation) + 4 (meta_size) + static_cast<int>(schema_msg.size()) 
+    // frame size: 4 (continuation) + 4 (meta_size) + schema_msg.size() 
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
     file_pos += schema_frame_size;
 

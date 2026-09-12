@@ -115,7 +115,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
     
     // Phase 2.4b Hardening: Check compression ratio to detect decompression bombs
-    if (static_cast<int>(compressed.size()) > 0) {
+    if (compressed.size() > 0) {
         size_t ratio = original_size / compressed.size();
         if (ratio > lz4_compression::MAX_COMPRESSION_RATIO) {
             const auto err_msg = fmt::format(
@@ -143,7 +143,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     const int result = LZ4_decompress_safe(
         reinterpret_cast<const char*>(compressed.data()),
         reinterpret_cast<char*>(output.data()),
-        static_cast<int>(compressed.size()),
+        compressed.size(),
         static_cast<int>(original_size));
 
     if (result < 0) {
@@ -157,7 +157,7 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     }
 
     output.resize(static_cast<size_t>(result));
-    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes",static_cast<int>(compressed.size()), result);
+    THEMIS_DEBUG("LZ4 decompressed {} → {} bytes",compressed.size(), result);
     return Ok(std::move(output));
 #else
     (void)compressed;

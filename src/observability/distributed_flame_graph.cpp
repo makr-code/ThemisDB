@@ -90,8 +90,8 @@ json MergedFlameGraph::toJSON() const {
         {"generated_at_ms", ts_ms},
         {"node_ids", node_ids},
         {"node_versions", node_versions},
-        {"node_count",static_cast<int>(node_ids.size())},
-        {"stack_count",static_cast<int>(stacks.size())},
+        {"node_count",node_ids.size()},
+        {"stack_count",stacks.size()},
         {"folded_text", toFoldedText()},
         {"stacks", stacks_arr}
     };
@@ -119,7 +119,7 @@ public:
             insertion_order_.push_back(profile.node_id);
         }
 
-        while (config_.max_nodes > 0 && static_cast<int>(profiles_.size()) > config_.max_nodes && !insertion_order_.empty()) {
+        while (config_.max_nodes > 0 && profiles_.size() > config_.max_nodes && !insertion_order_.empty()) {
             const auto evict_id = insertion_order_.front();
             insertion_order_.erase(insertion_order_.begin());
             profiles_.erase(evict_id);
@@ -196,7 +196,7 @@ public:
         // Cap list sizes for usability
         const auto limit = config_.max_diff_hotspots;
         auto trim = [limit](std::vector<std::string>& v) {
-            if (static_cast<int>(v.size()) > limit) {
+            if (v.size() > limit) {
               v.resize(limit);
             }
         };
@@ -221,7 +221,7 @@ public:
 
     size_t nodeCount() const {
         std::lock_guard<std::mutex> lk(mutex_);
-        return static_cast<int>(profiles_.size());
+        return profiles_.size();
     }
 
     DistributedFlameGraphConfig getConfig() const {

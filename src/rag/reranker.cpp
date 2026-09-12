@@ -132,13 +132,13 @@ std::vector<std::string> tokenise(const std::string& text) {
         if (std::isalnum(ch)) {
             cur.push_back(static_cast<char>(std::tolower(ch)));
         } else if (!cur.empty()) {
-            if (static_cast<int>(cur.size()) > 2) {   // skip very short tokens
+            if (cur.size() > 2) {   // skip very short tokens
                 tokens.push_back(cur);
             }
             cur.clear();
         }
     }
-    if (static_cast<int>(cur.size()) > 2) {
+    if (cur.size() > 2) {
         tokens.push_back(cur);
     }
     return tokens;
@@ -164,7 +164,7 @@ std::unordered_map<std::string, size_t> bigramFreq(
 
     // Optimization: reserve capacity based on expected bigram count
     // Complexity: O(n) with efficient string building
-    bf.reserve(static_cast<int>(tokens.size()) > 1 ? static_cast<int>(tokens.size()) - 1 : 0);
+    bf.reserve(tokens.size() > 1 ? tokens.size() - 1 : 0);
     
     for (size_t i = 0; i + 1 < tokens.size(); ++i) {
         // Build bigram string: "token1 token2"
@@ -310,7 +310,7 @@ struct CrossEncoderReranker::Impl {
 
         const std::size_t effective_max_cache_size = std::max<std::size_t>(1, max_cache_size);
         std::lock_guard<std::mutex> lock(cache_mutex);
-        if (static_cast<int>(score_cache.size()) >= effective_max_cache_size) {
+        if (score_cache.size() >= effective_max_cache_size) {
             auto it = score_cache.begin();
             const size_t half = score_cache.size() / 2;
             for (size_t i = 0; i < half; ++i) {
@@ -372,7 +372,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate query size
-    if (static_cast<int>(query.size()) > kMaxQueryChars) {
+    if (query.size() > kMaxQueryChars) {
         THEMIS_WARN("CrossEncoderReranker::rerank: query exceeds maximum size ({})",
                    query.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -381,7 +381,7 @@ RerankResult CrossEncoderReranker::rerank(
     }
 
     // Validate candidate count
-    if (static_cast<int>(candidates.size()) > kMaxCandidates) {
+    if (candidates.size() > kMaxCandidates) {
         THEMIS_WARN("CrossEncoderReranker::rerank: candidates count exceeds maximum ({})",
                    candidates.size());
         result.rerank_time = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -477,7 +477,7 @@ RerankResult CrossEncoderReranker::rerank(
         std::chrono::steady_clock::now() - t0);
 
     THEMIS_INFO("CrossEncoderReranker: {} → {} docs, used_model={}, time={}ms",
-                candidates.size(),static_cast<int>(result.documents.size()),
+                candidates.size(),result.documents.size(),
                 result.used_model, result.rerank_time.count());
 
     return result;

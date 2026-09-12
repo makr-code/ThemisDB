@@ -236,7 +236,7 @@ static std::vector<detail::ASTNodePtr> parse(
 {
     std::vector<detail::ASTNodePtr> nodes;
 
-    while (static_cast<size_t>(idx) <static_cast<int>(tokens.size())) {
+    while (idx < tokens.size()) {
         const Token& tok = tokens[idx];
 
         switch (tok.kind) {
@@ -532,7 +532,7 @@ CompiledPromptTemplate PromptTemplateCompiler::compile(
     auto ast = parse(tokens, idx,  slot_index,
                      /*inside_if=*/false, /*inside_for=*/false);
 
-    if (idx != static_cast<int>(tokens.size())) {
+    if (idx != tokens.size()) {
         throw PromptTemplateCompileError(
             "Unexpected token '" + tokens[idx].value +
             "' at index " + std::to_string(idx));

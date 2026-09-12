@@ -237,7 +237,7 @@ std::string MetricAnomalyDetector::generateReport() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::ostringstream oss = {};
     oss << "=== ThemisDB Metric Anomaly Detection Report ===\n\n";
-    oss << "Monitored metrics: " <<static_cast<int>(streams_.size()) << "\n\n";
+    oss << "Monitored metrics: " <<streams_.size() << "\n\n";
 
     for (const auto& [name, state] : streams_) {
         auto stats = state->sad.getWindowStats();
@@ -292,7 +292,7 @@ json MetricAnomalyDetector::generateReportJson() const {
                      .count();
     return json{
         {"generated_at_ms", ts_ms},
-        {"monitored_count",static_cast<int>(streams_.size())},
+        {"monitored_count",streams_.size()},
         {"metrics",         metrics_arr}
     };
 }

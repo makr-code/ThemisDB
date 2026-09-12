@@ -58,7 +58,7 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     results.reserve(shards.size());
     
     // Build IDF if using TF-IDF and not already built
-    if (config_.use_tfidf && (total_shards_ != static_cast<int>(shards.size()))) {
+    if (config_.use_tfidf && (total_shards_ != shards.size())) {
         buildIDF(shards);
     }
     
@@ -76,7 +76,7 @@ std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     std::sort(results.begin(), results.end());
     
     // Limit to max results
-    if (static_cast<int>(results.size()) > config_.max_results) {
+    if (results.size() > config_.max_results) {
         results.resize(config_.max_results);
     }
     
@@ -218,7 +218,7 @@ nlohmann::json CapabilityMatcher::getStatistics() const {
         {"total_matches", total_matches_.load()},
         {"keyword_matches", keyword_matches_.load()},
         {"semantic_matches", semantic_matches_.load()},
-        {"idf_cache_size",static_cast<int>(idf_cache_.size())},
+        {"idf_cache_size",idf_cache_.size()},
         {"total_shards", total_shards_}
     };
 }
@@ -299,7 +299,7 @@ double CapabilityMatcher::calculateSemanticScore(
     const std::vector<float>& shard_embedding
 ) {
     if (query_embedding.empty() || shard_embedding.empty() ||
-        static_cast<int>(query_embedding.size()) != static_cast<int>(shard_embedding.size())) {
+        query_embedding.size() != shard_embedding.size()) {
         return 0.0;
     }
     

@@ -163,7 +163,7 @@ void SharedWorkerPool::workerLoop(size_t thread_id) {
                 {
                     std::lock_guard<std::mutex> llock(local_q.mutex);
                     while (!global_queue_.empty() &&
-                           static_cast<int>(local_q.tasks.size()) < 16) {
+                           local_q.tasks.size() < 16) {
                         local_q.tasks.push_back(global_queue_.top());
                         global_queue_.pop();
                     }

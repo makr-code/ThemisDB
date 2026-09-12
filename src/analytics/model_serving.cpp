@@ -100,7 +100,7 @@ inline double elapsedMs(std::chrono::steady_clock::time_point start) noexcept {
 }
 
 std::string normalizeSha256HexOrThrow(const std::string& expected_sha256_hex) {
-    if (static_cast<int>(expected_sha256_hex.size()) != 64) {
+    if (expected_sha256_hex.size() != 64) {
         throw std::invalid_argument(
             "ModelServingEngine::loadModel expected_sha256_hex must be 64 hex characters");
     }
@@ -127,7 +127,7 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
     }
 
     e.latency_buf.push_back(ms);
-    if (static_cast<int>(e.latency_buf.size()) > window) {
+    if (e.latency_buf.size() > window) {
         e.latency_buf.pop_front();
     }
 
@@ -146,7 +146,7 @@ void recordLatency(ModelServingEntry &e, double ms, size_t window) {
 
 std::string sha256Hex(std::string_view input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.data()),static_cast<int>(input.size()), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.data()),input.size(), hash);
 
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');
@@ -297,7 +297,7 @@ std::string ModelServingEngine::predict(const std::string &name, const std::stri
 
 std::vector<std::string> ModelServingEngine::predictBatch(const std::string &name, const std::string &version,
                                                           const std::vector<DataPoint> &data) const {
-    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
+    if (data.size() > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }
@@ -330,7 +330,7 @@ std::vector<std::string> ModelServingEngine::predictBatch(const std::string &nam
 std::vector<std::map<std::string, double>> ModelServingEngine::predictProba(const std::string &name,
                                                                             const std::string &version,
                                                                             const std::vector<DataPoint> &data) const {
-    if (static_cast<int>(data.size()) > impl_->config.max_batch_size) {
+    if (data.size() > impl_->config.max_batch_size) {
         throw std::invalid_argument("ModelServingEngine: batch size " + std::to_string(data.size())
                                     + " exceeds max_batch_size=" + std::to_string(impl_->config.max_batch_size));
     }

@@ -54,7 +54,7 @@ void TenantBufferManager::start() {
         }
     }
 
-    THEMIS_INFO("TenantBufferManager started with {} tenants",static_cast<int>(tenant_buffers_.size()));
+    THEMIS_INFO("TenantBufferManager started with {} tenants",tenant_buffers_.size());
 }
 
 void TenantBufferManager::stop() {

@@ -64,7 +64,7 @@ struct Shard {
     /// Remove one entry by iterator; wipes the key buffer via OPENSSL_cleanse.
     void erase_entry(Map::iterator it) {
         auto& entry = it->second.second;
-        OPENSSL_cleanse(entry.value.data(),static_cast<int>(entry.value.size()));
+        OPENSSL_cleanse(entry.value.data(),entry.value.size());
         lru.erase(it->second.first);
         map.erase(it);
         ++evictions;
@@ -91,7 +91,7 @@ struct Shard {
 
     /// Evict LRU tail until size <= capacity.
     void evict_lru() {
-        while (static_cast<int>(map.size()) > capacity && !lru.empty()) {
+        while (map.size() > capacity && !lru.empty()) {
             auto tail = lru.back();
             auto it = map.find(tail);
             if (it != map.end()) {
@@ -123,10 +123,10 @@ struct HKDFCache::Impl {
                                  size_t outlen)
     {
         std::string k = {};
-        k.reserve(static_cast<int>(ikm.size()) + 1 + static_cast<int>(salt.size()) + 1 + static_cast<int>(info.size()) + 1 + 8);
-        k.append(reinterpret_cast<const char*>(ikm.data()),static_cast<int>(ikm.size()));
+        k.reserve(ikm.size() + 1 + salt.size() + 1 + info.size() + 1 + 8);
+        k.append(reinterpret_cast<const char*>(ikm.data()),ikm.size());
         k.push_back('\x00');
-        k.append(reinterpret_cast<const char*>(salt.data()),static_cast<int>(salt.size()));
+        k.append(reinterpret_cast<const char*>(salt.data()),salt.size());
         k.push_back('\x00');
         k.append(info);
         k.push_back('\x00');
@@ -178,7 +178,7 @@ void HKDFCache::clear() {
         std::lock_guard<std::mutex> lk(s.mu);
         // Cleanse all cached key material before releasing memory.
         for (auto& [key, pair] : s.map) {
-            OPENSSL_cleanse(pair.second.value.data(),static_cast<int>(pair.second.value.size()));
+            OPENSSL_cleanse(pair.second.value.data(),pair.second.value.size());
         }
         s.lru.clear();
         s.map.clear();

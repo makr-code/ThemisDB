@@ -82,7 +82,7 @@ std::string SimplePromptCompressor::joinWords(
 SimplePromptCompressor::SimplePromptCompressor() {
     // Default GPT-2 approximation: 1 token ≈ 4 characters.
     token_estimator_ = [](const std::string& text) -> int {
-        const int estimate = static_cast<int>(text.size()) / 4;
+        const int estimate = text.size() / 4;
         return (estimate < 1 && !text.empty()) ? 1 : estimate;
     };
 
@@ -107,7 +107,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
         size_t pos = 0;
         const size_t len = omitted_text.size();
 
-        while (pos < len && static_cast<int>(summary.size()) < kMaxSummaryChars) {
+        while (pos < len && summary.size() < kMaxSummaryChars) {
             // Skip leading whitespace between sentences.
             while (pos < len && std::isspace(static_cast<unsigned char>(omitted_text[pos])))
                 ++pos;
@@ -119,7 +119,7 @@ SimplePromptCompressor::SimplePromptCompressor() {
             size_t end = omitted_text.find_first_of(".!?\n", pos);
             if (end == std::string::npos) {
                 // Last fragment — take what remains up to the budget.
-                const size_t avail = kMaxSummaryChars - static_cast<int>(summary.size()) ;
+                const size_t avail = kMaxSummaryChars - summary.size() ;
                 summary += omitted_text.substr(pos, avail);
                 pos = len;
             } else {
@@ -148,8 +148,8 @@ SimplePromptCompressor::SimplePromptCompressor() {
             summary = omitted_text.substr(0, kMaxSummaryChars);
         }
 
-        const bool truncated = (static_cast<int>(summary.size()) >= kMaxSummaryChars ||
-                                 static_cast<int>(omitted_text.size()) > static_cast<int>(summary.size()) + 10);
+        const bool truncated = (summary.size() >= kMaxSummaryChars ||
+                                 omitted_text.size() > summary.size() + 10);
         return "[summary: " + summary + (truncated ? "…" : "") + "]";
     };
 }
@@ -191,11 +191,11 @@ std::string SimplePromptCompressor::truncateHead(const std::string& prompt,
     const int target_words =
         static_cast<int>(budget * 4.0 / 5.0);  // chars / avg_word_len
 
-    if (static_cast<int>(words.size()) <= target_words) {
+    if (words.size() <= target_words) {
       return prompt;
     }
 
-    const int skip = static_cast<int>(words.size()) - target_words;
+    const int skip = words.size() - target_words;
     std::vector<std::string> kept(words.begin() + skip, words.end());
     return joinWords(kept);
 }
@@ -212,7 +212,7 @@ std::string SimplePromptCompressor::truncateTail(const std::string& prompt,
     }
 
     const int target_words = static_cast<int>(budget * 4.0 / 5.0);
-    if (static_cast<int>(words.size()) <= target_words) {
+    if (words.size() <= target_words) {
       return prompt;
     }
 
@@ -237,15 +237,15 @@ std::string SimplePromptCompressor::selectiveTrim(const std::string& prompt,
     // Identify system-prompt block (first paragraph if preserve_system).
     const size_t sys_end   = preserve_system ? 1 : 0;
     const size_t tail_start =
-        (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
+        (paragraphs.size() > preserve_turns)
+        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
         : 0;
 
     // Build result by starting with system + tail; fill in middle paragraphs
     // from the end until we exceed budget.
     std::vector<size_t> kept_indices = {};
 
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i)
+    for (size_t i = 0; i < sys_end  && i < paragraphs.size(); ++i)
         kept_indices.push_back(i);
     for (size_t i = std::max(sys_end, tail_start);
          i < paragraphs.size(); ++i)
@@ -283,8 +283,8 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     const size_t sys_end    = preserve_system ? 1 : 0;
     const size_t tail_start =
-        (static_cast<int>(paragraphs.size()) > preserve_turns)
-        ? static_cast<int>(paragraphs.size()) - static_cast<size_t>(preserve_turns)
+        (paragraphs.size() > preserve_turns)
+        ? paragraphs.size() - static_cast<size_t>(preserve_turns)
         : 0;
 
     // The "middle" is everything between sys_end and tail_start.
@@ -298,7 +298,7 @@ std::string SimplePromptCompressor::summarize(const std::string& prompt,
 
     // Build result: system + summary placeholder + tail
     std::string result = {};
-    for (size_t i = 0; i < sys_end  && static_cast<size_t>(i) <static_cast<int>(paragraphs.size()); ++i) {
+    for (size_t i = 0; i < sys_end  && i < paragraphs.size(); ++i) {
         if (!result.empty()) {
           result += "\n\n";
         }

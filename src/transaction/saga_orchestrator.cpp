@@ -27,7 +27,7 @@ namespace {
 
 std::string jsonEscape(const std::string& input) {
     std::string out = {};
-    out.reserve(static_cast<int>(input.size()) + 8);
+    out.reserve(input.size() + 8);
     for (char c : input) {
         switch (c) {
             case '\\': out += "\\\\"; break;
@@ -94,7 +94,7 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
     }
 
     const auto order = topologicalSort(saga);
-    if (static_cast<int>(order.size()) != static_cast<int>(saga.steps.size())) {
+    if (order.size() != saga.steps.size()) {
         return SagaOrchestratorStatus::Error("dependency cycle detected");
     }
 
@@ -211,7 +211,7 @@ std::vector<std::string> SAGAOrchestrator::topologicalSort(const SAGADefinition&
         }
     }
 
-    if (static_cast<int>(order.size()) != static_cast<int>(saga.steps.size())) {
+    if (order.size() != saga.steps.size()) {
         return {};
     }
     return order;
@@ -475,7 +475,7 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
         std::vector<std::pair<std::string, StepState>> results;
         results.reserve(wave.size());
 
-        if (allow_parallel && static_cast<int>(wave.size()) > 1) {
+        if (allow_parallel && wave.size() > 1) {
             std::vector<std::future<std::pair<std::string, StepState>>> futures;
             futures.reserve(wave.size());
             for (const auto& name : wave) {

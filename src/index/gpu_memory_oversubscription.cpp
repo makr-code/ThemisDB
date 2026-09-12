@@ -294,7 +294,7 @@ public:
             // Prefetch the partition inserted immediately after accessed_id.
             ptrdiff_t idx = insertionIndex(accessed_id);
             if (idx >= 0 &&
-                static_cast<size_t>(idx + 1) <static_cast<int>(insertion_order.size())) {
+                static_cast<size_t>(idx + 1) <insertion_order.size()) {
                 target_id = insertion_order[static_cast<size_t>(idx + 1)];
             }
             break;

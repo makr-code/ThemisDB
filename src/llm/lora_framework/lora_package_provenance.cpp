@@ -91,10 +91,10 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         return sha256Hex("");
     }
     // Pad to even number of leaves by duplicating the last one.
-    while (static_cast<int>(leaves.size()) > 1 && (leaves.size() % 2 != 0)) {
+    while (leaves.size() > 1 && (leaves.size() % 2 != 0)) {
         leaves.push_back(leaves.back());
     }
-    while (static_cast<int>(leaves.size()) > 1) {
+    while (leaves.size() > 1) {
         std::vector<std::string> next = {};
 
         next.reserve(leaves.size() / 2);
@@ -103,7 +103,7 @@ static std::string computeMerkleRoot(std::vector<std::string> leaves) {
         }
         leaves = std::move(next);
         // Pad again if needed.
-        if (static_cast<int>(leaves.size()) > 1 && (leaves.size() % 2 != 0)) {
+        if (leaves.size() > 1 && (leaves.size() % 2 != 0)) {
             leaves.push_back(leaves.back());
         }
     }

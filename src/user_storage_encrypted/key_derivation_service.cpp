@@ -74,9 +74,9 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
     std::vector<uint8_t> out(out_len, 0);
     const int rc = PKCS5_PBKDF2_HMAC(
         reinterpret_cast<const char*>(password.data()),
-        static_cast<int>(password.size()),
+        password.size(),
         salt.data(),
-        static_cast<int>(salt.size()),
+        salt.size(),
         static_cast<int>(kPbkdf2FallbackIterations),
         EVP_sha256(),
         static_cast<int>(out_len),
@@ -84,7 +84,7 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
     if (rc != 1) {
         // PKCS5_PBKDF2_HMAC only fails on invalid arguments (e.g. null EVP_MD);
         // zero the output and propagate to caller.
-        secureZero(out.data(),static_cast<int>(out.size()));
+        secureZero(out.data(),out.size());
         out.assign(out_len, 0);
     }
     return out;
@@ -151,8 +151,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
         kTimeCost,
         kMemoryCost,
         kParallelism,
-        master_key.data(),static_cast<int>(master_key.size()),
-        salt.data(),static_cast<int>(salt.size()),
+        master_key.data(),master_key.size(),
+        salt.data(),salt.size(),
         derived.data(),    kKeyLength
     );
 
@@ -174,8 +174,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const 
     std::vector<uint8_t> salt(kKeyLength, 0);
 
 #ifdef __linux__
-    ssize_t got = getrandom(salt.data(),static_cast<int>(salt.size()), 0);
-    if (got < 0 || static_cast<size_t>(got) != static_cast<int>(salt.size())) {
+    ssize_t got = getrandom(salt.data(),salt.size(), 0);
+    if (got < 0 || static_cast<size_t>(got) != salt.size()) {
         return Result<std::vector<uint8_t>>::error("getrandom() failed");
     }
 #elif defined(_WIN32)
@@ -271,7 +271,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     if (master_key.empty()) {
         throw std::invalid_argument("master_key must not be empty");
     }
-    if (static_cast<int>(salt.size()) < 8) {
+    if (salt.size() < 8) {
         throw std::invalid_argument("salt must be at least 8 bytes");
     }
 
@@ -279,14 +279,14 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     // This ensures domain separation between containers and users.
     std::vector<uint8_t> password = {};
 
-    password.reserve(static_cast<int>(master_key.size()) + static_cast<int>(user_id.size()) + static_cast<int>(container_id.size()) );
+    password.reserve(master_key.size() + user_id.size() + container_id.size() );
     password.insert(password.end(), master_key.begin(), master_key.end());
     password.insert(password.end(),
                     reinterpret_cast<const uint8_t*>(user_id.data()),
-                    reinterpret_cast<const uint8_t*>(user_id.data()) + static_cast<int>(user_id.size()) );
+                    reinterpret_cast<const uint8_t*>(user_id.data()) + user_id.size() );
     password.insert(password.end(),
                     reinterpret_cast<const uint8_t*>(container_id.data()),
-                    reinterpret_cast<const uint8_t*>(container_id.data()) + static_cast<int>(container_id.size()) );
+                    reinterpret_cast<const uint8_t*>(container_id.data()) + container_id.size() );
 
 #if THEMIS_HAS_ARGON2
     std::vector<uint8_t> derived_key(params_.output_len);
@@ -295,12 +295,12 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
         params_.iterations,
         params_.memory_kb,
         params_.parallelism,
-        password.data(),static_cast<int>(password.size()),
-        salt.data(),static_cast<int>(salt.size()),
-        derived_key.data(),static_cast<int>(derived_key.size())
+        password.data(),password.size(),
+        salt.data(),salt.size(),
+        derived_key.data(),derived_key.size()
     );
 
-    secureZero(password.data(),static_cast<int>(password.size()));
+    secureZero(password.data(),password.size());
 
     if (rc != ARGON2_OK) {
         throw std::runtime_error(
@@ -311,7 +311,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     return derived_key;
 #else
     auto derived = deriveFallbackPbkdf2(password, salt, params_.output_len, params_.iterations);
-    secureZero(password.data(),static_cast<int>(password.size()));
+    secureZero(password.data(),password.size());
     return derived;
 #endif
 }

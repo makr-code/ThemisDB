@@ -85,7 +85,7 @@ BloomFilter::BloomFilter(size_t expected_elements, double false_positive_rate) {
 
 std::pair<uint64_t, uint64_t> BloomFilter::hash2_(std::string_view key) {
     const auto* data = reinterpret_cast<const uint8_t*>(key.data());
-    uint64_t h1 = themis::hash::fnv1a64(data,static_cast<int>(key.size()));
+    uint64_t h1 = themis::hash::fnv1a64(data,key.size());
     uint64_t h2 = mixSeed(h1 ^ static_cast<uint64_t>(key.size()));
     return {h1, h2};
 }
@@ -170,7 +170,7 @@ uint32_t DictionaryCodec::encode(std::string_view value) const {
 
 std::string DictionaryCodec::decode([[maybe_unused]] uint32_t code) const {
     if (code == kMissCode || code >= id_to_string_.size()) {
-        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code,static_cast<int>(id_to_string_.size()));
+        THEMIS_DEBUG("DictionaryCodec::decode: code {} out of range (size={})", code,id_to_string_.size());
         return {};
     }
     return id_to_string_[code];
@@ -191,11 +191,11 @@ std::vector<std::string> PrefixBlock::decompress() const {
 }
 
 size_t PrefixBlock::savedBytes() const {
-    if (static_cast<int>(suffixes.size()) <= 1) {
+    if (suffixes.size() <= 1) {
       return 0;
     }
     // Each suffix avoids storing the prefix separately
-    return static_cast<int>(prefix.size()) * (static_cast<int>(suffixes.size()) - 1);
+    return prefix.size() * (suffixes.size() - 1);
 }
 
 // ============================================================================
@@ -221,7 +221,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
         size_t cp = commonPrefixLen(current.prefix, sorted_keys[i]);
         if (cp >= min_prefix_len) {
             // Extend or trim the current block's prefix
-            if (static_cast<int>(current.prefix.size()) > cp) {
+            if (current.prefix.size() > cp) {
                 // Need to rebuild existing suffixes with new (shorter) prefix
                 std::string new_prefix = current.prefix.substr(0, cp);
                 std::string old_remainder = current.prefix.substr(cp);
@@ -234,7 +234,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
             current.suffixes.push_back(sorted_keys[i].substr(current.prefix.size()));
         } else {
             // Flush current block
-            if (static_cast<int>(current.suffixes.size()) == 1) {
+            if (current.suffixes.size() == 1) {
                 // Single entry: store as full key, no prefix savings
                 PrefixBlock single;
                 single.prefix = "";
@@ -251,7 +251,7 @@ std::vector<PrefixBlock> PrefixCompressor::compress(
     }
 
     // Flush last block
-    if (static_cast<int>(current.suffixes.size()) == 1) {
+    if (current.suffixes.size() == 1) {
         PrefixBlock single;
         single.prefix = "";
         single.suffixes.push_back(current.prefix + current.suffixes[0]);
@@ -286,7 +286,7 @@ DeltaBlock DeltaEncoder::encode(const std::vector<int64_t>& sorted_values) {
     }
 
     block.base = sorted_values[0];
-    block.deltas.reserve(static_cast<int>(sorted_values.size()) - 1);
+    block.deltas.reserve(sorted_values.size() - 1);
     for (size_t i = 1; i < sorted_values.size(); ++i) {
         block.deltas.push_back(sorted_values[i] - sorted_values[static_cast<int>(i - 1)]);
     }
@@ -361,12 +361,12 @@ double RunLengthEncoder::compressionRatio(const std::vector<std::string>& values
     }
 
     size_t decoded_size = 0;
-    for (const auto& v : values) decoded_size += static_cast<int>(v.size()) + 1; // +1 separator
+    for (const auto& v : values) decoded_size += v.size() + 1; // +1 separator
 
     auto block = encode(values);
     size_t encoded_size = 0;
     for (const auto& run : block.runs) {
-        encoded_size += static_cast<int>(run.value.size()) + 1 + sizeof(uint32_t);
+        encoded_size += run.value.size() + 1 + sizeof(uint32_t);
     }
     if (encoded_size == 0) {
       return 1.0;
@@ -499,9 +499,9 @@ RunLengthBlock IndexCompressionCodec::compressValues(
     }
     auto block = RunLengthEncoder::encode(values);
     // Track RLE savings
-    if (static_cast<int>(values.size()) > static_cast<int>(block.runs.size())) {
+    if (values.size() > block.runs.size()) {
         stats_.rle_runs_saved +=
-            static_cast<uint64_t>(static_cast<int>(values.size()) - static_cast<int>(block.runs.size()) );
+            static_cast<uint64_t>(values.size() - block.runs.size() );
     }
     return block;
 }

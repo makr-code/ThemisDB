@@ -95,7 +95,7 @@ std::string ExternalSchedulerAdapter::toK8sName(const std::string& name) {
         }
     }
     // Truncate to 52 characters
-    if (static_cast<int>(collapsed.size()) > 52) {
+    if (collapsed.size() > 52) {
         collapsed = collapsed.substr(0, 52);
         // Remove trailing hyphen after truncation
         while (!collapsed.empty() && collapsed.back() == '-') {
@@ -453,9 +453,9 @@ std::string ExternalSchedulerAdapter::toAirflowDagPython(
 
     if (!config.tags.empty()) {
         py << "    tags=[";
-        for (size_t i = 0; i <static_cast<int>(config.tags.size()); ++i) {
+        for (size_t i = 0; i <config.tags.size(); ++i) {
             py << "'" << pyStringEscape(config.tags[i]) << "'";
-            if (i + 1 <static_cast<int>(config.tags.size())) py << ", ";
+            if (i + 1 <config.tags.size()) py << ", ";
         }
         py << "],\n";
     }

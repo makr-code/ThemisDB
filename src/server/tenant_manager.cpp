@@ -81,7 +81,7 @@ std::string TenantManager::normaliseDomain(std::string_view host) {
     std::string result(host);
     const auto colon = result.rfind(':');
     if (colon != std::string::npos) {
-        const std::size_t suffix_len = static_cast<int>(result.size()) - colon - 1;
+        const std::size_t suffix_len = result.size() - colon - 1;
         if (suffix_len >= 1 && suffix_len <= 5) {
             const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
                                              result.end(),
@@ -131,7 +131,7 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
     }
     
     // Check global tenant limit
-    if (static_cast<int>(tenants_.size()) >= config_.global_max_tenants) {
+    if (tenants_.size() >= config_.global_max_tenants) {
         THEMIS_WARN("TenantManager: Global tenant limit ({}) reached", config_.global_max_tenants);
         return CreateResult::QuotaExceeded;
     }
@@ -314,7 +314,7 @@ bool TenantManager::tenantExists(std::string_view tenant_id) const {
 /** @brief Return number of configured tenants. */
 size_t TenantManager::getTenantCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(tenants_.size());
+    return tenants_.size();
 }
 
 /**
@@ -740,12 +740,12 @@ std::string TenantManager::getMetrics() const {
     
     oss << "# HELP themis_tenant_count Total number of tenants\n";
     oss << "# TYPE themis_tenant_count gauge\n";
-    oss << "themis_tenant_count " <<static_cast<int>(tenants_.size()) << "\n\n";
+    oss << "themis_tenant_count " <<tenants_.size() << "\n\n";
     
     for (const auto& [id, usage] : usage_) {
         // Escape label value safely using a new string
         std::string tid = {};
-        tid.reserve(static_cast<int>(id.size()) + 4);  // Reserve some extra space for escapes
+        tid.reserve(id.size() + 4);  // Reserve some extra space for escapes
         for (char c : id) {
             if (c == '"' || c == '\\') {
                 tid += '\\';

@@ -96,7 +96,7 @@ std::vector<json> TextProcessor::chunk(const ExtractionResult &extraction_result
         json chunk = {{"text", text},
                       {"seq_num", 0},
                       {"start_offset", 0},
-                      {"end_offset", static_cast<int>(text.size())},
+                      {"end_offset", text.size()},
                       {"token_count", countTokens(text)}};
         chunks.push_back(chunk);
         return chunks;
@@ -368,10 +368,10 @@ std::vector<std::string> TextProcessor::splitIntoSentences(const std::string &te
     // Build 3-word shingles (fall back to unigrams for very short texts)
     std::vector<std::string> shingles = {};
 
-    if (static_cast<int>(words.size()) < 3) {
+    if (words.size() < 3) {
         shingles = words;
     } else {
-        shingles.reserve(static_cast<int>(words.size()) - 2);
+        shingles.reserve(words.size() - 2);
         for (size_t i = 0; i + 3 <= words.size(); ++i) {
             shingles.push_back(words[i] + " " + words[i + 1] + " " + words[i + 2]);
         }

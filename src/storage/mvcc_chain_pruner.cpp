@@ -185,7 +185,7 @@ themisdb::temporal::Document MVCCChainPruner::valueToDocument(
     if (!raw.empty()) {
         const auto* cbegin = reinterpret_cast<const char*>(raw.data());
         try {
-            return nlohmann::json::parse(cbegin, cbegin + static_cast<int>(raw.size()) );
+            return nlohmann::json::parse(cbegin, cbegin + raw.size() );
         } catch (const nlohmann::json::exception&) {
             // Fall through: encode as hex string.
         }

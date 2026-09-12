@@ -151,14 +151,14 @@ json FederatedImportCoordinator::FederatedAggregator::aggregateUpdates(const std
                 std::sort(values.begin(), values.end());
                 size_t mid = values.size() / 2;
                 aggregated[key] = values.size() % 2 == 0 ? (values[static_cast<int>(mid - 1)] + values[mid]) / 2.0 : values[mid];
-            } else if (aggregation_algorithm == "trimmed_mean" && static_cast<int>(values.size()) >= 3) {
+            } else if (aggregation_algorithm == "trimmed_mean" && values.size() >= 3) {
                 std::sort(values.begin(), values.end());
                 // trim one min and one max when possible (Byzantine-robust default)
                 double trimmed_sum = 0.0;
                 for (std::size_t i = 1; i + 1 < values.size(); ++i) {
                     trimmed_sum += values[i];
                 }
-                aggregated[key] = trimmed_sum / static_cast<double>(static_cast<int>(values.size()) - 2);
+                aggregated[key] = trimmed_sum / static_cast<double>(values.size() - 2);
             } else {
                 aggregated[key] = sum / cnt; // FedAvg
             }
@@ -236,7 +236,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::maskGr
     const std::vector<double>& gradient,
     const std::string& participant_id,
     const std::string& round_id) const {
-    const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(gradient.size()));
+    const auto mask = buildDeterministicMask(participant_id, round_id,gradient.size());
     std::vector<double> out = {};
 
     out.reserve(gradient.size());
@@ -252,7 +252,7 @@ std::vector<double> FederatedImportCoordinator::SecureAggregationManager::unmask
     const std::string& round_id) const {
     std::vector<double> out = masked_sum;
     for (const auto& participant_id : participant_ids) {
-        const auto mask = buildDeterministicMask(participant_id, round_id,static_cast<int>(out.size()));
+        const auto mask = buildDeterministicMask(participant_id, round_id,out.size());
         for (std::size_t i = 0; i < out.size(); ++i) {
             out[i] -= mask[i];
         }
@@ -285,7 +285,7 @@ FederatedImportCoordinator::FederatedTrainingCoordinator::aggregateRound(
         return result;
     }
     for (const auto& upd : updates) {
-        if (static_cast<int>(upd.gradient.size()) != dims) {
+        if (upd.gradient.size() != dims) {
             throw std::invalid_argument("All participant gradients must share identical dimensions");
         }
     }

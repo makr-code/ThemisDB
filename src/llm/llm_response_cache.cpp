@@ -164,7 +164,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     }
     
     // Enforce max_entries limit (LRU eviction)
-    if (static_cast<int>(response_store_.size()) > config_.max_entries) {
+    if (response_store_.size() > config_.max_entries) {
         // Find oldest entry
         auto oldest_it = response_store_.end();
         std::chrono::system_clock::time_point oldest_time = std::chrono::system_clock::now();
@@ -326,11 +326,11 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
             if (entry_words.count(w)) {
               intersect++;
             }
-            if (entry_words.count(w) && static_cast<int>(w.size()) >= 4 && !stopwords.count(w)) {
+            if (entry_words.count(w) && w.size() >= 4 && !stopwords.count(w)) {
                 meaningful_overlap++;
             }
         }
-        size_t uni = static_cast<int>(query_words.size()) + static_cast<int>(entry_words.size()) - intersect;
+        size_t uni = query_words.size() + entry_words.size() - intersect;
         float jaccard = uni ? static_cast<float>(intersect) / static_cast<float>(uni) : 0.0f;
 
         if ((dot > best_similarity || (std::abs(dot - best_similarity) < 1e-5 && jaccard > best_jaccard))) {
@@ -451,7 +451,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.embedding_fn(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
+                if (embedding.size() != config_.embedding_dim) {
                     THEMIS_DEBUG("Custom embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);
@@ -470,7 +470,7 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
             auto embedding = config_.llm_ptr->embed(prompt);
             if (!embedding.empty()) {
                 // Validate and adjust dimension if needed
-                if (static_cast<int>(embedding.size()) != config_.embedding_dim) {
+                if (embedding.size() != config_.embedding_dim) {
                     THEMIS_DEBUG("LLM embedding dimension mismatch: {} vs {}, adjusting",
                                 embedding.size(), config_.embedding_dim);
                     embedding.resize(config_.embedding_dim, 0.0f);

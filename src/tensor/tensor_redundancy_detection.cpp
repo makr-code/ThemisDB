@@ -63,7 +63,7 @@ RedundancyMetrics SimilarityBasedDetector::detect(
     metrics.total_candidates = summaries.size();
     metrics.similarity_threshold = threshold;
 
-    if (static_cast<int>(summaries.size()) < 2) {
+    if (summaries.size() < 2) {
         metrics.redundant_count = 0;
         metrics.unique_count = summaries.size();
         metrics.redundancy_ratio = 0.0f;
@@ -122,7 +122,7 @@ std::vector<std::size_t> SimilarityBasedDetector::deduplicate(
 
     // Remove items at marked indices
     for (size_t idx : removed_indices) {
-        if (static_cast<int>(summaries.size()) > idx) {
+        if (summaries.size() > idx) {
             summaries.erase(summaries.begin() + static_cast<ptrdiff_t>(idx));
         }
     }
@@ -200,7 +200,7 @@ std::vector<std::size_t> ContentHashDetector::deduplicate(
     // Remove in reverse order
     std::sort(removed_indices.rbegin(), removed_indices.rend());
     for (size_t idx : removed_indices) {
-        if (static_cast<int>(summaries.size()) > idx) {
+        if (summaries.size() > idx) {
             summaries.erase(summaries.begin() + static_cast<ptrdiff_t>(idx));
         }
     }
@@ -358,7 +358,7 @@ std::vector<std::size_t> MetadataBasedDetector::deduplicate(
 
     std::sort(removed_indices.rbegin(), removed_indices.rend());
     for (size_t idx : removed_indices) {
-        if (static_cast<int>(summaries.size()) > idx) {
+        if (summaries.size() > idx) {
             summaries.erase(summaries.begin() + static_cast<ptrdiff_t>(idx));
         }
     }

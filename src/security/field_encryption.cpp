@@ -109,15 +109,15 @@ static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     if (data.empty()) {
         return {};
     }
-    if (static_cast<int>(data.size()) > static_cast<size_t>(INT_MAX)) {
+    if (data.size() > static_cast<size_t>(INT_MAX)) {
         throw std::runtime_error("fieldBase64Encode: input too large");
     }
 
-    std::string encoded(4 * ((static_cast<int>(data.size()) + 2) / 3), '\0');
+    std::string encoded(4 * ((data.size() + 2) / 3), '\0');
     int encoded_len = EVP_EncodeBlock(
         reinterpret_cast<unsigned char*>(encoded.data()),
         data.data(),
-        static_cast<int>(data.size()));
+        data.size());
     if (encoded_len < 0) {
         throw std::runtime_error("fieldBase64Encode: EVP_EncodeBlock failed");
     }
@@ -129,7 +129,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     if (encoded_string.empty()) {
         return {};
     }
-    if (encoded_string.size() % 4 != 0 || static_cast<int>(encoded_string.size()) > static_cast<size_t>(INT_MAX)) {
+    if (encoded_string.size() % 4 != 0 || encoded_string.size() > static_cast<size_t>(INT_MAX)) {
         return {};
     }
 
@@ -137,7 +137,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     int decoded_len = EVP_DecodeBlock(
         decoded.data(),
         reinterpret_cast<const unsigned char*>(encoded_string.data()),
-        static_cast<int>(encoded_string.size()));
+        encoded_string.size());
     if (decoded_len < 0) {
         return {};
     }
@@ -145,7 +145,7 @@ static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string)
     size_t padding = 0;
     if (!encoded_string.empty() && encoded_string.back() == '=') {
         padding++;
-        if (static_cast<int>(encoded_string.size()) > 1 && encoded_string[encoded_string.size() - 2] == '=') {
+        if (encoded_string.size() > 1 && encoded_string[encoded_string.size() - 2] == '=') {
             padding++;
         }
     }
@@ -181,7 +181,7 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
         parts.push_back(part);
     }
     
-    if (static_cast<int>(parts.size()) != 5) {
+    if (parts.size() != 5) {
         throw std::runtime_error("Invalid EncryptedBlob format: expected 5 parts, got " + std::to_string(parts.size()));
     }
     
@@ -279,7 +279,7 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
 
 #if THEMIS_HAS_TBB
     if (do_parallel) {
-        tbb::parallel_for(tbb::blocked_range<size_t>(0,static_cast<int>(items.size())), [&](const tbb::blocked_range<size_t>& r) {
+        tbb::parallel_for(tbb::blocked_range<size_t>(0,items.size()), [&](const tbb::blocked_range<size_t>& r) {
             for (size_t i = r.begin(); i != r.end(); ++i) {
                 process_item(i);
             }
@@ -520,7 +520,7 @@ std::string FieldEncryption::decryptWithKey(const EncryptedBlob& blob,
 std::vector<uint8_t> FieldEncryption::generateIV() const {
     std::vector<uint8_t> iv(12);  // 96 bits for GCM
     
-    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
+    if (RAND_bytes(iv.data(), iv.size()) != 1) {
         throw EncryptionException("Failed to generate random IV");
     }
     
@@ -531,7 +531,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
                                                 const std::string& key_id,
                                                 uint32_t key_version,
                                                 const std::vector<uint8_t>& key) {
-    if (static_cast<int>(key.size()) != 32) {
+    if (key.size() != 32) {
         throw EncryptionException("Key must be 32 bytes (256 bits)");
     }
     
@@ -562,9 +562,9 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     // Encrypt plaintext
-    blob.ciphertext.resize(static_cast<int>(plaintext.size()) + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
+    blob.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
     int len = 0;
-    if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+    if (EVP_EncryptUpdate(ctx.get(), blob.ciphertext.data(), &len, plaintext.data(), plaintext.size()) != 1) {
         throw EncryptionException("Encryption failed");
     }
     int ciphertext_len = len;
@@ -583,7 +583,7 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
     }
     
     THEMIS_INFO("encryptInternal: key_id={}, key_ver={}, iv_len={}, ciphertext_len={}, tag_len={}",
-                blob.key_id, blob.key_version,static_cast<int>(blob.iv.size()),static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()));
+                blob.key_id, blob.key_version,blob.iv.size(),blob.ciphertext.size(),blob.tag.size());
     // Write debug dump (best-effort, opt-in via THEMIS_DEBUG_ENC_DIR env var)
     write_debug_dump("encrypt", blob, true);
 
@@ -592,15 +592,15 @@ EncryptedBlob FieldEncryption::encryptInternal(const std::vector<uint8_t>& plain
 
 std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
                                                        const std::vector<uint8_t>& key) {
-    if (static_cast<int>(key.size()) != 32) {
+    if (key.size() != 32) {
         throw DecryptionException("Key must be 32 bytes (256 bits)");
     }
     
-    if (static_cast<int>(blob.iv.size()) != 12) {
+    if (blob.iv.size() != 12) {
         throw DecryptionException("IV must be 12 bytes");
     }
     
-    if (static_cast<int>(blob.tag.size()) != 16) {
+    if (blob.tag.size() != 16) {
         throw DecryptionException("Tag must be 16 bytes");
     }
     
@@ -628,7 +628,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
     // Decrypt ciphertext
     std::vector<uint8_t> plaintext(blob.ciphertext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
     int len = 0;
-    if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, blob.ciphertext.data(), static_cast<int>(blob.ciphertext.size())) != 1) {
+    if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &len, blob.ciphertext.data(), blob.ciphertext.size()) != 1) {
         throw DecryptionException("Decryption failed");
     }
     int plaintext_len = len;
@@ -640,7 +640,7 @@ std::vector<uint8_t> FieldEncryption::decryptInternal(const EncryptedBlob& blob,
     
     // Finalize decryption (verifies authentication tag)
     THEMIS_DEBUG("decryptInternal: key_id={}, key_ver={}, ciphertext_len={}, tag_len={}, iv_len={}, key_len={}",
-                blob.key_id, blob.key_version,static_cast<int>(blob.ciphertext.size()),static_cast<int>(blob.tag.size()),static_cast<int>(blob.iv.size()),static_cast<int>(key.size()));
+                blob.key_id, blob.key_version,blob.ciphertext.size(),blob.tag.size(),blob.iv.size(),key.size());
     int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + len, &len);
     if (ret <= 0) {
         // write debug dump showing failure (opt-in via THEMIS_DEBUG_ENC_DIR)

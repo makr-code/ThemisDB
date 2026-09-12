@@ -88,7 +88,7 @@ private:
     // Compute SHA256 hash
     static std::string computeSHA256(const std::vector<uint8_t>& data) {
         unsigned char hash[SHA256_DIGEST_LENGTH];
-        SHA256(data.data(),static_cast<int>(data.size()), hash);
+        SHA256(data.data(),data.size(), hash);
         
         std::stringstream ss = {};
         for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
@@ -142,7 +142,7 @@ public:
         // Enforce HTTPS scheme — reject anything that is not an https:// URL to
         // prevent data in transit from being sent without encryption on any
         // code path (not only plain http://, but also ftp://, ws://, etc.).
-        if (static_cast<int>(base_url_.size()) < 8 || base_url_.substr(0, 8) != "https://") {
+        if (base_url_.size() < 8 || base_url_.substr(0, 8) != "https://") {
             THEMIS_ERROR("WebDAVBlobBackend: non-HTTPS URL rejected: {}. "
                          "Use an https:// endpoint.", base_url_);
             throw std::invalid_argument(
@@ -225,7 +225,7 @@ public:
             ).count();
             
             THEMIS_DEBUG("WebDAVBlobBackend: Stored blob {} ({} bytes) at {}", 
-                blob_id,static_cast<int>(data.size()), url);
+                blob_id,data.size(), url);
             
             return Ok(ref);
             
@@ -293,7 +293,7 @@ public:
             }
             
             THEMIS_DEBUG("WebDAVBlobBackend: Retrieved blob {} ({} bytes)", 
-                ref.id,static_cast<int>(data.size()));
+                ref.id,data.size());
             
             return Ok(data);
             

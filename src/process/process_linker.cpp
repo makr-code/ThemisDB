@@ -240,7 +240,7 @@ bool ProcessLinker::detachObject(std::string_view attachment_id) {
     // attachment_id format: "attach:<instance_id>:<object_id>"
     // Reconstruct the RocksDB primary key: "proc:attach:<instance_id>:<object_id>"
     std::string sid(attachment_id);
-    if (static_cast<int>(sid.size()) > 7 && sid.substr(0, 7) == "attach:") {
+    if (sid.size() > 7 && sid.substr(0, 7) == "attach:") {
         sid = "proc:" + sid;
     }
 
@@ -345,7 +345,7 @@ std::vector<std::string> ProcessLinker::findInstancesWithObject(
 
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) -> bool {
         // The instance_id is the suffix after the prefix.
-        if (static_cast<int>(key.size()) > static_cast<int>(prefix.size())) {
+        if (key.size() > prefix.size()) {
             instances.emplace_back(key.substr(prefix.size()));
         }
         return true;
@@ -849,7 +849,7 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
                 // Log and create diagnostic for corrupted link document
                 SPDLOG_WARN("[process_linker] cleanupOrphanedLinks: JSON parse error while scanning: {}", e.what());
                 DiagnosticContext ctx;
-                ctx.recordResourceMetric("target_link_id",static_cast<int>(link_id.size()));
+                ctx.recordResourceMetric("target_link_id",link_id.size());
                 ctx.setRemediationSuggestion("A stored link document could not be parsed as JSON during cleanup. "
                                             "This indicates data corruption. Check database integrity.");
                 auto incident = ProcessDiagnostics::createLinkingIncident(

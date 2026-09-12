@@ -146,7 +146,7 @@ std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
 }
 
 float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
         return 0.0f;
     }
     float dot = 0.0f;
@@ -164,7 +164,7 @@ float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
 }
 
 float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& vq, float scale) {
-    if (q.empty() || vq.empty() || static_cast<int>(q.size()) != static_cast<int>(vq.size()) || scale <= 0.0f) {
+    if (q.empty() || vq.empty() || q.size() != vq.size() || scale <= 0.0f) {
         return 0.0f;
     }
     float dot = 0.0f;
@@ -265,7 +265,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
 
                 doc.content_type = "text/markdown";
                 doc.text_content = chunk_json.value("text", "");
-                doc.content_length = chunk_json.value("token_count", static_cast<int>(doc.text_content.size()));
+                doc.content_length = chunk_json.value("token_count", doc.text_content.size());
 
                 doc.metadata = {
                     {"chunk_id", chunk_json.value("chunk_id", "")},
@@ -451,7 +451,7 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
                   return a.relevance_score > b.relevance_score;
               });
 
-    if (static_cast<int>(scored_docs.size()) > static_cast<size_t>(max_results)) {
+    if (scored_docs.size() > static_cast<size_t>(max_results)) {
         scored_docs.resize(max_results);
     }
     
@@ -499,7 +499,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
             RAGContext rag_context;
             rag_context.query = query;
             rag_context.collection_name = "docs-assistant";
-            rag_context.top_k = static_cast<int>(context_docs.size());
+            rag_context.top_k = context_docs.size();
             rag_context.max_context_tokens = 4096;
             rag_context.response_budget_tokens = 512;
 
@@ -556,7 +556,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
         if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
             std::string safe_prompt = fallback_prompt.str();
-            if (static_cast<int>(safe_prompt.size()) > 6000) {
+            if (safe_prompt.size() > 6000) {
                 safe_prompt.resize(6000);
             }
             spdlog::info(
@@ -586,7 +586,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
 
                 if (EmbeddedLLMManager::instance().isInitialized()) {
                     std::string safe_prompt = fallback_prompt.str();
-                    if (static_cast<int>(safe_prompt.size()) > 6000) {
+                    if (safe_prompt.size() > 6000) {
                         safe_prompt.resize(6000);
                     }
                     return THEMIS_LLM_GENERATE(safe_prompt);
@@ -599,7 +599,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         {
             InferenceRequest req;
             req.prompt = fallback_prompt.str();
-            if (static_cast<int>(req.prompt.size()) > 6000) {
+            if (req.prompt.size() > 6000) {
                 req.prompt.resize(6000);
             }
             if (!impl_->config.llm_model_id.empty()) {

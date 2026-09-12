@@ -319,7 +319,7 @@ nlohmann::json ColumnLineageTracker::exportAllLineage() const {
 
 size_t ColumnLineageTracker::totalEntryCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(all_entries_.size());
+    return all_entries_.size();
 }
 
 } // namespace metadata

@@ -738,12 +738,12 @@ bool RocksDBWrapper::open() {
                          (std::string(sharding_enabled) == "true" || 
                           std::string(sharding_enabled) == "1");
     
-    if (sharding_mode && static_cast<int>(cf_descriptors.size()) > 1) {
+    if (sharding_mode && cf_descriptors.size() > 1) {
         THEMIS_WARN("[CONFIG] THEMIS_ENABLE_SHARDING=1: non-default column families will be dropped. "
                     "This is a destructive operation. Ensure this is intentional and authorized. "
                     "All non-default column family data will be inaccessible until re-created.");
         THEMIS_WARN("[AUDIT] Sharding mode detected: opening only default column family to prevent MVCC deadlock. "
-                    "Non-default CFs dropped: count={}", static_cast<int>(cf_descriptors.size()) - 1);
+                    "Non-default CFs dropped: count={}", cf_descriptors.size() - 1);
         // Keep only the default CF
         cf_descriptors.erase(
             std::remove_if(cf_descriptors.begin(), cf_descriptors.end(),
@@ -794,9 +794,9 @@ bool RocksDBWrapper::open() {
     // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
     {
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
-        cf_handles_.reserve(static_cast<int>(cf_handles_.size()) + static_cast<int>(cf_handles.size()) );
+        cf_handles_.reserve(cf_handles_.size() + cf_handles.size() );
         // Store column family handles
-        // When sharding mode filtered CFs,static_cast<int>(cf_handles.size()) == static_cast<int>(cf_descriptors.size())
+        // When sharding mode filtered CFs,cf_handles.size() == cf_descriptors.size()
         for (size_t i = 0; i < cf_handles.size(); ++i) {
             // All remaining CFs (after sharding filter) are stored
             cf_handles_.emplace_back(cf_handles[i]);
@@ -805,10 +805,10 @@ bool RocksDBWrapper::open() {
     
     // Log actual CF count opened (not original cf_names.size())
     THEMIS_INFO("Opened RocksDB TransactionDB at: {} (MVCC enabled, {} column families opened)", 
-                config_.db_path,static_cast<int>(cf_descriptors.size()));
-    if (sharding_mode && static_cast<int>(cf_descriptors.size()) <static_cast<int>(cf_names.size())) {
+                config_.db_path,cf_descriptors.size());
+    if (sharding_mode && cf_descriptors.size() <cf_names.size()) {
         THEMIS_INFO("  (Sharding mode: {} additional CFs deferred for cluster initialization)", 
-                    static_cast<int>(cf_names.size()) - static_cast<int>(cf_descriptors.size()) );
+                    cf_names.size() - cf_descriptors.size() );
     }
     return true;
 }
@@ -895,7 +895,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
     }
     
     std::string value = {};
-    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(),static_cast<int>(key.size())), &value);
+    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(),key.size()), &value);
     
     if (status.ok()) {
         return std::vector<uint8_t>(value.begin(), value.end());
@@ -909,7 +909,7 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
       return false;
     }
     std::string value = {};
-    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(),static_cast<int>(key.size())), &value);
+    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(),key.size()), &value);
     if (status.ok()) {
         out = std::move(value);
         return true;
@@ -1045,9 +1045,9 @@ namespace {
 // Returns the internal manifest key for a logical blob key.
 inline std::string blobManifestKey(std::string_view key) {
     std::string mk = {};
-    mk.reserve(10 + static_cast<int>(key.size()) );
+    mk.reserve(10 + key.size() );
     mk.append("__tmbs_m__:");
-    mk.append(key.data(),static_cast<int>(key.size()));
+    mk.append(key.data(),key.size());
     return mk;
 }
 
@@ -1060,9 +1060,9 @@ inline std::string blobChunkKey(std::string_view key, uint32_t idx) {
     }
 
     std::string ck = {};
-    ck.reserve(10 + static_cast<int>(key.size()) + 7);
+    ck.reserve(10 + key.size() + 7);
     ck.append("__tmbs_c__:");
-    ck.append(key.data(),static_cast<int>(key.size()));
+    ck.append(key.data(),key.size());
     ck.push_back(':');
     ck.append(buf, static_cast<std::size_t>(written));
     return ck;
@@ -1118,7 +1118,7 @@ bool RocksDBWrapper::putBlob(std::string_view key, const std::vector<uint8_t>& d
 
     // Small blobs: fall back to regular transactional put (backward compatible).
     if (!config_.enable_blob_streaming ||
-        static_cast<int>(data.size()) < config_.blob_streaming_threshold_bytes) {
+        data.size() < config_.blob_streaming_threshold_bytes) {
         return put(key, data);
     }
 
@@ -1241,7 +1241,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::getBlob(std::string_view key
     rocksdb::Status ms = db_->Get(
         *read_options_, rocksdb::Slice(mk), &manifest_raw);
 
-    if (ms.ok() && static_cast<int>(manifest_raw.size()) == 20) {
+    if (ms.ok() && manifest_raw.size() == 20) {
         // Decode manifest using explicit little-endian helpers (R-6).
         const auto* raw = reinterpret_cast<const uint8_t*>(manifest_raw.data());
         uint32_t num_chunks = readLE32(raw);
@@ -1312,7 +1312,7 @@ bool RocksDBWrapper::delBlob(std::string_view key) {
     rocksdb::Status ms =
         db_->Get(*read_options_, rocksdb::Slice(mk), &manifest_raw);
 
-    if (ms.ok() && static_cast<int>(manifest_raw.size()) == 20) {
+    if (ms.ok() && manifest_raw.size() == 20) {
         uint32_t num_chunks = 0;
         std::memcpy(&num_chunks, manifest_raw.data(), 4);
 
@@ -1366,7 +1366,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     
     for (size_t i = 0; i < keys.size(); ++i) {
         // Prefetch upcoming values at stride intervals to avoid redundant prefetch
-        if (config_.enable_cpu_prefetch && static_cast<int>(keys.size()) >= config_.prefetch_min_batch_size) {
+        if (config_.enable_cpu_prefetch && keys.size() >= config_.prefetch_min_batch_size) {
             // Prefetch multiple items ahead based on prefetch_distance
             // Initialize to current position (i) to handle edge case where no valid
             // prefetches occur (e.g., all upcoming values are empty or have failed status)
@@ -1409,13 +1409,13 @@ RocksDBWrapper::WriteBatchWrapper::~WriteBatchWrapper() = default;
 
 void RocksDBWrapper::WriteBatchWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     batch_->Put(
-        rocksdb::Slice(key.data(),static_cast<int>(key.size())),
-        rocksdb::Slice(reinterpret_cast<const char*>(value.data()),static_cast<int>(value.size()))
+        rocksdb::Slice(key.data(),key.size()),
+        rocksdb::Slice(reinterpret_cast<const char*>(value.data()),value.size())
     );
 }
 
 void RocksDBWrapper::WriteBatchWrapper::del(std::string_view key) {
-    batch_->Delete(rocksdb::Slice(key.data(),static_cast<int>(key.size())));
+    batch_->Delete(rocksdb::Slice(key.data(),key.size()));
 }
 
 bool RocksDBWrapper::WriteBatchWrapper::commit() {
@@ -1443,13 +1443,13 @@ RocksDBWrapper::WriteBatchWithIndexWrapper::~WriteBatchWithIndexWrapper() = defa
 
 void RocksDBWrapper::WriteBatchWithIndexWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     batch_->Put(
-        rocksdb::Slice(key.data(),static_cast<int>(key.size())),
-        rocksdb::Slice(reinterpret_cast<const char*>(value.data()),static_cast<int>(value.size()))
+        rocksdb::Slice(key.data(),key.size()),
+        rocksdb::Slice(reinterpret_cast<const char*>(value.data()),value.size())
     );
 }
 
 void RocksDBWrapper::WriteBatchWithIndexWrapper::del(std::string_view key) {
-    batch_->Delete(rocksdb::Slice(key.data(),static_cast<int>(key.size())));
+    batch_->Delete(rocksdb::Slice(key.data(),key.size()));
 }
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatch(std::string_view key) const {
@@ -1460,7 +1460,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
     std::string value = {};
     rocksdb::Status status = batch_->GetFromBatch(
         *db_->options_,
-        rocksdb::Slice(key.data(),static_cast<int>(key.size())),
+        rocksdb::Slice(key.data(),key.size()),
         &value
     );
     
@@ -1479,7 +1479,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
     rocksdb::Status status = batch_->GetFromBatchAndDB(
         db_->db_.get(),
         *db_->read_options_,
-        rocksdb::Slice(key.data(),static_cast<int>(key.size())),
+        rocksdb::Slice(key.data(),key.size()),
         &value
     );
     
@@ -1604,7 +1604,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
     }
     // For ReadCommitted, snapshot is nullptr, reads latest committed data
     
-    rocksdb::Status status = txn_->Get(read_opts, rocksdb::Slice(key.data(),static_cast<int>(key.size())), &value);
+    rocksdb::Status status = txn_->Get(read_opts, rocksdb::Slice(key.data(),key.size()), &value);
     
     if (status.ok()) {
         return std::vector<uint8_t>(value.begin(), value.end());
@@ -1629,7 +1629,7 @@ bool RocksDBWrapper::TransactionWrapper::getForUpdate(std::string_view key) {
     // on this key until this transaction commits or rolls back.
     rocksdb::Status status = txn_->GetForUpdate(
         read_opts,
-        rocksdb::Slice(key.data(),static_cast<int>(key.size())),
+        rocksdb::Slice(key.data(),key.size()),
         &value,
         /*exclusive=*/true);
 
@@ -1656,8 +1656,8 @@ bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::ve
     
     try {
         rocksdb::Status status = txn_->Put(
-            rocksdb::Slice(key.data(),static_cast<int>(key.size())),
-            rocksdb::Slice(reinterpret_cast<const char*>(value.data()),static_cast<int>(value.size()))
+            rocksdb::Slice(key.data(),key.size()),
+            rocksdb::Slice(reinterpret_cast<const char*>(value.data()),value.size())
         );
         
         if (!status.ok()) {
@@ -1686,7 +1686,7 @@ bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
     }
 
     try {
-        rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(),static_cast<int>(key.size())));
+        rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(),key.size()));
         if (!status.ok()) {
             THEMIS_ERROR("TransactionWrapper::del: Delete() failed: {}", status.ToString());
             // Transaction is still active, caller should decide to rollback or retry
@@ -1896,7 +1896,7 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
         return;
     }
     
-    rocksdb::Slice prefix_slice(prefix.data(),static_cast<int>(prefix.size()));
+    rocksdb::Slice prefix_slice(prefix.data(),prefix.size());
     
     // v1.4.1: CPU prefetch hints for iterator scanning
     // We only prefetch the key and value data itself, not beyond bounds
@@ -1909,7 +1909,7 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
         // This overlaps memory access with callback computation for better pipelining
         if (config_.enable_cpu_prefetch) {
             performance::prefetch(key.data(), performance::PrefetchHint::T0);
-            if (static_cast<int>(value.size()) > 0) {
+            if (value.size() > 0) {
                 // Prefetch value data (up to 256 bytes to avoid excessive bandwidth)
                 performance::prefetch_range(value.data(), 
                                            std::min<size_t>(value.size(), 256),
@@ -1962,8 +1962,8 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
         return;
     }
     
-    rocksdb::Slice start_slice(start_key.data(),static_cast<int>(start_key.size()));
-    rocksdb::Slice end_slice(end_key.data(),static_cast<int>(end_key.size()));
+    rocksdb::Slice start_slice(start_key.data(),start_key.size());
+    rocksdb::Slice end_slice(end_key.data(),end_key.size());
     
     // v1.4.1: CPU prefetch hints for range scanning
     for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
@@ -1973,7 +1973,7 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
         // Prefetch current entry data into cache for better locality
         if (config_.enable_cpu_prefetch) {
             performance::prefetch(key.data(), performance::PrefetchHint::T0);
-            if (static_cast<int>(value.size()) > 0) {
+            if (value.size() > 0) {
                 // Prefetch value data (limit to avoid excessive bandwidth usage)
                 performance::prefetch_range(value.data(),
                                            std::min<size_t>(value.size(), 256),
@@ -2006,8 +2006,8 @@ void RocksDBWrapper::iterateRange(std::string_view start_key, std::string_view e
         return;
     }
 
-    rocksdb::Slice start_slice(start_key.data(),static_cast<int>(start_key.size()));
-    rocksdb::Slice end_slice(end_key.data(),static_cast<int>(end_key.size()));
+    rocksdb::Slice start_slice(start_key.data(),start_key.size());
+    rocksdb::Slice end_slice(end_key.data(),end_key.size());
 
     for (it->Seek(start_slice); it->Valid() && it->key().compare(end_slice) < 0; it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
@@ -2183,8 +2183,8 @@ void RocksDBWrapper::compactRange(std::string_view start_key, std::string_view e
       return;
     }
     
-    rocksdb::Slice start(start_key.data(),static_cast<int>(start_key.size()));
-    rocksdb::Slice end(end_key.data(),static_cast<int>(end_key.size()));
+    rocksdb::Slice start(start_key.data(),start_key.size());
+    rocksdb::Slice end(end_key.data(),end_key.size());
     
     rocksdb::CompactRangeOptions options;
     db_->CompactRange(options, &start, &end);
@@ -2655,7 +2655,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
         std::string key = it->key().ToString();
         
         // Check prefix match
-        if (!prefix.empty() && key.compare(0,static_cast<int>(prefix.size()), prefix) != 0) {
+        if (!prefix.empty() && key.compare(0,prefix.size(), prefix) != 0) {
             break;
         }
         
@@ -2992,7 +2992,7 @@ std::string_view RocksDBWrapper::SafeIterator::key() const {
       return std::string_view();
     }
     auto s = iterator_->key();
-    return std::string_view(s.data(),static_cast<int>(s.size()));
+    return std::string_view(s.data(),s.size());
 }
 
 std::string_view RocksDBWrapper::SafeIterator::value() const {
@@ -3000,7 +3000,7 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
       return std::string_view();
     }
     auto s = iterator_->value();
-    return std::string_view(s.data(),static_cast<int>(s.size()));
+    return std::string_view(s.data(),s.size());
 }
 
 } // namespace themis

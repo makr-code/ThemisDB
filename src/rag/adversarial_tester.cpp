@@ -119,7 +119,7 @@ double jaccardSimilarity(const std::vector<std::string>& a,
         if (set_b.count(t) > 0) { ++intersection; }
     }
     // |A ∪ B| = |A| + |B| − |A ∩ B|
-    size_t union_size = static_cast<int>(set_a.size()) + static_cast<int>(set_b.size()) - intersection;
+    size_t union_size = set_a.size() + set_b.size() - intersection;
     return union_size == 0 ? 1.0 : static_cast<double>(intersection) / static_cast<double>(union_size);
 }
 
@@ -166,7 +166,7 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
     for (const auto& [from, to] : substitutions) {
         if (result.find(from) != std::string::npos) {
             auto pos = result.find(from);
-            result.replace(pos,static_cast<int>(from.size()), to);
+            result.replace(pos,from.size(), to);
             ++applied;
             if (applied > variant_index % 3 + 1) { break; }
         }
@@ -185,11 +185,11 @@ std::string lexicalSubstitute(const std::string& query, size_t variant_index)
 /// Typo injection: randomly swap adjacent characters in a few positions.
 std::string typoInject(const std::string& query, size_t variant_index)
 {
-    if (static_cast<int>(query.size()) < 4) { return query + "?"; }
+    if (query.size() < 4) { return query + "?"; }
 
     std::string result = query;
     // Deterministic typo positions based on variant_index.
-    size_t pos = (variant_index * 7 + 3) % (static_cast<int>(result.size()) - 1);
+    size_t pos = (variant_index * 7 + 3) % (result.size() - 1);
     // Only swap if both characters are alphabetic.
     if (std::isalpha(static_cast<unsigned char>(result[pos])) &&
         std::isalpha(static_cast<unsigned char>(result[pos + 1])))
@@ -222,7 +222,7 @@ std::string negationFlip(const std::string& query, size_t variant_index)
         const auto& [from, to] = negations[(idx + i) % negations.size()];
         auto pos = result.find(from);
         if (pos != std::string::npos) {
-            result.replace(pos,static_cast<int>(from.size()), to);
+            result.replace(pos,from.size(), to);
             return result;
         }
     }

@@ -74,7 +74,7 @@ class SequenceIncrementOperator : public rocksdb::AssociativeMergeOperator {
         }
 
         uint64_t delta = 0;
-        if (static_cast<int>(value.size()) == sizeof(uint64_t)) {
+        if (value.size() == sizeof(uint64_t)) {
             memcpy(&delta, value.data(), sizeof(uint64_t));
         }
 
@@ -201,7 +201,7 @@ uint64_t Changefeed::loadInitialSequence() const {
 
     if (s.ok() && !seq_value.empty()) {
         // Binary little-endian uint64 format (new)
-        if (static_cast<int>(seq_value.size()) == sizeof(uint64_t)) {
+        if (seq_value.size() == sizeof(uint64_t)) {
             uint64_t val = 0;
             memcpy(&val, seq_value.data(), sizeof(val));
             return val;
@@ -781,7 +781,7 @@ Changefeed::RedactionResult Changefeed::redactByKeyPrefix(const std::string &key
             ChangeEvent event = ChangeEvent::fromJson(j);
 
             // Skip events whose key does not start with key_prefix
-            if (event.key.compare(0,static_cast<int>(key_prefix.size()), key_prefix) != 0) {
+            if (event.key.compare(0,key_prefix.size(), key_prefix) != 0) {
                 continue;
             }
 

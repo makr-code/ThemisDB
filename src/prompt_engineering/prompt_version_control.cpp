@@ -221,7 +221,7 @@ std::vector<PromptVersion> PromptVersionControl::getHistory(
               });
     
     // Apply limit if specified
-    if (limit > 0 && static_cast<int>(history.size()) > limit) {
+    if (limit > 0 && history.size() > limit) {
         history.resize(limit);
     }
     
@@ -496,7 +496,7 @@ MergeResult PromptVersionControl::merge(
         std::vector<std::string> ancestors;
         std::unordered_set<std::string> visited;  // cycle guard
         std::string cur = start_id;
-        while (!cur.empty() && static_cast<int>(ancestors.size()) < MAX_ANCESTOR_DEPTH) {
+        while (!cur.empty() && ancestors.size() < MAX_ANCESTOR_DEPTH) {
             if (!visited.insert(cur).second) break;  // cycle detected
             ancestors.push_back(cur);
             auto it = versions_.find(cur);
@@ -1040,12 +1040,12 @@ MergeResult PromptVersionControl::autoMerge(
             if (e.first == ' ') {
                 ++base_idx;
             } else if (e.first == '-') {
-                if (static_cast<int>(changes.size()) > base_idx) {
+                if (changes.size() > base_idx) {
                     changes[base_idx].deleted = true;
                     ++base_idx;
                 }
             } else { // '+'
-                if (static_cast<int>(changes.size()) > base_idx) {
+                if (changes.size() > base_idx) {
                     changes[base_idx].insertions_before.push_back(e.second);
                 } else {
                     // Appended after the last base line

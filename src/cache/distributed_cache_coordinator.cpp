@@ -350,8 +350,8 @@ void RedisCacheCoordinator::publishEntry(const std::string &key, const nlohmann:
         payload    = msg.dump();
     }
 
-    if (static_cast<int>(payload.size()) > config_.max_message_bytes) {
-        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping",static_cast<int>(payload.size()));
+    if (payload.size() > config_.max_message_bytes) {
+        THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping",payload.size());
         return;
     }
 
@@ -501,8 +501,8 @@ void RedisCacheCoordinator::closeSocket(SocketFd &fd) {
 /*static*/
 bool RedisCacheCoordinator::sendAll(SocketFd fd, const std::string &buf) {
     size_t sent = 0;
-    while (static_cast<size_t>(sent) <static_cast<int>(buf.size())) {
-        ssize_t n = ::send(fd, buf.data() + sent, static_cast<int>(buf.size()) - sent, MSG_NOSIGNAL);
+    while (sent < buf.size()) {
+        ssize_t n = ::send(fd, buf.data() + sent, buf.size() - sent, MSG_NOSIGNAL);
         if (n <= 0)
             return false;
         sent += static_cast<size_t>(n);
@@ -529,9 +529,9 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
 /*static*/
 std::string RedisCacheCoordinator::buildRespCommand(const std::vector<std::string> &args) {
     std::ostringstream ss = {};
-    ss << '*' <<static_cast<int>(args.size()) << "\r\n";
+    ss << '*' <<args.size() << "\r\n";
     for (const auto &arg : args) {
-        ss << '$' <<static_cast<int>(arg.size()) << "\r\n" << arg << "\r\n";
+        ss << '$' <<arg.size() << "\r\n" << arg << "\r\n";
     }
     return ss.str();
 }
@@ -907,7 +907,7 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     }
 
     // Guard against pathological sizes that would truncate in the cast to int.
-    if (static_cast<int>(config_.hmac_secret.size()) > static_cast<size_t>(INT_MAX) || static_cast<int>(payload.size()) > static_cast<size_t>(INT_MAX)) {
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) || payload.size() > static_cast<size_t>(INT_MAX)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
         return {};
     }
@@ -915,8 +915,8 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &payload) const
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int md_len = 0;
 
-    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), static_cast<int>(config_.hmac_secret.size()),
-              reinterpret_cast<const unsigned char *>(payload.data()), static_cast<int>(payload.size()), md, &md_len)) {
+    if (!HMAC(EVP_sha256(), config_.hmac_secret.data(), config_.hmac_secret.size(),
+              reinterpret_cast<const unsigned char *>(payload.data()), payload.size(), md, &md_len)) {
         THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
         return {};
     }
@@ -954,11 +954,11 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
         }
 
         // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
-        if (static_cast<int>(received_sig.size()) != static_cast<int>(expected_sig.size())) {
+        if (received_sig.size() != expected_sig.size()) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),static_cast<int>(expected_sig.size())) != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),expected_sig.size()) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }

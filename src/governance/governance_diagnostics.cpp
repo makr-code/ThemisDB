@@ -126,7 +126,7 @@ void DiagnosticAggregator::clear() {
 
 size_t DiagnosticAggregator::getTotalCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(diagnostics_.size());
+    return diagnostics_.size();
 }
 
 DiagnosticAggregator& getGlobalDiagnosticAggregator() {
@@ -158,7 +158,7 @@ ConflictDiagnosticHelper::detectConflict(
     
     // Detect conflicts between policy pairs
     // For Phase 3B, this is a stub implementation that checks policy_ids count
-    if (static_cast<int>(policy_ids.size()) > 1) {
+    if (policy_ids.size() > 1) {
         // Simple conflict detection: if multiple policies exist, potential conflict
         result.has_conflicts = true;
         
@@ -378,7 +378,7 @@ std::vector<MaskingRuleViolation> ConflictDiagnosticHelper::validateMaskingRuleC
     
     // Detect conflicting rules on same schema
     for (const auto& [schema, rules] : schema_to_rules) {
-        if (static_cast<int>(rules.size()) > 1) {
+        if (rules.size() > 1) {
             MaskingRuleViolation violation;
             violation.rule_id = schema;
             violation.violation_type = "inconsistent_redaction";
@@ -709,7 +709,7 @@ SafeAccessResult SafeAccessValidator::validateAccessRequest(
         diag.context["violation_count"] = std::to_string(result.violations.size());
         diag.context["user_tier"] = request.user_tier;
         
-        for (size_t i = 0; i <static_cast<int>(result.scenario_codes.size()); ++i) {
+        for (size_t i = 0; i <result.scenario_codes.size(); ++i) {
             diag.remediation_steps.push_back(result.remediation_steps[i]);
         }
         
@@ -731,7 +731,7 @@ void SafeAccessValidator::clearViolationHistory() {
 
 size_t SafeAccessValidator::getViolationCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(violation_history_.size());
+    return violation_history_.size();
 }
 
 } // namespace themis::governance

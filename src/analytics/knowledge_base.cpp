@@ -71,8 +71,8 @@ static int64_t knowledgeBaseNowMs() {
 // Using themis::utils::trim() from string_utils.h (Phase 1 consolidation)
 
 static std::string stripQuotes(const std::string &s) {
-    if (static_cast<int>(s.size()) >= 2 && s.front() == '"' && s.back() == '"') {
-        return s.substr(1, static_cast<int>(s.size()) - 2);
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
     }
     return s;
 }
@@ -243,13 +243,13 @@ static TriplePattern parseTriplePattern(const std::string &line) {
         parts.push_back(themis::utils::trim(stripQuotes(token)));
     }
 
-    if (static_cast<int>(parts.size()) >= 1) {
+    if (parts.size() >= 1) {
         tp.subject = parts[0];
     }
-    if (static_cast<int>(parts.size()) >= 2) {
+    if (parts.size() >= 2) {
         tp.predicate = parts[1];
     }
-    if (static_cast<int>(parts.size()) >= 3) {
+    if (parts.size() >= 3) {
         // Join remaining parts (object may contain commas in quoted form).
         tp.object = parts[2];
         for (std::size_t i = 3; i < parts.size(); ++i) {
@@ -310,7 +310,7 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
                 }
                 for (const auto& item : seq) {
                     TriplePattern tp = {};
-                    if (item.IsSequence() && static_cast<int>(item.size()) >= 3) {
+                    if (item.IsSequence() && item.size() >= 3) {
                         tp.subject   = item[0].as<std::string>("");
                         tp.predicate = item[1].as<std::string>("");
                         tp.object    = item[2].as<std::string>("");

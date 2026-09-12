@@ -44,7 +44,7 @@ static const std::unordered_set<std::string> kPrimitiveRuleNames =
 
 std::string JsonSchemaConverter::escapeGbnfString(const std::string& s) {
     std::string result = {};
-    result.reserve(static_cast<int>(s.size()) + 4);
+    result.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '"':  result += "\\\""; break;
@@ -264,7 +264,7 @@ std::string JsonSchemaConverter::schemaToEbnf(const json& schema) {
     }
 
     std::string result = out.str();
-    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
+    if (result.size() > kMaxGrammarBytes) {
             spdlog::warn("JsonSchemaConverter::schemaToEbnf: generated grammar exceeds {} bytes, rejecting",
                          kMaxGrammarBytes);
             return "value ::= .*\\n";
@@ -332,7 +332,7 @@ std::string JsonSchemaConverter::toolsToEbnf(const std::vector<ToolDefinition>& 
     }
 
     std::string result = out.str();
-    if (static_cast<int>(result.size()) > kMaxGrammarBytes) {
+    if (result.size() > kMaxGrammarBytes) {
         spdlog::warn("JsonSchemaConverter::toolsToEbnf: generated grammar exceeds {} bytes, rejecting",
                      kMaxGrammarBytes);
         return "";

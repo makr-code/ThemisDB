@@ -65,7 +65,7 @@ namespace {
 
 [[nodiscard]] int estimatePromptTokensFromText(const std::string& text) {
     static constexpr int kCharsPerToken = 4;
-    return std::max(1, static_cast<int>(text.size()) / kCharsPerToken);
+    return std::max(1, text.size() / kCharsPerToken);
 }
 
 struct BudgetOverrideResolution {
@@ -226,7 +226,7 @@ public:
         out.unit = "cost_units";
         out.extra = {
             {"estimated_result_rows", estimated_result_rows},
-            {"shard_count",static_cast<int>(shards.size())},
+            {"shard_count",shards.size()},
             {"tenant", input.tenant},
         };
         return out;
@@ -748,7 +748,7 @@ OrchestratorResult AIOrchestrator::run(const OrchestratorContext& ctx) const {
     }
     const ModeSpec& mode = *mode_ptr;
 
-    spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id,static_cast<int>(ctx.query.size()));
+    spdlog::debug("[AIOrchestrator] run() mode='{}' query_len={}", mode.id,ctx.query.size());
 
     OrchestratorResult result;
     try {
@@ -1083,12 +1083,12 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
             [](const RAGContext::Document& a, const RAGContext::Document& b) {
                 return a.relevance_score > b.relevance_score;
             });
-        if (static_cast<int>(docs.size()) > effective_top_k) {
+        if (docs.size() > effective_top_k) {
             docs.resize(static_cast<size_t>(effective_top_k));
         }
     }
 
-    result.metadata.retrieved_docs = static_cast<int>(docs.size());
+    result.metadata.retrieved_docs = docs.size();
     if (!docs.empty()) {
         float sum = 0.0f;
         for (const auto& d : docs) {
@@ -1125,7 +1125,7 @@ OrchestratorResult AIOrchestrator::runRag(const OrchestratorContext& ctx,
 
         try {
             const AdapterSelectionResult sel = provider->selectCandidates(input);
-            result.metadata.adapter_candidates = static_cast<int>(sel.candidates.size());
+            result.metadata.adapter_candidates = sel.candidates.size();
             impl_->rag_adapter_candidates_total.fetch_add(
                 static_cast<int64_t>(sel.candidates.size()),
                 std::memory_order_relaxed);

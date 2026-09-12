@@ -179,7 +179,7 @@ bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
                                 [&](const LoRAEntry& e){ return e.id == lora_id; }),
                  loras_.end());
-    return static_cast<int>(loras_.size()) < before;
+    return loras_.size() < before;
 }
 
 std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
@@ -529,7 +529,7 @@ llm::InferenceResponse LlamaCppPlugin::generateRAG(
                           "When uncertain, say so and cite slot source ids.\n\n";
         for (size_t i = 0; i < slot_count; ++i) {
             std::string slot_text = ranked_chunks[i].content;
-            if (static_cast<int>(slot_text.size()) > static_cast<size_t>(rag_tensor_slot_chars)) {
+            if (slot_text.size() > static_cast<size_t>(rag_tensor_slot_chars)) {
                 slot_text = slot_text.substr(0, static_cast<size_t>(rag_tensor_slot_chars));
             }
             compact_prompt << "[MEMORY_SLOT id=" << (i + 1)
@@ -649,7 +649,7 @@ json LlamaCppPlugin::getMemoryStats() const {
         {"plugin",       "llama_cpp"},
         {"model_loaded", model_loaded_},
         {"model_id",     model_id_},
-        {"lora_count",static_cast<int>(loras_.size())}
+        {"lora_count",loras_.size()}
     };
 
 #ifdef THEMIS_LLM_ENABLED
@@ -827,7 +827,7 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
             vocab_size_hint > 0 ? vocab_size_hint : result.vocab_size);
 
         if (!real_result.tokens.empty() &&
-            static_cast<int>(real_result.tokens.size()) == static_cast<int>(real_result.logits.size()) &&
+            real_result.tokens.size() == real_result.logits.size() &&
             real_result.vocab_size > 0) {
             return real_result;
         }

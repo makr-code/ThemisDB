@@ -187,7 +187,7 @@ bool SelfRAGController::shouldRetrieve(const std::string& query,
     }
 
     const double long_query_cutoff = std::min(0.98, cfg_.retrieval_confidence_threshold + 0.35);
-    if (static_cast<int>(query_tokens.size()) >= 14 && confidence < long_query_cutoff) {
+    if (query_tokens.size() >= 14 && confidence < long_query_cutoff) {
         return true;
     }
 
@@ -230,7 +230,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
         samples.reserve(iterations);
 
         auto ci_contains_local = [](const std::string& hay, const std::string& needle) {
-            if (needle.empty() || static_cast<int>(hay.size()) <static_cast<int>(needle.size())) {
+            if (needle.empty() || hay.size() <needle.size()) {
               return false;
             }
             auto it = std::search(hay.begin(), hay.end(), needle.begin(), needle.end(),
@@ -257,7 +257,7 @@ std::vector<RatedDocument> SelfRAGController::criticDocuments(
             std::sort(samples.begin(), samples.end());
             auto p50 = samples[samples.size()/2];
             auto p95 = samples[static_cast<size_t>(samples.size()*0.95)];
-            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) <static_cast<int>(samples.size()) ? static_cast<size_t>(samples.size()*0.99) : static_cast<int>(samples.size()) -1];
+            auto p99 = samples[static_cast<size_t>(samples.size()*0.99) <samples.size() ? static_cast<size_t>(samples.size()*0.99) : samples.size() -1];
             long long sum = 0;
             for (auto v : samples) {
               sum += v;
@@ -480,13 +480,13 @@ SelfRAGResult SelfRAGController::runRefinementLoop(const std::string& query,
             long long mean = samples.empty() ? 0 : sum / static_cast<long long>(samples.size());
             long long p50 = samples.empty() ? 0 : samples[samples.size()/2];
             size_t idx95 = static_cast<size_t>(samples.size() * 0.95);
-            if (idx95 >= static_cast<int>(samples.size())) {
-              idx95 = static_cast<int>(samples.size()) - 1;
+            if (idx95 >= samples.size()) {
+              idx95 = samples.size() - 1;
             }
             long long p95 = samples.empty() ? 0 : samples[idx95];
             size_t idx99 = static_cast<size_t>(samples.size() * 0.99);
-            if (idx99 >= static_cast<int>(samples.size())) {
-              idx99 = static_cast<int>(samples.size()) - 1;
+            if (idx99 >= samples.size()) {
+              idx99 = samples.size() - 1;
             }
             long long p99 = samples.empty() ? 0 : samples[idx99];
             std::fprintf(stderr, "SelfRAG retrieval microbench: iters=%d p50=%lld p95=%lld p99=%lld mean=%lld ns\n",

@@ -39,7 +39,7 @@ bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
     snapshots.push_back(snapshot);
 
     // Keep only most recent N snapshots
-    if (static_cast<int>(snapshots.size()) > max_snapshots_per_session_) {
+    if (snapshots.size() > max_snapshots_per_session_) {
         // Sort by HLC timestamp (ascending) and remove oldest
         std::sort(snapshots.begin(), snapshots.end(),
                   [](const SSMStateSnapshot& a, const SSMStateSnapshot& b) {

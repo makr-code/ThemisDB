@@ -100,7 +100,7 @@ PartialBatchResult IVectorBackend::batchKnnSearchSafe(
 
     // Dispatch valid queries through the deterministic batchKnnSearch
     auto batchResults = batchKnnSearch(
-        validQueries.data(),static_cast<int>(validIndices.size()), dim,
+        validQueries.data(),validIndices.size(), dim,
         vectors, numVectors, k, useL2
     );
 

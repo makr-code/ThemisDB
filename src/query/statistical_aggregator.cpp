@@ -47,13 +47,13 @@ Result<nlohmann::json> StatisticalAggregator::calculatePercentile(
     // Sort values
     std::sort(values.begin(), values.end());
     
-    if (static_cast<int>(values.size()) == 1) {
+    if (values.size() == 1) {
         return Ok(nlohmann::json(values[0]));
     }
     
     // Nearest Rank Method
     // Rank = (percentile / 100) * (N - 1)
-    double rank = (percentile / 100.0) * (static_cast<int>(values.size()) - 1);
+    double rank = (percentile / 100.0) * (values.size() - 1);
     size_t lowerIndex = static_cast<size_t>(std::floor(rank));
     size_t upperIndex = static_cast<size_t>(std::ceil(rank));
     
@@ -86,10 +86,10 @@ double StatisticalAggregator::calculateMean(const std::vector<double>& values) {
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vector<double>& values) {
-    if (static_cast<int>(values.size()) < 2) {
+    if (values.size() < 2) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
-            fmt::format("Cannot calculate variance: need at least 2 values, got {}",static_cast<int>(values.size()))
+            fmt::format("Cannot calculate variance: need at least 2 values, got {}",values.size())
         );
     }
     
@@ -102,7 +102,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariance(const std::vecto
         sumSquaredDiffs += diff * diff;
     }
     
-    return Ok(nlohmann::json(sumSquaredDiffs / (static_cast<int>(values.size()) - 1)));
+    return Ok(nlohmann::json(sumSquaredDiffs / (values.size() - 1)));
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::vector<double>& values) {
@@ -113,7 +113,7 @@ Result<nlohmann::json> StatisticalAggregator::calculateVariancePop(const std::ve
         );
     }
     
-    if (static_cast<int>(values.size()) == 1) {
+    if (values.size() == 1) {
         return Ok(nlohmann::json(0.0));  // Population variance of single value is 0
     }
     
@@ -165,10 +165,10 @@ Result<nlohmann::json> StatisticalAggregator::calculateRange(const std::vector<d
 }
 
 Result<nlohmann::json> StatisticalAggregator::calculateIQR(std::vector<double> values) {
-    if (static_cast<int>(values.size()) < 4) {
+    if (values.size() < 4) {
         return Err<nlohmann::json>(
             errors::ErrorCode::ERR_QUERY_INSUFFICIENT_DATA,
-            fmt::format("Cannot calculate IQR: need at least 4 values, got {}",static_cast<int>(values.size()))
+            fmt::format("Cannot calculate IQR: need at least 4 values, got {}",values.size())
         );
     }
     

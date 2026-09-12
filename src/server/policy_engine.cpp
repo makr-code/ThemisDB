@@ -256,7 +256,7 @@ void PolicyEngine::addPolicy(const Policy& p) {
     std::string id = p.id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (config_.max_policies > 0 && static_cast<int>(policies_.size()) >= config_.max_policies) {
+        if (config_.max_policies > 0 && policies_.size() >= config_.max_policies) {
             throw std::length_error(
                 "PolicyEngine: max_policies limit (" +
                 std::to_string(config_.max_policies) + ") reached");
@@ -276,7 +276,7 @@ bool PolicyEngine::removePolicy(const std::string& id) {
         policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
                                        [&]([[maybe_unused]] const Policy& p){ return p.id == id; }),
                         policies_.end());
-        removed = static_cast<int>(policies_.size()) != size_before;
+        removed = policies_.size() != size_before;
         logger  = audit_logger_;
     }
     if (removed) {

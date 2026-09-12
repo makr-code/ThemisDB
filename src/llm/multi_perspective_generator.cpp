@@ -174,7 +174,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         !result.disagreements.empty();
     
     // Synthesize perspectives if enabled
-    if (impl_->config.enable_synthesis && static_cast<int>(result.perspectives.size()) >= 2) {
+    if (impl_->config.enable_synthesis && result.perspectives.size() >= 2) {
         result.synthesized_response = synthesizePerspectives(
             result.perspectives,
             query
@@ -182,10 +182,10 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         
         // Generate synthesis reasoning
         std::ostringstream oss = {};
-        oss << "Synthesized " <<static_cast<int>(result.perspectives.size()) << " perspectives: ";
-        for (size_t i = 0; i <static_cast<int>(result.perspectives.size()); ++i) {
+        oss << "Synthesized " <<result.perspectives.size() << " perspectives: ";
+        for (size_t i = 0; i <result.perspectives.size(); ++i) {
             oss << result.perspectives[i].perspective.tradition;
-            if (i <static_cast<int>(result.perspectives.size()) - 1) {
+            if (i <result.perspectives.size() - 1) {
               oss << ", ";
             }
         }
@@ -215,7 +215,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
         impl_->callback(result);
     }
     
-    if (static_cast<int>(result.perspectives.size()) >= 2) {
+    if (result.perspectives.size() >= 2) {
         impl_->stats.multi_perspective_generated++;
     }
     
@@ -290,7 +290,7 @@ std::string MultiPerspectiveGenerator::synthesizePerspectives(
         return "";
     }
     
-    if (static_cast<int>(perspectives.size()) == 1) {
+    if (perspectives.size() == 1) {
         return perspectives[0].response;
     }
     
@@ -395,7 +395,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
                 );
                 if (it != impl_->perspectives.end()) {
                     selected.push_back(*it);
-                    if (static_cast<int>(selected.size()) >= static_cast<size_t>(impl_->config.max_perspectives)) {
+                    if (selected.size() >= static_cast<size_t>(impl_->config.max_perspectives)) {
                         break;
                     }
                 }
@@ -404,8 +404,8 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     }
     
     // Ensure minimum perspectives
-    while ( static_cast<int>(selected.size()) < static_cast<size_t>(impl_->config.min_perspectives) &&
-           static_cast<int>(selected.size()) < static_cast<int>(impl_->perspectives.size())) {
+    while ( selected.size() < static_cast<size_t>(impl_->config.min_perspectives) &&
+           selected.size() < static_cast<int>(impl_->perspectives.size())) {
         // Add any remaining perspective
         for (const auto& p : impl_->perspectives) {
             bool already_selected = false;
@@ -423,7 +423,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     }
     
     // Limit to max perspectives
-    if (static_cast<int>(selected.size()) > static_cast<size_t>(impl_->config.max_perspectives)) {
+    if (selected.size() > static_cast<size_t>(impl_->config.max_perspectives)) {
         selected.resize(impl_->config.max_perspectives);
     }
     
@@ -576,7 +576,7 @@ void MultiPerspectiveGenerator::loadDefaultPerspectives() {
 float MultiPerspectiveGenerator::calculateDiversityScore(
     const std::vector<PerspectiveResponse>& perspectives
 ) {
-    if (static_cast<int>(perspectives.size()) <= 1) {
+    if (perspectives.size() <= 1) {
         return 0.0f;
     }
     
@@ -628,7 +628,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
 ) {
     std::vector<std::string> common_themes;
     
-    if (static_cast<int>(perspectives.size()) < 2) {
+    if (perspectives.size() < 2) {
         return common_themes;
     }
     
@@ -645,7 +645,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     }
     
     // Find themes that appear in multiple perspectives
-    const int threshold = (static_cast<int>(perspectives.size()) >= 3) ? 2 : static_cast<int>(perspectives.size());
+    const int threshold = (perspectives.size() >= 3) ? 2 : perspectives.size();
     
     for (const auto& [theme, count] : theme_counts) {
         if (count >= threshold) {
@@ -662,7 +662,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findCommonThemes(
     
     for (const auto& theme : general_themes) {
         common_themes.push_back(theme);
-        if (static_cast<int>(common_themes.size()) >= 5) break; // Limit to 5 themes
+        if (common_themes.size() >= 5) break; // Limit to 5 themes
     }
     
     return common_themes;
@@ -673,7 +673,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
 ) {
     std::vector<std::string> disagreements;
     
-    if (static_cast<int>(perspectives.size()) < 2) {
+    if (perspectives.size() < 2) {
         return disagreements;
     }
     
@@ -709,7 +709,7 @@ std::vector<std::string> MultiPerspectiveGenerator::findDisagreements(
     }
     
     // Add some general disagreements if we have multiple perspectives
-    if (disagreements.empty() && static_cast<int>(perspectives.size()) >= 2) {
+    if (disagreements.empty() && perspectives.size() >= 2) {
         disagreements.push_back("Different emphases on key ethical considerations");
     }
     
@@ -860,7 +860,7 @@ std::vector<std::string> MultiPerspectiveGenerator::extractKeyPoints(
     }
     
     // Limit to 3 key points
-    if (static_cast<int>(key_points.size()) > 3) {
+    if (key_points.size() > 3) {
         key_points.resize(3);
     }
     

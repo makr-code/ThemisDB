@@ -383,10 +383,10 @@ const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, co
         // Pad shorter strings to cmp_len with NUL bytes before comparing.
         std::string a_padded(cmp_len, '\0');
         std::string b_padded(cmp_len, '\0');
-        std::memcpy(a_padded.data(), stored_kid.data(),static_cast<int>(stored_kid.size()));
+        std::memcpy(a_padded.data(), stored_kid.data(),stored_kid.size());
         std::memcpy(b_padded.data(), kid.data(),        target_len);
         if (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0
-                && static_cast<int>(stored_kid.size()) == target_len) {
+                && stored_kid.size() == target_len) {
             // Record first match but keep iterating to avoid early-exit leakage.
             if (match == nullptr) {
                 match = &k;
@@ -478,11 +478,11 @@ bool JWTValidator::verifySignatureRSA(const std::string &header_payload, const s
     if (ok != 1) {
         return false;
     }
-    ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),static_cast<int>(header_payload.size()));
+    ok = EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),header_payload.size());
     if (ok != 1) {
         return false;
     }
-    ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(),static_cast<int>(signature.size()));
+    ok = EVP_DigestVerifyFinal(mctx.get(), signature.data(),signature.size());
     return ok == 1;
 }
 
@@ -539,7 +539,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     auto x_bytes = decodeBase64Url(x_b64);
     auto y_bytes = decodeBase64Url(y_b64);
-    if (static_cast<int>(x_bytes.size()) != coord_size || static_cast<int>(y_bytes.size()) != coord_size) {
+    if (x_bytes.size() != coord_size || y_bytes.size() != coord_size) {
         return false;
     }
 
@@ -590,7 +590,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
 
     // JWT ECDSA signature is raw (r || s) encoding (coord_size bytes each).
     // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
-    if (static_cast<int>(signature.size()) != coord_size * 2) {
+    if (signature.size() != coord_size * 2) {
         return false;
     }
 
@@ -633,7 +633,7 @@ bool JWTValidator::verifySignatureEC(const std::string &header_payload, const st
     if (EVP_DigestVerifyInit(mctx.get(), nullptr, md, nullptr, pkey.get()) != 1) {
         return false;
     }
-    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),static_cast<int>(header_payload.size())) != 1) {
+    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(),header_payload.size()) != 1) {
         return false;
     }
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.data(), static_cast<size_t>(der_len)) == 1;
@@ -652,11 +652,11 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false;
     }
     auto pub_bytes = decodeBase64Url(it_x->get<std::string>());
-    if (static_cast<int>(pub_bytes.size()) != 32) {
+    if (pub_bytes.size() != 32) {
         return false; // Ed25519 public key is exactly 32 bytes
     }
 
-    EVP_PKEY *raw_pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, pub_bytes.data(),static_cast<int>(pub_bytes.size()));
+    EVP_PKEY *raw_pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, pub_bytes.data(),pub_bytes.size());
     if (!raw_pkey) {
         return false;
     }
@@ -673,8 +673,8 @@ bool JWTValidator::verifySignatureEdDSA(const std::string &header_payload, const
         return false;
     }
     int result
-        = EVP_DigestVerify(ctx.get(), signature.data(),static_cast<int>(signature.size()),
-                           reinterpret_cast<const unsigned char *>(header_payload.data()),static_cast<int>(header_payload.size()));
+        = EVP_DigestVerify(ctx.get(), signature.data(),signature.size(),
+                           reinterpret_cast<const unsigned char *>(header_payload.data()),header_payload.size());
     return result == 1;
 }
 
@@ -736,7 +736,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     }
 
     // Input validation: Check token size limit
-    if (static_cast<int>(jwt.size()) > MAX_JWT_TOKEN_SIZE) {
+    if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
         utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -761,7 +761,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     while (std::getline(ss, part, '.')) {
         parts.push_back(part);
     }
-    if (static_cast<int>(parts.size()) != 3) {
+    if (parts.size() != 3) {
         utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
@@ -802,7 +802,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     claims.sub = payload.value("sub", "");
 
     // Input validation: Check principal/subject length
-    if (static_cast<int>(claims.sub.size()) > MAX_PRINCIPAL_NAME_LENGTH) {
+    if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
         utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",

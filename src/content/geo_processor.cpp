@@ -229,7 +229,7 @@ ContentExtractionResult GeoProcessor::extract(
         // Generate text description
         std::ostringstream text = {};
         text << "Geospatial data: " << geo.geometry_type;
-        text << " with " <<static_cast<int>(geo.coordinates.size()) << " coordinate pairs";
+        text << " with " <<geo.coordinates.size() << " coordinate pairs";
         text << " in CRS " << geo.crs;
         result.text = text.str();
         
@@ -376,7 +376,7 @@ GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
 
 static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     if (coords.is_array()) {
-        if (static_cast<int>(coords.size()) >= 2 && coords[0].is_number() && coords[1].is_number()) {
+        if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
             // [lon, lat] pair
             double lon = coords[0].get<double>();
             double lat = coords[1].get<double>();
@@ -862,7 +862,7 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
     // Simplified area calculation using shoelace formula
     // Real implementation would account for spherical geometry
     
-    if (static_cast<int>(geo.coordinates.size()) < 3) {
+    if (geo.coordinates.size() < 3) {
         return 0.0;
     }
     
@@ -881,14 +881,14 @@ double GeoProcessor::calculateArea(const GeoExtractionData& geo) {
 double GeoProcessor::calculateLength(const GeoExtractionData& geo) {
     // Calculate total length using Haversine distance
     
-    if (static_cast<int>(geo.coordinates.size()) < 2) {
+    if (geo.coordinates.size() < 2) {
         return 0.0;
     }
     
     double total = 0.0;
     const double R = 6371.0;  // Earth radius in km
     
-    for (size_t i = 0; i <static_cast<int>(geo.coordinates.size()) - 1; ++i) {
+    for (size_t i = 0; i <geo.coordinates.size() - 1; ++i) {
         double lat1 = geo.coordinates[i].first * M_PI / 180.0;
         double lon1 = geo.coordinates[i].second * M_PI / 180.0;
         double lat2 = geo.coordinates[i + 1].first * M_PI / 180.0;

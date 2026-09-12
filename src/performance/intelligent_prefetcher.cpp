@@ -142,7 +142,7 @@ public:
 
         // Append to sliding history window.
         history_.push_back({address, timestamp});
-        if (static_cast<int>(history_.size()) > config_.history_size) {
+        if (history_.size() > config_.history_size) {
             history_.pop_front();
         }
 
@@ -195,7 +195,7 @@ public:
             }
 
             // Track in pending set for the feedback loop.
-            if (static_cast<int>(pending_.size()) < MAX_PENDING_PREDICTIONS) {
+            if (pending_.size() < MAX_PENDING_PREDICTIONS) {
                 pending_.insert(addr);
             } else {
                 // Set is full – evict one arbitrary entry as wasted.
@@ -280,17 +280,17 @@ private:
      * as no-pattern (confidence = 0).
      */
     void analyse_pattern() {
-        if (static_cast<int>(history_.size()) < MIN_HISTORY_FOR_STRIDE) {
+        if (history_.size() < MIN_HISTORY_FOR_STRIDE) {
             pattern_.confidence = 0.0;
             pattern_.stride     = 0;
             return;
         }
 
         // Collect the tail of the history window.
-        size_t start = (static_cast<int>(history_.size()) > ANALYSIS_WINDOW)
-                           ? static_cast<int>(history_.size()) - ANALYSIS_WINDOW
+        size_t start = (history_.size() > ANALYSIS_WINDOW)
+                           ? history_.size() - ANALYSIS_WINDOW
                            : 0;
-        size_t window = static_cast<int>(history_.size()) - start;  // ≥ MIN_HISTORY_FOR_STRIDE
+        size_t window = history_.size() - start;  // ≥ MIN_HISTORY_FOR_STRIDE
 
         // Compute signed differences (cast to int64 to handle backward strides).
         std::unordered_map<int64_t, size_t> stride_counts = {};

@@ -117,7 +117,7 @@ GPUTensorBuffer::~GPUTensorBuffer() {
 // ---------------------------------------------------------------------------
 
 size_t GPUTensorBuffer::totalBytes() const noexcept {
-    return static_cast<int>(data_.size());
+    return data_.size();
 }
 
 // ---------------------------------------------------------------------------
@@ -208,7 +208,7 @@ void GPUTensorBuffer::fill([[maybe_unused]] double value) {
 
 void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > static_cast<int>(data_.size())) {
+    if (bytes > data_.size()) {
         throw std::out_of_range("GPUTensorBuffer::copyFromHost: bytes > buffer size");
     }
     std::memcpy(data_.data(), src, bytes);
@@ -216,7 +216,7 @@ void GPUTensorBuffer::copyFromHost(const void *src, size_t bytes) {
 
 void GPUTensorBuffer::copyToHost(void *dst, size_t bytes) const {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (bytes > static_cast<int>(data_.size())) {
+    if (bytes > data_.size()) {
         throw std::out_of_range("GPUTensorBuffer::copyToHost: bytes > buffer size");
     }
     std::memcpy(dst, data_.data(), bytes);
@@ -269,7 +269,7 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
     std::lock_guard<std::mutex> lk(mutex_);
     std::vector<uint8_t> out = {};
 
-    out.reserve(16 + 4 * shape_.dims.size() + static_cast<int>(name_.size()) + static_cast<int>(data_.size()) );
+    out.reserve(16 + 4 * shape_.dims.size() + name_.size() + data_.size() );
 
     write32(out, 0x54454E53u); // magic
     write32(out, static_cast<uint32_t>(dtype_));
@@ -286,7 +286,7 @@ std::vector<uint8_t> GPUTensorBuffer::serialize() const {
 GPUTensorBuffer GPUTensorBuffer::deserialize(const std::vector<uint8_t> &bytes) {
     try {
         const uint8_t *p   = bytes.data();
-        const uint8_t *end = p + static_cast<int>(bytes.size()) ;
+        const uint8_t *end = p + bytes.size() ;
 
         auto need = [&]([[maybe_unused]] size_t n) {
             if (p + n > end) {

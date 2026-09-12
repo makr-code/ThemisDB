@@ -225,7 +225,7 @@ Aspects:)";
         aspects.push_back(aspect);
     }
     
-    THEMIS_DEBUG("Extracted {} aspects from query",static_cast<int>(aspects.size()));
+    THEMIS_DEBUG("Extracted {} aspects from query",aspects.size());
     return aspects;
 }
 
@@ -317,7 +317,7 @@ std::vector<std::string> CompletenessEvaluator::detectMissingInformation(
         }
     }
     
-    THEMIS_DEBUG("Detected {} missing information items",static_cast<int>(missing_info.size()));
+    THEMIS_DEBUG("Detected {} missing information items",missing_info.size());
     return missing_info;
 }
 
@@ -422,7 +422,7 @@ CompletenessResult CompletenessEvaluator::evaluate(
             }
             explanation << result.missing_information[i];
         }
-        if (static_cast<int>(result.missing_information.size()) > 3) {
+        if (result.missing_information.size() > 3) {
             explanation << " and " << (result.missing_information.size() - 3) << " more";
         }
         explanation << "\n";
