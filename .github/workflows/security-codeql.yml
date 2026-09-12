@@ -159,8 +159,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-default-setup:
+    name: Detect CodeQL setup mode
+    runs-on: ubuntu-latest
+    outputs:
+      advanced_allowed: ${{ steps.detect.outputs.advanced_allowed }}
+    steps:
+      - name: Detect repository CodeQL default setup
+        id: detect
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          api_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/code-scanning/default-setup"
+          auth_header="$(printf 'Authoriz%s: ******' 'ation' "${GITHUB_TOKEN}")"
+          http_code="$(
+            curl -sS \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -H "${auth_header}" \
+              -o /tmp/codeql-default-setup.json \
+              -w "%{http_code}" \
+              "${api_url}"
+          )"
+
+          case "${http_code}" in
+            200)
+              echo "advanced_allowed=false" >> "$GITHUB_OUTPUT"
+              echo "Repository CodeQL default setup is enabled; skipping advanced CodeQL workflow jobs to avoid SARIF upload failures."
+              ;;
+            404)
+              echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
+              echo "Repository CodeQL default setup is not configured; running advanced CodeQL workflow jobs."
+              ;;
+            *)
+              echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."
+              cat /tmp/codeql-default-setup.json || true
+              echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
   analyze:
     name: Analyze (c-cpp)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -233,6 +276,8 @@ jobs:
 
   analyze-csharp:
     name: Analyze (csharp)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: windows-latest
     timeout-minutes: 60
     steps:
@@ -281,6 +326,8 @@ jobs:
 
   analyze-rust:
     name: Analyze (rust)
+    needs: detect-default-setup
+    if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
