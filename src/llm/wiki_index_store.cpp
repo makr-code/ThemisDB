@@ -466,10 +466,13 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
         auto recall_at = [&](int k) -> double {
-            const int n = std::min(k, results.size());
+            if (k <= 0) {
+                return 0.0;
+            }
+            const size_t n = std::min(static_cast<size_t>(k), results.size());
             int hits = 0;
-            for (int i = 0; i < n; ++i) {
-                if (rel_set.count(results[static_cast<std::size_t>(i)].doc_id)) {
+            for (size_t i = 0; i < n; ++i) {
+                if (rel_set.count(results[i].doc_id)) {
                     ++hits;
                 }
             }
@@ -763,7 +766,16 @@ void WikiIndexStore::probeEmbeddingDim() {
         return;
     }
 
-    const int probed_dim = probe_vec.size();
+    if (probe_vec.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        spdlog::warn("[WikiIndexStore] probeEmbeddingDim: embed() returned oversized vector dim={}; "
+                     "keeping configured dim={}",
+                     probe_vec.size(),
+                     config_.embedding_dim);
+        dim_probed_.store(true, std::memory_order_release);
+        return;
+    }
+
+    const int probed_dim = static_cast<int>(probe_vec.size());
     if (probed_dim != config_.embedding_dim) {
         spdlog::info("[WikiIndexStore] probeEmbeddingDim: dim {} → {} (re-initialising vector index)",
                      config_.embedding_dim, probed_dim);
@@ -926,13 +938,13 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
               [](const Scored& a, const Scored& b){ return a.score > b.score; });
 
     // Build result
-    const int limit = (top_k > 0)
-                      ? std::min(scored.size(), top_k)
-                      : scored.size();
+    const size_t limit = (top_k > 0)
+                       ? std::min(scored.size(), static_cast<size_t>(top_k))
+                       : scored.size();
 
     std::vector<WikiChunk> out;
-    out.reserve(static_cast<std::size_t>(limit));
-    for (int i = 0; i < limit; ++i) {
+    out.reserve(limit);
+    for (size_t i = 0; i < limit; ++i) {
         WikiChunk c = chunks_[scored[i].idx];
         c.score = scored[i].score;
         out.push_back(std::move(c));
