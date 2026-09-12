@@ -10,8 +10,8 @@
 # ============================================================================
 FROM ubuntu:latest AS base
 
-ARG EXTRA_CA_CERT_B64=""
 ARG TARGETARCH
+ARG EXTRA_CA_CERT_B64=""
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
@@ -37,13 +37,20 @@ ADD https://github.com/microsoft/vcpkg/archive/10b7a178346f3f0abef60cecd5130e295
 # Install build essentials (combined layer for efficiency)
 RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-base-${TARGETARCH},target=/var/lib/apt,sharing=locked \
+    --mount=type=secret,id=extra_ca_bundle,required=false,target=/tmp/themis-host-ca.crt \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 ccache python3 perl nasm autoconf \
         automake libtool && \
-    if [ -n "${EXTRA_CA_CERT_B64}" ]; then \
-        echo "${EXTRA_CA_CERT_B64}" | base64 -d > /usr/local/share/ca-certificates/themis-extra-ca.crt && \
-        update-ca-certificates; \
+    THEMIS_CA_BUNDLE="" && \
+    if [ -s /tmp/themis-host-ca.crt ]; then \
+        THEMIS_CA_BUNDLE=/tmp/themis-host-ca.crt; \
+    elif [ -n "${EXTRA_CA_CERT_B64}" ]; then \
+        echo "${EXTRA_CA_CERT_B64}" | base64 -d > /tmp/themis-extra-ca.crt && \
+        THEMIS_CA_BUNDLE=/tmp/themis-extra-ca.crt; \
+    fi && \
+    if [ -n "${THEMIS_CA_BUNDLE}" ]; then \
+        export SSL_CERT_FILE="${THEMIS_CA_BUNDLE}" CURL_CA_BUNDLE="${THEMIS_CA_BUNDLE}" GIT_SSL_CAINFO="${THEMIS_CA_BUNDLE}"; \
     fi && \
     rm -rf /var/lib/apt/lists/* && \
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \

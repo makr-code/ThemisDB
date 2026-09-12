@@ -265,10 +265,11 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        mkdir -p internal llama.cpp models vcpkg/downloads
+        mkdir -p internal llama.cpp models
         touch internal/.gitkeep models/.gitkeep
         git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
         git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+        mkdir -p vcpkg/downloads
 
         test -f vcpkg/scripts/buildsystems/vcpkg.cmake
         test -f whisper.cpp/CMakeLists.txt
@@ -314,6 +315,8 @@ jobs:
       with:
         context: .
         file: ./docker/Dockerfile.unified
+        secret-files: |
+          extra_ca_bundle=/etc/ssl/certs/ca-certificates.crt
         push: |
           ${{
             (github.event_name == 'release') ||
