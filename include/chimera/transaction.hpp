@@ -109,5 +109,3 @@ private:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_TRANSACTION_HPP

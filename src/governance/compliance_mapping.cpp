@@ -66,8 +66,7 @@ ComplianceFrameworkLoader::loadFromFile(const std::string& filepath) {
     try {
         std::ifstream file(filepath);
         if (!file.is_open()) {
-            themis::utils::logger(themis::utils::LogLevel::kError)
-                << "Failed to open compliance framework file: " << filepath;
+            themis::utils::Logger::error("Failed to open compliance framework file: {}", filepath);
             return registry;
         }
         
@@ -75,12 +74,10 @@ ComplianceFrameworkLoader::loadFromFile(const std::string& filepath) {
         file >> j;
         
         if (registry->importFromJson(j)) {
-            themis::utils::logger(themis::utils::LogLevel::kInfo)
-                << "Loaded compliance framework from " << filepath;
+            themis::utils::Logger::info("Loaded compliance framework from {}", filepath);
         }
     } catch (const std::exception& e) {
-        themis::utils::logger(themis::utils::LogLevel::kError)
-            << "Error loading compliance framework: " << e.what();
+        themis::utils::Logger::error("Error loading compliance framework: {}", e.what());
     }
     
     return registry;

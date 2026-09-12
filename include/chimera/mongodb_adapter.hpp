@@ -51,7 +51,7 @@ namespace chimera {
  * should acquire its own connection.
  */
 class MongoDBAdapter : public IDatabaseAdapter,
-                       public ITransactionalAdapter,
+                       public ITransactionAdapter,
                        public IBatchAdapter {
 public:
     /**
@@ -312,5 +312,3 @@ private:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_MONGODB_ADAPTER_HPP
