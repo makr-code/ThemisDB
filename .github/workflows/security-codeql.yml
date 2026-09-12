@@ -5,13 +5,14 @@ name: "CodeQL Advanced"
 # community-release preset is respected (THEMIS_ENABLE_HIP=OFF, no ROCm required).
 # Trigger policy: repo framework score calibration for workflow cost controls.
 #
-# ── PREREQUISITE ─────────────────────────────────────────────────────────────
-# GitHub's Default Code Scanning Setup MUST be disabled before this workflow
-# can upload SARIF results. If Default Setup is active, the upload step will
-# fail with "advanced configurations cannot be processed when the default
-# setup is enabled."
-# Disable via: Repository Settings → Code security → Code scanning →
-#              Default setup → Disable
+# ── Default Code Scanning coexistence ────────────────────────────────────────
+# GitHub's managed Default Code Scanning setup is currently enabled for this
+# repository and publishes the authoritative CodeQL alerts for PRs and branch
+# pushes. Advanced CodeQL uploads fail in that mode with:
+#   "advanced configurations cannot be processed when the default setup is enabled"
+# To keep this workflow useful without fighting the managed setup, we still run
+# CodeQL extraction and query execution here, but we keep the SARIF local and do
+# not upload it to Code Scanning.
 #
 # ── Query-suite split (cost control) ─────────────────────────────────────────
 #   pull_request / push  → security-extended   (security rules only, no quality)
@@ -226,6 +227,7 @@ jobs:
         with:
           category: "/language:c-cpp"
           output: codeql-results
+          upload: never
           ram: 6144
           threads: 4
 
@@ -273,6 +275,7 @@ jobs:
         with:
           category: "/language:csharp"
           output: codeql-results-csharp
+          upload: never
           ram: 4096
           threads: 2
 
@@ -316,5 +319,6 @@ jobs:
         with:
           category: "/language:rust"
           output: codeql-results-rust
+          upload: never
           ram: 4096
           threads: 2
