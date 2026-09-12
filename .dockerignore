@@ -26,6 +26,8 @@
 !ports/**
 !plugins/
 !plugins/**
+!external/
+!external/**
 !tests/
 !tests/**
 !artifacts/
@@ -34,8 +36,16 @@
 !scripts/**
 !tools/
 !tools/**
+!vcpkg/
+!vcpkg/**
 !llama.cpp/
 !llama.cpp/**
+!whisper.cpp/
+!whisper.cpp/**
+!stable-diffusion.cpp/
+!stable-diffusion.cpp/**
+!ffmpeg/
+!ffmpeg/**
 
 # Model handling: never include local model artifacts in build context.
 !models/
@@ -44,6 +54,7 @@ models/**
 !models/**/default.gguf
 !models/**/*tinyllama*.gguf
 !models/**/*TinyLlama*.gguf
+!models/.gitkeep
 
 # Keep llama.cpp cache/model outputs out of context.
 llama.cpp/build/
@@ -54,6 +65,7 @@ llama.cpp/models/**
 !llama.cpp/models/**/default.gguf
 !llama.cpp/models/**/*tinyllama*.gguf
 !llama.cpp/models/**/*TinyLlama*.gguf
+!llama.cpp/models/.gitkeep
 
 # Exclude non-essential large assets from source trees.
 llama.cpp/docs/
