@@ -1,6 +1,6 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: current | generated: 2026-09-09 | source: recursive src/*/ROADMAP.md + src module deep-dive -->
+<!-- Status: current | generated: 2026-09-12 | source: recursive src/*/ROADMAP.md + src module deep-dive -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
@@ -18,17 +18,18 @@ For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as th
 | Status | Module groups | Notes |
 |---|---|---|
 | Production-ready / mostly closed | `server`, `storage`, `network`, `auth`, `security`, `cache`, `analytics`, `failover`, `maintenance`, `updates`, `process`, `execution` | These modules are largely in the documentation/readiness phase rather than core implementation phase. |
-| Active hardening | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai` | These modules still carry real code or evidence gaps and remain the main source of roadmap work. |
-| Planned / externalization | `chimera`, `user_storage`, plugin externalization tracks | Planning exists, but the implementation boundary is still being finalized. |
+| Active hardening | `themis`, `transaction`, `query`, `index`, `sharding`, `replication`, `graph`, `cdc`, `llm`, `rag`, `gpu`, `acceleration`, `geo`, `voice`, `access_model`, `ethics_ai`, `search`, `training`, `retrieval` | These modules still carry real code or evidence gaps and remain the main source of roadmap work. |
+| Docs-only module path (evidence mismatch) | `llm_streaming`, `vector_search` | Module-local roadmaps still describe production-candidate delivery, but the local module directories currently contain only docs artefacts and no colocated `.cpp/.h` implementation files. |
+| Planned / externalization | `chimera`, plugin externalization tracks | Planning exists, but the implementation boundary is still being finalized. |
 
 ---
 
-## Recursive Roadmap Deep-Dive Snapshot (2026-09-09)
+## Recursive Roadmap Deep-Dive Snapshot (2026-09-12)
 
 - **Scope checked:** 71 module roadmaps in `src/*/ROADMAP.md` plus module directory deep-dive for source/test/benchmark footprint.
 - **Governance structure status:** 71/71 module roadmaps now contain `Current Status`, `In Progress` and/or `Planned Features`, `Implementation Phases`, `Production Readiness Checklist`, `Known Issues & Limitations`, and `Breaking Changes`.
 - **Highest remaining backlog pressure (open checkbox count):**
-  - `acceleration` (42), `llm_wiki` (39), `query` (35), `transaction` (32), `index` (28), `rag` (26), `search` (24), `training` (22), `gpu` (20).
+  - `query` (59), `acceleration` (42), `llm_wiki` (40), `llm` (40), `transaction` (32), `index` (28), `updates` (27), `search` (27), `rag` (24).
 - **Sourcecode deep-dive findings requiring follow-up:**
   - `src/llm_streaming/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
   - `src/vector_search/` is currently docs-only (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`), while roadmap phases still describe production implementation state.
@@ -43,7 +44,7 @@ For the per-module current state, use [`MODULE_INDEX.md`](MODULE_INDEX.md) as th
 
 ## Table of Contents
 
-1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-09)](#recursive-roadmap-deep-dive-snapshot-2026-09-09)
+1. [Recursive Roadmap Deep-Dive Snapshot (2026-09-12)](#recursive-roadmap-deep-dive-snapshot-2026-09-12)
 2. [How to Use for GitHub Issue Creation](#how-to-use-for-github-issue-creation)
 3. [Status & Priority Legend](#status--priority-legend)
 4. [Statistics](#statistics)
