@@ -1505,13 +1505,20 @@ TEST_F(DistributedTxnManagerTest, Stub279_RemoteAbortUsesConfiguredPhase2Dispatc
 }
 
 // #279: Callback-less remote participants must receive Phase-2 COMMIT through
-// the configured remote dispatcher when all votes are COMMIT.
+// the configured remote dispatcher once a real Phase-1 bridge has collected a
+// COMMIT vote.
 TEST_F(DistributedTxnManagerTest, Stub279_RemoteCommitUsesConfiguredPhase2Dispatcher) {
     DistributedTxnManagerConfig cfg;
     cfg.prepare_timeout = 2000ms;
     cfg.commit_timeout = 2000ms;
     cfg.default_txn_timeout = 60s;
     cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+    cfg.phase1_rpc_fn = [](
+            const std::string&,
+            const std::string&,
+            const std::set<std::string>&) {
+        return true;
+    };
 
     std::atomic<int> dispatch_calls{0};
     std::atomic<int> commit_calls{0};
