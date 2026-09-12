@@ -289,7 +289,7 @@ jobs:
             git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
             git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
             ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
-            if [[ "${ACTUAL_LLAMA_CPP_COMMIT}" != ${LLAMA_CPP_GIT_TAG}* ]]; then
+            if [[ ! "${ACTUAL_LLAMA_CPP_COMMIT}" == "${LLAMA_CPP_GIT_TAG}"* ]]; then
               echo "::error::llama.cpp checkout mismatch: expected prefix ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
               exit 1
             fi
