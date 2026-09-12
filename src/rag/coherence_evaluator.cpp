@@ -385,14 +385,14 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
                                     std::inserter(common, common.begin()));
                 
                 // If they share significant terms, might be contradiction
-                if (static_cast<int>(common.size()) >= 2) {
+                if (common.size() >= 2) {
                     contradictions.push_back(sentences[i] + " <-> " + sentences[j]);
                 }
             }
         }
     }
     
-    THEMIS_DEBUG("Detected {} potential contradictions",static_cast<int>(contradictions.size()));
+    THEMIS_DEBUG("Detected {} potential contradictions",contradictions.size());
     return contradictions;
 }
 
@@ -421,7 +421,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     // Calculate consistency score based on contradictions
     if (result.has_contradictions) {
         // Penalty based on number of contradictions
-        double contradiction_penalty = std::min(1.0,static_cast<int>(result.contradictions.size()) * 0.3);
+        double contradiction_penalty = std::min(1.0,result.contradictions.size() * 0.3);
         result.consistency_score = 1.0 - contradiction_penalty;
     } else {
         result.consistency_score = 1.0;
@@ -446,7 +446,7 @@ CoherenceResult CoherenceEvaluator::evaluate(const std::string& answer) {
     explanation << "Consistency: " << result.consistency_score << " (30%)\n";
     
     if (result.has_contradictions) {
-        explanation << "Warning: " <<static_cast<int>(result.contradictions.size()) << " potential contradiction(s) detected.\n";
+        explanation << "Warning: " <<result.contradictions.size() << " potential contradiction(s) detected.\n";
     }
     
     if (result.coherence_score >= 0.8) {

@@ -37,7 +37,7 @@ SitemapCrawler::SitemapCrawler(FetchFn fetch_fn,
     const std::size_t close_len = close_tag.size();
 
     std::size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(xml_content.size())) {
+    while (static_cast<size_t>(pos) <xml_content.size()) {
         const std::size_t open_pos = xml_content.find(open_tag, pos);
         if (open_pos == std::string::npos) {
           break;
@@ -93,7 +93,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
         // parseLocEntries extracts all <loc> values regardless of parent element.
         const auto child_urls = parseLocEntries(xml);
         for (const auto& child_url : child_urls) {
-            if (static_cast<int>(result.size()) >= max_urls_) {
+            if (result.size() >= max_urls_) {
               break;
             }
             std::string child_xml = {};
@@ -107,7 +107,7 @@ std::vector<std::string> SitemapCrawler::fetchUrls(
             }
             const auto child_locs = parseLocEntries(child_xml);
             for (const auto& loc : child_locs) {
-                if (static_cast<int>(result.size()) >= max_urls_) {
+                if (result.size() >= max_urls_) {
                   break;
                 }
                 result.push_back(loc);

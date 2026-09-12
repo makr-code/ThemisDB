@@ -53,7 +53,7 @@ PathConstraints::PathConstraints(GraphIndexManager *graph_mgr) : graph_mgr_(grap
 // ── Security helpers ─────────────────────────────────────────────────────────
 
 bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
-    if (s.empty() || static_cast<int>(s.size()) > MAX_ID_LENGTH) {
+    if (s.empty() || s.size() > MAX_ID_LENGTH) {
         return false;
     }
     // Reject null bytes — they can cause string-comparison bypass via early
@@ -62,7 +62,7 @@ bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
 }
 
 bool PathConstraints::isValidFieldName(std::string_view s) noexcept {
-    if (s.empty() || static_cast<int>(s.size()) > MAX_FIELD_NAME_LENGTH) {
+    if (s.empty() || s.size() > MAX_FIELD_NAME_LENGTH) {
         return false;
     }
     for (char ch : s) {
@@ -122,7 +122,7 @@ void PathConstraints::addEdgePropertyConstraint(std::string_view field_name, std
     if (!isValidFieldName(field_name)) {
         return;
     }
-    if (static_cast<int>(expected_value.size()) > MAX_FIELD_VALUE_LENGTH) {
+    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) {
         return;
     }
     if (expected_value.find('\0') != std::string_view::npos) {
@@ -136,7 +136,7 @@ void PathConstraints::addNodePropertyConstraint(std::string_view field_name, std
     if (!isValidFieldName(field_name)) {
         return;
     }
-    if (static_cast<int>(expected_value.size()) > MAX_FIELD_VALUE_LENGTH) {
+    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) {
         return;
     }
     if (expected_value.find('\0') != std::string_view::npos) {
@@ -188,7 +188,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                     // Guard against negative values: a negative int cast to
                     // size_t becomes SIZE_MAX, causing every path to fail.
                     // Treat a negative limit as "no minimum restriction".
-                    if (limit >= 0 && static_cast<int>(nodes.size()) < static_cast<size_t>(limit)) {
+                    if (limit >= 0 && nodes.size() < static_cast<size_t>(limit)) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
                                          "Path too short: " + std::to_string(nodes.size()) + " < "
                                              + std::to_string(limit));
@@ -201,7 +201,7 @@ Result<bool> PathConstraints::validatePath(const std::vector<std::string> &nodes
                     const int limit = *constraint.int_value;
                     // A negative limit would wrap to SIZE_MAX, making this
                     // constraint a no-op; treat it as unlimited instead.
-                    if (limit >= 0 && static_cast<int>(nodes.size()) > static_cast<size_t>(limit)) {
+                    if (limit >= 0 && nodes.size() > static_cast<size_t>(limit)) {
                         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
                                          "Path too long: " + std::to_string(nodes.size()) + " > "
                                              + std::to_string(limit));
@@ -597,7 +597,7 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
     std::sort(results.begin(), results.end(), [](const PathResult &a, const PathResult &b) { return a.cost < b.cost; });
 
     // Limit to max_results
-    if (static_cast<int>(results.size()) > max_results) {
+    if (results.size() > max_results) {
         results.resize(max_results);
     }
 
@@ -616,7 +616,7 @@ void PathConstraints::clearConstraints() {
 
 std::string PathConstraints::describeConstraints() const {
     std::ostringstream oss = {};
-    oss << "Path Constraints (" <<static_cast<int>(constraints_.size()) << " total):\n";
+    oss << "Path Constraints (" <<constraints_.size() << " total):\n";
 
     for (const auto &constraint : constraints_) {
         oss << "  - ";
@@ -707,8 +707,8 @@ PathConstraints::validateSemanticPath(const PathResult &result) const {
     const std::size_t edge_count = result.edges.size();
     for (std::size_t i = 0; i < edge_count; ++i) {
         const std::string &edge_id  = result.edges[i];
-        const std::string &src_node = (i <static_cast<int>(result.nodes.size())) ? result.nodes[i] : "";
-        const std::string &tgt_node = (i + 1 <static_cast<int>(result.nodes.size())) ? result.nodes[i + 1] : "";
+        const std::string &src_node = (i <result.nodes.size()) ? result.nodes[i] : "";
+        const std::string &tgt_node = (i + 1 <result.nodes.size()) ? result.nodes[i + 1] : "";
 
         // Fetch node class from the graph ("_class" field; default "")
         std::string src_class, tgt_class, edge_type;

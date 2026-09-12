@@ -118,7 +118,7 @@ std::vector<const WorkflowStep*> WorkflowDefinition::topologicalOrder() const {
             }
         }
     }
-    if (static_cast<int>(result.size()) != static_cast<int>(steps.size())) return {}; // cycle detected
+    if (result.size() != steps.size()) return {}; // cycle detected
     return result;
 }
 
@@ -261,20 +261,20 @@ static json parseYamlScalar(const std::string& raw) {
     // Quoted string
     if (((s.front() == '"' && s.back() == '"') ||
         (s.front() == '\'' && s.back() == '\'')))
-        return s.substr(1, static_cast<int>(s.size()) - 2);
+        return s.substr(1, s.size() - 2);
 
     // Number
     try {
         size_t pos = 0;
         long long iv = std::stoll(s, &pos);
-        if (pos == static_cast<int>(s.size())) {
+        if (pos == s.size()) {
           return iv;
         }
     } catch (...) {}
     try {
         size_t pos = 0;
         double dv = std::stod(s, &pos);
-        if (pos == static_cast<int>(s.size())) {
+        if (pos == s.size()) {
           return dv;
         }
     } catch (...) {}
@@ -801,7 +801,7 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
 
         // Assign a synthetic id if the LLM omitted it
         if (sub.id.empty())
-            sub.id = "step_" + std::to_string(static_cast<int>(result.size()) + 1);
+            sub.id = "step_" + std::to_string(result.size() + 1);
         // Use description as prompt fallback
         if (sub.prompt.empty()) {
           sub.prompt = sub.description;
@@ -809,7 +809,7 @@ std::vector<SubTask> TaskDecomposer::parseSubtasksFromJson(const json& arr) cons
 
         result.push_back(std::move(sub));
         if (cfg.max_subtasks > 0 &&
-            static_cast<int>(result.size()) >= cfg.max_subtasks) {
+            result.size() >= cfg.max_subtasks) {
             break;
         }
     }
@@ -847,7 +847,7 @@ TaskDecompositionResult TaskDecomposer::parseResponse(
     result.subtasks = parseSubtasksFromJson(arr);
     const int min_req = impl_->config.min_subtasks;
     if (min_req > 0 &&
-        static_cast<int>(result.subtasks.size()) < min_req) {
+        result.subtasks.size() < min_req) {
         result.error = "Too few subtasks returned (" +
                        std::to_string(result.subtasks.size()) + " < " +
                        std::to_string(min_req) + ")";

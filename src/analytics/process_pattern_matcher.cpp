@@ -79,7 +79,7 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
 /// Extract the edge set (directly-follows pairs) of a trace.
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
-    for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+    for (size_t i = 1; i <trace.events.size(); ++i) {
         edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
@@ -178,8 +178,8 @@ double ProcessPatternMatcher::computeGraphSimilarity(const ProcessPattern &patte
     std::set<std::string> intersection_set;
     std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                           std::inserter(intersection_set, intersection_set.begin()));
-    size_t sym_diff  = (static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) ) - 2 * intersection_set.size();
-    double denom     = static_cast<double>(static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) );
+    size_t sym_diff  = (pat_set.size() + trace_set.size() ) - 2 * intersection_set.size();
+    double denom     = static_cast<double>(pat_set.size() + trace_set.size() );
     double edit_norm = (denom > 0) ? 1.0 - static_cast<double>(sym_diff) / denom : 1.0;
 
     return 0.30 * node_jac + 0.30 * edge_jac + 0.25 * path_sim + 0.15 * edit_norm;
@@ -373,8 +373,8 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
         std::set<std::string> inter_set;
         std::set_intersection(pat_set.begin(), pat_set.end(), trace_set.begin(), trace_set.end(),
                               std::inserter(inter_set, inter_set.begin()));
-        size_t sym_diff       = (static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) ) - 2 * inter_set.size();
-        double den            = static_cast<double>(static_cast<int>(pat_set.size()) + static_cast<int>(trace_set.size()) );
+        size_t sym_diff       = (pat_set.size() + trace_set.size() ) - 2 * inter_set.size();
+        double den            = static_cast<double>(pat_set.size() + trace_set.size() );
         metrics.edit_distance = (den > 0) ? static_cast<double>(sym_diff) / den : 0.0;
 
         // Matched / missing / extra activities
@@ -486,10 +486,10 @@ ProcessPatternMatcher::compareWithIdeal(const std::string &case_id, const Proces
     result.precision = trace_set.empty() ? 1.0 : static_cast<double>(covered) / trace_set.size();
 
     // Token replay approximation
-    result.produced_tokens  = static_cast<int>(trace_acts.size());
+    result.produced_tokens  = trace_acts.size();
     result.consumed_tokens  = lcs;
-    result.missing_tokens   = static_cast<int>(pat_acts.size()) - lcs;
-    result.remaining_tokens = static_cast<int>(trace_acts.size()) - lcs;
+    result.missing_tokens   = pat_acts.size() - lcs;
+    result.remaining_tokens = trace_acts.size() - lcs;
 
     // Deviations: missing and extra activities
     for (const auto &a : pat_set) {
@@ -728,7 +728,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         add(std::move(p));
     }
 
-    spdlog::info("ProcessPatternMatcher: loaded {} administrative models",static_cast<int>(model_cache_.size()));
+    spdlog::info("ProcessPatternMatcher: loaded {} administrative models",model_cache_.size());
     return {Status::OK(), model_cache_};
 }
 
@@ -757,7 +757,7 @@ ProcessPatternMatcher::getAdministrativeModel(const std::string &model_id) {
 std::pair<ProcessPatternMatcher::Status, ProcessPatternMatcher::PatternStatistics>
 ProcessPatternMatcher::getStatistics() const {
     PatternStatistics stats{};
-    stats.total_patterns_cached       = static_cast<int>(pattern_cache_.size());
+    stats.total_patterns_cached       = pattern_cache_.size();
     stats.total_comparisons_performed = statistics_.total_comparisons_performed;
     stats.avg_computation_time_ms     = statistics_.avg_computation_time_ms;
     stats.pattern_frequency           = statistics_.pattern_frequency;
@@ -780,8 +780,8 @@ void ProcessPatternMatcher::clearCache() {
 
 int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::string> &a,
                                                     const std::vector<std::string> &b) const {
-    const int m = static_cast<int>(a.size());
-    const int n = static_cast<int>(b.size());
+    const int m = a.size();
+    const int n = b.size();
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
     for (int i = 1; i <= m; ++i) {
         for (int j = 1; j <= n; ++j) {
@@ -800,7 +800,7 @@ int ProcessPatternMatcher::longestCommonSubsequence(const std::vector<std::strin
 // ============================================================================
 
 double ProcessPatternMatcher::cosineSimilarity(const std::vector<float> &a, const std::vector<float> &b) const {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
         return 0.0;
     }
 

@@ -116,7 +116,7 @@ public:
             return;
         }
         // Evict LRU entry if at capacity
-        if (static_cast<int>(list_.size()) >= capacity_) {
+        if (list_.size() >= capacity_) {
             auto last = list_.end();
             --last;
             map_.erase(last->first);
@@ -196,9 +196,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + static_cast<int>(context.case_law.size()) 
-                                           + static_cast<int>(context.similar_documents.size()) 
-                                           + static_cast<int>(context.internal_guidance.size()) ;
+                                           + context.case_law.size() 
+                                           + context.similar_documents.size() 
+                                           + context.internal_guidance.size() ;
 
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
@@ -212,7 +212,7 @@ public:
                 processed++;
 
                 if (callback && processed % 10 == 0) {
-                    callback(processed,static_cast<int>(sample_ids.size()),
+                    callback(processed,sample_ids.size(),
                              "Enriched sample " + sample_id);
                 }
 
@@ -312,9 +312,9 @@ public:
                 auto context = enrichSample(sample_id);
 
                 stats.context_items_added += context.related_provisions.size()
-                                           + static_cast<int>(context.case_law.size()) 
-                                           + static_cast<int>(context.internal_guidance.size()) 
-                                           + static_cast<int>(context.similar_documents.size()) ;
+                                           + context.case_law.size() 
+                                           + context.internal_guidance.size() 
+                                           + context.similar_documents.size() ;
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }
@@ -325,7 +325,7 @@ public:
                 processed++;
 
                 if (callback && processed % 10 == 0) {
-                    callback(processed,static_cast<int>(sample_ids.size()),
+                    callback(processed,sample_ids.size(),
                              "Query-enriched sample " + sample_id);
                 }
             } catch (...) {
@@ -448,7 +448,7 @@ public:
         for (const auto& r : results) {
             if (r.pk == document_id) continue; // exclude self
             similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
-            if (static_cast<int>(similar.size()) >= max_results) {
+            if (similar.size() >= max_results) {
               break;
             }
         }
@@ -602,16 +602,16 @@ private:
         std::ostringstream oss = {};
 
         if (!context.related_provisions.empty()) {
-            oss << "Related provisions: " <<static_cast<int>(context.related_provisions.size()) << "; ";
+            oss << "Related provisions: " <<context.related_provisions.size() << "; ";
         }
         if (!context.case_law.empty()) {
-            oss << "Case law: " <<static_cast<int>(context.case_law.size()) << "; ";
+            oss << "Case law: " <<context.case_law.size() << "; ";
         }
         if (!context.similar_documents.empty()) {
-            oss << "Similar documents: " <<static_cast<int>(context.similar_documents.size()) << "; ";
+            oss << "Similar documents: " <<context.similar_documents.size() << "; ";
         }
         if (!context.internal_guidance.empty()) {
-            oss << "Guidance documents: " <<static_cast<int>(context.internal_guidance.size());
+            oss << "Guidance documents: " <<context.internal_guidance.size();
         }
 
         return oss.str();

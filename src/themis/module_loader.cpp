@@ -478,7 +478,7 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
 
 void ModuleLoader::unloadAllModules() {
     std::unique_lock<std::shared_mutex> lk(modulesMutex_);
-    spdlog::info("Unloading all modules ({} loaded)",static_cast<int>(loadedModules_.size()));
+    spdlog::info("Unloading all modules ({} loaded)",loadedModules_.size());
 
     auto&    auditor = PluginSecurityAuditor::instance();
     uint64_t now     = static_cast<uint64_t>(std::time(nullptr));
@@ -1545,22 +1545,22 @@ std::string makeTempDirPath() {
 /// Returns true when safe; false when the path escapes the temp dir.
 ///
 /// Precondition: resolvedPath was produced by lexically_normal() on
-/// (tempDir / non_empty_name), so static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) is
+/// (tempDir / non_empty_name), so resolvedStr.size() > tempStr.size() is
 /// guaranteed for valid in-directory entries, making the separator access safe.
 bool isSafeEntryPath(const std::filesystem::path& tempDir,
                      const std::filesystem::path& resolvedPath) {
     auto tempStr     = tempDir.string();
     auto resolvedStr = resolvedPath.string();
     // Require the resolved path to be strictly longer (at least one component).
-    if (static_cast<int>(resolvedStr.size()) <= tempStr.size()) {
+    if (resolvedStr.size() <= tempStr.size()) {
       return false;
     }
     // Require the temp dir to be a proper prefix followed by a separator.
-    if (resolvedStr.substr(0,static_cast<int>(tempStr.size())) != tempStr) {
+    if (resolvedStr.substr(0,tempStr.size()) != tempStr) {
       return false;
     }
-    // At this point static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()) ensures safe access.
-    char sep = resolvedStr[static_cast<int>(tempStr.size())];
+    // At this point resolvedStr.size() > tempStr.size() ensures safe access.
+    char sep = resolvedStr[tempStr.size()];
     return sep == '/' || sep == '\\';
 }
 
@@ -1688,14 +1688,14 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
                                                   const std::vector<uint8_t>& signatureBytes,
                                                   const std::string& publicKeyPem,
                                                   std::string& error) {
-    if (static_cast<int>(signatureBytes.size()) != 64) {
+    if (signatureBytes.size() != 64) {
         error = "Ed25519 signature must be exactly 64 bytes, got " +
                 std::to_string(signatureBytes.size());
         return false;
     }
 
     BIO* bio = BIO_new_mem_buf(publicKeyPem.data(),
-                               static_cast<int>(publicKeyPem.size()));
+                               publicKeyPem.size());
     if (!bio) {
         error = "BIO_new_mem_buf failed";
         return false;
@@ -1724,7 +1724,7 @@ bool PluginBundleLoader::verifyEd25519Signature(const uint8_t* message,
     }
 
     int rc = EVP_DigestVerify(ctx,
-                               signatureBytes.data(),static_cast<int>(signatureBytes.size()),
+                               signatureBytes.data(),signatureBytes.size(),
                                message, messageLen);
     EVP_MD_CTX_free(ctx);
     EVP_PKEY_free(pkey);
@@ -1805,7 +1805,7 @@ std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
         // A path of the form "C:filename" is a relative path on Windows and is
         // also blocked conservatively: any entry starting with "<letter>:" is
         // rejected regardless of whether a separator follows.
-        if (static_cast<int>(nameStr.size()) >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
+        if (nameStr.size() >= 2 && std::isalpha(static_cast<unsigned char>(nameStr[0])) &&
             nameStr[1] == ':') {
             zip_close(archive);
             error = "Bundle contains drive-letter entry '" + nameStr + "' (ZipSlip rejected)";
@@ -1813,7 +1813,7 @@ std::string PluginBundleLoader::extractToTempDir(const std::string& bundlePath,
         }
 #endif
         // Normalise the entry path and check it stays inside tempDirCanon.
-        // isSafeEntryPath requires static_cast<int>(resolvedStr.size()) > static_cast<int>(tempStr.size()), which is
+        // isSafeEntryPath requires resolvedStr.size() > tempStr.size(), which is
         // guaranteed here because entryName is non-empty (checked above).
         fs::path entryPath = (tempDirCanon / nameStr).lexically_normal();
         if (!isSafeEntryPath(tempDirCanon, entryPath)) {

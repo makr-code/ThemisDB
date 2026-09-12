@@ -78,7 +78,7 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     
     // Split into batches if needed
     if (metrics.size() > static_cast<size_t>(config_.max_batch_size)) {
-        THEMIS_WARN("Batch size {} exceeds max {}, splitting",static_cast<int>(metrics.size()), config_.max_batch_size);
+        THEMIS_WARN("Batch size {} exceeds max {}, splitting",metrics.size(), config_.max_batch_size);
         
         HTTPResponse last_response;
         for (size_t i = 0; i < metrics.size(); i += config_.max_batch_size) {
@@ -95,7 +95,7 @@ HTTPResponse HTTPMetricsClient::sendMetricsBatch(const std::vector<QualityMetric
     
     std::string json_payload = serializeMetricsBatch(metrics);
     auto response = sendRawPayload(json_payload);
-    updateStatistics(response,static_cast<int>(metrics.size()));
+    updateStatistics(response,metrics.size());
     return response;
 }
 

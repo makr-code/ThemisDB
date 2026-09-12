@@ -66,7 +66,7 @@ std::string applyTemplate(const std::string& tmpl,
     auto replace = [&](const std::string& key, const std::string& val) {
         std::size_t pos = 0;
         while ((pos = out.find(key, pos)) != std::string::npos) {
-            out.replace(pos,static_cast<int>(key.size()), val);
+            out.replace(pos,key.size(), val);
             pos += val.size();
         }
     };
@@ -239,7 +239,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
         if (cfg.pagination_mode == "page") {
             ++page;
         } else if (cfg.pagination_mode == "offset") {
-            offset += static_cast<int>(batch.size());
+            offset += batch.size();
         } else if (cfg.pagination_mode == "cursor") {
             try {
                 const json root = json::parse(response);
@@ -275,7 +275,7 @@ std::vector<ApiResult> HttpScraperApiClient::fetchAll(
             const json root = json::parse(response);
             if (!cfg.total_field.empty() && root.contains(cfg.total_field)) {
                 const int total = root[cfg.total_field].get<int>();
-                if (static_cast<int>(all.size()) >= total) {
+                if (all.size() >= total) {
                   break;
                 }
             }

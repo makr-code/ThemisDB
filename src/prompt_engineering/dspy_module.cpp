@@ -125,7 +125,7 @@ std::unordered_map<std::string, std::string> DspySignature::parseResponse(
         }
 
         // Extract text after the marker up to the next field label or end
-        size_t value_start = pos + static_cast<int>(marker.size()) ;
+        size_t value_start = pos + marker.size() ;
 
         // Skip leading whitespace / newline
         while (value_start < response.size() &&
@@ -208,7 +208,7 @@ std::string EchoDspyLLMProvider::complete(const std::string& prompt)
 
         // Check if it's in a "# description" context (it's an output label)
         bool is_output = (line.find("# ") != std::string::npos ||
-                          static_cast<int>(line.size()) <= colon_pos + 2);
+                          line.size() <= colon_pos + 2);
 
         if (is_output) {
             response << token << ": [echo]\n";
@@ -253,7 +253,7 @@ std::unordered_map<std::string, std::string> DspyModule::forward(
     std::string response = llm_provider_->complete(prompt);
 
     THEMIS_DEBUG("DspyModule::forward [{}]: prompt_len={}, response_len={}",
-                 signature_.getName(),static_cast<int>(prompt.size()),static_cast<int>(response.size()));
+                 signature_.getName(),prompt.size(),response.size());
 
     return signature_.parseResponse(response);
 }

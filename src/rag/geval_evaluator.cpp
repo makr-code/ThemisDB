@@ -248,10 +248,10 @@ struct GEvalEvaluator::Impl {
                 std::istringstream iss(response.text);
                 std::string tok = {};
                 size_t idx = 0;
-                while (iss >> tok  && static_cast<size_t>(idx) <static_cast<int>(response.logprobs.size())) {
+                while (iss >> tok  && static_cast<size_t>(idx) <response.logprobs.size()) {
                     // kNumScoreLevels ≤ 9 so single-digit check is safe
                     char max_digit = static_cast<char>('0' + kNumScoreLevels);
-                    if (static_cast<int>(tok.size()) == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
+                    if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
                         double parsed = static_cast<double>(tok[0] - '0');
                         return probsFromScore(parsed);
                     }
@@ -338,14 +338,14 @@ GEvalResult GEvalEvaluator::evaluate(
         // Compute confidence and variance
         result.confidence = computeConfidence(result.token_probabilities);
         
-        if (static_cast<int>(sample_scores.size()) > 1) {
+        if (sample_scores.size() > 1) {
             double mean = result.geval_score;
             double sum_sq_diff = 0.0;
             for (double score : sample_scores) {
                 double diff = score - mean;
                 sum_sq_diff += diff * diff;
             }
-            result.variance = sum_sq_diff / (static_cast<int>(sample_scores.size()) - 1);
+            result.variance = sum_sq_diff / (sample_scores.size() - 1);
         } else {
             result.variance = 0.0;
         }
@@ -354,7 +354,7 @@ GEvalResult GEvalEvaluator::evaluate(
         std::ostringstream reasoning = {};
         reasoning << "G-Eval probabilistic scoring for " << dimension << ":\n";
         reasoning << "Token probability distribution:\n";
-        for (size_t i = 0; i <static_cast<int>(result.token_probabilities.size()); i++) {
+        for (size_t i = 0; i <result.token_probabilities.size(); i++) {
             reasoning << "  Level " << (i+1) << ": " 
                      << std::fixed << std::setprecision(3) 
                      << result.token_probabilities[i] << "\n";
@@ -388,9 +388,9 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
 }
 
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
-    if (static_cast<int>(probabilities.size()) != kNumScoreLevels) {
+    if (probabilities.size() != kNumScoreLevels) {
         spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
-                     kNumScoreLevels, kNumScoreLevels,static_cast<int>(probabilities.size()));
+                     kNumScoreLevels, kNumScoreLevels,probabilities.size());
         return 0.5;  // Default to middle
     }
     
@@ -442,7 +442,7 @@ double GEvalEvaluator::aggregateScores(
         return 0.5;  // Default
     }
     
-    if (static_cast<int>(samples.size()) == 1) {
+    if (samples.size() == 1) {
         return samples[0];
     }
     

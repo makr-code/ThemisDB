@@ -39,7 +39,7 @@ static constexpr const char kBase64Chars[] =
 
 std::string TemporalCompressor::base64Encode(const std::string& input) {
     std::string out = {};
-    out.reserve(((static_cast<int>(input.size()) + 2) / 3) * 4);
+    out.reserve(((input.size() + 2) / 3) * 4);
     const auto* data = reinterpret_cast<const unsigned char*>(input.data());
     size_t i = 0;
     for (; i + 2 < input.size(); i += 3) {
@@ -49,13 +49,13 @@ std::string TemporalCompressor::base64Encode(const std::string& input) {
         out += kBase64Chars[(v >>  6) & 0x3F];
         out += kBase64Chars[(v      ) & 0x3F];
     }
-    if (i + 1 == static_cast<int>(input.size())) {
+    if (i + 1 == input.size()) {
         uint32_t v = uint32_t(data[i]) << 16;
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
         out += '=';
         out += '=';
-    } else if (i + 2 == static_cast<int>(input.size())) {
+    } else if (i + 2 == input.size()) {
         uint32_t v = (uint32_t(data[i]) << 16) | (uint32_t(data[i+1]) << 8);
         out += kBase64Chars[(v >> 18) & 0x3F];
         out += kBase64Chars[(v >> 12) & 0x3F];
@@ -86,7 +86,7 @@ static int base64CharValue(char c) {
 
 std::string TemporalCompressor::base64Decode(const std::string& input) {
     std::string out = {};
-    if (input.empty() || static_cast<int>(input.size()) % 4 != 0) {
+    if (input.empty() || input.size() % 4 != 0) {
       return out;
     }
     out.reserve((input.size() / 4) * 3);
@@ -125,7 +125,7 @@ std::string TemporalCompressor::rlEncode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size());
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
+    while (static_cast<size_t>(i) <input.size()) {
         unsigned char cur = static_cast<unsigned char>(input[i]);
         size_t run = 1;
         while (i + run < input.size() &&
@@ -152,7 +152,7 @@ std::string TemporalCompressor::rlDecode(const std::string& input) {
     std::string out = {};
     out.reserve(input.size() * 2);
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(input.size())) {
+    while (static_cast<size_t>(i) <input.size()) {
         unsigned char byte = static_cast<unsigned char>(input[i]);
         if (byte == kRlRepeatMarker && i + 2 < input.size()) {
             unsigned char count = static_cast<unsigned char>(input[i+1]);
@@ -179,7 +179,7 @@ nlohmann::json TemporalCompressor::applyZstd(const nlohmann::json& doc, int /*le
     return nlohmann::json{
         {"__compressed", "zstd"},
         {"__data",       encoded},
-        {"__original_size",static_cast<int>(raw.size())}
+        {"__original_size",raw.size()}
     };
 }
 
@@ -292,7 +292,7 @@ nlohmann::json TemporalCompressor::applyDictionary(
             const std::string& s = val.get<std::string>();
             auto it = dict.find(s);
             if (it == dict.end()) {
-                int idx = static_cast<int>(dict.size());
+                int idx = dict.size();
                 dict[s] = idx;
                 it = dict.find(s);
             }
@@ -320,7 +320,7 @@ nlohmann::json TemporalCompressor::applyDictionary(
 
 nlohmann::json TemporalCompressor::applyLz4(const nlohmann::json& doc) {
     const std::string src = doc.dump();
-    const int src_size    = static_cast<int>(src.size());
+    const int src_size    = src.size();
 
     // LZ4_compressBound gives the worst-case output size.
     const int max_dst = LZ4_compressBound(src_size);
@@ -364,7 +364,7 @@ nlohmann::json TemporalCompressor::decompressLz4(const nlohmann::json& doc) {
     const int decompressed_size = LZ4_decompress_safe(
         compressed.data(),
         decompressed.data(),
-        static_cast<int>(compressed.size()),
+        compressed.size(),
         original_size);
 
     if (decompressed_size < 0 || decompressed_size != original_size) {

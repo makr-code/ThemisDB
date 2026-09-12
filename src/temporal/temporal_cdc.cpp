@@ -131,7 +131,7 @@ bool TemporalCDC::unsubscribe(const std::string& sub_id) {
 
 size_t TemporalCDC::subscriptionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(subscriptions_.size());
+    return subscriptions_.size();
 }
 
 // ============================================================================
@@ -147,7 +147,7 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
         std::lock_guard<std::mutex> lk(mutex_);
 
         // Append to ring-buffer log, applying the overflow policy when full
-        if (static_cast<int>(log_.size()) >= max_log_size_) {
+        if (log_.size() >= max_log_size_) {
             // Evict oldest event (front of deque-like buffer) — OVERWRITE policy
             if (overflow_policy_ == OverflowPolicy::DROP) {
                 // DROP: discard the new event, count it
@@ -208,7 +208,7 @@ std::vector<ChangeEvent> TemporalCDC::replayChanges(
 
 size_t TemporalCDC::logSize() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(log_.size());
+    return log_.size();
 }
 
 uint64_t TemporalCDC::totalPublished() const noexcept {
@@ -457,7 +457,7 @@ void CDCPersistentLog::append(const ChangeEvent& event) {
     }
 
     const uint32_t payload_len = static_cast<uint32_t>(payload.size());
-    const uint32_t crc         = computeCRC32(payload.data(),static_cast<int>(payload.size()));
+    const uint32_t crc         = computeCRC32(payload.data(),payload.size());
 
     std::fwrite(&payload_len, 4, 1, active_fd_);
     std::fwrite(&crc,         4, 1, active_fd_);
@@ -543,7 +543,7 @@ std::vector<ChangeEvent> CDCPersistentLog::replaySegment(uint64_t seq) const {
         seqs = listSegmentSeqs();
     }
 
-    if (seq >= static_cast<int>(seqs.size())) {
+    if (seq >= seqs.size()) {
         throw std::out_of_range("CDCPersistentLog::replaySegment: seq "
                                 + std::to_string(seq) + " out of range");
     }
@@ -593,13 +593,13 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
         }
         const std::string fname = entry.path().filename().string();
         const std::string prefix_part = log_prefix_ + "_";
-        if (static_cast<int>(fname.size()) > static_cast<int>(prefix_part.size()) + 4 &&
-            fname.substr(0,static_cast<int>(prefix_part.size())) == prefix_part &&
-            fname.substr(static_cast<int>(fname.size()) - 4) == ".wal") {
+        if (fname.size() > prefix_part.size() + 4 &&
+            fname.substr(0,prefix_part.size()) == prefix_part &&
+            fname.substr(fname.size() - 4) == ".wal") {
             try {
                 uint64_t seq = std::stoull(
                     fname.substr(prefix_part.size(),
-                                 static_cast<int>(fname.size()) - static_cast<int>(prefix_part.size()) - 4));
+                                 fname.size() - prefix_part.size() - 4));
                 seqs.push_back(seq);
             } catch (...) {}
         }
@@ -646,7 +646,7 @@ std::vector<uint64_t> CDCPersistentLog::listSegmentSeqs() const {
 }
 
 /*static*/ uint32_t CDCPersistentLog::crc32(const std::string& data) noexcept {
-    return computeCRC32(data.data(),static_cast<int>(data.size()));
+    return computeCRC32(data.data(),data.size());
 }
 
 void CDCPersistentLog::rotate() {

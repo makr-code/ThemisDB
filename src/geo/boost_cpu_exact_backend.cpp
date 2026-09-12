@@ -73,7 +73,7 @@ static Polygon toBoostPolygon(const GeometryInfo& geom) {
         }
     } else if (!geom.rings.empty()) {
         // Polygon with rings (first ring is outer, rest are holes)
-        for (size_t i = 0; i <static_cast<int>(geom.rings.size()); ++i) {
+        for (size_t i = 0; i <geom.rings.size(); ++i) {
             if (i == 0) {
                 // Outer ring
                 for (const auto& coord : geom.rings[i]) {
@@ -109,7 +109,7 @@ public:
         out.mask.assign(in.count, 0);
 
         // Process geometry pairs when they are provided.
-        std::size_t n = std::min({in.count,static_cast<int>(in.geoms_a.size()),static_cast<int>(in.geoms_b.size())});
+        std::size_t n = std::min({in.count,in.geoms_a.size(),in.geoms_b.size()});
         for (std::size_t i = 0; i < n; ++i) {
             out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1 : 0;
         }
@@ -305,7 +305,7 @@ public:
                     col.geometries.push_back(geom2);
                     return col;
                 }
-                if (static_cast<int>(result.size()) == 1) {
+                if (result.size() == 1) {
                     // Single merged polygon.
                     return boostPolyToGeomInfo(result[0]);
                 }
@@ -335,7 +335,7 @@ public:
                 MultiPoly result;
                 bg::difference(poly1, poly2, result);
                 if (result.empty()) return GeometryInfo{};
-                if (static_cast<int>(result.size()) == 1) {
+                if (result.size() == 1) {
                     return boostPolyToGeomInfo(result[0]);
                 }
                 GeometryInfo col(GeometryType::GeometryCollection);

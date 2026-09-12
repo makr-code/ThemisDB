@@ -182,7 +182,7 @@ void ScheduledGraphEdgeRefreshEngine::setCEPEventCallback(std::function<void(the
 
 float ScheduledGraphEdgeRefreshEngine::computeSimilarity(const std::vector<float> &a,
                                                          const std::vector<float> &b) const {
-    if (a.empty() || b.empty() || static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
         return 0.0f;
     }
 
@@ -336,7 +336,7 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
         if (dim == 0) {
             dim = emb.size();
         }
-        if (static_cast<int>(emb.size()) != dim) {
+        if (emb.size() != dim) {
             continue; // dimension mismatch – skip
         }
 
@@ -351,8 +351,8 @@ void ScheduledGraphEdgeRefreshEngine::rebuildANNIndex(const std::vector<std::str
         return;
     }
 
-    ann_index_->build(flat_vecs.data(), flat_ids.data(),static_cast<int>(flat_ids.size()), dim);
-    spdlog::debug("[ScheduledEdgeRefresh] ANN index rebuilt with {} vertices (dim={})",static_cast<int>(flat_ids.size()), dim);
+    ann_index_->build(flat_vecs.data(), flat_ids.data(),flat_ids.size(), dim);
+    spdlog::debug("[ScheduledEdgeRefresh] ANN index rebuilt with {} vertices (dim={})",flat_ids.size(), dim);
 }
 
 /* static */ void ScheduledGraphEdgeRefreshEngine::validatePolicy(const RefreshPolicy &policy) {
@@ -472,7 +472,7 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     }
 
     // Enforce max_edges_to_remove limit.
-    if (policy.max_edges_to_remove > 0 && static_cast<int>(to_remove.size()) > static_cast<size_t>(policy.max_edges_to_remove)) {
+    if (policy.max_edges_to_remove > 0 && to_remove.size() > static_cast<size_t>(policy.max_edges_to_remove)) {
         to_remove.resize(policy.max_edges_to_remove);
     }
 
@@ -502,7 +502,7 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     auto to_add = discoverCandidateEdges(edges);
 
     // Enforce max_edges_to_add limit.
-    if (policy.max_edges_to_add > 0 && static_cast<int>(to_add.size()) > static_cast<size_t>(policy.max_edges_to_add)) {
+    if (policy.max_edges_to_add > 0 && to_add.size() > static_cast<size_t>(policy.max_edges_to_add)) {
         to_add.resize(policy.max_edges_to_add);
     }
 
@@ -709,7 +709,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
         ann_idx = ann_index_;
     }
 
-    if (ann_idx && static_cast<int>(vertices.size()) > policy.ann_min_vertices) {
+    if (ann_idx && vertices.size() > policy.ann_min_vertices) {
         rebuildANNIndex(vertices);
 
         // Search top-k*3 candidates per vertex to give the threshold filter
@@ -722,7 +722,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
                 continue;
             }
 
-            auto results = ann_idx->search(emb_v.data(),static_cast<int>(emb_v.size()), k_search);
+            auto results = ann_idx->search(emb_v.data(),emb_v.size(), k_search);
 
             std::vector<std::pair<float, std::string>> scored;
             scored.reserve(results.size());
@@ -750,7 +750,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
             }
 
             // Keep only top-k.
-            if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
+            if (scored.size() > policy.top_k_candidates) {
                 std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                                   scored.end(), [](const auto &a, const auto &b) {
                                       return a.first > b.first; // descending
@@ -797,7 +797,7 @@ ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges(const std::vector<BaseEn
         }
 
         // Keep only top-k.
-        if (static_cast<int>(scored.size()) > policy.top_k_candidates) {
+        if (scored.size() > policy.top_k_candidates) {
             std::partial_sort(scored.begin(), scored.begin() + static_cast<std::ptrdiff_t>(policy.top_k_candidates),
                               scored.end(), [](const auto &a, const auto &b) {
                                   return a.first > b.first; // descending
@@ -943,7 +943,7 @@ bool ScheduledGraphEdgeRefreshEngine::applyBatch(
 
 void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    if (static_cast<int>(audit_trail_.size()) >= kMaxAuditEntries) {
+    if (audit_trail_.size() >= kMaxAuditEntries) {
         audit_trail_.erase(audit_trail_.begin()); // evict oldest
     }
 

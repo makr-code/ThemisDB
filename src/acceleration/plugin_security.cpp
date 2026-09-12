@@ -519,7 +519,7 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
 
     // Step 2: Load X.509 certificate from PEM string
     BIO *bio
-        = BIO_new_mem_buf(signature.signingCertificate.data(), static_cast<int>(signature.signingCertificate.size()));
+        = BIO_new_mem_buf(signature.signingCertificate.data(), signature.signingCertificate.size());
     if (!bio) {
         return false;
     }
@@ -574,7 +574,7 @@ bool PluginSecurityVerifier::verifySignature(const std::string &filePath, const 
 
         if (decodeHexString(fileHash, hashBytes)) {
             // Verify signature
-            int result = EVP_DigestVerify(mdctx, sigBytes.data(),static_cast<int>(sigBytes.size()), hashBytes.data(),static_cast<int>(hashBytes.size()));
+            int result = EVP_DigestVerify(mdctx, sigBytes.data(),sigBytes.size(), hashBytes.data(),hashBytes.size());
             verified   = (result == 1);
         }
     }
@@ -593,7 +593,7 @@ bool PluginSecurityVerifier::verifyCertificateChain(const std::string &certifica
     }
 
     // Create BIO from certificate PEM string
-    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
+    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
     if (!bio) {
         return false;
     }
@@ -670,7 +670,7 @@ bool PluginSecurityVerifier::checkCRL(const std::string &certificate) {
     }
 
     // Load certificate
-    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
+    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
     if (!bio) {
         return false;
     }
@@ -849,7 +849,7 @@ bool PluginSecurityVerifier::checkOCSP(const std::string &certificate) {
     }
 
     // Load certificate
-    BIO *bio = BIO_new_mem_buf(certificate.data(), static_cast<int>(certificate.size()));
+    BIO *bio = BIO_new_mem_buf(certificate.data(), certificate.size());
     if (!bio) {
         return false;
     }
@@ -1570,7 +1570,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             return std::nullopt;
         }
 
-        if (static_cast<int>(pkcs7_blobs.size()) > 1) {
+        if (pkcs7_blobs.size() > 1) {
             THEMIS_WARN("extractEmbeddedCertificate: {} PKCS#7 certificates found "
                         "in PE certificate table; using the first one.",
                         pkcs7_blobs.size());
@@ -1840,7 +1840,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
+    file.read(reinterpret_cast<char *>(header.data()),header.size());
 
     if (file.gcount() < 4) {
         return std::nullopt;
@@ -2104,7 +2104,7 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()),static_cast<int>(header.size()));
+    file.read(reinterpret_cast<char *>(header.data()),header.size());
 
     if (file.gcount() < 4) {
         return {};
@@ -2166,7 +2166,7 @@ bool EnhancedPluginSecurityVerifier::verifyRSASignature(const std::vector<uint8_
     // Initialize verification context
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) == 1) {
         // Verify signature
-        int result = EVP_DigestVerify(mdctx, signature.data(),static_cast<int>(signature.size()), data.data(),static_cast<int>(data.size()));
+        int result = EVP_DigestVerify(mdctx, signature.data(),signature.size(), data.data(),data.size());
         verified   = (result == 1);
     }
 

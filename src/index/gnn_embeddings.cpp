@@ -116,7 +116,7 @@ GNNEmbeddingManager::parseEmbeddingKey_(std::string_view key) const {
         parts.push_back(part);
     }
     
-    if (static_cast<int>(parts.size()) < 5 || parts[0] != "gnn_emb") {
+    if (parts.size() < 5 || parts[0] != "gnn_emb") {
         return std::nullopt;
     }
     
@@ -250,9 +250,9 @@ GNNEmbeddingManager::computeEmbedding_(
             std::vector<float> neighbor_features = extractFeatures_(neighbor, {});
             
             // Pad/truncate to target dimension
-            if (static_cast<int>(neighbor_features.size()) < static_cast<size_t>(target_dim)) {
+            if (neighbor_features.size() < static_cast<size_t>(target_dim)) {
                 neighbor_features.resize(target_dim, 0.0f);
-            } else if (static_cast<int>(neighbor_features.size()) > static_cast<size_t>(target_dim)) {
+            } else if (neighbor_features.size() > static_cast<size_t>(target_dim)) {
                 neighbor_features.resize(target_dim);
             }
             
@@ -646,7 +646,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     if (aggregation_method == "mean") {
         // Mean pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <graph_embedding.size(); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -657,7 +657,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
     } else if (aggregation_method == "sum") {
         // Sum pooling
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <graph_embedding.size(); ++i) {
                 graph_embedding[i] += emb[i];
             }
         }
@@ -665,7 +665,7 @@ GNNEmbeddingManager::generateGraphEmbedding(
         // Max pooling
         std::fill(graph_embedding.begin(), graph_embedding.end(), -std::numeric_limits<float>::infinity());
         for (const auto& emb : node_embeddings) {
-            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <static_cast<int>(graph_embedding.size()); ++i) {
+            for (size_t i = 0; i < emb.size()  && static_cast<size_t>(i) <graph_embedding.size(); ++i) {
                 graph_embedding[i] = std::max(graph_embedding[i], emb[i]);
             }
         }
@@ -800,7 +800,7 @@ GNNEmbeddingManager::findSimilarNodes(
         
         similar.push_back(simRes);
         
-        if (static_cast<int>(similar.size()) >= static_cast<size_t>(k)) {
+        if (similar.size() >= static_cast<size_t>(k)) {
           break;
         }
     }
@@ -850,7 +850,7 @@ GNNEmbeddingManager::findSimilarEdges(
         simRes.graph_id = parts->graph_id;
         
         similar.push_back(simRes);
-        if (static_cast<int>(similar.size()) >= static_cast<size_t>(k)) {
+        if (similar.size() >= static_cast<size_t>(k)) {
           break;
         }
     }
@@ -976,7 +976,7 @@ GNNEmbeddingManager::getStats() const {
             parts.push_back(part);
         }
         
-        if (static_cast<int>(parts.size()) >= 4) {
+        if (parts.size() >= 4) {
             std::string entity_type = parts[1];
             std::string graph_id = parts[2];
             std::string model_name = parts[3];

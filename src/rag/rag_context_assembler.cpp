@@ -47,7 +47,7 @@ void RAGContextAssembler::setConfig(const RAGContextAssemblerConfig& cfg)
 std::string RAGContextAssembler::truncateContent(const std::string& content,
                                                   size_t             max_chars) const
 {
-    if (static_cast<int>(content.size()) <= max_chars) {
+    if (content.size() <= max_chars) {
       return content;
     }
 
@@ -56,7 +56,7 @@ std::string RAGContextAssembler::truncateContent(const std::string& content,
         // No room even for the marker — return marker only (capped to max_chars).
         return marker.substr(0, max_chars);
     }
-    return content.substr(0, max_chars - static_cast<int>(marker.size()) ) + marker;
+    return content.substr(0, max_chars - marker.size() ) + marker;
 }
 
 // ---------------------------------------------------------------------------
@@ -164,7 +164,7 @@ AssembledContext RAGContextAssembler::assemble(
             // Chunk is too large — truncate it to the remaining char budget
             // and consume the remainder of context allocation
             const size_t max_chars = tokensToChars(remaining);
-            if (max_chars > static_cast<int>(config_.truncation_marker.size())) {
+            if (max_chars > config_.truncation_marker.size()) {
                 RetrievedChunk truncated = chunk;
                 truncated.content        = truncateContent(chunk.content, max_chars);
                 result.chunks_used.push_back(std::move(truncated));

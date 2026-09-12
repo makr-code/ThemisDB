@@ -82,7 +82,7 @@ size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
 
 	const size_t id = it->second;
 	// Defensive bounds check before accessing vector by index (A-2.2)
-	if (static_cast<int>(idToPk.size()) > id) {
+	if (idToPk.size() > id) {
 		idToPk[id] = pk;
 	}
 	return id;
@@ -426,11 +426,11 @@ void VectorIndexManager::setHnswEncryptionEnabled([[maybe_unused]] bool enabled)
 }
 
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
-	if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+	if (a.size() != b.size()) {
 	  return std::numeric_limits<float>::infinity();
 	}
 	// Return squared L2 to match existing distance semantics (lower is better)
-	return simd::l2_distance_sq(a.data(), b.data(),static_cast<int>(a.size()));
+	return simd::l2_distance_sq(a.data(), b.data(),a.size());
 }
 
 float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b) {
@@ -490,7 +490,7 @@ float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vec
 // Note: Currently unused, kept for future implementation
 #if 0
 static float cosineOneMinusMeanCentered(const std::vector<float>& a, const std::vector<float>& b) {
-	if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+	if (a.size() != b.size() || a.empty()) {
 	  return 1.0f;
 	}
 	std::vector<float> ac(a), bc(b);
@@ -548,7 +548,7 @@ float VectorIndexManager::distance(const std::vector<float>& a, const std::vecto
 		// to align with expected semantics for generated test embeddings ((i + j)/1000 pattern).
 		if (isVectorEncryptionEnabled()) {
 			std::vector<float> b_adj = b;
-			const int n = static_cast<int>(b_adj.size());
+			const int n = b_adj.size();
 			double sumj = 0.0, sumj2 = 0.0, sumb = 0.0, sumjb = 0.0;
 			for (int j = 0; j < n; ++j) {
 				sumj += j;
@@ -878,8 +878,8 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	});
 	
 	// Phase 1: Audit log for bulk embedding rebuild (threshold: 100+ vectors)
-	if (static_cast<int>(cache_.size()) >= 100) {
-		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage",static_cast<int>(cache_.size()));
+	if (cache_.size() >= 100) {
+		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage",cache_.size());
 	}
 	
 	return Status::OK();
@@ -943,7 +943,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 				}
 			}
 
-			if (v.empty() || static_cast<int>(v.size()) != static_cast<size_t>(dim_)) {
+			if (v.empty() || v.size() != static_cast<size_t>(dim_)) {
 			  return true;
 			}
 			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) {
@@ -1363,14 +1363,14 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		float dist = distance(query, vec);
 		
 		// Skip vectors that can't possibly be in top-k
-		if (dist > threshold && static_cast<int>(heap.size()) >= k) {
+		if (dist > threshold && heap.size() >= k) {
 			return;
 		}
 		
 		heap.push_back({pk, dist});
 		
 		// Update threshold periodically using nth_element (partial sort)
-		if (static_cast<int>(heap.size()) >= k && static_cast<int>(heap.size()) % 32 == 0) {
+		if (heap.size() >= k && heap.size() % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
 			threshold = heap[static_cast<int>(k - 1)].distance;
@@ -1461,7 +1461,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 						}
 					}
 
-					if (static_cast<int>(v.size()) == expected_dim) {
+					if (v.size() == expected_dim) {
 						consider(pk, v);
 					}
 				} catch (...) {
@@ -1485,7 +1485,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			for (size_t block_start = 0; block_start < cache_ptrs.size(); block_start += BLOCK_SIZE) {
 				// Prefetch next block of vectors into L2 cache
 				size_t prefetch_start = block_start + BLOCK_SIZE * PREFETCH_AHEAD;
-				if (static_cast<int>(cache_ptrs.size()) > prefetch_start) {
+				if (cache_ptrs.size() > prefetch_start) {
 					size_t prefetch_end = std::min(prefetch_start + BLOCK_SIZE, cache_ptrs.size());
 					for (size_t i = prefetch_start; i < prefetch_end; ++i) {
 						const auto& vec = cache_ptrs[i]->second;
@@ -1493,13 +1493,13 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 							// Use prefetch lambda defined earlier in this function
 							prefetch(&vec.front());
 							// Prefetch middle and end of 1536D vector (spans 6KB / ~96 cache lines)
-							if (static_cast<int>(vec.size()) > 384) {
+							if (vec.size() > 384) {
 							  prefetch(&vec[384]);
 							}
-							if (static_cast<int>(vec.size()) > 768) {
+							if (vec.size() > 768) {
 							  prefetch(&vec[768]);
 							}
-							if (static_cast<int>(vec.size()) > 1152) {
+							if (vec.size() > 1152) {
 							  prefetch(&vec[1152]);
 							}
 						}
@@ -1510,7 +1510,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 				size_t block_end = std::min(block_start + BLOCK_SIZE, cache_ptrs.size());
 				for (size_t i = block_start; i < block_end; ++i) {
 					const auto& [pk, vec] = *cache_ptrs[i];
-					if (static_cast<int>(vec.size()) == expected_dim) {
+					if (vec.size() == expected_dim) {
 						consider(pk, vec);
 					}
 				}
@@ -1519,7 +1519,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	}
 	
 	// Final partial sort: O(n log k) instead of O(n log n)
-	if (static_cast<int>(heap.size()) > k) {
+	if (heap.size() > k) {
 		std::partial_sort(heap.begin(), heap.begin() + k, heap.end(),
 			[](const Result& a, const Result& b) { return a.distance < b.distance; });
 		heap.resize(k);
@@ -1535,7 +1535,7 @@ std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
 VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelist) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (static_cast<int>(query.size()) != expected_dim) {
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnn: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
     
@@ -1580,7 +1580,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				// Estimate layers traversed (HNSW formula: log2(N))
 				// Note: This is an approximation based on the probabilistic layer model.
 				// For more accurate layer information, consider using actual layer data from the HNSW index.
-				int estimated_layers = static_cast<int>(std::log2(static_cast<int>(idToPk_.size()) + 1));
+				int estimated_layers = static_cast<int>(std::log2(idToPk_.size() + 1));
 				hnsw_optimizer_->recordQueryStats(estimated_layers, ef_to_use, estimated_layers, k, query_time_ms);
 			}
 			
@@ -1592,7 +1592,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				topk.pop();
 				size_t id = p.second;
 				float d = p.first;
-				if (static_cast<int>(idToPk_.size()) > id) out.push_back({idToPk_[id], d});
+				if (idToPk_.size() > id) out.push_back({idToPk_[id], d});
 			}
 			std::reverse(out.begin(), out.end()); // kleinste Distanz zuerst
 			return {Status::OK(), std::move(out)};
@@ -1651,7 +1651,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			filtered.reserve(k);
 			std::unordered_set<std::string> seen;
 
-			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && static_cast<int>(filtered.size()) < k; ++attempt) {
+			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
 				auto top = appr->searchKnn(q.data(), candidateCount);
 				std::vector<Result> tmp = {};
 
@@ -1661,7 +1661,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 					top.pop();
 					size_t id = p.second;
 					float d = p.first;
-					if (static_cast<int>(idToPk_.size()) > id) {
+					if (idToPk_.size() > id) {
 						const std::string& pk = idToPk_[id];
 						if (wl.find(pk) != wl.end()) {
 							tmp.push_back({pk, d});
@@ -1671,7 +1671,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
 				
 				// Early termination if we have enough candidates
-				if (static_cast<int>(tmp.size()) >= k) {
+				if (tmp.size() >= k) {
 					filtered.insert(filtered.end(), tmp.begin(), tmp.begin() + k);
 					break;
 				}
@@ -1679,7 +1679,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				for (const auto& r : tmp) {
 					if (seen.insert(r.pk).second) {
 						filtered.push_back(r);
-						if (static_cast<int>(filtered.size()) >= k) {
+						if (filtered.size() >= k) {
 						  break;
 						}
 					}
@@ -1689,14 +1689,14 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				candidateCount = static_cast<size_t>(candidateCount * growthFactor);
 			}
 
-			if (static_cast<int>(filtered.size()) >= k) {
-				if (static_cast<int>(filtered.size()) > k) {
+			if (filtered.size() >= k) {
+				if (filtered.size() > k) {
 				  filtered.resize(k);
 				}
 				return {Status::OK(), std::move(filtered)};
 			}
 			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
-			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force",static_cast<int>(filtered.size()), k);
+			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force",filtered.size(), k);
 			auto bf = bruteForceSearch_(query, k, whitelist);
 			return {Status::OK(), std::move(bf)};
 		} catch (...) {
@@ -1719,11 +1719,11 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 		out.reserve(raw.size());
 		for (const auto& r : raw) {
 			size_t idx = static_cast<size_t>(r.id);
-			if (static_cast<int>(id_to_pk_snapshot.size()) > idx) {
+			if (id_to_pk_snapshot.size() > idx) {
 				out.push_back({id_to_pk_snapshot[idx], r.distance});
 			}
 		}
-		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann",static_cast<int>(out.size()));
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn_ann",out.size());
 		return {Status::OK(), std::move(out)};
 	}
 
@@ -1731,8 +1731,8 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	auto results = bruteForceSearch_(query, k, whitelist);
 	
 	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
-	if ((static_cast<int>(results.size()) >= 10 || (whitelist && !whitelist->empty()))) {
-		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",static_cast<int>(results.size()));
+	if ((results.size() >= 10 || (whitelist && !whitelist->empty()))) {
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn",results.size());
 	}
 	
 	return {Status::OK(), std::move(results)};
@@ -1787,7 +1787,7 @@ VectorIndexManager::searchKnnEvaluated(
 
 		if (evaluator->evaluate(evaluator_type, &doc_json)) {
 			filtered.push_back(candidate);
-			if (static_cast<int>(filtered.size()) >= k) {
+			if (filtered.size() >= k) {
 				break;
 			}
 		}
@@ -1843,7 +1843,7 @@ VectorIndexManager::searchKnnRadiusEvaluated(
 
 		if (evaluator->evaluate(evaluator_type, &doc_json)) {
 			filtered.push_back(candidate);
-			if (max_results > 0 && static_cast<int>(filtered.size()) >= max_results) {
+			if (max_results > 0 && filtered.size() >= max_results) {
 				break;
 			}
 		}
@@ -1865,7 +1865,7 @@ VectorIndexManager::searchKnnFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (static_cast<int>(query.size()) != expected_dim) {
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
@@ -1896,7 +1896,7 @@ VectorIndexManager::searchKnnFiltered(
 				topk.pop();
 				size_t id = p.second;
 				float d = p.first;
-				if (static_cast<int>(idToPk_.size()) > id) {
+				if (idToPk_.size() > id) {
 					candidates.push_back({idToPk_[id], d});
 				}
 			}
@@ -1950,7 +1950,7 @@ VectorIndexManager::searchKnnFiltered(
 				
 				if (passes) {
 					filtered.push_back(candidate);
-					if (static_cast<int>(filtered.size()) >= k) {
+					if (filtered.size() >= k) {
 					  break;
 					}
 				}
@@ -2013,7 +2013,7 @@ VectorIndexManager::searchKnnFiltered(
 		
 		if (passes) {
 			filtered.push_back(candidate);
-			if (static_cast<int>(filtered.size()) >= k) {
+			if (filtered.size() >= k) {
 			  break;
 			}
 		}
@@ -2035,7 +2035,7 @@ VectorIndexManager::searchKnnPreFiltered(
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
 	const size_t expected_dim = static_cast<size_t>(dim_);
-	if (static_cast<int>(query.size()) != expected_dim) {
+	if (query.size() != expected_dim) {
 		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
@@ -2195,10 +2195,10 @@ VectorIndexManager::searchKnnPreFiltered(
 	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
 
 	THEMIS_INFO("searchKnnPreFiltered: Generated whitelist with {} candidates from {} filters", 
-		whitelist.size(),static_cast<int>(filters.size()));
+		whitelist.size(),filters.size());
 
 	// Check if whitelist is too large (inefficient for HNSW prefilter)
-	if (static_cast<int>(whitelist.size()) > maxFilterScanSize) {
+	if (whitelist.size() > maxFilterScanSize) {
 		THEMIS_WARN("searchKnnPreFiltered: Whitelist size {} exceeds max {}, using post-filtering instead", 
 			whitelist.size(), maxFilterScanSize);
 		// Fallback to standard KNN with post-filtering
@@ -2228,7 +2228,7 @@ VectorIndexManager::searchKnnRadius(
 	const std::vector<std::string>* whitelistPks
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (static_cast<int>(query.size()) != dim_) {
+	if (query.size() != dim_) {
 		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
@@ -2244,7 +2244,7 @@ VectorIndexManager::searchKnnRadius(
 		for (const auto& c : candidates) {
 			if (c.distance <= epsilon) {
 				results.push_back(c);
-				if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
+				if (max_results > 0 && results.size() >= max_results) {
 				  break;
 				}
 			}
@@ -2263,7 +2263,7 @@ VectorIndexManager::searchKnnRadius(
 			float dist = distance(query, vec);
 			if (dist <= epsilon) {
 				results.push_back({pk, dist});
-				if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
+				if (max_results > 0 && results.size() >= max_results) {
 				  break;
 				}
 			}
@@ -2293,7 +2293,7 @@ VectorIndexManager::searchKnnRadius(
 				float dist = distance(query, it->second);
 				if (dist <= epsilon) {
 					results.push_back({pk, dist});
-					if (max_results > 0 && static_cast<int>(results.size()) >= max_results) {
+					if (max_results > 0 && results.size() >= max_results) {
 					  break;
 					}
 				}
@@ -2318,7 +2318,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	SecondaryIndexManager* secondaryIdx
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (static_cast<int>(query.size()) != dim_) {
+	if (query.size() != dim_) {
 		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
 	}
 
@@ -2433,7 +2433,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	}
 
 	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
-	THEMIS_INFO("searchKnnRadiusPreFiltered: Generated whitelist with {} candidates",static_cast<int>(whitelist.size()));
+	THEMIS_INFO("searchKnnRadiusPreFiltered: Generated whitelist with {} candidates",whitelist.size());
 
 	return searchKnnRadius(query, epsilon, max_results, &whitelist);
 }
@@ -2511,7 +2511,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					}
 					
 					std::string encData = encField.toBase64();
-					encFile.write(encData.data(),static_cast<int>(encData.size()));
+					encFile.write(encData.data(),encData.size());
 					encFile.close();
 					
 					// 5. Remove temporary file
@@ -2613,7 +2613,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 						return Status::Error("loadIndex: Failed to write temporary index file");
 					}
 					
-					tempFile.write(reinterpret_cast<const char*>(indexData.data()),static_cast<int>(indexData.size()));
+					tempFile.write(reinterpret_cast<const char*>(indexData.data()),indexData.size());
 					tempFile.close();
 					
 					// 4. Load from temporary file
@@ -3015,7 +3015,7 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <static_cast<int>(pks.size()); ++i) {
+	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <pks.size(); ++i) {
 		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);
@@ -3057,7 +3057,7 @@ VectorIndexManager::computeCentroid() const {
 	std::vector<float> centroid(dim_, 0.0f);
 	
 	for (const auto& [pk, vec] : cache_) {
-		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		for (int i = 0; i < dim_; ++i) {
@@ -3088,7 +3088,7 @@ VectorIndexManager::computeVariance() const {
 	std::vector<float> variance(dim_, 0.0f);
 	
 	for (const auto& [pk, vec] : cache_) {
-		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		for (int i = 0; i < dim_; ++i) {
@@ -3126,7 +3126,7 @@ VectorIndexManager::findOutliers([[maybe_unused]] float threshold) const {
 	float outlier_threshold = stats.mean_distance + threshold * stats.std_dev_distance;
 
 	for (const auto& [pk, vec] : cache_) {
-		if (static_cast<int>(vec.size()) != static_cast<size_t>(dim_)) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
 			continue;
 		}
 		
@@ -3192,7 +3192,7 @@ VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 		
 		train_data.reserve(cache_.size());
 		for (const auto& [pk, vec] : cache_) {
-			if (static_cast<int>(vec.size()) == static_cast<size_t>(dim_)) {
+			if (vec.size() == static_cast<size_t>(dim_)) {
 				train_data.push_back(vec);
 			}
 		}
@@ -3221,7 +3221,7 @@ VectorIndexManager::Status VectorIndexManager::trainQuantizer(
 		           cache_.size());
 		
 		for (const auto& [pk, vec] : cache_) {
-			if (static_cast<int>(vec.size()) == static_cast<size_t>(dim_)) {
+			if (vec.size() == static_cast<size_t>(dim_)) {
 				auto codes = quantizer_->encode(vec);
 				if (!codes.empty()) {
 					quantized_cache_[pk] = std::move(codes);
@@ -3443,7 +3443,7 @@ VectorIndexManager::searchWithRotation(
 		if (status.ok) {
 			rotary_query_rotations_.fetch_add(1);
 			rotary_total_rotation_time_us_.fetch_add(static_cast<uint64_t>(std::max<int64_t>(rotate_duration_us, 0)));
-			logAuditEvent_("vector", "query", "search_with_rotation",static_cast<int>(results.size()));
+			logAuditEvent_("vector", "query", "search_with_rotation",results.size());
 		}
 		
 		return {status, results};

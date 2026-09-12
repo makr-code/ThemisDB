@@ -161,12 +161,12 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
     entry.rejection_times.push_back(now);
 
     if (!entry.under_penalty &&
-        static_cast<int>(entry.rejection_times.size()) >= config_.adaptive_rejection_threshold) {
+        entry.rejection_times.size() >= config_.adaptive_rejection_threshold) {
         entry.under_penalty = true;
         entry.penalty_until = now + std::chrono::seconds(
             config_.adaptive_penalty_duration_seconds);
         THEMIS_WARN("Adaptive throttle penalty applied to IP: {} ({} rejections in {}s)",
-                    ip,static_cast<int>(entry.rejection_times.size()),
+                    ip,entry.rejection_times.size(),
                     config_.adaptive_window_seconds);
         // Fire anomaly callback while mutex_ is held; callback_mutex_ is separate.
         fireAnomaly(AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED, ip,

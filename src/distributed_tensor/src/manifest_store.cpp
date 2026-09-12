@@ -158,7 +158,7 @@ ManifestStore::list(const std::string& tensor_name) const {
 
 std::size_t ManifestStore::size() const noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(entries_.size());
+    return entries_.size();
 }
 
 // ---------------------------------------------------------------------------

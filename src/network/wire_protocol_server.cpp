@@ -164,7 +164,7 @@ bool hasControlCharacters(std::string_view value) {
 }
 
 bool isReasonableWireIdentifier(std::string_view value) {
-    return !value.empty() && static_cast<int>(value.size()) <= kMaxWireIdentifierLength &&
+    return !value.empty() && value.size() <= kMaxWireIdentifierLength &&
            !hasControlCharacters(value);
 }
 
@@ -222,7 +222,7 @@ bool validateBpmnVariablesObject(const json& variables, std::string& error_messa
         return false;
     }
 
-    if (static_cast<int>(variables.size()) > kMaxBpmnVariablesFields) {
+    if (variables.size() > kMaxBpmnVariablesFields) {
         error_message = "variables object exceeds maximum field count";
         return false;
     }
@@ -666,9 +666,9 @@ void WireProtocolServer::wait() {
 size_t WireProtocolServer::getActiveConnections() const {
     std::lock_guard<std::mutex> lock(connections_mutex_);
 #ifdef THEMIS_ENABLE_WEBSOCKET
-    return static_cast<int>(active_sessions_.size()) + static_cast<int>(active_ws_sessions_.size()) ;
+    return active_sessions_.size() + active_ws_sessions_.size() ;
 #else
-    return static_cast<int>(active_sessions_.size());
+    return active_sessions_.size();
 #endif
 }
 
@@ -733,7 +733,7 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
     
     // WPS-9: prune map before inserting to prevent unbounded growth from IP cycling
     constexpr size_t kMaxRateLimitEntries = 100'000;
-    if (static_cast<int>(rate_limits_.size()) >= kMaxRateLimitEntries) {
+    if (rate_limits_.size() >= kMaxRateLimitEntries) {
         rate_limits_.clear();
     }
 
@@ -972,7 +972,7 @@ void WireProtocolServer::Session::asyncReadHeader() {
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
                 // Parse header to get payload size, then read payload
-                if (static_cast<int>(header_buffer_.size()) >= 12) {
+                if (header_buffer_.size() >= 12) {
                     // WPS-4 fix: Validate 4-byte magic field "TMDB" (0x544D4442) before
                     // dispatching any further reads.  An invalid magic closes the connection
                     // immediately to prevent unknown clients from reaching the opcode dispatcher.
@@ -1231,11 +1231,11 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 
                 uint32_t computed_crc = crc32Update(
                     0,
-                    header_buffer_.data(),static_cast<int>(header_buffer_.size()));
+                    header_buffer_.data(),header_buffer_.size());
                 if (!payload_buffer_.empty()) {
                     computed_crc = crc32Update(
                         computed_crc,
-                        payload_buffer_.data(),static_cast<int>(payload_buffer_.size()));
+                        payload_buffer_.data(),payload_buffer_.size());
                 }
 
                 if (computed_crc != expected_crc) {
@@ -1291,10 +1291,10 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(static_cast<int>(header_buffer_.size()) + static_cast<int>(payload_buffer_.size()) , std::memory_order_relaxed);
+    bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size() , std::memory_order_relaxed);
     
     // Validate header size (must be at least 12 bytes)
-    if (static_cast<int>(header_buffer_.size()) < 12) {
+    if (header_buffer_.size() < 12) {
         sendError(0x0008, "Invalid header size");
         return;
     }
@@ -1531,7 +1531,7 @@ void WireProtocolServer::Session::handleAuthRequest() {
         std::string username_req = {};
 
         if (!payload_buffer_.empty()) {
-            if (static_cast<int>(payload_buffer_.size()) > kMaxAuthPayloadBytes) {
+            if (payload_buffer_.size() > kMaxAuthPayloadBytes) {
                 sendError(413, "AUTH payload too large");
                 return;
             }
@@ -1568,8 +1568,8 @@ void WireProtocolServer::Session::handleAuthRequest() {
             // WPS-2 fix: use CRYPTO_memcmp for constant-time comparison to prevent
             // timing side-channel attacks that leak the pre-shared token prefix/length.
             const auto& stored = server_->config_.auth_token;
-            if (static_cast<int>(token.size()) == static_cast<int>(stored.size())) {
-                accepted = (CRYPTO_memcmp(token.data(), stored.data(),static_cast<int>(stored.size())) == 0);
+            if (token.size() == stored.size()) {
+                accepted = (CRYPTO_memcmp(token.data(), stored.data(),stored.size()) == 0);
             }
             // Different lengths → accepted stays false (no timing leak from size mismatch
             // because the size comparison itself is O(1) and constant).
@@ -1624,7 +1624,7 @@ void WireProtocolServer::Session::handleGet() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
+        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
             sendError(413, "GET payload too large");
             return;
         }
@@ -1698,7 +1698,7 @@ void WireProtocolServer::Session::handlePut() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
+        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
             sendError(413, "PUT payload too large");
             return;
         }
@@ -1769,7 +1769,7 @@ void WireProtocolServer::Session::handleDelete() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxCrudPayloadBytes) {
+        if (payload_buffer_.size() > kMaxCrudPayloadBytes) {
             sendError(413, "DELETE payload too large");
             return;
         }
@@ -1828,7 +1828,7 @@ void WireProtocolServer::Session::handleBatchGet() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxBatchPayloadBytes) {
+        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_GET payload too large");
             return;
         }
@@ -1864,7 +1864,7 @@ void WireProtocolServer::Session::handleBatchGet() {
         }
 
         constexpr size_t kMaxBatchElements = 1000;
-        if (static_cast<int>(keys_arr.size()) > kMaxBatchElements) {
+        if (keys_arr.size() > kMaxBatchElements) {
             sendError(400, "BATCH_GET exceeds maximum of 1000 keys per request");
             return;
         }
@@ -1948,7 +1948,7 @@ void WireProtocolServer::Session::handleBatchPut() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxBatchPayloadBytes) {
+        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_PUT payload too large");
             return;
         }
@@ -1984,7 +1984,7 @@ void WireProtocolServer::Session::handleBatchPut() {
         }
 
         constexpr size_t kMaxBatchElements = 1000;
-        if (static_cast<int>(items_arr.size()) > kMaxBatchElements) {
+        if (items_arr.size() > kMaxBatchElements) {
             sendError(400, "BATCH_PUT exceeds maximum of 1000 items per request");
             return;
         }
@@ -2109,7 +2109,7 @@ void WireProtocolServer::Session::handleTransactionBegin() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
+        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_BEGIN payload too large");
             return;
         }
@@ -2181,7 +2181,7 @@ void WireProtocolServer::Session::handleTransactionCommit() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
+        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_COMMIT payload too large");
             return;
         }
@@ -2249,7 +2249,7 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxTransactionPayloadBytes) {
+        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_ABORT payload too large");
             return;
         }
@@ -2312,7 +2312,7 @@ void WireProtocolServer::Session::handleGraphTraverse() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxGraphPayloadBytes) {
+        if (payload_buffer_.size() > kMaxGraphPayloadBytes) {
             sendError(413, "GRAPH_TRAVERSE payload too large");
             return;
         }
@@ -2453,7 +2453,7 @@ void WireProtocolServer::Session::handleQuery() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxQueryPayloadBytes) {
+        if (payload_buffer_.size() > kMaxQueryPayloadBytes) {
             sendError(413, "QUERY payload too large");
             return;
         }
@@ -2482,7 +2482,7 @@ void WireProtocolServer::Session::handleQuery() {
             return;
         }
         constexpr size_t kMaxQueryStringLength = 1'048'576;
-        if (static_cast<int>(query_str.size()) > kMaxQueryStringLength) {
+        if (query_str.size() > kMaxQueryStringLength) {
             sendError(400, "'query' exceeds maximum length in QUERY_AQL request");
             return;
         }
@@ -2518,7 +2518,7 @@ void WireProtocolServer::Session::handleQuery() {
             json first_batch;
             std::string cursor_id = {};
 
-            if (result_json.is_array() && static_cast<int>(result_json.size()) > batch_size) {
+            if (result_json.is_array() && result_json.size() > batch_size) {
                 // Large result: store in cursor registry and return first batch.
                 first_batch = json::array();
                 for (size_t i = 0; i < batch_size; ++i) {
@@ -2579,7 +2579,7 @@ void WireProtocolServer::Session::handleCursorNext() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxCursorPayloadBytes) {
+        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_NEXT payload too large");
             return;
         }
@@ -2673,7 +2673,7 @@ void WireProtocolServer::Session::handleCursorClose() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxCursorPayloadBytes) {
+        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_CLOSE payload too large");
             return;
         }
@@ -2756,7 +2756,7 @@ void WireProtocolServer::Session::handleVectorSearch() {
 
         constexpr size_t kMaxVectorDimensions = 16384;
         const auto& vector_json = request["vector"];
-        if (static_cast<int>(vector_json.size()) > kMaxVectorDimensions) {
+        if (vector_json.size() > kMaxVectorDimensions) {
             sendError(400, "VECTOR_SEARCH vector exceeds maximum dimension of 16384");
             return;
         }
@@ -3468,7 +3468,7 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
+        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN start-process payload too large");
             return;
         }
@@ -3604,7 +3604,7 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
+        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN task-complete payload too large");
             return;
         }
@@ -3744,7 +3744,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     }
 
     try {
-        if (static_cast<int>(payload_buffer_.size()) > kMaxBpmnPayloadBytes) {
+        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN query-instance payload too large");
             return;
         }
@@ -3856,7 +3856,7 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
             json history = json::array();
             for (const auto& token : instance.tokens) {
                 for (const auto& node : token.visited_nodes) {
-                    if (static_cast<int>(history.size()) >= max_history_events) {
+                    if (history.size() >= max_history_events) {
                         history_truncated = true;
                         break;
                     }

@@ -55,7 +55,7 @@ public:
 
         // Fallback: retrieve raw private key bytes and perform local CMS signing
         auto key_bytes = kp_->getKey(key_id);
-        BIO_ptr bio(BIO_new_mem_buf(key_bytes.data(), static_cast<int>(key_bytes.size())));
+        BIO_ptr bio(BIO_new_mem_buf(key_bytes.data(), key_bytes.size()));
         if (!bio) {
           throw std::runtime_error("BIO_new_mem_buf failed");
         }
@@ -70,7 +70,7 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), cert_bytes.size()));
                 X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
                 if (x) cert_ptr = x.release(); // transfer ownership to CMSSigningService below
             }
@@ -88,7 +88,7 @@ public:
         try {
             auto cert_bytes = kp_->getKey(key_id + ":cert");
             if (!cert_bytes.empty()) {
-                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), static_cast<int>(cert_bytes.size())));
+                BIO_ptr cbio(BIO_new_mem_buf(cert_bytes.data(), cert_bytes.size()));
                 X509_ptr x(PEM_read_bio_X509(cbio.get(), nullptr, nullptr, nullptr));
                 if (x) {
                     // transfer ownership of 'x' to CMSSigningService

@@ -73,7 +73,7 @@ SAMLAuthenticator::~SAMLAuthenticator() {
 
 void SAMLAuthenticator::loadIdPCertificate() {
     BIO *bio
-        = BIO_new_mem_buf(config_.idp_certificate_pem.data(), static_cast<int>(config_.idp_certificate_pem.size()));
+        = BIO_new_mem_buf(config_.idp_certificate_pem.data(), config_.idp_certificate_pem.size());
     if (!bio) {
         throw std::runtime_error("SAML: Failed to create BIO for IdP certificate");
     }
@@ -192,7 +192,7 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) 
     }
     BIO_push(b64_bio, mem_bio);
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(b64_bio, compressed.data(), static_cast<int>(compressed.size()));
+    BIO_write(b64_bio, compressed.data(), compressed.size());
     BIO_flush(b64_bio);
 
     BUF_MEM *buf_ptr{};
@@ -243,7 +243,7 @@ std::string SAMLAuthenticator::buildAuthnRequestUrl(const std::string &relay_sta
 
 std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
     BIO *b64_bio = BIO_new(BIO_f_base64());
-    BIO *mem_bio = BIO_new_mem_buf(input.data(), static_cast<int>(input.size()));
+    BIO *mem_bio = BIO_new_mem_buf(input.data(), input.size());
     if (!b64_bio || !mem_bio) {
         BIO_free(b64_bio);
         BIO_free(mem_bio);
@@ -253,7 +253,7 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> decoded(input.size());
-    int len = BIO_read(b64_bio, decoded.data(), static_cast<int>(decoded.size()));
+    int len = BIO_read(b64_bio, decoded.data(), decoded.size());
     BIO_free_all(b64_bio);
 
     if (len < 0) {
@@ -269,7 +269,7 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
 
 std::chrono::system_clock::time_point SAMLAuthenticator::parseDateTime(const std::string &s) {
     // Accepts: "2026-02-22T06:13:57Z" or "2026-02-22T06:13:57.000Z"
-    if (static_cast<int>(s.size()) < 20) {
+    if (s.size() < 20) {
         throw std::runtime_error("SAML: Invalid datetime format: " + s);
     }
     std::tm tm_val{};
@@ -385,13 +385,13 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
             return false;
         }
         EVP_DigestInit_ex(mctx_ref, digest_md, nullptr);
-        EVP_DigestUpdate(mctx_ref, reference_xml.data(),static_cast<int>(reference_xml.size()));
+        EVP_DigestUpdate(mctx_ref, reference_xml.data(),reference_xml.size());
         EVP_DigestFinal_ex(mctx_ref, computed_digest.data(), &computed_len);
         EVP_MD_CTX_free(mctx_ref);
         computed_digest.resize(computed_len);
 
-        if (static_cast<int>(computed_digest.size()) != static_cast<int>(claimed_digest.size())
-            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),static_cast<int>(computed_digest.size())) != 0) {
+        if (computed_digest.size() != claimed_digest.size()
+            || CRYPTO_memcmp(computed_digest.data(), claimed_digest.data(),computed_digest.size()) != 0) {
             THEMIS_WARN("SAML: Reference DigestValue mismatch");
             return false;
         }
@@ -406,8 +406,8 @@ bool SAMLAuthenticator::verifyXmlSignature(const std::string &reference_xml, con
 
     int verify_result = 0;
     if (EVP_DigestVerifyInit(mctx_sig, nullptr, sig_md, nullptr, pkey) == 1) {
-        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(),static_cast<int>(signed_info_c14n.size())) == 1) {
-            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(),static_cast<int>(sig_bytes.size()));
+        if (EVP_DigestVerifyUpdate(mctx_sig, signed_info_c14n.data(),signed_info_c14n.size()) == 1) {
+            verify_result = EVP_DigestVerifyFinal(mctx_sig, sig_bytes.data(),sig_bytes.size());
         }
     }
     EVP_MD_CTX_free(mctx_sig);
@@ -592,7 +592,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     // ----------------------------------------------------------------
     // Step 3: Load SP private key from the secure loader
     // ----------------------------------------------------------------
-    BIO *key_bio = BIO_new_mem_buf(sp_key_pem.data(), static_cast<int>(sp_key_pem.size()));
+    BIO *key_bio = BIO_new_mem_buf(sp_key_pem.data(), sp_key_pem.size());
     if (!key_bio) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "Failed to allocate BIO for SP private key");
@@ -647,7 +647,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         bool ok = false;
         if (EVP_PKEY_decrypt_init(rsa_ctx) > 0 && EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, rsa_padding) > 0) {
             size_t key_len = 0;
-            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(),static_cast<int>(encrypted_key_bytes.size()))
+            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len, encrypted_key_bytes.data(),encrypted_key_bytes.size())
                 > 0) {
                 symmetric_key.resize(key_len);
                 if (EVP_PKEY_decrypt(rsa_ctx, symmetric_key.data(), &key_len, encrypted_key_bytes.data(),
@@ -690,10 +690,10 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
         required_key_size = 16;
     } else if (data_enc_alg.empty()) {
         // Infer from the decrypted key length when the algorithm is absent
-        if (static_cast<int>(symmetric_key.size()) == 32) {
+        if (symmetric_key.size() == 32) {
             cipher            = EVP_aes_256_cbc();
             required_key_size = 32;
-        } else if (static_cast<int>(symmetric_key.size()) == 16) {
+        } else if (symmetric_key.size() == 16) {
             cipher            = EVP_aes_128_cbc();
             required_key_size = 16;
         }
@@ -705,7 +705,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
                              + "'. Supported: aes128-cbc, aes256-cbc.");
     }
 
-    if (static_cast<int>(symmetric_key.size()) < required_key_size) {
+    if (symmetric_key.size() < required_key_size) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "Decrypted symmetric key is shorter than required for the "
                          "selected cipher (got "
@@ -714,7 +714,7 @@ std::string SAMLAuthenticator::decryptAssertion(const pugi::xml_node &encrypted_
     }
 
     const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
-    if (static_cast<int>(encrypted_data_bytes.size()) <= iv_len) {
+    if (encrypted_data_bytes.size() <= iv_len) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
                          "EncryptedData CipherValue is too short to contain an IV");
     }
@@ -781,7 +781,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
                          "Base64 decode of SAMLResponse failed or produced empty output");
     }
-    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()),static_cast<int>(raw_bytes.size()));
+    const std::string xml_str(reinterpret_cast<const char *>(raw_bytes.data()),raw_bytes.size());
 
     // ----------------------------------------------------------------
     // Step 2: Parse XML
@@ -1114,7 +1114,7 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
         }
 
         // Enforce maximum cache size (after eviction). If still full, fail closed.
-        if (static_cast<int>(seen_assertion_ids_.size()) >= config_.max_replay_cache_size) {
+        if (seen_assertion_ids_.size() >= config_.max_replay_cache_size) {
             THEMIS_WARN("SAML: Replay cache is full ({} entries). "
                         "Rejecting assertion to prevent cache bypass. "
                         "Consider using a distributed TTL cache for high-volume deployments.",

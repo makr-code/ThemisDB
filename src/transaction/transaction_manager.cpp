@@ -196,7 +196,7 @@ void TransactionManager::deadlockDetectorLoop() {
         std::vector<TransactionId> cycle = {};
 
         if (detectDeadlockCycle(cycle)) {
-            THEMIS_WARN("Deadlock detected involving {} transactions",static_cast<int>(cycle.size()));
+            THEMIS_WARN("Deadlock detected involving {} transactions",cycle.size());
             resolveDeadlock(cycle);
             total_deadlocks_.fetch_add(1, std::memory_order_relaxed);
         }
@@ -365,7 +365,7 @@ void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle
         recent_deadlocks_.push_back(info);
         
         // Keep only last 100 deadlocks (use pop_front for efficiency with deque)
-        if (static_cast<int>(recent_deadlocks_.size()) > 100) {
+        if (recent_deadlocks_.size() > 100) {
             recent_deadlocks_.pop_front();
         }
         
@@ -810,8 +810,8 @@ size_t TransactionManager::abortTenantTransactions(std::string_view tenant_id) {
         rollbackTransaction(txn_id);
     }
 
-    THEMIS_INFO("Aborted {} transaction(s) for tenant '{}'",static_cast<int>(to_abort.size()), tenant_id);
-    return static_cast<int>(to_abort.size());
+    THEMIS_INFO("Aborted {} transaction(s) for tenant '{}'",to_abort.size(), tenant_id);
+    return to_abort.size();
 }
 
 // ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
@@ -872,7 +872,7 @@ size_t TransactionManager::abortTimedOutTransactions() {
         total_timed_out_.fetch_add(1, std::memory_order_relaxed);
     }
 
-    return static_cast<int>(expired.size());
+    return expired.size();
 }
 
 // Direct transaction (legacy API)
@@ -1416,7 +1416,7 @@ static std::vector<uint8_t> encodeVersion([[maybe_unused]] uint64_t v) {
 
 /// Decode an 8-byte little-endian blob to uint64_t; returns 0 on wrong size.
 static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
-    if (static_cast<int>(buf.size()) != 8) {
+    if (buf.size() != 8) {
       return 0;
     }
     uint64_t v = 0;
@@ -1429,7 +1429,7 @@ static uint64_t decodeVersion(const std::vector<uint8_t>& buf) {
 /// Build the version key for an entity.
 static std::string versionKey(std::string_view table, std::string_view pk) {
     std::string k = {};
-    k.reserve(9 + static_cast<int>(table.size()) + 1 + static_cast<int>(pk.size()) ); // "occ:ver:" + table + ":" + pk
+    k.reserve(9 + table.size() + 1 + pk.size() ); // "occ:ver:" + table + ":" + pk
     k += "occ:ver:";
     k += table;
     k += ':';
@@ -1614,7 +1614,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkPutEntities(
         }
     }
 
-    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table,static_cast<int>(entities.size()));
+    THEMIS_DEBUG("bulkPutEntities: table={} count={}", table,entities.size());
     return Status::OK();
 }
 
@@ -1656,7 +1656,7 @@ TransactionManager::Status TransactionManager::Transaction::bulkEraseEntities(
         }
     }
 
-    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table,static_cast<int>(pks.size()));
+    THEMIS_DEBUG("bulkEraseEntities: table={} count={}", table,pks.size());
     return Status::OK();
 }
 
@@ -1889,7 +1889,7 @@ TransactionManager::Status TransactionManager::Transaction::createSavepoint(std:
     // throw std::bad_alloc.  If setSavePoint were called first and push_back threw,
     // the RocksDB savepoint stack would have an extra entry not tracked by savepoints_,
     // corrupting all subsequent savepoint operations.
-    savepoints_.reserve(static_cast<int>(savepoints_.size()) + 1);
+    savepoints_.reserve(savepoints_.size() + 1);
     mvcc_txn_->setSavePoint();
     savepoints_.push_back({std::move(sname), saga_->stepCount()});
     return Status::OK();

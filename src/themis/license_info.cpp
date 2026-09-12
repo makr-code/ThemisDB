@@ -317,7 +317,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
 
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
-    BIO* bmem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
+    BIO* bmem = BIO_new_mem_buf(encoded.data(), encoded.size());
     if (!bmem) return {};
     BIO* b64 = BIO_new(BIO_f_base64());
     if (!b64) { BIO_free(bmem); return {}; }
@@ -325,7 +325,7 @@ static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     auto bio = themis::utils::BIOPtr(BIO_push(b64, bmem));  // BIO_push returns top of chain
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(bio.get(), output.data(), static_cast<int>(output.size()));
+    int decoded_size = BIO_read(bio.get(), output.data(), output.size());
     
     if (decoded_size < 0) {
         return {};
@@ -401,12 +401,12 @@ bool verifyLicenseSignature(const LicenseData& license) {
         return false;
     }
     
-    if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),static_cast<int>(data_to_verify.size())) != 1) {
+    if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),data_to_verify.size()) != 1) {
         spdlog::error("verifyLicenseSignature: EVP_DigestVerifyUpdate failed");
         return false;
     }
     
-    int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),static_cast<int>(signature_bytes.size()));
+    int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),signature_bytes.size());
     if (verify_result == 1) {
         valid = true;
     } else if (verify_result == 0) {
@@ -432,7 +432,7 @@ static std::string computeFingerprintHash(const std::string& raw) {
     EVP_MD_CTX* ctx = EVP_MD_CTX_new();
     if (ctx) {
         EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-        EVP_DigestUpdate(ctx, raw.data(),static_cast<int>(raw.size()));
+        EVP_DigestUpdate(ctx, raw.data(),raw.size());
         EVP_DigestFinal_ex(ctx, digest, &dlen);
         EVP_MD_CTX_free(ctx);
     }

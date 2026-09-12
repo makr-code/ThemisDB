@@ -60,13 +60,13 @@ PolyglotPersistenceMapper::inferModelFromSchema(
           ++self_fk;
         }
     }
-    if (self_fk >= 2 || static_cast<int>(schema.foreign_keys.size()) >= 3) {
+    if (self_fk >= 2 || schema.foreign_keys.size() >= 3) {
         return DataModel::GRAPH;
     }
 
     // Key-value: exactly one PK and one or two value columns
-    if (static_cast<int>(schema.primary_keys.size()) == 1 &&
-        static_cast<int>(schema.columns.size()) <= 3 &&
+    if (schema.primary_keys.size() == 1 &&
+        schema.columns.size() <= 3 &&
         schema.foreign_keys.empty()) {
         return DataModel::KEYVALUE;
     }
@@ -116,7 +116,7 @@ PolyglotPersistenceMapper::recommendDataModels(
             {"source",  schema.name},
             {"target_model", dataModelToString(mapping.recommended_model)},
             {"pk_columns", schema.primary_keys},
-            {"fk_count",static_cast<int>(schema.foreign_keys.size())}
+            {"fk_count",schema.foreign_keys.size()}
         };
 
         result.push_back(std::move(mapping));

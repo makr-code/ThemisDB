@@ -51,7 +51,7 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
     SigningResult res;
     res.algorithm = "CMS/DETACHED+SHA256";
 
-    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
+    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), data.size()));
     if (!in) {
       throw std::runtime_error("BIO_new_mem_buf failed");
     }
@@ -82,7 +82,7 @@ SigningResult CMSSigningService::sign(const std::vector<uint8_t>& data, const st
 bool CMSSigningService::verify(const std::vector<uint8_t>& data,
                                 const std::vector<uint8_t>& signature,
                                 const std::string& /*key_id*/) {
-    CMS_BIO_ptr sig_bio(BIO_new_mem_buf(signature.data(), static_cast<int>(signature.size())));
+    CMS_BIO_ptr sig_bio(BIO_new_mem_buf(signature.data(), signature.size()));
     if (!sig_bio) {
       return false;
     }
@@ -92,7 +92,7 @@ bool CMSSigningService::verify(const std::vector<uint8_t>& data,
       return false;
     }
 
-    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), static_cast<int>(data.size())));
+    CMS_BIO_ptr in(BIO_new_mem_buf(data.data(), data.size()));
     if (!in) {
       return false;
     }

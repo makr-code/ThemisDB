@@ -162,7 +162,7 @@ bool AdminAPI::authorizeRequest(const std::string& operator_cert) {
 
     // Parse the PEM certificate from the caller-supplied string.
     BIO* bio = BIO_new_mem_buf(operator_cert.data(),
-                               static_cast<int>(operator_cert.size()));
+                               operator_cert.size());
     if (!bio) {
       return false;
     }

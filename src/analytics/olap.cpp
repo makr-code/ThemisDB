@@ -401,8 +401,8 @@ OLAPResult OLAPEngine::execute(const OLAPQuery &query) {
     // OBSERVABILITY: Add trace point for critical function
     auto start = std::chrono::high_resolution_clock::now();
     spdlog::debug("OLAPEngine::execute: grouping_mode={}, dimensions={}, measures={}, filters={}",
-                  static_cast<int>(query.grouping_mode),static_cast<int>(query.dimensions.size()), 
-                  query.measures.size(),static_cast<int>(query.filters.size()));
+                  static_cast<int>(query.grouping_mode),query.dimensions.size(), 
+                  query.measures.size(),query.filters.size());
 
     // INPUT VALIDATION: Check for empty collection name
     if (query.collection.empty()) {
@@ -573,7 +573,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
         OLAPResult::Row resultRow;
 
         // Add dimension values
-        for (size_t i = 0; i <static_cast<int>(query.dimensions.size()); ++i) {
+        for (size_t i = 0; i <query.dimensions.size(); ++i) {
             resultRow.values[query.dimensions[i].name] = groupKey[i];
         }
 
@@ -618,7 +618,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
 
     // Apply limit/offset
     if (query.offset && *query.offset > 0) {
-        if (static_cast<size_t>(*query.offset) <static_cast<int>(result.rows.size())) {
+        if (static_cast<size_t>(*query.offset) <result.rows.size()) {
             result.rows.erase(result.rows.begin(), result.rows.begin() + *query.offset);
         } else {
             result.rows.clear();
@@ -626,7 +626,7 @@ OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery &query) {
     }
 
     if (query.limit && *query.limit > 0) {
-        if (static_cast<size_t>(*query.limit) <static_cast<int>(result.rows.size())) {
+        if (static_cast<size_t>(*query.limit) <result.rows.size()) {
             result.has_more = true;
             result.rows.resize(*query.limit);
         }
@@ -947,7 +947,7 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery &query) {
 
     // Check grouping complexity
     if (query.grouping_mode == OLAPQuery::GroupingMode::Cube) {
-        size_t combinations = 1 <<static_cast<int>(query.dimensions.size());
+        size_t combinations = 1 <<query.dimensions.size();
         plan.optimization_notes.push_back("CUBE will generate " + std::to_string(combinations)
                                           + " grouping combinations");
         plan.estimated_cost *= combinations;
@@ -1009,7 +1009,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
     size_t gpu_threshold = 0;
     {
         std::lock_guard<std::mutex> lock(impl_->config_mutex);
-        if (impl_->gpu_accelerator && static_cast<int>(values.size()) >= impl_->config.gpu_threshold_rows) {
+        if (impl_->gpu_accelerator && values.size() >= impl_->config.gpu_threshold_rows) {
             gpu_accel = impl_->gpu_accelerator.get();
             gpu_threshold = impl_->config.gpu_threshold_rows;
         }
@@ -1053,7 +1053,7 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
             }
 
             auto value_fn = [](const Row &r) -> double {
-                if (static_cast<int>(r.data.size()) < sizeof(double)) {
+                if (r.data.size() < sizeof(double)) {
                     return 0.0;
                 }
                 double v = 0;
@@ -1114,10 +1114,10 @@ double OLAPEngine::computeAggregate(const std::vector<double> &values, Measure::
         case Measure::Function::Percentile: {
             std::vector<double> sorted = values;
             std::sort(sorted.begin(), sorted.end());
-            double rank  = percentile / 100.0 * (static_cast<int>(sorted.size()) - 1);
+            double rank  = percentile / 100.0 * (sorted.size() - 1);
             size_t lower = static_cast<size_t>(rank);
             size_t upper = lower + 1;
-            if (upper >= static_cast<int>(sorted.size())) {
+            if (upper >= sorted.size()) {
                 return sorted.back();
             }
             double fraction = rank - lower;
@@ -1301,7 +1301,7 @@ class ColumnarStore::Impl {
                 buf.push_back(static_cast<double>(*i64));
             }
         }
-        return {buf.data(),static_cast<int>(buf.size())};
+        return {buf.data(),buf.size()};
     }
 };
 
@@ -1736,7 +1736,7 @@ void MaterializedView::incrementalRefresh(
 OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std::vector<Sort> &sorts,
                                    std::optional<int64_t> limit) {
     spdlog::debug("MaterializedView::query: filters={}, sorts={}, limit={}", 
-                  filters.size(),static_cast<int>(sorts.size()), limit ? std::to_string(*limit) : "none");
+                  filters.size(),sorts.size(), limit ? std::to_string(*limit) : "none");
     auto query_start = std::chrono::high_resolution_clock::now();
     
     bool needs_refresh = false;
@@ -1919,7 +1919,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
                     }
                     case Filter::Operator::EndsWith: {
                         std::string fs = fieldStr(fv), fvs = filterStr(f);
-                        if (static_cast<int>(fs.size()) <static_cast<int>(fvs.size()) || fs.rfind(fvs) != static_cast<int>(fs.size()) - static_cast<int>(fvs.size()) ) {
+                        if (fs.size() <fvs.size() || fs.rfind(fvs) != fs.size() - fvs.size() ) {
                             return false;
                         }
                         break;
@@ -1973,7 +1973,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     }
 
     // Apply limit
-    if (limit && *limit > 0 && static_cast<size_t>(*limit) <static_cast<int>(result.rows.size())) {
+    if (limit && *limit > 0 && static_cast<size_t>(*limit) <result.rows.size()) {
         result.has_more = true;
         result.rows.resize(*limit);
     }
@@ -1981,7 +1981,7 @@ OLAPResult MaterializedView::query(const std::vector<Filter> &filters, const std
     auto query_end = std::chrono::high_resolution_clock::now();
     auto query_ms = std::chrono::duration<double, std::milli>(query_end - query_start).count();
     spdlog::debug("MaterializedView::query: completed in {}ms, returned {} rows", 
-                  query_ms,static_cast<int>(result.rows.size()));
+                  query_ms,result.rows.size());
     
     return result;
 }
@@ -2073,7 +2073,7 @@ bool OLAPEngine::exportToParquet(const OLAPResult &result, const std::string &pa
     // Build column arrays
     std::vector<std::shared_ptr<arrow::Array>> arrays;
 
-    for (size_t col_idx = 0; col_idx <static_cast<int>(result.columns.size()); ++col_idx) {
+    for (size_t col_idx = 0; col_idx <result.columns.size(); ++col_idx) {
         const auto &col_name   = result.columns[col_idx];
         const auto &field_type = schema_fields[col_idx]->type();
 

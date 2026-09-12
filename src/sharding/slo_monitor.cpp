@@ -64,7 +64,7 @@ void SLOWindow::recordLatency(double latency_ms) {
     latency_samples_.push_back(latency_ms);
     
     // Keep only recent samples
-    if (static_cast<int>(latency_samples_.size()) > max_latency_samples_) {
+    if (latency_samples_.size() > max_latency_samples_) {
         latency_samples_.erase(latency_samples_.begin());
     }
 }
@@ -86,7 +86,7 @@ void SLOWindow::recordReplicationLag(double lag_ms) {
     replication_lag_samples_.push_back(lag_ms);
     
     // Keep only recent samples
-    if (static_cast<int>(replication_lag_samples_.size()) > max_lag_samples_) {
+    if (replication_lag_samples_.size() > max_lag_samples_) {
         replication_lag_samples_.erase(replication_lag_samples_.begin());
     }
 }
@@ -197,7 +197,7 @@ double SLOWindow::calculatePercentile(const std::vector<double>& samples, double
     std::vector<double> sorted = samples;
     std::sort(sorted.begin(), sorted.end());
     
-    size_t index = static_cast<size_t>(percentile * (static_cast<int>(sorted.size()) - 1));
+    size_t index = static_cast<size_t>(percentile * (sorted.size() - 1));
     return sorted[index];
 }
 

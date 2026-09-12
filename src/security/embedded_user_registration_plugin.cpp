@@ -323,11 +323,11 @@ private:
 
     static std::vector<unsigned char> base64Decode(const std::string& encoded) {
         // EVP_DecodeBlock output is at most 3*len/4 bytes (may include padding bytes)
-        int max_out = static_cast<int>(encoded.size()) / 4 * 3 + 4;
+        int max_out = encoded.size() / 4 * 3 + 4;
         std::vector<unsigned char> out(static_cast<size_t>(max_out));
         int out_len = EVP_DecodeBlock(out.data(),
                                       reinterpret_cast<const unsigned char*>(encoded.data()),
-                                      static_cast<int>(encoded.size()));
+                                      encoded.size());
         if (out_len < 0) return {};
         // Trim padding bytes (= signs at end of base64 input add null bytes)
         size_t padding = 0;
@@ -411,7 +411,7 @@ private:
         constexpr int ITER = 100000;
         unsigned char dk[DK_LEN];
         if (PKCS5_PBKDF2_HMAC(password.c_str(),
-                               static_cast<int>(password.size()),
+                               password.size(),
                                salt, SALT_LEN,
                                ITER,
                                EVP_sha256(),
@@ -440,7 +440,7 @@ private:
                 // splitBy('$') produces: ["","argon2id","v=19","m=...,t=...,p=...","<salt>","<hash>"]
                 auto parts = splitBy(stored_hash, '$');
                 // Expect exactly 6 parts (parts[0] is empty due to leading '$')
-                if (static_cast<int>(parts.size()) != 6) {
+                if (parts.size() != 6) {
                   return false;
                 }
 
@@ -513,7 +513,7 @@ private:
             constexpr int ITER         = 100000;
 
             // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars
-            if (static_cast<int>(stored_hash.size()) != 7 + SALT_HEX_LEN + 1 + 64) {
+            if (stored_hash.size() != 7 + SALT_HEX_LEN + 1 + 64) {
                 return false;
             }
 
@@ -534,8 +534,8 @@ private:
 
             unsigned char computed_dk[DK_LEN];
             if (PKCS5_PBKDF2_HMAC(password.c_str(),
-                                   static_cast<int>(password.size()),
-                                   salt.data(), static_cast<int>(salt.size()),
+                                   password.size(),
+                                   salt.data(), salt.size(),
                                    ITER,
                                    EVP_sha256(),
                                    DK_LEN, computed_dk) != 1) {

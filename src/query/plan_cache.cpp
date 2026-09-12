@@ -322,7 +322,7 @@ void PlanCache::put(const std::string&                query,
         table_index_[tbl].push_back(fp);
     }
 
-    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16),static_cast<int>(tables.size()));
+    THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16),tables.size());
 }
 
 bool PlanCache::recordExecutionFailure(const std::string& query,
@@ -410,9 +410,9 @@ size_t PlanCache::evictExpired() {
     }
 
     if (!to_remove.empty()) {
-        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)",static_cast<int>(to_remove.size()));
+        THEMIS_DEBUG("PlanCache evicted {} expired plan(s)",to_remove.size());
     }
-    return static_cast<int>(to_remove.size());
+    return to_remove.size();
 }
 
 // =============================================================================
@@ -582,7 +582,7 @@ size_t PlanCache::estimatePlanSizeBytes(const CachedPlan& plan) {
         total += hint.size();
     }
     for (const auto& [key, value] : plan.plan.nlp_hints) {
-        total += static_cast<int>(key.size()) + static_cast<int>(value.size()) ;
+        total += key.size() + value.size() ;
     }
 
     return total;

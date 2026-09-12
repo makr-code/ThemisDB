@@ -180,8 +180,8 @@ static bool simpleInsertFallback(const std::string& sql, std::string& out_table_
     if (start < pos) {
         out_table_name = sql.substr(start, pos - start);
         // Remove backticks if present
-        if (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
-            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
+        if (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`') {
+            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
         }
         return true;
     }
@@ -402,7 +402,7 @@ ImportStats MySQLImporter::importData(
                static_cast<double>(stats.imported_records));
     emitMetric(options, "importers_mysql_errors_total",
                {},
-               static_cast<double>(stats.failed_records + static_cast<int>(stats.structured_errors.size()) ));
+               static_cast<double>(stats.failed_records + stats.structured_errors.size() ));
 
     // OTel span for the entire import
     emitSpan(options, "import_total",
@@ -491,11 +491,11 @@ json MySQLImporter::getSourceSchema(const std::string& source_path) {
 
     while (std::getline(file, line)) {
         // Skip comments and empty lines
-        if ((line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
+        if ((line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))) {
           continue;
         }
         // Skip MySQL conditional comments (/*!...*/)
-        if (static_cast<int>(line.size()) >= 2 && line[0] == '/' && line[1] == '*') {
+        if (line.size() >= 2 && line[0] == '/' && line[1] == '*') {
           continue;
         }
 
@@ -584,8 +584,8 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
                 found_header = true;
             }
             if (!hdr_line.empty() &&
-                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
-                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
+                !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
+                !(hdr_line.size() >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
                 break;
             }
             hdr_lines++;
@@ -670,7 +670,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if ((line.empty() || (static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
+        if ((line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
 
@@ -690,7 +690,7 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
+            current_sql.size() > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -940,7 +940,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (static_cast<size_t>(k) <static_cast<int>(col_def.size())) {
+        while (static_cast<size_t>(k) <col_def.size()) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
@@ -1041,7 +1041,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
     // Walk the payload extracting one parenthesised tuple at a time.
     size_t pos = 0;
     size_t rows_imported = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
+    while (static_cast<size_t>(pos) <values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -1049,7 +1049,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= static_cast<int>(values_payload.size())) {
+        if (pos >= values_payload.size()) {
           break;
         }
         if (values_payload[pos] != '(') {
@@ -1103,7 +1103,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
         }
 
         if (!eff_schema.columns.empty() &&
-            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
+            values.size() != eff_schema.columns.size()) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -1338,7 +1338,7 @@ json MySQLImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1486,11 +1486,11 @@ bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
     const std::string mysql_prefix   = "jdbc:mysql://";
     const std::string mariadb_prefix = "jdbc:mariadb://";
     size_t authority_start = 0;
-    if (static_cast<int>(url.size()) > static_cast<int>(mysql_prefix.size()) &&
-        url.substr(0,static_cast<int>(mysql_prefix.size())) == mysql_prefix) {
+    if (url.size() > mysql_prefix.size() &&
+        url.substr(0,mysql_prefix.size()) == mysql_prefix) {
         authority_start = mysql_prefix.size();
-    } else if (static_cast<int>(url.size()) > static_cast<int>(mariadb_prefix.size()) &&
-               url.substr(0,static_cast<int>(mariadb_prefix.size())) == mariadb_prefix) {
+    } else if (url.size() > mariadb_prefix.size() &&
+               url.substr(0,mariadb_prefix.size()) == mariadb_prefix) {
         authority_start = mariadb_prefix.size();
     } else {
         return false;
@@ -1572,11 +1572,11 @@ std::string MySQLImporter::unquoteIdentifier(const std::string& s) {
         }
         t = t.substr(f, l - f + 1);
     }
-    if (static_cast<int>(t.size()) >= 2 && t.front() == '`' && t.back() == '`') {
-        return t.substr(1, static_cast<int>(t.size()) - 2);
+    if (t.size() >= 2 && t.front() == '`' && t.back() == '`') {
+        return t.substr(1, t.size() - 2);
     }
-    if (static_cast<int>(t.size()) >= 2 && t.front() == '"' && t.back() == '"') {
-        return t.substr(1, static_cast<int>(t.size()) - 2);
+    if (t.size() >= 2 && t.front() == '"' && t.back() == '"') {
+        return t.substr(1, t.size() - 2);
     }
     return t;
 }
@@ -1589,7 +1589,7 @@ std::string MySQLImporter::stripMySQLComments(const std::string& sql) {
     std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(sql.size())) {
+    while (static_cast<size_t>(i) <sql.size()) {
         if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;
@@ -1673,7 +1673,7 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
                                         const std::vector<std::string>& schema_columns) {
     if (key_columns.empty() || schema_columns.empty()) {
         // Hash the entire raw tuple string (full-row fingerprint)
-        return mysql_fnv1a64(tuple_str.data(),static_cast<int>(tuple_str.size()));
+        return mysql_fnv1a64(tuple_str.data(),tuple_str.size());
     }
     // Hash only the key column values, separated by a non-printable sentinel.
     // Setting key_columns = {"updated_at"} is the recommended high-watermark
@@ -1690,13 +1690,13 @@ uint64_t MySQLImporter::computeRowHash(const std::string& tuple_str,
         auto it = schema_column_index.find(kc);
         if (it != schema_column_index.end()) {
             size_t idx = it->second;
-            if (static_cast<int>(values.size()) > idx) {
+            if (values.size() > idx) {
                 key_data += values[idx];
             }
         }
         key_data += kFieldSep;
     }
-    return mysql_fnv1a64(key_data.data(),static_cast<int>(key_data.size()));
+    return mysql_fnv1a64(key_data.data(),key_data.size());
 }
 
 std::unordered_set<uint64_t> MySQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {

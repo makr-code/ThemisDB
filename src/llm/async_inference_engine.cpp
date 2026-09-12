@@ -251,7 +251,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
         // Check queue size and handle backpressure
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -354,7 +354,7 @@ std::string AsyncInferenceEngine::submitAsync(
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -498,7 +498,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
         future = local_promise->get_future().share();
 
         std::unique_lock<std::mutex> lock(queue_mutex_);
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             if (!handleBackpressure(lock)) {
                 stats_.total_rejected.fetch_add(1, std::memory_order_relaxed);
                 std::lock_guard<std::mutex> tl(tracking_mutex_);
@@ -584,14 +584,14 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         std::string tmpl = rag_context.context_template;
 
         std::ostringstream context_block = {};
-        for (size_t i = 0; i <static_cast<int>(rag_context.documents.size()); ++i) {
+        for (size_t i = 0; i <rag_context.documents.size(); ++i) {
             const auto& doc = rag_context.documents[i];
             context_block << "[" << (i + 1) << "] ";
             if (!doc.source.empty()) {
               context_block << "(" << doc.source << ") ";
             }
             context_block << doc.content;
-            if (i + 1 <static_cast<int>(rag_context.documents.size())) {
+            if (i + 1 <rag_context.documents.size()) {
               context_block << "\n\n";
             }
         }
@@ -599,7 +599,7 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
         auto replaceAll = [](std::string s, const std::string& from, const std::string& to) {
             size_t pos = 0;
             while ((pos = s.find(from, pos)) != std::string::npos) {
-                s.replace(pos,static_cast<int>(from.size()), to);
+                s.replace(pos,from.size(), to);
                 pos += to.size();
             }
             return s;
@@ -1003,7 +1003,7 @@ InferenceResponse AsyncInferenceEngine::processRequest(
     if (response.inference_time_ms > 0.0) {
         std::lock_guard<std::mutex> lock(latency_mutex_);
         latency_samples_.push_back(response.inference_time_ms);
-        if (static_cast<int>(latency_samples_.size()) > 10000) {
+        if (latency_samples_.size() > 10000) {
             latency_samples_.pop_front();  // O(1) removal via deque
         }
     }
@@ -1065,7 +1065,7 @@ bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock
                 using namespace std::chrono_literals;
                 const auto timeout = std::chrono::seconds(30); // 30 second timeout
                 if (!queue_cv_.wait_for(lock, timeout, [this] {
-                    return static_cast<int>(request_queue_.size()) < config_.max_queue_size ||
+                    return request_queue_.size() < config_.max_queue_size ||
                            !running_.load();
                 })) {
                     spdlog::warn("Backpressure BLOCK: timeout waiting for queue space");

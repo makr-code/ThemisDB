@@ -33,7 +33,7 @@ namespace {
 static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
 
 bool iequals(const std::string& a, const std::string& b) {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
         return false;
     }
     for (size_t i = 0; i < a.size(); ++i) {
@@ -56,7 +56,7 @@ bool parseDouble(const std::string& raw, double& out) {
     try {
         size_t consumed = 0;
         out = std::stod(raw, &consumed);
-        return consumed == static_cast<int>(raw.size());
+        return consumed == raw.size();
     } catch (const std::exception& e) {
         THEMIS_DEBUG("Failed to parse '{}' as double: {}", raw, e.what());
         return false;
@@ -312,17 +312,17 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
     
     // Validate input sizes to prevent DoS and memory exhaustion
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here before use
-    if (static_cast<int>(input.query.size()) > 100000) {
+    if (input.query.size() > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
+        THEMIS_WARN("BatchEvaluator: Input query exceeds maximum length ({} chars)",input.query.size());
         return error_result;
     }
     
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated before use
-    if (static_cast<int>(input.generated_answer.size()) > 100000) {
+    if (input.generated_answer.size() > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -332,7 +332,7 @@ EvaluationResult BatchEvaluator::processEvaluation(const EvaluationInput& input)
         return error_result;
     }
     
-    if (static_cast<int>(input.documents.size()) > 1000) {
+    if (input.documents.size() > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -382,11 +382,11 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<RAGTestCase>& test_cases) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (static_cast<int>(test_cases.size()) > 10000) {
+    if (test_cases.size() > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = test_cases.size();
         error_result.progress.failed_items = test_cases.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(test_cases.size()));
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",test_cases.size());
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
@@ -408,11 +408,11 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     const std::vector<EvaluationInput>& inputs) {
     // ── BATCH INPUT VALIDATION ──────────────────────────────────────────────
     // Validate batch size to prevent DoS attacks
-    if (static_cast<int>(inputs.size()) > 10000) {
+    if (inputs.size() > 10000) {
         BatchEvaluationResult error_result;
         error_result.progress.total_items = inputs.size();
         error_result.progress.failed_items = inputs.size();
-        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",static_cast<int>(inputs.size()));
+        THEMIS_ERROR("BatchEvaluator: Batch size exceeds maximum ({})",inputs.size());
         return error_result;
     }
     // ── end batch input validation ──────────────────────────────────────────
@@ -485,7 +485,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     // One shared detector instance for inline scanning of un-screened documents.
     security::PromptInjectionDetector inline_detector;
 
-    for (size_t i = 0; i < results.size()  && static_cast<size_t>(i) <static_cast<int>(inputs.size()); ++i) {
+    for (size_t i = 0; i < results.size()  && static_cast<size_t>(i) <inputs.size(); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
 
@@ -584,7 +584,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                   static_cast<double>(prompt_injection_cases);
     out.bias_fairness_drift_rate = static_cast<double>(bias_drift_cases) / n;
     out.traceable_decisions = traceable_decisions;
-    out.untraceable_decisions = static_cast<int>(results.size()) - traceable_decisions;
+    out.untraceable_decisions = results.size() - traceable_decisions;
     if (total_quality > std::numeric_limits<double>::epsilon()) {
         out.cost_to_quality_efficiency = total_cost / total_quality;
     } else if (total_cost > 0.0) {
@@ -600,7 +600,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     if (!latencies_ms.empty()) {
         std::sort(latencies_ms.begin(), latencies_ms.end());
         const size_t idx = static_cast<size_t>(
-            std::floor(0.95 * static_cast<double>(static_cast<int>(latencies_ms.size()) - 1)));
+            std::floor(0.95 * static_cast<double>(latencies_ms.size() - 1)));
         out.p95_latency_ms = latencies_ms[idx];
     }
 
@@ -706,7 +706,7 @@ void BatchEvaluator::submit(
 
 size_t BatchEvaluator::getQueueSize() const {
     std::lock_guard<std::mutex> lock(queue_mutex_);
-    return static_cast<int>(eval_queue_.size());
+    return eval_queue_.size();
 }
 
 bool BatchEvaluator::waitForAll(std::chrono::milliseconds timeout) {

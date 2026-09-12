@@ -47,7 +47,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     // Validate embedding dimension
     if (config_.validate_embedding_dim &&
         !summary.reason_embedding.empty() &&
-        static_cast<int>(summary.reason_embedding.size()) != config_.max_embedding_dim)
+        summary.reason_embedding.size() != config_.max_embedding_dim)
     {
         throw std::invalid_argument(
             "CrossShardFeedbackSync::publishFeedback: embedding dimension "
@@ -125,7 +125,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
         // ─────────────────────────────────────────────────────────────────────
 
         // Evict oldest if cache full (simple: clear half the cache)
-        if (static_cast<int>(seen_ids_.size()) >= config_.dedup_cache_size) {
+        if (seen_ids_.size() >= config_.dedup_cache_size) {
             seen_ids_.clear();
         }
         seen_ids_.insert(summary.summary_id);
@@ -184,7 +184,7 @@ nlohmann::json CrossShardFeedbackSync::getStats() const {
             {"received",             received_count_},
             {"deduplicated",         deduplicated_count_},
             {"rejected_by_policy",   rejected_by_policy_},
-            {"seen_ids_cached",static_cast<int>(seen_ids_.size())}};
+            {"seen_ids_cached",seen_ids_.size()}};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

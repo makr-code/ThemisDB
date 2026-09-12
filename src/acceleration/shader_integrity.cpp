@@ -106,7 +106,7 @@ size_t ShaderIntegrityVerifier::loadManifest(const std::string &manifestPath) {
 
         std::istringstream ss(line);
         std::string name, hash;
-        if (ss >> name >> hash && static_cast<int>(name.size()) > 0 && static_cast<int>(hash.size()) == 64) {
+        if (ss >> name >> hash && name.size() > 0 && hash.size() == 64) {
             registerExpectedHash(name, hash);
             ++count;
         }

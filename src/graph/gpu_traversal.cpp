@@ -211,7 +211,7 @@ Result<bool> GPUGraphTraversal::load(const std::vector<std::string> &vertex_ids)
     for (uint32_t i = 0; i < vertex_count_; ++i) {
         row_offsets_.push_back(static_cast<uint32_t>(column_indices_.size()));
         // Ensure adj has a row for i (may be absent if vertex was added later)
-        if (static_cast<int>(adj.size()) > i) {
+        if (adj.size() > i) {
             for (uint32_t nb : adj[i]) {
                 column_indices_.push_back(nb);
             }
@@ -310,7 +310,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
                 result.distances[id_to_vertex_[vid]] = entry.first;
                 ++result.nodes_explored;
 
-                if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
+                if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
                     result.truncated = true;
                     break;
                 }
@@ -339,7 +339,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runBFS(uint32_t start_id, 
             result.distances[id_to_vertex_[v]] = dist[v];
             ++result.nodes_explored;
 
-            if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
+            if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
                 result.truncated = true;
                 break;
             }
@@ -464,7 +464,7 @@ GPUGraphTraversal::TraversalResult GPUGraphTraversal::runDFS(uint32_t start_id, 
         result.distances[id_to_vertex_[cur]] = disc_order[cur];
         ++result.nodes_explored;
 
-        if (config.max_results > 0 && static_cast<int>(result.visited_vertices.size()) >= config.max_results) {
+        if (config.max_results > 0 && result.visited_vertices.size() >= config.max_results) {
             result.truncated = true;
             break;
         }

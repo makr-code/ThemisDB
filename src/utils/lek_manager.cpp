@@ -197,7 +197,7 @@ void LEKManager::ensureLEKExists(const std::string& date_str) {
     } else {
         // Generate new LEK
         std::vector<uint8_t> lek(32); // 256-bit AES key
-        if (RAND_bytes(lek.data(), static_cast<int>(lek.size())) != 1) {
+        if (RAND_bytes(lek.data(), lek.size()) != 1) {
             throw std::runtime_error("Failed to generate random LEK");
         }
         
@@ -328,7 +328,7 @@ std::vector<std::string> LEKManager::getRevokedKeys() const {
 
 bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
     // Parse date_str "YYYY-MM-DD"
-    if (static_cast<int>(date_str.size()) != 10) {
+    if (date_str.size() != 10) {
       return false;
     }
     try {

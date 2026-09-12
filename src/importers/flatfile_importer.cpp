@@ -462,10 +462,10 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
               continue;
             }
             auto fields = parseCsvRow(data_line, delim, quote_char_);
-            while ( static_cast<int>(fields.size()) <static_cast<int>(cols_vec.size())) {
+            while ( fields.size() <cols_vec.size()) {
               fields.emplace_back();
             }
-            if (static_cast<int>(fields.size()) > static_cast<int>(cols_vec.size())) {
+            if (fields.size() > cols_vec.size()) {
               fields.resize(cols_vec.size());
             }
             detector.feedRow(cols_vec, fields);
@@ -725,10 +725,10 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
         }
 
         auto fields = parseCsvRow(sample_line, delim, quote_char_);
-        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
+        while ( fields.size() <columns.size()) {
           fields.emplace_back();
         }
-        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
+        if (fields.size() > columns.size()) {
           fields.resize(columns.size());
         }
 
@@ -892,10 +892,10 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
         auto fields = parseCsvRow(line, delim, quote_char_);
 
         // Column count mismatch – pad with empty or truncate
-        while ( static_cast<int>(fields.size()) <static_cast<int>(columns.size())) {
+        while ( fields.size() <columns.size()) {
           fields.emplace_back();
         }
-        if (static_cast<int>(fields.size()) > static_cast<int>(columns.size())) {
+        if (fields.size() > columns.size()) {
           fields.resize(columns.size());
         }
 
@@ -1056,7 +1056,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
           jsonl_schema.columns = first_cols;
         }
         THEMIS_INFO("Schema auto-detected for JSONL '{}': {} columns",
-                    table,static_cast<int>(jsonl_schema.columns.size()));
+                    table,jsonl_schema.columns.size());
     }
 
     std::string line = {};
@@ -1301,10 +1301,10 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
             ft = DetectedFieldType::DOUBLE;
         }
         // Defensive bounds check to prevent potential out-of-bounds access
-        if (static_cast<size_t>(i) <static_cast<int>(columns.size())) {
+        if (static_cast<size_t>(i) <columns.size()) {
             detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
         } else {
-            THEMIS_WARN("Column index {} exceeds columns.size() = {}", i,static_cast<int>(columns.size()));
+            THEMIS_WARN("Column index {} exceeds columns.size() = {}", i,columns.size());
         }
     }
     bool schema_validation_active =
@@ -1317,7 +1317,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
     emitSpan(options, "parse_table", {{"table", table}}, 0.0);
 
     THEMIS_INFO("Parquet schema auto-detected for '{}': {} columns, {} rows",
-                table,static_cast<int>(columns.size()), total_rows);
+                table,columns.size(), total_rows);
 
     // ---- Iterate batches ----
     arrow::TableBatchReader batch_reader(*arrow_table);
@@ -1340,7 +1340,7 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
                 const auto& col_arr  = batch->column(c);
                 // Defensive bounds check for column name lookup
                 if (static_cast<size_t>(c) >= columns.size()) {
-                    THEMIS_WARN("Column index {} exceeds columns.size() = {}", c,static_cast<int>(columns.size()));
+                    THEMIS_WARN("Column index {} exceeds columns.size() = {}", c,columns.size());
                     continue;
                 }
                 const std::string& col_name =

@@ -274,19 +274,19 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     // Validate query is not excessively long (prevent DoS via huge inputs)
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - input.query is user data, 
     // but is validated here before any downstream use
-    if (static_cast<int>(input.query.size()) > 100000) {
+    if (input.query.size() > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
         error_result.ethical_violations.push_back("INPUT_VALIDATION: Query exceeds maximum length");
-        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)",static_cast<int>(input.query.size()));
+        THEMIS_WARN("RAGJudge: Input query exceeds maximum length ({} chars)",input.query.size());
         return error_result;
     }
     
     // Validate generated_answer is not excessively long
     // NOLINT(clang-analyzer-security.insecureAPI.gets) - validated here, 
     // no uncontrolled use downstream
-    if (static_cast<int>(input.generated_answer.size()) > 100000) {
+    if (input.generated_answer.size() > 100000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -297,7 +297,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     
     // Validate document count
-    if (static_cast<int>(input.documents.size()) > 1000) {
+    if (input.documents.size() > 1000) {
         EvaluationResult error_result;
         error_result.passed_quality_threshold = false;
         error_result.overall_score = 0.0;
@@ -308,7 +308,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     }
     // ── end input validation ────────────────────────────────────────────────
     
-    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})",static_cast<int>(input.query.size()));
+    THEMIS_DEBUG("Evaluating RAG output for query (validated, length={})",input.query.size());
     
     // Check cache (protected by mutex)
     if (config.cache_evaluations) {
@@ -806,7 +806,7 @@ ComparisonResult RAGJudge::compare(
 std::vector<EvaluationResult> RAGJudge::batchEvaluate(
     const std::vector<RAGTestCase>& test_cases
 ) {
-    THEMIS_INFO("Batch evaluating {} test cases",static_cast<int>(test_cases.size()));
+    THEMIS_INFO("Batch evaluating {} test cases",test_cases.size());
     
     std::vector<EvaluationResult> results = {};
 
@@ -1316,7 +1316,7 @@ std::vector<std::string> RAGJudge::extractClaimsViaLLM(const std::string& answer
                     }
                 }
             }
-            THEMIS_DEBUG("LLM extracted {} claims",static_cast<int>(claims.size()));
+            THEMIS_DEBUG("LLM extracted {} claims",claims.size());
             return claims;
         }
     } catch (const std::exception& e) {
@@ -1701,7 +1701,7 @@ std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
 namespace metrics {
 
 double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results) {
-    if (static_cast<int>(results.size()) < 2) {
+    if (results.size() < 2) {
         return 1.0;
     }
 
@@ -1730,7 +1730,7 @@ double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,
     const std::vector<EvaluationResult>& judge2_results
 ) {
-    if (judge1_results.empty() || static_cast<int>(judge1_results.size()) != static_cast<int>(judge2_results.size())) {
+    if (judge1_results.empty() || judge1_results.size() != judge2_results.size()) {
         return 0.0;
     }
 
@@ -1779,7 +1779,7 @@ double calculateCalibrationError(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth
 ) {
-    if (predictions.empty() || static_cast<int>(predictions.size()) != static_cast<int>(ground_truth.size())) {
+    if (predictions.empty() || predictions.size() != ground_truth.size()) {
         return 0.0;
     }
 

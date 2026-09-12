@@ -184,7 +184,7 @@ static bool findJsonStringValueRe(const std::string& json,
     ++pos;
     value.clear();
     bool esc = false;
-    while (static_cast<size_t>(pos) <static_cast<int>(json.size())) {
+    while (static_cast<size_t>(pos) <json.size()) {
         char c = json[pos++];
         if (esc) {
             switch (c) {
@@ -288,13 +288,13 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
 
         // --- content-level checks ---
         if (schema.min_content_length > 0 &&
-            static_cast<int>(content.size()) < schema.min_content_length) {
+            content.size() < schema.min_content_length) {
             result.addViolation("",
                 "document too short: " + std::to_string(content.size()) +
                 " bytes (minimum " + std::to_string(schema.min_content_length) + ")");
         }
         if (schema.max_content_length > 0 &&
-            static_cast<int>(content.size()) > schema.max_content_length) {
+            content.size() > schema.max_content_length) {
             result.addViolation("",
                 "document too long: " + std::to_string(content.size()) +
                 " bytes (maximum " + std::to_string(schema.max_content_length) + ")");
@@ -337,12 +337,12 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
                     if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
                         result.addViolation(cf.name, "expected a string value");
                     } else if (is_string) {
-                        if (cf.rule.min_length > 0 && static_cast<int>(str_val.size()) < cf.rule.min_length) {
+                        if (cf.rule.min_length > 0 && str_val.size() < cf.rule.min_length) {
                             result.addViolation(cf.name,
                                 "string too short: " + std::to_string(str_val.size()) +
                                 " chars (minimum " + std::to_string(cf.rule.min_length) + ")");
                         }
-                        if (cf.rule.max_length > 0 && static_cast<int>(str_val.size()) > cf.rule.max_length) {
+                        if (cf.rule.max_length > 0 && str_val.size() > cf.rule.max_length) {
                             result.addViolation(cf.name,
                                 "string too long: " + std::to_string(str_val.size()) +
                                 " chars (maximum " + std::to_string(cf.rule.max_length) + ")");
@@ -1073,7 +1073,7 @@ public:
             }
         }
 
-        if (parallel_enabled_ && static_cast<int>(enabled_sources.size()) > 1) {
+        if (parallel_enabled_ && enabled_sources.size() > 1) {
             const size_t concurrency =
                 std::min(max_threads_, enabled_sources.size());
 
@@ -1335,7 +1335,7 @@ public:
                   continue;
                 }
                 ++preview.total_available;
-                if (static_cast<int>(preview.documents.size()) < max_documents) {
+                if (preview.documents.size() < max_documents) {
                     addDoc(entry.path());
                 }
             }

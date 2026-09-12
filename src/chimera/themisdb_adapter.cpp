@@ -355,7 +355,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
     for (size_t i = 0; i < store.size(); ++i) {
         const auto& vdata = store[i].second.data;
-        if (static_cast<int>(vdata.size()) != static_cast<int>(qdata.size()) || qdata.empty()) {
+        if (vdata.size() != qdata.size() || qdata.empty()) {
             continue;
         }
         double dot = 0.0, norm_q = 0.0, norm_v = 0.0;
@@ -807,7 +807,7 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     for (const auto& [_id, doc] : col_it->second) {
-        if (static_cast<int>(matched.size()) >= limit) {
+        if (matched.size() >= limit) {
           break;
         }
 
@@ -1730,7 +1730,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
                 // Escape backslashes first, then single quotes, so that the
                 // resulting literal cannot be terminated early by injected SQL.
                 std::string escaped = {};
-                escaped.reserve(static_cast<int>(v.size()) + 2);
+                escaped.reserve(v.size() + 2);
                 for (char c : v) {
                     if (c == '\\') {
                       escaped += "\\\\";
@@ -1746,7 +1746,7 @@ std::string ThemisDBPreparedStatement::apply_named_params() const {
 
         size_t pos = 0;
         while ((pos = q.find(token, pos)) != std::string::npos) {
-            q.replace(pos,static_cast<int>(token.size()), replacement);
+            q.replace(pos,token.size(), replacement);
             pos += replacement.size();
         }
     }

@@ -101,7 +101,7 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
         std::random_device rd = {};
         std::mt19937 gen(rd());
         std::shuffle(indices_.begin(), indices_.end(), gen);
-        spdlog::debug("Shuffled {} samples",static_cast<int>(indices_.size()));
+        spdlog::debug("Shuffled {} samples",indices_.size());
     }
     
     current_batch_ = 0;
@@ -111,7 +111,7 @@ bool GPUDataLoader::loadFromSamples(const std::vector<InstructionDataSample>& sa
         startPrefetching();
     }
     
-    spdlog::info("Loaded {} samples, {} batches",static_cast<int>(samples_.size()), num_batches());
+    spdlog::info("Loaded {} samples, {} batches",samples_.size(), num_batches());
     return true;
 }
 

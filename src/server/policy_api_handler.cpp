@@ -64,7 +64,7 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
         std::string save_err = {};
         bool saved = policy_engine.saveToFile("config/policies.json", &save_err);
         nlohmann::json resp = {
-            {"imported",static_cast<int>(internal.size())},
+            {"imported",internal.size()},
             {"saved", saved}
         };
         if (!saved) {

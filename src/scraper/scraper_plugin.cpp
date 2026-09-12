@@ -305,7 +305,7 @@ void ScraperPlugin::processDocument(
         const std::string& date_issued,
         const std::string& title_hint) {
     const std::string text = extractText(html);
-    if (static_cast<int>(text.size()) < 50) return; // skip near-empty pages
+    if (text.size() < 50) return; // skip near-empty pages
 
     // LLM evaluation
     const EvaluationResult eval = evaluator_->evaluate(
@@ -319,7 +319,7 @@ void ScraperPlugin::processDocument(
         while (std::getline(ss, line)) {
             // Trim
             const auto begin = line.find_first_not_of(" \t\r\n");
-            if (begin != std::string::npos && (static_cast<int>(line.size()) - begin) > 5) {
+            if (begin != std::string::npos && (line.size() - begin) > 5) {
                 title = line.substr(begin, 120);
                 break;
             }
@@ -491,7 +491,7 @@ void ScraperPlugin::runApiLoop(
 
     for (const auto& query : queries) {
         const auto results = api_client_->fetchAll(cfg, query);
-        stats_.api_pages_fetched += static_cast<int>(results.size());
+        stats_.api_pages_fetched += results.size();
         for (const auto& r : results) {
             if (!policy.isAllowed(r.url) && r.url != endpoint_url) {
               continue;

@@ -100,7 +100,7 @@ themis::rag::TARGRetrieval::FullEntropyFn makeSpeculativeEntropyBridgeFn(
 
     return [cached_rows = std::move(cached_rows)](const std::vector<float>& logits) -> float {
         for (const auto& cached : cached_rows) {
-            if (static_cast<int>(cached.first.size()) == static_cast<int>(logits.size()) &&
+            if (cached.first.size() == logits.size() &&
                 std::equal(cached.first.begin(), cached.first.end(), logits.begin())) {
                 return cached.second;
             }
@@ -606,7 +606,7 @@ InferenceHandle InferenceEngineEnhanced::submit(const EnhancedInferenceRequest& 
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
         // Check queue capacity
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -648,7 +648,7 @@ std::string InferenceEngineEnhanced::submitAsync(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -720,7 +720,7 @@ InferenceHandle InferenceEngineEnhanced::submitStreaming(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
 
-        if (static_cast<int>(request_queue_.size()) >= config_.max_queue_size) {
+        if (request_queue_.size() >= config_.max_queue_size) {
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
                 stats_.rejected_requests++;
@@ -809,7 +809,7 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         return;
     }
 
-    spdlog::info("Prewarming cache with {} common prompts",static_cast<int>(common_prompts.size()));
+    spdlog::info("Prewarming cache with {} common prompts",common_prompts.size());
 
     size_t warmed = 0;
     for (const auto& prompt : common_prompts) {
@@ -825,10 +825,10 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
         ++warmed;
 
         spdlog::debug("  Prewarmed prompt (length: {}, {} estimated tokens, embedding dim={})",
-                      prompt.length(),static_cast<int>(tokens.size()),static_cast<int>(embedding.size()));
+                      prompt.length(),tokens.size(),embedding.size());
     }
 
-    spdlog::info("Cache prewarming complete: {}/{} prompts stored", warmed,static_cast<int>(common_prompts.size()));
+    spdlog::info("Cache prewarming complete: {}/{} prompts stored", warmed,common_prompts.size());
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1206,7 +1206,7 @@ void InferenceEngineEnhanced::processBatch(
     const std::vector<std::shared_ptr<TrackedRequest>>& batch
 ) {
     // Thread-safe: member accesses protected by respective mutexes
-    spdlog::debug("Processing batch of {} requests",static_cast<int>(batch.size()));
+    spdlog::debug("Processing batch of {} requests",batch.size());
     
     auto batch_start = std::chrono::steady_clock::now();
     
@@ -1374,7 +1374,7 @@ void InferenceEngineEnhanced::processBatch(
                 if (fed_backend && !req.target_instance_ids.empty()) {
                     spdlog::debug("InferenceEngineEnhanced: delegating request '{}' "
                                   "to federated backend ({} instance(s))",
-                                  req.request_id,static_cast<int>(req.target_instance_ids.size()));
+                                  req.request_id,req.target_instance_ids.size());
 
                     const auto fan_results =
                         fed_backend->execute(req.target_instance_ids, effective_request);
@@ -1705,7 +1705,7 @@ void InferenceEngineEnhanced::processBatch(
     double batch_time = std::chrono::duration<double, std::milli>(
         batch_end - batch_start).count();
     
-    spdlog::debug("Batch of {} completed in {:.2f}ms",static_cast<int>(batch.size()), batch_time);
+    spdlog::debug("Batch of {} completed in {:.2f}ms",batch.size(), batch_time);
 }
 
 std::vector<std::shared_ptr<InferenceEngineEnhanced::TrackedRequest>> 
@@ -1716,7 +1716,7 @@ InferenceEngineEnhanced::formBatch() {
     size_t batch_tokens = 0;
     
     while (!request_queue_.empty() && 
-           static_cast<int>(batch.size()) < config_.max_batch_size) {
+           batch.size() < config_.max_batch_size) {
         
         auto req = request_queue_.front();
         
@@ -1768,7 +1768,7 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     // fed into the HNSW similarity index (wrong dimensionality would silently
     // corrupt similarity scores).  Fall back to exact-key matching only.
     constexpr size_t MIN_EMBEDDING_DIM = 64;
-    if (!embedding.empty() && static_cast<int>(embedding.size()) < MIN_EMBEDDING_DIM) {
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
         spdlog::warn("checkCache: embedding dimension {} is below minimum {}; "
                      "falling back to exact-key lookup",
                      embedding.size(), MIN_EMBEDDING_DIM);
@@ -1813,7 +1813,7 @@ void InferenceEngineEnhanced::updateCache(
 
     // IV-03: Reject stub/corrupted embeddings (see checkCache for rationale).
     constexpr size_t MIN_EMBEDDING_DIM = 64;
-    if (!embedding.empty() && static_cast<int>(embedding.size()) < MIN_EMBEDDING_DIM) {
+    if (!embedding.empty() && embedding.size() < MIN_EMBEDDING_DIM) {
         spdlog::warn("updateCache: embedding dimension {} is below minimum {}; "
                      "storing without embedding (exact-key lookup only)",
                      embedding.size(), MIN_EMBEDDING_DIM);
@@ -1868,7 +1868,7 @@ std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::strin
     // at this abstraction level, so an exact token count is not available here.
     // Sequential IDs (0, 1, 2, …) are used as placeholder token identifiers;
     // the prefix cache uses them only for the token_ids.size() field.
-    const size_t estimated_count = std::max<size_t>(1,static_cast<int>(text.size()) / 4);
+    const size_t estimated_count = std::max<size_t>(1,text.size() / 4);
     std::vector<int> tokens(estimated_count);
     std::iota(tokens.begin(), tokens.end(), 0);
     return tokens;
@@ -2049,7 +2049,7 @@ void InferenceEngineEnhanced::recordRequestCompletion(
     
     // Update latency stats
     latency_samples_.push_back(latency_ms);
-    if (static_cast<int>(latency_samples_.size()) > 10000) {
+    if (latency_samples_.size() > 10000) {
         latency_samples_.erase(latency_samples_.begin());
     }
     
@@ -2165,7 +2165,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
             {
                 remote_text = result.data["text"].get<std::string>();
                 spdlog::debug("Remote draft tokens fetched from shard '{}' ({} chars)",
-                              remote_shard.shard_id,static_cast<int>(remote_text.size()));
+                              remote_shard.shard_id,remote_text.size());
             } else {
                 spdlog::debug("Remote draft shard '{}' returned no tokens — "
                               "falling back to local draft model",
@@ -2219,7 +2219,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                             draft_result.logits.push_back(std::move(row));
                         }
                         spdlog::debug("Remote draft: TokenizerFn produced {} "
-                                      "token IDs",static_cast<int>(tok_ids.size()));
+                                      "token IDs",tok_ids.size());
                     } else {
                         spdlog::warn("TokenizerFn returned empty token list for remote draft "
                                      "text — retrying with the local draft model");
@@ -2389,10 +2389,10 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         try {
             target_logit_matrix = target_logits_fn_copy(request, K, vocab_size, target_plugin);
             // Validate output size: must be exactly K+1 rows of vocab_size columns.
-            if (static_cast<int>(target_logit_matrix.size()) == K + 1) {
+            if (target_logit_matrix.size() == K + 1) {
                 bool valid = true;
                 for (const auto& row : target_logit_matrix) {
-                    if (static_cast<int>(row.size()) != vocab_size) { valid = false; break; }
+                    if (row.size() != vocab_size) { valid = false; break; }
                 }
                 used_injected_logits = valid;
                 used_global_target_logits_fn = valid;
@@ -2437,7 +2437,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
 
-    if (static_cast<int>(target_logit_matrix.size()) != K + 1) {
+    if (target_logit_matrix.size() != K + 1) {
         spdlog::warn("Target-logit bridge returned {} rows (expected {}) — "
                      "falling back to target generation",
                      target_logit_matrix.size(),
@@ -2445,7 +2445,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
         return false;
     }
     for (const auto& row : target_logit_matrix) {
-        if (static_cast<int>(row.size()) != vocab_size) {
+        if (row.size() != vocab_size) {
             spdlog::warn("Target-logit bridge returned vocab row size {} (expected {}) "
                          "— falling back to target generation",
                          row.size(),

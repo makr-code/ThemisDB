@@ -478,12 +478,12 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 // Helper: Base64 decode
 static std::vector<uint8_t> base64Decode(const std::string& encoded) {
     USBAdmin_BIO_ptr b64(BIO_new(BIO_f_base64()));
-    USBAdmin_BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size())));
+    USBAdmin_BIO_ptr bmem(BIO_new_mem_buf(encoded.data(), encoded.size()));
     BIO* result = BIO_push(b64.release(), bmem.release());
     BIO_set_flags(result, BIO_FLAGS_BASE64_NO_NL);
     
     std::vector<uint8_t> output(encoded.size());
-    int decoded_size = BIO_read(result, output.data(), static_cast<int>(output.size()));
+    int decoded_size = BIO_read(result, output.data(), output.size());
     BIO_free_all(result);
     
     if (decoded_size < 0) {
@@ -558,8 +558,8 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     
     bool valid = false;
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),static_cast<int>(data_to_verify.size())) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),static_cast<int>(signature_bytes.size()));
+        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(),data_to_verify.size()) == 1) {
+            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(),signature_bytes.size());
             valid = (verify_result == 1);
             
             if (!valid) {
@@ -711,8 +711,8 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
 
     unsigned char* result = HMAC(
         EVP_sha256(),
-        license_key.data(), static_cast<int>(license_key.size()),
-        reinterpret_cast<const unsigned char*>(challenge.data()),static_cast<int>(challenge.size()),
+        license_key.data(), license_key.size(),
+        reinterpret_cast<const unsigned char*>(challenge.data()),challenge.size(),
         hmac_out, &hmac_len
     );
 
@@ -729,13 +729,13 @@ bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challen
     const std::string expected_response = expected_oss.str();
 
     // ── 6. Constant-time comparison to prevent timing attacks ─────────────────
-    if (static_cast<int>(response.size()) != static_cast<int>(expected_response.size())) {
+    if (response.size() != expected_response.size()) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — response length mismatch");
         return false;
     }
 
     // CRYPTO_memcmp returns 0 iff both buffers are identical (OpenSSL constant-time compare)
-    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(),static_cast<int>(response.size())) == 0);
+    bool valid = (CRYPTO_memcmp(response.data(), expected_response.data(),response.size()) == 0);
 
     if (!valid) {
         THEMIS_WARN("USBAdminAuthenticator: challenge-response rejected — HMAC mismatch");

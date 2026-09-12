@@ -558,13 +558,13 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string& aql, query::Q
     if (block.action == query::AqlTransactionAction::Rollback) {
         return Ok(nlohmann::json({
             {"type", "rollback"},
-            {"statements",static_cast<int>(block.statements.size())}
+            {"statements",block.statements.size()}
         }));
     }
 
     // COMMIT: execute each statement in sequence and collect results
     nlohmann::json results = nlohmann::json::array();
-    for (std::size_t i = 0; i <static_cast<int>(block.statements.size()); ++i) {
+    for (std::size_t i = 0; i <block.statements.size(); ++i) {
         const auto& stmt = block.statements[i];
         if (!stmt) {
             return Err<nlohmann::json>(
@@ -729,7 +729,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     // Count total statements across both query and mutation slots
     const std::size_t total = block.ordered_statements.empty()
-                                  ?static_cast<int>(block.statements.size())
+                                  ?block.statements.size()
                                   : block.ordered_statements.size();
 
     // ROLLBACK: do not execute any statement; return metadata only
@@ -756,7 +756,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
 
     nlohmann::json results = nlohmann::json::array();
 
-    for (std::size_t i = 0; i <static_cast<int>(block.ordered_statements.size()); ++i) {
+    for (std::size_t i = 0; i <block.ordered_statements.size(); ++i) {
         const auto& s = block.ordered_statements[i];
         nlohmann::json stmtResult;
 
@@ -1111,7 +1111,7 @@ Result<nlohmann::json> executeAqlWithLimits(
         // Enforce max_memory_bytes limit using serialised JSON size as a proxy.
         if (limits.max_memory_bytes > 0) {
             const std::string serialised = rows_ptr->dump();
-            if (static_cast<int>(serialised.size()) > limits.max_memory_bytes) {
+            if (serialised.size() > limits.max_memory_bytes) {
                 return Err<nlohmann::json>(
                     errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED,
                     "result memory estimate " + std::to_string(serialised.size()) +

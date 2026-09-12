@@ -335,7 +335,7 @@ std::vector<CaptionCue> VoiceAccessibility::splitLongCues(const std::vector<Capt
         }
 
         int parts = static_cast<int>((duration + style_.max_duration_ms - 1) / style_.max_duration_ms);
-        size_t words_per_part = (static_cast<int>(words.size()) + static_cast<size_t>(parts) - 1) / static_cast<size_t>(parts);
+        size_t words_per_part = (words.size() + static_cast<size_t>(parts) - 1) / static_cast<size_t>(parts);
         int64_t ms_per_part = duration / parts;
 
         for (int p = 0; p < parts; ++p) {
@@ -391,15 +391,15 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSilentGaps(const std::vector<Ca
 }
 
 std::string VoiceAccessibility::wrapText(const std::string& text, int max_chars) const {
-    if (static_cast<int>(text.size()) <= max_chars) {
+    if (text.size() <= max_chars) {
       return text;
     }
 
     std::ostringstream wrapped = {};
     size_t start = 0;
-    while (static_cast<size_t>(start) <static_cast<int>(text.size())) {
+    while (static_cast<size_t>(start) <text.size()) {
         size_t end = start + static_cast<size_t>(max_chars);
-        if (end >= static_cast<int>(text.size())) {
+        if (end >= text.size()) {
             wrapped << text.substr(start);
             break;
         }

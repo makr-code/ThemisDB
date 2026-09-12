@@ -188,7 +188,7 @@ ContentValidationResult ContentValidator::validate(const std::string &data, cons
 
     // Step 7: Validate against policy
     if (policy_) {
-        auto policy_error = validateWithPolicy(result.mime_type,static_cast<int>(data.size()));
+        auto policy_error = validateWithPolicy(result.mime_type,data.size());
         if (policy_error.failed()) {
             result.error                = policy_error;
             result.error.correlation_id = correlation_id;
@@ -241,7 +241,7 @@ ContentError ContentValidator::validateSize(uint64_t size, const std::string &mi
 }
 
 ContentError ContentValidator::validateFormat(const std::string &data, const std::string &expected_mime) {
-    if (static_cast<int>(data.size()) < 4) {
+    if (data.size() < 4) {
         // Too small to check magic bytes reliably
         return ContentError::ok();
     }
@@ -262,7 +262,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     static constexpr size_t MAX_FILENAME_LENGTH = 4096;
 
     // Check length
-    if (static_cast<int>(filename.size()) > MAX_FILENAME_LENGTH) {
+    if (filename.size() > MAX_FILENAME_LENGTH) {
         return ContentError::error(ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
                                    "Filename exceeds maximum allowed length");
     }
@@ -284,7 +284,7 @@ ContentError ContentValidator::validateFilename(const std::string &filename) {
     }
 
     // Check for Windows absolute path ("C:\..." or "\\server\share")
-    if (static_cast<int>(filename.size()) >= 2) {
+    if (filename.size() >= 2) {
         bool is_drive_path
             = (filename[1] == ':')
               && (((filename[0] >= 'A' && filename[0] <= 'Z') || (filename[0] >= 'a' && filename[0] <= 'z')));
@@ -401,7 +401,7 @@ ContentCategory ContentValidator::mimeToCategory(const std::string &mime_type) c
 }
 
 bool ContentValidator::checkMagicBytes(const std::string &data, const std::string &mime_type) const {
-    if (static_cast<int>(data.size()) < 4) {
+    if (data.size() < 4) {
         return true; // Can't check, assume OK
     }
 
@@ -410,7 +410,7 @@ bool ContentValidator::checkMagicBytes(const std::string &data, const std::strin
 
     // PDF
     if (mime_type == "application/pdf") {
-        return static_cast<int>(data.size()) >= 4 && data.substr(0, 4) == "%PDF";
+        return data.size() >= 4 && data.substr(0, 4) == "%PDF";
     }
 
     // PNG

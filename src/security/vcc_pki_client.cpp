@@ -60,7 +60,7 @@ bool starts_with(const std::string& value, const char* prefix) {
 std::string extract_url_host(const std::string& url) {
     const size_t scheme_pos = url.find("://");
     const size_t host_start = (scheme_pos == std::string::npos) ? 0 : scheme_pos + 3;
-    if (host_start >= static_cast<int>(url.size())) {
+    if (host_start >= url.size()) {
         return {};
     }
 
@@ -303,7 +303,7 @@ struct VCCPKIClient::Impl {
         if (method == "POST") {
             curl_easy_setopt(curl, CURLOPT_POST, 1L);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,static_cast<int>(body.size()));
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,body.size());
         } else if (method == "GET") {
             curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
         }
@@ -427,7 +427,7 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
     X509Certificate cert;
     
     // Parse PEM using OpenSSL
-    BIO_ptr bio(BIO_new_mem_buf(pem.c_str(), static_cast<int>(pem.size())));
+    BIO_ptr bio(BIO_new_mem_buf(pem.c_str(), pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO from PEM");
     }
@@ -487,7 +487,7 @@ X509Certificate VCCPKIClient::parseCertificate(const std::string& pem) {
 
 bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     // Load the certificate from PEM
-    BIO_ptr cert_bio(BIO_new_mem_buf(cert.pem.data(), static_cast<int>(cert.pem.size())));
+    BIO_ptr cert_bio(BIO_new_mem_buf(cert.pem.data(), cert.pem.size()));
     if (!cert_bio) {
         return false;
     }

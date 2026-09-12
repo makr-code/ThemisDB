@@ -469,7 +469,7 @@ public:
                 input.insert(input.end(), vectors, vectors + numVectors * dim);
                 try {
                     auto raw_out = kfn(input);
-                    if (static_cast<int>(raw_out.size()) == numQueries * numVectors) {
+                    if (raw_out.size() == numQueries * numVectors) {
                         std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
                         const size_t kk = std::min(k, numVectors);
                         for (size_t q = 0; q < numQueries; ++q) {
@@ -507,7 +507,7 @@ public:
         {
             auto flat_dists = computeDistances(queries, numQueries, dim,
                                                vectors, numVectors, useL2);
-            if (!flat_dists.empty() && static_cast<int>(flat_dists.size()) == numQueries * numVectors) {
+            if (!flat_dists.empty() && flat_dists.size() == numQueries * numVectors) {
                 const size_t kk = std::min(k, numVectors);
                 std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
                 for (size_t q = 0; q < numQueries; ++q) {

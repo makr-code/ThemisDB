@@ -104,10 +104,10 @@ TTTrain TensorContractionEngine::slice(const TTTrain& train,
 
     // Remove the dimension-1 core by contracting it into its right neighbour
     // (if there is one).  This keeps the result as a proper (d-1)-dimensional TT.
-    for (std::size_t k = 0; k <static_cast<int>(result.cores.size()); ) {
-        if (result.cores[k].n == 1 && static_cast<int>(result.cores.size()) > 1) {
+    for (std::size_t k = 0; k <result.cores.size(); ) {
+        if (result.cores[k].n == 1 && result.cores.size() > 1) {
             // Absorb core k into core k+1 (if exists) or k-1
-            if (k + 1 <static_cast<int>(result.cores.size())) {
+            if (k + 1 <result.cores.size()) {
                 const auto& ck  = result.cores[k];
                 auto&       ck1 = result.cores[k + 1];
                 // new_core: (r_l_k × n_{k+1} × r_r_{k+1})
@@ -307,7 +307,7 @@ TTTrain TensorContractionEngine::contractModes(
     std::size_t                    max_rank,
     double                         round_eps) {
 
-    if (static_cast<int>(modes_a.size()) != static_cast<int>(modes_b.size()))
+    if (modes_a.size() != modes_b.size())
         throw std::invalid_argument(
             "TensorContractionEngine::contractModes: modes_a / modes_b length mismatch");
 
@@ -354,7 +354,7 @@ TTTrain TensorContractionEngine::contractModes(
     // Result shape: [free dims of a] + [free dims of b]
     std::vector<std::size_t> result_shape = {};
 
-    result_shape.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
+    result_shape.reserve(free_a.size() + free_b.size() );
     for (auto k : free_a) {
       result_shape.push_back(sha[k]);
     }
@@ -366,7 +366,7 @@ TTTrain TensorContractionEngine::contractModes(
     auto toFlat = [](const std::vector<std::size_t>& idx,
                      const std::vector<std::size_t>& shape) -> std::size_t {
         std::size_t off = 0, stride = 1;
-        for (int k = static_cast<int>(shape.size()) - 1; k >= 0; --k) {
+        for (int k = shape.size() - 1; k >= 0; --k) {
             off    += idx[static_cast<std::size_t>(k)] * stride;
             stride *= shape[static_cast<std::size_t>(k)];
         }
@@ -399,7 +399,7 @@ TTTrain TensorContractionEngine::contractModes(
     for (std::size_t flat_a = 0; flat_a < total_a; ++flat_a) {
         // Decode flat_a into idx_a.
         std::size_t tmp = flat_a;
-        for (int k = static_cast<int>(sha.size()) - 1; k >= 0; --k) {
+        for (int k = sha.size() - 1; k >= 0; --k) {
             idx_a[static_cast<std::size_t>(k)] = tmp % sha[static_cast<std::size_t>(k)];
             tmp /= sha[static_cast<std::size_t>(k)];
         }
@@ -419,7 +419,7 @@ TTTrain TensorContractionEngine::contractModes(
         for (std::size_t fb = 0; fb < total_free_b; ++fb) {
             // Decode fb into free_b_idx.
             std::size_t tt = fb;
-            for (int ki = static_cast<int>(free_b.size()) - 1; ki >= 0; --ki) {
+            for (int ki = free_b.size() - 1; ki >= 0; --ki) {
                 std::size_t ki_sz = static_cast<std::size_t>(ki);
                 free_b_idx[ki_sz] = tt % shb[free_b[ki_sz]];
                 tt /= shb[free_b[ki_sz]];
@@ -432,7 +432,7 @@ TTTrain TensorContractionEngine::contractModes(
             // Build result index: free_a indices first, then free_b indices.
             std::vector<std::size_t> ridx = {};
 
-            ridx.reserve(static_cast<int>(free_a.size()) + static_cast<int>(free_b.size()) );
+            ridx.reserve(free_a.size() + free_b.size() );
             for (auto k : free_a) {
               ridx.push_back(idx_a[k]);
             }

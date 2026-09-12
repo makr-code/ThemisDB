@@ -43,7 +43,7 @@ static constexpr const char* B64_CHARS =
 
 /*static*/ std::string CrashRecoveryManager::base64Encode(const std::string& s) {
     std::string out = {};
-    out.reserve(((static_cast<int>(s.size()) + 2) / 3) * 4);
+    out.reserve(((s.size() + 2) / 3) * 4);
     size_t i = 0;
     const auto* p = reinterpret_cast<const unsigned char*>(s.data());
     for (; i + 2 < s.size(); i += 3) {
@@ -52,7 +52,7 @@ static constexpr const char* B64_CHARS =
         out += B64_CHARS[((p[i+1] & 0x0F) << 2) | (p[i+2] >> 6)];
         out += B64_CHARS[  p[i+2] & 0x3F];
     }
-    if (static_cast<int>(s.size()) > i) {
+    if (s.size() > i) {
         out += B64_CHARS[(p[i] >> 2)];
         if (i + 1 < s.size()) {
             out += B64_CHARS[((p[i] & 0x03) << 4) | (p[i+1] >> 4)];
@@ -515,7 +515,7 @@ CrashRecoveryManager::readAllEntries() const {
 
 size_t CrashRecoveryManager::pendingTransactionCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(pending_ops_.size());
+    return pending_ops_.size();
 }
 
 } // namespace transaction

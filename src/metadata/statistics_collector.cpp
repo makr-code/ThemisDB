@@ -270,7 +270,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
         // Parse entity fields
         try {
             std::vector<uint8_t> data(raw_value.data(),
-                                      raw_value.data() + static_cast<int>(raw_value.size()) );
+                                      raw_value.data() + raw_value.size() );
             // Extract the primary key from the full key (table:pk)
             std::string pk = key.substr(prefix.size());
             BaseEntity entity = BaseEntity::deserialize(pk, data);
@@ -338,7 +338,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
     // Structured log: all key fields on one line for log-scraping / alerting
     spdlog::info("StatisticsCollector: collect table='{}' duration_ms={:.2f} rows_sampled={} total_rows={} cols={} error_code=0",
-                 table_name, duration_ms, row_count, total_rows,static_cast<int>(stats.column_stats.size()));
+                 table_name, duration_ms, row_count, total_rows,stats.column_stats.size());
 
     if (metrics_hook_) {
         metrics_hook_->onCollect(table_name, duration_ms, row_count, true);

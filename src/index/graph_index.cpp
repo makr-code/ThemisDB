@@ -273,7 +273,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Wave-B I3: iterator-safety fix — index-based loop prevents invalidation.
 					// `start` is a byte offset into string `s`; encryptList.push_back()
 					// operates on a separate vector and cannot invalidate this iteration.
-					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
+					while (static_cast<size_t>(start) <s.size()) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
@@ -437,8 +437,8 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	});
 	
 	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
-	if (static_cast<int>(result.size()) >= 100) {
-		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",static_cast<int>(result.size()), 0);
+	if (result.size() >= 100) {
+		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors",result.size(), 0);
 	}
 	
 	return {Status::OK(), std::move(result)};
@@ -596,7 +596,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			  return true;
 			}
 			const size_t prefixLen = std::string("graph:out:").size();
-			if (static_cast<int>(keyStr.size()) <= prefixLen) {
+			if (keyStr.size() <= prefixLen) {
 			  return true;
 			}
 			std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
@@ -616,7 +616,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	}
 	
 	// Phase 1: Audit log for graph traversal
-	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs",static_cast<int>(order.size()), maxDepth);
+	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs",order.size(), maxDepth);
 	
 	return {Status::OK(), std::move(order)};
 }
@@ -847,7 +847,7 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 	for (const auto& [node, _] : inEdges_) {
 	  nodes.insert(node);
 	}
-	return static_cast<int>(nodes.size());
+	return nodes.size();
 }
 
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
@@ -1275,7 +1275,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 				  return true;
 				}
 				const size_t prefixLen = std::string("graph:out:").size();
-				if (static_cast<int>(keyStr.size()) <= prefixLen) {
+				if (keyStr.size() <= prefixLen) {
 				  return true;
 				}
 				std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
@@ -1633,7 +1633,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 					// Fallback: comma-separated
 					std::string s = *encOpt;
 					size_t start = 0;
-					while (static_cast<size_t>(start) <static_cast<int>(s.size())) {
+					while (static_cast<size_t>(start) <s.size()) {
 						auto pos = s.find(',', start);
 						std::string part = (pos == std::string::npos) ? s.substr(start) : s.substr(start, pos - start);
 						// trim
@@ -1836,7 +1836,7 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 	}
 	
 	// Phase 1: Audit log for temporal query
-	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime",static_cast<int>(order.size()), maxDepth);
+	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime",order.size(), maxDepth);
 
 	return {Status::OK(), std::move(order)};
 }

@@ -162,7 +162,7 @@ ContentExtractionResult VideoProcessor::extract(const std::vector<uint8_t> &blob
     }
 
     // Minimum size check: any valid container needs at least 8 bytes for a box header
-    if (static_cast<int>(blob.size()) < 8) {
+    if (blob.size() < 8) {
         result.success       = false;
         result.error_message = "Input blob too small to be a valid video file";
         errors_++;
@@ -364,7 +364,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
     MediaExtractionData data;
 
     // Analyze blob header to detect format
-    if (static_cast<int>(blob.size()) >= 12) {
+    if (blob.size() >= 12) {
         // MP4/MOV detection (ftyp box)
         if (blob[4] == 'f' && blob[5] == 't' && blob[6] == 'y' && blob[7] == 'p') {
             data.container_format = "mp4";
@@ -478,7 +478,7 @@ MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),blob.size());
         temp_file.close();
 
         // Open video file
@@ -600,7 +600,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
         if (!temp_file) {
             throw std::runtime_error("Failed to create temporary file");
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),blob.size());
         temp_file.close();
 
         // Open video file
@@ -737,7 +737,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
                 
                 if (rgb_frame->linesize[0] == static_cast<int>(row_size)) {
                     // No padding - single fast copy
-                    memcpy(dst, src,static_cast<int>(thumbnail.size()));
+                    memcpy(dst, src,thumbnail.size());
                 } else {
                     // Handle padding - copy row by row
                     for (int y = 0; y < thumb_height; y++) {
@@ -794,7 +794,7 @@ std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<ui
         if (!temp_file) {
             return keyframes;
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),blob.size());
         temp_file.close();
 
         AVFormatContext *fmt_ctx = nullptr;
@@ -869,7 +869,7 @@ std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_
         if (!temp_file) {
             return scenes;
         }
-        temp_file.write(reinterpret_cast<const char *>(blob.data()),static_cast<int>(blob.size()));
+        temp_file.write(reinterpret_cast<const char *>(blob.data()),blob.size());
         temp_file.close();
 
         AVFormatContext *fmt_ctx = nullptr;

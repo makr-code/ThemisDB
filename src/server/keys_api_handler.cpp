@@ -71,11 +71,11 @@ nlohmann::json KeysApiHandler::listKeys() {
             items.push_back(key_obj);
         }
         
-        THEMIS_INFO("Keys API: Listed {} keys",static_cast<int>(items.size()));
+        THEMIS_INFO("Keys API: Listed {} keys",items.size());
         
         return {
             {"items", items},
-            {"total", static_cast<int>(items.size())}
+            {"total", items.size()}
         };
         
     } catch (const std::exception& ex) {

@@ -82,7 +82,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     // waiting queue + active requests so that the limit covers all in-flight
     // work, not just the waiting queue alone.
     if (config_.max_queue_depth > 0) {
-        size_t current_depth = static_cast<int>(waiting_queue_.size()) + static_cast<int>(active_requests_.size()) ;
+        size_t current_depth = waiting_queue_.size() + active_requests_.size() ;
         if (current_depth >= config_.max_queue_depth) {
             stats_.rejected_requests++;
             if (metrics_collector_) {
@@ -265,7 +265,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     }
     
     // Then, process waiting requests (prefill)
-    while (!waiting_queue_.empty() && static_cast<int>(batch.size()) < config_.max_batch_size) {
+    while (!waiting_queue_.empty() && batch.size() < config_.max_batch_size) {
         auto req = waiting_queue_.top();
         waiting_queue_.pop();
         
@@ -325,9 +325,9 @@ void ContinuousBatchScheduler::processBatchResults(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    if (static_cast<int>(batch.size()) != static_cast<int>(responses.size())) {
+    if (batch.size() != responses.size()) {
         spdlog::error("Batch size mismatch: {} requests, {} responses",
-                      batch.size(),static_cast<int>(responses.size()));
+                      batch.size(),responses.size());
         return;
     }
     

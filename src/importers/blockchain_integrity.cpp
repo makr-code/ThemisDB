@@ -63,7 +63,7 @@ BlockchainIntegrityVerifier::MerkleTreeBuilder::buildMerkleTree(const std::vecto
     }
 
     // Pad to even count by duplicating last leaf
-    while (static_cast<int>(layer.size()) > 1) {
+    while (layer.size() > 1) {
         if (layer.size() % 2 != 0) {
             layer.push_back(layer.back());
         }
@@ -147,7 +147,7 @@ bool BlockchainIntegrityVerifier::BlockchainAnchor::verifyBlockchainAnchor(const
     if (proof.merkle_root.empty()) {
         return false;
     }
-    if (static_cast<int>(proof.merkle_root.size()) != 64) {
+    if (proof.merkle_root.size() != 64) {
         return false;
     }
     for (char c : proof.merkle_root) {

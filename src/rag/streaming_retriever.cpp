@@ -59,7 +59,7 @@ double jaccardSimilarity(const std::string& a, const std::string& b) {
           ++intersection;
         }
     }
-    const size_t unionSize = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
+    const size_t unionSize = ta.size() + tb.size() - intersection;
     return unionSize == 0 ? 0.0 : static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 
@@ -221,7 +221,7 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
     impl_->cancel_requested.store(false, std::memory_order_relaxed);
 
     THEMIS_INFO("StreamingRetriever::stream started: query='{}', candidates={}",
-                query,static_cast<int>(candidates.size()));
+                query,candidates.size());
 
     StreamingResult result{};
     result.documents_considered = candidates.size();
@@ -240,14 +240,14 @@ StreamingResult StreamingRetriever::stream(const std::string& query,
                     return d.relevance_score < threshold;
                 }),
             candidates.end());
-        THEMIS_DEBUG("After relevance filter: {} candidates remain",static_cast<int>(candidates.size()));
+        THEMIS_DEBUG("After relevance filter: {} candidates remain",candidates.size());
     }
 
     // ------------------------------------------------------------------
     // 2. Cap number of documents to consider
     // ------------------------------------------------------------------
     if (impl_->config.max_documents_to_consider > 0 &&
-        static_cast<int>(candidates.size()) > impl_->config.max_documents_to_consider) {
+        candidates.size() > impl_->config.max_documents_to_consider) {
         candidates.resize(impl_->config.max_documents_to_consider);
     }
 

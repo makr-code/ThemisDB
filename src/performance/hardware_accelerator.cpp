@@ -215,7 +215,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
     std::sort(right.begin(), right.end(), keyFn(op.right_key_col));
 
     size_t li = 0, ri = 0;
-    while (li < left.size()  && static_cast<size_t>(ri) <static_cast<int>(right.size())) {
+    while (li < left.size()  && static_cast<size_t>(ri) <right.size()) {
         const uint64_t lk = (op.left_key_col  < left[li].size())  ? left[li][op.left_key_col]   : UINT64_MAX;
         const uint64_t rk = (op.right_key_col < right[ri].size()) ? right[ri][op.right_key_col] : UINT64_MAX;
 
@@ -224,7 +224,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
 
         // Equal keys — collect all matching right rows for this key.
         size_t ri_start = ri;
-        while (static_cast<size_t>(ri) <static_cast<int>(right.size())) {
+        while (static_cast<size_t>(ri) <right.size()) {
             const uint64_t rk2 = (op.right_key_col < right[ri].size())
                                       ? right[ri][op.right_key_col] : UINT64_MAX;
             if (rk2 != lk) {
@@ -232,7 +232,7 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++ri;
         }
-        while (static_cast<size_t>(li) <static_cast<int>(left.size())) {
+        while (static_cast<size_t>(li) <left.size()) {
             const uint64_t lk2 = (op.left_key_col < left[li].size())
                                       ? left[li][op.left_key_col] : UINT64_MAX;
             if (lk2 != lk) {
@@ -335,7 +335,7 @@ ExecutionResult simdFilter(const QueryOperator& op) {
     const auto&    fop = op.filter_op;
 
     for (const auto& row : op.rows) {
-        if (col >= static_cast<int>(row.size())) {
+        if (col >= row.size()) {
           continue;
         }
         if (applyFilterOp(row[col], fop, val)) {
@@ -373,20 +373,20 @@ ExecutionResult cpuPatternMatch(const QueryOperator& op) {
     r.used_hw_path = false;
 
     const std::string& pat = op.pattern;
-    for (size_t i = 0; i <static_cast<int>(op.string_rows.size()); ++i) {
+    for (size_t i = 0; i <op.string_rows.size(); ++i) {
         const auto& s = op.string_rows[i];
         bool match = false;
-        if (static_cast<int>(pat.size()) >= 2 && pat.front() == '%' && pat.back() == '%') {
+        if (pat.size() >= 2 && pat.front() == '%' && pat.back() == '%') {
             // contains
-            match = s.find(pat.substr(1, static_cast<int>(pat.size()) - 2)) != std::string::npos;
+            match = s.find(pat.substr(1, pat.size() - 2)) != std::string::npos;
         } else if (!pat.empty() && pat.back() == '%') {
             // prefix
-            match = s.rfind(pat.substr(0, static_cast<int>(pat.size()) - 1), 0) == 0;
+            match = s.rfind(pat.substr(0, pat.size() - 1), 0) == 0;
         } else if (!pat.empty() && pat.front() == '%') {
             // suffix
             const std::string suffix = pat.substr(1);
-            match = static_cast<int>(s.size()) >= suffix.size() &&
-                    s.compare(static_cast<int>(s.size()) - static_cast<int>(suffix.size()) ,static_cast<int>(suffix.size()), suffix) == 0;
+            match = s.size() >= suffix.size() &&
+                    s.compare(s.size() - suffix.size() ,suffix.size(), suffix) == 0;
         } else {
             match = s == pat;
         }
@@ -453,15 +453,15 @@ double HardwareAccelerator::estimate_speedup(const QueryOperator& op,
             case OperatorType::HashJoin:
             [[fallthrough]];
             case OperatorType::SortMergeJoin:
-                return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
+                return op.left_rows.size() + op.right_rows.size() ;
             case OperatorType::Aggregate:
             [[fallthrough]];
             case OperatorType::Filter:
             [[fallthrough]];
             case OperatorType::Sort:
-                return static_cast<int>(op.rows.size());
+                return op.rows.size();
             case OperatorType::PatternMatch:
-                return static_cast<int>(op.string_rows.size());
+                return op.string_rows.size();
             case OperatorType::VectorOp:
                 return op.left_rows.empty() ? 0 : op.left_rows[0].size();
             default:
@@ -552,7 +552,7 @@ bool HardwareAccelerator::shouldUseSIMD(size_t num_rows) const noexcept {
 
 ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op,
                                                        const AcceleratorConfig& cfg) const {
-    const size_t rows = static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
+    const size_t rows = op.left_rows.size() + op.right_rows.size() ;
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
@@ -575,7 +575,7 @@ ExecutionResult HardwareAccelerator::dispatchHashJoin(const QueryOperator&    op
 
 ExecutionResult HardwareAccelerator::dispatchSortMergeJoin(const QueryOperator&    op,
                                                             const AcceleratorConfig& cfg) const {
-    const size_t rows = static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
+    const size_t rows = op.left_rows.size() + op.right_rows.size() ;
     ExecutionResult r = {};
 
     if ((cfg.device == DeviceType::GPU_CUDA || cfg.device == DeviceType::GPU_ROCM)
@@ -718,15 +718,15 @@ ExecutionResult HardwareAccelerator::execute(const QueryOperator&    op,
                 case OperatorType::HashJoin:
                 [[fallthrough]];
                 case OperatorType::SortMergeJoin:
-                    return static_cast<int>(op.left_rows.size()) + static_cast<int>(op.right_rows.size()) ;
+                    return op.left_rows.size() + op.right_rows.size() ;
                 case OperatorType::Aggregate:
                 [[fallthrough]];
                 case OperatorType::Filter:
                 [[fallthrough]];
                 case OperatorType::Sort:
-                    return static_cast<int>(op.rows.size());
+                    return op.rows.size();
                 case OperatorType::PatternMatch:
-                    return static_cast<int>(op.string_rows.size());
+                    return op.string_rows.size();
                 default: return 0;
             }
         }();

@@ -93,7 +93,7 @@ std::string SemanticCache::computeKey(const std::string &prompt, const nlohmann:
     std::string input = prompt + params.dump();
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()),static_cast<int>(input.size()), hash);
+    SHA256(reinterpret_cast<const unsigned char *>(input.c_str()),input.size(), hash);
 
     return themis::hash::bytes_to_hex(hash, SHA256_DIGEST_LENGTH);
 }
@@ -138,7 +138,7 @@ bool SemanticCache::put(const std::string &prompt, const nlohmann::json &params,
     if (s.ok()) {
         // Update in-memory size counters so getStats() avoids a full RocksDB scan.
         entry_count_.fetch_add(1, std::memory_order_relaxed);
-        total_bytes_.fetch_add(static_cast<int>(key.size()) + static_cast<int>(value.size()) , std::memory_order_relaxed);
+        total_bytes_.fetch_add(key.size() + value.size() , std::memory_order_relaxed);
     }
 
     return s.ok();

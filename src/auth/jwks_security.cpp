@@ -364,7 +364,7 @@ std::string JWKSSecureFetcher::computeSPKIHash(const std::string& cert_data) {
     // This is a simplified implementation
     // In production, would extract SPKI from X509 certificate and hash it
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256((unsigned char*)cert_data.c_str(),static_cast<int>(cert_data.size()), hash);
+    SHA256((unsigned char*)cert_data.c_str(),cert_data.size(), hash);
     return base64Encode(hash, SHA256_DIGEST_LENGTH);
 }
 
@@ -412,7 +412,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), cert_pem.size());
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }

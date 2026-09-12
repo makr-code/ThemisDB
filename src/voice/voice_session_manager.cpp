@@ -129,7 +129,7 @@ std::vector<std::string> InMemorySessionBackend::listActiveSessions() {
 
 size_t InMemorySessionBackend::count() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(store_.size());
+    return store_.size();
 }
 
 // ---- VoiceSessionManager ----
@@ -208,7 +208,7 @@ VoiceSessionData VoiceSessionManager::createSession(
     // Error code 6604: Resource limit exceeded
     {
         std::lock_guard<std::mutex> lock(manager_mutex_);
-        if (static_cast<int>(active_cache_.size()) >= kMaxConcurrentSessions) {
+        if (active_cache_.size() >= kMaxConcurrentSessions) {
             spdlog::error("VoiceSessionManager::createSession: max concurrent sessions ({}) exceeded (error 6604)",
                          kMaxConcurrentSessions);
             return VoiceSessionData{};  // Fail-closed: reject over-limit session
@@ -384,7 +384,7 @@ bool VoiceSessionManager::addConversationTurn(
 
     // TASK 2.1: Bounded transcript size enforcement
     // Calculate approximate size before adding (each turn ~= user_msg + assistant_msg)
-    size_t turn_size = static_cast<int>(user_msg.size()) + static_cast<int>(assistant_msg.size()) + 20;  // +20 for markers
+    size_t turn_size = user_msg.size() + assistant_msg.size() + 20;  // +20 for markers
     size_t current_transcript_size = 0;
     for (const auto& line : it->second.conversation_history) {
         current_transcript_size += line.size();
@@ -528,7 +528,7 @@ size_t VoiceSessionManager::expireOldSessions() {
         const int64_t current_ms = nowMs();
         if (current_ms > teardown_deadline_ms) {
             THEMIS_WARN("VoiceSessionManager::expireOldSessions: teardown budget exceeded, force-closing remaining {} sessions",
-                       static_cast<int>(expired_ids.size()) - std::distance(expired_ids.begin(), 
+                       expired_ids.size() - std::distance(expired_ids.begin(), 
                        std::find(expired_ids.begin(), expired_ids.end(), session_id)));
             break;
         }

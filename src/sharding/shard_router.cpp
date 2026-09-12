@@ -440,7 +440,7 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     }
     
     if (metrics_) {
-        metrics_->recordScatterGatherFanout(static_cast<int>(shards.size()));
+        metrics_->recordScatterGatherFanout(shards.size());
     }
     
     // Limit concurrent shard requests
@@ -1259,7 +1259,7 @@ nlohmann::json ShardRouter::mergeResults(const std::vector<ShardResult>& results
     }
     
     merged["success_count"] = success_count;
-    merged["error_count"] = static_cast<int>(results.size()) - success_count;
+    merged["error_count"] = results.size() - success_count;
     merged["mergeVersion"] = merge_version;
     merged["version_token"] = merge_version;
     
@@ -1504,7 +1504,7 @@ bool ShardRouter::validateMultiShardExactConsistency(
     
     // Need at least quorum of successful results
     size_t quorum_size = (results.size() / 2) + 1;
-    if (static_cast<int>(successful.size()) < quorum_size) {
+    if (successful.size() < quorum_size) {
         return false; // Quorum not achieved
     }
     

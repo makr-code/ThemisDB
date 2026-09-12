@@ -168,7 +168,7 @@ void RequestCoalescingManager::resetStats() {
 
 std::size_t RequestCoalescingManager::inFlightCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(in_flight_.size());
+    return in_flight_.size();
 }
 
 // ===========================================================================

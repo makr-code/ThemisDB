@@ -91,7 +91,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
             
             const float distance = compute_distance(nodes[i].vector, nodes[j].vector);
             
-            if (static_cast<int>(nearest.size()) < R) {
+            if (nearest.size() < R) {
                 nearest.push({distance, j});
             } else if (distance < nearest.top().first) {
                 nearest.pop();
@@ -128,7 +128,7 @@ void DiskANNIndex::build(const std::vector<std::pair<VectorID, std::vector<float
 }
 
 void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
-    if (static_cast<int>(vector.size()) != dimension_) {
+    if (vector.size() != dimension_) {
         throw std::invalid_argument("Vector dimension mismatch");
     }
     
@@ -145,7 +145,7 @@ void DiskANNIndex::add(VectorID id, const std::vector<float>& vector) {
         DiskANNNode existing_node = load_node(existing_id);
         float dist = compute_distance(vector, existing_node.vector);
         
-        if (static_cast<int>(nearest.size()) < R) {
+        if (nearest.size() < R) {
             nearest.push({dist, existing_id});
         } else if (dist < nearest.top().first) {
             nearest.pop();
@@ -201,7 +201,7 @@ std::vector<DiskANNIndex::SearchResult> DiskANNIndex::search(
             return a.distance < b.distance;
         });
     
-    if (static_cast<int>(results.size()) > static_cast<size_t>(k)) {
+    if (results.size() > static_cast<size_t>(k)) {
         results.resize(k);
     }
     
@@ -354,7 +354,7 @@ void DiskANNIndex::save_node(const DiskANNNode& node) {
 }
 
 float DiskANNIndex::compute_distance(const std::vector<float>& a, const std::vector<float>& b) const {
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
         throw std::invalid_argument("Vector dimensions must match");
     }
     
@@ -385,7 +385,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
     std::vector<std::pair<float, VectorID>> best_candidates;
     
     // Greedy search
-    while (!beam.empty() && static_cast<int>(best_candidates.size()) < static_cast<size_t>(k)) {
+    while (!beam.empty() && best_candidates.size() < static_cast<size_t>(k)) {
         auto [dist, current_id] = beam.top();
         beam.pop();
         
@@ -402,7 +402,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
             DiskANNNode neighbor_node = load_node(neighbor_id);
             float neighbor_dist = compute_distance(query, neighbor_node.vector);
             
-            if (static_cast<int>(beam.size()) < static_cast<size_t>(beam_width)) {
+            if (beam.size() < static_cast<size_t>(beam_width)) {
                 beam.push({neighbor_dist, neighbor_id});
             } else if (neighbor_dist < beam.top().first) {
                 beam.pop();
@@ -426,7 +426,7 @@ std::vector<VectorID> DiskANNIndex::greedy_search_internal(
 VantagePointTree::VantagePointTree(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors) {
     if (!vectors.empty()) {
         std::vector<std::pair<VectorID, std::vector<float>>> vec_copy = vectors;
-        root_ = build_tree(vec_copy, 0,static_cast<int>(vec_copy.size()));
+        root_ = build_tree(vec_copy, 0,vec_copy.size());
     }
 }
 

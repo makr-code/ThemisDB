@@ -144,7 +144,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     // Build null-terminated argv for execv
     std::vector<char*> argv = {};
 
-    argv.reserve(static_cast<int>(tokens.size()) + 1);
+    argv.reserve(tokens.size() + 1);
     for (auto& t : tokens) {
       argv.push_back(const_cast<char*>(t.c_str()));
     }
@@ -185,7 +185,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     {
         std::array<char, 4096> buf{};
         ssize_t n = 0;
-        while ((n = ::read(pipefd[0], buf.data(),static_cast<int>(buf.size()))) > 0)
+        while ((n = ::read(pipefd[0], buf.data(),buf.size())) > 0)
             html.append(buf.data(), static_cast<std::size_t>(n));
     }
     ::close(pipefd[0]);
@@ -218,7 +218,7 @@ JsRenderResult SubprocessJSRenderer::render(const JsRenderRequest& req) {
     }
     std::string html = {};
     std::array<char, 4096> buf{};
-    while (std::fgets(buf.data(), static_cast<int>(buf.size()), pipe))
+    while (std::fgets(buf.data(), buf.size(), pipe))
         html += buf.data();
     _pclose(pipe);
     const auto t1  = std::chrono::steady_clock::now();

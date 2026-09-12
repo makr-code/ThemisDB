@@ -49,7 +49,7 @@ void InMemoryVectorIndex::add(const std::string& id,
     // uncaught_exception scanner alert (line 45): throws std::invalid_argument for
     // an embedding dimension mismatch — this is an intentional precondition that
     // prevents corrupt index state; callers must validate embedding sizes — false positive.
-    if (static_cast<int>(embedding.size()) != cfg_.dim) {
+    if (embedding.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Embedding dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +
@@ -75,7 +75,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
 {
     // uncaught_exception scanner alert (line 69): throws std::invalid_argument for
     // a query dimension mismatch — same intentional precondition as add() — false positive.
-    if (static_cast<int>(query.size()) != cfg_.dim) {
+    if (query.size() != cfg_.dim) {
         throw std::invalid_argument(
             "Query dimension mismatch: expected " +
             std::to_string(cfg_.dim) + ", got " +
@@ -111,7 +111,7 @@ InMemoryVectorIndex::search(const std::vector<float>& query,
                   return a.distance < b.distance;
               });
 
-    if (static_cast<int>(results.size()) > k) {
+    if (results.size() > k) {
         results.resize(k);
     }
     return results;
@@ -134,7 +134,7 @@ void InMemoryVectorIndex::remove(const std::string& id)
 std::size_t InMemoryVectorIndex::size() const noexcept
 {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(vectors_.size());
+    return vectors_.size();
 }
 
 // ============================================================================

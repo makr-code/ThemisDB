@@ -244,9 +244,9 @@ nlohmann::json CloudAgent::getHealthStatus() const {
         auto all_shards = topology_->getAllShards();
         
         health["shards"] = {
-            {"total",static_cast<int>(all_shards.size())},
-            {"healthy",static_cast<int>(healthy_shards.size())},
-            {"unhealthy", static_cast<int>(all_shards.size()) - static_cast<int>(healthy_shards.size()) }
+            {"total",all_shards.size()},
+            {"healthy",healthy_shards.size()},
+            {"unhealthy", all_shards.size() - healthy_shards.size() }
         };
     }
     
@@ -621,7 +621,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     
     // Build final result
     result.result = {
-        {"total_shards",static_cast<int>(shards.size())},
+        {"total_shards",shards.size()},
         {"success_count", success_count.load()},
         {"failure_count", failure_count.load()},
         {"aggregated_results", aggregated_result},
@@ -633,7 +633,7 @@ CloudAgentResult CloudAgent::executeScatterGather(
     result.success = (success_count.load() > 0);
     if (failure_count.load() > 0 && success_count.load() > 0) {
         result.status = "partial_success";
-    } else if (failure_count.load() == static_cast<int>(shards.size())) {
+    } else if (failure_count.load() == shards.size()) {
         result.success = false;
         result.status = "failed";
         result.error_message = "All shard operations failed";
@@ -690,7 +690,7 @@ void CloudAgent::cleanupOldOperations() {
     
     // Remove completed operations when exceeding the configured threshold
     const size_t max_history = config_.max_completed_operations_history;
-    while (static_cast<int>(completed_operations_.size()) > max_history) {
+    while (completed_operations_.size() > max_history) {
         completed_operations_.erase(completed_operations_.begin());
     }
 }

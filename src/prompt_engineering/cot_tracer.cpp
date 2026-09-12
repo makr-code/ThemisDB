@@ -42,7 +42,7 @@ void RecordingCoTTracer::onStepBegin(
     StepId             step_index,
     const std::string& label) noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    if (static_cast<int>(pending_.size()) <= step_index) {
+    if (pending_.size() <= step_index) {
         pending_.resize(step_index + 1);
     }
     pending_[step_index].label      = label;
@@ -61,7 +61,7 @@ void RecordingCoTTracer::onStepEnd(
     rec.duration    = duration;
     rec.token_count = content.size() / 4;  // BPE approximation (chars / 4)
 
-    if (static_cast<int>(pending_.size()) > step_index) {
+    if (pending_.size() > step_index) {
         rec.label      = pending_[step_index].label;
         rec.start_time = pending_[step_index].start_time;
     } else {
@@ -78,7 +78,7 @@ std::vector<CoTSpanRecord> RecordingCoTTracer::spans() const {
 
 std::size_t RecordingCoTTracer::spanCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(spans_.size());
+    return spans_.size();
 }
 
 bool RecordingCoTTracer::hasSpans() const noexcept {
@@ -110,7 +110,7 @@ void CoTTraceCollector::onStepBegin(
     const std::string& label) noexcept {
     {
         std::lock_guard<std::mutex> lk(mutex_);
-        if (static_cast<int>(pending_.size()) <= step_index) {
+        if (pending_.size() <= step_index) {
             pending_.resize(step_index + 1);
         }
         pending_[step_index].label      = label;
@@ -141,7 +141,7 @@ void CoTTraceCollector::onStepEnd(
         rec.duration    = duration;
         rec.token_count = content.size() / 4;
 
-        if (static_cast<int>(pending_.size()) > step_index) {
+        if (pending_.size() > step_index) {
             rec.label      = pending_[step_index].label;
             rec.start_time = pending_[step_index].start_time;
         } else {
@@ -180,7 +180,7 @@ void CoTTraceCollector::removeTracer(const IChainOfThoughtTracer* tracer) {
 
 std::size_t CoTTraceCollector::tracerCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(children_.size());
+    return children_.size();
 }
 
 std::vector<CoTSpanRecord> CoTTraceCollector::spans() const {
@@ -190,7 +190,7 @@ std::vector<CoTSpanRecord> CoTTraceCollector::spans() const {
 
 std::size_t CoTTraceCollector::spanCount() const noexcept {
     std::lock_guard<std::mutex> lk(mutex_);
-    return static_cast<int>(spans_.size());
+    return spans_.size();
 }
 
 void CoTTraceCollector::reset() {

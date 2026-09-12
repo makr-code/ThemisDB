@@ -121,11 +121,11 @@ bool computeFileSha256(const std::string& path, std::string& out_hex) {
         std::size_t pos = 0;
         while (pos < static_cast<std::size_t>(n)) {
             const std::size_t copy_n = std::min<std::size_t>(
-                static_cast<std::size_t>(n) - pos, static_cast<int>(block.size()) - buffered);
+                static_cast<std::size_t>(n) - pos, block.size() - buffered);
             std::memcpy(block.data() + buffered, bytes + pos, copy_n);
             buffered += copy_n;
             pos += copy_n;
-            if (buffered == static_cast<int>(block.size())) {
+            if (buffered == block.size()) {
                 sha256Transform(state, block.data());
                 buffered = 0;
             }
@@ -237,7 +237,7 @@ audio::TranscriptionResult WhisperCppTranscriber::transcribe(
     wparams.print_progress = cfg_.print_progress;
 
     auto* ctx = static_cast<whisper_context*>(ctx_.get());
-    if (whisper_full(ctx, wparams, pcm.data(), static_cast<int>(pcm.size())) != 0) {
+    if (whisper_full(ctx, wparams, pcm.data(), pcm.size()) != 0) {
         result.success = false;
         result.error_message = "whisper_full() failed";
         return result;

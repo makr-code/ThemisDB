@@ -193,9 +193,9 @@ static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_
     if (name_start < pos) {
         out_table_name = sql.substr(name_start, pos - name_start);
         // Remove quotes if present (both double and single quotes for Oracle)
-        if (((static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (static_cast<int>(out_table_name.size()) >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\''))) {
-            out_table_name = out_table_name.substr(1, static_cast<int>(out_table_name.size()) - 2);
+        if (((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\''))) {
+            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
         }
         return true;
     }
@@ -420,14 +420,14 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         ++lines_processed;
          
         // Truncate overly long lines
-        if (static_cast<int>(line.size()) > kMaxLineLength) {
+        if (line.size() > kMaxLineLength) {
             THEMIS_WARN("Oracle schema line {} exceeds max length ({}); truncating", 
                        lines_processed, kMaxLineLength);
             line.resize(kMaxLineLength);
         }
          
         // Skip empty lines and SQL comments (-- ...)
-        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
+        if ((line.empty()) || ((line.size() >= 2 && line[0] == '-' && line[1] == '-'))) {
           continue;
         }
 
@@ -440,7 +440,7 @@ json OracleImporter::getSourceSchema(const std::string& source_path) {
         }
 
         // Bounds check on accumulated SQL
-        if (static_cast<int>(current_sql.size()) + static_cast<int>(stripped.size()) + 1 > kMaxSqlLength) {
+        if (current_sql.size() + stripped.size() + 1 > kMaxSqlLength) {
             THEMIS_WARN("Oracle SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
             current_sql.clear();
             continue;
@@ -528,8 +528,8 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
                 found_header = true;
             }
             if (!hdr_line.empty() &&
-                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
-                !(static_cast<int>(hdr_line.size()) >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
+                !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-') &&
+                !(hdr_line.size() >= 2 && hdr_line[0] == '/' && hdr_line[1] == '*')) {
                 break;
             }
             hdr_lines++;
@@ -572,7 +572,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         }
 
         // Skip empty lines and SQL comments (-- ...)
-        if ((line.empty()) || ((static_cast<int>(line.size()) >= 2 && line[0] == '-' && line[1] == '-'))) {
+        if ((line.empty()) || ((line.size() >= 2 && line[0] == '-' && line[1] == '-'))) {
             continue;
         }
 
@@ -589,7 +589,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
 
         // Statement-size guard
         if (options.max_statement_size_bytes > 0 &&
-            static_cast<int>(current_sql.size()) > options.max_statement_size_bytes) {
+            current_sql.size() > options.max_statement_size_bytes) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "SQL statement exceeds max_statement_size_bytes (" +
@@ -818,7 +818,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (k < col_def.size() && static_cast<int>(col_type.size()) < kMaxTypeLength) {
+        while (k < col_def.size() && col_type.size() < kMaxTypeLength) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
@@ -832,7 +832,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
             ++k;
         }
          
-        if (static_cast<int>(col_type.size()) >= kMaxTypeLength) {
+        if (col_type.size() >= kMaxTypeLength) {
             THEMIS_WARN("Oracle column type exceeds max length ({}); truncating", kMaxTypeLength);
         }
 
@@ -917,7 +917,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
 
     // Parse the tuple list: (v1,...),(v2,...), ...
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(values_payload.size())) {
+    while (static_cast<size_t>(pos) <values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||
@@ -925,7 +925,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
                 values_payload[pos] == '\n')) {
             ++pos;
         }
-        if (pos >= static_cast<int>(values_payload.size())) {
+        if (pos >= values_payload.size()) {
           break;
         }
         if (values_payload[pos] != '(') {
@@ -963,7 +963,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
         std::vector<std::string> values = parseInsertValues(tuple_str);
 
         if (!eff_schema.columns.empty() &&
-            static_cast<int>(values.size()) != static_cast<int>(eff_schema.columns.size())) {
+            values.size() != eff_schema.columns.size()) {
             ImportError err;
             err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
             err.severity = ImportErrorSeverity::WARNING;
@@ -1171,7 +1171,7 @@ json OracleImporter::convertRowToEntity(const TableSchema& schema,
     json entity;
     entity["_type"] = schema.name;
 
-    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <static_cast<int>(schema.columns.size()); ++i) {
+    for (size_t i = 0; i < values.size()  && static_cast<size_t>(i) <schema.columns.size(); ++i) {
         entity[schema.columns[i]] = values[i];
     }
 
@@ -1292,8 +1292,8 @@ std::string OracleImporter::unquoteIdentifier(const std::string& s) {
         t = t.substr(f, l - f + 1);
     }
     // Strip double quotes
-    if (static_cast<int>(t.size()) >= 2 && t.front() == '"' && t.back() == '"') {
-        return t.substr(1, static_cast<int>(t.size()) - 2);
+    if (t.size() >= 2 && t.front() == '"' && t.back() == '"') {
+        return t.substr(1, t.size() - 2);
     }
     return t;
 }
@@ -1304,7 +1304,7 @@ std::string OracleImporter::stripOracleComments(const std::string& sql) {
     std::string result = {};
     result.reserve(sql.size());
     size_t i = 0;
-    while (static_cast<size_t>(i) <static_cast<int>(sql.size())) {
+    while (static_cast<size_t>(i) <sql.size()) {
         if (i + 1 < sql.size() && sql[i] == '/' && sql[i + 1] == '*') {
             // Skip until closing */
             i += 2;

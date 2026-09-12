@@ -171,7 +171,7 @@ std::optional<int64_t> BaseEntity::getFieldAsInt(std::string_view field_name) co
             try {
                 size_t pos = 0;
                 int64_t parsed = std::stoll(arg, &pos, 10);
-                if (pos == static_cast<int>(arg.size())) {
+                if (pos == arg.size()) {
                     return parsed;
                 }
                 return std::nullopt;
@@ -314,7 +314,7 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
     try {
 #if THEMIS_HAS_SIMDJSON
         // Use simdjson on-demand API for maximum speed
-        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()),static_cast<int>(blob_.size()));
+        simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()),blob_.size());
 
         // Obtain a document and object from the parser (store intermediate values as named variables
         // to satisfy the ondemand API requirements that some getters expect lvalue receivers).

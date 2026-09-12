@@ -579,11 +579,11 @@ bool KafkaImporter::parseKafkaUrl(const std::string& url,
     }
 
     const std::string prefix = "kafka://";
-    if (url.substr(0,static_cast<int>(prefix.size())) == prefix) {
+    if (url.substr(0,prefix.size()) == prefix) {
         // Format: kafka://broker:9092/topic  or kafka://b1,b2/topic
         std::string rest = url.substr(prefix.size());
         auto slash_pos = rest.rfind('/');
-        if (slash_pos == std::string::npos || slash_pos == static_cast<int>(rest.size()) - 1) {
+        if (slash_pos == std::string::npos || slash_pos == rest.size() - 1) {
             // No topic after the slash, or slash is last char.
             return false;
         }
@@ -656,7 +656,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 ++stats.total_records;
 
                 if (options.max_row_size_bytes > 0 &&
-                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
+                    payload.size() > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",
@@ -920,7 +920,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 stream_pos.last_committed_offset = msg->offset;
 
                 if (options.max_row_size_bytes > 0 &&
-                    static_cast<int>(payload.size()) > options.max_row_size_bytes) {
+                    payload.size() > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message exceeds max_row_size_bytes limit",
@@ -1012,7 +1012,7 @@ json KafkaImporter::extractEntity(const std::string& payload) const {
 
     if (message_format_ == "avro") {
         // Confluent wire format: magic byte (0x00) + 4-byte schema ID + JSON/bytes
-        if (static_cast<int>(payload.size()) > 5 &&
+        if (payload.size() > 5 &&
             static_cast<unsigned char>(payload[0]) == 0x00) {
             std::string content = payload.substr(5);
             if (content.empty()) {

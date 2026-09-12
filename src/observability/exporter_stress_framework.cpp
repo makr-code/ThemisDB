@@ -45,7 +45,7 @@ public:
             case FailureMode::NONE:
                 // Normal path: accept all
                 successful_exports_ += observations.size();
-                return static_cast<int>(observations.size());
+                return observations.size();
 
             case FailureMode::BACKEND_TIMEOUT:
                 // Simulate timeout: reject all
@@ -54,7 +54,7 @@ public:
                 if (total_exports_ % 10 == 0) {
                     healthy_ = true;  // Recovery after 10 attempts
                 }
-                return healthy_ ?static_cast<int>(observations.size()) : 0;
+                return healthy_ ?observations.size() : 0;
 
             case FailureMode::BACKEND_UNAVAILABLE:
                 // Backend completely unavailable
@@ -91,13 +91,13 @@ public:
                         std::chrono::milliseconds(dis(gen)));
                 }
                 successful_exports_ += observations.size();
-                return static_cast<int>(observations.size());
+                return observations.size();
 
             case FailureMode::BACKEND_SLOW:
                 // Simulate 1-2s response time
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 successful_exports_ += observations.size();
-                return static_cast<int>(observations.size());
+                return observations.size();
 
             case FailureMode::QUEUE_EXHAUSTION:
                 // Simulate queue overflow: accept 50%
@@ -105,7 +105,7 @@ public:
                     std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
-                    std::size_t accepted = dis(gen) < 50 ?static_cast<int>(observations.size()) : 0;
+                    std::size_t accepted = dis(gen) < 50 ?observations.size() : 0;
                     if (accepted > 0) {
                         successful_exports_ += accepted;
                     } else {
@@ -120,7 +120,7 @@ public:
                     std::random_device rd = {};
                     std::mt19937 gen(rd());
                     std::uniform_int_distribution<> dis(0, 100);
-                    std::size_t accepted = dis(gen) < 75 ?static_cast<int>(observations.size()) : 0;
+                    std::size_t accepted = dis(gen) < 75 ?observations.size() : 0;
                     if (accepted > 0) {
                         successful_exports_ += accepted;
                     } else {

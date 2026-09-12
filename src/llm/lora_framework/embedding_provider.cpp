@@ -74,8 +74,8 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
         return std::vector<float>();
     }
     
-    std::vector<llama_token> tokens_buffer(static_cast<int>(text.size()) + 16);
-    if (static_cast<int>(tokens_buffer.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+    std::vector<llama_token> tokens_buffer(text.size() + 16);
+    if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
         spdlog::error("Token buffer too large for llama_tokenize");
         return std::vector<float>();
     }
@@ -93,7 +93,7 @@ std::vector<float> EmbeddingProvider::getEmbedding(const std::string& text) {
     
     if (n_tokens < 0) {
         tokens_buffer.resize(-n_tokens);
-        if (static_cast<int>(tokens_buffer.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+        if (tokens_buffer.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
             spdlog::error("Retried token buffer too large for llama_tokenize");
             return std::vector<float>();
         }
@@ -152,7 +152,7 @@ bool EmbeddingProvider::buildEmbeddingCache(
     const std::vector<std::string>& training_texts,
     std::vector<EmbeddingCache>& cache_out
 ) {
-    spdlog::info("Building embedding cache for {} texts",static_cast<int>(training_texts.size()));
+    spdlog::info("Building embedding cache for {} texts",training_texts.size());
     
     cache_out.clear();
     cache_out.reserve(training_texts.size());
@@ -227,7 +227,7 @@ EmbeddingCacheStats EmbeddingProvider::getCacheStats() const {
 void EmbeddingProvider::clearCache() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
-    spdlog::info("Clearing embedding cache ({} entries)",static_cast<int>(cache_.size()));
+    spdlog::info("Clearing embedding cache ({} entries)",cache_.size());
     cache_.clear();
     cache_stats_.total_entries = 0;
     cache_stats_.memory_bytes = 0;
@@ -271,7 +271,7 @@ bool EmbeddingProvider::saveCache(const std::string& filepath) {
             file.write(reinterpret_cast<const char*>(&entry.access_count), sizeof(entry.access_count));
         }
         
-        spdlog::info("Saved {} cache entries to {}",static_cast<int>(cache_.size()), filepath);
+        spdlog::info("Saved {} cache entries to {}",cache_.size(), filepath);
         return true;
         
     } catch (const std::exception& e) {
@@ -341,7 +341,7 @@ bool EmbeddingProvider::loadCache(const std::string& filepath) {
             cache_[text] = entry;
         }
         
-        spdlog::info("Loaded {} cache entries from {}",static_cast<int>(cache_.size()), filepath);
+        spdlog::info("Loaded {} cache entries from {}",cache_.size(), filepath);
         return true;
         
     } catch (const std::exception& e) {
@@ -360,7 +360,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
     // Convert to llama_token
     std::vector<llama_token> llama_tokens(tokens.begin(), tokens.end());
 
-    if (static_cast<int>(llama_tokens.size()) > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
+    if (llama_tokens.size() > static_cast<size_t>(std::numeric_limits<int32_t>::max())) {
         spdlog::error("Token sequence too large for llama_batch_init");
         return std::vector<float>();
     }
@@ -409,7 +409,7 @@ std::vector<float> EmbeddingProvider::extractEmbeddingFromTokens(
 }
 
 void EmbeddingProvider::evictCacheIfNeeded() {
-    if (static_cast<int>(cache_.size()) <= config_.max_cache_entries) {
+    if (cache_.size() <= config_.max_cache_entries) {
         return;
     }
     
@@ -427,7 +427,7 @@ void EmbeddingProvider::evictCacheIfNeeded() {
     
     // Remove oldest 20%
     size_t to_remove = config_.max_cache_entries / 5;
-    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) <static_cast<int>(entries.size()); ++i) {
+    for (size_t i = 0; i < to_remove  && static_cast<size_t>(i) <entries.size(); ++i) {
         cache_.erase(entries[i].first);
     }
     

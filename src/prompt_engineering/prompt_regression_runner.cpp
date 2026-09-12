@@ -115,7 +115,7 @@ void PromptRegressionRunner::clearFixtures() {
 }
 
 std::size_t PromptRegressionRunner::fixtureCount() const noexcept {
-    return static_cast<int>(fixtures_.size());
+    return fixtures_.size();
 }
 
 // ============================================================================
@@ -137,7 +137,7 @@ RegressionResult PromptRegressionRunner::run(
 
     // Inconclusive: too few fixtures or mismatched vector sizes.
     if (n < run_config_.min_fixtures ||
-        static_cast<int>(baseline_outputs.size()) != static_cast<int>(candidate_outputs.size()) ||
+        baseline_outputs.size() != candidate_outputs.size() ||
         n == 0) {
         result.inconclusive = true;
         return result;

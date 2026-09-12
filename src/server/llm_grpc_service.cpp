@@ -63,7 +63,7 @@ bool LLMGrpcService::validateBearerToken(grpc::ServerContext* context) {
         std::vector<unsigned char> buf(s.size());
         int len = EVP_DecodeBlock(buf.data(),
             reinterpret_cast<const unsigned char*>(s.data()),
-            static_cast<int>(s.size()));
+            s.size());
         if (len < 0) {
           return "";
         }
@@ -111,7 +111,7 @@ std::string LLMGrpcService::extractBearerToken(grpc::ServerContext* context) {
     std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
     std::smatch matches = {};
     
-    if (std::regex_match(auth_value, matches, bearer_regex) && static_cast<int>(matches.size()) == 2) {
+    if (std::regex_match(auth_value, matches, bearer_regex) && matches.size() == 2) {
         return matches[1].str();
     }
     
@@ -630,11 +630,11 @@ grpc::Status LLMGrpcService::ExportLoRA(
         const size_t chunk_size = 4 * 1024 * 1024;
         size_t offset = 0;
         
-        while (static_cast<size_t>(offset) <static_cast<int>(lora_data.size())) {
+        while (static_cast<size_t>(offset) <lora_data.size()) {
             llm::LoRAChunk chunk;
             chunk.set_lora_id(request->lora_id());
             
-            size_t current_chunk_size = std::min(chunk_size, static_cast<int>(lora_data.size()) - offset);
+            size_t current_chunk_size = std::min(chunk_size, lora_data.size() - offset);
             chunk.set_data(lora_data.data() + offset, current_chunk_size);
             chunk.set_offset(offset);
             chunk.set_total_size(lora_data.size());

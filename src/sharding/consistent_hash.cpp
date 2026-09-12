@@ -48,7 +48,7 @@ void ConsistentHashRing::addShard(const std::string& shard_id, size_t virtual_no
     // Resolve collisions with deterministic probing to preserve ring density.
     // Build the virtual-node key as "<shard_id>#<i>" without ostringstream.
     std::string vnode_key = {};
-    vnode_key.reserve(static_cast<int>(shard_id.size()) + 1 + 20); // 20 digits covers uint64_t max
+    vnode_key.reserve(shard_id.size() + 1 + 20); // 20 digits covers uint64_t max
     for (size_t i = 0; i < virtual_nodes; ++i) {
         vnode_key = shard_id;
         vnode_key += '#';
@@ -119,7 +119,7 @@ std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& 
     if (!nodes.empty()) {
         nodes.erase(nodes.begin()); // drop primary
     }
-    if (static_cast<int>(nodes.size()) > count) {
+    if (nodes.size() > count) {
         nodes.resize(count);
     }
     return nodes;
@@ -147,7 +147,7 @@ std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t
     size_t iterations = 0;
     const size_t max_iterations = ring_.size(); // Prevent infinite loop
     
-    while ( static_cast<int>(result.size()) < count && iterations < max_iterations) {
+    while ( result.size() < count && iterations < max_iterations) {
         if (seen.find(it->second) == seen.end()) {
             result.push_back(it->second);
             seen.insert(it->second);

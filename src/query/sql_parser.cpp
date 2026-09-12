@@ -53,7 +53,7 @@ std::string sqlValueToAQL(const SQLValue& val) {
         } else {
             // std::string – emit as a quoted AQL string literal
             std::string out = {};
-            out.reserve(static_cast<int>(v.size()) + 2);
+            out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
                 if (c == '"') {
@@ -198,9 +198,9 @@ public:
     std::vector<SQLToken> tokenize() {
         std::vector<SQLToken> tokens = {};
 
-        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
+        while (static_cast<size_t>(pos_) <input_.size()) {
             skipWhitespace();
-            if (pos_ >= static_cast<int>(input_.size())) {
+            if (pos_ >= input_.size()) {
               break;
             }
 
@@ -268,7 +268,7 @@ public:
                 default:  tokens.push_back({SQLTokenType::INVALID, std::string(1, c), start}); ++pos_; break;
             }
         }
-        tokens.push_back({SQLTokenType::END_OF_INPUT, "",static_cast<int>(input_.size())});
+        tokens.push_back({SQLTokenType::END_OF_INPUT, "",input_.size()});
         return tokens;
     }
 
@@ -285,7 +285,7 @@ private:
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
         std::string val = {};
-        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
+        while (static_cast<size_t>(pos_) <input_.size()) {
             char ch = input_[pos_];
             // SQL doubled-delimiter escape: '' or "" within a string
             if (ch == delim) {
@@ -309,7 +309,7 @@ private:
             }
             ++pos_;
         }
-        if (static_cast<int>(input_.size()) > pos_) ++pos_; // skip closing delimiter
+        if (input_.size() > pos_) ++pos_; // skip closing delimiter
         return {SQLTokenType::STRING_LIT, val, start};
     }
 
@@ -612,7 +612,7 @@ private:
             return Err<SQLInsertStatement>(err.error().code(), err.error().context());
         }
 
-        if (static_cast<int>(stmt.columns.size()) != static_cast<int>(stmt.values.size())) {
+        if (stmt.columns.size() != stmt.values.size()) {
             return Err<SQLInsertStatement>(
                 errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
                 "Column count does not match value count in INSERT"
@@ -1075,7 +1075,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     // SORT clause
     if (!stmt.order_by.empty()) {
         aql << " SORT ";
-        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
+        for (size_t i = 0; i <stmt.order_by.size(); ++i) {
             if (i > 0) {
               aql << ", ";
             }
@@ -1097,11 +1097,11 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
     aql << " RETURN ";
     if (stmt.star || stmt.columns.empty()) {
         aql << var;
-    } else if (static_cast<int>(stmt.columns.size()) == 1) {
+    } else if (stmt.columns.size() == 1) {
         aql << var << "." << stmt.columns[0];
     } else {
         aql << "{";
-        for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
+        for (size_t i = 0; i <stmt.columns.size(); ++i) {
             if (i > 0) {
               aql << ", ";
             }
@@ -1116,7 +1116,7 @@ std::string SQLToAQLTranspiler::transpileSelect(const SQLSelectStatement& stmt) 
 std::string SQLToAQLTranspiler::transpileInsert(const SQLInsertStatement& stmt) {
     std::ostringstream aql = {};
     aql << "INSERT {";
-    for (size_t i = 0; i <static_cast<int>(stmt.columns.size()); ++i) {
+    for (size_t i = 0; i <stmt.columns.size(); ++i) {
         if (i > 0) {
           aql << ", ";
         }
@@ -1137,7 +1137,7 @@ std::string SQLToAQLTranspiler::transpileUpdate(const SQLUpdateStatement& stmt) 
     }
 
     aql << " UPDATE " << var << " WITH {";
-    for (size_t i = 0; i <static_cast<int>(stmt.assignments.size()); ++i) {
+    for (size_t i = 0; i <stmt.assignments.size(); ++i) {
         if (i > 0) {
           aql << ", ";
         }

@@ -84,7 +84,7 @@ public:
         }
         
         // Evict if at capacity
-        if (static_cast<int>(cache_.size()) >= config_.max_entries) {
+        if (cache_.size() >= config_.max_entries) {
             evictLRU();
         }
         
@@ -277,7 +277,7 @@ private:
     }
     
     double computeSimilarity(const std::vector<float>& a, const std::vector<float>& b) const {
-        if (static_cast<int>(a.size()) != static_cast<int>(b.size()) || a.empty()) {
+        if (a.size() != b.size() || a.empty()) {
             return 0.0;
         }
         

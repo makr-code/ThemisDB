@@ -68,7 +68,7 @@ std::vector<int> PagedKVCacheManager::allocateBlocks(size_t num_blocks) {
 
 void PagedKVCacheManager::freeBlocks(const std::vector<int>& block_ids) {
     for (int block_id : block_ids) {
-        if (block_id >= 0  && static_cast<size_t>(block_id) < static_cast<int>(blocks_.size())) {
+        if (block_id >= 0  && static_cast<size_t>(block_id) < blocks_.size()) {
             releaseBlock(block_id);
         }
     }
@@ -217,7 +217,7 @@ bool PagedKVCacheManager::isBlockAvailable(int block_id) const {
 
 PagedKVCacheManager::BlockInfo 
 PagedKVCacheManager::getBlockInfo(int block_id) const {
-    if (block_id >= 0  && static_cast<size_t>(block_id) < static_cast<int>(blocks_.size())) {
+    if (block_id >= 0  && static_cast<size_t>(block_id) < blocks_.size()) {
         const auto& block = blocks_[block_id];
         BlockInfo info;
         info.block_id = block.block_id;
@@ -276,7 +276,7 @@ int PagedKVCacheManager::getFreeBlock() {
 }
 
 void PagedKVCacheManager::releaseBlock(int block_id) {
-    if (block_id < 0 || block_id >= static_cast<int>(blocks_.size())) {
+    if (block_id < 0 || block_id >= blocks_.size()) {
         return;
     }
     
@@ -365,7 +365,7 @@ void PagedKVCacheManager::updateWorkloadMetrics() {
             sequences_with_prefix++;
             // Estimate prefix length from shared blocks
             for (int block_id : table.block_ids) {
-                if (block_id >= 0  && static_cast<size_t>(block_id) < static_cast<int>(blocks_.size())) {
+                if (block_id >= 0  && static_cast<size_t>(block_id) < blocks_.size()) {
                     if (blocks_[block_id].ref_count.load(std::memory_order_acquire) > 1) {
                         total_prefix_length += config_.block_size;
                     }

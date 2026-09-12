@@ -52,7 +52,7 @@ ThreatScore BehavioralAnomalyDetector::scoreEvent(const AccessEvent& event) {
 
     // Append event; evict oldest if ring buffer is full.
     state.events.push_back(event);
-    while (static_cast<int>(state.events.size()) > config_.max_events_per_session) {
+    while (state.events.size() > config_.max_events_per_session) {
         state.events.pop_front();
     }
 
@@ -92,7 +92,7 @@ size_t BehavioralAnomalyDetector::sessionEventCount(
     const std::string& session_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
-    return static_cast<bool>(it != sessions_.end() ? it- < static_cast<int>(second.events.size())) : 0;
+    return static_cast<bool>(it != sessions_.end() ? it- < second.events.size()) : 0;
 }
 
 // ============================================================================

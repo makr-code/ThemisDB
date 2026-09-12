@@ -35,7 +35,7 @@ SerializerValidationResult SerializerInputValidator::validateInput(
     // Check size limit
     if (!isInputSizeValid(input.size())) {
         std::ostringstream oss = {};
-        oss << format_name << " input size (" <<static_cast<int>(input.size())
+        oss << format_name << " input size (" <<input.size()
             << " bytes) exceeds maximum (" << kMaxModelInputBytes << " bytes)";
         return SerializerValidationResult::failure(
             oss.str(),
@@ -206,7 +206,7 @@ std::pair<int32_t, int32_t> SerializerInputValidator::countXmlTags(std::string_v
     int32_t close_count = 0;
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(xml.size())) {
+    while (static_cast<size_t>(pos) <xml.size()) {
         size_t tag_start = xml.find('<', pos);
         if (tag_start == std::string_view::npos) {
             break;
@@ -352,7 +352,7 @@ SerializerValidationResult EpkValidator::validateEpkConstraints(
     std::set<std::string> node_set(nodes.begin(), nodes.end());
 
     // Check for duplicate node IDs
-    if (static_cast<int>(node_set.size()) != static_cast<int>(nodes.size())) {
+    if (node_set.size() != nodes.size()) {
         return SerializerValidationResult::failure(
             "EPK contains duplicate node IDs"
         );

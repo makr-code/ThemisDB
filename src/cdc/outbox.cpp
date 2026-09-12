@@ -273,7 +273,7 @@ std::vector<OutboxRecord> OutboxRelay::scanRecords(size_t limit, OutboxState fil
 
             if (all_states || rec.state == filter_state) {
                 result.push_back(std::move(rec));
-                if (limit > 0 && static_cast<int>(result.size()) >= limit) {
+                if (limit > 0 && result.size() >= limit) {
                     break;
                 }
             }

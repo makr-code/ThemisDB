@@ -228,7 +228,7 @@ void QueryTimeoutContext::endShardAttempt(
     stats.total_elapsed += attempt_duration;
 
     if (success) {
-        stats.successful_attempt = static_cast<int>(stats.attempt_latencies.size()) - 1;
+        stats.successful_attempt = stats.attempt_latencies.size() - 1;
     } else {
         stats.failure_reasons.push_back(failure_reason);
     }
@@ -249,7 +249,7 @@ bool QueryTimeoutContext::shouldRetry(const std::string& shard_id) const {
     }
 
     const auto& stats = it->second;
-    int attempt = static_cast<int>(stats.attempt_latencies.size()) - 1;
+    int attempt = stats.attempt_latencies.size() - 1;
 
     return policy_.shouldRetry(stats.total_elapsed, attempt);
 }

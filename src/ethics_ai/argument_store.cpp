@@ -88,7 +88,7 @@ static bool verifyModelIntegrity(const std::vector<uint8_t>& blob,
                                   const std::string& entity_id,
                                   const std::optional<std::string>& expected_hash) {
     // Compute actual hash
-    std::string actual_hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
+    std::string actual_hash = computeSHA256(blob.data(),blob.size());
     
     if (!expected_hash) {
         // No out-of-band record — legacy entity written before integrity tracking
@@ -167,7 +167,7 @@ Status ArgumentStore::storeArgument(const EthicalArgument &argument, bool store_
     // Store SHA256 hash under a separate out-of-band key so retrievals can
     // verify integrity without trusting any field embedded in the payload.
     {
-        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
+        std::string hash = computeSHA256(blob.data(),blob.size());
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -264,7 +264,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
             results.push_back(arg);
 
-            if (static_cast<int>(results.size()) >= limit) {
+            if (results.size() >= limit) {
                 break;
             }
         }
@@ -320,7 +320,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
                     }
                 }
                 out.push_back(EthicsBaseEntityAdapter::fromBaseEntity(entity));
-                if (static_cast<int>(out.size()) >= limit) {
+                if (out.size() >= limit) {
                     break;
                 }
             }
@@ -337,7 +337,7 @@ ArgumentStore::getArgumentsByPhilosophy(const std::string &philosophy_school,
 
     // Scan RocksDB with prefix
     storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-        if (static_cast<int>(results.size()) >= limit) {
+        if (results.size() >= limit) {
             return false; // Stop iteration
         }
 
@@ -419,7 +419,7 @@ Status ArgumentStore::storeDecision(const EthicalDecision &decision) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
+        std::string hash = computeSHA256(blob.data(),blob.size());
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }
@@ -496,7 +496,7 @@ Status ArgumentStore::storePhilosophyProfile(const PhilosophyProfile &profile) {
 
     // Store SHA256 hash out-of-band.
     {
-        std::string hash = computeSHA256(blob.data(),static_cast<int>(blob.size()));
+        std::string hash = computeSHA256(blob.data(),blob.size());
         std::vector<uint8_t> hash_bytes(hash.begin(), hash.end());
         storage_->put(makeIntegrityKey(key), hash_bytes);
     }

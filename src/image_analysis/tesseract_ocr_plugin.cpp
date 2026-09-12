@@ -135,7 +135,7 @@ struct TesseractOCRPlugin::Impl {
         std::lock_guard<std::mutex> lk(tess_mtx);
 
 #ifdef HAVE_OPENCV
-        cv::Mat encoded(1, static_cast<int>(image_data.size()), CV_8UC1,
+        cv::Mat encoded(1, image_data.size(), CV_8UC1,
                         const_cast<uint8_t*>(image_data.data()));
         cv::Mat img = cv::imdecode(encoded, cv::IMREAD_GRAYSCALE);
         if (img.empty()) {

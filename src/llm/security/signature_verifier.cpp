@@ -103,7 +103,7 @@ SignatureVerificationResult RSA_SHA256_Verifier::verify(
         
         // 4. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
+        SHA256(data.data(),data.size(), hash.data());
         
         // 5. Verify signature using EVP API
         std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> ctx(
@@ -203,7 +203,7 @@ RSA_SHA256_Verifier::loadCertificate(const std::string& cert_pem) {
     
     // Create BIO from PEM string
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
         BIO_free
     );
     
@@ -284,7 +284,7 @@ SignatureVerificationResult CertificateChainVerifier::verify(
     try {
         // 1. Load certificate from PEM
         std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-            BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+            BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
             BIO_free
         );
         
@@ -478,7 +478,7 @@ SignatureVerificationResult CRLChecker::verify(
     try {
         // 1. Load certificate from PEM
         std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-            BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+            BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
             BIO_free
         );
         
@@ -582,7 +582,7 @@ X509_CRL* CRLChecker::downloadAndParseCRL() const {
                                   static_cast<long>(raw.size()));
     if (!crl) {
         // Try PEM
-        BIO* bio = BIO_new_mem_buf(raw.data(), static_cast<int>(raw.size()));
+        BIO* bio = BIO_new_mem_buf(raw.data(), raw.size());
         if (bio) {
             crl = PEM_read_bio_X509_CRL(bio, nullptr, nullptr, nullptr);
             BIO_free(bio);
@@ -758,7 +758,7 @@ SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
         
         // 5. Compute SHA-256 hash of data
         std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
-        SHA256(data.data(),static_cast<int>(data.size()), hash.data());
+        SHA256(data.data(),data.size(), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -853,7 +853,7 @@ ECDSA_SHA256_Verifier::loadCertificate(const std::string& cert_pem) {
     spdlog::debug("Loading EC certificate from PEM");
     
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
         BIO_free
     );
     
@@ -983,7 +983,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
 
-    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
+    const size_t payload_len = r_der.size() + s_der.size() ;
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);
     result.push_back(0x30);  // SEQUENCE tag
@@ -992,7 +992,7 @@ std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA256_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz,static_cast<int>(result.size()));
+                  sz,result.size());
     return result;
 }
 
@@ -1063,7 +1063,7 @@ SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
         
         // 5. Compute SHA-384 hash of data
         std::vector<uint8_t> hash(SHA384_DIGEST_LENGTH);
-        SHA384(data.data(),static_cast<int>(data.size()), hash.data());
+        SHA384(data.data(),data.size(), hash.data());
         
         // 6. Convert signature to DER format if needed
         auto der_signature = convertSignatureToDER(signature);
@@ -1158,7 +1158,7 @@ ECDSA_SHA384_Verifier::loadCertificate(const std::string& cert_pem) {
     spdlog::debug("Loading EC certificate from PEM");
     
     std::unique_ptr<BIO, decltype(&BIO_free)> bio(
-        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+        BIO_new_mem_buf(cert_pem.data(), cert_pem.size()),
         BIO_free
     );
     
@@ -1277,7 +1277,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
 
     auto r_der = encodeDERInt(r_ptr, half);
     auto s_der = encodeDERInt(s_ptr, half);
-    const size_t payload_len = static_cast<int>(r_der.size()) + static_cast<int>(s_der.size()) ;
+    const size_t payload_len = r_der.size() + s_der.size() ;
 
     std::vector<uint8_t> result;
     result.reserve(2 + payload_len);
@@ -1287,7 +1287,7 @@ std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     result.insert(result.end(), s_der.begin(), s_der.end());
 
     spdlog::debug("ECDSA_SHA384_Verifier: converted {}-byte r||s to {}-byte DER",
-                  sz,static_cast<int>(result.size()));
+                  sz,result.size());
     return result;
 }
 

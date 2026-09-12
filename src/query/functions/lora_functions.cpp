@@ -148,7 +148,7 @@ nlohmann::json LoraTrainFunction::execute(
         std::string adapter_id = args[0].get<std::string>();
         std::string base_model = args[1].get<std::string>();
         json dataset_json = args[2];
-        json config_json = static_cast<int>(args.size()) > 3 ? args[3] : json::object();
+        json config_json = args.size() > 3 ? args[3] : json::object();
         
         // Parse training data and config
         TrainingData training_data = parseDataset(dataset_json);
@@ -197,7 +197,7 @@ nlohmann::json LoraTrainFunction::execute(
     } catch (const std::exception& e) {
         json error;
         error["error"] = std::string("LORA_TRAIN failed: ") + e.what();
-        error["adapter_id"] = static_cast<int>(args.size()) > 0 ? args[0] : json(nullptr);
+        error["adapter_id"] = args.size() > 0 ? args[0] : json(nullptr);
         return error;
     }
 }
@@ -244,7 +244,7 @@ nlohmann::json LoraQueryFunction::execute(
         std::string model_id = args[0].get<std::string>();
         std::string adapter_id = args[1].get<std::string>();
         std::string prompt = args[2].get<std::string>();
-        json options = static_cast<int>(args.size()) > 3 ? args[3] : json::object();
+        json options = args.size() > 3 ? args[3] : json::object();
         
         // Parse generation options
         int max_tokens = options.value("max_tokens", 500);
@@ -328,7 +328,7 @@ nlohmann::json LoraSimilarFunction::execute(
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
         int k = args[1].get<int>();
-        double threshold = static_cast<int>(args.size()) > 2 ? args[2].get<double>() : 0.0;
+        double threshold = args.size() > 2 ? args[2].get<double>() : 0.0;
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
@@ -412,7 +412,7 @@ nlohmann::json LoraSimilarFunction::execute(
                       ++inter;
                     }
                 }
-                size_t uni = static_cast<int>(ws1.size()) + static_cast<int>(ws2.size()) - inter;
+                size_t uni = ws1.size() + ws2.size() - inter;
                 double jaccard = uni > 0 ? static_cast<double>(inter) / uni : 0.0;
                 similarity += 0.10 * jaccard;
             }
@@ -428,7 +428,7 @@ nlohmann::json LoraSimilarFunction::execute(
             
             results.push_back(result);
             
-            if (static_cast<int>(results.size()) >= static_cast<size_t>(k)) {
+            if (results.size() >= static_cast<size_t>(k)) {
                 break;
             }
         }
@@ -481,7 +481,7 @@ nlohmann::json LoraPathFunction::execute(
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
         std::string end_model = args[1].get<std::string>();
-        int max_depth = static_cast<int>(args.size()) > 2 ? args[2].get<int>() : 5;
+        int max_depth = args.size() > 2 ? args[2].get<int>() : 5;
         (void)max_depth;
         
         // Build adaptation path
@@ -558,7 +558,7 @@ nlohmann::json LoraStatsFunction::execute(
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
-        json metrics_array = static_cast<int>(args.size()) > 1 ? args[1] : json::array();
+        json metrics_array = args.size() > 1 ? args[1] : json::array();
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
@@ -659,7 +659,7 @@ nlohmann::json LoraRecommendFunction::execute(
         std::string query = args[0].get<std::string>();
         std::string model_id = args[1].get<std::string>();
         std::string task = args[2].get<std::string>();
-        json options = static_cast<int>(args.size()) > 3 ? args[3] : json::object();
+        json options = args.size() > 3 ? args[3] : json::object();
         
         // Parse recommendation options
         double min_accuracy = options.value("min_accuracy", 0.0);
@@ -771,7 +771,7 @@ nlohmann::json LoraLineageFunction::execute(
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
-        int depth = static_cast<int>(args.size()) > 1 ? args[1].get<int>() : 10;
+        int depth = args.size() > 1 ? args[1].get<int>() : 10;
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
@@ -900,7 +900,7 @@ nlohmann::json LoraAuditLogFunction::execute(
 ) const {
     try {
         const std::string adapter_id = args[0].get<std::string>();
-        const int limit = (static_cast<int>(args.size()) > 1) ? std::max(0, args[1].get<int>()) : 100;
+        const int limit = (args.size() > 1) ? std::max(0, args[1].get<int>()) : 100;
 
         auto orchestrator = getLoRAOrchestrator();
         if (!orchestrator) {
@@ -1037,7 +1037,7 @@ nlohmann::json LoraVerifyChainFunction::execute(
 
         return json{
             {"chain_valid",  chain_valid},
-            {"entry_count",static_cast<int>(entries.size())},
+            {"entry_count",entries.size()},
             {"message",      chain_valid
                                  ? "Merkle audit chain is intact"
                                  : "Merkle audit chain verification FAILED — possible tampering"}

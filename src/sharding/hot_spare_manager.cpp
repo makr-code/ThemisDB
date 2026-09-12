@@ -236,7 +236,7 @@ bool HotSpareManager::activateSpare(
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
             failover_history_.push_back(event);
-            if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
+            if (failover_history_.size() > MAX_HISTORY_SIZE) {
                 failover_history_.erase(failover_history_.begin());
             }
         }
@@ -304,7 +304,7 @@ bool HotSpareManager::activateSpare(
     {
         std::lock_guard<std::mutex> lock(history_mutex_);
         failover_history_.push_back(event);
-        if (static_cast<int>(failover_history_.size()) > MAX_HISTORY_SIZE) {
+        if (failover_history_.size() > MAX_HISTORY_SIZE) {
             failover_history_.erase(failover_history_.begin());
         }
     }
@@ -351,7 +351,7 @@ bool HotSpareManager::activateSpare(
         }
         
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
-                     spare_id,static_cast<int>(documents.size()));
+                     spare_id,documents.size());
     }
 
     // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
@@ -750,7 +750,7 @@ void HotSpareManager::handleShardFailure(const std::string& shard_id) {
 
 bool HotSpareManager::rebuildShard(RebuildTask& task) {
     spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
-                 task.spare_shard_id,static_cast<int>(task.documents.size()));
+                 task.spare_shard_id,task.documents.size());
     
     if (!task.ring || !task.read_handler || !task.write_handler) {
         spdlog::error("Invalid rebuild task: missing ring or handlers");
@@ -773,7 +773,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
     size_t chunk_size = config_.rebuild_chunk_size_mb > 0 ? 
                         config_.rebuild_chunk_size_mb : 100;
     
-    for (size_t i = 0; i <static_cast<int>(task.documents.size()); ++i) {
+    for (size_t i = 0; i <task.documents.size(); ++i) {
         const auto& doc_id = task.documents[i];
         
         // Check if rebuild is paused
@@ -847,7 +847,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
             }
             
             // Log progress periodically
-            if ((i + 1) % chunk_size == 0 || i == static_cast<int>(task.documents.size()) - 1) {
+            if ((i + 1) % chunk_size == 0 || i == task.documents.size() - 1) {
                 double progress = ((i + 1) * 100.0) / task.documents.size();
                 auto elapsed = std::chrono::steady_clock::now() - rebuild_start;
                 double elapsed_seconds = std::chrono::duration<double>(elapsed).count();
@@ -877,7 +877,7 @@ bool HotSpareManager::rebuildShard(RebuildTask& task) {
                     bytes_transferred, rebuild_duration.count());
     } else {
         spdlog::warn("Rebuild completed with errors for spare {}: {}/{} documents failed", 
-                    task.spare_shard_id, failed_documents,static_cast<int>(task.documents.size()));
+                    task.spare_shard_id, failed_documents,task.documents.size());
     }
     
     return success;

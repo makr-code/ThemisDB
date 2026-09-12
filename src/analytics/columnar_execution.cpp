@@ -107,7 +107,7 @@ void SelectionVector::push_back(uint32_t idx) {
 }
 
 size_t SelectionVector::size() const noexcept {
-    return static_cast<int>(indices_.size());
+    return indices_.size();
 }
 
 bool SelectionVector::empty() const noexcept {
@@ -364,7 +364,7 @@ size_t ColumnBatch::selectedRowCount() const noexcept {
     if (!has_selection_) {
         return row_count_;
     }
-    return static_cast<int>(selection_.size());
+    return selection_.size();
 }
 
 ColumnBatch ColumnBatch::materialize() const {
@@ -956,7 +956,7 @@ ColumnBatch AggregateOperator::aggregateAll(const ColumnBatch &input) const {
             && (spec.function == AggregateSpec::Function::Sum || spec.function == AggregateSpec::Function::Avg
                 || spec.function == AggregateSpec::Function::Min || spec.function == AggregateSpec::Function::Max)) {
             const auto &dd   = col->doubleData();
-            SIMDAggResult ar = simdAggDouble(dd.data(),static_cast<int>(dd.size()));
+            SIMDAggResult ar = simdAggDouble(dd.data(),dd.size());
             st.sum           = ar.sum;
             st.min_val       = ar.min_val;
             st.max_val       = ar.max_val;

@@ -58,11 +58,11 @@ nlohmann::json ClassificationApiHandler::listRules() {
             });
         }
         
-        THEMIS_INFO("Classification API: Listed {} classification rules",static_cast<int>(items.size()));
+        THEMIS_INFO("Classification API: Listed {} classification rules",items.size());
         
         return {
             {"items", items},
-            {"total", static_cast<int>(items.size())}
+            {"total", items.size()}
         };
         
     } catch (const std::exception& ex) {
@@ -123,13 +123,13 @@ nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json
         }
         
         THEMIS_INFO("Classification API: Tested classification on {} chars, found {} entities -> {}",
-                    text.length(),static_cast<int>(findings.size()), classification);
+                    text.length(),findings.size(), classification);
         
         return {
             {"classification", classification},
             {"confidence", findings.empty() ? 1.0 : 0.95},
             {"detected_entities", detected_entities},
-            {"entity_count", static_cast<int>(findings.size())}
+            {"entity_count", findings.size()}
         };
         
     } catch (const std::exception& ex) {

@@ -61,7 +61,7 @@ namespace {
 
 /// Return up to @p max_chars from @p s, appending "..." if truncated.
 std::string truncate(const std::string& s, size_t max_chars) {
-    if (static_cast<int>(s.size()) <= max_chars) {
+    if (s.size() <= max_chars) {
       return s;
     }
     return s.substr(0, max_chars) + "...";
@@ -195,8 +195,8 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
     const bool sparse_context =
-        static_cast<int>(source_text.size()) < config_.min_text_bytes_for_eval ||
-        static_cast<int>(ctx.entities.size()) < config_.min_entities_for_eval;
+        source_text.size() < config_.min_text_bytes_for_eval ||
+        ctx.entities.size() < config_.min_entities_for_eval;
 
     if (sparse_context || !backend_->isAvailable()) {
         report.passed = true;   // fail-open; scores remain -1.0 (not evaluated)
@@ -299,9 +299,9 @@ std::string IngestionQualityJudge::buildCompletenessPrompt(
            "is represented in the extracted data.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << " total) ---\n"
+        << "--- EXTRACTED ENTITIES (" <<ctx.entities.size() << " total) ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED CHUNKS (" <<static_cast<int>(ctx.chunks.size()) << ") ---\n";
+        << "--- EXTRACTED CHUNKS (" <<ctx.chunks.size() << ") ---\n";
     for (size_t i = 0; i < std::min(ctx.chunks.size(), size_t{5}); ++i)
         oss << "Chunk " << i << ": " << truncate(ctx.chunks[i].text, 200) << "\n";
     oss << "\nRate the completeness (SCORE) and list important information "
@@ -320,9 +320,9 @@ std::string IngestionQualityJudge::buildGroundednessPrompt(
            "back to a verbatim passage in the source text.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<ctx.entities.size() << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<ctx.relations.size() << ") ---\n"
         << truncate(relationSummary(ctx), 800) << "\n\n"
         << "Rate groundedness (SCORE) and list claims NOT supported by the "
            "source text (UNGROUNDED).";
@@ -341,7 +341,7 @@ std::string IngestionQualityJudge::buildEntityCoveragePrompt(
            "present in the extracted entity list.\n\n"
         << "--- SOURCE TEXT (first 2000 chars) ---\n"
         << truncate(source, 2000) << "\n\n"
-        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<ctx.entities.size() << ") ---\n"
         << entitySummary(ctx, 50) << "\n\n"
         << "Rate entity coverage (SCORE) and list entity LABELS that appear "
            "in the source but are absent from the extraction (MISSING).";
@@ -357,9 +357,9 @@ std::string IngestionQualityJudge::buildRelationCoherencePrompt(
         << "Relation coherence = the extracted subject–predicate–object triples "
            "are semantically valid (both endpoints exist as entities, the "
            "predicate is appropriate for the entity types).\n\n"
-        << "--- EXTRACTED ENTITIES (" <<static_cast<int>(ctx.entities.size()) << ") ---\n"
+        << "--- EXTRACTED ENTITIES (" <<ctx.entities.size() << ") ---\n"
         << entitySummary(ctx) << "\n\n"
-        << "--- EXTRACTED RELATIONS (" <<static_cast<int>(ctx.relations.size()) << ") ---\n"
+        << "--- EXTRACTED RELATIONS (" <<ctx.relations.size() << ") ---\n"
         << truncate(relationSummary(ctx), 1200) << "\n\n"
         << "Rate relation coherence (SCORE) and list incoherent or implausible "
            "relations as HINTS for improvement.";
@@ -427,7 +427,7 @@ std::string IngestionQualityJudge::parseRationale(
     }
     std::string result = response.substr(pos, end - pos);
     // Truncate to 200 chars for safety.
-    if (static_cast<int>(result.size()) > 200) {
+    if (result.size() > 200) {
       result.resize(200);
     }
     return result;
@@ -459,7 +459,7 @@ std::vector<std::string> IngestionQualityJudge::parseBulletList(
           continue;
         }
         // New section header → stop.
-        if (static_cast<int>(line.size()) > 2 && std::isupper(static_cast<unsigned char>(line[0]))
+        if (line.size() > 2 && std::isupper(static_cast<unsigned char>(line[0]))
             && line.find(':') != std::string::npos
             && line.find(':') < 20)
         {
@@ -709,7 +709,7 @@ ReIngestionController::RunResult ReIngestionController::process(
 
         // Determine improvement for the upcoming pass notification.
         bool improved_over_prev = false;
-        if (static_cast<int>(result.history.size()) >= 2) {
+        if (result.history.size() >= 2) {
             improved_over_prev = isImprovement(
                 result.history[result.history.size() - 2], report);
         }

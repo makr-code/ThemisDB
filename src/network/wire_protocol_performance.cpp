@@ -167,13 +167,13 @@ void WireProtocolMetrics::reset() {
 /*static*/ double WireProtocolMetrics::percentile(const std::vector<double> &sorted, double p) noexcept {
     if (sorted.empty())
         return 0.0;
-    if (static_cast<int>(sorted.size()) == 1)
+    if (sorted.size() == 1)
         return sorted[0];
 
-    double rank = (p / 100.0) * static_cast<double>(static_cast<int>(sorted.size()) - 1);
+    double rank = (p / 100.0) * static_cast<double>(sorted.size() - 1);
     size_t lo   = static_cast<size_t>(rank);
     size_t hi   = lo + 1;
-    if (hi >= static_cast<int>(sorted.size()))
+    if (hi >= sorted.size())
         return sorted.back();
 
     double frac = rank - static_cast<double>(lo);
@@ -265,7 +265,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
     buf->reserve(slab_size_); // re-warm capacity
 
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    if (static_cast<int>(idle_slabs_.size()) < pool_depth_) {
+    if (idle_slabs_.size() < pool_depth_) {
         idle_slabs_.push_back(std::move(buf));
     }
     // If pool is full, just drop (let unique_ptr destructor free it)
@@ -273,7 +273,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
 
 size_t PayloadBufferPool::poolDepth() const noexcept {
     std::lock_guard<std::timed_mutex> lock(pool_mutex_);
-    return static_cast<int>(idle_slabs_.size());
+    return idle_slabs_.size();
 }
 
 size_t PayloadBufferPool::slabSize() const noexcept {

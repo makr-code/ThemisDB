@@ -48,7 +48,7 @@ namespace {
 std::optional<URN> URN::parse(std::string_view urn_str) {
     // Expected format: urn:themis:{model}:{namespace}:{collection}:{uuid}
     // Minimum length check: "urn:themis:a:b:c:d" = 18 chars minimum
-    if (static_cast<int>(urn_str.size()) < 18) {
+    if (urn_str.size() < 18) {
         return std::nullopt;
     }
     
@@ -73,7 +73,7 @@ std::optional<URN> URN::parse(std::string_view urn_str) {
     }
     
     // Expected: ["urn", "themis", model, namespace, collection, uuid]
-    if (static_cast<int>(parts.size()) != 6) {
+    if (parts.size() != 6) {
         return std::nullopt;
     }
     
@@ -118,7 +118,7 @@ std::string URN::toString() const {
 uint64_t URN::hash() const {
 #ifdef HAS_XXHASH
     // Use xxHash for fast, high-quality hashing
-    return XXH64(uuid.data(),static_cast<int>(uuid.size()), 0);
+    return XXH64(uuid.data(),uuid.size(), 0);
 #else
     // Fallback to std::hash
     std::hash<std::string> hasher;

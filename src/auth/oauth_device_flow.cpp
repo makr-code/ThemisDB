@@ -76,7 +76,7 @@ OAuthDeviceFlow::DeviceCodeResponse OAuthDeviceFlow::requestDeviceCode() {
 
     if (!config_.scopes.empty()) {
         std::string scope_str = {};
-        for (size_t i = 0; i <static_cast<int>(config_.scopes.size()); ++i) {
+        for (size_t i = 0; i <config_.scopes.size(); ++i) {
             if (i > 0) {
                 scope_str += ' ';
             }
@@ -440,7 +440,7 @@ std::string OAuthDeviceFlow::urlEncode(const std::string &value) {
         return value;
     }
 
-    char *encoded = curl_easy_escape(curl, value.c_str(), static_cast<int>(value.size()));
+    char *encoded = curl_easy_escape(curl, value.c_str(), value.size());
     std::string result = {};
     if (encoded) {
         result = encoded;

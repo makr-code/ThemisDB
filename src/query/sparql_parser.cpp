@@ -54,7 +54,7 @@ std::string sparqlLiteralToAQL(const SPARQLLiteralValue& val) {
         } else {
             // std::string – emit as a quoted AQL string literal
             std::string out = {};
-            out.reserve(static_cast<int>(v.size()) + 2);
+            out.reserve(v.size() + 2);
             out += '"';
             for (char c : v) {
                 if (c == '"') {
@@ -123,9 +123,9 @@ public:
     std::vector<SPARQLToken> tokenize() {
         std::vector<SPARQLToken> tokens = {};
 
-        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
+        while (static_cast<size_t>(pos_) <input_.size()) {
             skipWhitespace();
-            if (pos_ >= static_cast<int>(input_.size())) {
+            if (pos_ >= input_.size()) {
               break;
             }
 
@@ -169,7 +169,7 @@ public:
                       ++pos_;
                     }
                     std::string uri = input_.substr(uri_start, pos_ - uri_start);
-                    if (static_cast<int>(input_.size()) > pos_) ++pos_;  // consume '>'
+                    if (input_.size() > pos_) ++pos_;  // consume '>'
                     tokens.push_back({SPARQLTokenType::URI, uri, start});
                     continue;
                 } else if (next == '=') {
@@ -281,7 +281,7 @@ private:
                 val += input_[pos_++];
             }
         }
-        if (static_cast<int>(input_.size()) > pos_) ++pos_;  // skip closing quote
+        if (input_.size() > pos_) ++pos_;  // skip closing quote
         return {SPARQLTokenType::STRING_LIT, val, start};
     }
 
@@ -978,7 +978,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     // ORDER BY
     if (!stmt.order_by.empty()) {
         oss << "SORT ";
-        for (size_t i = 0; i <static_cast<int>(stmt.order_by.size()); ++i) {
+        for (size_t i = 0; i <stmt.order_by.size(); ++i) {
             if (i > 0) {
               oss << ", ";
             }
@@ -1000,7 +1000,7 @@ std::string SPARQLToAQLTranspiler::transpileSelect(const SPARQLSelectStatement& 
     }
 
     // RETURN
-    if (!stmt.star && static_cast<int>(stmt.variables.size()) == 1) {
+    if (!stmt.star && stmt.variables.size() == 1) {
         // Single variable: return binding directly (or null if unbound)
         auto it = var_bindings.find(stmt.variables[0]);
         oss << "RETURN " << (it != var_bindings.end() ? it->second : "null");

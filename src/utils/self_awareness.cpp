@@ -428,7 +428,7 @@ std::string SelfAwareness::assessOverallHealth(const Snapshot& snapshot) const {
 nlohmann::json SelfAwareness::compareWithPrevious() const {
     nlohmann::json comparison;
     
-    if (static_cast<int>(snapshots_.size()) < 2) {
+    if (snapshots_.size() < 2) {
         comparison["status"] = "insufficient_data";
         comparison["message"] = "Need at least 2 snapshots for comparison";
         return comparison;
@@ -605,10 +605,10 @@ void SelfAwareness::loadSnapshots() {
         std::sort(files.begin(), files.end());
 
         // Load the most recent max_snapshots_retained files
-        if (static_cast<int>(files.size()) > config_.max_snapshots_retained) {
+        if (files.size() > config_.max_snapshots_retained) {
             files.erase(files.begin(),
                         files.begin() + static_cast<std::ptrdiff_t>(
-                            static_cast<int>(files.size()) - config_.max_snapshots_retained));
+                            files.size() - config_.max_snapshots_retained));
         }
 
         for (const auto& path : files) {
@@ -664,7 +664,7 @@ void SelfAwareness::loadSnapshots() {
 
 // Prune snapshots
 void SelfAwareness::pruneSnapshots() {
-    while (static_cast<int>(snapshots_.size()) > config_.max_snapshots_retained) {
+    while (snapshots_.size() > config_.max_snapshots_retained) {
         snapshots_.erase(snapshots_.begin());
     }
 }
@@ -672,7 +672,7 @@ void SelfAwareness::pruneSnapshots() {
 // Get statistics
 nlohmann::json SelfAwareness::getStatistics() const {
     return {
-        {"total_snapshots",static_cast<int>(snapshots_.size())},
+        {"total_snapshots",snapshots_.size()},
         {"oldest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"latest_snapshot", snapshots_.empty() ? "none" : "timestamp"},
         {"enabled", config_.enabled},

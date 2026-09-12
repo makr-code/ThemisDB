@@ -33,7 +33,7 @@ namespace {
     // HIGH-GAP FIX: string_concat_loop — use push_back/append instead of += to avoid temp copies
     std::string escapeSQLString(const std::string& input) {
         std::string result = {};
-        result.reserve(static_cast<int>(input.size()) + 10);
+        result.reserve(input.size() + 10);
         
         for (char c : input) {
             if (c == '\'') {
@@ -77,7 +77,7 @@ namespace {
         for (const auto& [placeholder, value] : replacements) {
             size_t pos = 0;
             while ((pos = query.find(placeholder, pos)) != std::string::npos) {
-                const size_t next = pos + static_cast<int>(placeholder.size()) ;
+                const size_t next = pos + placeholder.size() ;
                 const bool digit_continuation = next < query.size() &&
                     std::isdigit(static_cast<unsigned char>(query[next]));
                 if (digit_continuation) {
@@ -104,7 +104,7 @@ namespace {
         if (isIntegerOid(paramType)) {
             int64_t value = 0;
             const auto* begin = param.data();
-            const auto* end = begin + static_cast<int>(param.size()) ;
+            const auto* end = begin + param.size() ;
             const auto result = std::from_chars(begin, end, value);
             if (result.ec != std::errc{} || result.ptr != end) {
                 throw std::runtime_error("invalid integer bound parameter");
@@ -116,7 +116,7 @@ namespace {
             char* parse_end = nullptr;
             const auto numeric = std::strtod(param.c_str(), &parse_end);
             static_cast<void>(numeric);
-            if (parse_end == nullptr || parse_end != param.c_str() + static_cast<int>(param.size()) ) {
+            if (parse_end == nullptr || parse_end != param.c_str() + param.size() ) {
                 throw std::runtime_error("invalid floating-point bound parameter");
             }
             return param;
@@ -519,7 +519,7 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
         preparedStmt = stmtIt->second;
     }
     // Validate parameter count
-    if (!preparedStmt.paramTypes.empty() && static_cast<int>(params.size()) != static_cast<int>(preparedStmt.paramTypes.size())) {
+    if (!preparedStmt.paramTypes.empty() && params.size() != preparedStmt.paramTypes.size()) {
         sendErrorResponse("ERROR", "08P01", 
             "Parameter count mismatch: expected " + std::to_string(preparedStmt.paramTypes.size()) +
             ", got " + std::to_string(params.size()));
@@ -575,7 +575,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
             replacements.emplace_back(std::move(placeholder), bindParameterValue(params[i], paramType));
         }
         std::sort(replacements.begin(), replacements.end(),
-                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>( static_cast<int>(lhs.first.size()) < static_cast<int>(rhs.first.size())); });
+                  [](const auto& lhs, const auto& rhs) { return static_cast<bool>( lhs.first.size() < rhs.first.size()); });
         query = replaceAllPlaceholders(std::move(query), replacements);
         
         // If this is the first execution, fetch and cache results
@@ -737,7 +737,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         // Result streaming: Send cached results up to maxRows
         if (maxRows == 0) {
             // maxRows == 0 means no limit, send all remaining rows
-            maxRows = static_cast<int>(portalData.cachedResults.size()) - portalData.currentRow;
+            maxRows = portalData.cachedResults.size() - portalData.currentRow;
         }
         
         size_t rowsToSend = std::min(static_cast<size_t>(maxRows), 
@@ -1100,7 +1100,7 @@ void PostgresSession::sendAuthenticationOk() {
 void PostgresSession::sendParameterStatus(const std::string& name, const std::string& value) {
     std::vector<uint8_t> payload = {};
 
-    payload.reserve(static_cast<int>(name.size()) + static_cast<int>(value.size()) + 2);  // name + null + value + null
+    payload.reserve(name.size() + value.size() + 2);  // name + null + value + null
     payload.insert(payload.end(), name.begin(), name.end());
     payload.push_back(0);
     payload.insert(payload.end(), value.begin(), value.end());
@@ -1132,7 +1132,7 @@ void PostgresSession::sendRowDescription(const std::vector<FieldDescription>& fi
     
     // Estimate size: 2 bytes for count + (avg_field_name_size + 19 bytes) per field
     // Average field name is ~15 chars, so ~34 bytes per field + 2 for header
-    payload.reserve(2 + static_cast<int>(fields.size()) * 34);
+    payload.reserve(2 + fields.size() * 34);
     
     // Field count
     uint16_t fieldCount = fields.size();
@@ -1414,12 +1414,12 @@ void PostgresSession::doRead() {
                 offset = 8;
                 while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {
                     std::string key(buffer_.data() + offset);
-                    offset += static_cast<int>(key.size()) + 1;
+                    offset += key.size() + 1;
                     if (offset >= static_cast<size_t>(length)) {
                       break;
                     }
                     std::string value(buffer_.data() + offset);
-                    offset += static_cast<int>(value.size()) + 1;
+                    offset += value.size() + 1;
                     params[key] = value;
                 }
                 
@@ -1446,9 +1446,9 @@ void PostgresSession::doRead() {
                     }
                     case 'P': { // Parse
                         std::string stmtName(buffer_.data() + offset);
-                        offset += static_cast<int>(stmtName.size()) + 1;
+                        offset += stmtName.size() + 1;
                         std::string query(buffer_.data() + offset);
-                        offset += static_cast<int>(query.size()) + 1;
+                        offset += query.size() + 1;
                         
                         // Parse parameter types
                         std::vector<int32_t> paramTypes = {};
@@ -1473,9 +1473,9 @@ void PostgresSession::doRead() {
                     }
                     case 'B': { // Bind
                         std::string portalName(buffer_.data() + offset);
-                        offset += static_cast<int>(portalName.size()) + 1;
+                        offset += portalName.size() + 1;
                         std::string stmtName(buffer_.data() + offset);
-                        offset += static_cast<int>(stmtName.size()) + 1;
+                        offset += stmtName.size() + 1;
                         
                         // Parse parameter format codes
                         std::vector<int16_t> paramFormats = {};
@@ -1531,7 +1531,7 @@ void PostgresSession::doRead() {
                             break;
                         }
                         std::string portalName(buffer_.data() + offset);
-                        offset += static_cast<int>(portalName.size()) + 1;
+                        offset += portalName.size() + 1;
                         // Guard: need 4 bytes for the maxRows int32.
                         if (offset + 4 > bytes_transferred) {
                             sendErrorResponse("ERROR", "08P01", "Malformed Execute message: missing maxRows field");
@@ -1658,7 +1658,7 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     std::vector<uint8_t> message;
     message.push_back(type);
     
-    int32_t length = static_cast<int>(payload.size()) + 4;
+    int32_t length = payload.size() + 4;
     message.push_back((length >> 24) & 0xFF);
     message.push_back((length >> 16) & 0xFF);
     message.push_back((length >> 8) & 0xFF);
@@ -2029,7 +2029,7 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     
     if (!info.aggregates.empty()) {
         // Handle aggregates
-        for (size_t i = 0; i <static_cast<int>(info.aggregates.size()); ++i) {
+        for (size_t i = 0; i <info.aggregates.size(); ++i) {
             if (i > 0) {
               return_clause_oss << ", ";
             }
@@ -2066,11 +2066,11 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
                 return_clause_oss << "max(n." << col << ")";
             }
         }
-    } else if (static_cast<int>(info.selectColumns.size()) == 1 && info.selectColumns[0] == "*") {
+    } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
         return_clause_oss << "n";
     } else {
         // Regular columns
-        for (size_t i = 0; i <static_cast<int>(info.selectColumns.size()); ++i) {
+        for (size_t i = 0; i <info.selectColumns.size(); ++i) {
             if (i > 0) {
               return_clause_oss << ", ";
             }
@@ -2136,7 +2136,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     std::string colsList = query.substr(colsStart + 1, colsEnd - colsStart - 1);
     std::vector<std::string> columns;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(colsList.size())) {
+    while (static_cast<size_t>(pos) <colsList.size()) {
         size_t commaPos = colsList.find(',', pos);
         if (commaPos == std::string::npos) {
           commaPos = colsList.size();
@@ -2197,7 +2197,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     
     // Build Cypher CREATE statement
     std::string cypher = "CREATE (n:" + tableName + " {";
-    for (size_t i = 0; i < columns.size()  && static_cast<size_t>(i) <static_cast<int>(values.size()); ++i) {
+    for (size_t i = 0; i < columns.size()  && static_cast<size_t>(i) <values.size(); ++i) {
         if (i > 0) {
           cypher += ", ";
         }
@@ -2277,7 +2277,7 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
             start = i + 1;
         }
     }
-    if (static_cast<int>(cypherSetClause.size()) > start) {
+    if (cypherSetClause.size() > start) {
         assignments.push_back(cypherSetClause.substr(start));
     }
     

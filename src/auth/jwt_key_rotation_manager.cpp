@@ -38,7 +38,7 @@ JWTKeyRotationManager::~JWTKeyRotationManager() {
     for (auto &[kid_str, info] : keys_) {
         if (!info.kid.empty()) {
             char *buf = &info.kid[0];
-            OPENSSL_cleanse(buf,static_cast<int>(info.kid.size()));
+            OPENSSL_cleanse(buf,info.kid.size());
         }
     }
 }

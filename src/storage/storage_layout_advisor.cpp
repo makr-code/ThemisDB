@@ -51,7 +51,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
 
     // If no samples are available we trust the has_monotonic_timestamp flag alone
     // when range_scan_ratio is also significant (typical for time-series queries).
-    if (static_cast<int>(stats.timestamp_series.size()) < 4) {
+    if (stats.timestamp_series.size() < 4) {
         return stats.range_scan_ratio > 0.3;
     }
 
@@ -59,7 +59,7 @@ bool StorageLayoutAdvisor::isTimeSeries(
     const auto& ts = stats.timestamp_series;
     std::vector<double> diffs = {};
 
-    diffs.reserve(static_cast<int>(ts.size()) - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
+    diffs.reserve(ts.size() - 1);  // pre-allocated; missing_vector_reserve/copy_overhead scanner findings are stale
     for (size_t i = 1; i < ts.size(); ++i) {
         diffs.push_back(ts[i] - ts[static_cast<int>(i - 1)]);
     }

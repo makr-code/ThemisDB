@@ -35,7 +35,7 @@ std::string MetadataSnapshot::calculateChecksum() const {
     
     // Calculate SHA-256
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()),static_cast<int>(data.size()), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(data.c_str()),data.size(), hash);
     
     // Convert to hex string
     std::stringstream ss = {};
@@ -230,13 +230,13 @@ void MetadataSnapshotManager::cleanupOldSnapshots() {
         auto snapshots = listSnapshots();
         
         // Delete old snapshots beyond max_snapshots
-        if (static_cast<int>(snapshots.size()) > max_snapshots_) {
+        if (snapshots.size() > max_snapshots_) {
             for (size_t i = max_snapshots_; i < snapshots.size(); ++i) {
                 deleteSnapshot(snapshots[i]);
             }
             
             spdlog::info("Cleaned up {} old metadata snapshots",
-                        static_cast<int>(snapshots.size()) - max_snapshots_);
+                        snapshots.size() - max_snapshots_);
         }
     } catch (const std::exception& e) {
         spdlog::error("Exception cleaning up metadata snapshots: {}", e.what());

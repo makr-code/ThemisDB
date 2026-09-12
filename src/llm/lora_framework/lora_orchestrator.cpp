@@ -147,7 +147,7 @@ std::string LoRAOrchestrator::createAdapter(
 
     AdapterInfo info = makeAdapterInfo(adapter_id, version);
     info.hyperparameters = hyperparameters.value_or(LoRAHyperparameters{});
-    info.metadata.training_samples = static_cast<int>(training_data.samples.size());
+    info.metadata.training_samples = training_data.samples.size();
     impl_->adapters[adapter_id] = info;
     impl_->versions[adapter_id].push_back(version);
 
@@ -260,7 +260,7 @@ std::string LoRAOrchestrator::updateAdapter(
     }
 
     AdapterInfo& info = impl_->adapters[adapter_id];
-    info.metadata.training_samples += static_cast<int>(training_data.samples.size());
+    info.metadata.training_samples += training_data.samples.size();
     info.metadata.updated_at = Clock::now();
 
     JobInfo job;

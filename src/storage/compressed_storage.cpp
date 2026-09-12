@@ -51,7 +51,7 @@ static uint32_t cv_crc32(const void* data, size_t len) {
 std::vector<uint8_t> CompressedValue::serialize() const {
     std::vector<uint8_t> result = {};
 
-    result.reserve(1 + 8 + static_cast<int>(data.size()) + 4);
+    result.reserve(1 + 8 + data.size() + 4);
 
     // Method (1 byte)
     result.push_back(static_cast<uint8_t>(method));
@@ -66,7 +66,7 @@ std::vector<uint8_t> CompressedValue::serialize() const {
     result.insert(result.end(), data.begin(), data.end());
 
     // CRC32 of all previous bytes (4 bytes, little-endian)
-    uint32_t crc = cv_crc32(result.data(),static_cast<int>(result.size()));
+    uint32_t crc = cv_crc32(result.data(),result.size());
     for (int i = 0; i < 4; ++i) {
       result.push_back(static_cast<uint8_t>(crc >> (8 * i)));
     }
@@ -79,7 +79,7 @@ std::optional<CompressedValue> CompressedValue::deserialize(const std::vector<ui
     constexpr size_t kMinWithCrc = 13;
     constexpr size_t kMinLegacy  = 9;
 
-    if (static_cast<int>(bytes.size()) < kMinLegacy) {
+    if (bytes.size() < kMinLegacy) {
         return std::nullopt; // Too small even for legacy format
     }
 
@@ -298,7 +298,7 @@ std::string ColumnCompressedStorage::get_all_column_stats() const {
     
     for (const auto& pair : column_compressors_) {
         const auto metrics = pair.second->get_metrics();
-        result.reserve(static_cast<int>(result.size()) + 8 + static_cast<int>(pair.first.size()) + 1 + static_cast<int>(metrics.size()) + 1);
+        result.reserve(result.size() + 8 + pair.first.size() + 1 + metrics.size() + 1);
         result.append("Column: ");
         result.append(pair.first);
         result.push_back('\n');
@@ -314,7 +314,7 @@ std::string ColumnCompressedStorage::get_column_stats(const std::string& column)
     auto it = column_compressors_.find(column);
     if (it == column_compressors_.end()) {
         std::string message = {};
-        message.reserve(39 + static_cast<int>(column.size()) );
+        message.reserve(39 + column.size() );
         message.append("Column '");
         message.append(column);
         message.append("' not found or has no statistics.");

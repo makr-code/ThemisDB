@@ -112,7 +112,7 @@ bool PositionAbstractValidator::validate(DiscourseRoundOutput &output, bool stri
     }
 
     // 5. Truncate core_thesis_ids silently if over the limit (not an error)
-    if (static_cast<int>(output.core_thesis_ids.size()) > config_.max_core_thesis_ids) {
+    if (output.core_thesis_ids.size() > config_.max_core_thesis_ids) {
         output.core_thesis_ids.resize(static_cast<std::size_t>(config_.max_core_thesis_ids));
     }
 
@@ -153,7 +153,7 @@ bool PositionAbstractValidator::autoRepair(DiscourseRoundOutput &output) const {
     // 3. Truncate position_abstract if too long (rough char-based truncation)
     if (countTokens(output.position_abstract) > config_.max_abstract_tokens) {
         const std::size_t max_chars = static_cast<std::size_t>(config_.max_abstract_tokens) * 4;
-        if (static_cast<int>(output.position_abstract.size()) > max_chars) {
+        if (output.position_abstract.size() > max_chars) {
             output.position_abstract = output.position_abstract.substr(0, max_chars);
         }
         repaired = true;

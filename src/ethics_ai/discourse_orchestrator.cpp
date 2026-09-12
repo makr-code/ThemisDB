@@ -334,7 +334,7 @@ DiscourseOrchestrator::runEbene2(
         const auto sep_pos = axis.find(kAxisSep);
         if (sep_pos != std::string::npos) {
             entry.cluster_a = axis.substr(0, sep_pos);
-            entry.cluster_b = axis.substr(sep_pos + static_cast<int>(kAxisSep.size()) );
+            entry.cluster_b = axis.substr(sep_pos + kAxisSep.size() );
         } else {
             entry.cluster_a = axis;
             entry.cluster_b = axis;
@@ -378,7 +378,7 @@ std::vector<DiscourseRoundOutput> DiscourseOrchestrator::runMirrorSchools(
                                      }));
     }
 
-    for (std::size_t i = 0; i <static_cast<int>(mirror_policy.mirror_school_ids.size()); ++i) {
+    for (std::size_t i = 0; i <mirror_policy.mirror_school_ids.size(); ++i) {
         const std::string& sid    = mirror_policy.mirror_school_ids[i];
         auto status = futures[i].wait_for(std::chrono::milliseconds(timeout_ms));
 

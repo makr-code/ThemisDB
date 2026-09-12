@@ -153,7 +153,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
 
         int len = 0;
         if (EVP_EncryptUpdate(ctx, ciphertext.data(), &len,
-                               plaintext.data(), static_cast<int>(plaintext.size())) != 1) {
+                               plaintext.data(), plaintext.size()) != 1) {
             throw std::runtime_error("EncryptedChunkStore: EVP_EncryptUpdate failed");
         }
 
@@ -174,7 +174,7 @@ EncryptedChunkStore::encryptChunk(const std::string&          series_id,
     // 5. Assemble blob: KEY_ID_LEN(4 BE) | key_id | IV[12] | CT | TAG[16]
     std::vector<uint8_t> blob = {};
 
-    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + static_cast<int>(key_id.size()) + IV_LEN + static_cast<int>(ciphertext.size()) + TAG_LEN);
+    blob.reserve(KEY_ID_PREFIX_LEN_BYTES + key_id.size() + IV_LEN + ciphertext.size() + TAG_LEN);
 
     writeU32BE(blob, static_cast<uint32_t>(key_id.size()));
     blob.insert(blob.end(), key_id.begin(), key_id.end());
@@ -199,7 +199,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
 {
     // Minimum blob size: 4 (key_id len) + 0 (key_id) + 12 (IV) + 0 (CT) + 16 (TAG)
     constexpr size_t MIN_BLOB = KEY_ID_PREFIX_LEN_BYTES + IV_LEN + TAG_LEN;
-    if (static_cast<int>(blob.size()) < MIN_BLOB) {
+    if (blob.size() < MIN_BLOB) {
         throw std::runtime_error("EncryptedChunkStore: blob too short");
     }
 
@@ -210,7 +210,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     p += KEY_ID_PREFIX_LEN_BYTES;
 
     if (key_id_len > 4096 ||
-        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > static_cast<int>(blob.size())) {
+        static_cast<size_t>(p - blob.data()) + key_id_len + IV_LEN + TAG_LEN > blob.size()) {
         throw std::runtime_error("EncryptedChunkStore: invalid blob (key_id_len out of bounds)");
     }
 
@@ -230,7 +230,7 @@ EncryptedChunkStore::decryptChunk(const std::string&          series_id,
     const uint8_t* iv  = p;
     p += IV_LEN;
 
-    size_t remaining = static_cast<size_t>(blob.data() + static_cast<int>(blob.size()) - p);
+    size_t remaining = static_cast<size_t>(blob.data() + blob.size() - p);
     if (remaining < TAG_LEN) {
         throw std::runtime_error("EncryptedChunkStore: blob too short for ciphertext");
     }

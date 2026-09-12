@@ -83,7 +83,7 @@ double ColumnHistogram::estimateSelectivity(
         return estimateSelectivity(">", vals);
     }
     
-    if (predicateType == "BETWEEN" && static_cast<int>(values.size()) >= 2) {
+    if (predicateType == "BETWEEN" && values.size() >= 2) {
         double lower = values[0];
         double upper = values[1];
         if (lower > upper) {
@@ -150,14 +150,14 @@ double EstimateValidation::computeP95Error() const {
     std::sort(errors.begin(), errors.end());
     
     size_t idx = static_cast<size_t>(errors.size() * 0.95);
-    if (idx >= static_cast<int>(errors.size())) {
-      idx = static_cast<int>(errors.size()) - 1;
+    if (idx >= errors.size()) {
+      idx = errors.size() - 1;
     }
     return errors[idx];
 }
 
 bool EstimateValidation::hasSystematicUnderestimation() const {
-    if (static_cast<int>(samples.size()) < 5) {
+    if (samples.size() < 5) {
       return false;
     }
 
@@ -170,7 +170,7 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
         }
     }
     
-    if (static_cast<int>(ratios.size()) < 5) {
+    if (ratios.size() < 5) {
       return false;
     }
     std::sort(ratios.begin(), ratios.end());
@@ -179,7 +179,7 @@ bool EstimateValidation::hasSystematicUnderestimation() const {
 }
 
 bool EstimateValidation::hasSystematicOverestimation() const {
-    if (static_cast<int>(samples.size()) < 5) {
+    if (samples.size() < 5) {
       return false;
     }
 
@@ -192,7 +192,7 @@ bool EstimateValidation::hasSystematicOverestimation() const {
         }
     }
     
-    if (static_cast<int>(ratios.size()) < 5) {
+    if (ratios.size() < 5) {
       return false;
     }
     std::sort(ratios.begin(), ratios.end());
@@ -271,7 +271,7 @@ double CostModelEnhancements::estimateMultiColumnSelectivity(
     }
     
     // Check for correlations between predicate columns
-    if (static_cast<int>(predicates.size()) >= 2) {
+    if (predicates.size() >= 2) {
         for (const auto& corr : correlations) {
             // See if this correlation involves multiple predicate columns
             bool col1_involved = false, col2_involved = false;

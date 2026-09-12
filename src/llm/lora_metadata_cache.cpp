@@ -60,7 +60,7 @@ bool LoRAMetadataCache::remove(const std::string& lora_id) {
 }
 
 size_t LoRAMetadataCache::size() const {
-    return static_cast<int>(cache_.size());
+    return cache_.size();
 }
 
 void LoRAMetadataCache::clear() {

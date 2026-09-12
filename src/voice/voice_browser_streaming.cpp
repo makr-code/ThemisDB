@@ -147,7 +147,7 @@ PartialTranscript runPartialStt(const std::string& session_id,
     pt.timestamp_ms = streamingNowMs();
     // Placeholder text — real STT backend fills this
     std::ostringstream oss = {};
-    oss << "[partial#" << seq << ":" <<static_cast<int>(audio.size()) << "B]";
+    oss << "[partial#" << seq << ":" <<audio.size() << "B]";
     pt.text = oss.str();
     return pt;
 }
@@ -163,7 +163,7 @@ FinalTranscript makeFinalTranscript(const std::string& session_id,
     ft.duration_ms = streamingNowMs() - started_at_ms;
 
     std::ostringstream oss = {};
-    oss << "[transcript:" <<static_cast<int>(audio.size()) << "B]";
+    oss << "[transcript:" <<audio.size() << "B]";
     ft.text = oss.str();
     return ft;
 }
@@ -307,7 +307,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
 
     // TASK 2.5: Enforce max frame size
     // CRITICAL GAP 9: Oversized individual frame rejection
-    if (static_cast<int>(audio_chunk.size()) > impl_->config.max_frame_bytes) {
+    if (audio_chunk.size() > impl_->config.max_frame_bytes) {
         std::string msg = "VoiceStreamingSession: frame too large (oversized rejection: " +
                           std::to_string(audio_chunk.size()) + " > " +
                           std::to_string(impl_->config.max_frame_bytes) + " bytes) - error 6900";
@@ -330,7 +330,7 @@ VoiceStreamingSession::sendAudioChunk(const std::vector<uint8_t>& audio_chunk) {
     // TASK 2.5: Bounded buffer overflow detection and rejection
     // CRITICAL GAP 10: Oversized session buffer rejection
     // Error code 6900: Buffer overflow
-    size_t new_total = impl_->buffer_size_bytes + static_cast<int>(audio_chunk.size()) ;
+    size_t new_total = impl_->buffer_size_bytes + audio_chunk.size() ;
     if (new_total > kMaxBufferSizeBytes) {
         std::string msg = "VoiceStreamingSession: buffer overflow (session buffer would exceed " +
                           std::to_string(new_total) + " > " +
@@ -533,7 +533,7 @@ VoiceStreamingManager::VoiceStreamingManager(size_t max_concurrent_sessions)
 StreamID
 VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    if (static_cast<int>(sessions_.size()) >= max_sessions_) {
+    if (sessions_.size() >= max_sessions_) {
         THEMIS_WARN("VoiceStreamingManager: max concurrent sessions ({}) reached",
                     max_sessions_);
         return {};
@@ -542,7 +542,7 @@ VoiceStreamingManager::createSession(VoiceStreamingSession::Config config) {
     auto id = session->start();
     sessions_.emplace(id, std::move(session));
     THEMIS_INFO("VoiceStreamingManager: created session {} (active={})",
-                id,static_cast<int>(sessions_.size()));
+                id,sessions_.size());
     return id;
 }
 
@@ -567,12 +567,12 @@ void VoiceStreamingManager::closeSession(const StreamID& stream_id) {
     it->second->end();
     sessions_.erase(it);
     THEMIS_INFO("VoiceStreamingManager: closed session {} (active={})",
-                stream_id,static_cast<int>(sessions_.size()));
+                stream_id,sessions_.size());
 }
 
 size_t VoiceStreamingManager::activeSessionCount() const noexcept {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    return static_cast<int>(sessions_.size());
+    return sessions_.size();
 }
 
 // ============================================================================

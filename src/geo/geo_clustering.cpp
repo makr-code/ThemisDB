@@ -217,7 +217,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
 
         std::vector<std::size_t> neighbours = regionQuery(i);
 
-        if (static_cast<int>(neighbours.size()) < config.min_points) {
+        if (neighbours.size() < config.min_points) {
             // Mark as noise for now; may be density-reachable from another core.
             result.labels[i] = kDbscanNoise;
             continue;
@@ -237,7 +237,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
         }
 
         std::size_t qi = 0;
-        while (static_cast<size_t>(qi) <static_cast<int>(queue.size())) {
+        while (static_cast<size_t>(qi) <queue.size()) {
             const std::size_t j = queue[qi++];
 
             if (result.labels[j] == kDbscanNoise) {
@@ -252,7 +252,7 @@ GeoClusterResult dbscanCluster(const std::vector<GeometryInfo> &points, const Db
             result.labels[j] = cluster_id;
 
             std::vector<std::size_t> j_neighbours = regionQuery(j);
-            if (static_cast<int>(j_neighbours.size()) >= config.min_points) {
+            if (j_neighbours.size() >= config.min_points) {
                 // j is a core point; add its unvisited neighbours.
                 for (std::size_t nb : j_neighbours) {
                     if (result.labels[nb] == kDbscanUnclassified || result.labels[nb] == kDbscanNoise) {

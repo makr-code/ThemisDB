@@ -95,7 +95,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
     for (size_t boundary : boundaries) {
         std::string segment = text.substr(start_offset, boundary - start_offset);
         
-        if (static_cast<int>(current_chunk.size()) + static_cast<int>(segment.size()) > config_.chunk_size && !current_chunk.empty()) {
+        if (current_chunk.size() + segment.size() > config_.chunk_size && !current_chunk.empty()) {
             // Create chunk
             ContentChunker::Chunk chunk;
             chunk.data = std::vector<uint8_t>(current_chunk.begin(), current_chunk.end());
@@ -104,8 +104,8 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_text(const std::stri
             chunks.push_back(std::move(chunk));
             
             // Start new chunk with overlap
-            if (config_.overlap > 0 && static_cast<int>(current_chunk.size()) > config_.overlap) {
-                current_chunk = current_chunk.substr(static_cast<int>(current_chunk.size()) - config_.overlap);
+            if (config_.overlap > 0 && current_chunk.size() > config_.overlap) {
+                current_chunk = current_chunk.substr(current_chunk.size() - config_.overlap);
                 current_chunk_start = start_offset - config_.overlap;  // Account for overlap
             } else {
                 current_chunk.clear();
@@ -154,7 +154,7 @@ std::vector<ContentChunker::Chunk> MultiModalChunker::chunk_image(
     }
     
     const size_t expected_size = width * height * bytes_per_pixel;
-    if (static_cast<int>(data.size()) != expected_size) {
+    if (data.size() != expected_size) {
         // Size mismatch - fall back to generic chunking
         return generic_chunker_.chunk(data);
     }
@@ -226,7 +226,7 @@ std::vector<size_t> MultiModalChunker::find_sentence_boundaries(const std::strin
                 while (boundary < text.size() && std::isspace(text[boundary])) {
                     ++boundary;
                 }
-                if (static_cast<int>(text.size()) > boundary) {
+                if (text.size() > boundary) {
                     boundaries.push_back(boundary);
                 }
             }
@@ -252,7 +252,7 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
             while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
-            if (static_cast<int>(text.size()) > boundary) {
+            if (text.size() > boundary) {
                 boundaries.push_back(boundary);
             }
             i = boundary;  // Skip processed area
@@ -266,7 +266,7 @@ std::vector<size_t> MultiModalChunker::find_paragraph_boundaries(const std::stri
             while (boundary < text.size() && std::isspace(text[boundary])) {
                 ++boundary;
             }
-            if (static_cast<int>(text.size()) > boundary) {
+            if (text.size() > boundary) {
                 boundaries.push_back(boundary);
             }
             i = boundary;  // Skip processed area

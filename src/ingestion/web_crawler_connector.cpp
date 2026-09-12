@@ -84,7 +84,7 @@ static std::string resolveUrl(const std::string& base,
     }
 
     // Protocol-relative
-    if (static_cast<int>(href.size()) >= 2 && href[0] == '/' && href[1] == '/') {
+    if (href.size() >= 2 && href[0] == '/' && href[1] == '/') {
         auto colon = base.find(':');
         if (colon == std::string::npos) return {};
         std::string resolved = base.substr(0, colon + 1) + href;
@@ -102,7 +102,7 @@ static std::string resolveUrl(const std::string& base,
     auto q = base.find('?');
     std::string base_path = (q != std::string::npos) ? base.substr(0, q) : base;
     auto slash = base_path.rfind('/');
-    if (slash == std::string::npos  || static_cast<size_t>(slash) <static_cast<int>(origin.size())) {
+    if (slash == std::string::npos  || static_cast<size_t>(slash) <origin.size()) {
         return origin + '/' + href;
     }
     return base_path.substr(0, slash + 1) + href;
@@ -125,7 +125,7 @@ static std::string htmlToText(const std::string& html) {
 
     auto startsWithCI = [&](size_t pos, const char* needle) {
         size_t n = std::strlen(needle);
-        if (pos + n > static_cast<int>(html.size())) {
+        if (pos + n > html.size()) {
           return false;
         }
         for (size_t i = 0; i < n; ++i) {
@@ -199,7 +199,7 @@ static std::string htmlToText(const std::string& html) {
 static std::vector<std::string> extractHrefs(const std::string& html) {
     std::vector<std::string> hrefs;
     size_t pos = 0;
-    while (static_cast<size_t>(pos) <static_cast<int>(html.size())) {
+    while (static_cast<size_t>(pos) <html.size()) {
         // Find <a (case-insensitive)
         auto a_pos = html.find('<', pos);
         if (a_pos == std::string::npos) {
@@ -211,11 +211,11 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         while (tag_start < html.size() && html[tag_start] == ' ') {
           ++tag_start;
         }
-        if (tag_start >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
+        if (tag_start >= html.size()) { pos = a_pos + 1; continue; }
         char t0 = static_cast<char>(std::tolower(static_cast<unsigned char>(html[tag_start])));
         if (t0 != 'a') { pos = a_pos + 1; continue; }
         size_t after_a = tag_start + 1;
-        if (after_a >= static_cast<int>(html.size())) { pos = a_pos + 1; continue; }
+        if (after_a >= html.size()) { pos = a_pos + 1; continue; }
         char delim = html[after_a];
         if (delim != ' ' && delim != '\t' && delim != '\n' && delim != '\r' && delim != '>') {
             pos = a_pos + 1;
@@ -237,7 +237,7 @@ static std::vector<std::string> extractHrefs(const std::string& html) {
         auto href_pos = tag_lc.find("href=");
         if (href_pos != std::string::npos) {
             size_t val_start = href_pos + 5;
-            if (static_cast<int>(tag.size()) > val_start) {
+            if (tag.size() > val_start) {
                 char quote = tag[val_start];
                 if (quote == '"' || quote == '\'') {
                     ++val_start;
@@ -267,12 +267,12 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
     size_t pos = 0;
     const std::string open  = "<loc>";
     const std::string close = "</loc>";
-    while (static_cast<size_t>(pos) <static_cast<int>(xml.size())) {
+    while (static_cast<size_t>(pos) <xml.size()) {
         auto start = xml.find(open, pos);
         if (start == std::string::npos) {
           break;
         }
-        auto val_start = start + static_cast<int>(open.size()) ;
+        auto val_start = start + open.size() ;
         auto end = xml.find(close, val_start);
         if (end == std::string::npos) {
           break;
@@ -288,7 +288,7 @@ static std::vector<std::string> extractSitemapLocs(const std::string& xml) {
         if (!loc.empty()) {
           locs.push_back(loc);
         }
-        pos = end + static_cast<int>(close.size()) ;
+        pos = end + close.size() ;
     }
     return locs;
 }

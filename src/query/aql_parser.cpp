@@ -236,9 +236,9 @@ public:
     std::vector<Token> tokenize() {
         std::vector<Token> tokens;
         
-        while (static_cast<size_t>(pos_) <static_cast<int>(input_.size())) {
+        while (static_cast<size_t>(pos_) <input_.size()) {
             skipWhitespace();
-            if (pos_ >= static_cast<int>(input_.size())) {
+            if (pos_ >= input_.size()) {
               break;
             }
             
@@ -271,7 +271,7 @@ private:
     }
     
     char advance() {
-        if (pos_ >= static_cast<int>(input_.size())) {
+        if (pos_ >= input_.size()) {
           return '\0';
         }
         char ch = input_[pos_++];
@@ -692,7 +692,7 @@ private:
     }
     
     void advance() {
-        if (static_cast<int>(tokens_.size()) > pos_) {
+        if (tokens_.size() > pos_) {
           pos_++;
         }
     }
@@ -2269,7 +2269,7 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     return Err<AqlTransactionBlock>(
                         stmtResult.error().code(),
                         fmt::format("Error in statement {} of transaction block: {}",
-                                    block.ordered_statements.size() + static_cast<int>(block.statements.size()) + 1,
+                                    block.ordered_statements.size() + block.statements.size() + 1,
                                     stmtResult.error().message())
                     );
                 }
@@ -2545,13 +2545,13 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     size_t after_paren = ti + 1;  // token index after the closing ')'
 
     if (win_func == "TIME") {
-        if (static_cast<int>(args.size()) < 2) {
+        if (args.size() < 2) {
             return make_err("WINDOW TIME requires two arguments: TIME(<range_ms>, <slide_ms>)");
         }
         ddl.spec.range_ms = args[0];
         ddl.spec.slide_ms = args[1];
     } else if (win_func == "COUNT") {
-        if (static_cast<int>(args.size()) < 2) {
+        if (args.size() < 2) {
             return make_err("WINDOW COUNT requires two arguments: COUNT(<rows>, <slide_rows>)");
         }
         ddl.spec.rows       = args[0];
@@ -2587,8 +2587,8 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
             }
             // Check word boundary
             bool left_ok  = (found == 0) || !std::isalnum(static_cast<unsigned char>(upper[static_cast<int>(found - 1)]));
-            bool right_ok = (found + static_cast<int>(needle.size()) >= upper.size()) ||
-                            !std::isalnum(static_cast<unsigned char>(upper[found + static_cast<int>(needle.size()) ]));
+            bool right_ok = (found + needle.size() >= upper.size()) ||
+                            !std::isalnum(static_cast<unsigned char>(upper[found + needle.size() ]));
             if (left_ok && right_ok) {
                 return_pos = found;
                 break;
@@ -2600,7 +2600,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
             return make_err("CREATE CONTINUOUS QUERY is missing a RETURN clause");
         }
 
-        std::string body = trimmed.substr(return_pos + static_cast<int>(needle.size()) );
+        std::string body = trimmed.substr(return_pos + needle.size() );
         // Trim leading whitespace from body
         size_t bs = body.find_first_not_of(" \t\n\r");
         ddl.spec.aql_body = (bs == std::string::npos) ? "" : body.substr(bs);

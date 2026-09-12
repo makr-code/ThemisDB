@@ -154,9 +154,9 @@ VectorIndexManager::Status VectorAutoBuffer::add(const BaseEntity& entity) {
         stats_.current_buffer_memory += op_size;
         
         // Check if this buffer needs immediate flush
-        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
+        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} vectors",
-                        buffer_key,static_cast<int>(buffer.operations.size()));
+                        buffer_key,buffer.operations.size());
             
             size_t flushed = flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
@@ -195,7 +195,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
         stats_.current_buffer_size++;
         stats_.current_buffer_memory += op_size;
         
-        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
+        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
             flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
@@ -230,7 +230,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
         stats_.current_buffer_size++;
         stats_.current_buffer_memory += op_size;
         
-        if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
+        if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
             flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
@@ -289,7 +289,7 @@ size_t VectorAutoBuffer::flushInternal(bool lock_held) {
     stats_.last_flush_time = std::chrono::steady_clock::now();
     
     THEMIS_DEBUG("Flushed {} total vectors from {} buffers", 
-                 total_flushed,static_cast<int>(buffers_.size()));
+                 total_flushed,buffers_.size());
     
     return total_flushed;
 }
@@ -342,7 +342,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
         }
     }
     
-    size_t total_ops = static_cast<int>(adds.size()) + static_cast<int>(updates.size()) + static_cast<int>(removes.size()) ;
+    size_t total_ops = adds.size() + updates.size() + removes.size() ;
     
     // Execute batched operations
     VectorIndexManager::Status status = VectorIndexManager::Status::Error("No batched vector operation executed");
@@ -385,7 +385,7 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
 
 bool VectorAutoBuffer::shouldFlushBuffer(const NamespaceBuffer& buffer) const {
     // Size threshold
-    if (static_cast<int>(buffer.operations.size()) >= config_.max_vectors_per_buffer) {
+    if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
         return true;
     }
     
@@ -548,7 +548,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
                         dim, num_subvectors);
             return entities;
         }
-        if (static_cast<int>(training_vecs.size()) < num_centroids) {
+        if (training_vecs.size() < num_centroids) {
             THEMIS_WARN("VectorAutoBuffer: PQ skipped — batch size={} < "
                         "pq_num_centroids={}; returning entities unchanged",
                         training_vecs.size(), num_centroids);

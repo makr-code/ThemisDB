@@ -358,8 +358,8 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
             for (const auto& chunk : chunks) {
                 ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title) << "\n\n";
                 const auto& txt = chunk.text;
-                ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
-                if (static_cast<int>(txt.size()) > 300) {
+                ofs << "> " << txt.substr(0, std::min<std::size_t>(300,txt.size()));
+                if (txt.size() > 300) {
                   ofs << "…";
                 }
                 ofs << "\n\n";
@@ -428,10 +428,10 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
 
     saveState(root, state);
     rebuildIndex(root, state);
-    appendLog(root, ts + " INGEST source=" + source_path + " chunks=" + std::to_string(static_cast<int>(chunks.size())));
+    appendLog(root, ts + " INGEST source=" + source_path + " chunks=" + std::to_string(chunks.size()));
 
     result.files_processed = 1;
-    result.chunks_written = static_cast<int>(chunks.size());
+    result.chunks_written = chunks.size();
     return result;
 }
 
@@ -473,8 +473,8 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
                     ofs << "### " << (chunk.section_title.empty() ? "Preamble" : chunk.section_title)
                         << " (" << chunk.source_path << ")\n\n";
                     const auto& txt = chunk.text;
-                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300,static_cast<int>(txt.size())));
-                    if (static_cast<int>(txt.size()) > 300) {
+                    ofs << "> " << txt.substr(0, std::min<std::size_t>(300,txt.size()));
+                    if (txt.size() > 300) {
                       ofs << "…";
                     }
                     ofs << "\n\n---\n\n";
@@ -497,7 +497,7 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
         rebuildIndex(root, state);
     }
 
-    appendLog(root, ts + " QUERY text=" + query_text.substr(0, 60) + " results=" + std::to_string(static_cast<int>(result.candidates.size())));
+    appendLog(root, ts + " QUERY text=" + query_text.substr(0, 60) + " results=" + std::to_string(result.candidates.size()));
     return result;
 }
 
@@ -569,10 +569,10 @@ WikiLintResult WikiWorkspaceOrchestrator::lint(
     }
 
     appendLog(workspace_root,
-        isoTimestamp() + " LINT orphans=" + std::to_string(static_cast<int>(result.orphan_pages.size())) +
-        " missing=" + std::to_string(static_cast<int>(result.missing_backlinks.size())) +
-        " stale=" + std::to_string(static_cast<int>(result.stale_synthesis_pages.size())) +
-        " tasks=" + std::to_string(static_cast<int>(result.unresolved_tasks.size())));
+        isoTimestamp() + " LINT orphans=" + std::to_string(result.orphan_pages.size()) +
+        " missing=" + std::to_string(result.missing_backlinks.size()) +
+        " stale=" + std::to_string(result.stale_synthesis_pages.size()) +
+        " tasks=" + std::to_string(result.unresolved_tasks.size()));
 
     return result;
 }
@@ -585,7 +585,7 @@ WikiWorkspaceStats WikiWorkspaceOrchestrator::stats(const std::string& workspace
     }
 
     WikiState state = loadState(workspace_root);
-    s.wiki_pages = static_cast<int>(state.pages.size());
+    s.wiki_pages = state.pages.size();
 
     for (const auto& task : state.tasks) {
         if (task.status == "open") {

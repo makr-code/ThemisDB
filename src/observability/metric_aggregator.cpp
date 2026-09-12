@@ -99,7 +99,7 @@ double MetricAggregator::reduce(std::vector<double> vals, AggregationType type) 
                      : (type == AggregationType::P95) ? 0.95
                                                       : 0.99;
             // Nearest-rank method: clamp index to [0, size-1].
-            size_t idx = static_cast<size_t>(p * static_cast<double>(static_cast<int>(vals.size()) - 1));
+            size_t idx = static_cast<size_t>(p * static_cast<double>(vals.size() - 1));
             return vals[idx];
         }
 
@@ -123,7 +123,7 @@ bool MetricAggregator::checkSnapshotCardinality(const std::string& metric_name,
 
     auto limit_it = cardinality_limits_.find(metric_name);
     if (limit_it != cardinality_limits_.end() && limit_it->second > 0) {
-        if (static_cast<int>(known.size()) >= limit_it->second) {
+        if (known.size() >= limit_it->second) {
             ++dropped_snapshots_;
             return false;
         }
@@ -150,7 +150,7 @@ void MetricAggregator::recordCounterSample(
 
     // Prune samples outside the retention window.
     auto cutoff = now - window;
-    while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
+    while (deque.size() > 1 && deque.front().timestamp < cutoff) {
         deque.pop_front();
     }
 }
@@ -301,7 +301,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
                 if (kname != metric_name) {
                   continue;
                 }
-                if (static_cast<int>(deque.size()) < 2) {
+                if (deque.size() < 2) {
                   continue;
                 }
 
@@ -506,7 +506,7 @@ void MetricAggregator::rollupMetrics(std::chrono::minutes window) {
     for (auto& [key, deque] : rate_samples_) {
         // Keep at least one sample even if it's older than the cutoff so that
         // the next call to recordCounterSample() can compute a valid delta.
-        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < steady_cutoff) {
+        while (deque.size() > 1 && deque.front().timestamp < steady_cutoff) {
             deque.pop_front();
         }
     }
@@ -554,7 +554,7 @@ void MetricAggregator::pruneRateSamples(std::chrono::seconds window) {
     auto now = std::chrono::steady_clock::now();
     auto cutoff = now - window;
     for (auto& [key, deque] : rate_samples_) {
-        while (static_cast<int>(deque.size()) > 1 && deque.front().timestamp < cutoff) {
+        while (deque.size() > 1 && deque.front().timestamp < cutoff) {
             deque.pop_front();
         }
     }

@@ -193,7 +193,7 @@ std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
     if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
     }
-    if (EVP_DigestUpdate(ctx.get(), data.data(),static_cast<int>(data.size())) != 1) {
+    if (EVP_DigestUpdate(ctx.get(), data.data(),data.size()) != 1) {
         return "";
     }
 
@@ -492,7 +492,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     }
     
     // If we couldn't process all nodes, there's a cycle
-    bool has_cycle = (processed != static_cast<int>(deltas.size()));
+    bool has_cycle = (processed != deltas.size());
     if (has_cycle) {
         LOG_ERROR("Patch ordering: circular dependency detected (7402)");
     }
@@ -565,13 +565,13 @@ std::vector<FileDelta> DeltaUpdateEngine::computeApplyOrder(const DeltaManifest&
     }
 
     // Cycle detection: if we didn't process every delta the graph has a cycle.
-    if (static_cast<int>(result.size()) != static_cast<int>(manifest.deltas.size())) {
+    if (result.size() != manifest.deltas.size()) {
         LOG_ERROR("computeApplyOrder: cycle detected – processed {}/{} patches; aborting",
-                  result.size(),static_cast<int>(manifest.deltas.size()));
+                  result.size(),manifest.deltas.size());
         return {};
     }
 
-    LOG_INFO("Patch ordering computed: {} patches in dependency order",static_cast<int>(result.size()));
+    LOG_INFO("Patch ordering computed: {} patches in dependency order",result.size());
     return result;
 }
 
@@ -692,9 +692,9 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         }
 
         // --- 6. Verify size ---
-        if (fd.target_size > 0 && static_cast<int>(target_data.size()) != fd.target_size) {
+        if (fd.target_size > 0 && target_data.size() != fd.target_size) {
             LOG_WARN("Target size mismatch for {}: expected {} got {}",
-                fd.path, fd.target_size,static_cast<int>(target_data.size()));
+                fd.path, fd.target_size,target_data.size());
             result.files_fallback.push_back(fd.path);
             fs::remove(recon_path);
             continue;
@@ -818,7 +818,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
 
     // Create dictionary from base data
     ZSTD_CDict* cdict = ZSTD_createCDict(
-        base.data(),static_cast<int>(base.size()), ZSTD_CLEVEL_DEFAULT);
+        base.data(),base.size(), ZSTD_CLEVEL_DEFAULT);
     if (!cdict) {
         ZSTD_freeCCtx(cctx);
         LOG_ERROR("ZSTD_createCDict failed");
@@ -831,7 +831,7 @@ bool DeltaUpdateEngine::generatePatchZstdDict(
     size_t compressed_size = ZSTD_compress_usingCDict(
         cctx,
         compressed.data(), bound,
-        target.data(),static_cast<int>(target.size()),
+        target.data(),target.size(),
         cdict);
 
     ZSTD_freeCDict(cdict);
@@ -912,7 +912,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
         return false;
     }
 
-    ZSTD_DDict* ddict = ZSTD_createDDict(base.data(),static_cast<int>(base.size()));
+    ZSTD_DDict* ddict = ZSTD_createDDict(base.data(),base.size());
     if (!ddict) {
         ZSTD_freeDCtx(dctx);
         LOG_ERROR("ZSTD_createDDict failed");
@@ -922,7 +922,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
     size_t result = ZSTD_decompress_usingDDict(
         dctx,
         target.data(), orig_size,
-        compressed.data(),static_cast<int>(compressed.size()),
+        compressed.data(),compressed.size(),
         ddict);
 
     ZSTD_freeDDict(ddict);
@@ -978,7 +978,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     // Build a simple hash table over base for O(1) lookups of MIN_COPY_LEN-byte runs
     // key = (b[i], b[i+1], ..., b[i+MIN_COPY_LEN-1]) hashed, value = offset in base
     std::unordered_map<uint64_t, std::vector<uint32_t>> ht;
-    if (static_cast<int>(base.size()) >= MIN_COPY_LEN) {
+    if (base.size() >= MIN_COPY_LEN) {
         for (size_t i = 0; i + MIN_COPY_LEN <= base.size(); i += 4) {
             uint64_t h = 0;
             for (size_t k = 0; k < MIN_COPY_LEN; ++k) {
@@ -992,11 +992,11 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     std::vector<uint8_t> instructions;
     size_t tpos = 0;
 
-    while (static_cast<size_t>(tpos) <static_cast<int>(target.size())) {
+    while (static_cast<size_t>(tpos) <target.size()) {
         size_t best_len    = 0;
         uint32_t best_off  = 0;
 
-        if (static_cast<int>(target.size()) - tpos >= MIN_COPY_LEN) {
+        if (target.size() - tpos >= MIN_COPY_LEN) {
             uint64_t h = 0;
             for (size_t k = 0; k < MIN_COPY_LEN; ++k) {
                 h = h * 131 + target[tpos + k];
@@ -1046,7 +1046,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     compressed.resize(bound);
     size_t csize = ZSTD_compress(
         compressed.data(), bound,
-        instructions.data(),static_cast<int>(instructions.size()),
+        instructions.data(),instructions.size(),
         ZSTD_CLEVEL_DEFAULT);
     if (ZSTD_isError(csize)) {
         LOG_ERROR("ZSTD compress failed in generatePatchVcdiff: {}",
@@ -1098,7 +1098,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     // Decompress instruction stream
     std::vector<uint8_t> instructions;
 #ifdef THEMIS_HAS_ZSTD
-    size_t dbound = ZSTD_getFrameContentSize(compressed.data(),static_cast<int>(compressed.size()));
+    size_t dbound = ZSTD_getFrameContentSize(compressed.data(),compressed.size());
     if (dbound == ZSTD_CONTENTSIZE_ERROR || dbound == ZSTD_CONTENTSIZE_UNKNOWN) {
         // Fall back to a generous estimate
         dbound = compressed.size() * 4 + 1024;
@@ -1106,7 +1106,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     instructions.resize(dbound);
     size_t dsize = ZSTD_decompress(
         instructions.data(), dbound,
-        compressed.data(),static_cast<int>(compressed.size()));
+        compressed.data(),compressed.size());
     if (ZSTD_isError(dsize)) {
         LOG_ERROR("ZSTD decompress failed in applyPatchVcdiff: {}",
             ZSTD_getErrorName(dsize));
@@ -1122,20 +1122,20 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     target.reserve(orig_size);
 
     size_t ip = 0; // instruction pointer
-    while (static_cast<size_t>(ip) <static_cast<int>(instructions.size())) {
+    while (static_cast<size_t>(ip) <instructions.size()) {
         uint8_t opcode = instructions[ip++];
 
         if (opcode == INSTR_COPY) {
-            if (ip + 8 > static_cast<int>(instructions.size())) {
+            if (ip + 8 > instructions.size()) {
                 LOG_ERROR("Truncated COPY instruction");
                 return false;
             }
             uint32_t off = readU32LE(&instructions[ip]);     ip += 4;
             uint32_t len = readU32LE(&instructions[ip]);     ip += 4;
 
-            if (static_cast<size_t>(off) + len > static_cast<int>(base.size())) {
+            if (static_cast<size_t>(off) + len > base.size()) {
                 LOG_ERROR("COPY out of bounds: off={} len={} base_size={}",
-                    off, len,static_cast<int>(base.size()));
+                    off, len,base.size());
                 return false;
             }
             target.insert(target.end(),
@@ -1143,13 +1143,13 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
                           base.begin() + off + len);
 
         } else if (opcode == INSTR_ADD) {
-            if (ip + 4 > static_cast<int>(instructions.size())) {
+            if (ip + 4 > instructions.size()) {
                 LOG_ERROR("Truncated ADD instruction");
                 return false;
             }
             uint32_t len = readU32LE(&instructions[ip]);     ip += 4;
 
-            if (ip + len > static_cast<int>(instructions.size())) {
+            if (ip + len > instructions.size()) {
                 LOG_ERROR("ADD data out of bounds");
                 return false;
             }
@@ -1164,7 +1164,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
         }
     }
 
-    if (static_cast<int>(target.size()) != orig_size) {
+    if (target.size() != orig_size) {
         LOG_ERROR("VCDIFF: reconstructed size {} != expected {}",
             target.size(), orig_size);
         return false;

@@ -94,7 +94,7 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         result.rewrites = std::move(parsed);
 
         THEMIS_DEBUG("LlmQueryRewriter::rewrite('{}') -> {} rewrites",
-                     query,static_cast<int>(result.rewrites.size()));
+                     query,result.rewrites.size());
     } catch (const std::exception& e) {
         THEMIS_WARN("LlmQueryRewriter: backend error: {} — falling back to original query",
                     e.what());
@@ -183,7 +183,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         while (i < line.size() && std::isdigit(static_cast<unsigned char>(line[i]))) {
             ++i;
         }
-        if (i > 0  && static_cast<size_t>(i) <static_cast<int>(line.size()) &&
+        if (i > 0  && static_cast<size_t>(i) <line.size() &&
             (line[i] == '.' || line[i] == ')' || line[i] == ':')) {
             ++i; // skip separator
             while (i < line.size() && line[i] == ' ') ++i; // skip space(s)
@@ -195,7 +195,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         // Enforce length limit
-        if (static_cast<int>(line.size()) > config_.max_rewrite_length) {
+        if (line.size() > config_.max_rewrite_length) {
             continue;
         }
 
@@ -225,7 +225,7 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
         }
 
         rewrites.push_back(line);
-        if (static_cast<int>(rewrites.size()) >= config_.num_rewrites) {
+        if (rewrites.size() >= config_.num_rewrites) {
           break;
         }
     }
@@ -279,7 +279,7 @@ float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
         }
     }
     // |A ∪ B| = |A| + |B| - |A ∩ B|
-    const size_t union_size = static_cast<int>(ta.size()) + static_cast<int>(tb.size()) - intersection;
+    const size_t union_size = ta.size() + tb.size() - intersection;
     return static_cast<float>(intersection) / static_cast<float>(union_size);
 }
 

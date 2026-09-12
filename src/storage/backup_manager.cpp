@@ -1959,7 +1959,7 @@ bool BackupManager::compressPath(const std::string& src_path,
 
 #if defined(THEMIS_HAS_ZSTD)
             if (type == CompressionType::ZSTD) {
-                const auto compressed = utils::zstd_compress(raw_data.data(),static_cast<int>(raw_data.size()));
+                const auto compressed = utils::zstd_compress(raw_data.data(),raw_data.size());
                 if (compressed.empty() && !raw_data.empty()) {
                     THEMIS_ERROR("compressPath: ZSTD compress failed for {}", src_entry.string());
                     all_ok = false; break;
@@ -1978,7 +1978,7 @@ bool BackupManager::compressPath(const std::string& src_path,
 #endif
 #if defined(THEMIS_HAS_LZ4)
             if (type == CompressionType::LZ4) {
-                const auto res = utils::lz4_compress_safe(raw_data.data(),static_cast<int>(raw_data.size()));
+                const auto res = utils::lz4_compress_safe(raw_data.data(),raw_data.size());
                 if (!res) {
                     THEMIS_ERROR("compressPath: LZ4 compress failed for {}: {}", src_entry.string(), res.error().message());
                     all_ok = false; break;

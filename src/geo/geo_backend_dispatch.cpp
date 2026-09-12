@@ -98,7 +98,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     result.cpu_fallback = true;
     
     // Validation
-    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
+    if (points1.size() != points2.size()) {
         result.error_code = -1;  // Size mismatch
         return result;
     }
@@ -132,7 +132,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         auto gpu_result = dispatcher.dispatchDistance(
             lats1.data(), lons1.data(),
             lats2.data(), lons2.data(),
-            static_cast<int>(points1.size()),
+            points1.size(),
             themis::acceleration::GeoDistanceFormula::HAVERSINE
         );
         
@@ -140,7 +140,7 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         if (gpu_result.dispatched) {
             // Convert float distances from GPU to double for result
             result.distances_km.resize(gpu_result.distances_km.size());
-            for (size_t i = 0; i <static_cast<int>(gpu_result.distances_km.size()); ++i) {
+            for (size_t i = 0; i <gpu_result.distances_km.size(); ++i) {
                 result.distances_km[i] = static_cast<double>(gpu_result.distances_km[i]);
             }
             result.cpu_fallback = false;
@@ -189,7 +189,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         point_lats.reserve(num_test_points);
         point_lons.reserve(num_test_points);
         
-        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <test_points.size(); ++i) {
             point_lats.push_back(test_points[i].lat_deg);
             point_lons.push_back(test_points[i].lon_deg);
         }
@@ -231,7 +231,7 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     
     // CPU fallback: Compute containment on host
     if (result.cpu_fallback) {
-        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <static_cast<int>(test_points.size()); ++i) {
+        for (size_t i = 0; i < num_test_points  && static_cast<size_t>(i) <test_points.size(); ++i) {
             result.containment_mask[i] = 
                 pointInPolygon(test_points[i], polygons[0]) ? 1 : 0;
         }
@@ -250,7 +250,7 @@ GeoBackendDispatcher::VincentyResult GeoBackendDispatcher::computeVincentyBatch(
     result.cpu_fallback = true;
     
     // Validation
-    if (static_cast<int>(points1.size()) != static_cast<int>(points2.size())) {
+    if (points1.size() != points2.size()) {
         result.error_code = -1;  // Size mismatch
         return result;
     }
@@ -418,7 +418,7 @@ bool GeoBackendDispatcher::pointInPolygon(
     const Point& test_point,
     const Polygon& polygon) const noexcept {
     
-    if (static_cast<int>(polygon.vertices.size()) < 3) {
+    if (polygon.vertices.size() < 3) {
         return false;  // Degenerate polygon
     }
     

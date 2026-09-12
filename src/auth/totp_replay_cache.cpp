@@ -193,7 +193,7 @@ void TOTPReplayCache::cleanupUser(const std::string& user_id) {
         user_cache.end()
     );
     
-    stats_.entries_expired += (original_size - static_cast<int>(user_cache.size()) );
+    stats_.entries_expired += (original_size - user_cache.size() );
     
     if (user_cache.empty()) {
         user_caches_.erase(it);

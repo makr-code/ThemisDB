@@ -72,7 +72,7 @@ static const char* THEMISDB_VERSION = THEMIS_VERSION_STRING;
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string out = {};
-    out.reserve(((static_cast<int>(data.size()) + 2) / 3) * 4);
+    out.reserve(((data.size() + 2) / 3) * 4);
     size_t i = 0;
     while (i + 3 <= data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);
@@ -82,13 +82,13 @@ static std::string base64_encode_local(const std::vector<uint8_t>& data) {
         out.push_back(b64_table[n & 63]);
         i += 3;
     }
-    if (i + 1 == static_cast<int>(data.size())) {
+    if (i + 1 == data.size()) {
         uint32_t n = (data[i] << 16);
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
         out.push_back('=');
         out.push_back('=');
-    } else if (i + 2 == static_cast<int>(data.size())) {
+    } else if (i + 2 == data.size()) {
         uint32_t n = (data[i] << 16) | (data[i + 1] << 8);
         out.push_back(b64_table[(n >> 18) & 63]);
         out.push_back(b64_table[(n >> 12) & 63]);
@@ -163,7 +163,7 @@ AuditLogger::AuditLogger(std::shared_ptr<themis::FieldEncryption> enc,
 
 std::vector<uint8_t> AuditLogger::sha256(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> out(SHA256_DIGEST_LENGTH);
-    ::SHA256(data.data(),static_cast<int>(data.size()), out.data());
+    ::SHA256(data.data(),data.size(), out.data());
     return out;
 }
 
@@ -326,7 +326,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
         std::string plain = event.dump();
         constexpr size_t kMaxEventSize = 10 * 1024 * 1024; // 10MB limit
         
-        if (static_cast<int>(plain.size()) > kMaxEventSize) {
+        if (plain.size() > kMaxEventSize) {
             ErrorContext err_ctx(
                 themis::utils::ErrorCode::AUDIT_BUFFER_OVERFLOW,
                 "Event size exceeds maximum limit",
@@ -363,7 +363,7 @@ void AuditLogger::logEvent(const nlohmann::json& event) {
                 // Build bytes for hashing: iv || ciphertext || tag
                 std::vector<uint8_t> to_hash = {};
 
-                to_hash.reserve(blob.iv.size() + static_cast<int>(blob.ciphertext.size()) + static_cast<int>(blob.tag.size()) );
+                to_hash.reserve(blob.iv.size() + blob.ciphertext.size() + blob.tag.size() );
                 to_hash.insert(to_hash.end(), blob.iv.begin(), blob.iv.end());
                 to_hash.insert(to_hash.end(), blob.ciphertext.begin(), blob.ciphertext.end());
                 to_hash.insert(to_hash.end(), blob.tag.begin(), blob.tag.end());
@@ -863,7 +863,7 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
         addr.sin_port = htons(cfg_.siem_port);
         inet_pton(AF_INET, cfg_.siem_host.c_str(), &addr.sin_addr);
 
-        sendto(sock, formatted_message.c_str(),static_cast<int>(formatted_message.size()), 0,
+        sendto(sock, formatted_message.c_str(),formatted_message.size(), 0,
                (struct sockaddr*)&addr, sizeof(addr));
 
         close(sock);
@@ -1036,7 +1036,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::enumerateEntries() const {
             }
         }
         
-        THEMIS_INFO("Enumerated {} audit log entries from {}",static_cast<int>(entries.size()), cfg_.log_path);
+        THEMIS_INFO("Enumerated {} audit log entries from {}",entries.size(), cfg_.log_path);
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to enumerate audit entries: {}", e.what());
@@ -1136,9 +1136,9 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
         main_ofs.close();
         
         THEMIS_INFO("Archived {} audit log entries to {} (kept {} entries)", 
-                    archived_entries.size(), archive_path,static_cast<int>(kept_entries.size()));
+                    archived_entries.size(), archive_path,kept_entries.size());
         
-        return static_cast<int>(archived_entries.size());
+        return archived_entries.size();
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to archive audit entries: {}", e.what());
@@ -1222,7 +1222,7 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         main_ofs.close();
         
         THEMIS_INFO("Purged {} audit log entries (kept {} entries)", 
-                    purged_count,static_cast<int>(kept_entries.size()));
+                    purged_count,kept_entries.size());
         
         return purged_count;
         
@@ -1599,7 +1599,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
             // Resource prefix filter
             if (!query.resource_prefix.empty()) {
                 std::string resource = payload.value("resource", std::string{});
-                if (resource.substr(0,static_cast<int>(query.resource_prefix.size())) != query.resource_prefix) {
+                if (resource.substr(0,query.resource_prefix.size()) != query.resource_prefix) {
                     continue;
                 }
             }
@@ -1610,7 +1610,7 @@ std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
             entry.record       = std::move(record);
             results.push_back(std::move(entry));
 
-            if (query.max_results > 0 && static_cast<int>(results.size()) >= query.max_results) {
+            if (query.max_results > 0 && results.size() >= query.max_results) {
               break;
             }
 
@@ -1735,7 +1735,7 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
 /* static */
 std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& data) {
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
-    SHA256(data.data(),static_cast<int>(data.size()), digest.data());
+    SHA256(data.data(),data.size(), digest.data());
     return digest;
 }
 
@@ -1925,7 +1925,7 @@ std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
 
     std::vector<uint8_t> bytes(hash_input.begin(), hash_input.end());
     std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
-    SHA256(bytes.data(),static_cast<int>(bytes.size()), digest.data());
+    SHA256(bytes.data(),bytes.size(), digest.data());
 
     std::ostringstream oss = {};
     oss << std::hex << std::setfill('0');

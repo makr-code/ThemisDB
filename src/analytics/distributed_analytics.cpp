@@ -487,7 +487,7 @@ void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(shards_.size());
+    return shards_.size();
 }
 
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
@@ -723,7 +723,7 @@ OLAPResult DistributedAnalyticsSharding::mergeResults(const std::vector<OLAPResu
         }
         const auto &acc = git->second;
         Row out         = acc.prototype;
-        out.values.reserve(query.measures.size() + static_cast<int>(query.dimensions.size()) );
+        out.values.reserve(query.measures.size() + query.dimensions.size() );
 
         for (const auto &m : query.measures) {
             auto ait = acc.measures.find(m.name);
@@ -767,7 +767,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     spdlog::debug("DistributedAnalyticsSharding::executeDistributed: collection='{}', "
                   "tenant='{}', dimensions={}, measures={}",
                   query.collection, query.tenant_id,
-                  query.dimensions.size(),static_cast<int>(query.measures.size()));
+                  query.dimensions.size(),query.measures.size());
     // Wave-A AN1: per-shard retry with exponential backoff.
     // Transient failures (timeout, network) are retried up to retry_config.max_retries
     // times with exponential backoff + ±20% jitter before counting the shard as failed.
@@ -837,7 +837,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     const auto per_shard_timeout = std::chrono::milliseconds(effective_timeout_ms);
 
     const size_t parallel_limit
-        = (config_.max_parallel_shards == 0) ?static_cast<int>(active.size()) : std::min(active.size(), config_.max_parallel_shards);
+        = (config_.max_parallel_shards == 0) ?active.size() : std::min(active.size(), config_.max_parallel_shards);
 
     for (size_t batch_begin = 0; batch_begin < active.size(); batch_begin += parallel_limit) {
         const size_t batch_end = std::min(active.size(), batch_begin + parallel_limit);
@@ -1007,12 +1007,12 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // Failure-rate gate: abort if too many shards failed
     // ------------------------------------------------------------------
     if (!active.empty() && config_.allow_partial_results) {
-        const size_t failed_shards = static_cast<int>(active.size()) - result.successful_shards;
+        const size_t failed_shards = active.size() - result.successful_shards;
         const double failure_rate  = static_cast<double>(failed_shards) / static_cast<double>(active.size());
         if (failure_rate > config_.max_failure_rate) {
             spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
                           "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
-                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards,static_cast<int>(active.size()));
+                          failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards,active.size());
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
             result.total_execution_ms =

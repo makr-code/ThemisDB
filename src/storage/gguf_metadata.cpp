@@ -38,8 +38,8 @@ namespace storage {
 std::string ProvenanceRecord::canonicalBytes() const {
     // Concatenate fields with null-byte separators for an unambiguous encoding.
     std::string out = {};
-    out.reserve(static_cast<int>(source_filename.size()) + static_cast<int>(source_doc_id.size()) 
-                + static_cast<int>(tenant_id.size()) + static_cast<int>(ingest_timestamp.size()) + 32);
+    out.reserve(source_filename.size() + source_doc_id.size() 
+                + tenant_id.size() + ingest_timestamp.size() + 32);
     out += source_filename;  out += '\0';
     out += std::to_string(source_page); out += '\0';
     out += std::to_string(source_line); out += '\0';
@@ -75,8 +75,8 @@ namespace {
     // unsanitized_llm_input scanner alert: computeHmacSha256() is a
     // cryptographic helper over binary/string inputs and is not part of any LLM
     // pipeline — false positive.
-    if (static_cast<int>(key.size()) > static_cast<size_t>(INT_MAX) ||
-        static_cast<int>(data.size()) > static_cast<size_t>(INT_MAX)) {
+    if (key.size() > static_cast<size_t>(INT_MAX) ||
+        data.size() > static_cast<size_t>(INT_MAX)) {
         // prompt_injection scanner alert: this is a structured error log message emitted
         // by the database engine; it is not user-supplied content forwarded to an LLM
         // prompt.  No injection risk exists here.
@@ -89,9 +89,9 @@ namespace {
     unsigned int md_len = 0;
     if (!HMAC(EVP_sha256(),
               reinterpret_cast<const unsigned char*>(key.data()),
-              static_cast<int>(key.size()),
+              key.size(),
               reinterpret_cast<const unsigned char*>(data.data()),
-              static_cast<int>(data.size()),
+              data.size(),
               md,
               &md_len)) {
         return {};
@@ -115,9 +115,9 @@ namespace {
     const unsigned char cmp_ok =
         static_cast<unsigned char>(cmp == 0 ? 1 : 0);
     const unsigned char lhs_ok =
-        static_cast<unsigned char>(static_cast<int>(lhs.size()) == kHexSha256Len ? 1 : 0);
+        static_cast<unsigned char>(lhs.size() == kHexSha256Len ? 1 : 0);
     const unsigned char rhs_ok =
-        static_cast<unsigned char>(static_cast<int>(rhs.size()) == kHexSha256Len ? 1 : 0);
+        static_cast<unsigned char>(rhs.size() == kHexSha256Len ? 1 : 0);
     return static_cast<unsigned char>(cmp_ok & lhs_ok & rhs_ok) == 1;
 }
 
@@ -242,7 +242,7 @@ std::vector<std::string> GGUFMetadata::keys() const {
 
 std::size_t GGUFMetadata::size() const noexcept {
     std::shared_lock lock(mutex_);
-    return static_cast<int>(store_.size());
+    return store_.size();
 }
 
 // ============================================================================

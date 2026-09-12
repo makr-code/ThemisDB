@@ -546,7 +546,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
 
         const std::string prefix = "/transaction/";
         const std::string suffix = "/explain";
-        if (static_cast<int>(target.size()) < static_cast<int>(prefix.size()) + static_cast<int>(suffix.size()) ) {
+        if (target.size() < prefix.size() + suffix.size() ) {
             span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);

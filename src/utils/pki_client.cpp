@@ -423,7 +423,7 @@ static std::string request_cert_from_ca(const PKIConfig& cfg, const std::string&
 // Extracts the serial number from a PEM-encoded certificate string.
 // Returns empty string on failure.
 static std::string serial_from_cert_pem(const std::string& cert_pem) {
-    BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())));
+    BIOPtr bio(BIO_new_mem_buf(cert_pem.data(), cert_pem.size()));
     if (!bio) return {};
     X509Ptr cert(PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr));
     if (!cert) return {};

@@ -283,7 +283,7 @@ nlohmann::json TemporalConflictResolver::getStatistics() const {
         {"fww_resolutions", fww_resolutions_.load()},
         {"manual_resolutions", manual_resolutions_.load()},
         {"crdt_merges", crdt_merges_.load()},
-        {"unresolved_conflicts",static_cast<int>(unresolved_conflicts_.size())}
+        {"unresolved_conflicts",unresolved_conflicts_.size()}
     };
 }
 

@@ -611,7 +611,7 @@ void Http3Session::doRead() {
         ngtcp2_ssize datalen = 0;
         ngtcp2_ssize nwrite = ngtcp2_conn_writev_stream(
             quic_conn_.get(), &ps.path, &pi,
-            write_buffer_.data(),static_cast<int>(write_buffer_.size()),
+            write_buffer_.data(),write_buffer_.size(),
             &datalen, wflags, stream_id,
             reinterpret_cast<const ngtcp2_vec*>(vec),
             static_cast<size_t>(sveccnt),
@@ -815,12 +815,12 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
     // Build HTTP/3 headers
     std::vector<nghttp3_nv> nva = {};
 
-    nva.reserve(static_cast<int>(headers.size()) + 2);
+    nva.reserve(headers.size() + 2);
     
     std::string status_str = std::to_string(status);
     nghttp3_nv status_header = {
         (uint8_t*)":status", (uint8_t*)status_str.c_str(),
-        7,static_cast<int>(status_str.size()),
+        7,status_str.size(),
         NGHTTP3_NV_FLAG_NONE
     };
     nva.push_back(status_header);
@@ -828,7 +828,7 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
     for (const auto& [key, value] : headers) {
         nghttp3_nv header = {
             (uint8_t*)key.c_str(), (uint8_t*)value.c_str(),
-            key.size(),static_cast<int>(value.size()),
+            key.size(),value.size(),
             NGHTTP3_NV_FLAG_NONE
         };
         nva.push_back(header);
@@ -1063,7 +1063,7 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
         return false;
     }
 
-    if (static_cast<int>(frame.size()) > max_dgram) {
+    if (frame.size() > max_dgram) {
         THEMIS_WARN("[Http3Session] sendDatagram: frame size {} exceeds peer max {}",
                     frame.size(), max_dgram);
         return false;
@@ -1080,10 +1080,10 @@ bool Http3Session::sendDatagram(uint64_t       context_id,
     int accepted = 0;
     ngtcp2_ssize nwrite = ngtcp2_conn_write_datagram(
         quic_conn_.get(), &ps.path, &pi,
-        pkt_buf.data(),static_cast<int>(pkt_buf.size()),
+        pkt_buf.data(),pkt_buf.size(),
         &accepted, 0 /* flags */,
         0 /* dgram_id: unused; ngtcp2 uses this for ACK tracking, 0 means untracked */,
-        frame.data(),static_cast<int>(frame.size()),
+        frame.data(),frame.size(),
         getTimestamp());
 
     if (nwrite < 0) {

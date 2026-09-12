@@ -184,7 +184,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     // Build directly-follows relations
     std::map<std::pair<std::string, std::string>, int> follows_freq;
     for (const auto &trace : log.traces) {
-        for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        for (size_t i = 1; i <trace.events.size(); ++i) {
             auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             follows_freq[edge]++;
         }
@@ -235,7 +235,7 @@ DiscoveredProcess ProcessMining::runHeuristicMiner(const EventLog &log, const Mi
             activities.insert(event.activity);
         }
         
-        for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        for (size_t i = 1; i <trace.events.size(); ++i) {
             auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             direct_follows[edge]++;
         }
@@ -309,7 +309,7 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
     // Build edge map
     std::map<std::pair<std::string, std::string>, int> edge_freq;
     for (const auto &trace : log.traces) {
-        for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        for (size_t i = 1; i <trace.events.size(); ++i) {
             auto edge = std::make_pair(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
             edge_freq[edge]++;
         }
@@ -663,7 +663,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
+                                       [](int sum, const Trace &t) { return sum + t.events.size(); });
 
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -779,7 +779,7 @@ ProcessMining::extractEventLogFromReferences(std::string_view start_collection,
     log.unique_cases      = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-                                       [](int sum, const Trace &t) { return sum + static_cast<int>(t.events.size()); });
+                                       [](int sum, const Trace &t) { return sum + t.events.size(); });
 
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities", log.total_events,
                 log.unique_cases, log.unique_activities);
@@ -821,7 +821,7 @@ std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(
         endCounts[trace.events.back().activity]++;
 
         // Track directly-follows
-        for (size_t i = 0; i + 1 <static_cast<int>(trace.events.size()); i++) {
+        for (size_t i = 0; i + 1 <trace.events.size(); i++) {
             const auto &curr = trace.events[i];
             const auto &next = trace.events[i + 1];
 
@@ -1037,7 +1037,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
     // Detect split gateways (AND-split): one activity -> multiple parallel activities
     int gatewayId = 0;
     for (const auto &[activity, targets] : outgoing) {
-        if (static_cast<int>(targets.size()) > 1) {
+        if (targets.size() > 1) {
             // Check if these are parallel (not exclusive choice)
             // In Alpha Miner, this is determined by the parallel relation
             bool isParallel = true;
@@ -1058,7 +1058,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
                 }
             }
             // Check if all targets are mutually parallel
-            isParallel = (static_cast<int>(parallelTargets.size()) == static_cast<int>(targets.size()));
+            isParallel = (parallelTargets.size() == targets.size());
             if (isParallel) {
                 for (const auto &t : targets) {
                     if (parallelTargets.count(t) == 0) {
@@ -1114,7 +1114,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
 
     // Detect join gateways (AND-join): multiple parallel activities -> one activity
     for (const auto &[activity, sources] : incoming) {
-        if (static_cast<int>(sources.size()) > 1) {
+        if (sources.size() > 1) {
             // Check if these are parallel
             bool isParallel = true;
             // NOTE: sources.size() is typically small (< 10 in practice, e.g., max join degree)
@@ -1134,7 +1134,7 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog &log, const Mining
                }
            }
            // Check if all sources are mutually parallel
-           isParallel = (static_cast<int>(parallelSources.size()) == static_cast<int>(sources.size()));
+           isParallel = (parallelSources.size() == sources.size());
            if (isParallel) {
                for (const auto &s : sources) {
                    if (parallelSources.count(s) == 0) {
@@ -1357,7 +1357,7 @@ SubDFG buildSubDFG(const std::vector<ProcessTrace> &traces, double noise_thresho
         dfg.activities.insert(trace.events.back().activity);
         dfg.start_freq[trace.events.front().activity]++;
         dfg.end_freq[trace.events.back().activity]++;
-        for (size_t i = 0; i + 1 <static_cast<int>(trace.events.size()); ++i) {
+        for (size_t i = 0; i + 1 <trace.events.size(); ++i) {
             dfg.activities.insert(trace.events[i].activity);
             dfg.activities.insert(trace.events[i + 1].activity);
             auto key = std::make_pair(trace.events[i].activity, trace.events[i + 1].activity);
@@ -1420,7 +1420,7 @@ struct Cut {
 // Activities have no DFG path between them in either direction.
 Cut tryXorCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
-    if (static_cast<int>(components.size()) > 1) {
+    if (components.size() > 1) {
         return Cut{CutType::XOR, components};
     }
     return {};
@@ -1430,7 +1430,7 @@ Cut tryXorCut(const SubDFG &dfg) {
 // Topological sort of strongly-connected components; if a valid ordering exists
 // where no edge goes backwards, the cut is a sequence.
 Cut trySeqCut(const SubDFG &dfg) {
-    if (static_cast<int>(dfg.activities.size()) < 2) {
+    if (dfg.activities.size() < 2) {
         return {};
     }
 
@@ -1468,7 +1468,7 @@ Cut trySeqCut(const SubDFG &dfg) {
         }
     }
 
-    if (static_cast<int>(order.size()) != static_cast<int>(dfg.activities.size())) {
+    if (order.size() != dfg.activities.size()) {
         return {}; // has cycle
     }
 
@@ -1513,7 +1513,7 @@ Cut trySeqCut(const SubDFG &dfg) {
 // All activity pairs are connected in both directions.
 Cut tryAndCut(const SubDFG &dfg) {
     auto components = findComponents(dfg);
-    if (static_cast<int>(components.size()) < 2) {
+    if (components.size() < 2) {
         return {};
     }
 
@@ -1541,7 +1541,7 @@ Cut tryAndCut(const SubDFG &dfg) {
 // The first partition is the "do" body, the second is the "redo" body.
 // Heuristic: activities that appear as loop-back sources.
 Cut tryLoopCut(const SubDFG &dfg) {
-    if (static_cast<int>(dfg.activities.size()) < 2) {
+    if (dfg.activities.size() < 2) {
         return {};
     }
 
@@ -1603,7 +1603,7 @@ std::vector<std::vector<ProcessTrace>> splitTraces(const std::vector<ProcessTrac
     for (const auto &trace : traces) {
         if (cut.type == CutType::XOR || cut.type == CutType::AND) {
             // Each partition gets a sub-trace with only its activities
-            for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
+            for (size_t i = 0; i <cut.partitions.size(); ++i) {
                 ProcessTrace sub;
                 sub.case_id = trace.case_id;
                 for (const auto &e : trace.events) {
@@ -1617,7 +1617,7 @@ std::vector<std::vector<ProcessTrace>> splitTraces(const std::vector<ProcessTrac
             }
         } else if (cut.type == CutType::SEQ) {
             // Split at partition boundary preserving order
-            for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
+            for (size_t i = 0; i <cut.partitions.size(); ++i) {
                 ProcessTrace sub;
                 sub.case_id = trace.case_id;
                 for (const auto &e : trace.events) {
@@ -1631,7 +1631,7 @@ std::vector<std::vector<ProcessTrace>> splitTraces(const std::vector<ProcessTrac
             }
         } else if (cut.type == CutType::LOOP) {
             // Do body traces and redo body traces
-            for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
+            for (size_t i = 0; i <cut.partitions.size(); ++i) {
                 ProcessTrace sub;
                 sub.case_id = trace.case_id;
                 for (const auto &e : trace.events) {
@@ -1714,7 +1714,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         return;
     }
 
-    if (static_cast<int>(activities.size()) == 1) {
+    if (activities.size() == 1) {
         const std::string &act = *activities.begin();
         DiscoveredProcess::Node task;
         task.id   = "task_" + std::to_string(nodeId++);
@@ -1759,7 +1759,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         cut = tryLoopCut(dfg);
     }
 
-    if (cut.type == CutType::NONE || static_cast<int>(cut.partitions.size()) < 2) {
+    if (cut.type == CutType::NONE || cut.partitions.size() < 2) {
         // Flower model fallback
         addFlowerModel(activities, process, nodeId, edgeId, entryId, exitId);
         return;
@@ -1792,7 +1792,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         process.edges.push_back(ein);
         process.edges.push_back(eout);
 
-        for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
+        for (size_t i = 0; i <cut.partitions.size(); ++i) {
             std::string partEntry = "xor_branch_entry_" + std::to_string(nodeId);
             std::string partExit  = "xor_branch_exit_" + std::to_string(nodeId);
             DiscoveredProcess::Node ne, nx;
@@ -1812,8 +1812,8 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
     } else if (cut.type == CutType::SEQ) {
         // Sequence: chain of intermediate nodes
         std::string prevExit = entryId;
-        for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
-            std::string nextEntry = (i + 1 == static_cast<int>(cut.partitions.size())) ? exitId : ("seq_mid_" + std::to_string(nodeId++));
+        for (size_t i = 0; i <cut.partitions.size(); ++i) {
+            std::string nextEntry = (i + 1 == cut.partitions.size()) ? exitId : ("seq_mid_" + std::to_string(nodeId++));
             if (nextEntry != exitId) {
                 DiscoveredProcess::Node mid;
                 mid.id           = nextEntry;
@@ -1850,7 +1850,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
         process.edges.push_back(ein);
         process.edges.push_back(eout);
 
-        for (size_t i = 0; i <static_cast<int>(cut.partitions.size()); ++i) {
+        for (size_t i = 0; i <cut.partitions.size(); ++i) {
             inductiveMinerRecurse(subTraceSets[i], cut.partitions[i], noise_threshold, process, nodeId, edgeId,
                                   split.id, join.id);
         }
@@ -1883,7 +1883,7 @@ void inductiveMinerRecurse(const std::vector<ProcessTrace> &traces, const std::s
                               loopStart.id, loopEnd.id);
 
         // redo-body: loopEnd -> redo -> loopStart
-        if (static_cast<int>(cut.partitions.size()) > 1 && !subTraceSets[1].empty()) {
+        if (cut.partitions.size() > 1 && !subTraceSets[1].empty()) {
             inductiveMinerRecurse(subTraceSets[1], cut.partitions[1], noise_threshold, process, nodeId, edgeId,
                                   loopEnd.id, loopStart.id);
         } else {
@@ -1945,7 +1945,7 @@ DiscoveredProcess ProcessMining::runInductiveMiner(const EventLog &log, const Mi
     process.generalization = 0.9;
     process.simplicity = 1.0 - std::min(1.0, static_cast<double>(process.nodes.size()) / (allActivities.size() * 4));
 
-    THEMIS_INFO("Inductive Miner: {} nodes, {} edges for {} activities",static_cast<int>(process.nodes.size()),static_cast<int>(process.edges.size()),
+    THEMIS_INFO("Inductive Miner: {} nodes, {} edges for {} activities",process.nodes.size(),process.edges.size(),
                 allActivities.size());
 
     return process;
@@ -1989,7 +1989,7 @@ ProcessMining::analyzeVariants(const EventLog &log, int top_n) {
     std::sort(result.begin(), result.end(),
               [](const VariantInfo &a, const VariantInfo &b) { return a.frequency > b.frequency; });
 
-    if (static_cast<int>(result.size()) > static_cast<size_t>(top_n)) {
+    if (result.size() > static_cast<size_t>(top_n)) {
         result.resize(top_n);
     }
 
@@ -2142,7 +2142,7 @@ ProcessMining::checkConformance(const EventLog &log, const DiscoveredProcess &mo
         }
 
         // Check remaining tokens
-        result.remaining_tokens += static_cast<int>(tokens.size());
+        result.remaining_tokens += tokens.size();
         if (!tokens.empty()) {
             bool hasEndToken = false;
             for (const auto &token : tokens) {
@@ -2277,7 +2277,7 @@ ProcessMining::Status ProcessMining::saveAsProcessDefinition(const DiscoveredPro
         db_.put(edgeKey, edgeEntity.serialize());
     }
 
-    THEMIS_INFO("Saved discovered process {} with {} nodes and {} edges", process_id,static_cast<int>(model.nodes.size()),
+    THEMIS_INFO("Saved discovered process {} with {} nodes and {} edges", process_id,model.nodes.size(),
                 model.edges.size());
 
     return Status::OK();
@@ -2337,7 +2337,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
     };
     std::map<std::string, VariantInfo> variant_map = {};
 
-    for (size_t i = 0; i <static_cast<int>(log.traces.size()); ++i) {
+    for (size_t i = 0; i <log.traces.size(); ++i) {
         const auto &trace = log.traces[i];
         auto &info        = variant_map[trace.variant_signature];
         info.trace_indices.push_back(static_cast<int>(i));
@@ -2370,7 +2370,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
         variant_embeddings.push_back(embedActivities(info.activities));
     }
 
-    const int n_variants = static_cast<int>(variant_keys.size());
+    const int n_variants = variant_keys.size();
     const int k          = std::min(num_clusters, n_variants);
 
     if (k <= 1) {
@@ -2474,7 +2474,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
         }
     }
 
-    THEMIS_INFO("Clustered {} traces ({} variants) into {} K-means clusters",static_cast<int>(log.traces.size()), n_variants, k);
+    THEMIS_INFO("Clustered {} traces ({} variants) into {} K-means clusters",log.traces.size(), n_variants, k);
     return {Status::OK(), result};
 }
 
@@ -2729,7 +2729,7 @@ ProcessMining::enhanceWithPerformance(const DiscoveredProcess &model, const Even
     std::map<std::string, std::vector<double>> activity_durations;
 
     for (const auto &trace : log.traces) {
-        for (size_t i = 0; i + 1 <static_cast<int>(trace.events.size()); ++i) {
+        for (size_t i = 0; i + 1 <trace.events.size(); ++i) {
             double duration = (trace.events[i + 1].timestamp_ms - trace.events[i].timestamp_ms) / 1000.0;
             activity_durations[trace.events[i].activity].push_back(duration);
         }
@@ -2743,10 +2743,10 @@ ProcessMining::enhanceWithPerformance(const DiscoveredProcess &model, const Even
         }
         double avg                           = sum / durations.size();
         enhanced.node_avg_duration[activity] = avg;
-        enhanced.node_frequency[activity]    = static_cast<int>(durations.size());
+        enhanced.node_frequency[activity]    = durations.size();
     }
 
-    THEMIS_INFO("Enhanced process with performance metrics for {} activities",static_cast<int>(activity_durations.size()));
+    THEMIS_INFO("Enhanced process with performance metrics for {} activities",activity_durations.size());
     return {Status::OK(), enhanced};
 }
 
@@ -2779,7 +2779,7 @@ ProcessMining::detectBottlenecks(const EnhancedProcess &process, double threshol
         }
     }
 
-    THEMIS_INFO("Detected {} bottlenecks with threshold {:.2f}s",static_cast<int>(bottlenecks.size()), threshold / 1000.0);
+    THEMIS_INFO("Detected {} bottlenecks with threshold {:.2f}s",bottlenecks.size(), threshold / 1000.0);
     return {Status::OK(), bottlenecks};
 }
 
@@ -2830,10 +2830,10 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
         }
 
         // Sliding window to find similar patterns
-        // NOTE: Loop condition ensures i + static_cast<int>(pattern.size()) <= activities.size(),
+        // NOTE: Loop condition ensures i + pattern.size() <= activities.size(),
         // so pointer arithmetic is always within bounds. Scanner false positive.
-        for (size_t i = 0; i + static_cast<int>(pattern.size()) <= activities.size(); ++i) {
-            std::vector<std::string> window(activities.begin() + i, activities.begin() + i + static_cast<int>(pattern.size()) );
+        for (size_t i = 0; i + pattern.size() <= activities.size(); ++i) {
+            std::vector<std::string> window(activities.begin() + i, activities.begin() + i + pattern.size() );
             pattern_info[window].first++;
             pattern_info[window].second.push_back(trace.case_id);
         }
@@ -2849,7 +2849,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
 
     // Convert to results
     for (const auto &[freq, data] : freq_sorted) {
-        if (static_cast<int>(results.size()) >= k) {
+        if (results.size() >= k) {
             break;
         }
         SimilarFragment frag;
@@ -2859,7 +2859,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string> &pattern, cons
         results.push_back(frag);
     }
 
-    THEMIS_INFO("Found {} similar patterns",static_cast<int>(results.size()));
+    THEMIS_INFO("Found {} similar patterns",results.size());
     return {Status::OK(), results};
 }
 
@@ -2870,7 +2870,7 @@ ProcessMining::discoverGeoVariants(const EventLog &log, double) {
 
     // Group traces by geo-location and variant
     std::map<std::string, std::vector<size_t>> variant_traces;
-    for (size_t i = 0; i <static_cast<int>(log.traces.size()); ++i) {
+    for (size_t i = 0; i <log.traces.size(); ++i) {
         variant_traces[log.traces[i].variant_signature].push_back(i);
     }
 
@@ -2883,7 +2883,7 @@ ProcessMining::discoverGeoVariants(const EventLog &log, double) {
         GeoProcessCluster cluster;
         cluster.region       = "default";
         cluster.centroid_wkt = "POINT(51.5074 -0.1278)";
-        cluster.case_count   = static_cast<int>(trace_ids.size());
+        cluster.case_count   = trace_ids.size();
 
         // Create a basic local model for this cluster
         cluster.local_model.name = "Cluster_" + variant_sig.substr(0, 8);
@@ -2892,7 +2892,7 @@ ProcessMining::discoverGeoVariants(const EventLog &log, double) {
         processed_variants.insert(variant_sig);
     }
 
-    THEMIS_INFO("Discovered {} geo-process clusters",static_cast<int>(clusters.size()));
+    THEMIS_INFO("Discovered {} geo-process clusters",clusters.size());
     return {Status::OK(), clusters};
 }
 

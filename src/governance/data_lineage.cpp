@@ -177,7 +177,7 @@ nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string &datase
 
 size_t DataLineageTracker::totalEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(event_index_.size());
+    return event_index_.size();
 }
 
 // ─── Phase 2C: Lineage Backpressure Implementation ────────────────────────────
@@ -335,7 +335,7 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits() {
     // Check per-dataset limit (not enforced at record time to allow initial growth,
     // but noted for monitoring)
     for (const auto& [ds_id, events] : lineage_store_) {
-        if (static_cast<int>(events.size()) >= max_events_per_dataset_) {
+        if (events.size() >= max_events_per_dataset_) {
             last_error_code_.store(static_cast<int32_t>(LineageError::kSizeLimitExceeded), 
                                    std::memory_order_relaxed);
             
@@ -466,13 +466,13 @@ LineageRecordResult DataLineageTracker::pruneOldEvents(const std::string& datase
     }
     
     auto& events = it->second;
-    if (static_cast<int>(events.size()) <= static_cast<size_t>(keep_count)) {
+    if (events.size() <= static_cast<size_t>(keep_count)) {
         result.event_count = static_cast<int32_t>(events.size());
         return result;  // Nothing to prune
     }
     
     // Remove oldest events, keeping only keep_count most recent
-    size_t to_remove = static_cast<int>(events.size()) - keep_count;
+    size_t to_remove = events.size() - keep_count;
     for (size_t i = 0; i < to_remove; ++i) {
         const auto& removed = events[0];
         event_index_.erase(removed.event_id);

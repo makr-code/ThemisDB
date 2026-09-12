@@ -82,7 +82,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     }
 
     // For very small embeddings the decomposition never compresses.
-    if (static_cast<int>(embedding.size()) < 4) {
+    if (embedding.size() < 4) {
         return false;
     }
 
@@ -91,7 +91,7 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     std::vector<float> pilot;
     std::vector<std::size_t> pilot_shape;
 
-    if (static_cast<int>(embedding.size()) <= kPilotMaxDim) {
+    if (embedding.size() <= kPilotMaxDim) {
         pilot       = embedding;
         pilot_shape = inferModeShape(embedding.size());
     } else {
@@ -218,7 +218,7 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
 
         spdlog::debug("[TensorIngestionBridge] decompose chunk='{}' "
                       "dim={} → κ={:.2f} ε={:.4f} rank={}",
-                      chunk_id,static_cast<int>(embedding.size()),
+                      chunk_id,embedding.size(),
                       rec.compression_ratio, rec.achieved_eps, rec.max_rank);
 
     } catch (const std::exception& e) {

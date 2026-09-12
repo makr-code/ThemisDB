@@ -64,7 +64,7 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
             return false;
         }
         
-        bio = BIO_new_mem_buf(cleaned_input.data(), static_cast<int>(cleaned_input.size()));
+        bio = BIO_new_mem_buf(cleaned_input.data(), cleaned_input.size());
         if (!bio) {
             BIO_free(b64);
             spdlog::error("Failed to create memory BIO");
@@ -125,14 +125,14 @@ static bool validate_signature_format(
     }
     
     // Verify signature size is reasonable for RSA (128-1024 bytes)
-    if (static_cast<int>(signature.size()) < 128 || static_cast<int>(signature.size()) > 1024) {
-        spdlog::error("Signature size {} is outside expected range (128-1024 bytes)",static_cast<int>(signature.size()));
+    if (signature.size() < 128 || signature.size() > 1024) {
+        spdlog::error("Signature size {} is outside expected range (128-1024 bytes)",signature.size());
         return false;
     }
     
     // Verify cert fingerprint format (64 hex chars for SHA-256)
-    if (static_cast<int>(cert_fingerprint.size()) != 64 && static_cast<int>(cert_fingerprint.size()) != 40) {
-        spdlog::error("Invalid certificate fingerprint format: {} chars",static_cast<int>(cert_fingerprint.size()));
+    if (cert_fingerprint.size() != 64 && cert_fingerprint.size() != 40) {
+        spdlog::error("Invalid certificate fingerprint format: {} chars",cert_fingerprint.size());
         return false;
     }
     
@@ -592,7 +592,7 @@ std::string LoRASecurityValidator::calculateChecksum(
     
     // SHA-256 hash
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(),static_cast<int>(data.size()), hash);
+    SHA256(data.data(),data.size(), hash);
     
     // Convert to hex string
     std::stringstream ss = {};
@@ -664,7 +664,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     //    any heap allocation that processes file content, to prevent
     //    integer-overflow-driven heap exhaustion (Phase 1.4 hardening).
     const size_t max_bytes = config_.max_adapter_size_mb * 1024 * 1024;
-    if (static_cast<int>(data.size()) > max_bytes) {
+    if (data.size() > max_bytes) {
         spdlog::error("LoRASecurityValidator: file too large ({} bytes, max {})",
                       data.size(), max_bytes);
         return false;
@@ -678,7 +678,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
     // Magic bytes: SafeTensors starts with an 8-byte little-endian uint64
     // that encodes the JSON header length.  The JSON header must contain at
     // least one key and fit within the file.
-    if (static_cast<int>(data.size()) >= 8) {
+    if (data.size() >= 8) {
         uint64_t header_size = 0;
         for (int i = 0; i < 8; ++i) {
             header_size |= (static_cast<uint64_t>(data[i]) << (i * 8));
@@ -695,7 +695,7 @@ bool LoRASecurityValidator::parseLoRAMetadata(const std::vector<uint8_t>& data,
                 // Validate: must be a JSON object with at least one tensor entry
                 if (!metadata.empty() && metadata.is_object()) {
                     spdlog::debug("LoRASecurityValidator: parsed SafeTensors metadata "
-                                  "({} tensors)",static_cast<int>(metadata.size()));
+                                  "({} tensors)",metadata.size());
                     return true;
                 }
             } catch (const json::exception&) {
@@ -752,7 +752,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
                     weights.push_back(w.get<float>());
                 }
             }
-            spdlog::info("Loaded {} weights from JSON LoRa file",static_cast<int>(weights.size()));
+            spdlog::info("Loaded {} weights from JSON LoRa file",weights.size());
             return weights;
         }
     } catch (const json::exception&) {
@@ -761,8 +761,8 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     
     // Try binary LoRa format (SafeTensors or similar)
     // SafeTensors format: 8-byte header size (little-endian), JSON header, then binary data
-    if (static_cast<int>(data.size()) < 8) {
-        spdlog::warn("LoRa file too small for binary format: {} bytes",static_cast<int>(data.size()));
+    if (data.size() < 8) {
+        spdlog::warn("LoRa file too small for binary format: {} bytes",data.size());
         return weights;
     }
     
@@ -773,7 +773,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
     }
     
     // Validate header size
-    if (header_size > static_cast<int>(data.size()) - 8 || header_size > 100*1024*1024) {
+    if (header_size > data.size() - 8 || header_size > 100*1024*1024) {
         spdlog::warn("Invalid header size in LoRa binary format: {} bytes", header_size);
         return weights;
     }
@@ -800,7 +800,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             auto dtype = tensor_info["dtype"].get<std::string>();
             auto offsets = tensor_info["data_offsets"].get<std::vector<uint64_t>>();
             
-            if (static_cast<int>(offsets.size()) != 2) {
+            if (offsets.size() != 2) {
               continue;
             }
             
@@ -821,9 +821,9 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             uint64_t end_offset = data_offset + offsets[1];
             
             // Validate bounds within data buffer
-            if (start_offset >= data.size() || end_offset > static_cast<int>(data.size())) {
+            if (start_offset >= data.size() || end_offset > data.size()) {
                 spdlog::warn("Tensor offsets out of bounds: start={}, end={}, data_size={}", 
-                         start_offset, end_offset,static_cast<int>(data.size()));
+                         start_offset, end_offset,data.size());
                 continue;
             }
             
@@ -849,7 +849,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
                 size_t sample_size = std::min(num_floats, static_cast<size_t>(10000));
                 size_t stride = std::max(static_cast<size_t>(1), num_floats / sample_size);
                 
-                for (size_t i = 0; i < num_floats && static_cast<int>(weights.size()) < sample_size; i += stride) {
+                for (size_t i = 0; i < num_floats && weights.size() < sample_size; i += stride) {
                     size_t byte_offset = start_offset + i * sizeof(float);
                     // Double-check bounds before memcpy
                     if (byte_offset + sizeof(float) <= data.size()) {
@@ -869,7 +869,7 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
         }
         
         if (!weights.empty()) {
-            spdlog::info("Loaded {} sampled weights from binary LoRa file",static_cast<int>(weights.size()));
+            spdlog::info("Loaded {} sampled weights from binary LoRa file",weights.size());
         }
         
     } catch (const json::exception& e) {
@@ -1108,7 +1108,7 @@ float EmbeddingAnomalyDetector::getAnomalyScore(const std::vector<float>& embedd
         return 0.0f;
     }
     
-    if (static_cast<int>(embedding.size()) != static_cast<int>(mean_embedding_.size())) {
+    if (embedding.size() != mean_embedding_.size()) {
         spdlog::error("Embedding dimension mismatch");
         return 1.0f;  // Definitely anomalous
     }
@@ -1179,7 +1179,7 @@ float EmbeddingAnomalyDetector::calculateCosineSimilarity(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
       return 0.0f;
     }
     
@@ -1197,7 +1197,7 @@ float EmbeddingAnomalyDetector::calculateEuclideanDistance(
     const std::vector<float>& a,
     const std::vector<float>& b) {
     
-    if (static_cast<int>(a.size()) != static_cast<int>(b.size())) {
+    if (a.size() != b.size()) {
       return std::numeric_limits<float>::max();
     }
     

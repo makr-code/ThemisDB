@@ -288,7 +288,7 @@ std::string ShardDurability::generateCheckpointId() const {
 }
 
 void ShardDurability::cleanupOldCheckpoints() {
-    if (static_cast<int>(checkpoints_.size()) <= config_.max_checkpoints) {
+    if (checkpoints_.size() <= config_.max_checkpoints) {
         return;
     }
     
@@ -299,7 +299,7 @@ void ShardDurability::cleanupOldCheckpoints() {
         });
     
     // Remove oldest checkpoints
-    size_t to_remove = static_cast<int>(checkpoints_.size()) - config_.max_checkpoints;
+    size_t to_remove = checkpoints_.size() - config_.max_checkpoints;
     for (size_t i = 0; i < to_remove; ++i) {
         try {
             std::filesystem::remove_all(checkpoints_[i].path);

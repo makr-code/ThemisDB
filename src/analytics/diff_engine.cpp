@@ -238,7 +238,7 @@ DiffEngine::DiffResult DiffEngine::computeDiff(uint64_t from_sequence, uint64_t 
 
     auto events = changefeed_.listEvents(list_opts);
 
-    spdlog::debug("Found {} events in range [{}, {}]",static_cast<int>(events.size()), from_sequence, to_sequence);
+    spdlog::debug("Found {} events in range [{}, {}]",events.size(), from_sequence, to_sequence);
 
     // Process events
     DiffResult result    = processEvents(events, options, from_sequence);
@@ -426,7 +426,7 @@ DiffEngine::DiffResult DiffEngine::processEvents(const std::vector<Changefeed::C
                 // Key was added or modified
                 change.new_value = last_event.value;
 
-                if (static_cast<int>(key_event_list.size()) == 1) {
+                if (key_event_list.size() == 1) {
                     // Single PUT event in range
                     // Check if this is the first event for this key by querying before from_sequence
                     // For now, we check if from_sequence is 0 to determine if it's truly ADDED

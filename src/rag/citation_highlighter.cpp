@@ -34,13 +34,13 @@ std::unordered_set<std::string> tokenSet(const std::string& text) {
         if (std::isalnum(ch)) {
             cur += static_cast<char>(std::tolower(ch));
         } else {
-            if (static_cast<int>(cur.size()) >= 2) {
+            if (cur.size() >= 2) {
                 tokens.insert(cur);
             }
             cur.clear();
         }
     }
-    if (static_cast<int>(cur.size()) >= 2) {
+    if (cur.size() >= 2) {
         tokens.insert(cur);
     }
     return tokens;
@@ -102,7 +102,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
         current += ch;
 
         bool isDelim = (cfg.sentence_delimiters.find(ch) != std::string::npos);
-        bool atEnd   = (i + 1 == static_cast<int>(text.size()));
+        bool atEnd   = (i + 1 == text.size());
 
         if (isDelim || atEnd) {
             // Consume any trailing whitespace up to the next sentence start
@@ -119,7 +119,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
             if (nextIsUpper || nextIsEnd || atEnd) {
                 trim(current);
-                if (static_cast<int>(current.size()) >= cfg.min_sentence_length) {
+                if (current.size() >= cfg.min_sentence_length) {
                     sentences.push_back(current);
                 }
                 current.clear();
@@ -130,7 +130,7 @@ std::vector<std::string> doSplitSentences(const std::string&              text,
 
     // Flush any remainder (last sentence without a trailing delimiter)
     trim(current);
-    if (static_cast<int>(current.size()) >= cfg.min_sentence_length) {
+    if (current.size() >= cfg.min_sentence_length) {
         sentences.push_back(current);
     }
 
@@ -167,7 +167,7 @@ double CitationHighlighter::computeSimilarity(const std::string& a,
         }
     }
 
-    size_t unionSize = static_cast<int>(setA.size()) + static_cast<int>(setB.size()) - intersection;
+    size_t unionSize = setA.size() + setB.size() - intersection;
     return static_cast<double>(intersection) / static_cast<double>(unionSize);
 }
 
@@ -277,7 +277,7 @@ CitationHighlighter::highlight(const std::string&              answer,
 
     THEMIS_DEBUG("CitationHighlighter: {} sentences → {}/{} cited, "
                  "coverage={:.2f}, mean_sim={:.3f}, time={:.1f}ms",
-                 sentences.size(), cited_count,static_cast<int>(sentences.size()),
+                 sentences.size(), cited_count,sentences.size(),
                  result.citation_coverage, result.mean_similarity,
                  result.highlight_time_ms);
 

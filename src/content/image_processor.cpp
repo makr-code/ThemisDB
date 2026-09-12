@@ -299,7 +299,7 @@ static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::s
     width = 0;
     height = 0;
     
-    if (static_cast<int>(blob.size()) < 24) {
+    if (blob.size() < 24) {
       return;
     }
     
@@ -347,7 +347,7 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     json exif;
     
     // Check for JPEG with EXIF
-    if (static_cast<int>(blob.size()) < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
+    if (blob.size() < 12 || blob[0] != 0xFF || blob[1] != 0xD8) {
         return exif;
     }
     
@@ -369,7 +369,7 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
 std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
-    // vips_thumbnail_buffer(&in, blob.data(),static_cast<int>(blob.size()), thumbnail_max_width_, nullptr);
+    // vips_thumbnail_buffer(&in, blob.data(),blob.size(), thumbnail_max_width_, nullptr);
     // vips_jpegsave_buffer(in, &out, &out_size, nullptr);
     
     return std::vector<uint8_t>();
@@ -430,7 +430,7 @@ std::array<double, 1024> extractGrayscaleSamples(const std::vector<uint8_t>& blo
     std::array<double, 1024> samples{};
 
     // Try to decode as uncompressed 24-bpp BMP
-    if (static_cast<int>(blob.size()) > 54 &&
+    if (blob.size() > 54 &&
         blob[0] == 'B' && blob[1] == 'M')
     {
         uint32_t pixel_offset =
@@ -522,7 +522,7 @@ std::array<double, 1024> apply2DDCT(const std::array<double, 1024>& pixels) {
 
 /*static*/ std::string ImageProcessor::computePHash(const std::vector<uint8_t>& blob) {
     // Minimum viable image blob
-    if (static_cast<int>(blob.size()) < 16) return {};
+    if (blob.size() < 16) return {};
 
     // 1. Extract 32×32 grayscale samples
     auto pixels = extractGrayscaleSamples(blob);

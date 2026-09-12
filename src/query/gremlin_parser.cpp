@@ -101,7 +101,7 @@ struct GremlinParser::Lexer {
             }
             ++pos;
         }
-        if (static_cast<int>(src.size()) > pos) ++pos;  // skip closing delimiter
+        if (src.size() > pos) ++pos;  // skip closing delimiter
         return buf;
     }
 
@@ -111,7 +111,7 @@ struct GremlinParser::Lexer {
         tokens.reserve(src.size());
         while (true) {
             skipWhitespace();
-            if (pos >= static_cast<int>(src.size())) {
+            if (pos >= src.size()) {
                 tokens.push_back({GremlinTokenType::END_OF_FILE, "", pos});
                 break;
             }
@@ -189,7 +189,7 @@ struct GremlinParser::Parser {
 
     const Token& peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        if (p >= static_cast<int>(tokens.size())) {
+        if (p >= tokens.size()) {
           return tokens.back();
         }
         return tokens[p];
@@ -676,7 +676,7 @@ std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
         case GremlinPredOp::Gte:     return lhs + " >= " + rhs();
         case GremlinPredOp::Within: {
             std::string list = "[";
-            for (size_t i = 0; i <static_cast<int>(pred.values.size()); ++i) {
+            for (size_t i = 0; i <pred.values.size(); ++i) {
                 if (i) {
                   list += ", ";
                 }
@@ -687,7 +687,7 @@ std::string GremlinToAQLTranspiler::predicateToAQL(const GremlinPredicate& pred,
         }
         case GremlinPredOp::Without: {
             std::string list = "[";
-            for (size_t i = 0; i <static_cast<int>(pred.values.size()); ++i) {
+            for (size_t i = 0; i <pred.values.size(); ++i) {
                 if (i) {
                   list += ", ";
                 }
@@ -891,7 +891,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
         // FOR loop / source
         if (!seedId.empty()) {
             aql << "FOR " << vVar << " IN " << collection << "\n";
-            if (static_cast<int>(seedId.size()) >= 2 && seedId.front() == '"' && seedId.back() == '"') {
+            if (seedId.size() >= 2 && seedId.front() == '"' && seedId.back() == '"') {
                 aql << "FILTER " << vVar << "._key == " << seedId << "\n";
             } else {
                 aql << "FILTER " << vVar << "._key == \"" << seedId << "\"\n";
@@ -968,7 +968,7 @@ Result<std::string> GremlinToAQLTranspiler::transpile(const GremlinASTNode& ast)
             }
             aql << "}";
         } else if (!valueProps.empty()) {
-            if (static_cast<int>(valueProps.size()) == 1) {
+            if (valueProps.size() == 1) {
                 aql << returnPrefix << retVar << "." << valueProps[0];
             } else {
                 aql << returnPrefix << "{";

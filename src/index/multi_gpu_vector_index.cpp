@@ -85,7 +85,7 @@ public:
             return false;
         }
         
-        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs",static_cast<int>(config.deviceIds.size()));
+        THEMIS_INFO("MultiGPUVectorIndex: Initializing with {} GPUs",config.deviceIds.size());
         
         // Initialize communication backend first (v2.5+)
         if (!initializeCommBackend()) {
@@ -116,7 +116,7 @@ public:
         // Initialize per-GPU utilization counters (one entry per active GPU)
         perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0);
 
-        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs",static_cast<int>(activeDeviceIds.size()));
+        THEMIS_INFO("MultiGPUVectorIndex: Successfully initialized {} GPUs",activeDeviceIds.size());
         THEMIS_INFO("MultiGPUVectorIndex: Communication backend: {}", getCommBackendName());
         initialized = true;
         return true;
@@ -151,7 +151,7 @@ public:
             case CommBackend::NCCL: {
                 ncclBackend = std::make_unique<acceleration::NCCLVectorBackend>();
                 acceleration::NCCLVectorBackend::Config ncclConfig;
-                ncclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                ncclConfig.worldSize = config.deviceIds.size();
                 ncclConfig.rank = 0;  // In real multi-process setup, this would vary
                 ncclConfig.deviceIds = config.deviceIds;
                 ncclConfig.enableP2P = config.enableP2P;
@@ -171,7 +171,7 @@ public:
             case CommBackend::RCCL: {
                 rcclBackend = std::make_unique<acceleration::RCCLVectorBackend>();
                 acceleration::RCCLVectorBackend::Config rcclConfig;
-                rcclConfig.worldSize = static_cast<int>(config.deviceIds.size());
+                rcclConfig.worldSize = config.deviceIds.size();
                 rcclConfig.rank = 0;  // In real multi-process setup, this would vary
                 rcclConfig.deviceIds = config.deviceIds;
                 rcclConfig.enableP2P = config.enableP2P;
@@ -303,7 +303,7 @@ public:
         if (it != vectorToGPU.end()) {
             // Update existing vector on its current GPU
             int gpuIdx = it->second;
-            if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
+            if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
                 bool ok = gpuIndices[gpuIdx]->updateVector(id, vector);
                 if (!ok) THEMIS_WARN("MultiGPUVectorIndex::addVector: updateVector failed on gpu {} for id {}", gpuIdx, id);
                 return ok;
@@ -314,7 +314,7 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || gpuIdx >= static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx < 0 || gpuIdx >= gpuIndices.size()) {
             THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
             return false;
         }
@@ -336,7 +336,7 @@ public:
         }
         
         int gpuIdx = it->second;
-        if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < static_cast<int>(gpuIndices.size())) {
+        if (gpuIdx >= 0  && static_cast<size_t>(gpuIdx) < gpuIndices.size()) {
             bool success = gpuIndices[gpuIdx]->removeVector(id);
             if (success) {
                 vectorToGPU.erase(it);
@@ -353,7 +353,7 @@ public:
         
         if (!initialized || gpuIndices.empty()) {
             THEMIS_WARN("MultiGPUVectorIndex::search: not initialized or no GPU indices available (initialized={} gpu_count={})",
-                        initialized,static_cast<int>(gpuIndices.size()));
+                        initialized,gpuIndices.size());
             return {};
         }
         
@@ -368,7 +368,7 @@ public:
             auto gpuEnd = std::chrono::steady_clock::now();
 
             // Accumulate per-GPU active query time for utilization tracking
-            if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
+            if (perGpuQueryTimeUs.size() > gpuIdx) {
                 uint64_t gpuUs = static_cast<uint64_t>(
                     std::chrono::duration_cast<std::chrono::microseconds>(gpuEnd - gpuStart).count());
                 std::lock_guard<std::mutex> lock(statsMutex);
@@ -386,7 +386,7 @@ public:
         }
         
         // Merge and select top-k from all GPUs
-        if (static_cast<int>(allResults.size()) > k) {
+        if (allResults.size() > k) {
             std::partial_sort(allResults.begin(), allResults.begin() + k, allResults.end(),
                 [](const auto& a, const auto& b) { return a.distance < b.distance; });
             allResults.resize(k);
@@ -406,7 +406,7 @@ public:
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
         if (!initialized || gpuIndices.empty() || queries.empty()) {
             THEMIS_WARN("MultiGPUVectorIndex::searchBatch: invalid state (initialized={} gpu_count={} queries={})",
-                        initialized,static_cast<int>(gpuIndices.size()),static_cast<int>(queries.size()));
+                        initialized,gpuIndices.size(),queries.size());
             return {};
         }
 
@@ -429,7 +429,7 @@ public:
                 auto gpuEnd = std::chrono::steady_clock::now();
 
                 // Record per-GPU active time
-                if (static_cast<int>(perGpuQueryTimeUs.size()) > gpuIdx) {
+                if (perGpuQueryTimeUs.size() > gpuIdx) {
                     uint64_t gpuUs = static_cast<uint64_t>(
                         std::chrono::duration_cast<std::chrono::microseconds>(
                             gpuEnd - gpuStart).count());
@@ -465,7 +465,7 @@ public:
                     }
                 }
             }
-            if (static_cast<int>(allResults.size()) > k) {
+            if (allResults.size() > k) {
                 std::partial_sort(allResults.begin(), allResults.begin() + k,
                     allResults.end(),
                     [](const auto& a, const auto& b) { return a.distance < b.distance; });
@@ -541,7 +541,7 @@ public:
 
             // Utilisation: fraction of wall-clock time this GPU was actively
             // processing search requests, expressed as a percentage (0–100).
-            if (elapsedUs > 0.0  && static_cast<size_t>(i) <static_cast<int>(perGpuQueryTimeUs.size())) {
+            if (elapsedUs > 0.0  && static_cast<size_t>(i) <perGpuQueryTimeUs.size()) {
                 double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
                 perGPUStat.utilizationPercent =
                     std::min(100.0, (activeUs / elapsedUs) * 100.0);
@@ -571,7 +571,7 @@ public:
         // Calculate scaling efficiency
         // Ideal speedup = number of GPUs
         // Actual speedup estimated from query time improvements
-        if (static_cast<int>(gpuIndices.size()) > 1) {
+        if (gpuIndices.size() > 1) {
             // Simplified: assume linear scaling as baseline
             double idealSpeedup = static_cast<double>(gpuIndices.size());
             // For now, use a simple estimate based on load balance
@@ -604,11 +604,11 @@ public:
      */
     bool rebalance() {
         std::lock_guard<std::mutex> topologyLock(topologyMutex);
-        if (!initialized || static_cast<int>(gpuIndices.size()) <= 1) {
+        if (!initialized || gpuIndices.size() <= 1) {
             return false;
         }
         
-        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...",static_cast<int>(gpuIndices.size()));
+        THEMIS_INFO("MultiGPUVectorIndex: Rebalancing vectors across {} GPUs...",gpuIndices.size());
         
         // Get current load distribution
         std::vector<size_t> vectorsPerGPU = {};
@@ -673,7 +673,7 @@ bool MultiGPUVectorIndex::addVector(const std::string& id, const std::vector<flo
 
 bool MultiGPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
                                         const std::vector<std::vector<float>>& vectors) {
-    if (static_cast<int>(ids.size()) != static_cast<int>(vectors.size())) {
+    if (ids.size() != vectors.size()) {
         return false;
     }
     

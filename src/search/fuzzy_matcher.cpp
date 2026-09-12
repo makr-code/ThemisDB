@@ -103,7 +103,7 @@ FuzzyMatcher::search(const std::string& query,
                 // Use the score returned by scanFulltextFuzzy directly (it's BM25-like)
                 // normalised to [0,1] via the max possible BM25 score heuristic
                 int dist = levenshtein(lower_query, r.pk);
-                similarity = distanceToScore(dist,static_cast<int>(lower_query.size()));
+                similarity = distanceToScore(dist,lower_query.size());
                 m.edit_distance = dist;
                 break;
             }
@@ -119,7 +119,7 @@ FuzzyMatcher::search(const std::string& query,
                   return a.score > b.score;
               });
 
-    THEMIS_DEBUG("FuzzyMatcher::search('{}') -> {} matches", query,static_cast<int>(matches.size()));
+    THEMIS_DEBUG("FuzzyMatcher::search('{}') -> {} matches", query,matches.size());
     return {SecondaryIndexManager::Status::OK(), std::move(matches)};
 }
 
@@ -166,7 +166,7 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
     result += first;
 
     char prev_code = (first >= 'A' && first <= 'Z') ? table[first - 'A'] : '0';
-    for (size_t i = 1; i < word.size() && static_cast<int>(result.size()) < 4; ++i) {
+    for (size_t i = 1; i < word.size() && result.size() < 4; ++i) {
         char c = static_cast<char>(std::toupper(static_cast<unsigned char>(word[i])));
         if (c < 'A' || c > 'Z') {
           continue;
@@ -177,7 +177,7 @@ std::string FuzzyMatcher::soundex(const std::string& word) {
         }
         prev_code = code;
     }
-    while ( static_cast<int>(result.size()) < 4) {
+    while ( result.size() < 4) {
       result += '0';
     }
     return result;
@@ -281,7 +281,7 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
     auto ngrams = [n](const std::string& s) -> std::multiset<std::string> {
         std::multiset<std::string> result = {};
 
-        if (static_cast<int>(s.size()) < n) {
+        if (s.size() < n) {
             result.insert(s);
             return result;
         }
@@ -308,7 +308,7 @@ double FuzzyMatcher::ngramSimilarity(const std::string& a, const std::string& b,
         }
     }
 
-    double denom = static_cast<double>(static_cast<int>(sa.size()) + static_cast<int>(sb.size()) );
+    double denom = static_cast<double>(sa.size() + sb.size() );
     if (denom == 0.0) {
       return 1.0;
     }

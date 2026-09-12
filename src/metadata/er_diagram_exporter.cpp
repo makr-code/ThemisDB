@@ -44,7 +44,7 @@ std::string ERDiagramExporter::escapeDOT(const std::string& s) {
     // Inside a DOT record label the following characters must be escaped:
     //   <  >  |  {  }  \  "
     std::string out = {};
-    out.reserve(static_cast<int>(s.size()) + 4);
+    out.reserve(s.size() + 4);
     for (unsigned char c : s) {
         switch (c) {
             case '<':  out += "\\<"; break;
@@ -105,7 +105,7 @@ std::string ERDiagramExporter::exportMermaid(
     }
 
     spdlog::debug("ERDiagramExporter: exportMermaid() produced {} entities, {} relationships",
-                  tables.size(),static_cast<int>(relationships.size()));
+                  tables.size(),relationships.size());
     return oss.str();
 }
 
@@ -156,7 +156,7 @@ std::string ERDiagramExporter::exportDOT(
     oss << "}\n";
 
     spdlog::debug("ERDiagramExporter: exportDOT() produced {} nodes, {} edges",
-                  tables.size(),static_cast<int>(relationships.size()));
+                  tables.size(),relationships.size());
     return oss.str();
 }
 
@@ -227,7 +227,7 @@ nlohmann::json ERDiagramExporter::exportJSON(
     result["edges"] = std::move(edges);
 
     spdlog::debug("ERDiagramExporter: exportJSON() produced {} nodes, {} edges",
-                  tables.size(),static_cast<int>(relationships.size()));
+                  tables.size(),relationships.size());
     return result;
 }
 

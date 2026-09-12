@@ -159,7 +159,7 @@ std::string VoiceMeetingSupport::extractAssignee(
     for (const auto& pat : patterns) {
         size_t pos = lower.find(pat);
         if (pos != std::string::npos) {
-            size_t start = pos + static_cast<int>(pat.size()) ;
+            size_t start = pos + pat.size() ;
             // Read a word
             size_t end = start;
             while (end < text.size() && !std::isspace(static_cast<unsigned char>(text[end])) &&
@@ -181,7 +181,7 @@ std::vector<ActionItem> VoiceMeetingSupport::extractActionItems(
     std::vector<ActionItem> items;
     auto sentences = tokenizeSentences(transcript);
     for (const auto& sent : sentences) {
-        if (static_cast<int>(items.size()) >= config_.max_action_items) {
+        if (items.size() >= config_.max_action_items) {
           break;
         }
         if (!containsTrigger(sent, config_.action_item_triggers)) {
@@ -221,7 +221,7 @@ std::vector<std::string> VoiceMeetingSupport::extractKeyPoints(
     auto sentences = tokenizeSentences(transcript);
     int count = 0;
     for (const auto& sent : sentences) {
-        if (static_cast<int>(sent.size()) < 20) continue; // Skip trivial sentences
+        if (sent.size() < 20) continue; // Skip trivial sentences
         auto type = classifySegment(sent);
         if (type == MeetingSegmentType::DECISION ||
             type == MeetingSegmentType::AGENDA_ITEM) {
@@ -399,7 +399,7 @@ void RealtimeMeetingSession::addSegment(
     if (seg.type == MeetingSegmentType::ACTION_ITEM ||
         support_.containsTrigger(text, config_.action_item_triggers))
     {
-        if (static_cast<int>(protocol_.action_items.size()) < config_.max_action_items) {
+        if (protocol_.action_items.size() < config_.max_action_items) {
             ActionItem ai;
             ai.id               = support_.generateActionItemId();
             ai.description      = text;
@@ -453,7 +453,7 @@ bool RealtimeMeetingSession::isFinalized() const {
 
 size_t RealtimeMeetingSession::segmentCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return static_cast<int>(protocol_.segments.size());
+    return protocol_.segments.size();
 }
 
 }} // namespace themis::voice

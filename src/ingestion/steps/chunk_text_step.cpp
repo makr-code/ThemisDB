@@ -108,7 +108,7 @@ private:
             prev_ref   = (*it)[1].str();
         }
         // Last section
-        emit(prev_start,static_cast<int>(text.size()), prev_ref);
+        emit(prev_start,text.size(), prev_ref);
     }
 
     // ── Sentence chunking ──────────────────────────────────────────────────
@@ -129,28 +129,28 @@ private:
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
+            c.char_end   = static_cast<std::uint64_t>(current_start + current.size() );
             ctx.chunks.push_back(std::move(c));
             // Overlap: keep last `overlap` chars for next chunk
-            if (overlap > 0 && static_cast<int>(current.size()) > overlap) {
-                current = current.substr(static_cast<int>(current.size()) - overlap);
-                current_start += (static_cast<int>(current.size()) - overlap); // approximate
+            if (overlap > 0 && current.size() > overlap) {
+                current = current.substr(current.size() - overlap);
+                current_start += (current.size() - overlap); // approximate
             } else {
                 current.clear();
             }
         };
 
-        while (static_cast<size_t>(pos) <static_cast<int>(text.size())) {
+        while (static_cast<size_t>(pos) <text.size()) {
             current += text[pos];
             if (pos + 1 < text.size() &&
                 (text[pos] == '.' || text[pos] == '!' || text[pos] == '?') &&
                 text[pos + 1] == ' ') {
-                if (static_cast<int>(current.size()) >= max_size / 2) {
+                if (current.size() >= max_size / 2) {
                     emit();
                     current_start = pos + 2;
                 }
             }
-            if (static_cast<int>(current.size()) >= max_size) {
+            if (current.size() >= max_size) {
                 emit();
                 current_start = pos + 1;
             }
@@ -161,7 +161,7 @@ private:
             c.seq        = seq++;
             c.text       = current;
             c.char_start = static_cast<std::uint64_t>(current_start);
-            c.char_end   = static_cast<std::uint64_t>(current_start + static_cast<int>(current.size()) );
+            c.char_end   = static_cast<std::uint64_t>(current_start + current.size() );
             ctx.chunks.push_back(std::move(c));
         }
     }

@@ -111,7 +111,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
         try {
             const std::string prompt = buildPrompt(query, batch);
             const std::string llm_output = backend_(prompt);
-            scores = parseScores(llm_output,static_cast<int>(batch.size()));
+            scores = parseScores(llm_output,batch.size());
             llm_ok = true;
         } catch (const std::exception& e) {
             THEMIS_WARN("LlmReranker: backend error: {} — falling back for batch [{}, {})",
@@ -160,7 +160,7 @@ std::vector<LlmRerankResult> LlmReranker::rerank(
     }
 
     THEMIS_INFO("LlmReranker::rerank: {} candidates -> {} results (query='{}')",
-                candidates.size(),static_cast<int>(results.size()), query);
+                candidates.size(),results.size(), query);
 
     return results;
 }
@@ -212,7 +212,7 @@ std::string LlmReranker::buildPrompt(
     for (size_t i = 0; i < batch.size(); ++i) {
         // Truncate snippet to max_snippet_length
         const std::string& full = batch[i].content;
-        const std::string snippet = (static_cast<int>(full.size()) > config_.max_snippet_length)
+        const std::string snippet = (full.size() > config_.max_snippet_length)
             ? full.substr(0, config_.max_snippet_length)
             : full;
         oss << "Document " << (i + 1) << ": " << snippet << "\n";
@@ -232,7 +232,7 @@ std::vector<double> LlmReranker::parseScores(
     std::istringstream iss(llm_output);
     std::string line = {};
 
-    while (std::getline(iss, line) && static_cast<int>(scores.size()) < count) {
+    while (std::getline(iss, line) && scores.size() < count) {
         // Strip whitespace
         size_t start = line.find_first_not_of(" \t\r\n");
         if (start == std::string::npos) {
@@ -257,7 +257,7 @@ std::vector<double> LlmReranker::parseScores(
     }
 
     // Pad missing scores with 0.0
-    while ( static_cast<int>(scores.size()) < count) {
+    while ( scores.size() < count) {
         scores.push_back(0.0);
     }
 

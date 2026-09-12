@@ -73,7 +73,7 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
         return {};
     }
     
-    BIO* mem = BIO_new_mem_buf(encoded.data(), static_cast<int>(encoded.size()));
+    BIO* mem = BIO_new_mem_buf(encoded.data(), encoded.size());
     if (!mem) {
         BIO_free(b64);
         return {};
@@ -85,7 +85,7 @@ std::vector<uint8_t> base64Decode(const std::string& encoded) {
 
     // Upper bound for decoded output
     std::vector<uint8_t> buf(encoded.size());
-    int decoded_len = BIO_read(bio_guard.get(), buf.data(), static_cast<int>(buf.size()));
+    int decoded_len = BIO_read(bio_guard.get(), buf.data(), buf.size());
     // bio_guard automatically frees both BIOs when it goes out of scope
 
     if (decoded_len <= 0) {
@@ -257,7 +257,7 @@ std::string SignedPluginRepository::computeKeyFingerprint(
         return {};
     }
     uint8_t digest[SHA256_DIGEST_LENGTH];
-    if (SHA256(public_key.data(),static_cast<int>(public_key.size()), digest) == nullptr) {
+    if (SHA256(public_key.data(),public_key.size(), digest) == nullptr) {
         return {};
     }
     return bytesToHex(digest, SHA256_DIGEST_LENGTH);
@@ -272,7 +272,7 @@ std::string SignedPluginRepository::canonicalManifestJson(
     // are covered; auxiliary / display fields are excluded.
     auto escape = [](const std::string& s) -> std::string {
         std::string out = {};
-        out.reserve(static_cast<int>(s.size()) + 2);
+        out.reserve(s.size() + 2);
         out += '"';
         for (char c : s) {
             switch (c) {
@@ -339,12 +339,12 @@ bool SignedPluginRepository::verifyEd25519Signature(
     const std::string& message,
     const std::vector<uint8_t>& signature) const
 {
-    if (static_cast<int>(public_key.size()) != 32 || static_cast<int>(signature.size()) != 64) {
+    if (public_key.size() != 32 || signature.size() != 64) {
         return false;
     }
     // Load the raw Ed25519 public key via OpenSSL EVP_PKEY using RAII wrapper
     EVP_PKEY* pkey_raw = EVP_PKEY_new_raw_public_key(
-        EVP_PKEY_ED25519, nullptr, public_key.data(),static_cast<int>(public_key.size()));
+        EVP_PKEY_ED25519, nullptr, public_key.data(),public_key.size());
     if (!pkey_raw) {
         return false;
     }
@@ -360,8 +360,8 @@ bool SignedPluginRepository::verifyEd25519Signature(
     if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) == 1) {
         int rc = EVP_DigestVerify(
             ctx.get(),
-            signature.data(),static_cast<int>(signature.size()),
-            reinterpret_cast<const uint8_t*>(message.data()),static_cast<int>(message.size()));
+            signature.data(),signature.size(),
+            reinterpret_cast<const uint8_t*>(message.data()),message.size());
         ok = (rc == 1);
     }
     // Both ctx and pkey automatically freed when they go out of scope

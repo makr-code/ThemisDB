@@ -207,7 +207,7 @@ VersionedEntry ReplicaConsistencyManager::recordWrite(
     history.push_back(entry);
     
     // Trim history if needed
-    if (static_cast<int>(history.size()) > config_.max_version_history) {
+    if (history.size() > config_.max_version_history) {
         history.erase(history.begin());
     }
     
@@ -227,7 +227,7 @@ ReplicaConsistencyManager::mergeReplicas(
         return VersionConflict{};  // Empty conflict
     }
     
-    if (static_cast<int>(entries.size()) == 1) {
+    if (entries.size() == 1) {
         return entries[0];  // No conflict
     }
     
@@ -261,7 +261,7 @@ void ReplicaConsistencyManager::resolveConflict(
     auto& history = version_history_[conflict.key];
     history.push_back(resolved_entry);
     
-    if (static_cast<int>(history.size()) > config_.max_version_history) {
+    if (history.size() > config_.max_version_history) {
         history.erase(history.begin());
     }
 }
@@ -307,7 +307,7 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     size_t local_idx = 0;
     size_t remote_idx = 0;
     
-    while (local_idx < local_entries.size()  && static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
+    while (local_idx < local_entries.size()  && static_cast<size_t>(remote_idx) <remote_entries.size()) {
         const auto& local = local_entries[local_idx];
         const auto& remote = remote_entries[remote_idx];
         
@@ -329,10 +329,10 @@ std::vector<LogEntry> ReplicaConsistencyManager::mergePartitionedLogs(
     }
     
     // Add remaining entries
-    while (static_cast<size_t>(local_idx) <static_cast<int>(local_entries.size())) {
+    while (static_cast<size_t>(local_idx) <local_entries.size()) {
         merged.push_back(local_entries[local_idx++]);
     }
-    while (static_cast<size_t>(remote_idx) <static_cast<int>(remote_entries.size())) {
+    while (static_cast<size_t>(remote_idx) <remote_entries.size()) {
         merged.push_back(remote_entries[remote_idx++]);
     }
     

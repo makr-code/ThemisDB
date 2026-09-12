@@ -178,7 +178,7 @@ UdfApiHandler::handleList(const http::request<http::string_body>& req)
         arr.push_back(d.toJson());
     }
     return makeJsonResponse(http::status::ok,
-                            {{"udfs", arr}, {"count",static_cast<int>(arr.size())}},
+                            {{"udfs", arr}, {"count",arr.size()}},
                             req);
 }
 

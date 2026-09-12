@@ -250,7 +250,7 @@ bool Tracer::initialize(const std::string& serviceName,
             if (std::regex_search(url, m, re)) {
                 std::string host = m[1].str();
                 uint16_t port = 4318;
-                if (static_cast<int>(m.size()) > 2 && m[2].matched) {
+                if (m.size() > 2 && m[2].matched) {
                     port = static_cast<uint16_t>(std::stoi(m[2].str()));
                 }
                 return {host, port};
@@ -539,7 +539,7 @@ std::string headerValue(const std::map<std::string, std::string>& headers,
       return it->second;
     }
     for (const auto& [k, v] : headers) {
-        if (static_cast<int>(k.size()) == static_cast<int>(name.size()) &&
+        if (k.size() == name.size() &&
             std::equal(k.begin(), k.end(), name.begin(),
                        [](unsigned char a, unsigned char b) {
                            return std::tolower(a) == std::tolower(b);
@@ -555,7 +555,7 @@ bool parseTraceparent(const std::string& value,
                       otel::trace::TraceId& trace_id_out,
                       otel::trace::SpanId& parent_id_out,
                       otel::trace::TraceFlags& flags_out) {
-    if (static_cast<int>(value.size()) != 55) {
+    if (value.size() != 55) {
       return false;
     }
     if (value[2] != '-' || value[35] != '-' || value[52] != '-') {
@@ -620,9 +620,9 @@ bool parseTraceparent(const std::string& value,
     }
 
     trace_id_out = otel::trace::TraceId(
-        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(),static_cast<int>(tid.size())));
+        otel::nostd::span<const uint8_t, otel::trace::TraceId::kSize>(tid.data(),tid.size()));
     parent_id_out = otel::trace::SpanId(
-        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(),static_cast<int>(pid.size())));
+        otel::nostd::span<const uint8_t, otel::trace::SpanId::kSize>(pid.data(),pid.size()));
     flags_out     = otel::trace::TraceFlags(flg);
     return true;
 }

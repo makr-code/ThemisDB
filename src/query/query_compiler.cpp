@@ -142,7 +142,7 @@ public:
         auto it = entries_.find(key);
         if (it == entries_.end()) {
             // Enforce capacity limit: drop the oldest (first) entry when full.
-            if (static_cast<int>(entries_.size()) >= config_.max_cache_entries && !entries_.empty()) {
+            if (entries_.size() >= config_.max_cache_entries && !entries_.empty()) {
                 auto oldest = entries_.begin();
                 THEMIS_DEBUG("QueryCompiler: cache full ({}), evicting key={}",
                              config_.max_cache_entries, oldest->first);
@@ -300,7 +300,7 @@ public:
             e.call_count        = 0;
             e.compilation_time_us = 0;
         }
-        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})",static_cast<int>(entries_.size()));
+        THEMIS_DEBUG("QueryCompiler: all entries invalidated ({})",entries_.size());
     }
 
     // -----------------------------------------------------------------------
