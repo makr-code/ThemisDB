@@ -28,9 +28,14 @@ set(_include_paths
     proto
     internal
     ports
+    vcpkg
     vcpkg.json
     vcpkg-configuration.json
     llama.cpp
+    whisper.cpp
+    stable-diffusion.cpp
+    ffmpeg
+    external
 )
 
 foreach(_rel_path IN LISTS _include_paths)
@@ -56,4 +61,3 @@ foreach(_rel_path IN LISTS _include_paths)
 endforeach()
 
 message(STATUS "Docker context prepared with allowlist")
-

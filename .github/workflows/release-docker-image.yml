@@ -261,9 +261,65 @@ jobs:
         echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
         echo "Tags to be pushed: ${TAGS}"
 
-    - name: Ensure optional Docker build context paths exist
+    - name: Prepare Docker build context
+      shell: bash
       run: |
-        mkdir -p internal llama.cpp vcpkg/downloads
+        set -euo pipefail
+        mkdir -p internal llama.cpp models
+        touch internal/.gitkeep models/.gitkeep
+        git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+        git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+        mkdir -p vcpkg/downloads
+
+        test -f vcpkg/scripts/buildsystems/vcpkg.cmake
+        test -f whisper.cpp/CMakeLists.txt
+        test -f stable-diffusion.cpp/CMakeLists.txt
+        test -e ffmpeg
+        test -e external/GIUF
+
+        if [ ! -f llama.cpp/CMakeLists.txt ]; then
+          LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+"([^"]+)"/' cmake/Dependencies.cmake | head -n 1)"
+          if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then
+            echo "::error::Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"
+            exit 1
+          fi
+
+          echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
+          rm -rf llama.cpp
+          if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{5,40}$ ]]; then
+            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
+            git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
+            ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
+            if [[ ! "${ACTUAL_LLAMA_CPP_COMMIT}" == "${LLAMA_CPP_GIT_TAG}"* ]]; then
+              echo "::error::llama.cpp checkout mismatch: expected prefix ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
+              exit 1
+            fi
+          else
+            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git llama.cpp
+            ACTUAL_LLAMA_CPP_TAG="$(git -C llama.cpp describe --tags --exact-match HEAD 2>/dev/null || true)"
+            if [ "${ACTUAL_LLAMA_CPP_TAG}" != "${LLAMA_CPP_GIT_TAG}" ]; then
+              echo "::error::llama.cpp checkout mismatch: expected tag ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_TAG:-<none>}"
+              exit 1
+            fi
+          fi
+        fi
+
+        mkdir -p llama.cpp/models
+        touch llama.cpp/models/.gitkeep
+
+        test -f llama.cpp/CMakeLists.txt
+
+    - name: Detect host CA bundle
+      id: host-ca
+      shell: bash
+      run: |
+        set -euo pipefail
+        CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")' 2>/dev/null || true)"
+        if [ -z "${CA_BUNDLE_PATH}" ] || [ ! -f "${CA_BUNDLE_PATH}" ]; then
+          echo "::error::Unable to locate host CA bundle via python3 ssl defaults"
+          exit 1
+        fi
+        echo "path=${CA_BUNDLE_PATH}" >> "${GITHUB_OUTPUT}"
 
     - name: Build and push Docker image
       id: build
@@ -271,6 +327,8 @@ jobs:
       with:
         context: .
         file: ./docker/Dockerfile.unified
+        secret-files: |
+          extra_ca_bundle=${{ steps.host-ca.outputs.path }}
         push: |
           ${{
             (github.event_name == 'release') ||
