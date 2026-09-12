@@ -15,7 +15,7 @@ def extract_yaml_job_block(text: str, job_id: str) -> str:
     anchor = f"  {job_id}:"
 
     for index, line in enumerate(lines):
-        if line == anchor:
+        if line.strip() == anchor.strip():
             block_lines = [line]
             for candidate in lines[index + 1 :]:
                 stripped_candidate = candidate.strip()
@@ -33,18 +33,24 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     lines = text.splitlines()
 
     for index, line in enumerate(lines):
-        if line == anchor:
+        if line.strip() == anchor.strip():
             depth = 0
             block_lines = []
             for candidate in lines[index:]:
                 stripped = candidate.strip()
                 normalized = stripped.lower()
-                if normalized.startswith("if("):
+                opens_if = normalized.startswith("if(")
+                closes_if = re.match(r"endif\s*\(", normalized) is not None
+
+                if opens_if:
                     depth += 1
+                elif closes_if and depth == 0:
+                    raise AssertionError(f"Encountered unmatched endif while parsing {anchor!r}")
+
+                if depth > 0:
                     block_lines.append(candidate)
-                elif depth > 0:
-                    block_lines.append(candidate)
-                if re.match(r"endif\s*\(", normalized):
+
+                if closes_if:
                     depth -= 1
                     if depth == 0:
                         return "\n".join(block_lines)
