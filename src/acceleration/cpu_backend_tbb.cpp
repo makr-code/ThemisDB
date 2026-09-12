@@ -80,7 +80,7 @@ public:
 #endif
     }
     
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         numThreads_ = threads;
         threadControl_ = std::make_unique<tbb::global_control>(
             tbb::global_control::max_allowed_parallelism, 
@@ -89,7 +89,7 @@ public:
         arena_ = std::make_unique<tbb::task_arena>(threads);
     }
     
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
     
@@ -258,7 +258,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries, 16), // grain_size=16
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         for (size_t v = 0; v < numVectors; ++v) {
@@ -301,7 +301,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numQueries),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t q = range.begin(); q != range.end(); ++q) {
                         const float* query = queries + q * dim;
                         
@@ -318,7 +318,7 @@ public:
                         }
                         
                         // Partial sort to get k nearest
-                        size_t actualK = std::min(k, distances.size());
+                        const size_t actualK = std::min(k, distances.size());
                         std::partial_sort(
                             distances.begin(),
                             distances.begin() + actualK,
@@ -368,7 +368,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, count, 256),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t i = range.begin(); i != range.end(); ++i) {
                         double dist = useHaversine 
                             ? haversineDistance(latitudes1[i], longitudes1[i], 
@@ -396,7 +396,7 @@ public:
         arena_->execute([&] {
             tbb::parallel_for(
                 tbb::blocked_range<size_t>(0, numPoints, 64),
-                [&](const tbb::blocked_range<size_t>& range) {
+                [&]([[maybe_unused]] const tbb::blocked_range<size_t>& range) {
                     for (size_t p = range.begin(); p != range.end(); ++p) {
                         double testLat = pointLats[p];
                         double testLon = pointLons[p];
@@ -442,11 +442,11 @@ private:
 public:
     CPUVectorBackendTBB() : enableSIMD_(true) {}
 
-    void setThreadCount(int threads) {
+    void setThreadCount([[maybe_unused]] int threads) {
         (void)threads;
     }
 
-    void enableSIMD(bool enable) {
+    void enableSIMD([[maybe_unused]] bool enable) {
         enableSIMD_ = enable;
     }
 

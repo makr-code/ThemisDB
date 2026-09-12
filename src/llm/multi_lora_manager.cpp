@@ -1204,7 +1204,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     return info;
 }
 
-size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
+size_t MultiLoRAManager::evictLRU([[maybe_unused]] size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (loras_.empty()) {
@@ -1360,7 +1360,7 @@ std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {
     size_t offset = 0;
     // Validate each write stays within the pre-allocated buffer (scanner-friendly bounds anchoring)
     const size_t expected_size = sizeof(size_t) * 2 + id_len + path_len + sizeof(size_t) + sizeof(int) * 2 + sizeof(float);
-    if (serialized.size() < expected_size) {
+    if (static_cast<int>(serialized.size()) < expected_size) {
         spdlog::error("LoRA serialization buffer underallocated for {}", lora_id);
         return std::vector<uint8_t>();
     }
@@ -1497,7 +1497,7 @@ bool MultiLoRAManager::importLoRA(
     return true;
 }
 
-bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
+bool MultiLoRAManager::hasCapacity([[maybe_unused]] size_t vram_bytes) const {
     std::lock_guard<std::mutex> lock(mutex_);
     // FIND-015: Use named constant for byte to MB conversion
     size_t vram_mb = vram_bytes / BYTES_PER_MB;
@@ -1882,7 +1882,7 @@ void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::v
     }
 }
 
-std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
+std::vector<float> MultiLoRAManager::simulateWeights([[maybe_unused]] size_t count) {
     // Deterministic weight estimate used only when the backing GGUF file cannot
     // be parsed.  Values are scaled to [-1, 1] so that quantization scale
     // calibration produces meaningful (non-trivial) results.
@@ -2083,7 +2083,7 @@ size_t MultiLoRAManager::balanceGPULoad() {
 
 // Internal multi-GPU helper methods
 
-int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
+int MultiLoRAManager::selectGPUForLoRA([[maybe_unused]] size_t vram_bytes) {
     // Already locked by caller
     
     if (!config_.multi_gpu.enabled || config_.multi_gpu.devices.empty()) {
@@ -2252,9 +2252,9 @@ bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
             lora->primary_gpu = config_.multi_gpu.devices[0];
             lora->gpu_placement = GPUPlacement::MULTI_GPU;
             
-            for (size_t i = 0; i < config_.multi_gpu.devices.size(); ++i) {
+            for (size_t i = 0; i <static_cast<int>(config_.multi_gpu.devices.size()); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
-                size_t chunk = (i == config_.multi_gpu.devices.size() - 1) ?
+                size_t chunk = (i == static_cast<int>(config_.multi_gpu.devices.size()) - 1) ? 
                               (lora->vram_bytes - chunk_size * i) : chunk_size;
                 
                 // In production: load shard on each GPU
@@ -2305,7 +2305,7 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
     }
 }
 
-bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
+bool MultiLoRAManager::isGPUHealthy([[maybe_unused]] int gpu_id) const {
     // Already locked by caller
 
     // Verify the GPU is in the configured device list first.
@@ -3126,7 +3126,7 @@ void MultiLoRAManager::setLoRATenant(const std::string& lora_id, const std::stri
     }
 }
 
-json MultiLoRAManager::getGPUTransferAuditLog(size_t limit) const {
+json MultiLoRAManager::getGPUTransferAuditLog([[maybe_unused]] size_t limit) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json log = json::array();
@@ -3416,9 +3416,9 @@ bool MultiLoRAManager::updateFusionWeights(
         return false;
     }
     
-    if (static_cast<int>(new_weights.size()) != config_it->second.source_lora_ids.size()) {
+    if (static_cast<int>(new_weights.size()) != static_cast<int>(config_it->second.source_lora_ids.size())) {
         spdlog::error("Weight count mismatch: expected {}, got {}",
-                     config_it->second.source_lora_ids.size(),static_cast<int>(new_weights.size()));
+                     static_cast<int>(config_it->second.source_lora_ids.size()), static_cast<int>(new_weights.size()));
         return false;
     }
     
@@ -3891,4 +3891,3 @@ void MultiLoRAManager::updateInferenceMetrics(
 
 } // namespace llm
 } // namespace themis
-

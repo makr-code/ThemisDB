@@ -196,12 +196,12 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
     }
 }
 
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -401,12 +401,12 @@ void RedisCacheCoordinator::publishInvalidation(const std::string &pattern, cons
 // ICacheCoordinator – subscriber side
 // ---------------------------------------------------------------------------
 
-void RedisCacheCoordinator::subscribeEntries(EntryCallback callback) {
+void RedisCacheCoordinator::subscribeEntries([[maybe_unused]] EntryCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     entry_cb_ = std::move(callback);
 }
 
-void RedisCacheCoordinator::subscribeInvalidations(InvalidationCallback callback) {
+void RedisCacheCoordinator::subscribeInvalidations([[maybe_unused]] InvalidationCallback callback) {
     std::lock_guard<std::mutex> lk(callbacks_mutex_);
     invalidation_cb_ = std::move(callback);
 }
@@ -517,7 +517,7 @@ bool RedisCacheCoordinator::readLine(SocketFd fd, std::string &line_out) {
     while (true) {
         ssize_t n = ::recv(fd, &ch, 1, 0);
         if (n <= 0)
-            return false = {};
+            return false;
         if (ch == '\n')
             break;
         if (ch != '\r')
@@ -544,7 +544,7 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
             return false;
         std::string reply = {};
         if (!readLine(fd, reply))
-            return false = {};
+            return false;
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: AUTH failed: {}", reply);
             return false;
@@ -558,7 +558,7 @@ bool RedisCacheCoordinator::redisHandshake(SocketFd fd) {
             return false;
         std::string reply = {};
         if (!readLine(fd, reply))
-            return false = {};
+            return false;
         if (reply.empty() || reply[0] == '-') {
             THEMIS_WARN("RedisCacheCoordinator: SELECT {} failed: {}", config_.db_index, reply);
             return false;
@@ -768,12 +768,12 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
     //   $<n>\r\n <channel>\r\n
     //   $<n>\r\n <payload>\r\n   (or :<count> for subscribe reply)
 
-    auto readBulkString = [&](std::string &out) -> bool {
+    auto readBulkString = [&]([[maybe_unused]] std::string &out) -> bool {
         std::string line = {};
         if (!readLine(fd, line))
-            return false = {};
+            return false;
         if (line.empty())
-            return false = {};
+            return false;
         if (line[0] == ':') {
             // Integer reply (subscribe confirmation) – treat as empty string
             out.clear();
@@ -810,14 +810,14 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
         // state regardless of whether MSG_WAITALL fills it (e.g., partial recv).
         char crlf[2] = {};
         if (::recv(fd, crlf, 2, MSG_WAITALL) != 2)
-            return false = {};
+            return false;
         return true;
     };
 
     // Read the array header *N
     std::string hdr = {};
     if (!readLine(fd, hdr))
-        return false = {};
+        return false;
     if (hdr.empty() || hdr[0] != '*')
         return false;
     long long count = 0;
@@ -832,9 +832,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd fd, std::string &channel_
 
     std::string type_field = {};
     if (!readBulkString(type_field))
-        return false = {};
+        return false;
     if (!readBulkString(channel_out))
-        return false = {};
+        return false;
     if (!readBulkString(payload_out))
         return false;
 
@@ -973,4 +973,3 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &j) const {
 
 } // namespace cache
 } // namespace themis
-

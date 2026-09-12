@@ -239,7 +239,7 @@ RegressionResult PromptRegressionRunner::run(
 // Logging
 // ============================================================================
 
-void PromptRegressionRunner::setLogCallback(LogCallback cb) {
+void PromptRegressionRunner::setLogCallback([[maybe_unused]] LogCallback cb) {
     log_callback_ = std::move(cb);
 }
 
@@ -285,4 +285,3 @@ void PromptRegressionRunner::setRunConfig(const RegressionConfig& cfg) {
 
 } // namespace prompt_engineering
 } // namespace themis
-

@@ -1,0 +1,228 @@
+name: "Gate: PR Doc Metadata"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-09-09
+# Trigger policy: lightweight markdown metadata gate for branch-protection-ready doc changes.
+# Enforces minimum metadata on changed in-scope Markdown documentation files.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'docs/**/*.md'
+      - 'audit/**/*.md'
+      - 'security/**/*.md'
+      - 'ai_context/**/*.md'
+      - '.github/**/*.md'
+      - 'tests/**/*.md'
+      - 'README.md'
+      - 'QUICKSTART.md'
+      - 'SETUP.md'
+      - 'CONTRIBUTING.md'
+      - 'SUPPORT.md'
+      - 'INDEX.md'
+      - 'LOG.md'
+      - 'AI_WIKI_INTEGRATION_PLAYBOOK.md'
+      - 'DOCUMENTATION_GOVERNANCE.md'
+      - '.github/doc-metadata-gate.json'
+      - 'scripts/validate_doc_metadata.py'
+      - 'tests/test_doc_metadata_gate.py'
+      - '.github/workflows/gate-pr-doc-metadata.yml'
+  push:
+    branches:
+      - develop
+      - community
+    paths:
+      - 'docs/**/*.md'
+      - 'audit/**/*.md'
+      - 'security/**/*.md'
+      - 'ai_context/**/*.md'
+      - '.github/**/*.md'
+      - 'tests/**/*.md'
+      - 'README.md'
+      - 'QUICKSTART.md'
+      - 'SETUP.md'
+      - 'CONTRIBUTING.md'
+      - 'SUPPORT.md'
+      - 'INDEX.md'
+      - 'LOG.md'
+      - 'AI_WIKI_INTEGRATION_PLAYBOOK.md'
+      - 'DOCUMENTATION_GOVERNANCE.md'
+      - '.github/doc-metadata-gate.json'
+      - 'scripts/validate_doc_metadata.py'
+      - 'tests/test_doc_metadata_gate.py'
+      - '.github/workflows/gate-pr-doc-metadata.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: doc-metadata-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  doc-metadata-gate:
+    name: docs-metadata-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Collect changed files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}...HEAD" > /tmp/doc-metadata-files.txt
+          elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            git diff --name-only --diff-filter=ACMR "${{ github.event.before }}" "${{ github.sha }}" > /tmp/doc-metadata-files.txt
+          else
+            git ls-files '*.md' > /tmp/doc-metadata-files.txt
+          fi
+
+      - name: Run markdown metadata gate
+        run: |
+          python3 scripts/validate_doc_metadata.py \
+            --repo-root . \
+            --config .github/doc-metadata-gate.json \
+            --files-from /tmp/doc-metadata-files.txt \
+            --report-json /tmp/doc-metadata-report.json
+
+      - name: Write job summary
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          report_path = Path("/tmp/doc-metadata-report.json")
+          print("## Markdown Metadata Gate")
+          print()
+          if not report_path.exists():
+              print("- Result: no report produced")
+              raise SystemExit(0)
+
+          report = json.loads(report_path.read_text(encoding="utf-8"))
+          print(f"- Verdict: **{report['verdict']}**")
+          print(f"- Files seen: `{report['files_seen']}`")
+          print(f"- Files checked: `{report['files_checked']}`")
+          print(f"- Files skipped: `{report['files_skipped']}`")
+          print(f"- Files with errors: `{report['files_with_errors']}`")
+          if report["results"]:
+              print()
+              print("| File | Errors |")
+              print("|---|---|")
+              for result in report["results"][:20]:
+                  joined = "<br>".join(result["errors"])
+                  print(f"| `{result['file']}` | {joined} |")
+          PY
+
+      - name: Export gate outputs
+        id: gate_result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path("/tmp/doc-metadata-report.json")
+          report = {
+              "verdict": "FAIL",
+              "files_seen": 0,
+              "files_checked": 0,
+              "files_skipped": 0,
+              "files_with_errors": 0,
+              "results": [],
+          }
+          if report_path.exists():
+              report = json.loads(report_path.read_text(encoding="utf-8"))
+
+          summary_lines = [
+              "<!-- doc-metadata-gate -->",
+              "## Doc Metadata Gate",
+              "",
+              f"- Verdict: **{report['verdict']}**",
+              f"- Files seen: `{report['files_seen']}`",
+              f"- Files checked: `{report['files_checked']}`",
+              f"- Files skipped: `{report['files_skipped']}`",
+              f"- Files with errors: `{report['files_with_errors']}`",
+              f"- Workflow: `{os.environ.get('GITHUB_WORKFLOW', '')}`",
+              f"- Run: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}",
+              f"- Commit: `{os.environ.get('GITHUB_SHA', '')}`",
+          ]
+
+          if report["results"]:
+              summary_lines.extend(["", "### Errors"])
+              for result in report["results"][:20]:
+                  summary_lines.append(f"- `{result['file']}`")
+                  for error in result["errors"]:
+                      summary_lines.append(f"  - {error}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"verdict={report['verdict']}\n")
+              fh.write("summary<<EOF\n")
+              fh.write("\n".join(summary_lines))
+              fh.write("\nEOF\n")
+          PY
+
+      - name: Apply metadata failed state labels
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'quality/doc-metadata-failed,status/needs-approval'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/needs-approval,status/resolved'
+
+      - name: Clear metadata result labels on pass
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/needs-approval,status/resolved'
+
+      - name: Comment gate result on PR
+        if: always() && github.event_name == 'pull_request'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: '<!-- doc-metadata-gate -->'
+          issue-body: ${{ steps.gate_result.outputs.summary }}
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Upload metadata gate artifacts
+        if: always()
+        uses: actions/upload-artifact@v4  # v7.0.1
+        with:
+          name: doc-metadata-gate-${{ github.run_number }}
+          path: |
+            /tmp/doc-metadata-files.txt
+            /tmp/doc-metadata-report.json
+          retention-days: 14
+          if-no-files-found: warn

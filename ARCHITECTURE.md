@@ -15,7 +15,9 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (62 integrated modules)
+### `/src/` - Implementation (72 top-level module paths)
+
+> Use `docs/architecture/MODULE_ARCHITECTURE.md` for the full 72-path inventory. The table below is the high-signal runtime overview plus selected support paths.
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -376,9 +378,24 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 
 ---
 
+## Cross-Module Architecture Evidence
+
+Use these source-backed companion documents for architecture review across module boundaries:
+
+- [`docs/architecture/MODULE_ARCHITECTURE.md`](docs/architecture/MODULE_ARCHITECTURE.md) — all 72 `src/` module paths grouped by layer with footprint signals
+- [`docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`](docs/architecture/MODULE_INTEGRATION_CONTRACTS.md) — direct inter-module dependency mapping and SCC findings
+- [`docs/architecture/DATA_FLOW_PATHS.md`](docs/architecture/DATA_FLOW_PATHS.md) — critical Query → Storage → Transaction, 2PC, RAG, and Server ↔ LLM paths
+- [`docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — release posture, maturity signals, and docs-only path caveats
+- [`src/MODULE_FUNCTION_USAGE_MAP.md`](src/MODULE_FUNCTION_USAGE_MAP.md) — repository-wide symbol-consumer and call-site companion for all `src/` modules
+- [`src/CROSS_MODULE_INTEGRATION.md`](src/CROSS_MODULE_INTEGRATION.md) — source-root companion index for the `src/` aggregation boundary
+
+> Counting note: `src/` contains 72 top-level module paths, while some older tier summaries still refer to the 62 integrated runtime modules that exclude thin/docs-only support paths. Use `docs/architecture/MODULE_ARCHITECTURE.md` for the full current inventory.
+
+---
+
 ## Module Classification (Core, Integrated Modules, Plugins)
 
-For a comprehensive classification of all 62 modules and their architectural tier assignment, see:
+For a comprehensive classification of all 72 top-level `src/` module paths and their architectural tier assignment, see:
 
 **Primary:** [`ai_context/ARCHITECTURE_CLASSIFICATION.md`](ai_context/ARCHITECTURE_CLASSIFICATION.md)  
 **Companion:** [`ai_context/MODULES_AND_NAMESPACES.md`](ai_context/MODULES_AND_NAMESPACES.md) (with tier, namespace, and plugin version columns)  
@@ -395,6 +412,15 @@ Key insights:
 - Wave-1 private plugins (ethics_ai, user_storage_encrypted, importers, llm_wiki) are enterprise-exclusive
 - Public plugins are optional runtime extensions; core integrated modules are always built
 - Integrated fallback ensures Community/Minimal editions don't require runtime plugin loading
+
+## Cross-Module Architecture Evidence (2026-09-09)
+
+- [`docs/architecture/MODULE_ARCHITECTURE.md`](docs/architecture/MODULE_ARCHITECTURE.md) — 72-module layer map, dependency graph, SCC/circular dependency analysis.
+- [`docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`](docs/architecture/MODULE_INTEGRATION_CONTRACTS.md) — abstract integration interfaces, edition gating, maturity/version signals.
+- [`docs/architecture/DATA_FLOW_PATHS.md`](docs/architecture/DATA_FLOW_PATHS.md) — source-backed Query, distributed 2PC, and LLM/RAG end-to-end paths.
+- [`docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — production-ready vs hardening posture, docs-only module paths, release blockers.
+- [`src/CROSS_MODULE_INTEGRATION.md`](src/CROSS_MODULE_INTEGRATION.md) — module-boundary bottlenecks, compile coupling, and optimization suggestions.
+- [`MODULE_INDEX.md`](MODULE_INDEX.md) — root module index cross-reference.
 
 ---
 

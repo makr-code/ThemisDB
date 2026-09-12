@@ -49,3 +49,15 @@ The themis core module composes build/runtime identity behavior, license and edi
   - identity/gating + secure lifecycle + wire runtime plane split
   - explicit failure boundaries for license, loader, and wire faults
   - module-local ownership of themis core behavior
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `core` | `include/themis/base/interfaces/query_interface.h`, `include/themis/base/interfaces/storage_interface.h`, `include/themis/base/interfaces/index_interface.h`, `include/themis/base/interfaces/security_interface.h` | Core initialization builders (`index_initialization.h`, `query_engine_builder.h`, `security_initialization.h`, `storage_initialization.h`) implement Themis base interfaces for the composition root |
+| `geo` | `include/themis/gpu/device_discovery.h` | `DeviceDetector` uses the Themis GPU device discovery surface for GPU-accelerated geo operations (`include/geo/device_detector.h`) |
+| `governance` | `include/themis/export.h` | Governance diagnostics and operational audit headers re-export the Themis DLL-export macro (`include/governance/governance_diagnostics.h`, `include/governance/operational_audit.h`) |
+| `gpu` | `include/themis/export.h` | GPU backend dispatch diagnostics header uses the Themis export macro (`include/gpu/gpu_backend_dispatch_diagnostics.h`) |
+| `graph` | `include/themis/export.h` | Knowledge graph reasoner header uses the Themis export macro for public symbol visibility (`include/graph/knowledge_graph_reasoner.h`) |
+| `index` | `include/themis/gpu/unified_memory.h`, `include/themis/export.h` | GPU memory oversubscription manager uses Themis unified memory; graph index uses the Themis export macro (`include/index/gpu_memory_oversubscription.h`, `include/index/graph_index.h`) |

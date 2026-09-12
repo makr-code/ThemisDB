@@ -898,7 +898,7 @@ bool DeltaUpdateEngine::applyPatchZstdDict(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > (4ULL * 1024ULL * 1024ULL * 1024ULL)) {
+    if (orig_size == 0 || orig_size > (uint64_t{4} * 1024 * 1024 * 1024)) {
         LOG_ERROR("Invalid orig_size in patch: {}", orig_size);
         return false;
     }
@@ -1007,7 +1007,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
                     // Extend match
                     size_t len = 0;
                     size_t max_len = std::min(base.size() - static_cast<size_t>(off),
-                                             target.size() - static_cast<size_t>(tpos));
+                                              target.size() - tpos);
                     // Cap at 64 KiB to keep u32 offsets safe
                     max_len = std::min(max_len, static_cast<size_t>(64 * 1024));
                     while (len < max_len && base[off + len] == target[tpos + len]) {
@@ -1029,7 +1029,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
             tpos += best_len;
         } else {
             // ADD instruction – emit up to WINDOW_SIZE bytes
-            size_t add_len = std::min(WINDOW_SIZE, static_cast<int>(target.size()) - tpos);
+            size_t add_len = std::min(static_cast<size_t>(WINDOW_SIZE), target.size() - tpos);
             instructions.push_back(INSTR_ADD);
             appendU32LE(instructions, static_cast<uint32_t>(add_len));
             instructions.insert(instructions.end(),
@@ -1090,7 +1090,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
         (std::istreambuf_iterator<char>(pf)),
         std::istreambuf_iterator<char>());
 
-    if (orig_size == 0 || orig_size > (4ULL * 1024ULL * 1024ULL * 1024ULL)) {
+    if (orig_size == 0 || orig_size > (uint64_t{4} * 1024 * 1024 * 1024)) {
         LOG_ERROR("Invalid orig_size in VCDIFF patch: {}", orig_size);
         return false;
     }
@@ -1175,6 +1175,4 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
-
-
 

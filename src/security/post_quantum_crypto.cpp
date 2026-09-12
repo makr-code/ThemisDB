@@ -1515,4 +1515,3 @@ void themis::security::SphincsPlus::setVerifyFn(themis::security::SphincsPlus::V
 } // namespace security
 } // namespace themis
 
-

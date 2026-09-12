@@ -776,7 +776,7 @@ set(THEMIS_QUERY_SOURCES
     $<$<NOT:$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/aql_schema_provider.cpp>
     ../src/aql/aql_migration_assistant.cpp
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/classify_bridge.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/aql/docs_assistant_functions.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_LLM}>,$<BOOL:${THEMIS_MODULE_LLM}>>:../src/aql/docs_assistant_functions.cpp>
     ../src/query/scope_enforcer.cpp
 
     # Security: AQL injection detection (uses AQLParser)
@@ -1168,6 +1168,8 @@ set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/llm_response_cache.cpp
+    ../src/llm/subagent_factory_impl.cpp
+    ../src/llm/subagent_coordinator_impl.cpp
     # Prompt Engineering Module (all components)
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
@@ -1554,7 +1556,7 @@ if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM)
     list(REMOVE_ITEM THEMIS_LLM_SOURCES
         ../src/llm/embedded_llm.cpp
         ../src/llm/docs_assistant.cpp
-        ../src/llm/themis_help_lora.cpp
+        ../src/llm/applications/themis_help_lora.cpp
     )
 endif()
 
@@ -2469,6 +2471,12 @@ function(themis_build_modular)
     if(TARGET httplib::httplib)
         list(APPEND _themis_query_deps httplib::httplib)
     endif()
+    if(UNIX AND NOT APPLE)
+        find_library(THEMIS_NUMA_LIBRARY numa)
+        if(THEMIS_NUMA_LIBRARY)
+            list(APPEND _themis_query_deps ${THEMIS_NUMA_LIBRARY})
+        endif()
+    endif()
     
     themis_add_module(query
         SOURCES ${THEMIS_QUERY_SOURCES}
@@ -2743,6 +2751,9 @@ function(themis_build_modular)
                 themis_storage
                 themis_security
         )
+        if(TARGET themis_query)
+            target_link_libraries(themis_query PUBLIC themis_llm_api)
+        endif()
 
         themis_add_module(llm
             STATIC_MODULE

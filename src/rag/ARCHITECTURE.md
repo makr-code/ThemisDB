@@ -5,7 +5,7 @@
 <!-- Phase 6: Documentation enhanced with thread-safety, complexity analysis, failure modes -->
 
 Version: 1.1
-Last Updated: 2026-08-18
+Last Updated: 2026-09-09
 Module Path: src/rag/
 
 ## 1. Overview
@@ -163,3 +163,68 @@ All public APIs now have comprehensive Doxygen documentation:
 | Production requirements aligned | ✅ COMPLETE | PRODUCTION_REQUIREMENTS.md sync + evidence table |
 
 **Phase 6 Status:** 🟢 COMPLETE – Ready for production deployment with comprehensive documentation and test coverage.
+
+---
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| llm | `include/llm/inference_engine.h` | Generation inference calls via configured LLM backend |
+| llm | `include/llm/context_window_budget.h` (`ContextWindowBudget`) | Token-budget computation for context assembly |
+| llm | `include/llm/llm_plugin_interface.h` (`ILLMPlugin`) | Plugin-interface for swapping inference backends (llama.cpp, ONNX) |
+| distributed_knowledge | `include/distributed_knowledge/` | Cross-node knowledge-shard retrieval |
+| observability | `include/observability/` | Retrieval latency spans, recall metrics export |
+| prompt_engineering | `include/prompt_engineering/` | Prompt template rendering and injection guards |
+| training | `include/training/` | Continuous-learning signal wiring (`wireLiveSignalProviders()`) |
+| security | `include/security/` | Prompt-injection detection at retrieval boundary |
+| index | `include/index/ann_frontdoor.h`, `include/index/vector_index.h` (`IVectorIndex`) | ANN and vector candidate retrieval |
+| storage | `include/storage/` (base entity) | Document and chunk persistence layer |
+| graph | `include/graph/knowledge_graph_reasoner.h` | Graph-hop reasoning over knowledge graph |
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| llm | `src/llm/` (context assembly budget) | LLM module triggers RAG context assembly before generation |
+| api | API orchestration handlers | External RAG query and evaluation endpoints |
+| search | `src/search/layered_retrieval_orchestrator.cpp` (Graph layer) | `LayeredRetrievalOrchestrator` invokes RAG knowledge-graph reasoning layer |
+| `ethics_ai` | `include/rag/` | Bias detection and fairness evaluation via RAG retrieval context |
+| `llm_wiki` | `include/rag/` | Wiki knowledge retrieval uses RAG pipeline for grounding |
+| `distributed_knowledge` | `include/rag/` | Cross-shard knowledge graph embedding retrieval |
+| `governance` | `include/rag/` | Governance auditing uses RAG context for policy retrieval |
+
+---
+
+## Integration Points
+
+### Critical Integration: ContextWindowBudget — LLM Budget Handoff
+**Files:** `include/llm/context_window_budget.h` ↔ `src/rag/rag_context_assembler.cpp`
+**Contract:** `ContextWindowBudget::compute()` determines maximum token allocation for retrieved context. `RAGContextAssembler::assemble()` is O(n log n) and greedy-fills within the computed budget. Response reservation hard-floor: `max(min_response_tokens, 20% window)`.
+**Thread Safety:** `ContextWindowBudget` is stateless; `RAGContextAssembler::assemble()` is const / local-state only — safe for concurrent calls without external synchronisation.
+**Failure Mode:** Zero-budget → returns empty `AssembledContext` with explicit error code; caller must handle before passing to generation.
+
+### Critical Integration: ILLMPlugin — Inference Backend for Generation
+**Files:** `include/llm/llm_plugin_interface.h` ↔ `src/rag/hybrid_retriever.cpp`, `src/rag/agentic_rag.cpp`
+**Contract:** RAG generation steps call through `ILLMPlugin` to trigger inference. Plugin selection is delegated to `llm::LlmPluginManager`; RAG holds only a shared pointer to the active plugin.
+**Thread Safety:** Plugin methods must be re-entrant; RAG holds read lock on plugin pointer.
+**Failure Mode:** Plugin unavailable → `llm_unavailable` status; RAG returns partial result with `partial_result = true`.
+
+### Critical Integration: IVectorIndex — ANN Candidate Retrieval
+**Files:** `include/index/ann_frontdoor.h` ↔ `src/rag/hybrid_retriever.cpp`
+**Contract:** `HybridRetriever` calls `IVectorIndex::search()` for dense candidates; results are fused with lexical results via RRF. The `ann_frontdoor.h` is the stable ABI entry-point (contract frozen at Wave B).
+**Thread Safety:** `IVectorIndex` implementations must be thread-safe for concurrent `search()` calls; `HybridRetriever` does not add additional locking over the index.
+**Failure Mode:** Index unavailable → degraded result with explicit `SearchStats::partial_result`; retrieval continues with available candidates.
+
+### Critical Integration: Knowledge Graph Reasoner
+**Files:** `include/graph/knowledge_graph_reasoner.h` ↔ `src/rag/multi_hop_reasoner.cpp`
+**Contract:** `MultiHopReasoner` delegates graph traversal to `KnowledgeGraphReasoner`. Multi-hop depth is bounded by query config to prevent runaway traversal.
+**Thread Safety:** `MultiHopReasoner` maintains per-request state; use separate instances per concurrent request.
+**Failure Mode:** Graph traversal timeout → returns available hops; partial reasoning result flagged.
+
+### Open: Recall@k Sign-Off + Wikipedia ABI Wiring
+**Status:** PENDING — hardware p95/p99 latency gates and Wikipedia ABI wiring not yet signed off.
+**Tracking:** RAG Phase completion: https://github.com/makr-code/ThemisDB/issues/5665
+

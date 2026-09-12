@@ -578,3 +578,11 @@ States:
 **Level:** 1 (Module-Level Developer Documentation)  
 **Source:** `src/voice/ARCHITECTURE.md`  
 **Related:** Level 2: `docs/voice/README.md` (public API docs)
+
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/voice/voice_assistant.h`, `include/voice/voice_audio_storage.h`, `include/voice/voice_macro.h` | Voice API handler dispatches speech input/output, audio storage, and macro execution to the voice module (`src/server/voice_api_handler.cpp`) |

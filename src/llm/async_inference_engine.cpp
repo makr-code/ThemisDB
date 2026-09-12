@@ -688,8 +688,7 @@ json AsyncInferenceEngine::getWorkerStats() const {
             std::vector<double> sorted(latency_samples_.begin(), latency_samples_.end());
             std::sort(sorted.begin(), sorted.end());
             size_t p99_idx = static_cast<size_t>(sorted.size() * 0.99);
-            stats["p99_latency_ms"] =
-                sorted[std::min(p99_idx, sorted.size() - 1)];
+            stats["p99_latency_ms"] = sorted[std::min(p99_idx, sorted.size() - 1)];
         }
     }
     
@@ -1185,4 +1184,3 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
 
 } // namespace llm
 } // namespace themis
-

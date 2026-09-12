@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file subagent_factory_impl.cpp
  * @brief Implementation of SubagentFactory â€” creates and manages independent
  *        LLM Inferencing Subagents with isolated configuration.
@@ -16,9 +16,11 @@
 
 #include <algorithm>
 #include <atomic>
-#include <limits>
+#include <condition_variable>
+#include <future>
 #include <mutex>
 #include <shared_mutex>
+#include <thread>
 #include <unordered_map>
 
 namespace themis {
@@ -31,7 +33,7 @@ namespace llm {
 /**
  * @brief Internal Subagent implementation.
  */
-class SubagentImpl : public Subagent {
+class SubagentImpl : public Subagent, public std::enable_shared_from_this<SubagentImpl> {
 public:
     SubagentImpl(
         const SubagentConfig& config,
@@ -73,7 +75,7 @@ public:
         return state_;
     }
 
-    SubagentResult<void> load(int) override {
+    SubagentResult<void> load([[maybe_unused]] int timeout_ms) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -99,7 +101,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> warm(int) override {
+    SubagentResult<void> warm([[maybe_unused]] int timeout_ms) override {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -114,7 +116,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unload(int) override {
+    SubagentResult<void> unload([[maybe_unused]] int timeout_ms) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -124,8 +126,25 @@ public:
         state_ = SubagentState::UNLOADING;
         lock.unlock();
 
-        // Wait for in-flight requests to complete (simplified)
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // Wait for in-flight requests to complete.
+        std::unique_lock<std::mutex> inflight_lock(inflight_mutex_);
+        const auto no_inflight_requests = [this]() { return inflight_requests_ == 0; };
+
+        bool drained = true;
+        if (timeout_ms > 0) {
+            drained = inflight_cv_.wait_for(inflight_lock, std::chrono::milliseconds(timeout_ms),
+                                            no_inflight_requests);
+        } else {
+            inflight_cv_.wait(inflight_lock, no_inflight_requests);
+        }
+        inflight_lock.unlock();
+
+        if (!drained) {
+            lock.lock();
+            state_ = SubagentState::ERROR;
+            last_error_ = "Unload timeout while waiting for in-flight requests";
+            return tl::make_unexpected(last_error_);
+        }
 
         lock.lock();
         state_ = SubagentState::TERMINATED;
@@ -144,14 +163,16 @@ public:
         SubagentInferenceResult result;
         result.trace_id = ctx ? ctx->trace_id : "";
 
-        {
-            std::shared_lock<std::shared_mutex> lock(state_mutex_);
-            if (state_ != SubagentState::READY) {
-                result.success = false;
-                result.error = "Subagent not in READY state";
-                return result;
-            }
+        std::string acquire_error;
+        if (!beginInference(&acquire_error)) {
+            result.success = false;
+            result.error = acquire_error;
+            return result;
         }
+        struct InflightGuard {
+            SubagentImpl* self;
+            ~InflightGuard() { self->endInference(); }
+        } inflight_guard{this};
 
         // Check quota
         auto quota_check = quota_mgr_->check(
@@ -179,49 +200,76 @@ public:
             }
         }
 
-        // Submit to inference engine (simplified)
-        if (engine_) {
-            try {
-                // In production: auto response = engine_->generate(request);
-                result.success = true;
-                result.output = "Mock inference result for: " + request.prompt.substr(0, 20);
-                result.tokens_consumed = config_.budget.max_tokens_per_request;
+        if (!plugin_) {
+            result.success = false;
+            result.error = "No LLM plugin configured";
+            return result;
+        }
 
-                {
-                    std::unique_lock<std::shared_mutex> lock(state_mutex_);
-                    metrics_.total_requests++;
-                    metrics_.successful_inferences++;
-                    metrics_.tokens_consumed += result.tokens_consumed;
-                    metrics_.total_tokens_processed += result.tokens_consumed;
-                    metrics_.last_request_time = std::chrono::steady_clock::now();
-                }
-
-                // Record consumption
-                quota_mgr_->consume(
-                    config_.tenant_id.empty() ? "default" : config_.tenant_id,
-                    config_.model_id,
-                    result.tokens_consumed);
-
-            } catch (const std::exception& ex) {
+        try {
+            InferenceRequest plugin_request = request;
+            if (plugin_request.model_id.empty()) {
+                plugin_request.model_id = config_.model_id;
+            }
+            if (plugin_request.max_tokens <= 0) {
+                plugin_request.max_tokens = static_cast<int>(config_.budget.max_tokens_per_request);
+            }
+            if (plugin_request.max_tokens <= 0) {
                 result.success = false;
-                result.error = ex.what();
+                result.error = "Subagent max_tokens configuration is invalid";
+                return result;
+            }
+
+            InferenceResponse response = plugin_->generate(plugin_request);
+            if (!response.success) {
+                result.success = false;
+                result.error = response.error_message.empty()
+                                 ? "LLM plugin returned unsuccessful response"
+                                 : response.error_message;
                 {
                     std::unique_lock<std::shared_mutex> lock(state_mutex_);
                     metrics_.total_requests++;
                     metrics_.failed_inferences++;
                     last_error_ = result.error;
                 }
+                return result;
+            }
+
+            result.success = true;
+            result.output = std::move(response.text);
+            result.tokens_consumed = response.tokens_generated > 0
+                                       ? static_cast<size_t>(response.tokens_generated)
+                                       : static_cast<size_t>(plugin_request.max_tokens);
+
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                metrics_.successful_inferences++;
+                metrics_.tokens_consumed += result.tokens_consumed;
+                metrics_.total_tokens_processed += result.tokens_consumed;
+                metrics_.last_request_time = std::chrono::steady_clock::now();
+            }
+
+            // Record consumption
+            quota_mgr_->consume(
+                config_.tenant_id.empty() ? "default" : config_.tenant_id,
+                config_.model_id,
+                result.tokens_consumed);
+
+        } catch (const std::exception& ex) {
+            result.success = false;
+            result.error = ex.what();
+            {
+                std::unique_lock<std::shared_mutex> lock(state_mutex_);
+                metrics_.total_requests++;
+                metrics_.failed_inferences++;
+                last_error_ = result.error;
             }
         }
 
         auto end = std::chrono::steady_clock::now();
-        const auto latency_count = std::chrono::duration_cast<std::chrono::milliseconds>(
+        result.latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             end - start).count();
-        if (latency_count > std::numeric_limits<int>::max()) {
-            result.latency_ms = std::numeric_limits<int>::max();
-        } else {
-            result.latency_ms = static_cast<int>(latency_count);
-        }
 
         return result;
     }
@@ -229,10 +277,66 @@ public:
     std::future<SubagentInferenceResult> inferAsync(
         const InferenceRequest& request,
         const std::optional<LLMCorrelationContext>& ctx) override {
-        return std::async(std::launch::async, [this, request, ctx]() {
-            return this->infer(request, ctx);
-        });
+        auto self = shared_from_this();
+        std::promise<SubagentInferenceResult> promise;
+        auto future = promise.get_future();
+        std::thread([self, request, ctx, p = std::move(promise)]() mutable {
+            try {
+                p.set_value(self->infer(request, ctx));
+            } catch (const std::exception& ex) {
+                SubagentInferenceResult r;
+                r.success = false;
+                r.error = ex.what();
+                p.set_value(std::move(r));
+            } catch (...) {
+                SubagentInferenceResult r;
+                r.success = false;
+                r.error = "Unhandled exception in async subagent inference";
+                p.set_value(std::move(r));
+            }
+        }).detach();
+        return future;
     }
+
+private:
+    bool beginInference(std::string* error) {
+        {
+            std::shared_lock<std::shared_mutex> lock(state_mutex_);
+            if (state_ != SubagentState::READY) {
+                if (error != nullptr) {
+                    *error = "Subagent not in READY state";
+                }
+                return false;
+            }
+        }
+        {
+            std::lock_guard<std::mutex> lock(inflight_mutex_);
+            ++inflight_requests_;
+        }
+        {
+            std::shared_lock<std::shared_mutex> lock(state_mutex_);
+            if (state_ != SubagentState::READY) {
+                endInference();
+                if (error != nullptr) {
+                    *error = "Subagent is unloading or unavailable";
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void endInference() {
+        std::lock_guard<std::mutex> lock(inflight_mutex_);
+        if (inflight_requests_ > 0) {
+            --inflight_requests_;
+            if (inflight_requests_ == 0) {
+                inflight_cv_.notify_all();
+            }
+        }
+    }
+
+public:
 
     SubagentInferenceResult inferStream(
         const InferenceRequest& request,
@@ -335,6 +439,9 @@ private:
     SubagentState state_;
     std::string last_error_;
     SubagentMetrics metrics_;
+    std::mutex inflight_mutex_;
+    std::condition_variable inflight_cv_;
+    size_t inflight_requests_{0};
 };
 
 // ============================================================================
@@ -575,6 +682,16 @@ private:
 // ============================================================================
 // Â§ 3  Factory Creation
 // ============================================================================
+
+SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
+    ILLMPlugin* plugin,
+    std::shared_ptr<SharedWorkerPool> worker_pool,
+    std::shared_ptr<ModelLoader> model_loader,
+    std::shared_ptr<MultiLoRAManager> lora_manager,
+    std::shared_ptr<TokenQuotaManager> quota_manager) {
+    return create(plugin, std::move(worker_pool), std::move(model_loader),
+                  std::move(lora_manager), std::move(quota_manager), Config{});
+}
 
 SubagentResult<std::unique_ptr<SubagentFactory>> SubagentFactory::create(
     ILLMPlugin* plugin,

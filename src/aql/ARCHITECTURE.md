@@ -77,3 +77,13 @@ When LLM generates candidate AQL (in `llm_aql_handler.cpp`):
   - separation of translation, validation, and tooling planes
   - dedicated quality/diagnostic helper surfaces
   - capability-sensitive integration behavior in assistance paths
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/aql/llm_aql_handler.h`, `include/aql/llm_error_codes.h` | HTTP LLM API endpoint dispatches NL→AQL requests through `LLMAQLHandler` (`src/server/llm_api_handler.cpp`) |
+| `query` | `include/aql/llm_query_context.h`, `include/aql/classify_bridge.h` | `LLMGenerateOperator` uses LLM query context for in-plan generation; `FunctionRegistry` calls classify bridge for AQL classification (`include/query/llm_generate_operator.h`, `src/query/functions/function_registry.cpp`) |
+| `metadata` | `include/aql/aql_schema_provider.h` | `AQLSchemaBridge` maps schema metadata into AQL-aware provider surfaces (`include/metadata/aql_schema_bridge.h:16`) |
+| `toolbox` | `include/aql/aql_ingestion_bridge.h` | `ToolboxBuilder` uses AQL ingestion bridge for data-pipeline toolbox composition (`src/toolbox/toolbox_builder.cpp`) |

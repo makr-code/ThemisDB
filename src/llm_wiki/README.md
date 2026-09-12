@@ -124,6 +124,7 @@ LLM Wiki process behavior is controlled through a versioned YAML policy so ML ca
 
 - Process policy: `src/llm_wiki/process/llm_wiki_process_policy.yaml`
 - Policy schema: `src/llm_wiki/schema/llm_wiki_process_policy.schema.json`
+- Runtime wiring: `LLMWikiPluginImpl` now accepts `process_policy_path` and optional `process_policy_hot_reload` config; initialization fails closed on invalid policy and hot-reload keeps last-known-good policy.
 
 How ML works in this model:
 

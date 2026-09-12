@@ -1,6 +1,6 @@
 # Architecture - Tensor Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -63,3 +63,30 @@ The tensor module composes tensor index management, bridge-oriented ingestion/ru
   - index/retrieval + bridge/ingestion + fingerprint/structural plane split
   - explicit failure boundaries for index, bridge, and graph-operation faults
   - module-local ownership of tensor-domain behavior
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` (tensor_network_storage_engine.h, tensor_train_decomposer.h, tt_quantizer.h) | Storage provides TT-decomposition, quantisation, and tensor network storage engine surfaces |
+| utils | `include/utils/` | Logging, thread helpers, and SIMD distance utilities |
+| acceleration | `include/acceleration/` | Optional GPU acceleration for tensor operations |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| storage | `include/tensor/` (tensor_network_storage_engine.h, tensor_train_decomposer.h, tt_quantizer.h) | Storage layer imports tensor decomposition and quantisation from tensor module (mutual interface) |
+| rag | `include/tensor/` (tensor_rag_cost_model.h) | RAG uses tensor cost-model to estimate retrieval cost for tensor-based index paths |
+
+## Integration Points
+
+### Critical Integration: Storage Tensor Network Engine
+**Files:** `src/tensor/tensor_core_bridge.cpp` ↔ `storage/tensor_network_storage_engine.h`
+**Contract:** Tensor module exchanges decomposed artifacts with storage via the TT storage engine contract; artifact format must remain backward-compatible within a major version.
+**Thread Safety:** Storage engine serialises write access; tensor module coordinates via engine-provided locks.
+
+### Critical Integration: RAG Tensor Cost Model
+**Files:** `src/tensor/` ↔ `rag/tensor_rag_cost_model.h`
+**Contract:** RAG queries tensor cost-model for per-query estimated retrieval cost; model must return deterministic estimates for identical inputs.
+**Thread Safety:** Cost model is read-only after initialisation; concurrent query calls are safe.

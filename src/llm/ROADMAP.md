@@ -105,6 +105,7 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [x] `gpu_memory_manager.cpp` now keeps CUDA-absent / no-runtime paths in an explicit unavailable state instead of reporting simulated healthy/available GPUs or simulated peer-access success
   - [x] close the remaining simulation-heavy distributed-training paths in `distributed_training_coordinator.cpp`
     - [x] gradient collection/broadcast/health now fail closed or mark shards unavailable when no `ShardRouter` transport is configured
+  - [x] source-integrity remediation for orchestration control path completed: compile-breaking token corruption in `ai_orchestrator.cpp` (token estimation, tenant budget override resolution, and cost-model method signature) removed and source-validated (Delivered: 2026-09-07)
 - [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
   - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
   - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
@@ -115,9 +116,13 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] **Multi-Subagent LLM Orchestration** (Target: Q3 2026, Phases A–E)
   - [x] **Phase A**: SubagentConfig + SubagentFactory API contracts (`include/llm/subagent_config.h`, `include/llm/subagent_factory.h`) → non-breaking, opt-in
   - [x] **Phase B**: SubagentLifecycleManager with resource tracking (integrated in `src/llm/subagent_factory_impl.cpp`)
+    - Evidence: Runtime lifecycle now uses plugin load/warm/infer/unload paths with deterministic error codes and quota reset implementation (`src/llm/subagent_factory_impl.cpp`, tests in `tests/llm/test_subagent_orchestration_focused.cpp`)
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
+    - Evidence: MAJORITY_VOTE/BEST_SCORE now apply normalized semantic buckets, quality scoring, and merge diagnostics (`src/llm/subagent_coordinator_impl.cpp`, tests in `tests/llm/test_subagent_orchestration_focused.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
+    - Evidence: Added focused runtime/negative-path coverage for subagent lifecycle and coordinator partial-failure merge behavior (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
+  - [~] Runtime closure: `SubagentImpl::infer()` now executes real plugin inference and fails closed on missing plugin/failed generation instead of returning synthetic mock output (Target: Q4 2026)
 - [~] **MODULE_GAPS.md Closure** (Target: 2026-08-31, Parallel Execution)
   - [~] Phase 1: Critical Structural Fixes (braces, thread-safety, RAII) → 4 parallel sub-agents
     - [~] Braces imbalance in 37 files (Sub-Agent: llm-braces-critical-fixes)

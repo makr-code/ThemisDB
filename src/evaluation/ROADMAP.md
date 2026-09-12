@@ -51,6 +51,7 @@ Current evidence state for this issue:
 - [x] runtime-owned contracts and source files exist for `hardware_profile`, `benchmark_matrix`, `retrieval_metrics`, `ablation_framework`, `approximation_rules`, `query_planner`, and `artifact_lifecycle`
 - [x] local CMake surfaces register evaluation libraries, focused tests, and benchmark entry points behind target-availability gates
 - [ ] downstream default-workflow consumers still need planner-envelope and routing-diagnostics integration
+  - **Production consumer route blocked on Phase 4–6 completion**: `query` module `QueryPlanner`/`PlannerObserver` integration is the target consumer. Implementation is pending; integration gate tracked in `src/evaluation/ARCHITECTURE.md § Direct Downstream Consumers`.
 
 ### Phase 3: Error Handling & Edge Cases
 - [x] make failure semantics explicit and fail-closed across retrieval metrics, approximation, artifact lifecycle, and planner observer surfaces

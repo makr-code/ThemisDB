@@ -330,4 +330,3 @@ void SamplingAggregator::reset() {
 
 } // namespace query
 } // namespace themis
-

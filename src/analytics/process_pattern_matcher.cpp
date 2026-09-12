@@ -79,8 +79,8 @@ std::vector<std::string> traceActivities(const ProcessTrace &trace) {
 /// Extract the edge set (directly-follows pairs) of a trace.
 std::set<std::pair<std::string, std::string>> traceEdges(const ProcessTrace &trace) {
     std::set<std::pair<std::string, std::string>> edges;
-    for (size_t i = 1; i < trace.events.size(); ++i) {
-        edges.emplace(trace.events[i - 1].activity, trace.events[i].activity);
+    for (size_t i = 1; i <static_cast<int>(trace.events.size()); ++i) {
+        edges.emplace(trace.events[static_cast<int>(i - 1)].activity, trace.events[i].activity);
     }
     return edges;
 }
@@ -419,7 +419,7 @@ ProcessPatternMatcher::findSimilar(const ProcessPattern &pattern, const PatternM
     });
 
     // Apply max_results
-    if (config.max_results > 0 && static_cast<size_t>(config.max_results) < results.size()) {
+    if (config.max_results > 0 && results.size() > static_cast<size_t>(config.max_results)) {
         results.resize(static_cast<size_t>(config.max_results));
     }
 
@@ -659,7 +659,7 @@ ProcessPatternMatcher::loadAdministrativeModels() {
         return {Status::OK(), model_cache_};
     }
 
-    auto add = [&](ProcessPattern p) { model_cache_[p.id] = std::move(p); };
+    auto add = [&]([[maybe_unused]] ProcessPattern p) { model_cache_[p.id] = std::move(p); };
 
     // ── Bauantragsverfahren (Building Permit) ───────────────────────────────
     {

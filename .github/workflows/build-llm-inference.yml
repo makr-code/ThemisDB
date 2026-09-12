@@ -300,13 +300,13 @@ jobs:
 
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR }}
 
       - name: Download TinyLlama model
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: tinyllama-gguf-${{ github.run_number }}
           path: ${{ env.MODEL_DIR }}
@@ -352,13 +352,13 @@ jobs:
 
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR }}
 
       - name: Download doku.db
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: doku-db-${{ github.run_number }}
           path: ${{ env.DOKU_DB_DIR }}
@@ -404,13 +404,13 @@ jobs:
 
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: ${{ env.CMAKE_BUILD_DIR }}
 
       - name: Download doku.db
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           name: doku-db-${{ github.run_number }}
           path: ${{ env.DOKU_DB_DIR }}
@@ -459,7 +459,7 @@ jobs:
 
     steps:
       - name: Download all test results
-        uses: actions/download-artifact@v4  # v4
+        uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:
           pattern: '*-results-${{ github.run_number }}'
           path: all-results

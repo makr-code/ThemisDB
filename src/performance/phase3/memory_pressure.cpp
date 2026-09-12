@@ -81,11 +81,11 @@ size_t SystemMemoryPressureMonitor::register_eviction_callback(
     return handle;
 }
 
-void SystemMemoryPressureMonitor::unregister_eviction_callback(size_t handle) {
+void SystemMemoryPressureMonitor::unregister_eviction_callback([[maybe_unused]] size_t handle) {
     std::lock_guard<std::mutex> lock(callbacks_mutex_);
     callbacks_.erase(
         std::remove_if(callbacks_.begin(), callbacks_.end(),
-                       [handle](const CallbackEntry& e) { return e.handle == handle; }),
+                       [handle]([[maybe_unused]] const CallbackEntry& e) { return e.handle == handle; }),
         callbacks_.end());
 }
 
@@ -202,7 +202,7 @@ SystemMemoryPressureMonitor::read_os_memory() const {
 }
 
 SystemMemoryPressureMonitor::PressureLevel
-SystemMemoryPressureMonitor::classify(double usage_percent) const noexcept {
+SystemMemoryPressureMonitor::classify([[maybe_unused]] double usage_percent) const noexcept {
     const auto& t = config_.thresholds;
     if (usage_percent >= t.critical_threshold) {
       return PressureLevel::CRITICAL;
@@ -240,11 +240,11 @@ void SystemMemoryPressureMonitor::poll_loop() {
     }
 }
 
-void SystemMemoryPressureMonitor::trigger_callbacks(PressureLevel current_level) {
+void SystemMemoryPressureMonitor::trigger_callbacks([[maybe_unused]] PressureLevel current_level) {
     std::vector<EvictionCallback> to_call;
     {
         std::lock_guard<std::mutex> lock(callbacks_mutex_);
-        for (const auto& entry : callbacks_) {
+        for ([[maybe_unused]] const auto& entry : callbacks_) {
             if (static_cast<int>(current_level) >=
                 static_cast<int>(entry.trigger_level)) {
                 to_call.push_back(entry.callback);
@@ -263,4 +263,3 @@ void SystemMemoryPressureMonitor::trigger_callbacks(PressureLevel current_level)
 } // namespace phase3
 } // namespace performance
 } // namespace themis
-

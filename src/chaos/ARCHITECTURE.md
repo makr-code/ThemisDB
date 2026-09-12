@@ -43,3 +43,17 @@ The chaos module centers on two cooperating runtime components: a fault registry
   - explicit registry and scheduler separation
   - bounded callback and pending-state control surfaces
   - deterministic in-process simulation-oriented runtime model
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: INTEGRATION-READY (admin/staging only)**
+> Handler header `include/server/chaos_admin_api_handler.h` has been created as the
+> production admin integration point, gated by `THEMIS_CHAOS_ADMIN`. This endpoint
+> must **never** be enabled on production deployments without explicit operator approval.
+> Wiring into `HttpServer` and CMake flag definition are the remaining steps.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/server/chaos_admin_api_handler.h` → `ChaosAdminApiHandler` | Planned admin route: `POST /admin/chaos/inject`, `POST /admin/chaos/reset`, `GET /admin/chaos/status`, `GET /admin/chaos/history`. Gate: `THEMIS_CHAOS_ADMIN` CMake flag. Handler header implemented; `HttpServer` wiring pending. |
+| _(tests)_ | `include/chaos/chaos_framework.h` | `tests/test_chaos_framework.cpp`, `tests/test_chaos_stress.cpp` — current only verified consumers. |

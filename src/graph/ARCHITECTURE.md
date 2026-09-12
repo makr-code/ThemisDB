@@ -1,6 +1,6 @@
 # Architecture - Graph Module
 
-<!-- Status: current | validated: 2026-06-25 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md -->
 
 ## ✅ L0 Verification Report (2026-06-25)
@@ -79,3 +79,37 @@ The graph module composes planning, traversal, constraints, and advanced graph-p
   - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
   - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
   - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Persists and retrieves graph vertices, edges, and property data |
+| index | `include/index/` (spatial_index.h and related) | Spatial and attribute indexing for efficient graph traversal lookups |
+| query | `include/query/` (graph_functions, path-query planning) | Receives path-query plans; exposes graph sub-expression cost estimates |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/graph_api_handler.h` | Exposes traversal, shortest-path, and ontology query APIs over HTTP/wire |
+| query | `include/graph/` (graph_functions) | Query planner issues graph sub-queries and receives plan/cost estimates |
+| llm | `include/graph/knowledge_graph_reasoner.h` | LLM reasoning layer uses graph ontology paths for context grounding |
+| rag | `include/graph/` | RAG module uses graph retrieval for graph-RAG context assembly |
+
+## Integration Points
+
+### Critical Integration: Storage Graph Persistence
+**Files:** `src/graph/graph_query_optimizer.cpp`, `src/graph/distributed_graph.cpp` ↔ `storage/`
+**Contract:** All vertex/edge persistence and reads go through storage interfaces; graph module does not own raw block or WAL surfaces.
+**Thread Safety:** Graph traversal workers use read transactions; mutations are serialised through storage write paths.
+
+### Critical Integration: Query Graph Functions
+**Files:** `src/graph/graph_query_rewriter.cpp` ↔ `query/graph_functions`
+**Contract:** Query engine calls graph sub-expression resolvers; graph module returns typed result sets compatible with the query columnar row format.
+**Thread Safety:** Plan objects are immutable after handoff; graph executor owns its traversal state independently.
+
+### Critical Integration: LLM Knowledge Graph Reasoner
+**Files:** `src/graph/knowledge_graph_reasoner.cpp` ↔ `llm/`
+**Contract:** LLM requests ontology path expansions; graph module returns ranked entity / relation lists; callers must not mutate returned lists.
+**Thread Safety:** Reasoner caches under an internal read-write lock; concurrent reads proceed in parallel.

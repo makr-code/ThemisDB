@@ -6,7 +6,7 @@
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-09-09
 **Module Path:** `src/stable_diffusion/`
 
 ---
@@ -148,3 +148,27 @@ v2.2.0 includes a real PNG encoder that writes IHDR + IDAT + IEND using stored-d
 | Type | Files | Count |
 |---|---|---|
 | Unit (stub mode + core backend paths) | `src/stable_diffusion/tests/test_sd_plugin.cpp` | 62 |
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| stable-diffusion.cpp | external library | Provides image generation inference runtime; linked as a plugin |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/stable_diffusion/` | Server exposes text-to-image and image-to-image generation APIs |
+
+## Integration Points
+
+### Critical Integration: Server Image Generation API
+**Files:** `src/stable_diffusion/sd_cpp_generator.cpp` ↔ `server/`
+**Contract:** Server calls generation API with validated parameters (positive dimensions, max 8192, finite LoRA scale); plugin owns stable-diffusion.cpp context lifecycle.
+**Thread Safety:** `SDCppGenerator` uses `generate_mutex_` for serialised access; concurrent generation requests are queued. Parallel-call audit is pending (see §8).
+
+### Critical Integration: stable-diffusion.cpp Plugin Binding
+**Files:** `src/stable_diffusion/` ↔ stable-diffusion.cpp (external)
+**Contract:** Model and ControlNet weights are loaded at initialisation; LoRA adapters are applied per-request within validated scale bounds.
+**Thread Safety:** sd_ctx context is single-threaded; plugin serialises all calls internally.

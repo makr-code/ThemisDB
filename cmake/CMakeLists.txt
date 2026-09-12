@@ -472,6 +472,16 @@ option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" OFF)
 option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
 
+# Execution module — SLA-aware QueryScheduler + WorkStealingThreadPool.
+# When ON, execution sources are included in themis_core and the THEMIS_EXECUTION_MODULE
+# compile definition is set so HttpServer initialises the scheduler + thread pool.
+option(THEMIS_EXECUTION_MODULE "Enable execution module: SLA-aware QueryScheduler and WorkStealingThreadPool" ON)
+
+# Chaos Admin API — exposes ChaosScheduler fault-injection controls via HTTP.
+# MUST NEVER be enabled on production deployments without explicit operator approval.
+# Intended for development, staging, and SRE-controlled chaos test environments only.
+option(THEMIS_CHAOS_ADMIN "Enable chaos admin HTTP endpoint (dev/staging only, never production)" OFF)
+
 # GPU and LLM defaults (can be overridden via -D flags)
 # CPU-only baseline is the default for local build/test/benchmark workflows.
 # GPU and LLM are enabled explicitly when needed.
@@ -2360,6 +2370,14 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/task_scheduler_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_scheduler.cpp>
+    # AI Plugin API handler — production consumer route for the ai module.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ai_plugin_api_handler.cpp>
+    # Scraper Plugin API handler — gated by THEMIS_PLUGIN_SCRAPER.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/server/scraper_plugin_api_handler.cpp>
+    # Encrypted Storage API handler — gated by THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED}>>:../src/server/encrypted_storage_api_handler.cpp>
+    # Chaos Admin API handler — gated by THEMIS_CHAOS_ADMIN (dev/staging only).
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_CHAOS_ADMIN}>>:../src/server/chaos_admin_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_result_store.cpp>
@@ -3359,6 +3377,21 @@ if(THEMIS_ENABLE_PER_QUERY_COST_MODEL)
     message(STATUS "Per-query cost model integration enabled (THEMIS_ENABLE_PER_QUERY_COST_MODEL=ON)")
 endif()
 
+# Execution module — SLA-aware QueryScheduler + WorkStealingThreadPool.
+# Always compiled into themis_core (headers are already included by http_server.h).
+# The THEMIS_EXECUTION_MODULE compile definition enables initialisation in HttpServer.
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/execution/query_scheduler.cpp
+    ../src/execution/thread_pool_manager.cpp
+)
+if(THEMIS_EXECUTION_MODULE)
+    # Defer the compile definition — themis_core is created later (add_library).
+    # Append to THEMIS_GLOBAL_COMPILE_DEFINITIONS which is applied to the target
+    # after add_library() at the "target_compile_definitions(themis_core PUBLIC …)" block.
+    list(APPEND THEMIS_GLOBAL_COMPILE_DEFINITIONS THEMIS_EXECUTION_MODULE)
+    message(STATUS "Execution module enabled (THEMIS_EXECUTION_MODULE=ON): QueryScheduler + WorkStealingThreadPool")
+endif()
+
 # Phase 4 Performance Optimizations (Issue #2424)
 # Conditionally add Phase 4 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
@@ -3471,6 +3504,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/subagent_factory_impl.cpp
+    ../src/llm/subagent_coordinator_impl.cpp
     ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
@@ -5344,6 +5379,23 @@ endif()
 
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_server PRIVATE THEMIS_HAS_CORE_GRPC)
+endif()
+
+# Propagate THEMIS_CHAOS_ADMIN into the server binary.
+# This is kept separate from themis_core so the flag is intentionally scoped to
+# the server target. It must never be ON in a production release build.
+if(THEMIS_CHAOS_ADMIN)
+    target_compile_definitions(themis_server PRIVATE THEMIS_CHAOS_ADMIN)
+    message(WARNING "THEMIS_CHAOS_ADMIN is ON — chaos admin HTTP endpoint will be compiled into themis_server. Do NOT ship this in a production release.")
+endif()
+
+# THEMIS_PLUGIN_SCRAPER and THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED must be
+# visible to themis_core so the handler sources compile with their guards set.
+if(THEMIS_PLUGIN_SCRAPER)
+    target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_SCRAPER)
+endif()
+if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
+    target_compile_definitions(themis_core PUBLIC THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
 endif()
 
 target_link_libraries(themis_server

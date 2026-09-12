@@ -71,13 +71,16 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
   - Full language roadmap: [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md)
   - [x] DDL (CREATE/DROP COLLECTION/INDEX/VIEW) — parser + executor + 32 tests delivered 2026-07-22
   - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 tests in test_aql_st_predicates.cpp; Phase 2 (optimizer hints) next (Target: Q3 2026)
-  - [~] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
+  - [x] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
     - [x] SEARCH/PHRASE/NEAR/STARTS_WITH/BOOST/ANALYZER tokens added to lexer (2026-08-09)
     - [x] FtsPredType enum, FtsPredicateNode, SearchClauseNode structs added to aql_parser.h (2026-08-09)
     - [x] parseSearchClause() implemented; wired into parseQuery() (2026-08-09)
     - [x] search_clause field added to Query struct (2026-08-09)
     - [x] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026) — delivered 2026-09-03 (Block 2)
-    - [ ] Performance gate: ≤100ms on 100K documents (Target: Q4 2026)
+    - [x] Phrase/proximity executor behavior is now source-covered with focused `FtsExecutor` tests (exact phrase, case-insensitive phrase, bounded proximity, boolean reuse, timeout, OOM) and production-backed matching over posting-list positions (2026-09-09)
+    - [x] Benchmark harness now exercises the real `FtsExecutor` on an on-disk 10K/100K corpus in `benchmarks/rag/bench_fts_phase_b.cpp` instead of the former synthetic token simulation (2026-09-09)
+    - [x] Performance gate: ≤100ms on 100K documents (Target: Q4 2026) — local benchmark evidence captured 2026-09-09 with `BM_FtsPhraseQuery/100000 p95_ms=1.3638` and `BM_FtsProximityQuery/100000 p95_ms=1.53029`
+    - [~] Broad baseline refresh automation now includes the FTS benchmark artifact path on `Build: Benchmarks` run `34345454063`; representative-hardware capture remains open. (Target: Q1 2027)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
 ## Phase 2 — Performance & Scalability Readiness (Target: 2026-09-30)

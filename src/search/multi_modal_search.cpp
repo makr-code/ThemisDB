@@ -159,9 +159,7 @@ std::vector<std::pair<std::string, double>> MultiModalSearch::executeModal(
         }
 
         case Modality::IMAGE:
-        [[fallthrough]];
         case Modality::AUDIO:
-        [[fallthrough]];
         case Modality::CUSTOM: {
             if (!vec_index_ || query.embedding.empty()) {
                 THEMIS_DEBUG("MultiModalSearch: embedding modality skipped (null index or empty embedding)");

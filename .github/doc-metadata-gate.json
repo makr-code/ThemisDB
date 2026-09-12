@@ -1,0 +1,64 @@
+{
+  "include": [
+    "docs/**/*.md",
+    "audit/**/*.md",
+    "security/**/*.md",
+    "ai_context/**/*.md",
+    ".github/**/*.md",
+    "tests/**/*.md",
+    "README.md",
+    "QUICKSTART.md",
+    "SETUP.md",
+    "CONTRIBUTING.md",
+    "SUPPORT.md",
+    "INDEX.md",
+    "LOG.md",
+    "AI_WIKI_INTEGRATION_PLAYBOOK.md",
+    "DOCUMENTATION_GOVERNANCE.md"
+  ],
+  "exclude": [
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "**/ROADMAP.md",
+    "FUTURE_ENHANCEMENTS.md",
+    "**/FUTURE_ENHANCEMENTS.md",
+    "docs/**/ARCHIVED/**",
+    "docs/**/archive/**",
+    "docs/**/documentation-history/**",
+    "docs/_standards/**",
+    ".github/ISSUE_TEMPLATE/**/*.md",
+    "ai_working/**",
+    "ai_context/developer_llm_wiki/**"
+  ],
+  "max_scan_lines": 40,
+  "allowed_statuses": [
+    "draft",
+    "review",
+    "active",
+    "approved",
+    "stable",
+    "deprecated",
+    "archived"
+  ],
+  "required_fields": {
+    "author": [
+      "Author",
+      "Urheber"
+    ],
+    "created": [
+      "Created",
+      "Created Date",
+      "Erstelldatum"
+    ],
+    "last_updated": [
+      "Last Updated",
+      "Last Updated Date",
+      "Updated",
+      "Letzte Aktualisierung",
+      "Letzte Änderung"
+    ],
+    "status": [
+      "Status"
+    ]
+  }
+}

@@ -57,3 +57,11 @@ The importers module composes connector-specific ingestion, schema handling, con
   - explicit connector/schema/integrity/enrichment planes
   - deterministic failure and fallback behavior boundaries
   - module-local ownership of import orchestration surfaces
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/importers/importer_interface.h`, `include/importers/importer_interfaces.h`, `include/importers/s3_importer.h` | Import API handler dispatches ingestion requests to the appropriate importer implementation (`include/server/import_api_handler.h`) |
+| `llm_wiki` | `include/importers/wikipedia_pipeline.hpp`, `include/importers/wikipedia_types.hpp` | Wikipedia LLM plugin drives Wikipedia corpus ingestion through the importer pipeline (`src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`) |

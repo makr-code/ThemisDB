@@ -11,6 +11,14 @@ on:
         description: "Number of parallel compilation jobs"
         required: false
         default: "4"
+      representative_cuda_arch:
+        description: "CUDA architecture for representative baseline run"
+        required: false
+        default: "native"
+      run_representative_hardware:
+        description: "Run self-hosted representative GPU hardware baseline capture"
+        required: false
+        default: "false"
 
 permissions:
   contents: read
@@ -35,10 +43,24 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
-          submodules: false
           fetch-depth: 0
+          submodules: false
+
+      - name: "Prepare repository (strip private submodules)"
+        run: |
+          for sm in \
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_plugin_signer; do
+            git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
+          done
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
 
       - name: "Setup build environment"
         run: |
@@ -47,7 +69,8 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev
+            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev \
+            libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -98,9 +121,24 @@ jobs:
       matrix:
         phase: [baseline, fallback, memory, determinism]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
+          fetch-depth: 0
           submodules: false
+
+      - name: "Prepare repository (strip private submodules)"
+        run: |
+          for sm in \
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_plugin_signer; do
+            git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
+          done
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
 
       - name: "Setup build environment"
         run: |
@@ -109,7 +147,8 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache
+            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache \
+            libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -148,8 +187,8 @@ jobs:
           esac
           
           cmake --build "$BUILD_DIR" \
-            "${TARGETS[@]}" \
-            -j ${{ github.event.inputs.parallel_jobs || 4 }} \
+            --target "${TARGETS[@]}" \
+            --parallel ${{ github.event.inputs.parallel_jobs || 4 }} \
             2>&1 | tee compile-gpu-${{ matrix.phase }}.log
           
           echo "compile_status=success" >> "$GITHUB_OUTPUT"
@@ -168,9 +207,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
+          fetch-depth: 0
           submodules: false
+
+      - name: "Prepare repository (strip private submodules)"
+        run: |
+          for sm in \
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_plugin_signer; do
+            git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
+          done
+          if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
+            rm -rf vcpkg
+            git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          fi
 
       - name: "Setup build environment"
         run: |
@@ -179,7 +233,8 @@ jobs:
             build-essential cmake ninja-build pkg-config \
             libfmt-dev libspdlog-dev nlohmann-json3-dev \
             librocksdb-dev libssl-dev zlib1g-dev \
-            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache
+            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev sccache \
+            libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
         uses: actions/cache@v4
@@ -247,16 +302,21 @@ jobs:
     name: "CUDA-Call Audit Verification"
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      unchecked: ${{ steps.audit.outputs.unchecked }}
+      reduction_pct: ${{ steps.audit.outputs.reduction_pct }}
+      audit_status: ${{ steps.audit.outputs.audit_status }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - name: "Run CUDA-call audit"
+        id: audit
         run: |
           {
             echo "## CUDA-Call Audit Results"
             echo ""
             echo "**Target:** src/gpu/ module"
-            echo "**Expected:** ≤50 unchecked calls (93% reduction from 340→28)"
+            echo "**Expected:** ≤50 unchecked calls"
             echo ""
           } > cuda-audit-report.md
           
@@ -266,13 +326,26 @@ jobs:
               | grep -Evc "CUDA_CHECK|CHECKED_CUDA|CudaStreamGuard|CudaEventGuard|CudaDeviceMemoryGuard" || true)
             UNCHECKED=$((UNCHECKED + unguarded_count))
           done
-          
+
+          REDUCTION_PCT=$(python3 - "$UNCHECKED" <<'PY'
+          import sys
+          unchecked = int(sys.argv[1])
+          baseline = 340
+          print(f"{max(0.0, ((baseline - unchecked) / baseline) * 100.0):.2f}")
+          PY
+          )
+
+          echo "unchecked=$UNCHECKED" >> "$GITHUB_OUTPUT"
+          echo "reduction_pct=$REDUCTION_PCT" >> "$GITHUB_OUTPUT"
           echo "**Remaining Unchecked Calls:** $UNCHECKED" >> cuda-audit-report.md
+          echo "**Reduction vs 340-call baseline:** ${REDUCTION_PCT}%" >> cuda-audit-report.md
           if [ $UNCHECKED -le 50 ]; then
             echo "**Status:** ✅ PASS (target met)" >> cuda-audit-report.md
+            echo "audit_status=pass" >> "$GITHUB_OUTPUT"
             exit 0
           else
             echo "**Status:** ❌ FAIL (target exceeded)" >> cuda-audit-report.md
+            echo "audit_status=fail" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
@@ -284,13 +357,132 @@ jobs:
           path: cuda-audit-report.md
           retention-days: 30
 
+  representative-hardware-baselines:
+    name: "Representative GPU Hardware Baselines"
+    runs-on: [self-hosted, gpu-cuda]
+    timeout-minutes: 90
+    if: github.event.inputs.run_representative_hardware == 'true'
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: "Prepare repository (strip private submodules)"
+        run: |
+          for sm in \
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_plugin_signer; do
+            git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
+          done
+
+      - name: "Setup benchmark build dependencies"
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build pkg-config libbenchmark-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev \
+            librocksdb-dev libssl-dev zlib1g-dev \
+            libbz2-dev liblz4-dev libzstd-dev libboost-all-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev \
+            sccache \
+            libtbb-dev libcpp-httplib-dev
+
+      - name: "Cache sccache"
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCCACHE_DIR }}
+          key: sccache-gpu-bench-${{ hashFiles('src/gpu/**', 'benchmarks/gpu/**') }}-${{ runner.os }}
+          restore-keys: sccache-gpu-bench-${{ runner.os }}-
+
+      - name: "Configure representative GPU benchmark build"
+        run: |
+          cmake -S . -B build-wave-a-gpu-bench -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache \
+            -DTHEMIS_ENABLE_CUDA=ON \
+            -DTHEMIS_CUDA_ARCHITECTURES="${{ github.event.inputs.representative_cuda_arch || 'native' }}" \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: "Build representative GPU benchmark"
+        run: cmake --build build-wave-a-gpu-bench --target bench_gpu_a8_baselines -j"$(nproc)"
+
+      - name: "Capture hardware profile"
+        run: |
+          mkdir -p gpu-representative-hardware
+          nvidia-smi > gpu-representative-hardware/nvidia-smi.txt
+          lscpu > gpu-representative-hardware/lscpu.txt
+          free -h > gpu-representative-hardware/memory.txt
+
+      - name: "Run representative GPU baseline benchmark"
+        run: |
+          mkdir -p gpu-representative-hardware/results
+          ./build-wave-a-gpu-bench/bench_gpu_a8_baselines \
+            --benchmark_min_time=0.05s \
+            --benchmark_repetitions=5 \
+            --benchmark_out=gpu-representative-hardware/results/bench_gpu_a8_baselines.json \
+            --benchmark_out_format=json
+
+      - name: "Render representative baseline summary"
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report_path = Path("gpu-representative-hardware/results/bench_gpu_a8_baselines.json")
+          data = json.loads(report_path.read_text(encoding="utf-8"))
+          rows = []
+          for bench in data.get("benchmarks", []):
+              name = bench.get("name", "")
+              if name.endswith(("_mean", "_median", "_stddev", "_cv")):
+                  continue
+              if "p95_ns" not in bench:
+                  continue
+              rows.append(
+                  (
+                      name,
+                      bench.get("p95_ns", 0.0),
+                      bench.get("p99_ns", 0.0),
+                      bench.get("gate_target_ns", 0.0),
+                      "PASS" if bench.get("gate_pass", 0.0) >= 1.0 else "FAIL",
+                  )
+              )
+
+          lines = [
+              "# Representative GPU Baseline Summary",
+              "",
+              "| Benchmark | p95 ns | p99 ns | Gate ns | Status |",
+              "| --- | ---: | ---: | ---: | --- |",
+          ]
+          for name, p95_ns, p99_ns, gate_ns, status in rows:
+              lines.append(
+                  f"| `{name}` | {p95_ns:.2f} | {p99_ns:.2f} | {gate_ns:.2f} | {status} |"
+              )
+          Path("gpu-representative-hardware/GPU_BASELINE_SUMMARY.md").write_text(
+              "\n".join(lines) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: "Upload representative GPU baseline artifacts"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gpu-representative-hardware
+          path: gpu-representative-hardware/
+          retention-days: 30
+
   collect-artifacts:
     name: "Collect GPU Build Artifacts"
-    needs: [configure, compile-tests]
+    needs: [configure, compile-tests, cuda-audit, representative-hardware-baselines]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.1.3
 
       - name: "Create artifact archive"
         run: |
@@ -299,6 +491,7 @@ jobs:
           cp -r compile-gpu-*-log gpu-ci-results/ || true
           cp -r gpu-test-results gpu-ci-results/ || true
           cp -r cuda-audit-report gpu-ci-results/ || true
+          cp -r gpu-representative-hardware gpu-ci-results/ || true
           
           zip -r gpu-ci-results.zip gpu-ci-results || true
           
@@ -313,15 +506,24 @@ jobs:
 
   publish-results:
     name: "Publish GPU CI Results"
-    needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, collect-artifacts]
+    needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, representative-hardware-baselines, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.3
 
       - name: "Generate GPU CI report"
         run: |
+          GPU_BASELINE_STATUS="not-requested"
+          if [ "${{ needs.representative-hardware-baselines.result }}" = "success" ]; then
+            GPU_BASELINE_STATUS="captured"
+          elif [ "${{ needs.representative-hardware-baselines.result }}" = "failure" ]; then
+            GPU_BASELINE_STATUS="failed"
+          elif [ "${{ needs.representative-hardware-baselines.result }}" = "skipped" ]; then
+            GPU_BASELINE_STATUS="skipped"
+          fi
+
           {
             echo "# Wave A GPU CI Execution Report"
             echo ""
@@ -333,10 +535,15 @@ jobs:
             echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}"
             echo "- Test Compilation: ✅ 36/36 GPU tests compiled"
             echo "- Full Suite: All tests executed (see artifacts)"
-            echo "- CUDA-Call Audit: ✅ 93% reduction achieved (340→28 calls)"
+            echo "- CUDA-Call Audit: ${{ needs.cuda-audit.outputs.audit_status }} (${{ needs.cuda-audit.outputs.unchecked }} unchecked calls, ${{ needs.cuda-audit.outputs.reduction_pct }}% reduction vs 340-call baseline)"
+            echo "- Representative GPU baseline: ${GPU_BASELINE_STATUS}"
             echo ""
             echo "## Artifacts"
             echo "- gpu-ci-results.zip"
+            if [ -f gpu-representative-hardware/GPU_BASELINE_SUMMARY.md ]; then
+              echo ""
+              cat gpu-representative-hardware/GPU_BASELINE_SUMMARY.md
+            fi
           } > GPU_CI_REPORT.md
 
       - name: "Upload final GPU report"

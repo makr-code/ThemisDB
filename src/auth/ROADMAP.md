@@ -213,6 +213,7 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
   - Registered in `benchmarks/CMakeLists.txt` as `bench_auth_hotpaths`
 - [x] validate p95/p99 and throughput behavior against release baselines (Target: Q3 2026)
   - Gate thresholds documented in AHP benchmark file and PERFORMANCE_EXPECTATIONS.md
+  - 2026-09-09: `bench_auth_hotpaths.cpp` now exports p50/p95/p99 and gate counters so the broad baseline refresh lane can publish reusable artifacts; first refresh run queued as `Build: Benchmarks` run `34345454063`.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core auth module docs aligned to source-verifiable behavior
