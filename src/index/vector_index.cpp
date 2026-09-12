@@ -2228,8 +2228,12 @@ VectorIndexManager::searchKnnRadius(
 	const std::vector<std::string>* whitelistPks
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != static_cast<size_t>(dim_)) {
-		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), std::vector<Result>()};
+	if (dim_ < 0) {
+		return {Status::Error("searchKnnRadius: Query dimension mismatch"), std::vector<Result>()};
+	}
+	const auto expected_dim = static_cast<size_t>(dim_);
+	if (query.size() != expected_dim) {
+		return {Status::Error("searchKnnRadius: Query dimension mismatch"), std::vector<Result>()};
 	}
 
 	std::vector<Result> results;
@@ -2318,8 +2322,12 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 	SecondaryIndexManager* secondaryIdx
 ) const {
 	std::lock_guard<std::recursive_mutex> stateLock(index_state_mutex_);
-	if (query.size() != static_cast<size_t>(dim_)) {
-		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), std::vector<Result>()};
+	if (dim_ < 0) {
+		return {Status::Error("searchKnnRadiusPreFiltered: Query dimension mismatch"), std::vector<Result>()};
+	}
+	const auto expected_dim = static_cast<size_t>(dim_);
+	if (query.size() != expected_dim) {
+		return {Status::Error("searchKnnRadiusPreFiltered: Query dimension mismatch"), std::vector<Result>()};
 	}
 
 	if (filters.empty()) {
