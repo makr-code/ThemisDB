@@ -177,7 +177,7 @@ jobs:
             curl -sS \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
-              -H "Authorization: ******" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
               -o /tmp/codeql-default-setup.json \
               -w "%{http_code}" \
               "${api_url}"
