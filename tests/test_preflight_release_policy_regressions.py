@@ -15,7 +15,7 @@ def extract_yaml_job_block(text: str, job_id: str) -> str:
     anchor = f"  {job_id}:"
 
     for index, line in enumerate(lines):
-        if line.strip() == anchor.strip():
+        if line.rstrip() == anchor:
             block_lines = [line]
             for candidate in lines[index + 1 :]:
                 stripped_candidate = candidate.strip()
@@ -33,13 +33,13 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     lines = text.splitlines()
 
     for index, line in enumerate(lines):
-        if line.strip() == anchor.strip():
+        if line.strip() == anchor:
             depth = 0
             block_lines = []
             for candidate in lines[index:]:
                 stripped = candidate.strip()
                 normalized = stripped.lower()
-                opens_if = normalized.startswith("if(")
+                opens_if = re.match(r"if\s*\(", normalized) is not None
                 closes_if = re.match(r"endif\s*\(", normalized) is not None
 
                 if opens_if:
