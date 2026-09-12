@@ -205,7 +205,7 @@ struct CypherParser::Lexer {
                 std::string s = {};
                 while (pos < src.size() && peek() != delim) {
                     char c = advance();
-                    if (c == '\\'  && static_cast<size_t>(pos) <src.size()) {
+                    if (c == '\\' && pos < src.size()) {
                         char esc = advance();
                         switch (esc) {
                             case 'n':  s += '\n'; break;
@@ -232,7 +232,7 @@ struct CypherParser::Lexer {
                   num += advance();
                 }
                 bool is_float = false;
-                while (static_cast<size_t>(pos) <src.size()) {
+                while (pos < src.size()) {
                     if (std::isdigit(static_cast<unsigned char>(peek()))) {
                         num += advance();
                         continue;

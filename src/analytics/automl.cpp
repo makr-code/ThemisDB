@@ -256,7 +256,7 @@ struct Scaler {
 
     std::vector<double> transform(const std::vector<double> &x) const {
         std::vector<double> out(x.size());
-        for (size_t j = 0; j < x.size()  && static_cast<size_t>(j) <mean.size(); ++j) {
+        for (size_t j = 0; j < x.size() && j < mean.size(); ++j) {
             out[j] = (x[j] - mean[j]) / std_dev[j];
         }
         return out;
@@ -1063,7 +1063,7 @@ struct RFModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &t : trees) {
             auto p = t.predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <p.size(); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }
@@ -1206,7 +1206,7 @@ struct EnsembleModel : ModelBase {
         std::vector<double> avg(static_cast<size_t>(n_classes), 0.0);
         for (const auto &m : members) {
             auto p = m->predictProbaOne(x);
-            for (size_t c = 0; c < avg.size()  && static_cast<size_t>(c) <p.size(); ++c) {
+            for (size_t c = 0; c < avg.size() && c < p.size(); ++c) {
                 avg[c] += p[c];
             }
         }

@@ -2288,7 +2288,7 @@ std::string CRDTConflictResolver::resolve(
     {
         std::map<std::string, int64_t> fields;
         size_t p = 0;
-        while (static_cast<size_t>(p) <doc.size()) {
+        while (p < doc.size()) {
             // Find next key (starts with '"')
             auto kstart = doc.find('"', p);
             if (kstart == std::string::npos) {
@@ -2602,7 +2602,7 @@ VectorClock VectorClock::fromJson(const std::string& json) {
     
     VectorClock vc;
     size_t p = 0;
-    while (static_cast<size_t>(p) <json.size()) {
+    while (p < json.size()) {
         auto kstart = json.find('"', p);
         if (kstart == std::string::npos) {
           break;
@@ -2864,7 +2864,7 @@ std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& 
 static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
     std::map<std::string, int64_t> fields;
     size_t p = 0;
-    while (static_cast<size_t>(p) <doc.size()) {
+    while (p < doc.size()) {
         auto ks = doc.find('"', p);
         if (ks == std::string::npos) {
           break;
@@ -2911,7 +2911,7 @@ static std::string extractSubObject(const std::string& doc, const std::string& k
     }
     if (pos >= doc.size() || doc[pos] != '{') return "";
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) <doc.size()) {
+    while (pos < doc.size()) {
         if (doc[pos] == '{') ++depth;
         else if (doc[pos] == '}') { if (--depth == 0) return doc.substr(start, pos - start + 1); }
         ++pos;
@@ -2971,7 +2971,7 @@ static std::string extractSubArray(const std::string& doc, const std::string& ke
       return "";
     }
     size_t depth = 0, start = pos;
-    while (static_cast<size_t>(pos) <doc.size()) {
+    while (pos < doc.size()) {
         if (doc[pos] == '[') {
           ++depth;
         }
@@ -3099,7 +3099,7 @@ std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& write
         auto addArr = extractSubArray(w.data, "add");
         // Each inner element looks like ["element","tag"]
         size_t p = 0;
-        while (static_cast<size_t>(p) <addArr.size()) {
+        while (p < addArr.size()) {
             auto lb = addArr.find('[', p);
             if (lb == std::string::npos) {
               break;
@@ -3234,14 +3234,14 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
         size_t p = 0;
         // Skip leading '[' if present
         while (p < src.size() && src[p] != '{') ++p;
-        while (static_cast<size_t>(p) <src.size()) {
+        while (p < src.size()) {
             auto ob = src.find('{', p);
             if (ob == std::string::npos) {
               break;
             }
             // Find matching '}'
             size_t depth = 0, oe = ob;
-            while (static_cast<size_t>(oe) <src.size()) {
+            while (oe < src.size()) {
                 if (src[oe] == '{') ++depth;
                 else if (src[oe] == '}') { if (--depth == 0) break; }
                 ++oe;
@@ -3416,13 +3416,13 @@ std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>
 
     auto readUint64 = [&]() -> uint64_t {
         uint64_t v = 0;
-        for (size_t i = 0; i < 8  && static_cast<size_t>(pos) <raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 8  && pos < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };
     auto readUint32 = [&]() -> uint32_t {
         uint32_t v = 0;
-        for (size_t i = 0; i < 4  && static_cast<size_t>(pos) <raw.size(); ++i, ++pos)
+        for (size_t i = 0; i < 4  && pos < raw.size(); ++i, ++pos)
             v = (v << 8) | raw[pos];
         return v;
     };

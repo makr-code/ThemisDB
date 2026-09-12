@@ -198,7 +198,7 @@ public:
     std::vector<SQLToken> tokenize() {
         std::vector<SQLToken> tokens = {};
 
-        while (static_cast<size_t>(pos_) <input_.size()) {
+        while (pos_ < input_.size()) {
             skipWhitespace();
             if (pos_ >= input_.size()) {
               break;
@@ -285,7 +285,7 @@ private:
     SQLToken readString(char delim, size_t start) {
         ++pos_; // skip opening delimiter
         std::string val = {};
-        while (static_cast<size_t>(pos_) <input_.size()) {
+        while (pos_ < input_.size()) {
             char ch = input_[pos_];
             // SQL doubled-delimiter escape: '' or "" within a string
             if (ch == delim) {

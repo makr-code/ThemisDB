@@ -70,7 +70,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt32(const std::vector<int32_t>& d
     encoded.reserve(data.size() * sizeof(int32_t) / 2); // Estimate
 
     size_t i = 0;
-    while (static_cast<size_t>(i)  < data.size()) {
+    while (i < data.size()) {
         int32_t value = data[i];
         size_t run_length = 1;
 
@@ -109,7 +109,7 @@ Result<std::vector<uint8_t>> RLECodec::encodeInt64(const std::vector<int64_t>& d
     encoded.reserve(data.size() * sizeof(int64_t) / 2);
 
     size_t i = 0;
-    while (static_cast<size_t>(i)  < data.size()) {
+    while (i < data.size()) {
         int64_t value = data[i];
         size_t run_length = 1;
 
@@ -133,7 +133,7 @@ Result<std::vector<int32_t>> RLECodec::decodeInt32(const std::vector<uint8_t>& e
     std::vector<int32_t> decoded;
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos)  < encoded.size()) {
+    while (pos < encoded.size()) {
         if (pos + 1 + sizeof(int32_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -159,7 +159,7 @@ Result<std::vector<int64_t>> RLECodec::decodeInt64(const std::vector<uint8_t>& e
     std::vector<int64_t> decoded;
 
     size_t pos = 0;
-    while (static_cast<size_t>(pos)  < encoded.size()) {
+    while (pos < encoded.size()) {
         if (pos + 1 + sizeof(int64_t) > encoded.size()) {
             return tl::unexpected(Error(
                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
@@ -567,7 +567,7 @@ Result<std::vector<int32_t>> BitPackingCodec::decodeInt32(const std::vector<uint
 
     if (bits_required <= 8) {
         // Stored as uint8_t
-        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos)  < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int32_t>(normalized) + min_val);
         }
@@ -637,7 +637,7 @@ Result<std::vector<int64_t>> BitPackingCodec::decodeInt64(const std::vector<uint
     decoded.reserve(count);
 
     if (bits_required <= 8) {
-        for (uint32_t i = 0; i < count  && static_cast<size_t>(pos)  < encoded.size(); ++i) {
+        for (uint32_t i = 0; i < count && pos < encoded.size(); ++i) {
             uint8_t normalized = encoded[pos++];
             decoded.push_back(static_cast<int64_t>(normalized) + min_val);
         }

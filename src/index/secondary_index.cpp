@@ -1455,7 +1455,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 				std::vector<std::string> columns;
 				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 				size_t start = 0;
-				while (static_cast<size_t>(start) <col.size()) {
+				while (start < col.size()) {
 					size_t pos = col.find('+', start);
 					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
 					columns.emplace_back(col.substr(start, pos - start));
@@ -1529,7 +1529,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			std::vector<std::string> columns;
 			columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 			size_t start = 0;
-			while (static_cast<size_t>(start) <col.size()) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -1958,7 +1958,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(std
 			// Composite
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <col.size()) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -3402,7 +3402,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		// Composite index
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <column.size()) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3591,7 +3591,7 @@ void SecondaryIndexManager::rebuildIndex(const std::string& table, const std::st
 		// Parse columns
 		std::vector<std::string> columns;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <column.size()) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3728,7 +3728,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	} else if (column.find('+') != std::string::npos) {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <column.size()) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3891,7 +3891,7 @@ void SecondaryIndexManager::rebuildIndexOnline(const std::string& table, const s
 	} else if (indexType == "composite") {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <column.size()) {
+		while (pos < column.size()) {
 			size_t p = column.find('+', pos);
 			if (p == std::string::npos) {
 			  p = column.size();
@@ -3999,7 +3999,7 @@ SecondaryIndexManager::getIndexStats(std::string_view table, std::string_view co
 	if (columnStr.find('+') != std::string::npos && !found) {
 		std::vector<std::string> cols;
 		size_t pos = 0;
-		while (static_cast<size_t>(pos) <columnStr.size()) {
+		while (pos < columnStr.size()) {
 			size_t p = columnStr.find('+', pos);
 			if (p == std::string::npos) {
 			  p = columnStr.size();
@@ -4397,7 +4397,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 				std::vector<std::string> columns;
 				columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 				size_t start = 0;
-				while (static_cast<size_t>(start) <col.size()) {
+				while (start < col.size()) {
 					size_t pos = col.find('+', start);
 					if (pos == std::string::npos) { columns.emplace_back(col.substr(start)); break; }
 					columns.emplace_back(col.substr(start, pos - start));
@@ -4478,7 +4478,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			// Parse columns
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <col.size()) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));
@@ -4914,7 +4914,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForDelete_(
 			// Composite
 			std::vector<std::string> columns;
 			size_t start = 0;
-			while (static_cast<size_t>(start) <col.size()) {
+			while (start < col.size()) {
 				size_t pos = col.find('+', start);
 				if (pos == std::string::npos) {
 					columns.emplace_back(col.substr(start));

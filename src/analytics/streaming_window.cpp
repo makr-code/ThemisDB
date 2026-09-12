@@ -506,7 +506,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
 
         // Enforce max_records_per_window: drop the record when the window is full.
         if (!key_rejected && config_.max_records_per_window > 0 &&
-            static_cast<int>(open_windows_[idx].records.size()) >= config_.max_records_per_window) {
+            open_windows_[idx].records.size() >= config_.max_records_per_window) {
             ++records_dropped_;
             record_added = false;
             spdlog::debug("TumblingWindow: dropped record (window full, limit={})",

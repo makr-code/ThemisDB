@@ -992,7 +992,7 @@ bool DeltaUpdateEngine::generatePatchVcdiff(
     std::vector<uint8_t> instructions;
     size_t tpos = 0;
 
-    while (static_cast<size_t>(tpos) <target.size()) {
+    while (tpos < target.size()) {
         size_t best_len    = 0;
         uint32_t best_off  = 0;
 
@@ -1122,7 +1122,7 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
     target.reserve(orig_size);
 
     size_t ip = 0; // instruction pointer
-    while (static_cast<size_t>(ip) <instructions.size()) {
+    while (ip < instructions.size()) {
         uint8_t opcode = instructions[ip++];
 
         if (opcode == INSTR_COPY) {

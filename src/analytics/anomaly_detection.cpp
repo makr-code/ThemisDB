@@ -487,7 +487,7 @@ struct AnomalyDetector::Impl {
     // ---- Per-feature anomaly scores ----
     std::vector<double> zscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <means.size(); ++i) {
+        for (size_t i = 0; i < x.size() && i < means.size(); ++i) {
             double sd = (stddevs[i] > 1e-10) ? stddevs[i] : 1e-10;
             c[i]      = std::min(std::abs(x[i] - means[i]) / sd, 9.0);
         }
@@ -496,7 +496,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> modZscoreContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <medians.size(); ++i) {
+        for (size_t i = 0; i < x.size() && i < medians.size(); ++i) {
             double mad = (mads[i] > 1e-10) ? mads[i] : 1e-10;
             c[i]       = std::min(0.6745 * std::abs(x[i] - medians[i]) / mad, 9.0);
         }
@@ -505,7 +505,7 @@ struct AnomalyDetector::Impl {
 
     std::vector<double> iqrContributions(const std::vector<double> &x) const {
         std::vector<double> c(x.size(), 0.0);
-        for (size_t i = 0; i < x.size()  && static_cast<size_t>(i) <q1.size(); ++i) {
+        for (size_t i = 0; i < x.size() && i < q1.size(); ++i) {
             double fence_lo = q1[i] - 1.5 * iqr[i];
             double fence_hi = q3[i] + 1.5 * iqr[i];
             double range    = (iqr[i] > 1e-10) ? iqr[i] : 1.0;
@@ -784,7 +784,7 @@ struct AnomalyDetector::Impl {
             return contrib;
         }
         for (const auto &[dist, idx] : neighbours) {
-            for (size_t f = 0; f < n_features  && static_cast<size_t>(f) < lof_train[idx].size(); ++f) {
+            for (size_t f = 0; f < n_features && f < lof_train[idx].size(); ++f) {
                 double d = x[f] - lof_train[idx][f];
                 contrib[f] += d * d;
             }

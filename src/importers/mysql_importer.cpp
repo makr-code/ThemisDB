@@ -940,7 +940,7 @@ bool MySQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema
         std::string col_type = {};
         size_t k = type_start;
         int tdep = 0;
-        while (static_cast<size_t>(k) <col_def.size()) {
+        while (k < col_def.size()) {
             char c = col_def[k];
             if (c == '(') { ++tdep; col_type += c; }
             else if (c == ')') {
@@ -1041,7 +1041,7 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
     // Walk the payload extracting one parenthesised tuple at a time.
     size_t pos = 0;
     size_t rows_imported = 0;
-    while (static_cast<size_t>(pos) <values_payload.size()) {
+    while (pos < values_payload.size()) {
         // Skip whitespace and commas between tuples
         while (pos < values_payload.size() &&
                (values_payload[pos] == ' ' || values_payload[pos] == '\t' ||

@@ -3015,7 +3015,7 @@ VectorIndexManager::getStatistics() const {
 	}
 
 	// Sample random pairs
-	for (size_t i = 0; i < sample_count  && static_cast<size_t>(i) <pks.size(); ++i) {
+	for (size_t i = 0; i < sample_count  && i < pks.size(); ++i) {
 		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
 			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
 			distances.push_back(dist);

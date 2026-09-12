@@ -190,7 +190,7 @@ struct Token {
 std::vector<Token> tokenize(const std::string &expr) {
     std::vector<Token> tokens;
     size_t i = 0;
-    while (static_cast<size_t>(i) <expr.size()) {
+    while (i < expr.size()) {
         char c = expr[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             ++i;
@@ -589,7 +589,7 @@ EventStream::PushResult EventStream::push(Event event) {
 }
 
 std::optional<Event> EventStream::pull(uint32_t partition_id) {
-    if (partition_id >= partitions_.size()) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -605,7 +605,7 @@ std::optional<Event> EventStream::pull(uint32_t partition_id) {
 }
 
 std::optional<Event> EventStream::peek(uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return std::nullopt;
     }
     auto &part = *partitions_[partition_id];
@@ -617,7 +617,7 @@ std::optional<Event> EventStream::peek(uint32_t partition_id) const {
 }
 
 float EventStream::getFillLevel(uint32_t partition_id) const {
-    if (partition_id >= partitions_.size()) {
+    if (static_cast<size_t>(partition_id) >= partitions_.size()) {
         return 0.0f;
     }
     size_t max_pp = config_.buffer_size / partitions_.size();
@@ -1648,7 +1648,7 @@ std::map<std::string, AggregationResult> Aggregator::getResults() const {
                     std::istringstream iss(gkey);
                     std::string token = {};
                     size_t fi = 0;
-                    while (std::getline(iss, token, '|')  && static_cast<size_t>(fi) <group_by_fields_.size()) {
+                    while (std::getline(iss, token, '|')  && fi < group_by_fields_.size()) {
                         r.group_by_values[group_by_fields_[fi++]] = token;
                     }
                 }

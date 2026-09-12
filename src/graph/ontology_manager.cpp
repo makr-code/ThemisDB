@@ -214,10 +214,10 @@ static std::vector<YamlEntry> parseYamlSection(const std::vector<std::string> &l
         }
     };
 
-    while (static_cast<size_t>(i) <lines.size()) {
+    while (i < lines.size()) {
         const std::string &raw = lines[i];
         // count leading spaces
-        int indent = 0;
+        size_t indent = 0;
         while (indent < raw.size() && raw[indent] == ' ') {
             ++indent;
         }
@@ -565,7 +565,7 @@ bool OntologyManager::parseJson(const std::string &text) {
         return false;
     }
 
-    while (static_cast<size_t>(pos) <text.size()) {
+    while (pos < text.size()) {
         skipWs(text, pos);
         if (pos < text.size() && text[pos] == '}') {
             break;
@@ -657,7 +657,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
     }
 
     std::size_t i = 0;
-    while (static_cast<size_t>(i) <lines.size()) {
+    while (i < lines.size()) {
         std::string raw = trimYaml(lines[i]);
         if (raw.empty() || raw[0] == '#') {
             ++i;
@@ -675,7 +675,7 @@ bool OntologyManager::parseYaml(const std::string &text) {
         // Determine indent of entries in this section
         int entry_indent = -1;
         std::size_t look = i;
-        while (static_cast<size_t>(look) <lines.size()) {
+        while (look < lines.size()) {
             std::string l = lines[look];
             int ind       = 0;
             while (ind < l.size() && l[ind] == ' ') {
