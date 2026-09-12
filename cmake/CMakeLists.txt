@@ -5638,7 +5638,7 @@ if(THEMIS_BUILD_TOOLS AND EXISTS "${THEMIS_ROOT_DIR}/tools/themis_config_wx/main
 
         message(STATUS "themis_config_wx: enabled")
     else()
-        message(WARNING "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
+        message(STATUS "THEMIS_BUILD_TOOLS is ON, but themis_config_wx dependencies are missing (wxWidgets and/or yaml-cpp); target is skipped")
     endif()
 endif()
 
