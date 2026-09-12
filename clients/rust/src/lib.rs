@@ -293,7 +293,7 @@ impl CircuitBreaker {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum IsolationLevel {
     ReadCommitted,
@@ -335,6 +335,20 @@ impl ThemisClient {
             return Err(ThemisError::InvalidConfig(
                 "endpoints must not be empty".into(),
             ));
+        }
+        for endpoint in &config.endpoints {
+            if !endpoint.starts_with("https://") {
+                return Err(ThemisError::InvalidConfig(
+                    "endpoint must use HTTPS to protect sensitive data in transit".into(),
+                ));
+            }
+        }
+        if let Some(meta) = &config.metadata_endpoint {
+            if !meta.starts_with("https://") {
+                return Err(ThemisError::InvalidConfig(
+                    "metadata_endpoint must use HTTPS to protect sensitive data in transit".into(),
+                ));
+            }
         }
         let client = Client::builder()
             .timeout(Duration::from_millis(config.timeout_ms))
@@ -973,23 +987,23 @@ impl ThemisClient {
         // Check circuit breaker
         if let Some(cb) = &self.circuit_breaker {
             if !cb.can_execute().await {
-                self.log("ERROR", &format!("Circuit breaker is OPEN for {}", url));
+                self.log("ERROR", &format!("Circuit breaker is OPEN for {}", redact_url_path(&url)));
                 return Err(ThemisError::InvalidConfig(
                     "Circuit breaker is OPEN".into(),
                 ));
             }
         }
 
-        // Log request
+        // Log request — omit path to avoid exposing entity keys or user identifiers
         if let Some(logging) = &self.config.logging {
             if logging.enabled && logging.log_requests {
-                self.log("INFO", &format!("{} {}", method, url));
+                let safe_url = redact_url_path(&url);
+                self.log("INFO", &format!("{} {}", method, safe_url));
             }
         }
 
         let mut attempt = 0usize;
         let max_attempts = self.config.max_retries.max(1);
-        let mut last_error = None;
 
         loop {
             let mut builder = self.http.request(method.clone(), &url);
@@ -1015,7 +1029,7 @@ impl ThemisClient {
                     // Log response
                     if let Some(logging) = &self.config.logging {
                         if logging.enabled && logging.log_responses {
-                            self.log("INFO", &format!("{} {} -> {}", method, url, status));
+                            self.log("INFO", &format!("{} {} -> {}", method, redact_url_path(&url), status));
                         }
                     }
 
@@ -1049,7 +1063,6 @@ impl ThemisClient {
                         return Err(ThemisError::Transport(err));
                     }
                     attempt += 1;
-                    last_error = Some(err);
                     sleep(backoff(attempt)).await;
                 }
             }
@@ -1305,6 +1318,25 @@ fn normalize(endpoint: &str) -> String {
     endpoint.trim_end_matches('/').to_string()
 }
 
+/// Return a redacted version of `url` that contains only the scheme and host,
+/// omitting the path, query string, and fragment to avoid leaking entity keys or user
+/// identifiers (such as UUIDs) into log output.
+fn redact_url_path(url: &str) -> String {
+    // Find end of scheme (e.g. "https://")
+    if let Some(after_scheme) = url.find("://") {
+        let rest = &url[after_scheme + 3..];
+        // Find start of path, query, or fragment after authority — whichever comes first
+        let host_end = rest
+            .find(|c| c == '/' || c == '?' || c == '#')
+            .unwrap_or(rest.len());
+        let host = &rest[..host_end];
+        let scheme = &url[..after_scheme];
+        format!("{scheme}://{host}/<redacted>")
+    } else {
+        "<redacted>".to_string()
+    }
+}
+
 fn build_urn(model: &str, namespace: &str, collection: &str, uuid: &str) -> String {
     format!("urn:themis:{model}:{namespace}:{collection}:{uuid}")
 }
@@ -1494,5 +1526,45 @@ mod tests {
         let payload = json!({ "name": "Clara" });
         let entity: TestEntity = decode_entity(payload).expect("decode succeeds");
         assert_eq!(entity, TestEntity { name: "Clara".into() });
+    }
+
+    #[test]
+    fn redact_url_path_strips_path() {
+        assert_eq!(
+            redact_url_path("https://example.com/entities/model.ns.col:uuid-1234"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(
+            redact_url_path("https://example.com/health"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(
+            redact_url_path("https://example.com?key=secret-uuid"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(
+            redact_url_path("https://example.com#fragment"),
+            "https://example.com/<redacted>"
+        );
+        assert_eq!(redact_url_path("not-a-url"), "<redacted>");
+    }
+
+    #[test]
+    fn new_rejects_http_endpoints() {
+        let config = ThemisClientConfig {
+            endpoints: vec!["http://example.com".into()],
+            ..ThemisClientConfig::default()
+        };
+        assert!(ThemisClient::new(config).is_err());
+    }
+
+    #[test]
+    fn new_rejects_http_metadata_endpoint() {
+        let config = ThemisClientConfig {
+            endpoints: vec!["https://example.com".into()],
+            metadata_endpoint: Some("http://meta.example.com".into()),
+            ..ThemisClientConfig::default()
+        };
+        assert!(ThemisClient::new(config).is_err());
     }
 }

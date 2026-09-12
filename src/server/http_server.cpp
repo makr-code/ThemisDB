@@ -1255,21 +1255,12 @@ HttpServer::HttpServer(
     }
 #endif  // THEMIS_ENABLE_LLM
 
-    // Initialize Scraper Plugin API handler (production consumer route for scraper module).
+    // Initialize Scraper Plugin API handler once a durable metadata writer is wired.
 #ifdef THEMIS_PLUGIN_SCRAPER
-    try {
-        auto renderer = std::make_shared<themis::scraper::SubprocessJSRenderer>();
-        auto writer   = std::make_shared<themis::scraper::InMemoryScraperMetadataWriter>();
-        scraper_plugin_api_ = std::make_unique<themis::server::ScraperPluginApiHandler>(
-            storage_,
-            auth_,
-            std::move(renderer),
-            std::move(writer)
-        );
-        THEMIS_INFO("Scraper Plugin API handler initialized (endpoints: /scraper/*)");
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Scraper Plugin API handler skipped: {}", e.what());
-    }
+    THEMIS_WARN(
+        "Scraper Plugin API handler disabled: durable metadata writer is not wired yet; "
+        "skipping /scraper/* production route initialization"
+    );
 #endif  // THEMIS_PLUGIN_SCRAPER
 
     // Initialize Encrypted Storage API handler (production consumer route for user_storage_encrypted module).

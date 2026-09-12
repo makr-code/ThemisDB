@@ -26492,6 +26492,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.c
         fmt::fmt
         Threads::Threads
     )
+    if(TARGET themis_llm)
+        target_link_libraries(test_ai_safety_chaos PRIVATE themis_llm)
+    endif()
     target_compile_definitions(test_ai_safety_chaos PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_MCP=1)
     set_target_properties(test_ai_safety_chaos PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
     add_test(NAME AiSafetyChaosTests COMMAND test_ai_safety_chaos)
