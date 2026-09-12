@@ -68,14 +68,20 @@ jobs:
     steps:
       - name: Validate rollback request
         id: validate
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          INPUT_DELETE_RELEASE: ${{ github.event.inputs.delete-github-release }}
+          INPUT_DELETE_DOCKER: ${{ github.event.inputs.delete-docker-tags }}
+          INPUT_REVERT: ${{ github.event.inputs.revert-version }}
+          INPUT_REASON: ${{ github.event.inputs.reason }}
         run: |
           set -euo pipefail
           
-          VERSION="${{ github.event.inputs.version }}"
-          DELETE_RELEASE="${{ github.event.inputs.delete-github-release }}"
-          DELETE_DOCKER="${{ github.event.inputs.delete-docker-tags }}"
-          REVERT="${{ github.event.inputs.revert-version }}"
-          REASON="${{ github.event.inputs.reason }}"
+          VERSION="$INPUT_VERSION"
+          DELETE_RELEASE="$INPUT_DELETE_RELEASE"
+          DELETE_DOCKER="$INPUT_DELETE_DOCKER"
+          REVERT="$INPUT_REVERT"
+          REASON="$INPUT_REASON"
           
           echo "Rollback Request:"
           echo "  Version: $VERSION"
@@ -108,9 +114,11 @@ jobs:
     steps:
       - name: Delete GitHub Release
         uses: actions/github-script@v7
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         with:
           script: |
-            const version = '${{ github.event.inputs.version }}';
+            const version = process.env.INPUT_VERSION;
             const tags = [
               `v${version}`,
               `v${version}-rc1`,
@@ -142,9 +150,11 @@ jobs:
             }
 
       - name: Report deletion status
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
           echo "✓ GitHub Release deletion completed"
-          echo "  Version: ${{ github.event.inputs.version }}"
+          echo "  Version: $INPUT_VERSION"
 
   delete-docker-tags:
     name: Delete Docker Image Tags
@@ -158,10 +168,11 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
           set -euo pipefail
           
-          VERSION="${{ github.event.inputs.version }}"
+          VERSION="$INPUT_VERSION"
           
           echo "Docker Hub deletion would be manual via Docker Hub UI:"
           echo "  https://hub.docker.com/r/themisdb/themisdb/tags"
@@ -171,9 +182,11 @@ jobs:
           gh auth status 2>/dev/null || echo "GitHub CLI not authenticated"
 
       - name: Report deletion status
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
           echo "✓ Docker image deletion initiated (may require manual confirmation)"
-          echo "  Version: ${{ github.event.inputs.version }}"
+          echo "  Version: $INPUT_VERSION"
 
   revert-version:
     name: Revert VERSION File
@@ -188,11 +201,15 @@ jobs:
 
       - name: Revert version
         id: revert
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          INPUT_PREVIOUS_VERSION: ${{ github.event.inputs.previous-version }}
+          INPUT_REASON: ${{ github.event.inputs.reason }}
         run: |
           set -euo pipefail
           
-          CURRENT_VERSION="${{ github.event.inputs.version }}"
-          PREVIOUS_VERSION="${{ github.event.inputs.previous-version }}"
+          CURRENT_VERSION="$INPUT_VERSION"
+          PREVIOUS_VERSION="$INPUT_PREVIOUS_VERSION"
           
           if [[ -z "$PREVIOUS_VERSION" ]]; then
             echo "::error::previous-version not provided; cannot revert"
@@ -209,7 +226,7 @@ jobs:
           
           git add VERSION RELEASE_TYPE
           git commit -m "chore: rollback version from $CURRENT_VERSION to $PREVIOUS_VERSION" \
-            --message "Rollback reason: ${{ github.event.inputs.reason }}" \
+            --message "Rollback reason: $INPUT_REASON" \
             || true
           
           echo "reverted-to=$PREVIOUS_VERSION" >> "$GITHUB_OUTPUT"
@@ -246,10 +263,13 @@ jobs:
           labels: release/rollback,critical
 
       - name: Report rollback status
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          REVERTED_TO: ${{ steps.revert.outputs.reverted-to }}
         run: |
           echo "✓ Version rollback initiated"
-          echo "  From: ${{ github.event.inputs.version }}"
-          echo "  To: ${{ steps.revert.outputs.reverted-to }}"
+          echo "  From: $INPUT_VERSION"
+          echo "  To: $REVERTED_TO"
 
   notify-rollback:
     name: Notify Rollback
@@ -258,18 +278,24 @@ jobs:
     if: always()
     steps:
       - name: Report rollback completion
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          INPUT_REASON: ${{ github.event.inputs.reason }}
+          INPUT_DELETE_RELEASE: ${{ github.event.inputs.delete-github-release }}
+          INPUT_DELETE_DOCKER: ${{ github.event.inputs.delete-docker-tags }}
+          INPUT_REVERT: ${{ github.event.inputs.revert-version }}
         run: |
           echo "═══════════════════════════════════════════════════════════════"
           echo "Release Rollback Complete"
           echo "═══════════════════════════════════════════════════════════════"
-          echo "Version:    ${{ github.event.inputs.version }}"
-          echo "Reason:     ${{ github.event.inputs.reason }}"
+          echo "Version:    $INPUT_VERSION"
+          echo "Reason:     $INPUT_REASON"
           echo "Initiated:  ${{ github.actor }}"
           echo ""
           echo "Actions Completed:"
-          echo "  GitHub Release: ${{ github.event.inputs.delete-github-release }}"
-          echo "  Docker Tags: ${{ github.event.inputs.delete-docker-tags }}"
-          echo "  Version Revert: ${{ github.event.inputs.revert-version }}"
+          echo "  GitHub Release: $INPUT_DELETE_RELEASE"
+          echo "  Docker Tags: $INPUT_DELETE_DOCKER"
+          echo "  Version Revert: $INPUT_REVERT"
           echo ""
           echo "⚠️  Manual Actions Required:"
           echo "  1. Cancel WinGet PR at: https://github.com/microsoft/winget-pkgs/pulls"

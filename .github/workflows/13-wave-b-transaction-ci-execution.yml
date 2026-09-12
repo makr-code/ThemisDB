@@ -481,7 +481,10 @@ jobs:
             -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
 
       - name: "Build Phase 4 benchmark"
-        run: cmake --build "${{ needs.configure.outputs.build-dir }}" --target bench_transaction_phase4 --parallel ${{ github.event.inputs.parallel_jobs || 4 }}
+        env:
+          BUILD_DIR: ${{ needs.configure.outputs.build-dir }}
+          PARALLEL_JOBS: ${{ github.event.inputs.parallel_jobs || 4 }}
+        run: cmake --build "$BUILD_DIR" --target bench_transaction_phase4 --parallel "$PARALLEL_JOBS"
 
       - name: "Run Phase 4 benchmark baseline"
         run: |

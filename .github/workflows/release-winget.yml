@@ -65,6 +65,12 @@ jobs:
 
       - name: Detect release details
         id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          DISPATCH_VERSION: ${{ github.event.inputs.version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
         run: |
           set -euo pipefail
           
@@ -73,24 +79,24 @@ jobs:
           IS_STABLE="false"
           SHOULD_SUBMIT="false"
           
-          if [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+          if [[ "$EVENT_NAME" == "workflow_call" ]]; then
             # Reusable workflow trigger
-            VERSION="${{ inputs.version }}"
+            VERSION="$INPUT_VERSION"
             RELEASE_TYPE="stable"
             IS_STABLE="true"
             SHOULD_SUBMIT="true"
 
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          elif [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             # Manual trigger
-            VERSION="${{ github.event.inputs.version }}"
+            VERSION="$DISPATCH_VERSION"
             RELEASE_TYPE="stable"
             IS_STABLE="true"
             SHOULD_SUBMIT="true"
           
-          elif [[ "${{ github.event_name }}" == "release" ]]; then
+          elif [[ "$EVENT_NAME" == "release" ]]; then
             # Triggered by release event
-            VERSION="${{ github.event.release.tag_name }}"
-            IS_PRERELEASE="${{ github.event.release.prerelease }}"
+            VERSION="$RELEASE_TAG"
+            IS_PRERELEASE="$RELEASE_PRERELEASE"
             
             # Extract version from tag (v2.4.0 → 2.4.0)
             VERSION="${VERSION#v}"
