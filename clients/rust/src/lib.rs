@@ -293,7 +293,7 @@ impl CircuitBreaker {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum IsolationLevel {
     ReadCommitted,
@@ -989,7 +989,6 @@ impl ThemisClient {
 
         let mut attempt = 0usize;
         let max_attempts = self.config.max_retries.max(1);
-        let mut last_error = None;
 
         loop {
             let mut builder = self.http.request(method.clone(), &url);
@@ -1049,7 +1048,6 @@ impl ThemisClient {
                         return Err(ThemisError::Transport(err));
                     }
                     attempt += 1;
-                    last_error = Some(err);
                     sleep(backoff(attempt)).await;
                 }
             }

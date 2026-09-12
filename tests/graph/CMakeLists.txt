@@ -23,6 +23,12 @@ foreach(_src IN LISTS GRAPH_MODULE_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_graph_phase_gate_orchestration")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/graph/graph_phase_gate_orchestrator.cpp
+        )
+    endif()
+
     add_executable(${_target} "${_src}" ${_extra_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -67,6 +73,12 @@ foreach(_src IN LISTS GRAPH_AUTOGEN_PREFIX_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/tensor_deduplication_manager.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_graph_phase_gate_orchestration")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/graph/graph_phase_gate_orchestrator.cpp
         )
     endif()
 

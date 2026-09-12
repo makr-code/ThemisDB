@@ -39,6 +39,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### Long-term (Q3 2027+)
 - [x] Wave C C1: Constitutional AI (CAI) safety module with 21 built-in principles, critic-revision loop, EthicsEvaluator integration, and CAI-01..15 + CAI-BENCH-01 coverage — `include/ai/cai_ethics_integration.h`, `tests/test_cai_safety_module.cpp`
 - [x] Wave C C2: Federated learning coordinator with secure aggregation, Byzantine-robust averaging, DP tuning, and FEDERATED-01..15 + FEDERATED-BENCH-01 coverage — `tests/test_federated_privacy_training.cpp`
+- [x] Wave C C3: Graph phase gate orchestrator — DAG-based ML pipeline phase tracking with gate criteria, gap reporting, acyclic registration enforcement, and GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 coverage — `include/graph/graph_phase_gate_orchestrator.h`, `tests/graph/test_graph_phase_gate_orchestration.cpp` (issue #6287)
 - [x] Human safety benchmark program for C1 (500 samples, 3 annotators) and convergence benchmark for C2 (10-node setup) — `tests/test_cai_safety_module.cpp` (CAI-BENCH-01), `tests/test_federated_privacy_training.cpp` (FEDERATED-BENCH-01)
 - [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
 - [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
@@ -96,6 +97,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Wave A + Wave B stability checks tracked in focused regression suites and release-gate docs (`CTEST.md`, Wave A `#5038`, Wave B `#5039`)
 - [x] Constitutional AI principles formalized in ethics framework (`src/ai/cai_ethics_integration.cpp`, `tests/test_cai_safety_module.cpp`)
 - [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 coverage + issue traceability `#5040`/`#5039`)
+- [x] Graph phase gate orchestrator implemented and all exit criteria confirmed (GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 — issue #6287)
 
 ### References
 - `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`
