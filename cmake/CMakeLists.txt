@@ -5402,7 +5402,7 @@ endif()
 if(THEMIS_PLUGIN_SCRAPER)
     target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_SCRAPER)
 endif()
-if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
+if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted)
     target_compile_definitions(themis_core ${_themis_core_plugin_scope} THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
 endif()
 
@@ -5410,6 +5410,12 @@ target_link_libraries(themis_server
     PRIVATE
         themis_core
 )
+
+if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted)
+    # Keep server link closure explicit for symbols referenced by
+    # encrypted_storage_api_handler.cpp in themis_network.
+    target_link_libraries(themis_server PRIVATE themis_user_storage_encrypted)
+endif()
 
 # Set output directory to bin/ folder (consistent with test binaries)
     set_target_properties(themis_server PROPERTIES
