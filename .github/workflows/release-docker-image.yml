@@ -314,9 +314,9 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")')"
+        CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")' 2>/dev/null || true)"
         if [ -z "${CA_BUNDLE_PATH}" ] || [ ! -f "${CA_BUNDLE_PATH}" ]; then
-          echo "::error::Unable to locate host CA bundle"
+          echo "::error::Unable to locate host CA bundle via python3 ssl defaults"
           exit 1
         fi
         echo "path=${CA_BUNDLE_PATH}" >> "${GITHUB_OUTPUT}"
