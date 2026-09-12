@@ -163,6 +163,21 @@ Representative modules with most checklist work already closed:
 | image_analysis | 1 | 1 | 36 | 94.7% |
 | analytics | 8 | 2 | 127 | 92.7% |
 
+### Legacy-Priority Module Coverage vs Current Closure (2026-09-12)
+
+For the 42 modules that appear in the legacy issue-seed priority tables below, current module-roadmap checklist state is:
+
+| Scope | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| Legacy-priority module set (42 modules) | 678 | 249 | 1769 | 65.6% |
+
+Done-share buckets across those 42 legacy-priority modules:
+
+- **100% done (1):** `api`
+- **80%+ done (9):** `analytics`, `aql`, `auth`, `base`, `content`, `llm`, `maintenance`, `network`, `utils`
+- **60–79% done (15):** `cache`, `config`, `core`, `geo`, `importers`, `metadata`, `observability`, `performance`, `plugins`, `replication`, `security`, `server`, `sharding`, `storage`, `transaction`
+- **<60% done (17):** `acceleration`, `cdc`, `chimera`, `exporters`, `governance`, `gpu`, `graph`, `index`, `ingestion`, `query`, `rag`, `scheduler`, `temporal`, `themis`, `timeseries`, `training`, `updates`
+
 ### Legacy Issue-Seed Priority Snapshot (historical)
 
 The priority tables below are a historical issue-seed extraction and are **not** a direct 1:1 representation of still-open source gaps.
