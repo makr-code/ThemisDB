@@ -1,6 +1,26 @@
 name: "Wave A GPU CI Execution"
 
 on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "src/gpu/**"
+      - "tests/gpu/**"
+      - "include/gpu/**"
+      - "include/themis/gpu/**"
+      - "benchmarks/gpu/**"
+      - ".github/workflows/13-wave-a-gpu-ci-execution.yml"
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - "src/gpu/**"
+      - "tests/gpu/**"
+      - "include/gpu/**"
+      - "include/themis/gpu/**"
+      - "benchmarks/gpu/**"
+      - ".github/workflows/13-wave-a-gpu-ci-execution.yml"
   workflow_dispatch:
     inputs:
       phase:
@@ -19,6 +39,10 @@ on:
         description: "Run self-hosted representative GPU hardware baseline capture"
         required: false
         default: "false"
+
+concurrency:
+  group: wave-a-gpu-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -533,8 +557,8 @@ jobs:
             echo ""
             echo "## Results Summary"
             echo "- CMake Configuration: ${{ needs.configure.outputs.config-status }}"
-            echo "- Test Compilation: ✅ 36/36 GPU tests compiled"
-            echo "- Full Suite: All tests executed (see artifacts)"
+            echo "- Test Compilation: ${{ needs.compile-tests.result }}"
+            echo "- Full Suite: ${{ needs.full-gpu-test-suite.result }}"
             echo "- CUDA-Call Audit: ${{ needs.cuda-audit.outputs.audit_status }} (${{ needs.cuda-audit.outputs.unchecked }} unchecked calls, ${{ needs.cuda-audit.outputs.reduction_pct }}% reduction vs 340-call baseline)"
             echo "- Representative GPU baseline: ${GPU_BASELINE_STATUS}"
             echo ""
