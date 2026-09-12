@@ -376,8 +376,6 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 
 ---
 
----
-
 ## Cross-Module Architecture Evidence
 
 Use these source-backed companion documents for architecture review across module boundaries:
@@ -412,17 +410,6 @@ Key insights:
 - Wave-1 private plugins (ethics_ai, user_storage_encrypted, importers, llm_wiki) are enterprise-exclusive
 - Public plugins are optional runtime extensions; core integrated modules are always built
 - Integrated fallback ensures Community/Minimal editions don't require runtime plugin loading
-
-## Cross-Module Architecture Evidence (2026-09-09)
-
-- [`docs/architecture/MODULE_ARCHITECTURE.md`](docs/architecture/MODULE_ARCHITECTURE.md) — 72-module layer map, dependency graph, SCC/circular dependency analysis.
-- [`docs/architecture/MODULE_INTEGRATION_CONTRACTS.md`](docs/architecture/MODULE_INTEGRATION_CONTRACTS.md) — abstract integration interfaces, edition gating, maturity/version signals.
-- [`docs/architecture/DATA_FLOW_PATHS.md`](docs/architecture/DATA_FLOW_PATHS.md) — source-backed Query, distributed 2PC, and LLM/RAG end-to-end paths.
-- [`docs/architecture/RELEASE_ARCHITECTURE_STATUS.md`](docs/architecture/RELEASE_ARCHITECTURE_STATUS.md) — production-ready vs hardening posture, docs-only module paths, release blockers.
-- [`src/CROSS_MODULE_INTEGRATION.md`](src/CROSS_MODULE_INTEGRATION.md) — module-boundary bottlenecks, compile coupling, and optimization suggestions.
-- [`MODULE_INDEX.md`](MODULE_INDEX.md) — root module index cross-reference.
-
----
 
 ## Security & Hardening Tiering Model (Core Module -> Plugin)
 
@@ -1587,7 +1574,4 @@ build if any discrepancies are found.
 
 ---
 
-*Last Updated: 2026-03-24 | Generated from codebase analysis*
-
----
-Zuletzt geprueft (Root-Sync): 2026-07-27
+*Last Updated: 2026-09-12 | Generated from codebase analysis*

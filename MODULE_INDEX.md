@@ -1,14 +1,18 @@
-# ThemisDB Module Index (Comprehensive)
+# ThemisDB Module Index (Navigation)
 
-**Status:** Batch 6 Phase 6.2 — Module Index  
-**Date:** 2026-08-14  
-**Scope:** 35 documented modules + 38 planned
+**Status:** current (source-validated navigation index)  
+**Date:** 2026-09-12  
+**Scope:** 72 `src/` module directories tracked (`src/*`), including 71 module roadmaps (`src/*/ROADMAP.md`)
+
+> **Canonical module-developer status source:** [`ROADMAP.md`](ROADMAP.md) (root module-status table).  
+> This file is a navigation index and orientation aid; status decisions and release evidence must be taken from the canonical roadmap and module-local source evidence.
 
 ---
 
 ## Quick Access
 
-- **By Batch:** [Batch 1–5 (Documented)](#documented-modules-batches-15)
+- **Current Status Snapshot:** [Source-Validated Status (2026-09-12)](#current-source-validated-status-snapshot-2026-09-12)
+- **Legacy Batch View:** [Historical Batch Snapshot](#historical-batch-snapshot-legacy-reference)
 - **By Wave:** [Wave A/B/C/D](#wave-alignment)
 - **By Alphabetical:** [All Modules A–Z](#alphabetical-index)
 - **By Category:** [Functional Groups](#category-index)
@@ -16,9 +20,26 @@
 
 ---
 
-## Documented Modules (Batches 1–5)
+## Current Source-Validated Status Snapshot (2026-09-12)
 
-### ✅ Status: 35 Modules Documented (48% of 73 total)
+Status grouping aligned with canonical root roadmap + source-evidence reconciliation:
+
+| Status | Count | Notes |
+|---|---:|---|
+| `PRODUCTION_CANDIDATE` | 19 | Release-evidence modules with high maturity; still subject to wave/gate criteria. |
+| `HARDENING` | 48 | Main backlog/hardening focus across implementation, evidence, and benchmarks. |
+| `EXPERIMENTAL` | 2 | `llama_cpp`, `stable_diffusion` |
+| `THIN/PLACEHOLDER` | 3 | `ai_working`, `distributed_tensor`, `retrieval` |
+
+Additional evidence classification used in source-roadmap snapshots:
+- Docs-only module path (evidence mismatch): `llm_streaming`, `vector_search`  
+  (module-local roadmaps claim production-candidate delivery while local module paths currently contain docs artefacts only and no colocated `.cpp/.h` files).
+
+---
+
+## Historical Batch Snapshot (legacy reference)
+
+### ⚠️ Legacy snapshot: 35 Modules Documented (48% of 73 total, historical)
 
 **Total Documentation:** 10,815+ lines  
 **Test Gates Defined:** 264+ gates with SLO targets  
@@ -298,9 +319,9 @@
 
 ---
 
-## Planned Modules (Batch 6+)
+## Planned Modules (Batch 6+, legacy reference)
 
-**Status: 38 modules remaining to document (52% of 73 total)**
+**Status:** Historical planning snapshot from 2026-08-14; superseded for status decisions by root [`ROADMAP.md`](ROADMAP.md) and `src/*/ROADMAP.md`.
 
 ### High Priority (Next Release)
 - aql (query language) — Tier 3
