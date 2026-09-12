@@ -78,6 +78,9 @@ set_target_properties(themis_user_storage_encrypted PROPERTIES
 
 if(WIN32)
     target_compile_definitions(themis_user_storage_encrypted PRIVATE THEMIS_PLUGIN_EXPORTS)
+    set_target_properties(themis_user_storage_encrypted PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+    )
 endif()
 
 install(TARGETS themis_user_storage_encrypted
