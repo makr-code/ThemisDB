@@ -8,8 +8,8 @@
 
 > **Purpose:** This document aggregates open TODOs, hardening tasks, and planned features
 > from module roadmaps in `src/*/ROADMAP.md`.
-> It is sorted by **Priority → Target Version → Module** and is the canonical input for
-> creating GitHub Issues with full implementation context.
+> It combines a **source-validated current posture** (status snapshot + checklist totals)
+> with a **legacy issue-seed priority backlog snapshot** (pending full regeneration).
 
 ## Module Status Snapshot
 
@@ -122,6 +122,23 @@ See: <Detail link>
 
 ## Statistics
 
+### Source-Validated Checklist Totals (2026-09-12)
+
+Derived from recursive `src/*/ROADMAP.md` checkbox scan:
+
+| Checklist state | Count |
+|---|---:|
+| `[x]` done | 3068 |
+| `[~]` in progress | 377 |
+| `[ ]` open | 1028 |
+| `[I]` / `[P]` issue/pr-linked | 7 |
+
+> Interpretation: the source roadmap corpus already contains a large closed set; the open set above is the actionable remainder.
+
+### Legacy Issue-Seed Priority Snapshot (historical)
+
+The priority tables below are a historical issue-seed extraction and are **not** a direct 1:1 representation of still-open source gaps.
+
 | Priority | Count |
 |----------|-------|
 | 🔴 Critical | 4 |
@@ -142,6 +159,8 @@ See: <Detail link>
 
 ## 🔴 Critical Priority
 
+> ⚠️ Legacy issue-seed snapshot: use this block as issue history/context; use source-validated module-roadmap checkboxes for current closure state.
+>
 > Block release. Must be fixed before any production deployment.
 
 | # | Module | Title | Target | Labels | Issue | Detail |
