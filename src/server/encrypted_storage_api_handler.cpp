@@ -68,7 +68,7 @@ http::response<http::string_body> EncryptedStorageApiHandler::handle(
     if (method == http::verb::get
         && path.rfind("/user/storage/encrypted/retrieve/", 0) == 0
         && path.size() > BASE_LEN + 9) {
-        const std::string key = path.substr(BASE_LEN + 9 - 1);  // after "retrieve/"
+        const std::string key = path.substr(BASE_LEN + 9);  // after "retrieve/"
         return handleRetrieve(req, key);
     }
     if (method == http::verb::get && path == "/user/storage/encrypted/list") {
