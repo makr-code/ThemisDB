@@ -135,6 +135,34 @@ Derived from recursive `src/*/ROADMAP.md` checkbox scan:
 
 > Interpretation: the source roadmap corpus already contains a large closed set; the open set above is the actionable remainder.
 
+### Source-Validated Module Closure/Backlog Breakdown (2026-09-12)
+
+Top remaining open backlog by module (from `src/*/ROADMAP.md` checkbox scan):
+
+| Module | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| query | 59 | 7 | 44 | 40.0% |
+| acceleration | 42 | 14 | 42 | 42.9% |
+| llm_wiki | 40 | 15 | 38 | 40.9% |
+| transaction | 32 | 18 | 80 | 61.5% |
+| index | 28 | 8 | 37 | 50.7% |
+| search | 27 | 5 | 153 | 82.7% |
+| updates | 27 | 2 | 40 | 58.0% |
+| rag | 24 | 15 | 50 | 56.2% |
+| training | 22 | 4 | 15 | 36.6% |
+| chimera | 21 | 10 | 16 | 34.0% |
+
+Representative modules with most checklist work already closed:
+
+| Module | `[ ]` open | `[~]` in progress | `[x]` done | Done share (`[x]` / total) |
+|---|---:|---:|---:|---:|
+| failover | 0 | 0 | 42 | 100.0% |
+| api | 0 | 0 | 38 | 100.0% |
+| access_model | 2 | 1 | 100 | 97.1% |
+| ai | 3 | 0 | 79 | 96.3% |
+| image_analysis | 1 | 1 | 36 | 94.7% |
+| analytics | 8 | 2 | 127 | 92.7% |
+
 ### Legacy Issue-Seed Priority Snapshot (historical)
 
 The priority tables below are a historical issue-seed extraction and are **not** a direct 1:1 representation of still-open source gaps.
