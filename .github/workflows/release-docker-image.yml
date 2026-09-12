@@ -276,12 +276,24 @@ jobs:
 
           echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
           rm -rf llama.cpp
-          git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
-          git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
-          ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse --short=${#LLAMA_CPP_GIT_TAG} HEAD)"
-          if [ "${ACTUAL_LLAMA_CPP_COMMIT}" != "${LLAMA_CPP_GIT_TAG}" ]; then
-            echo "::error::llama.cpp checkout mismatch: expected ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
-            exit 1
+          if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{5,40}$ ]]; then
+            git clone --filter=blob:none https://github.com/ggerganov/llama.cpp.git llama.cpp
+            git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
+            ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
+            case "${ACTUAL_LLAMA_CPP_COMMIT}" in
+              "${LLAMA_CPP_GIT_TAG}"*) ;;
+              *)
+                echo "::error::llama.cpp checkout mismatch: expected prefix ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
+                exit 1
+                ;;
+            esac
+          else
+            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git llama.cpp
+            ACTUAL_LLAMA_CPP_TAG="$(git -C llama.cpp describe --tags --exact-match HEAD 2>/dev/null || true)"
+            if [ "${ACTUAL_LLAMA_CPP_TAG}" != "${LLAMA_CPP_GIT_TAG}" ]; then
+              echo "::error::llama.cpp checkout mismatch: expected tag ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_TAG:-<none>}"
+              exit 1
+            fi
           fi
         fi
 
