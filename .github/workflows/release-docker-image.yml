@@ -261,9 +261,26 @@ jobs:
         echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
         echo "Tags to be pushed: ${TAGS}"
 
-    - name: Ensure optional Docker build context paths exist
+    - name: Prepare Docker build context
+      shell: bash
       run: |
-        mkdir -p internal llama.cpp vcpkg/downloads
+        set -euo pipefail
+        mkdir -p internal models vcpkg/downloads
+
+        if [ ! -f llama.cpp/CMakeLists.txt ]; then
+          LLAMA_CPP_GIT_TAG="$(sed -n 's/^[[:space:]]*set(LLAMA_CPP_GIT_TAG \"\([^\"]*\)\".*/\1/p' cmake/Dependencies.cmake | head -n 1)"
+          if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then
+            echo "::error::Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"
+            exit 1
+          fi
+
+          echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
+          rm -rf llama.cpp
+          git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
+          git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
+        fi
+
+        test -f llama.cpp/CMakeLists.txt
 
     - name: Build and push Docker image
       id: build
