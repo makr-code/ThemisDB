@@ -78,7 +78,7 @@ std::string base64Encode(const std::vector<uint8_t> &data) {
     }
 
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data.data(), data.size());
+    BIO_write(bio, data.data(), static_cast<int>(data.size()));
     BIO_flush(bio);
 
     BUF_MEM *bufferPtr = nullptr;
@@ -115,7 +115,7 @@ std::vector<uint8_t> base64Decode(const std::string &input) {
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> result(input.length());
-    int len = BIO_read(bio, result.data(), result.size());
+    int len = BIO_read(bio, result.data(), static_cast<int>(result.size()));
 
     BIO_free_all(bio);
 
@@ -211,7 +211,7 @@ TOTPSecretEncryption::EncryptedSecret TOTPSecretEncryption::encrypt(const std::s
         result.ciphertext.resize(plaintext.size() + EVP_CIPHER_block_size(EVP_aes_256_gcm()));
 
         int len = 0;
-        if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), plaintext.size())
+        if (EVP_EncryptUpdate(ctx, result.ciphertext.data(), &len, plaintext.data(), static_cast<int>(plaintext.size()))
             != 1) {
             throw std::runtime_error("Encryption failed");
         }
@@ -264,7 +264,7 @@ std::string TOTPSecretEncryption::decrypt(const EncryptedSecret &encrypted) {
 
         int len = 0;
         if (EVP_DecryptUpdate(ctx, plaintext.data(), &len, encrypted.ciphertext.data(),
-                              encrypted.ciphertext.size())
+                              static_cast<int>(encrypted.ciphertext.size()))
             != 1) {
             throw std::runtime_error("Decryption failed");
         }

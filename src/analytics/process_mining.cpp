@@ -2370,7 +2370,7 @@ std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining:
         variant_embeddings.push_back(embedActivities(info.activities));
     }
 
-    const int n_variants = variant_keys.size();
+    const int n_variants = static_cast<int>(variant_keys.size());
     const int k          = std::min(num_clusters, n_variants);
 
     if (k <= 1) {

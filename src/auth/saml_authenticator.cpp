@@ -192,7 +192,7 @@ std::string SAMLAuthenticator::deflateAndBase64Encode(const std::string &input) 
     }
     BIO_push(b64_bio, mem_bio);
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(b64_bio, compressed.data(), compressed.size());
+    BIO_write(b64_bio, compressed.data(), static_cast<int>(compressed.size()));
     BIO_flush(b64_bio);
 
     BUF_MEM *buf_ptr{};
@@ -253,7 +253,7 @@ std::vector<uint8_t> SAMLAuthenticator::base64Decode(const std::string &input) {
     BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> decoded(input.size());
-    int len = BIO_read(b64_bio, decoded.data(), decoded.size());
+    int len = BIO_read(b64_bio, decoded.data(), static_cast<int>(decoded.size()));
     BIO_free_all(b64_bio);
 
     if (len < 0) {

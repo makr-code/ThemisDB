@@ -529,9 +529,9 @@ static EVP_PKEY* coseKeyToEvpPkey(const std::vector<uint8_t>& cose_key_bytes,
             return nullptr;
         }
         BIGNUM* n = BN_bin2bn(fields.neg1_bytes.data(),
-                              fields.neg1_bytes.size(), nullptr);
+                              static_cast<int>(fields.neg1_bytes.size()), nullptr);
         BIGNUM* e = BN_bin2bn(fields.neg2_bytes.data(),
-                              fields.neg2_bytes.size(), nullptr);
+                              static_cast<int>(fields.neg2_bytes.size()), nullptr);
         if (!n || !e) { BN_free(n); BN_free(e); err_out = "BN_bin2bn failed"; return nullptr; }
 
         OSSL_PARAM_BLD* bld = OSSL_PARAM_BLD_new();

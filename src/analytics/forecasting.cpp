@@ -910,7 +910,7 @@ SARIMAParams fitSARIMA(const std::vector<double> &y, int p, int d, int q, int P,
 
     // Build OLS design matrix for AR via Yule-Walker generalisation
     // (simple OLS regression of yc[t] on yc[t-lag] for lag in ar_lags)
-    int total_ar = ar_lags.size();
+    int total_ar = static_cast<int>(ar_lags.size());
     size_t n = yc.size();
     int max_lag  = ar_lags.empty() ? 0 : ar_lags.back();
     if (max_lag < 1 || static_cast<int>(n) <= max_lag + 1) {

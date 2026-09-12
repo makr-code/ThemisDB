@@ -132,7 +132,7 @@ std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string &input) {
     BIO_set_flags(bio.get(), BIO_FLAGS_BASE64_NO_NL);
 
     std::vector<uint8_t> decoded(base64.size());
-    int len = BIO_read(bio.get(), decoded.data(), decoded.size());
+    int len = BIO_read(bio.get(), decoded.data(), static_cast<int>(decoded.size()));
     if (len < 0) {
         return {};
     }
