@@ -966,7 +966,7 @@
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "05c019fa7b91ce95"
+      "sha256_prefix": "e6ebce42981ba8cf"
     },
     {
       "category": "governance",
@@ -991,7 +991,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "cd9d17b98b56d6a5"
+      "sha256_prefix": "cf67401075a7165b"
     },
     {
       "category": "governance",
@@ -2681,7 +2681,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "b80e41b1ae587fe2"
+      "sha256_prefix": "7083aa0544c32794"
     },
     {
       "category": "docs",
@@ -5886,7 +5886,7 @@
     {
       "category": "docs",
       "path": "docs/research/ml_enhancements_bibliography.md",
-      "sha256_prefix": "1348c5935ff17022"
+      "sha256_prefix": "8020ffbe21769ac6"
     },
     {
       "category": "docs",
@@ -6809,7 +6809,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-11T12:44:35.449290+00:00",
+  "generated_at": "2026-09-11T17:12:34.644949+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8887,13 +8887,13 @@
   "source_hashes": {
     "ARCHITECTURE.md": "3983a562f05de940",
     "FUTURE_ENHANCEMENTS.md": "27719b9a0d59d926",
-    "ROADMAP.md": "05c019fa7b91ce95",
+    "ROADMAP.md": "e6ebce42981ba8cf",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "327db5382688c4b9",
     "ai_context/developer_llm_wiki/": "a1c14f1daa494f60",
     "ai_working/": "23010ee516eb01da",
-    "docs/": "654a037c91f43bdc"
+    "docs/": "281b7ec1f7d10abe"
   },
   "statistics": {
     "ai_working_artifact_count": 64,
