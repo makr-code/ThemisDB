@@ -1815,7 +1815,9 @@ set(THEMIS_NETWORK_SOURCES
     # Scraper metadata writer implementation required by ScraperPluginApiHandler.
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/scraper/scraper_metadata_writer.cpp>
     # Encrypted storage API handler implementation used by HttpServer.
-    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/encrypted_storage_api_handler.cpp>
+    # Community/Minimal edition may force-disable the plugin; keep this
+    # source out of the build graph when the plugin flag is OFF.
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED}>>:../src/server/encrypted_storage_api_handler.cpp>
     # Maintenance Orchestrator (always compiled when HTTP server is on)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_schedule_store.cpp>

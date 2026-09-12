@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <limits>
 #include <shared_mutex>
 #include <sstream>
 #include <stdexcept>
@@ -65,7 +66,10 @@ namespace {
 
 [[nodiscard]] int estimatePromptTokensFromText(const std::string& text) {
     static constexpr int kCharsPerToken = 4;
-    return std::max(1, text.size() / kCharsPerToken);
+    const auto estimated_tokens = std::max<std::size_t>(
+        1u, text.size() / static_cast<std::size_t>(kCharsPerToken));
+    return static_cast<int>(std::min<std::size_t>(
+        estimated_tokens, static_cast<std::size_t>(std::numeric_limits<int>::max())));
 }
 
 struct BudgetOverrideResolution {
