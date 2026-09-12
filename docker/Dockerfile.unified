@@ -170,7 +170,7 @@ RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
     if [ -d /tmp/build-context/llama.cpp ] && [ -f /tmp/build-context/llama.cpp/CMakeLists.txt ]; then \
         cp -a /tmp/build-context/llama.cpp/. /opt/llama.cpp/; \
     else \
-        LLAMA_CPP_GIT_TAG="$(perl -ne 'print \"$1\\n\" if /set\\s*\\(\\s*LLAMA_CPP_GIT_TAG\\s+\"([^\"]+)\"/' /tmp/build-context/cmake/Dependencies.cmake | head -n 1)"; \
+        LLAMA_CPP_GIT_TAG="$(sed -n 's/.*set([[:space:]]*LLAMA_CPP_GIT_TAG[[:space:]]*"\([^"]*\)".*/\1/p' /tmp/build-context/cmake/Dependencies.cmake | head -n 1)"; \
         if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then \
             echo "ERROR: Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"; \
             exit 1; \
