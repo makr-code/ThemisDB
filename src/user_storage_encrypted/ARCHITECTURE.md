@@ -43,3 +43,19 @@ The user_storage_encrypted module combines encrypted mount lifecycle control, pe
   - backend, key-management, and orchestration plane split
   - explicit failure boundaries for backend and scheduler behavior
   - module-local ownership of encrypted storage lifecycle behavior
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+> **Production consumer route: INTEGRATION-READY (plugin host + HTTP handler)**
+> Handler header `include/server/encrypted_storage_api_handler.h` has been created
+> as the production HTTP consumer route. The module is built as an opt-in plugin
+> target via `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Wiring
+> `EncryptedStorageApiHandler` into `HttpServer` and the plugin host are the
+> remaining steps.
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/server/encrypted_storage_api_handler.h` → `EncryptedStorageApiHandler` | Planned HTTP routes: `POST /user/storage/encrypted/store`, `GET /user/storage/encrypted/retrieve/{key}`, `DELETE /user/storage/encrypted/{key}`, `GET /user/storage/encrypted/list`, `POST /user/storage/encrypted/rotate`. Gate: `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED`. Handler header implemented; `HttpServer` wiring pending. |
+| `plugin_host` | CMake flag `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` → `MultiLevelEncryptedStorage` plugin registration | Plugin loaded at startup when flag is ON; registers as `IThemisPlugin`. |
+| _(tests)_ | `include/user_storage_encrypted/multi_level_storage.hpp`, `gocryptfs_backend.hpp`, etc. | `tests/test_user_storage_v03.cpp`, `tests/test_kdf_argon2_bridge.cpp` — current only verified consumers. |

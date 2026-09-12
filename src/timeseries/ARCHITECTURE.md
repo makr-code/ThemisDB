@@ -1,6 +1,6 @@
 # Architecture - Timeseries Module
 
-<!-- Status: current | validated: 2026-08-07 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md · PERFORMANCE_BASELINE.md · OPERATOR_GUIDE.md -->
 
 ## Overview
@@ -52,3 +52,28 @@ The timeseries module composes high-frequency ingest and storage behavior, compr
   - ingest/storage + compression/query + lifecycle/integration plane split
   - explicit failure boundaries for flush, query, retention, and remote-write faults
   - module-local ownership of timeseries behavior
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Chunk and hypertable persistence backend |
+| utils | `include/utils/` | Logging, compression (Gorilla codec support), and thread helpers |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/timeseries_api_handler.h` | Server exposes ingest, query, and retention lifecycle APIs for timeseries data |
+
+## Integration Points
+
+### Critical Integration: Server Timeseries API
+**Files:** `src/timeseries/timeseries.cpp` ↔ `server/timeseries_api_handler.h`
+**Contract:** Server delegates all timeseries write/query/retention operations; `TSStore` is the sole owner of chunk lifecycle.
+**Thread Safety:** Ingest writes and query reads are concurrency-safe through per-hypertable locking; retention runs in a background thread with its own lock.
+
+### Critical Integration: Storage Chunk Backend
+**Files:** `src/timeseries/tsstore.cpp` ↔ `storage/`
+**Contract:** TSStore writes chunks through storage interfaces; chunk compaction and encryption (EncryptedChunkStore) operate within storage transaction boundaries.
+**Thread Safety:** Chunk writes are serialised per-hypertable; reads may proceed concurrently via MVCC snapshots.

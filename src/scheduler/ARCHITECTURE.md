@@ -1,6 +1,6 @@
 # Architecture - Scheduler Module
 
-<!-- Status: current | validated: 2026-08-07 | Phase 3: Error Handling Consistency -->
+<!-- Status: current | validated: 2026-09-09 | Phase 3: Error Handling Consistency -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · scheduler_api_contract.h -->
 
 ## Overview
@@ -312,4 +312,30 @@ in order before the constructor body executes. This prevents uninitialized acces
 - `scheduler_` and `coordinator_` in DistributedTaskCoordinator are validated at construction
 - `changefeed_` in EventTrigger is validated at construction
 - All callback dereferences guarded by circuit breaker logic
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` | Logging, audit, cron/timestamp helpers, and thread-pool services |
+| storage | `include/storage/` | Persists task audit results and retention-controlled result stores |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/task_scheduler_api_handler.h`, `hybrid_retention_manager.h` | Server exposes task scheduling APIs and hybrid retention management to external callers |
+| query | `include/scheduler/` (hybrid_retention_manager.h, task_scheduler.h) | Query engine invokes scheduler for query-driven retention and scheduled maintenance tasks |
+
+## Integration Points
+
+### Critical Integration: Server Task Scheduling API
+**Files:** `server/task_scheduler_api_handler.h` ↔ `include/scheduler/`
+**Contract:** Server registers task definitions and execution callbacks; scheduler owns execution timing and result persistence.
+**Thread Safety:** Task registration and execution are serialised under `task_registry_` mutex; result reads may proceed concurrently.
+
+### Critical Integration: Query HybridRetentionManager
+**Files:** `scheduler/hybrid_retention_manager.cpp` ↔ `query/` and `storage/`
+**Contract:** Retention manager coordinates `query_engine_`, `tsstore_`, and `scheduler_` for time-based data lifecycle; all three pointers must be non-null (validated at construction).
+**Thread Safety:** Retention decisions are serialised per-schedule tick; concurrent query reads during retention are safe via storage read transactions.
 - Query engine pointer validated at construction in HybridRetentionManager

@@ -1,6 +1,6 @@
 # Architecture - Distributed Knowledge Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -52,3 +52,32 @@ The distributed_knowledge module composes cross-shard federation and coordinatio
   - explicit capability/federation/merge/sync planes
   - bounded failure semantics for policy and timeout paths
   - module-local coordination ownership for distributed knowledge workflows
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| graph | `include/graph/` | Graph traversal used for federated knowledge graph expansions |
+| sharding | `include/sharding/` | Shard routing and capability advertisement across cluster shards |
+| llm | `include/llm/` | Federated LoRA coordination uses LLM adapter interfaces |
+| rag | `include/rag/` | RAG module provides cross-shard retrieval and feedback sync inputs |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| query | `include/distributed_knowledge/` (federated_rag_merger.h) | Query uses federated RAG merger for cross-shard result fusion |
+| sharding | `include/distributed_knowledge/` (adapter_capability_announcement.h) | Sharding module announces shard capabilities through distributed knowledge interfaces |
+| rag | `include/distributed_knowledge/` (cross_shard_feedback_sync.h) | RAG synchronises cross-shard relevance feedback via this module |
+
+## Integration Points
+
+### Critical Integration: Query Federated RAG Merger
+**Files:** `src/distributed_knowledge/federated_rag_merger.cpp` ↔ `query/federated_rag_merger.h`
+**Contract:** Query issues a federated merge request with per-shard result lists; merger returns a ranked unified result respecting policy/privacy controls.
+**Thread Safety:** Each merge operation is stateless and re-entrant; concurrent merge calls are safe.
+
+### Critical Integration: Cross-Shard Feedback Sync
+**Files:** `src/distributed_knowledge/cross_shard_feedback_sync.cpp` ↔ `rag/`
+**Contract:** RAG pushes feedback events; dedup and sync logic serialises delivery to avoid duplicate propagation across shards.
+**Thread Safety:** Feedback dedup state is protected by an internal mutex; concurrent push calls are safe.

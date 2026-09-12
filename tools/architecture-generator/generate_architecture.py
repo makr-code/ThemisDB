@@ -380,6 +380,88 @@ def _build_graph_relationships(
     return relationships
 
 
+def _build_dependency_analysis(
+    modules: list[dict[str, Any]],
+    relationships: list[dict[str, str]],
+    consumers: dict[str, list[str]],
+    providers: dict[str, list[str]],
+) -> dict[str, Any]:
+    """Build derived dependency metrics for architecture evaluation."""
+    module_tier = {m["name"]: m.get("tier", "") for m in modules}
+
+    top_outgoing = sorted(
+        (
+            {
+                "module": m["name"],
+                "count": len(consumers.get(m["name"], [])),
+                "consumes": sorted(consumers.get(m["name"], [])),
+            }
+            for m in modules
+            if len(consumers.get(m["name"], [])) > 0
+        ),
+        key=lambda e: (-e["count"], e["module"]),
+    )[:20]
+
+    top_incoming = sorted(
+        (
+            {
+                "module": m["name"],
+                "count": len(providers.get(m["name"], [])),
+                "consumed_by": sorted(providers.get(m["name"], [])),
+            }
+            for m in modules
+            if len(providers.get(m["name"], [])) > 0
+        ),
+        key=lambda e: (-e["count"], e["module"]),
+    )[:20]
+
+    tier_flow_counts: dict[tuple[str, str], int] = {}
+    label_counts: dict[str, int] = {}
+    for rel in relationships:
+        src_tier = module_tier.get(rel["from"], "Unknown")
+        dst_tier = module_tier.get(rel["to"], "Unknown")
+        tier_flow_counts[(src_tier, dst_tier)] = tier_flow_counts.get((src_tier, dst_tier), 0) + 1
+        label = rel.get("label", "").strip() or "unspecified"
+        label_counts[label] = label_counts.get(label, 0) + 1
+
+    tier_flows = sorted(
+        (
+            {
+                "from_tier": from_tier,
+                "to_tier": to_tier,
+                "count": count,
+            }
+            for (from_tier, to_tier), count in tier_flow_counts.items()
+        ),
+        key=lambda e: (-e["count"], e["from_tier"], e["to_tier"]),
+    )
+
+    relationship_labels = sorted(
+        (
+            {
+                "label": label,
+                "count": count,
+            }
+            for label, count in label_counts.items()
+        ),
+        key=lambda e: (-e["count"], e["label"]),
+    )
+
+    isolated_modules = sorted(
+        m["name"]
+        for m in modules
+        if not consumers.get(m["name"]) and not providers.get(m["name"])
+    )
+
+    return {
+        "top_outgoing_dependencies": top_outgoing,
+        "top_incoming_dependencies": top_incoming,
+        "tier_flows": tier_flows,
+        "relationship_label_distribution": relationship_labels,
+        "isolated_modules": isolated_modules,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Source hash computation
 # ---------------------------------------------------------------------------
@@ -440,6 +522,8 @@ def build_architecture_model(repo_root: Path) -> dict[str, Any]:
         tier = mod["tier"]
         tier_summary.setdefault(tier, []).append(mod["name"])
 
+    analysis = _build_dependency_analysis(modules, relationships, consumers, providers)
+
     model: dict[str, Any] = {
         "schema_version": "1.0.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -448,6 +532,7 @@ def build_architecture_model(repo_root: Path) -> dict[str, Any]:
         "modules": modules,
         "tier_summary": tier_summary,
         "relationships": relationships,
+        "analysis": analysis,
         "llm_wiki": {
             "source_count": llm_wiki["source_count"],
             "wiki_generated_at": llm_wiki["generated_at"],
@@ -469,6 +554,7 @@ def build_architecture_model(repo_root: Path) -> dict[str, Any]:
             "modules_with_api_contracts": len(api_contracts),
             "ai_working_artifact_count": len(ai_working),
             "documentation_source_count": len(docs_sources),
+            "isolated_module_count": len(analysis.get("isolated_modules", [])),
         },
     }
     return model
@@ -559,7 +645,10 @@ def render_mermaid(model: dict[str, Any]) -> str:
     documentation (src/<module>/ROADMAP.md on develop, or a wiki page for
     well-known modules).
     """
-    lines: list[str] = ["flowchart TD"]
+    lines: list[str] = [
+        "flowchart TB",
+        "    %% Vertical-first layout and GitHub-friendly styling",
+    ]
 
     tier_summary: dict[str, list[str]] = model.get("tier_summary", {})
     relationships: list[dict[str, str]] = model.get("relationships", [])
@@ -568,11 +657,15 @@ def render_mermaid(model: dict[str, Any]) -> str:
     }
 
     all_rendered_nodes: list[tuple[str, str]] = []  # (nid, module_name)
+    tier_node_ids: dict[str, list[str]] = {}
+    private_plugin_nodes: list[str] = []
+    public_plugin_nodes: list[str] = []
 
     # Subgraphs per tier (T0 first, ascending number = higher trust first)
     for tier in sorted(tier_summary.keys()):
         tier_label = TIER_NAMES.get(tier, tier)
         lines.append(f"    subgraph {tier}[\"{tier}: {tier_label}\"]")
+        lines.append("        direction TB")
         for mod_name in sorted(tier_summary[tier]):
             nid = _mermaid_node_id(mod_name)
             mod = modules_by_name.get(mod_name, {})
@@ -584,17 +677,53 @@ def render_mermaid(model: dict[str, Any]) -> str:
             has_pub = mod.get("has_public_plugin", False)
             if has_priv:
                 label += " 🔒"
+                private_plugin_nodes.append(nid)
             elif has_pub:
                 label += " ✅"
+                public_plugin_nodes.append(nid)
             lines.append(f'        {nid}["{label}"]')
             all_rendered_nodes.append((nid, mod_name))
+            tier_node_ids.setdefault(tier, []).append(nid)
         lines.append("    end")
+
+    lines.extend(
+        [
+            "",
+            "    classDef tierT0 fill:#EAF2FF,stroke:#1D4ED8,color:#0F172A,stroke-width:1.2px;",
+            "    classDef tierT1 fill:#ECFDF3,stroke:#15803D,color:#0F172A,stroke-width:1.2px;",
+            "    classDef tierT3 fill:#FFF7ED,stroke:#C2410C,color:#0F172A,stroke-width:1.2px;",
+            "    classDef publicPlugin fill:#E0F2FE,stroke:#0369A1,color:#0F172A,stroke-dasharray: 3 2;",
+            "    classDef privatePlugin fill:#FCE7F3,stroke:#9D174D,color:#0F172A,stroke-dasharray: 2 2;",
+            "    linkStyle default stroke:#64748B,stroke-width:1.1px,opacity:0.85;",
+        ]
+    )
+    for tier in sorted(tier_node_ids.keys()):
+        class_name = f"tier{tier}"
+        tier_nodes = ",".join(sorted(tier_node_ids[tier]))
+        if tier_nodes:
+            lines.append(f"    class {tier_nodes} {class_name};")
+    if public_plugin_nodes:
+        lines.append(f"    class {','.join(sorted(public_plugin_nodes))} publicPlugin;")
+    if private_plugin_nodes:
+        lines.append(f"    class {','.join(sorted(private_plugin_nodes))} privatePlugin;")
 
     lines.append("")
 
     # Edges
     rendered_edges: set[tuple[str, str]] = set()
-    for rel in relationships:
+    edge_style_lines: list[str] = []
+    edge_idx = 0
+    sorted_relationships = sorted(
+        relationships,
+        key=lambda rel: (
+            modules_by_name.get(rel["from"], {}).get("tier", "T9"),
+            modules_by_name.get(rel["to"], {}).get("tier", "T9"),
+            rel["from"],
+            rel["to"],
+            rel.get("label", ""),
+        ),
+    )
+    for rel in sorted_relationships:
         src = _mermaid_node_id(rel["from"])
         dst = _mermaid_node_id(rel["to"])
         key = (src, dst)
@@ -606,6 +735,17 @@ def render_mermaid(model: dict[str, Any]) -> str:
             lines.append(f'    {src} -->|"{label}"| {dst}')
         else:
             lines.append(f"    {src} --> {dst}")
+        src_tier = modules_by_name.get(rel["from"], {}).get("tier", "")
+        dst_tier = modules_by_name.get(rel["to"], {}).get("tier", "")
+        if src_tier and dst_tier and src_tier != dst_tier:
+            edge_style_lines.append(
+                f"    linkStyle {edge_idx} stroke:#1E293B,stroke-width:1.3px,opacity:0.92;"
+            )
+        edge_idx += 1
+
+    if edge_style_lines:
+        lines.append("")
+        lines.extend(edge_style_lines)
 
     lines.append("")
 
@@ -641,15 +781,34 @@ def render_markdown(model: dict[str, Any]) -> str:
             + (" …" if len(names) > 6 else "") + " |"
         )
 
+    analysis = model.get("analysis", {})
+    top_outgoing = analysis.get("top_outgoing_dependencies", [])
+    top_incoming = analysis.get("top_incoming_dependencies", [])
+    tier_flows = analysis.get("tier_flows", [])
+    rel_label_dist = analysis.get("relationship_label_distribution", [])
+    isolated_modules = analysis.get("isolated_modules", [])
+
     # Consumer/provider table (top 20 by out-degree)
-    consumers_map: dict[str, list[str]] = {}
-    for rel in model.get("relationships", []):
-        consumers_map.setdefault(rel["from"], []).append(rel["to"])
-    top_consumers = sorted(consumers_map.items(), key=lambda x: -len(x[1]))[:20]
     dep_rows = [
-        f"| `{c}` | {len(ps)} | {', '.join(f'`{p}`' for p in sorted(ps))} |"
-        for c, ps in top_consumers
+        f"| `{row.get('module', '')}` | {row.get('count', 0)} | "
+        + f"{', '.join(f'`{p}`' for p in row.get('consumes', []))} |"
+        for row in top_outgoing[:20]
     ]
+    incoming_rows = [
+        f"| `{row.get('module', '')}` | {row.get('count', 0)} | "
+        + f"{', '.join(f'`{m}`' for m in row.get('consumed_by', []))} |"
+        for row in top_incoming[:20]
+    ]
+    tier_flow_rows = [
+        f"| {row.get('from_tier', '')} | {row.get('to_tier', '')} | {row.get('count', 0)} |"
+        for row in tier_flows
+    ]
+    label_dist_rows = [
+        f"| `{row.get('label', '')}` | {row.get('count', 0)} |"
+        for row in rel_label_dist[:20]
+    ]
+    isolated_preview = ", ".join(f"`{m}`" for m in isolated_modules[:40]) or "_none_"
+    isolated_suffix = "- … (truncated)" if len(isolated_modules) > 40 else ""
 
     # Working artifact summary
     ai_working = model.get("ai_working_artifacts", [])
@@ -689,6 +848,8 @@ def render_markdown(model: dict[str, Any]) -> str:
 {mermaid}
 ```
 
+Legend: `✅` = public plugin available, `🔒` = private plugin integration.
+
 ## Tier Classification
 
 | Tier | Description | Count | Modules (sample) |
@@ -702,6 +863,30 @@ Top modules by outgoing dependency count:
 | Module | Provides to (count) | Consumes from |
 |--------|---------------------|---------------|
 {chr(10).join(dep_rows)}
+
+Top modules by incoming dependency count:
+
+| Module | Consumed by (count) | Consumer modules |
+|--------|----------------------|------------------|
+{chr(10).join(incoming_rows)}
+
+## Dependency Evaluation
+
+Inter-tier dependency flow counts:
+
+| Consumer Tier | Provider Tier | Relationship Count |
+|---------------|---------------|--------------------|
+{chr(10).join(tier_flow_rows)}
+
+Dependency label distribution:
+
+| Relationship Label | Count |
+|--------------------|-------|
+{chr(10).join(label_dist_rows)}
+
+Isolated modules (no incoming/outgoing dependency): {len(isolated_modules)}
+- {isolated_preview}
+{isolated_suffix}
 
 ## Knowledge Sources
 

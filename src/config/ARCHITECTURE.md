@@ -53,3 +53,15 @@ The config module composes path resolution, schema validation, metrics/audit obs
   - explicit resolution, validation, observability, and secure-store planes
   - bounded failure behavior for config lifecycle paths
   - dedicated module-layer composition for config runtime concerns
+---
+
+### Direct Downstream Consumers (modules that use this module)
+
+| Module | Via | Notes |
+|--------|-----|-------|
+| `server` | `include/config/config_path_resolver.h`, `include/config/config_metrics_exporter.h` | HTTP server, auth middleware, MCP server, and monitoring handler resolve paths and export config metrics (`src/server/http_server.cpp`, `src/server/auth_middleware.cpp`, `src/server/mcp_server.cpp`, `src/server/monitoring_api_handler.cpp`) |
+| `content` | `include/config/config_path_resolver.h`, `include/config/config_schema_validator.h` | Async ingestion worker, MIME detector, and OCR processor resolve runtime config paths and validate schemas (`src/content/async_ingestion_worker.cpp`, `src/content/mime_detector.cpp`, `src/content/ocr_processor.cpp`) |
+| `index` | `include/config/config_path_resolver.h` | `VectorIndex` resolves index data path from config at construction (`src/index/vector_index.cpp`) |
+| `llm_wiki` | `include/config/config_path_resolver.h`, `include/config/config_schema_validator.h` | Process policy manager and Wikipedia LLM plugin resolve paths and validate config schemas (`src/llm_wiki/process_policy_manager.cpp`, `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`) |
+| `utils` | `include/config/config_path_resolver.h` | PII detector resolves pattern-list config paths at runtime (`src/utils/pii_detector.cpp`) |
+| `main` | `include/config/config_path_resolver.h`, `include/config/config_metrics_exporter.h` | Server entry point initializes config resolution and starts the metrics exporter (`src/main_server.cpp`) |

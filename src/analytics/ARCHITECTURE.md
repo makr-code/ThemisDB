@@ -1,6 +1,6 @@
 # Architecture - Analytics Module
 
-<!-- Status: current | validated: 2026-08-19 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -254,4 +254,36 @@ All 40 gap-closure functions follow standardized error handling:
   - optional dependency and capability-sensitive execution paths
   - distributed coordination present in dedicated implementation file
   - gap closure implementations maintain API contracts
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Reads datasets and writes analytical result sets |
+| query | `include/query/columnar_execution.h`, `incremental_view.h`, `process_mining.h` | Columnar execution, incremental materialised views, process-mining query feeds |
+| observability (utils) | `include/utils/tracing.h`, `audit_logger.h` | Metrics emission and audit tracing for analytical jobs |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/analytics/` (diff_engine.h and result APIs) | Exposes analytical results and diff-engine surfaces to the REST/wire API layer |
+| query | `include/analytics/` (columnar_execution.h, incremental_view.h, process_mining.h) | Query planner and execution engine consume analytics surfaces for cost and plan rewriting |
+
+## Integration Points
+
+### Critical Integration: Query Columnar Execution
+**Files:** `src/analytics/olap.cpp` ↔ `query/columnar_execution.h`
+**Contract:** Analytics OLAP plane reads columnar execution results fed by the query engine; result schemas must match the columnar row format agreed in `columnar_execution.h`.
+**Thread Safety:** Result handoff is serialised through shared result-set ownership; concurrent writes to the same result set require external locking by the caller.
+
+### Critical Integration: Storage Result Feeds
+**Files:** `src/analytics/distributed_analytics.cpp` ↔ `storage/`
+**Contract:** Distributed analytics shard fan-out reads and writes through standard storage interfaces; partial-result aggregation does not bypass storage transactional boundaries.
+**Thread Safety:** Each shard operation uses an independent storage session; aggregation coordinator serialises final merge under an internal mutex.
+
+### Critical Integration: Server diff_engine Surface
+**Files:** `server/diff_engine.h` → `include/analytics/`
+**Contract:** Server registers a diff-engine callback against analytics result sets; the analytics module must not mutate published result objects after registration.
+**Thread Safety:** Published result-set objects are immutable after handoff; internal analytics state remains module-private.
   - comprehensive error handling with RAII patterns

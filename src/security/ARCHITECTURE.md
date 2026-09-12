@@ -3,7 +3,7 @@
 # Security Module - Architecture Guide
 
 **Version:** 1.2
-**Last Updated:** 2026-08-17
+**Last Updated:** 2026-09-09
 **Module Path:** `src/security/`
 
 ## 1. Overview
@@ -75,7 +75,46 @@ Detection path
 - A fresh full security-gap rescan and remaining non-TSA Batch-4 closure work are still open in `MODULE_GAPS.md`.
 - Operator-facing policy and diagnostics clarity is still being improved.
 
-## 8. Sourcecode Verification (Module: security/architecture)
+## 8. Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` (crypto helpers, string sanitization) | Low-level cryptographic primitives and input-sanitization utilities |
+| metadata | `include/metadata/schema_audit_log.h` | Schema-level audit log integration for DDL-event security evidence |
+| observability | `include/observability/audit_logger.h`, `include/observability/metrics_collector.h` | Structured security-event audit emission and policy-decision metric recording |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/security/rbac.h`, `include/security/zero_trust_policy_enforcer.h` | Request-time RBAC decisions and zero-trust policy evaluation at HTTP ingress |
+| query | `include/security/query_masking_policy.h`, `include/security/pii_redaction_policy.h`, `include/security/aql_injection_detector.h` | Result-set masking, PII redaction, and injection detection during query execution |
+| storage | `include/security/security_signature.h`, `include/security/field_encryption.h` | Storage-layer write signing and field-level encryption/decryption |
+| index | `include/security/field_encryption.h` | Encrypted index field reads/writes |
+| llm | `include/security/pii_redaction_policy.h` | PII stripping before LLM prompt submission |
+| rag | `include/security/pii_redaction_policy.h` | PII stripping in retrieved context before generation |
+
+## 9. Integration Points
+
+### Critical Integration: RbacManager ↔ Server Request Pipeline
+**Files:** `include/security/rbac.h` ↔ `src/server/http_server.cpp`
+**Contract:** `RbacManager::authorize(principal, resource, action)` returns `ALLOW` or `DENY`; the server must not route the request further on `DENY`. Decision is synchronous and must complete within the configured policy timeout.
+**Thread Safety:** `RbacManager` is read-concurrent after policy load; policy reloads use an atomic swap under `std::shared_mutex`.
+**Failure Mode:** Deny-by-default — any exception or timeout from `authorize()` is treated as `DENY`.
+
+### Critical Integration: FieldEncryption ↔ Storage Write Path
+**Files:** `include/security/field_encryption.h` ↔ `src/storage/` write path
+**Contract:** Designated fields are encrypted before serialisation using the active `KeyProvider` DEK. The storage layer must not persist plaintext for encrypted-field columns.
+**Thread Safety:** `FieldEncryption` instances are stateless post-init; `KeyProvider` access is internally synchronized.
+**Failure Mode:** `KeyProvider` unavailability propagates as `EncryptionKeyUnavailable`; the write is rejected, not silently stored in plaintext.
+
+### Critical Integration: AqlInjectionDetector ↔ Query Module
+**Files:** `include/security/aql_injection_detector.h` ↔ `src/query/` parse pipeline
+**Contract:** `AqlInjectionDetector::scan(query_ast)` returns a risk score and optional violation list; queries exceeding the configured threshold are rejected before execution planning.
+**Thread Safety:** Detector is stateless; safe for concurrent calls.
+**Failure Mode:** Scanner error returns `SCAN_ERROR`; query execution is blocked, not passed through.
+
+
 
 - Verified files:
   - `src/security/field_encryption.cpp`

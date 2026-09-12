@@ -6,7 +6,7 @@
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.3
-**Last Updated:** 2026-05-31
+**Last Updated:** 2026-09-09
 **Module Path:** `src/network/`
 
 ## 1. Overview
@@ -143,3 +143,28 @@ Proxy, Istio, and compatible control planes.
 `ServiceMesh` holds an `EnvoyXDSClient` instance and wires the cluster/endpoint
 callbacks directly into `GeoTopologyRouter` and `RaftLoadBalancer` for
 live topology updates without a restart.
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| utils | `include/utils/` | Logging, audit, and thread-pool helpers for connection and session management |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `include/network/wire_protocol_server.h` (WireProtocolServer, IoUringBatchedSender) | Server layer binds the wire-protocol runtime for native client connections |
+| (node-to-node) | internal transport APIs | Internal replication and distributed coordination paths use network transport adapters |
+
+## Integration Points
+
+### Critical Integration: Wire Protocol Server ↔ Server Layer
+**Files:** `src/network/wire_protocol_server.cpp` ↔ `server/`
+**Contract:** `WireProtocolServer` dispatches opcodes to storage/query/index integration hooks configured at server startup; handler pointers must remain valid for the server lifetime.
+**Thread Safety:** Each client session runs on a dedicated connection thread; shared handler state must use external synchronisation supplied by the server layer.
+
+### Critical Integration: Envoy xDS / Service Mesh (expanded)
+**Files:** `src/network/envoy_xds.cpp`, `src/network/service_mesh.cpp`
+**Contract:** `EnvoyXDSClient` feeds live topology updates to `GeoTopologyRouter` and `RaftLoadBalancer` via registered callbacks; callbacks are invoked from the I/O thread without holding the internal lock.
+**Thread Safety:** `connect()`, `disconnect()`, and `subscribe()` are safe from any thread; callbacks must not block (see §8 above).

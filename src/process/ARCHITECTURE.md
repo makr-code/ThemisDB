@@ -1,6 +1,6 @@
 # Architecture - Process Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -51,3 +51,32 @@ The process module composes process-model lifecycle management, process format i
   - explicit lifecycle/retrieval/linking/compliance planes
   - deterministic failure boundaries across process workflows
   - module-local ownership of process modeling behavior
+
+## Module Dependencies
+
+### Direct Upstream Dependencies (this module uses)
+| Module | Interface / File | Purpose |
+|--------|-----------------|---------|
+| storage | `include/storage/` | Persists process models and versioned snapshots |
+| graph | `include/graph/` | Graph traversal for process-graph retrieval and path queries |
+| llm | `include/llm/` | LLM provides descriptors and prompt context for agentic process retrieval |
+| rag | `include/rag/` | RAG module provides graph-RAG context for process model search |
+
+### Direct Downstream Consumers (modules that use this module)
+| Module | Via | Notes |
+|--------|-----|-------|
+| server | `server/bpmn_api_handler.h` | Server exposes BPMN/process model APIs including import/export/query |
+
+## Integration Points
+
+### Critical Integration: Server BPMN API
+**Files:** `src/process/process_model_manager.cpp` ↔ `server/bpmn_api_handler.h`
+**Contract:** Server routes all BPMN/process CRUD and compliance evaluation through the process module; process module owns model format parsing.
+**Thread Safety:** Model mutations are serialised under an internal version lock; concurrent reads use snapshot isolation.
+
+### Critical Integration: LLM Descriptor Generation
+**Files:** `src/process/process_agentic_rag.cpp` ↔ `llm/`
+**Contract:** LLM is called to generate descriptor embeddings for process model search; descriptor results are cached per-model-version.
+**Thread Safety:** Descriptor cache is protected by a read-write lock; concurrent reads are allowed; regeneration acquires a write lock.
+
+> **Production Status:** Phases 1–6 COMPLETE 2026-08-06; production-ready.

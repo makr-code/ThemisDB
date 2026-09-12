@@ -73,8 +73,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -138,8 +138,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -206,8 +206,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -285,8 +285,8 @@ jobs:
             libtbb-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
             libcpp-httplib-dev
 
-      - name: "Cache sccache"
-        uses: actions/cache@v4
+      - name: "Set up compiler cache"
+        uses: ./.github/actions/setup-cpp-build
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
