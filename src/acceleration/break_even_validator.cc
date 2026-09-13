@@ -107,7 +107,7 @@ double gpuLaunchOverheadMs(DeviceType device) {
         case DeviceType::kIntel_Arc:
             return 5.3;
         default:
-            return std::numeric_limits<double>::max();
+            return std::numeric_limits<double>::infinity();
     }
 }
 

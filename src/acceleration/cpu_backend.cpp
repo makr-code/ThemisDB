@@ -251,7 +251,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (!reachable[dst]) {
+        if (!reachable[dst] || dist[dst] == kUnreachableDistance) {
             continue; // no path
         }
 
