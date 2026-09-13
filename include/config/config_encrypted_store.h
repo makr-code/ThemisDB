@@ -63,10 +63,17 @@ struct ConfigEncryptedBlob {
     std::vector<uint8_t> ciphertext;
     std::vector<uint8_t> tag;         ///< 16 bytes (AES-GCM authentication tag)
 
-    /// Serialise to a compact JSON string (values are base64-encoded).
+    /**
+     * @brief Serialise this encrypted blob to a compact JSON string.
+     * @return JSON string containing key version, IV, ciphertext, and tag.
+     */
     std::string toJson() const;
 
-    /// Deserialise from a compact JSON string previously produced by toJson().
+    /**
+     * @brief Parse an encrypted blob from a JSON string previously produced by toJson().
+     * @param json_str Compact JSON string containing the encoded blob fields.
+     * @return Parsed ConfigEncryptedBlob value.
+     */
     static ConfigEncryptedBlob fromJson(const std::string& json_str);
 };
 
@@ -165,28 +172,35 @@ public:
      * @brief Return a stored value, or std::nullopt if it does not exist.
      *
      * Unlike get(), this never throws ConfigKeyNotFoundException.
+     * @param config_key Logical key name.
+     * @return Stored plaintext, or std::nullopt when the key is absent.
      */
     std::optional<std::string> tryGet(const std::string& config_key) const;
 
     /**
      * @brief Remove a stored config value.
      *
+     * @param config_key Logical key name to erase.
      * @return true if the key existed and was removed, false otherwise.
      */
     bool remove(const std::string& config_key);
 
     /**
      * @brief Check whether a config key has a stored value.
+     * @param config_key Logical key name to probe.
+     * @return true if the key exists in the store, false otherwise.
      */
     bool contains(const std::string& config_key) const;
 
     /**
      * @brief Return the list of stored config key names (not their values).
+     * @return Snapshot of all logical config keys currently stored.
      */
     std::vector<std::string> keys() const;
 
     /**
      * @brief Return the number of stored config entries.
+     * @return Count of encrypted config entries currently stored.
      */
     std::size_t size() const;
 
@@ -217,6 +231,7 @@ public:
 
     /**
      * @brief Return the current key version number (starts at 1).
+     * @return Active encryption-key version used for new writes.
      */
     uint32_t currentKeyVersion() const;
 

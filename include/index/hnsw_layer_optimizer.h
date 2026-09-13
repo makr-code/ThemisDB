@@ -61,7 +61,9 @@ struct HnswOptimizationConfig {
 /// - Design: docs/performance/phase4_hnsw_layer_optimization.md
 class HnswLayerOptimizer {
 public:
-    /// Statistics for a single layer
+    /**
+     * @brief Aggregated runtime statistics for one HNSW layer.
+     */
     struct LayerStats {
         int layer = 0;
         int64_t access_count = 0;
@@ -70,6 +72,11 @@ public:
         double avg_search_time_ms = 0.0;
         double efficiency_score = 0.0;  // candidates_found / avg_search_time_ms
         
+        /**
+         * @brief Fold one more layer-observation sample into this aggregate.
+         * @param candidates Number of candidates discovered in the sampled search.
+         * @param search_time_ms Time spent in the layer during the sampled search.
+         */
         void update(int64_t candidates, double search_time_ms) {
             access_count++;
             candidates_found += candidates;
@@ -102,18 +109,22 @@ public:
     /// Check if optimization is enabled
     bool isEnabled() const { return config_.enabled; }
     
-    /// Record layer access for statistics
-    /// @param layer Layer number (0 = bottom layer)
-    /// @param candidates_found Number of candidates found in this layer
-    /// @param search_time_ms Time spent searching this layer (milliseconds)
+    /**
+     * @brief Record the observed work for one visited HNSW layer.
+     * @param layer Layer number (0 = bottom layer).
+     * @param candidates_found Number of candidates found in this layer.
+     * @param search_time_ms Time spent searching this layer (milliseconds).
+     */
     void recordLayerAccess(int layer, int64_t candidates_found, double search_time_ms);
     
-    /// Record query statistics for adaptive optimization
-    /// @param entry_layer Entry layer used for this query
-    /// @param ef_used EF parameter used for this query
-    /// @param layers_traversed Number of layers actually traversed
-    /// @param k Number of neighbors requested
-    /// @param total_time_ms Total query time (milliseconds)
+    /**
+     * @brief Record one full-query observation for adaptive tuning.
+     * @param entry_layer Entry layer used for this query.
+     * @param ef_used EF search parameter used for this query.
+     * @param layers_traversed Number of layers actually traversed.
+     * @param k Number of neighbours requested.
+     * @param total_time_ms Total query time in milliseconds.
+     */
     void recordQueryStats(int entry_layer, int ef_used, int layers_traversed, 
                          size_t k, double total_time_ms);
     
@@ -126,11 +137,13 @@ public:
     /// @return Recommended ef parameter, or -1 to use default
     int getOptimalEf(size_t k) const;
     
-    /// Check if layer should be pruned (skip deeper layers)
-    /// @param current_layer Current layer being searched
-    /// @param candidate_count Number of candidates found so far
-    /// @param k Number of neighbors requested
-    /// @return true if deeper layers can be skipped
+    /**
+     * @brief Decide whether deeper layers can be pruned for the current query.
+     * @param current_layer Current layer being searched.
+     * @param candidate_count Number of candidates found so far.
+     * @param k Number of neighbours requested.
+     * @return true if deeper layers can be skipped without violating the heuristic.
+     */
     bool shouldPruneLayer(int current_layer, size_t candidate_count, size_t k) const;
     
     /// Get layer statistics for monitoring
@@ -139,7 +152,9 @@ public:
     /// Get recent query statistics
     std::vector<QueryStats> getRecentQueryStats() const;
     
-    /// Reset statistics
+    /**
+     * @brief Reset all collected layer and query statistics.
+     */
     void resetStats();
     
     /// Get configuration

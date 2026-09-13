@@ -120,11 +120,17 @@ public:
 
     // ── Diagnostics ───────────────────────────────────────────────────────
 
-    /// Total decompositions attempted (includes κ-gated calls).
+    /**
+     * @brief Return the total number of attempted decompositions.
+     * @return Count of decompose() calls, including κ-gated decisions.
+     */
     [[nodiscard]] long long decomposeCount() const noexcept {
         return decompose_count_.load(std::memory_order_relaxed);
     }
-    /// Total decompositions skipped by the κ-gate.
+    /**
+     * @brief Return the total number of κ-gate skips.
+     * @return Count of embeddings rejected before full decomposition.
+     */
     [[nodiscard]] long long kappaSkipCount() const noexcept {
         return kappa_skip_count_.load(std::memory_order_relaxed);
     }

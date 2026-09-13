@@ -194,11 +194,14 @@ public:
 
     /**
      * @brief Return all catalog entries whose name matches @p name.
+     * @param name Plugin name to match.
+     * @return Snapshot of all matching entries.
      */
     std::vector<RepositoryEntry> findByName(const std::string& name) const;
 
     /**
      * @brief Return a snapshot of all catalog entries.
+     * @return Snapshot copy of the full repository catalog.
      */
     std::vector<RepositoryEntry> listEntries() const;
 

@@ -31,7 +31,9 @@ class RocksDBWrapper;
 
 using json = nlohmann::json;
 
-/// A single recorded schema change
+/**
+ * @brief Immutable record of one persisted schema version change.
+ */
 struct SchemaChange {
     uint64_t version = 0;                                   ///< Version number (monotonically increasing)
     std::string table_name;                             ///< Affected table
@@ -41,7 +43,16 @@ struct SchemaChange {
     std::chrono::system_clock::time_point timestamp;    ///< When the change was made
     SchemaManager::TableSchema snapshot;                ///< Full schema snapshot at this version
 
+    /**
+     * @brief Serialise this schema-change record to JSON.
+     * @return JSON object containing version, author, snapshot, and timestamps.
+     */
     json toJSON() const;
+    /**
+     * @brief Parse a schema-change record from JSON.
+     * @param j JSON object created by toJSON().
+     * @return Parsed SchemaChange value.
+     */
     static SchemaChange fromJSON(const json& j);
 };
 
@@ -55,7 +66,10 @@ enum class VersionErrorCode {
     INVALID_VERSION,
 };
 
-/// Typed result for schema versioning operations
+/**
+ * @brief Strongly typed result wrapper for schema versioning operations.
+ * @tparam T Payload type returned on success.
+ */
 template<typename T>
 struct VersionResult {
     bool ok = false;
@@ -63,6 +77,11 @@ struct VersionResult {
     VersionErrorCode error = VersionErrorCode::OK;
     std::string error_message;
 
+    /**
+     * @brief Construct a successful result.
+     * @param v Payload value to move into the result.
+     * @return VersionResult with `ok == true`.
+     */
     static VersionResult<T> success(T v) {
         VersionResult<T> r;
         r.ok    = true;
@@ -70,6 +89,12 @@ struct VersionResult {
         return r;
     }
 
+    /**
+     * @brief Construct a failed result.
+     * @param code Typed error code describing the failure.
+     * @param msg Human-readable failure description.
+     * @return VersionResult with `ok == false`.
+     */
     static VersionResult<T> failure(VersionErrorCode code, std::string msg) {
         VersionResult<T> r;
         r.ok            = false;
@@ -136,16 +161,28 @@ public:
         std::string_view description = ""
     );
 
-    /// Get the current (highest) version number for a table.
-    /// Returns VersionErrorCode::TABLE_NOT_FOUND if no version has been recorded.
+    /**
+     * @brief Return the current highest schema version for a table.
+     * @param table_name Table whose current version should be queried.
+     * @return Latest version number, or VersionErrorCode::TABLE_NOT_FOUND.
+     */
     VersionResult<uint64_t> getCurrentVersion(std::string_view table_name) const;
 
-    /// Retrieve the full change history for a table, ordered by version ascending.
+    /**
+     * @brief Return the full schema-change history for a table.
+     * @param table_name Table whose version history should be loaded.
+     * @return Ordered list of schema changes in ascending version order.
+     */
     VersionResult<std::vector<SchemaChange>> getChangeHistory(
         std::string_view table_name
     ) const;
 
-    /// Retrieve a single schema snapshot at a specific version.
+    /**
+     * @brief Return one schema version snapshot.
+     * @param table_name Table whose version should be read.
+     * @param version Version number to retrieve.
+     * @return Matching SchemaChange snapshot, or an error result.
+     */
     VersionResult<SchemaChange> getVersion(
         std::string_view table_name,
         uint64_t version
@@ -163,55 +200,66 @@ public:
         std::string_view author = ""
     );
 
-    /// Compute a JSON diff between two versions.
-    /// Returns a JSON object with "added", "removed", and "modified" property arrays.
+    /**
+     * @brief Compute a JSON diff between two schema versions.
+     * @param table_name Table whose versions should be compared.
+     * @param version_a Older or left-hand version to compare.
+     * @param version_b Newer or right-hand version to compare.
+     * @return JSON diff object with `added`, `removed`, and `modified` arrays.
+     */
     VersionResult<json> diffVersions(
         std::string_view table_name,
         uint64_t version_a,
         uint64_t version_b
     ) const;
 
-    /// Export all version history for a table as a JSON array.
+    /**
+     * @brief Export all schema versions for a table as JSON.
+     * @param table_name Table whose history should be exported.
+     * @return JSON array of SchemaChange records.
+     */
     json historyToJSON(std::string_view table_name) const;
 
-    /// Generate a DDL migration script from the diff between two versions.
-    ///
-    /// Produces a sequence of ALTER TABLE statements that, when executed in
-    /// order, transform @p table_name from the schema at @p version_from to
-    /// the schema at @p version_to.
-    ///
-    /// Generated statement types:
-    ///   - ADD COLUMN   – for columns present in @p version_to but not in @p version_from
-    ///   - DROP COLUMN  – for columns present in @p version_from but not in @p version_to
-    ///   - ALTER COLUMN – for columns whose type or nullability changed
-    ///
-    /// Type mapping (ThemisDB → SQL):
-    ///   string  → VARCHAR, integer → INTEGER, double → DOUBLE PRECISION,
-    ///   boolean → BOOLEAN, vector  → VECTOR,  binary → BYTEA, * → TEXT
-    ///
-    /// @param table_name   Table whose versions to compare.
-    /// @param version_from Source version (the "before" state).
-    /// @param version_to   Target version (the "after" state).
-    /// @return VersionResult<std::string> containing the script on success.
+    /**
+     * @brief Generate a DDL migration script between two schema versions.
+     *
+     * Produces a sequence of ALTER TABLE statements that, when executed in
+     * order, transform @p table_name from the schema at @p version_from to
+     * the schema at @p version_to.
+     *
+     * Generated statement types:
+     *   - ADD COLUMN   – for columns present in @p version_to but not in @p version_from
+     *   - DROP COLUMN  – for columns present in @p version_from but not in @p version_to
+     *   - ALTER COLUMN – for columns whose type or nullability changed
+     *
+     * Type mapping (ThemisDB → SQL):
+     *   string  → VARCHAR, integer → INTEGER, double → DOUBLE PRECISION,
+     *   boolean → BOOLEAN, vector  → VECTOR,  binary → BYTEA, * → TEXT
+     *
+     * @param table_name Table whose versions to compare.
+     * @param version_from Source version (the "before" state).
+     * @param version_to Target version (the "after" state).
+     * @return VersionResult<std::string> containing the script on success.
+     */
     VersionResult<std::string> generateMigrationScript(
         std::string_view table_name,
         uint64_t version_from,
         uint64_t version_to
     ) const;
 
-    /// Dry-run: validate whether @p new_schema can be applied to @p table_name
-    /// without persisting any changes.
-    ///
-    /// Checks performed:
-    ///   - The new schema has a non-empty "name" field.
-    ///   - The new schema has a "columns" or "properties" array.
-    ///   - No column appears more than once in the new schema.
-    ///   - If the table already has a versioned schema the new schema is not identical.
-    ///
-    /// @param table_name  Table to validate against.
-    /// @param new_schema  Proposed new schema.
-    /// @return VersionResult<bool>: ok=true if the migration is valid.
-    ///         On failure, error_message contains a human-readable explanation.
+    /**
+     * @brief Dry-run whether a new schema can be applied to a table.
+     *
+     * Checks performed:
+     *   - The new schema has a non-empty `name` field.
+     *   - The new schema has a `columns` or `properties` array.
+     *   - No column appears more than once in the new schema.
+     *   - If the table already has a versioned schema the new schema is not identical.
+     *
+     * @param table_name Table to validate against.
+     * @param new_schema Proposed new schema.
+     * @return VersionResult<bool> where `ok=true` means the migration is valid.
+     */
     VersionResult<bool> validateMigration(
         std::string_view table_name,
         const SchemaManager::TableSchema& new_schema

@@ -49,7 +49,7 @@ enum class UpdateState {
 };
 
 /**
- * @brief Entry in the update transaction log
+ * @brief Entry in the update transaction log.
  */
 struct UpdateTransactionEntry {
     UpdateState from_state;
@@ -58,7 +58,16 @@ struct UpdateTransactionEntry {
     std::string message;
     std::chrono::system_clock::time_point timestamp;
 
+    /**
+     * @brief Serialise this transaction-log entry to JSON.
+     * @return JSON object containing states, version, message, and timestamp.
+     */
     json toJson() const;
+    /**
+     * @brief Parse a transaction-log entry from JSON.
+     * @param j JSON object created by toJson().
+     * @return Parsed entry, or std::nullopt when required fields are missing or invalid.
+     */
     static std::optional<UpdateTransactionEntry> fromJson(const json& j);
 };
 
@@ -109,9 +118,16 @@ struct Checkpoint {
     /// Wall-clock time the checkpoint was recorded.
     std::chrono::system_clock::time_point timestamp;
 
-    /// Serialize checkpoint to JSON for persistence
+    /**
+     * @brief Serialise this checkpoint to JSON for persistence.
+     * @return JSON object containing checkpoint metadata.
+     */
     json toJson() const;
-    /// Deserialize checkpoint from JSON
+    /**
+     * @brief Parse a checkpoint from persisted JSON.
+     * @param j JSON object created by toJson().
+     * @return Parsed checkpoint, or std::nullopt on invalid input.
+     */
     static std::optional<Checkpoint> fromJson(const json& j);
 };
 
@@ -147,11 +163,13 @@ public:
 
     /**
      * @brief Get the current state
+     * @return Current update state.
      */
     UpdateState currentState() const;
 
     /**
      * @brief Get the version currently being processed (empty if IDLE)
+     * @return Version string for the active update, or empty if no update is active.
      */
     std::string currentVersion() const;
 
@@ -173,6 +191,7 @@ public:
 
     /**
      * @brief Register a callback that fires on every state change
+     * @param cb Callback invoked after each accepted state transition.
      */
     void addStateChangeCallback(StateChangeCallback cb);
 
@@ -191,11 +210,14 @@ public:
 
     /**
      * @brief Get the full transaction log (newest first)
+     * @return Snapshot of all transaction-log entries in newest-first order.
      */
     std::vector<UpdateTransactionEntry> transactionLog() const;
 
     /**
      * @brief Persist current state to the log file (called automatically on transitions)
+     * @param version Version string to persist.
+     * @param message Human-readable transition message to persist.
      */
     void persistState(const std::string& version, const std::string& message);
 
@@ -206,6 +228,8 @@ public:
 
     /**
      * @brief Human-readable name for a state
+     * @param s State value to stringify.
+     * @return Stable human-readable state name.
      */
     static std::string stateName(UpdateState s);
 
@@ -261,6 +285,7 @@ public:
 
     /**
      * @brief Return all checkpoints in creation order (oldest first).
+     * @return Snapshot of all in-memory checkpoints from oldest to newest.
      */
     std::vector<Checkpoint> listCheckpoints() const;
 
