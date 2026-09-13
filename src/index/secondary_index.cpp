@@ -2809,7 +2809,7 @@ SecondaryIndexManager::computeBM25Scores_(
 
 	// Intersect smallest sets first to reduce container scans on large candidate sets.
 	std::sort(tokenResults.begin(), tokenResults.end(),
-	          [](const auto& a, const auto& b) { return static_cast<bool>( a.size() < b.size()); });
+	          [](const auto& a, const auto& b) { return a.size() < b.size(); });
 
 	std::unordered_set<std::string> intersectionSet = tokenResults.front();
 	for (size_t i = 1; i < tokenResults.size(); ++i) {

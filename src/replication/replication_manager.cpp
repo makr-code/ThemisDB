@@ -1863,7 +1863,7 @@ bool ReplicationManager::detectNetworkPartition() const {
     }
     
     // Network partition detected if more than half of replicas are unreachable
-    return static_cast<bool>(failed_count  < static_cast<int>((replicas_.size())) / 2);
+    return failed_count < replicas_.size() / 2;
 }
 
 void ReplicationManager::setReadPreference(ReadPreference preference) {
