@@ -571,8 +571,8 @@ BuildConfiguration getBuildConfiguration() {
     });
 #else
     // Legacy issue #95 context: consult the runtime bridge when available so
-    // the server can
-    // report the actual HSM KEK state (stub vs. injected hardware backend).
+    // the server can report the actual HSM KEK state
+    // (stub vs. injected hardware backend).
     // Default (no bridge set): report not-compiled-in with stub annotation.
     {
         bool is_real_hsm = false;
