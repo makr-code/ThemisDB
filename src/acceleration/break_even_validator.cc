@@ -407,7 +407,11 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
 
     const double compute_ms = gpu_work_units / throughput;
     const double transfer_ms = estimateTransferBytes(profile) / bandwidth;
-    const double estimated_ms = gpuLaunchOverheadMs(profile.device) + transfer_ms + compute_ms;
+    const double launch_overhead_ms = gpuLaunchOverheadMs(profile.device);
+    if (launch_overhead_ms >= std::numeric_limits<double>::max()) {
+        return std::nullopt;
+    }
+    const double estimated_ms = launch_overhead_ms + transfer_ms + compute_ms;
     return MillisecondsFromEstimate(estimated_ms);
 }
 

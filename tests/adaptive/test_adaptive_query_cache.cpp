@@ -161,8 +161,8 @@ TEST_F(AdaptiveQueryCacheTest, L2ToL1Promotion) {
     
     // Create a result that goes to L2
     json result;
-    for (int i = 0; i < 50; i++) {
-        result["data"].push_back({{"id", i}});
+    for (int i = 0; i < 200; i++) {
+        result["data"].push_back({{"id", i}, {"name", "User " + std::to_string(i)}});
     }
     
     std::string query = "SELECT * FROM users";

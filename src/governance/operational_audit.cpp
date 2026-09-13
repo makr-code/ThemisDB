@@ -758,10 +758,11 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
         size_t p50_idx = sorted_times.size() / 2;
         size_t p95_idx = (sorted_times.size() * 95) / 100;
         size_t p99_idx = (sorted_times.size() * 99) / 100;
+        const size_t last_idx = sorted_times.empty() ? 0 : (sorted_times.size() - 1);
         
         stats["logging_latency_p50_us"] = sorted_times[p50_idx];
-        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, sorted_times.size() - 1)];
-        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, sorted_times.size() - 1)];
+        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, last_idx)];
+        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, last_idx)];
     }
     
     return stats;
@@ -907,6 +908,7 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     size_t p50_idx = sorted_latencies.size() / 2;
     size_t p95_idx = (sorted_latencies.size() * 95) / 100;
     size_t p99_idx = (sorted_latencies.size() * 99) / 100;
+    const size_t last_idx = sorted_latencies.empty() ? 0 : (sorted_latencies.size() - 1);
     
     double sum = std::accumulate(sorted_latencies.begin(), sorted_latencies.end(), 0.0);
     
@@ -914,8 +916,8 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     stats["max_latency_ms"] = sorted_latencies.back();
     stats["avg_latency_ms"] = sum / sorted_latencies.size();
     stats["p50_latency_ms"] = sorted_latencies[p50_idx];
-    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, sorted_latencies.size() - 1)];
-    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, sorted_latencies.size() - 1)];
+    stats["p95_latency_ms"] = sorted_latencies[std::min(p95_idx, last_idx)];
+    stats["p99_latency_ms"] = sorted_latencies[std::min(p99_idx, last_idx)];
     stats["total_correlations"] = correlations_.size();
     
     return stats;
@@ -1193,4 +1195,3 @@ ComplianceEvidenceCollector& getGlobalEvidenceCollector() {
 }
 
 }  // namespace themis::governance
-
