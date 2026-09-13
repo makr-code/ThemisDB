@@ -330,6 +330,7 @@ public:
      * @brief Parse a TableSchema from JSON.
      * @param j JSON object representing a table schema.
      * @return Parsed TableSchema value.
+     * @throws std::runtime_error if the JSON shape is malformed or required fields are missing.
      */
     static TableSchema parseTableSchema(const json& j);
 
