@@ -961,7 +961,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "364b746f47cd6267"
+      "sha256_prefix": "afe734649f0dbb50"
     },
     {
       "category": "governance",
@@ -6814,7 +6814,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-13T06:41:00.182912+00:00",
+  "generated_at": "2026-09-13T11:06:32.559479+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8890,7 +8890,7 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "364b746f47cd6267",
+    "ARCHITECTURE.md": "afe734649f0dbb50",
     "FUTURE_ENHANCEMENTS.md": "771888801c66b8a7",
     "ROADMAP.md": "687d043113e16bdb",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
