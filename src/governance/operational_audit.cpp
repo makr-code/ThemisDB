@@ -374,7 +374,7 @@ void OperationalAuditLogger::logEvent(
     
     // Store event
     events_.push_back(event);
-    event_map_[event.event_id] = events_.size() - 1;
+    event_map_[event.event_id] = static_cast<int>(events_.size() - 1);
     
     // Update actor index
     if (!actor_id.empty()) {
@@ -995,7 +995,7 @@ void ComplianceEvidenceCollector::recordEvidence(
     
     // Store evidence
     evidence_list_.push_back(evidence);
-    evidence_map_[evidence.evidence_id] = evidence_list_.size() - 1;
+    evidence_map_[evidence.evidence_id] = static_cast<int>(evidence_list_.size() - 1);
     evidence_count_++;
     
     // Index by requirement

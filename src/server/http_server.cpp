@@ -33,7 +33,7 @@
 // Windows macros undefine - MUST be before any includes
 #ifdef ERROR
 #undef ERROR
-#endif
+#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"

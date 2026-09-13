@@ -266,7 +266,7 @@ struct ModuleSandbox::PlatformHandle {
     bool cpu_limit_applied = false;
     // true when setupCgroupV2() succeeded
     bool cgroup_v2_active = false;
-#endif
+#endif // !_WIN32
 };
 
 // =============================================================================
