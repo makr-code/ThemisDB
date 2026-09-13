@@ -126,7 +126,7 @@
 #include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
-#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+#endif // !_WIN32
 
 // Portable wrappers for tm <-> time_t conversions
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
