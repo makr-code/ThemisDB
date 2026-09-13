@@ -17,7 +17,7 @@
 #endif // WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
 #define NOMINMAX
-#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+#endif // NOMINMAX
 #include <winsock2.h>
 #include <stdexcept>
 #include <windows.h>

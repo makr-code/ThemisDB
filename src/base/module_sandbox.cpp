@@ -37,7 +37,7 @@
 #if __has_include(<sys/prctl.h>)
 #include <sys/prctl.h>
 #define THEMIS_HAVE_PRCTL 1
-#endif
+#endif // !_WIN32
 #endif
 
 #include <spdlog/spdlog.h>
