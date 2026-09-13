@@ -67,7 +67,7 @@ namespace {
 [[nodiscard]] int estimatePromptTokensFromText(const std::string& text) {
     static constexpr int kCharsPerToken = 4;
     const auto estimated_tokens = text.size() / static_cast<size_t>(kCharsPerToken);
-    if (estimated_tokens >= static_cast<size_t>(std::numeric_limits<int>::max())) {
+    if (estimated_tokens > static_cast<size_t>(std::numeric_limits<int>::max())) {
         return std::numeric_limits<int>::max();
     }
     return std::max(1, static_cast<int>(estimated_tokens));

@@ -417,7 +417,7 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     
     // Add kevent with timeout to prevent indefinite blocking
     struct timespec registration_timeout = {};
-    registration_timeout.tv_sec = 1;  // 1 second timeout for kevent operations
+    registration_timeout.tv_sec = 1;  // tv_nsec stays 0 via value-initialization.
     
     if (kevent(kq, &change, 1, nullptr, 0, &registration_timeout) == -1) {
         THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
