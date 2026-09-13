@@ -548,7 +548,7 @@ jobs:
           if [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
             TESTS_VALIDATED=true
           fi
-          if [ "${{ needs.configure.outputs.config-status }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ] && [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
+          if [ "${{ needs.configure.result }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ] && [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
             CI_VALIDATED=true
           fi
           if [ "${{ needs.representative-hardware-baselines.result }}" = "success" ]; then

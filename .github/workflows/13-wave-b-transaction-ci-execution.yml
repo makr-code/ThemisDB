@@ -597,7 +597,7 @@ jobs:
           if [ "${{ needs.smoke-tests.result }}" = "success" ] && [ "${{ needs.full-transaction-test-suite.result }}" = "success" ]; then
             TESTS_VALIDATED=true
           fi
-          if [ "${{ needs.configure.outputs.config-status }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ] && [ "${{ needs.smoke-tests.result }}" = "success" ] && [ "${{ needs.chaos-recovery-evidence.result }}" = "success" ]; then
+          if [ "${{ needs.configure.result }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ] && [ "${{ needs.smoke-tests.result }}" = "success" ] && [ "${{ needs.chaos-recovery-evidence.result }}" = "success" ]; then
             CI_VALIDATED=true
           fi
           if [ "${{ needs.phase4-benchmark-baseline.result }}" = "success" ]; then
@@ -628,8 +628,8 @@ jobs:
             --source-validation "ci=${CI_VALIDATED}" \
             --source-validation "benchmarks=${BENCHMARKS_VALIDATED}" \
             --notes "Source-validated evidence package generated from dedicated Wave transaction CI run." \
-            --output-json "wave-closure/transaction_wave_a_closure_manifest.json" \
-            --output-md "wave-closure/transaction_wave_a_closure_manifest.md"
+            --output-json "wave-closure/transaction_wave_b_closure_manifest.json" \
+            --output-md "wave-closure/transaction_wave_b_closure_manifest.md"
 
       - name: "Generate CI report"
         run: |
