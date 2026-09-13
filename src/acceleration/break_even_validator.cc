@@ -97,6 +97,7 @@ double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
 }
 
 double gpuLaunchOverheadMs(DeviceType device) {
+    static constexpr double kUnknownDeviceLaunchOverheadMs = std::numeric_limits<double>::max();
     switch (device) {
         case DeviceType::kNVIDIA_RTX:
             return 2.8;
@@ -107,7 +108,7 @@ double gpuLaunchOverheadMs(DeviceType device) {
         case DeviceType::kIntel_Arc:
             return 5.3;
         default:
-            return std::numeric_limits<double>::max();
+            return kUnknownDeviceLaunchOverheadMs;
     }
 }
 
@@ -408,7 +409,7 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
     const double compute_ms = gpu_work_units / throughput;
     const double transfer_ms = estimateTransferBytes(profile) / bandwidth;
     const double launch_overhead_ms = gpuLaunchOverheadMs(profile.device);
-    if (launch_overhead_ms >= std::numeric_limits<double>::max()) {
+    if (launch_overhead_ms == std::numeric_limits<double>::max()) {
         return std::nullopt;
     }
     const double estimated_ms = launch_overhead_ms + transfer_ms + compute_ms;

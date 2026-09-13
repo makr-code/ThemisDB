@@ -14,10 +14,10 @@
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+#endif // WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
 #define NOMINMAX
-#endif
+#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 #include <winsock2.h>
 #include <stdexcept>
 #include <windows.h>

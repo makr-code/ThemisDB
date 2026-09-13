@@ -754,9 +754,6 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
     if (!performance_metrics_.logging_times_us.empty()) {
         auto sorted_times = performance_metrics_.logging_times_us;
         std::sort(sorted_times.begin(), sorted_times.end());
-        if (sorted_times.empty()) {
-            return stats;
-        }
         
         size_t p50_idx = sorted_times.size() / 2;
         size_t p95_idx = (sorted_times.size() * 95) / 100;
@@ -907,9 +904,6 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     
     auto sorted_latencies = performance_metrics_.latency_ms;
     std::sort(sorted_latencies.begin(), sorted_latencies.end());
-    if (sorted_latencies.empty()) {
-        return stats;
-    }
     
     size_t p50_idx = sorted_latencies.size() / 2;
     size_t p95_idx = (sorted_latencies.size() * 95) / 100;
