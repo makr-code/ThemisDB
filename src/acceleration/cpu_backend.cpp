@@ -198,9 +198,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Dijkstra over dense N×N adjacency / weight matrices.
         // adjacency[u * N + v] != 0  →  edge u→v exists.
         // weights[u * N + v]          →  non-negative edge weight u→v.
-        // Finite sentinel avoids -Wnan-infinity-disabled builds while leaving
-        // enough headroom for additive relaxations before overflow checks.
-        constexpr float kUnreachableDistance = std::numeric_limits<float>::max() / 4.0f;
+        // Finite sentinel avoids -Wnan-infinity-disabled builds.
+        constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
         std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<bool> reached(numVertices, false);
         std::vector<int64_t> parent(numVertices, -1);
@@ -238,11 +237,11 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                               << v << "; clamped to 0\n";
                 }
                 const float w  = std::max(0.0f, raw_w);
-                if (dist[u] > (kUnreachableDistance - w)) {
-                    continue;
-                }
-                const float nd = dist[u] + w;
-                if (nd < dist[v]) {
+                const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
+                const float nd = (nd_d >= static_cast<double>(kUnreachableDistance))
+                                     ? kUnreachableDistance
+                                     : static_cast<float>(nd_d);
+                if (!reached[v] || nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
                     reached[v] = true;
