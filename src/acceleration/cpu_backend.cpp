@@ -202,8 +202,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // enough headroom for additive relaxations before overflow checks.
         constexpr float kUnreachableDistance = std::numeric_limits<float>::max() / 4.0f;
         std::vector<float> dist(numVertices, kUnreachableDistance);
+        std::vector<bool> reached(numVertices, false);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
+        reached[src] = true;
 
         using DV = std::pair<float, uint32_t>; // (distance, vertex)
         std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
@@ -243,12 +245,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
+                    reached[v] = true;
                     pq.push({nd, v});
                 }
             }
         }
 
-        if (dist[dst] >= kUnreachableDistance) {
+        if (!reached[dst]) {
             continue; // no path
         }
 
