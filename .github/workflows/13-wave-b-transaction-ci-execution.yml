@@ -589,11 +589,14 @@ jobs:
       - name: "Generate Wave-B transaction closure package"
         run: |
           mkdir -p wave-closure
-          CODE_VALIDATED=true
+          CODE_VALIDATED=false
           TESTS_VALIDATED=false
           CI_VALIDATED=false
           BENCHMARKS_VALIDATED=false
 
+          if [ "${{ needs.configure.result }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ]; then
+            CODE_VALIDATED=true
+          fi
           if [ "${{ needs.smoke-tests.result }}" = "success" ] && [ "${{ needs.full-transaction-test-suite.result }}" = "success" ]; then
             TESTS_VALIDATED=true
           fi

@@ -540,11 +540,14 @@ jobs:
       - name: "Generate Wave-A GPU closure package"
         run: |
           mkdir -p wave-closure
-          CODE_VALIDATED=true
+          CODE_VALIDATED=false
           TESTS_VALIDATED=false
           CI_VALIDATED=false
           BENCHMARKS_VALIDATED=false
 
+          if [ "${{ needs.configure.result }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ]; then
+            CODE_VALIDATED=true
+          fi
           if [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
             TESTS_VALIDATED=true
           fi

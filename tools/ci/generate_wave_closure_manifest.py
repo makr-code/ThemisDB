@@ -113,34 +113,38 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    gates = parse_pairs(args.gate)
-    evidence = parse_pairs(args.evidence)
-    source_validation_raw = parse_pairs(args.source_validation)
-    source_validation = {
-        key: parse_bool(value) for key, value in source_validation_raw.items()
-    }
+    try:
+        gates = parse_pairs(args.gate)
+        evidence = parse_pairs(args.evidence)
+        source_validation_raw = parse_pairs(args.source_validation)
+        source_validation = {
+            key: parse_bool(value) for key, value in source_validation_raw.items()
+        }
 
-    manifest = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "wave": args.wave,
-        "module": args.module,
-        "workflow": args.workflow,
-        "run_id": args.run_id,
-        "overall_status": args.overall_status,
-        "gates": gates,
-        "evidence_references": evidence,
-        "source_validation": source_validation,
-        "notes": args.notes,
-    }
+        manifest = {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "wave": args.wave,
+            "module": args.module,
+            "workflow": args.workflow,
+            "run_id": args.run_id,
+            "overall_status": args.overall_status,
+            "gates": gates,
+            "evidence_references": evidence,
+            "source_validation": source_validation,
+            "notes": args.notes,
+        }
 
-    json_path = Path(args.output_json)
-    json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        json_path = Path(args.output_json)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
-    if args.output_md:
-        md_path = Path(args.output_md)
-        md_path.parent.mkdir(parents=True, exist_ok=True)
-        write_markdown(md_path, manifest)
+        if args.output_md:
+            md_path = Path(args.output_md)
+            md_path.parent.mkdir(parents=True, exist_ok=True)
+            write_markdown(md_path, manifest)
+    except (ValueError, OSError) as exc:
+        print(f"error: {exc}")
+        return 1
 
     return 0
 
