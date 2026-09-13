@@ -329,6 +329,7 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
         THEMIS_WARN("DistributedVectorIndex::search: invalid arguments (dim={} k={})", dim, k);
         return {};
     }
+    const auto top_k = static_cast<size_t>(k);
 
     // Scatter: query every shard for up to k candidates, then filter to alive IDs.
     struct SearchCandidate {
@@ -381,8 +382,8 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
                   return a.id < b.id;
               });
 
-    if (merged.size() > k) {
-        merged.resize(static_cast<size_t>(k));
+    if (merged.size() > top_k) {
+        merged.resize(top_k);
     }
     return merged;
 }

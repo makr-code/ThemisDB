@@ -477,7 +477,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
         }
     }
     
-    int processed = 0;
+    size_t processed = 0;
     while (!queue.empty()) {
         std::string current = queue.front();
         queue.pop();
@@ -492,7 +492,7 @@ bool DeltaUpdateEngine::hasCircularDependency(const std::vector<FileDelta>& delt
     }
     
     // If we couldn't process all nodes, there's a cycle
-    bool has_cycle = (processed != deltas.size());
+    const bool has_cycle = (processed != deltas.size());
     if (has_cycle) {
         LOG_ERROR("Patch ordering: circular dependency detected (7402)");
     }
@@ -1175,4 +1175,3 @@ bool DeltaUpdateEngine::applyPatchVcdiff(
 
 } // namespace updates
 } // namespace themis
-
