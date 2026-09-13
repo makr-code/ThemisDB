@@ -201,8 +201,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Finite sentinel avoids -Wnan-infinity-disabled builds.
         constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
         std::vector<float> dist(numVertices, kUnreachableDistance);
+        std::vector<bool> reachable(numVertices, false);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
+        reachable[src] = true;
 
         using DV = std::pair<float, uint32_t>; // (distance, vertex)
         std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
@@ -242,12 +244,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
+                    reachable[v] = true;
                     pq.push({nd, v});
                 }
             }
         }
 
-        if (dist[dst] == kUnreachableDistance) {
+        if (!reachable[dst]) {
             continue; // no path
         }
 
