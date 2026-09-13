@@ -201,14 +201,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Finite sentinel avoids -Wnan-infinity-disabled builds.
         constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
         std::vector<float> dist(numVertices, kUnreachableDistance);
-        std::vector<bool> reached(numVertices, false);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
-        reached[src] = true;
 
         using DV = std::pair<float, uint32_t>; // (distance, vertex)
         std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
         pq.push({0.0f, src});
+        bool destination_reached = false;
 
         while (!pq.empty()) {
             auto [d, u] = pq.top();
@@ -218,6 +217,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 continue; // stale entry
             }
             if (u == dst) {
+                destination_reached = true;
                 break; // target reached
             }
 
@@ -225,6 +225,9 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             const float *wRow      = weights + u * N;
             for (uint32_t v = 0; v < N; ++v) {
                 if (adjRow[v] == 0) {
+                    continue;
+                }
+                if (dist[u] >= kUnreachableDistance) {
                     continue;
                 }
                 const float raw_w = wRow[v];
@@ -236,9 +239,6 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                     std::cerr << "[CPUGraph] batchShortestPath: negative weight " << raw_w << " on edge " << u << "→"
                               << v << "; clamped to 0\n";
                 }
-                if (dist[u] >= kUnreachableDistance) {
-                    continue;
-                }
                 const float w  = std::max(0.0f, raw_w);
                 const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
                 const float nd = (nd_d >= static_cast<double>(kUnreachableDistance))
@@ -247,13 +247,12 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
-                    reached[v] = true;
                     pq.push({nd, v});
                 }
             }
         }
 
-        if (!reached[dst]) {
+        if (!destination_reached) {
             continue; // no path
         }
 
