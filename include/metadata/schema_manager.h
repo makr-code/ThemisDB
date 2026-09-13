@@ -87,7 +87,7 @@ struct AdaptiveTTLConfig {
 /// Issue: makr-code/ThemisDB#1
 class SchemaManager {
 public:
-    /// Property type information
+    /// @brief Property type and index metadata for a single schema field.
     struct PropertyInfo {
         std::string name;                           // Property name
         std::string type;                           // Type: "string", "integer", "double", "boolean", "vector", "binary", "null"
@@ -95,20 +95,24 @@ public:
         bool nullable = true;                       // Can be null/missing
         std::string index_type;                     // "regular", "range", "sparse", "geo", "ttl", "fulltext"
         
+        /// @brief Serialize this property info to JSON.
+        /// @return JSON object representing this PropertyInfo.
         json toJSON() const;
     };
 
-    /// Index information
+    /// @brief Secondary index descriptor for a table schema.
     struct IndexInfo {
         std::string name;                           // Index name (column name)
         std::string type;                           // "regular", "range", "sparse", "geo", "ttl", "fulltext", "composite"
         std::vector<std::string> columns;           // Column list (for composite indexes)
         bool unique = false;                        // Unique constraint
         
+        /// @brief Serialize this index info to JSON.
+        /// @return JSON object representing this IndexInfo.
         json toJSON() const;
     };
 
-    /// Table/collection schema
+    /// @brief Schema descriptor for a single table or collection.
     struct TableSchema {
         std::string name;                           // Table/collection name
         std::string type;                           // "relational", "document", "graph_node", "graph_edge", "vector"
@@ -116,20 +120,24 @@ public:
         std::vector<IndexInfo> indexes;             // Secondary indexes
         size_t estimated_row_count = 0;             // Approximate row count
         
+        /// @brief Serialize this table schema to JSON.
+        /// @return JSON object representing this TableSchema.
         json toJSON() const;
     };
 
-    /// Relationship/edge schema
+    /// @brief Schema descriptor for a relationship (edge) type.
     struct RelationshipSchema {
         std::string name;                           // Edge type/relationship name
         std::string from_table;                     // Source node type
         std::string to_table;                       // Target node type
         std::vector<PropertyInfo> properties;       // Edge properties
         
+        /// @brief Serialize this relationship schema to JSON.
+        /// @return JSON object representing this RelationshipSchema.
         json toJSON() const;
     };
 
-    /// Database-level metadata
+    /// @brief Database-level metadata snapshot.
     struct DatabaseMetadata {
         std::string version;                        // ThemisDB version
         size_t table_count = 0;                     // Total tables/collections
@@ -137,6 +145,8 @@ public:
         std::vector<std::string> capabilities;      // Enabled features
         std::chrono::system_clock::time_point last_refresh;
         
+        /// @brief Serialize this metadata snapshot to JSON.
+        /// @return JSON object representing this DatabaseMetadata.
         json toJSON() const;
     };
 
@@ -178,8 +188,8 @@ public:
     /// Includes version, capabilities, statistics
     DatabaseMetadata getDatabaseMetadata();
 
-    /// Force refresh of schema cache
-    /// Rescans RocksDB and rebuilds cache
+    /// @brief Force refresh of schema cache.
+    /// Rescans RocksDB and rebuilds cache.
     /// Call this after structural changes (create/drop table)
     void refreshCache();
 
@@ -193,7 +203,7 @@ public:
     /// @param changefeed Non-owning pointer; may be nullptr to disable notifications.
     void setChangefeed(Changefeed* changefeed);
 
-    /// Record a data mutation (insert / update / delete) for a table.
+    /// @brief Record a data mutation (insert / update / delete) for a table.
     /// When adaptive TTL is enabled, high-frequency mutations cause the cache
     /// to expire sooner so that stale statistics are refreshed more quickly.
     /// This method is thread-safe and non-blocking.
@@ -207,7 +217,7 @@ public:
     /// @param config Adaptive TTL parameters (uses defaults if omitted).
     void enableAdaptiveTTL(AdaptiveTTLConfig config = {});
 
-    /// Disable adaptive TTL and revert to the fixed TTL set by setCacheTTL().
+    /// @brief Disable adaptive TTL and revert to the fixed TTL set by setCacheTTL().
     void disableAdaptiveTTL();
 
     /// Return the currently effective cache TTL.
@@ -219,12 +229,14 @@ public:
     // JSON Export API
     // ========================================================================
 
-    /// Export full schema as JSON
-    /// Format compatible with MCP and REST API
+    /// @brief Export full schema as JSON.
+    /// Format compatible with MCP and REST API.
+    /// @return JSON object with the complete database schema.
     json toJSON();
 
-    /// Export single table as JSON
-    /// @param table_name Table/collection name
+    /// @brief Export single table as JSON.
+    /// @param table_name Table/collection name.
+    /// @return JSON object with the schema for the specified table.
     json tableToJSON(std::string_view table_name);
 
     /// Export database capabilities as JSON
@@ -241,23 +253,23 @@ public:
     /// @return true on success, false on validation failure
     bool setTableSchema(std::string_view table_name, const TableSchema& schema);
 
-    /// Partial update of existing schema
+    /// @brief Partial update of existing schema.
     /// @param table_name Table/collection name
     /// @param updates JSON object with fields to update
     /// @return true on success, false if table not found or validation failure
     bool patchTableSchema(std::string_view table_name, const json& updates);
 
-    /// Delete custom schema for a table
+    /// @brief Delete custom schema for a table.
     /// @param table_name Table/collection name
     /// @return true if deleted, false if not found
     bool deleteTableSchema(std::string_view table_name);
 
-    /// Validate table schema structure
+    /// @brief Validate table schema structure.
     /// @param schema Schema to validate
     /// @return Error message if invalid, empty string if valid
     std::string validateSchema(const TableSchema& schema) const;
 
-    /// Parse TableSchema from JSON
+    /// @brief Parse TableSchema from JSON.
     /// @param j JSON object
     /// @return TableSchema or throws on parse error
     static TableSchema parseTableSchema(const json& j);

@@ -31,7 +31,7 @@ class RocksDBWrapper;
 
 using json = nlohmann::json;
 
-/// A single recorded schema change
+/// @brief A single recorded schema change
 struct SchemaChange {
     uint64_t version = 0;                                   ///< Version number (monotonically increasing)
     std::string table_name;                             ///< Affected table
@@ -41,7 +41,12 @@ struct SchemaChange {
     std::chrono::system_clock::time_point timestamp;    ///< When the change was made
     SchemaManager::TableSchema snapshot;                ///< Full schema snapshot at this version
 
+    /// @brief Serialize this change record to JSON.
+    /// @return JSON representation of this SchemaChange.
     json toJSON() const;
+    /// @brief Deserialize a SchemaChange from JSON.
+    /// @param j JSON object produced by toJSON().
+    /// @return Parsed SchemaChange.
     static SchemaChange fromJSON(const json& j);
 };
 
@@ -55,7 +60,7 @@ enum class VersionErrorCode {
     INVALID_VERSION,
 };
 
-/// Typed result for schema versioning operations
+/// @brief Typed result for schema versioning operations
 template<typename T>
 struct VersionResult {
     bool ok = false;
@@ -63,6 +68,9 @@ struct VersionResult {
     VersionErrorCode error = VersionErrorCode::OK;
     std::string error_message;
 
+    /// @brief Construct a successful result carrying @p v.
+    /// @param v Value to wrap in the result.
+    /// @return VersionResult with ok=true and value=v.
     static VersionResult<T> success(T v) {
         VersionResult<T> r;
         r.ok    = true;
@@ -70,6 +78,10 @@ struct VersionResult {
         return r;
     }
 
+    /// @brief Construct a failure result with an error code and message.
+    /// @param code  Error code indicating the failure kind.
+    /// @param msg   Human-readable description of the failure.
+    /// @return VersionResult with ok=false and the given error info.
     static VersionResult<T> failure(VersionErrorCode code, std::string msg) {
         VersionResult<T> r;
         r.ok            = false;
@@ -163,18 +175,24 @@ public:
         std::string_view author = ""
     );
 
-    /// Compute a JSON diff between two versions.
+    /// @brief Compute a JSON diff between two versions.
     /// Returns a JSON object with "added", "removed", and "modified" property arrays.
+    /// @param table_name  Table whose versions to diff.
+    /// @param version_a   First (older) version number.
+    /// @param version_b   Second (newer) version number.
+    /// @return VersionResult containing the diff JSON on success.
     VersionResult<json> diffVersions(
         std::string_view table_name,
         uint64_t version_a,
         uint64_t version_b
     ) const;
 
-    /// Export all version history for a table as a JSON array.
+    /// @brief Export all version history for a table as a JSON array.
+    /// @param table_name Table whose history to export.
+    /// @return JSON array of SchemaChange objects in chronological order.
     json historyToJSON(std::string_view table_name) const;
 
-    /// Generate a DDL migration script from the diff between two versions.
+    /// @brief Generate a DDL migration script from the diff between two versions.
     ///
     /// Produces a sequence of ALTER TABLE statements that, when executed in
     /// order, transform @p table_name from the schema at @p version_from to
@@ -199,7 +217,7 @@ public:
         uint64_t version_to
     ) const;
 
-    /// Dry-run: validate whether @p new_schema can be applied to @p table_name
+    /// @brief Dry-run: validate whether @p new_schema can be applied to @p table_name
     /// without persisting any changes.
     ///
     /// Checks performed:

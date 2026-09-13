@@ -56,7 +56,10 @@ public:
         uint64_t keys_returned{0};       ///< Keys actually delivered to callers
         uint64_t early_stops{0};         ///< Scans stopped early by a false callback return
 
-        /** Ratio of returned vs examined keys (filter selectivity). */
+        /**
+         * @brief Ratio of returned vs examined keys (filter selectivity).
+         * @return Value in [0, 1]; 1.0 when no keys have been examined.
+         */
         double selectivity() const {
             return keys_examined == 0 ? 1.0
                                       : static_cast<double>(keys_returned) / keys_examined;
@@ -98,17 +101,26 @@ public:
         uint64_t del_latency_min_us{UINT64_MAX}; ///< UINT64_MAX = no data
         uint64_t del_latency_max_us{0};
 
-        /** Average put latency in microseconds (0 if no puts yet). */
+        /**
+         * @brief Average put latency in microseconds (0 if no puts yet).
+         * @return Mean put latency in µs, or 0.0 if put_ops == 0.
+         */
         double avg_put_latency_us() const {
             return put_ops == 0 ? 0.0
                                 : static_cast<double>(put_latency_us) / put_ops;
         }
-        /** Average get latency in microseconds (0 if no gets yet). */
+        /**
+         * @brief Average get latency in microseconds (0 if no gets yet).
+         * @return Mean get latency in µs, or 0.0 if get_ops == 0.
+         */
         double avg_get_latency_us() const {
             return get_ops == 0 ? 0.0
                                 : static_cast<double>(get_latency_us) / get_ops;
         }
-        /** Average del latency in microseconds (0 if no dels yet). */
+        /**
+         * @brief Average del latency in microseconds (0 if no dels yet).
+         * @return Mean del latency in µs, or 0.0 if del_ops == 0.
+         */
         double avg_del_latency_us() const {
             return del_ops == 0 ? 0.0
                                 : static_cast<double>(del_latency_us) / del_ops;
@@ -215,6 +227,7 @@ public:
      * 
      * **Move Semantics**: Returned ScanCounters struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
+     * @return Copy of the current ScanCounters snapshot.
      */
     ScanCounters scanCounters() const;
 
@@ -231,6 +244,7 @@ public:
      * 
      * **Move Semantics**: Returned IOMetrics struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
+     * @return Copy of the current IOMetrics snapshot.
      */
     IOMetrics ioMetrics() const;
 
@@ -287,14 +301,22 @@ public:
      * 
      * These factory methods create default implementations of interfaces.
      * Used by createDefault() factory and StorageEngineBuilder::standard()
+     * @return Pointer to a newly created default implementation.
      */
     static IExpressionEvaluatorPtr createDefaultEvaluator();
+    /// @brief Create a default IFieldEncryption implementation. @return Default IFieldEncryptionPtr.
     static IFieldEncryptionPtr createDefaultEncryption();
+    /// @brief Create a default IKeyProvider implementation. @return Default IKeyProviderPtr.
     static IKeyProviderPtr createDefaultKeyProvider();
+    /// @brief Create a default IIndexManager implementation. @return Default IIndexManagerPtr.
     static IIndexManagerPtr createDefaultIndexManager();
 
-    /** Expose the underlying RocksDB wrapper (for advanced operations). */
+    /**
+     * @brief Expose the underlying RocksDB wrapper (for advanced operations).
+     * @return Pointer to the RocksDBWrapper; may be nullptr if not yet initialised.
+     */
     RocksDBWrapper* rawDB() { return rocksdb_.get(); }
+    /// @brief Const overload. @return Const pointer to the RocksDBWrapper.
     const RocksDBWrapper* rawDB() const { return rocksdb_.get(); }
 
 private:

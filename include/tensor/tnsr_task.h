@@ -182,7 +182,7 @@ public:
     /// Install a topology re-serialization backend.  Thread-safe.
     static void setRerouteSerializeFn(RerouteSerializeFn fn);
 
-    /// Remove the topology re-serialization backend (fallback: count-only).
+    /// @brief Remove the topology re-serialization backend (fallback: count-only).
     static void clearRerouteSerializeFn();
 
     /**

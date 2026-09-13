@@ -752,8 +752,11 @@ class ThemisCppDoxygenPolicyRulesScan:
         while idx >= 0:
             line = lines[idx].strip()
             if class_pattern.search(line):
-                # Check if there's documentation before this line
-                class_doc = self._extract_leading_class_doc(lines, idx)
+                # Check if there's documentation before this line.
+                # Pass idx + 1 so that _extract_leading_class_doc (which expects a
+                # 1-based line number) correctly resolves the line immediately
+                # preceding the class/struct definition.
+                class_doc = self._extract_leading_class_doc(lines, idx + 1)
                 needs_doc = class_doc is None or "@brief" not in (class_doc or "").lower()
                 template_params = self._extract_template_prefix_params(lines, idx + 1)
                 return {

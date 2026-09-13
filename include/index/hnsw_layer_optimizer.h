@@ -61,7 +61,7 @@ struct HnswOptimizationConfig {
 /// - Design: docs/performance/phase4_hnsw_layer_optimization.md
 class HnswLayerOptimizer {
 public:
-    /// Statistics for a single layer
+    /// @brief Per-layer search statistics for the HNSW layer optimizer.
     struct LayerStats {
         int layer = 0;
         int64_t access_count = 0;
@@ -70,6 +70,9 @@ public:
         double avg_search_time_ms = 0.0;
         double efficiency_score = 0.0;  // candidates_found / avg_search_time_ms
         
+        /// @brief Update statistics with a new layer access sample.
+        /// @param candidates  Number of candidates found in this layer pass.
+        /// @param search_time_ms Time spent searching this layer (milliseconds).
         void update(int64_t candidates, double search_time_ms) {
             access_count++;
             candidates_found += candidates;
@@ -102,13 +105,13 @@ public:
     /// Check if optimization is enabled
     bool isEnabled() const { return config_.enabled; }
     
-    /// Record layer access for statistics
+    /// @brief Record a layer access for statistics collection.
     /// @param layer Layer number (0 = bottom layer)
     /// @param candidates_found Number of candidates found in this layer
     /// @param search_time_ms Time spent searching this layer (milliseconds)
     void recordLayerAccess(int layer, int64_t candidates_found, double search_time_ms);
     
-    /// Record query statistics for adaptive optimization
+    /// @brief Record query statistics for adaptive optimization.
     /// @param entry_layer Entry layer used for this query
     /// @param ef_used EF parameter used for this query
     /// @param layers_traversed Number of layers actually traversed
@@ -126,7 +129,7 @@ public:
     /// @return Recommended ef parameter, or -1 to use default
     int getOptimalEf(size_t k) const;
     
-    /// Check if layer should be pruned (skip deeper layers)
+    /// @brief Check if a layer should be pruned (skip deeper layers).
     /// @param current_layer Current layer being searched
     /// @param candidate_count Number of candidates found so far
     /// @param k Number of neighbors requested
@@ -139,7 +142,7 @@ public:
     /// Get recent query statistics
     std::vector<QueryStats> getRecentQueryStats() const;
     
-    /// Reset statistics
+    /// @brief Reset all layer and query statistics to zero.
     void resetStats();
     
     /// Get configuration

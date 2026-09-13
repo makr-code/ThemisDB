@@ -103,11 +103,14 @@ public:
  */
 class TokenBlacklist : public ITokenBlacklist {
 public:
+    /// @brief Configuration options for TokenBlacklist.
     struct Config {
         /// How often expired entries are pruned automatically (seconds).
         uint32_t cleanup_interval_seconds = 300;
         /// Hard cap on number of stored JTIs (prevents unbounded growth).
         size_t max_entries = 1'000'000;
+        /// @brief Return a default-constructed Config instance.
+        /// @return Config with default cleanup interval and entry cap.
         static Config defaults() { return {}; }
     };
 
@@ -222,6 +225,7 @@ public:
     /**
      * @brief Current number of blacklisted JTIs (including not-yet-pruned
      *        expired ones).
+     * @return Number of entries currently stored in the blacklist.
      */
     size_t size() const;
 

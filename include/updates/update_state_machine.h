@@ -58,7 +58,9 @@ struct UpdateTransactionEntry {
     std::string message;
     std::chrono::system_clock::time_point timestamp;
 
+    /// @brief Serialize this entry to JSON. @return JSON representation of the entry.
     json toJson() const;
+    /// @brief Deserialize an entry from JSON. @param j Source JSON object. @return Entry on success, std::nullopt on parse error.
     static std::optional<UpdateTransactionEntry> fromJson(const json& j);
 };
 
@@ -109,9 +111,9 @@ struct Checkpoint {
     /// Wall-clock time the checkpoint was recorded.
     std::chrono::system_clock::time_point timestamp;
 
-    /// Serialize checkpoint to JSON for persistence
+    /// @brief Serialize checkpoint to JSON for persistence. @return JSON representation.
     json toJson() const;
-    /// Deserialize checkpoint from JSON
+    /// @brief Deserialize checkpoint from JSON. @param j Source JSON object. @return Checkpoint on success, std::nullopt on parse error.
     static std::optional<Checkpoint> fromJson(const json& j);
 };
 
@@ -147,11 +149,13 @@ public:
 
     /**
      * @brief Get the current state
+     * @return The current UpdateState value.
      */
     UpdateState currentState() const;
 
     /**
      * @brief Get the version currently being processed (empty if IDLE)
+     * @return Version string, or empty string if state is IDLE.
      */
     std::string currentVersion() const;
 
@@ -173,6 +177,7 @@ public:
 
     /**
      * @brief Register a callback that fires on every state change
+     * @param cb Callable invoked with (old_state, new_state, version, message).
      */
     void addStateChangeCallback(StateChangeCallback cb);
 
@@ -191,11 +196,14 @@ public:
 
     /**
      * @brief Get the full transaction log (newest first)
+     * @return Vector of UpdateTransactionEntry, most recent entry first.
      */
     std::vector<UpdateTransactionEntry> transactionLog() const;
 
     /**
      * @brief Persist current state to the log file (called automatically on transitions)
+     * @param version Version string being processed.
+     * @param message Human-readable progress note or reason for the transition.
      */
     void persistState(const std::string& version, const std::string& message);
 
@@ -206,6 +214,8 @@ public:
 
     /**
      * @brief Human-readable name for a state
+     * @param s The UpdateState value to name.
+     * @return String label for the state.
      */
     static std::string stateName(UpdateState s);
 
@@ -261,6 +271,7 @@ public:
 
     /**
      * @brief Return all checkpoints in creation order (oldest first).
+     * @return Vector of Checkpoint objects in ascending creation order.
      */
     std::vector<Checkpoint> listCheckpoints() const;
 

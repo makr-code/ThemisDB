@@ -113,12 +113,16 @@ public:
      * When node is negative, behaves identically to allocate_local().
      * Falls back to malloc on systems without NUMA support.
      *
+     * @param size  Number of bytes to allocate.
+     * @param node  NUMA node index; negative means local node.
      * @return Pointer to allocated memory; throws std::bad_alloc on exhaustion.
      */
     void* allocate_on_node(size_t size, int node);
 
     /**
      * @brief Allocate size bytes on the calling thread's local NUMA node.
+     * @param size Number of bytes to allocate.
+     * @return Pointer to allocated memory; throws std::bad_alloc on exhaustion.
      */
     void* allocate_local(size_t size);
 
@@ -143,6 +147,9 @@ public:
      *
      * On Linux with libnuma available this issues mbind(MPOL_BIND) to rebind
      * the pages to target_node.  On other platforms it is a no-op.
+     * @param ptr         Pointer to the allocation to migrate.
+     * @param size        Size of the allocation in bytes.
+     * @param target_node Target NUMA node index.
      */
     void migrate_to_node(void* ptr, size_t size, int target_node);
 

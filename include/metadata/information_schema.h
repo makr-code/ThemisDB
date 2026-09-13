@@ -29,7 +29,7 @@ class SchemaManager;
 
 using json = nlohmann::json;
 
-/// Row in INFORMATION_SCHEMA.TABLES
+/// @brief Row in INFORMATION_SCHEMA.TABLES
 struct ISTable {
     std::string table_catalog;   ///< Always "def" (SQL standard)
     std::string table_schema;    ///< Schema/database name
@@ -39,10 +39,12 @@ struct ISTable {
     std::string engine;          ///< Storage engine name ("ThemisDB")
     std::string create_time;     ///< ISO-8601 creation timestamp (if known)
 
+    /// @brief Serialize this row to JSON.
+    /// @return JSON object representing this ISTable row.
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.COLUMNS
+/// @brief Row in INFORMATION_SCHEMA.COLUMNS
 struct ISColumn {
     std::string table_catalog;      ///< Always "def"
     std::string table_schema;
@@ -54,10 +56,12 @@ struct ISColumn {
     std::optional<std::string> column_default; ///< Default value expression
     std::string extra;              ///< "auto_increment", "indexed", …
 
+    /// @brief Serialize this row to JSON.
+    /// @return JSON object representing this ISColumn row.
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.STATISTICS (index info)
+/// @brief Row in INFORMATION_SCHEMA.STATISTICS (index info)
 struct ISStatistic {
     std::string table_catalog;
     std::string table_schema;
@@ -68,10 +72,12 @@ struct ISStatistic {
     std::string index_type;         ///< "BTREE", "HASH", "FULLTEXT", …
     std::string non_unique;         ///< "0" (unique) or "1" (not unique)
 
+    /// @brief Serialize this row to JSON.
+    /// @return JSON object representing this ISStatistic row.
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+/// @brief Row in INFORMATION_SCHEMA.KEY_COLUMN_USAGE
 struct ISKeyColumnUsage {
     std::string constraint_catalog;
     std::string constraint_schema;
@@ -84,10 +90,12 @@ struct ISKeyColumnUsage {
     std::optional<std::string> referenced_table_name;
     std::optional<std::string> referenced_column_name;
 
+    /// @brief Serialize this row to JSON.
+    /// @return JSON object representing this ISKeyColumnUsage row.
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+/// @brief Row in INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
 struct ISReferentialConstraint {
     std::string constraint_catalog = {};
     std::string constraint_schema;
@@ -99,6 +107,8 @@ struct ISReferentialConstraint {
     std::string update_rule;               ///< "RESTRICT", "CASCADE", "NO ACTION", etc.
     std::string delete_rule;
 
+    /// @brief Serialize this row to JSON.
+    /// @return JSON object representing this ISReferentialConstraint row.
     json toJSON() const;
 };
 
@@ -166,18 +176,23 @@ public:
     // JSON export helpers (for REST API / AQL integration)
     // ========================================================================
 
-    /// Serialize the full INFORMATION_SCHEMA as a JSON object with keys
+    /// @brief Serialize the full INFORMATION_SCHEMA as a JSON object with keys
     /// "tables", "columns", "statistics", "key_column_usage", and
     /// "referential_constraints".
+    /// @return JSON object with all INFORMATION_SCHEMA view data.
     json toJSON() const;
 
-    /// Return only the TABLES view as a JSON array.
+    /// @brief Return only the TABLES view as a JSON array.
+    /// @return JSON array of ISTable rows.
     json tablesToJSON() const;
 
-    /// Return only the COLUMNS view for one table as a JSON array.
+    /// @brief Return only the COLUMNS view for one table as a JSON array.
+    /// @param table_name Name of the table whose columns to return.
+    /// @return JSON array of ISColumn rows for the given table.
     json columnsToJSON(std::string_view table_name) const;
 
-    /// Return only the REFERENTIAL_CONSTRAINTS view as a JSON array.
+    /// @brief Return only the REFERENTIAL_CONSTRAINTS view as a JSON array.
+    /// @return JSON array of ISReferentialConstraint rows.
     json referentialConstraintsToJSON() const;
 
 private:
