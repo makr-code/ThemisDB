@@ -49,7 +49,7 @@ namespace acceleration {
 
 // CPU snapshot cache TTL: refresh interval between blocking two-snapshot reads.
 // Calls within this window reuse the last snapshot as the base, avoiding sleep.
-static constexpr std::chrono::milliseconds kCpuCacheTTL{200};
+[[maybe_unused]] static constexpr std::chrono::milliseconds kCpuCacheTTL{200};
 
 namespace {
 
