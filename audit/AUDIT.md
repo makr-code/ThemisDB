@@ -47,6 +47,12 @@ The production audit stack is materially present in source code and is not merel
 | **Performance Gates** | ✅ Passed | Wave 7 benchmarks: Failover <100µs, Cache <50µs, Graph <200µs, LLM <5s p95 | Perf Team |
 | **Documentation** | ✅ Complete | `ROADMAP.md` (2026-08-09) + current `audit/` sync + module docs | Tech Writers |
 
+### Wave Closure Package Governance (2026-09-13)
+
+- Dedicated Wave execution workflows now publish source-validated closure manifests (`json` + `md`) as CI artifacts for hardening gates.
+- Canonical format and required fields are defined in `audit/evidence/waves/README.md`.
+- Root status promotion remains blocked unless closure packages contain code/test/CI/benchmark evidence signals.
+
 ---
 
 ## Audit Status Legend

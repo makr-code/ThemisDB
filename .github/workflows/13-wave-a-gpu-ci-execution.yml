@@ -537,6 +537,51 @@ jobs:
       - name: "Download all artifacts"
         uses: actions/download-artifact@v4.1.3
 
+      - name: "Generate Wave-A GPU closure package"
+        run: |
+          mkdir -p wave-closure
+          CODE_VALIDATED=true
+          TESTS_VALIDATED=false
+          CI_VALIDATED=false
+          BENCHMARKS_VALIDATED=false
+
+          if [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
+            TESTS_VALIDATED=true
+          fi
+          if [ "${{ needs.configure.outputs.config-status }}" = "success" ] && [ "${{ needs.compile-tests.result }}" = "success" ] && [ "${{ needs.full-gpu-test-suite.result }}" = "success" ] && [ "${{ needs.cuda-audit.result }}" = "success" ]; then
+            CI_VALIDATED=true
+          fi
+          if [ "${{ needs.representative-hardware-baselines.result }}" = "success" ]; then
+            BENCHMARKS_VALIDATED=true
+          fi
+
+          OVERALL_STATUS="open"
+          if [ "$CI_VALIDATED" = "true" ] && [ "$BENCHMARKS_VALIDATED" = "true" ]; then
+            OVERALL_STATUS="evidence-captured"
+          fi
+
+          python3 tools/ci/generate_wave_closure_manifest.py \
+            --wave "Wave A" \
+            --module "gpu" \
+            --workflow "13-wave-a-gpu-ci-execution.yml" \
+            --run-id "${{ github.run_id }}" \
+            --overall-status "$OVERALL_STATUS" \
+            --gate "A1_cuda_audit=${{ needs.cuda-audit.result }}" \
+            --gate "A2_fallback_timeout_tests=${{ needs.full-gpu-test-suite.result }}" \
+            --gate "A3_release_critical=${{ needs.compile-tests.result }}" \
+            --gate "A4_representative_hardware=${{ needs.representative-hardware-baselines.result }}" \
+            --evidence "artifacts_archive=gpu-ci-results.zip" \
+            --evidence "cuda_audit_report=cuda-audit-report" \
+            --evidence "representative_hardware=gpu-representative-hardware" \
+            --evidence "ci_report=GPU_CI_REPORT.md" \
+            --source-validation "code=${CODE_VALIDATED}" \
+            --source-validation "tests=${TESTS_VALIDATED}" \
+            --source-validation "ci=${CI_VALIDATED}" \
+            --source-validation "benchmarks=${BENCHMARKS_VALIDATED}" \
+            --notes "Source-validated evidence package generated from dedicated Wave GPU CI run." \
+            --output-json "wave-closure/gpu_wave_a_closure_manifest.json" \
+            --output-md "wave-closure/gpu_wave_a_closure_manifest.md"
+
       - name: "Generate GPU CI report"
         run: |
           GPU_BASELINE_STATUS="not-requested"
@@ -575,6 +620,13 @@ jobs:
         with:
           name: GPU-CI-Report
           path: GPU_CI_REPORT.md
+          retention-days: 90
+
+      - name: "Upload Wave-A closure package"
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpu-wave-a-closure-package
+          path: wave-closure/
           retention-days: 90
 
   verify-results:

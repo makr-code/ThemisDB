@@ -41,6 +41,7 @@ The enhancement plan must follow the same evidence discipline as the roadmap its
 ### Findings-fix execution order (2026-09-09)
 
 1. Build a source-validated remediation backlog from `ROADMAP.md`, module roadmaps, and current CI logs.
+1a. For each open Wave gate, publish and track a closure package manifest (`*_closure_manifest.json` + `*_closure_manifest.md`) with run IDs, artifacts, and source-validation flags before status promotion.
 2. Repair the Wave-B transaction CI lane on `develop` so it provisions the same required dependency set as the working mainline/release workflows. ✅ closed 2026-09-09 (`34313051247`)
 3. Repair the Wave-A GPU CI lane on `develop` so public/community execution does not fetch unavailable private submodules and so target compilation status is reported correctly. ✅ closed 2026-09-09 (`34313042741`)
 4. Query FTS performance gate (`<=100ms` on 100K documents) is now closed with reproducible local benchmark evidence from `benchmarks/rag/bench_fts_phase_b.cpp` on 2026-09-09; next work is cross-environment baseline capture, not missing executor functionality.
