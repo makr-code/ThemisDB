@@ -590,8 +590,9 @@ void TensorTrainDecomposer::truncatedSVD(
     // Determine truncation rank
     rank_out = 0;
 
-    // We want: sq_tail_above_r ≤ delta²
-    // Accumulate from right until remaining tail ≤ delta²
+    // We want: sq_tail_above_r ≤ delta².
+    // Only the dropped tail energy matters here, so we accumulate it directly
+    // from the right instead of precomputing the total squared energy.
     double delta2 = delta * delta;
     std::size_t r = min_mn;
     double running_tail = 0.0;
