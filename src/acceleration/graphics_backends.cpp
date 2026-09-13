@@ -968,7 +968,7 @@ DirectXVectorBackend::DirectXVectorBackend()
 #if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
     : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
 #else
-    : impl_(std::make_unique<DirectXVectorBackendImpl>()) {
+    : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {
     (void)initialized_;
 }
 #endif
@@ -3300,7 +3300,7 @@ OpenGLVectorBackend::OpenGLVectorBackend()
 #ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLVectorBackendImpl>()) {}
 #else
-    : impl_(std::make_unique<OpenGLVectorBackendImpl>()) {
+    : initialized_(false), impl_(std::make_unique<OpenGLVectorBackendImpl>()) {
     (void)initialized_;
 }
 #endif
@@ -3686,7 +3686,7 @@ OpenGLGeoBackend::OpenGLGeoBackend()
 #ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGeoBackendImpl>()) {}
 #else
-    : impl_(std::make_unique<OpenGLGeoBackendImpl>()) {
+    : initialized_(false), impl_(std::make_unique<OpenGLGeoBackendImpl>()) {
     (void)initialized_;
 }
 #endif
@@ -3918,7 +3918,7 @@ OpenGLGraphBackend::OpenGLGraphBackend()
 #ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGraphBackendImpl>()) {}
 #else
-    : impl_(std::make_unique<OpenGLGraphBackendImpl>()) {
+    : initialized_(false), impl_(std::make_unique<OpenGLGraphBackendImpl>()) {
     (void)initialized_;
 }
 #endif
