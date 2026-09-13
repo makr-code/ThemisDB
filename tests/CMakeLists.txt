@@ -17338,7 +17338,8 @@ function(add_index_focused_test target_name test_src test_name labels descriptio
             ${test_src}
         )
 
-        if(target_name STREQUAL "test_gpu_memory_oversubscription_focused")
+        if(target_name STREQUAL "test_gpu_memory_oversubscription_focused" OR
+           target_name STREQUAL "module_index_test_gpu_memory_oversubscription_focused")
             target_sources(${target_name} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
                 ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp

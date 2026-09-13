@@ -2108,6 +2108,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/scheduled_edge_refresh.cpp
     ../src/graph/graph_query_rewriter.cpp
     ../src/graph/graph_query_cache.cpp
+    ../src/graph/graph_error_taxonomy.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)

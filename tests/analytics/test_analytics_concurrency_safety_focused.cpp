@@ -621,7 +621,7 @@ TEST_F(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock) {
     struct AggStage {
         std::mutex compile_lock;
         std::mutex execute_lock;
-        bool compiled = false;
+        std::atomic<bool> compiled{false};
         int execute_count = 0;
     };
 
@@ -632,16 +632,17 @@ TEST_F(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock) {
     auto compile = [&]() {
         std::lock_guard<std::mutex> guard(stage.compile_lock);
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        stage.compiled = true;
+        stage.compiled.store(true, std::memory_order_release);
         compile_ops.fetch_add(1);
     };
 
     auto execute = [&]() {
-        std::lock_guard<std::mutex> guard(stage.execute_lock);
-        if (stage.compiled) {
-            stage.execute_count++;
-            execute_ops.fetch_add(1);
+        while (!stage.compiled.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
         }
+        std::lock_guard<std::mutex> guard(stage.execute_lock);
+        stage.execute_count++;
+        execute_ops.fetch_add(1);
     };
 
     // Action: Concurrent compile and execute don't block each other

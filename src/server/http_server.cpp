@@ -4925,6 +4925,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+#ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     // Route: Encrypted Storage API (/user/storage/encrypted/*)
     {
         const auto& p = path_only;
@@ -4944,6 +4945,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
+#endif  // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 
 #ifdef THEMIS_CHAOS_ADMIN
     // Route: Chaos Admin API (/admin/chaos/*) — requires admin role.

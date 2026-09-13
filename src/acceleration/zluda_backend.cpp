@@ -450,11 +450,6 @@ public:
             }
         }
 
-        if (!initialized_) {
-            THEMIS_WARN("ZLUDA: batchKnnSearch -- backend not initialized, falling back to CPU");
-            return {};
-        }
-
         // -- Bridge 2: ZludaKernelFn (checked before initialized-guard)
         {
             ZludaKernelFn kfn;
@@ -498,6 +493,11 @@ public:
                                 "batchKnnSearch -- falling back to CPU");
                 }
             }
+        }
+
+        if (!initialized_) {
+            THEMIS_WARN("ZLUDA: batchKnnSearch -- backend not initialized, falling back to CPU");
+            return {};
         }
 
         // PERMANENT FALLBACK NOTE (ZLUDA PTX batchKnnSearch path):
