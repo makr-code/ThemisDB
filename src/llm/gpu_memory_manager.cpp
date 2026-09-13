@@ -130,13 +130,13 @@ private:
             if (set_err != cudaSuccess) {
                 spdlog::warn("MemoryHolder::freeGPUMemory: cudaSetDevice({}) failed: {}",
                              gpu_device_id_, cudaGetErrorString(set_err));
-                // CRITICAL GAP FIX #1: Ensure secure clear happens even if device set fails
+                // Preserve secure clearing even when selecting the CUDA device fails.
                 security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
                 return;
             }
             security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
             
-            // CRITICAL GAP FIX #2: Catch CUDA free errors and log distinctly
+            // Log CUDA free failures distinctly without throwing from destruction.
             cudaError_t free_err = cudaFree(ptr_);
             if (free_err != cudaSuccess) {
                 spdlog::error("MemoryHolder::freeGPUMemory: cudaFree() failed with error: {} [{}]",
@@ -157,7 +157,7 @@ private:
 #ifdef THEMIS_ENABLE_CUDA
         if (gpu_available_) {
             security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
-            // CRITICAL GAP FIX #2: Catch CUDA pinned free errors
+            // Log CUDA pinned-host free failures distinctly without throwing.
             cudaError_t free_err = cudaFreeHost(ptr_);
             if (free_err != cudaSuccess) {
                 spdlog::error("MemoryHolder::freePinnedMemory: cudaFreeHost() failed with error: {} [{}]",
@@ -597,7 +597,7 @@ void GPUMemoryManager::shutdownGPU() {
 }
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
-    // CRITICAL GAP FIX #3: Add device pre-checks and validation
+    // Validate the request against the canonical device policy before allocation.
     
     // Gate through the canonical VRAM policy so that edition limits and
     // per-tenant quotas are enforced at a single, unified control point.
@@ -613,7 +613,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
 
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // CRITICAL GAP FIX #4: Implement robust overflow detection
+    // Reject zero-sized or overflow-prone allocation requests before use.
     if (bytes == 0 || bytes > std::numeric_limits<size_t>::max()) {
         spdlog::error("[{}] GPU allocation size overflow or zero: {} bytes",
                      static_cast<int>(GPUMemoryErrorCode::GPU_ALLOCATION_OVERFLOW), bytes);
@@ -644,7 +644,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_ && !available_gpus_.empty()) {
-        // CRITICAL GAP FIX #5: Verify GPU device health before allocation
+        // Verify GPU health before attempting device allocation.
         int selected_gpu = getLeastLoadedGPU();
         
         // Check if GPU is healthy
@@ -681,7 +681,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         was_fallback = true;
     }
     
-    // CRITICAL GAP FIX #6: Implement fallback strategy: GPU -> pinned CPU -> regular CPU
+    // Fallback order is GPU -> pinned CPU -> regular CPU.
     if (was_fallback || !ptr) {
         spdlog::info("[{}] Attempting fallback to pinned CPU memory",
                     static_cast<int>(GPUMemoryErrorCode::FALLBACK_TO_PINNED_CPU));
@@ -2455,8 +2455,8 @@ void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
         return;
     }
 
-    // CRITICAL GAP FIX #7: Enhanced temperature monitoring and health detection
-    // This would typically query actual GPU hardware
+    // Track temperature/health telemetry and degrade unhealthy GPUs conservatively.
+    // This would typically query actual GPU hardware.
 #ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
         cudaError_t set_err = cudaSetDevice(gpu_device_id);
@@ -2537,7 +2537,7 @@ void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
 
         float final_temperature = temperature.value_or(40.0f + (utilization * 0.35f));
         
-        // CRITICAL GAP FIX #7a: Check temperature thresholds for health detection
+        // Check temperature thresholds before writing back health state.
         bool is_healthy = true;
         if (final_temperature >= 85.0f) {
             spdlog::error("[{}] GPU {} temperature critical: {:.1f}°C",
@@ -2560,7 +2560,7 @@ void GPUMemoryManager::updateGPUHealth([[maybe_unused]] int gpu_device_id) {
         gpu_utilizations_[gpu_device_id] = utilization;
         gpu_temperatures_[gpu_device_id] = final_temperature;
         
-        // CRITICAL GAP FIX #7b: Update health status based on temperature
+        // Persist the final health state derived from the temperature checks.
         gpu_health_status_[gpu_device_id] = is_healthy;
         
         return;

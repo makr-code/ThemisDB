@@ -468,26 +468,26 @@ bool VoiceSessionManager::updatePreferredLanguage(
 }
 
 bool VoiceSessionManager::terminateSession(const std::string& session_id) {
-    // CRITICAL GAP 14: Enforce session state machine with atomic-like checks to prevent TOCTOU
-    // CRITICAL GAP 15: Prevent double-close by validating state before termination
+    // Validation rule: enforce the session state machine with atomic-like checks
+    // to prevent TOCTOU and double-close transitions during termination.
     
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     
     if (it == active_cache_.end()) {
-        // CRITICAL GAP 16: Session already terminated or not found — fail-closed
+        // Fail closed when the session was already terminated or cannot be found.
         THEMIS_DEBUG("VoiceSessionManager::terminateSession: session {} not found (error 6601)", session_id);
         return false;
     }
     
-    // CRITICAL GAP 14: Strict state machine validation — reject invalid transitions
+    // Strict state-machine validation rejects invalid transitions before teardown.
     if (!isValidSessionTransition(it->second.state, SessionState::TERMINATED)) {
         THEMIS_WARN("VoiceSessionManager::terminateSession: invalid state transition from {} to TERMINATED (error 6603)",
                     sessionStateToString(it->second.state));
         return false;
     }
 
-    // CRITICAL GAP 15: Explicit state change with diagnostics
+    // Emit an explicit audited state change before final teardown.
     SessionState old_state = it->second.state;
     it->second.state = SessionState::TERMINATED;
     
@@ -499,8 +499,7 @@ bool VoiceSessionManager::terminateSession(const std::string& session_id) {
 }
 
 size_t VoiceSessionManager::expireOldSessions() {
-    // CRITICAL GAP 17: Multi-session teardown with force-close timeout
-    // Ensure all expired sessions close within 10ms timeout per session
+    // Expire sessions under a bounded teardown budget to avoid unbounded cleanup.
     
     std::lock_guard<std::mutex> lock(manager_mutex_);
     size_t expired = 0;
@@ -508,7 +507,7 @@ size_t VoiceSessionManager::expireOldSessions() {
     
     const int64_t now_ms = nowMs();
     
-    // CRITICAL GAP 18: Identify and mark expired sessions
+    // Identify expired sessions first so teardown works from a stable snapshot.
     for (auto& [id, session] : active_cache_) {
         if (isExpired(session)) {
             session.state = SessionState::EXPIRED;
@@ -519,8 +518,7 @@ size_t VoiceSessionManager::expireOldSessions() {
         }
     }
     
-    // CRITICAL GAP 19: Force-close all expired sessions within timeout
-    // Implement force-close with deadline to prevent resource leaks
+    // Force-close expired sessions within a shared deadline to prevent leaks.
     const int64_t teardown_deadline_ms = now_ms + 100;  // 100ms total budget for all teardowns
     
     for (const auto& session_id : expired_ids) {
@@ -536,7 +534,7 @@ size_t VoiceSessionManager::expireOldSessions() {
         finalizeSessionTeardownLocked(session_id, now_ms, active_cache_, state_change_timestamps_, *backend_);
     }
     
-    // CRITICAL GAP 20: Cleanup any lingering TERMINATED sessions
+    // Cleanup any lingering TERMINATED sessions after the expiration pass.
     for (auto it = active_cache_.begin(); it != active_cache_.end();) {
         if (it->second.state == SessionState::TERMINATED) {
             const std::string session_id = it->first;
