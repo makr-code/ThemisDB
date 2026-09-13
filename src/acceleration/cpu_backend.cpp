@@ -198,7 +198,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Dijkstra over dense N×N adjacency / weight matrices.
         // adjacency[u * N + v] != 0  →  edge u→v exists.
         // weights[u * N + v]          →  non-negative edge weight u→v.
-        std::vector<float> dist(numVertices, std::numeric_limits<float>::infinity());
+        constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
+        std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
 
@@ -242,7 +243,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (std::isinf(dist[dst])) {
+        if (dist[dst] == kUnreachableDistance) {
             continue; // no path
         }
 
