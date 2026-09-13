@@ -538,7 +538,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     if (result.candidates.size() > top_k) {
         spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
                      "but top_k={} was requested; truncating (correlation_id={})",
-                     result.candidates.size(), k, result.correlation_id);
+                     result.candidates.size(), top_k, result.correlation_id);
         result.candidates.resize(top_k);
     }
 
