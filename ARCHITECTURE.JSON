@@ -960,6 +960,11 @@
   "documentation_sources": [
     {
       "category": "governance",
+      "path": "ARCHITECTURE.md",
+      "sha256_prefix": "076e4e3697d3523a"
+    },
+    {
+      "category": "governance",
       "path": "ROADMAP.md",
       "sha256_prefix": "687d043113e16bdb"
     },
@@ -2676,7 +2681,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "f129408c6eeb684a"
+      "sha256_prefix": "87c5239f36f243c8"
     },
     {
       "category": "docs",
@@ -6809,7 +6814,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-12T16:01:28.795723+00:00",
+  "generated_at": "2026-09-12T16:58:59.438142+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8885,6 +8890,7 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
+    "ARCHITECTURE.md": "076e4e3697d3523a",
     "FUTURE_ENHANCEMENTS.md": "771888801c66b8a7",
     "ROADMAP.md": "687d043113e16bdb",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
@@ -8892,11 +8898,11 @@
     "ai_context/api_contracts/": "327db5382688c4b9",
     "ai_context/developer_llm_wiki/": "a1c14f1daa494f60",
     "ai_working/": "23010ee516eb01da",
-    "docs/": "5f52d8e80574eb17"
+    "docs/": "7515736f9b911d81"
   },
   "statistics": {
     "ai_working_artifact_count": 64,
-    "documentation_source_count": 1170,
+    "documentation_source_count": 1171,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,

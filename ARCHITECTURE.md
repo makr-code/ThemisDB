@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-09-12T16:01:28.795723+00:00`
+> Generated: `2026-09-12T16:58:59.438142+00:00`
 
 ## Statistics
 
@@ -13,7 +13,7 @@
 | Modules with public plugin | 10 |
 | Modules with private plugin | 4 |
 | Modules with API contracts | 6 |
-| Documentation sources scanned | 1170 |
+| Documentation sources scanned | 1171 |
 | LLM Wiki source files | 7718 |
 | LLM Wiki module/API entries | 80 |
 | LLM Wiki generated | `2026-09-07T03:02:22+00:00` |
@@ -365,12 +365,13 @@ Wave/batch reports: 42
 JSON analysis artifacts: 7
 
 ### Documentation Sources
-1170 documentation files scanned from `docs/` and repository root governance files.
+1171 documentation files scanned from `docs/` and repository root governance files.
 
 ## Source Hashes
 
 | Source | SHA-256 prefix |
 |--------|----------------|
+| `ARCHITECTURE.md` | `076e4e3697d3523a` |
 | `FUTURE_ENHANCEMENTS.md` | `771888801c66b8a7` |
 | `ROADMAP.md` | `687d043113e16bdb` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
@@ -378,4 +379,4 @@ JSON analysis artifacts: 7
 | `ai_context/api_contracts/` | `327db5382688c4b9` |
 | `ai_context/developer_llm_wiki/` | `a1c14f1daa494f60` |
 | `ai_working/` | `23010ee516eb01da` |
-| `docs/` | `5f52d8e80574eb17` |
+| `docs/` | `7515736f9b911d81` |
