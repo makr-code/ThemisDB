@@ -225,6 +225,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 if (adjRow[v] == 0) {
                     continue;
                 }
+                // Invariant: dist entries are either the sentinel or a finite
+                // relaxed value below the sentinel.
                 if (dist[u] >= kUnreachableDistance) {
                     continue;
                 }
@@ -242,9 +244,6 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 const float nd = (nd_d >= static_cast<double>(kUnreachableDistance))
                                      ? kUnreachableDistance
                                      : static_cast<float>(nd_d);
-                if (nd >= kUnreachableDistance) {
-                    continue;
-                }
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
