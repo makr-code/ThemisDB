@@ -198,7 +198,9 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Dijkstra over dense N×N adjacency / weight matrices.
         // adjacency[u * N + v] != 0  →  edge u→v exists.
         // weights[u * N + v]          →  non-negative edge weight u→v.
-        constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
+        // Finite sentinel avoids -Wnan-infinity-disabled builds while leaving
+        // enough headroom for additive relaxations before overflow checks.
+        constexpr float kUnreachableDistance = std::numeric_limits<float>::max() / 4.0f;
         std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
