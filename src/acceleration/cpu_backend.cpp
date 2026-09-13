@@ -236,6 +236,9 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                     std::cerr << "[CPUGraph] batchShortestPath: negative weight " << raw_w << " on edge " << u << "→"
                               << v << "; clamped to 0\n";
                 }
+                if (dist[u] >= kUnreachableDistance) {
+                    continue;
+                }
                 const float w  = std::max(0.0f, raw_w);
                 const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
                 const float nd = (nd_d >= static_cast<double>(kUnreachableDistance))
