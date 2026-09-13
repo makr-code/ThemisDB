@@ -4273,14 +4273,18 @@ static int vulkan_ann_topk_dispatch(
     const float* distances, uint32_t* topk_indices, float* topk_dists,
     int numQueries, int numVectors, int topK, void* /*stream*/)
 {
+    if (topK <= 0) {
+        return 0;
+    }
     using Pair = std::pair<float, uint32_t>;
+    const auto top_k = static_cast<std::size_t>(topK);
     for (int q = 0; q < numQueries; ++q) {
         const float* row = distances + q * numVectors;
         std::priority_queue<Pair> heap = {};
 
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (heap.size() > topK) {
+            if (heap.size() > top_k) {
               heap.pop();
             }
         }
@@ -4541,5 +4545,4 @@ GeoKernelDispatch VulkanGeoBackend::populateGeoDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
-
 

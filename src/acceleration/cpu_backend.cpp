@@ -400,12 +400,16 @@ static int cpu_ann_inner_product(const float *queries, const float *vectors, flo
 
 static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *topk_dists, int numQueries,
                         int numVectors, int topK, void * /*stream*/) {
+    if (topK <= 0) {
+        return 0;
+    }
     // Comparator: (distance, index) where lower distance wins; lower index breaks ties.
     // The max-heap keeps the topK smallest pairs by ejecting the largest.
     // Using pair<float,uint32_t> directly: pair comparison is lexicographic, so
     // equal distances resolve by index (higher index is "larger" and gets ejected).
     // This guarantees that for equal distances, the lower index is always kept.
     using Pair = std::pair<float, uint32_t>; // (distance, index)
+    const auto top_k = static_cast<std::size_t>(topK);
     for (int q = 0; q < numQueries; ++q) {
         const float *row = distances + q * numVectors;
         // Max-heap of size topK: keeps the topK smallest distances
@@ -413,7 +417,7 @@ static int cpu_ann_topk(const float *distances, uint32_t *topk_indices, float *t
 
         for (int v = 0; v < numVectors; ++v) {
             heap.emplace(row[v], static_cast<uint32_t>(v));
-            if (heap.size() > topK) {
+            if (heap.size() > top_k) {
                 heap.pop(); // ejects largest (highest dist, or equal dist + highest index)
             }
         }
