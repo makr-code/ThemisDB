@@ -79,7 +79,7 @@ struct VersionResult {
 
     /**
      * @brief Construct a successful result.
-     * @param v Payload value to move into the result.
+     * @param v Payload value to copy or move into the result, depending on the call site.
      * @return VersionResult with `ok == true`.
      */
     static VersionResult<T> success(T v) {
