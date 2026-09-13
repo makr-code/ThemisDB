@@ -249,7 +249,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         }
 
         // src/dst were range-validated against N before Dijkstra starts.
-        if (parent[dst] == -1) {
+        // For src==dst we expect a trivial path [src] with no parent edge.
+        if (src != dst && parent[dst] == -1) {
             continue; // no path
         }
 
