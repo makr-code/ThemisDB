@@ -972,7 +972,6 @@ DirectXVectorBackend::~DirectXVectorBackend() {
 }
 
 bool DirectXVectorBackend::isAvailable() const noexcept {
-    (void)initialized_;
     AvailabilityFn fn;
     {
         std::lock_guard<std::mutex> lk(DirectXVectorBackend::availabilityFnMutex());
@@ -3353,7 +3352,6 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
     closeLib(lib);
     return ok;
 #else
-    (void)initialized_;
     AvailabilityFn fn;
     {
         std::lock_guard<std::mutex> lk(OpenGLVectorBackend::availabilityFnMutex());
@@ -3700,7 +3698,6 @@ bool OpenGLGeoBackend::isAvailable() const noexcept {
     closeLib(libEGL);
     return true;
 #else
-    (void)initialized_;
     return false;
 #endif
 }
@@ -3926,7 +3923,6 @@ bool OpenGLGraphBackend::isAvailable() const noexcept {
     closeLib(libEGL);
     return true;
 #else
-    (void)initialized_;
     return false;
 #endif
 }
