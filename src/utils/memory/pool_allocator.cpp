@@ -322,7 +322,6 @@ Result<void> BuddyAllocator::reset() {
 double BuddyAllocator::getFragmentation() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
-    size_t free_blocks = 0;
     size_t total_free_space = 0;
     
     for (size_t i = 0; i < impl_->free_list_heads.size(); ++i) {
@@ -332,7 +331,6 @@ double BuddyAllocator::getFragmentation() const {
             if (it == impl_->blocks.end()) {
               break;
             }
-            free_blocks++;
             total_free_space += it->second.size;
             block_addr = it->second.next;
         }
@@ -904,5 +902,4 @@ Result<void> PoolAllocator::reset() {
 
 } // namespace memory
 } // namespace themis
-
 

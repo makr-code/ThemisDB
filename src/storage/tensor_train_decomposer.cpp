@@ -589,10 +589,6 @@ void TensorTrainDecomposer::truncatedSVD(
 
     // Determine truncation rank
     rank_out = 0;
-    double sq_tail = 0.0;
-    for (std::size_t i = min_mn; i-- > 0;) {
-      sq_tail += Sd[i] * Sd[i];
-    }
 
     // We want: sq_tail_above_r ≤ delta²
     // Accumulate from right until remaining tail ≤ delta²
@@ -999,4 +995,3 @@ double TensorTrainDecomposer::cosineSimilarity(const TTTrain& a, const TTTrain& 
 }
 
 } // namespace themis::storage
-

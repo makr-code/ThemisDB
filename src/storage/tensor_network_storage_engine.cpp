@@ -509,8 +509,6 @@ static std::string rawMetaKey(const std::string& key) {
     return "__tfgmeta__:" + key;
 }
 
-static constexpr std::string_view kRawMetaPrefix = "__tfgmeta__:";
-
 bool TensorNetworkStorageEngine::putRawMetadata(
     const std::string& key, const std::vector<uint8_t>& value) {
     return backend_->put(rawMetaKey(key), value);
@@ -542,5 +540,4 @@ TensorNetworkStorageEngine::listRawMetadataKeys(const std::string& prefix) const
 
 } // namespace storage
 } // namespace themis
-
 
