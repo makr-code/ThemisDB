@@ -92,7 +92,7 @@ size_t BehavioralAnomalyDetector::sessionEventCount(
     const std::string& session_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = sessions_.find(session_id);
-    return static_cast<bool>(it != sessions_.end() ? it- < second.events.size()) : 0;
+    return it != sessions_.end() ? it->second.events.size() : 0;
 }
 
 // ============================================================================
@@ -244,4 +244,3 @@ double BehavioralAnomalyDetector::levelToScore(ThreatLevel lvl) noexcept {
 
 } // namespace security
 } // namespace themis
-

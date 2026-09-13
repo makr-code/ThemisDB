@@ -2765,7 +2765,7 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
         return static_cast<bool>(idx < tokens.size()) ? tokens[idx].original : empty;
     };
     auto tok_start = [&](size_t idx) -> size_t {
-        return static_cast<bool>(idx  < static_cast<int>(tokens.size() ? tokens[idx].start : trimmed.size()));
+        return idx < tokens.size() ? tokens[idx].start : trimmed.size();
     };
 
     const std::string& kw0 = tok_up(0);
@@ -3048,5 +3048,4 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
 }  // namespace query
 }  // namespace themis
-
 
