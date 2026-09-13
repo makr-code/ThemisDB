@@ -98,14 +98,23 @@ public:
     // are loaded, avoiding O(n²) behaviour.
     std::atomic<bool> oversubBulkLoading_{false};
 
+    /// @brief Return whether this index currently has a strictly positive dimension.
+    /// @return True when @c dimension is greater than zero; false for uninitialized
+    ///         or otherwise invalid dimension state.
     [[nodiscard]] bool hasValidDimension() const noexcept {
         return dimension > 0;
     }
 
+    /// @brief Return the currently expected vector dimension for input validation.
+    /// @return The positive configured dimension, or @c 0 as a sentinel when no
+    ///         valid dimension is currently available.
     [[nodiscard]] size_t expectedDimension() const noexcept {
         return hasValidDimension() ? static_cast<size_t>(dimension) : 0U;
     }
 
+    /// @brief Check whether an input vector dimension matches the configured index dimension.
+    /// @param actualDimension Candidate input dimension to validate.
+    /// @return True only when the index dimension is valid and equals @p actualDimension.
     [[nodiscard]] bool matchesDimension(size_t actualDimension) const noexcept {
         return hasValidDimension() && actualDimension == expectedDimension();
     }
