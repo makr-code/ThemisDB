@@ -207,7 +207,7 @@ jobs:
               # the advanced CodeQL jobs rather than letting them run and fail.
               echo "advanced_allowed=false" >> "$GITHUB_OUTPUT"
               echo "::notice::CodeQL default setup API returned 403; assuming managed default setup is active and skipping advanced CodeQL jobs."
-              cat /tmp/codeql-default-setup.json || true
+              echo "::debug::Skipping diagnostic payload dump for 403 response from the default setup API."
               ;;
             *)
               echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."

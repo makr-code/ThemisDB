@@ -92,7 +92,7 @@ struct VersionResult {
     /**
      * @brief Construct a failed result.
      * @param code Typed error code describing the failure.
-     * @param msg Human-readable failure description.
+     * @param msg Human-readable failure description stored in error_message.
      * @return VersionResult with `ok == false`.
      */
     static VersionResult<T> failure(VersionErrorCode code, std::string msg) {
