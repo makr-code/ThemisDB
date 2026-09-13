@@ -466,12 +466,11 @@ std::vector<WikiChunk> WikiIndexStore::evaluateQuery(
         // For each k: count how many of the top-k returned results have a
         // doc_id in the ground-truth set, normalised by ground-truth size.
         auto recall_at = [&](int k) -> double {
-            if (k <= 0) {
-                return 0.0;
-            }
-            const size_t n = std::min(static_cast<size_t>(k), results.size());
+            const std::size_t k_limit =
+                (k > 0) ? static_cast<std::size_t>(k) : static_cast<std::size_t>(0);
+            const std::size_t n = std::min(results.size(), k_limit);
             int hits = 0;
-            for (size_t i = 0; i < n; ++i) {
+            for (std::size_t i = 0; i < n; ++i) {
                 if (rel_set.count(results[i].doc_id)) {
                     ++hits;
                 }
@@ -766,7 +765,7 @@ void WikiIndexStore::probeEmbeddingDim() {
         return;
     }
 
-    if (probe_vec.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+    if (probe_vec.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
         spdlog::warn("[WikiIndexStore] probeEmbeddingDim: embed() returned oversized vector dim={}; "
                      "keeping configured dim={}",
                      probe_vec.size(),
@@ -938,13 +937,13 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
               [](const Scored& a, const Scored& b){ return a.score > b.score; });
 
     // Build result
-    const size_t limit = (top_k > 0)
-                       ? std::min(scored.size(), static_cast<size_t>(top_k))
-                       : scored.size();
+    const std::size_t limit = (top_k > 0)
+                                  ? std::min(scored.size(), static_cast<std::size_t>(top_k))
+                                  : scored.size();
 
     std::vector<WikiChunk> out;
     out.reserve(limit);
-    for (size_t i = 0; i < limit; ++i) {
+    for (std::size_t i = 0; i < limit; ++i) {
         WikiChunk c = chunks_[scored[i].idx];
         c.score = scored[i].score;
         out.push_back(std::move(c));
