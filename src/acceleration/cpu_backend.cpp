@@ -240,9 +240,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 }
                 const float w  = std::max(0.0f, raw_w);
                 const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
-                const float nd = (nd_d >= static_cast<double>(kUnreachableDistance))
-                                     ? kUnreachableDistance
-                                     : static_cast<float>(nd_d);
+                if (nd_d >= static_cast<double>(kUnreachableDistance)) {
+                    continue;
+                }
+                const float nd = static_cast<float>(nd_d);
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);

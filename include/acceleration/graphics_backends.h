@@ -134,9 +134,7 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    bool initialized_ = false;
-#endif
+    [[maybe_unused]] bool initialized_ = false;
     class DirectXVectorBackendImpl;
     std::unique_ptr<DirectXVectorBackendImpl> impl_;
 };
@@ -451,9 +449,7 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-#ifdef THEMIS_ENABLE_OPENGL
-    bool initialized_ = false;
-#endif
+    [[maybe_unused]] bool initialized_ = false;
     class OpenGLVectorBackendImpl;
     std::unique_ptr<OpenGLVectorBackendImpl> impl_;
 };
@@ -499,9 +495,7 @@ public:
     ) override;
 
 private:
-#ifdef THEMIS_ENABLE_OPENGL
-    bool initialized_ = false;
-#endif
+    [[maybe_unused]] bool initialized_ = false;
     class OpenGLGeoBackendImpl;
     std::unique_ptr<OpenGLGeoBackendImpl> impl_;
 };
@@ -551,9 +545,7 @@ public:
     ) override;
 
 private:
-#ifdef THEMIS_ENABLE_OPENGL
-    bool initialized_ = false;
-#endif
+    [[maybe_unused]] bool initialized_ = false;
     class OpenGLGraphBackendImpl;
     std::unique_ptr<OpenGLGraphBackendImpl> impl_;
 };
