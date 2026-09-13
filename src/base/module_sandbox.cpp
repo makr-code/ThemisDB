@@ -37,8 +37,8 @@
 #if __has_include(<sys/prctl.h>)
 #include <sys/prctl.h>
 #define THEMIS_HAVE_PRCTL 1
+#endif // __has_include(<sys/prctl.h>)
 #endif // !_WIN32
-#endif
 
 #include <spdlog/spdlog.h>
 
@@ -119,7 +119,7 @@ static std::string sanitizeCgroupName(const std::string &name) {
 }
 
 } // anonymous namespace
-#endif
+#endif // !_WIN32
 
 // =============================================================================
 // AbiChecker
