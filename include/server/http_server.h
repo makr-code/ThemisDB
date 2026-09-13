@@ -142,7 +142,9 @@ namespace themis::observability { class IProvenanceStore; }
 // Each is gated by the corresponding feature/plugin flag at instantiation time.
 #include "server/ai_plugin_api_handler.h"
 #include "server/scraper_plugin_api_handler.h"
+#ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 #include "server/encrypted_storage_api_handler.h"
+#endif
 #ifdef THEMIS_CHAOS_ADMIN
 #  include "server/chaos_admin_api_handler.h"
 #endif
@@ -1192,7 +1194,9 @@ private:
     // All are lazily initialised in the HttpServer constructor and accessed in handleRequest().
     std::unique_ptr<themis::server::AiPluginApiHandler>            ai_plugin_api_;
     std::unique_ptr<themis::server::ScraperPluginApiHandler>       scraper_plugin_api_;
+#ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     std::unique_ptr<themis::server::EncryptedStorageApiHandler>    encrypted_storage_api_;
+#endif
 #ifdef THEMIS_CHAOS_ADMIN
     std::unique_ptr<themis::server::ChaosAdminApiHandler>          chaos_admin_api_;
     std::shared_ptr<themis::chaos::ChaosScheduler>                 chaos_scheduler_;
