@@ -57,8 +57,8 @@ public:
         uint64_t early_stops{0};         ///< Scans stopped early by a false callback return
 
         /**
-         * @brief Ratio of returned vs examined keys (filter selectivity).
-         * @return Value in [0, 1]; 1.0 when no keys have been examined.
+         * @brief Return the ratio of returned keys to examined keys.
+         * @return Filter selectivity in the range [0.0, 1.0], or 1.0 when no keys were examined.
          */
         double selectivity() const {
             return keys_examined == 0 ? 1.0
@@ -102,24 +102,24 @@ public:
         uint64_t del_latency_max_us{0};
 
         /**
-         * @brief Average put latency in microseconds (0 if no puts yet).
-         * @return Mean put latency in µs, or 0.0 if put_ops == 0.
+         * @brief Return the average successful put latency.
+         * @return Average put latency in microseconds, or 0.0 if no puts were recorded.
          */
         double avg_put_latency_us() const {
             return put_ops == 0 ? 0.0
                                 : static_cast<double>(put_latency_us) / put_ops;
         }
         /**
-         * @brief Average get latency in microseconds (0 if no gets yet).
-         * @return Mean get latency in µs, or 0.0 if get_ops == 0.
+         * @brief Return the average successful get latency.
+         * @return Average get latency in microseconds, or 0.0 if no gets were recorded.
          */
         double avg_get_latency_us() const {
             return get_ops == 0 ? 0.0
                                 : static_cast<double>(get_latency_us) / get_ops;
         }
         /**
-         * @brief Average del latency in microseconds (0 if no dels yet).
-         * @return Mean del latency in µs, or 0.0 if del_ops == 0.
+         * @brief Return the average successful delete latency.
+         * @return Average delete latency in microseconds, or 0.0 if no deletes were recorded.
          */
         double avg_del_latency_us() const {
             return del_ops == 0 ? 0.0
@@ -227,7 +227,8 @@ public:
      * 
      * **Move Semantics**: Returned ScanCounters struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
-     * @return Copy of the current ScanCounters snapshot.
+     *
+     * @return Snapshot of the cumulative scan counters.
      */
     ScanCounters scanCounters() const;
 
@@ -244,7 +245,8 @@ public:
      * 
      * **Move Semantics**: Returned IOMetrics struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
-     * @return Copy of the current IOMetrics snapshot.
+     *
+     * @return Snapshot of the cumulative storage I/O metrics.
      */
     IOMetrics ioMetrics() const;
 
@@ -301,22 +303,37 @@ public:
      * 
      * These factory methods create default implementations of interfaces.
      * Used by createDefault() factory and StorageEngineBuilder::standard()
-     * @return Pointer to a newly created default implementation.
+     */
+    /**
+     * @brief Create the default expression evaluator implementation.
+     * @return Shared pointer to the default evaluator.
      */
     static IExpressionEvaluatorPtr createDefaultEvaluator();
-    /// @brief Create a default IFieldEncryption implementation. @return Default IFieldEncryptionPtr.
+    /**
+     * @brief Create the default field-encryption implementation.
+     * @return Shared pointer to the default encryption provider.
+     */
     static IFieldEncryptionPtr createDefaultEncryption();
-    /// @brief Create a default IKeyProvider implementation. @return Default IKeyProviderPtr.
+    /**
+     * @brief Create the default key-provider implementation.
+     * @return Shared pointer to the default key provider.
+     */
     static IKeyProviderPtr createDefaultKeyProvider();
-    /// @brief Create a default IIndexManager implementation. @return Default IIndexManagerPtr.
+    /**
+     * @brief Create the default index-manager implementation.
+     * @return Shared pointer to the default index manager.
+     */
     static IIndexManagerPtr createDefaultIndexManager();
 
     /**
-     * @brief Expose the underlying RocksDB wrapper (for advanced operations).
-     * @return Pointer to the RocksDBWrapper; may be nullptr if not yet initialised.
+     * @brief Expose the mutable underlying RocksDB wrapper for advanced operations.
+     * @return Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened.
      */
     RocksDBWrapper* rawDB() { return rocksdb_.get(); }
-    /// @brief Const overload. @return Const pointer to the RocksDBWrapper.
+    /**
+     * @brief Expose the underlying RocksDB wrapper for read-only advanced operations.
+     * @return Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened.
+     */
     const RocksDBWrapper* rawDB() const { return rocksdb_.get(); }
 
 private:

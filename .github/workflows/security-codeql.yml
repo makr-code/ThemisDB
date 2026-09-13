@@ -207,7 +207,12 @@ jobs:
               # the advanced CodeQL jobs rather than letting them run and fail.
               echo "advanced_allowed=false" >> "$GITHUB_OUTPUT"
               echo "::notice::CodeQL default setup API returned 403; assuming managed default setup is active and skipping advanced CodeQL jobs."
-              cat /tmp/codeql-default-setup.json || true
+              echo "::warning::CodeQL default setup API returned 403. This commonly indicates managed default setup, but it can also reflect token or permission restrictions."
+              if [[ -s /tmp/codeql-default-setup.json ]]; then
+                cat /tmp/codeql-default-setup.json
+              else
+                echo "::debug::No diagnostic payload was returned for the 403 response."
+              fi
               ;;
             *)
               echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."
@@ -286,7 +291,6 @@ jobs:
         with:
           category: "/language:c-cpp"
           output: codeql-results
-          upload: never
           ram: 6144
           threads: 4
 
@@ -336,7 +340,6 @@ jobs:
         with:
           category: "/language:csharp"
           output: codeql-results-csharp
-          upload: never
           ram: 4096
           threads: 2
 
@@ -382,6 +385,5 @@ jobs:
         with:
           category: "/language:rust"
           output: codeql-results-rust
-          upload: never
           ram: 4096
           threads: 2
