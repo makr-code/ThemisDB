@@ -310,7 +310,18 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     if (k <= 0) {
         k = config_.default_k;
     }
-    const auto top_k = static_cast<std::size_t>(std::max(k, 0));
+    if (k <= 0) {
+        spdlog::error("[AnnFrontdoor] invalid top-k configuration after fallback: {}",
+                      k);
+        AnnFrontdoorResult invalid_result;
+        invalid_result.routing_reason =
+            "invalid ANN top-k configuration after default fallback";
+        invalid_result.routing_reason_code = "invalid_k_configuration";
+        invalid_result.fallback_mode = "configuration_error";
+        invalid_result.fallback_reason_code = "invalid_k_configuration";
+        return invalid_result;
+    }
+    const auto top_k = static_cast<std::size_t>(k);
 
     const AnnRetrievalPlan plan = planRetrieval(context);
     const AnnStrategy strategy = plan.strategy;
