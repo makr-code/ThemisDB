@@ -37,6 +37,17 @@ namespace index {
 /** @brief MultiGPUVectorIndex::Impl. */
 class MultiGPUVectorIndex::Impl {
 public:
+    static int toGpuIndex(size_t value, size_t gpuCount) {
+        if (gpuCount == 0) {
+            return -1;
+        }
+        const size_t idx = value % gpuCount;
+        if (idx > static_cast<size_t>(std::numeric_limits<int>::max())) {
+            return -1;
+        }
+        return static_cast<int>(idx);
+    }
+
     Config config;
     int dimension = 0;
     bool initialized = false;
@@ -251,14 +262,14 @@ public:
             case PartitionStrategy::ROUND_ROBIN: {
                 // Simple round-robin based on current vector count
                 size_t totalVectors = vectorToGPU.size();
-                return static_cast<int>(totalVectors % activeDeviceIds.size());
+                return toGpuIndex(totalVectors, activeDeviceIds.size());
             }
             
             case PartitionStrategy::HASH_BASED: {
                 // Hash the vector ID
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return toGpuIndex(hash, activeDeviceIds.size());
             }
             
             case PartitionStrategy::RANGE_BASED: {
@@ -266,7 +277,7 @@ public:
                 // This is simplified - production would use proper range mapping
                 std::hash<std::string> hasher;
                 size_t hash = hasher(id);
-                return static_cast<int>(hash % activeDeviceIds.size());
+                return toGpuIndex(hash, activeDeviceIds.size());
             }
             
             case PartitionStrategy::BALANCED: {
