@@ -355,7 +355,7 @@ void ModuleSandbox::shutdown() {
     // Remove the cgroup v2 hierarchy created during launch (Linux only).
 #if defined(__linux__)
     teardownCgroupV2();
-#endif
+#endif // !_WIN32
 #endif
 
     // Release WASM sandbox (v1.8.0)

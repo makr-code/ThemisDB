@@ -254,8 +254,8 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    // Try to exceed queue capacity with slow shard
-    // Some requests should succeed, some may be dropped
+    // Try to exceed queue capacity with a slow shard while verifying the
+    // current synchronous execution path.
     int success_count = 0;
     for (int i = 0; i < 10; ++i) {
         try {
