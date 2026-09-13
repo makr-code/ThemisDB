@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -143,7 +144,7 @@ def main() -> int:
             md_path.parent.mkdir(parents=True, exist_ok=True)
             write_markdown(md_path, manifest)
     except (ValueError, OSError) as exc:
-        print(f"error: {exc}")
+        print(f"error: {exc}", file=sys.stderr)
         return 1
 
     return 0

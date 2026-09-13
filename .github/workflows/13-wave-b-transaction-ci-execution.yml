@@ -618,10 +618,10 @@ jobs:
             --workflow "13-wave-b-transaction-ci-execution.yml" \
             --run-id "${{ github.run_id }}" \
             --overall-status "$OVERALL_STATUS" \
-            --gate "A1_chaos_recovery=${{ needs.chaos-recovery-evidence.result }}" \
-            --gate "A2_fail_closed=${{ needs.smoke-tests.result }}" \
-            --gate "A3_release_critical=${{ needs.full-transaction-test-suite.result }}" \
-            --gate "A4_phase4_baseline=${{ needs.phase4-benchmark-baseline.result }}" \
+            --gate "B1_chaos_recovery=${{ needs.chaos-recovery-evidence.result }}" \
+            --gate "B2_fail_closed=${{ needs.smoke-tests.result }}" \
+            --gate "B3_release_critical=${{ needs.full-transaction-test-suite.result }}" \
+            --gate "B4_phase4_baseline=${{ needs.phase4-benchmark-baseline.result }}" \
             --evidence "artifacts_archive=transaction-ci-results.zip" \
             --evidence "chaos_recovery=transaction-chaos-recovery-evidence" \
             --evidence "phase4_baseline=transaction-phase4-benchmark" \
