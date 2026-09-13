@@ -352,9 +352,11 @@ void ModuleSandbox::shutdown() {
         setrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
         platform_->cpu_limit_applied = false;
     }
-    // Remove the cgroup v2 hierarchy created during launch.
+    // Remove the cgroup v2 hierarchy created during launch (Linux only).
+#if defined(__linux__)
     teardownCgroupV2();
 #endif
+#endif // !_WIN32
 
     // Release WASM sandbox (v1.8.0)
     if (wasm_isolation_active_) {
