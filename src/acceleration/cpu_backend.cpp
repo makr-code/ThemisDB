@@ -248,7 +248,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (parent[dst] == -1) {
+        if (dst != src && parent[dst] == -1) {
             continue; // no path
         }
 
