@@ -965,7 +965,11 @@ class DirectXVectorBackend::DirectXVectorBackendImpl {
 };
 
 DirectXVectorBackend::DirectXVectorBackend()
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
     : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
+#else
+    : impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
+#endif
 
 DirectXVectorBackend::~DirectXVectorBackend() {
     shutdown();
@@ -3291,7 +3295,11 @@ public:
 // ============================================================================
 
 OpenGLVectorBackend::OpenGLVectorBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLVectorBackendImpl>()) {}
+#else
+    : impl_(std::make_unique<OpenGLVectorBackendImpl>()) {}
+#endif
 
 OpenGLVectorBackend::~OpenGLVectorBackend() {
     shutdown();
@@ -3671,7 +3679,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
 // ============================================================================
 
 OpenGLGeoBackend::OpenGLGeoBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGeoBackendImpl>()) {}
+#else
+    : impl_(std::make_unique<OpenGLGeoBackendImpl>()) {}
+#endif
 
 OpenGLGeoBackend::~OpenGLGeoBackend() {
     shutdown();
@@ -3897,7 +3909,11 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
 // ============================================================================
 
 OpenGLGraphBackend::OpenGLGraphBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGraphBackendImpl>()) {}
+#else
+    : impl_(std::make_unique<OpenGLGraphBackendImpl>()) {}
+#endif
 
 OpenGLGraphBackend::~OpenGLGraphBackend() {
     shutdown();
