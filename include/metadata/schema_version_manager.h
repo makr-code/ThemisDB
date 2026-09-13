@@ -79,7 +79,8 @@ struct VersionResult {
 
     /**
      * @brief Construct a successful result.
-     * @param v Payload value to copy or move into the result, depending on the call site.
+     * @param v Payload value received by value; callers can pass `std::move(...)`
+     *          to avoid an extra copy for large payloads.
      * @return VersionResult with `ok == true`.
      */
     static VersionResult<T> success(T v) {
