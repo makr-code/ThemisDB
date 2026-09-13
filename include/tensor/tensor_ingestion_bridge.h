@@ -58,11 +58,11 @@ public:
 
     ~TensorIngestionBridge() override = default;
 
-    // Non-copyable (stateful counters, shared decomposer)
+    // Non-copyable, non-movable (stateful counters, shared decomposer)
     TensorIngestionBridge(const TensorIngestionBridge&)            = delete;
     TensorIngestionBridge& operator=(const TensorIngestionBridge&) = delete;
-    TensorIngestionBridge(TensorIngestionBridge&&)            noexcept = default;
-    TensorIngestionBridge& operator=(TensorIngestionBridge&&) noexcept = default;
+    TensorIngestionBridge(TensorIngestionBridge&&)            noexcept = delete;
+    TensorIngestionBridge& operator=(TensorIngestionBridge&&) noexcept = delete;
 
     // ── Configuration setters (call before multi-threaded use) ────────────
 

@@ -131,31 +131,12 @@ public:
         IIndexManagerPtr index_manager = nullptr
     );
     
-    /**
-     * @brief Move constructor
-     * 
-     * Transfers ownership of all resources (dependencies and RocksDB wrapper)
-     * from another StorageEngine instance.
-     * 
-     * @param other StorageEngine instance to move from (will be in valid but
-     *              unspecified state after this operation)
-     */
-    StorageEngine(StorageEngine&& other) noexcept = default;
-    
-    /**
-     * @brief Move assignment operator
-     * 
-     * Transfers ownership of all resources and closes any currently open database.
-     * Satisfies CWE-672 (Use After Free) by ensuring proper cleanup.
-     * 
-     * @param other StorageEngine instance to move from
-     * @return Reference to this object
-     */
-    StorageEngine& operator=(StorageEngine&& other) noexcept = default;
-    
-    // Delete copy operations to prevent accidental copies of injected dependencies
+    // Delete copy and move operations to prevent accidental duplication of
+    // injected dependencies, locks, and live storage state.
     StorageEngine(const StorageEngine&) = delete;
     StorageEngine& operator=(const StorageEngine&) = delete;
+    StorageEngine(StorageEngine&& other) noexcept = delete;
+    StorageEngine& operator=(StorageEngine&& other) noexcept = delete;
     
     /**
      * @brief Static factory method for backward compatibility

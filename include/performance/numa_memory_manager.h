@@ -100,8 +100,8 @@ public:
 
     NUMAMemoryManager(const NUMAMemoryManager&)            = delete;
     NUMAMemoryManager& operator=(const NUMAMemoryManager&) = delete;
-    NUMAMemoryManager(NUMAMemoryManager&&)                 noexcept = default;
-    NUMAMemoryManager& operator=(NUMAMemoryManager&&)      noexcept = default;
+    NUMAMemoryManager(NUMAMemoryManager&&)                 noexcept = delete;
+    NUMAMemoryManager& operator=(NUMAMemoryManager&&)      noexcept = delete;
 
     // =========================================================================
     // Core allocation API

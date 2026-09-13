@@ -139,11 +139,11 @@ public:
 
     ~UpdateStateMachine() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     UpdateStateMachine(const UpdateStateMachine&) = delete;
     UpdateStateMachine& operator=(const UpdateStateMachine&) = delete;
-    UpdateStateMachine(UpdateStateMachine&&) noexcept = default;
-    UpdateStateMachine& operator=(UpdateStateMachine&&) noexcept = default;
+    UpdateStateMachine(UpdateStateMachine&&) noexcept = delete;
+    UpdateStateMachine& operator=(UpdateStateMachine&&) noexcept = delete;
 
     /**
      * @brief Get the current state

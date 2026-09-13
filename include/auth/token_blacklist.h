@@ -114,11 +114,11 @@ public:
     explicit TokenBlacklist(const Config& config = Config::defaults());
     ~TokenBlacklist() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     TokenBlacklist(const TokenBlacklist&) = delete;
     TokenBlacklist& operator=(const TokenBlacklist&) = delete;
-    TokenBlacklist(TokenBlacklist&&) noexcept = default;
-    TokenBlacklist& operator=(TokenBlacklist&&) noexcept = default;
+    TokenBlacklist(TokenBlacklist&&) noexcept = delete;
+    TokenBlacklist& operator=(TokenBlacklist&&) noexcept = delete;
 
     /**
      * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.

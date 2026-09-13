@@ -151,11 +151,11 @@ public:
     /// Destructor
     ~SchemaManager() = default;
 
-    // Disable copy, allow move
+    // Disable copy and move
     SchemaManager(const SchemaManager&) = delete;
     SchemaManager& operator=(const SchemaManager&) = delete;
-    SchemaManager(SchemaManager&&) noexcept = default;
-    SchemaManager& operator=(SchemaManager&&) noexcept = default;
+    SchemaManager(SchemaManager&&) noexcept = delete;
+    SchemaManager& operator=(SchemaManager&&) noexcept = delete;
 
     // ========================================================================
     // Public API - Schema Discovery
