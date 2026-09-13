@@ -353,7 +353,7 @@ static inline float neon_norm_sq(const float* a, std::size_t dim) {
 }
 #endif // __ARM_NEON || __aarch64__
 
-static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
+[[maybe_unused]] static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
       acc += a[i] * b[i];
@@ -361,7 +361,7 @@ static inline float scalar_inner_product(const float* a, const float* b, std::si
     return acc;
 }
 
-static inline float scalar_norm_sq(const float* a, std::size_t dim) {
+[[maybe_unused]] static inline float scalar_norm_sq(const float* a, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
       acc += a[i] * a[i];

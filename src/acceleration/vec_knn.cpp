@@ -109,7 +109,7 @@ namespace {
 // ---------------------------------------------------------------------------
 // Scalar fallback
 // ---------------------------------------------------------------------------
-inline float scalar_l2_sq(const float *a, const float *b, std::size_t dim) noexcept {
+[[maybe_unused]] inline float scalar_l2_sq(const float *a, const float *b, std::size_t dim) noexcept {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
         const float d = a[i] - b[i];
@@ -561,4 +561,3 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
 } // namespace acceleration
 } // namespace themis
-
