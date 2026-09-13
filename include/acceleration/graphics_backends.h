@@ -134,7 +134,8 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
+    [[nodiscard]] bool initializedStateForBuilds() const noexcept { return initialized_; }
     class DirectXVectorBackendImpl;
     std::unique_ptr<DirectXVectorBackendImpl> impl_;
 };
@@ -449,7 +450,8 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
+    [[nodiscard]] bool initializedStateForBuilds() const noexcept { return initialized_; }
     class OpenGLVectorBackendImpl;
     std::unique_ptr<OpenGLVectorBackendImpl> impl_;
 };
@@ -495,7 +497,8 @@ public:
     ) override;
 
 private:
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
+    [[nodiscard]] bool initializedStateForBuilds() const noexcept { return initialized_; }
     class OpenGLGeoBackendImpl;
     std::unique_ptr<OpenGLGeoBackendImpl> impl_;
 };
@@ -545,7 +548,8 @@ public:
     ) override;
 
 private:
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
+    [[nodiscard]] bool initializedStateForBuilds() const noexcept { return initialized_; }
     class OpenGLGraphBackendImpl;
     std::unique_ptr<OpenGLGraphBackendImpl> impl_;
 };

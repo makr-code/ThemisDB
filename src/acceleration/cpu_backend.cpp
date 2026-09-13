@@ -213,6 +213,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             auto [d, u] = pq.top();
             pq.pop();
 
+            // Standard Dijkstra stale-entry guard for duplicate queue inserts.
             if (d > dist[u]) {
                 continue; // stale entry
             }
