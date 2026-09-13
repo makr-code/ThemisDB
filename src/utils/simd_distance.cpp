@@ -40,12 +40,12 @@ namespace themis {
 namespace simd {
 
 // Cache line size constant for prefetching optimization
-constexpr std::size_t CACHE_LINE_SIZE = 64;
+[[maybe_unused]] constexpr std::size_t CACHE_LINE_SIZE = 64;
 
 // Prefetch distance in number of floats to prefetch ahead
 // 64 floats = 256 bytes = 4 cache lines ahead
 // This distance is optimal for hiding memory latency in streaming operations
-constexpr std::size_t PREFETCH_DISTANCE = 64;
+[[maybe_unused]] constexpr std::size_t PREFETCH_DISTANCE = 64;
 
 static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
