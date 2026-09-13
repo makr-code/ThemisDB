@@ -189,7 +189,7 @@ TEST(ServingExportIntegrationTests, SEI_04_ModelServingIntegrityRequiredNoSHA) {
     // loadModel without SHA must throw when integrity is required.
     EXPECT_THROW(
         engine.loadModel("my-model", "v1", "/models/my-model.onnx"),
-        std::runtime_error);
+        std::invalid_argument);
 }
 
 // ============================================================================

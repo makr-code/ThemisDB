@@ -17,6 +17,8 @@ FROM ubuntu:24.04 AS base
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
+    CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
     VCPKG_ROOT=/opt/vcpkg \
     VCPKG_FORCE_SYSTEM_BINARIES=1 \
     VCPKG_DISABLE_METRICS=1 \
@@ -29,7 +31,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
-        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev && \
+        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev \
+        gcc-x86-64-linux-gnu g++-x86-64-linux-gnu && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \
@@ -61,10 +64,10 @@ RUN set -eux; \
         *) echo "ERROR: Unsupported arch ${TARGETARCH}"; exit 1 ;; \
     esac
 
-RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
-    --mount=type=cache,target=/root/.cache,sharing=locked \
+RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-buildtrees-${TARGETARCH},target=/opt/vcpkg/buildtrees,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-packages-${TARGETARCH},target=/opt/vcpkg/packages,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-root-cache-${TARGETARCH},target=/root/.cache,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
@@ -125,9 +128,9 @@ COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 
-RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
+RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-buildtrees-${TARGETARCH},target=/opt/vcpkg/buildtrees,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-packages-${TARGETARCH},target=/opt/vcpkg/packages,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \

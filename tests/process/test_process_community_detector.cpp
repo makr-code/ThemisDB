@@ -58,6 +58,7 @@ protected:
         themis::process::ProcessModelRecord rec;
         rec.id          = model_id;
         rec.name        = model_id;
+        rec.version     = "1.0.0";
         rec.normalized  = {{"nodes", nodes}, {"edges", edges}};
         mgr_->save(rec);
     }
@@ -145,7 +146,7 @@ TEST_F(ProcessCommunityDetectorTest, LCD05_TwoCliques) {
         {{"from","a3"},{"to","b1"}}  // bridge
     };
     saveModel("m_cliques", nodes, edges);
-    auto comms = detector_->detect("m_cliques");
+    auto comms = detector_->detect("m_cliques", 2.0f);
     // The two dense cliques should form distinct communities
     EXPECT_GE(comms.size(), 2u);
 }

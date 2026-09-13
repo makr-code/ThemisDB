@@ -463,22 +463,22 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
 }
 
 TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
-    // Test: Consecutive failure counter increments on each failure
+    // Test: Consecutive failure counter increments on each failure and is
+    // reported via shard diagnostics rather than exceptions.
     executor->mode = MockShardExecutor::Mode::FAILURE;
 
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    int failure_count = 0;
-    for (int i = 0; i < 5; ++i) {
-        try {
-            coordinator->executeDistributed(query);
-        } catch (...) {
-            failure_count++;
-        }
-    }
+    const auto first = coordinator->executeDistributed(query);
+    ASSERT_FALSE(first.shard_info.empty());
+    EXPECT_EQ(first.shard_info.front().circuit_consecutive_failures, 1);
 
-    EXPECT_EQ(failure_count, 5);
+    const auto second = coordinator->executeDistributed(query);
+    ASSERT_FALSE(second.shard_info.empty());
+    EXPECT_EQ(second.shard_info.front().circuit_consecutive_failures, 2);
+    EXPECT_EQ(second.shard_info.front().circuit_state,
+              DistributedAnalyticsSharding::CircuitBreakerState::OPEN);
 }
 
 // ============================================================================
