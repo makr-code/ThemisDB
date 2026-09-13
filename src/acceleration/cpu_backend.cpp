@@ -225,11 +225,6 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 if (adjRow[v] == 0) {
                     continue;
                 }
-                // Invariant: dist entries are either the sentinel or a finite
-                // relaxed value below the sentinel.
-                if (dist[u] >= kUnreachableDistance) {
-                    continue;
-                }
                 const float raw_w = wRow[v];
                 // Dijkstra requires non-negative edge weights.  Negative
                 // weights in the input indicate invalid/corrupt weight data;
