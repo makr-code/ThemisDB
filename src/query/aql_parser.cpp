@@ -267,7 +267,7 @@ private:
     
     char peek(size_t offset = 0) const {
         size_t p = pos_ + offset;
-        return static_cast<bool>((p < input_.size())) ? input_[p] : '\0';
+        return p < input_.size() ? input_[p] : '\0';
     }
     
     char advance() {
@@ -683,12 +683,20 @@ private:
     ParserScopeContext scope_context_;
     
     const Token& current() const {
-        return static_cast<bool>((pos_ < tokens_.size())) ? tokens_[pos_] : tokens_.back();
+        static const Token kEmptyToken{TokenType::END_OF_FILE, "", 0, 0};
+        if (tokens_.empty()) {
+            return kEmptyToken;
+        }
+        return pos_ < tokens_.size() ? tokens_[pos_] : tokens_.back();
     }
     
     const Token& peek(size_t offset = 1) const {
+        static const Token kEmptyToken{TokenType::END_OF_FILE, "", 0, 0};
+        if (tokens_.empty()) {
+            return kEmptyToken;
+        }
         size_t p = pos_ + offset;
-        return static_cast<bool>((p < tokens_.size())) ? tokens_[p] : tokens_.back();
+        return p < tokens_.size() ? tokens_[p] : tokens_.back();
     }
     
     void advance() {
@@ -2427,7 +2435,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     // Peek helper — returns empty string when out of range
     auto tok = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx] : empty;
+        return idx < tokens.size() ? tokens[idx] : empty;
     };
 
     const std::string& kw0 = tok(0);
@@ -2758,11 +2766,11 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     // Bounds-safe token accessors
     auto tok_up = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].upper : empty;
+        return idx < tokens.size() ? tokens[idx].upper : empty;
     };
     auto tok_orig = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].original : empty;
+        return idx < tokens.size() ? tokens[idx].original : empty;
     };
     auto tok_start = [&](size_t idx) -> size_t {
         return idx < tokens.size() ? tokens[idx].start : trimmed.size();
@@ -3048,4 +3056,3 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
 }  // namespace query
 }  // namespace themis
-
