@@ -163,10 +163,10 @@ public:
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
-        std::unique_ptr<rocksdb::DB> db_instance(raw_db_instance);
-        if (db_instance == nullptr) {
+        if (raw_db_instance == nullptr) {
             throw std::runtime_error("Failed to open RocksDB: DB::Open returned success with null handle");
         }
+        std::unique_ptr<rocksdb::DB> db_instance(raw_db_instance);
 
         db_ = std::move(db_instance);
         config_ = config;

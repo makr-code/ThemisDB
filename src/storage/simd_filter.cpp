@@ -619,13 +619,20 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
                 ? static_cast<int64_t>(pred.threshold.i32)
                 : pred.threshold.i64;
             switch (pred.op) {
-                case FilterOp::EQ: return zm.canSkipForInt(thr);
-                case FilterOp::NE: return false; // may always match
-                case FilterOp::LT: return thr <= zm.min_int; // all >= min, need < thr
-                case FilterOp::LE: return thr <  zm.min_int;
-                case FilterOp::GT: return thr >= zm.max_int;
-                case FilterOp::GE: return thr >  zm.max_int;
-                default: break;
+                case FilterOp::EQ:
+                    return zm.canSkipForInt(thr);
+                case FilterOp::NE:
+                    return false; // may always match
+                case FilterOp::LT:
+                    return thr <= zm.min_int; // all >= min, need < thr
+                case FilterOp::LE:
+                    return thr < zm.min_int;
+                case FilterOp::GT:
+                    return thr >= zm.max_int;
+                case FilterOp::GE:
+                    return thr > zm.max_int;
+                default:
+                    break;
             }
             break;
         }
@@ -636,13 +643,20 @@ bool canSkipSegmentForPred(const ColumnSegment& seg,
                 ? static_cast<double>(pred.threshold.f32)
                 : pred.threshold.f64;
             switch (pred.op) {
-                case FilterOp::EQ: return zm.canSkipForFloat(thr);
-                case FilterOp::NE: return false;
-                case FilterOp::LT: return thr <= zm.min_float;
-                case FilterOp::LE: return thr <  zm.min_float;
-                case FilterOp::GT: return thr >= zm.max_float;
-                case FilterOp::GE: return thr >  zm.max_float;
-                default: break;
+                case FilterOp::EQ:
+                    return zm.canSkipForFloat(thr);
+                case FilterOp::NE:
+                    return false;
+                case FilterOp::LT:
+                    return thr <= zm.min_float;
+                case FilterOp::LE:
+                    return thr < zm.min_float;
+                case FilterOp::GT:
+                    return thr >= zm.max_float;
+                case FilterOp::GE:
+                    return thr > zm.max_float;
+                default:
+                    break;
             }
             break;
         }
