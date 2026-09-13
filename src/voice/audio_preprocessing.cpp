@@ -54,13 +54,16 @@ struct NoiseSuppressor::Impl {
 #else
 // STUB/SIMULATION NOTE:
 // Purpose: Empty Impl when RNNoise is not compiled in. NoiseSuppressor still
-//          constructs successfully; suppress() is a no-op (audio passes through).
+//          constructs successfully and processRNNoiseFrames() falls back to the
+//          built-in spectral-gate path instead of the RNNoise backend.
 // Activation: Compiled when THEMIS_ENABLE_RNNOISE is NOT defined (default builds).
-//             Build with -DTHEMIS_ENABLE_RNNOISE=ON and link rnnoise (vcpkg) for real.
-// Production Delta: No noise reduction is applied to audio frames.
-// Removal Plan: Not removed — kept as compile-time fallback alongside the real path.
+//             Build with -DTHEMIS_ENABLE_RNNOISE=ON and link rnnoise for the
+//             native RNNoise-backed implementation.
+// Production Delta: The fallback path keeps audio processing available but does
+//                   not execute RNNoise frame denoising.
+// Removal Plan: Kept as a compile-time fallback alongside the RNNoise path.
 // Roadmap ref: src/voice/ROADMAP.md § "Phase 2: RNNoise integration"
-struct NoiseSuppressor::Impl {};  // placeholder when RNNoise is not available
+struct NoiseSuppressor::Impl {};
 #endif
 
 NoiseSuppressor::NoiseSuppressor()
@@ -802,4 +805,3 @@ bool AudioPreprocessingPipeline::detectOverflowAttempt(
 }
 
 }} // namespace themis::voice
-

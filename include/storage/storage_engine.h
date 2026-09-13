@@ -56,7 +56,10 @@ public:
         uint64_t keys_returned{0};       ///< Keys actually delivered to callers
         uint64_t early_stops{0};         ///< Scans stopped early by a false callback return
 
-        /** Ratio of returned vs examined keys (filter selectivity). */
+        /**
+         * @brief Return the ratio of returned keys to examined keys.
+         * @return Filter selectivity in the range [0.0, 1.0], or 1.0 when no keys were examined.
+         */
         double selectivity() const {
             return keys_examined == 0 ? 1.0
                                       : static_cast<double>(keys_returned) / keys_examined;
@@ -98,17 +101,26 @@ public:
         uint64_t del_latency_min_us{UINT64_MAX}; ///< UINT64_MAX = no data
         uint64_t del_latency_max_us{0};
 
-        /** Average put latency in microseconds (0 if no puts yet). */
+        /**
+         * @brief Return the average successful put latency.
+         * @return Average put latency in microseconds, or 0.0 if no puts were recorded.
+         */
         double avg_put_latency_us() const {
             return put_ops == 0 ? 0.0
                                 : static_cast<double>(put_latency_us) / put_ops;
         }
-        /** Average get latency in microseconds (0 if no gets yet). */
+        /**
+         * @brief Return the average successful get latency.
+         * @return Average get latency in microseconds, or 0.0 if no gets were recorded.
+         */
         double avg_get_latency_us() const {
             return get_ops == 0 ? 0.0
                                 : static_cast<double>(get_latency_us) / get_ops;
         }
-        /** Average del latency in microseconds (0 if no dels yet). */
+        /**
+         * @brief Return the average successful delete latency.
+         * @return Average delete latency in microseconds, or 0.0 if no deletes were recorded.
+         */
         double avg_del_latency_us() const {
             return del_ops == 0 ? 0.0
                                 : static_cast<double>(del_latency_us) / del_ops;
@@ -131,31 +143,12 @@ public:
         IIndexManagerPtr index_manager = nullptr
     );
     
-    /**
-     * @brief Move constructor
-     * 
-     * Transfers ownership of all resources (dependencies and RocksDB wrapper)
-     * from another StorageEngine instance.
-     * 
-     * @param other StorageEngine instance to move from (will be in valid but
-     *              unspecified state after this operation)
-     */
-    StorageEngine(StorageEngine&& other) noexcept = default;
-    
-    /**
-     * @brief Move assignment operator
-     * 
-     * Transfers ownership of all resources and closes any currently open database.
-     * Satisfies CWE-672 (Use After Free) by ensuring proper cleanup.
-     * 
-     * @param other StorageEngine instance to move from
-     * @return Reference to this object
-     */
-    StorageEngine& operator=(StorageEngine&& other) noexcept = default;
-    
-    // Delete copy operations to prevent accidental copies of injected dependencies
+    // Delete copy and move operations to prevent accidental duplication of
+    // injected dependencies, locks, and live storage state.
     StorageEngine(const StorageEngine&) = delete;
     StorageEngine& operator=(const StorageEngine&) = delete;
+    StorageEngine(StorageEngine&& other) noexcept = delete;
+    StorageEngine& operator=(StorageEngine&& other) noexcept = delete;
     
     /**
      * @brief Static factory method for backward compatibility
@@ -234,6 +227,8 @@ public:
      * 
      * **Move Semantics**: Returned ScanCounters struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
+     *
+     * @return Snapshot of the cumulative scan counters.
      */
     ScanCounters scanCounters() const;
 
@@ -250,6 +245,8 @@ public:
      * 
      * **Move Semantics**: Returned IOMetrics struct uses move semantics to enable
      * Return Value Optimization (RVO) and avoid unnecessary copies (CWE-457 remediation).
+     *
+     * @return Snapshot of the cumulative storage I/O metrics.
      */
     IOMetrics ioMetrics() const;
 
@@ -307,13 +304,36 @@ public:
      * These factory methods create default implementations of interfaces.
      * Used by createDefault() factory and StorageEngineBuilder::standard()
      */
+    /**
+     * @brief Create the default expression evaluator implementation.
+     * @return Shared pointer to the default evaluator.
+     */
     static IExpressionEvaluatorPtr createDefaultEvaluator();
+    /**
+     * @brief Create the default field-encryption implementation.
+     * @return Shared pointer to the default encryption provider.
+     */
     static IFieldEncryptionPtr createDefaultEncryption();
+    /**
+     * @brief Create the default key-provider implementation.
+     * @return Shared pointer to the default key provider.
+     */
     static IKeyProviderPtr createDefaultKeyProvider();
+    /**
+     * @brief Create the default index-manager implementation.
+     * @return Shared pointer to the default index manager.
+     */
     static IIndexManagerPtr createDefaultIndexManager();
 
-    /** Expose the underlying RocksDB wrapper (for advanced operations). */
+    /**
+     * @brief Expose the mutable underlying RocksDB wrapper for advanced operations.
+     * @return Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened.
+     */
     RocksDBWrapper* rawDB() { return rocksdb_.get(); }
+    /**
+     * @brief Expose the underlying RocksDB wrapper for read-only advanced operations.
+     * @return Non-owning pointer to the live RocksDB wrapper, or nullptr if unopened.
+     */
     const RocksDBWrapper* rawDB() const { return rocksdb_.get(); }
 
 private:

@@ -182,7 +182,12 @@ public:
     /// Install a topology re-serialization backend.  Thread-safe.
     static void setRerouteSerializeFn(RerouteSerializeFn fn);
 
-    /// Remove the topology re-serialization backend (fallback: count-only).
+    /**
+     * @brief Remove the topology re-serialization backend.
+     *
+     * Subsequent reroute operations fall back to count-only behaviour until a
+     * new backend is installed.
+     */
     static void clearRerouteSerializeFn();
 
     /**
@@ -198,11 +203,11 @@ public:
 
     ~TNSRTask() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     TNSRTask(const TNSRTask&) = delete;
     TNSRTask& operator=(const TNSRTask&) = delete;
-    TNSRTask(TNSRTask&&) noexcept = default;
-    TNSRTask& operator=(TNSRTask&&) noexcept = default;
+    TNSRTask(TNSRTask&&) noexcept = delete;
+    TNSRTask& operator=(TNSRTask&&) noexcept = delete;
 
     /**
      * @brief Run TNSR on a set of storage keys.

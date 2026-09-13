@@ -47,10 +47,10 @@ namespace performance {
 uint64_t AdvancedCacheManager::BloomFilter::hash(const std::string& key,
                                                    uint64_t seed) noexcept {
     // FNV-1a with seed mixing
-    uint64_t h = 14695981039346656037 ^ seed;
+    uint64_t h = UINT64_C(14695981039346656037) ^ seed;
     for (unsigned char c : key) {
         h ^= static_cast<uint64_t>(c);
-        h *= 1099511628211;
+        h *= UINT64_C(1099511628211);
     }
     return h;
 }
@@ -518,4 +518,3 @@ void AdvancedCacheManager::flush_all() {
 
 }  // namespace performance
 }  // namespace themis
-

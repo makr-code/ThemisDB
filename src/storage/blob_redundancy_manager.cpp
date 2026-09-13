@@ -997,8 +997,6 @@ Result<void> BlobRedundancyManager::ensureRedundancy(const std::string& blob_id)
 }
 
 Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
-    auto start = std::chrono::steady_clock::now();
-    
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
@@ -1010,9 +1008,6 @@ Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     }
     
     stats_repairs_++;
-    auto end = std::chrono::steady_clock::now();
-    auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    
     return themis::OkVoid();
 }
 

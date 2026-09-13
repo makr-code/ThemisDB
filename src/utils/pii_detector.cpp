@@ -57,7 +57,7 @@ bool isBooleanLiteral(const std::string& value, bool& parsed) {
 
 bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
-    const char* end = begin + value.size() ;
+    const char* end = begin + value.size();
     auto [ptr, ec] = std::from_chars(begin, end, parsed);
     return ec == std::errc{} && ptr == end;
 }
@@ -65,7 +65,7 @@ bool tryParseInt(const std::string& value, int& parsed) {
 bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
-    if (end_ptr != value.c_str() + value.size() ) {
+    if (end_ptr != value.c_str() + value.size()) {
         return false;
     }
 
@@ -276,7 +276,6 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
             if (!std::filesystem::exists(resolved)) {
                 if (!std::filesystem::path(resolved).is_absolute()) {
                     std::filesystem::path cur = std::filesystem::current_path();
-                    bool found = false;
                     // Try up to 4 levels up
                     for (int i = 0; i < 4; ++i) {
                         std::filesystem::path candidate = cur;
@@ -286,7 +285,6 @@ bool PIIDetector::loadFromYaml(const std::string& path) {
                         candidate /= resolved;
                         if (std::filesystem::exists(candidate)) {
                             resolved = candidate.string();
-                            found = true;
                             break;
                         }
                     }

@@ -103,22 +103,29 @@ public:
  */
 class TokenBlacklist : public ITokenBlacklist {
 public:
+    /**
+     * @brief Runtime configuration for in-memory revocation storage.
+     */
     struct Config {
         /// How often expired entries are pruned automatically (seconds).
         uint32_t cleanup_interval_seconds = 300;
         /// Hard cap on number of stored JTIs (prevents unbounded growth).
         size_t max_entries = 1'000'000;
+        /**
+         * @brief Return the default TokenBlacklist configuration.
+         * @return Default cleanup interval and entry-cap settings.
+         */
         static Config defaults() { return {}; }
     };
 
     explicit TokenBlacklist(const Config& config = Config::defaults());
     ~TokenBlacklist() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     TokenBlacklist(const TokenBlacklist&) = delete;
     TokenBlacklist& operator=(const TokenBlacklist&) = delete;
-    TokenBlacklist(TokenBlacklist&&) noexcept = default;
-    TokenBlacklist& operator=(TokenBlacklist&&) noexcept = default;
+    TokenBlacklist(TokenBlacklist&&) noexcept = delete;
+    TokenBlacklist& operator=(TokenBlacklist&&) noexcept = delete;
 
     /**
      * @brief Attach an AuditLogger to receive TOKEN_REVOKED events.
@@ -222,6 +229,7 @@ public:
     /**
      * @brief Current number of blacklisted JTIs (including not-yet-pruned
      *        expired ones).
+     * @return Number of entries currently stored in the blacklist map.
      */
     size_t size() const;
 

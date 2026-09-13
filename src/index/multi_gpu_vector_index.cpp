@@ -314,13 +314,26 @@ public:
         
         // Select GPU for new vector
         int gpuIdx = selectGPUForVector(id);
-        if (gpuIdx < 0 || gpuIdx >= gpuIndices.size()) {
-            THEMIS_WARN("MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {}", gpuIdx, id);
+        if (gpuIdx < 0) {
+            THEMIS_WARN(
+                "MultiGPUVectorIndex::addVector: selectGPUForVector returned invalid gpuIdx {} for id {} (gpu count={})",
+                gpuIdx,
+                id,
+                gpuIndices.size());
+            return false;
+        }
+        const auto gpuIndex = static_cast<size_t>(gpuIdx);
+        if (gpuIndex >= gpuIndices.size()) {
+            THEMIS_WARN(
+                "MultiGPUVectorIndex::addVector: selectGPUForVector returned out-of-range gpuIdx {} for id {} (gpu count={})",
+                gpuIdx,
+                id,
+                gpuIndices.size());
             return false;
         }
         
         // Add to selected GPU
-        if (gpuIndices[gpuIdx]->addVector(id, vector)) {
+        if (gpuIndices[gpuIndex]->addVector(id, vector)) {
             vectorToGPU[id] = gpuIdx;
             return true;
         }
