@@ -310,6 +310,7 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     if (k <= 0) {
         k = config_.default_k;
     }
+    const auto top_k = static_cast<std::size_t>(std::max(k, 0));
 
     const AnnRetrievalPlan plan = planRetrieval(context);
     const AnnStrategy strategy = plan.strategy;
@@ -418,8 +419,8 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
                   });
 
         result.merged_candidates_before_trim = merged.size();
-        if (merged.size() > k) {
-            merged.resize(static_cast<std::size_t>(k));
+        if (merged.size() > top_k) {
+            merged.resize(top_k);
         }
         result.candidates = std::move(merged);
 
@@ -523,11 +524,11 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
     // Cardinality check: candidates must not exceed the requested top-k.
     // A backend returning more than k results is a contract violation; truncate
     // defensively and log a warning so the issue is visible in production.
-    if (k > 0 && result.candidates.size() > static_cast<std::size_t>(k)) {
+    if (result.candidates.size() > top_k) {
         spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
                      "but top_k={} was requested; truncating (correlation_id={})",
                      result.candidates.size(), k, result.correlation_id);
-        result.candidates.resize(static_cast<std::size_t>(k));
+        result.candidates.resize(top_k);
     }
 
     // Range check: distance values must be non-negative (NaN / negative distances
