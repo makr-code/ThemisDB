@@ -637,11 +637,12 @@ TEST_F(ConcurrencySafetyTest, CS_11_AggregationStageIndependentLock) {
     };
 
     auto execute = [&]() {
-        std::lock_guard<std::mutex> guard(stage.execute_lock);
-        if (stage.compiled.load(std::memory_order_acquire)) {
-            stage.execute_count++;
-            execute_ops.fetch_add(1);
+        while (!stage.compiled.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
         }
+        std::lock_guard<std::mutex> guard(stage.execute_lock);
+        stage.execute_count++;
+        execute_ops.fetch_add(1);
     };
 
     // Action: Concurrent compile and execute don't block each other

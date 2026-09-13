@@ -50,13 +50,13 @@ int main(int argc, char* argv[]) {
     // Open RocksDB database
     Options options;
     options.create_if_missing = true;
-    std::unique_ptr<DB> db;
-
-    Status status = DB::Open(options, db_path, &db);
+    DB* raw_db = nullptr;
+    Status status = DB::Open(options, db_path, &raw_db);
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;
     }
+    std::unique_ptr<DB> db(raw_db);
 
     std::cout << "[OK] Opened RocksDB database at " << db_path << std::endl;
 
