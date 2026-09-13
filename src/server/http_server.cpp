@@ -21,7 +21,7 @@
 #include <winsock2.h>
 #include <stdexcept>
 #include <windows.h>
-#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+#endif // _WIN32
 
 // OpenSSL headers for TLS/SSL support
 #include <openssl/ssl.h>

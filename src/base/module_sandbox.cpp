@@ -149,7 +149,7 @@ void AbiChecker::useDefaultLists() {
     return reinterpret_cast<void *>(GetProcAddress(static_cast<HMODULE>(handle), name.c_str()));
 #else
     return dlsym(handle, name.c_str());
-#endif
+#endif // !_WIN32
 }
 
 AbiCheckResult AbiChecker::checkVersions(const ModuleMetadata &meta, uint32_t host_major, uint32_t host_minor) const {
