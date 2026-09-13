@@ -219,6 +219,9 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             if (u == dst) {
                 break; // target reached
             }
+            if (dist[u] >= kUnreachableDistance) {
+                continue;
+            }
 
             const uint32_t *adjRow = adjacency + u * N;
             const float *wRow      = weights + u * N;
