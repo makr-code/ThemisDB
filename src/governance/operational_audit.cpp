@@ -761,7 +761,7 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
         size_t p50_idx = sorted_times.size() / 2;
         size_t p95_idx = (sorted_times.size() * 95) / 100;
         size_t p99_idx = (sorted_times.size() * 99) / 100;
-        const size_t last_idx = sorted_times.empty() ? 0 : (sorted_times.size() - 1);
+        const size_t last_idx = sorted_times.size() - 1;
         
         stats["logging_latency_p50_us"] = sorted_times[p50_idx];
         stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, last_idx)];
@@ -914,7 +914,7 @@ nlohmann::json EventCorrelationEngine::getCorrelationLatencyStats() const {
     size_t p50_idx = sorted_latencies.size() / 2;
     size_t p95_idx = (sorted_latencies.size() * 95) / 100;
     size_t p99_idx = (sorted_latencies.size() * 99) / 100;
-    const size_t last_idx = sorted_latencies.empty() ? 0 : (sorted_latencies.size() - 1);
+    const size_t last_idx = sorted_latencies.size() - 1;
     
     double sum = std::accumulate(sorted_latencies.begin(), sorted_latencies.end(), 0.0);
     

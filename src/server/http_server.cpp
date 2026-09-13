@@ -14,7 +14,7 @@
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-#endif
+#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
