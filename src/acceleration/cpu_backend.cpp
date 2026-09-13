@@ -234,7 +234,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                               << v << "; clamped to 0\n";
                 }
                 const float w  = std::max(0.0f, raw_w);
-                if (dist[u] >= (kUnreachableDistance - w)) {
+                if (dist[u] > (kUnreachableDistance - w)) {
                     continue;
                 }
                 const float nd = dist[u] + w;
@@ -246,7 +246,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (dist[dst] == kUnreachableDistance) {
+        if (dist[dst] >= kUnreachableDistance) {
             continue; // no path
         }
 
