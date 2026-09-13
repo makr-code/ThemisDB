@@ -208,7 +208,6 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         using DV = std::pair<float, uint32_t>; // (distance, vertex)
         std::priority_queue<DV, std::vector<DV>, std::greater<DV>> pq;
         pq.push({0.0f, src});
-        bool destination_reached = false;
 
         while (!pq.empty()) {
             auto [d, u] = pq.top();
@@ -218,7 +217,6 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 continue; // stale entry
             }
             if (u == dst) {
-                destination_reached = true;
                 break; // target reached
             }
 
@@ -250,7 +248,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (!destination_reached) {
+        if (parent[dst] == -1) {
             continue; // no path
         }
 
