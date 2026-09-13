@@ -201,6 +201,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Finite sentinel avoids undefined infinity arithmetic under
         // -ffinite-math-only / -Ofast style builds.
         constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
+        const float kMaxReachableDistance = std::nextafter(kUnreachableDistance, 0.0f);
         std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
@@ -241,7 +242,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                 }
                 const float w  = std::max(0.0f, raw_w);
                 const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
-                if (nd_d >= static_cast<double>(kUnreachableDistance)) {
+                if (nd_d >= static_cast<double>(kMaxReachableDistance)) {
                     continue;
                 }
                 const float nd = static_cast<float>(nd_d);
