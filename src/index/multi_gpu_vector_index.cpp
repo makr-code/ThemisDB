@@ -37,7 +37,13 @@ namespace index {
 /** @brief MultiGPUVectorIndex::Impl. */
 class MultiGPUVectorIndex::Impl {
 public:
-    static int toGpuIndex(size_t value, size_t gpuCount) {
+    /**
+     * @brief Convert a modulo candidate to a GPU index with sentinel fallback.
+     * @param value Source value to map into the active GPU index range.
+     * @param gpuCount Number of active GPUs available for selection.
+     * @return Index in [0, gpuCount) on success, or -1 when no valid mapping exists.
+     */
+    [[nodiscard]] static int toGpuIndex(size_t value, size_t gpuCount) {
         if (gpuCount == 0) {
             return -1;
         }
