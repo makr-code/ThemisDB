@@ -108,7 +108,7 @@ SIMDLevel detectSIMDLevel() noexcept {
 namespace {
 
 // Returns the index of the lowest set bit in x.  x must be non-zero.
-inline int themis_ctz(unsigned int x) noexcept {
+[[maybe_unused]] inline int themis_ctz(unsigned int x) noexcept {
 #if defined(_MSC_VER)
     unsigned long idx = 0;
     _BitScanForward(&idx, x);
