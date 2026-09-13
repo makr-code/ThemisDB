@@ -35,7 +35,7 @@
 
 namespace {
 
-[[maybe_unused]] bool isBooleanLiteral(const std::string& value, bool& parsed) {
+bool isBooleanLiteral(const std::string& value, bool& parsed) {
     std::string normalized = {};
     normalized.reserve(value.size());
     for (const unsigned char ch : value) {
@@ -55,17 +55,17 @@ namespace {
     return false;
 }
 
-[[maybe_unused]] bool tryParseInt(const std::string& value, int& parsed) {
+bool tryParseInt(const std::string& value, int& parsed) {
     const char* begin = value.data();
-    const char* end = begin + value.size() ;
+    const char* end = begin + value.size();
     auto [ptr, ec] = std::from_chars(begin, end, parsed);
     return ec == std::errc{} && ptr == end;
 }
 
-[[maybe_unused]] bool tryParseDouble(const std::string& value, double& parsed) {
+bool tryParseDouble(const std::string& value, double& parsed) {
     char* end_ptr = nullptr;
     const double parsed_value = std::strtod(value.c_str(), &end_ptr);
-    if (end_ptr != value.c_str() + value.size() ) {
+    if (end_ptr != value.c_str() + value.size()) {
         return false;
     }
 
