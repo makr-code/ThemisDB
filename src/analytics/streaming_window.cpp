@@ -517,10 +517,16 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
                 ++late_records_;
             }
             open_windows_[idx].records.push_back(record);
-            ++records_ingested_;
         }
 
-        pending = closeExpiredWindows(wm);
+        // closeExpiredWindows returns new expired windows; merge with eviction results
+        auto closed_results = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed_results.begin(), closed_results.end());
+        
+        // Only count ingested if record was actually added to the window
+        if (record_added) {
+            ++records_ingested_;
+        }
         cb      = callback_;
     } // mutex_ released
 
@@ -852,7 +858,9 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         } // end key-cardinality else
 
-        pending = closeExpiredWindows(wm);
+        // closeExpiredWindows returns new expired windows; prepend with eviction results
+        auto closed_results = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed_results.begin(), closed_results.end());
         cb      = callback_;
     } // mutex_ released
 
