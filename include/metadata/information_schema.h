@@ -29,7 +29,9 @@ class SchemaManager;
 
 using json = nlohmann::json;
 
-/// Row in INFORMATION_SCHEMA.TABLES
+/**
+ * @brief Row model for `INFORMATION_SCHEMA.TABLES`.
+ */
 struct ISTable {
     std::string table_catalog;   ///< Always "def" (SQL standard)
     std::string table_schema;    ///< Schema/database name
@@ -39,10 +41,16 @@ struct ISTable {
     std::string engine;          ///< Storage engine name ("ThemisDB")
     std::string create_time;     ///< ISO-8601 creation timestamp (if known)
 
+    /**
+     * @brief Serialise this TABLES row to JSON.
+     * @return JSON object representing the row fields.
+     */
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.COLUMNS
+/**
+ * @brief Row model for `INFORMATION_SCHEMA.COLUMNS`.
+ */
 struct ISColumn {
     std::string table_catalog;      ///< Always "def"
     std::string table_schema;
@@ -54,10 +62,16 @@ struct ISColumn {
     std::optional<std::string> column_default; ///< Default value expression
     std::string extra;              ///< "auto_increment", "indexed", …
 
+    /**
+     * @brief Serialise this COLUMNS row to JSON.
+     * @return JSON object representing the row fields.
+     */
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.STATISTICS (index info)
+/**
+ * @brief Row model for `INFORMATION_SCHEMA.STATISTICS`.
+ */
 struct ISStatistic {
     std::string table_catalog;
     std::string table_schema;
@@ -68,10 +82,16 @@ struct ISStatistic {
     std::string index_type;         ///< "BTREE", "HASH", "FULLTEXT", …
     std::string non_unique;         ///< "0" (unique) or "1" (not unique)
 
+    /**
+     * @brief Serialise this STATISTICS row to JSON.
+     * @return JSON object representing the row fields.
+     */
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+/**
+ * @brief Row model for `INFORMATION_SCHEMA.KEY_COLUMN_USAGE`.
+ */
 struct ISKeyColumnUsage {
     std::string constraint_catalog;
     std::string constraint_schema;
@@ -84,10 +104,16 @@ struct ISKeyColumnUsage {
     std::optional<std::string> referenced_table_name;
     std::optional<std::string> referenced_column_name;
 
+    /**
+     * @brief Serialise this KEY_COLUMN_USAGE row to JSON.
+     * @return JSON object representing the row fields.
+     */
     json toJSON() const;
 };
 
-/// Row in INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+/**
+ * @brief Row model for `INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS`.
+ */
 struct ISReferentialConstraint {
     std::string constraint_catalog = {};
     std::string constraint_schema;
@@ -99,6 +125,10 @@ struct ISReferentialConstraint {
     std::string update_rule;               ///< "RESTRICT", "CASCADE", "NO ACTION", etc.
     std::string delete_rule;
 
+    /**
+     * @brief Serialise this REFERENTIAL_CONSTRAINTS row to JSON.
+     * @return JSON object representing the row fields.
+     */
     json toJSON() const;
 };
 
@@ -116,48 +146,62 @@ struct ISReferentialConstraint {
 ///   auto cols   = info_schema.getColumns("users");
 class InformationSchema {
 public:
-    /// Constructor
-    /// @param schema_mgr  SchemaManager that owns the live schema data
+    /**
+     * @brief Construct an INFORMATION_SCHEMA view provider over a live SchemaManager.
+     * @param schema_mgr SchemaManager that owns the authoritative schema metadata.
+     */
     explicit InformationSchema(SchemaManager& schema_mgr);
 
     ~InformationSchema() = default;
 
-    // Disable copy, allow move
+    // Disable copy and move
     InformationSchema(const InformationSchema&) = delete;
     InformationSchema& operator=(const InformationSchema&) = delete;
-    InformationSchema(InformationSchema&&) noexcept = default;
-    InformationSchema& operator=(InformationSchema&&) noexcept = default;
+    InformationSchema(InformationSchema&&) noexcept = delete;
+    InformationSchema& operator=(InformationSchema&&) noexcept = delete;
 
     // ========================================================================
     // INFORMATION_SCHEMA views
     // ========================================================================
 
-    /// INFORMATION_SCHEMA.TABLES
-    /// Returns one row per table/collection in the default schema.
+    /**
+     * @brief Return the `INFORMATION_SCHEMA.TABLES` view.
+     * @return One row per table or collection in the default schema.
+     */
     std::vector<ISTable> getTables() const;
 
-    /// INFORMATION_SCHEMA.COLUMNS
-    /// Returns one row per column across all tables, or only for a specific
-    /// table when @p table_name is provided.
+    /**
+     * @brief Return the `INFORMATION_SCHEMA.COLUMNS` view.
+     * @param table_name Optional table filter; when omitted, all tables are included.
+     * @return Column metadata rows for the selected scope.
+     */
     std::vector<ISColumn> getColumns(
         std::optional<std::string_view> table_name = std::nullopt
     ) const;
 
-    /// INFORMATION_SCHEMA.STATISTICS
-    /// Returns index metadata rows, optionally filtered by table.
+    /**
+     * @brief Return the `INFORMATION_SCHEMA.STATISTICS` view.
+     * @param table_name Optional table filter; when omitted, all tables are included.
+     * @return Index metadata rows for the selected scope.
+     */
     std::vector<ISStatistic> getStatistics(
         std::optional<std::string_view> table_name = std::nullopt
     ) const;
 
-    /// INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-    /// Returns foreign-key / unique-key usage rows for all (or one) table(s).
+    /**
+     * @brief Return the `INFORMATION_SCHEMA.KEY_COLUMN_USAGE` view.
+     * @param table_name Optional table filter; when omitted, all tables are included.
+     * @return Key-usage rows for the selected scope.
+     */
     std::vector<ISKeyColumnUsage> getKeyColumnUsage(
         std::optional<std::string_view> table_name = std::nullopt
     ) const;
 
-    /// INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
-    /// Returns foreign-key referential constraint metadata, optionally
-    /// filtered by the referencing table name.
+    /**
+     * @brief Return the `INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS` view.
+     * @param table_name Optional referencing-table filter.
+     * @return Referential-constraint rows for the selected scope.
+     */
     std::vector<ISReferentialConstraint> getReferentialConstraints(
         std::optional<std::string_view> table_name = std::nullopt
     ) const;
@@ -166,18 +210,30 @@ public:
     // JSON export helpers (for REST API / AQL integration)
     // ========================================================================
 
-    /// Serialize the full INFORMATION_SCHEMA as a JSON object with keys
-    /// "tables", "columns", "statistics", "key_column_usage", and
-    /// "referential_constraints".
+    /**
+     * @brief Serialise the full INFORMATION_SCHEMA surface to JSON.
+     * @return JSON object with `tables`, `columns`, `statistics`,
+     *         `key_column_usage`, and `referential_constraints` arrays.
+     */
     json toJSON() const;
 
-    /// Return only the TABLES view as a JSON array.
+    /**
+     * @brief Serialise only the TABLES view to JSON.
+     * @return JSON array of TABLES rows.
+     */
     json tablesToJSON() const;
 
-    /// Return only the COLUMNS view for one table as a JSON array.
+    /**
+     * @brief Serialise only the COLUMNS view for one table to JSON.
+     * @param table_name Table whose column metadata should be exported.
+     * @return JSON array of COLUMNS rows for the table.
+     */
     json columnsToJSON(std::string_view table_name) const;
 
-    /// Return only the REFERENTIAL_CONSTRAINTS view as a JSON array.
+    /**
+     * @brief Serialise only the REFERENTIAL_CONSTRAINTS view to JSON.
+     * @return JSON array of referential-constraint rows.
+     */
     json referentialConstraintsToJSON() const;
 
 private:

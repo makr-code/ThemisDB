@@ -103,11 +103,11 @@ struct ChangefeedBufferStats {
     
     std::chrono::steady_clock::time_point last_flush_time;
     
-    // Delete copy operations due to atomic members
+    // Delete copy and move operations due to atomic members.
     ChangefeedBufferStats(const ChangefeedBufferStats&) = delete;
     ChangefeedBufferStats& operator=(const ChangefeedBufferStats&) = delete;
-    ChangefeedBufferStats(ChangefeedBufferStats&&) noexcept = default;
-    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) noexcept = default;
+    ChangefeedBufferStats(ChangefeedBufferStats&&) noexcept = delete;
+    ChangefeedBufferStats& operator=(ChangefeedBufferStats&&) noexcept = delete;
     ChangefeedBufferStats() = default;
 };
 

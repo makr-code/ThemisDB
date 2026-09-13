@@ -29,8 +29,6 @@ namespace geo {
 using json = nlohmann::json;
 
 // Constants
-constexpr double EARTH_RADIUS_METERS = 6371000.0;  // Mean Earth radius
-constexpr double DEG_TO_RAD = M_PI / 180.0;
 constexpr double METERS_PER_DEGREE_APPROX = 111320.0;  // At equator
 
 static std::string trimCopy(const std::string& input) {
@@ -970,5 +968,4 @@ bool EWKBParser::validate(const std::vector<uint8_t>& ewkb) {
 
 }  // namespace geo
 }  // namespace themis
-
 

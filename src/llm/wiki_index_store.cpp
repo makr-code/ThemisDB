@@ -765,10 +765,16 @@ void WikiIndexStore::probeEmbeddingDim() {
         return;
     }
 
-    const int probed_dim =
-        (probe_vec.size() > static_cast<std::size_t>(std::numeric_limits<int>::max()))
-            ? std::numeric_limits<int>::max()
-            : static_cast<int>(probe_vec.size());
+    if (probe_vec.size() > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
+        spdlog::warn("[WikiIndexStore] probeEmbeddingDim: embed() returned oversized vector dim={}; "
+                     "keeping configured dim={}",
+                     probe_vec.size(),
+                     config_.embedding_dim);
+        dim_probed_.store(true, std::memory_order_release);
+        return;
+    }
+
+    const int probed_dim = static_cast<int>(probe_vec.size());
     if (probed_dim != config_.embedding_dim) {
         spdlog::info("[WikiIndexStore] probeEmbeddingDim: dim {} → {} (re-initialising vector index)",
                      config_.embedding_dim, probed_dim);

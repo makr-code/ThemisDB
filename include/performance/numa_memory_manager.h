@@ -100,8 +100,8 @@ public:
 
     NUMAMemoryManager(const NUMAMemoryManager&)            = delete;
     NUMAMemoryManager& operator=(const NUMAMemoryManager&) = delete;
-    NUMAMemoryManager(NUMAMemoryManager&&)                 noexcept = default;
-    NUMAMemoryManager& operator=(NUMAMemoryManager&&)      noexcept = default;
+    NUMAMemoryManager(NUMAMemoryManager&&)                 noexcept = delete;
+    NUMAMemoryManager& operator=(NUMAMemoryManager&&)      noexcept = delete;
 
     // =========================================================================
     // Core allocation API
@@ -113,17 +113,24 @@ public:
      * When node is negative, behaves identically to allocate_local().
      * Falls back to malloc on systems without NUMA support.
      *
+     * @param size Number of bytes to allocate.
+     * @param node Preferred NUMA node, or a negative value for local placement.
      * @return Pointer to allocated memory; throws std::bad_alloc on exhaustion.
      */
     void* allocate_on_node(size_t size, int node);
 
     /**
      * @brief Allocate size bytes on the calling thread's local NUMA node.
+     * @param size Number of bytes to allocate.
+     * @return Pointer to allocated memory; throws std::bad_alloc on exhaustion.
      */
     void* allocate_local(size_t size);
 
     /**
      * @brief Allocate memory with an explicit AllocationHint.
+     * @param size Number of bytes to allocate.
+     * @param hint Placement and migration preferences for the allocation.
+     * @return Pointer to allocated memory; throws std::bad_alloc on exhaustion.
      */
     void* allocate(size_t size, const AllocationHint& hint = {});
 
@@ -143,6 +150,9 @@ public:
      *
      * On Linux with libnuma available this issues mbind(MPOL_BIND) to rebind
      * the pages to target_node.  On other platforms it is a no-op.
+     * @param ptr Allocation previously returned by this manager.
+     * @param size Size of the allocation in bytes.
+     * @param target_node NUMA node to bind the allocation to.
      */
     void migrate_to_node(void* ptr, size_t size, int target_node);
 

@@ -98,10 +98,31 @@ public:
     // are loaded, avoiding O(n²) behaviour.
     std::atomic<bool> oversubBulkLoading_{false};
 
+    /// @brief Return whether this index currently has a strictly positive dimension.
+    /// @return True when @c dimension is greater than zero; false for uninitialized
+    ///         or otherwise invalid dimension state.
+    [[nodiscard]] bool hasValidDimension() const noexcept {
+        return dimension > 0;
+    }
+
+    /// @brief Return the currently expected vector dimension for input validation.
+    /// @return The positive configured dimension, or @c 0 as a sentinel when no
+    ///         valid dimension is currently available.
+    [[nodiscard]] size_t expectedDimension() const noexcept {
+        return hasValidDimension() ? static_cast<size_t>(dimension) : 0U;
+    }
+
+    /// @brief Check whether an input vector dimension matches the configured index dimension.
+    /// @param actualDimension Candidate input dimension to validate.
+    /// @return True only when the index dimension is valid and equals @p actualDimension.
+    [[nodiscard]] bool matchesDimension(size_t actualDimension) const noexcept {
+        return hasValidDimension() && actualDimension == expectedDimension();
+    }
+
     // Rebuild the oversubscription manager partitions from the current vectorData.
     // Called after every vector mutation when oversubscription is enabled.
     void rebuildOversubPartitions() {
-        if (!oversubManager || vectorData.empty() || oversubBulkLoading_) {
+        if (!oversubManager || vectorData.empty() || oversubBulkLoading_ || !hasValidDimension()) {
           return;
         }
 
@@ -111,7 +132,7 @@ public:
             oversubManager->removePartition(pid);
         }
 
-        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t dim   = expectedDimension();
         const size_t psize = (config.oversubscription_partition_vectors > 0)
                                  ? config.oversubscription_partition_vectors
                                  : static_cast<size_t>(65536);
@@ -134,16 +155,15 @@ public:
 
     // Search all oversubscription partitions and return merged top-k results.
     std::vector<SearchResult> searchOversubscribed(const std::vector<float>& query, size_t k) {
-        if (!oversubManager || vectorData.empty() ||
-            query.size() != static_cast<size_t>(dimension)) {
+        if (!oversubManager || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchOversubscribed - no oversub manager or empty data or dim mismatch (oversubManager={} vector_count={} query_dim={} expected_dim={})",
-                        static_cast<bool>(oversubManager),vectorData.size(),query.size(), dimension);
+                        static_cast<bool>(oversubManager),vectorData.size(),query.size(), expectedDimension());
             return {};
         }
 
         auto startTime = std::chrono::steady_clock::now();
 
-        const size_t dim   = static_cast<size_t>(dimension);
+        const size_t dim   = expectedDimension();
         const size_t psize = (config.oversubscription_partition_vectors > 0)
                                  ? config.oversubscription_partition_vectors
                                  : static_cast<size_t>(65536);
@@ -221,6 +241,10 @@ public:
     }
     
     bool initialize([[maybe_unused]] int dim) {
+        if (dim <= 0) {
+            THEMIS_ERROR("GPUVectorIndex: invalid dimension {}", dim);
+            return false;
+        }
         dimension = dim;
         stats.dimension = dim;
         
@@ -475,7 +499,7 @@ public:
     #endif
     
     bool addVector(const std::string& id, const std::vector<float>& vector) {
-        if (!initialized || vector.size() != static_cast<size_t>(dimension)) {
+        if (!initialized || !matchesDimension(vector.size())) {
             return false;
         }
         
@@ -658,9 +682,9 @@ public:
     }
     
     std::vector<SearchResult> searchCPU(const std::vector<float>& query, size_t k) {
-        if (vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+        if (vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchCPU - empty data or dimension mismatch (vectors={} query_dim={} expected_dim={})",
-                        vectorData.size(),query.size(), static_cast<size_t>(dimension));
+                        vectorData.size(),query.size(), expectedDimension());
             return {};
         }
         
@@ -695,9 +719,9 @@ public:
 #ifdef THEMIS_ENABLE_CUDA
     // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
-        if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
+        if (!cudaBackend || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_WARN("GPUVectorIndex::searchGPU - invalid state (cudaBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(cudaBackend),vectorData.size(),query.size(), static_cast<size_t>(dimension));
+                        static_cast<bool>(cudaBackend),vectorData.size(),query.size(), expectedDimension());
             return {};
         }
         
@@ -712,7 +736,7 @@ public:
         // Update flattened vector cache if dirty (performance optimization)
         if (flatVectorCacheDirty) {
             flatVectorCache.clear();
-            flatVectorCache.reserve(vectorData.size() * dimension);
+            flatVectorCache.reserve(vectorData.size() * expectedDimension());
             for (const auto& vec : vectorData) {
                 flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
             }
@@ -776,7 +800,7 @@ public:
         // Update flattened vector cache if dirty
         if (flatVectorCacheDirty) {
             flatVectorCache.clear();
-            flatVectorCache.reserve(vectorData.size() * dimension);
+            flatVectorCache.reserve(vectorData.size() * expectedDimension());
             for (const auto& vec : vectorData) {
                 flatVectorCache.insert(flatVectorCache.end(), vec.begin(), vec.end());
             }
@@ -786,9 +810,9 @@ public:
         // Flatten query vectors for GPU transfer
         std::vector<float> flatQueries = {};
 
-        flatQueries.reserve(queries.size() * dimension);
+        flatQueries.reserve(queries.size() * expectedDimension());
         for (const auto& query : queries) {
-            if (query.size() != static_cast<size_t>(dimension)) {
+            if (!matchesDimension(query.size())) {
                 // Skip invalid queries or fall back to CPU for all
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
@@ -852,10 +876,9 @@ public:
     }
 
     std::vector<SearchResult> searchHIP(const std::vector<float>& query, size_t k) {
-        if (!hipBackend || vectorData.empty() ||
-            query.size() != static_cast<size_t>(dimension)) {
+        if (!hipBackend || vectorData.empty() || !matchesDimension(query.size())) {
             THEMIS_DEBUG("GPUVectorIndex::searchHIP - invalid state (hipBackend={} vectors={} query_dim={} expected_dim={})",
-                        static_cast<bool>(hipBackend),vectorData.size(),query.size(), static_cast<size_t>(dimension));
+                        static_cast<bool>(hipBackend),vectorData.size(),query.size(), expectedDimension());
             return {};
         }
 
@@ -864,7 +887,7 @@ public:
         // Rebuild flattened vector cache when stale
         if (hipFlatVectorCacheDirty) {
             hipFlatVectorCache.clear();
-            hipFlatVectorCache.reserve(vectorData.size() * dimension);
+            hipFlatVectorCache.reserve(vectorData.size() * expectedDimension());
             for (const auto& vec : vectorData) {
                 hipFlatVectorCache.insert(hipFlatVectorCache.end(), vec.begin(), vec.end());
             }
@@ -902,9 +925,9 @@ public:
     std::vector<std::vector<SearchResult>> searchBatchHIP(
         const std::vector<std::vector<float>>& queries, size_t k) {
 
-        if (!hipBackend || vectorData.empty() || queries.empty()) {
-            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={})",
-                        static_cast<bool>(hipBackend),vectorData.size(),queries.size());
+        if (!hipBackend || vectorData.empty() || queries.empty() || !hasValidDimension()) {
+            THEMIS_DEBUG("GPUVectorIndex::searchBatchHIP - invalid state (hipBackend={} vectors={} queries={} expected_dim={})",
+                        static_cast<bool>(hipBackend),vectorData.size(),queries.size(), expectedDimension());
             return {};
         }
 
@@ -913,7 +936,7 @@ public:
         // Rebuild flattened vector cache when stale
         if (hipFlatVectorCacheDirty) {
             hipFlatVectorCache.clear();
-            hipFlatVectorCache.reserve(vectorData.size() * dimension);
+            hipFlatVectorCache.reserve(vectorData.size() * expectedDimension());
             for (const auto& vec : vectorData) {
                 hipFlatVectorCache.insert(hipFlatVectorCache.end(), vec.begin(), vec.end());
             }
@@ -923,9 +946,9 @@ public:
         // Flatten query vectors for GPU transfer; fall back to CPU on bad input
         std::vector<float> flatQueries = {};
 
-        flatQueries.reserve(queries.size() * dimension);
+        flatQueries.reserve(queries.size() * expectedDimension());
         for (const auto& query : queries) {
-            if (query.size() != static_cast<size_t>(dimension)) {
+            if (!matchesDimension(query.size())) {
                 std::vector<std::vector<SearchResult>> results;
                 results.reserve(queries.size());
                 for (const auto& q : queries) {
@@ -1099,13 +1122,17 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     // initialize() call that writes pImpl->dimension and the reads below
     // (INDEX-GPU-DIM-RACE-01).
     const int dim = pImpl->dimension;
+    if (dim <= 0) {
+        return false;
+    }
+    const auto expectedDim = static_cast<size_t>(dim);
 
     // Fast-path for pure bulk inserts (all IDs are new, oversubscription disabled):
     // reserve once and append directly to avoid per-item upsert and backend checks.
     bool canUseFastPath = (pImpl->oversubManager == nullptr);
     if (canUseFastPath) {
         for (size_t i = 0; i < ids.size(); ++i) {
-            if (vectors[i].size() != static_cast<size_t>(dim) ||
+            if (vectors[i].size() != expectedDim ||
                 pImpl->idToIndex.find(ids[i]) != pImpl->idToIndex.end()) {
                 canUseFastPath = false;
                 break;
@@ -1116,7 +1143,7 @@ bool GPUVectorIndex::addVectorBatch(const std::vector<std::string>& ids,
     if (canUseFastPath) {
         uint64_t allocatedBytes = 0;
         if (!pImpl->vramBudgetTag.empty()) {
-            allocatedBytes = static_cast<uint64_t>(dim) * sizeof(float) * static_cast<uint64_t>(ids.size());
+            allocatedBytes = static_cast<uint64_t>(expectedDim) * sizeof(float) * static_cast<uint64_t>(ids.size());
             auto& mgr = themis::gpu::GPUMemoryManager::GetInstance();
             if (!mgr.TryAllocateGPU(allocatedBytes, "vector_batch", pImpl->vramBudgetTag)) {
                 THEMIS_WARN("GPUVectorIndex: VRAM budget exceeded (limit {} MB)", pImpl->config.maxVRAM_MB);

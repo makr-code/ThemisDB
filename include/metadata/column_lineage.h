@@ -36,13 +36,23 @@ struct ColumnRef {
         return table_name == other.table_name && column_name == other.column_name;
     }
 
-    /// Returns "table_name.column_name"
+    /**
+     * @brief Render the reference as `table_name.column_name`.
+     * @return Fully qualified column name string.
+     */
     std::string toString() const;
 
-    /// Serialize to JSON: {"table": "...", "column": "..."}
+    /**
+     * @brief Serialise this column reference to JSON.
+     * @return JSON object with `table` and `column` fields.
+     */
     nlohmann::json toJSON() const;
 
-    /// Parse from JSON object
+    /**
+     * @brief Parse a column reference from JSON.
+     * @param j JSON object containing `table` and `column`.
+     * @return Parsed ColumnRef value.
+     */
     static ColumnRef fromJSON(const nlohmann::json& j);
 };
 
@@ -66,7 +76,11 @@ enum class TransformationType {
 /// Convert TransformationType to a string label
 std::string transformationTypeToString(TransformationType t);
 
-/// Convert a string label back to TransformationType (case-insensitive)
+/**
+ * @brief Convert a string label back to TransformationType.
+ * @param s Transformation label to parse (case-insensitive).
+ * @return Matching TransformationType value.
+ */
 TransformationType transformationTypeFromString(const std::string& s);
 
 /// A single derivation step recorded in the column lineage graph.
@@ -85,7 +99,10 @@ struct ColumnLineageEntry {
     int64_t timestamp_ms{0};                  ///< Unix epoch time in milliseconds (auto-assigned if 0)
     nlohmann::json metadata;                  ///< Arbitrary additional context
 
-    /// Serialize to JSON
+    /**
+     * @brief Serialise this lineage entry to JSON.
+     * @return JSON representation of the recorded derivation step.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -95,7 +112,10 @@ struct ColumnLineageRecord {
     ColumnRef column;
     std::vector<ColumnLineageEntry> entries;  ///< All derivation entries where this column is the target
 
-    /// Serialize to JSON
+    /**
+     * @brief Serialise this lineage record to JSON.
+     * @return JSON object containing the target column and its direct entries.
+     */
     nlohmann::json toJSON() const;
 };
 
@@ -124,11 +144,11 @@ class ColumnLineageTracker {
 public:
     ColumnLineageTracker() = default;
 
-    // Disable copy; allow move
+    // Disable copy and move
     ColumnLineageTracker(const ColumnLineageTracker&) = delete;
     ColumnLineageTracker& operator=(const ColumnLineageTracker&) = delete;
-    ColumnLineageTracker(ColumnLineageTracker&&) noexcept = default;
-    ColumnLineageTracker& operator=(ColumnLineageTracker&&) noexcept = default;
+    ColumnLineageTracker(ColumnLineageTracker&&) noexcept = delete;
+    ColumnLineageTracker& operator=(ColumnLineageTracker&&) noexcept = delete;
 
     /**
      * @brief Record a derivation step for a target column.
@@ -191,10 +211,14 @@ public:
      * @brief Export the full lineage graph as JSON.
      *
      * Returns a JSON object: {"entries": [...], "total_entries": N}
+     * @return JSON object containing all recorded lineage entries.
      */
     nlohmann::json exportAllLineage() const;
 
-    /// Return the total number of lineage entries recorded
+    /**
+     * @brief Return the total number of recorded lineage entries.
+     * @return Count of append-only derivation records currently stored.
+     */
     size_t totalEntryCount() const;
 
 private:

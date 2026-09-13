@@ -318,7 +318,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
       return empty;
     }
 
-    // CRITICAL GAP 11: Reject empty RTP packets fail-closed
+    // Reject empty RTP packets fail-closed before any decoding work.
     if (rtp_packet.empty()) {
         THEMIS_WARN("SipCallSession: empty RTP packet rejected (error 6910)");
         if (impl_->on_error) {
@@ -337,19 +337,19 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     }
 
     // TASK 2.6: RTP packet validation (error code 6910)
-    // CRITICAL GAP 12: Reject oversized RTP packets
+    // Reject undersized RTP packets before header parsing.
     if (rtp_packet.size() < 12) {
         THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
                     rtp_packet.size());
         return empty;
     }
     if (!isRtpVersion2(rtp_packet)) {
-        // CRITICAL GAP 13: Reject malformed RTP frames without valid headers
+        // Reject malformed RTP frames that do not carry a valid RTPv2 header.
         THEMIS_WARN("SipCallSession: invalid RTP version or malformed header, rejecting packet (error 6910)");
         return empty;
     }
     
-    // CRITICAL GAP 12 (continued): Enforce oversized packet limit
+    // Enforce the packet-size ceiling before buffering or payload extraction.
     static constexpr size_t kMaxRtpPacketSize = 32 * 1024;
     if (rtp_packet.size() > kMaxRtpPacketSize) {
         THEMIS_WARN("SipCallSession: RTP packet exceeds size limit ({} > {} bytes), rejecting (error 6910)",
@@ -371,7 +371,7 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
     }
 
     // TASK 2.6: Audio buffer size limits (anti-DoS)
-    // CRITICAL GAP 13: Oversized session buffer rejection
+    // Reject packets that would exceed the session-wide buffered audio budget.
     static constexpr size_t kMaxSessionRtpBufferBytes = 256 * 1024 * 1024;
     if (impl_->pcm_buffer.size() + payload.size() > kMaxSessionRtpBufferBytes) {
         THEMIS_ERROR("SipCallSession: audio buffer would exceed limit ({} + {} > {} bytes), rejecting packet (error 6904)",

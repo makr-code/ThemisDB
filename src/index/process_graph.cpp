@@ -759,12 +759,9 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
     // 4. Check gateway rules
     for (const auto& [id, node] : nodes) {
         if (isGatewayNode(node)) {
-            // Count incoming and outgoing edges
-            int incoming = 0, outgoing = 0;
+            // Count outgoing edges
+            int outgoing = 0;
             for (const auto& edge : edges) {
-                if (edge.to_node == id) {
-                  incoming++;
-                }
                 if (edge.from_node == id) {
                   outgoing++;
                 }
@@ -1407,7 +1404,7 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
     
     // Scan all tokens across all instances
     std::string tokenPrefix = "process:token:";
-    db_.scanPrefix(tokenPrefix, [&result, &assignee_or_role, this](std::string_view key, std::string_view val) {
+    db_.scanPrefix(tokenPrefix, [&result, &assignee_or_role](std::string_view key, std::string_view val) {
         std::string keyStr(key);
         
         // Parse instance_id and token_id from key: process:token:{instance_id}:{token_id}

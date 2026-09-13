@@ -198,6 +198,22 @@ jobs:
               echo "advanced_allowed=true" >> "$GITHUB_OUTPUT"
               echo "Repository CodeQL default setup is not configured; running advanced CodeQL workflow jobs."
               ;;
+            403)
+              # HTTP 403 ("Resource not accessible by integration") is returned when
+              # the default GITHUB_TOKEN lacks the administration:read scope to query
+              # the default setup API. In practice this occurs when GitHub's managed
+              # Default Code Scanning setup is enabled — the same situation that causes
+              # the SARIF upload to fail. Treat 403 as "default setup active" and skip
+              # the advanced CodeQL jobs rather than letting them run and fail.
+              echo "advanced_allowed=false" >> "$GITHUB_OUTPUT"
+              echo "::notice::CodeQL default setup API returned 403; assuming managed default setup is active and skipping advanced CodeQL jobs."
+              echo "::warning::CodeQL default setup API returned 403. This commonly indicates managed default setup, but it can also reflect token or permission restrictions."
+              if [[ -s /tmp/codeql-default-setup.json ]]; then
+                cat /tmp/codeql-default-setup.json
+              else
+                echo "::debug::No diagnostic payload was returned for the 403 response."
+              fi
+              ;;
             *)
               echo "::warning::Unable to determine CodeQL default setup state (HTTP ${http_code}); proceeding with advanced CodeQL workflow jobs."
               cat /tmp/codeql-default-setup.json || true

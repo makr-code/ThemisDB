@@ -111,11 +111,11 @@ public:
     SignedPluginRepository() = default;
     ~SignedPluginRepository() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     SignedPluginRepository(const SignedPluginRepository&) = delete;
     SignedPluginRepository& operator=(const SignedPluginRepository&) = delete;
-    SignedPluginRepository(SignedPluginRepository&&) noexcept = default;
-    SignedPluginRepository& operator=(SignedPluginRepository&&) noexcept = default;
+    SignedPluginRepository(SignedPluginRepository&&) noexcept = delete;
+    SignedPluginRepository& operator=(SignedPluginRepository&&) noexcept = delete;
 
     // -------------------------------------------------------------------------
     // Key management
@@ -194,11 +194,14 @@ public:
 
     /**
      * @brief Return all catalog entries whose name matches @p name.
+     * @param name Plugin name to match.
+     * @return Snapshot of all matching entries.
      */
     std::vector<RepositoryEntry> findByName(const std::string& name) const;
 
     /**
      * @brief Return a snapshot of all catalog entries.
+     * @return Snapshot copy of the full repository catalog.
      */
     std::vector<RepositoryEntry> listEntries() const;
 
