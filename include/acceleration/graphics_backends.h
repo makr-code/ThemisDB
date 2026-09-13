@@ -134,7 +134,7 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
     class DirectXVectorBackendImpl;
     std::unique_ptr<DirectXVectorBackendImpl> impl_;
 };
@@ -287,7 +287,7 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
     metrics::BackendMetrics metrics_{"vulkan"};
@@ -332,7 +332,7 @@ public:
     GeoKernelDispatch populateGeoDispatch() const override;
 
 private:
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
 };
 
 // OpenGL Compute Shaders backend (OpenGL 4.3+ compute shader acceleration)
@@ -449,7 +449,7 @@ private:
         static BatchKnnSearchFn fn;
         return fn;
     }
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
     class OpenGLVectorBackendImpl;
     std::unique_ptr<OpenGLVectorBackendImpl> impl_;
 };
@@ -495,7 +495,7 @@ public:
     ) override;
 
 private:
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
     class OpenGLGeoBackendImpl;
     std::unique_ptr<OpenGLGeoBackendImpl> impl_;
 };
@@ -545,7 +545,7 @@ public:
     ) override;
 
 private:
-    [[maybe_unused]] bool initialized_ = false;
+    bool initialized_ = false;
     class OpenGLGraphBackendImpl;
     std::unique_ptr<OpenGLGraphBackendImpl> impl_;
 };
