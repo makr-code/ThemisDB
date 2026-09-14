@@ -1,20 +1,21 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-13  
-**Last Updated:** 2026-09-13  
-**Status:** active  
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-13
+**Last Updated:** 2026-09-14
+**Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
-> **BASELINE SYNC (2026-09-13):** This undated canonical document was refreshed to align with `IMPLEMENTATION_AUDIT_2026-09-13.md` and the latest source-verified audit baseline.
+> **BASELINE SYNC (2026-09-14):** This undated canonical document is refreshed to align with `IMPLEMENTATION_AUDIT_2026-09-14.md` and the latest source-verified audit baseline.
 > **ROADMAP Evidence Rule (2026-08-31):** ROADMAP checkbox states are planning/documentation signals only; audit or release evidence requires source-verified traces (code paths, tests, benchmarks, or runbooks).
 
-> **NOTE:** This document aggregates the current audit stack. When audit files disagree, prefer `IMPLEMENTATION_AUDIT_2026-09-13.md`, then `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, then `IMPLEMENTATION_AUDIT_2026-08-26.md`, then `IMPLEMENTATION_AUDIT_2026-08-18.md`, then `MATURITY_REPORT_2026-08.md`, then the root `ROADMAP.md`, and finally module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
+> **NOTE:** This document aggregates the current audit stack. When audit files disagree, prefer `IMPLEMENTATION_AUDIT_2026-09-14.md`, then `IMPLEMENTATION_AUDIT_2026-09-13.md`, then `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, then `IMPLEMENTATION_AUDIT_2026-08-26.md`, then `IMPLEMENTATION_AUDIT_2026-08-18.md`, then `MATURITY_REPORT_2026-08.md`, then the root `ROADMAP.md`, and finally module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
+> **DELTA REFRESH (2026-09-14):** `IMPLEMENTATION_AUDIT_2026-09-14.md` revalidated the current source against this canonical summary and found three important deltas: (1) the older wiki-freshness warning is now closed, (2) `MARKER_LOCATIONS_2026-08-31.md` / `MARKER_GAP_CLASSIFICATION_2026-08-31.md` are historical rather than current raw evidence, and (3) the module snapshot below is partially historical and lags current `query` / `llm_wiki` delivery on `develop`.
 > **NEW (Aug 2026):** EU AI Act compliance documentation added (canonical in `/audit`, downstream mirrors may lag):
 > - `docs/compliance/EU_AI_ACT_COMPLIANCE.md` — Risk classification & deployment checklist
-> - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment  
+> - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment
 > - `docs/compliance/EU_AI_ACT_EVIDENCE_BUNDLE.md` — Testing & audit trail evidence
 > - `docs/audit-framework/AUDIT_GOVERNANCE_STRUCTURE.md` — Governance & compliance cadence
 
@@ -31,13 +32,19 @@ This document is the **root-level security and compliance audit record** for The
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
 6. **EU AI Act compliance framework** (NEW Aug 2026) — risk classification, evidence bundles, governance
 
-### Source-Verified Implementation Status (2026-09-13)
+### Source-Verified Implementation Status (2026-09-14)
 
 The production audit stack is materially present in source code and is not merely a documentation placeholder:
 
 - `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp` implement the canonical audit logger, including hash-chain state tracking, queue safeguards, log rotation, fsync support, encryption/signature metadata, SIEM forwarding, and fail-closed error handling.
 - The real implementation is distinct from the lightweight focused harness in `tests/audit/test_audit_wavec_integrity_export_focused.cpp`, which uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` instead of the production `themis::utils::AuditLogger` path. That test is useful for logic validation, but not a direct end-to-end proof of the production audit backend.
 - Current source-backed assessment: the audit subsystem is implemented and structurally strong, but the strongest Wave-C “all gates pass” wording remains provisional unless backed by an integration run against the real production sink and persistence path.
+
+### Delta refresh notice (2026-09-14)
+
+- Current implementation-sync baseline: `IMPLEMENTATION_AUDIT_2026-09-14.md`
+- Historical marker evidence warning: treat `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` as dated snapshots, not as the current raw marker count for `src/`
+- Module snapshot warning: the `v2.4.0-rc1` table below remains useful as a historical maturity view, but its `query` and `llm_wiki` rows are now behind the current source-backed implementation delta documented in `IMPLEMENTATION_AUDIT_2026-09-14.md`
 
 ### Current Release Gate Status
 
@@ -48,7 +55,7 @@ The production audit stack is materially present in source code and is not merel
 | **Security Testing** | ✅ Passed | CodeQL clean, Sanitizers clean (Batch C 2026-08-04), Pentest no critical (GA_PENTEST_EVIDENCE_BUNDLE.md) | Security |
 | **EU AI Act Compliance** | 🟡 65% Complete | EU_AI_ACT_COMPLIANCE.md, Risk mapping ready, Model Cards Q3 2026 | Governance |
 | **Performance Gates** | ✅ Passed | Wave 7 benchmarks: Failover <100µs, Cache <50µs, Graph <200µs, LLM <5s p95 | Perf Team |
-| **Documentation** | ✅ Complete | `ROADMAP.md` (2026-08-09) + current `audit/` sync + module docs | Tech Writers |
+| **Documentation** | ✅ Complete | `ROADMAP.md` (2026-09-09) + `IMPLEMENTATION_AUDIT_2026-09-14.md` + current `audit/` sync | Tech Writers |
 
 ### Wave Closure Package Governance (2026-09-13)
 
@@ -190,7 +197,7 @@ For EU AI Act details (NEW Aug 2026), see:
 
 ## 🆕 EU AI Act Compliance Framework (August 2026)
 
-**Regulatory Deadline:** 2026-09-10 (transitional period expires)  
+**Regulatory Deadline:** 2026-09-10 (transitional period expires)
 **Current Status:** 65% compliant (core framework in place, Model Cards due Q3 2026)
 
 ### Quick Facts

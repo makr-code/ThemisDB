@@ -1,10 +1,10 @@
 # ThemisDB Audit Hub and Canonical Map
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-13  
-**Last Updated:** 2026-09-13  
-**Status:** active  
-**Repository Metadata:** `VERSION=2.4.0-alpha`  
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-13
+**Last Updated:** 2026-09-14
+**Status:** active
+**Repository Metadata:** `VERSION=2.4.0-alpha`
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
 **Source-verified status:** The production audit logger exists in source, but design-level Wave-C pass claims remain provisional until validated against the real production sink and persistence path.
 
@@ -28,9 +28,10 @@
 | `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md` | Consolidated source-verified audit, maturity, security, and monetary update |
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
-| `IMPLEMENTATION_AUDIT_2026-09-13.md` | Current implementation sync report |
-| `IMPLEMENTATION_AUDIT_2026-08-26.md` | Prior implementation sync report |
-| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Earlier implementation sync report |
+| `IMPLEMENTATION_AUDIT_2026-09-14.md` | Current implementation sync report |
+| `IMPLEMENTATION_AUDIT_2026-09-13.md` | Prior implementation sync report |
+| `IMPLEMENTATION_AUDIT_2026-08-26.md` | Earlier implementation sync report |
+| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Historical implementation sync report |
 | `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Historical deep-dive delta report |
 | `IMPLEMENTATION_AUDIT_2026-08-08.md` | Historical raw delta report |
 | `IMPLEMENTATION_AUDIT_2026-08-07.md` | Historical base snapshot |
@@ -63,6 +64,7 @@
 - `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
+- `IMPLEMENTATION_AUDIT_2026-09-14.md`
 - `IMPLEMENTATION_AUDIT_2026-09-13.md`
 - `IMPLEMENTATION_AUDIT_2026-08-26.md`
 - `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`
@@ -83,7 +85,8 @@
 - The real production audit implementation is present in source: `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`.
 - The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
 - The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
-- For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-09-13.md` first.
+- For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-09-14.md` first.
+- The dated marker artifacts `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` are historical snapshots; use `IMPLEMENTATION_AUDIT_2026-09-14.md` for the current stale-marker assessment and refreshed counts.
 
 ### Source-Verified Reality Check (2026-09-07)
 
