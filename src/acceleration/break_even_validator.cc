@@ -96,7 +96,12 @@ double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
     return base * device_factor;
 }
 
-double gpuLaunchOverheadMs(DeviceType device) {
+/**
+ * @brief Returns per-device GPU launch overhead in milliseconds.
+ * @return Launch overhead for known GPU-capable devices, or std::nullopt when
+ *         the device type is unknown/unsupported for GPU profiling.
+ */
+std::optional<double> gpuLaunchOverheadMs(DeviceType device) {
     switch (device) {
         case DeviceType::kNVIDIA_RTX:
             return 2.8;
@@ -107,7 +112,7 @@ double gpuLaunchOverheadMs(DeviceType device) {
         case DeviceType::kIntel_Arc:
             return 5.3;
         default:
-            return std::numeric_limits<double>::infinity();
+            return std::nullopt;
     }
 }
 
@@ -407,7 +412,11 @@ std::optional<std::chrono::milliseconds> BreakEvenValidator::ProfileGPU(
 
     const double compute_ms = gpu_work_units / throughput;
     const double transfer_ms = estimateTransferBytes(profile) / bandwidth;
-    const double estimated_ms = gpuLaunchOverheadMs(profile.device) + transfer_ms + compute_ms;
+    const auto launch_overhead_ms = gpuLaunchOverheadMs(profile.device);
+    if (!launch_overhead_ms.has_value()) {
+        return std::nullopt;
+    }
+    const double estimated_ms = *launch_overhead_ms + transfer_ms + compute_ms;
     return MillisecondsFromEstimate(estimated_ms);
 }
 

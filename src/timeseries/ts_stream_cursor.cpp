@@ -74,7 +74,7 @@ TsStreamCursor::~TsStreamCursor() = default;
 // ---------------------------------------------------------------------------
 
 bool TsStreamCursor::valid() const noexcept {
-    return static_cast<bool>(!exhausted_  && static_cast<size_t>(page_pos_) < page_.size());
+    return !exhausted_ && static_cast<size_t>(page_pos_) < page_.size();
 }
 
 const TSStore::DataPoint& TsStreamCursor::current() const noexcept {

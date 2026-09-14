@@ -255,8 +255,8 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    // Try to exceed queue capacity with slow shard.
-    // Calls execute synchronously, so they should all succeed here.
+    // Try to exceed queue capacity with a slow shard while verifying the
+    // current synchronous execution path.
     int success_count = 0;
     for (int i = 0; i < 10; ++i) {
         try {
@@ -269,7 +269,8 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
         }
     }
 
-    // All requests complete on the synchronous path.
+    // executeDistributed() is synchronous in this focused test fixture, so all
+    // invocations complete instead of saturating an async queue.
     EXPECT_GT(success_count, 0);
     EXPECT_EQ(success_count, 10);
 }
@@ -470,15 +471,15 @@ TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    const auto first = coordinator->executeDistributed(query);
-    ASSERT_FALSE(first.shard_info.empty());
-    EXPECT_EQ(first.shard_info.front().circuit_consecutive_failures, 1);
+    auto result1 = coordinator->executeDistributed(query);
+    ASSERT_FALSE(result1.shard_info.empty());
+    EXPECT_EQ(result1.shard_info.front().circuit_consecutive_failures, 1u);
+    EXPECT_EQ(result1.shard_info.front().circuit_state, CircuitBreakerState::CLOSED);
 
-    const auto second = coordinator->executeDistributed(query);
-    ASSERT_FALSE(second.shard_info.empty());
-    EXPECT_EQ(second.shard_info.front().circuit_consecutive_failures, 2);
-    EXPECT_EQ(second.shard_info.front().circuit_state,
-              DistributedAnalyticsSharding::CircuitBreakerState::OPEN);
+    auto result2 = coordinator->executeDistributed(query);
+    ASSERT_FALSE(result2.shard_info.empty());
+    EXPECT_EQ(result2.shard_info.front().circuit_consecutive_failures, 2u);
+    EXPECT_EQ(result2.shard_info.front().circuit_state, CircuitBreakerState::OPEN);
 }
 
 // ============================================================================

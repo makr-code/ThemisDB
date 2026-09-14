@@ -106,7 +106,7 @@ std::vector<HybridSearch::Result> SearchResultStream::nextPage() {
 // ============================================================================
 
 bool SearchResultStream::hasMore() const {
-    return static_cast<bool>(cursor_ < results_.size());
+    return cursor_ < results_.size();
 }
 
 // ============================================================================
@@ -163,4 +163,3 @@ void SearchResultStream::setConfig(const Config& config) {
 }
 
 } // namespace themis
-

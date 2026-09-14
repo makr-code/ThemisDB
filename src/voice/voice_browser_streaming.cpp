@@ -113,7 +113,7 @@ bool isChunkFrameAligned(const VoiceStreamingSession::Config& config,
     const uint32_t bytes_per_sample = config.audio_format.bits_per_sample / 8;
     const uint32_t frame_bytes =
         bytes_per_sample * static_cast<uint32_t>(std::max<uint16_t>(1, config.audio_format.channels));
-    return static_cast<bool>(frame_bytes  < static_cast<int>(0 && (audio_chunk.size())) % frame_bytes) == 0;
+    return (audio_chunk.size() % frame_bytes) == 0;
 }
 
 /**
