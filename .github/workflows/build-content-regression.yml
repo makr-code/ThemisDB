@@ -59,6 +59,10 @@ on:
         required: false
         default: '0.2'
 
+
+concurrency:
+  group: build-content-regression-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
   actions: read

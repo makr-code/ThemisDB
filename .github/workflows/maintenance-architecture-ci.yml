@@ -9,7 +9,7 @@
 #
 # Governance: WORKFLOW_REGISTRY.md — maintenance lane
 
-name: maintenance-architecture-ci
+name: "Maintenance: Architecture CI"
 
 on:
   schedule:

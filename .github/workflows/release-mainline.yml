@@ -65,7 +65,7 @@ permissions:
   issues: read
 
 concurrency:
-  group: ci-release-${{ github.ref }}
+  group: ci-release-${{ github.ref_name || github.ref }}
   cancel-in-progress: false
 
 # ──────────────────────────────────────────────────────────────────────────────

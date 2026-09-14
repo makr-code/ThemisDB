@@ -1,4 +1,4 @@
-name: "Wave B Transaction CI Execution"
+name: "Build: Wave B Transaction"
 
 on:
   push:
@@ -9,15 +9,7 @@ on:
       - "tests/transaction/**"
       - "include/transaction/**"
       - "benchmarks/transaction/**"
-      - ".github/workflows/13-wave-b-transaction-ci-execution.yml"
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - "src/transaction/**"
-      - "tests/transaction/**"
-      - "include/transaction/**"
-      - "benchmarks/transaction/**"
+      - ".github/workflows/build-wave-b-transaction.yml"
   workflow_dispatch:
     inputs:
       phase:
@@ -30,7 +22,7 @@ on:
         default: "4"
 
 concurrency:
-  group: wave-b-transaction-ci-${{ github.event.pull_request.number || github.ref }}
+  group: wave-b-transaction-ci-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:

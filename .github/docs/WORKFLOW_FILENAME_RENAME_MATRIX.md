@@ -1,7 +1,10 @@
 # Workflow Filename Rename Matrix
 
-Status: Proposal
+Author: ThemisDB Contributors
+Created: 2026-08-25
+Status: active
 Date: 2026-08-25
+Last Updated: 2026-09-14
 Scope: `.github/workflows/*.yml`
 
 ## Ziel
@@ -48,6 +51,15 @@ Diese Matrix folgt dem Zielbild aus `WORKFLOW_FRAMEWORK_DESIGN.md`.
 | `governance-gates.yml` | `compliance-governance-gates.yml` | `governance`-Domain ersetzt durch `compliance` |
 | `validate-distributed-knowledge.yml` | `gate-distributed-knowledge.yml` | `validate`-Domain ersetzt durch `gate` |
 | `validate-pr-version-targeting.yml` | `gate-pr-version-targeting.yml` | `validate`-Domain ersetzt durch `gate` |
+
+## Sprint 6 – Ausgeführt 2026-09-14
+
+| Alt | Neu | Grund | Status |
+|---|---|---|---|
+| `13-wave-a-gpu-ci-execution.yml` | `build-wave-a-gpu.yml` | numerischer Prefix entfernt, `pull_request`-Trigger (SOC-Boundary) entfernt | ✅ erledigt |
+| `13-wave-b-transaction-ci-execution.yml` | `build-wave-b-transaction.yml` | numerischer Prefix entfernt, `pull_request`-Trigger entfernt | ✅ erledigt |
+| `13-wave-b-llm-wiki-benchmarks.yml` | `build-wave-b-llm-benchmarks.yml` | numerischer Prefix entfernt, `concurrency:` ergänzt | ✅ erledigt |
+| `sanitizer-nightly.yml` | `build-sanitizer-nightly.yml` | Domain auf `build` normalisiert (name: war bereits korrekt) | ✅ erledigt |
 
 ## Migration-Checkliste (real verdrahtbar)
 

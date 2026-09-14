@@ -61,6 +61,10 @@ permissions:
   actions: read
   pull-requests: write
 
+concurrency:
+  group: release-winget-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
 
   detect-release:
