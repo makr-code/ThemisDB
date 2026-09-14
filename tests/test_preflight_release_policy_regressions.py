@@ -8,6 +8,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
+DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
 
 
 def extract_yaml_job_block(text: str, job_id: str) -> str:
@@ -81,6 +82,14 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             "target_link_libraries(test_ai_safety_chaos PRIVATE themis_llm)",
             ai_safety_chaos_block,
         )
+
+    def test_docs_importer_uses_raw_pointer_for_rocksdb_open(self) -> None:
+        generator_text = DOCS_ROCKSDB_GENERATOR.read_text(encoding="utf-8")
+
+        self.assertIn("DB* raw_db = nullptr;", generator_text)
+        self.assertIn("Status status = DB::Open(options, db_path, &raw_db);", generator_text)
+        self.assertIn("std::unique_ptr<DB> db(raw_db);", generator_text)
+        self.assertNotIn("Status status = DB::Open(options, db_path, &db);", generator_text)
 
 
 if __name__ == "__main__":
