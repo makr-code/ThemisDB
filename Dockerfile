@@ -31,7 +31,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
-        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev \
+        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev glslc \
         gcc-x86-64-linux-gnu g++-x86-64-linux-gnu && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \

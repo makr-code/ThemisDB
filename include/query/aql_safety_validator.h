@@ -56,9 +56,9 @@ namespace query {
  *
  * ### Mutations-allowed mode (EPIC-004)
  * Construct with `ValidationMode::AllowMutations` to disable keyword
- * blocking while retaining injection-pattern checks.  This is intended for
- * contexts where DML is explicitly permitted (e.g. the `aql_mutate` MCP
- * tool).  The default `ReadOnly` mode preserves backward-compatible behaviour.
+ * blocking for DML contexts where mutations are explicitly permitted (e.g.
+ * the `aql_mutate` MCP tool).  The default `ReadOnly` mode preserves
+ * backward-compatible behaviour.
  */
 class AqlSafetyValidator {
 public:
@@ -101,17 +101,17 @@ public:
     [[nodiscard]] std::optional<Violation> validate(std::string_view aql_query) const;
 
     /**
-     * @brief Validate mutation safety even when AllowMutations mode is active.
-     *
-     * Checks injection patterns and unsafe unbounded-update/delete patterns
-     * that are dangerous regardless of whether mutations are permitted:
-     * - Embedded NUL characters (`\\0`) — classic injection vector
-     * - Multi-statement injection patterns (`;  DROP `, `; DELETE `, `; UPDATE `)
-     * - UPDATE or REMOVE without any FILTER/WHERE — could affect entire collection
-     * - Suspiciously large LIMIT values > 100000 that could indicate bulk-delete attacks
-     *
-     * This is called from validate() when mode is AllowMutations so that injection
-     * protection is never fully disabled.
+    * @brief Validate mutation safety heuristics independently of the read-only gate.
+    *
+    * Checks injection patterns and unsafe unbounded-update/delete patterns
+    * that can still be useful to inspect in permissive execution contexts:
+    * - Embedded NUL characters (`\0`) — classic injection vector
+    * - Multi-statement injection patterns (`;  DROP `, `; DELETE `, `; UPDATE `)
+    * - UPDATE or REMOVE without any FILTER/WHERE — could affect entire collection
+    * - Suspiciously large LIMIT values > 100000 that could indicate bulk-delete attacks
+    *
+    * Call this directly when a caller wants heuristic safety feedback while
+    * still allowing DML.
      *
      * @param aql_query  Raw AQL query string to inspect.
      * @return A @c Violation describing the first concern found, or
