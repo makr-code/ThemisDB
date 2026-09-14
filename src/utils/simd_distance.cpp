@@ -40,12 +40,12 @@ namespace themis {
 namespace simd {
 
 // Cache line size constant for prefetching optimization
-constexpr std::size_t CACHE_LINE_SIZE = 64;
+[[maybe_unused]] constexpr std::size_t CACHE_LINE_SIZE = 64;
 
 // Prefetch distance in number of floats to prefetch ahead
 // 64 floats = 256 bytes = 4 cache lines ahead
 // This distance is optimal for hiding memory latency in streaming operations
-constexpr std::size_t PREFETCH_DISTANCE = 64;
+[[maybe_unused]] constexpr std::size_t PREFETCH_DISTANCE = 64;
 
 static inline float scalar_l2_sq(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
@@ -353,7 +353,13 @@ static inline float neon_norm_sq(const float* a, std::size_t dim) {
 }
 #endif // __ARM_NEON || __aarch64__
 
-static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
+#if defined(__GNUC__) || defined(__clang__)
+#define THEMIS_MAYBE_UNUSED_FN [[maybe_unused]] __attribute__((unused))
+#else
+#define THEMIS_MAYBE_UNUSED_FN [[maybe_unused]]
+#endif
+
+THEMIS_MAYBE_UNUSED_FN static inline float scalar_inner_product(const float* a, const float* b, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
       acc += a[i] * b[i];
@@ -361,13 +367,15 @@ static inline float scalar_inner_product(const float* a, const float* b, std::si
     return acc;
 }
 
-static inline float scalar_norm_sq(const float* a, std::size_t dim) {
+THEMIS_MAYBE_UNUSED_FN static inline float scalar_norm_sq(const float* a, std::size_t dim) {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
       acc += a[i] * a[i];
     }
     return acc;
 }
+
+#undef THEMIS_MAYBE_UNUSED_FN
 
 float l2_distance_sq(const float* a, const float* b, std::size_t dim) {
 #if defined(__AVX512F__)

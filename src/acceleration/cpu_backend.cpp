@@ -15,7 +15,6 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#include <limits>
 #include <queue>
 
 #include "acceleration/batch_validator.h"
@@ -198,7 +197,10 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // Dijkstra over dense N×N adjacency / weight matrices.
         // adjacency[u * N + v] != 0  →  edge u→v exists.
         // weights[u * N + v]          →  non-negative edge weight u→v.
-        std::vector<float> dist(numVertices, std::numeric_limits<float>::infinity());
+        // Finite sentinel avoids undefined infinity arithmetic under
+        // -ffinite-math-only / -Ofast style builds.
+        constexpr float kUnreachableDistance = 0x1.fffffep+127f;
+        std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
 
@@ -210,11 +212,15 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             auto [d, u] = pq.top();
             pq.pop();
 
+            // Standard Dijkstra stale-entry guard for duplicate queue inserts.
             if (d > dist[u]) {
                 continue; // stale entry
             }
             if (u == dst) {
                 break; // target reached
+            }
+            if (dist[u] >= kUnreachableDistance) {
+                break;
             }
 
             const uint32_t *adjRow = adjacency + u * N;
@@ -233,7 +239,13 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
                               << v << "; clamped to 0\n";
                 }
                 const float w  = std::max(0.0f, raw_w);
-                const float nd = dist[u] + w;
+                const double nd_d = static_cast<double>(dist[u]) + static_cast<double>(w);
+                // Guard against finite-sentinel overflow: values that would
+                // reach or exceed kUnreachableDistance are treated as invalid.
+                if (nd_d >= static_cast<double>(kUnreachableDistance)) {
+                    continue;
+                }
+                const float nd = static_cast<float>(nd_d);
                 if (nd < dist[v]) {
                     dist[v]   = nd;
                     parent[v] = static_cast<int64_t>(u);
@@ -242,7 +254,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
             }
         }
 
-        if (std::isinf(dist[dst])) {
+        // src/dst were range-validated against N before Dijkstra starts.
+        if (dist[dst] >= kUnreachableDistance) {
             continue; // no path
         }
 

@@ -343,7 +343,7 @@ std::string AQLConversationContext::refine(const std::string &instruction) {
     }
     {
         std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
-        if (impl_->last_query_.empty()) {
+        if (impl_->turn_count_ == 0) {
             throw std::logic_error("AQLConversationContext::refine: call start() before refine()");
         }
     }

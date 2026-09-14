@@ -96,6 +96,11 @@ double gpuThroughputUnitsPerMs(KernelType kernel, DeviceType device) {
     return base * device_factor;
 }
 
+/**
+ * @brief Returns per-device GPU launch overhead in milliseconds.
+ * @return Launch overhead for known GPU-capable devices, or std::nullopt when
+ *         the device type is unknown/unsupported for GPU profiling.
+ */
 std::optional<double> gpuLaunchOverheadMs(DeviceType device) {
     switch (device) {
         case DeviceType::kNVIDIA_RTX:

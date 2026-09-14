@@ -85,29 +85,23 @@ public:
 
     AddTurnResult addTurn(const std::string& nl_query, const std::string& aql_result) {
         uint32_t turn_tokens = nl_query.length() / 4 + aql_result.length() / 4;
+        uint32_t evicted = 0;
+
+        while (current_tokens_ + turn_tokens > max_tokens_ && !turns_.empty()) {
+            current_tokens_ -= turns_.front().token_count;
+            turns_.erase(turns_.begin());
+            evicted++;
+        }
 
         if (current_tokens_ + turn_tokens > max_tokens_) {
-            // Need to evict turns
-            uint32_t tokens_needed = (current_tokens_ + turn_tokens) - max_tokens_;
-            uint32_t evicted = 0;
-
-            while (tokens_needed > 0 && !turns_.empty()) {
-                tokens_needed -= turns_.front().token_count;
-                current_tokens_ -= turns_.front().token_count;
-                turns_.erase(turns_.begin());
-                evicted++;
-            }
-
-            if (tokens_needed > 0) {
-                return {false, "Cannot fit turn even after evicting all history", evicted};
-            }
+            return {false, "Cannot fit turn even after evicting all history", evicted};
         }
 
         ConversationTurn turn = {nl_query, aql_result, turn_tokens};
         turns_.push_back(turn);
         current_tokens_ += turn_tokens;
 
-        return {true, "", 0};
+        return {true, "", evicted};
     }
 
     const std::vector<ConversationTurn>& getTurns() const { return turns_; }

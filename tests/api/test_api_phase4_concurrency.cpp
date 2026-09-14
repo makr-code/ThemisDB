@@ -487,10 +487,10 @@ TEST(Phase4TaxonomyTest, ClientVsServerErrorClassification)
         FC::ContentTypeMismatch,
         FC::Unauthorized,
         FC::RateLimitExceeded,
-        FC::CapabilityUnavailable,
     };
 
     const FC server_errors[] = {
+        FC::CapabilityUnavailable,
         FC::InternalError,
     };
 

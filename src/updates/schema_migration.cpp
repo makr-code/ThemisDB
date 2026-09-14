@@ -160,7 +160,7 @@ public:
             advance_to_valid();
         }
 
-        bool        valid() const override { return static_cast<bool>(pos_ < keys_.size()); }
+        bool        valid() const override { return pos_ < keys_.size(); }
         std::string key()   const override { return valid() ? keys_[pos_] : ""; }
         std::string value() const override
         {

@@ -541,6 +541,9 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
+    if (record_added) {
+        ++records_ingested_;
+    }
     return record_added;
 }
 
@@ -868,6 +871,9 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
         }
+    }
+    if (record_added) {
+        ++records_ingested_;
     }
     return record_added;
 }
@@ -1343,6 +1349,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
     bool record_added = false;
+    bool record_accepted = true;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
@@ -1366,7 +1373,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             hop_key_rejected = true;
-            record_added = false;
+            record_accepted = false;
             spdlog::debug("HoppingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
                           config_.max_distinct_partition_keys, record.partition_key);
         } else if (!record.partition_key.empty()) {
@@ -1374,7 +1381,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         }
 
         if (!hop_key_rejected) {
-        ensureWindowsExist(record.event_time);
+            ensureWindowsExist(record.event_time);
 
         for (auto &w : windows_) {
             if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
@@ -1388,7 +1395,6 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
                     added_to_window = true;
                 }
             }
-        }
 
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
@@ -1409,7 +1415,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return record_added;
+    return record_accepted;
 }
 
 void HoppingWindow::flush() {

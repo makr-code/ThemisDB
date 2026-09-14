@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-09-07
+Datum: 2026-09-14
 Status: Active
 
 ## Summary
 
-- Added: 7718
+- Added: 7731
 - Removed: 0
 - Changed: 0
 
@@ -30,12 +30,14 @@ Status: Active
 - .github/workflows/gate-distributed-knowledge.yml
 - .github/workflows/gate-pr-community-failclosed.yml
 - .github/workflows/gate-pr-core.yml
+- .github/workflows/gate-pr-doc-metadata.yml
 - .github/workflows/gate-pr-doxygen-governance.yml
 - .github/workflows/gate-pr-edition-license.yml
 - .github/workflows/gate-pr-hash-sbom.yml
 - .github/workflows/gate-pr-plugin-boundary.yml
 - .github/workflows/gate-pr-version-targeting.yml
 - .github/workflows/maintenance-ai-working.yml
+- .github/workflows/maintenance-architecture-ci.yml
 - .github/workflows/maintenance-build-issues.yml
 - .github/workflows/maintenance-ci-health.yml
 - .github/workflows/maintenance-docs-db-build.yml
@@ -209,9 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_E_SPEC.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_COMPLETION_REPORT.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_INVESTIGATION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_SPEC.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PROGRESS.md
-- ... truncated (7518 more)
+- ... truncated (7531 more)
 
 ## Removed
 

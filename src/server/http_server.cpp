@@ -14,14 +14,14 @@
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-#endif
+#endif // WIN32_LEAN_AND_MEAN
 #ifndef NOMINMAX
 #define NOMINMAX
-#endif
+#endif // NOMINMAX
 #include <winsock2.h>
 #include <stdexcept>
 #include <windows.h>
-#endif
+#endif // _WIN32
 
 // OpenSSL headers for TLS/SSL support
 #include <openssl/ssl.h>
@@ -33,7 +33,7 @@
 // Windows macros undefine - MUST be before any includes
 #ifdef ERROR
 #undef ERROR
-#endif
+#endif // ERROR
 
 // Include full definitions BEFORE http_server.h to avoid incomplete types
 #include "storage/rocksdb_wrapper.h"
@@ -126,7 +126,7 @@
 #include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
-#endif
+#endif // !_WIN32
 
 // Portable wrappers for tm <-> time_t conversions
 static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
@@ -134,7 +134,7 @@ static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
     return _mkgmtime(const_cast<std::tm*>(tmin));
 #else
     return timegm(const_cast<std::tm*>(tmin));
-#endif
+#endif // _WIN32
 }
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
@@ -4906,6 +4906,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+#ifdef THEMIS_PLUGIN_SCRAPER
     // Route: Scraper Plugin API (/scraper/*)
     {
         const auto& p = path_only;
@@ -4924,6 +4925,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
+#endif
 
 #ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     // Route: Encrypted Storage API (/user/storage/encrypted/*)

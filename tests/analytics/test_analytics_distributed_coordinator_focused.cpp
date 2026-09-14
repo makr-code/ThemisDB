@@ -255,8 +255,8 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    // Try to exceed queue capacity with slow shard.
-    // Calls execute synchronously, so they should all succeed here.
+    // Try to exceed queue capacity with a slow shard while verifying the
+    // current synchronous execution path.
     int success_count = 0;
     for (int i = 0; i < 10; ++i) {
         try {
@@ -269,7 +269,8 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
         }
     }
 
-    // All requests complete on the synchronous path.
+    // executeDistributed() is synchronous in this focused test fixture, so all
+    // invocations complete instead of saturating an async queue.
     EXPECT_GT(success_count, 0);
     EXPECT_EQ(success_count, 10);
 }
@@ -463,7 +464,8 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
 }
 
 TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
-    // Test: Consecutive failure counter increments on each failure
+    // Test: Consecutive failure counter increments on each failure and is
+    // reported via shard diagnostics rather than exceptions.
     executor->mode = MockShardExecutor::Mode::FAILURE;
 
     themis::analytics::OLAPQuery query;

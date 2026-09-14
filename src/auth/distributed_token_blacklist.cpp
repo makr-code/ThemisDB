@@ -8,7 +8,8 @@
 
 #include "auth/distributed_token_blacklist.h"
 #include "auth/auth_error.h"
-#include <memory>
+#include "auth/rocksdb_open_compat.h"
+
 #include <stdexcept>
 #include <chrono>
 #include <thread>

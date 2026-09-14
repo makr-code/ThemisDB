@@ -14,22 +14,34 @@ ARG LLAMA_CPP_REF=1e8924fd65ad349d1d838412a2172292618f3bbf
 
 FROM ubuntu:24.04 AS base
 
+ARG TARGETARCH
+
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
+    CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
     VCPKG_ROOT=/opt/vcpkg \
     VCPKG_FORCE_SYSTEM_BINARIES=1 \
     VCPKG_DISABLE_METRICS=1 \
     VCPKG_DOWNLOADS=/opt/vcpkg/downloads \
     VCPKG_ALLOWED_DOWNLOADER_TOOLS=aria2 \
-    VCPKG_USE_ARIA2=ON
+    VCPKG_USE_ARIA2=ON \
+    VCPKG_BUILD_TYPE=release \
+    VCPKG_MAX_CONCURRENCY=4
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    set -eux; \
+    EXTRA_COMPILERS=""; \
+    if [ "${TARGETARCH}" = "amd64" ]; then \
+        EXTRA_COMPILERS="gcc-x86-64-linux-gnu g++-x86-64-linux-gnu"; \
+    fi; \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
-        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev && \
+        aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev glslc \
+        ${EXTRA_COMPILERS} && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \
@@ -61,12 +73,13 @@ RUN set -eux; \
         *) echo "ERROR: Unsupported arch ${TARGETARCH}"; exit 1 ;; \
     esac
 
-RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
-    --mount=type=cache,target=/root/.cache,sharing=locked \
+RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-buildtrees-${TARGETARCH},target=/opt/vcpkg/buildtrees,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-packages-${TARGETARCH},target=/opt/vcpkg/packages,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-root-cache-${TARGETARCH},target=/root/.cache,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    find /opt/vcpkg/downloads -name '*.part' -delete || true; \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
     ${VCPKG_ROOT}/vcpkg install \
         --triplet="${TRIPLET}" \
@@ -94,7 +107,7 @@ RUN if [ "${ENABLE_LLM}" = "ON" ]; then \
             -DLLAMA_BUILD_EXAMPLES=OFF \
             -DLLAMA_BUILD_SERVER=OFF \
             -DLLAMA_BUILD_SHARED_LIB=ON \
-            -DLLAMA_NATIVE=OFF && \
+            -DGGML_NATIVE=OFF && \
         cmake --build build --parallel $(nproc); \
     else \
         mkdir -p /opt/llama.cpp/build/bin; \
@@ -125,9 +138,9 @@ COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 
-RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
-    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
+RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-buildtrees-${TARGETARCH},target=/opt/vcpkg/buildtrees,sharing=locked \
+    --mount=type=cache,id=themis-vcpkg-packages-${TARGETARCH},target=/opt/vcpkg/packages,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \

@@ -11,6 +11,7 @@
 
 
 #include "auth/rocksdb_token_blacklist.h"
+#include "auth/rocksdb_open_compat.h"
 
 #include <chrono>
 #include <cstring>

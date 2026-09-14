@@ -54,7 +54,7 @@ namespace themis {
 namespace build_info {
 
 // ============================================================================
-// HSM MODULE STATUS BRIDGE – storage (STUB #95)
+// HSM MODULE STATUS BRIDGE – storage (legacy issue #95 context)
 // ============================================================================
 // Defined before getBuildConfiguration() so the #else HSM branch can call it.
 
@@ -570,8 +570,9 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
-    // STUB #95: Consult the runtime bridge when available so the server can
-    // report the actual HSM KEK state (stub vs. injected hardware backend).
+    // Legacy issue #95 context: consult the runtime bridge when available so
+    // the server can report the actual HSM KEK state
+    // (stub vs. injected hardware backend).
     // Default (no bridge set): report not-compiled-in with stub annotation.
     {
         bool is_real_hsm = false;
@@ -1071,4 +1072,3 @@ void clearHsmModuleStatusFn() {
 
 } // namespace build_info
 } // namespace themis
-

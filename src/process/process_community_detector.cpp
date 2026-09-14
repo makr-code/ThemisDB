@@ -347,10 +347,10 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         communities.push_back(std::move(pc));
     }
 
-    // Sort by size descending
+    // Sort by size ascending
     std::sort(communities.begin(), communities.end(),
               [](const ProcessCommunity& a, const ProcessCommunity& b) {
-                  return a.node_ids.size() > b.node_ids.size();
+                  return a.node_ids.size() < b.node_ids.size();
               });
 
     THEMIS_INFO("ProcessCommunityDetector: detected {} communities for model '{}'",

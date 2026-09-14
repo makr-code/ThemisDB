@@ -113,9 +113,22 @@ GraphFingerprintDetector::detect(const GraphSnapshot &suspect,
     }
 
     std::optional<FingerprintMatch> best;
+    const std::unordered_set<std::string> suspect_nodes(suspect.node_ids.begin(), suspect.node_ids.end());
 
     for (const auto &fp : fingerprints) {
-        const double sim = jaccard(suspect.node_ids, fp.watermark_node_ids);
+        if (fp.watermark_node_ids.empty()) {
+            continue;
+        }
+
+        size_t matched_nodes = 0;
+        for (const auto &node_id : fp.watermark_node_ids) {
+            if (suspect_nodes.count(node_id) > 0) {
+                ++matched_nodes;
+            }
+        }
+
+        const double sim = static_cast<double>(matched_nodes)
+                           / static_cast<double>(fp.watermark_node_ids.size());
         if (sim >= kMatchThreshold) {
             if (!best.has_value() || sim > best->confidence) {
                 best = FingerprintMatch{fp.tenant_id, sim};

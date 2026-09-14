@@ -45,8 +45,12 @@ public:
 
     /// Detect injection patterns
     static bool hasInjectionPattern(const std::string& aql) {
-        // Simple detection for test purposes
-        if (aql.find("'; DROP TABLE") != std::string::npos ||
+        // Detect the actual SQL injection shapes used in the AQL validation tests,
+        // including semicolon-delimited DROP TABLE payloads and classic boolean
+        // injection patterns.
+        if (aql.find("DROP TABLE") != std::string::npos ||
+            aql.find("; DROP TABLE") != std::string::npos ||
+            aql.find("'; DROP TABLE") != std::string::npos ||
             aql.find("UNION SELECT") != std::string::npos ||
             aql.find("1=1") != std::string::npos) {
             return true;

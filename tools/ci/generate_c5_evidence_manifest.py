@@ -70,7 +70,7 @@ def main() -> int:
     parser.add_argument("--workflow", required=True)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--ref", required=True)
-    parser.add_argument("--scope", default="c5-2026-delta")
+    parser.add_argument("--scope", default="bsi-c5-2026-delta")
     parser.add_argument(
         "--control",
         action="append",

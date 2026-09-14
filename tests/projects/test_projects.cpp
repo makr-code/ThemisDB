@@ -299,7 +299,7 @@ TEST_F(ProjectsTest, PL02_ActivateTransitionsCreatedToActive) {
 TEST_F(ProjectsTest, PL03_ArchiveTransitionsActiveToArchived) {
     ProjectLifecycle pl(storage_);
     pl.initProject("lc-proj-3");
-    pl.activate("lc-proj-3");
+    pl.activate("lc-proj-3", "admin");
     auto s = pl.archive("lc-proj-3", "admin", "quarterly cleanup");
     EXPECT_TRUE(s.ok) << s.message;
     EXPECT_EQ(pl.getState("lc-proj-3").value(), ProjectState::ARCHIVED);
@@ -308,7 +308,7 @@ TEST_F(ProjectsTest, PL03_ArchiveTransitionsActiveToArchived) {
 TEST_F(ProjectsTest, PL04_DeleteProjectTransitionsToDeleted) {
     ProjectLifecycle pl(storage_);
     pl.initProject("lc-proj-4");
-    pl.activate("lc-proj-4");
+    pl.activate("lc-proj-4", "admin");
     auto s = pl.deleteProject("lc-proj-4", "admin");
     EXPECT_TRUE(s.ok) << s.message;
     EXPECT_EQ(pl.getState("lc-proj-4").value(), ProjectState::DELETED);
@@ -317,7 +317,7 @@ TEST_F(ProjectsTest, PL04_DeleteProjectTransitionsToDeleted) {
 TEST_F(ProjectsTest, PL05_DeletedIsTerminalState) {
     ProjectLifecycle pl(storage_);
     pl.initProject("lc-proj-5");
-    pl.activate("lc-proj-5");
+    pl.activate("lc-proj-5", "admin");
     pl.deleteProject("lc-proj-5");
 
     auto s = pl.activate("lc-proj-5");

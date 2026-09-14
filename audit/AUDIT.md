@@ -1,6 +1,9 @@
 # ThemisDB — Security & Compliance Audit Record
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-13  
 **Last Updated:** 2026-09-13  
+**Status:** active  
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence

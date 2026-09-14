@@ -526,7 +526,7 @@ TEST(WaveDOperatorHintTest, OperatorHints_Unauthorized_ContainsErrCode)
 /**
  * @test OperatorHints_RateLimit_ContainsErrCode
  *
- * A rate-limit rejection must produce ERR_API_RATE_LIMITED with guidance on
+ * A rate-limit rejection must produce ERR_API_RATE_LIMIT with guidance on
  * how to resolve the issue (reduce rate or contact support).
  *
  * Roadmap reference: Wave D — "operator remediation hints in diagnostic messages"
@@ -542,7 +542,7 @@ TEST(WaveDOperatorHintTest, OperatorHints_RateLimit_ContainsErrCode)
 
     auto result = adapter->handle(req);
     ASSERT_FALSE(result.has_value());
-    EXPECT_THAT(result.error().message(), HasSubstr("ERR_API_RATE_LIMITED"));
+    EXPECT_THAT(result.error().message(), HasSubstr("ERR_API_RATE_LIMIT"));
     EXPECT_THAT(result.error().message(), HasSubstr("quota"))
         << "Rate-limit error must mention quota";
 }
@@ -600,7 +600,7 @@ TEST(WaveDOperatorHintTest, OperatorHints_AllErrorsUseOStreamNotConcat)
     const std::vector<Case> cases = {
         {"invalid_request",  "",      "/x",          "",                  "ERR_API_INVALID_REQUEST"},
         {"unauthorized",     "GET",   "/api/v1/x",   "X-Fail-Auth",       "ERR_API_UNAUTHORIZED"},
-        {"rate_limited",     "POST",  "/api/v1/q",   "X-Fail-RateLimit",  "ERR_API_RATE_LIMITED"},
+        {"rate_limited",     "POST",  "/api/v1/q",   "X-Fail-RateLimit",  "ERR_API_RATE_LIMIT"},
         {"otlp_failed",      "GET",   "/api/v1/t",   "X-Fail-Otlp",       "ERR_OTLP_EXPORT_FAILED"},
     };
 

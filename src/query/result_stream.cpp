@@ -58,7 +58,7 @@ ResultStream<T>::ResultStream(
 template<typename T>
 bool ResultStream<T>::hasNext() const {
     if (is_materialized_) {
-        return static_cast<bool>(cursor_.offset < materialized_data_.size());
+        return cursor_.offset < materialized_data_.size();
     }
     
     // Check if we have buffered data

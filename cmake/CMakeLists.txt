@@ -1449,12 +1449,11 @@ endfunction()
 # RocksDB requires zstd::zstd target, so we need to ensure it exists before finding RocksDB
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
-    pkg_check_modules(ZSTD_PKG QUIET libzstd)
+    pkg_check_modules(ZSTD_PKG QUIET IMPORTED_TARGET libzstd)
     if(ZSTD_PKG_FOUND AND NOT TARGET zstd::zstd)
         add_library(zstd::zstd INTERFACE IMPORTED)
         set_target_properties(zstd::zstd PROPERTIES
-            INTERFACE_INCLUDE_DIRECTORIES "${ZSTD_PKG_INCLUDE_DIRS}"
-            INTERFACE_LINK_LIBRARIES "${ZSTD_PKG_LIBRARIES}")
+            INTERFACE_LINK_LIBRARIES PkgConfig::ZSTD_PKG)
         message(STATUS "Created zstd::zstd target from pkg-config")
     endif()
 endif()
@@ -2025,6 +2024,7 @@ set(THEMIS_CORE_SOURCES
     # Distributed Tensor Retrieval (EPIC 3)
     ../src/tensor/tensor_summary_types.cpp
     ../src/tensor/compression_strategy.cpp
+    ../src/graph/tensor_fingerprint_graph.cpp
     ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp
@@ -5411,6 +5411,20 @@ target_link_libraries(themis_server
     PRIVATE
         themis_core
 )
+
+if(TARGET ZLIB::ZLIB)
+    # Resolve deflate/inflate symbols referenced by shared modules.
+    target_link_libraries(themis_server PRIVATE ZLIB::ZLIB)
+elseif(ZLIB_LIBRARY)
+    target_link_libraries(themis_server PRIVATE ${ZLIB_LIBRARY})
+endif()
+
+if(UNIX AND NOT APPLE)
+    # Some toolchains only provide zlib as plain -lz and can drop it via
+    # --as-needed when only shared-module references exist.
+    target_link_options(themis_server PRIVATE -Wl,--no-as-needed)
+    target_link_libraries(themis_server PRIVATE z)
+endif()
 
 if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted)
     # Keep server link closure explicit for symbols referenced by

@@ -267,7 +267,7 @@ private:
     
     char peek(size_t offset = 0) const {
         size_t p = pos_ + offset;
-        return static_cast<bool>((p < input_.size())) ? input_[p] : '\0';
+        return p < input_.size() ? input_[p] : '\0';
     }
     
     char advance() {
@@ -683,20 +683,20 @@ private:
     ParserScopeContext scope_context_;
     
     const Token& current() const {
-        static const Token kEmptyToken{};
+        static const Token kEmptyToken{TokenType::END_OF_FILE, "", 0, 0};
         if (tokens_.empty()) {
             return kEmptyToken;
         }
-        return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
+        return pos_ < tokens_.size() ? tokens_[pos_] : tokens_.back();
     }
     
     const Token& peek(size_t offset = 1) const {
-        static const Token kEmptyToken{};
+        static const Token kEmptyToken{TokenType::END_OF_FILE, "", 0, 0};
         if (tokens_.empty()) {
             return kEmptyToken;
         }
         size_t p = pos_ + offset;
-        return (p < tokens_.size()) ? tokens_[p] : tokens_.back();
+        return p < tokens_.size() ? tokens_[p] : tokens_.back();
     }
     
     void advance() {
@@ -1409,6 +1409,12 @@ private:
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::In, left, right);
+        }
+
+        if (match(TokenType::ASSIGN)) {
+            advance();
+            auto right = parseAdditive();
+            return std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, left, right);
         }
         
         if (match(TokenType::EQ) || match(TokenType::ASSIGN)) {

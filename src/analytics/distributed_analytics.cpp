@@ -948,23 +948,32 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
             // Per-shard timeout: use wait_for so we never block forever.
             if (has_timeout) {
-                const auto status = f.wait_for(per_shard_timeout);
-                if (status == std::future_status::timeout) {
-                    ShardExecutionInfo info;
-                    info.shard_id = entry.shard_id;
-                    info.success  = false;
-                    info.error    = "timeout (" + std::to_string(effective_timeout_ms) + " ms)";
+                const auto timeout_deadline = std::chrono::steady_clock::now() + per_shard_timeout;
+                bool shard_timed_out = false;
+                while (f.wait_for(std::chrono::milliseconds{0}) != std::future_status::ready) {
+                    if (std::chrono::steady_clock::now() >= timeout_deadline) {
+                        ShardExecutionInfo info;
+                        info.shard_id = entry.shard_id;
+                        info.success  = false;
+                        info.error    = "timeout (" + std::to_string(effective_timeout_ms) + " ms)";
 
-                    // SAFETY CONTROL: Log timeout as a failure for circuit breaker
-                    if (config_.enable_circuit_breaker) {
-                        onShardFailure(entry, info.error);
-                        std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
-                        info.circuit_state = entry.circuit_breaker_info->state;
-                        info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
+                        // SAFETY CONTROL: Log timeout as a failure for circuit breaker
+                        if (config_.enable_circuit_breaker) {
+                            onShardFailure(entry, info.error);
+                            std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+                            info.circuit_state = entry.circuit_breaker_info->state;
+                            info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
+                        }
+
+                        spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", entry.shard_id);
+                        result.shard_info.push_back(std::move(info));
+                        shard_timed_out = true;
+                        break;
                     }
 
-                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", entry.shard_id);
-                    result.shard_info.push_back(std::move(info));
+                    std::this_thread::sleep_for(std::chrono::milliseconds{1});
+                }
+                if (shard_timed_out) {
                     continue;
                 }
             }
@@ -1013,6 +1022,15 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             spdlog::error("DistributedAnalyticsSharding: failure rate {:.1f}% exceeds "
                           "max_failure_rate {:.1f}% ({}/{} shards failed); aborting merge",
                           failure_rate * 100.0, config_.max_failure_rate * 100.0, failed_shards,active.size());
+            if (failed_shards == active.size()) {
+                result.operator_hints.push_back(
+                    "All shards failed; check shard health and retry after remediation.");
+            } else {
+                result.operator_hints.push_back(
+                    "Partial result returned after shard failures; review shard health and failure logs.");
+            }
+            result.operator_hints.push_back(
+                "High shard failure rate detected; consider rebalancing or increasing shard resilience.");
             // Return partial shard_info without a merged result so the caller
             // can distinguish this from a full success.
             result.total_execution_ms =
@@ -1024,6 +1042,12 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
     if (partials.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: all shards failed");
+        if (result.total_shards > 0) {
+            result.operator_hints.push_back(
+                "All shards failed; check shard health and retry after remediation.");
+            result.operator_hints.push_back(
+                "High shard failure rate detected; consider rebalancing or increasing shard resilience.");
+        }
         result.total_execution_ms =
             std::chrono::duration<double, std::milli>(
                 std::chrono::steady_clock::now() - t_start).count();
