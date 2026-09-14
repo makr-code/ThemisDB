@@ -625,7 +625,7 @@ jobs:
             --evidence "artifacts_archive=transaction-ci-results.zip" \
             --evidence "chaos_recovery=transaction-chaos-recovery-evidence" \
             --evidence "phase4_baseline=transaction-phase4-benchmark" \
-            --evidence "ci_report=CI_REPORT.md" \
+            --evidence "ci_report=CI-Report" \
             --source-validation "code=${CODE_VALIDATED}" \
             --source-validation "tests=${TESTS_VALIDATED}" \
             --source-validation "ci=${CI_VALIDATED}" \
