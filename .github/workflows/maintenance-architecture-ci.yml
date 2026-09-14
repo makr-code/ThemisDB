@@ -123,9 +123,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          EXISTING=$(gh pr list --base develop --author "github-actions[bot]" \
-            --search "chore(architecture): regenerate architecture model" \
-            --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+          EXISTING=$(gh pr list --base develop \
+            --head "chore/update-architecture-model-" \
+            --state open --json number --jq 'first(.[] | .number) // empty' 2>/dev/null || echo "")
           if [ -n "$EXISTING" ]; then
             echo "::notice::Open architecture PR #$EXISTING already exists — skipping PR creation"
             exit 0
