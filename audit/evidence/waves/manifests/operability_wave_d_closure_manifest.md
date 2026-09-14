@@ -1,3 +1,9 @@
+---
+Author: ThemisDB CI Automation
+Created: 2026-09-14
+Last Updated: 2026-09-14
+Status: active
+---
 # Wave D Closure Package — operability
 
 - Timestamp: 2026-09-14T19:35:00Z
