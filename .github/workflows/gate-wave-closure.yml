@@ -1,4 +1,4 @@
-name: "Wave Closure Governance"
+name: "Gate: Wave Closure Governance"
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
       - "audit/evidence/waves/**"
       - "tools/ci/validate_wave_closure_packages.py"
       - "tests/test_wave_closure_packages.py"
-      - ".github/workflows/14-wave-closure-governance.yml"
+      - ".github/workflows/gate-wave-closure.yml"
   pull_request:
     branches:
       - develop
@@ -17,7 +17,7 @@ on:
       - "audit/evidence/waves/**"
       - "tools/ci/validate_wave_closure_packages.py"
       - "tests/test_wave_closure_packages.py"
-      - ".github/workflows/14-wave-closure-governance.yml"
+      - ".github/workflows/gate-wave-closure.yml"
 
 permissions:
   contents: read

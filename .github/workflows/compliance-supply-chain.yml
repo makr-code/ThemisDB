@@ -31,22 +31,8 @@ on:
       - 'Dockerfile'
       - 'scripts/verify-sbom.sh'
       - 'scripts/verify-vcpkg-baseline-signature.sh'
-  push:
-    branches:
-      - develop
-      - minimal
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-    tags:
-      - 'v*.*.*'
-    paths:
-      - 'vcpkg.json'
-      - '.license-policy.json'
-      - 'CMakeLists.txt'
-      - 'Dockerfile'
-      - 'scripts/verify-sbom.sh'
+  # push trigger removed: pull_request covers branch changes; release covers tag events.
+  # Double-fire (push-to-branch + pull_request-open) prevented by removal.
   release:
     types: [published]
   schedule:
@@ -271,7 +257,6 @@ jobs:
     timeout-minutes: 10
     if: >
       always() && (
-        github.event_name == 'push' ||
         github.event_name == 'release' ||
         startsWith(github.ref, 'refs/tags/v') ||
         github.event_name == 'workflow_dispatch'

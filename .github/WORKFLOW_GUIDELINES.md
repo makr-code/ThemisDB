@@ -97,6 +97,14 @@ Kernliste der aktiven Workflows:
 - `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
 - Berechtigungen minimal halten (`permissions` least privilege).
 - Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
+- **Schedule-Frequenz-Regel (Sprint 8)**: Nicht-Nightly `schedule`-Workflows sind auf maximal 2× wöchentlich begrenzt.
+  Nightly-Workflows (täglich) sind nur für echte Nightly-Builds/Sanitizer/Sicherheitsläufe zulässig.
+  Maintenance-Workflows (Labels, Milestones, Housekeeping) laufen maximal wöchentlich.
+  Mehrere täglich laufende Crons in einem Workflow sind nicht zulässig; Konsolidierung auf wöchentliche Granularität erzwingen.
+- **Schedule-Staffelung**: Schedules müssen über das 24h-Fenster gestaffelt sein, um Runner-Contention zu vermeiden.
+  Referenz-Staffelung: Nightly 01:00 (wiki), 02:20 (sanitizer), 03:00 (llm/release-mainline), 04:00 (release-nightly), 05:30 (maintenance).
+- **Push-vs-PR-Doppelfeuer vermeiden**: Wenn ein Workflow sowohl `push:` (auf Branches) als auch `pull_request:` hat,
+  feuert er doppelt für denselben Commit. Entweder `push:` oder `pull_request:` verwenden, nicht beide für Branch-Events.
 - Copilot-Review-Runner-Konfigurationen muessen als selbstbegrenzte Workflows
   mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
   `runs-on` deklariert werden.

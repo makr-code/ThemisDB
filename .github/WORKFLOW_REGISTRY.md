@@ -63,10 +63,6 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-issues.yml`
   — Konsolidiertes Issue-Maintenance: GS3-Gap-Triage (03:30 UTC) + Security-Alert-SLA-Triage (05:30 UTC); ersetzt maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
-- `.github/workflows/maintenance-issue-recommendations.yml`
-  — Recommend-only Issue Triage; kommentiert offene Issues mit merged-PR-Evidenz und bleibt bewusst non-destructive
-- `.github/workflows/maintenance-milestones.yml`
-  — Milestone-Governance: synchronisiert kanonische Milestones aus `.github/milestones.yml` und weist Issues/PRs automatisch anhand von Labels bzw. `Target Version` zu (inkl. HOTPATCH/LONG-TERM)
 - `.github/workflows/release-docker-image.yml`
   — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit release-mainline.yml)
 - `.github/workflows/edition-hyperscaler-ci.yml`
@@ -75,6 +71,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Community Automation (Labeling/Onboarding)
 - `.github/workflows/build-ollama-router.yml`
   — Scoped CI fuer `tools/copilot-ollama-router/**`
+- `.github/workflows/gate-wave-closure.yml`
+  — Gate: Wave A→D closure package validation; push+PR on audit/evidence/waves/** and tools/ci/validate_wave_closure_packages.py; dispatch
 - `.github/workflows/gate-copilot-regression.yml`
   — Copilot/CMake-Regression Guard
 - `.github/workflows/copilot-code-review.yml`
@@ -107,10 +105,10 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — PR gate: Target Version field and milestone assignment validation; PR-only (opened/edited/synchronize)
 - `.github/workflows/maintenance-ai-working.yml`
   — AI Working cleanup (LLM Wiki stale files); schedule + push + dispatch
+- `.github/workflows/maintenance-housekeeping.yml`
+  — Weekly housekeeping (replaces maintenance-labels + maintenance-milestones + maintenance-issue-recommendations): label sync, milestone sync+assignment, issue closure recommendations; schedule Monday + push + issues/PR-target + dispatch
 - `.github/workflows/maintenance-build-issues.yml`
   — Build error issue tracking; workflow_run + schedule + dispatch
-- `.github/workflows/maintenance-labels.yml`
-  — Label sync from .github/labels.yml; schedule + push + dispatch
 - `.github/workflows/maintenance-pr-failure-diagnosis.yml`
   — PR failure diagnosis (recommend-only, non-destructive); workflow_run + dispatch
 - `.github/workflows/maintenance-workflow-guardrails-observe.yml`
@@ -182,12 +180,13 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 56
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 55
 - Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
 - Naming-Migration Sprint 6 (2026-09-14): 13-wave-* und sanitizer-nightly.yml auf kanonisches Schema umbenannt; pull_request-Boundary-Verletzungen entfernt; fehlende concurrency-Blöcke ergänzt; name:-Felder normalisiert.
 - Sprint 7 (2026-09-14): build-widget.yml real WinGet E2E-Pipeline implementiert; release-publish.yml als Duplikat nach no_workflows/ deaktiviert.
+- Sprint 8 (2026-09-14): 14-wave-closure-governance→gate-wave-closure umbenannt; build-benchmarks 4→1 cron; maintenance-{labels,milestones,issue-recommendations}→maintenance-housekeeping konsolidiert; maintenance-issues 3→2 crons; publish-wiki+release-nightly schedules gestaffelt; compliance-supply-chain push-Trigger entfernt.
 
 ## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
 
@@ -211,3 +210,10 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | concurrency hinzugefügt | security-fuzzing.yml, build-content-regression.yml | cancel-in-progress guard | 6 |
 | Implementiert (E2E) | build-widget.yml | WinGet manifest gen + winget validate + fork-PR via gh CLI (dry_run=true default) | 7 |
 | Deaktiviert (Duplikat) | release-publish.yml | no_workflows/ (doppelter Tag-Trigger; release-mainline.yml ist kanonisch) | 7 |
+| Umbenannt + name: Fix | 14-wave-closure-governance.yml | gate-wave-closure.yml ("Gate: Wave Closure Governance") | 8 |
+| Cron-Reduktion | build-benchmarks.yml | 4 tägliche/wöchentliche Crons → 1 Sunday 03:00 UTC | 8 |
+| Konsolidiert (3→1) | maintenance-labels + maintenance-milestones + maintenance-issue-recommendations | maintenance-housekeeping.yml | 8 |
+| Cron-Reduktion | maintenance-issues.yml | 3 Crons (2× täglich + 1× wöchentlich) → 2× wöchentlich Di+Do 04:00 | 8 |
+| Schedule-Staffelung | publish-wiki.yml | 03:00 UTC → 01:00 UTC (weg vom 03:00 Cluster) | 8 |
+| Schedule-Staffelung | release-nightly.yml | 03:30 UTC → 04:00 UTC (weg vom 03:00 Cluster) | 8 |
+| Push-Trigger entfernt | compliance-supply-chain.yml | push: branches+tags entfernt; pull_request+release reichen (kein Doppelfeuer) | 8 |

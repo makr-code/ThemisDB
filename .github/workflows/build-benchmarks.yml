@@ -15,10 +15,7 @@ on:
   # push and pull_request triggers removed to avoid blocking PRs with slow, resource-
   # intensive jobs on self-hosted runners. Nightly schedule provides sufficient signal.
   schedule:
-    - cron: '0 2 * * *'     # Nightly 02:00 UTC — full module sweep
-    - cron: '0 3 * * 6'     # Weekly Saturday 03:00 UTC — GPU matrix
-    - cron: '0 4 * * *'     # Nightly 04:00 UTC — Wave D observability gates (Phase 2A-2C)
-    - cron: '0 5 * * 0'     # Weekly Sunday 05:00 UTC — Wave D soak tests (48h endurance)
+    - cron: '0 3 * * 0'     # Weekly Sunday 03:00 UTC — full benchmark sweep (GPU + nightly + soak)
   workflow_dispatch:
     inputs:
       backend_filter:

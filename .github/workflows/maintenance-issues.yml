@@ -20,9 +20,8 @@ env:
 
 on:
   schedule:
-    - cron: '30 3 * * *'   # Daily 03:30 UTC — GS3 gap triage
-    - cron: '30 5 * * *'   # Daily 05:30 UTC — Security alert SLA triage
-    - cron: '30 2 * * 3'   # Weekly Wednesday 02:30 UTC — Doxygen header update
+    - cron: '0 4 * * 2'    # Weekly Tuesday 04:00 UTC — GS3 gap triage + Doxygen header update
+    - cron: '0 4 * * 4'    # Weekly Thursday 04:00 UTC — Security alert SLA triage
   workflow_dispatch:
     inputs:
       job:

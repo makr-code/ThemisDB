@@ -45,7 +45,7 @@ on:
   # This prevents the wiki from being rebuilt on every merge to develop.
 
   schedule:
-    - cron: '0 3 * * *'   # Nightly 03:00 UTC — full wiki sync
+    - cron: '0 1 * * *'   # Nightly 01:00 UTC (staggered away from 03:00 cluster)   # Nightly 03:00 UTC — full wiki sync
 
   workflow_dispatch:
     inputs:

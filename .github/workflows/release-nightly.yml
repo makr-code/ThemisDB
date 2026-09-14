@@ -24,7 +24,7 @@ name: "Release: Nightly"
 
 on:
   schedule:
-    - cron: '30 3 * * *'  # 03:30 UTC daily
+    - cron: '0 4 * * *'   # Nightly 04:00 UTC (staggered away from 03:00 cluster)  # 03:30 UTC daily
   workflow_dispatch:
     inputs:
       force:
