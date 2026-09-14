@@ -683,12 +683,20 @@ private:
     ParserScopeContext scope_context_;
     
     const Token& current() const {
-        return static_cast<bool>((pos_ < tokens_.size())) ? tokens_[pos_] : tokens_.back();
+        static const Token kEmptyToken{};
+        if (tokens_.empty()) {
+            return kEmptyToken;
+        }
+        return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
     }
     
     const Token& peek(size_t offset = 1) const {
+        static const Token kEmptyToken{};
+        if (tokens_.empty()) {
+            return kEmptyToken;
+        }
         size_t p = pos_ + offset;
-        return static_cast<bool>((p < tokens_.size())) ? tokens_[p] : tokens_.back();
+        return (p < tokens_.size()) ? tokens_[p] : tokens_.back();
     }
     
     void advance() {
@@ -2761,14 +2769,14 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
     // Bounds-safe token accessors
     auto tok_up = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].upper : empty;
+        return idx < tokens.size() ? tokens[idx].upper : empty;
     };
     auto tok_orig = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx].original : empty;
+        return idx < tokens.size() ? tokens[idx].original : empty;
     };
     auto tok_start = [&](size_t idx) -> size_t {
-        return static_cast<bool>(idx  < static_cast<int>(tokens.size() ? tokens[idx].start : trimmed.size()));
+        return idx < tokens.size() ? tokens[idx].start : trimmed.size();
     };
 
     const std::string& kw0 = tok_up(0);

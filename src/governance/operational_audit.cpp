@@ -758,10 +758,11 @@ nlohmann::json OperationalAuditLogger::getEventStatistics() const {
         size_t p50_idx = sorted_times.size() / 2;
         size_t p95_idx = (sorted_times.size() * 95) / 100;
         size_t p99_idx = (sorted_times.size() * 99) / 100;
+        const size_t last_idx = sorted_times.size() - 1;
         
         stats["logging_latency_p50_us"] = sorted_times[p50_idx];
-        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, static_cast<int>(sorted_times.size()) - 1)];
-        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, static_cast<int>(sorted_times.size()) - 1)];
+        stats["logging_latency_p95_us"] = sorted_times[std::min(p95_idx, last_idx)];
+        stats["logging_latency_p99_us"] = sorted_times[std::min(p99_idx, last_idx)];
     }
     
     return stats;
@@ -1193,4 +1194,3 @@ ComplianceEvidenceCollector& getGlobalEvidenceCollector() {
 }
 
 }  // namespace themis::governance
-
