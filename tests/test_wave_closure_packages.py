@@ -50,7 +50,7 @@ def _manifest(wave: str, module: str, status: str, run_id: str = "123") -> dict:
 
 
 class WaveClosureValidationTests(unittest.TestCase):
-    def test_validation_passes_with_ordered_wave_states(self) -> None:
+    def test_validation_passes_with_all_waves_open_and_no_ordering_violation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifests = root / "manifests"
