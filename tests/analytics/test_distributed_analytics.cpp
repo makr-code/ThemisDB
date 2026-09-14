@@ -1010,6 +1010,7 @@ TEST(FederatedDispatchTest, FED06_ShardTimeoutCountsAsFailed) {
 
     DistributedAnalyticsSharding::Config cfg;
     cfg.shard_timeout_ms      = 100;   // 100 ms timeout
+    cfg.shard_execution_timeout_ms = 100;  // active per-shard timeout
     cfg.allow_partial_results = true;
     cfg.max_failure_rate      = 0.60;  // allow up to 60 % failures
     DistributedAnalyticsSharding das(cfg);

@@ -373,6 +373,8 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         // Keep other CF handles alive for proper cleanup
         other_cf_handles_.push_back(cf_handles[0]);
     } catch (...) {
+        cf_ = nullptr;
+        other_cf_handles_.clear();
         for (auto* h : cf_handles) {
             if (h != nullptr) {
                 db_guard->DestroyColumnFamilyHandle(h);

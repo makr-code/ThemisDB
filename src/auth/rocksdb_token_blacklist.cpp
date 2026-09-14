@@ -124,6 +124,8 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
             }
         }
     } catch (...) {
+        cf_ = nullptr;
+        other_cf_handles_.clear();
         for (auto *h : cf_handles) {
             if (h != nullptr) {
                 db_guard->DestroyColumnFamilyHandle(h);
