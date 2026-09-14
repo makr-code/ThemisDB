@@ -234,7 +234,7 @@ private:
     // alias to nvml_devices_.front() used only by canUseGPU() for the
     // timeout-guarded primary-device utilization query.
     // Both fields are always kept in sync by initializeNVML()/shutdownNVML().
-    void* nvml_device_ = nullptr;
+    [[maybe_unused]] void* nvml_device_ = nullptr;
     std::vector<void*> nvml_devices_;
     
     /**

@@ -15,7 +15,6 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#include <limits>
 #include <queue>
 
 #include "acceleration/batch_validator.h"
@@ -200,7 +199,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(const uint
         // weights[u * N + v]          →  non-negative edge weight u→v.
         // Finite sentinel avoids undefined infinity arithmetic under
         // -ffinite-math-only / -Ofast style builds.
-        constexpr float kUnreachableDistance = std::numeric_limits<float>::max();
+        constexpr float kUnreachableDistance = 0x1.fffffep+127f;
         std::vector<float> dist(numVertices, kUnreachableDistance);
         std::vector<int64_t> parent(numVertices, -1);
         dist[src] = 0.0f;
