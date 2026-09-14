@@ -470,10 +470,8 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
             if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
                 auto oldest = open_windows_.begin();
-                if (config_.emit_empty_windows || !oldest->second.records.empty()) {
-                    pending.push_back(computeResult(oldest->second, false));
-                    ++results_emitted_;
-                }
+                pending.push_back(computeResult(oldest->second, false));
+                ++results_emitted_;
                 ++windows_closed_;
                 ++windows_evicted_;
                 open_windows_.erase(oldest);
@@ -521,7 +519,8 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             open_windows_[idx].records.push_back(record);
         }
 
-        pending = closeExpiredWindows(wm);
+        auto closed = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed.begin(), closed.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -606,7 +605,8 @@ void TumblingWindow::idleTimeoutLoop() {
         ResultCallback cb;
         {
             std::lock_guard lk(mutex_);
-            pending = closeExpiredWindows(wm);
+            auto closed = closeExpiredWindows(wm);
+            pending.insert(pending.end(), closed.begin(), closed.end());
             cb      = callback_;
         }
         if (cb) {
@@ -852,7 +852,8 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         } // end key-cardinality else
 
-        pending = closeExpiredWindows(wm);
+        auto closed = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed.begin(), closed.end());
         cb      = callback_;
     } // mutex_ released
 

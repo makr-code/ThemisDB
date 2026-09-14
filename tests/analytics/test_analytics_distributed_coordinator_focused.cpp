@@ -469,16 +469,15 @@ TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    int failure_count = 0;
-    for (int i = 0; i < 5; ++i) {
-        try {
-            coordinator->executeDistributed(query);
-        } catch (...) {
-            failure_count++;
-        }
-    }
+    auto result1 = coordinator->executeDistributed(query);
+    ASSERT_FALSE(result1.shard_info.empty());
+    EXPECT_EQ(result1.shard_info.front().circuit_consecutive_failures, 1u);
+    EXPECT_EQ(result1.shard_info.front().circuit_state, CircuitBreakerState::CLOSED);
 
-    EXPECT_EQ(failure_count, 5);
+    auto result2 = coordinator->executeDistributed(query);
+    ASSERT_FALSE(result2.shard_info.empty());
+    EXPECT_EQ(result2.shard_info.front().circuit_consecutive_failures, 2u);
+    EXPECT_EQ(result2.shard_info.front().circuit_state, CircuitBreakerState::OPEN);
 }
 
 // ============================================================================

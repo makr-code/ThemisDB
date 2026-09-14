@@ -408,7 +408,8 @@ TEST_F(DistributedAnalyticsSafetyTest, RecoveryAfterTransientFailures) {
     // Recovery attempt (4th call)
     auto result = das_->executeDistributed(query);
     // This should succeed (4th attempt that succeeds)
-    EXPECT_GE(result.shard_info.size(), 0u);
+    EXPECT_EQ(result.successful_shards, 1u);
+    EXPECT_FALSE(result.shard_info.empty());
 }
 
 // ============================================================================
