@@ -2426,15 +2426,30 @@ void HttpServer::stop() {
     // Vector index auto-save
     if (vector_index_) {
         THEMIS_INFO("Saving vector index (if auto-save enabled)...");
-        vector_index_->shutdown();
+        try {
+            const auto status = vector_index_->shutdown();
+            if (!status.ok) {
+                THEMIS_WARN("Vector index shutdown reported failure: {}", status.message);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error shutting down vector index: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Error shutting down vector index: unknown exception");
+        }
     }
     
     // Flush RocksDB WAL and memtables
     if (storage_) {
         THEMIS_INFO("Flushing RocksDB memtables...");
-        // RocksDB will flush on close, but we can trigger it explicitly
-        storage_->close(); // This flushes and closes cleanly
-        THEMIS_INFO("RocksDB closed cleanly");
+        try {
+            // RocksDB will flush on close, but we can trigger it explicitly.
+            storage_->close(); // This flushes and closes cleanly
+            THEMIS_INFO("RocksDB closed cleanly");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error closing RocksDB: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Error closing RocksDB: unknown exception");
+        }
     }
 
     // Shut down the SSE manager before the io_context so that its internal
@@ -2449,6 +2464,24 @@ void HttpServer::stop() {
 
     // Stop io_context
     ioc_.stop();
+
+    // Wait for any still-live Session/SslSession objects to finish their final
+    // async teardown before the server instance is torn down.  A lingering
+    // session may still decrement active_connections_ from its destructor or
+    // callback after stop() returns, which creates a use-after-free race against
+    // the raw HttpServer* retained by each Session.  This bounded drain keeps the
+    // shutdown sequence consistent with the graceful-close lifecycle and avoids
+    // the process-level abort seen by the HTTP shortest-path regression.
+    const auto session_drain_deadline = std::chrono::steady_clock::now() +
+        std::chrono::seconds(5);
+    while (active_connections_.load(std::memory_order_acquire) > 0 &&
+           std::chrono::steady_clock::now() < session_drain_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    if (active_connections_.load(std::memory_order_acquire) > 0) {
+        THEMIS_WARN("Shutdown drained active connections after timeout; {} session(s) remain",
+                    active_connections_.load(std::memory_order_acquire));
+    }
 
     // Wait for all threads to finish.  ioc_.stop() has already been called
     // above, which causes all threads blocked in ioc_.run() to return as soon
@@ -2473,7 +2506,13 @@ void HttpServer::stop() {
     THEMIS_INFO("HTTP Server stopped gracefully");
 
     if (concerns_) {
-        concerns_->shutdown();
+        try {
+            concerns_->shutdown();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error shutting down concerns context: {}", e.what());
+        } catch (...) {
+            THEMIS_ERROR("Error shutting down concerns context: unknown exception");
+        }
     }
 }
 
@@ -13433,10 +13472,15 @@ HttpServer::Session::Session(tcp::socket socket, HttpServer* server, bool connec
 }
 
 HttpServer::Session::~Session() {
-    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+    if (server_) {
+        server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+    }
 }
 
 void HttpServer::Session::armReadTimer() {
+    if (!server_) {
+        return;
+    }
     // Load the live (hot-reloadable) timeout atomically to prevent data race
     // with the POST /config hot-reload path that writes request_timeout_ms_live_.
     const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
@@ -13484,10 +13528,16 @@ void HttpServer::Session::cancelReadTimer() {
 }
 
 void HttpServer::Session::start() {
+    if (!server_) {
+        return;
+    }
     doRead();
 }
 
 void HttpServer::Session::doRead() {
+    if (!server_) {
+        return;
+    }
     request_ = {};
     armReadTimer();
 
@@ -13522,6 +13572,9 @@ void HttpServer::Session::onRead(
 }
 
 void HttpServer::Session::processRequest() {
+    if (!server_) {
+        return;
+    }
     try {
 #ifdef THEMIS_ENABLE_WEBSOCKET
         // Check for WebSocket upgrade request
@@ -13697,6 +13750,9 @@ void HttpServer::Session::processRequest() {
 }
 
 void HttpServer::Session::doWrite() {
+    if (!server_) {
+        return;
+    }
     // Arm the I/O timeout for the write phase (same timer as read phase; read
     // is already complete and the timer was cancelled in onRead before we get here).
     armReadTimer();
@@ -13753,10 +13809,15 @@ HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context
 }
 
 HttpServer::SslSession::~SslSession() {
-    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+    if (server_) {
+        server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+    }
 }
 
 void HttpServer::SslSession::armReadTimer() {
+    if (!server_) {
+        return;
+    }
     // Load the live (hot-reloadable) timeout atomically to prevent data race
     // with the POST /config hot-reload path that writes request_timeout_ms_live_.
     const uint32_t timeout_ms = server_->request_timeout_ms_live_.load(std::memory_order_relaxed);
