@@ -357,11 +357,30 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
 
-    db_ = db_instance;
-    cf_ = cf_handles[1];  // Our column family (not default)
-    
-    // Keep other CF handles alive for proper cleanup
-    other_cf_handles_.push_back(cf_handles[0]);
+    std::unique_ptr<rocksdb::DB> db_guard(db_instance);
+    try {
+        if (cf_handles.size() < 2 || cf_handles[1] == nullptr || cf_handles[0] == nullptr) {
+            for (auto* h : cf_handles) {
+                if (h != nullptr) {
+                    db_guard->DestroyColumnFamilyHandle(h);
+                }
+            }
+            throw std::runtime_error("Cannot open RocksDB: expected default and blacklist column family handles");
+        }
+
+        cf_ = cf_handles[1];  // Our column family (not default)
+        
+        // Keep other CF handles alive for proper cleanup
+        other_cf_handles_.push_back(cf_handles[0]);
+    } catch (...) {
+        for (auto* h : cf_handles) {
+            if (h != nullptr) {
+                db_guard->DestroyColumnFamilyHandle(h);
+            }
+        }
+        throw;
+    }
+    db_ = db_guard.release();
     
     running_.store(true);
     

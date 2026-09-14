@@ -332,7 +332,7 @@ TEST_F(DegradationRecoveryTest, DegradedState_ExplicitlyReported) {
     recovery_log.log_recovery("Notifying operator: GPU acceleration unavailable (driver error)");
     recovery_log.log_recovery("Performance impact: 40x slower expected");
     
-    EXPECT_TRUE(!recovery_log.recovery_actions.empty())
+    ASSERT_FALSE(recovery_log.recovery_actions.empty())
         << "Must explicitly report degraded state";
     EXPECT_TRUE(recovery_log.recovery_actions.back().find("degraded") != std::string::npos
              || recovery_log.recovery_actions.back().find("CPU") != std::string::npos)
@@ -597,4 +597,3 @@ TEST_F(FailureHandlingAcceptanceCriteriaTest, ProductionReady_AllCriteriaPass) {
     EXPECT_EQ(final_audit.recovery_actions.size(), 7)
         << "All 7 failure handling acceptance criteria must be met for production-ready status";
 }
-

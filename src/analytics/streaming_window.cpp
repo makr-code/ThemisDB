@@ -858,7 +858,8 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         } // end key-cardinality else
 
-        pending = closeExpiredWindows(wm);
+        auto expired = closeExpiredWindows(wm);
+        pending.insert(pending.end(), expired.begin(), expired.end());
         cb      = callback_;
     } // mutex_ released
 
