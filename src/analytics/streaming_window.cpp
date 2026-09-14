@@ -1371,6 +1371,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_window);
                 } else {
                     w.records.push_back(record);
+                    record_added = true;
                 }
             }
         }

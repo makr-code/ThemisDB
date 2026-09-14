@@ -134,7 +134,7 @@ static inline time_t portable_mkgmtime_impl(std::tm const* tmin) {
     return _mkgmtime(const_cast<std::tm*>(tmin));
 #else
     return timegm(const_cast<std::tm*>(tmin));
-#endif
+#endif // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 }
 static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #ifdef _WIN32
