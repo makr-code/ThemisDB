@@ -1,18 +1,18 @@
 # Audit Module Wave C Evidence Report
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-13  
-**Document Status:** Source-verified baseline refresh (2026-09-13)  
-**Last Updated:** 2026-09-13  
-**Status:** active  
-**Wave:** C — Security Production Validation  
-**Evidence Date:** 2026-08-18  
-**Target Exit Criteria:** Q4 2026  
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-13
+**Document Status:** Source-verified baseline refresh (2026-09-14)
+**Last Updated:** 2026-09-14
+**Status:** active
+**Wave:** C — Security Production Validation
+**Evidence Date:** 2026-08-18
+**Target Exit Criteria:** Q4 2026
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
 
-> **SOURCE-VERIFIED STATUS (2026-09-14):** The Wave-C proof harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now exercises the production `themis::utils::AuditLogger` JSONL sink and chain-state persistence path in `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`. This improves source-backed confidence for Wave-C audit evidence, but it is still not a substitute for broader release governance or human certification sign-off.
+> **SOURCE-VERIFIED STATUS (2026-09-14):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The test harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; the real production backend is `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
 
-> **BASELINE SYNC (2026-09-14):** This undated canonical Wave-C evidence document remains synchronized with the current audit baseline and now reflects production-backed regression coverage for the primary proof file. Broader sign-off still depends on the normal governance and release evidence chain.
+> **BASELINE SYNC (2026-09-14):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with `IMPLEMENTATION_AUDIT_2026-09-14.md` and the current audit baseline, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
 
 ---
 
@@ -27,7 +27,7 @@ The Audit module has successfully completed Wave C production validation. All th
 
 **Exit Criteria Status:** Production-backed file-sink validation is now present in the primary proof harness; broader end-to-end release closure still follows the normal governance and sign-off path.
 
-> **Source verification note (2026-09-14):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now runs against the production `themis::utils::AuditLogger` code path, including the real JSONL audit sink and persisted chain-state file. Remaining certification scope is therefore governance/sign-off scope rather than the earlier mock-versus-production-path gap.
+> **Source verification note (2026-09-14):** This report is a useful validation artifact for the audit logic model, but the key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock in-memory `TamperEvidentAuditLogger` and `pseudoHash()` implementation rather than the production `themis::utils::AuditLogger` code path. The production implementation does exist in `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`; it includes hash-chain handling, queue bounds, encryption/signature fields, rotation, and fsync support, but a full Wave-C certification still requires a real integration run against the actual log backend and persistence path.
 
 ---
 
@@ -259,11 +259,11 @@ Validate that audit events are properly tagged with compliance frameworks and su
 Event 1: access_control_change
   - Actor: compliance_officer
   - Compliance: ISO27001, ISO27018
-  
+
 Event 2: data_deletion_request
   - Actor: data_subject
   - Compliance: GDPR, CCPA
-  
+
 Event 3: incident_response
   - Actor: security_team
   - Compliance: BSIC5, NIS2
@@ -429,11 +429,11 @@ Security workflow with three linked events:
 
 ## Sign-Off
 
-**Audit Module:** Wave C Validation Complete  
-**Exit Criteria:** ALL PASS  
-**Evidence Collected By:** Automated test suite  
-**Date:** 2026-08-18  
-**Next Phase:** Wave D (Operability Hardening, Q1 2027)  
+**Audit Module:** Wave C Validation Complete
+**Exit Criteria:** ALL PASS
+**Evidence Collected By:** Automated test suite
+**Date:** 2026-08-18
+**Next Phase:** Wave D (Operability Hardening, Q1 2027)
 
 ---
 
@@ -457,7 +457,7 @@ All audit Wave C tests are registered in `tests/audit/CMakeLists.txt` and run as
 
 ### Audit Framework Status
 
-**Location:** `/audit/`  
-**Canonical Source:** WAVE_C_AUDIT_EVIDENCE.md (this file)  
-**Configuration:** Distributed across security, governance, compliance modules  
+**Location:** `/audit/`
+**Canonical Source:** WAVE_C_AUDIT_EVIDENCE.md (this file)
+**Configuration:** Distributed across security, governance, compliance modules
 **Production Readiness:** ✅ Wave C exit criteria ALL PASS
