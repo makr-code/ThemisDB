@@ -2211,6 +2211,12 @@ function(themis_build_modular)
     if(_themis_base_compile_defs)
         target_compile_definitions(themis_base PRIVATE ${_themis_base_compile_defs})
     endif()
+    if(APPLE)
+        target_link_options(themis_base PRIVATE
+            "SHELL:-framework Security"
+            "SHELL:-framework CoreFoundation"
+        )
+    endif()
     if(THEMIS_ENABLE_VULKAN)
         target_compile_definitions(themis_base PUBLIC THEMIS_ENABLE_VULKAN)
     endif()

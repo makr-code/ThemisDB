@@ -1,6 +1,9 @@
 # ThemisDB — Implementation Audit 2026-09-13
 
+**Author:** ThemisDB Contributors  
 **Created:** 2026-09-13  
+**Last Updated:** 2026-09-13  
+**Status:** active  
 **Branch:** `develop`  
 **Version:** `2.4.0-alpha`  
 **Scope:** Current `/audit` stack versus current source and canonical governance docs (`ROADMAP.md`, `docs/governance/GA_PROMOTION_SIGN_OFF.md`, `audit/*`, `include/utils/audit_logger.h`, `src/utils/audit_logger.cpp`, `tests/audit/test_audit_wavec_integrity_export_focused.cpp`)  
