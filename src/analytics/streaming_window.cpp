@@ -439,7 +439,6 @@ WindowResult TumblingWindow::computeResult(const InternalWindow &win, bool late)
 }
 
 bool TumblingWindow::ingest(const StreamRecord &record) {
-    ++records_ingested_;
     updateWatermark(record.event_time);
     int64_t wm = watermark_us_.load(std::memory_order_acquire);
 
@@ -519,9 +518,11 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
                 ++late_records_;
             }
             open_windows_[idx].records.push_back(record);
+            ++records_ingested_;
         }
 
-        pending = closeExpiredWindows(wm);
+        auto expired = closeExpiredWindows(wm);
+        pending.insert(pending.end(), expired.begin(), expired.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -788,7 +789,6 @@ WindowResult SlidingWindow::computeResult(const InternalWindow &win, bool late) 
 }
 
 bool SlidingWindow::ingest(const StreamRecord &record) {
-    ++records_ingested_;
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
@@ -812,6 +812,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+        bool added_to_window = false;
 
         // Enforce max_distinct_partition_keys: reject record early if it introduces a new
         // key beyond the configured cardinality cap. This bounds the key-space tracked by
@@ -842,12 +843,16 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_window);
                 } else {
                     w.records.push_back(record);
+                    added_to_window = true;
                 }
             }
         }
 
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
+        }
+        if (added_to_window) {
+            ++records_ingested_;
         }
 
         } // end key-cardinality else
@@ -1001,7 +1006,7 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
 }
 
 bool SessionWindow::ingest(const StreamRecord &record) {
-    ++records_ingested_;
+    bool record_added = true;
 
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
@@ -1066,8 +1071,10 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             // Enforce max_records_per_session on new session creation.
             if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
                 s.records.push_back(record);
+                ++records_ingested_;
             } else {
                 ++records_dropped_;
+                record_added = false;
             }
             if (ev_us < wm && config_.watermark.allow_late_data) {
                 s.has_late_records = true;
@@ -1092,6 +1099,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 ns.start         = record.event_time;
                 ns.last_event    = record.event_time;
                 ns.records.push_back(record);
+                ++records_ingested_;
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     ns.has_late_records = true;
                 }
@@ -1106,10 +1114,12 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 if (config_.max_records_per_session > 0 &&
                     s.records.size() >= config_.max_records_per_session) {
                     ++records_dropped_;
+                    record_added = false;
                     spdlog::debug("SessionWindow: dropped record (session full, limit={})",
                                   config_.max_records_per_session);
                 } else {
                     s.records.push_back(record);
+                    ++records_ingested_;
                 }
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     s.has_late_records = true;
@@ -1123,7 +1133,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (has_pending && cb) {
         try { cb(pending_result); } catch (...) {}
     }
-    return true;
+    return record_added;
 }
 
 void SessionWindow::flush() {
@@ -1324,7 +1334,6 @@ WindowResult HoppingWindow::computeResult(const InternalWindow &win, bool late) 
 }
 
 bool HoppingWindow::ingest(const StreamRecord &record) {
-    ++records_ingested_;
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
@@ -1341,6 +1350,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+        bool added_to_window = false;
 
         // Enforce max_distinct_partition_keys: reject records with new unseen keys when
         // the cardinality cap is already reached, bounding memory in key-explosion scenarios.
@@ -1370,12 +1380,17 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_window);
                 } else {
                     w.records.push_back(record);
+                    added_to_window = true;
                 }
             }
         }
 
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
+        }
+        if (added_to_window) {
+            ++records_ingested_;
+            record_added = true;
         }
         } // end !hop_key_rejected
 

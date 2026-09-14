@@ -288,7 +288,8 @@ TEST_F(FallbackOverheadTest, FallbackOverhead_WithinBudget) {
     auto fast_meas = fast_path_counter.summarize();
     auto fallback_meas = fallback_counter.summarize();
 
-    double overhead_percent = ((fallback_meas.mean_us - fast_meas.mean_us) / fast_meas.mean_us) * 100.0;
+    const double safe_fast_mean_us = std::max(fast_meas.mean_us, 0.001);
+    double overhead_percent = ((fallback_meas.mean_us - safe_fast_mean_us) / safe_fast_mean_us) * 100.0;
     
     EXPECT_LT(overhead_percent, FALLBACK_OVERHEAD_PERCENT)
         << "Fallback overhead must be < " << FALLBACK_OVERHEAD_PERCENT << "%"
@@ -411,4 +412,3 @@ TEST_F(PerformanceGatesIntegrationTest, AllGates_PassedValidation) {
     EXPECT_TRUE(!gates_passed.empty())
         << "Production readiness checklist Item 2 validation complete";
 }
-

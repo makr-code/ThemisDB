@@ -674,11 +674,12 @@ jobs:
         if: always() && steps.fetch.outputs.has_artifacts == 'true'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SEND_SLACK: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
         uses: ./.github/actions/publish-error-dashboard
         with:
           metrics-artifact: error-metrics
           create-issue: 'false'
           dashboard-title: '📊 Build Error Dashboard — Run #${{ github.run_number }}'
-          send-slack: ${{ secrets.SLACK_WEBHOOK_URL != '' }}
+          send-slack: ${{ env.SEND_SLACK == 'true' }}
           slack-webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
         continue-on-error: true

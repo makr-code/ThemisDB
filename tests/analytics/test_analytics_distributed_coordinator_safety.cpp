@@ -391,7 +391,7 @@ TEST_F(DistributedAnalyticsSafetyTest, DisabledCircuitBreakerAllowsFailed) {
  */
 TEST_F(DistributedAnalyticsSafetyTest, RecoveryAfterTransientFailures) {
     auto executor = std::make_shared<ControlledExecutor>(
-        ControlledExecutor::Behavior::INTERMITTENT, 4);  // Fail 4 times, then succeed
+        ControlledExecutor::Behavior::INTERMITTENT, 3);  // Fail 3 times, then succeed
     das_->addShard("transient_shard", executor);
 
     auto query = makeSimpleQuery();
@@ -407,8 +407,11 @@ TEST_F(DistributedAnalyticsSafetyTest, RecoveryAfterTransientFailures) {
 
     // Recovery attempt (4th call)
     auto result = das_->executeDistributed(query);
-    // This should succeed (4th attempt that succeeds)
-    EXPECT_GE(result.shard_info.size(), 0u);
+    ASSERT_EQ(result.total_shards, 1u);
+    ASSERT_EQ(result.shard_info.size(), 1u);
+    EXPECT_EQ(result.successful_shards, 1u);
+    EXPECT_TRUE(result.shard_info[0].success);
+    EXPECT_EQ(result.shard_info[0].circuit_consecutive_failures, 0u);
 }
 
 // ============================================================================
