@@ -3734,6 +3734,9 @@ bool OpenGLGeoBackend::initialize() {
     if (initialized_) {
       return true;
     }
+    if (!impl_) {
+        impl_ = std::make_unique<OpenGLGeoBackendImpl>();
+    }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGeo] EGL library not found; running in CPU fallback mode" << std::endl;
         initialized_ = true;
@@ -3863,6 +3866,14 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
             "polygon must have at least 3 vertices"));
         return {};
     }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGeo",
+            "OpenGL geo backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
+    }
 
     if (impl_->gpuAvailable_) {
         try {
@@ -3963,6 +3974,9 @@ bool OpenGLGraphBackend::initialize() {
     if (initialized_) {
       return true;
     }
+    if (!impl_) {
+        impl_ = std::make_unique<OpenGLGraphBackendImpl>();
+    }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGraph] EGL library not found; running in CPU fallback mode" << std::endl;
         initialized_ = true;
@@ -4038,6 +4052,14 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
                 "startVertices[" + std::to_string(s) + "] out of range"));
             return {};
         }
+    }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
     }
 
     // GPU path
@@ -4132,6 +4154,14 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                 "start/end vertex out of range for pair " + std::to_string(p)));
             return {};
         }
+    }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
     }
 
     // GPU path
