@@ -1,4 +1,4 @@
-name: "Wave A GPU CI Execution"
+name: "Build: Wave A GPU"
 
 on:
   push:
@@ -10,17 +10,7 @@ on:
       - "include/gpu/**"
       - "include/themis/gpu/**"
       - "benchmarks/gpu/**"
-      - ".github/workflows/13-wave-a-gpu-ci-execution.yml"
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - "src/gpu/**"
-      - "tests/gpu/**"
-      - "include/gpu/**"
-      - "include/themis/gpu/**"
-      - "benchmarks/gpu/**"
-      - ".github/workflows/13-wave-a-gpu-ci-execution.yml"
+      - ".github/workflows/build-wave-a-gpu.yml"
   workflow_dispatch:
     inputs:
       phase:
@@ -41,7 +31,7 @@ on:
         default: "false"
 
 concurrency:
-  group: wave-a-gpu-ci-${{ github.event.pull_request.number || github.ref }}
+  group: wave-a-gpu-ci-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:

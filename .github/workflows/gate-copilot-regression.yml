@@ -1,4 +1,4 @@
-name: Copilot Regression Guard
+name: "Gate: Copilot Regression"
 
 permissions:
   contents: read

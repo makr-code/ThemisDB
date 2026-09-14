@@ -40,7 +40,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/edition-hyperscaler-ci.yml`
 - `.github/workflows/security-fortify.yml`
 - `.github/workflows/security-fuzzing.yml`
-- `.github/workflows/sanitizer-nightly.yml`
+- `.github/workflows/build-sanitizer-nightly.yml`
 - `.github/workflows/compliance-governance-gates.yml`
 - `.github/workflows/maintenance-ai-working.yml`
 - `.github/workflows/maintenance-build-issues.yml`

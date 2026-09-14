@@ -1,4 +1,4 @@
-name: '[WAVE-B] LLM Wiki Phase B Benchmark Validation'
+name: "Build: Wave B LLM Benchmarks"
 
 permissions:
   contents: read
@@ -17,6 +17,10 @@ on:
           - large_10m
           - all
 
+
+concurrency:
+  group: build-wave-b-llm-${{ github.run_id }}
+  cancel-in-progress: true
 env:
   WAVE_B_DATA_DIR: benchmarks/wave_b_data
   WAVE_B_RESULTS_DIR: benchmarks/wave_b_results

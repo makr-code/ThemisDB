@@ -1,4 +1,4 @@
-name: "CodeQL Advanced"
+name: "Security: CodeQL"
 
 # Rechenaufwand-Score: R=4 (K=5, L=4, N=4) | last-calibrated: 2026-08-26
 # Build note: Uses direct cmake --build (not autobuild) so that the pre-configured
