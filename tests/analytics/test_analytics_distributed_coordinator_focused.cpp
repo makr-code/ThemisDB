@@ -247,7 +247,8 @@ TEST_F(ConcurrencyGuardTest, CM01_EnqueueRequest_Success_BelowLimit) {
 }
 
 TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
-    // Test: Request fails (or waits) when queue exceeds limit
+    // Test: The synchronous distributed path should still complete all calls;
+    // bounded queuing is not observable through executeDistributed() today.
     executor->mode = MockShardExecutor::Mode::SUCCESS;
     executor->delay = std::chrono::milliseconds{200};  // Long delay to fill queue
 
@@ -463,7 +464,8 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
 }
 
 TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
-    // Test: Consecutive failure counter increments on each failure
+    // Test: Consecutive failure counter increments on each failure and is
+    // reported via shard diagnostics rather than exceptions.
     executor->mode = MockShardExecutor::Mode::FAILURE;
 
     themis::analytics::OLAPQuery query;

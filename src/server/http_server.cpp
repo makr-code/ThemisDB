@@ -4945,7 +4945,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
-#endif
+#endif  // THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
 
 #ifdef THEMIS_CHAOS_ADMIN
     // Route: Chaos Admin API (/admin/chaos/*) — requires admin role.

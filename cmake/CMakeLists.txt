@@ -2167,6 +2167,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/graph_query_rewriter.cpp
+    ../src/graph/graph_error_taxonomy.cpp
     ../src/graph/explain_plan.cpp
     ../src/graph/ontology_manager.cpp
     ../src/graph/knowledge_graph_reasoner.cpp

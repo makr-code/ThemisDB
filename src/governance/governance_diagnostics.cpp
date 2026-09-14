@@ -604,7 +604,8 @@ SafetyViolation SafeAccessValidator::checkCascadingDenials(
             try {
                 int deny_count = std::stoi(deny_count_it->second);
                 if (deny_count > 1) {  // Multiple deny layers
-                    violation.description = "Cascading denials detected: " + std::to_string(deny_count) + " deny layers";
+                    violation.description = "Cascading denials detected: multiple deny layers (" +
+                                             std::to_string(deny_count) + " deny layers)";
                     violation.remediation_hint = "Review deny policies for redundancy. Consolidate into single explicit deny rule.";
                     return violation;
                 }

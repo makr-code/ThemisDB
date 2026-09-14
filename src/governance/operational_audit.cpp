@@ -404,7 +404,7 @@ void OperationalAuditLogger::logEvent(
     performance_metrics_.total_operations++;
     
     // Enforce circular buffer size limit
-    if (events_.size() > max_events_) {
+    if (static_cast<int>(events_.size()) > max_events_) {
         // Remove oldest event
         const auto& oldest_event = events_.front();
         
@@ -532,7 +532,7 @@ void OperationalAuditLogger::logPolicyLifecycle(
 
 size_t OperationalAuditLogger::getTotalEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return events_.size();
+    return static_cast<int>(events_.size());
 }
 
 OperationalEvent* OperationalAuditLogger::getEventById(const std::string& event_id) {
@@ -716,7 +716,7 @@ nlohmann::json OperationalAuditLogger::exportEvents(
     auto events = queryEventsByTimeRange(start_ms, end_ms);
     
     // Apply limit
-    if (limit > 0 && events.size() > limit) {
+    if (limit > 0 && static_cast<int>(events.size()) > limit) {
         events.resize(limit);
     }
     

@@ -2108,6 +2108,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/scheduled_edge_refresh.cpp
     ../src/graph/graph_query_rewriter.cpp
     ../src/graph/graph_query_cache.cpp
+    ../src/graph/graph_error_taxonomy.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)
@@ -2215,6 +2216,12 @@ function(themis_build_modular)
 
     if(_themis_base_compile_defs)
         target_compile_definitions(themis_base PRIVATE ${_themis_base_compile_defs})
+    endif()
+    if(APPLE)
+        target_link_options(themis_base PRIVATE
+            "SHELL:-framework Security"
+            "SHELL:-framework CoreFoundation"
+        )
     endif()
     if(THEMIS_ENABLE_VULKAN)
         target_compile_definitions(themis_base PUBLIC THEMIS_ENABLE_VULKAN)
@@ -2325,6 +2332,15 @@ function(themis_build_modular)
     endif()
     if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
         list(APPEND _themis_security_deps mimalloc)
+    endif()
+    if(TARGET ZLIB::ZLIB)
+        list(APPEND _themis_security_deps ZLIB::ZLIB)
+    endif()
+    if(TARGET KRB5::krb5)
+        list(APPEND _themis_security_deps KRB5::krb5)
+    endif()
+    if(TARGET KRB5::gssapi)
+        list(APPEND _themis_security_deps KRB5::gssapi)
     endif()
     if(TARGET prometheus-cpp::core)
         list(APPEND _themis_security_deps prometheus-cpp::core)
@@ -3027,6 +3043,9 @@ function(themis_build_modular)
         )
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_content PUBLIC mimalloc)
+        endif()
+        if(TARGET ZLIB::ZLIB)
+            target_link_libraries(themis_content PUBLIC ZLIB::ZLIB)
         endif()
     endif()
 

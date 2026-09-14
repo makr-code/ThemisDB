@@ -1009,7 +1009,8 @@ TEST(FederatedDispatchTest, FED06_ShardTimeoutCountsAsFailed) {
     using namespace themisdb::analytics;
 
     DistributedAnalyticsSharding::Config cfg;
-    cfg.shard_timeout_ms      = 100;   // 100 ms timeout
+    cfg.shard_timeout_ms      = 100;   // legacy alias, kept for readability
+    cfg.shard_execution_timeout_ms = 100;  // active per-shard timeout used by the coordinator
     cfg.allow_partial_results = true;
     cfg.max_failure_rate      = 0.60;  // allow up to 60 % failures
     DistributedAnalyticsSharding das(cfg);

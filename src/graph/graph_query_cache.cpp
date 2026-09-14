@@ -199,7 +199,7 @@ void GraphQueryCache::evictL1ToL2() {
       return;
     }
 
-    const std::string& victim_key = l1_.lru.back();
+    const std::string victim_key = l1_.lru.back();
     auto it = l1_.map.find(victim_key);
     if (it == l1_.map.end()) {
         l1_.lru.pop_back();
@@ -231,9 +231,9 @@ void GraphQueryCache::evictL2() {
 }
 
 std::string GraphQueryCache::selectL2Victim() const {
-    // Weighted eviction score: score = recency_weight / cost
+    // Weighted eviction score: score = recency_weight * cost
     // recency_weight = 1.0 / (age_seconds + 1)
-    // Lowest score = best eviction candidate (old + cheap).
+    // Lowest score = best eviction candidate (old and cheap).
     std::string best_key = {};
     double best_score = std::numeric_limits<double>::max();
 
@@ -244,7 +244,7 @@ std::string GraphQueryCache::selectL2Victim() const {
             std::chrono::duration<double>(now - l2e.entry.inserted_at).count();
         const double recency_weight = 1.0 / (age_s + 1.0);
         const double cost = (l2e.entry.cost > 0.0) ? l2e.entry.cost : 1.0;
-        const double score = recency_weight / cost;
+        const double score = recency_weight * cost;
 
         if (score < best_score) {
             best_score = score;

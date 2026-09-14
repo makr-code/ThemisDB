@@ -1,14 +1,17 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-09-07  
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-13  
+**Last Updated:** 2026-09-13  
+**Status:** active  
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
-> **BASELINE SYNC (2026-08-31):** This undated canonical document was refreshed to align with `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`.
+> **BASELINE SYNC (2026-09-13):** This undated canonical document was refreshed to align with `IMPLEMENTATION_AUDIT_2026-09-13.md` and the latest source-verified audit baseline.
 > **ROADMAP Evidence Rule (2026-08-31):** ROADMAP checkbox states are planning/documentation signals only; audit or release evidence requires source-verified traces (code paths, tests, benchmarks, or runbooks).
 
-> **NOTE:** This document aggregates the current audit stack. When August 2026 audit files disagree, prefer `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, then `IMPLEMENTATION_AUDIT_2026-08-26.md`, then `IMPLEMENTATION_AUDIT_2026-08-18.md`, then `MATURITY_REPORT_2026-08.md`, then the root `ROADMAP.md`, and finally module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
+> **NOTE:** This document aggregates the current audit stack. When audit files disagree, prefer `IMPLEMENTATION_AUDIT_2026-09-13.md`, then `THEMISDB_AUDIT_MATURITY_SECURITY_MONETARY_REPORT_2026-08-31.md`, then `IMPLEMENTATION_AUDIT_2026-08-26.md`, then `IMPLEMENTATION_AUDIT_2026-08-18.md`, then `MATURITY_REPORT_2026-08.md`, then the root `ROADMAP.md`, and finally module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
 > **NEW (Aug 2026):** EU AI Act compliance documentation added (canonical in `/audit`, downstream mirrors may lag):
 > - `docs/compliance/EU_AI_ACT_COMPLIANCE.md` — Risk classification & deployment checklist
 > - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment  
@@ -28,7 +31,7 @@ This document is the **root-level security and compliance audit record** for The
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
 6. **EU AI Act compliance framework** (NEW Aug 2026) — risk classification, evidence bundles, governance
 
-### Source-Verified Implementation Status (2026-09-07)
+### Source-Verified Implementation Status (2026-09-13)
 
 The production audit stack is materially present in source code and is not merely a documentation placeholder:
 

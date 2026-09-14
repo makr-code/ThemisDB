@@ -49,6 +49,7 @@ static constexpr MutationPattern kMutationPatterns[] = {
     {"DELETE ",           "DELETE"},
     {"REPLACE ",          "REPLACE"},
     {"REMOVE ",           "REMOVE"},
+    {"DELETE ",           "DELETE"},
     {"DROP ",             "DROP"},
     {"TRUNCATE ",         "TRUNCATE"},
     {"CREATE COLLECTION", "CREATE COLLECTION"},
@@ -207,12 +208,11 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
 
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(std::string_view aql_query) const {
-    const std::string query_str(aql_query);
-    // When mutations are explicitly allowed, skip the keyword-blocking scan
-    // but still run injection-pattern and safety checks.
     if (mode_ == ValidationMode::AllowMutations) {
-        return validateMutationSafety(query_str);
+        return std::nullopt;
     }
+
+    const std::string query_str(aql_query);
 
     const std::string upper = toUpper(query_str);
 

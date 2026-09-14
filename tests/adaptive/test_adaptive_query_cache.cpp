@@ -159,7 +159,7 @@ TEST_F(AdaptiveQueryCacheTest, L2CacheCompression) {
 TEST_F(AdaptiveQueryCacheTest, L2ToL1Promotion) {
     AdaptiveQueryCache cache(config_);
     
-    // Create a result that goes to L2
+    // Create a result that clearly exceeds the L1 size threshold so it lands in L2.
     json result;
     for (int i = 0; i < 200; i++) {
         result["data"].push_back({{"id", i}, {"name", "User " + std::to_string(i)}});

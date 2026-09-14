@@ -12,7 +12,7 @@
 
 - name: "ci/build-failed"
   color: "B60205"
-  description: "Build pipeline marked failed; compiler/linker blocker only when paired with ci/compiler-linker-failed"
+  description: "Build pipeline marked failed; pair with ci/compiler-linker-failed for compiler/linker blockers"
   type: blocker
 
 - name: "ci/compiler-linker-failed"

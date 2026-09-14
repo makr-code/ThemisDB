@@ -469,6 +469,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
             if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
                 auto oldest = open_windows_.begin();
+                // ALWAYS emit evicted window result (not subject to emit_empty_windows gate)
                 pending.push_back(computeResult(oldest->second, false));
                 ++results_emitted_;
                 ++windows_closed_;
@@ -851,6 +852,8 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
         }
+        
+        ++records_ingested_;
 
         } // end key-cardinality else
 
@@ -1008,7 +1011,6 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
 
 bool SessionWindow::ingest(const StreamRecord &record) {
     bool record_added = false;
-
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
     // gap-based rather than slot-based, but still respect out-of-orderness tolerance.
@@ -1340,6 +1342,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
     bool record_added = false;
+    bool record_accepted = true;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
@@ -1362,7 +1365,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             ++records_dropped_;
             ++partition_keys_rejected_;
             hop_key_rejected = true;
-            record_added = false;
+            record_accepted = false;
             spdlog::debug("HoppingWindow: dropped record (max_distinct_partition_keys={} reached, key='{}')",
                           config_.max_distinct_partition_keys, record.partition_key);
         } else if (!record.partition_key.empty()) {
@@ -1370,25 +1373,35 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         }
 
         if (!hop_key_rejected) {
-        ensureWindowsExist(record.event_time);
+            ensureWindowsExist(record.event_time);
 
-        for (auto &w : windows_) {
-            if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
-                if (config_.max_records_per_window > 0 &&
-                    w.records.size() >= config_.max_records_per_window) {
-                    ++records_dropped_;
-                    spdlog::debug("HoppingWindow: dropped record from window (limit={})",
-                                  config_.max_records_per_window);
-                } else {
-                    w.records.push_back(record);
-                    record_added = true;
+            for (auto &w : windows_) {
+                if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
+                    if (config_.max_records_per_window > 0 &&
+                        w.records.size() >= config_.max_records_per_window) {
+                        ++records_dropped_;
+                        spdlog::debug("HoppingWindow: dropped record from window (limit={})",
+                                      config_.max_records_per_window);
+                    } else {
+                        w.records.push_back(record);
+                        record_added = true;
+                    }
                 }
             }
-        }
 
-        if (ev_us < wm && config_.watermark.allow_late_data) {
-            ++late_records_;
-        }
+            if (ev_us < wm && config_.watermark.allow_late_data) {
+                ++late_records_;
+            }
+            
+            // Record is accepted even if not added to any window (windows were skipped).
+            // Only if it was added to at least one window, increment ingested.
+            if (record_added) {
+                ++records_ingested_;
+            } else if (record_accepted) {
+                // Record passed key validation and hops were skipped, but no actual
+                // windows could accept it. Count as ingested since record was accepted.
+                ++records_ingested_;
+            }
         } // end !hop_key_rejected
 
         pending = closeExpiredWindows(wm);
@@ -1401,10 +1414,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    if (record_added) {
-        ++records_ingested_;
-    }
-    return record_added;
+    return record_accepted;
 }
 
 void HoppingWindow::flush() {

@@ -1,12 +1,12 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-09-07T03:02:22+00:00",
+  "generated_at": "2026-09-14T03:02:45+00:00",
   "mode": "incremental",
-  "source_count": 7718,
-  "source_hash": "407f4e67669f74c9943811d098f5937155a55ca4220a2c0499e0acb56102706d",
+  "source_count": 7731,
+  "source_hash": "9a805478cf58d137362d55087ac8c5583424d80aa9b6705807af48fe42b8ff5e",
   "delta": {
-    "added_count": 7718,
+    "added_count": 7731,
     "removed_count": 0,
     "changed_count": 0,
     "added_preview": [
@@ -29,12 +29,14 @@
       ".github/workflows/gate-distributed-knowledge.yml",
       ".github/workflows/gate-pr-community-failclosed.yml",
       ".github/workflows/gate-pr-core.yml",
+      ".github/workflows/gate-pr-doc-metadata.yml",
       ".github/workflows/gate-pr-doxygen-governance.yml",
       ".github/workflows/gate-pr-edition-license.yml",
       ".github/workflows/gate-pr-hash-sbom.yml",
       ".github/workflows/gate-pr-plugin-boundary.yml",
       ".github/workflows/gate-pr-version-targeting.yml",
       ".github/workflows/maintenance-ai-working.yml",
+      ".github/workflows/maintenance-architecture-ci.yml",
       ".github/workflows/maintenance-build-issues.yml",
       ".github/workflows/maintenance-ci-health.yml",
       ".github/workflows/maintenance-docs-db-build.yml",
@@ -57,13 +59,11 @@
       ".github/workflows/release-winget.yml",
       ".github/workflows/reusable-cmake-build.yml",
       ".github/workflows/reusable-docs-db-builder.yml",
-      ".github/workflows/reusable-status-flags-and-issues.yml",
-      ".github/workflows/sanitizer-nightly.yml",
-      ".github/workflows/security-codeql.yml"
+      ".github/workflows/reusable-status-flags-and-issues.yml"
     ],
     "removed_preview": [],
     "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "39354e2edd3ff2205c91668a2a42783d8a249bec93fcbb956ea82946f09680c1"
+  "manifest_sha256": "c24c3e5fda2dd26e603d657eaf7acefc9c8f81c4dcd0d2e1c7237448b129f33e"
 }

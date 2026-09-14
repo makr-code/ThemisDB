@@ -961,7 +961,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "364b746f47cd6267"
+      "sha256_prefix": "5a2ec14cd0e0dc51"
     },
     {
       "category": "governance",
@@ -1006,7 +1006,7 @@
     {
       "category": "governance",
       "path": "AUDIT.md",
-      "sha256_prefix": "126b8b76e03f4874"
+      "sha256_prefix": "f01bdfd48306f898"
     },
     {
       "category": "docs",
@@ -2681,7 +2681,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "f91b9e87c8b98049"
+      "sha256_prefix": "a4c8ee08c6d70079"
     },
     {
       "category": "docs",
@@ -6814,14 +6814,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-13T06:41:00.182912+00:00",
+  "generated_at": "2026-09-14T04:39:28.497112+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-07\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-14\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 7718,
-    "wiki_generated_at": "2026-09-07T03:02:22+00:00",
-    "wiki_source_hash": "407f4e67669f74c9943811d098f5937155a55ca4220a2c0499e0acb56102706d"
+    "source_count": 7731,
+    "wiki_generated_at": "2026-09-14T03:02:45+00:00",
+    "wiki_source_hash": "9a805478cf58d137362d55087ac8c5583424d80aa9b6705807af48fe42b8ff5e"
   },
   "modules": [
     {
@@ -8890,15 +8890,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "364b746f47cd6267",
+    "ARCHITECTURE.md": "5a2ec14cd0e0dc51",
     "FUTURE_ENHANCEMENTS.md": "771888801c66b8a7",
     "ROADMAP.md": "687d043113e16bdb",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "327db5382688c4b9",
-    "ai_context/developer_llm_wiki/": "a1c14f1daa494f60",
+    "ai_context/developer_llm_wiki/": "6c2652743c56fea9",
     "ai_working/": "23010ee516eb01da",
-    "docs/": "470c216fa60214ce"
+    "docs/": "2323027743351f26"
   },
   "statistics": {
     "ai_working_artifact_count": 64,
