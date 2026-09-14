@@ -243,7 +243,10 @@ jobs:
           BUILT_TEST_REGEX=""
           DECLARED_COUNT=0
 
-          mapfile -t DECLARED_TARGETS < <(
+          DECLARED_TARGETS=()
+          while IFS= read -r _line; do
+            DECLARED_TARGETS+=("$_line")
+          done < <(
             ninja -C build-macos -t targets all \
               | awk -F: '{print $1}' \
               | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
