@@ -92,7 +92,7 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/build-llm-inference.yml`
   — LLM Inferencing CI lane (TinyLlama + doku.db RAG + AdaLoRA); push + schedule + dispatch
 - `.github/workflows/build-widget.yml`
-  — Scoped CI for widget path; dispatch-only
+  — WinGet E2E Release Path: download release assets → SHA256 checksums → 4 manifests (ManifestVersion 1.6.0) → winget validate → fork-PR to microsoft/winget-pkgs; dispatch-only (dry_run=true default)
 - `.github/workflows/gate-distributed-knowledge.yml`
   — Module validation gate for distributed_knowledge; push + PR + dispatch
 - `.github/workflows/gate-pr-community-failclosed.yml`
@@ -121,8 +121,6 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — Automatic nightly builds and releases; schedule nightly + dispatch + push
 - `.github/workflows/release-promote.yml`
   — Semi-automatic stable/rc/alpha release triggering via PR labels or dispatch
-- `.github/workflows/release-publish.yml`
-  — Unified orchestration for multi-registry releases; triggered on version tag push
 - `.github/workflows/release-rollback.yml`
   — Manual release rollback (delete artifacts, revert version); dispatch-only
 - `.github/workflows/release-winget.yml`
@@ -184,11 +182,12 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 57
-- Deaktivierte Workflows in `.github/no_workflows/`: 30
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 56
+- Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
 - Naming-Migration Sprint 6 (2026-09-14): 13-wave-* und sanitizer-nightly.yml auf kanonisches Schema umbenannt; pull_request-Boundary-Verletzungen entfernt; fehlende concurrency-Blöcke ergänzt; name:-Felder normalisiert.
+- Sprint 7 (2026-09-14): build-widget.yml real WinGet E2E-Pipeline implementiert; release-publish.yml als Duplikat nach no_workflows/ deaktiviert.
 
 ## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
 
@@ -210,3 +209,5 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | Umbenannt | sanitizer-nightly.yml | build-sanitizer-nightly.yml | 6 |
 | name:-Normalisierung | release-docker-image, security-codeql, security-fuzzing, maintenance-architecture-ci, gate-copilot-regression, gate-pr-version-targeting, compliance-governance-gates, copilot-code-review | name: schema `Domain: Purpose` | 6 |
 | concurrency hinzugefügt | security-fuzzing.yml, build-content-regression.yml | cancel-in-progress guard | 6 |
+| Implementiert (E2E) | build-widget.yml | WinGet manifest gen + winget validate + fork-PR via gh CLI (dry_run=true default) | 7 |
+| Deaktiviert (Duplikat) | release-publish.yml | no_workflows/ (doppelter Tag-Trigger; release-mainline.yml ist kanonisch) | 7 |
