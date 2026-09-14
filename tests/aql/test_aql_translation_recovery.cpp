@@ -123,13 +123,20 @@ struct TranslationRetryContext {
         for (retry_count = 0; retry_count < max_retries; ++retry_count) {
             auto result = provider.generateAQL(nl_query);
 
-            if (result.success) {
+            const bool invalid_response =
+                result.success &&
+                (result.generated_aql.find("INVALID") != std::string::npos ||
+                 result.generated_aql.find("MALFORMED") != std::string::npos ||
+                 result.generated_aql.find("SYNTAX") != std::string::npos);
+
+            if (result.success && !invalid_response) {
                 last_aql_result = result.generated_aql;
                 last_error = "";
                 return true;
             }
 
-            last_error = result.error_message;
+            last_error = invalid_response ? "Generated AQL failed validation: MalformedAQL detected"
+                                          : result.error_message;
 
             // Calculate exponential backoff: 100ms, 500ms, 2000ms
             uint32_t backoff_ms = backoff_base_ms;

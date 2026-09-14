@@ -1193,7 +1193,9 @@ private:
     // Production-consumer route handlers for previously test-only modules.
     // All are lazily initialised in the HttpServer constructor and accessed in handleRequest().
     std::unique_ptr<themis::server::AiPluginApiHandler>            ai_plugin_api_;
+#ifdef THEMIS_PLUGIN_SCRAPER
     std::unique_ptr<themis::server::ScraperPluginApiHandler>       scraper_plugin_api_;
+#endif
 #ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     std::unique_ptr<themis::server::EncryptedStorageApiHandler>    encrypted_storage_api_;
 #endif

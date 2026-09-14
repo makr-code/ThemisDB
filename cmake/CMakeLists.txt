@@ -5412,6 +5412,20 @@ target_link_libraries(themis_server
         themis_core
 )
 
+if(TARGET ZLIB::ZLIB)
+    # Resolve deflate/inflate symbols referenced by shared modules.
+    target_link_libraries(themis_server PRIVATE ZLIB::ZLIB)
+elseif(ZLIB_LIBRARY)
+    target_link_libraries(themis_server PRIVATE ${ZLIB_LIBRARY})
+endif()
+
+if(UNIX AND NOT APPLE)
+    # Some toolchains only provide zlib as plain -lz and can drop it via
+    # --as-needed when only shared-module references exist.
+    target_link_options(themis_server PRIVATE -Wl,--no-as-needed)
+    target_link_libraries(themis_server PRIVATE z)
+endif()
+
 if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted)
     # Keep server link closure explicit for symbols referenced by
     # encrypted_storage_api_handler.cpp in themis_network.

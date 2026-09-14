@@ -2250,6 +2250,13 @@ function(themis_build_modular)
     if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
         list(APPEND _themis_storage_deps ${THEMIS_SNAPPY_TARGET})
     endif()
+    if(TARGET ZLIB::ZLIB)
+        list(APPEND _themis_storage_deps ZLIB::ZLIB)
+    elseif(ZLIB_LIBRARY)
+        list(APPEND _themis_storage_deps ${ZLIB_LIBRARY})
+    elseif(UNIX AND NOT APPLE)
+        list(APPEND _themis_storage_deps z)
+    endif()
 
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
@@ -2265,6 +2272,14 @@ function(themis_build_modular)
 
     if(THEMIS_HAS_ROCKSDB_TENSOR)
         target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
+    endif()
+
+    if(TARGET ZLIB::ZLIB)
+        target_link_libraries(themis_storage PUBLIC ZLIB::ZLIB)
+    elseif(ZLIB_LIBRARY)
+        target_link_libraries(themis_storage PUBLIC ${ZLIB_LIBRARY})
+    elseif(UNIX AND NOT APPLE)
+        target_link_libraries(themis_storage PUBLIC z)
     endif()
 
     if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
@@ -2329,6 +2344,10 @@ function(themis_build_modular)
     endif()
     if(TARGET ZLIB::ZLIB)
         list(APPEND _themis_security_deps ZLIB::ZLIB)
+    elseif(ZLIB_LIBRARY)
+        list(APPEND _themis_security_deps ${ZLIB_LIBRARY})
+    elseif(UNIX AND NOT APPLE)
+        list(APPEND _themis_security_deps z)
     endif()
     if(TARGET KRB5::krb5)
         list(APPEND _themis_security_deps KRB5::krb5)
@@ -2395,6 +2414,14 @@ function(themis_build_modular)
         SOURCES ${THEMIS_SECURITY_SOURCES}
         DEPENDENCIES ${_themis_security_deps}
     )
+
+    if(TARGET ZLIB::ZLIB)
+        target_link_libraries(themis_security PUBLIC ZLIB::ZLIB)
+    elseif(ZLIB_LIBRARY)
+        target_link_libraries(themis_security PUBLIC ${ZLIB_LIBRARY})
+    elseif(UNIX AND NOT APPLE)
+        target_link_libraries(themis_security PUBLIC z)
+    endif()
 
     # ── Wave-2 compile definitions for security module ────────────────────────
     if(THEMIS_USE_OPENSSL_TSA)
@@ -2933,6 +2960,12 @@ function(themis_build_modular)
         if(DEFINED THEMIS_ROCKSDB_TARGET AND NOT "${THEMIS_ROCKSDB_TARGET}" STREQUAL "")
             target_link_libraries(themis_training PUBLIC ${THEMIS_ROCKSDB_TARGET})
         endif()
+
+        # themis_network is created earlier. Link training here after creation
+        # so static link order resolves CLO symbols referenced by network TUs.
+        if(TARGET themis_network)
+            target_link_libraries(themis_network PRIVATE themis_training)
+        endif()
     endif()
     
     if(THEMIS_MODULE_GEO)
@@ -3040,6 +3073,10 @@ function(themis_build_modular)
         endif()
         if(TARGET ZLIB::ZLIB)
             target_link_libraries(themis_content PUBLIC ZLIB::ZLIB)
+        elseif(ZLIB_LIBRARY)
+            target_link_libraries(themis_content PUBLIC ${ZLIB_LIBRARY})
+        elseif(UNIX AND NOT APPLE)
+            target_link_libraries(themis_content PUBLIC z)
         endif()
     endif()
 
@@ -3130,9 +3167,9 @@ function(themis_build_modular)
         endif()
     endif()
 
-    if(TARGET themis_training)
-        list(APPEND THEMIS_ALL_MODULES themis_training)
-    endif()
+    # Keep training out of the top-level module list to avoid static-link
+    # order inversions (themis_training before themis_network) on GNU ld.
+    # themis_network already links themis_training when present.
     
     if(THEMIS_MODULE_GEO)
         list(APPEND THEMIS_ALL_MODULES themis_geo)

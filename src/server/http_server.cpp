@@ -4906,6 +4906,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+#ifdef THEMIS_PLUGIN_SCRAPER
     // Route: Scraper Plugin API (/scraper/*)
     {
         const auto& p = path_only;
@@ -4924,6 +4925,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
+#endif
 
 #ifdef THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
     // Route: Encrypted Storage API (/user/storage/encrypted/*)

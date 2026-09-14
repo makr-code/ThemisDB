@@ -26,7 +26,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     VCPKG_DISABLE_METRICS=1 \
     VCPKG_DOWNLOADS=/opt/vcpkg/downloads \
     VCPKG_ALLOWED_DOWNLOADER_TOOLS=aria2 \
-    VCPKG_USE_ARIA2=ON
+    VCPKG_USE_ARIA2=ON \
+    VCPKG_BUILD_TYPE=release \
+    VCPKG_MAX_CONCURRENCY=4
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -77,6 +79,7 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
     --mount=type=cache,id=themis-vcpkg-root-cache-${TARGETARCH},target=/root/.cache,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    find /opt/vcpkg/downloads -name '*.part' -delete || true; \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
     ${VCPKG_ROOT}/vcpkg install \
         --triplet="${TRIPLET}" \
@@ -104,7 +107,7 @@ RUN if [ "${ENABLE_LLM}" = "ON" ]; then \
             -DLLAMA_BUILD_EXAMPLES=OFF \
             -DLLAMA_BUILD_SERVER=OFF \
             -DLLAMA_BUILD_SHARED_LIB=ON \
-            -DLLAMA_NATIVE=OFF && \
+            -DGGML_NATIVE=OFF && \
         cmake --build build --parallel $(nproc); \
     else \
         mkdir -p /opt/llama.cpp/build/bin; \

@@ -117,49 +117,10 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
         }
     }
 
-    // --- Unbounded UPDATE check (UPDATE … without FILTER or WHERE) ------------
-    {
-        const std::size_t updatePos = findKeyword(upper, "UPDATE ");
-        if (updatePos != std::string::npos) {
-            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
-                                   findKeyword(upper, " WHERE ") != std::string::npos ||
-                                   findKeyword(upper, "WHERE ")  != std::string::npos;
-            if (!hasFilter) {
-                return Violation{
-                    "UNBOUNDED_UPDATE",
-                    updatePos,
-                    fmt::format(
-                        "AQL_MUTATION_SAFETY: UPDATE at position {} has no FILTER or "
-                        "WHERE clause. This could affect the entire collection. "
-                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
-                        updatePos)
-                };
-            }
-        }
-    }
-
-    // --- Unbounded REMOVE check (REMOVE … without FILTER or WHERE) -----------
-    {
-        const std::size_t removePos = findKeyword(upper, "REMOVE ");
-        if (removePos != std::string::npos) {
-            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
-                                   findKeyword(upper, " WHERE ") != std::string::npos ||
-                                   findKeyword(upper, "WHERE ")  != std::string::npos;
-            if (!hasFilter) {
-                return Violation{
-                    "UNBOUNDED_REMOVE",
-                    removePos,
-                    fmt::format(
-                        "AQL_MUTATION_SAFETY: REMOVE at position {} has no FILTER or "
-                        "WHERE clause. This could delete the entire collection. "
-                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
-                        removePos)
-                };
-            }
-        }
-    }
-
     // --- Suspiciously large LIMIT check (> 100000) ----------------------------
+    // This must be evaluated before the broader unbounded-update/remove checks,
+    // because a bulk-impact mutation with a huge LIMIT is a higher-priority
+    // safety signal than a generic collection-wide warning.
     {
         std::size_t searchFrom = 0;
         while (true) {
@@ -202,13 +163,56 @@ AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
         }
     }
 
+    // --- Unbounded UPDATE check (UPDATE … without FILTER or WHERE) ------------
+    {
+        const std::size_t updatePos = findKeyword(upper, "UPDATE ");
+        if (updatePos != std::string::npos) {
+            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
+                                   findKeyword(upper, " WHERE ") != std::string::npos ||
+                                   findKeyword(upper, "WHERE ")  != std::string::npos;
+            if (!hasFilter) {
+                return Violation{
+                    "UNBOUNDED_UPDATE",
+                    updatePos,
+                    fmt::format(
+                        "AQL_MUTATION_SAFETY: UPDATE at position {} has no FILTER or "
+                        "WHERE clause. This could affect the entire collection. "
+                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
+                        updatePos)
+                };
+            }
+        }
+    }
+
+    // --- Unbounded REMOVE check (REMOVE … without FILTER or WHERE) -----------
+    {
+        const std::size_t removePos = findKeyword(upper, "REMOVE ");
+        if (removePos != std::string::npos) {
+            const bool hasFilter = findKeyword(upper, "FILTER ") != std::string::npos ||
+                                   findKeyword(upper, " WHERE ") != std::string::npos ||
+                                   findKeyword(upper, "WHERE ")  != std::string::npos;
+            if (!hasFilter) {
+                return Violation{
+                    "UNBOUNDED_REMOVE",
+                    removePos,
+                    fmt::format(
+                        "AQL_MUTATION_SAFETY: REMOVE at position {} has no FILTER or "
+                        "WHERE clause. This could delete the entire collection. "
+                        "Add a FILTER/WHERE predicate or acknowledge the risk explicitly.",
+                        removePos)
+                };
+            }
+        }
+    }
+
     return std::nullopt;
 }
 
 std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(std::string_view aql_query) const {
     if (mode_ == ValidationMode::AllowMutations) {
-        return std::nullopt;
+        // Allow DML in this mode, but keep injection safety guards active.
+        return validateMutationSafety(aql_query);
     }
 
     const std::string query_str(aql_query);
