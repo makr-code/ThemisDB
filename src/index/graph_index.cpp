@@ -536,6 +536,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	if (startPk.empty()) return {Status::Error("bfs: startPk darf nicht leer sein"), {}};
 	if (maxDepth < 0) return {Status::Error("bfs: maxDepth muss >= 0 sein"), {}};
 
+	auto all_vertices = getAllVertices();
+	if (std::find(all_vertices.begin(), all_vertices.end(), std::string(startPk)) == all_vertices.end()) {
+		return {Status::Error("bfs: Start node not found"), {}};
+	}
+
 	std::vector<std::string> order;
 	std::unordered_set<std::string> visited;
 	std::queue<std::pair<std::string,int>> q;
@@ -622,6 +627,11 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 	if (!db_.isOpen()) return {Status::Error("bfs: Datenbank ist nicht geöffnet"), {}};
 	if (startPk.empty()) return {Status::Error("bfs: startPk darf nicht leer sein"), {}};
 	if (maxDepth < 0) return {Status::Error("bfs: maxDepth muss >= 0 sein"), {}};
+
+	auto all_vertices = getAllVertices();
+	if (std::find(all_vertices.begin(), all_vertices.end(), std::string(startPk)) == all_vertices.end()) {
+		return {Status::Error("bfs: Start node not found"), {}};
+	}
 
 	std::vector<std::string> order;
 	std::unordered_set<std::string> visited;
