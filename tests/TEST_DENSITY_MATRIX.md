@@ -144,10 +144,10 @@ Legend:
 
 | Flow | focused / unit | integration | cross-module | flow / pipeline | e2e | chaos / recovery | stress / soak | benchmark / perf | `release_critical` | Primary evidence | Current closure gap |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `server -> query -> storage -> transaction` | D | D | I | D | D | D | D | D | D | `tests/integration/pipeline/query_execution_pipeline_test.cpp`, `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp`, `tests/integration/pipeline/w5a_e2e_critical_journeys_test.cpp`, `tests/integration/pipeline/w9c_chaos_fault_tolerance_test.cpp` | One canonical trace from ingress through transactional commit and recovery still needs explicit sign-off wiring in one place. |
-| `sharding <-> transaction` | D | D | I | D | I | D | D | D | D | `tests/integration/pipeline/transaction_replication_pipeline_test.cpp`, `tests/sharding/test_sharding_chaos.cpp`, `tests/transaction/test_transaction_chaos.cpp`, `tests/integration/test_sharding_distributed_write_soak.cpp`, `tests/integration/test_replication_soak_60min.cpp` | Recovery compatibility across the multiple 2PC / WAL paths still needs consolidated evidence and gate ownership. |
+| `server -> query -> storage -> transaction` | D | D | I | D | D | D | D | D | D | `tests/integration/pipeline/query_execution_pipeline_test.cpp`, `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp`, `tests/integration/pipeline/w5a_e2e_critical_journeys_test.cpp`, `tests/integration/pipeline/w9c_chaos_fault_tolerance_test.cpp` | Focused, pipeline, and chaos release-critical anchors are now wired into one Wave A aggregate target; `storage_pipeline_e2e_test.cpp` remains supplemental because it is only discovered through the unified `themis_tests` binary. |
+| `sharding <-> transaction` | D | D | I | D | I | D | D | D | D | `tests/integration/pipeline/transaction_replication_pipeline_test.cpp`, `tests/sharding/test_sharding_chaos.cpp`, `tests/transaction/test_transaction_chaos.cpp`, `tests/integration/test_sharding_distributed_write_soak.cpp`, `tests/integration/test_replication_soak_60min.cpp` | Focused, pipeline, and chaos release-critical anchors are now wired into one Wave A aggregate target; long soak coverage remains supplemental outside the fast gate. |
 | `search -> index -> tensor -> graph -> llm` | D | D | D | D | D | I | I | D | I | `tests/integration/pipeline/rag_ai_pipeline_test.cpp`, `tests/search/test_layered_retrieval_integration_phase4.cpp`, `tests/rag/test_rag_phase_b_e2e.cpp`, `benchmarks/search/bench_layered_retrieval_phase5.cpp`, `benchmarks/rag/bench_fts_phase_b.cpp` | The retrieval chain is broad, but the full release-critical trace and representative-hardware baselines remain fragmented across modules. |
-| `server <-> llm` | D | D | I | I | D | D | I | D | I | `tests/llm/test_llm_governance_pipeline_e2e_focused.cpp`, `tests/test_llm_multi_model_integration.cpp`, `tests/llm/test_streaming_handler.cpp`, `tests/server/test_server_gateway_resilience_focused.cpp`, `benchmarks/server/bench_server_http3_gates.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | A single fail-closed, protocol-to-inference release gate is still missing as one consolidated evidence path. |
+| `server <-> llm` | D | D | I | I | D | D | I | D | I | `tests/llm/test_llm_governance_pipeline_e2e_focused.cpp`, `tests/test_llm_multi_model_integration.cpp`, `tests/llm/test_streaming_handler.cpp`, `tests/server/test_server_gateway_resilience_focused.cpp`, `benchmarks/server/bench_server_http3_gates.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | Focused and pipeline release-critical anchors are now wired into one Wave A aggregate target; the root multi-model round-trip stays supplemental because it is only discovered through the unified `themis_tests` binary. |
 
 ## Canonical closure execution plan
 
@@ -174,7 +174,7 @@ Target modules:
 Wave A exit expectation:
 - all open test-density roadmap items reclassified with source evidence or closed with direct suites
 - explicit `release_critical` mapping for each module's critical test path
-- every canonical release-critical flow mapped to one owned focused/integration/perf gate path
+- every canonical release-critical flow mapped to one owned focused/integration/perf gate path, with any unified-only supplemental evidence explicitly documented
 - representative benchmark / soak artifacts linked from one module-local closure block
 
 ### Wave B — boundary, API, and policy densification
