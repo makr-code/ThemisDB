@@ -1,5 +1,10 @@
 # Architecture - Source Root
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-07-28  
+**Last Updated:** 2026-09-14  
+**Status:** active
+
 <!-- Status: current | validated: 2026-09-09 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
@@ -10,7 +15,7 @@ The root of src is a documentation and aggregation boundary above individual mod
 ## Main Planes
 
 1. Module plane
-- 62 top-level source modules own feature-local implementation and behavior contracts under src/<module>/
+- 72 top-level `src/` module paths exist in the current clone; 69 are code-bearing and 3 are docs-only (`ai_working`, `llm_streaming`, `vector_search`)
 
 2. Aggregation plane
 - source-wide ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, SECURITY, and inventory-oriented reports summarize cross-module state
@@ -125,6 +130,5 @@ index        ──→ acceleration, storage, security, observability, llm/lora_
 |--------|------|--------|
 | `llm_streaming` | `src/llm_streaming/` | `.gitkeep` only; implementation externalized or planned |
 | `vector_search` | `src/vector_search/` | `.gitkeep` only; implementation externalized or planned |
-| `chimera` | `src/chimera/` | Planned (Batch 6+); adapter factory not yet implemented |
 
 All implementation claims for these modules must be treated as aspirational until source is delivered.
