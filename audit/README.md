@@ -1,6 +1,9 @@
 # ThemisDB Audit Hub and Canonical Map
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-13  
 **Last Updated:** 2026-09-13  
+**Status:** active  
 **Repository Metadata:** `VERSION=2.4.0-alpha`  
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
 **Source-verified status:** The production audit logger exists in source, but design-level Wave-C pass claims remain provisional until validated against the real production sink and persistence path.
