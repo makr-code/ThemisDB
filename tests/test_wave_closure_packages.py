@@ -132,6 +132,29 @@ class WaveClosureValidationTests(unittest.TestCase):
             self.assertFalse(payload["pass"])
             self.assertTrue(any("Wave C marked evidence-captured while Wave B" in v for v in payload["violations"]))
 
+    def test_validation_fails_when_manifest_directory_is_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            missing_dir = root / "does-not-exist"
+            output = root / "out.json"
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "validate_wave_closure_packages.py",
+                    "--manifest-dir",
+                    str(missing_dir),
+                    "--output-json",
+                    str(output),
+                ]
+                code = validator.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 1)
+            self.assertFalse(payload["pass"])
+            self.assertTrue(any("No closure manifests found" in v for v in payload["validation_errors"]))
+
 
 if __name__ == "__main__":
     unittest.main()

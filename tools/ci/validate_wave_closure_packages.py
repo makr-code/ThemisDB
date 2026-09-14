@@ -188,14 +188,17 @@ def main() -> int:
         )
 
     status_map = {wave: wave_status(manifests_by_wave[wave]) for wave in WAVE_ORDER}
-    violations = check_order(status_map)
-    violations.extend(errors)
+    ordering_violations = check_order(status_map)
+    validation_errors = list(errors)
+    violations = [*validation_errors, *ordering_violations]
 
     result = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "pass": len(violations) == 0,
         "wave_status": status_map,
         "manifests": manifest_rows,
+        "validation_errors": validation_errors,
+        "ordering_violations": ordering_violations,
         "violations": violations,
     }
 
