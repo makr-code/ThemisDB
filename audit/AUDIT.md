@@ -53,7 +53,9 @@ The production audit stack is materially present in source code and is not merel
 ### Wave Closure Package Governance (2026-09-13)
 
 - Dedicated Wave execution workflows now publish source-validated closure manifests (`json` + `md`) as CI artifacts for hardening gates.
+- Repository-tracked baseline manifests now live in `audit/evidence/waves/manifests/` (Wave A GPU, Wave B Transaction, Wave C Security, Wave D Operability) and must be refreshed with authoritative run IDs/artifacts after each closure rerun.
 - Canonical format and required fields are defined in `audit/evidence/waves/README.md`.
+- Automated manifest completeness + A→B→C→D ordering validation now runs via `.github/workflows/14-wave-closure-governance.yml` (`tools/ci/validate_wave_closure_packages.py`).
 - Root status promotion remains blocked unless closure packages contain code/test/CI/benchmark evidence signals.
 
 ---

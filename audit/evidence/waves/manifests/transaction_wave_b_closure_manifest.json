@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-09-14T15:15:00Z",
+  "wave": "Wave B",
+  "module": "transaction",
+  "workflow": "13-wave-b-transaction-ci-execution.yml",
+  "run_id": "34313051247",
+  "overall_status": "open",
+  "gates": {
+    "B1_chaos_recovery": "success",
+    "B2_fail_closed": "success",
+    "B3_release_critical": "success",
+    "B4_phase4_baseline": "skipped"
+  },
+  "evidence_references": {
+    "closure_package_artifact": "transaction-wave-b-closure-package",
+    "artifacts_archive": "transaction-ci-results.zip",
+    "ci_report": "CI-Report"
+  },
+  "source_validation": {
+    "code": true,
+    "tests": true,
+    "ci": true,
+    "benchmarks": false
+  },
+  "notes": "Dedicated transaction lane is green; authoritative representative-hardware Phase-4 baseline capture remains open."
+}
