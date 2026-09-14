@@ -353,7 +353,7 @@ TEST_F(AuditWaveCProductionTest, ExportQueueBoundedGrowthUnderBackpressure) {
                        std::shared_ptr<VCCPKIClient>{},
                        cfg);
 
-    bool overflow_detected = false;
+    std::optional<std::string> overflow_message;
     for (int i = 0; i < 500; ++i) {
         try {
             logger.logEvent(makeEvent("BULK_EXPORT",
@@ -362,14 +362,16 @@ TEST_F(AuditWaveCProductionTest, ExportQueueBoundedGrowthUnderBackpressure) {
                                       "export",
                                       "ISO27001,GDPR",
                                       "MEDIUM"));
-        } catch (const std::runtime_error&) {
-            overflow_detected = true;
+        } catch (const std::runtime_error& ex) {
+            overflow_message = ex.what();
             break;
         }
     }
 
-    EXPECT_TRUE(overflow_detected);
-    EXPECT_LT(countNonEmptyLines(log_path_), 500u);
+    ASSERT_TRUE(overflow_message.has_value());
+    EXPECT_EQ(*overflow_message,
+              "AuditLogger: event queue at capacity (64); fail-closed — event rejected");
+    EXPECT_LE(countNonEmptyLines(log_path_), cfg.max_queued_events);
 }
 
 TEST_F(AuditWaveCProductionTest, ExportRetryLogicHandlesTransientFailures) {
