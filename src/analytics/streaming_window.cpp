@@ -469,10 +469,10 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
             if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
                 auto oldest = open_windows_.begin();
-                if (config_.emit_empty_windows || !oldest->second.records.empty()) {
-                    pending.push_back(computeResult(oldest->second, false));
-                    ++results_emitted_;
-                }
+                // Eviction is always emitted, independent of emit_empty_windows, so
+                // callers can observe backpressure/capacity-eviction events.
+                pending.push_back(computeResult(oldest->second, false));
+                ++results_emitted_;
                 ++windows_closed_;
                 ++windows_evicted_;
                 open_windows_.erase(oldest);
@@ -1008,7 +1008,7 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
 }
 
 bool SessionWindow::ingest(const StreamRecord &record) {
-    bool record_added = true;
+    bool record_added = false;
 
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
@@ -1074,6 +1074,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
                 s.records.push_back(record);
                 ++records_ingested_;
+                record_added = true;
             } else {
                 ++records_dropped_;
                 record_added = false;
@@ -1102,6 +1103,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 ns.last_event    = record.event_time;
                 ns.records.push_back(record);
                 ++records_ingested_;
+                record_added = true;
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     ns.has_late_records = true;
                 }
@@ -1122,6 +1124,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 } else {
                     s.records.push_back(record);
                     ++records_ingested_;
+                    record_added = true;
                 }
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     s.has_late_records = true;
