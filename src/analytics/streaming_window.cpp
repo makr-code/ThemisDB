@@ -607,7 +607,8 @@ void TumblingWindow::idleTimeoutLoop() {
         ResultCallback cb;
         {
             std::lock_guard lk(mutex_);
-            pending = closeExpiredWindows(wm);
+            auto expired = closeExpiredWindows(wm);
+            pending.insert(pending.end(), expired.begin(), expired.end());
             cb      = callback_;
         }
         if (cb) {

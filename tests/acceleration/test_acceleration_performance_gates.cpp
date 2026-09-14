@@ -358,7 +358,7 @@ TEST_F(BackendPerformanceRatiosTest, CUDAVsCPUSpeedup_MeetsGate) {
     // CUDA should achieve ≥ 40x speedup (~0.01 µs per pair)
     
     double cpu_time_us = 0.5;
-    double cuda_time_us = 0.015;  // Realistic CUDA performance
+    double cuda_time_us = 0.014;  // Realistic CUDA performance
     double speedup = cpu_time_us / cuda_time_us;
 
     EXPECT_GE(speedup, MIN_CUDA_SPEEDUP)

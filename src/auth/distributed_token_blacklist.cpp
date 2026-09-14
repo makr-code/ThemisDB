@@ -356,7 +356,7 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         throw std::runtime_error(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
-    
+
     db_ = db_instance;
     cf_ = cf_handles[1];  // Our column family (not default)
     

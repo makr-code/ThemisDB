@@ -1394,13 +1394,16 @@ private:
         // Membership: left IN right (array or variable)
         // Debug: uncomment to trace tokens
         // std::cerr << "parseComparison current token: " << (int)current().type << " value='" << current().value << "'\n";
-        if ((match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
+        const bool left_is_object_literal
+            = static_cast<bool>(std::dynamic_pointer_cast<ObjectConstructExpr>(left));
+        if (!left_is_object_literal
+            && (match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::In, left, right);
         }
         
-        if (match(TokenType::EQ)) {
+        if (match(TokenType::EQ) || match(TokenType::ASSIGN)) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, left, right);
@@ -3048,5 +3051,3 @@ Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
 
 }  // namespace query
 }  // namespace themis
-
-

@@ -49,6 +49,7 @@ static constexpr MutationPattern kMutationPatterns[] = {
     {"REPLACE ",          "REPLACE"},
     {"REMOVE ",           "REMOVE"},
     {"DROP ",             "DROP"},
+    {"DELETE ",           "DELETE"},
     {"TRUNCATE ",         "TRUNCATE"},
     {"CREATE COLLECTION", "CREATE COLLECTION"},
 };

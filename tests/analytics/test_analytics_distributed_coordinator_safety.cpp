@@ -174,19 +174,27 @@ TEST_F(DistributedAnalyticsSafetyTest, CircuitBreakerOpensAfterThreshold) {
  * DCS-03: OPEN circuit rejects requests (fail-closed behavior).
  */
 TEST_F(DistributedAnalyticsSafetyTest, OpenCircuitRejectsRequests) {
+    DistributedAnalyticsSharding::Config cfg;
+    cfg.enable_circuit_breaker = true;
+    cfg.circuit_breaker_failure_threshold = 3;
+    cfg.circuit_breaker_recovery_delay_ms = 100;
+    cfg.circuit_breaker_max_recovery_delay_ms = 5000;
+    cfg.circuit_breaker_recovery_attempts = 2;
+
+    auto das = std::make_unique<DistributedAnalyticsSharding>(cfg);
     auto executor = std::make_shared<ControlledExecutor>(
         ControlledExecutor::Behavior::INTERMITTENT, 5);  // Fail first 5 times
-    das_->addShard("intermittent_shard", executor);
+    das->addShard("intermittent_shard", executor);
 
     auto query = makeSimpleQuery();
 
     // Trigger circuit opening
     for (int i = 0; i < 3; ++i) {
-        das_->executeDistributed(query);
+        das->executeDistributed(query);
     }
 
     // Now circuit should be OPEN; verify shard is skipped
-    auto result = das_->executeDistributed(query);
+    auto result = das->executeDistributed(query);
     EXPECT_EQ(result.total_shards, 0u);
 }
 
@@ -379,6 +387,9 @@ TEST_F(DistributedAnalyticsSafetyTest, DisabledCircuitBreakerAllowsFailed) {
         auto result = das->executeDistributed(query);
         // Circuit is disabled, so shard should still be tried
         EXPECT_EQ(result.total_shards, 1u);
+        EXPECT_EQ(result.successful_shards, 0u);
+        ASSERT_FALSE(result.shard_info.empty());
+        EXPECT_FALSE(result.shard_info[0].success);
     }
 }
 
