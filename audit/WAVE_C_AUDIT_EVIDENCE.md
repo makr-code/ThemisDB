@@ -10,9 +10,9 @@
 **Target Exit Criteria:** Q4 2026  
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
 
-> **SOURCE-VERIFIED STATUS (2026-09-13):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The test harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; the real production backend is `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
+> **SOURCE-VERIFIED STATUS (2026-09-14):** The Wave-C proof harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now exercises the production `themis::utils::AuditLogger` JSONL sink and chain-state persistence path in `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`. This improves source-backed confidence for Wave-C audit evidence, but it is still not a substitute for broader release governance or human certification sign-off.
 
-> **BASELINE SYNC (2026-09-13):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with `IMPLEMENTATION_AUDIT_2026-09-13.md` and the current audit baseline, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
+> **BASELINE SYNC (2026-09-14):** This undated canonical Wave-C evidence document remains synchronized with the current audit baseline and now reflects production-backed regression coverage for the primary proof file. Broader sign-off still depends on the normal governance and release evidence chain.
 
 ---
 
@@ -25,9 +25,9 @@ The Audit module has successfully completed Wave C production validation. All th
 3. ✅ **Operational Resilience** — Recovery, retry logic, and queue backpressure validated
 4. ✅ **Compliance Integration** — Audit events tagged with compliance frameworks (ISO27001, GDPR, BSIC5, NIS2)
 
-**Exit Criteria Status:** Design-level validation passed; production end-to-end closure remains provisional pending real backend validation.
+**Exit Criteria Status:** Production-backed file-sink validation is now present in the primary proof harness; broader end-to-end release closure still follows the normal governance and sign-off path.
 
-> **Source verification note (2026-09-13):** This report is a useful validation artifact for the audit logic model, but the key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock in-memory `TamperEvidentAuditLogger` and `pseudoHash()` implementation rather than the production `themis::utils::AuditLogger` code path. The production implementation does exist in `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`; it includes hash-chain handling, queue bounds, encryption/signature fields, rotation, and fsync support, but a full Wave-C certification still requires a real integration run against the actual log backend and persistence path.
+> **Source verification note (2026-09-14):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now runs against the production `themis::utils::AuditLogger` code path, including the real JSONL audit sink and persisted chain-state file. Remaining certification scope is therefore governance/sign-off scope rather than the earlier mock-versus-production-path gap.
 
 ---
 

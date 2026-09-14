@@ -82,7 +82,7 @@
 
 - The real production audit implementation is present in source: `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`.
 - The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
-- The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
+- The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now exercises the production `themis::utils::AuditLogger` JSONL sink and chain-state persistence path.
 - For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-09-13.md` first.
 
 ### Source-Verified Reality Check (2026-09-07)
@@ -90,7 +90,7 @@
 The audit implementation in source is real and present, but a number of high-level audit claims in `/audit` need careful interpretation:
 
 - `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp` implement the production audit logger with hash chaining, queue-size guarding, log rotation, fsync support, PKI-signature metadata, encryption fallback, and SIEM forwarding.
-- `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a focused validation harness with a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; it validates logic patterns but does not exercise the production `themis::utils::AuditLogger` backend end-to-end.
+- `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a focused production-backed regression harness; it validates Wave-C audit behavior against the real `themis::utils::AuditLogger` persistence path rather than an in-memory mock logger.
 - Current source-backed state: the audit subsystem is implemented and operational at the core-logger layer, but the strongest Wave-C certification claims should be treated as design-level validation until an end-to-end run against the real production sink and storage path is executed.
 
 ### Compliance Snapshot
