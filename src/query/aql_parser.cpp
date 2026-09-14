@@ -2438,7 +2438,7 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     // Peek helper — returns empty string when out of range
     auto tok = [&](size_t idx) -> const std::string& {
         static const std::string empty;
-        return static_cast<bool>(idx < tokens.size()) ? tokens[idx] : empty;
+        return idx < tokens.size() ? tokens[idx] : empty;
     };
 
     const std::string& kw0 = tok(0);
