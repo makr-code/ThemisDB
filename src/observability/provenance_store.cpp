@@ -157,7 +157,7 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
-        std::unique_ptr<rocksdb::DB> db_instance;
+        rocksdb::DB* db_instance = nullptr;
         const auto status = rocksdb::DB::Open(options, config.db_path, &db_instance);
 
         if (!status.ok()) {
@@ -167,7 +167,7 @@ public:
             throw std::runtime_error("Failed to open RocksDB: DB::Open returned success with null handle");
         }
 
-        db_ = std::move(db_instance);
+        db_.reset(db_instance);
         config_ = config;
     }
 

@@ -118,6 +118,12 @@ inline int themis_ctz(unsigned int x) noexcept {
 #endif
 }
 
+#if defined(THEMIS_SIMD_FILTER_NEON)
+inline uint64x2_t neon_bitwise_not_u64(uint64x2_t mask) noexcept {
+    return veorq_u64(mask, vdupq_n_u64(~static_cast<std::uint64_t>(0)));
+}
+#endif
+
 inline void reserve_filter_output(std::vector<uint32_t>& out, size_t n) {
     if (n <= (out.max_size() - out.size() )) {
         out.reserve(out.size() + n);
@@ -425,7 +431,7 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
         uint64x2_t pred;
         switch (op) {
             case FilterOp::EQ: pred = vceqq_s64(va, vt); break;
-            case FilterOp::NE: pred = vmvnq_u64(vceqq_s64(va, vt)); break;
+            case FilterOp::NE: pred = neon_bitwise_not_u64(vceqq_s64(va, vt)); break;
             case FilterOp::LT: pred = vcltq_s64(va, vt); break;
             case FilterOp::LE: pred = vcleq_s64(va, vt); break;
             case FilterOp::GT: pred = vcgtq_s64(va, vt); break;
@@ -495,7 +501,7 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
         uint64x2_t pred;
         switch (op) {
             case FilterOp::EQ: pred = vceqq_f64(va, vt); break;
-            case FilterOp::NE: pred = vmvnq_u64(vceqq_f64(va, vt)); break;
+            case FilterOp::NE: pred = neon_bitwise_not_u64(vceqq_f64(va, vt)); break;
             case FilterOp::LT: pred = vcltq_f64(va, vt); break;
             case FilterOp::LE: pred = vcleq_f64(va, vt); break;
             case FilterOp::GT: pred = vcgtq_f64(va, vt); break;
