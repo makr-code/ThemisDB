@@ -270,7 +270,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    std::unique_ptr<rocksdb::DB> db_instance;
+    rocksdb::DB* db_instance = nullptr;
     rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
 
     if (!status.ok()) {
@@ -278,7 +278,8 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     }
 
     // Iterate through database
-    std::unique_ptr<rocksdb::Iterator> it(db_instance->NewIterator(rocksdb::ReadOptions()));
+    std::unique_ptr<rocksdb::DB> db_owner(db_instance);
+    std::unique_ptr<rocksdb::Iterator> it(db_owner->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;
     uint64_t total_size = 0;
