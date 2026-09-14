@@ -1,0 +1,86 @@
+name: "Gate: Wave Closure Governance"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+    paths:
+      - "audit/evidence/waves/**"
+      - "tools/ci/validate_wave_closure_packages.py"
+      - "tests/test_wave_closure_packages.py"
+      - ".github/workflows/gate-wave-closure.yml"
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - "audit/evidence/waves/**"
+      - "tools/ci/validate_wave_closure_packages.py"
+      - "tests/test_wave_closure_packages.py"
+      - ".github/workflows/gate-wave-closure.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: gate-wave-closure-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-wave-closure-packages:
+    name: "Validate Wave A→D closure packages"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: "Validate manifests and wave ordering"
+        run: |
+          python3 tools/ci/validate_wave_closure_packages.py \
+            --manifest-dir audit/evidence/waves/manifests \
+            --output-json wave-closure-validation.json \
+            --output-md wave-closure-validation.md
+
+      - name: "Upload wave closure validation artifacts"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wave-closure-validation
+          path: |
+            wave-closure-validation.json
+            wave-closure-validation.md
+          retention-days: 30
+
+  gate-feedback:
+    name: "Gate Feedback (label + comment on failure)"
+    needs:
+      - validate-wave-closure-packages
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: "Post failure feedback"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'ci/failure';
+            const gate  = 'Gate: Wave Closure Governance';
+            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`,
+            });

@@ -1,4 +1,4 @@
-name: Copilot code review setup
+name: "Copilot: Code Review Setup"
 
 on:
   workflow_dispatch:

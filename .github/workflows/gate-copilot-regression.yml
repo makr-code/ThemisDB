@@ -1,7 +1,8 @@
-name: Copilot Regression Guard
+name: "Gate: Copilot Regression"
 
 permissions:
   contents: read
+  issues: write
 
 # Rechenaufwand-Score: R=4 (K=4, L=4, N=4) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
@@ -154,3 +155,34 @@ jobs:
           name: copilot-regression-guard-${{ github.run_number }}
           path: artifacts/copilot-regression-guard/
           retention-days: 14
+
+  gate-feedback:
+    name: "Gate Feedback (label + comment on failure)"
+    needs:
+      - copilot-regression-guard
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: "Post failure feedback"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'ci/failure';
+            const gate  = 'Gate: Copilot Regression';
+            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`,
+            });

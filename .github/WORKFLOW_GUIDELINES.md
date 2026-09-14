@@ -40,7 +40,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/edition-hyperscaler-ci.yml`
 - `.github/workflows/security-fortify.yml`
 - `.github/workflows/security-fuzzing.yml`
-- `.github/workflows/sanitizer-nightly.yml`
+- `.github/workflows/build-sanitizer-nightly.yml`
 - `.github/workflows/compliance-governance-gates.yml`
 - `.github/workflows/maintenance-ai-working.yml`
 - `.github/workflows/maintenance-build-issues.yml`
@@ -97,6 +97,26 @@ Kernliste der aktiven Workflows:
 - `concurrency` mit `cancel-in-progress` auf Push/PR-Workflows setzen.
 - Berechtigungen minimal halten (`permissions` least privilege).
 - Schwere Benchmark-, GPU- und Sweep-Jobs standardmaessig ueber `schedule` oder `workflow_dispatch` isolieren.
+- **Schedule-Frequenz-Regel (Sprint 8)**: Nicht-Nightly `schedule`-Workflows sind auf maximal 2× wöchentlich begrenzt.
+  Nightly-Workflows (täglich) sind nur für echte Nightly-Builds/Sanitizer/Sicherheitsläufe zulässig.
+  Maintenance-Workflows (Labels, Milestones, Housekeeping) laufen maximal wöchentlich.
+  Mehrere täglich laufende Crons in einem Workflow sind nicht zulässig; Konsolidierung auf wöchentliche Granularität erzwingen.
+- **Schedule-Staffelung**: Schedules müssen über das 24h-Fenster gestaffelt sein, um Runner-Contention zu vermeiden.
+  Referenz-Staffelung: Nightly 01:00 (wiki), 02:20 (sanitizer), 03:00 (llm/release-mainline), 04:00 (release-nightly), 05:30 (maintenance).
+- **Push-vs-PR-Doppelfeuer vermeiden**: Wenn ein Workflow sowohl `push:` (auf Branches) als auch `pull_request:` hat,
+  feuert er doppelt für denselben Commit. Entweder `push:` oder `pull_request:` verwenden, nicht beide für Branch-Events.
+- **Concurrency-Pflicht (Sprint 9)**: Jeder Workflow MUSS einen `concurrency:`-Block haben.
+  Kanonische Muster je Workflow-Typ:
+  - **PR/Push-Gates**: `group: <name>-${{ github.event.pull_request.number || github.ref }}`, `cancel-in-progress: true`
+  - **Release-Orchestratoren**: `group: ci-release-${{ github.ref_name || github.ref }}`, `cancel-in-progress: false` (laufenden Release nie abbrechen)
+  - **Reusable Workflows** (`workflow_call`): `group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false` (Caller-seitige Concurrency entscheidet)
+  - **Nightly/Schedule** (einmalig täglich): `group: <name>-develop` (statisch, da immer gleicher Branch), `cancel-in-progress: false`
+  - **Sicherheits-/Pentest-Workflows**: `cancel-in-progress: false` (laufende Security-Scans nie abbrechen)
+  - **Dispatch-only Safety** (WinGet, Rollback): `cancel-in-progress: false`
+  - **`run_id`-basierte Gruppen sind verboten**: Jede `group:` die `github.run_id` enthält, bietet null Schutz (jede Ausführung erhält eine neue run_id). Stattdessen `github.ref` oder `github.event.pull_request.number` verwenden.
+- **Gate-Feedback-Pflicht (Sprint 9)**: Blocking PR-Gates MÜSSEN bei Fehlern Label und PR-Kommentar setzen.
+  Standardpattern: Job `gate-feedback` mit `needs: [<primary-jobs>]`, `if: failure() && github.event_name == 'pull_request'`,
+  `permissions: { pull-requests: write, issues: write }` und `actions/github-script@v7` zum Setzen von `ci/failure` + Kommentar.
 - Copilot-Review-Runner-Konfigurationen muessen als selbstbegrenzte Workflows
   mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
   `runs-on` deklariert werden.
