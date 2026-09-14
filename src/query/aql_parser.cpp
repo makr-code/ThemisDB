@@ -1417,7 +1417,7 @@ private:
             return std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, left, right);
         }
         
-        if (match(TokenType::EQ) || match(TokenType::ASSIGN)) {
+        if (match(TokenType::EQ)) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::Eq, left, right);
