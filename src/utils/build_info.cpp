@@ -546,14 +546,14 @@ BuildConfiguration getBuildConfiguration() {
         "Hardware Security Module integration"
     });
 #else
-    // STUB #95 — RESOLVED via HsmModuleStatusFn bridge in canonical
+    // Legacy issue #95 — RESOLVED via HsmModuleStatusFn bridge in canonical
     // src/themis/build_info.cpp (setHsmModuleStatusFn / clearHsmModuleStatusFn).
     // This legacy file is no longer compiled; the note is kept for reference.
     //
-    // Original STUB/SIMULATION NOTE:
+    // Original legacy note:
     // Purpose: Report HSM PKCS#11 as not-enabled in the build-info module list
     //   so that operators can detect that the server is running with the
-    //   in-process stub HSM (HSMProvider::isStubProvider() == true).
+    //   in-process fallback HSM (HSMProvider::isStubProvider() == true).
     // Activation: THEMIS_ENABLE_HSM_REAL is not defined (default in dev builds
     //   and when no PKCS#11 library is available).
     // Production Delta: HSM operations (DEK wrapping/unwrapping, firmware

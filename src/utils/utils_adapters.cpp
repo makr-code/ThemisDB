@@ -318,7 +318,7 @@ VectorReplayIterator::VectorReplayIterator(std::vector<SAGALogEntry> entries)
 {}
 
 bool VectorReplayIterator::hasNext() const {
-    return static_cast<bool>(pos_ < entries_.size());
+    return pos_ < entries_.size();
 }
 
 SAGALogEntry VectorReplayIterator::next() {
@@ -429,4 +429,3 @@ void SequentialUtilsPipeline::shutdown() noexcept {
 
 } // namespace utils
 } // namespace themis
-

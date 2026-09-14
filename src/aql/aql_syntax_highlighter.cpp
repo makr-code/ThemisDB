@@ -109,7 +109,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string &code) co
         return c;
     };
     auto peek
-        = [&](std::size_t offset = 0) -> char { return static_cast<bool>((pos + offset < code.size())) ? code[pos + offset] : '\0'; };
+        = [&](std::size_t offset = 0) -> char { return pos + offset < code.size() ? code[pos + offset] : '\0'; };
 
     while (pos < code.size()) {
         // Skip whitespace (preserve for faithful reconstruction)

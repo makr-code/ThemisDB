@@ -109,7 +109,13 @@ namespace {
 // ---------------------------------------------------------------------------
 // Scalar fallback
 // ---------------------------------------------------------------------------
-inline float scalar_l2_sq(const float *a, const float *b, std::size_t dim) noexcept {
+#if defined(__GNUC__) || defined(__clang__)
+#define THEMIS_MAYBE_UNUSED_FN [[maybe_unused]] __attribute__((unused))
+#else
+#define THEMIS_MAYBE_UNUSED_FN [[maybe_unused]]
+#endif
+
+THEMIS_MAYBE_UNUSED_FN inline float scalar_l2_sq(const float *a, const float *b, std::size_t dim) noexcept {
     float acc = 0.0f;
     for (std::size_t i = 0; i < dim; ++i) {
         const float d = a[i] - b[i];
@@ -117,6 +123,8 @@ inline float scalar_l2_sq(const float *a, const float *b, std::size_t dim) noexc
     }
     return acc;
 }
+
+#undef THEMIS_MAYBE_UNUSED_FN
 
 #if defined(THEMIS_VEC_KNN_SIMD_AVX512)
 // ---------------------------------------------------------------------------
@@ -561,4 +569,3 @@ VecKnnInsertResult VecKnnInsertPipeline::insertBatch(VectorIndexManager &index, 
 
 } // namespace acceleration
 } // namespace themis
-

@@ -322,7 +322,7 @@ void Serialization::Decoder::endObject() {
 }
 
 bool Serialization::Decoder::hasMore() const {
-    return static_cast<bool>(pos_ < data_.size());
+    return pos_ < data_.size();
 }
 
 } // namespace utils

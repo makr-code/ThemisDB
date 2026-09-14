@@ -37,8 +37,8 @@
 #if __has_include(<sys/prctl.h>)
 #include <sys/prctl.h>
 #define THEMIS_HAVE_PRCTL 1
-#endif
-#endif
+#endif // __has_include(<sys/prctl.h>)
+#endif // !_WIN32
 
 #include <spdlog/spdlog.h>
 
@@ -119,7 +119,7 @@ static std::string sanitizeCgroupName(const std::string &name) {
 }
 
 } // anonymous namespace
-#endif
+#endif // !_WIN32
 
 // =============================================================================
 // AbiChecker
@@ -149,7 +149,7 @@ void AbiChecker::useDefaultLists() {
     return reinterpret_cast<void *>(GetProcAddress(static_cast<HMODULE>(handle), name.c_str()));
 #else
     return dlsym(handle, name.c_str());
-#endif
+#endif // !_WIN32
 }
 
 AbiCheckResult AbiChecker::checkVersions(const ModuleMetadata &meta, uint32_t host_major, uint32_t host_minor) const {
@@ -266,7 +266,7 @@ struct ModuleSandbox::PlatformHandle {
     bool cpu_limit_applied = false;
     // true when setupCgroupV2() succeeded
     bool cgroup_v2_active = false;
-#endif
+#endif // !_WIN32
 };
 
 // =============================================================================
@@ -355,7 +355,7 @@ void ModuleSandbox::shutdown() {
     // Remove the cgroup v2 hierarchy created during launch (Linux only).
 #if defined(__linux__)
     teardownCgroupV2();
-#endif
+#endif // defined(__linux__)
 #endif // !_WIN32
 
     // Release WASM sandbox (v1.8.0)
@@ -659,6 +659,15 @@ void ModuleSandbox::teardownCgroupV2() {
                      "for potential later cleanup",
                      module_name_, platform_->cgroup_path);
     }
+}
+
+#else
+
+bool ModuleSandbox::setupCgroupV2() {
+    return false;
+}
+
+void ModuleSandbox::teardownCgroupV2() {
 }
 
 #endif // __linux__

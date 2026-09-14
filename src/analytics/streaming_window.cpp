@@ -519,14 +519,8 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             open_windows_[idx].records.push_back(record);
         }
 
-        // closeExpiredWindows returns new expired windows; merge with eviction results
-        auto closed_results = closeExpiredWindows(wm);
-        pending.insert(pending.end(), closed_results.begin(), closed_results.end());
-        
-        // Only count ingested if record was actually added to the window
-        if (record_added) {
-            ++records_ingested_;
-        }
+        auto closed = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed.begin(), closed.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -544,6 +538,9 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
         }
+    }
+    if (record_added) {
+        ++records_ingested_;
     }
     return record_added;
 }
@@ -611,7 +608,8 @@ void TumblingWindow::idleTimeoutLoop() {
         ResultCallback cb;
         {
             std::lock_guard lk(mutex_);
-            pending = closeExpiredWindows(wm);
+            auto closed = closeExpiredWindows(wm);
+            pending.insert(pending.end(), closed.begin(), closed.end());
             cb      = callback_;
         }
         if (cb) {
@@ -796,7 +794,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     updateWatermark(record.event_time);
     int64_t wm    = watermark_us_.load(std::memory_order_acquire);
     int64_t ev_us = toMicros(record.event_time);
-    bool record_added = true;
+    bool record_added = false;
 
     if (ev_us < wm && !config_.watermark.allow_late_data) {
         ++late_records_;
@@ -846,6 +844,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_window);
                 } else {
                     w.records.push_back(record);
+                    record_added = true;
                 }
             }
         }
@@ -858,9 +857,8 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         } // end key-cardinality else
 
-        // closeExpiredWindows returns new expired windows; prepend with eviction results
-        auto closed_results = closeExpiredWindows(wm);
-        pending.insert(pending.end(), closed_results.begin(), closed_results.end());
+        auto closed = closeExpiredWindows(wm);
+        pending.insert(pending.end(), closed.begin(), closed.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -869,6 +867,9 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
         }
+    }
+    if (record_added) {
+        ++records_ingested_;
     }
     return record_added;
 }
@@ -1009,6 +1010,7 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
 }
 
 bool SessionWindow::ingest(const StreamRecord &record) {
+    bool record_added = false;
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
     // gap-based rather than slot-based, but still respect out-of-orderness tolerance.
@@ -1072,7 +1074,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             // Enforce max_records_per_session on new session creation.
             if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
                 s.records.push_back(record);
-                ++records_ingested_;
+                record_added = true;
             } else {
                 ++records_dropped_;
             }
@@ -1099,6 +1101,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 ns.start         = record.event_time;
                 ns.last_event    = record.event_time;
                 ns.records.push_back(record);
+                record_added = true;
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     ns.has_late_records = true;
                 }
@@ -1117,7 +1120,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_session);
                 } else {
                     s.records.push_back(record);
-                    ++records_ingested_;
+                    record_added = true;
                 }
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     s.has_late_records = true;
@@ -1131,7 +1134,10 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     if (has_pending && cb) {
         try { cb(pending_result); } catch (...) {}
     }
-    return true;
+    if (record_added) {
+        ++records_ingested_;
+    }
+    return record_added;
 }
 
 void SessionWindow::flush() {

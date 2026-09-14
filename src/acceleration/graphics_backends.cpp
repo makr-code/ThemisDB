@@ -965,7 +965,11 @@ class DirectXVectorBackend::DirectXVectorBackendImpl {
 };
 
 DirectXVectorBackend::DirectXVectorBackend()
+#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
     : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
+#else
+    : initialized_(false), impl_(nullptr) {}
+#endif
 
 DirectXVectorBackend::~DirectXVectorBackend() {
     shutdown();
@@ -3291,7 +3295,11 @@ public:
 // ============================================================================
 
 OpenGLVectorBackend::OpenGLVectorBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLVectorBackendImpl>()) {}
+#else
+    : initialized_(false), impl_(nullptr) {}
+#endif
 
 OpenGLVectorBackend::~OpenGLVectorBackend() {
     shutdown();
@@ -3671,7 +3679,11 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
 // ============================================================================
 
 OpenGLGeoBackend::OpenGLGeoBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGeoBackendImpl>()) {}
+#else
+    : initialized_(false), impl_(nullptr) {}
+#endif
 
 OpenGLGeoBackend::~OpenGLGeoBackend() {
     shutdown();
@@ -3721,6 +3733,9 @@ bool OpenGLGeoBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_) {
       return true;
+    }
+    if (!impl_) {
+        impl_ = std::make_unique<OpenGLGeoBackendImpl>();
     }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGeo] EGL library not found; running in CPU fallback mode" << std::endl;
@@ -3851,6 +3866,14 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
             "polygon must have at least 3 vertices"));
         return {};
     }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGeo",
+            "OpenGL geo backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
+    }
 
     if (impl_->gpuAvailable_) {
         try {
@@ -3897,7 +3920,11 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
 // ============================================================================
 
 OpenGLGraphBackend::OpenGLGraphBackend()
+#ifdef THEMIS_ENABLE_OPENGL
     : initialized_(false), impl_(std::make_unique<OpenGLGraphBackendImpl>()) {}
+#else
+    : initialized_(false), impl_(nullptr) {}
+#endif
 
 OpenGLGraphBackend::~OpenGLGraphBackend() {
     shutdown();
@@ -3946,6 +3973,9 @@ bool OpenGLGraphBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
     if (initialized_) {
       return true;
+    }
+    if (!impl_) {
+        impl_ = std::make_unique<OpenGLGraphBackendImpl>();
     }
     if (!impl_->loadEGLLibrary()) {
         std::cerr << "[OpenGLGraph] EGL library not found; running in CPU fallback mode" << std::endl;
@@ -4022,6 +4052,14 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
                 "startVertices[" + std::to_string(s) + "] out of range"));
             return {};
         }
+    }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
     }
 
     // GPU path
@@ -4116,6 +4154,14 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
                 "start/end vertex out of range for pair " + std::to_string(p)));
             return {};
         }
+    }
+    if (!impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGLGraph",
+            "OpenGL graph backend implementation is unavailable",
+            "Call initialize() before using the backend"));
+        return {};
     }
 
     // GPU path
@@ -4545,4 +4591,3 @@ GeoKernelDispatch VulkanGeoBackend::populateGeoDispatch() const {
 
 } // namespace acceleration
 } // namespace themis
-

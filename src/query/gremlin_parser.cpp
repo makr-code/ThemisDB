@@ -72,11 +72,11 @@ struct GremlinParser::Lexer {
 
     char peek([[maybe_unused]] size_t offset = 0) const {
         size_t p = pos + offset;
-        return static_cast<bool>((p < src.size())) ? src[p] : '\0';
+        return p < src.size() ? src[p] : '\0';
     }
 
     char advance() {
-        return static_cast<bool>((pos < src.size())) ? src[pos++] : '\0';
+        return pos < src.size() ? src[pos++] : '\0';
     }
 
     void skipWhitespace() {

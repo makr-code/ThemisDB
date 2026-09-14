@@ -10186,11 +10186,20 @@ else()
     message(STATUS "Plugin Health Monitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_health_monitor.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
+set(_themis_test_plugin_hot_plug_src "")
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
+    set(_themis_test_plugin_hot_plug_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_plug.cpp")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp")
+    set(_themis_test_plugin_hot_plug_src plugins/test_plugin_hot_plug.cpp)
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
+    set(_themis_test_plugin_hot_plug_src plugin/test_plugin_hot_plug.cpp)
+endif()
+
+if(_themis_test_plugin_hot_plug_src)
     message(STATUS "Adding Plugin Hot-Plug Monitor focused tests")
 
     add_executable(test_plugin_hot_plug_focused
-        plugin/test_plugin_hot_plug.cpp
+        ${_themis_test_plugin_hot_plug_src}
     )
 
     target_include_directories(test_plugin_hot_plug_focused PRIVATE
@@ -10217,14 +10226,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
 
     message(STATUS "  PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger")
 else()
-    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
+    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_plug.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_plug.cpp")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
+set(_themis_test_plugin_hot_reload_enhanced_src "")
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
+    set(_themis_test_plugin_hot_reload_enhanced_src "${THEMIS_ROOT_DIR}/tests/plugins/test_plugin_hot_reload_enhanced.cpp")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp")
+    set(_themis_test_plugin_hot_reload_enhanced_src plugins/test_plugin_hot_reload_enhanced.cpp)
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
+    set(_themis_test_plugin_hot_reload_enhanced_src plugin/test_plugin_hot_reload_enhanced.cpp)
+endif()
+
+if(_themis_test_plugin_hot_reload_enhanced_src)
     message(STATUS "Adding Plugin Hot-Reload Enhanced focused tests")
 
     add_executable(test_plugin_hot_reload_enhanced_focused
-        plugin/test_plugin_hot_reload_enhanced.cpp
+        ${_themis_test_plugin_hot_reload_enhanced_src}
     )
 
     target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
@@ -10251,7 +10269,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cp
 
     message(STATUS "  PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback")
 else()
-    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
+    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/plugins/test_plugin_hot_reload_enhanced.cpp or ${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_hot_reload_enhanced.cpp")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_dependency_graph.cpp")
@@ -28828,4 +28846,3 @@ else()
     add_custom_target(themis_release_critical_tests)
     message(WARNING "themis_release_critical_tests: no release_critical targets collected — check test registration")
 endif()
-
