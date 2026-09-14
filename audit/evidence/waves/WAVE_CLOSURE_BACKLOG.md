@@ -86,6 +86,7 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - gate status `pending`
   - gate status `skipped`
   - any `source_validation` flag `false`
+- Use `REMAINING_OPEN_GATES_TRACKER.md` as the canonical unresolved-gates checklist.
 - For each reviewed manifest:
   - attach latest run IDs
   - attach artifact references

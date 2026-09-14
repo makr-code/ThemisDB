@@ -8,6 +8,7 @@ This directory defines the canonical closure-package format for Wave A → B →
 - Block status promotion from documentation-only claims.
 - Require reproducible references (CI run, artifacts, benchmark outputs, audit references).
 - Keep the active closure backlog in `WAVE_CLOSURE_BACKLOG.md`.
+- Track unresolved open gates in `REMAINING_OPEN_GATES_TRACKER.md`.
 - Track CodeQL Python skip governance risk in `WAVE_CODEQL_PYTHON_RISK.md`.
 
 ## Required package artifacts

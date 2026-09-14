@@ -21,6 +21,8 @@
 | `closure_package_artifact` | `gpu-wave-a-closure-package` |
 | `artifacts_archive` | `gpu-ci-results.zip` |
 | `ci_report` | `GPU-CI-Report` |
+| `latest_attempt_run_url` | `https://github.com/makr-code/ThemisDB/actions/runs/34875896686` |
+| `latest_attempt_artifacts` | `gpu-ci-results,cuda-audit-report,gpu-test-results,gpu-cmake-configuration-log` |
 
 ## Source validation
 
@@ -33,4 +35,4 @@
 
 ## Notes
 
-Dedicated Wave-A GPU lane is green; representative-hardware capture remains open and keeps overall status open.
+Dedicated Wave-A GPU lane has source-backed artifacts; representative-hardware capture (A4) remains skipped and keeps overall status open.

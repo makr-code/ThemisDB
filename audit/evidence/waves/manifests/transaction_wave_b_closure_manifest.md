@@ -21,6 +21,8 @@
 | `closure_package_artifact` | `transaction-wave-b-closure-package` |
 | `artifacts_archive` | `transaction-ci-results.zip` |
 | `ci_report` | `CI-Report` |
+| `latest_attempt_run_url` | `https://github.com/makr-code/ThemisDB/actions/runs/34875897264` |
+| `latest_attempt_artifacts` | `transaction-ci-results,transaction-chaos-recovery-evidence,transaction-test-results,smoke-test-results,cmake-configuration-log` |
 
 ## Source validation
 
@@ -33,4 +35,4 @@
 
 ## Notes
 
-Dedicated transaction lane is green; authoritative representative-hardware Phase-4 baseline capture remains open.
+Dedicated transaction lane has source-backed artifacts; representative-hardware Phase-4 baseline capture (B4) remains skipped and keeps overall status open.
