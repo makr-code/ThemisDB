@@ -20,6 +20,7 @@
 #include <rocksdb/options.h>
 #include <rocksdb/slice.h>
 #include <rocksdb/write_batch.h>
+#include <memory>
 #include <stdexcept>
 
 #include "utils/logger.h"
@@ -105,37 +106,47 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::DB* raw_db_instance = nullptr;
-    rocksdb::Status s = detail::openDbWithColumnFamiliesCompat(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &raw_db_instance);
+    rocksdb::DB *db_instance = nullptr;
+    rocksdb::Status s
+        = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_instance);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());
     }
-    db_ = raw_db_instance;
+    std::unique_ptr<rocksdb::DB> db_guard(db_instance);
 
     // Identify the blacklist CF handle; keep all others for proper cleanup.
-    for (size_t i = 0; i < existing_cfs.size(); ++i) {
-        if (existing_cfs[i] == config_.column_family) {
-            cf_ = cf_handles[i];
-        } else {
-            other_cf_handles_.push_back(cf_handles[i]);
+    try {
+        for (size_t i = 0; i < existing_cfs.size(); ++i) {
+            if (existing_cfs[i] == config_.column_family) {
+                cf_ = cf_handles[i];
+            } else {
+                other_cf_handles_.push_back(cf_handles[i]);
+            }
         }
+    } catch (...) {
+        cf_ = nullptr;
+        other_cf_handles_.clear();
+        for (auto *h : cf_handles) {
+            if (h != nullptr) {
+                db_guard->DestroyColumnFamilyHandle(h);
+            }
+        }
+        throw;
     }
 
     if (!cf_) {
         // Unexpected: CF should have been created by create_missing_column_families.
-        for (auto *h : other_cf_handles_) {
-            db_->DestroyColumnFamilyHandle(h);
+        for (auto *h : cf_handles) {
+            if (h != nullptr) {
+                db_guard->DestroyColumnFamilyHandle(h);
+            }
         }
         other_cf_handles_.clear();
-        if (db_) {
-            delete db_;
-            db_ = nullptr;
-        }
         throw std::runtime_error("RocksDBTokenBlacklist: blacklist CF '" + config_.column_family
                                  + "' not found after open");
     }
+    db_ = db_guard.release();
 
     THEMIS_INFO("RocksDBTokenBlacklist: opened DB at '{}' (CF '{}')", config_.db_path, config_.column_family);
 
