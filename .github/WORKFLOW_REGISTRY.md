@@ -217,3 +217,22 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 | Schedule-Staffelung | publish-wiki.yml | 03:00 UTC → 01:00 UTC (weg vom 03:00 Cluster) | 8 |
 | Schedule-Staffelung | release-nightly.yml | 03:30 UTC → 04:00 UTC (weg vom 03:00 Cluster) | 8 |
 | Push-Trigger entfernt | compliance-supply-chain.yml | push: branches+tags entfernt; pull_request+release reichen (kein Doppelfeuer) | 8 |
+| Concurrency hinzugefügt | gate-wave-closure.yml | cancel-in-progress: true, group: pr.number||ref | 9 |
+| Concurrency hinzugefügt | release-winget.yml | cancel-in-progress: false, group: release-winget-ref | 9 |
+| Concurrency hinzugefügt | release-rollback.yml | cancel-in-progress: false, group: release-rollback-ref | 9 |
+| Concurrency hinzugefügt | release-build-matrix.yml | cancel-in-progress: false, reusable guard | 9 |
+| Concurrency hinzugefügt | reusable-cmake-build.yml | cancel-in-progress: false, reusable guard | 9 |
+| Concurrency hinzugefügt | reusable-docs-db-builder.yml | cancel-in-progress: false, reusable guard | 9 |
+| Concurrency hinzugefügt | reusable-status-flags-and-issues.yml | cancel-in-progress: false, reusable guard | 9 |
+| Concurrency hinzugefügt | security-pentest-quarterly.yml | cancel-in-progress: false, group: security-pentest-ref | 9 |
+| run_id-Fix | build-widget.yml | group: build-widget-ref, cancel-in-progress: false | 9 |
+| run_id-Fix | build-wave-b-llm-benchmarks.yml | group: build-wave-b-llm-ref, cancel-in-progress: true | 9 |
+| run_id-Fix | security-fuzzing.yml | group: security-fuzzing-ref, cancel-in-progress: false | 9 |
+| run_id-Fix | compliance-governance-gates.yml | run_id aus OR-Kette entfernt → pr.number||issue.number||ref | 9 |
+| Group-Optimierung | release-mainline.yml | group: ci-release-ref_name||ref (tag-name statt full ref) | 9 |
+| Group-Optimierung | release-nightly.yml | group: ci-release-nightly-develop (statisch) | 9 |
+| cancel-in-progress: true | build-benchmarks.yml | weekly schedule → cancel stale dispatch runs | 9 |
+| Gate-Feedback | gate-wave-closure.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |
+| Gate-Feedback | gate-distributed-knowledge.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |
+| Gate-Feedback | gate-copilot-regression.yml | gate-feedback job: ci/failure label on failure | 9 |
+| Gate-Feedback | gate-pr-version-targeting.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |

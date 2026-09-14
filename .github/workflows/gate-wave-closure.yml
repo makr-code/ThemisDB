@@ -21,6 +21,12 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: gate-wave-closure-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-wave-closure-packages:
@@ -47,3 +53,34 @@ jobs:
             wave-closure-validation.json
             wave-closure-validation.md
           retention-days: 30
+
+  gate-feedback:
+    name: "Gate Feedback (label + comment on failure)"
+    needs:
+      - validate-wave-closure-packages
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: "Post failure feedback"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'ci/failure';
+            const gate  = 'Gate: Wave Closure Governance';
+            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`,
+            });

@@ -44,7 +44,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: ci-release-nightly-${{ github.ref }}
+  group: ci-release-nightly-develop
   cancel-in-progress: false
 
 jobs:

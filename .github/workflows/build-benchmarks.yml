@@ -53,7 +53,7 @@ on:
 
 concurrency:
   group: ci-benchmarks-${{ github.ref }}
-  cancel-in-progress: false   # Let benchmark runs complete
+  cancel-in-progress: true   # Weekly schedule; cancel stale dispatch-triggered runs
 
 permissions:
   contents: write  # For baseline commit-back on community push

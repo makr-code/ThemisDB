@@ -15,6 +15,10 @@ permissions:
   contents: read
   actions: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   community-release:
     if: inputs.build_matrix == 'all' || inputs.build_matrix == 'community-only'

@@ -30,8 +30,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: security-fuzzing-${{ github.run_id }}
-  cancel-in-progress: true
+  group: security-fuzzing-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   fuzz:

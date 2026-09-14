@@ -49,7 +49,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: build-widget-${{ github.ref }}-${{ github.run_id }}
+  group: build-widget-${{ github.ref }}
   cancel-in-progress: false
 
 env:

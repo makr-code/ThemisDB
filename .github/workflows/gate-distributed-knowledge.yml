@@ -88,6 +88,8 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
 
 concurrency:
   group: ci-gate-distributed-knowledge-${{ github.event.pull_request.number || github.ref }}
@@ -252,3 +254,37 @@ jobs:
             echo "**Closure Rate:** ${CLOSURE_RATE}%"
             echo "**Pattern Closure:** ${PATTERN_CLOSURE}% < 20% ✅"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  gate-feedback:
+    name: "Gate Feedback (label + comment on failure)"
+    needs:
+      - build-distributed-knowledge
+      - validate-unit-tests
+      - validate-benchmarks
+      - verify-gap-closure
+    if: failure() && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: "Post failure feedback"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'ci/failure';
+            const gate  = 'Gate: Module Validation [distributed_knowledge]';
+            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: prNumber,
+              body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`,
+            });

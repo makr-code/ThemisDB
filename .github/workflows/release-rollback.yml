@@ -58,6 +58,10 @@ permissions:
   actions: read
   issues: write
 
+concurrency:
+  group: release-rollback-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
 
   validate-rollback:
