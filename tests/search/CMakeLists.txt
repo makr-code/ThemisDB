@@ -9,6 +9,7 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
     set(_target "module_search_${_stem}_focused")
     set(_ctest "${_stem}_search_FocusedTests")
     set(_extra_sources "")
+    set(_labels search)
 
     if(TARGET ${_target})
         continue()
@@ -19,6 +20,9 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/search/layered_retrieval_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
         )
+        list(APPEND _labels layered_retrieval wave_a release_critical)
+    elseif(_stem STREQUAL "test_search_integration_phase4")
+        list(APPEND _labels integration wave_a release_critical)
     endif()
 
     add_executable(${_target} "${_src}")
@@ -47,6 +51,6 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS search
+        LABELS ${_labels}
     )
 endforeach()

@@ -9,18 +9,21 @@
 - [x] Veraltete Preset-Referenzen (`linux-ninja-release`) auf `linux-release` aktualisiert (Target: 2026-Q2)
 - [x] Source-validierte Testdichte-Matrix fuer 69 code-bearing `src/`-Module plus 4 kanonische Release-Flows veroeffentlicht (`tests/TEST_DENSITY_MATRIX.md`) (Target: 2026-Q3)
 - [x] Wave-A->D-Closure-Plan fuer Testdichte als kanonischer Folgeplan veroeffentlicht (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q3)
+- [x] Wave-A-Backlog mit Modul-/Flow-Traceability und Gate-Kommandos veroeffentlicht (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q3)
 
 ## In Progress
 
 - [ ] Root-Dokumente für `tests/config/` und `tests/data/` ergänzen (Target: 2026-Q2)
 - [~] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren und an die kanonischen Release-Flows anbinden (Target: 2026-Q3)
 - [~] Risk-basierte Closure Wave A fuer `query`, `index`, `rag`, `transaction`, `llm_wiki`, `search` und nachgelagert `server`, `sharding`, `llm`, `storage` ueber direkte Test-/Benchmark-/Gate-Evidenz verfolgen (Target: 2026-Q4)
+- [~] Fehlende modul-eigene `release_critical`-Labels fuer Wave-A-Module abbauen; erster Batch fuer `query`, `index`, `search`, `storage`, `llm_wiki` gestartet (Target: 2026-Q4)
 
 ## Planned Features
 
 - [x] Dokumentierte Matrix: Produktionsmodul `src/<module>` → verantwortliche Test-Suites (Target: 2026-Q3)
 - [ ] Fokus-Targets aus `tests/CMakeLists.txt` als kuratierte Regression-Sets dokumentieren (Target: 2026-Q3)
 - [~] CI-fähige, reproduzierbare Test-Kommandos pro Wave-Block dokumentieren (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q4)
+- [~] Wave-A-Modul-Traceability inkl. Gate-Kommandos dokumentieren (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q4)
 - [ ] Indirekt abgesicherte Module (`distributed_tensor`, `execution`, `llama_cpp`, `stable_diffusion`) auf dedizierte Owner-Suites oder explizite Ausnahme-Regeln umstellen (Target: 2026-Q4)
 
 ## Implementation Phases

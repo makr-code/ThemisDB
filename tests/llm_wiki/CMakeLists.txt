@@ -11,6 +11,7 @@ foreach(_src IN LISTS LLM_WIKI_MODULE_TEST_SOURCES)
     set(_target "module_llm_wiki_${_stem}_focused")
     set(_ctest  "${_stem}_LlmWikiFocusedTests")
     set(_extra_sources)
+    set(_labels llm_wiki)
 
     if(TARGET ${_target})
         continue()
@@ -27,6 +28,11 @@ foreach(_src IN LISTS LLM_WIKI_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
         )
+        list(APPEND _labels llm_integration wave_a release_critical)
+    endif()
+
+    if(_stem STREQUAL "test_llm_wiki_core_focused")
+        list(APPEND _labels core wave_a release_critical)
     endif()
 
     add_executable(${_target} "${_src}" ${_extra_sources})
@@ -52,6 +58,6 @@ foreach(_src IN LISTS LLM_WIKI_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS llm_wiki
+        LABELS ${_labels}
     )
 endforeach()

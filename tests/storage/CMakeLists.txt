@@ -8,6 +8,7 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_storage_${_stem}_focused")
     set(_ctest "${_stem}_StorageFocusedTests")
+    set(_labels)
 
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
@@ -26,6 +27,12 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
         )
+    elseif(_stem STREQUAL "test_storage_contract_hardening_focused")
+        list(APPEND _labels storage contract hardening wave_a release_critical)
+    elseif(_stem STREQUAL "test_storage_phase3_error_handling_focused")
+        list(APPEND _labels storage error_handling phase3 wave_a release_critical)
+    elseif(_stem STREQUAL "test_mvcc_chain_pruner")
+        list(APPEND _labels storage mvcc pruning wave_a release_critical)
     endif()
 
     themis_register_module_focused_test(
@@ -34,6 +41,7 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
+        LABELS ${_labels}
     )
 endforeach()
 
@@ -46,6 +54,7 @@ foreach(_src IN LISTS STORAGE_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_storage_${_stem}_autofocused")
     set(_ctest "${_stem}_storage_AutoFocusedTests")
+    set(_labels storage autogen)
 
     if(TARGET ${_target})
         continue()
@@ -64,12 +73,16 @@ foreach(_src IN LISTS STORAGE_AUTOGEN_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_storage_phase3_error_handling_focused")
+        list(APPEND _labels error_handling phase3 wave_a release_critical)
+    endif()
+
     themis_register_module_focused_test(
         MODULE storage
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS storage autogen
+        LABELS ${_labels}
     )
 endforeach()

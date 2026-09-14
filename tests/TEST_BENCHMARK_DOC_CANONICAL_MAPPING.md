@@ -14,6 +14,7 @@ Purpose: Fast mapping from historical reports to current canonical sources.
 - Test rules: [TESTING_STANDARDS.md](TESTING_STANDARDS.md)
 - Test-density ownership matrix: [TEST_DENSITY_MATRIX.md](TEST_DENSITY_MATRIX.md)
 - Test-density closure wave plan: [TEST_DENSITY_WAVE_PLAN.md](TEST_DENSITY_WAVE_PLAN.md)
+- Wave A execution backlog: [TEST_DENSITY_WAVE_A_BACKLOG.md](TEST_DENSITY_WAVE_A_BACKLOG.md)
 - Benchmark rules: [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md)
 - Benchmark measurement protocol: [../benchmarks/MEASUREMENT_HYGIENE.md](../benchmarks/MEASUREMENT_HYGIENE.md)
 - CTest run/inventory truth: [../CTEST.md](../CTEST.md)

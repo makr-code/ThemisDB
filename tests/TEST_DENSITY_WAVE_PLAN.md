@@ -10,6 +10,9 @@
 This file is the canonical execution plan for closing the source-validated test-density gaps documented in `TEST_DENSITY_MATRIX.md`.
 It converts the current-state matrix into a Wave A -> B -> C -> D closure program aligned with the root governance wave model on `develop`.
 
+Companion execution backlog:
+- `TEST_DENSITY_WAVE_A_BACKLOG.md`
+
 ## Preconditions
 
 - Use `TEST_DENSITY_MATRIX.md` as the current ownership and flow baseline.
@@ -60,9 +63,9 @@ Canonical flows:
 
 ### Canonical command anchors
 
-- Full build/test baseline: `cmake --preset linux-release && cmake --build --preset linux-release && ctest --preset linux-release`
-- Release-critical regression gate: `ctest --preset linux-release -L release_critical`
-- Pipeline inventory anchor: `ctest --preset linux-release -L pipeline_integration`
+- Full release-critical baseline: `cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON && cmake --build build-community-release --target themis_release_critical_tests --parallel "$(nproc)"`
+- Release-critical regression gate: `ctest --test-dir build-community-release --label-regex "release_critical" --output-on-failure --parallel 1 --timeout 120`
+- Pipeline inventory anchor: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
 ### Exit criteria

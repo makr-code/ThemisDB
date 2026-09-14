@@ -152,6 +152,7 @@ Legend:
 ## Canonical closure execution plan
 
 - Execution plan: `TEST_DENSITY_WAVE_PLAN.md`
+- Wave A backlog: `TEST_DENSITY_WAVE_A_BACKLOG.md`
 - Governance basis: root Wave A -> B -> C -> D release model on `develop`
 
 ## Closure waves
