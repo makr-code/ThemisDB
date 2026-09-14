@@ -1,7 +1,10 @@
 # Audit Module Wave C Evidence Report
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-13  
 **Document Status:** Source-verified baseline refresh (2026-09-13)  
 **Last Updated:** 2026-09-13  
+**Status:** active  
 **Wave:** C — Security Production Validation  
 **Evidence Date:** 2026-08-18  
 **Target Exit Criteria:** Q4 2026  
