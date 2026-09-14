@@ -1383,26 +1383,27 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         if (!hop_key_rejected) {
             ensureWindowsExist(record.event_time);
 
-        for (auto &w : windows_) {
-            if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
-                if (config_.max_records_per_window > 0 &&
-                    w.records.size() >= config_.max_records_per_window) {
-                    ++records_dropped_;
-                    spdlog::debug("HoppingWindow: dropped record from window (limit={})",
-                                  config_.max_records_per_window);
-                } else {
-                    w.records.push_back(record);
-                    added_to_window = true;
+            for (auto &w : windows_) {
+                if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
+                    if (config_.max_records_per_window > 0 &&
+                        w.records.size() >= config_.max_records_per_window) {
+                        ++records_dropped_;
+                        spdlog::debug("HoppingWindow: dropped record from window (limit={})",
+                                      config_.max_records_per_window);
+                    } else {
+                        w.records.push_back(record);
+                        added_to_window = true;
+                    }
                 }
             }
 
-        if (ev_us < wm && config_.watermark.allow_late_data) {
-            ++late_records_;
-        }
-        if (added_to_window) {
-            ++records_ingested_;
-            record_added = true;
-        }
+            if (ev_us < wm && config_.watermark.allow_late_data) {
+                ++late_records_;
+            }
+            if (added_to_window) {
+                ++records_ingested_;
+                record_added = true;
+            }
         } // end !hop_key_rejected
 
         pending = closeExpiredWindows(wm);
