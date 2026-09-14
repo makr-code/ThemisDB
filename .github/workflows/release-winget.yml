@@ -21,10 +21,18 @@ name: "Release: WinGet"
 
 on:
   workflow_call:
+    secrets:
+      winget_pr_token:
+        description: "Personal access token or GitHub App token with access to the winget-pkgs fork owner account"
+        required: false
     inputs:
       version:
         description: "Version to submit to WinGet (e.g., 2.4.0)"
         required: true
+        type: string
+      fork_owner:
+        description: "GitHub username or org that owns the winget-pkgs fork"
+        required: false
         type: string
       release-url:
         description: "GitHub Release URL (for context)"
@@ -37,6 +45,10 @@ on:
       version:
         description: "Version to submit to WinGet (e.g., 2.4.0)"
         required: true
+        type: string
+      fork_owner:
+        description: "GitHub username or org that owns the winget-pkgs fork"
+        required: false
         type: string
       release-url:
         description: "GitHub Release URL (for context)"
@@ -298,6 +310,13 @@ jobs:
           Write-Host "✓ Generated manifests in: $ManifestDir"
           echo "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
 
+      - name: Upload WinGet manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: winget-manifests-${{ needs.detect-release.outputs.version }}
+          path: ${{ steps.generate.outputs.manifest-dir }}
+          retention-days: 90
+
   validate-manifests:
     name: Validate WinGet Manifests
     needs: generate-manifests
@@ -327,42 +346,58 @@ jobs:
   create-fork-pr:
     name: Create PR to WinGet Community Repository
     needs: [detect-release, validate-manifests, generate-manifests]
-    runs-on: ubuntu-latest
-    if: |
-      needs.generate-manifests.outputs.manifest-dir != '' &&
-      github.event_name != 'workflow_dispatch'
+    runs-on: windows-latest
+    if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Git for fork submission
+      - name: Download generated WinGet manifests
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: winget-manifests-${{ needs.detect-release.outputs.version }}
+          path: ${{ runner.temp }}\winget-manifests
+
+      - name: Restore manifest layout
+        shell: pwsh
         run: |
+          $sourceRoot = Join-Path $env:RUNNER_TEMP 'winget-manifests'
+          $expectedDir = Join-Path $env:GITHUB_WORKSPACE 'packaging\winget\manifests\t\ThemisDB\ThemisDB\${{ needs.detect-release.outputs.version }}'
+
+          $manifestRoot = Get-ChildItem -Path $sourceRoot -Directory -Recurse |
+            Where-Object { Test-Path (Join-Path $_.FullName 'ThemisDB.ThemisDB.yaml') } |
+            Select-Object -First 1
+
+          if (-not $manifestRoot) {
+            throw 'Winget manifest artifact was not restored correctly.'
+          }
+
+          New-Item -ItemType Directory -Force -Path $expectedDir | Out-Null
+          Copy-Item -Path (Join-Path $manifestRoot.FullName '*') -Destination $expectedDir -Force
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Create fork PR (manual workflow for WinGet submission)
+      - name: Submit WinGet PR
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.winget_pr_token || github.token }}
+          WINGET_FORK_OWNER: ${{ inputs.fork_owner || vars.WINGET_FORK_OWNER }}
         run: |
-          set -euo pipefail
-          
-          VERSION="${{ needs.detect-release.outputs.version }}"
-          MANIFEST_DIR="${{ needs.generate-manifests.outputs.manifest-dir }}"
-          
-          echo "::notice::Generated WinGet manifests for version $VERSION"
-          echo "::notice::Manifests located at: $MANIFEST_DIR"
-          echo "::notice::To submit to WinGet:"
-          echo "  1. Fork: https://github.com/microsoft/winget-pkgs"
-          echo "  2. Copy $MANIFEST_DIR to your fork"
-          echo "  3. Submit PR to microsoft/winget-pkgs"
-          echo ""
-          echo "Manifest files:"
-          ls -lh "$MANIFEST_DIR"
+          if ([string]::IsNullOrWhiteSpace($env:WINGET_FORK_OWNER)) {
+            throw 'Missing WINGET_FORK_OWNER. Configure the repository variable or pass workflow input fork_owner.'
+          }
 
-      - name: Upload manifests as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: winget-manifests-${{ needs.detect-release.outputs.version }}
-          path: ${{ needs.generate-manifests.outputs.manifest-dir }}
-          retention-days: 90
+          pwsh -File .\scripts\release\submit-winget-pkgs.ps1 `
+            -Version "${{ needs.detect-release.outputs.version }}" `
+            -ForkOwner "$env:WINGET_FORK_OWNER" `
+            -GitHubToken "$env:GH_TOKEN"
+
+      - name: Summarize PR submission
+        shell: pwsh
+        run: |
+          Write-Host "WinGet submission script completed for version ${{ needs.detect-release.outputs.version }}."
+          Write-Host "Review the draft PR in microsoft/winget-pkgs and remove draft status after approval."
 
   notify:
     name: Notify WinGet Submission

@@ -80,6 +80,7 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     find /opt/vcpkg/downloads -name '*.part' -delete || true; \
+    find /opt/vcpkg/buildtrees -mindepth 1 -maxdepth 1 -exec rm -rf {} + || true; \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
     ${VCPKG_ROOT}/vcpkg install \
         --triplet="${TRIPLET}" \

@@ -7,6 +7,9 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$ForkOwner,
 
+    # GitHub-Token fuer gh/git Authentifizierung in CI oder bei automatisierter Ausfuehrung
+    [string]$GitHubToken,
+
     # Ob ein Draft-PR geoeffnet werden soll (Standard: $true fuer manuellen Review)
     [switch]$DraftPR = $true
 )
@@ -23,6 +26,13 @@ function Require-Command {
 
 Require-Command "gh"
 Require-Command "git"
+
+if (-not [string]::IsNullOrWhiteSpace($GitHubToken)) {
+    $env:GH_TOKEN = $GitHubToken
+    gh auth setup-git | Out-Null
+} elseif ([string]::IsNullOrWhiteSpace($env:GH_TOKEN)) {
+    throw "Ein GH_TOKEN oder -GitHubToken ist fuer die automatische Fork-/PR-Erstellung erforderlich."
+}
 
 $repoRoot  = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\.."))
 $srcDir    = Join-Path $repoRoot "packaging\winget\manifests\t\ThemisDB\ThemisDB\$Version"

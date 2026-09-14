@@ -177,6 +177,7 @@ jobs:
     uses: ./.github/workflows/release-winget.yml
     with:
       version: ${{ needs.preflight-checks.outputs.version }}
+      fork_owner: ${{ vars.WINGET_FORK_OWNER }}
       release-url: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}
     secrets: inherit
 
