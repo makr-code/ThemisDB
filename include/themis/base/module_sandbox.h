@@ -365,7 +365,15 @@ public:
      *         isolation is not active.
      */
     WasmPluginSandbox*       wasmSandbox() noexcept;
-    /// @copydoc wasmSandbox()
+    /**
+     * @brief Returns a read-only pointer to the inner WasmPluginSandbox (const overload).
+     *
+     * Non-null only when isWasmIsolationActive() is true.
+     * Use this to inspect .wasm plugin binaries and their exports without modification.
+     *
+     * @return Const pointer to the inner WasmPluginSandbox, or nullptr if WASM
+     *         isolation is not active.
+     */
     const WasmPluginSandbox* wasmSandbox() const noexcept;
 
 private:
