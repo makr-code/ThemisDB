@@ -2201,6 +2201,12 @@ function(themis_build_modular)
         list(APPEND _themis_base_deps libzip::libzip)
         list(APPEND _themis_base_compile_defs THEMIS_HAVE_LIBZIP)
     endif()
+    if(APPLE)
+        list(APPEND _themis_base_deps
+            "-framework CoreFoundation"
+            "-framework Security"
+        )
+    endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
