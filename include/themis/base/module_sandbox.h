@@ -343,7 +343,6 @@ private:
     bool applyFilesystemRestrictions();
     bool applySyscallFilter();
 
-#if defined(__linux__)
     /// @brief Set up a cgroup v2 sub-hierarchy for this sandbox instance.
     ///
     /// Creates `/sys/fs/cgroup/themis/<sandbox_id>/`, enables the memory and
@@ -359,7 +358,6 @@ private:
     /// Migrates the current process back to the root cgroup before issuing
     /// rmdir(2) on the sandbox-specific sub-directory.
     void teardownCgroupV2();
-#endif
 };
 
 } // namespace modules

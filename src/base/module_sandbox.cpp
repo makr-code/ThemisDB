@@ -661,6 +661,15 @@ void ModuleSandbox::teardownCgroupV2() {
     }
 }
 
+#else
+
+bool ModuleSandbox::setupCgroupV2() {
+    return false;
+}
+
+void ModuleSandbox::teardownCgroupV2() {
+}
+
 #endif // __linux__
 
 bool ModuleSandbox::applyNetworkIsolation() {
