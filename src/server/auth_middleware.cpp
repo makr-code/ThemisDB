@@ -278,7 +278,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
                 "no matching static token, API key, JWT, Kerberos, or mTLS credential "
                 "(GAP-013/CWE-778). authz_invalid_token_total={}",
                 required_scope, metrics_.authz_invalid_token_total.load());
-    return AuthResult::Denied("Invalid or missing token");
+    return AuthResult::Denied("Invalid token");
 }
 
 AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view token, std::string_view required_scope) const {

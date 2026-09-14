@@ -771,8 +771,19 @@ JWTClaims JWTValidator::parseAndValidate(const std::string &token) {
     }
     auto header_json  = decodeBase64UrlToString(parts[0]);
     auto payload_json = decodeBase64UrlToString(parts[1]);
-    auto header       = nlohmann::json::parse(header_json);
-    auto payload      = nlohmann::json::parse(payload_json);
+    nlohmann::json header;
+    nlohmann::json payload;
+    try {
+        header  = nlohmann::json::parse(header_json);
+        payload = nlohmann::json::parse(payload_json);
+    } catch (const nlohmann::json::exception&) {
+        utils::Logger::warn("JWT validation failed: Invalid JSON in token header/payload");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED, "", "jwt/token",
+                                            {{"reason", "invalid_json"}});
+        }
+        throw std::runtime_error("Invalid JWT payload encoding");
+    }
     std::string alg   = header.value("alg", "");
     std::string kid   = header.value("kid", "");
 

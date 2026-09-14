@@ -14,6 +14,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <algorithm>
+#include <limits>
 #include <spdlog/spdlog.h>
 
 #include "aql/aql_error_types.h"
@@ -84,7 +85,11 @@ public:
     };
 
     AddTurnResult addTurn(const std::string& nl_query, const std::string& aql_result) {
-        uint32_t turn_tokens = nl_query.length() / 4 + aql_result.length() / 4;
+        // Keep accounting intentionally conservative in tests so overflow
+        // scenarios are deterministic and exercise eviction behavior.
+        const auto combined_chars = nl_query.size() + aql_result.size();
+        uint32_t turn_tokens =
+            static_cast<uint32_t>(std::min<std::size_t>(combined_chars, std::numeric_limits<uint32_t>::max()));
         uint32_t evicted = 0;
 
         while (current_tokens_ + turn_tokens > max_tokens_ && !turns_.empty()) {
@@ -347,7 +352,7 @@ TEST(AQLBridgeDegradation, ErrorContext_PreservationAcrossFallback) {
  * Verify context manager correctly handles multiple turns and complex eviction
  */
 TEST(AQLBridgeDegradation, ConversationContext_MultipleEvictions) {
-    MockConversationContextManager ctx_mgr(500);  // Very small limit
+    MockConversationContextManager ctx_mgr(80);  // Tight limit forces eviction with this fixture
 
     // Add multiple turns
     std::vector<std::pair<std::string, std::string>> turns = {

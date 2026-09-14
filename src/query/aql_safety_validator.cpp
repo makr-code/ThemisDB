@@ -213,7 +213,40 @@ std::optional<AqlSafetyValidator::Violation>
 AqlSafetyValidator::validate(std::string_view aql_query) const {
     if (mode_ == ValidationMode::AllowMutations) {
         // Allow DML in this mode, but keep injection safety guards active.
-        return validateMutationSafety(aql_query);
+        const std::string query_str(aql_query);
+
+        const auto nul_pos = query_str.find('\0');
+        if (nul_pos != std::string::npos) {
+            return Violation{
+                "NUL_INJECTION",
+                static_cast<std::size_t>(nul_pos),
+                "AQL_MUTATION_SAFETY: Embedded NUL character detected in query. "
+                "This is a classic injection vector and is unconditionally rejected."
+            };
+        }
+
+        const std::string upper = toUpper(query_str);
+        static constexpr const char* kAllowModeInjectionPatterns[] = {
+            "; DROP ",
+            "; DELETE ",
+            "; UPDATE ",
+        };
+        for (const auto* pat : kAllowModeInjectionPatterns) {
+            const std::size_t pos = findKeyword(upper, pat);
+            if (pos != std::string::npos) {
+                return Violation{
+                    std::string(pat).substr(2),
+                    pos,
+                    fmt::format(
+                        "AQL_MUTATION_SAFETY: Multi-statement injection pattern '{}' "
+                        "detected at position {}. Embedded statements after semicolons "
+                        "are not permitted.",
+                        pat, pos)
+                };
+            }
+        }
+
+        return std::nullopt;
     }
 
     const std::string query_str(aql_query);
