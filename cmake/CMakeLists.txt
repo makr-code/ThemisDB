@@ -1451,7 +1451,10 @@ find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
     pkg_check_modules(ZSTD_PKG QUIET IMPORTED_TARGET libzstd)
     if(ZSTD_PKG_FOUND AND NOT TARGET zstd::zstd)
-        add_library(zstd::zstd ALIAS PkgConfig::ZSTD_PKG)
+        add_library(zstd::zstd INTERFACE IMPORTED)
+        set_target_properties(zstd::zstd PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:PkgConfig::ZSTD_PKG,INTERFACE_INCLUDE_DIRECTORIES>"
+            INTERFACE_LINK_LIBRARIES PkgConfig::ZSTD_PKG)
         message(STATUS "Created zstd::zstd target from pkg-config")
     endif()
 endif()
