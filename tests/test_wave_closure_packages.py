@@ -23,9 +23,11 @@ def _load_module():
 validator = _load_module()
 
 
-def _write_manifest(path: Path, payload: dict) -> None:
+def _write_manifest(path: Path, payload: dict, *, create_md: bool = True) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    if create_md:
+        path.with_suffix(".md").write_text("# closure package\n", encoding="utf-8")
 
 
 def _manifest(wave: str, module: str, status: str, run_id: str = "123") -> dict:
@@ -154,6 +156,35 @@ class WaveClosureValidationTests(unittest.TestCase):
             self.assertEqual(code, 1)
             self.assertFalse(payload["pass"])
             self.assertTrue(any("No closure manifests found" in v for v in payload["validation_errors"]))
+
+    def test_validation_fails_when_markdown_sidecar_is_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifests = root / "manifests"
+            _write_manifest(
+                manifests / "a_closure_manifest.json",
+                _manifest("Wave A", "gpu", "open"),
+                create_md=False,
+            )
+
+            output = root / "out.json"
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "validate_wave_closure_packages.py",
+                    "--manifest-dir",
+                    str(manifests),
+                    "--output-json",
+                    str(output),
+                ]
+                code = validator.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 1)
+            self.assertFalse(payload["pass"])
+            self.assertTrue(any("missing markdown sidecar" in v for v in payload["violations"]))
 
 
 if __name__ == "__main__":

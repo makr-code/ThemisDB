@@ -556,7 +556,7 @@ jobs:
           python3 tools/ci/generate_wave_closure_manifest.py \
             --wave "Wave A" \
             --module "gpu" \
-            --workflow "13-wave-a-gpu-ci-execution.yml" \
+            --workflow "build-wave-a-gpu.yml" \
             --run-id "${{ github.run_id }}" \
             --overall-status "$OVERALL_STATUS" \
             --gate "A1_cuda_audit=${{ needs.cuda-audit.result }}" \

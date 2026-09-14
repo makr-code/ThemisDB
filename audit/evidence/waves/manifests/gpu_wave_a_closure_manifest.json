@@ -2,7 +2,7 @@
   "generated_at": "2026-09-14T15:15:00Z",
   "wave": "Wave A",
   "module": "gpu",
-  "workflow": "13-wave-a-gpu-ci-execution.yml",
+  "workflow": "build-wave-a-gpu.yml",
   "run_id": "34313042741",
   "overall_status": "open",
   "gates": {

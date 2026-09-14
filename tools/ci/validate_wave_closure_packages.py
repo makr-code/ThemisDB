@@ -75,6 +75,20 @@ def load_manifest(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
     return payload, errors
 
 
+def check_markdown_sidecar(path: Path) -> list[str]:
+    errors: list[str] = []
+    md_path = path.with_suffix(".md")
+    if not md_path.exists():
+        errors.append(f"{path}: missing markdown sidecar '{md_path.name}'")
+        return errors
+    try:
+        if not md_path.read_text(encoding="utf-8").strip():
+            errors.append(f"{path}: markdown sidecar '{md_path.name}' is empty")
+    except OSError as exc:
+        errors.append(f"{path}: unable to read markdown sidecar '{md_path.name}' ({exc})")
+    return errors
+
+
 def wave_status(manifests: list[dict[str, Any]]) -> str:
     if not manifests:
         return "missing"
@@ -170,6 +184,7 @@ def main() -> int:
         errors.append(f"No closure manifests found in {manifest_dir}")
 
     for manifest_file in manifest_files:
+        errors.extend(check_markdown_sidecar(manifest_file))
         payload, load_errors = load_manifest(manifest_file)
         errors.extend(load_errors)
         if payload is None or "wave_code" not in payload:
