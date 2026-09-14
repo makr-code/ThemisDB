@@ -124,6 +124,75 @@ jobs:
         with:
           node-version: '24'
 
+      - name: Load previous chronic error state snapshot
+        id: previous-state
+        uses: actions/github-script@v7  # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- ci-build:type:chronic-error-report -->';
+            const stateStart = '<!-- ci-build:error-state:v1 -->';
+            const stateEnd = '<!-- /ci-build:error-state:v1 -->';
+            const outPath = '/tmp/previous-error-state.json';
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            const chronic = issues.find((issue) => {
+              if (issue.pull_request) return false;
+              return typeof issue.body === 'string' && issue.body.includes(marker);
+            });
+
+            if (!chronic) {
+              core.info('No existing chronic error issue found; skipping previous snapshot load.');
+              core.setOutput('has_previous_state', 'false');
+              return;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: chronic.number,
+              per_page: 100,
+            });
+
+            const latestWithState = [...comments].reverse().find((comment) => {
+              const body = String(comment.body || '');
+              return body.includes(stateStart) && body.includes(stateEnd);
+            });
+
+            if (!latestWithState) {
+              core.info('No previous state marker comment found; starting fresh baseline.');
+              core.setOutput('has_previous_state', 'false');
+              return;
+            }
+
+            const body = String(latestWithState.body || '');
+            const startIdx = body.indexOf(stateStart);
+            const endIdx = body.indexOf(stateEnd);
+            if (startIdx < 0 || endIdx < 0 || endIdx <= startIdx) {
+              core.warning('State markers malformed in latest comment; skipping previous state import.');
+              core.setOutput('has_previous_state', 'false');
+              return;
+            }
+
+            const encoded = body.slice(startIdx + stateStart.length, endIdx).trim();
+            try {
+              const decoded = Buffer.from(encoded, 'base64').toString('utf8');
+              const parsed = JSON.parse(decoded);
+              fs.writeFileSync(outPath, JSON.stringify(parsed, null, 2));
+              core.info(`Loaded previous state snapshot from issue #${chronic.number}.`);
+              core.setOutput('has_previous_state', 'true');
+              core.setOutput('state_file', outPath);
+            } catch (error) {
+              core.warning(`Failed to decode previous state snapshot: ${error.message}`);
+              core.setOutput('has_previous_state', 'false');
+            }
+
       - name: Fetch failed workflow runs and error artifacts
         id: fetch
         uses: actions/github-script@v7  # v9.0.0
@@ -317,9 +386,12 @@ jobs:
           ERROR_ARTIFACTS_DIR: /tmp/error-artifacts
           OUTPUT_FILE: /tmp/aggregated-errors.md
           GROUPED_OUTPUT_FILE: /tmp/aggregated-errors-by-module-file.json
+          CURRENT_STATE_FILE: /tmp/aggregated-error-state.json
+          PREVIOUS_STATE_FILE: ${{ steps.previous-state.outputs.state_file }}
           MAX_GROUPS_IN_REPORT: '30'
           MAX_ITEMS_PER_GROUP_IN_REPORT: '4'
           MAX_MARKDOWN_CHARS: '45000'
+          LATEST_PRIORITY_WINDOW_HOURS: '24'
         run: |
           node "${{ github.workspace }}/.github/scripts/aggregate-build-errors.js"
           
@@ -334,6 +406,10 @@ jobs:
 
           if [ -f /tmp/aggregated-errors-by-module-file.json ]; then
             echo "grouped_json_file=/tmp/aggregated-errors-by-module-file.json" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [ -f /tmp/aggregated-error-state.json ]; then
+            echo "state_snapshot_b64=$(base64 -w 0 /tmp/aggregated-error-state.json)" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Classify chronic build error labels
@@ -472,6 +548,9 @@ jobs:
             **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             ${{ steps.aggregate.outputs.report_markdown }}
+            <!-- ci-build:error-state:v1 -->
+            ${{ steps.aggregate.outputs.state_snapshot_b64 }}
+            <!-- /ci-build:error-state:v1 -->
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}

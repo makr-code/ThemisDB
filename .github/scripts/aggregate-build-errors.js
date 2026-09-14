@@ -19,6 +19,7 @@ const MAX_ITEMS_PER_GROUP_IN_REPORT = Math.max(1, Number.parseInt(process.env.MA
 const CHRONIC_THRESHOLD = 3;
 const MAX_MARKDOWN_CHARS = Math.max(1000, Number.parseInt(process.env.MAX_MARKDOWN_CHARS || '50000', 10) || 50000);
 const TRACK_B_MODULE_ORDER = ['index', 'storage', 'tensor', 'config', 'utils'];
+const LATEST_PRIORITY_WINDOW_HOURS = Math.max(1, Number.parseInt(process.env.LATEST_PRIORITY_WINDOW_HOURS || '24', 10) || 24);
 const TRACK_A_PRIORITY_FILES = [
   'src/index/multi_gpu_vector_index.cpp',
   'src/index/gpu_vector_index.cpp',
@@ -139,6 +140,12 @@ function loadSourceLineForFinding(repoRoot, finding) {
   } catch {
     return '';
   }
+
+  function parseTimeSafe(value) {
+    if (!value) return null;
+    const parsed = Date.parse(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
 }
 
 class ErrorAggregator {
@@ -148,6 +155,13 @@ class ErrorAggregator {
     this.bySeverity = new Map();
     this.byModuleFile = new Map();
     this.totalInputFindings = 0;
+    this.previousState = null;
+    this.delta = {
+      previous_total: 0,
+      continuing_errors: 0,
+      new_errors: [],
+      resolved_errors: [],
+    };
   }
 
   addFinding(finding, metadata = {}) {
@@ -186,12 +200,21 @@ class ErrorAggregator {
       if (existing.sample_messages.length < 3 && normalized.message) {
         existing.sample_messages.push(normalized.message);
       }
+      const existingLast = parseTimeSafe(existing.lastSeen);
+      const normalizedTs = parseTimeSafe(normalized.timestamp);
+      if (normalizedTs && (!existingLast || normalizedTs > existingLast)) {
+        existing.lastSeen = normalized.timestamp;
+      }
+      if (!existing.firstSeen && normalized.timestamp) {
+        existing.firstSeen = normalized.timestamp;
+      }
     } else {
       this.fingerprints.set(fp, {
         finding: normalized,
         frequency: 1,
         runs: normalized.run_number ? [normalized.run_number] : [],
         firstSeen: normalized.timestamp,
+        lastSeen: normalized.timestamp,
         sample_messages: normalized.message ? [normalized.message] : [],
       });
     }
@@ -351,6 +374,7 @@ class ErrorAggregator {
         frequency: data.frequency,
         runs: data.runs,
         firstSeen: data.firstSeen,
+        lastSeen: data.lastSeen || data.firstSeen || null,
         sample_messages: data.sample_messages,
       };
 
@@ -384,14 +408,118 @@ class ErrorAggregator {
     }
 
     for (const [, arr] of this.byType) {
-      arr.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
+      arr.sort((a, b) => this.computePriorityScore(b) - this.computePriorityScore(a));
     }
     for (const [, arr] of this.bySeverity) {
-      arr.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
+      arr.sort((a, b) => this.computePriorityScore(b) - this.computePriorityScore(a));
     }
     for (const [, group] of this.byModuleFile) {
-      group.diagnostics.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
+      group.diagnostics.sort((a, b) => this.computePriorityScore(b) - this.computePriorityScore(a));
     }
+  }
+
+  computePriorityScore(finding) {
+    const frequency = Number(finding?.frequency || 0);
+    const chronicBoost = frequency >= CHRONIC_THRESHOLD ? 20 : 0;
+    const ts = parseTimeSafe(finding?.lastSeen || finding?.firstSeen);
+    const now = Date.now();
+    const windowMs = LATEST_PRIORITY_WINDOW_HOURS * 60 * 60 * 1000;
+    let recencyBoost = 0;
+    if (ts && now >= ts) {
+      const ageMs = now - ts;
+      if (ageMs <= windowMs) {
+        recencyBoost = Math.max(0, Math.round((1 - (ageMs / windowMs)) * 25));
+      }
+    }
+    return (frequency * 10) + chronicBoost + recencyBoost;
+  }
+
+  loadPreviousState(filePath) {
+    if (!filePath || !fs.existsSync(filePath)) return;
+    const parsed = safeReadJson(filePath);
+    if (!parsed || !Array.isArray(parsed.errors)) return;
+    this.previousState = parsed;
+  }
+
+  computeDelta() {
+    const previousErrors = Array.isArray(this.previousState?.errors) ? this.previousState.errors : [];
+    const previousMap = new Map(previousErrors.map((entry) => [entry.fingerprint, entry]));
+    const currentMap = new Map();
+    for (const [fingerprint, data] of this.fingerprints.entries()) {
+      const finding = data.finding || {};
+      currentMap.set(fingerprint, {
+        fingerprint,
+        type: finding.type || 'unknown',
+        severity: finding.severity || 'high',
+        module: finding.module || 'unknown',
+        file: finding.file || '(unknown)',
+        line: finding.line || null,
+        message: finding.message || 'n/a',
+        frequency: data.frequency || 1,
+        firstSeen: data.firstSeen || null,
+        lastSeen: data.lastSeen || data.firstSeen || null,
+        priorityScore: this.computePriorityScore({ ...finding, frequency: data.frequency, lastSeen: data.lastSeen, firstSeen: data.firstSeen }),
+      });
+    }
+
+    const newErrors = [];
+    const continuing = [];
+    for (const [fingerprint, entry] of currentMap.entries()) {
+      if (!previousMap.has(fingerprint)) {
+        newErrors.push(entry);
+      } else {
+        continuing.push(entry);
+      }
+    }
+
+    const resolvedErrors = [];
+    for (const [fingerprint, previousEntry] of previousMap.entries()) {
+      if (!currentMap.has(fingerprint)) {
+        resolvedErrors.push(previousEntry);
+      }
+    }
+
+    const byPriorityDesc = (a, b) => (b.priorityScore || 0) - (a.priorityScore || 0);
+    newErrors.sort(byPriorityDesc);
+    continuing.sort(byPriorityDesc);
+    resolvedErrors.sort((a, b) => parseTimeSafe(b.lastSeen) - parseTimeSafe(a.lastSeen));
+
+    this.delta = {
+      previous_total: previousMap.size,
+      continuing_errors: continuing.length,
+      new_errors: newErrors,
+      resolved_errors: resolvedErrors,
+    };
+  }
+
+  buildStateSnapshot() {
+    const errors = [];
+    for (const [fingerprint, data] of this.fingerprints.entries()) {
+      const finding = data.finding || {};
+      errors.push({
+        fingerprint,
+        type: finding.type || 'unknown',
+        severity: finding.severity || 'high',
+        module: finding.module || 'unknown',
+        file: finding.file || '(unknown)',
+        line: finding.line || null,
+        message: finding.message || 'n/a',
+        frequency: data.frequency || 1,
+        firstSeen: data.firstSeen || null,
+        lastSeen: data.lastSeen || data.firstSeen || null,
+        priorityScore: this.computePriorityScore({ ...finding, frequency: data.frequency, lastSeen: data.lastSeen, firstSeen: data.firstSeen }),
+      });
+    }
+
+    errors.sort((a, b) => (b.priorityScore || 0) - (a.priorityScore || 0));
+    return {
+      version: 1,
+      generated_at: new Date().toISOString(),
+      window_hours: LATEST_PRIORITY_WINDOW_HOURS,
+      total_unique_errors: errors.length,
+      chronic_threshold: CHRONIC_THRESHOLD,
+      errors,
+    };
   }
 
   getStats() {
@@ -542,6 +670,53 @@ class ErrorAggregator {
     md += `- **Chronic Diagnostics** (appearing ≥${CHRONIC_THRESHOLD}x): ${stats.chronic_errors}\n`;
     md += `- **Module/File Groups**: ${stats.module_file_groups}\n\n`;
 
+    const highestPriority = Array.from(this.fingerprints.entries())
+      .map(([fingerprint, data]) => {
+        const finding = data.finding || {};
+        return {
+          fingerprint,
+          type: finding.type || 'unknown',
+          file: finding.file || '(unknown)',
+          line: finding.line || null,
+          message: finding.message || 'n/a',
+          frequency: data.frequency || 1,
+          lastSeen: data.lastSeen || data.firstSeen || null,
+          priorityScore: this.computePriorityScore({ ...finding, frequency: data.frequency, lastSeen: data.lastSeen, firstSeen: data.firstSeen }),
+        };
+      })
+      .sort((a, b) => (b.priorityScore || 0) - (a.priorityScore || 0))
+      .slice(0, 12);
+
+    md += `## 🚨 Latest-Weighted Priority Diagnostics (Top ${highestPriority.length})\n\n`;
+    highestPriority.forEach((entry, idx) => {
+      const loc = entry.line ? `${entry.file}:${entry.line}` : entry.file;
+      md += `${idx + 1}. **${entry.type}** [score=${entry.priorityScore}] [${entry.frequency}x] — ${entry.message}\n`;
+      md += `   - Location: ${loc}\n`;
+      md += `   - Latest occurrence: ${entry.lastSeen || 'unknown'}\n`;
+    });
+    md += '\n';
+
+    if (this.previousState) {
+      md += '## 🔁 Delta vs previous aggregation\n\n';
+      md += `- Previous unique diagnostics: ${this.delta.previous_total}\n`;
+      md += `- Continuing diagnostics: ${this.delta.continuing_errors}\n`;
+      md += `- New diagnostics: ${this.delta.new_errors.length}\n`;
+      md += `- Resolved diagnostics: ${this.delta.resolved_errors.length}\n\n`;
+
+      if (this.delta.resolved_errors.length > 0) {
+        md += '### ✅ Resolved diagnostics since previous run\n\n';
+        this.delta.resolved_errors.slice(0, 20).forEach((entry, idx) => {
+          const loc = entry.line ? `${entry.file}:${entry.line}` : entry.file;
+          md += `${idx + 1}. **${entry.type || 'unknown'}** — ${entry.message || 'n/a'}\n`;
+          md += `   - Last seen previously: ${entry.lastSeen || 'unknown'}\n`;
+          md += `   - Location: ${loc}\n`;
+        });
+        md += '\n';
+      } else {
+        md += '_No resolved diagnostics detected since previous run._\n\n';
+      }
+    }
+
     md += '### By Compiler\n\n';
     Object.entries(stats.by_compiler)
       .sort((a, b) => b[1] - a[1])
@@ -610,6 +785,8 @@ async function main() {
   const outputFile = process.env.OUTPUT_FILE || '/tmp/aggregated-errors.md';
   const groupedOutputFile = process.env.GROUPED_OUTPUT_FILE || '/tmp/aggregated-errors-by-module-file.json';
   const tracksOutputFile = process.env.TRACKS_OUTPUT_FILE || '/tmp/chronic-triage-baseline.json';
+  const currentStateOutputFile = process.env.CURRENT_STATE_FILE || '/tmp/aggregated-error-state.json';
+  const previousStateFile = process.env.PREVIOUS_STATE_FILE || '';
   const repoRoot = process.env.GITHUB_WORKSPACE || process.cwd();
   const sourceRunId = process.env.GITHUB_RUN_ID || null;
 
@@ -642,10 +819,13 @@ async function main() {
   }
 
   aggregator.scanGapMarkersInSrc(repoRoot);
+  aggregator.loadPreviousState(previousStateFile);
   aggregator.aggregate();
+  aggregator.computeDelta();
 
   const stats = aggregator.getStats();
   const tracks = aggregator.buildRemediationTracks(stats, sourceRunId, repoRoot);
+  const currentState = aggregator.buildStateSnapshot();
   let markdown = enforceMarkdownSizeLimit(aggregator.generateMarkdown());
   const grouped = {
     generated_at: new Date().toISOString(),
@@ -656,6 +836,7 @@ async function main() {
   fs.writeFileSync(outputFile, markdown);
   fs.writeFileSync(groupedOutputFile, JSON.stringify(grouped, null, 2));
   fs.writeFileSync(tracksOutputFile, JSON.stringify(tracks, null, 2));
+  fs.writeFileSync(currentStateOutputFile, JSON.stringify(currentState, null, 2));
 
   console.log(`\n📊 Aggregation Results:`);
   console.log(`  - Total input findings: ${stats.total_input_findings}`);
@@ -679,6 +860,8 @@ async function main() {
     `track_b_module_order=${TRACK_B_MODULE_ORDER.join(',')}`,
     `track_c_doc_leaks=${trackCDocLeaks}`,
     `track_c_real_gaps=${trackCRealGaps}`,
+    `new_errors=${aggregator.delta.new_errors.length}`,
+    `resolved_errors=${aggregator.delta.resolved_errors.length}`,
   ].join('\n');
 
   if (process.env.GITHUB_OUTPUT) {
