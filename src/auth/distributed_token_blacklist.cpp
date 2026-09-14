@@ -348,16 +348,16 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         config_.column_family, rocksdb::ColumnFamilyOptions{}));
     
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-    std::unique_ptr<rocksdb::DB> db_instance;
+    rocksdb::DB* raw_db_instance = nullptr;
     rocksdb::Status status = rocksdb::DB::Open(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &db_instance);
+        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &raw_db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
     
-    db_ = db_instance.release();
+    db_ = raw_db_instance;
     cf_ = cf_handles[1];  // Our column family (not default)
     
     // Keep other CF handles alive for proper cleanup
@@ -1104,4 +1104,3 @@ bool DistributedTokenBlacklist::pullRevisionsFromLeader(const std::string& leade
 
 } // namespace auth
 } // namespace themis
-

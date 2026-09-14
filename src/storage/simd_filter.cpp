@@ -425,7 +425,11 @@ size_t neon_filter_i64(const int64_t* data, size_t n, FilterOp op, int64_t thr,
         uint64x2_t pred;
         switch (op) {
             case FilterOp::EQ: pred = vceqq_s64(va, vt); break;
-            case FilterOp::NE: pred = vmvnq_u64(vceqq_s64(va, vt)); break;
+            case FilterOp::NE: {
+                const uint32x4_t eq = vreinterpretq_u32_u64(vceqq_s64(va, vt));
+                pred = vreinterpretq_u64_u32(vmvnq_u32(eq));
+                break;
+            }
             case FilterOp::LT: pred = vcltq_s64(va, vt); break;
             case FilterOp::LE: pred = vcleq_s64(va, vt); break;
             case FilterOp::GT: pred = vcgtq_s64(va, vt); break;
@@ -495,7 +499,11 @@ size_t neon_filter_f64(const double* data, size_t n, FilterOp op, double thr,
         uint64x2_t pred;
         switch (op) {
             case FilterOp::EQ: pred = vceqq_f64(va, vt); break;
-            case FilterOp::NE: pred = vmvnq_u64(vceqq_f64(va, vt)); break;
+            case FilterOp::NE: {
+                const uint32x4_t eq = vreinterpretq_u32_u64(vceqq_f64(va, vt));
+                pred = vreinterpretq_u64_u32(vmvnq_u32(eq));
+                break;
+            }
             case FilterOp::LT: pred = vcltq_f64(va, vt); break;
             case FilterOp::LE: pred = vcleq_f64(va, vt); break;
             case FilterOp::GT: pred = vcgtq_f64(va, vt); break;
