@@ -241,11 +241,11 @@ For EU AI Act details (NEW Aug 2026), see:
 
 ### Open C5-2026 remediation backlog
 
-- [ ] Add unified C5 evidence manifest for each release (`audit/evidence/c5/<release>/manifest.json`)
-- [ ] Add provider/shared-responsibility matrix to deployment compliance docs
-- [ ] Add signed SBOM + provenance references to audit completion checklist
-- [ ] Add recurring incident drill evidence links to audit reports
-- [ ] Expand cryptographic lifecycle audit logging coverage
+- [~] Add unified C5 evidence manifest for each release (`audit/evidence/c5/<release>/manifest.json`) — automated manifest packaging added in `.github/workflows/compliance-supply-chain.yml` via `tools/ci/generate_c5_evidence_manifest.py`; quarterly evidence population remains open
+- [~] Add provider/shared-responsibility matrix to deployment compliance docs — baseline added at `audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md`; deployment-specific ownership evidence remains open
+- [~] Add signed SBOM + provenance references to audit completion checklist — manifest now links SBOM artifact and workflow run; recurring tag/release provenance capture remains open
+- [~] Add recurring incident drill evidence links to audit reports — canonical index added at `audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md`; entries remain open
+- [~] Expand cryptographic lifecycle audit logging coverage — required event canon added at `audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md`; source-backed event mapping remains open
 
 For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 

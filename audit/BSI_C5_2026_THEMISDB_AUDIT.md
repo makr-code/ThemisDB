@@ -34,11 +34,11 @@ ThemisDB bleibt auf einer **tragfähigen BSI-C5-Basis**, benötigt für den 2026
 
 ## 3) Verbindliche Maßnahmen für das ThemisDB-Audit
 
-- [ ] C5-Evidence-Manifest pro Release unter `audit/evidence/c5/<release>/manifest.json` etablieren
-- [ ] Shared-Responsibility-Matrix (Self-hosted/Managed/Hybrid) als Audit-Anlage ergänzen
-- [ ] Signierte SBOM- und Build-Provenance-Referenzen in den Audit-Report aufnehmen
-- [ ] Incident-Drill- und Restore-Test-Evidenz in quartalsweise Audits integrieren
-- [ ] Audit-Events für Key-Lifecycle-Prozesse systematisch vervollständigen
+- [~] C5-Evidence-Manifest pro Release unter `audit/evidence/c5/<release>/manifest.json` etablieren (Automation in `.github/workflows/compliance-supply-chain.yml` + `tools/ci/generate_c5_evidence_manifest.py` ergänzt)
+- [~] Shared-Responsibility-Matrix (Self-hosted/Managed/Hybrid) als Audit-Anlage ergänzen (`audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md` angelegt; quartalsweise Evidenzbefüllung offen)
+- [~] Signierte SBOM- und Build-Provenance-Referenzen in den Audit-Report aufnehmen (C5-Manifest referenziert SBOM-/Workflow-Artefakte; tag-basierte Provenance-Nachweise weiter ausführen)
+- [~] Incident-Drill- und Restore-Test-Evidenz in quartalsweise Audits integrieren (`audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md` als kanonischer Index angelegt; Befüllung offen)
+- [~] Audit-Events für Key-Lifecycle-Prozesse systematisch vervollständigen (`audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md` als Event-Kanon angelegt; Test/Runtime-Mapping offen)
 
 ---
 
