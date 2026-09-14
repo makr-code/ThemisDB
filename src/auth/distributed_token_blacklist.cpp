@@ -8,7 +8,8 @@
 
 #include "auth/distributed_token_blacklist.h"
 #include "auth/auth_error.h"
-#include <memory>
+#include "auth/rocksdb_open_compat.h"
+
 #include <stdexcept>
 #include <chrono>
 #include <thread>
@@ -349,7 +350,7 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
     
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
     rocksdb::DB* raw_db_instance = nullptr;
-    rocksdb::Status status = rocksdb::DB::Open(
+    rocksdb::Status status = detail::openDbWithColumnFamiliesCompat(
         rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &raw_db_instance);
 
     if (!status.ok()) {
