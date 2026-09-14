@@ -78,6 +78,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: os,library
           exit-code: '0'
+          trivy-version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
 
       - name: Run Trivy scan (SARIF)
         uses: aquasecurity/trivy-action@v0.36.0
@@ -90,6 +91,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: os,library
           exit-code: '0'
+          trivy-version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
 
       - name: Upload Trivy SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@42947a340483f03ba47bb1a039b2c519aab3df85  # v3.37.8
