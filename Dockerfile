@@ -14,6 +14,8 @@ ARG LLAMA_CPP_REF=1e8924fd65ad349d1d838412a2172292618f3bbf
 
 FROM ubuntu:24.04 AS base
 
+ARG TARGETARCH
+
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
@@ -28,11 +30,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    set -eux; \
+    EXTRA_COMPILERS=""; \
+    if [ "${TARGETARCH}" = "amd64" ]; then \
+        EXTRA_COMPILERS="gcc-x86-64-linux-gnu g++-x86-64-linux-gnu"; \
+    fi; \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
         aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev glslc \
-        gcc-x86-64-linux-gnu g++-x86-64-linux-gnu && \
+        ${EXTRA_COMPILERS} && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \

@@ -327,8 +327,9 @@ private:
 
     // ─── Phase 2C: Helper Methods ──────────────────────────────────────────
     
-    /// Check if event recording would violate size limits; emit diagnostics and trim if needed
-    LineageRecordResult checkAndEnforceSizeLimits();
+    /// Check whether adding a new event would violate the configured retention caps;
+    /// proactively evicts the oldest entries while preserving the most recent data.
+    LineageRecordResult checkAndEnforceSizeLimits(const std::string& dataset_id = {});
     
     /// Update circuit breaker state based on current conditions
     void updateCircuitBreakerState();

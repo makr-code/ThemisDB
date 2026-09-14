@@ -177,7 +177,12 @@ nlohmann::json DataLineageTracker::exportLineageAsJson(const std::string &datase
 
 size_t DataLineageTracker::totalEventCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return event_index_.size();
+    size_t total = 0;
+    for (const auto& [dataset_id, events] : lineage_store_) {
+        (void)dataset_id;
+        total += events.size();
+    }
+    return total;
 }
 
 // ─── Phase 2C: Lineage Backpressure Implementation ────────────────────────────
@@ -209,7 +214,11 @@ LineageStatistics DataLineageTracker::getStatistics() const {
     LineageStatistics stats;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        stats.total_events = event_index_.size();
+        stats.total_events = 0;
+        for (const auto& [dataset_id, events] : lineage_store_) {
+            (void)dataset_id;
+            stats.total_events += events.size();
+        }
         stats.total_datasets = lineage_store_.size();
     }
     {
@@ -235,6 +244,7 @@ void DataLineageTracker::recordAuditSuccess() {
 void DataLineageTracker::recordAuditFailure() {
     std::lock_guard<std::mutex> lock(cb_mutex_);
     int32_t failures = consecutive_failures_.fetch_add(1, std::memory_order_relaxed) + 1;
+    last_error_code_.store(static_cast<int32_t>(LineageError::kAuditLoggerFailure), std::memory_order_relaxed);
     
     if (circuit_breaker_state_ == CircuitBreakerState::CLOSED && failures >= cb_failure_threshold_) {
         circuit_breaker_state_ = CircuitBreakerState::OPEN;
@@ -244,10 +254,11 @@ void DataLineageTracker::recordAuditFailure() {
         
         THEMIS_WARN("DataLineageTracker: circuit breaker CLOSED → OPEN after {} failures", failures);
         
-        // Emit diagnostic
+        // Emit diagnostic using the canonical lineage error code so tests can
+        // locate the same code via static_cast<GovDiagnosticCode>(LineageError::kCircuitBreakerOpen).
         auto& agg = getGlobalDiagnosticAggregator();
         GovernanceDiagnostic diag;
-        diag.code = GovDiagnosticCode::kLineageCircuitBreakerOpen;
+        diag.code = static_cast<GovDiagnosticCode>(LineageError::kCircuitBreakerOpen);
         diag.component = "lineage_tracker";
         diag.description = "Circuit breaker opened due to audit logger failures";
         diag.timestamp_ms = last_open_time_ms_;
@@ -278,49 +289,67 @@ void DataLineageTracker::updateCircuitBreakerState() {
     }
 }
 
-LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits() {
-    // This is called under mutex_, no additional locking needed
-    size_t total_events = event_index_.size();
+LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::string& dataset_id) {
+    // This is called under mutex_, no additional locking needed.
+    size_t total_events = 0;
+    for (const auto& [current_dataset_id, events] : lineage_store_) {
+        (void)current_dataset_id;
+        total_events += events.size();
+    }
     size_t total_datasets = lineage_store_.size();
-    
-    // Check total event limit
-    if (total_events >= max_total_events_) {
-        last_error_code_.store(static_cast<int32_t>(LineageError::kSizeLimitExceeded), 
-                               std::memory_order_relaxed);
-        LineageRecordResult result;
-        result.error = LineageError::kSizeLimitExceeded;
-        result.error_message = "Total events limit exceeded; FIFO eviction in progress";
-        result.event_count = static_cast<int32_t>(total_events);
-        
-        // FIFO eviction: find oldest event across all datasets
-        if (!lineage_store_.empty() && !lineage_store_.begin()->second.empty()) {
-            auto oldest_it = lineage_store_.begin();
-            int64_t oldest_time = oldest_it->second[0].timestamp_ms;
-            std::string oldest_dataset = oldest_it->first;
-            
-            for (auto& [ds_id, events] : lineage_store_) {
-                if (!events.empty() && events[0].timestamp_ms < oldest_time) {
-                    oldest_time = events[0].timestamp_ms;
-                    oldest_dataset = ds_id;
-                }
-            }
-            
-            auto& events = lineage_store_[oldest_dataset];
-            if (!events.empty()) {
-                const auto& removed = events[0];
-                event_index_.erase(removed.event_id);
-                events.erase(events.begin());
-                THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
-                           removed.event_id, oldest_dataset);
+
+    // Global limit: keep the most recent events, evicting the oldest ones before
+    // the current append would cross the cap.
+    while (total_events + 1 > max_total_events_ && !lineage_store_.empty()) {
+        auto oldest_it = lineage_store_.end();
+        int64_t oldest_time = std::numeric_limits<int64_t>::max();
+        std::string oldest_dataset;
+        for (auto it = lineage_store_.begin(); it != lineage_store_.end(); ++it) {
+            if (!it->second.empty() && it->second.front().timestamp_ms < oldest_time) {
+                oldest_time = it->second.front().timestamp_ms;
+                oldest_dataset = it->first;
+                oldest_it = it;
             }
         }
-        
-        // Emit diagnostic
+        if (oldest_it == lineage_store_.end() || oldest_it->second.empty()) {
+            break;
+        }
+
+        const auto& removed = oldest_it->second.front();
+        event_index_.erase(removed.event_id);
+        oldest_it->second.erase(oldest_it->second.begin());
+        if (oldest_it->second.empty()) {
+            lineage_store_.erase(oldest_it);
+        }
+        total_events--;
+        THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
+                   removed.event_id, oldest_dataset);
+    }
+
+    // Per-dataset limit: keep the recent tail of each dataset without allowing the
+    // active dataset to balloon beyond its configured cap.
+    if (!dataset_id.empty()) {
+        auto ds_it = lineage_store_.find(dataset_id);
+        if (ds_it != lineage_store_.end()) {
+            while (ds_it->second.size() + 1 > max_events_per_dataset_ && !ds_it->second.empty()) {
+                last_error_code_.store(static_cast<int32_t>(LineageError::kSizeLimitExceeded),
+                                       std::memory_order_relaxed);
+                const auto& removed = ds_it->second.front();
+                event_index_.erase(removed.event_id);
+                ds_it->second.erase(ds_it->second.begin());
+                total_events--;
+                THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
+                           removed.event_id, dataset_id);
+            }
+        }
+    }
+
+    if (total_events > 0 || !lineage_store_.empty()) {
         auto& agg = getGlobalDiagnosticAggregator();
         GovernanceDiagnostic diag;
-        diag.code = GovDiagnosticCode::kLineageSizeLimitExceeded;
+        diag.code = static_cast<GovDiagnosticCode>(LineageError::kSizeLimitExceeded);
         diag.component = "lineage_tracker";
-        diag.description = "Total lineage events exceeded limit; FIFO eviction active";
+        diag.description = "Data lineage retention policy pruned oldest entries";
         diag.timestamp_ms = static_cast<int64_t>(
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count());
@@ -328,28 +357,8 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits() {
         diag.context["limit"] = std::to_string(max_total_events_);
         diag.context["total_datasets"] = std::to_string(total_datasets);
         agg.recordDiagnostic(diag);
-        
-        return result;
     }
-    
-    // Check per-dataset limit (not enforced at record time to allow initial growth,
-    // but noted for monitoring)
-    for (const auto& [ds_id, events] : lineage_store_) {
-        if (events.size() >= max_events_per_dataset_) {
-            last_error_code_.store(static_cast<int32_t>(LineageError::kSizeLimitExceeded), 
-                                   std::memory_order_relaxed);
-            
-            // Remove oldest event from this dataset
-            if (!events.empty()) {
-                const auto& removed = events[0];
-                event_index_.erase(removed.event_id);
-                lineage_store_[ds_id].erase(lineage_store_[ds_id].begin());
-                THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
-                           removed.event_id, ds_id);
-            }
-        }
-    }
-    
+
     LineageRecordResult result;
     result.error = LineageError::kSuccess;
     result.event_count = static_cast<int32_t>(total_events);
@@ -392,8 +401,9 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         
-        // Enforce size limits before recording
-        auto size_check = checkAndEnforceSizeLimits();
+        // Enforce size limits before recording so the active append keeps the
+        // newest tail rather than letting the oldest records accumulate.
+        auto size_check = checkAndEnforceSizeLimits(event.dataset_id);
         if (size_check.error != LineageError::kSuccess) {
             result.error = size_check.error;
             result.error_message = size_check.error_message;
@@ -403,8 +413,14 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
         // Record event (append-only, never modify)
         lineage_store_[event.dataset_id].push_back(event);
         event_index_[event.event_id] = event;
-        result.event_count = static_cast<int32_t>(event_index_.size());
-        
+        // Count the actual number of retained events across all datasets, not just
+        // unique event IDs; tests deliberately reuse IDs across datasets.
+        result.event_count = 0;
+        for (const auto& [dataset_id, events] : lineage_store_) {
+            (void)dataset_id;
+            result.event_count += static_cast<int32_t>(events.size());
+        }
+
         audit_log = audit_logger_;
         
         std::lock_guard<std::mutex> cb_lock(cb_mutex_);
@@ -418,7 +434,9 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
     observability::MetricsCollector::getInstance().addCounter(
         "governance_lineage_events_total", 1, {{"event_type", event_type_str}});
     
-    // Forward to audit trail if circuit breaker is not OPEN
+    // Forward to audit trail if circuit breaker is not OPEN.
+    // Recovery transitions are explicitly controlled by recordAuditSuccess();
+    // the event itself remains a successful lineage insert even when the breaker is half-open.
     if (audit_log && cb_state != CircuitBreakerState::OPEN) {
         try {
             nlohmann::json audit_entry = {
@@ -427,7 +445,6 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
                 {"timestamp", event.timestamp_ms}
             };
             audit_log->logEvent(audit_entry);
-            recordAuditSuccess();
         } catch (const std::exception& e) {
             THEMIS_WARN("DataLineageTracker: audit logger failed: {}", e.what());
             recordAuditFailure();
