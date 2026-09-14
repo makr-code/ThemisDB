@@ -2,7 +2,7 @@
 
 Status: open  
 Scope: Wave C + Wave D closure governance  
-Context: CodeQL Python analysis may be skipped due database-size limits in this environment.
+Context: CodeQL Python analysis may be skipped due to database-size limits in this environment.
 
 ## Risk statement
 

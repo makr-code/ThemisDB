@@ -79,7 +79,7 @@ def load_manifest(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
 def check_markdown_sidecar(path: Path) -> list[str]:
     errors: list[str] = []
     md_path = path.with_suffix(".md")
-    if not md_path.exists():
+    if not md_path.is_file():
         errors.append(f"{path}: missing markdown sidecar '{md_path.name}'")
         return errors
     try:
@@ -128,6 +128,7 @@ def validate_required_manifests(
     required_entries: list[dict[str, str]],
     loaded_manifests: dict[str, dict[str, Any]],
     manifest_dir: Path,
+    invalid_manifest_names: set[str] | None = None,
 ) -> list[str]:
     errors: list[str] = []
     for entry in required_entries:
@@ -138,6 +139,10 @@ def validate_required_manifests(
 
         payload = loaded_manifests.get(file_name)
         if payload is None:
+            if invalid_manifest_names and file_name in invalid_manifest_names:
+                # File exists but failed to parse or is missing wave_code; errors
+                # already reported during loading — skip duplicate "missing" report.
+                continue
             errors.append(f"Missing required closure manifest: {manifest_dir / file_name}")
             continue
 
@@ -260,6 +265,7 @@ def main() -> int:
     manifests_by_wave: dict[str, list[dict[str, Any]]] = {wave: [] for wave in WAVE_ORDER}
     manifest_rows: list[dict[str, str]] = []
     loaded_manifests: dict[str, dict[str, Any]] = {}
+    invalid_manifest_names: set[str] = set()
 
     if not manifest_files:
         errors.append(f"No closure manifests found in {manifest_dir}")
@@ -269,6 +275,7 @@ def main() -> int:
         payload, load_errors = load_manifest(manifest_file)
         errors.extend(load_errors)
         if payload is None or "wave_code" not in payload:
+            invalid_manifest_names.add(manifest_file.name)
             continue
 
         loaded_manifests[manifest_file.name] = payload
@@ -287,7 +294,7 @@ def main() -> int:
     required_entries, policy_errors = load_policy(policy_file)
     errors.extend(policy_errors)
     if required_entries:
-        errors.extend(validate_required_manifests(required_entries, loaded_manifests, manifest_dir))
+        errors.extend(validate_required_manifests(required_entries, loaded_manifests, manifest_dir, invalid_manifest_names))
 
     status_map = {wave: wave_status(manifests_by_wave[wave]) for wave in WAVE_ORDER}
     ordering_violations = check_order(status_map)
