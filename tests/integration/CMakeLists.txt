@@ -164,7 +164,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/query_execution_pipeline_test.cp
         pipeline/query_execution_pipeline_test.cpp
     )
     set_tests_properties(query_execution_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic"
+        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic;wave_a_flow_server_query_storage_transaction"
     )
 endif()
 
@@ -184,7 +184,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
         pipeline/rag_ai_pipeline_test.cpp
     )
     set_tests_properties(rag_ai_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic"
+        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic;wave_a_flow_server_llm"
     )
 endif()
 
@@ -194,7 +194,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/transaction_replication_pipeline
         pipeline/transaction_replication_pipeline_test.cpp
     )
     set_tests_properties(transaction_replication_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation"
+        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation;wave_a_flow_sharding_transaction"
     )
 endif()
 
@@ -329,7 +329,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5a_e2e_critical_journeys_test.c
         pipeline/w5a_e2e_critical_journeys_test.cpp
     )
     set_tests_properties(w5a_e2e_critical_journeys_test PROPERTIES
-        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e"
+        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e;wave_a_flow_server_query_storage_transaction"
         TIMEOUT 300
     )
 endif()
@@ -454,7 +454,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9c_chaos_fault_tolerance_test.c
         pipeline/w9c_chaos_fault_tolerance_test.cpp
     )
     set_tests_properties(w9c_chaos_fault_tolerance_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance"
+        LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance;wave_a_flow_server_query_storage_transaction;wave_a_flow_sharding_transaction"
         TIMEOUT 120
     )
 endif()
@@ -648,6 +648,36 @@ foreach(_rc_integration_target IN ITEMS
     if(TARGET ${_rc_integration_target})
         set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS
             ${_rc_integration_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_server_llm_integration_target IN ITEMS
+    rag_ai_pipeline_test
+)
+    if(TARGET ${_wave_a_server_llm_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS
+            ${_wave_a_server_llm_integration_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sqst_integration_target IN ITEMS
+    query_execution_pipeline_test
+    w5a_e2e_critical_journeys_test
+    w9c_chaos_fault_tolerance_test
+)
+    if(TARGET ${_wave_a_sqst_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+            ${_wave_a_sqst_integration_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sharding_txn_integration_target IN ITEMS
+    transaction_replication_pipeline_test
+    w9c_chaos_fault_tolerance_test
+)
+    if(TARGET ${_wave_a_sharding_txn_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SHARDING_TRANSACTION_TARGETS
+            ${_wave_a_sharding_txn_integration_target})
     endif()
 endforeach()
 
