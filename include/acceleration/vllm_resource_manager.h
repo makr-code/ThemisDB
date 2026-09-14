@@ -126,7 +126,9 @@ public:
     VLLMResourceManager& operator=(VLLMResourceManager&&) = delete;
     
     /**
-     * @brief Initialize resource manager and detect hardware
+     * @brief Initialize resource manager and detect hardware.
+     *
+     * @return true on success; false if hardware detection failed.
      */
     bool initialize();
     

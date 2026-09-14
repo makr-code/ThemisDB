@@ -103,12 +103,16 @@ public:
 
     /**
      * @brief Add a symbol that every valid module must export.
+     *
+     * @param symbol  Exported symbol name (null-terminated, mangled if C++).
      */
     void addRequiredSymbol(const std::string& symbol);
 
     /**
      * @brief Add a symbol that was removed from the host ABI;
      *        warn if the new module still exports it (may indicate stale build).
+     *
+     * @param symbol  Symbol name to flag as deprecated in the host ABI.
      */
     void addDeprecatedSymbol(const std::string& symbol);
 
@@ -131,6 +135,7 @@ public:
      * @param module_meta    Metadata extracted from `module_handle`.
      * @param host_major     ThemisDB host ABI major version.
      * @param host_minor     ThemisDB host ABI minor version.
+     * @return AbiCheckResult with pass/fail status and diagnostic message.
      */
     AbiCheckResult check(void*                  module_handle,
                          const ModuleMetadata&  module_meta,
@@ -139,12 +144,32 @@ public:
 
     // ── Individual sub-checks (exposed for testing) ───────────────────────
 
+    /**
+     * @brief Verify that the module's ABI version is compatible with the host.
+     *
+     * @param meta        Metadata extracted from the loaded module.
+     * @param host_major  ThemisDB host ABI major version.
+     * @param host_minor  ThemisDB host ABI minor version.
+     * @return AbiCheckResult indicating version compatibility.
+     */
     AbiCheckResult checkVersions(const ModuleMetadata& meta,
                                   uint32_t host_major,
                                   uint32_t host_minor) const;
 
+    /**
+     * @brief Verify that all required symbols are present in the module.
+     *
+     * @param handle  OS handle to the loaded module.
+     * @return AbiCheckResult listing any missing required symbols.
+     */
     AbiCheckResult checkRequiredSymbols(void* handle) const;
 
+    /**
+     * @brief Warn if the module exports any symbols that are deprecated in the host ABI.
+     *
+     * @param handle  OS handle to the loaded module.
+     * @return AbiCheckResult listing any deprecated symbols still exported.
+     */
     AbiCheckResult checkDeprecatedSymbols(void* handle) const;
 
 private:
@@ -219,6 +244,11 @@ public:
     };
 
     // ── Configuration ─────────────────────────────────────────────────────
+    /// @brief Runtime configuration for a ModuleSandbox instance.
+    ///
+    /// Controls memory and CPU limits, filesystem access policy, network
+    /// access, and optional WASM isolation.  Construct via Config::defaults()
+    /// for safe baseline settings.
     struct Config {
         size_t max_memory_mb       = 256;   ///< Hard memory limit
         int    max_cpu_percent     = 50;    ///< CPU share (0 = unlimited); used on Windows
@@ -249,6 +279,9 @@ public:
         /// functions cause the WASM module load to fail.
         bool wasm_allow_unregistered_imports = false;
 
+        /// @brief Construct a Config with safe default values.
+        /// @return Config with 256 MiB memory limit, 50 % CPU share,
+        ///         read-only filesystem access, and no network.
         static Config defaults() { return {}; }
     };
 
@@ -286,11 +319,18 @@ public:
 
     /**
      * @brief Warnings produced during `launch()` for unsupported mechanisms.
+     *
+     * @return Reference to the list of warning strings accumulated by launch().
      */
     const std::vector<std::string>& launchWarnings() const noexcept {
         return launch_warnings_;
     }
 
+    /**
+     * @brief Last error message produced during launch() or shutdown().
+     *
+     * @return Human-readable error string; empty if no error has occurred.
+     */
     const std::string& lastError() const noexcept { return last_error_; }
 
     // ── Statistics ────────────────────────────────────────────────────────
@@ -300,6 +340,8 @@ public:
      *
      * On Linux reads `/sys/fs/cgroup/…/memory.current` and `cpuacct.usage`.
      * On Windows queries the Job Object.
+     *
+     * @return SandboxStats snapshot of current memory and CPU utilisation.
      */
     SandboxStats stats() const;
 
@@ -318,8 +360,12 @@ public:
      *
      * Non-null only when isWasmIsolationActive() is true.
      * Use this to load .wasm plugin binaries and call their exports.
+     *
+     * @return Pointer to the inner WasmPluginSandbox, or nullptr if WASM
+     *         isolation is not active.
      */
     WasmPluginSandbox*       wasmSandbox() noexcept;
+    /// @copydoc wasmSandbox()
     const WasmPluginSandbox* wasmSandbox() const noexcept;
 
 private:
