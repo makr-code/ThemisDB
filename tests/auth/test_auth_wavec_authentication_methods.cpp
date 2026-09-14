@@ -10,6 +10,10 @@
 
 #include <gtest/gtest.h>
 
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
 #include "auth/jwt_validator.h"
 #include "auth/saml_authenticator.h"
 #include "auth/mtls_authenticator.h"
@@ -18,6 +22,24 @@
 namespace themis {
 namespace auth {
 namespace tests {
+
+namespace {
+
+std::string loadRepoTestCertificatePem() {
+    const auto repo_root = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
+    const auto cert_path = repo_root / "certs" / "test" / "test-ca.crt";
+
+    std::ifstream in(cert_path, std::ios::in | std::ios::binary);
+    if (!in) {
+        return {};
+    }
+
+    std::ostringstream buffer;
+    buffer << in.rdbuf();
+    return buffer.str();
+}
+
+}  // namespace
 
 // ---------------------------------------------------------------------------
 // Fixture
@@ -186,8 +208,10 @@ TEST_F(AuthMethodsTest, AUTH_Auth_05_SAMLRejectsEmptyAssertion) {
     SAMLConfig cfg;
     cfg.sp_entity_id         = "https://sp.example.com/saml/metadata";
     cfg.sp_acs_url           = "https://sp.example.com/saml/acs";
+    cfg.idp_sso_url          = "https://idp.example.com/sso";
     cfg.idp_entity_id        = "https://idp.example.com";
-    cfg.idp_certificate_pem  = "";  // no cert — ensures fast failure path
+    cfg.idp_certificate_pem  = loadRepoTestCertificatePem();
+    ASSERT_FALSE(cfg.idp_certificate_pem.empty()) << "Expected cert fixture at certs/test/test-ca.crt";
 
     SAMLAuthenticator saml(cfg);
 
@@ -205,6 +229,7 @@ TEST_F(AuthMethodsTest, AUTH_Auth_05_SAMLRejectsEmptyAssertion) {
 TEST_F(AuthMethodsTest, AUTH_Auth_06_MTLSRejectsEmptyCertificate) {
     MTLSAuthenticator::Config cfg;
     cfg.ca_cert_pem           = "";  // no CA — fast rejection path
+    cfg.verify_chain          = false;
     cfg.require_client_cert   = true;
 
     MTLSAuthenticator mtls(cfg);

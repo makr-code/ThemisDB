@@ -581,7 +581,8 @@ TEST_F(JWTTokenExpirationTest, ExactExpirationTime) {
 
     // current time > expiration time, so should be expired
     // (Note: depends on system clock precision)
-    EXPECT_TRUE(expired_claims.isExpired() || !expired_claims.isExpired());
+    const bool expired = expired_claims.isExpired();
+    EXPECT_TRUE(expired || !expired);
     // Either way is acceptable at the boundary
 }
 

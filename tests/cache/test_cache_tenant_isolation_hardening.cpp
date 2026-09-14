@@ -3,7 +3,9 @@
 
 #include <gtest/gtest.h>
 
+#include <atomic>
 #include <cstdint>
+#include <filesystem>
 #include <string>
 
 #include "cache/cache_contract.h"
@@ -17,12 +19,16 @@ using namespace themis::cache;
 // ─────────────────────────────────────────────────────────────────────────────
 
 static AdaptiveQueryCache::Config makeIsolationConfig(bool tenant_iso) {
+    static std::atomic_uint64_t kPathCounter{0};
     AdaptiveQueryCache::Config cfg;
     cfg.l1_max_entries          = 128;
     cfg.l1_max_entry_size       = 65536;
     cfg.l2_max_entries          = 256;
     cfg.l2_max_entry_size       = 65536;
-    cfg.l3_db_path              = "";         // L3 disabled
+    const auto path_id = ++kPathCounter;
+    const auto l3_path = std::filesystem::temp_directory_path()
+        / ("themis_cache_tenant_isolation_hardening_" + std::to_string(path_id));
+    cfg.l3_db_path              = l3_path.string();
     cfg.enable_circuit_breaker  = false;
     cfg.enable_size_limits      = true;
     cfg.max_total_entry_size    = 67108864;   // 64 MiB

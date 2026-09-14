@@ -83,7 +83,8 @@ protected:
                     ("themis_http_aql_shortestpath_" +
                      std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())))
                        .string();
-        std::filesystem::remove_all(db_path_);
+        std::error_code cleanup_ec = {};
+        std::filesystem::remove_all(db_path_, cleanup_ec);
 
         themis::RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
@@ -102,6 +103,7 @@ protected:
         port_ = allocateFreePort();
         scfg.port = port_;
         scfg.num_threads = 1;
+        scfg.health_error_service_enabled = false;
         server_ = std::make_unique<themis::server::HttpServer>(scfg, storage_, secondary_index_, graph_index_, vector_index_, tx_manager_);
         server_->start();
         ASSERT_TRUE(waitUntilServerReady(std::chrono::milliseconds(2000)))
@@ -123,7 +125,9 @@ protected:
         graph_index_.reset();
         vector_index_.reset();
         tx_manager_.reset();
-        std::filesystem::remove_all(db_path_);
+
+        std::error_code cleanup_ec = {};
+        std::filesystem::remove_all(db_path_, cleanup_ec);
 
         if (!original_cwd_.empty()) {
             std::error_code ec = {};
@@ -190,7 +194,8 @@ TEST_F(HttpAqlShortestPathTest, ShortestPath_ReturnsVerticesAndCost) {
     };
     auto res = post("/query/aql", req);
     ASSERT_EQ(res.result(), http::status::ok) << res.body();
-    auto body = json::parse(res.body());
+    const auto body = json::parse(res.body(), nullptr, false);
+    ASSERT_FALSE(body.is_discarded()) << "Response must be valid JSON: " << res.body();
     // Keep this test API-shape-oriented: query support may evolve,
     // but successful shortest-path dispatch should return entities array.
     ASSERT_TRUE(body.contains("entities"));
