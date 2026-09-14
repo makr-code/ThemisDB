@@ -1449,12 +1449,11 @@ endfunction()
 # RocksDB requires zstd::zstd target, so we need to ensure it exists before finding RocksDB
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
-    pkg_check_modules(ZSTD_PKG QUIET libzstd)
+    pkg_check_modules(ZSTD_PKG QUIET IMPORTED_TARGET libzstd)
     if(ZSTD_PKG_FOUND AND NOT TARGET zstd::zstd)
         add_library(zstd::zstd INTERFACE IMPORTED)
         set_target_properties(zstd::zstd PROPERTIES
-            INTERFACE_INCLUDE_DIRECTORIES "${ZSTD_PKG_INCLUDE_DIRS}"
-            INTERFACE_LINK_LIBRARIES "${ZSTD_PKG_LIBRARIES}")
+            INTERFACE_LINK_LIBRARIES PkgConfig::ZSTD_PKG)
         message(STATUS "Created zstd::zstd target from pkg-config")
     endif()
 endif()
@@ -2025,6 +2024,7 @@ set(THEMIS_CORE_SOURCES
     # Distributed Tensor Retrieval (EPIC 3)
     ../src/tensor/tensor_summary_types.cpp
     ../src/tensor/compression_strategy.cpp
+    ../src/graph/tensor_fingerprint_graph.cpp
     ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
     ../src/storage/wal_storage.cpp

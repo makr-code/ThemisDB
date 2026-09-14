@@ -2096,6 +2096,7 @@ endif()
 set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/explain_plan.cpp
+    ../src/graph/tensor_fingerprint_graph.cpp
     ../src/index/graph_analytics.cpp
     ../src/query/result_stream.cpp
     ../src/graph/ontology_manager.cpp
