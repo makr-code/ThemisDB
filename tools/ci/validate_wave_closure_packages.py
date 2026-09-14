@@ -25,6 +25,7 @@ REQUIRED_FIELDS = {
 
 WAVE_ORDER = ["A", "B", "C", "D"]
 REQUIRED_SOURCE_FLAGS = ["code", "tests", "ci", "benchmarks"]
+DEFAULT_POLICY_PATH = Path("audit/evidence/waves/closure_manifest_policy.json")
 
 
 def normalize_wave(value: str) -> str | None:
@@ -86,6 +87,72 @@ def check_markdown_sidecar(path: Path) -> list[str]:
             errors.append(f"{path}: markdown sidecar '{md_path.name}' is empty")
     except OSError as exc:
         errors.append(f"{path}: unable to read markdown sidecar '{md_path.name}' ({exc})")
+    return errors
+
+
+def load_policy(path: Path | None) -> tuple[list[dict[str, str]], list[str]]:
+    if path is None:
+        return [], []
+    if not path.exists():
+        return [], [f"Policy file not found: {path}"]
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [], [f"{path}: unable to parse policy json ({exc})"]
+
+    required = payload.get("required_manifests")
+    if not isinstance(required, list):
+        return [], [f"{path}: 'required_manifests' must be an array"]
+
+    entries: list[dict[str, str]] = []
+    errors: list[str] = []
+    for idx, item in enumerate(required):
+        if not isinstance(item, dict):
+            errors.append(f"{path}: required_manifests[{idx}] must be an object")
+            continue
+        file_name = str(item.get("file", "")).strip()
+        wave = str(item.get("wave", "")).strip()
+        module = str(item.get("module", "")).strip()
+        if not file_name:
+            errors.append(f"{path}: required_manifests[{idx}] missing 'file'")
+        if normalize_wave(wave) is None:
+            errors.append(f"{path}: required_manifests[{idx}] has invalid wave '{wave}'")
+        if not module:
+            errors.append(f"{path}: required_manifests[{idx}] missing 'module'")
+        if file_name and module and normalize_wave(wave) is not None:
+            entries.append({"file": file_name, "wave": wave, "module": module})
+    return entries, errors
+
+
+def validate_required_manifests(
+    required_entries: list[dict[str, str]],
+    loaded_manifests: dict[str, dict[str, Any]],
+    manifest_dir: Path,
+) -> list[str]:
+    errors: list[str] = []
+    for entry in required_entries:
+        file_name = entry["file"]
+        expected_wave = entry["wave"]
+        expected_wave_code = normalize_wave(expected_wave)
+        expected_module = entry["module"]
+
+        payload = loaded_manifests.get(file_name)
+        if payload is None:
+            errors.append(f"Missing required closure manifest: {manifest_dir / file_name}")
+            continue
+
+        actual_wave = str(payload.get("wave", "")).strip()
+        actual_wave_code = normalize_wave(actual_wave)
+        actual_module = str(payload.get("module", "")).strip()
+
+        if actual_wave_code != expected_wave_code:
+            errors.append(
+                f"{manifest_dir / file_name}: expected wave '{expected_wave}', found '{actual_wave}'"
+            )
+        if actual_module != expected_module:
+            errors.append(
+                f"{manifest_dir / file_name}: expected module '{expected_module}', found '{actual_module}'"
+            )
     return errors
 
 
@@ -171,14 +238,28 @@ def main() -> int:
     )
     parser.add_argument("--output-json", required=True)
     parser.add_argument("--output-md")
+    parser.add_argument(
+        "--policy-file",
+        help="Optional policy json with required_manifests list",
+    )
     args = parser.parse_args()
 
     manifest_dir = Path(args.manifest_dir)
     manifest_files = sorted(manifest_dir.glob("*_closure_manifest.json"))
+    default_manifest_dir = Path("audit/evidence/waves/manifests")
+    use_default_policy = (
+        args.policy_file is None
+        and DEFAULT_POLICY_PATH.exists()
+        and manifest_dir.resolve() == default_manifest_dir.resolve()
+    )
+    policy_file = Path(args.policy_file) if args.policy_file else (
+        DEFAULT_POLICY_PATH if use_default_policy else None
+    )
 
     errors: list[str] = []
     manifests_by_wave: dict[str, list[dict[str, Any]]] = {wave: [] for wave in WAVE_ORDER}
     manifest_rows: list[dict[str, str]] = []
+    loaded_manifests: dict[str, dict[str, Any]] = {}
 
     if not manifest_files:
         errors.append(f"No closure manifests found in {manifest_dir}")
@@ -190,6 +271,7 @@ def main() -> int:
         if payload is None or "wave_code" not in payload:
             continue
 
+        loaded_manifests[manifest_file.name] = payload
         wave_code = payload["wave_code"]
         manifests_by_wave[wave_code].append(payload)
         manifest_rows.append(
@@ -201,6 +283,11 @@ def main() -> int:
                 "run_id": str(payload.get("run_id")),
             }
         )
+
+    required_entries, policy_errors = load_policy(policy_file)
+    errors.extend(policy_errors)
+    if required_entries:
+        errors.extend(validate_required_manifests(required_entries, loaded_manifests, manifest_dir))
 
     status_map = {wave: wave_status(manifests_by_wave[wave]) for wave in WAVE_ORDER}
     ordering_violations = check_order(status_map)

@@ -36,6 +36,7 @@ Each closure package must publish:
 - Wave order is strict: **A → B → C → D**.
 - A wave can move to `evidence-captured` only when all mandatory source-validation signals are `true`.
 - Root roadmap/audit status updates must reference closure manifests, not checkbox-only claims.
+- Required closure families are declared in `closure_manifest_policy.json`.
 
 
 ## Repository-tracked baseline manifests
@@ -46,6 +47,14 @@ Each closure package must publish:
   - `gpu_wave_a_closure_manifest.md`
   - `transaction_wave_b_closure_manifest.json`
   - `transaction_wave_b_closure_manifest.md`
+  - `wave_a_exit_closure_manifest.json`
+  - `wave_a_exit_closure_manifest.md`
+  - `wave_b_module_hardening_closure_manifest.json`
+  - `wave_b_module_hardening_closure_manifest.md`
+  - `wave_b_integration_closure_manifest.json`
+  - `wave_b_integration_closure_manifest.md`
+  - `wave_ab_gap_closure_manifest.json`
+  - `wave_ab_gap_closure_manifest.md`
   - `security_wave_c_closure_manifest.json`
   - `security_wave_c_closure_manifest.md`
   - `operability_wave_d_closure_manifest.json`
@@ -60,6 +69,7 @@ These tracked manifests define the current closure baseline and are updated when
 - CI workflow: `.github/workflows/gate-wave-closure.yml`
 
 The validator enforces required manifest fields and strict A→B→C→D evidence-captured ordering before status promotion.
+It also enforces policy-required manifest presence plus expected wave/module mapping.
 
 ## Current automated producers
 

@@ -186,6 +186,93 @@ class WaveClosureValidationTests(unittest.TestCase):
             self.assertFalse(payload["pass"])
             self.assertTrue(any("missing markdown sidecar" in v for v in payload["violations"]))
 
+    def test_validation_fails_when_required_manifest_from_policy_is_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifests = root / "manifests"
+            _write_manifest(manifests / "gpu_wave_a_closure_manifest.json", _manifest("Wave A", "gpu", "open"))
+
+            policy = root / "policy.json"
+            policy.write_text(
+                json.dumps(
+                    {
+                        "required_manifests": [
+                            {"file": "gpu_wave_a_closure_manifest.json", "wave": "Wave A", "module": "gpu"},
+                            {
+                                "file": "wave_b_module_hardening_closure_manifest.json",
+                                "wave": "Wave B",
+                                "module": "wave-b-module-hardening",
+                            },
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = root / "out.json"
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "validate_wave_closure_packages.py",
+                    "--manifest-dir",
+                    str(manifests),
+                    "--policy-file",
+                    str(policy),
+                    "--output-json",
+                    str(output),
+                ]
+                code = validator.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 1)
+            self.assertFalse(payload["pass"])
+            self.assertTrue(any("Missing required closure manifest" in v for v in payload["violations"]))
+
+    def test_validation_fails_when_required_manifest_metadata_mismatches_policy(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifests = root / "manifests"
+            _write_manifest(
+                manifests / "gpu_wave_a_closure_manifest.json",
+                _manifest("Wave B", "gpu-wrong", "open"),
+            )
+
+            policy = root / "policy.json"
+            policy.write_text(
+                json.dumps(
+                    {
+                        "required_manifests": [
+                            {"file": "gpu_wave_a_closure_manifest.json", "wave": "Wave A", "module": "gpu"}
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = root / "out.json"
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "validate_wave_closure_packages.py",
+                    "--manifest-dir",
+                    str(manifests),
+                    "--policy-file",
+                    str(policy),
+                    "--output-json",
+                    str(output),
+                ]
+                code = validator.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 1)
+            self.assertFalse(payload["pass"])
+            self.assertTrue(any("expected wave 'Wave A'" in v for v in payload["violations"]))
+            self.assertTrue(any("expected module 'gpu'" in v for v in payload["violations"]))
+
 
 if __name__ == "__main__":
     unittest.main()

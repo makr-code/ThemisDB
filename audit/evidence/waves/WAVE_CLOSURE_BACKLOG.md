@@ -7,6 +7,7 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
 ## Governance Rules (enforced)
 
 - Strict order: **Wave A → Wave B → Wave C → Wave D**
+- Mandatory closure package inventory is enforced by `closure_manifest_policy.json`.
 - No status promotion without closure package pair:
   - `*_closure_manifest.json`
   - `*_closure_manifest.md`
@@ -24,7 +25,8 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - `release_critical` gate confirmation on `develop`
 - Baseline manifests:
   - `manifests/gpu_wave_a_closure_manifest.json`
-  - `manifests/transaction_wave_b_closure_manifest.json` (transaction evidence family for Wave-A residual closure ordering)
+  - `manifests/transaction_wave_b_closure_manifest.json`
+  - `manifests/wave_a_exit_closure_manifest.json`
 
 ## Wave B (Performance Consolidation) — Open backlog
 
@@ -34,6 +36,9 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - cross-module chain evidence:
     - Query↔Index↔Storage
     - LLM↔RAG↔LLM_Wiki
+- Baseline manifests:
+  - `manifests/wave_b_module_hardening_closure_manifest.json`
+  - `manifests/wave_b_integration_closure_manifest.json`
 
 ## Wave C (Security/Audit Sign-off) — Open backlog
 
@@ -66,6 +71,8 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   2. Runtime-critical real gaps
   3. Remaining production-impacting real gaps
 - Unapproved legacy/stub/mock/simulation paths remain release blockers.
+- Baseline manifest:
+  - `manifests/wave_ab_gap_closure_manifest.json`
 
 ## Promotion Guard
 

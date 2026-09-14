@@ -7,6 +7,7 @@ on:
       - develop
     paths:
       - "audit/evidence/waves/**"
+      - "audit/evidence/waves/closure_manifest_policy.json"
       - "tools/ci/validate_wave_closure_packages.py"
       - "tests/test_wave_closure_packages.py"
       - ".github/workflows/gate-wave-closure.yml"
@@ -15,6 +16,7 @@ on:
       - develop
     paths:
       - "audit/evidence/waves/**"
+      - "audit/evidence/waves/closure_manifest_policy.json"
       - "tools/ci/validate_wave_closure_packages.py"
       - "tests/test_wave_closure_packages.py"
       - ".github/workflows/gate-wave-closure.yml"

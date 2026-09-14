@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-09-14T19:20:00Z",
+  "wave": "Wave B",
+  "module": "wave-ab-gap-closure",
+  "workflow": "gate-wave-closure.yml",
+  "run_id": "pending",
+  "overall_status": "open",
+  "gates": {
+    "G1_marker_classification_split": "success",
+    "G2_security_critical_real_gaps": "pending",
+    "G3_runtime_critical_real_gaps": "pending",
+    "G4_unapproved_stub_mock_sim_blockers": "pending"
+  },
+  "evidence_references": {
+    "marker_classification": "audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md",
+    "marker_locations": "audit/MARKER_LOCATIONS_2026-08-31.md",
+    "source_backlog": "audit/evidence/waves/WAVE_CLOSURE_BACKLOG.md"
+  },
+  "source_validation": {
+    "code": false,
+    "tests": false,
+    "ci": false,
+    "benchmarks": false
+  },
+  "notes": "Parallel A/B mockup-gap closure package with strict Doku-Leak vs real-gap split and blocker handling for unapproved non-production paths."
+}

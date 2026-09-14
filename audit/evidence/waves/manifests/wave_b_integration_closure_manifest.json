@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-09-14T19:20:00Z",
+  "wave": "Wave B",
+  "module": "wave-b-integration",
+  "workflow": "build-benchmarks.yml",
+  "run_id": "pending",
+  "overall_status": "open",
+  "gates": {
+    "B_integration_query_index_storage": "pending",
+    "B_integration_llm_rag_llm_wiki": "pending",
+    "B_integration_rep_hardware_refresh": "pending"
+  },
+  "evidence_references": {
+    "roadmap_contract": "ROADMAP.md#wave-b-hardening-finish-after-wave-a-gates",
+    "source_backlog": "audit/evidence/waves/WAVE_CLOSURE_BACKLOG.md",
+    "llm_wiki_wave_b_bundle": "src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md"
+  },
+  "source_validation": {
+    "code": false,
+    "tests": false,
+    "ci": false,
+    "benchmarks": false
+  },
+  "notes": "Wave-B cross-module integration closure package for mandatory Query↔Index↔Storage and LLM↔RAG↔LLM_Wiki evidence."
+}
