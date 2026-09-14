@@ -43,6 +43,7 @@ Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module
 
 - Verbindlicher Standard: `TESTING_STANDARDS.md`
 - Kanonische aktuelle Dichte-/Ownership-Sicht: `TEST_DENSITY_MATRIX.md`
+- Kanonischer Closure-Plan nach Waves A-D: `TEST_DENSITY_WAVE_PLAN.md`
 - Historische Summary/Report-Dateien in `tests/` sind Kontext, aber nicht
   kanonisch fuer aktuelle Testregeln.
 - Neue Tests als deterministische `test_*.cpp`
@@ -63,4 +64,5 @@ Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module
 - Root-Quickstart: [`../README.md`](../README.md)
 - Teststandard (kanonisch): [`TESTING_STANDARDS.md`](TESTING_STANDARDS.md)
 - Testdichte-Matrix (kanonisch): [`TEST_DENSITY_MATRIX.md`](TEST_DENSITY_MATRIX.md)
+- Testdichte-Wave-Plan (kanonisch): [`TEST_DENSITY_WAVE_PLAN.md`](TEST_DENSITY_WAVE_PLAN.md)
 - Mapping Alt -> Kanonisch (Tests/Benchmarks): [`TEST_BENCHMARK_DOC_CANONICAL_MAPPING.md`](TEST_BENCHMARK_DOC_CANONICAL_MAPPING.md)

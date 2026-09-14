@@ -149,9 +149,14 @@ Legend:
 | `search -> index -> tensor -> graph -> llm` | D | D | D | D | D | I | I | D | I | `tests/integration/pipeline/rag_ai_pipeline_test.cpp`, `tests/search/test_layered_retrieval_integration_phase4.cpp`, `tests/rag/test_rag_phase_b_e2e.cpp`, `benchmarks/search/bench_layered_retrieval_phase5.cpp`, `benchmarks/rag/bench_fts_phase_b.cpp` | The retrieval chain is broad, but the full release-critical trace and representative-hardware baselines remain fragmented across modules. |
 | `server <-> llm` | D | D | I | I | D | D | I | D | I | `tests/llm/test_llm_governance_pipeline_e2e_focused.cpp`, `tests/test_llm_multi_model_integration.cpp`, `tests/llm/test_streaming_handler.cpp`, `tests/server/test_server_gateway_resilience_focused.cpp`, `benchmarks/server/bench_server_http3_gates.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | A single fail-closed, protocol-to-inference release gate is still missing as one consolidated evidence path. |
 
+## Canonical closure execution plan
+
+- Execution plan: `TEST_DENSITY_WAVE_PLAN.md`
+- Governance basis: root Wave A -> B -> C -> D release model on `develop`
+
 ## Closure waves
 
-### Wave 1 — immediate closure set
+### Wave A — release-critical core flow closure
 
 Target modules:
 - `query`
@@ -160,26 +165,38 @@ Target modules:
 - `transaction`
 - `llm_wiki`
 - `search`
+- `server`
+- `sharding`
+- `llm`
+- `storage`
 
-Wave 1 exit expectation:
+Wave A exit expectation:
 - all open test-density roadmap items reclassified with source evidence or closed with direct suites
 - explicit `release_critical` mapping for each module's critical test path
+- every canonical release-critical flow mapped to one owned focused/integration/perf gate path
 - representative benchmark / soak artifacts linked from one module-local closure block
 
-### Wave 2 — follow-up hardening set
+### Wave B — boundary, API, and policy densification
 
 Target modules:
-- `acceleration`
-- `training`
-- `chimera`
-- `gpu`
-- `updates`
+- `api`
+- `network`
+- `rpc_grpc`
+- `auth`
+- `governance`
+- `plugins`
+- `importers`
+- `exporters`
+- `content`
+- `scheduler`
+- `observability`
 
-Wave 2 exit expectation:
-- remaining roadmap-open stress / hardening / benchmark tasks reduced to evidence-backed residuals only
-- missing benchmark baselines and long-run signals either delivered or explicitly deferred with rationale
+Wave B exit expectation:
+- each boundary module has direct suite ownership plus at least one assigned production-near flow
+- policy / contract / boundary regression reruns are reproducible from commands, labels, and current presets
+- no boundary module remains covered only by implied adjacency
 
-### Wave 3 — ownership gap set
+### Wave C — ownership gap closure
 
 Target modules:
 - `distributed_tensor`
@@ -189,9 +206,19 @@ Target modules:
 - `evaluation`
 - `retrieval`
 
-Wave 3 exit expectation:
+Wave C exit expectation:
 - no code-bearing module relies on indirect evidence alone where module-owned suites are feasible
 - thin modules either gain dedicated owner suites or receive an explicit accepted-indirect-evidence rule
+
+### Wave D — hardening and sign-off
+
+Target scope:
+- repo-wide closure audit across Waves A-C
+
+Wave D exit expectation:
+- soak / stress / chaos / representative-hardware evidence is back-linked to owning modules and canonical flows
+- historical report files are context only and no longer used for operational closure decisions
+- module ownership, flow evidence, and gate paths are synchronized in one canonical closure narrative
 
 ## Definition of "test density closed"
 
