@@ -349,20 +349,41 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
         config_.column_family, rocksdb::ColumnFamilyOptions{}));
     
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-    rocksdb::DB* raw_db_instance = nullptr;
-    rocksdb::Status status = detail::openDbWithColumnFamiliesCompat(
-        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &raw_db_instance);
+    rocksdb::DB* db_instance = nullptr;
+    rocksdb::Status status = rocksdb::DB::Open(
+        rocksdb::DBOptions{opts}, config_.db_path, cf_descriptors, &cf_handles, &db_instance);
 
     if (!status.ok()) {
         throw std::runtime_error(
             std::string("Cannot open RocksDB: ") + status.ToString());
     }
-    
-    db_ = raw_db_instance;
-    cf_ = cf_handles[1];  // Our column family (not default)
-    
-    // Keep other CF handles alive for proper cleanup
-    other_cf_handles_.push_back(cf_handles[0]);
+
+    std::unique_ptr<rocksdb::DB> db_guard(db_instance);
+    try {
+        if (cf_handles.size() < 2 || cf_handles[1] == nullptr || cf_handles[0] == nullptr) {
+            for (auto* h : cf_handles) {
+                if (h != nullptr) {
+                    db_guard->DestroyColumnFamilyHandle(h);
+                }
+            }
+            throw std::runtime_error("Cannot open RocksDB: expected default and blacklist column family handles");
+        }
+
+        cf_ = cf_handles[1];  // Our column family (not default)
+        
+        // Keep other CF handles alive for proper cleanup
+        other_cf_handles_.push_back(cf_handles[0]);
+    } catch (...) {
+        cf_ = nullptr;
+        other_cf_handles_.clear();
+        for (auto* h : cf_handles) {
+            if (h != nullptr) {
+                db_guard->DestroyColumnFamilyHandle(h);
+            }
+        }
+        throw;
+    }
+    db_ = db_guard.release();
     
     running_.store(true);
     

@@ -1518,7 +1518,7 @@ Manifests live in `packaging/winget/manifests/`. After each stable release:
        -IncludeGermanLocale
    ```
 2. Validate locally: `winget validate --manifest packaging/winget/manifests/t/ThemisDB/ThemisDB/<X.Y.Z>`
-3. Submit PR: `pwsh scripts/release/submit-winget-pkgs.ps1 -Version <X.Y.Z> -ForkOwner <github-username>`
+3. Submit PR manually with `pwsh scripts/release/submit-winget-pkgs.ps1 -Version <X.Y.Z> -ForkOwner <github-username>` or let `.github/workflows/release-winget.yml` do it automatically when the repository variable `WINGET_FORK_OWNER` and the reusable-workflow secret `winget_pr_token` are configured.
 4. Remove Draft status on the PR to trigger Microsoft's automated pipeline.
 
 Pre-release versions (`-rc*`, `-alpha`, `-beta`) are submitted only after the stable version PR is merged. See `RELEASE_STRATEGY.md` § 9.1 for the full policy.

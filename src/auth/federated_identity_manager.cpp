@@ -297,7 +297,19 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
     JWTClaims claims;
     try {
         claims = provider->validateToken(token);
-    } catch (const AuthException &) {
+    } catch (const AuthException &ex) {
+        const auto code = ex.error().code();
+        if (code == AuthErrorCode::AUTH_INTERNAL_ERROR) {
+            const std::string provider_message = ex.error().internalMessage().empty()
+                ? ex.error().publicMessage()
+                : ex.error().internalMessage();
+            spdlog::error("FederatedIdentityManager: provider degraded for realm '{}': {}", iss,
+                          provider_message);
+            throw AuthException(AuthError(AuthErrorCode::PROVIDER_DEGRADED,
+                                          "Identity provider is temporarily unavailable",
+                                          "Provider internal error for realm '" + iss + "': "
+                                              + provider_message));
+        }
         // Structured auth errors (bad signature, expired, missing claim, …) are
         // already correctly classified — propagate unchanged.
         throw;

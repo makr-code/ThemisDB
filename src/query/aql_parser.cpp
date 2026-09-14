@@ -679,6 +679,7 @@ private:
     // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
     int depth_{0};
     static constexpr int kMaxExprDepth = 500;
+    bool allow_in_membership_operator_{true};
     // Phase 2 Agent 1: Scope validation context
     ParserScopeContext scope_context_;
     
@@ -1403,7 +1404,9 @@ private:
         // Debug: uncomment to trace tokens
         // std::cerr << "parseComparison current token: " << (int)current().type << " value='" << current().value << "'\n";
         const bool left_is_object_literal = (dynamic_cast<ObjectConstructExpr*>(left.get()) != nullptr);
-        if (!left_is_object_literal && (match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
+        if (allow_in_membership_operator_ &&
+            !left_is_object_literal &&
+            (match(TokenType::IN) || (match(TokenType::IDENTIFIER) && current().value == "IN"))) {
             advance();
             auto right = parseAdditive();
             return std::make_shared<BinaryOpExpr>(BinaryOperator::In, left, right);
@@ -2011,6 +2014,12 @@ private:
     std::shared_ptr<MutationNode> parseRemoveStatement() {
         expect(TokenType::REMOVE, "Expected REMOVE");
         auto node = std::make_shared<RemoveNode>();
+
+        struct MembershipInGuard {
+            bool& flag;
+            explicit MembershipInGuard(bool& f) : flag(f) { flag = false; }
+            ~MembershipInGuard() { flag = true; }
+        } in_guard{allow_in_membership_operator_};
 
         node->doc_expr = parseExpression();
         expect(TokenType::IN, "Expected IN after document expression in REMOVE");

@@ -642,11 +642,11 @@ TEST_F(OperatorDiagnosticsTest, IsKnownCodeTrueForAllTaxonomyCodes) {
     }
 }
 
-/// resolveDescription returns empty string for unknown codes.
+/// resolveDescription returns a stable fallback text for unknown codes.
 TEST_F(OperatorDiagnosticsTest, ResolveDescriptionEmptyForUnknownCode) {
-    EXPECT_TRUE(resolveDescription(0).empty());
-    EXPECT_TRUE(resolveDescription(-42).empty());
-    EXPECT_TRUE(resolveDescription(9999).empty());
+    EXPECT_EQ(resolveDescription(0), "unknown error code");
+    EXPECT_EQ(resolveDescription(-42), "unknown error code");
+    EXPECT_EQ(resolveDescription(9999), "unknown error code");
 }
 
 /// resolveDescription is consistent with struct description() for all known codes.

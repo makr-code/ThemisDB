@@ -265,20 +265,18 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     AnalysisResult result;
     result.shard_id = shard_id;
     
-    // Open RocksDB read-only. The API requires rocksdb::DB** so we use a raw
-    // pointer and immediately adopt it into a unique_ptr for safe lifetime management.
+    // Open RocksDB read-only with RAII ownership.
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    rocksdb::DB* db_instance = nullptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_instance);
+    std::unique_ptr<rocksdb::DB> db_owner;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_owner);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
 
     // Iterate through database
-    std::unique_ptr<rocksdb::DB> db_owner(db_instance);
     std::unique_ptr<rocksdb::Iterator> it(db_owner->NewIterator(rocksdb::ReadOptions()));
     
     uint64_t doc_count = 0;

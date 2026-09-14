@@ -2366,7 +2366,13 @@ void HttpServer::stop() {
             [this]() -> uint64_t {
                 return active_requests_.load(std::memory_order_acquire);
             },
-            [this]() { ioc_.stop(); }  // force-close: cancel all pending async ops
+            // Do not stop the entire io_context from the drain phase.  That can
+            // abort in-flight async handlers while request teardown is still using
+            // this server instance and can trigger the process-level abort seen by
+            // the HTTP shortest-path tests.  We drain the active request count here
+            // and stop the context only after the server's own teardown sequence has
+            // completed below.
+            []() {}
         );
         shutdown_mgr.run();
 

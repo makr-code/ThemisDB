@@ -407,7 +407,7 @@ TEST_F(DistributedAnalyticsSafetyTest, DisabledCircuitBreakerAllowsFailed) {
         auto result = das->executeDistributed(query);
         EXPECT_EQ(result.total_shards, 1u);
         EXPECT_EQ(result.successful_shards, 0u);
-        EXPECT_FALSE(result.shard_info.empty());
+        ASSERT_FALSE(result.shard_info.empty());
         EXPECT_FALSE(result.shard_info[0].success);
     }
 }

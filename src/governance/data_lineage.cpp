@@ -300,6 +300,7 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::str
 
     // Global limit: keep the most recent events, evicting the oldest ones before
     // the current append would cross the cap.
+    bool any_eviction = false;
     while (total_events + 1 > max_total_events_ && !lineage_store_.empty()) {
         auto oldest_it = lineage_store_.end();
         int64_t oldest_time = std::numeric_limits<int64_t>::max();
@@ -322,6 +323,7 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::str
             lineage_store_.erase(oldest_it);
         }
         total_events--;
+        any_eviction = true;
         THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
                    removed.event_id, oldest_dataset);
     }
@@ -338,13 +340,14 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits(const std::str
                 event_index_.erase(removed.event_id);
                 ds_it->second.erase(ds_it->second.begin());
                 total_events--;
+                any_eviction = true;
                 THEMIS_DEBUG("DataLineageTracker: FIFO evicted oldest event '{}' from dataset '{}'",
                            removed.event_id, dataset_id);
             }
         }
     }
 
-    if (total_events > 0 || !lineage_store_.empty()) {
+    if (any_eviction) {
         auto& agg = getGlobalDiagnosticAggregator();
         GovernanceDiagnostic diag;
         diag.code = static_cast<GovDiagnosticCode>(LineageError::kSizeLimitExceeded);
@@ -445,6 +448,7 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
                 {"timestamp", event.timestamp_ms}
             };
             audit_log->logEvent(audit_entry);
+            recordAuditSuccess();
         } catch (const std::exception& e) {
             THEMIS_WARN("DataLineageTracker: audit logger failed: {}", e.what());
             recordAuditFailure();

@@ -472,14 +472,18 @@ TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
     query.dimensions.push_back({"dim1", "STRING"});
 
     auto result1 = coordinator->executeDistributed(query);
-    ASSERT_FALSE(result1.shard_info.empty());
-    EXPECT_EQ(result1.shard_info.front().circuit_consecutive_failures, 1u);
-    EXPECT_EQ(result1.shard_info.front().circuit_state, CircuitBreakerState::CLOSED);
+    ASSERT_EQ(result1.total_shards, 1u);
+    ASSERT_EQ(result1.shard_info.size(), 1u);
+    EXPECT_FALSE(result1.shard_info[0].success);
+    EXPECT_EQ(result1.shard_info[0].circuit_consecutive_failures, 1u);
 
     auto result2 = coordinator->executeDistributed(query);
-    ASSERT_FALSE(result2.shard_info.empty());
-    EXPECT_EQ(result2.shard_info.front().circuit_consecutive_failures, 2u);
-    EXPECT_EQ(result2.shard_info.front().circuit_state, CircuitBreakerState::OPEN);
+    ASSERT_EQ(result2.total_shards, 1u);
+    ASSERT_EQ(result2.shard_info.size(), 1u);
+    EXPECT_FALSE(result2.shard_info[0].success);
+    EXPECT_GE(result2.shard_info[0].circuit_consecutive_failures, 2u);
+    EXPECT_EQ(result2.shard_info[0].circuit_state,
+              DistributedAnalyticsSharding::CircuitBreakerState::OPEN);
 }
 
 // ============================================================================

@@ -1,8 +1,11 @@
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <functional>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -27,24 +30,27 @@ namespace tests {
  */
 class SAMLTestHelper {
   public:
+    static std::string loadRepoTestCertificatePem() {
+        const auto repo_root = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
+        const auto cert_path = repo_root / "certs" / "test" / "test-ca.crt";
+
+        std::ifstream in(cert_path, std::ios::in | std::ios::binary);
+        if (!in) {
+            return {};
+        }
+
+        std::ostringstream buffer;
+        buffer << in.rdbuf();
+        return buffer.str();
+    }
+
     static SAMLConfig getValidConfig() {
         SAMLConfig cfg;
         cfg.sp_entity_id  = "https://myapp.example.com/saml/metadata";
         cfg.sp_acs_url    = "https://myapp.example.com/saml/acs";
         cfg.idp_sso_url   = "https://idp.example.com/sso";
         cfg.idp_entity_id = "https://idp.example.com/metadata";
-
-        // Minimal valid self-signed cert for testing (you would use a real cert in production)
-        cfg.idp_certificate_pem = R"(
------BEGIN CERTIFICATE-----
-MIIBkTCB+wIJAKHHDA3p0N37MA0GCSqGSIb3DQEBBQUAMBMxETAPBgNVBAMMCFNB
-TUwgVGVzdDAeFw0yNDAxMDEwMDAwMDBaFw0yNTAxMDEwMDAwMDBaMBMxETAPBgNV
-BAMMCFNBTUwgVGVzdDBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQC7VJTUt9Us8cKj
-MzEfYyjiWA4/4/NtxqHq0r00pj1xQlxVJ/WR7QqH8Fy0E4XPR1OZswjO0lMsxmwY
-DKuQxFWRAgMBAAEwDQYJKoZIhvcNAQEFBQADQQBkZQmBNnJpbmcgU2VjdXJpdHkg
-QXNzb2NpYXRpb24gVG90YWwgQ29uc3VsdGluZywgSW5jLiBJbmMuIEluYyBJbmMu
------END CERTIFICATE-----
-        )";
+        cfg.idp_certificate_pem = loadRepoTestCertificatePem();
 
         cfg.clock_skew                  = std::chrono::seconds(60);
         cfg.require_signed_response     = true;
@@ -52,6 +58,10 @@ QXNzb2NpYXRpb24gVG90YWwgQ29uc3VsdGluZywgSW5jLiBJbmMuIEluYyBJbmMu
         cfg.require_encrypted_assertion = false;
         cfg.max_replay_cache_size       = 10000;
         cfg.allow_sha1_deprecated       = false;
+
+        if (cfg.idp_certificate_pem.empty()) {
+            throw std::runtime_error("Missing test certificate fixture at certs/test/test-ca.crt");
+        }
 
         return cfg;
     }
