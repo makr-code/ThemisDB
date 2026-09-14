@@ -469,7 +469,8 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             // Enforce max_open_windows: evict the oldest window when at capacity.
             if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
                 auto oldest = open_windows_.begin();
-                // ALWAYS emit evicted window result (not subject to emit_empty_windows gate)
+                // Eviction is always emitted, independent of emit_empty_windows, so
+                // callers can observe backpressure/capacity-eviction events.
                 pending.push_back(computeResult(oldest->second, false));
                 ++results_emitted_;
                 ++windows_closed_;
@@ -517,10 +518,11 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
                 ++late_records_;
             }
             open_windows_[idx].records.push_back(record);
+            ++records_ingested_;
         }
 
-        auto closed = closeExpiredWindows(wm);
-        pending.insert(pending.end(), closed.begin(), closed.end());
+        auto expired = closeExpiredWindows(wm);
+        pending.insert(pending.end(), expired.begin(), expired.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -608,8 +610,8 @@ void TumblingWindow::idleTimeoutLoop() {
         ResultCallback cb;
         {
             std::lock_guard lk(mutex_);
-            auto closed = closeExpiredWindows(wm);
-            pending.insert(pending.end(), closed.begin(), closed.end());
+            auto expired = closeExpiredWindows(wm);
+            pending.insert(pending.end(), expired.begin(), expired.end());
             cb      = callback_;
         }
         if (cb) {
@@ -814,6 +816,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+        bool added_to_window = false;
 
         // Enforce max_distinct_partition_keys: reject record early if it introduces a new
         // key beyond the configured cardinality cap. This bounds the key-space tracked by
@@ -844,7 +847,7 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
                                   config_.max_records_per_window);
                 } else {
                     w.records.push_back(record);
-                    record_added = true;
+                    added_to_window = true;
                 }
             }
         }
@@ -852,13 +855,14 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
         if (ev_us < wm && config_.watermark.allow_late_data) {
             ++late_records_;
         }
-        
-        ++records_ingested_;
+        if (added_to_window) {
+            ++records_ingested_;
+        }
 
         } // end key-cardinality else
 
-        auto closed = closeExpiredWindows(wm);
-        pending.insert(pending.end(), closed.begin(), closed.end());
+        auto expired = closeExpiredWindows(wm);
+        pending.insert(pending.end(), expired.begin(), expired.end());
         cb      = callback_;
     } // mutex_ released
 
@@ -1011,6 +1015,7 @@ WindowResult SessionWindow::computeResult(const Session &s, bool late) const {
 
 bool SessionWindow::ingest(const StreamRecord &record) {
     bool record_added = false;
+
     // BUG 4 FIX: Apply watermark check (was entirely missing).
     // Use processing-time as a proxy watermark because session windows are
     // gap-based rather than slot-based, but still respect out-of-orderness tolerance.
@@ -1074,9 +1079,11 @@ bool SessionWindow::ingest(const StreamRecord &record) {
             // Enforce max_records_per_session on new session creation.
             if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
                 s.records.push_back(record);
+                ++records_ingested_;
                 record_added = true;
             } else {
                 ++records_dropped_;
+                record_added = false;
             }
             if (ev_us < wm && config_.watermark.allow_late_data) {
                 s.has_late_records = true;
@@ -1101,6 +1108,7 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 ns.start         = record.event_time;
                 ns.last_event    = record.event_time;
                 ns.records.push_back(record);
+                ++records_ingested_;
                 record_added = true;
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     ns.has_late_records = true;
@@ -1116,10 +1124,12 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 if (config_.max_records_per_session > 0 &&
                     s.records.size() >= config_.max_records_per_session) {
                     ++records_dropped_;
+                    record_added = false;
                     spdlog::debug("SessionWindow: dropped record (session full, limit={})",
                                   config_.max_records_per_session);
                 } else {
                     s.records.push_back(record);
+                    ++records_ingested_;
                     record_added = true;
                 }
                 if (ev_us < wm && config_.watermark.allow_late_data) {
@@ -1133,9 +1143,6 @@ bool SessionWindow::ingest(const StreamRecord &record) {
     // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
     if (has_pending && cb) {
         try { cb(pending_result); } catch (...) {}
-    }
-    if (record_added) {
-        ++records_ingested_;
     }
     return record_added;
 }
@@ -1355,6 +1362,7 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
+        bool added_to_window = false;
 
         // Enforce max_distinct_partition_keys: reject records with new unseen keys when
         // the cardinality cap is already reached, bounding memory in key-explosion scenarios.
@@ -1375,33 +1383,26 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
         if (!hop_key_rejected) {
             ensureWindowsExist(record.event_time);
 
-            for (auto &w : windows_) {
-                if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
-                    if (config_.max_records_per_window > 0 &&
-                        w.records.size() >= config_.max_records_per_window) {
-                        ++records_dropped_;
-                        spdlog::debug("HoppingWindow: dropped record from window (limit={})",
-                                      config_.max_records_per_window);
-                    } else {
-                        w.records.push_back(record);
-                        record_added = true;
-                    }
+        for (auto &w : windows_) {
+            if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
+                if (config_.max_records_per_window > 0 &&
+                    w.records.size() >= config_.max_records_per_window) {
+                    ++records_dropped_;
+                    spdlog::debug("HoppingWindow: dropped record from window (limit={})",
+                                  config_.max_records_per_window);
+                } else {
+                    w.records.push_back(record);
+                    added_to_window = true;
                 }
             }
 
-            if (ev_us < wm && config_.watermark.allow_late_data) {
-                ++late_records_;
-            }
-            
-            // Record is accepted even if not added to any window (windows were skipped).
-            // Only if it was added to at least one window, increment ingested.
-            if (record_added) {
-                ++records_ingested_;
-            } else if (record_accepted) {
-                // Record passed key validation and hops were skipped, but no actual
-                // windows could accept it. Count as ingested since record was accepted.
-                ++records_ingested_;
-            }
+        if (ev_us < wm && config_.watermark.allow_late_data) {
+            ++late_records_;
+        }
+        if (added_to_window) {
+            ++records_ingested_;
+            record_added = true;
+        }
         } // end !hop_key_rejected
 
         pending = closeExpiredWindows(wm);

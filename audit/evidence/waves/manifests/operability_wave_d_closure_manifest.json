@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-09-14T15:15:00Z",
+  "wave": "Wave D",
+  "module": "operability",
+  "workflow": "build-benchmarks.yml",
+  "run_id": "pending",
+  "overall_status": "open",
+  "gates": {
+    "D1_runbooks": "in_progress",
+    "D2_observability_gates": "pending",
+    "D3_soak_recovery": "pending",
+    "D4_operator_signoff": "pending"
+  },
+  "evidence_references": {
+    "roadmap": "docs/operability/WAVE_D_ROADMAP.md",
+    "acceptance_checklist": "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
+    "signoff_target": "docs/operability/WAVE_D_SIGN_OFF.md"
+  },
+  "source_validation": {
+    "code": false,
+    "tests": false,
+    "ci": false,
+    "benchmarks": false
+  },
+  "notes": "Wave-D closure package opened; run IDs and representative-hardware soak evidence to be attached after Wave-C sign-off readiness."
+}
