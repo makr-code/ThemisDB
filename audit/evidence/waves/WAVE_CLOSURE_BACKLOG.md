@@ -15,6 +15,10 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - CI run id
   - evidence references
   - source-validation flags (`code`, `tests`, `ci`, `benchmarks`)
+- Operational loop (mandatory):
+  1. update manifest
+  2. run `gate-wave-closure.yml` / `tools/ci/validate_wave_closure_packages.py`
+  3. sync root status only if validator is PASS
 
 ## Wave A (Runtime Reliability) — Open backlog
 
@@ -47,6 +51,7 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - sustained-load security/compliance evidence
   - fail-closed boundary validation
   - final compliance package linkage
+  - non-skipped Python CodeQL evidence for relevant security/governance batches
 - Baseline manifest:
   - `manifests/security_wave_c_closure_manifest.json`
 
@@ -57,6 +62,7 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
   - diagnostics/alerts
   - recovery/soak evidence
   - operator readiness
+  - non-skipped Python CodeQL evidence for relevant operability/governance changes
 - Baseline manifest:
   - `manifests/operability_wave_d_closure_manifest.json`
 
@@ -73,6 +79,22 @@ Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, 
 - Unapproved legacy/stub/mock/simulation paths remain release blockers.
 - Baseline manifest:
   - `manifests/wave_ab_gap_closure_manifest.json`
+
+## Weekly Follow-up Review (mandatory)
+
+- Review only manifests with at least one of:
+  - gate status `pending`
+  - gate status `skipped`
+  - any `source_validation` flag `false`
+- For each reviewed manifest:
+  - attach latest run IDs
+  - attach artifact references
+  - keep unresolved items explicitly as `pending`/`deferred` in manifest notes
+
+## Open Governance Risk
+
+- CodeQL Python skip risk is tracked in:
+  - `WAVE_CODEQL_PYTHON_RISK.md`
 
 ## Promotion Guard
 

@@ -1,24 +1,26 @@
 {
-  "generated_at": "2026-09-14T19:20:00Z",
+  "generated_at": "2026-09-14T19:35:00Z",
   "wave": "Wave B",
   "module": "wave-b-module-hardening",
   "workflow": "build-benchmarks.yml",
-  "run_id": "pending",
+  "run_id": "34805894351",
   "overall_status": "open",
   "gates": {
-    "B_modules_query": "pending",
+    "B_modules_query": "in_progress",
     "B_modules_acceleration": "pending",
     "B_modules_llm_wiki": "pending",
     "B_modules_llm": "pending",
     "B_modules_index": "pending",
     "B_modules_rag": "pending",
-    "B_modules_search": "pending",
+    "B_modules_search": "success",
     "B_modules_updates": "pending"
   },
   "evidence_references": {
     "roadmap_contract": "ROADMAP.md#wave-b-hardening-finish-after-wave-a-gates",
     "source_backlog": "audit/evidence/waves/WAVE_CLOSURE_BACKLOG.md",
-    "root_future_enhancements": "FUTURE_ENHANCEMENTS.md#wave-closure-implementation-sequence-active"
+    "root_future_enhancements": "FUTURE_ENHANCEMENTS.md#wave-closure-implementation-sequence-active",
+    "benchmark_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34805894351",
+    "query_fts_evidence": "benchmarks/rag/bench_fts_phase_b.cpp"
   },
   "source_validation": {
     "code": false,
@@ -26,5 +28,5 @@
     "ci": false,
     "benchmarks": false
   },
-  "notes": "Wave-B module hardening aggregate gate for high-pressure modules on representative baselines."
+  "notes": "Wave-B evidence-fill cycle started with real benchmark run ID; module hardening remains open until representative-hardware and module-specific closure artifacts are complete."
 }

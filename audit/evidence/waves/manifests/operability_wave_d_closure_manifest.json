@@ -1,26 +1,28 @@
 {
-  "generated_at": "2026-09-14T15:15:00Z",
+  "generated_at": "2026-09-14T19:35:00Z",
   "wave": "Wave D",
   "module": "operability",
   "workflow": "build-benchmarks.yml",
-  "run_id": "pending",
+  "run_id": "34805894351",
   "overall_status": "open",
   "gates": {
     "D1_runbooks": "in_progress",
     "D2_observability_gates": "pending",
-    "D3_soak_recovery": "pending",
+    "D3_soak_recovery": "in_progress",
     "D4_operator_signoff": "pending"
   },
   "evidence_references": {
     "roadmap": "docs/operability/WAVE_D_ROADMAP.md",
     "acceptance_checklist": "docs/operability/WAVE_D_ACCEPTANCE_CHECKLIST.md",
-    "signoff_target": "docs/operability/WAVE_D_SIGN_OFF.md"
+    "signoff_target": "docs/operability/WAVE_D_SIGN_OFF.md",
+    "benchmarks_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34805894351",
+    "codeql_python_risk": "audit/evidence/waves/WAVE_CODEQL_PYTHON_RISK.md"
   },
   "source_validation": {
     "code": false,
     "tests": false,
-    "ci": false,
+    "ci": true,
     "benchmarks": false
   },
-  "notes": "Wave-D closure package opened; run IDs and representative-hardware soak evidence to be attached after Wave-C sign-off readiness."
+  "notes": "Wave-D evidence-fill cycle started with real benchmark workflow run ID; soak and operator-readiness evidence remain open and cannot be promoted."
 }

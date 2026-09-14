@@ -1,26 +1,29 @@
 {
-  "generated_at": "2026-09-14T15:15:00Z",
+  "generated_at": "2026-09-14T19:35:00Z",
   "wave": "Wave C",
   "module": "security-governance",
   "workflow": "gate-pr-core.yml",
-  "run_id": "pending",
+  "run_id": "34875897139",
   "overall_status": "open",
   "gates": {
-    "C1_policy_gates": "pending",
-    "C2_fail_closed_boundary": "pending",
+    "C1_policy_gates": "success",
+    "C2_fail_closed_boundary": "in_progress",
     "C3_sustained_load_evidence": "pending",
     "C4_compliance_signoff_bundle": "pending"
   },
   "evidence_references": {
     "policy_gate_spec": "docs/governance/CI_POLICY_GATES_WAVE_C.md",
     "root_audit": "audit/AUDIT.md",
-    "signoff_target": "docs/governance/GA_PROMOTION_SIGN_OFF.md"
+    "signoff_target": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
+    "gate_pr_core_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34875897139",
+    "temporary_compensation": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md;security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md",
+    "codeql_python_risk": "audit/evidence/waves/WAVE_CODEQL_PYTHON_RISK.md"
   },
   "source_validation": {
-    "code": false,
-    "tests": false,
-    "ci": false,
+    "code": true,
+    "tests": true,
+    "ci": true,
     "benchmarks": false
   },
-  "notes": "Wave-C closure package opened for next authoritative run IDs and sustained-load evidence consolidation."
+  "notes": "Wave-C evidence-fill cycle started with real gate run ID; policy gate is confirmed while sustained-load evidence and final compliance package remain pending."
 }

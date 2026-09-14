@@ -8,6 +8,7 @@ This directory defines the canonical closure-package format for Wave A → B →
 - Block status promotion from documentation-only claims.
 - Require reproducible references (CI run, artifacts, benchmark outputs, audit references).
 - Keep the active closure backlog in `WAVE_CLOSURE_BACKLOG.md`.
+- Track CodeQL Python skip governance risk in `WAVE_CODEQL_PYTHON_RISK.md`.
 
 ## Required package artifacts
 
@@ -70,6 +71,7 @@ These tracked manifests define the current closure baseline and are updated when
 
 The validator enforces required manifest fields and strict A→B→C→D evidence-captured ordering before status promotion.
 It also enforces policy-required manifest presence plus expected wave/module mapping.
+Operational use: update manifest → run validator/gate workflow → sync root status only on PASS.
 
 ## Current automated producers
 
