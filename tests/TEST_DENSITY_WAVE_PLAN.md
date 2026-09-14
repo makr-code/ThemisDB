@@ -65,6 +65,8 @@ Canonical flows:
 
 - Full release-critical baseline: `cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON && cmake --build build-community-release --target themis_release_critical_tests --parallel "$(nproc)"`
 - Release-critical regression gate: `ctest --test-dir build-community-release --label-regex "release_critical" --output-on-failure --parallel 1 --timeout 120`
+- Wave A `server <-> llm` gate: `cmake --build build-community-release --target themis_wave_a_server_llm_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_flow_server_llm" --output-on-failure --parallel 1 --timeout 120`
+- Wave A `server -> query -> storage -> transaction` gate: `cmake --build build-community-release --target themis_wave_a_server_query_storage_transaction_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_flow_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 120`
 - Pipeline inventory anchor: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 

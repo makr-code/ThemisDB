@@ -343,7 +343,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS release_critical llm phase1
+            LABELS release_critical wave_a_flow_server_llm llm phase1
         )
     elseif(_stem STREQUAL "test_llm_memory_safety_hardening")
         themis_register_module_focused_test(
@@ -352,7 +352,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS release_critical llm batch1 memory_safety
+            LABELS release_critical wave_a_flow_server_llm llm batch1 memory_safety
         )
     elseif(_stem STREQUAL "test_subagent_orchestration_focused" OR
            _stem STREQUAL "test_wiki_crossdep_focused")

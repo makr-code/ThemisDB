@@ -15,8 +15,22 @@ It translates the Wave A scope from `TEST_DENSITY_WAVE_PLAN.md` into module-by-m
 - Configure release-critical test graph: `cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON`
 - Build release-critical aggregate: `cmake --build build-community-release --target themis_release_critical_tests --parallel "$(nproc)"`
 - Run release-critical suites: `ctest --test-dir build-community-release --label-regex "release_critical" --output-on-failure --parallel 1 --timeout 120`
+- Build Wave A `server <-> llm` gate: `cmake --build build-community-release --target themis_wave_a_server_llm_tests --parallel "$(nproc)"`
+- Run Wave A `server <-> llm` gate: `ctest --test-dir build-community-release --label-regex "wave_a_flow_server_llm" --output-on-failure --parallel 1 --timeout 120`
+- Build Wave A `server -> query -> storage -> transaction` gate: `cmake --build build-community-release --target themis_wave_a_server_query_storage_transaction_tests --parallel "$(nproc)"`
+- Run Wave A `server -> query -> storage -> transaction` gate: `ctest --test-dir build-community-release --label-regex "wave_a_flow_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 120`
 - Pipeline inventory: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark build baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
+
+## Dependency-complete CI validation anchor
+
+- Release-critical gate workflow: `.github/workflows/gate-pr-core.yml`
+- Source anchor:
+  - configure `community-release` with tests enabled
+  - build `themis_release_critical_tests`
+  - run `ctest --label-regex "release_critical"`
+- Current local limitation:
+  - this sandbox still lacks required `rocksdb` and `fmt` system dependencies for end-to-end community configure
 
 ## Primary Wave A modules
 
@@ -42,10 +56,10 @@ It translates the Wave A scope from `TEST_DENSITY_WAVE_PLAN.md` into module-by-m
 
 | Flow | Focused / unit anchor | Integration / pipeline anchor | Chaos / soak anchor | Benchmark / perf anchor | Remaining gap |
 |---|---|---|---|---|---|
-| `server -> query -> storage -> transaction` | `tests/server/test_server_gateway_resilience_focused.cpp`, `tests/query/test_query_engine.cpp`, `tests/storage/test_storage_contract_hardening_focused.cpp`, `tests/transaction/test_transaction_wave_a_closure.cpp` | `tests/integration/pipeline/query_execution_pipeline_test.cpp`, `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp` | `tests/integration/pipeline/w9c_chaos_fault_tolerance_test.cpp` | `benchmarks/query/bench_phase4_performance.cpp`, `benchmarks/storage/bench_storage_release_gates.cpp`, `benchmarks/transaction/bench_transaction_phase4.cpp` | still lacks one single consolidated sign-off suite |
-| `sharding <-> transaction` | `tests/sharding/test_sharding_wave1_critical_closure.cpp`, `tests/transaction/test_transaction_distributed_phase2.cpp` | `tests/integration/pipeline/transaction_replication_pipeline_test.cpp` | `tests/sharding/test_converged_chaos.cpp`, `tests/integration/test_replication_soak_60min.cpp` | `benchmarks/sharding/bench_sharding_release_gates.cpp`, `benchmarks/transaction/bench_transaction_throughput.cpp` | soak/recovery evidence remains split across `release_critical` and non-release labels |
+| `server -> query -> storage -> transaction` | `tests/server/test_server_gateway_resilience_focused.cpp`, `tests/query/test_query_engine.cpp`, `tests/storage/test_storage_contract_hardening_focused.cpp`, `tests/transaction/test_transaction_wave_a_closure.cpp` | `tests/integration/pipeline/query_execution_pipeline_test.cpp`, `tests/integration/end_to_end/storage_pipeline_e2e_test.cpp` | `tests/integration/pipeline/w9c_chaos_fault_tolerance_test.cpp` | `benchmarks/query/bench_phase4_performance.cpp`, `benchmarks/storage/bench_storage_release_gates.cpp`, `benchmarks/transaction/bench_transaction_phase4.cpp` | consolidated Wave A gate label + aggregate target added; pipeline/e2e evidence still remains a separate proof path |
+| `sharding <-> transaction` | `tests/sharding/test_sharding_wave1_critical_closure.cpp`, `tests/transaction/test_transaction_distributed_phase2.cpp` | `tests/integration/pipeline/transaction_replication_pipeline_test.cpp` | `tests/sharding/test_converged_chaos.cpp`, `tests/integration/test_replication_soak_60min.cpp` | `benchmarks/sharding/bench_sharding_release_gates.cpp`, `benchmarks/transaction/bench_transaction_throughput.cpp` | focused release-critical sign-off wiring improved; soak/recovery evidence still remains split across `release_critical` and non-release labels |
 | `search -> index -> tensor -> graph -> llm` | `tests/search/test_layered_retrieval_integration_phase4.cpp`, `tests/index/test_distributed_vector_index.cpp`, `tests/rag/test_wave7_rag_costmodel_guardrail.cpp`, `tests/llm/test_llm_phase1_hardening.cpp` | `tests/integration/pipeline/cross_module_ingest_index_query_test.cpp`, `tests/integration/pipeline/rag_ai_pipeline_test.cpp`, `tests/rag/test_rag_phase_b_e2e.cpp` | `tests/search/test_search_distributed_merge_stress.cpp` | `benchmarks/search/bench_layered_retrieval_phase5.cpp`, `benchmarks/rag/bench_fts_phase_b.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | tensor/graph evidence is still mostly indirect |
-| `server <-> llm` | `tests/server/test_wave7_server_llm_hardening.cpp`, `tests/llm/test_streaming_handler.cpp`, `tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp` | `tests/test_llm_multi_model_integration.cpp`, `tests/integration/pipeline/rag_ai_pipeline_test.cpp` | `tests/server/test_server_gateway_resilience_focused.cpp` | `benchmarks/server/bench_server_http3_gates.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | no single protocol-to-inference release gate yet |
+| `server <-> llm` | `tests/server/test_wave7_server_llm_hardening.cpp`, `tests/llm/test_streaming_handler.cpp`, `tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp` | `tests/test_llm_multi_model_integration.cpp`, `tests/integration/pipeline/rag_ai_pipeline_test.cpp` | `tests/server/test_server_gateway_resilience_focused.cpp` | `benchmarks/server/bench_server_http3_gates.cpp`, `benchmarks/llm/bench_llm_inference_performance.cpp` | consolidated Wave A gate label + aggregate target added; root integration round-trip proof is still separate from the focused gate |
 
 ## First implementation batch status
 
@@ -58,6 +72,6 @@ It translates the Wave A scope from `TEST_DENSITY_WAVE_PLAN.md` into module-by-m
 ## Next Wave A execution steps
 
 1. Validate the new `release_critical` registrations in a test-enabled community configure.
-2. Add one consolidated flow sign-off suite for `server <-> llm`.
-3. Add one consolidated flow sign-off suite for `server -> query -> storage -> transaction`.
+2. Validate the new `themis_wave_a_server_llm_tests` and `themis_wave_a_server_query_storage_transaction_tests` targets in a dependency-complete environment.
+3. Continue `server`, `sharding`, `llm`, and `storage` sign-off wiring where pipeline/soak evidence is still separate from focused gate evidence.
 4. Reclassify the remaining indirect tensor/graph flow evidence as direct owner coverage or explicit accepted-indirect evidence.

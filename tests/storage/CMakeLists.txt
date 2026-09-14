@@ -28,11 +28,11 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
         )
     elseif(_stem STREQUAL "test_storage_contract_hardening_focused")
-        list(APPEND _labels storage contract hardening wave_a release_critical)
+        list(APPEND _labels storage contract hardening wave_a release_critical wave_a_flow_server_query_storage_transaction)
     elseif(_stem STREQUAL "test_storage_phase3_error_handling_focused")
-        list(APPEND _labels storage error_handling phase3 wave_a release_critical)
+        list(APPEND _labels storage error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)
     elseif(_stem STREQUAL "test_mvcc_chain_pruner")
-        list(APPEND _labels storage mvcc pruning wave_a release_critical)
+        list(APPEND _labels storage mvcc pruning wave_a release_critical wave_a_flow_server_query_storage_transaction)
     endif()
 
     themis_register_module_focused_test(
@@ -74,7 +74,7 @@ foreach(_src IN LISTS STORAGE_AUTOGEN_PREFIX_TEST_SOURCES)
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_storage_phase3_error_handling_focused")
-        list(APPEND _labels error_handling phase3 wave_a release_critical)
+        list(APPEND _labels error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)
     endif()
 
     themis_register_module_focused_test(

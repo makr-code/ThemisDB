@@ -28,7 +28,7 @@ foreach(_src IN LISTS LLM_WIKI_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
         )
-        list(APPEND _labels llm_integration wave_a release_critical)
+        list(APPEND _labels llm_integration wave_a release_critical wave_a_flow_server_llm)
     endif()
 
     if(_stem STREQUAL "test_llm_wiki_core_focused")

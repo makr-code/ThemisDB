@@ -41,6 +41,19 @@ function(themis_register_module_test)
         if("release_critical" IN_LIST TRM_LABELS)
             set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS ${TRM_TARGET})
         endif()
+        if("wave_a_flow_server_llm" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS ${TRM_TARGET})
+        endif()
+        if("wave_a_flow_server_query_storage_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_FLOW_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_flow_sharding_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_FLOW_SHARDING_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
     endif()
 
     themis_register_test_target(

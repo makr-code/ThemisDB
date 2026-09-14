@@ -17,6 +17,7 @@
 - [~] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren und an die kanonischen Release-Flows anbinden (Target: 2026-Q3)
 - [~] Risk-basierte Closure Wave A fuer `query`, `index`, `rag`, `transaction`, `llm_wiki`, `search` und nachgelagert `server`, `sharding`, `llm`, `storage` ueber direkte Test-/Benchmark-/Gate-Evidenz verfolgen (Target: 2026-Q4)
 - [~] Fehlende modul-eigene `release_critical`-Labels fuer Wave-A-Module abbauen; erster Batch fuer `query`, `index`, `search`, `storage`, `llm_wiki` gestartet (Target: 2026-Q4)
+- [~] Konsolidierte Wave-A-Flow-Gates fuer `server<->llm` und `server->query->storage->transaction` als Build-/CTest-Aggregate verdrahten; `sharding<->transaction` Sign-off-Wiring vertieft (Target: 2026-Q4)
 
 ## Planned Features
 
