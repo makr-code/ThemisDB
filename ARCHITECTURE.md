@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-09-13T17:03:51.584697+00:00`
+> Generated: `2026-09-14T02:06:10.739145+00:00`
 
 ## Statistics
 
