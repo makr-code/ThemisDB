@@ -19,6 +19,8 @@ It translates the Wave A scope from `TEST_DENSITY_WAVE_PLAN.md` into module-by-m
 - Run Wave A `server <-> llm` gate: `ctest --test-dir build-community-release --label-regex "wave_a_flow_server_llm" --output-on-failure --parallel 1 --timeout 120`
 - Build Wave A `server -> query -> storage -> transaction` gate: `cmake --build build-community-release --target themis_wave_a_server_query_storage_transaction_tests --parallel "$(nproc)"`
 - Run Wave A `server -> query -> storage -> transaction` gate: `ctest --test-dir build-community-release --label-regex "wave_a_flow_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 120`
+- Build Wave A `sharding <-> transaction` gate: `cmake --build build-community-release --target themis_wave_a_sharding_transaction_tests --parallel "$(nproc)"`
+- Run Wave A `sharding <-> transaction` gate: `ctest --test-dir build-community-release --label-regex "wave_a_flow_sharding_transaction" --output-on-failure --parallel 1 --timeout 120`
 - Pipeline inventory: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark build baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
@@ -73,5 +75,6 @@ It translates the Wave A scope from `TEST_DENSITY_WAVE_PLAN.md` into module-by-m
 
 1. Validate the new `release_critical` registrations in a test-enabled community configure.
 2. Validate the new `themis_wave_a_server_llm_tests` and `themis_wave_a_server_query_storage_transaction_tests` targets in a dependency-complete environment.
-3. Continue `server`, `sharding`, `llm`, and `storage` sign-off wiring where pipeline/soak evidence is still separate from focused gate evidence.
-4. Reclassify the remaining indirect tensor/graph flow evidence as direct owner coverage or explicit accepted-indirect evidence.
+3. Validate the new `themis_wave_a_sharding_transaction_tests` target in a dependency-complete environment.
+4. Continue `server`, `sharding`, `llm`, and `storage` sign-off wiring where pipeline/soak evidence is still separate from focused gate evidence.
+5. Reclassify the remaining indirect tensor/graph flow evidence as direct owner coverage or explicit accepted-indirect evidence.
