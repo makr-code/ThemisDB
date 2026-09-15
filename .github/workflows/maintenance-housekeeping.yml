@@ -107,7 +107,7 @@ jobs:
             const raw = fs.readFileSync('.github/labels.yml', 'utf8');
             const labels = yaml.load(raw);
             const dryRun = String('${{ inputs.dry_run || false }}').toLowerCase() === 'true';
-            const filterPrefix = String('${{ inputs.label_filter || "" }}').toLowerCase();
+            const filterPrefix = String('${{ inputs.label_filter || '' }}').toLowerCase();
 
             if (!Array.isArray(labels)) {
               core.setFailed('.github/labels.yml must be a YAML list of label objects');
