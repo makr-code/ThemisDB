@@ -355,14 +355,23 @@ struct WikiIndexStore::Impl {
                         config.cache_dir, s.ToString());
             return false;
         }
-        cache_db = db_instance;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (cf_handles.size() >= 2) {
-            cache_cf = cf_handles[1];
-            // Default CF handle: close immediately (we don't need it).
-            delete cf_handles[0];
+        if (cf_handles.size() < 2) {
+            for (auto* handle : cf_handles) {
+                delete handle;
+            }
+            delete db_instance;
+            return false;
         }
-        return cache_cf != nullptr;
+
+        cache_cf = cf_handles[1];
+        // Default CF handle: close immediately (we don't need it).
+        delete cf_handles[0];
+        for (std::size_t i = 2; i < cf_handles.size(); ++i) {
+            delete cf_handles[i];
+        }
+        cache_db = db_instance;
+        return true;
     }
 
     void closeCacheDB() {
