@@ -461,7 +461,7 @@ else()
             if(NOT TARGET zstd::zstd)
                 add_library(zstd::zstd INTERFACE IMPORTED)
                 set_target_properties(zstd::zstd PROPERTIES
-                    INTERFACE_LINK_LIBRARIES "PkgConfig::zstd"
+                    INTERFACE_LINK_LIBRARIES PkgConfig::zstd
                 )
             endif()
         else()

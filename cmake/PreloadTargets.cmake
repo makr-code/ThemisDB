@@ -8,9 +8,7 @@ if(PkgConfig_FOUND)
     if(ZSTD_FOUND)
         if(NOT TARGET zstd::zstd)
             add_library(zstd::zstd INTERFACE IMPORTED GLOBAL)
-            set_target_properties(zstd::zstd PROPERTIES
-                INTERFACE_LINK_LIBRARIES "PkgConfig::ZSTD"
-            )
+            target_link_libraries(zstd::zstd INTERFACE PkgConfig::ZSTD)
             message(STATUS "Preloaded zstd::zstd target from pkg-config for RocksDB compatibility")
         endif()
     endif()
