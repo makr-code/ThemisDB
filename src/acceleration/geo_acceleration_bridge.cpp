@@ -108,6 +108,7 @@ constexpr double kDegToRad      = 3.141592653589793238462643383279502884 / 180.0
 constexpr double kWgsA          = 6378137.0;           // semi-major axis (m)
 constexpr double kWgsF          = 1.0 / 298.257223563; // flattening
 constexpr double kWgsB          = 6356752.314245;      // semi-minor axis (m)
+constexpr double kWgsMeridianHalfCircumferenceMeters = 20003931.459; // WGS84 meridian half-circumference (m)
 constexpr double kVincentyTol   = 1e-12;
 
 double vincentyKm(double lat1, double lon1, double lat2, double lon2) noexcept {
@@ -124,7 +125,7 @@ double vincentyKm(double lat1, double lon1, double lat2, double lon2) noexcept {
         if (sinU1 * sinU2 > 0.0) {
             return 0.0;
         }
-        return 20003931.459 / 1000.0;
+        return kWgsMeridianHalfCircumferenceMeters / 1000.0;
     }
 
     double lambda = L;

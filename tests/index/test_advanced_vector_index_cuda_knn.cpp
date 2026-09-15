@@ -84,8 +84,9 @@ TEST(AdvancedVectorIndexCudaKnn, CudaAndCpuResultsStayWithinParityTolerance) {
         }
         EXPECT_TRUE(found_match) << "No CPU distance match found for GPU distance " << gpu_distance;
     }
-    for (const bool used : matched_cpu) {
-        EXPECT_TRUE(used);
+    for (std::size_t i = 0; i < matched_cpu.size(); ++i) {
+        EXPECT_TRUE(matched_cpu[i]) << "Unmatched CPU result index " << i
+                                    << " distance=" << cpu_result.distances[i];
     }
 #endif
 }
