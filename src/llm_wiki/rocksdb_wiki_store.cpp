@@ -59,6 +59,8 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     options_.create_if_missing = true;
     options_.error_if_exists   = false;
 
+    // Cross-compiler / cross-OS portability: RocksDB Open APIs commonly expose
+    // DB** out-parameters in packaged builds, so open via raw pointer first.
     rocksdb::DB* db_instance = nullptr;
     rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &db_instance);
 

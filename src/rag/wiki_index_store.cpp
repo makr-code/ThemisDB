@@ -341,6 +341,8 @@ struct WikiIndexStore::Impl {
             {"embedding_cache",                 rocksdb::ColumnFamilyOptions{}}
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
+        // Cross-compiler / cross-OS portability: use RocksDB's DB** out-parameter
+        // form and bind lifetime after successful open.
         rocksdb::DB* db_instance = nullptr;
         const rocksdb::Status s = rocksdb::DB::Open(
             rocksdb::DBOptions{opts},
