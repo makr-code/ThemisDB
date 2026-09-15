@@ -10,12 +10,13 @@
 
 ## 1. Overview
 
-The target architecture of ThemisDB is a layered hybrid retrieval and reasoning system composed of four primary layers:
+The target architecture of ThemisDB is a layered hybrid retrieval and reasoning system composed of five primary layers:
 
 1. ANN Frontdoor
 2. Tensor Mid-Layer
 3. Graph Truth Layer
-4. LLM / LoRA Final Layer
+4. LLM Wiki / Knowledge Context Layer
+5. LLM / LoRA Final Layer
 
 This architecture is intended to support scalable, explainable, distributed, and adaptive RAG.
 
@@ -121,11 +122,77 @@ no backend registered
 - vector candidates
 - tensor summaries
 - graph evidence
+- wiki context (from LLM Wiki layer)
 - trust/provenance metadata
 
 ### Output
 - grounded answer
 - optionally justification metadata
+
+---
+
+## 2.5 LLM Wiki / Knowledge Context Layer
+
+**Source:** `src/llm_wiki/`
+
+### Responsibilities
+- provide structured external knowledge context to the LLM inference pipeline
+- route queries to configured wiki backends (Confluence, Notion, internal wikis)
+- enforce workspace isolation and per-tenant knowledge base separation
+- apply access control (public, authenticated, role-based)
+- apply guardrails: content sensitivity filtering, token counting, rate limiting
+- cache query results (per-workspace L1, shared anonymous L2)
+- emit full audit trail for all knowledge access events
+- hybrid retrieval: BM25 (sparse) + HNSW (dense) + RRF fusion via `index/`
+- persist workspace metadata and Phase B cache in RocksDB via `storage/`
+
+### Input Sources
+- LLM query + workspace ID + user identity
+- configured wiki plugin backends
+
+### Output
+- ranked wiki articles / context injected into LLM system prompt
+- audit events
+- token-count metadata for prompt budget management
+
+### Plugin Architecture
+
+Backends are pluggable through a standardized `WikiPlugin` interface:
+
+| Built-in Plugin    | Backend                        | Auth               |
+|--------------------|--------------------------------|--------------------|
+| Confluence Plugin  | Atlassian Confluence REST API  | API token / OAuth  |
+| Notion Plugin      | Notion API v1                  | Integration token  |
+| Internal Wiki      | Markdown / JSON file system    | None               |
+
+Custom backends extend the `WikiPlugin` base class and implement `search()` and `getArticle()`.
+
+### Access Control Model
+- Workspace-level isolation: separate knowledge bases per tenant
+- Document-level granular permissions (public / authenticated / role-based)
+- Query-level rate limiting per user and workspace
+
+### Guardrails
+- Credential, PII, and confidential marking detection (regex + keyword)
+- Token counting with graceful truncation to fit LLM context window
+- Configurable content sensitivity policy per workspace
+
+### Performance Targets (P99)
+- Cache hit: < 1 ms
+- Single plugin query: < 500 ms
+- Multi-plugin query (parallel): < 1000 ms
+- End-to-end context retrieval: < 2 s
+
+### Integration Contracts
+- LLM layer calls `WikiContextManager::getContext(query, workspace)` before inference; returned context is injected read-only into the system prompt.
+- Index module (`index/`) provides BM25 + HNSW + RRF hybrid ranking; cursor lifecycle owned by index.
+- Storage module (`storage/`) owns all RocksDB access for workspace state and cache persistence.
+
+### Error Handling (E9600–E9699)
+- Plugin unavailable → skip source, continue with remaining backends
+- Query timeout → return partial results
+- Access denied → return empty result + audit event
+- Token limit exceeded → truncate to fit
 
 ---
 
@@ -135,7 +202,7 @@ no backend registered
 `query -> embedding -> top-k chunks -> prompt -> answer`
 
 ### Target Pattern
-`query -> ANN frontdoor -> tensor compression/routing -> graph validation/evidence -> LLM/LoRA generation`
+`query -> ANN frontdoor -> tensor compression/routing -> graph validation/evidence -> wiki context enrichment -> LLM/LoRA generation`
 
 ---
 
