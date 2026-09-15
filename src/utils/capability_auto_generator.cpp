@@ -269,8 +269,9 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    std::unique_ptr<rocksdb::DB> db_owner;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_owner);
+    rocksdb::DB* db_raw = nullptr;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_raw);
+    std::unique_ptr<rocksdb::DB> db_owner(db_raw);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
