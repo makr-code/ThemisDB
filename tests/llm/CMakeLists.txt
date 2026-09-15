@@ -354,6 +354,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical wave_a_flow_server_llm llm batch1 memory_safety
         )
+    elseif(_stem STREQUAL "test_llm_multi_model_integration")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER integration
+            TIMEOUT 180
+            LABELS wave_a_flow_server_llm llm integration multi_model
+        )
     elseif(_stem STREQUAL "test_subagent_orchestration_focused" OR
            _stem STREQUAL "test_wiki_crossdep_focused")
         themis_register_module_focused_test(
@@ -397,7 +406,8 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
 
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
          OR _stem STREQUAL "test_llm_wiki_phase3_features_focused"
-         OR _stem STREQUAL "test_llm_wiki_plugin_phase3_phase4_focused")
+         OR _stem STREQUAL "test_llm_wiki_plugin_phase3_phase4_focused"
+         OR _stem STREQUAL "test_llm_multi_model_integration")
         continue()
     endif()
 
@@ -538,13 +548,6 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS llm autogen
     )
-    if(_stem STREQUAL "test_llm_multi_model_integration")
-        set_tests_properties(${_ctest} PROPERTIES
-            LABELS "module:llm;tier:unit;kind:focused;focus;llm;autogen;wave_a_flow_server_llm;integration"
-            TIMEOUT 180
-        )
-        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS ${_target})
-    endif()
 endforeach()
 
 # Ensure autofocused LLM targets keep required implementation units even when
