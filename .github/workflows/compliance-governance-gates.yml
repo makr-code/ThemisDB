@@ -61,47 +61,52 @@ jobs:
     outputs:
       run_pr_governance_gates: ${{ steps.decide.outputs.run_pr_governance_gates }}
     steps:
-      - uses: actions/checkout@v4  # v7.0.1
-        if: github.event_name == 'pull_request_review'
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
       - name: Decide whether PR governance gates should run
         id: decide
-        shell: bash
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          REVIEW_STATE: ${{ github.event.review.state }}
-          BASE_REF: ${{ github.event.pull_request.base.ref }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          if [ "${EVENT_NAME}" != "pull_request_review" ]; then
-            echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+        uses: actions/github-script@v7  # v9.0.0
+        with:
+          script: |
+            if (context.eventName !== 'pull_request_review') {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
 
-          if [ "${REVIEW_STATE}" != "approved" ]; then
-            echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+            const reviewState = String(context.payload.review?.state || '').toLowerCase();
+            if (reviewState !== 'approved') {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
 
-          case "${BASE_REF}" in
-            develop|minimal|community|enterprise|hyperscaler|military) ;;
-            *)
-              echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
-              exit 0
-              ;;
-          esac
+            const baseRef = String(context.payload.pull_request?.base?.ref || '');
+            const allowedBaseRefs = new Set(['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military']);
+            if (!allowedBaseRefs.has(baseRef)) {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
 
-          git fetch origin "${BASE_REF}"
-          CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}" "${HEAD_SHA}" || true)"
+            const changedFiles = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
 
-          if printf '%s\n' "${CHANGED_FILES}" | grep -Eq '^(ROADMAP\.md|FUTURE_ENHANCEMENTS\.md|audit/MATURITY_REPORT_[^/]+\.md|src/[^/]+/ROADMAP\.md|scripts/verification/|tests/test_maturity_exit_criteria\.py$|docs/governance/|\.github/workflows/compliance-governance-gates\.yml$)'; then
-            echo "run_pr_governance_gates=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
-          fi
+            const scopePatterns = [
+              /^ROADMAP\.md$/,
+              /^FUTURE_ENHANCEMENTS\.md$/,
+              /^audit\/MATURITY_REPORT_[^/]+\.md$/,
+              /^src\/[^/]+\/ROADMAP\.md$/,
+              /^scripts\/verification\//,
+              /^tests\/test_maturity_exit_criteria\.py$/,
+              /^docs\/governance\//,
+              /^\.github\/workflows\/compliance-governance-gates\.yml$/,
+            ];
+
+            const inScope = changedFiles.some(file =>
+              scopePatterns.some(pattern => pattern.test(String(file.filename || '')))
+            );
+
+            core.setOutput('run_pr_governance_gates', inScope ? 'true' : 'false');
 
   # 1. Maturity Verification (push/approved review/schedule)
   maturity-verification:
@@ -204,6 +209,8 @@ jobs:
     name: Module Phase Closure Validation
     needs: gate-event-context
     runs-on: ubuntu-latest
+    # Intentionally review-only: phase closure is evaluated only for the final
+    # approval gate, not for push/schedule maintenance runs.
     if: needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
     steps:
       - uses: actions/checkout@v4  # v7.0.1
@@ -242,6 +249,8 @@ jobs:
     name: Merge Gate Enforcer
     needs: gate-event-context
     runs-on: ubuntu-latest
+    # Intentionally review-only: merge gating should happen on the approval
+    # review event that immediately precedes merge.
     if: needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
     steps:
       - uses: actions/checkout@v4  # v7.0.1
