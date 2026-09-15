@@ -55,3 +55,44 @@ TEST(CategoryBGeoParity, HaversineGpuVsCpuParity) {
     cpu_backend.shutdown();
 #endif
 }
+
+TEST(CategoryBGeoParity, ContainsGpuVsCpuParity) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is disabled";
+#else
+    CUDAGeoBackend gpu_backend;
+    if (!gpu_backend.isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable GPU available";
+    }
+
+    CPUGeoBackend cpu_backend;
+    ASSERT_TRUE(cpu_backend.initialize());
+    ASSERT_TRUE(gpu_backend.initialize());
+
+    const std::array<double, 6> point_lats = {0.5, 2.5, 1.0, -1.0, 0.25, 3.0};
+    const std::array<double, 6> point_lons = {0.5, 2.5, 0.0,  0.0,  1.75, 1.0};
+    const std::array<double, 8> polygon = {
+        0.0, 0.0,
+        0.0, 2.0,
+        2.0, 2.0,
+        2.0, 0.0
+    };
+
+    const auto cpu_contains = cpu_backend.batchPointInPolygon(
+        point_lats.data(), point_lons.data(), point_lats.size(), polygon.data(), polygon.size() / 2);
+    const auto gpu_contains = gpu_backend.batchPointInPolygon(
+        point_lats.data(), point_lons.data(), point_lats.size(), polygon.data(), polygon.size() / 2);
+
+    ASSERT_EQ(cpu_contains.size(), point_lats.size());
+    ASSERT_EQ(gpu_contains.size(), point_lats.size());
+
+    for (std::size_t i = 0; i < point_lats.size(); ++i) {
+        EXPECT_EQ(gpu_contains[i], cpu_contains[i])
+            << "Containment mismatch at index " << i
+            << " point=(" << point_lats[i] << "," << point_lons[i] << ")";
+    }
+
+    gpu_backend.shutdown();
+    cpu_backend.shutdown();
+#endif
+}
