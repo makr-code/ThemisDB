@@ -118,7 +118,7 @@ jobs:
           script: |
             const label = 'ci/failure';
             const gate  = 'Gate: PR Version Targeting';
-            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const prNumber = context.payload.pull_request.number;
             await github.rest.issues.addLabels({
               owner: context.repo.owner,

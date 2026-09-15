@@ -82,13 +82,12 @@ public:
 
     void appendEvent(const AuditEvent& event_in) {
         AuditEvent event = event_in;
+        std::lock_guard<std::mutex> lock(mutex_);
         event.sequence = next_sequence_++;
         event.prev_hash = last_hash_;
         event.event_hash = pseudoHash(
             event.event_type + "|" + event.actor + "|" + event.resource + "|" + event.prev_hash
         );
-        
-        std::lock_guard<std::mutex> lock(mutex_);
         events_.push_back(event);
         last_hash_ = event.event_hash;
     }
@@ -151,22 +150,29 @@ public:
         exporter_thread_ = std::thread([this, sink]() {
             while (!stop_.load()) {
                 AuditEvent event;
+                bool has_event = false;
                 {
                     std::lock_guard<std::mutex> lock(queue_mutex_);
-                    if (export_queue_.empty()) {
-                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                        continue;
+                    if (!export_queue_.empty()) {
+                        event = export_queue_.front();
+                        export_queue_.pop_front();
+                        has_event = true;
                     }
-                    event = export_queue_.front();
-                    export_queue_.pop_front();
                 }
-                
+
+                if (!has_event) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    continue;
+                }
+
                 if (sink(event)) {
                     ++exported_count_;
                 } else {
                     // Retry logic: push back to queue on transient failure
-                    std::lock_guard<std::mutex> lock(queue_mutex_);
-                    export_queue_.push_front(event);
+                    {
+                        std::lock_guard<std::mutex> lock(queue_mutex_);
+                        export_queue_.push_front(event);
+                    }
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 }
             }

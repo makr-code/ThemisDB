@@ -33,6 +33,7 @@
 #include <deque>
 #include <functional>
 #include <limits>
+#include <list>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -162,8 +163,8 @@ private:
     size_t capacity_;
     mutable std::mutex mu_;
 
-    std::deque<std::string>                                       order_;
-    std::unordered_map<std::string, std::deque<std::string>::iterator> index_;
+    std::list<std::string>                                        order_;
+    std::unordered_map<std::string, std::list<std::string>::iterator> index_;
     std::unordered_map<std::string, QueryPlan>                    plans_;
     Metrics metrics_;
 };
@@ -650,7 +651,9 @@ public:
         uint64_t evictions{0};
     };
 
-    explicit MultiTierCache(Config cfg = {}) : cfg_(cfg) {}
+    MultiTierCache() : MultiTierCache(Config{}) {}
+
+    explicit MultiTierCache(Config cfg) : cfg_(cfg) {}
 
     /// @brief Access a key. Returns value or empty string on miss.
     std::string get(const std::string& key) {
@@ -1242,7 +1245,9 @@ public:
         uint64_t peak_size{0};
     };
 
-    explicit ConnectionPool(Config cfg = {}) : cfg_(cfg) {
+    ConnectionPool() : ConnectionPool(Config{}) {}
+
+    explicit ConnectionPool(Config cfg) : cfg_(cfg) {
         for (size_t i = 0; i < cfg_.min_size; ++i)
             available_.push_back(nextId());
         current_size_ = cfg_.min_size;

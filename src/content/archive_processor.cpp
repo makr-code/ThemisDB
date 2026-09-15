@@ -363,11 +363,21 @@ bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format
 }
 
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
+    std::string normalized = path;
+    std::replace(normalized.begin(), normalized.end(), '\\', '/');
+
+    if (normalized.size() >= 2 && normalized[1] == ':') {
+        normalized.erase(0, 2);
+    }
+    while (!normalized.empty() && normalized.front() == '/') {
+        normalized.erase(normalized.begin());
+    }
+
     std::string result = {};
-    result.reserve(path.size());
+    result.reserve(normalized.size());
 
     std::vector<std::string> components;
-    std::istringstream iss(path);
+    std::istringstream iss(normalized);
     std::string component = {};
 
     while (std::getline(iss, component, '/')) {
@@ -961,4 +971,3 @@ std::vector<float> ArchiveProcessor::generateEmbedding(const std::string & /*chu
 
 } // namespace content
 } // namespace themis
-
