@@ -130,7 +130,7 @@ Use version milestones when a fix or feature must ship in a specific release, in
 - Every milestone **MUST** have a due date.
 - Milestone names use the exact formats above — no variations.
 - When an issue slips, move it to the next milestone; do not leave it unassigned.
-- Milestones are managed canonically via `.github/milestones.yml` and synchronized by `.github/workflows/maintenance-milestones.yml`.
+- Milestones are managed canonically via `.github/milestones.yml` and synchronized by `.github/workflows/maintenance-housekeeping.yml`.
 - Hotfix and strategic lanes are supported via dedicated milestones (`HOTPATCH`, `LONG-TERM`) and label-driven auto-assignment rules.
 
 ---
