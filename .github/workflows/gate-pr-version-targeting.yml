@@ -5,7 +5,7 @@ name: "Gate: PR Version Targeting"
 # Runs on PR open/sync to validate Target Version field and milestone assignment
 on:
   pull_request:
-    types: [opened, edited, synchronize]
+    types: [opened, edited, synchronize, reopened, ready_for_review]
     branches:
       - develop
       - community
@@ -13,12 +13,6 @@ on:
       - hyperscaler
       - military
       - minimal
-    paths:
-      - '.github/pull_request_template.md'
-      - '.github/PULL_REQUEST_TEMPLATE/**'
-      - 'docs/governance/PR_VERSION_TARGETING.md'
-      - 'docs/governance/GITHUB_MILESTONES_SETUP.md'
-      - '.github/workflows/gate-pr-version-targeting.yml'
 
 permissions:
   pull-requests: read
@@ -89,7 +83,7 @@ jobs:
           echo "ℹ️  Target Version: $VERSION"
           echo "ℹ️  PR #$PR_NUMBER"
           echo ""
-          echo "After merge, this PR should be assigned to the '$VERSION' milestone."
+          echo "Automation should assign this PR to the '$VERSION' milestone shortly after this event."
           echo "See docs/governance/PR_VERSION_TARGETING.md for more details."
 
       - name: Summary
@@ -100,7 +94,7 @@ jobs:
           echo "Next steps for reviewers:"
           echo "  1. Verify the Target Version is correct for this PR's scope"
           echo "  2. Check that the milestone exists on GitHub (see docs/governance/GITHUB_MILESTONES_SETUP.md)"
-          echo "  3. Upon merge, assign this PR to the corresponding milestone"
+          echo "  3. Confirm automation assigned the matching milestone on the PR"
 
   gate-feedback:
     name: "Gate Feedback (label + comment on failure)"
@@ -118,7 +112,7 @@ jobs:
           script: |
             const label = 'ci/failure';
             const gate  = 'Gate: PR Version Targeting';
-            const runUrl = `https://github.com/${{ context.repo.owner }}/${{ context.repo.repo }}/actions/runs/${{ context.runId }}`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const prNumber = context.payload.pull_request.number;
             await github.rest.issues.addLabels({
               owner: context.repo.owner,

@@ -252,7 +252,7 @@ TEST_F(AuditIntegrityTest, ShouldArchiveOldEntry) {
     auto entry = createTestEntry("entry-1", "rule-1", "update", "user1");
     entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count() - (400 * 24 * 60 * 60 * 1000);  // 400 days ago
+    ).count() - (400LL * 24LL * 60LL * 60LL * 1000LL);  // 400 days ago
     
     int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -268,7 +268,7 @@ TEST_F(AuditIntegrityTest, ShouldNotArchiveRecentEntry) {
     auto entry = createTestEntry("entry-1", "rule-1", "update", "user1");
     entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count() - (30 * 24 * 60 * 60 * 1000);  // 30 days ago
+    ).count() - (30LL * 24LL * 60LL * 60LL * 1000LL);  // 30 days ago
     
     int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
@@ -285,7 +285,7 @@ TEST_F(AuditIntegrityTest, LegalHoldPreventsDelete) {
     auto entry = createTestEntry("entry-1", "rule-1", "update", "user1");
     entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
-    ).count() - (3000 * 24 * 60 * 60 * 1000);  // 3000 days ago
+    ).count() - (3000LL * 24LL * 60LL * 60LL * 1000LL);  // 3000 days ago
     
     int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()

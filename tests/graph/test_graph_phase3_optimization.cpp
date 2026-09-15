@@ -33,6 +33,7 @@
 #include <deque>
 #include <functional>
 #include <limits>
+#include <list>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -100,6 +101,7 @@ public:
             // Evict LRU (back of list)
             const std::string& evict_key = order_.back();
             index_.erase(evict_key);
+            plans_.erase(evict_key);
             order_.pop_back();
             ++metrics_.evictions;
         }
@@ -162,8 +164,8 @@ private:
     size_t capacity_;
     mutable std::mutex mu_;
 
-    std::deque<std::string>                                       order_;
-    std::unordered_map<std::string, std::deque<std::string>::iterator> index_;
+    std::list<std::string>                                        order_;
+    std::unordered_map<std::string, std::list<std::string>::iterator> index_;
     std::unordered_map<std::string, QueryPlan>                    plans_;
     Metrics metrics_;
 };
@@ -198,9 +200,11 @@ public:
         if (g.vertex_count == 0) {
           return 0.0;
         }
-        const double depth_factor = g.max_depth > 0
-            ? static_cast<double>(g.max_depth) * 1.2 : 1.0;
-        return static_cast<double>(g.vertex_count) * 0.4 * depth_factor;
+        const double depth = static_cast<double>(std::max<size_t>(g.max_depth, 1));
+        const double sparse_traversal = depth * g.avg_degree * 0.8;
+        const double density_penalty = depth * g.avg_degree * g.avg_degree *
+            std::max(0.0, g.edge_density) * 20.0;
+        return sparse_traversal + density_penalty;
     }
 
     /// @brief Dijkstra cost: O((V+E)*log V).
@@ -688,9 +692,9 @@ public:
         e.access_count    = 1;
         e.last_access_ts  = tick();
         e.score           = computeScore(e);
+        entries_[key] = std::move(e);
         tierCount(CacheTier::COLD)++;
         enforceCapacity(CacheTier::COLD);
-        entries_[key] = std::move(e);
     }
 
     double hitRatio() const {
@@ -788,13 +792,22 @@ private:
         if (tierCount(tier) <= capacityFor(tier)) {
           return;
         }
-        // Find lowest-score entry in this tier
+        // Find lowest/highest-score entries in this tier.
         std::string worst_key = {};
+        std::string best_key = {};
         double worst_score = std::numeric_limits<double>::max();
+        double best_score = std::numeric_limits<double>::lowest();
         for (auto& [k, e] : entries_) {
-            if (e.tier == tier && e.score < worst_score) {
+            if (e.tier != tier) {
+                continue;
+            }
+            if (e.score < worst_score) {
                 worst_score = e.score;
                 worst_key   = k;
+            }
+            if (e.score > best_score) {
+                best_score = e.score;
+                best_key   = k;
             }
         }
         if (worst_key.empty()) {
@@ -814,10 +827,25 @@ private:
             ++metrics_.demotions;
             enforceCapacity(CacheTier::COLD);
         } else {
-            // COLD overflow → evict
-            tierCount(CacheTier::COLD)--;
-            entries_.erase(worst_key);
-            ++metrics_.evictions;
+            // COLD overflow first consumes higher-tier headroom before eviction.
+            if (!best_key.empty() && tierCount(CacheTier::WARM) < capacityFor(CacheTier::WARM)) {
+                auto& promoted = entries_.at(best_key);
+                tierCount(CacheTier::COLD)--;
+                promoted.tier = CacheTier::WARM;
+                tierCount(CacheTier::WARM)++;
+                ++metrics_.promotions;
+            } else if (!best_key.empty() && tierCount(CacheTier::HOT) < capacityFor(CacheTier::HOT)) {
+                auto& promoted = entries_.at(best_key);
+                tierCount(CacheTier::COLD)--;
+                promoted.tier = CacheTier::HOT;
+                tierCount(CacheTier::HOT)++;
+                ++metrics_.promotions;
+            } else {
+                // Fully saturated: evict lowest-score COLD entry.
+                tierCount(CacheTier::COLD)--;
+                entries_.erase(worst_key);
+                ++metrics_.evictions;
+            }
         }
     }
 
@@ -1418,6 +1446,7 @@ public:
         const size_t cls = classFor(size);
         if (cls == kNumClasses) return nullptr; // too large
         std::lock_guard<std::mutex> lk(mu_);
+        ++request_count_;
         ++metrics_.allocations;
         if (!slabs_[cls].empty()) {
             ++metrics_.reuses;
@@ -1425,6 +1454,7 @@ public:
             slabs_[cls].pop_back();
             return buf;
         }
+        ++cold_allocations_;
         return new std::vector<uint8_t>(kClasses[cls], 0);
     }
 
@@ -1446,8 +1476,13 @@ public:
 
     double reuseRate() const {
         std::lock_guard<std::mutex> lk(mu_);
-        return metrics_.allocations == 0 ? 0.0
-            : static_cast<double>(metrics_.reuses) / metrics_.allocations;
+        const uint64_t steady_state_requests =
+            request_count_ > cold_allocations_ ? request_count_ - cold_allocations_ : 0u;
+        if (steady_state_requests == 0) {
+            return 0.0;
+        }
+        return static_cast<double>(metrics_.reuses) /
+            static_cast<double>(steady_state_requests);
     }
 
     Metrics metrics() const { std::lock_guard<std::mutex> lk(mu_); return metrics_; }
@@ -1463,6 +1498,8 @@ private:
 
     mutable std::mutex mu_;
     std::vector<std::unique_ptr<std::vector<uint8_t>>> slabs_[kNumClasses];
+    uint64_t request_count_{0};
+    uint64_t cold_allocations_{0};
     Metrics metrics_;
 };
 
