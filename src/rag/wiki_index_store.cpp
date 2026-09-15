@@ -341,19 +341,19 @@ struct WikiIndexStore::Impl {
             {"embedding_cache",                 rocksdb::ColumnFamilyOptions{}}
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-        std::unique_ptr<rocksdb::DB> db_instance;
+        rocksdb::DB* db_raw = nullptr;
         const rocksdb::Status s = rocksdb::DB::Open(
             rocksdb::DBOptions{opts},
             config.cache_dir,
             cf_descs,
             &cf_handles,
-            &db_instance);
+            &db_raw);
         if (!s.ok()) {
             THEMIS_WARN("WikiIndexStore: failed to open RocksDB cache at '{}': {}",
                         config.cache_dir, s.ToString());
             return false;
         }
-        cache_db = db_instance.release();
+        cache_db = db_raw;
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
         if (cf_handles.size() >= 2) {
             cache_cf = cf_handles[1];
