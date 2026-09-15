@@ -4,12 +4,13 @@
 
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
-    pkg_check_modules(ZSTD QUIET libzstd)
+    pkg_check_modules(ZSTD QUIET IMPORTED_TARGET libzstd)
     if(ZSTD_FOUND)
         if(NOT TARGET zstd::zstd)
             add_library(zstd::zstd INTERFACE IMPORTED GLOBAL)
-            target_include_directories(zstd::zstd INTERFACE ${ZSTD_INCLUDE_DIRS})
-            target_link_libraries(zstd::zstd INTERFACE ${ZSTD_LIBRARIES})
+            set_target_properties(zstd::zstd PROPERTIES
+                INTERFACE_LINK_LIBRARIES "PkgConfig::ZSTD"
+            )
             message(STATUS "Preloaded zstd::zstd target from pkg-config for RocksDB compatibility")
         endif()
     endif()
