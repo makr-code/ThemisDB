@@ -11,7 +11,7 @@ Die Governance fuer Labels und Milestones ist dabei getrennt, aber parallel
 automatisiert:
 
 - Label-Sync: `.github/workflows/maintenance-labels.yml` aus `.github/labels.yml`
-- Milestone-Sync + Assignment: `.github/workflows/maintenance-milestones.yml` aus `.github/milestones.yml`
+- Milestone-Sync + Assignment: `.github/workflows/maintenance-housekeeping.yml` aus `.github/milestones.yml`
 
 ## 1. Trigger minimieren
 

@@ -50,7 +50,7 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/maintenance-issue-recommendations.yml`
   — Recommend-only Issue Triage: kommentiert offene Issues mit merged-PR-Evidenz und schliesst nie automatisch
 - `.github/workflows/maintenance-labels.yml`
-- `.github/workflows/maintenance-milestones.yml`
+- `.github/workflows/maintenance-housekeeping.yml`
 - `.github/workflows/maintenance-pr-failure-diagnosis.yml`
 - `.github/workflows/maintenance-workflow-guardrails-observe.yml`
 - `.github/workflows/release-changelog.yml`
@@ -324,7 +324,7 @@ an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt
 Milestones werden analog zentral verwaltet:
 
 - Kanonische Definitionen in `.github/milestones.yml`
-- Automatische Synchronisierung durch `.github/workflows/maintenance-milestones.yml`
+- Automatische Synchronisierung durch `.github/workflows/maintenance-housekeeping.yml`
 - Automatische Zuordnung für Issues/PRs über Label-Regeln und optionales `Target Version`-Override
 
 Damit werden fehlende Milestones nicht mehr nur protokolliert, sondern optional automatisch angelegt

@@ -1,5 +1,5 @@
 # Canonical Milestone Registry
-# Managed by .github/workflows/maintenance-milestones.yml
+# Managed by .github/workflows/maintenance-housekeeping.yml
 
 settings:
   default_milestone: Backlog
