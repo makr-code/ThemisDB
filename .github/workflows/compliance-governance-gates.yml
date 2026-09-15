@@ -65,6 +65,7 @@ jobs:
         if: github.event_name == 'pull_request_review'
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Decide whether PR governance gates should run
         id: decide
@@ -73,6 +74,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           REVIEW_STATE: ${{ github.event.review.state }}
           BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           if [ "${EVENT_NAME}" != "pull_request_review" ]; then
             echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
@@ -93,7 +95,7 @@ jobs:
           esac
 
           git fetch origin "${BASE_REF}"
-          CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}...HEAD" || true)"
+          CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}" "${HEAD_SHA}" || true)"
 
           if printf '%s\n' "${CHANGED_FILES}" | grep -Eq '^(ROADMAP\.md|FUTURE_ENHANCEMENTS\.md|audit/MATURITY_REPORT_[^/]+\.md|src/[^/]+/ROADMAP\.md|scripts/verification/|tests/test_maturity_exit_criteria\.py$|docs/governance/|\.github/workflows/compliance-governance-gates\.yml$)'; then
             echo "run_pr_governance_gates=true" >> "$GITHUB_OUTPUT"
@@ -107,10 +109,11 @@ jobs:
     needs: gate-event-context
     runs-on: ubuntu-latest
     if: >
+      always() && (
       github.event_name == 'push' ||
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
-      needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
+      needs.gate-event-context.outputs.run_pr_governance_gates == 'true')
     steps:
       - uses: actions/checkout@v4  # v7.0.1
         with:
@@ -845,10 +848,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
+      always() && (
       github.event_name == 'push' ||
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
-      needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
+      needs.gate-event-context.outputs.run_pr_governance_gates == 'true')
     permissions:
       contents: read
       pull-requests: write
