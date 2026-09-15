@@ -151,10 +151,9 @@ When a version is released or superseded:
 ### 4.1 PR → Milestone Binding
 
 - The PR author sets the "Target Version" field
-- GitHub automation (or manual PR review) assigns the corresponding milestone to the PR
-- If the milestone does not exist, automation leaves the PR unassigned and the PR should not be merged until:
-  - The milestone is created, OR
-  - The author changes the target version to an existing milestone
+- GitHub automation assigns the corresponding milestone when the PR is opened or the target field changes
+- If the PR omits the target field, automation falls back to the root `VERSION` file and derives the milestone as `v` + `VERSION` content when needed
+- If the milestone does not exist, the canonical milestone workflow can auto-create it from `.github/milestones.yml` settings before assignment
 
 ### 4.2 PR ↔ CHANGELOG Sync
 
@@ -233,7 +232,7 @@ A: Use `[Unreleased]` and add a comment explaining the bug. The release manager 
 A: Create the milestone or contact the release manager. Do not proceed without an active target milestone.
 
 **Q: Can I change a PR's target version after opening it?**  
-A: Yes. Update the "Target Version" field in the PR description, and the reviewer/automation will update the milestone assignment.
+A: Yes. Update the "Target Version" field in the PR description, and automation will update the milestone assignment.
 
 **Q: What if my PR spans multiple versions (e.g., backport)?**  
 A: Create separate PRs for each version. Each PR must have a single target version. (You can reference related PRs with "Related to #NNN".)

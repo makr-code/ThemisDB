@@ -65,9 +65,9 @@ on:
         default: ''
         type: string
   pull_request_target:
-    types: [labeled, unlabeled]
+    types: [opened, reopened, edited, synchronize, ready_for_review, labeled, unlabeled]
   issues:
-    types: [opened, reopened, labeled, unlabeled]
+    types: [opened, reopened, edited, labeled, unlabeled]
 
 concurrency:
   group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
@@ -107,7 +107,7 @@ jobs:
             const raw = fs.readFileSync('.github/labels.yml', 'utf8');
             const labels = yaml.load(raw);
             const dryRun = String('${{ inputs.dry_run || false }}').toLowerCase() === 'true';
-            const filterPrefix = String('${{ inputs.label_filter || "" }}').toLowerCase();
+            const filterPrefix = String('${{ inputs.label_filter || '' }}').toLowerCase();
 
             if (!Array.isArray(labels)) {
               core.setFailed('.github/labels.yml must be a YAML list of label objects');
@@ -303,12 +303,82 @@ jobs:
 
             const issue = context.payload.issue || context.payload.pull_request;
             if (!issue) { core.info('No issue/PR payload. Skipping.'); return; }
-            if (context.eventName === 'pull_request_target' && issue.draft) {
-              core.info('Draft PR: skipping milestone assignment.'); return;
-            }
 
-            const labels = (issue.labels || [])
-              .map((l) => String(l?.name || l || '').trim().toLowerCase()).filter(Boolean);
+            const issueNumber = Number(issue.number);
+            const { data: currentIssue } = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber,
+            });
+
+            const body = String(currentIssue.body || issue.body || '');
+            const labels = (currentIssue.labels || issue.labels || [])
+              .map((l) => String(l?.name || l || '').trim().toLowerCase())
+              .filter(Boolean);
+
+            const extractExplicitMilestone = (markdown) => {
+              const directPatterns = [
+                /^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m,
+                /^\*\*Target Milestone:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m,
+                /^-\s*\*\*Target (?:Version|Milestone):\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m,
+              ];
+
+              for (const pattern of directPatterns) {
+                const match = markdown.match(pattern);
+                const value = (match?.[1] || match?.[2] || '').trim();
+                if (value) {
+                  return value;
+                }
+              }
+
+              const lines = markdown.split('\n');
+              const headingIndex = lines.findIndex((line) =>
+                /^##\s*Priority\s*\/\s*Target Version\s*$/i.test(line.trim())
+              );
+              if (headingIndex === -1) {
+                return '';
+              }
+
+              const normalizedSection = [];
+              for (const rawLine of lines.slice(headingIndex + 1)) {
+                if (/^##\s+/.test(rawLine.trim())) {
+                  break;
+                }
+                normalizedSection.push(rawLine);
+              }
+
+              const parsedSection = normalizedSection
+                .map((line) => line.trim())
+                .filter(Boolean);
+
+              for (const line of parsedSection) {
+                const explicit = line.match(/^(?:\*\*)?Target (?:Version|Milestone):(?:\*\*)?\s*(.+)$/i);
+                if (explicit?.[1]) {
+                  return explicit[1].trim();
+                }
+                if (line.includes('·')) {
+                  const candidate = line.split('·').pop()?.trim() || '';
+                  if (candidate) {
+                    return candidate;
+                  }
+                }
+              }
+
+              return '';
+            };
+
+            const versionFileMilestone = (() => {
+              try {
+                const rawVersion = fs.readFileSync('VERSION', 'utf8').trim();
+                if (!rawVersion) {
+                  return '';
+                }
+                return rawVersion.startsWith('v') ? rawVersion : `v${rawVersion}`;
+              } catch (err) {
+                core.warning(`Unable to read VERSION fallback: ${err.message}`);
+                return '';
+              }
+            })();
 
             const fetchMilestones = async () => {
               const all = [];
@@ -328,11 +398,17 @@ jobs:
             const byTitle = new Map(allMilestones.map((m) => [m.title, m]));
             let selected = '';
 
-            if (Boolean(settings.allow_target_version_override) && context.eventName === 'pull_request_target') {
-              const body = String(issue.body || '');
-              const m = body.match(/^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$/m);
-              const tv = (m?.[1] || m?.[2] || '').trim();
-              if (tv) { selected = tv; core.info(`Milestone from Target Version: ${selected}`); }
+            const explicitMilestone = extractExplicitMilestone(body);
+            if (Boolean(settings.allow_target_version_override) && explicitMilestone) {
+              selected = explicitMilestone;
+              core.info(`Milestone from explicit target field: ${selected}`);
+            }
+
+            if (!selected) {
+              selected = versionFileMilestone;
+              if (selected) {
+                core.info(`Milestone fallback from VERSION: ${selected}`);
+              }
             }
 
             if (!selected) {
@@ -370,6 +446,12 @@ jobs:
 
             if (!milestone) { core.warning(`Milestone '${selected}' not found. Skipping.`); return; }
             if (dryRun) { core.info(`[dry-run] would assign #${issue.number} → '${selected}'`); return; }
+
+            const currentMilestoneNumber = currentIssue.milestone?.number ?? null;
+            if (currentMilestoneNumber === milestone.number) {
+              core.info(`#${issueNumber} already assigned to '${selected}'.`);
+              return;
+            }
 
             await github.rest.issues.update({
               owner, repo, issue_number: issue.number, milestone: milestone.number,
