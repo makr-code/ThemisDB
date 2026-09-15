@@ -3,7 +3,7 @@
 > **Version:** 1.0  
 > **Status:** Active  
 > **Owner:** Project Lead + delegated maintainers (see MAINTAINERS.md)  
-> **Last Updated:** 2026-05-13
+> **Last Updated:** 2026-09-15
 
 This document defines the standard operating procedures for recurring operational tasks in the ThemisDB project. Each SOP is self-contained and links to related documents where applicable.
 
@@ -56,9 +56,9 @@ Canonical escalation channels:
 | 3 | Bump version in `VERSION` to `X.Y.0` and in `CMakeLists.txt` `project()` call | RM | `[ ]` |
 | 4 | Rename `[Unreleased]` in `CHANGELOG.md` to `[X.Y.0] - YYYY-MM-DD` | RM | `[ ]` |
 | 5 | Add new empty `[Unreleased]` section at the top of `CHANGELOG.md` | RM | `[ ]` |
-| 6 | Open PR: `release/vX.Y.0` → `main` (Community) | RM | `[ ]` |
-| 7 | Verify CI passes: edition-community-ci, pr-path-gate-main | CI Bot | `[ ]` |
-| 8 | Merge PR into `main` after approval from ≥ 2 reviewers | RM | `[ ]` |
+| 6 | Open PR: `release/vX.Y.0` → `community` | RM | `[ ]` |
+| 7 | Verify CI passes: `edition-community-ci`, `gate-pr-community-failclosed` | CI Bot | `[ ]` |
+| 8 | Merge PR into `community` after approval from ≥ 2 reviewers | RM | `[ ]` |
 | 9 | Tag the merge commit: `git tag -s vX.Y.0 -m "Release vX.Y.0"` | RM | `[ ]` |
 | 10 | Push tag: triggers Docker publish and GitHub Release workflow | RM | `[ ]` |
 | 11 | Verify GitHub Release artefacts (archive, checksum, Docker image) | RM | `[ ]` |
@@ -81,11 +81,11 @@ Canonical escalation channels:
 
 | # | Action | Who |
 |---|---|---|
-| 1 | Create `hotfix/X.Y.Z-description` branch from the affected release tag on `main` | On-call |
+| 1 | Create `hotfix/X.Y.Z-description` branch from the affected release tag on `community` | On-call |
 | 2 | Apply the minimal fix; add a regression test | On-call |
 | 3 | Bump `VERSION` to `X.Y.Z` (PATCH increment) | On-call |
 | 4 | Add CHANGELOG entry under a new `## [X.Y.Z] - YYYY-MM-DD` section | On-call |
-| 5 | Open PR: `hotfix/…` → `main`; request expedited review | On-call |
+| 5 | Open PR: `hotfix/…` → `community`; request expedited review | On-call |
 | 6 | Verify CI passes (at minimum: community build + test) | CI Bot |
 | 7 | Merge with ≥ 1 reviewer approval (P0) or ≥ 2 (P1) | RM |
 | 8 | Tag: `git tag -s vX.Y.Z -m "Hotfix vX.Y.Z"` and push | RM |
@@ -108,7 +108,7 @@ Canonical escalation channels:
 |---|---|
 | 1 | Branch `release/vX.Y.0-rc1` from `develop` |
 | 2 | Bump `VERSION` to `X.Y.0rc1`; update CHANGELOG header to `[X.Y.0-rc1] - YYYY-MM-DD` |
-| 3 | Open PR: `release/vX.Y.0-rc1` → `main` |
+| 3 | Open PR: `release/vX.Y.0-rc1` → `community` |
 | 4 | CI must pass: all edition builds green |
 | 5 | Merge and tag `vX.Y.0-rc1`; publish pre-release Docker image |
 | 6 | Announce RC in GitHub Discussions with a call for testing |
@@ -123,13 +123,13 @@ Canonical escalation channels:
 **Trigger:** Stable or RC release found to be severely broken post-publish.  
 **Owner:** Release Manager
 
-### Community (main)
+### Community (`community`)
 
 ```bash
-git checkout main
+git checkout community
 git revert <merge-commit-sha> --no-commit
 git commit -m "revert: roll back vX.Y.Z"
-git push origin main
+git push origin community
 # Re-tag the previous good commit as vX.Y.(Z-1) if needed
 ```
 
@@ -466,4 +466,3 @@ gh run view <run-id> --log
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-
