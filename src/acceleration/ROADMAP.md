@@ -1,7 +1,7 @@
 # Acceleration Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-31 -->
+<!-- Status: current | validated: 2026-09-15 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase B–C), §7 (risk) -->
 
@@ -22,19 +22,19 @@ Production-grade acceleration runtime with backend selection, fallback orchestra
 
 All major GPU acceleration backends are now fully implemented and integrated:
 
-- **CUDA Backend** (src/acceleration/cuda_backend.cpp: 2,185 LOC)
+- **CUDA Backend** (src/acceleration/cuda_backend.cpp: 2,202 LOC — verified 2026-09-15)
   - Full CUDA kernel implementations for vector operations
   - Memory management with device-host transfers
   - Multi-GPU support with NCCL collective operations
   - Performance: ≥40x speedup over CPU baseline
 
-- **HIP/AMD ROCM Backend** (src/acceleration/hip_backend.cpp: 1,148 LOC)
+- **HIP/AMD ROCM Backend** (src/acceleration/hip_backend.cpp: 1,192 LOC — verified 2026-09-15)
   - Full HIP kernel implementations matching CUDA API surface
   - AMD ROCM integration with RCCL multi-GPU support
   - Compatibility layer for cross-GPU portability
   - Performance: ≥35x speedup over CPU baseline
 
-- **Vulkan Backend** (src/acceleration/vulkan_backend_full.cpp: 608 LOC)
+- **Vulkan Backend** (src/acceleration/vulkan_backend_full.cpp: 603 LOC — verified 2026-09-15)
   - Cross-platform shader compilation (GLSL → SPIR-V)
   - Graphics queue management and synchronization
   - Vulkan memory pooling and resource lifecycle
@@ -68,7 +68,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] 2026-08-31: `BreakEvenValidator` is now wired into the production acceleration build, uses hookable CPU/GPU profiling contracts plus deterministic fallback estimates instead of hardcoded placeholder timings, and focused GPU tests link the production implementation instead of the fallback-only shim. (Target: Q3 2026)
 - [x] 2026-08-31: `oneapi_backend.cpp` now fail-closes on USM allocation failure before `memcpy`, turning the prior undefined OOM path into explicit `std::bad_alloc` handling. (Target: Q3 2026)
 - [~] Multi-device and resource-management reliability tuning under sustained load (Target: Q3 2026)
-- [~] **B-01 · CUDA vector similarity search** — replacing CPU HNSW fallback in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` with GPU kernel dispatch (Target: Q3 2026)
+- [~] **B-01 · CUDA vector similarity search** — GPU kernel dispatch implemented in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` (evidence: 2026-08-10 update); remaining open item is hardware-in-the-loop perf gate (RTX ≥8× gate, `bench_acceleration_cuda_gates.cpp`) (Target: Q3 2026)
 
 ## Planned Features
 
@@ -88,51 +88,53 @@ All major GPU acceleration backends are now fully implemented and integrated:
   - `AiHardwareDispatcher` now executes real ANN distance + TopK dispatch for `vector_similarity_{l2,cosine,ip}` via CUDA path when available, with explicit `cudaGetLastError()` checks and deterministic CPU fallback.
   - `VLLMResourceManager` now exposes a vLLM-aware vector similarity dispatch API with `canUseGPU()` gating and deterministic CPU fallback on overload/error.
   - Remaining closure: hardware-in-the-loop perf validation for RTX `≥8×` gate.
-- [ ] Current stub state in `vllm_resource_manager.cpp`:
-  ```
-  // STUB/SIMULATION NOTE:
-  // Purpose: CPU HNSW fallback for vector similarity when CUDA unavailable
-  // Activation: Always active until THEMIS_ENABLE_CUDA gate wired (Target: Q3 2026)
-  // Production Delta: CPU HNSW ≤ 1× throughput vs GPU kernel ≥8×
-  // Removal Plan: Wire B-01 CUDA kernel in Q3 2026
-  ```
+- [x] 2026-08-10 GPU dispatch implemented in `vllm_resource_manager.cpp:268-283`:
+  - `#ifdef THEMIS_ENABLE_CUDA` gate calls `canUseGPU()` and `CUDAVectorBackend::populateANNDispatch()`.
+  - CPU fallback on overload/error with WARN log.
+  - **Prior STUB/SIMULATION NOTE removed** — no CPU-HNSW-only fallback path remains as the default.
+  - Source evidence: `vllm_resource_manager.cpp:268-294`, `ai_hardware_dispatcher.cpp:208-234`.
 
 #### A-06 · `src/gpu/query_accelerator.cpp` — Filter/Join/Aggregation/Sort/TopK
-- [ ] Filter kernel: `thrust::copy_if` on device; RAII via `GpuMemoryManager::allocate()`; `cudaGetLastError()` after launch; structured error on failure → CPU fallback. Parity test at 1K/100K/10M rows. (Target: Q3 2026)
-- [ ] Join kernel: `thrust::merge` on sorted device arrays; parity test. (Target: Q3 2026)
-- [ ] Aggregation kernel: CUB `DeviceReduce::Sum`/`Min`/`Max`; parity test. (Target: Q3 2026)
-- [ ] Sort kernel: `thrust::stable_sort_by_key`; parity test. (Target: Q3 2026)
-- [ ] TopK kernel: CUB `DeviceSelect::Flagged` + partial sort; parity test. (Target: Q3 2026)
-- [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 15 tests (5 operations × 3 sizes); gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
+<!-- Evidence: src/gpu/query_accelerator.cpp (1,572 LOC); scan:255, aggregate:506, sort:383, hashJoin:659, topK:1386; Thrust GPU paths present; CUBlas for aggregation; verified 2026-09-15 -->
+- [x] Filter kernel: `thrust::copy_if` on device; RAII via CUDA RAII helpers; `cudaGetLastError()` after launch; structured error on failure → CPU fallback. (`query_accelerator.cpp:255`)
+- [x] Join kernel: sort-merge join on device via `thrust::sort_by_key`; CPU fallback on alloc failure. (`query_accelerator.cpp:659`)
+- [x] Aggregation kernel: `thrust::reduce` for Sum/Min/Max/Avg; CUBlas `cublasGemmEx` for dot product; GPU path with CPU fallback on exception. (`query_accelerator.cpp:506`)
+- [x] Sort kernel: `thrust::stable_sort_by_key` on device; CPU `std::stable_sort` fallback. (`query_accelerator.cpp:383`)
+- [x] TopK kernel: partial sort heap on device via Thrust; CPU `std::partial_sort` fallback. (`query_accelerator.cpp:1386`)
+- [x] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_parity.cpp` — covers scan, sort, aggregate (5 functions × 3 sizes), hashJoin, dotProduct, and topK (ASC/DESC/edge-cases); all 5 A-06 operations covered; runs unconditionally under `THEMIS_ENABLE_GPU=ON`; topK coverage added 2026-09-15. (Implemented: 2026-09-15)
 
-#### A-07 · `advanced_vector_index.cpp` — cuVS/RAFT Approximate k-NN
-- [~] Implement CUDA k-NN path in `advanced_vector_index.cpp` using cuVS/RAFT approximate nearest-neighbor; gate: `THEMIS_ENABLE_CUDA` AND `THEMIS_ENABLE_CUVS`; when either gate is OFF, fall back to CPU with STUB/SIMULATION NOTE. (Target: Q3 2026)
+#### A-07 · `advanced_vector_index.cpp` — FAISS-GPU Approximate k-NN (under cuVS gate)
+<!-- Evidence: src/index/advanced_vector_index.cpp:61,386,445; gate THEMIS_ENABLE_CUDA && THEMIS_ENABLE_CUVS; FAISS index_cpu_to_gpu dispatch path; verified 2026-09-15 -->
+- [~] Implement CUDA k-NN path in `advanced_vector_index.cpp` using FAISS GPU (`index_cpu_to_gpu`) under gate `THEMIS_ENABLE_CUDA && THEMIS_ENABLE_CUVS`; when either gate is OFF, fall back to CPU with STUB/SIMULATION NOTE. (Target: Q3 2026)
   - Inputs: query matrix (float32, batch × d), HNSW graph on device, k.
   - Outputs: top-k indices + L2 distances; float32 parity tolerance ≤1e-5 vs CPU HNSW.
-  - Errors: `cudaGetLastError()` after every cuVS call; on failure → log WARN → CPU fallback.
+  - Errors: `cudaGetLastError()` after every FAISS-GPU call; on failure → log WARN → CPU fallback.
+  - **Note**: Current dispatch uses FAISS `index_cpu_to_gpu()` API (not direct cuVS/RAFT C++ API); gate variable `THEMIS_ENABLE_CUVS` signals FAISS-GPU availability. Direct cuVS RAFT `ivf_flat` integration remains a future enhancement.
 - [x] 2026-08-10 implementation update:
-  - Added `THEMIS_ENABLE_CUVS` feature gate and RAFT package probe in CMake dependency wiring.
+  - Added `THEMIS_ENABLE_CUVS` feature gate and RAFT/FAISS package probe in CMake dependency wiring.
   - Added CUDA-gated FAISS GPU `index_cpu_to_gpu` search path in `advanced_vector_index.cpp` as the active CUDA dispatch path under `THEMIS_ENABLE_CUDA && THEMIS_ENABLE_CUVS`.
   - CPU search remains unchanged when either gate is OFF.
-- [ ] Hardware-in-the-loop CTest: `test_advanced_vector_index_cuda_knn` gated on `THEMIS_GEO_CUDA=ON` (self-hosted runner); CPU-parity test runs unconditionally. (Target: Q3 2026)
-- [ ] Current stub state must carry:
+  - Source evidence: `advanced_vector_index.cpp:61`, `:386`, `:445`.
+- [ ] Hardware-in-the-loop CTest: `test_advanced_vector_index_cuda_knn` — **target not found**; must be added for self-hosted runner validation; CPU-parity test runs unconditionally. (Target: Q3 2026)
+- [ ] Current stub state carries:
   ```
   // STUB/SIMULATION NOTE:
-  // Purpose: CPU HNSW fallback — cuVS/RAFT not dispatched.
+  // Purpose: CPU HNSW fallback — FAISS-GPU/cuVS not dispatched.
   // Activation: THEMIS_ENABLE_CUDA=OFF or THEMIS_ENABLE_CUVS=OFF.
-  // Production Delta: CPU recall ~0.95 vs cuVS recall ~0.99 at 10× throughput.
-  // Removal Plan: Wire A-07 cuVS dispatch in Q3 2026.
+  // Production Delta: CPU recall ~0.95 vs FAISS-GPU recall ~0.99 at 10× throughput.
+  // Removal Plan: Wire A-07 FAISS-GPU dispatch in Q3 2026; upgrade to cuVS RAFT ivf_flat in future.
   ```
 
 #### A-08 · Geo CUDA Kernels (Partial Q3 2026) — Haversine + ST_CONTAINS + ST_DISTANCE
-- [ ] Haversine batch CUDA kernel: ≤2ms for 1M point pairs on RTX-class hardware; RAII allocation; `cudaGetLastError()` after launch; CPU parity test (tolerance ≤1e-6 metres). (Target: Q3 2026)
-- [ ] `ST_CONTAINS` GPU dispatch: point-in-polygon test with device-side polygon data; CPU parity test. (Target: Q3 2026)
-- [ ] `ST_DISTANCE` GPU dispatch: spherical geodesic distance batch; CPU parity test. (Target: Q3 2026)
+<!-- Evidence verified 2026-09-15: cuda/geo_kernels.cu (393 LOC); geo_acceleration_bridge.cpp:bridge_geo_containment():141 -->
+- [~] Haversine batch CUDA kernel: `haversineDistanceKernel` implemented in `cuda/geo_kernels.cu:53`; RAII allocation and `cudaGetLastError()` present; kernel auto-tuning via `cudaOccupancyMaxPotentialBlockSize` at line 367. CPU parity test (tolerance ≤1e-6 metres) not yet committed as dedicated `test_category_b_parity_geo`. (Target: Q3 2026)
+- [~] `ST_CONTAINS` GPU dispatch: `bridge_geo_containment()` in `geo_acceleration_bridge.cpp:141` bridges to geo module's `batchIntersects()`; no dedicated CUDA kernel in `cuda/geo_kernels.cu` (delegates to geo module GPU spatial backend). CPU parity test pending. (Target: Q3 2026)
+- [ ] `ST_DISTANCE` GPU dispatch: spherical geodesic distance batch; no standalone CUDA kernel confirmed in `cuda/geo_kernels.cu` — Haversine kernel covers distance but bridge function not verified for `ST_DISTANCE` path; CPU parity test pending. (Target: Q3 2026)
 - [ ] `ST_UNION` and `ST_DIFFERENCE` are explicitly **deferred to Q4 2026**; their dispatch paths MUST carry STUB/SIMULATION NOTE until then. (Target: Q4 2026)
-- [ ] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) passes after A-08 implementation. (Target: Q3 2026)
+- [ ] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) — **file missing**; must be written after A-08 kernel completion. (Target: Q3 2026)
 
 #### GPU Benchmark Re-baseline
-- [ ] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json`. (Target: Q3 2026)
+- [ ] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json` (**file missing** as of 2026-09-15 — `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp` exists, baseline JSON not yet generated). (Target: Q3 2026)
 - [ ] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after RAII + A-06/A-07 changes. (Target: Q3 2026)
 
 ### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off

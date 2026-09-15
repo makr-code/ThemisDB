@@ -422,6 +422,108 @@ TEST_P(DotProductParityTest, Parity) {
 // back to CPU due to absent hardware.
 // ============================================================================
 
+// ============================================================================
+// 6. TopK — parity  (A-06 closure: previously missing)
+//    Verifies that topK(k) returns the k smallest-key rows in ascending order
+//    and that GPU and forced-CPU paths produce identical results.
+// ============================================================================
+
+class TopKParityTest : public ::testing::TestWithParam<size_t> {};
+
+INSTANTIATE_TEST_SUITE_P(
+    Sizes,
+    TopKParityTest,
+    ::testing::ValuesIn(parityInputSizes()),
+    [](const ::testing::TestParamInfo<size_t>& info) {
+        if (info.param >= 1'000'000) {
+          return std::string("10M");
+        }
+        if (info.param >= 100'000) {
+          return std::string("100K");
+        }
+        return std::string("1K");
+    });
+
+TEST_P(TopKParityTest, TopK_Ascending_Parity) {
+    const size_t n = GetParam();
+    const size_t k = std::min<size_t>(50, n);
+    auto rows = makeRows(n, /*base=*/1.0);
+
+    GPUQueryAccelerator gpu_acc(gpuConfig(0));
+    GPUQueryAccelerator cpu_acc(cpuConfig());
+
+    auto gpu_res = gpu_acc.topK(rows, payloadVal, k, SortOrder::ASC);
+    auto cpu_res = cpu_acc.topK(rows, payloadVal, k, SortOrder::ASC);
+
+    ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
+        << "topK result size mismatch (n=" << n << " k=" << k << ")";
+
+    for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
+        EXPECT_DOUBLE_EQ(payloadVal(gpu_res.rows[i]), payloadVal(cpu_res.rows[i]))
+            << "topK key mismatch at rank " << i
+            << " (n=" << n << " k=" << k << ")";
+    }
+
+    // Verify ascending order in both results.
+    for (size_t i = 1; i < gpu_res.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
+            << "GPU topK not sorted ascending at index " << i;
+    }
+}
+
+TEST_P(TopKParityTest, TopK_Descending_Parity) {
+    const size_t n = GetParam();
+    const size_t k = std::min<size_t>(50, n);
+    auto rows = makeRows(n, /*base=*/1.0);
+
+    GPUQueryAccelerator gpu_acc(gpuConfig(0));
+    GPUQueryAccelerator cpu_acc(cpuConfig());
+
+    auto gpu_res = gpu_acc.topK(rows, payloadVal, k, SortOrder::DESC);
+    auto cpu_res = cpu_acc.topK(rows, payloadVal, k, SortOrder::DESC);
+
+    ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
+        << "topK DESC result size mismatch (n=" << n << " k=" << k << ")";
+
+    for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
+        EXPECT_DOUBLE_EQ(payloadVal(gpu_res.rows[i]), payloadVal(cpu_res.rows[i]))
+            << "topK DESC key mismatch at rank " << i
+            << " (n=" << n << " k=" << k << ")";
+    }
+
+    // Verify descending order.
+    for (size_t i = 1; i < gpu_res.rows.size(); ++i) {
+        EXPECT_GE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
+            << "GPU topK not sorted descending at index " << i;
+    }
+}
+
+TEST(TopKEdgeCases, TopK_KGreaterThanN_ReturnsAllRows) {
+    auto rows = makeRows(10, /*base=*/1.0);
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.topK(rows, payloadVal, 100, SortOrder::ASC);
+    EXPECT_EQ(res.rows.size(), rows.size());
+}
+
+TEST(TopKEdgeCases, TopK_EmptyInput_ReturnsEmpty) {
+    std::vector<Row> empty;
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.topK(empty, payloadVal, 10, SortOrder::ASC);
+    EXPECT_TRUE(res.rows.empty());
+}
+
+TEST(TopKEdgeCases, TopK_StatsUpdated) {
+    auto rows = makeRows(100, /*base=*/1.0);
+    GPUQueryAccelerator acc(cpuConfig());
+    acc.topK(rows, payloadVal, 10, SortOrder::ASC);
+    EXPECT_EQ(acc.getStats().total_topk, 1u);
+}
+
+// ============================================================================
+// Stats consistency: GPU-path accelerator updates stats even when falling
+// back to CPU due to absent hardware.
+// ============================================================================
+
 TEST(QueryAcceleratorStats, StatsUpdatedOnAllPaths) {
     GPUQueryAccelerator acc(gpuConfig(0));
 
