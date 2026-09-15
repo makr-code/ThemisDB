@@ -101,6 +101,8 @@ Signalqualität und Release-Stabilitaet zu verbessern.
   — PR gate: hash & SBOM integrity checks; workflow_call + PR + push + dispatch
 - `.github/workflows/gate-pr-plugin-boundary.yml`
   — PR gate: private plugin boundary enforcement; workflow_call + PR + push + dispatch
+- `.github/workflows/gate-pr-merge-readiness.yml`
+  — PR merge readiness aggregator: calls gate-pr-community-failclosed, gate-pr-edition-license, gate-pr-hash-sbom, gate-pr-plugin-boundary via workflow_call and aggregates outcomes; sets status/ready-to-merge or status/blocked; intended as single required status check in branch protection
 - `.github/workflows/gate-pr-version-targeting.yml`
   — PR gate: Target Version field and milestone assignment validation; PR-only (opened/edited/synchronize)
 - `.github/workflows/maintenance-ai-working.yml`
