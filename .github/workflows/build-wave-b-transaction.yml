@@ -607,7 +607,7 @@ jobs:
           python3 tools/ci/generate_wave_closure_manifest.py \
             --wave "Wave B" \
             --module "transaction" \
-            --workflow "13-wave-b-transaction-ci-execution.yml" \
+            --workflow "build-wave-b-transaction.yml" \
             --run-id "${{ github.run_id }}" \
             --overall-status "$OVERALL_STATUS" \
             --gate "B1_chaos_recovery=${{ needs.chaos-recovery-evidence.result }}" \

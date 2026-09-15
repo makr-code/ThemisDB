@@ -269,12 +269,17 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    std::unique_ptr<rocksdb::DB> db_owner;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_owner);
+    rocksdb::DB* db = nullptr;
+    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
     }
+    if (db == nullptr) {
+        throw std::runtime_error("Failed to open RocksDB: DB::OpenForReadOnly returned success with null handle");
+    }
+
+    std::unique_ptr<rocksdb::DB> db_owner(db);
 
     // Iterate through database
     std::unique_ptr<rocksdb::Iterator> it(db_owner->NewIterator(rocksdb::ReadOptions()));

@@ -1,0 +1,44 @@
+---
+Author: ThemisDB CI Automation
+Created: 2026-09-14
+Last Updated: 2026-09-14
+Status: active
+---
+# Wave A Closure Package — gpu
+
+- Timestamp: 2026-09-14T15:15:00Z
+- Workflow: `build-wave-a-gpu.yml`
+- Run ID: `34313042741`
+- Overall status: `open`
+
+## Gates
+
+| Gate | Status |
+| --- | --- |
+| `A1_cuda_audit` | success |
+| `A2_fallback_timeout_tests` | success |
+| `A3_release_critical` | success |
+| `A4_representative_hardware` | skipped |
+
+## Evidence references
+
+| Type | Reference |
+| --- | --- |
+| `closure_package_artifact` | `gpu-wave-a-closure-package` |
+| `artifacts_archive` | `gpu-ci-results.zip` |
+| `ci_report` | `GPU-CI-Report` |
+| `latest_attempt_run_url` | `https://github.com/makr-code/ThemisDB/actions/runs/34875896686` |
+| `latest_attempt_artifacts` | `gpu-ci-results,cuda-audit-report,gpu-test-results,gpu-cmake-configuration-log` |
+
+## Source validation
+
+| Signal | Present |
+| --- | --- |
+| `code` | yes |
+| `tests` | yes |
+| `ci` | yes |
+| `benchmarks` | no |
+
+## Notes
+
+Dedicated Wave-A GPU lane has source-backed artifacts; representative-hardware capture (A4) remains skipped and keeps overall status open.
