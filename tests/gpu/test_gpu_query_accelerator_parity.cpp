@@ -436,7 +436,7 @@ INSTANTIATE_TEST_SUITE_P(
     TopKParityTest,
     ::testing::ValuesIn(parityInputSizes()),
     [](const ::testing::TestParamInfo<size_t>& info) {
-        return std::to_string(info.param);
+        return std::string("Rows_") + std::to_string(info.param);
     });
 
 TEST_P(TopKParityTest, TopK_Ascending_Parity) {
@@ -474,6 +474,10 @@ TEST_P(TopKParityTest, TopK_Ascending_Parity) {
         EXPECT_LE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
             << "GPU topK not sorted ascending at index " << i;
     }
+    for (size_t i = 1; i < cpu_res.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(cpu_res.rows[i - 1]), payloadVal(cpu_res.rows[i]))
+            << "CPU topK not sorted ascending at index " << i;
+    }
 }
 
 TEST_P(TopKParityTest, TopK_Descending_Parity) {
@@ -510,6 +514,10 @@ TEST_P(TopKParityTest, TopK_Descending_Parity) {
     for (size_t i = 1; i < gpu_res.rows.size(); ++i) {
         EXPECT_GE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
             << "GPU topK not sorted descending at index " << i;
+    }
+    for (size_t i = 1; i < cpu_res.rows.size(); ++i) {
+        EXPECT_GE(payloadVal(cpu_res.rows[i - 1]), payloadVal(cpu_res.rows[i]))
+            << "CPU topK not sorted descending at index " << i;
     }
 }
 

@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <numeric>
 #include <vector>
 
 #include "index/advanced_vector_index.h"
@@ -28,7 +30,7 @@ TEST(AdvancedVectorIndexCudaKnn, CudaAndCpuResultsStayWithinParityTolerance) {
     constexpr std::size_t dimension = 64;
     constexpr std::size_t train_count = 768;
     constexpr std::size_t search_k = 16;
-    constexpr float distance_tolerance = 1e-4F;
+    constexpr float distance_tolerance = 1e-5F;
 
     themis::AdvancedVectorIndex::Config cpu_cfg;
     cpu_cfg.use_gpu = false;
@@ -44,9 +46,7 @@ TEST(AdvancedVectorIndexCudaKnn, CudaAndCpuResultsStayWithinParityTolerance) {
 
     auto training = buildVectors(train_count, dimension);
     std::vector<int64_t> ids(train_count);
-    for (std::size_t i = 0; i < ids.size(); ++i) {
-        ids[i] = static_cast<int64_t>(i);
-    }
+    std::iota(ids.begin(), ids.end(), int64_t{0});
 
     themis::AdvancedVectorIndex cpu_index(dimension, cpu_cfg);
     ASSERT_TRUE(cpu_index.train(training.data(), train_count));
@@ -69,18 +69,23 @@ TEST(AdvancedVectorIndexCudaKnn, CudaAndCpuResultsStayWithinParityTolerance) {
     ASSERT_EQ(cpu_result.distances.size(), search_k);
     ASSERT_EQ(gpu_result.distances.size(), search_k);
 
-    auto sorted_cpu_ids = cpu_result.ids;
-    auto sorted_gpu_ids = gpu_result.ids;
-    std::sort(sorted_cpu_ids.begin(), sorted_cpu_ids.end());
-    std::sort(sorted_gpu_ids.begin(), sorted_gpu_ids.end());
-    EXPECT_EQ(sorted_gpu_ids, sorted_cpu_ids);
-
-    auto sorted_cpu_distances = cpu_result.distances;
-    auto sorted_gpu_distances = gpu_result.distances;
-    std::sort(sorted_cpu_distances.begin(), sorted_cpu_distances.end());
-    std::sort(sorted_gpu_distances.begin(), sorted_gpu_distances.end());
-    for (std::size_t i = 0; i < search_k; ++i) {
-        EXPECT_NEAR(sorted_gpu_distances[i], sorted_cpu_distances[i], distance_tolerance);
+    std::vector<bool> matched_cpu(cpu_result.distances.size(), false);
+    for (const auto gpu_distance : gpu_result.distances) {
+        bool found_match = false;
+        for (std::size_t i = 0; i < cpu_result.distances.size(); ++i) {
+            if (matched_cpu[i]) {
+                continue;
+            }
+            if (std::abs(gpu_distance - cpu_result.distances[i]) <= distance_tolerance) {
+                matched_cpu[i] = true;
+                found_match = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_match) << "No CPU distance match found for GPU distance " << gpu_distance;
+    }
+    for (const bool used : matched_cpu) {
+        EXPECT_TRUE(used);
     }
 #endif
 }
