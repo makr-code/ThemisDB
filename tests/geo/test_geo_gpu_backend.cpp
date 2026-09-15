@@ -8,6 +8,7 @@
 #include "utils/geo/ewkb.h"
 #include "acceleration/geo_acceleration_bridge.h"
 #include "acceleration/compute_backend.h"
+#include <cmath>
 #include <memory>
 #include <string_view>
 #include <thread>
@@ -1073,6 +1074,34 @@ TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_LondonParis) {
                               nullptr);
     EXPECT_EQ(rc, 0);
     EXPECT_NEAR(dist, 340.f, 10.f);
+}
+
+// ST_DISTANCE dispatch must honor the requested geodesic formula.
+TEST(GeoAccelerationBridge, PopulateGeoDispatch_Distance_VincentyFormulaIsApplied) {
+    themis::acceleration::GeoAccelerationBridge bridge;
+    ASSERT_TRUE(bridge.initialize());
+
+    themis::acceleration::GeoKernelDispatch d = bridge.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    const double lats1[] = {0.0};
+    const double lons1[] = {0.0};
+    const double lats2[] = {0.0};
+    const double lons2[] = {179.0};
+    float haversine_km = 0.0f;
+    float vincenty_km = 0.0f;
+
+    ASSERT_EQ(d.launchDistance(lats1, lons1, lats2, lons2, &haversine_km, 1,
+                               themis::acceleration::GeoDistanceFormula::HAVERSINE,
+                               nullptr), 0);
+    ASSERT_EQ(d.launchDistance(lats1, lons1, lats2, lons2, &vincenty_km, 1,
+                               themis::acceleration::GeoDistanceFormula::VINCENTY,
+                               nullptr), 0);
+
+    EXPECT_GT(haversine_km, 0.0f);
+    EXPECT_GT(vincenty_km, 0.0f);
+    EXPECT_GT(std::fabs(vincenty_km - haversine_km), 0.05f)
+        << "Vincenty dispatch should produce a measurably different result than Haversine";
 }
 
 // The bridge dispatch table must have non-null slots for both distance and
