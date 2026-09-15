@@ -140,12 +140,12 @@ function loadSourceLineForFinding(repoRoot, finding) {
   } catch {
     return '';
   }
+}
 
-  function parseTimeSafe(value) {
-    if (!value) return null;
-    const parsed = Date.parse(value);
-    return Number.isFinite(parsed) ? parsed : null;
-  }
+function parseTimeSafe(value) {
+  if (!value) return null;
+  const parsed = Date.parse(value);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
 class ErrorAggregator {
