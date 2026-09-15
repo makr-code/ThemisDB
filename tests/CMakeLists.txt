@@ -227,7 +227,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]t
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/integration/end_to_end/storage_pipeline_e2e_test.cpp"
 )
 
 if(THEMIS_ENABLE_LLM)
@@ -293,6 +292,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_workload_fingerprint_engine\\
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_projects\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_kernel_bypass\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_multi_step_rag\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_llm_multi_model_integration\\.cpp$")
 # test_continuous_query_e2e is compiled as dedicated focused target
 # (ContinuousQueryE2ETests) and should not be merged into themis_tests.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_continuous_query_e2e\\.cpp$")

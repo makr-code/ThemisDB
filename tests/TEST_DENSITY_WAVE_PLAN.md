@@ -60,6 +60,8 @@ Canonical flows:
 - Consolidate the `release_critical` mapping for the truly release-blocking suites that anchor those flows.
 - Remove unclassified `indirect only` claims for the Wave A modules by pointing each module to an owned focused suite and one flow suite.
 - Record the exact reproducible command or label entry point for each module/flow pair.
+- Promote unified-only supplemental Wave A tests into dedicated CTest-owned entries where this can be done without adding new mock-only code paths.
+- Promote canonical Wave A perf anchors into benchmark CTest smoke entries and aggregate benchmark build targets.
 
 ### Canonical command anchors
 
@@ -67,6 +69,12 @@ Canonical flows:
 - Release-critical regression gate: `ctest --test-dir build-community-release --label-regex "release_critical" --output-on-failure --parallel 1 --timeout 120`
 - Wave A `server <-> llm` gate: `cmake --build build-community-release --target themis_wave_a_server_llm_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_flow_server_llm" --output-on-failure --parallel 1 --timeout 120`
 - Wave A `server -> query -> storage -> transaction` gate: `cmake --build build-community-release --target themis_wave_a_server_query_storage_transaction_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_flow_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 120`
+- Wave A `sharding <-> transaction` gate: `cmake --build build-community-release --target themis_wave_a_sharding_transaction_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_flow_sharding_transaction" --output-on-failure --parallel 1 --timeout 120`
+- Benchmark smoke baseline: `cmake --preset community-debug`
+- Wave A `server <-> llm` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_server_llm_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_server_llm" --output-on-failure --parallel 1 --timeout 180`
+- Wave A `server -> query -> storage -> transaction` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_server_query_storage_transaction_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 180`
+- Wave A `sharding <-> transaction` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_sharding_transaction_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_sharding_transaction" --output-on-failure --parallel 1 --timeout 180`
+- Wave A `search -> index -> tensor -> graph -> llm` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_search_index_tensor_graph_llm_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_search_index_tensor_graph_llm" --output-on-failure --parallel 1 --timeout 180`
 - Pipeline inventory anchor: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
@@ -75,6 +83,7 @@ Canonical flows:
 - Every critical flow has one documented start suite, flow suite, recovery/chaos suite, stress/soak suite, benchmark/perf suite, and gate owner.
 - Every Wave A module has direct suite ownership plus a documented flow attachment.
 - `release_critical` coverage for Wave A modules is explicit rather than implied.
+- Canonical benchmark anchors are buildable through one flow-specific aggregate target and runnable through one flow-specific benchmark CTest label.
 
 ## Wave B — Boundary / API / Policy Densification
 

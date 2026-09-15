@@ -538,6 +538,13 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         TIMEOUT 120
         LABELS llm autogen
     )
+    if(_stem STREQUAL "test_llm_multi_model_integration")
+        set_tests_properties(${_ctest} PROPERTIES
+            LABELS "module:llm;tier:unit;kind:focused;focus;llm;autogen;wave_a_flow_server_llm;integration"
+            TIMEOUT 180
+        )
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS ${_target})
+    endif()
 endforeach()
 
 # Ensure autofocused LLM targets keep required implementation units even when

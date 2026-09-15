@@ -154,6 +154,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/full_query_flow_e2e_test.cpp")
     )
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/storage_pipeline_e2e_test.cpp")
+    add_integration_test(
+        storage_pipeline_e2e_test
+        end_to_end/storage_pipeline_e2e_test.cpp
+    )
+    set_tests_properties(storage_pipeline_e2e_test PROPERTIES
+        LABELS "integration;e2e;storage;wave_a_flow_server_query_storage_transaction"
+        TIMEOUT 300
+    )
+endif()
+
 # ============================================================================
 # Cross-Module Pipeline Integration Tests
 # ============================================================================
@@ -661,6 +672,7 @@ foreach(_wave_a_server_llm_integration_target IN ITEMS
 endforeach()
 
 foreach(_wave_a_sqst_integration_target IN ITEMS
+    storage_pipeline_e2e_test
     query_execution_pipeline_test
     w5a_e2e_critical_journeys_test
     w9c_chaos_fault_tolerance_test

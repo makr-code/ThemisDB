@@ -17,14 +17,14 @@
 - [~] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren und an die kanonischen Release-Flows anbinden (Target: 2026-Q3)
 - [~] Risk-basierte Closure Wave A fuer `query`, `index`, `rag`, `transaction`, `llm_wiki`, `search` und nachgelagert `server`, `sharding`, `llm`, `storage` ueber direkte Test-/Benchmark-/Gate-Evidenz verfolgen (Target: 2026-Q4)
 - [~] Fehlende modul-eigene `release_critical`-Labels fuer Wave-A-Module abbauen; erster Batch fuer `query`, `index`, `search`, `storage`, `llm_wiki` gestartet (Target: 2026-Q4)
-- [~] Konsolidierte Wave-A-Flow-Gates fuer `server<->llm`, `server->query->storage->transaction` und `sharding<->transaction` als Build-/CTest-Aggregate verdrahten; Pipeline-/Chaos-Anker angebunden, Unified-only-Supplemente noch entscheiden (Target: 2026-Q4)
+- [~] Konsolidierte Wave-A-Flow-Gates fuer `server<->llm`, `server->query->storage->transaction` und `sharding<->transaction` als Build-/CTest-Aggregate verdrahten; Pipeline-/Chaos-/E2E-Anker angebunden und erste Benchmark-Aggregate eingerichtet (Target: 2026-Q4)
 
 ## Planned Features
 
 - [x] Dokumentierte Matrix: Produktionsmodul `src/<module>` → verantwortliche Test-Suites (Target: 2026-Q3)
 - [ ] Fokus-Targets aus `tests/CMakeLists.txt` als kuratierte Regression-Sets dokumentieren (Target: 2026-Q3)
 - [~] CI-fähige, reproduzierbare Test-Kommandos pro Wave-Block dokumentieren (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q4)
-- [~] Wave-A-Modul-Traceability inkl. Gate-Kommandos dokumentieren (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q4)
+- [~] Wave-A-Modul-Traceability inkl. Gate-Kommandos fuer CTest- und Benchmark-Aggregate dokumentieren (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q4)
 - [ ] Indirekt abgesicherte Module (`distributed_tensor`, `execution`, `llama_cpp`, `stable_diffusion`) auf dedizierte Owner-Suites oder explizite Ausnahme-Regeln umstellen (Target: 2026-Q4)
 
 ## Implementation Phases
@@ -36,7 +36,7 @@
 ### Phase 2: Abdeckungs-Transparenz
 - [x] Modul-zu-Test-Mapping für kritische Runtime-Bereiche veröffentlichen (`tests/TEST_DENSITY_MATRIX.md`) (Target: 2026-Q3)
 - [ ] Fokus-Suites mit klaren Akzeptanzkriterien und Ziel-Cadence versehen (Target: 2026-Q3)
-- [~] Flow-Matrix fuer `server->query->storage->transaction`, `sharding<->transaction`, `search->index->tensor->graph->llm`, `server<->llm` als Gate-Backlog pflegen und an Wave A binden; Unified-only-Beweiswege explizit markieren (Target: 2026-Q4)
+- [~] Flow-Matrix fuer `server->query->storage->transaction`, `sharding<->transaction`, `search->index->tensor->graph->llm`, `server<->llm` als Gate-Backlog pflegen und an Wave A binden; dedizierte CTest-/Benchmark-Beweiswege explizit markieren (Target: 2026-Q4)
 
 ### Phase 3: Rollout-Härtung
 - [ ] Doku-Änderungen regelmäßig gegen CMake-Presets/Test-Presets verifizieren (Target: 2026-Q4)

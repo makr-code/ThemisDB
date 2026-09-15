@@ -61,5 +61,17 @@ foreach(_src IN LISTS STR_BENCH_SOURCES)
         TIMEOUT 120
     )
 
+    if(_stem STREQUAL "bench_storage_release_gates")
+        themis_register_benchmark_ctest(
+            NAME         "${_target}_wave_a_smoke"
+            TARGET       "${_target}"
+            MODULE       "storage"
+            KIND         "wave_a"
+            TIMEOUT      180
+            MIN_TIME     "0.01s"
+            EXTRA_LABELS wave_a_benchmark_server_query_storage_transaction benchmark-baseline release-gates
+        )
+    endif()
+
     message(STATUS "[benchmarks/storage] Registered ${_target}")
 endforeach()
