@@ -27308,31 +27308,53 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp")
 endif()
 
 if(THEMIS_ENABLE_CUDA)
-    add_executable(test_cuda_hnsw_graph_traversal
-        ${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_hnsw_graph_traversal.cpp
-    )
-    target_link_libraries(test_cuda_hnsw_graph_traversal
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_hnsw_graph_traversal
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_hnsw_graph_traversal.cpp")
+        add_executable(test_cuda_hnsw_graph_traversal
+            ${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_hnsw_graph_traversal.cpp
+        )
+        target_link_libraries(test_cuda_hnsw_graph_traversal
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_hnsw_graph_traversal
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 
-    add_executable(test_cuda_ann_search
-        ${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_ann_search.cpp
-    )
-    target_link_libraries(test_cuda_ann_search
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_cuda_ann_search
-        DISCOVERY_MODE POST_BUILD
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_ann_search.cpp")
+        add_executable(test_cuda_ann_search
+            ${THEMIS_ROOT_DIR}/tests/cuda/test_cuda_ann_search.cpp
+        )
+        target_link_libraries(test_cuda_ann_search
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_cuda_ann_search
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/index/test_advanced_vector_index_cuda_knn.cpp")
+        add_executable(test_advanced_vector_index_cuda_knn
+            ${THEMIS_ROOT_DIR}/tests/index/test_advanced_vector_index_cuda_knn.cpp
+        )
+        target_link_libraries(test_advanced_vector_index_cuda_knn
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_advanced_vector_index_cuda_knn
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_vector_index_cuda_knn>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endif()
 
 if(EXISTS "${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp")

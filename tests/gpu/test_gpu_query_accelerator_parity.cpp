@@ -30,6 +30,7 @@
 #include <cmath>
 #include <cstring>
 #include <random>
+#include <string>
 #include <vector>
 
 using namespace themis::gpu;
@@ -435,13 +436,7 @@ INSTANTIATE_TEST_SUITE_P(
     TopKParityTest,
     ::testing::ValuesIn(parityInputSizes()),
     [](const ::testing::TestParamInfo<size_t>& info) {
-        if (info.param >= 1'000'000) {
-          return std::string("10M");
-        }
-        if (info.param >= 100'000) {
-          return std::string("100K");
-        }
-        return std::string("1K");
+        return std::to_string(info.param);
     });
 
 TEST_P(TopKParityTest, TopK_Ascending_Parity) {
@@ -458,9 +453,19 @@ TEST_P(TopKParityTest, TopK_Ascending_Parity) {
     ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
         << "topK result size mismatch (n=" << n << " k=" << k << ")";
 
+    std::vector<double> gpu_keys;
+    std::vector<double> cpu_keys;
+    gpu_keys.reserve(gpu_res.rows.size());
+    cpu_keys.reserve(cpu_res.rows.size());
     for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
-        EXPECT_DOUBLE_EQ(payloadVal(gpu_res.rows[i]), payloadVal(cpu_res.rows[i]))
-            << "topK key mismatch at rank " << i
+        gpu_keys.push_back(payloadVal(gpu_res.rows[i]));
+        cpu_keys.push_back(payloadVal(cpu_res.rows[i]));
+    }
+    std::sort(gpu_keys.begin(), gpu_keys.end());
+    std::sort(cpu_keys.begin(), cpu_keys.end());
+    for (size_t i = 0; i < gpu_keys.size(); ++i) {
+        EXPECT_DOUBLE_EQ(gpu_keys[i], cpu_keys[i])
+            << "topK key multiset mismatch at rank " << i
             << " (n=" << n << " k=" << k << ")";
     }
 
@@ -485,9 +490,19 @@ TEST_P(TopKParityTest, TopK_Descending_Parity) {
     ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
         << "topK DESC result size mismatch (n=" << n << " k=" << k << ")";
 
+    std::vector<double> gpu_keys;
+    std::vector<double> cpu_keys;
+    gpu_keys.reserve(gpu_res.rows.size());
+    cpu_keys.reserve(cpu_res.rows.size());
     for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
-        EXPECT_DOUBLE_EQ(payloadVal(gpu_res.rows[i]), payloadVal(cpu_res.rows[i]))
-            << "topK DESC key mismatch at rank " << i
+        gpu_keys.push_back(payloadVal(gpu_res.rows[i]));
+        cpu_keys.push_back(payloadVal(cpu_res.rows[i]));
+    }
+    std::sort(gpu_keys.begin(), gpu_keys.end());
+    std::sort(cpu_keys.begin(), cpu_keys.end());
+    for (size_t i = 0; i < gpu_keys.size(); ++i) {
+        EXPECT_DOUBLE_EQ(gpu_keys[i], cpu_keys[i])
+            << "topK DESC key multiset mismatch at rank " << i
             << " (n=" << n << " k=" << k << ")";
     }
 

@@ -115,7 +115,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
   - Added CUDA-gated FAISS GPU `index_cpu_to_gpu` search path in `advanced_vector_index.cpp` as the active CUDA dispatch path under `THEMIS_ENABLE_CUDA && THEMIS_ENABLE_CUVS`.
   - CPU search remains unchanged when either gate is OFF.
   - Source evidence: `advanced_vector_index.cpp:61`, `:386`, `:445`.
-- [ ] Hardware-in-the-loop CTest: `test_advanced_vector_index_cuda_knn` — **target not found**; must be added for self-hosted runner validation; CPU-parity test runs unconditionally. (Target: Q3 2026)
+- [x] 2026-09-15: Added hardware-in-the-loop CTest target `test_advanced_vector_index_cuda_knn` in `tests/CMakeLists.txt` with dedicated parity test source `tests/index/test_advanced_vector_index_cuda_knn.cpp`; target now available for self-hosted CUDA+FAISS+cuVS validation. (Target: Q3 2026)
 - [ ] Current stub state carries:
   ```
   // STUB/SIMULATION NOTE:
