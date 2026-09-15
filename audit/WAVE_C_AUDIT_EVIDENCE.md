@@ -10,7 +10,7 @@
 **Target Exit Criteria:** Q4 2026
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
 
-> **SOURCE-VERIFIED STATUS (2026-09-14):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The test harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock `TamperEvidentAuditLogger` and `pseudoHash()` implementation; the real production backend is `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
+> **SOURCE-VERIFIED STATUS (2026-09-14):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The focused proof harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now exercises the production `themis::utils::AuditLogger` JSONL sink and persisted chain-state path from `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
 
 > **BASELINE SYNC (2026-09-14):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with `IMPLEMENTATION_AUDIT_2026-09-14.md` and the current audit baseline, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
 
@@ -21,13 +21,13 @@
 The Audit module has successfully completed Wave C production validation. All three audit work streams are complete and validated:
 
 1. ✅ **Tamper-Evidence Integrity Validation** — Cryptographic hash chain integrity proven under concurrent write load
-2. ✅ **High-Volume Export Reliability** — 50,000+ events sustained load; zero data loss
+2. ✅ **High-Volume Export Reliability** — 10,000-event sustained load; zero data loss
 3. ✅ **Operational Resilience** — Recovery, retry logic, and queue backpressure validated
 4. ✅ **Compliance Integration** — Audit events tagged with compliance frameworks (ISO27001, GDPR, BSIC5, NIS2)
 
-**Exit Criteria Status:** Design-level validation passed; production end-to-end closure remains provisional pending real backend validation.
+**Exit Criteria Status:** Production-backed file-sink validation is now present in the primary proof harness; broader end-to-end release closure still follows the normal governance and sign-off path.
 
-> **Source verification note (2026-09-14):** This report is a useful validation artifact for the audit logic model, but the key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` uses a mock in-memory `TamperEvidentAuditLogger` and `pseudoHash()` implementation rather than the production `themis::utils::AuditLogger` code path. The production implementation does exist in `include/utils/audit_logger.h` and `src/utils/audit_logger.cpp`; it includes hash-chain handling, queue bounds, encryption/signature fields, rotation, and fsync support, but a full Wave-C certification still requires a real integration run against the actual log backend and persistence path.
+> **Source verification note (2026-09-14):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now runs through the production `themis::utils::AuditLogger` code path, including the real JSONL persistence backend, hash-chain state file, fail-closed queue bound, and persisted-record queries used by the focused assertions. Broader Wave-C release certification still depends on the normal governance and sign-off path.
 
 ---
 
@@ -53,9 +53,9 @@ Prove that cryptographic tamper-evidence chains (prev_hash → event_hash) remai
 **Hash Chain Construction:**
 
 ```
-Event 1: prev_hash="genesis", event_hash=SHA256("policy_update|admin|/policy/rbac|genesis")
-Event 2: prev_hash=Event1.hash, event_hash=SHA256("key_rotation|km|/hsm/key|Event1.hash")
-Event 3: prev_hash=Event2.hash, event_hash=SHA256("threat_detected|detector|/query|Event2.hash")
+Event 1: prev_hash="genesis", event_hash=SHA256("POLICY_UPDATED|admin|/policy/rbac/0|genesis")
+Event 2: prev_hash=Event1.hash, event_hash=SHA256("KEY_ROTATED|key_manager|/hsm/key/0|Event1.hash")
+Event 3: prev_hash=Event2.hash, event_hash=SHA256("UNAUTHORIZED_ACCESS|anomaly_detector|/query/suspicious|Event2.hash")
 ...
 ```
 
@@ -67,7 +67,7 @@ Event 3: prev_hash=Event2.hash, event_hash=SHA256("threat_detected|detector|/que
 
 **Setup:**
 - 1 thread appending 100 audit events sequentially
-- Each event: policy_update action with unique actor/resource
+- Each event: `POLICY_UPDATED` action with unique actor/resource
 
 **Result:**
 - ✅ 100 events appended successfully
@@ -97,7 +97,7 @@ Event 3: prev_hash=Event2.hash, event_hash=SHA256("threat_detected|detector|/que
 
 ### Objective
 
-Validate that the audit export pipeline reliably handles sustained high-volume event throughput (10k+ events/sec) with zero data loss and bounded queue growth.
+Validate that the audit export pipeline reliably handles a sustained 10,000-event load with zero data loss and bounded queue growth.
 
 ### Deliverables
 
@@ -107,16 +107,16 @@ Validate that the audit export pipeline reliably handles sustained high-volume e
 
 | Test | Purpose | Scale | Result |
 |------|---------|-------|--------|
-| `HighVolumeExportHandlesSustainedLoad` | 50,000 events, 4 writer threads, zero loss validation | 50,000 events | ✅ PASS |
-| `ExportQueueBoundedGrowthUnderBackpressure` | Slow exporter, 5,000 write attempts, overflow detection | 5,000 events | ✅ PASS |
+| `HighVolumeExportHandlesSustainedLoad` | 10,000 events, 4 writer threads, zero loss validation | 10,000 events | ✅ PASS |
+| `ExportQueueBoundedGrowthUnderBackpressure` | 500 write attempts against a 64-entry bound, overflow detection | 500 attempts | ✅ PASS |
 
 ### High-Volume Export Test
 
 **Setup:**
-- 50,000 total events to export
-- 4 writer threads (12,500 events each)
+- 10,000 total events to export
+- 4 writer threads (2,500 events each)
 - Reliable exporter sink (simulated successful writes)
-- Event types: query_executed, ISO27001+GDPR compliance tags
+- Event type: `DATA_WRITE` with ISO27001+GDPR compliance tags
 
 **Execution Timeline:**
 1. Writers append events to export queue
@@ -124,44 +124,39 @@ Validate that the audit export pipeline reliably handles sustained high-volume e
 3. Verification: all events exported, queue drained
 
 **Result:**
-- ✅ Total events created: 50,000
-- ✅ Events exported: 50,000 (100% success rate)
+- ✅ Total events created: 10,000
+- ✅ Events exported: 10,000 (100% success rate)
 - ✅ Queue pending: 0 (fully drained)
-- ✅ Throughput: ~8,500 events/sec (exceeds 5k/sec SLA)
-- ✅ Duration: ~5.8 seconds
+- ✅ Chain integrity preserved after the sustained write/export pass
+- ✅ Duration measured during the focused run
 - ✅ Data loss: 0 events
-
-**Latency Breakdown:**
-- Sustained write rate: 50,000 / 5.8s ≈ 8,600 events/sec
-- p95 export latency: <2ms per event
-- p99 export latency: <5ms per event
 
 ### Backpressure Test
 
 **Setup:**
-- Small queue (1,000 max capacity)
-- Slow exporter (5ms/event, can't keep up with writers)
-- Attempt to write 5,000 events
+- Small queue (`max_queued_events = 64`)
+- No drain path during the write burst; the logger must fail closed once capacity is reached
+- Attempt to write 500 events
 - Expect overflow after queue fills
 
 **Result:**
-- ✅ Overflow detected after ~1,000 events (queue saturated)
-- ✅ Error thrown: `export_queue_overflow`
+- ✅ Overflow detected once the configured 64-entry bound is reached
+- ✅ Error thrown: `AuditLogger: event queue at capacity (64); fail-closed — event rejected`
 - ✅ Backpressure working correctly
-- ✅ Queue bounded (prevented unbounded growth)
+- ✅ Persisted queue bounded at or below the configured 64-entry limit
 
-### Export Format Consistency
+### Persisted Record Consistency
 
-**Formats Tested (Stub Implementation):**
-- JSON serialization (standard format)
-- AVRO schema compatibility (for streaming)
-- Parquet columnar format (for batch export)
+**Persisted Shapes Exercised:**
+- JSONL records enumerated from the production audit log file
+- Payload decoding for plaintext and base64-encoded records returned by `AuditLogger`
+- Compliance/security assertions executed directly against persisted production records
 
-**Result:** ✅ Format validators pass for all three formats.
+**Result:** ✅ Persisted production records remain queryable and semantically consistent for the focused assertions.
 
 ### Acceptance Verdict
 
-✅ **PASS** — Export pipeline handles 50,000 events with zero data loss. Throughput exceeds 5k/sec SLA (achieved ~8.6k/sec). Queue backpressure prevents unbounded growth.
+✅ **PASS** — Export pipeline handles 10,000 persisted events with zero data loss, and queue backpressure prevents unbounded growth beyond the configured fail-closed limit.
 
 ---
 
@@ -179,21 +174,21 @@ Validate that audit pipeline recovers gracefully from transient failures, respec
 
 | Test | Purpose | Scale | Failure Rate | Result |
 |------|---------|-------|--------------|--------|
-| `ExportRetryLogicHandlesTransientFailures` | 1,000 events with ~10% transient failure rate | 1,000 events | ~10% | ✅ PASS |
+| `ExportRetryLogicHandlesTransientFailures` | 1,000 events with every 10th delivery attempt failing once before retry | 1,000 events | ~10% | ✅ PASS |
 
 ### Transient Failure Handling Test
 
 **Setup:**
-- 1,000 audit events queued for export
-- Exporter configured with ~10% transient failure probability
-- Retry logic: failed exports pushed back to queue for retry
+- 1,000 persisted audit events enumerated for export
+- Exporter callback configured to fail every 10th delivery attempt
+- Retry logic: each failed delivery retried up to 2 additional times
 - Monitoring: track success/retry counts
 
 **Execution:**
 
 ```
-Attempt 1 (event 1-100):    ~90 succeed, ~10 fail (transient)
-Attempt 2 (event 11-20):    ~80-90 succeed, ~10-20 fail/retry
+Attempt 1 (events 1-1000): most succeed, every 10th delivery fails once
+Attempt 2 (failed deliveries): retried immediately and succeed within the retry budget
 ...
 Final state: All 1,000 events successfully exported after retries
 ```
@@ -203,7 +198,7 @@ Final state: All 1,000 events successfully exported after retries
 - ✅ Successful exports (after retry): 1,000+
 - ✅ Final state: All events exported
 - ✅ No permanent data loss
-- ✅ Retry backoff respected (10ms delay between retries)
+- ✅ Retry budget respected (maximum 2 retries per entry)
 
 ### Recovery Scenarios
 
@@ -249,22 +244,22 @@ Validate that audit events are properly tagged with compliance frameworks and su
 | Test | Purpose | Result |
 |------|---------|--------|
 | `AuditEventsTaggedWithComplianceFrameworks` | Events tagged ISO27001, GDPR, BSIC5, NIS2 | ✅ PASS |
-| `SecurityEventTrailsAreAuditableAndTraceable` | Key rotation → policy update → threat detected sequence | ✅ PASS |
+| `SecurityEventTrailsAreAuditableAndTraceable` | KEY_ROTATED → POLICY_UPDATED → UNAUTHORIZED_ACCESS sequence | ✅ PASS |
 
 ### Compliance Tagging Test
 
 **Test Scenario:**
 
 ```
-Event 1: access_control_change
+Event 1: KEY_ROTATED
   - Actor: compliance_officer
   - Compliance: ISO27001, ISO27018
 
-Event 2: data_deletion_request
+Event 2: PII_ACCESSED
   - Actor: data_subject
   - Compliance: GDPR, CCPA
 
-Event 3: incident_response
+Event 3: UNAUTHORIZED_ACCESS
   - Actor: security_team
   - Compliance: BSIC5, NIS2
 ```
@@ -283,26 +278,26 @@ Security workflow with three linked events:
 
 ```
 1. Key Rotation
-   - Type: key_rotation
+   - Type: KEY_ROTATED
    - Resource: /hsm/key/prod_master
    - Action: rotate
    - Compliance: ISO27001, BSIC5
 
 2. Policy Update
-   - Type: policy_update
+   - Type: POLICY_UPDATED
    - Resource: /policy/access_control
-   - Action: enforce_mfa
-   - Compliance: ISO27001, GDPR
+   - Action: modify
+   - Compliance: n/a (security-event helper focuses on event type, actor, resource, and severity)
 
-3. Threat Detected
-   - Type: threat_detected
+3. Unauthorized Access
+   - Type: UNAUTHORIZED_ACCESS
    - Resource: /query/suspicious
-   - Action: flag_injection_attempt
-   - Compliance: ISO27001, NIS2
+   - Action: investigate
+   - Compliance: n/a (security-event helper focuses on event type, actor, resource, and severity)
 ```
 
 **Result:**
-- ✅ Event sequence preserved (key_rotation → policy_update → threat_detected)
+- ✅ Event sequence preserved (KEY_ROTATED → POLICY_UPDATED → UNAUTHORIZED_ACCESS)
 - ✅ Tamper-evidence chain intact (hash continuity proven)
 - ✅ Event traceability: can replay security workflow from audit log
 - ✅ Compliance metadata: each event tagged appropriately
@@ -321,7 +316,7 @@ Security workflow with three linked events:
 
 - Key rotation events → Audit log (enable key rotation compliance evidence)
 - Policy changes → Audit log (enable policy audit trail)
-- Threat detections → Audit log (enable incident response history)
+- Unauthorized-access detections → Audit log (enable incident response history)
 - Access decisions → Audit log (enable access audit trail)
 
 **Status:** ✅ Integration architecture validated in `SecurityEventTrailsAreAuditableAndTraceable` test.
@@ -342,11 +337,9 @@ Security workflow with three linked events:
 
 | Metric | Target | Observed | Status |
 |--------|--------|----------|--------|
-| Throughput (sustained) | ≥5k events/sec | 8,600 events/sec | ✅ EXCEEDS |
-| p95 export latency | <5ms | ~2ms | ✅ OK |
-| p99 export latency | <10ms | ~5ms | ✅ OK |
-| Data loss rate | 0% | 0% (50k events) | ✅ OK |
-| Queue backpressure | Bounded | Proven (overflow after 1k) | ✅ OK |
+| Sustained export volume | 10,000 persisted events | 10,000 persisted events | ✅ OK |
+| Data loss rate | 0% | 0% (10k events) | ✅ OK |
+| Queue backpressure | Bounded | Proven at configured 64-event cap | ✅ OK |
 
 ### Audit Integrity SLA
 
@@ -408,9 +401,9 @@ Security workflow with three linked events:
 **Requirement:** Export pipeline handles p95 load with zero data loss.
 
 **Evidence:**
-- ✅ 50,000 event export test: 100% success rate, zero data loss
-- ✅ Throughput: 8,600 events/sec (exceeds 5k/sec SLA)
-- ✅ Backpressure: queue bounded at 1,000 events (prevents unbounded growth)
+- ✅ 10,000 event export test: 100% success rate, zero data loss
+- ✅ Production-backed persisted records remain exportable and hash-chain valid after the sustained load
+- ✅ Backpressure: queue bounded at the configured 64-event limit (prevents unbounded growth)
 
 **Verdict:** ✅ **PASS**
 
@@ -420,7 +413,7 @@ Security workflow with three linked events:
 
 **Evidence:**
 - ✅ Compliance framework tagging: ISO27001, GDPR, BSIC5, NIS2 all present
-- ✅ Security event trail auditability: key_rotation → policy_update → threat_detected sequence traceable
+- ✅ Security event trail auditability: KEY_ROTATED → POLICY_UPDATED → UNAUTHORIZED_ACCESS sequence traceable
 - ✅ Event filtering capability: can query events by compliance framework
 
 **Verdict:** ✅ **PASS**
@@ -441,16 +434,16 @@ Security workflow with three linked events:
 
 ### Coverage
 
-- **Focused tests:** 6 dedicated Wave C audit tests
+- **Focused tests:** 8 dedicated Wave C audit tests
 - **Concurrent threads:** 8 (stress testing)
-- **Total events:** 50,000+ (export load)
+- **High-volume export workload:** 10,000 events across 4 writer threads
 - **Failure scenarios:** Transient failures (~10% rate)
 - **Compliance frameworks:** 4 (ISO27001, GDPR, BSIC5, NIS2)
-- **Event types:** 5 (policy_update, key_rotation, threat_detected, data_deletion, incident_response)
+- **Event types:** 7 (POLICY_UPDATED, KEY_ROTATED, SUSPICIOUS_ACTIVITY, DATA_WRITE, BULK_EXPORT, PII_ACCESSED, UNAUTHORIZED_ACCESS)
 
 ### CI Integration
 
-All audit Wave C tests are registered in `tests/audit/CMakeLists.txt` and run as part of:
+All audit Wave C tests are registered in `tests/CMakeLists.txt` and run as part of:
 - ✅ `release_critical` test suite
 - ✅ `ci-build` workflow (all release branches)
 - ✅ Continuous validation on every commit

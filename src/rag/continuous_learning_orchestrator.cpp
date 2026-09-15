@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <cctype>
 #include <cmath>
 #include <fstream>
 #include <iomanip>
@@ -685,10 +686,69 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         }
                     }
                     themis::training::DataSelectionMetrics metrics;
-                    metrics.training_accuracy    = impl_->stats.current_accuracy;
                     metrics.inference_latency_ms = 0.0; // populated from monitoring in full impl
 
-                    // Check rollback condition before retraining
+                    const auto& metric_source = sel_result.selected_samples.empty()
+                                                    ? candidates
+                                                    : sel_result.selected_samples;
+                    double total_quality = 0.0;
+                    for (const auto& sample : metric_source) {
+                        total_quality += sample.quality_score;
+                    }
+                    metrics.avg_quality_score = metric_source.empty()
+                        ? impl_->stats.current_accuracy
+                        : total_quality / static_cast<double>(metric_source.size());
+
+                    std::unordered_set<std::string> unique_tokens;
+                    size_t token_count = 0;
+                    std::string current_token;
+                    for (const auto& sample : metric_source) {
+                        for (const char ch : sample.text) {
+                            if (std::isalnum(static_cast<unsigned char>(ch)) != 0) {
+                                current_token.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(ch))));
+                                continue;
+                            }
+                            if (!current_token.empty()) {
+                                unique_tokens.insert(current_token);
+                                ++token_count;
+                                current_token.clear();
+                            }
+                        }
+                        if (!current_token.empty()) {
+                            unique_tokens.insert(current_token);
+                            ++token_count;
+                            current_token.clear();
+                        }
+                    }
+                    metrics.diversity_score = token_count == 0
+                        ? 0.0
+                        : static_cast<double>(unique_tokens.size()) /
+                              static_cast<double>(token_count);
+
+                    size_t labeled_samples = 0;
+                    size_t positive_samples = 0;
+                    for (const auto& interaction : impl_->interactions) {
+                        if (!adapter_id.empty()) {
+                            if (!interaction.model_version.empty() && interaction.model_version != adapter_id) {
+                                continue;
+                            }
+                            if (interaction.model_version.empty() && !allow_unlabeled) {
+                                continue;
+                            }
+                        }
+                        if (!interaction.user_feedback.has_value()) {
+                            continue;
+                        }
+                        ++labeled_samples;
+                        if (interaction.user_feedback.value() == FeedbackType::POSITIVE) {
+                            ++positive_samples;
+                        }
+                    }
+                    metrics.training_accuracy = labeled_samples == 0
+                        ? impl_->stats.current_accuracy
+                        : static_cast<double>(positive_samples) /
+                              static_cast<double>(labeled_samples);
+
                     if (impl_->config.enable_auto_rollback &&
                             impl_->si_module->needsRollback(metrics)) {
                         spdlog::warn("CLO: rollback condition triggered for adapter '{}'; "
@@ -703,7 +763,7 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         rollback_event.description      = "Automated rollback: quality/accuracy "
                                                           "below threshold";
                         impl_->stats.recent_improvements.push_back(rollback_event);
-                        continue; // Skip retraining for this adapter
+                        continue;
                     }
 
                     auto updated_cfg = impl_->si_module->applyAdaptiveRules(

@@ -14,10 +14,13 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <cmath>
 #include <future>
 #include <numeric>
+#include <optional>
 #include <queue>
+#include <string_view>
 
 // Pull in ThemisDB engine headers only when the engine components are
 // available. The symbols below are resolved at link-time; the conditionally-
@@ -46,6 +49,128 @@ const bool themisdb_registered = []() noexcept {
     assert(ok && "ThemisDBAdapter: 'ThemisDB' adapter name already registered");
     return ok;
 }();
+
+[[nodiscard]] static bool is_ident_char(const char ch) noexcept {
+    return std::isalnum(static_cast<unsigned char>(ch)) != 0 ||
+           ch == '_' || ch == '.' || ch == ':' || ch == '-';
+}
+
+[[nodiscard]] static std::string_view trim_view(std::string_view v) noexcept {
+    while (!v.empty() && std::isspace(static_cast<unsigned char>(v.front())) != 0) {
+        v.remove_prefix(1);
+    }
+    while (!v.empty() && std::isspace(static_cast<unsigned char>(v.back())) != 0) {
+        v.remove_suffix(1);
+    }
+    return v;
+}
+
+[[nodiscard]] static bool starts_with_ci(
+    const std::string_view text,
+    const std::string_view prefix
+) noexcept {
+    if (text.size() < prefix.size()) {
+        return false;
+    }
+    for (size_t i = 0; i < prefix.size(); ++i) {
+        if (std::tolower(static_cast<unsigned char>(text[i])) !=
+            std::tolower(static_cast<unsigned char>(prefix[i]))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+[[nodiscard]] static std::optional<size_t> find_keyword_ci(
+    const std::string_view text,
+    const std::string_view keyword
+) noexcept {
+    if (keyword.empty() || text.size() < keyword.size()) {
+        return std::nullopt;
+    }
+
+    for (size_t pos = 0; pos + keyword.size() <= text.size(); ++pos) {
+        bool match = true;
+        for (size_t i = 0; i < keyword.size(); ++i) {
+            if (std::tolower(static_cast<unsigned char>(text[pos + i])) !=
+                std::tolower(static_cast<unsigned char>(keyword[i]))) {
+                match = false;
+                break;
+            }
+        }
+        if (!match) {
+            continue;
+        }
+
+        const bool left_ok =
+            (pos == 0) || !std::isalnum(static_cast<unsigned char>(text[pos - 1]));
+        const bool right_ok =
+            (pos + keyword.size() == text.size()) ||
+            !std::isalnum(static_cast<unsigned char>(text[pos + keyword.size()]));
+
+        if (left_ok && right_ok) {
+            return pos;
+        }
+    }
+
+    return std::nullopt;
+}
+
+[[nodiscard]] static std::optional<std::string> parse_identifier_after_keyword(
+    const std::string_view text,
+    const std::string_view keyword
+) {
+    const auto keyword_pos = find_keyword_ci(text, keyword);
+    if (!keyword_pos.has_value()) {
+        return std::nullopt;
+    }
+
+    size_t pos = *keyword_pos + keyword.size();
+    while (pos < text.size() && std::isspace(static_cast<unsigned char>(text[pos])) != 0) {
+        ++pos;
+    }
+    if (pos >= text.size()) {
+        return std::nullopt;
+    }
+
+    if (text[pos] == '`' || text[pos] == '"') {
+        const char quote = text[pos++];
+        const size_t start = pos;
+        while (pos < text.size() && text[pos] != quote) {
+            ++pos;
+        }
+        if (pos > start) {
+            return std::string(text.substr(start, pos - start));
+        }
+        return std::nullopt;
+    }
+
+    const size_t start = pos;
+    while (pos < text.size() && is_ident_char(text[pos])) {
+        ++pos;
+    }
+    if (pos == start) {
+        return std::nullopt;
+    }
+    return std::string(text.substr(start, pos - start));
+}
+
+[[nodiscard]] static std::optional<std::string> extract_relational_source(
+    const std::string& query
+) {
+    const std::string_view trimmed = trim_view(query);
+    if (trimmed.empty()) {
+        return std::nullopt;
+    }
+
+    if (starts_with_ci(trimmed, "select")) {
+        return parse_identifier_after_keyword(trimmed, "from");
+    }
+    if (starts_with_ci(trimmed, "for")) {
+        return parse_identifier_after_keyword(trimmed, "in");
+    }
+    return std::nullopt;
+}
 } // namespace
 
 // ---------------------------------------------------------------------------
@@ -182,7 +307,18 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
     // In-memory simulation: scan the matching table store and return all rows.
     RelationalTable table;
     std::unique_lock<std::mutex> lock(store_mutex_);
-    auto it = table_store_.find(query); // treat query as a table name for simple scans
+
+    // Backward compatible direct-lookup path: historical tests pass table names
+    // directly as "query" in simulation mode.
+    auto it = table_store_.find(query);
+    if (it == table_store_.end()) {
+        // Support simple SQL/AQL table-source extraction in simulation mode,
+        // e.g. "SELECT * FROM users" and "FOR doc IN users RETURN doc".
+        if (const auto source = extract_relational_source(query); source.has_value()) {
+            it = table_store_.find(*source);
+        }
+    }
+
     if (it != table_store_.end()) {
         for (const auto& row : it->second) {
             for (const auto& [col, _val] : row.columns) {

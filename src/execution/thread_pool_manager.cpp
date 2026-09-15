@@ -126,12 +126,17 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
 
         if (!got) {
             // Wait for dispatch_cv_ notification.
-            std::unique_lock<std::mutex> lk(dispatch_mutex_);
-            dispatch_cv_.wait_for(lk, idle_timeout, [this] {
-                return !dispatch_queue_.empty() ||
-                       shutdown_.load(std::memory_order_relaxed);
-            });
-            lk.unlock();
+            {
+                std::unique_lock<std::mutex> lk(dispatch_mutex_);
+                dispatch_cv_.wait_for(lk, idle_timeout, [this] {
+                    return !dispatch_queue_.empty() ||
+                           shutdown_.load(std::memory_order_relaxed);
+                });
+            }
+
+            // tryGetWork() acquires dispatch_mutex_ internally. Calling it while
+            // still holding the lock would recurse on std::mutex and can abort
+            // shutdown when workers are woken during pool teardown.
             got = tryGetWork(thread_idx, work);
         }
 

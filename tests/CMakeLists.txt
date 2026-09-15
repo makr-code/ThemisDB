@@ -6582,9 +6582,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampling/test_sampling_strategy.cpp")
 endif()
 
 # Phase 3 - Audit Logger production tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_logger_production.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
     message(STATUS "Adding Audit Logger production tests (Phase 3)")
-    add_executable(test_audit_logger_production audit/test_audit_logger_production.cpp)
+    add_executable(test_audit_logger_production test_audit_logger_production.cpp)
     target_link_libraries(test_audit_logger_production PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -6598,6 +6598,30 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_logger_production.cpp")
         TIMEOUT 60
     )
     message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
+endif()
+
+# Wave C - Audit production-backed integrity/export focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_wavec_integrity_export_focused.cpp")
+    message(STATUS "Adding Wave-C audit production-backed focused tests")
+    add_executable(test_audit_wavec_integrity_export_focused
+        audit/test_audit_wavec_integrity_export_focused.cpp
+    )
+    target_link_libraries(test_audit_wavec_integrity_export_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_audit_wavec_integrity_export_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME AuditWaveCIntegrityExportFocusedTests
+        COMMAND test_audit_wavec_integrity_export_focused)
+    set_tests_properties(AuditWaveCIntegrityExportFocusedTests PROPERTIES
+        LABELS "utils;audit;wave-c;integrity;export;focused"
+        TIMEOUT 120
+    )
+    message(STATUS "  Audit Wave-C: production-backed integrity, persistence, export, recovery")
 endif()
 
 # Phase 3 - Governance policy hot-reload tests (Issue: #1774)

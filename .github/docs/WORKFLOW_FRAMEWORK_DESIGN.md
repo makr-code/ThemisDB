@@ -61,13 +61,13 @@ Der Repository-Standard fuer Issue-/Status-Tracking ist jetzt die gemeinsame Com
 ### 2.5.2 Migrationsstatus der Workflow-Landschaft
 - Migrated: Build, LLM, supply-chain, CI health, maintenance issues, security pentest, governance gates
 - Aktiv und zentralisiert: [.github/workflows/reusable-status-flags-and-issues.yml](.github/workflows/reusable-status-flags-and-issues.yml)
-- Milestone-Governance ist zentralisiert ueber [.github/workflows/maintenance-milestones.yml](.github/workflows/maintenance-milestones.yml) + [.github/milestones.yml](.github/milestones.yml).
+- Milestone-Governance ist zentralisiert ueber [.github/workflows/maintenance-housekeeping.yml](.github/workflows/maintenance-housekeeping.yml) + [.github/milestones.yml](.github/milestones.yml).
 - Teilweise bewusst ausserhalb der Status-Schnittstelle bleiben PR-review, semantisches AI-Labeling, Release-Flow und Label-Sync, da sie keine trackerbasierte Status-API-Semantik abbilden.
 
 ### 2.5.3 Standardregel
 Alle GitHub-Issue-/Label-Aktionen, die einen Tracker-State modellieren, muessen via der shared interface laufen.
 Workflow-spezifische Automationen, die keine Tracker-Status semantisch abbilden (z. B. Review-Request oder AI-Semantic-Labeling), duerfen weiterhin direkt im Workflow bleiben.
-Milestones sind kein ad-hoc Sonderfall mehr, sondern folgen der kanonischen Automation ueber `maintenance-milestones.yml`.
+Milestones sind kein ad-hoc Sonderfall mehr, sondern folgen der kanonischen Automation ueber `maintenance-housekeeping.yml`.
 
 ### 2.5.4 Fehler-Kommentar-Model
 Die gemeinsame Schnittstelle ist auch fuer Fehlerberichte in PRs und Issues vorgesehen. Ein Job darf ein Fehler-Update nur dann direkt per `github.rest.issues.createComment` schreiben, wenn es nicht als trackerbasierte Status- oder Governance-Aktion modelliert ist. Der Standardpfad fuer CI-/Security-/Build-Fehler ist:

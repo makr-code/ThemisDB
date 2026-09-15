@@ -25,6 +25,13 @@ Describe your preferred solution or API design, if you have one.
 
 List any alternative approaches you have considered and why they were rejected.
 
+## Target Version / Milestone
+
+<!-- Optional but recommended for immediate milestone assignment on issue creation.
+     Examples: v2.5.0-alpha1, Q4 2026, Documentation, LONG-TERM, Backlog -->
+
+**Target Version:**
+
 ## Acceptance Criteria
 
 <!-- Add task-list items below. The Copilot dispatcher extracts these as the

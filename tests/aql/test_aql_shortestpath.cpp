@@ -2,8 +2,6 @@
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
-#include <exception>
-#include <iostream>
 #include <thread>
 #include <chrono>
 #include <filesystem>
@@ -25,27 +23,6 @@ using tcp = net::ip::tcp;
 
 class HttpAqlShortestPathTest : public ::testing::Test {
 protected:
-    static void installTerminateHook() {
-        previous_terminate_handler_ = std::set_terminate([]() {
-            std::cerr << "[HttpAqlShortestPathTest] std::terminate invoked";
-            if (auto current = std::current_exception()) {
-                try {
-                    std::rethrow_exception(current);
-                } catch (const std::exception& ex) {
-                    std::cerr << ": " << ex.what();
-                } catch (...) {
-                    std::cerr << ": non-std exception";
-                }
-            }
-            std::cerr << std::endl;
-            std::abort();
-        });
-    }
-
-    static void restoreTerminateHook() {
-        std::set_terminate(previous_terminate_handler_);
-    }
-
     static std::filesystem::path findRepoRootWithSchemas() {
         std::error_code ec = {};
         auto base = std::filesystem::current_path(ec);
@@ -95,7 +72,6 @@ protected:
     }
 
     void SetUp() override {
-        installTerminateHook();
         std::error_code ec = {};
         original_cwd_ = std::filesystem::current_path(ec);
         const auto repo_root = findRepoRootWithSchemas();
@@ -157,8 +133,6 @@ protected:
             std::error_code ec = {};
             std::filesystem::current_path(original_cwd_, ec);
         }
-
-        restoreTerminateHook();
     }
 
     void setupGraph() {
@@ -213,7 +187,6 @@ protected:
     std::shared_ptr<themis::VectorIndexManager> vector_index_;
     std::shared_ptr<themis::TransactionManager> tx_manager_;
 
-    inline static std::terminate_handler previous_terminate_handler_ = nullptr;
 };
 
 TEST_F(HttpAqlShortestPathTest, ShortestPath_ReturnsVerticesAndCost) {

@@ -10,7 +10,7 @@
 This document defines the governance for automatic PR labeling and milestone assignment in ThemisDB. The system uses three complementary labeling mechanisms to ensure comprehensive PR classification:
 
 1. **Path-based labeling** (`.github/labeler.yml`) — automatic label application based on changed files
-2. **Milestone assignment** (`maintenance-milestones.yml`) — automatic milestone sync + assignment based on labels and Target Version
+2. **Milestone assignment** (`maintenance-housekeeping.yml`) — automatic milestone sync + assignment based on labels and explicit target fields
 3. **AI semantic labeling** (optional, `automation-community.yml`) — semantic analysis of PR title/body
 
 ## Label Taxonomy
@@ -93,7 +93,7 @@ Labels indicating release or quality status.
 
 ### Automatic Milestone Logic
 
-The `assign-milestone` job in `maintenance-milestones.yml` automatically assigns milestones based on label rules and optional Target Version override:
+The `assign-milestone` job in `maintenance-housekeeping.yml` automatically assigns milestones on issue/PR open, edit, reopen, sync, and label changes based on explicit target fields, then the root `VERSION` file, then label rules:
 
 1. **Hot patch labels** (`hot-patch`, `priority:critical`, `severity:critical`, etc.) → `HOTPATCH`
 2. **Long-term labels** (`long-term`, `roadmap/long-term`, etc.) → `LONG-TERM`
@@ -101,9 +101,10 @@ The `assign-milestone` job in `maintenance-milestones.yml` automatically assigns
 4. **Wave A/B/C labels** (`wave:A`, `wave:B`, `wave:C`) → `Q4 2026`
 5. **Documentation labels** (`type:documentation`, `docs`) → `Documentation`
 6. **Explicit backlog label** (`backlog`) → `Backlog`
-7. **Fallback** → default milestone from `.github/milestones.yml`
+7. **Fallback 1** → parsed root `VERSION` file (`v` + VERSION content when needed)
+8. **Fallback 2** → default milestone from `.github/milestones.yml`
 
-If a PR includes `Target Version` in the body, that value can override label mapping (`allow_target_version_override`).
+If an issue or PR includes `Target Version` / `Target Milestone` in the body, that value overrides all fallback logic (`allow_target_version_override`). Without an explicit target field, automation next derives a version milestone from the repository root `VERSION` file before consulting label-based routing.
 
 ### Valid Milestones
 
@@ -152,8 +153,8 @@ Detected classifications are converted to labels and merged with existing labels
 
 ### Milestone Assignment
 
-- Triggered on `issues` and `pull_request_target` events (`opened`, `labeled`, `unlabeled`, `edited`, etc.)
-- Configuration: `.github/workflows/maintenance-milestones.yml` + `.github/milestones.yml`
+- Triggered on `issues` and `pull_request_target` events (`opened`, `edited`, `reopened`, `synchronize`, `ready_for_review`, label changes)
+- Configuration: `.github/workflows/maintenance-housekeeping.yml` + `.github/milestones.yml`
 - Permissions: `issues:write`, `pull-requests:write`, `contents:read`
 - Supports hot-patch and long-term lanes out of the box
 
@@ -263,7 +264,7 @@ Expected milestone: Q4 2026
 4. PR is targeting a non-develop branch (conditional logic may exclude it)
 
 **Resolution:**
-- Check `.github/workflows/maintenance-milestones.yml` run logs for rule resolution and API results
+- Check `.github/workflows/maintenance-housekeeping.yml` run logs for explicit-target parsing, rule resolution, and API results
 - Verify labels on the issue/PR and the configured `assignment_rules` in `.github/milestones.yml`
 - Verify `allow_target_version_override` and `auto_create_missing_milestones` settings
 

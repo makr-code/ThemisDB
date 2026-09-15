@@ -27,6 +27,11 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/voice/voice_audit_logger.cpp
             ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
         )
+    elseif(_stem STREQUAL "test_voice_session_chaos_isolation")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/voice/voice_stream_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_liveness_checker.cpp
+        )
     elseif(_stem STREQUAL "test_voice_adversarial")
         set(_extra_sources
             ${THEMIS_ROOT_DIR}/tests/utils/fault_injector.cpp

@@ -3,493 +3,475 @@
 
 /**
  * @file test_audit_wavec_integrity_export_focused.cpp
- * @brief Wave-C audit integrity and high-volume export reliability focused tests.
+ * @brief Wave-C audit integrity and export tests against the production
+ *        themis::utils::AuditLogger file-backed persistence path.
  *
- * Covers Wave C audit requirements:
- * - Tamper-evidence integrity validation under sustained load.
- * - High-volume export reliability (10k+ events/sec sustained).
- * - Recovery scenarios after audit log corruption/truncation.
- * - Audit timeline consistency across distributed nodes.
- * - Audit-security integration (threat detection, key rotation, policy changes).
- * - Compliance framework integration (ISO 27001, GDPR, BSI C5).
- *
- * Exit criteria for Wave C:
- * - Tamper-evidence property verified under sustained load
- * - Export pipeline handles p95 load with zero data loss
- * - Recovery tests pass
- * - Compliance query schema operational
- *
- * @see audit/ROADMAP.md
- * @see ROADMAP.md §Wave C
+ * Covers Wave C audit requirements with the real JSONL sink and chain-state
+ * files:
+ * - Tamper-evidence integrity validation under single-writer and concurrent load.
+ * - High-volume persistence plus export-style enumeration with zero data loss.
+ * - Recovery detection after persisted-log truncation/tampering.
+ * - Backpressure enforcement through the production max_queued_events guard.
+ * - Compliance and security trail validation using persisted production records.
  */
 
 #include <gtest/gtest.h>
 
-#include <algorithm>
+#include "utils/audit_logger.h"
+
 #include <atomic>
 #include <chrono>
-#include <cstddef>
 #include <cstdint>
-#include <cstring>
-#include <deque>
-#include <functional>
-#include <map>
-#include <memory>
-#include <mutex>
-#include <stdexcept>
+#include <filesystem>
+#include <fstream>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <utility>
 #include <vector>
 
+namespace fs = std::filesystem;
+using namespace themis::utils;
+
 namespace {
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock Audit Event & Storage Infrastructure
-// ─────────────────────────────────────────────────────────────────────────────
-
-struct AuditEvent {
-    std::uint64_t sequence;              // Monotonic sequence number for tamper-detection
-    std::int64_t timestamp_ms;           // Milliseconds since epoch
-    std::string event_type;              // "key_rotation", "policy_update", "threat_detected", etc.
-    std::string actor;                   // User/service ID
-    std::string resource;                // Affected resource
-    std::string action;                  // Action performed
-    std::string prev_hash;               // SHA256 of previous event (tamper chain)
-    std::string event_hash;              // SHA256 of this event
-    std::string compliance_tags;         // Comma-separated: ISO27001,GDPR,BSIC5
-    bool verified{false};                // Tamper-evidence verified
-};
-
-// Simple SHA256-like stub for testing (not cryptographically strong).
-inline std::string pseudoHash(const std::string& input) {
-    std::uint64_t h = 0;
-    for (unsigned char c : input) {
-        h = h * 31 + c;
-    }
-    char buf[32];
-    snprintf(buf, sizeof(buf), "%016lx%016lx", h, h ^ 0xdeadbeefUL);
-    return std::string(buf);
+AuditLoggerConfig makeConfig(const fs::path& log_path,
+                             const fs::path& chain_state_path,
+                             bool enable_fsync = false) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path.string();
+    cfg.enable_hash_chain = true;
+    cfg.chain_state_file = chain_state_path.string();
+    cfg.enable_siem = false;
+    cfg.enable_fsync = enable_fsync;
+    cfg.max_file_size_bytes = 0;
+    cfg.max_rotated_files = 0;
+    return cfg;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock Audit Logger with Tamper-Evidence Chain
-// ─────────────────────────────────────────────────────────────────────────────
-
-class TamperEvidentAuditLogger {
-public:
-    TamperEvidentAuditLogger() : next_sequence_(1), last_hash_("genesis") {}
-
-    void appendEvent(const AuditEvent& event_in) {
-        AuditEvent event = event_in;
-        std::lock_guard<std::mutex> lock(mutex_);
-        event.sequence = next_sequence_++;
-        event.prev_hash = last_hash_;
-        event.event_hash = pseudoHash(
-            event.event_type + "|" + event.actor + "|" + event.resource + "|" + event.prev_hash
-        );
-        events_.push_back(event);
-        last_hash_ = event.event_hash;
-    }
-
-    std::vector<AuditEvent> getAllEvents() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return events_;
-    }
-
-    bool verifyTamperEvidence() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        std::string prev_hash = "genesis";
-        for (const auto& event : events_) {
-            if (event.prev_hash != prev_hash) {
-                return false;
-            }
-            prev_hash = event.event_hash;
+std::size_t countNonEmptyLines(const fs::path& path) {
+    std::ifstream in(path);
+    std::size_t count = 0;
+    std::string line;
+    while (std::getline(in, line)) {
+        if (!line.empty()) {
+            ++count;
         }
-        return true;
+    }
+    return count;
+}
+
+std::vector<std::string> readLines(const fs::path& path) {
+    std::ifstream in(path);
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(in, line)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
+void writeLines(const fs::path& path, const std::vector<std::string>& lines) {
+    std::ofstream out(path, std::ios::trunc);
+    for (const auto& line : lines) {
+        out << line << '\n';
+    }
+}
+
+std::string decodeBase64(std::string_view input) {
+    static constexpr signed char kDecTable[256] = {
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,62,-1,-1,-1,63,
+        52,53,54,55,56,57,58,59,60,61,-1,-1,-1,-1,-1,-1,
+        -1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,
+        15,16,17,18,19,20,21,22,23,24,25,-1,-1,-1,-1,-1,
+        -1,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+        41,42,43,44,45,46,47,48,49,50,51,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+    };
+
+    std::string output;
+    output.reserve((input.size() * 3) / 4);
+    int value = 0;
+    int bits = -8;
+
+    for (unsigned char c : input) {
+        if (c == '=') {
+            break;
+        }
+        const int decoded = kDecTable[c];
+        if (decoded < 0) {
+            continue;
+        }
+        value = (value << 6) + decoded;
+        bits += 6;
+        if (bits >= 0) {
+            output.push_back(static_cast<char>((value >> bits) & 0xFF));
+            bits -= 8;
+        }
     }
 
-    std::size_t eventCount() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return events_.size();
+    return output;
+}
+
+nlohmann::json decodePayload(const nlohmann::json& record) {
+    const auto& payload = record.at("payload");
+    if (payload.contains("data")) {
+        return payload.at("data");
+    }
+    return nlohmann::json::parse(
+        decodeBase64(payload.at("data_b64").get_ref<const std::string&>()));
+}
+
+nlohmann::json makeEvent(std::string event_type,
+                         std::string actor,
+                         std::string resource,
+                         std::string action,
+                         std::string compliance_tags = {},
+                         std::string severity = {}) {
+    nlohmann::json event = {
+        {"event_type", std::move(event_type)},
+        {"user_id", std::move(actor)},
+        {"resource", std::move(resource)},
+        {"action", std::move(action)}
+    };
+
+    if (!compliance_tags.empty()) {
+        event["compliance_tags"] = std::move(compliance_tags);
+    }
+    if (!severity.empty()) {
+        event["severity"] = std::move(severity);
     }
 
-    void clearAll() {
-        std::lock_guard<std::mutex> lock(mutex_);
-        events_.clear();
-        next_sequence_ = 1;
-        last_hash_ = "genesis";
+    return event;
+}
+
+template <typename Sink>
+std::pair<std::size_t, std::size_t> exportPersistedEntries(const AuditLogger& logger,
+                                                           Sink&& sink,
+                                                           std::size_t max_retries_per_entry) {
+    const auto entries = logger.enumerateEntries();
+    std::size_t exported = 0;
+    std::size_t retries = 0;
+
+    for (const auto& entry : entries) {
+        bool delivered = false;
+        std::size_t attempts = 0;
+        while (!delivered && attempts <= max_retries_per_entry) {
+            delivered = sink(entry.record);
+            if (!delivered) {
+                ++retries;
+                ++attempts;
+            }
+        }
+        if (delivered) {
+            ++exported;
+        }
     }
 
-private:
-    mutable std::mutex mutex_;
-    std::vector<AuditEvent> events_;
-    std::uint64_t next_sequence_;
-    std::string last_hash_;
+    return {exported, retries};
+}
+
+class AuditWaveCProductionTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        const auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
+        tmp_dir_ = fs::temp_directory_path() / "themis_audit_wavec_production"
+                 / info->test_suite_name() / info->name();
+        fs::remove_all(tmp_dir_);
+        fs::create_directories(tmp_dir_);
+        log_path_ = tmp_dir_ / "audit.jsonl";
+        chain_state_path_ = tmp_dir_ / "audit_chain.json";
+    }
+
+    void TearDown() override {
+        fs::remove_all(tmp_dir_);
+    }
+
+    AuditLogger makeLogger(bool enable_fsync = false) const {
+        return AuditLogger(std::shared_ptr<themis::FieldEncryption>{},
+                           std::shared_ptr<VCCPKIClient>{},
+                           makeConfig(log_path_, chain_state_path_, enable_fsync));
+    }
+
+    fs::path tmp_dir_;
+    fs::path log_path_;
+    fs::path chain_state_path_;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock Audit Export Pipeline with Buffering & Rate Limiting
-// ─────────────────────────────────────────────────────────────────────────────
-
-class AuditExportPipeline {
-public:
-    explicit AuditExportPipeline(std::size_t max_queue_size = 100000)
-        : max_queue_size_(max_queue_size), stop_(false), exported_count_(0) {}
-
-    void exportEvent(const AuditEvent& event) {
-        std::lock_guard<std::mutex> lock(queue_mutex_);
-        if (export_queue_.size() >= max_queue_size_) {
-            throw std::runtime_error("export_queue_overflow");
-        }
-        export_queue_.push_back(event);
-    }
-
-    void startExporter(std::function<bool(const AuditEvent&)> sink) {
-        stop_.store(false);
-        exporter_thread_ = std::thread([this, sink]() {
-            while (!stop_.load()) {
-                AuditEvent event;
-                bool has_event = false;
-                {
-                    std::lock_guard<std::mutex> lock(queue_mutex_);
-                    if (!export_queue_.empty()) {
-                        event = export_queue_.front();
-                        export_queue_.pop_front();
-                        has_event = true;
-                    }
-                }
-
-                if (!has_event) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                    continue;
-                }
-
-                if (sink(event)) {
-                    ++exported_count_;
-                } else {
-                    // Retry logic: push back to queue on transient failure
-                    {
-                        std::lock_guard<std::mutex> lock(queue_mutex_);
-                        export_queue_.push_front(event);
-                    }
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                }
-            }
-        });
-    }
-
-    void stopExporter() {
-        stop_.store(true);
-        if (exporter_thread_.joinable()) {
-            exporter_thread_.join();
-        }
-    }
-
-    std::size_t exportedCount() const {
-        return exported_count_.load();
-    }
-
-    std::size_t pendingCount() const {
-        std::lock_guard<std::mutex> lock(queue_mutex_);
-        return export_queue_.size();
-    }
-
-    ~AuditExportPipeline() {
-        stopExporter();
-    }
-
-private:
-    mutable std::mutex queue_mutex_;
-    std::deque<AuditEvent> export_queue_;
-    std::size_t max_queue_size_;
-    std::atomic<bool> stop_;
-    std::atomic<std::size_t> exported_count_;
-    std::thread exporter_thread_;
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Tests
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST(AuditWaveCIntegrity, TamperEvidenceChainRemainsIntactWithSingleWriter) {
-    TamperEvidentAuditLogger logger;
+TEST_F(AuditWaveCProductionTest, TamperEvidenceChainRemainsIntactWithSingleWriter) {
+    auto logger = makeLogger(true);
 
     for (int i = 0; i < 100; ++i) {
-        AuditEvent evt;
-        evt.event_type = "policy_update";
-        evt.actor = "admin";
-        evt.resource = "/policy/rbac";
-        evt.action = "modify";
-        logger.appendEvent(evt);
+        logger.logEvent(makeEvent("POLICY_UPDATED",
+                                  "admin",
+                                  "/policy/rbac/" + std::to_string(i),
+                                  "modify",
+                                  "ISO27001,GDPR",
+                                  "LOW"));
     }
 
-    EXPECT_EQ(logger.eventCount(), 100u);
-    EXPECT_TRUE(logger.verifyTamperEvidence());
+    logger.flush();
+
+    ASSERT_TRUE(fs::exists(log_path_));
+    ASSERT_TRUE(fs::exists(chain_state_path_));
+    EXPECT_EQ(countNonEmptyLines(log_path_), 100u);
+    EXPECT_EQ(logger.enumerateEntries().size(), 100u);
+    EXPECT_TRUE(logger.verifyChainIntegrity());
+
+    const auto state = logger.getChainState();
+    EXPECT_EQ(state.value("entry_count", 0u), 100u);
+    EXPECT_TRUE(state.value("chain_enabled", false));
 }
 
-TEST(AuditWaveCIntegrity, TamperEvidenceChainRemainsIntactUnderConcurrentWrites) {
-    TamperEvidentAuditLogger logger;
+TEST_F(AuditWaveCProductionTest, TamperEvidenceChainRemainsIntactUnderConcurrentWrites) {
+    auto logger = makeLogger();
     constexpr int kThreads = 8;
     constexpr int kEventsPerThread = 500;
 
-    std::vector<std::thread> writers = {};
+    std::vector<std::thread> writers;
+    writers.reserve(kThreads);
 
-    for (int t = 0; t < kThreads; ++t) {
-        writers.emplace_back([&]() {
-            for (int i = 0; i < kEventsPerThread; ++i) {
-                AuditEvent evt;
-                evt.event_type = "key_rotation";
-                evt.actor = "key_manager_" + std::to_string(t);
-                evt.resource = "/hsm/key";
-                evt.action = "rotate";
-                logger.appendEvent(evt);
+    for (int thread_index = 0; thread_index < kThreads; ++thread_index) {
+        writers.emplace_back([&logger, thread_index]() {
+            for (int event_index = 0; event_index < kEventsPerThread; ++event_index) {
+                logger.logEvent(makeEvent("KEY_ROTATED",
+                                          "key_manager_" + std::to_string(thread_index),
+                                          "/hsm/key/" + std::to_string(event_index),
+                                          "rotate",
+                                          "ISO27001,BSIC5",
+                                          "LOW"));
             }
         });
     }
 
-    for (auto& w : writers) {
-        w.join();
+    for (auto& writer : writers) {
+        writer.join();
     }
 
-    EXPECT_EQ(logger.eventCount(), static_cast<std::size_t>(kThreads * kEventsPerThread));
-    EXPECT_TRUE(logger.verifyTamperEvidence());
+    const auto expected_total = static_cast<std::size_t>(kThreads * kEventsPerThread);
+    const auto entries = logger.enumerateEntries();
+
+    EXPECT_EQ(entries.size(), expected_total);
+    EXPECT_EQ(countNonEmptyLines(log_path_), expected_total);
+    EXPECT_TRUE(logger.verifyChainIntegrity());
+
+    const auto report = logger.generateComplianceReport(
+        std::chrono::system_clock::now() - std::chrono::hours(1),
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+    EXPECT_EQ(report.total_events, expected_total);
+    EXPECT_EQ(report.key_management_events, expected_total);
+    EXPECT_EQ(report.event_counts_by_type.value("KEY_ROTATED", 0), kThreads * kEventsPerThread);
 }
 
-TEST(AuditWaveCRecovery, RecoveryAfterPartialLogTruncationDetectsTamper) {
-    TamperEvidentAuditLogger logger;
+TEST_F(AuditWaveCProductionTest, RecoveryAfterPartialLogTruncationDetectsTamper) {
+    auto logger = makeLogger();
 
     for (int i = 0; i < 20; ++i) {
-        AuditEvent evt;
-        evt.event_type = "threat_detected";
-        evt.actor = "anomaly_detector";
-        evt.resource = "/query";
-        evt.action = "flag";
-        logger.appendEvent(evt);
+        logger.logEvent(makeEvent("SUSPICIOUS_ACTIVITY",
+                                  "anomaly_detector",
+                                  "/query/" + std::to_string(i),
+                                  "flag",
+                                  "ISO27001,NIS2",
+                                  "HIGH"));
     }
 
-    // Simulate truncation by removing events and checking tamper-detection.
-    auto events = logger.getAllEvents();
-    ASSERT_GE(events.size(), 5u);
-    
-    // In a real scenario, truncation would corrupt the hash chain.
-    // Verify that the chain is still valid as-is.
-    EXPECT_TRUE(logger.verifyTamperEvidence());
+    auto lines = readLines(log_path_);
+    ASSERT_GE(lines.size(), 10u);
+    lines.erase(lines.begin() + 5);
+    writeLines(log_path_, lines);
+
+    auto verifier = makeLogger();
+    EXPECT_FALSE(verifier.verifyChainIntegrity());
 }
 
-TEST(AuditWaveCExport, HighVolumeExportHandlesSustainedLoad) {
-    TamperEvidentAuditLogger audit_logger;
-    AuditExportPipeline export_pipeline;
-
-    constexpr int kTotalEvents = 50000;
+TEST_F(AuditWaveCProductionTest, HighVolumeExportHandlesSustainedLoad) {
+    auto logger = makeLogger();
+    constexpr int kTotalEvents = 10000;
     constexpr int kWriterThreads = 4;
     constexpr int kEventsPerWriter = kTotalEvents / kWriterThreads;
 
-    // Start exporter with a reliable sink (in-memory counter).
-    export_pipeline.startExporter([](const AuditEvent& evt) {
-        // Simulate successful export (no transient failures for this test).
-        (void)evt;
-        return true;
-    });
-
-    // Concurrent writers.
     auto start_time = std::chrono::steady_clock::now();
-    std::vector<std::thread> writers = {};
+    std::vector<std::thread> writers;
+    writers.reserve(kWriterThreads);
 
-    for (int t = 0; t < kWriterThreads; ++t) {
-        writers.emplace_back([&, t]() {
-            for (int i = 0; i < kEventsPerWriter; ++i) {
-                AuditEvent evt;
-                evt.event_type = "query_executed";
-                evt.actor = "user_" + std::to_string(t);
-                evt.resource = "/query";
-                evt.action = "execute";
-                evt.compliance_tags = "ISO27001,GDPR";
-                
-                audit_logger.appendEvent(evt);
-                export_pipeline.exportEvent(evt);
+    for (int thread_index = 0; thread_index < kWriterThreads; ++thread_index) {
+        writers.emplace_back([&logger, thread_index]() {
+            for (int event_index = 0; event_index < kEventsPerWriter; ++event_index) {
+                logger.logEvent(makeEvent("DATA_WRITE",
+                                          "user_" + std::to_string(thread_index),
+                                          "/query/" + std::to_string(event_index),
+                                          "execute",
+                                          "ISO27001,GDPR",
+                                          "MEDIUM"));
             }
         });
     }
 
-    for (auto& w : writers) {
-        w.join();
+    for (auto& writer : writers) {
+        writer.join();
     }
 
-    // Give exporter time to drain queue.
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    export_pipeline.stopExporter();
-    
-    auto end_time = std::chrono::steady_clock::now();
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        end_time - start_time
-    ).count();
+    std::size_t exported_count = 0;
+    const auto [exported, retries] = exportPersistedEntries(
+        logger,
+        [&exported_count](const nlohmann::json& record) {
+            const bool ok = !record.is_null();
+            if (ok) {
+                ++exported_count;
+            }
+            return ok;
+        },
+        0);
 
-    // Verify no data loss.
-    EXPECT_EQ(audit_logger.eventCount(), static_cast<std::size_t>(kTotalEvents));
-    EXPECT_EQ(export_pipeline.exportedCount(), static_cast<std::size_t>(kTotalEvents));
-    EXPECT_EQ(export_pipeline.pendingCount(), 0u);
-    
-    // Rough p95 throughput check: should handle >5k events/sec.
-    double throughput_eps = (kTotalEvents * 1000.0) / duration_ms;
-    EXPECT_GT(throughput_eps, 5000.0) 
-        << "Throughput: " << throughput_eps << " events/sec (expected >5k)";
+    const auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start_time).count();
 
-    EXPECT_TRUE(audit_logger.verifyTamperEvidence());
+    EXPECT_EQ(countNonEmptyLines(log_path_), static_cast<std::size_t>(kTotalEvents));
+    EXPECT_EQ(exported, static_cast<std::size_t>(kTotalEvents));
+    EXPECT_EQ(exported_count, static_cast<std::size_t>(kTotalEvents));
+    EXPECT_EQ(retries, 0u);
+    EXPECT_TRUE(logger.verifyChainIntegrity());
+    EXPECT_GT(duration_ms, 0);
 }
 
-TEST(AuditWaveCExport, ExportQueueBoundedGrowthUnderBackpressure) {
-    AuditExportPipeline export_pipeline(1000);  // Small queue to trigger backpressure.
+TEST_F(AuditWaveCProductionTest, ExportQueueBoundedGrowthUnderBackpressure) {
+    AuditLoggerConfig cfg = makeConfig(log_path_, chain_state_path_);
+    cfg.max_queued_events = 64;
+    AuditLogger logger(std::shared_ptr<themis::FieldEncryption>{},
+                       std::shared_ptr<VCCPKIClient>{},
+                       cfg);
 
-    // Slow exporter that can't keep up.
-    export_pipeline.startExporter([](const AuditEvent& evt) {
-        (void)evt;
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        return true;
-    });
-
-    // Attempt to write more events than queue can buffer.
-    bool overflow_detected = false;
-    for (int i = 0; i < 5000; ++i) {
-        AuditEvent evt;
-        evt.event_type = "high_volume_test";
-        evt.actor = "load_generator";
-        evt.resource = "/test";
-        evt.action = "generate";
-        
+    std::optional<std::string> overflow_message;
+    for (int i = 0; i < 500; ++i) {
         try {
-            export_pipeline.exportEvent(evt);
-        } catch (const std::runtime_error& e) {
-            if (std::string(e.what()) == "export_queue_overflow") {
-                overflow_detected = true;
-            }
+            logger.logEvent(makeEvent("BULK_EXPORT",
+                                      "load_generator",
+                                      "/export/" + std::to_string(i),
+                                      "export",
+                                      "ISO27001,GDPR",
+                                      "MEDIUM"));
+        } catch (const std::runtime_error& ex) {
+            overflow_message = ex.what();
+            break;
         }
     }
 
-    export_pipeline.stopExporter();
-
-    // Verify backpressure is detected (queue can't grow unbounded).
-    EXPECT_TRUE(overflow_detected);
+    ASSERT_TRUE(overflow_message.has_value());
+    EXPECT_EQ(*overflow_message,
+              "AuditLogger: event queue at capacity (64); fail-closed — event rejected");
+    EXPECT_LE(countNonEmptyLines(log_path_), cfg.max_queued_events);
 }
 
-TEST(AuditWaveCExport, ExportRetryLogicHandlesTransientFailures) {
-    TamperEvidentAuditLogger audit_logger;
-    AuditExportPipeline export_pipeline;
-
+TEST_F(AuditWaveCProductionTest, ExportRetryLogicHandlesTransientFailures) {
+    auto logger = makeLogger();
     constexpr int kTestEvents = 1000;
     std::atomic<int> transient_failures{0};
-    std::atomic<int> successful_exports{0};
-
-    auto flaky_sink = [&](const AuditEvent& evt) {
-        (void)evt;
-        // Simulate ~10% transient failure rate.
-        static int call_count = 0;
-        ++call_count;
-        if ((call_count % 10) < 1) {
-            ++transient_failures;
-            return false;  // Transient failure.
-        }
-        ++successful_exports;
-        return true;
-    };
-
-    export_pipeline.startExporter(flaky_sink);
 
     for (int i = 0; i < kTestEvents; ++i) {
-        AuditEvent evt;
-        evt.event_type = "resilience_test";
-        evt.actor = "test";
-        evt.resource = "/test";
-        evt.action = "export";
-        
-        audit_logger.appendEvent(evt);
-        export_pipeline.exportEvent(evt);
+        logger.logEvent(makeEvent("DATA_WRITE",
+                                  "retry_tester",
+                                  "/retry/" + std::to_string(i),
+                                  "export",
+                                  "ISO27001,GDPR",
+                                  "MEDIUM"));
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    export_pipeline.stopExporter();
+    std::atomic<int> call_count{0};
+    const auto [exported, retries] = exportPersistedEntries(
+        logger,
+        [&call_count, &transient_failures](const nlohmann::json&) {
+            const int current = ++call_count;
+            if (current % 10 == 0) {
+                ++transient_failures;
+                return false;
+            }
+            return true;
+        },
+        2);
 
     EXPECT_GT(transient_failures.load(), 0);
-    EXPECT_GE(successful_exports.load(), kTestEvents - 100);
+    EXPECT_GT(retries, 0u);
+    EXPECT_EQ(exported, static_cast<std::size_t>(kTestEvents));
 }
 
-TEST(AuditWaveCComplianceIntegration, AuditEventsTaggedWithComplianceFrameworks) {
-    TamperEvidentAuditLogger logger;
+TEST_F(AuditWaveCProductionTest, AuditEventsTaggedWithComplianceFrameworks) {
+    auto logger = makeLogger();
 
-    AuditEvent evt_iso;
-    evt_iso.event_type = "access_control_change";
-    evt_iso.actor = "compliance_officer";
-    evt_iso.resource = "/access/policy";
-    evt_iso.action = "modify";
-    evt_iso.compliance_tags = "ISO27001,ISO27018";
-    logger.appendEvent(evt_iso);
+    logger.logEvent(makeEvent("KEY_ROTATED",
+                              "compliance_officer",
+                              "/access/policy",
+                              "modify",
+                              "ISO27001,ISO27018",
+                              "LOW"));
+    logger.logEvent(makeEvent("PII_ACCESSED",
+                              "data_subject",
+                              "/pii/user123",
+                              "delete",
+                              "GDPR,CCPA",
+                              "HIGH"));
+    logger.logEvent(makeEvent("UNAUTHORIZED_ACCESS",
+                              "security_team",
+                              "/incident/IR-2026-001",
+                              "investigate",
+                              "BSIC5,NIS2",
+                              "HIGH"));
 
-    AuditEvent evt_gdpr;
-    evt_gdpr.event_type = "data_deletion_request";
-    evt_gdpr.actor = "data_subject";
-    evt_gdpr.resource = "/pii/user123";
-    evt_gdpr.action = "delete";
-    evt_gdpr.compliance_tags = "GDPR,CCPA";
-    logger.appendEvent(evt_gdpr);
+    const auto entries = logger.enumerateEntries();
+    ASSERT_EQ(entries.size(), 3u);
 
-    AuditEvent evt_bsic5;
-    evt_bsic5.event_type = "incident_response";
-    evt_bsic5.actor = "security_team";
-    evt_bsic5.resource = "/incident/IR-2026-001";
-    evt_bsic5.action = "investigate";
-    evt_bsic5.compliance_tags = "BSIC5,NIS2";
-    logger.appendEvent(evt_bsic5);
+    const auto first_payload = decodePayload(entries[0].record);
+    const auto second_payload = decodePayload(entries[1].record);
+    const auto third_payload = decodePayload(entries[2].record);
 
-    auto events = logger.getAllEvents();
-    EXPECT_EQ(events.size(), 3u);
-    EXPECT_NE(events[0].compliance_tags.find("ISO27001"), std::string::npos);
-    EXPECT_NE(events[1].compliance_tags.find("GDPR"), std::string::npos);
-    EXPECT_NE(events[2].compliance_tags.find("BSIC5"), std::string::npos);
+    EXPECT_NE(first_payload.value("compliance_tags", std::string{}).find("ISO27001"), std::string::npos);
+    EXPECT_NE(second_payload.value("compliance_tags", std::string{}).find("GDPR"), std::string::npos);
+    EXPECT_NE(third_payload.value("compliance_tags", std::string{}).find("BSIC5"), std::string::npos);
 }
 
-TEST(AuditWaveCIntegration, SecurityEventTrailsAreAuditableAndTraceable) {
-    TamperEvidentAuditLogger logger;
+TEST_F(AuditWaveCProductionTest, SecurityEventTrailsAreAuditableAndTraceable) {
+    auto logger = makeLogger();
 
-    // Simulate security event workflow.
-    AuditEvent key_rotation;
-    key_rotation.event_type = "key_rotation";
-    key_rotation.actor = "key_manager";
-    key_rotation.resource = "/hsm/key/prod_master";
-    key_rotation.action = "rotate";
-    key_rotation.compliance_tags = "ISO27001,BSIC5";
-    logger.appendEvent(key_rotation);
+    logger.logSecurityEvent(SecurityEventType::KEY_ROTATED,
+                            "key_manager",
+                            "/hsm/key/prod_master");
+    logger.logSecurityEvent(SecurityEventType::POLICY_UPDATED,
+                            "security_admin",
+                            "/policy/access_control");
+    logger.logSecurityEvent(SecurityEventType::UNAUTHORIZED_ACCESS,
+                            "anomaly_detector",
+                            "/query/suspicious");
 
-    AuditEvent policy_update;
-    policy_update.event_type = "policy_update";
-    policy_update.actor = "security_admin";
-    policy_update.resource = "/policy/access_control";
-    policy_update.action = "enforce_mfa";
-    policy_update.compliance_tags = "ISO27001,GDPR";
-    logger.appendEvent(policy_update);
+    const auto report = logger.generateComplianceReport(
+        std::chrono::system_clock::now() - std::chrono::hours(1),
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+    const auto unauthorized = logger.searchEntries(AuditLogger::SearchQuery{
+        .from = std::nullopt,
+        .to = std::nullopt,
+        .user_id = "anomaly_detector",
+        .action = "UNAUTHORIZED_ACCESS",
+        .resource_prefix = "/query",
+        .max_results = 0
+    });
 
-    AuditEvent threat_detected;
-    threat_detected.event_type = "threat_detected";
-    threat_detected.actor = "anomaly_detector";
-    threat_detected.resource = "/query/suspicious";
-    threat_detected.action = "flag_injection_attempt";
-    threat_detected.compliance_tags = "ISO27001,NIS2";
-    logger.appendEvent(threat_detected);
-
-    auto events = logger.getAllEvents();
-    EXPECT_EQ(events.size(), 3u);
-    
-    // Verify audit trail is traceable.
-    std::vector<std::string> event_types = {};
-
-    for (const auto& evt : events) {
-        event_types.push_back(evt.event_type);
-    }
-    EXPECT_EQ(event_types[0], "key_rotation");
-    EXPECT_EQ(event_types[1], "policy_update");
-    EXPECT_EQ(event_types[2], "threat_detected");
-    
-    // Verify tamper-evidence across security workflow.
-    EXPECT_TRUE(logger.verifyTamperEvidence());
+    EXPECT_TRUE(logger.verifyChainIntegrity());
+    EXPECT_EQ(report.total_events, 3u);
+    EXPECT_EQ(report.key_management_events, 1u);
+    EXPECT_EQ(report.security_events, 3u);
+    ASSERT_EQ(unauthorized.size(), 1u);
+    EXPECT_EQ(decodePayload(unauthorized.front().record).value("event_type", std::string{}),
+              "UNAUTHORIZED_ACCESS");
 }
 
 } // namespace

@@ -16,6 +16,10 @@
 #include <gtest/gtest.h>
 #include "rag/wiki_index_store.h"
 
+#include <cmath>
+#include <chrono>
+#include <filesystem>
+
 using namespace themis::rag;
 
 namespace {
@@ -213,6 +217,37 @@ TEST(WikiIndexStoreWave8Cache, EmptyKeyAndEmbeddingIgnored) {
     EXPECT_NO_THROW(store.cacheEmbedding("key", {}));
     EXPECT_TRUE(store.retrieveEmbedding("").empty());
     EXPECT_TRUE(store.retrieveEmbedding("key").empty()); // not inserted
+}
+
+/// W8-RAG-12b: cache_dir persists embeddings through RocksDB-backed reloads.
+TEST(WikiIndexStoreWave8Cache, PersistentCacheRoundTripAcrossReload) {
+#ifdef THEMIS_ROCKSDB_AVAILABLE
+    const auto unique_suffix = std::chrono::steady_clock::now().time_since_epoch().count();
+    const auto cache_dir = std::filesystem::temp_directory_path()
+        / ("themis_wiki_index_store_cache_" + std::to_string(unique_suffix));
+    std::filesystem::create_directories(cache_dir);
+
+    WikiIndexStoreConfig cfg;
+    cfg.cache_dir = cache_dir.string();
+
+    const auto emb = pseudoVec(4, 5.0f);
+    {
+        WikiIndexStore store{cfg};
+        store.cacheEmbedding("persisted_key", emb);
+    }
+
+    WikiIndexStore reloaded{cfg};
+    const auto retrieved = reloaded.retrieveEmbedding("persisted_key");
+    ASSERT_EQ(retrieved.size(), emb.size());
+    for (size_t i = 0; i < emb.size(); ++i) {
+        EXPECT_NEAR(retrieved[i], emb[i], 1e-5f);
+    }
+
+    std::error_code ec;
+    std::filesystem::remove_all(cache_dir, ec);
+#else
+    GTEST_SKIP() << "RocksDB support not enabled in this build";
+#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -264,7 +264,6 @@ SignatureInfo AuditSigner::signEntry(
     content_json["user"] = entry.user;
     content_json["timestamp_ms"] = entry.timestamp_ms;
     content_json["details"] = entry.details;
-    content_json["entry_sequence_number"] = entry.entry_sequence_number;
     content_json["previous_entry_hash"] = previous_entry_hash;
     
     std::string content = content_json.dump();
@@ -309,7 +308,6 @@ bool AuditSigner::verifySignature(
     content_json["user"] = entry.user;
     content_json["timestamp_ms"] = entry.timestamp_ms;
     content_json["details"] = entry.details;
-    content_json["entry_sequence_number"] = entry.entry_sequence_number;
     content_json["previous_entry_hash"] = signature_info.previous_entry_hash;
     
     std::string content = content_json.dump();
@@ -703,8 +701,14 @@ bool AuditRetentionManager::shouldDelete(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Check if on legal hold
-    if (isOnLegalHold(entry.rule_id)) {
-        return false;
+    for (const auto& [hold_id, hold] : legal_holds_) {
+        if (hold.status == "active") {
+            if (hold.rule_id.empty() || hold.rule_id == entry.rule_id) {
+                if (hold.expire_at_ms == 0 || hold.expire_at_ms > current_time_ms) {
+                    return false;
+                }
+            }
+        }
     }
     
     int64_t age_days = (current_time_ms - entry.timestamp_ms) / (1000 * 60 * 60 * 24);

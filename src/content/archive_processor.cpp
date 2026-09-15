@@ -16,6 +16,7 @@
 #include <exception>
 #include <cstring>
 #include <algorithm>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -363,9 +364,11 @@ bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format
 }
 
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
+    // Normalize separators first so Windows-style paths are parsed consistently.
     std::string normalized = path;
     std::replace(normalized.begin(), normalized.end(), '\\', '/');
 
+    // Strip optional drive prefix (e.g. "C:") to keep result relative.
     if (normalized.size() >= 2 &&
         std::isalpha(static_cast<unsigned char>(normalized[0])) != 0 &&
         normalized[1] == ':') {

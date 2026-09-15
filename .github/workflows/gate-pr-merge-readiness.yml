@@ -1,0 +1,150 @@
+name: "Gate: PR Merge Readiness"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-09-15
+# Trigger policy: aggregates required PR gate workflows; single required status check for branch protection.
+# Calls gate-pr-community-failclosed, gate-pr-edition-license, gate-pr-hash-sbom,
+# gate-pr-plugin-boundary via workflow_call and aggregates their outcomes.
+# Sets status/ready-to-merge on full pass, status/blocked on any failure.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+
+concurrency:
+  group: gate-pr-merge-readiness-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  call-community-failclosed:
+    name: "Gate: Community Fail-Closed"
+    uses: ./.github/workflows/gate-pr-community-failclosed.yml
+
+  call-edition-license:
+    name: "Gate: Edition & License"
+    uses: ./.github/workflows/gate-pr-edition-license.yml
+
+  call-hash-sbom:
+    name: "Gate: Hash & SBOM Integrity"
+    uses: ./.github/workflows/gate-pr-hash-sbom.yml
+
+  call-plugin-boundary:
+    name: "Gate: Plugin Boundary"
+    uses: ./.github/workflows/gate-pr-plugin-boundary.yml
+
+  # ─────────────────────────────────────────────────────────────────────────
+  merge-readiness:
+    name: "✅ Merge Readiness"
+    needs:
+      - call-community-failclosed
+      - call-edition-license
+      - call-hash-sbom
+      - call-plugin-boundary
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4  # v7.0.1
+        with:
+          fetch-depth: 1
+
+      - name: Evaluate gate outcomes
+        id: evaluate
+        run: |
+          set -euo pipefail
+
+          community_result="${{ needs.call-community-failclosed.result }}"
+          edition_result="${{ needs.call-edition-license.result }}"
+          hash_result="${{ needs.call-hash-sbom.result }}"
+          plugin_result="${{ needs.call-plugin-boundary.result }}"
+
+          all_passed="true"
+          failed_gates=""
+
+          for gate_result in "$community_result" "$edition_result" "$hash_result" "$plugin_result"; do
+            if [[ "$gate_result" != "success" && "$gate_result" != "skipped" ]]; then
+              all_passed="false"
+            fi
+          done
+
+          [[ "$community_result" != "success" && "$community_result" != "skipped" ]] && \
+            failed_gates="${failed_gates}Community Fail-Closed, "
+          [[ "$edition_result" != "success" && "$edition_result" != "skipped" ]] && \
+            failed_gates="${failed_gates}Edition & License, "
+          [[ "$hash_result" != "success" && "$hash_result" != "skipped" ]] && \
+            failed_gates="${failed_gates}Hash & SBOM Integrity, "
+          [[ "$plugin_result" != "success" && "$plugin_result" != "skipped" ]] && \
+            failed_gates="${failed_gates}Plugin Boundary, "
+
+          # Strip trailing comma+space
+          failed_gates="${failed_gates%, }"
+
+          echo "all_passed=${all_passed}" >> "$GITHUB_OUTPUT"
+          echo "failed_gates=${failed_gates}" >> "$GITHUB_OUTPUT"
+
+          echo "community_icon=$( [[ "$community_result" == 'success' || "$community_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
+          echo "edition_icon=$( [[ "$edition_result" == 'success' || "$edition_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
+          echo "hash_icon=$( [[ "$hash_result" == 'success' || "$hash_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
+          echo "plugin_icon=$( [[ "$plugin_result" == 'success' || "$plugin_result" == 'skipped' ]] && echo '✅' || echo '❌' )" >> "$GITHUB_OUTPUT"
+
+      - name: Set ready-to-merge label
+        if: steps.evaluate.outputs.all_passed == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'status/ready-to-merge'
+          status-group: 'status/ready-to-merge,status/blocked,status/needs-approval,status/needs-attention,status/resolved'
+          source-workflow: gate-pr-merge-readiness.yml
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Set blocked label
+        if: steps.evaluate.outputs.all_passed != 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-number: ${{ github.event.pull_request.number }}
+          labels-to-add: 'status/blocked,status/needs-approval'
+          status-group: 'status/ready-to-merge,status/blocked,status/needs-approval,status/needs-attention,status/resolved'
+          source-workflow: gate-pr-merge-readiness.yml
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Post merge readiness comment
+        uses: ./.github/actions/post-failure-comment
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          gate-name: PR Merge Readiness
+          workflow-file: gate-pr-merge-readiness.yml
+          job-status: ${{ steps.evaluate.outputs.all_passed == 'true' && 'success' || 'failure' }}
+          checklist: |
+            - ${{ steps.evaluate.outputs.community_icon }} Community Fail-Closed (`${{ needs.call-community-failclosed.result }}`)
+            - ${{ steps.evaluate.outputs.edition_icon }} Edition & License (`${{ needs.call-edition-license.result }}`)
+            - ${{ steps.evaluate.outputs.hash_icon }} Hash & SBOM Integrity (`${{ needs.call-hash-sbom.result }}`)
+            - ${{ steps.evaluate.outputs.plugin_icon }} Plugin Boundary (`${{ needs.call-plugin-boundary.result }}`)
+          error-summary: "${{ steps.evaluate.outputs.all_passed != 'true' && format('Failed gates: {0}', steps.evaluate.outputs.failed_gates) || '' }}"
+
+      - name: Enforce merge-readiness verdict
+        run: |
+          if [[ "${{ steps.evaluate.outputs.all_passed }}" != "true" ]]; then
+            echo "::error::Merge readiness gate FAILED. Failed checks: ${{ steps.evaluate.outputs.failed_gates }}"
+            exit 1
+          fi
+          echo "✅ All required PR gates passed — PR is ready to merge."
