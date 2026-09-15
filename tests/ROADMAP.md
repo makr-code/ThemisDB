@@ -36,14 +36,14 @@
 ### Phase 2: Abdeckungs-Transparenz
 - [x] Modul-zu-Test-Mapping für kritische Runtime-Bereiche veröffentlichen (`tests/TEST_DENSITY_MATRIX.md`) (Target: 2026-Q3)
 - [ ] Fokus-Suites mit klaren Akzeptanzkriterien und Ziel-Cadence versehen (Target: 2026-Q3)
-- [~] Flow-Matrix fuer `server->query->storage->transaction`, `sharding<->transaction`, `search->index->tensor->graph->llm`, `server<->llm` als Gate-Backlog pflegen und an Wave A binden; dedizierte CTest-/Benchmark-Beweiswege explizit markieren (Target: 2026-Q4)
+- [~] Flow-Matrix fuer `server->query->storage->transaction`, `sharding<->transaction`, `search->index->tensor->graph->llm`, `server<->llm` als Gate-Backlog pflegen und an Wave A binden; dedizierte CTest-/Benchmark-/Long-Run-Beweiswege explizit markieren (Target: 2026-Q4)
 
 ### Phase 3: Rollout-Härtung
 - [ ] Doku-Änderungen regelmäßig gegen CMake-Presets/Test-Presets verifizieren (Target: 2026-Q4)
 - [ ] Historische Testreports aus Closure-Entscheidungen entfernen und nur noch als Kontext verlinken (Target: 2026-Q4)
 
 ### Phase 4: Wave-Ausfuehrung
-- [~] Wave A fuer release-kritische Kernpfade als erster Closure-Block verfolgen (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q4)
+- [~] Wave A fuer release-kritische Kernpfade als erster Closure-Block verfolgen (`tests/TEST_DENSITY_WAVE_PLAN.md`); Benchmark- und Long-Run-CI-Lanes in `.github/workflows/build-benchmarks.yml` als kanonische Ausfuehrungswege nutzen (Target: 2026-Q4)
 - [ ] Wave B fuer Boundary-/API-/Policy-Module nach Wave A verdichten (Target: 2026-Q4)
 - [ ] Wave C fuer duenn abgesicherte Owner-Gaps nach Wave B schliessen (Target: 2026-Q4)
 - [ ] Wave D fuer repo-weite Hardening-/Sign-off-Abnahme nach Waves A-C abschliessen (Target: 2026-Q4)

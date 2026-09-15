@@ -312,7 +312,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6b_stress_soak_stability_test.c
         pipeline/w6b_stress_soak_stability_test.cpp
     )
     set_tests_properties(w6b_stress_soak_stability_test PROPERTIES
-        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak"
+        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak;wave_a_longrun_server_query_storage_transaction"
         TIMEOUT 300
     )
 endif()
@@ -388,7 +388,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp
         pipeline/w7c_endurance_stability_test.cpp
     )
     set_tests_properties(w7c_endurance_stability_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert"
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert;wave_a_longrun_server_query_storage_transaction"
         TIMEOUT 600
     )
 endif()
@@ -707,9 +707,36 @@ foreach(_soak_test IN ITEMS
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
+        set(_soak_labels "wave_d;soak;not_release_critical")
+        if(_soak_test STREQUAL "test_replication_soak_60min" OR
+           _soak_test STREQUAL "test_sharding_distributed_write_soak")
+            list(APPEND _soak_labels wave_a_longrun_sharding_transaction)
+        endif()
         set_tests_properties(${_soak_test} PROPERTIES
-            LABELS "wave_d;soak;not_release_critical"
+            LABELS "${_soak_labels}"
             TIMEOUT 7200
         )
+    endif()
+endforeach()
+
+foreach(_wave_a_sqst_longrun_target IN ITEMS
+    w6b_stress_soak_stability_test
+    w7c_endurance_stability_test
+)
+    if(TARGET ${_wave_a_sqst_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+            ${_wave_a_sqst_longrun_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sharding_txn_longrun_target IN ITEMS
+    test_replication_soak_60min
+    test_sharding_distributed_write_soak
+)
+    if(TARGET ${_wave_a_sharding_txn_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SHARDING_TRANSACTION_TARGETS
+            ${_wave_a_sharding_txn_longrun_target})
     endif()
 endforeach()

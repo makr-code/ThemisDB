@@ -75,6 +75,10 @@ Canonical flows:
 - Wave A `server -> query -> storage -> transaction` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_server_query_storage_transaction_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 180`
 - Wave A `sharding <-> transaction` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_sharding_transaction_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_sharding_transaction" --output-on-failure --parallel 1 --timeout 180`
 - Wave A `search -> index -> tensor -> graph -> llm` benchmark gate: `cmake --build build-community-debug --target themis_wave_a_search_index_tensor_graph_llm_benchmarks --parallel "$(nproc)" && ctest --test-dir build-community-debug --label-regex "wave_a_benchmark_search_index_tensor_graph_llm" --output-on-failure --parallel 1 --timeout 180`
+- Wave A `server -> query -> storage -> transaction` long-run evidence: `cmake --build build-community-release --target themis_wave_a_server_query_storage_transaction_longrun_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_a_longrun_server_query_storage_transaction" --output-on-failure --parallel 1 --timeout 7200`
+- Wave A `sharding <-> transaction` long-run evidence: `cmake --build build-community-release --target themis_wave_a_sharding_transaction_longrun_tests --parallel "$(nproc)" && THEMIS_SOAK_DURATION_MS=120000 ctest --test-dir build-community-release --label-regex "wave_a_longrun_sharding_transaction" --output-on-failure --parallel 1 --timeout 7200`
+- CI execution lane: `.github/workflows/build-benchmarks.yml` job `wave-a-flow-benchmark-gates`
+- CI long-run lane: `.github/workflows/build-benchmarks.yml` job `wave-a-longrun-evidence`
 - Pipeline inventory anchor: `ctest --test-dir build-community-release --label-regex "pipeline_integration" --output-on-failure`
 - Benchmark baseline: `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
@@ -83,6 +87,7 @@ Canonical flows:
 - Every critical flow has one documented start suite, flow suite, recovery/chaos suite, stress/soak suite, benchmark/perf suite, and gate owner.
 - Every Wave A module has direct suite ownership plus a documented flow attachment.
 - `release_critical` coverage for Wave A modules is explicit rather than implied.
+- Slow soak / long-run evidence is attached through dedicated Wave A labels and aggregate targets, not mixed into the fast release-critical lanes.
 - Canonical benchmark anchors are buildable through one flow-specific aggregate target and runnable through one flow-specific benchmark CTest label.
 
 ## Wave B — Boundary / API / Policy Densification
