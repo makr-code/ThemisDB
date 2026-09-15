@@ -5,10 +5,6 @@
 **Last Updated:** 2026-09-14  
 **Status:** active
 
-Status: Active maintainer reference
-Last update: 2026-08-21
-Purpose: Fast mapping from historical reports to current canonical sources.
-
 ## Canonical Sources (Current)
 
 - Test rules: [TESTING_STANDARDS.md](TESTING_STANDARDS.md)

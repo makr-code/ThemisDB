@@ -1,5 +1,10 @@
 # Publish · Enterprise Edition
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-15
+**Last Updated:** 2026-09-15
+**Status:** archived
+
 > [!WARNING]
 > Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
 > Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
@@ -69,4 +74,3 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · En
 
 - [Workflow-Datei](../../.github/workflows/04-release_publish-enterprise.yml)
 - [Alle Workflows](../README.md)
-

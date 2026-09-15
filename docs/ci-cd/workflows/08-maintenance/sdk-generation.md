@@ -1,5 +1,10 @@
 # OpenAPI SDK Generation
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-15
+**Last Updated:** 2026-09-15
+**Status:** archived
+
 > [!WARNING]
 > Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
 > Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
@@ -103,4 +108,3 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenAPI SDK G
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sdk-generation.yml)
 - [Alle Workflows](../README.md)
-
