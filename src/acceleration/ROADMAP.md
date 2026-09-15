@@ -154,7 +154,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [~] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) implemented and registered; pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_bfs` implemented and registered (`tests/graph/test_category_b_parity_bfs.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_dijkstra` implemented and registered (`tests/graph/test_category_b_parity_dijkstra.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
-- [ ] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` implemented and registered (`benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp`, `benchmarks/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 
 ### Short-term (3-6 months)
 - [ ] Expand deterministic regressions for backend-selection and fallback edge cases (Target: Q4 2026)
