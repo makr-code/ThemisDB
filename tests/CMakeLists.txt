@@ -6582,9 +6582,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampling/test_sampling_strategy.cpp")
 endif()
 
 # Phase 3 - Audit Logger production tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_logger_production.cpp")
     message(STATUS "Adding Audit Logger production tests (Phase 3)")
-    add_executable(test_audit_logger_production test_audit_logger_production.cpp)
+    add_executable(test_audit_logger_production audit/test_audit_logger_production.cpp)
     target_link_libraries(test_audit_logger_production PRIVATE
         ${TEST_LIBS}
         themis_core
