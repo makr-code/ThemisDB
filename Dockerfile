@@ -9,7 +9,6 @@ ARG ENABLE_GPU=ON
 ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
-ARG TARGETARCH=amd64
 ARG LLAMA_CPP_REF=1e8924fd65ad349d1d838412a2172292618f3bbf
 
 FROM ubuntu:24.04 AS base
@@ -54,6 +53,7 @@ FROM base AS deps
 
 ARG THEMIS_EDITION
 ARG TARGETARCH
+ARG TARGETPLATFORM
 WORKDIR /build
 
 COPY docker/vcpkg-*.json ./docker/
@@ -66,11 +66,11 @@ RUN set -eux; \
     else \
         echo "ERROR: no vcpkg manifest found for edition ${THEMIS_EDITION}"; exit 1; \
     fi; \
-    case "${TARGETARCH}" in \
-        amd64) echo "x64-linux" > /tmp/triplet.txt ;; \
-        arm64) echo "arm64-linux" > /tmp/triplet.txt ;; \
-        arm) echo "arm-linux" > /tmp/triplet.txt ;; \
-        *) echo "ERROR: Unsupported arch ${TARGETARCH}"; exit 1 ;; \
+    case "${TARGETPLATFORM}" in \
+        linux/amd64) echo "x64-linux" > /tmp/triplet.txt ;; \
+        linux/arm64) echo "arm64-linux" > /tmp/triplet.txt ;; \
+        linux/arm/v7|linux/arm) echo "arm-linux" > /tmp/triplet.txt ;; \
+        *) echo "ERROR: Unsupported target platform ${TARGETPLATFORM} (TARGETARCH=${TARGETARCH})"; exit 1 ;; \
     esac
 
 RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg/downloads,sharing=locked \

@@ -32,18 +32,11 @@ elseif(EXISTS "${_the_vcpkg_root}")
     if(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
         list(APPEND _vcpkg_prefix_roots "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
     endif()
+    list(REMOVE_DUPLICATES _vcpkg_prefix_roots)
     message(STATUS "vcpkg root: ${_the_vcpkg_root}")
-    message(STATUS "vcpkg package dirs: ${_vcpkg_packages}")
+    list(LENGTH _vcpkg_packages _vcpkg_package_count)
+    message(STATUS "vcpkg package dirs discovered: ${_vcpkg_package_count}")
     message(STATUS "vcpkg prefix roots: ${_vcpkg_prefix_roots}")
-    foreach(_pkg_dir ${_vcpkg_packages})
-        list(APPEND CMAKE_PREFIX_PATH 
-            "${_pkg_dir}/lib/cmake"
-            "${_pkg_dir}/share"
-            "${_pkg_dir}/lib"
-        )
-        list(APPEND CMAKE_LIBRARY_PATH "${_pkg_dir}/lib")
-        list(APPEND CMAKE_INCLUDE_PATH "${_pkg_dir}/include")
-    endforeach()
     foreach(_prefix_root ${_vcpkg_prefix_roots})
         if(EXISTS "${_prefix_root}")
             list(APPEND CMAKE_PREFIX_PATH "${_prefix_root}")
@@ -56,6 +49,9 @@ elseif(EXISTS "${_the_vcpkg_root}")
             list(APPEND CMAKE_INCLUDE_PATH "${_prefix_root}/include")
         endif()
     endforeach()
+    list(REMOVE_DUPLICATES CMAKE_PREFIX_PATH)
+    list(REMOVE_DUPLICATES CMAKE_LIBRARY_PATH)
+    list(REMOVE_DUPLICATES CMAKE_INCLUDE_PATH)
 
     # Pre-seed ZLIB variables from vcpkg package layout if present
     set(_vcpkg_zlib_pkg "${_the_vcpkg_root}/packages/zlib_x64-windows")
