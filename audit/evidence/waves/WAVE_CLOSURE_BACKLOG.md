@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-09-15
+Last Updated: 2026-09-15
+Status: active
+---
 # Wave Closure Backlog (A → B → C → D)
 
 Status: active  
