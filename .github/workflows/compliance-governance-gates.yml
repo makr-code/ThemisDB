@@ -92,7 +92,7 @@ jobs:
               ;;
           esac
 
-          git fetch origin "${BASE_REF}" --depth=1
+          git fetch origin "${BASE_REF}"
           CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}...HEAD" || true)"
 
           if printf '%s\n' "${CHANGED_FILES}" | grep -Eq '^(ROADMAP\.md|FUTURE_ENHANCEMENTS\.md|audit/MATURITY_REPORT_[^/]+\.md|src/[^/]+/ROADMAP\.md|scripts/verification/|tests/test_maturity_exit_criteria\.py$|docs/governance/|\.github/workflows/compliance-governance-gates\.yml$)'; then
@@ -979,8 +979,8 @@ jobs:
           print(f"  Blocking items  : {total_blocking}")
           PY
 
-      - name: Annotate PR with wave gate status
-        if: github.event_name == 'pull_request_review' && steps.wave_gate.outputs.blocking_count != '0'
+      - name: Emit wave gate warning
+        if: steps.wave_gate.outputs.blocking_count != '0'
         run: |
           echo "::warning::🌊 Wave gate (${{ steps.wave_gate.outputs.wave }}) — ${{ steps.wave_gate.outputs.blocking_count }} in-progress [~] item(s) detected in module ROADMAPs. Resolve before wave promotion."
           echo ""
