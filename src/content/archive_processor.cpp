@@ -366,7 +366,9 @@ std::string ArchiveProcessor::sanitizePath(const std::string &path) {
     std::string normalized = path;
     std::replace(normalized.begin(), normalized.end(), '\\', '/');
 
-    if (normalized.size() >= 2 && normalized[1] == ':') {
+    if (normalized.size() >= 2 &&
+        std::isalpha(static_cast<unsigned char>(normalized[0])) != 0 &&
+        normalized[1] == ':') {
         normalized.erase(0, 2);
     }
     while (!normalized.empty() && normalized.front() == '/') {

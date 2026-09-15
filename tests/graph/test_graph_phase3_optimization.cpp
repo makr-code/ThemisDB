@@ -101,6 +101,7 @@ public:
             // Evict LRU (back of list)
             const std::string& evict_key = order_.back();
             index_.erase(evict_key);
+            plans_.erase(evict_key);
             order_.pop_back();
             ++metrics_.evictions;
         }
