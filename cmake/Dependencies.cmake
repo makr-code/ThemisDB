@@ -453,7 +453,7 @@ else()
     # Try pkg-config as fallback
     find_package(PkgConfig QUIET)
     if(PkgConfig_FOUND)
-        pkg_check_modules(zstd QUIET libzstd)
+        pkg_check_modules(zstd QUIET IMPORTED_TARGET libzstd)
         if(zstd_FOUND)
             message(STATUS "zstd found via pkg-config")
             # Create imported target for compatibility when it was not
@@ -461,8 +461,7 @@ else()
             if(NOT TARGET zstd::zstd)
                 add_library(zstd::zstd INTERFACE IMPORTED)
                 set_target_properties(zstd::zstd PROPERTIES
-                    INTERFACE_INCLUDE_DIRECTORIES "${zstd_INCLUDE_DIRS}"
-                    INTERFACE_LINK_LIBRARIES "${zstd_LIBRARIES}"
+                    INTERFACE_LINK_LIBRARIES PkgConfig::zstd
                 )
             endif()
         else()
