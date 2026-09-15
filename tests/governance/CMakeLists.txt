@@ -8,6 +8,7 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_governance_${_stem}_focused")
     set(_ctest "${_stem}_governance_FocusedTests")
+    set(_labels governance)
 
     # Temporarily quarantine this suite while operational_audit.h/.cpp API
     # convergence is in progress; otherwise it blocks unrelated build waves.
@@ -52,12 +53,18 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_governance_contract_hardening_focused" OR
+       _stem STREQUAL "test_governance_llm_policy_focused" OR
+       _stem STREQUAL "test_compliance_framework")
+        list(APPEND _labels wave_b wave_b_boundary_policy_control)
+    endif()
+
     themis_register_module_focused_test(
         MODULE governance
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS governance
+        LABELS ${_labels}
     )
 endforeach()

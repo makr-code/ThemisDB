@@ -65,7 +65,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_engine.cpp")
         TARGET test_query_engine_focused
         TIER unit
         TIMEOUT 90
-        LABELS engine aql
+        LABELS engine aql query wave_a release_critical wave_a_flow_server_query_storage_transaction
     )
 
     message(STATUS "  QueryEngine: AQL execution, optimizer, multi-model queries")
@@ -170,7 +170,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_continuous_query_engine.cpp")
         TARGET test_continuous_query_engine_focused
         TIER unit
         TIMEOUT 60
-        LABELS cql continuous
+        LABELS cql continuous query wave_a release_critical wave_a_flow_server_query_storage_transaction
     )
 
     message(STATUS "  ContinuousQueryEngine: window spec, synopsis, incremental agg, watermark, result modes")
@@ -205,7 +205,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_continuous_query_e2e.cpp")
         TIER integration
         KIND e2e
         TIMEOUT 120
-        LABELS cql continuous integration e2e
+        LABELS cql continuous integration e2e query wave_a release_critical wave_a_flow_server_query_storage_transaction
     )
 
     message(STATUS "  ContinuousQuery E2E: register, inject, stream, fan-out, late events, cancel/resume, drop/re-register")

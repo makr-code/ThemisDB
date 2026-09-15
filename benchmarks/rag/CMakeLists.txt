@@ -14,4 +14,5 @@ themis_register_benchmark_ctest(
     TIMEOUT    180
     MIN_TIME   "0.01s"
     EXTRA_ARGS "--benchmark_filter=BM_Fts(Phrase|Proximity)Query/10000"
+    EXTRA_LABELS wave_a_benchmark_search_index_tensor_graph_llm benchmark-baseline
 )

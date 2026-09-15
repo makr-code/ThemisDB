@@ -1,5 +1,10 @@
 # Chimera Benchmark CI
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-15
+**Last Updated:** 2026-09-15
+**Status:** archived
+
 > [!WARNING]
 > Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
 > Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
@@ -59,7 +64,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 **Schritte:**
 
 - **Checkout repository** — `actions/checkout@v4`
-- **Download benchmark results artifact** — `actions/download-artifact@v4`
+- **Download benchmark results artifact** — `actions/download-artifact@v4.1.3`
 - **Rebuild baseline from latest results** — `python3 - <<'PYEOF'`
 - **Commit and push updated baseline** — `git config user.name  'ThemisDB CI Bot'`
 - **Write job summary** — `echo "## 🧪 Chimera Benchmark CI – Update Baseline" >> "$GITHUB_STEP_SUMMARY"`
@@ -80,5 +85,3 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Chimera Bench
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_chimera_chimera-benchmark-ci.yml)
 - [Alle Workflows](../README.md)
-
-

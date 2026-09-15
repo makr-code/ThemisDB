@@ -227,7 +227,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]t
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/integration/end_to_end/storage_pipeline_e2e_test.cpp"
 )
 
 if(THEMIS_ENABLE_LLM)
@@ -293,6 +292,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_workload_fingerprint_engine\\
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_projects\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_kernel_bypass\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_multi_step_rag\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_llm_multi_model_integration\\.cpp$")
 # test_continuous_query_e2e is compiled as dedicated focused target
 # (ContinuousQueryE2ETests) and should not be merged into themis_tests.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_continuous_query_e2e\\.cpp$")
@@ -2989,11 +2989,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
                      --gtest_filter=DistributedGraphSharedMutexStressTest.*)
 
     set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES
-        LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
+        LABELS "graph;distributed;shared_mutex;concurrency;focused;unit;wave_a_longrun_search_index_tensor_graph_llm"
         TIMEOUT 60
         ENVIRONMENT_MODIFICATION
             "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
+
+    set_property(GLOBAL APPEND PROPERTY
+        THEMIS_WAVE_A_LONGRUN_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS
+        test_graph_distributed_shared_mutex_focused)
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
 else()
@@ -6578,9 +6582,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampling/test_sampling_strategy.cpp")
 endif()
 
 # Phase 3 - Audit Logger production tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_logger_production.cpp")
     message(STATUS "Adding Audit Logger production tests (Phase 3)")
-    add_executable(test_audit_logger_production test_audit_logger_production.cpp)
+    add_executable(test_audit_logger_production audit/test_audit_logger_production.cpp)
     target_link_libraries(test_audit_logger_production PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -28869,4 +28873,132 @@ else()
     # define an empty target so the CI build step still succeeds.
     add_custom_target(themis_release_critical_tests)
     message(WARNING "themis_release_critical_tests: no release_critical targets collected — check test registration")
+endif()
+
+get_property(_wave_a_server_llm_targets GLOBAL PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS)
+if(_wave_a_server_llm_targets)
+    list(REMOVE_DUPLICATES _wave_a_server_llm_targets)
+    add_custom_target(themis_wave_a_server_llm_tests DEPENDS ${_wave_a_server_llm_targets})
+    message(STATUS "themis_wave_a_server_llm_tests aggregate target covers: ${_wave_a_server_llm_targets}")
+else()
+    add_custom_target(themis_wave_a_server_llm_tests)
+    message(WARNING "themis_wave_a_server_llm_tests: no targets collected — check Wave A server<->llm labels")
+endif()
+
+get_property(_wave_a_sqst_targets GLOBAL PROPERTY THEMIS_WAVE_A_FLOW_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS)
+if(_wave_a_sqst_targets)
+    list(REMOVE_DUPLICATES _wave_a_sqst_targets)
+    add_custom_target(themis_wave_a_server_query_storage_transaction_tests DEPENDS ${_wave_a_sqst_targets})
+    message(STATUS "themis_wave_a_server_query_storage_transaction_tests aggregate target covers: ${_wave_a_sqst_targets}")
+else()
+    add_custom_target(themis_wave_a_server_query_storage_transaction_tests)
+    message(WARNING "themis_wave_a_server_query_storage_transaction_tests: no targets collected — check Wave A server->query->storage->transaction labels")
+endif()
+
+get_property(_wave_a_sharding_txn_targets GLOBAL PROPERTY THEMIS_WAVE_A_FLOW_SHARDING_TRANSACTION_TARGETS)
+if(_wave_a_sharding_txn_targets)
+    list(REMOVE_DUPLICATES _wave_a_sharding_txn_targets)
+    add_custom_target(themis_wave_a_sharding_transaction_tests DEPENDS ${_wave_a_sharding_txn_targets})
+    message(STATUS "themis_wave_a_sharding_transaction_tests aggregate target covers: ${_wave_a_sharding_txn_targets}")
+else()
+    add_custom_target(themis_wave_a_sharding_transaction_tests)
+    message(WARNING "themis_wave_a_sharding_transaction_tests: no targets collected — check Wave A sharding<->transaction labels")
+endif()
+
+get_property(_wave_a_sqst_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS)
+if(_wave_a_sqst_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_sqst_longrun_targets)
+    add_custom_target(themis_wave_a_server_query_storage_transaction_longrun_tests
+        DEPENDS ${_wave_a_sqst_longrun_targets})
+    message(STATUS "themis_wave_a_server_query_storage_transaction_longrun_tests aggregate target covers: ${_wave_a_sqst_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_server_query_storage_transaction_longrun_tests)
+    message(WARNING "themis_wave_a_server_query_storage_transaction_longrun_tests: no targets collected — check Wave A long-run SQST labels")
+endif()
+
+get_property(_wave_a_sharding_txn_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SHARDING_TRANSACTION_TARGETS)
+if(_wave_a_sharding_txn_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_sharding_txn_longrun_targets)
+    add_custom_target(themis_wave_a_sharding_transaction_longrun_tests
+        DEPENDS ${_wave_a_sharding_txn_longrun_targets})
+    message(STATUS "themis_wave_a_sharding_transaction_longrun_tests aggregate target covers: ${_wave_a_sharding_txn_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_sharding_transaction_longrun_tests)
+    message(WARNING "themis_wave_a_sharding_transaction_longrun_tests: no targets collected — check Wave A long-run sharding<->transaction labels")
+endif()
+
+get_property(_wave_a_server_llm_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SERVER_LLM_TARGETS)
+if(_wave_a_server_llm_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_server_llm_longrun_targets)
+    add_custom_target(themis_wave_a_server_llm_longrun_tests
+        DEPENDS ${_wave_a_server_llm_longrun_targets})
+    message(STATUS "themis_wave_a_server_llm_longrun_tests aggregate target covers: ${_wave_a_server_llm_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_server_llm_longrun_tests)
+    message(WARNING "themis_wave_a_server_llm_longrun_tests: no targets collected — check Wave A long-run server<->llm labels")
+endif()
+
+get_property(_wave_a_search_stack_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS)
+if(_wave_a_search_stack_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_search_stack_longrun_targets)
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_longrun_tests
+        DEPENDS ${_wave_a_search_stack_longrun_targets})
+    message(STATUS "themis_wave_a_search_index_tensor_graph_llm_longrun_tests aggregate target covers: ${_wave_a_search_stack_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_longrun_tests)
+    message(WARNING "themis_wave_a_search_index_tensor_graph_llm_longrun_tests: no targets collected — check Wave A long-run search/index/tensor/graph/llm labels")
+endif()
+
+get_property(_wave_b_targets GLOBAL PROPERTY THEMIS_WAVE_B_TARGETS)
+if(_wave_b_targets)
+    list(REMOVE_DUPLICATES _wave_b_targets)
+    add_custom_target(themis_wave_b_boundary_tests DEPENDS ${_wave_b_targets})
+    message(STATUS "themis_wave_b_boundary_tests aggregate target covers: ${_wave_b_targets}")
+else()
+    add_custom_target(themis_wave_b_boundary_tests)
+    message(WARNING "themis_wave_b_boundary_tests: no targets collected — check Wave B labels")
+endif()
+
+get_property(_wave_b_api_transport_targets GLOBAL PROPERTY THEMIS_WAVE_B_BOUNDARY_API_TRANSPORT_TARGETS)
+if(_wave_b_api_transport_targets)
+    list(REMOVE_DUPLICATES _wave_b_api_transport_targets)
+    add_custom_target(themis_wave_b_api_transport_tests
+        DEPENDS ${_wave_b_api_transport_targets})
+    message(STATUS "themis_wave_b_api_transport_tests aggregate target covers: ${_wave_b_api_transport_targets}")
+else()
+    add_custom_target(themis_wave_b_api_transport_tests)
+    message(WARNING "themis_wave_b_api_transport_tests: no targets collected — check Wave B API/transport labels")
+endif()
+
+get_property(_wave_b_policy_control_targets GLOBAL PROPERTY THEMIS_WAVE_B_BOUNDARY_POLICY_CONTROL_TARGETS)
+if(_wave_b_policy_control_targets)
+    list(REMOVE_DUPLICATES _wave_b_policy_control_targets)
+    add_custom_target(themis_wave_b_policy_control_tests
+        DEPENDS ${_wave_b_policy_control_targets})
+    message(STATUS "themis_wave_b_policy_control_tests aggregate target covers: ${_wave_b_policy_control_targets}")
+else()
+    add_custom_target(themis_wave_b_policy_control_tests)
+    message(WARNING "themis_wave_b_policy_control_tests: no targets collected — check Wave B policy/control labels")
+endif()
+
+get_property(_wave_b_content_io_targets GLOBAL PROPERTY THEMIS_WAVE_B_BOUNDARY_CONTENT_IO_TARGETS)
+if(_wave_b_content_io_targets)
+    list(REMOVE_DUPLICATES _wave_b_content_io_targets)
+    add_custom_target(themis_wave_b_content_io_tests
+        DEPENDS ${_wave_b_content_io_targets})
+    message(STATUS "themis_wave_b_content_io_tests aggregate target covers: ${_wave_b_content_io_targets}")
+else()
+    add_custom_target(themis_wave_b_content_io_tests)
+    message(WARNING "themis_wave_b_content_io_tests: no targets collected — check Wave B content/io labels")
+endif()
+
+get_property(_wave_b_runtime_ops_targets GLOBAL PROPERTY THEMIS_WAVE_B_BOUNDARY_RUNTIME_OPS_TARGETS)
+if(_wave_b_runtime_ops_targets)
+    list(REMOVE_DUPLICATES _wave_b_runtime_ops_targets)
+    add_custom_target(themis_wave_b_runtime_ops_tests
+        DEPENDS ${_wave_b_runtime_ops_targets})
+    message(STATUS "themis_wave_b_runtime_ops_tests aggregate target covers: ${_wave_b_runtime_ops_targets}")
+else()
+    add_custom_target(themis_wave_b_runtime_ops_tests)
+    message(WARNING "themis_wave_b_runtime_ops_tests: no targets collected — check Wave B runtime/ops labels")
 endif()

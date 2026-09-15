@@ -27,7 +27,7 @@ Explain why this improvement would be valuable.
 <!-- Optional but recommended for immediate milestone assignment on issue creation.
      Examples: v2.4.1, v2.5.0-beta1, Q4 2026, Documentation, LONG-TERM -->
 
-**Target Version:** 
+**Target Version:**
 
 ## Acceptance Criteria
 

@@ -8,6 +8,7 @@ foreach(_src IN LISTS CONTENT_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_content_${_stem}_focused")
     set(_ctest "${_stem}_content_FocusedTests")
+    set(_labels content)
 
     if(TARGET ${_target})
         continue()
@@ -26,13 +27,19 @@ foreach(_src IN LISTS CONTENT_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_content_contract_hardening_focused" OR
+       _stem STREQUAL "test_content_policy" OR
+       _stem STREQUAL "test_content_streaming_ingestion")
+        list(APPEND _labels wave_b wave_b_boundary_content_io)
+    endif()
+
     themis_register_module_focused_test(
         MODULE content
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS content
+        LABELS ${_labels}
     )
 endforeach()
 

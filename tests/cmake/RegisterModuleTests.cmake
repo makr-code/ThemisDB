@@ -41,6 +41,62 @@ function(themis_register_module_test)
         if("release_critical" IN_LIST TRM_LABELS)
             set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS ${TRM_TARGET})
         endif()
+        if("wave_a_flow_server_llm" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS ${TRM_TARGET})
+        endif()
+        if("wave_a_flow_server_query_storage_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_FLOW_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_flow_sharding_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_FLOW_SHARDING_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_longrun_server_llm" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_LONGRUN_SERVER_LLM_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_longrun_server_query_storage_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_LONGRUN_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_longrun_sharding_transaction" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_LONGRUN_SHARDING_TRANSACTION_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_a_longrun_search_index_tensor_graph_llm" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_LONGRUN_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_b" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_B_TARGETS ${TRM_TARGET})
+        endif()
+        if("wave_b_boundary_api_transport" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_B_BOUNDARY_API_TRANSPORT_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_b_boundary_policy_control" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_B_BOUNDARY_POLICY_CONTROL_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_b_boundary_content_io" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_B_BOUNDARY_CONTENT_IO_TARGETS
+                ${TRM_TARGET})
+        endif()
+        if("wave_b_boundary_runtime_ops" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_B_BOUNDARY_RUNTIME_OPS_TARGETS
+                ${TRM_TARGET})
+        endif()
     endif()
 
     themis_register_test_target(

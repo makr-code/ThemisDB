@@ -6,8 +6,8 @@ Status: active
 ---
 # Wave Closure Backlog (A → B → C → D)
 
-Status: active  
-Scope: `develop` only  
+Status: active
+Scope: `develop` only
 Source basis: `ROADMAP.md`, `src/*/ROADMAP.md`, `src/*/FUTURE_ENHANCEMENTS.md`, `audit/evidence/waves/manifests/*_closure_manifest.json`
 
 ## Governance Rules (enforced)

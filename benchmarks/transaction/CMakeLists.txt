@@ -13,6 +13,18 @@ themis_register_benchmark_ctest(
     TARGET       bench_transaction_phase4
     MODULE       "transaction"
     TIMEOUT      300
-    EXTRA_LABELS release_critical phase4 transaction benchmark-baseline
+    EXTRA_LABELS release_critical phase4 transaction benchmark-baseline wave_a_benchmark_server_query_storage_transaction
     MIN_TIME     0.2s
 )
+
+if(TARGET bench_transaction_throughput)
+    themis_register_benchmark_ctest(
+        NAME         "bench_transaction_throughput_wave_a_smoke"
+        TARGET       "bench_transaction_throughput"
+        MODULE       "transaction"
+        KIND         "wave_a"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_a_benchmark_sharding_transaction benchmark-baseline throughput
+    )
+endif()

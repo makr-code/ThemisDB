@@ -139,7 +139,7 @@ jobs:
             - ${{ steps.evaluate.outputs.edition_icon }} Edition & License (`${{ needs.call-edition-license.result }}`)
             - ${{ steps.evaluate.outputs.hash_icon }} Hash & SBOM Integrity (`${{ needs.call-hash-sbom.result }}`)
             - ${{ steps.evaluate.outputs.plugin_icon }} Plugin Boundary (`${{ needs.call-plugin-boundary.result }}`)
-          error-summary: ${{ steps.evaluate.outputs.all_passed != 'true' && format('Failed gates: {0}', steps.evaluate.outputs.failed_gates) || '' }}
+          error-summary: "${{ steps.evaluate.outputs.all_passed != 'true' && format('Failed gates: {0}', steps.evaluate.outputs.failed_gates) || '' }}"
 
       - name: Enforce merge-readiness verdict
         run: |

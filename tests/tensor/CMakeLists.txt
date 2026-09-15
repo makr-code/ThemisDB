@@ -59,6 +59,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         )
     endif()
     set(_focused_timeout 120)
+    set(_extra_labels tensor)
     if("${_stem}" STREQUAL "test_tensor_stress_suite_focused")
         # Stress testing suite for TensorFingerprintGraph concurrent patterns (Block B2)
         target_sources(${_target} PRIVATE
@@ -68,6 +69,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         )
         # Long-running tests: allow extended timeout
         set(_focused_timeout 300)
+        list(APPEND _extra_labels stress wave_a_longrun_search_index_tensor_graph_llm)
     endif()
     if("${_stem}" STREQUAL "test_persistent_tensor_fingerprint_graph")
         target_sources(${_target} PRIVATE
@@ -155,6 +157,6 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT ${_focused_timeout}
-        LABELS tensor
+        LABELS ${_extra_labels}
     )
 endforeach()

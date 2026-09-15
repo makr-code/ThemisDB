@@ -6,9 +6,9 @@ Status: active
 ---
 # Remaining Open Gates Tracker (Wave A→D)
 
-Status: active  
-Scope: `develop`  
-Last Updated: 2026-09-15  
+Status: active
+Scope: `develop`
+Last Updated: 2026-09-15
 Purpose: track unresolved benchmark/closure evidence that remains explicitly open in manifests.
 
 ## Resolved since last update (2026-09-15)

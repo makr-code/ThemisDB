@@ -12,6 +12,7 @@ foreach(_src IN LISTS PLUGINS_MODULE_TEST_SOURCES)
     set(_target "module_plugins_${_stem}_focused")
     set(_ctest  "${_stem}_plugins_FocusedTests")
     set(_extra_sources)
+    set(_labels plugins)
 
     if(TARGET ${_target})
         continue()
@@ -54,12 +55,18 @@ foreach(_src IN LISTS PLUGINS_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_plugin_boundary_enforcement_focused" OR
+       _stem STREQUAL "test_plugin_manifest_edition_gates_focused" OR
+       _stem STREQUAL "test_plugins_contract_hardening_focused")
+        list(APPEND _labels wave_b wave_b_boundary_policy_control)
+    endif()
+
     themis_register_module_focused_test(
         MODULE plugins
         NAME   ${_ctest}
         TARGET ${_target}
         TIER   unit
         TIMEOUT 120
-        LABELS  plugins
+        LABELS  ${_labels}
     )
 endforeach()

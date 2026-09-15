@@ -8,6 +8,7 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_observability_${_stem}_focused")
     set(_ctest "${_stem}_observability_FocusedTests")
+    set(_labels observability)
 
     if(TARGET ${_target})
         continue()
@@ -77,12 +78,18 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_observability_contract_hardening_focused" OR
+       _stem STREQUAL "test_tracing_integration_transaction" OR
+       _stem STREQUAL "test_tracing_integration_sharding")
+        list(APPEND _labels wave_b wave_b_boundary_runtime_ops)
+    endif()
+
     themis_register_module_focused_test(
         MODULE observability
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS observability
+        LABELS ${_labels}
     )
 endforeach()
