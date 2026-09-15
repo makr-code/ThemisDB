@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-09-15T04:00:00Z",
+  "wave": "Wave B",
+  "module": "wave-b-module-hardening",
+  "workflow": "build-benchmarks.yml",
+  "run_id": "34805894351",
+  "overall_status": "open",
+  "gates": {
+    "B_modules_query": "in_progress",
+    "B_modules_acceleration": "pending",
+    "B_modules_llm_wiki": "in_progress",
+    "B_modules_llm": "in_progress",
+    "B_modules_index": "pending",
+    "B_modules_rag": "success",
+    "B_modules_search": "success",
+    "B_modules_updates": "success"
+  },
+  "evidence_references": {
+    "roadmap_contract": "ROADMAP.md#wave-b-hardening-finish-after-wave-a-gates",
+    "source_backlog": "audit/evidence/waves/WAVE_CLOSURE_BACKLOG.md",
+    "root_future_enhancements": "FUTURE_ENHANCEMENTS.md#wave-closure-implementation-sequence-active",
+    "benchmark_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34805894351",
+    "query_fts_evidence": "benchmarks/rag/bench_fts_phase_b.cpp",
+    "rag_wave_b_acceptance": "src/rag/PHASE_5_6_ACCEPTANCE_REPORT.md",
+    "rag_wave_b_roadmap": "src/rag/ROADMAP.md",
+    "updates_module_evidence": "src/updates/MODULE_EVIDENCE.md",
+    "updates_roadmap": "src/updates/ROADMAP.md",
+    "llm_wiki_wave_b_bundle": "src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md",
+    "llm_roadmap": "src/llm/ROADMAP.md"
+  },
+  "source_validation": {
+    "code": true,
+    "tests": true,
+    "ci": true,
+    "benchmarks": false
+  },
+  "notes": "2026-09-15 evidence-fill advance: B_modules_rag promoted to success (src/rag/ROADMAP.md Wave B exit criteria ✅ SATISFIED, Phase 5-6 complete 2026-08-18, 270+ tests, 4 benchmark suites); B_modules_updates promoted to success (v1.1.0 GA complete, performance gates UPDP-4..7 PASS, src/updates/MODULE_EVIDENCE.md); B_modules_search already success. B_modules_query/llm/llm_wiki advanced to in_progress based on Phase B source deliveries. Acceleration and index remain pending (significant Wave B gaps outstanding)."
+}
