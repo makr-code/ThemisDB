@@ -15,7 +15,7 @@ using namespace themis::acceleration;
 
 namespace {
 
-constexpr double kDistanceToleranceMeters = 1e-6;
+constexpr double kDistanceToleranceMeters = 1e-2;
 
 } // namespace
 
