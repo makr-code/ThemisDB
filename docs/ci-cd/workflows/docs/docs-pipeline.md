@@ -84,7 +84,7 @@ doc-header-check (changed-only), drift-detection, validation-summary.
 
 **Schritte:**
 
-- **Download site artifact** — `actions/download-artifact@v4`
+- **Download site artifact** — `actions/download-artifact@v4.1.3`
 - **Configure GitHub Pages** — `actions/configure-pages@v4`
 - **Upload to Pages** — `actions/upload-pages-artifact@v3`
 - **Deploy to GitHub Pages** — `actions/deploy-pages@v4`
@@ -99,5 +99,4 @@ doc-header-check (changed-only), drift-detection, validation-summary.
 
 - [Workflow-Datei](../../.github/workflows/docs_docs-pipeline.yml)
 - [Alle Workflows](../README.md)
-
 

@@ -61,7 +61,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 **Schritte:**
 
 - **Checkout repository** — `actions/checkout@v4`
-- **Download benchmark results artifact** — `actions/download-artifact@v4`
+- **Download benchmark results artifact** — `actions/download-artifact@v4.1.3`
 - **Rebuild baseline from latest results** — `python3 - <<'PYEOF'`
 - **Commit and push updated baseline** — `git config user.name  'ThemisDB CI Bot'`
 - **Write job summary** — `echo "## ⚡ Acceleration Benchmark CI – Update Baseline" >> "$GITHUB_STEP_SUMMARY`
@@ -82,5 +82,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_acceleration_acceleration-benchmark-ci.yml)
 - [Alle Workflows](../README.md)
-
 

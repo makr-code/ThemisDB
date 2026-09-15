@@ -91,7 +91,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenAPI SDK G
 **Schritte:**
 
 - ***(ohne Name)*** — `actions/checkout@v4`
-- **Download all generated SDKs** — `actions/download-artifact@v4`
+- **Download all generated SDKs** — `actions/download-artifact@v4.1.3`
 - **Place SDKs in repository** — `mkdir -p openapi/generated/python openapi/generated/javascript openapi/generated`
 - **Commit and push generated SDKs** — `stefanzweifel/git-auto-commit-action@v5`
 
@@ -103,5 +103,4 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **OpenAPI SDK G
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_sdk-generation.yml)
 - [Alle Workflows](../README.md)
-
 
