@@ -131,6 +131,7 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
                 return !dispatch_queue_.empty() ||
                        shutdown_.load(std::memory_order_relaxed);
             });
+            lk.unlock();
             got = tryGetWork(thread_idx, work);
         }
 
