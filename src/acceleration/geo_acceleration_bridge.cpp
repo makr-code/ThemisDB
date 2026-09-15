@@ -67,6 +67,7 @@
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
 
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
@@ -167,12 +168,14 @@ double vincentyKm(double lat1, double lon1, double lat2, double lon2) noexcept {
     }
 
     if (!converged) {
-        return kEarthRadiusKm * 2.0 * std::atan2(std::sqrt(
-                std::sin((phi2 - phi1) / 2.0) * std::sin((phi2 - phi1) / 2.0) +
-                std::cos(phi1) * std::cos(phi2) * std::sin(L / 2.0) * std::sin(L / 2.0)),
-            std::sqrt(1.0 - (
-                std::sin((phi2 - phi1) / 2.0) * std::sin((phi2 - phi1) / 2.0) +
-                std::cos(phi1) * std::cos(phi2) * std::sin(L / 2.0) * std::sin(L / 2.0))));
+        const double sin_dphi = std::sin((phi2 - phi1) / 2.0);
+        const double sin_dlon = std::sin(L / 2.0);
+        const double haversine_a_raw = sin_dphi * sin_dphi
+                                     + std::cos(phi1) * std::cos(phi2) * sin_dlon * sin_dlon;
+        const double haversine_a = std::clamp(haversine_a_raw, 0.0, 1.0);
+        return kEarthRadiusKm * 2.0 * std::atan2(
+            std::sqrt(haversine_a),
+            std::sqrt(std::max(0.0, 1.0 - haversine_a)));
     }
 
     const double u2 = cos2Alpha * (kWgsA * kWgsA - kWgsB * kWgsB) / (kWgsB * kWgsB);

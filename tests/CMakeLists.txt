@@ -15328,8 +15328,8 @@ add_geo_focused_test(
     test_category_b_parity_geo
     geo/test_category_b_parity_geo.cpp
     test_category_b_parity_geo
-    "geo;cuda;parity;category-b;haversine;focused;integration"
-    "Category-B parity: Haversine CUDA vs CPU distance parity for rollout gate"
+    "geo;cuda;parity;category-b;haversine;contains;st-contains;focused;integration"
+    "Category-B parity: Haversine and ST_CONTAINS CUDA vs CPU parity for rollout gate"
 )
 
 if(THEMIS_GEO_CUDA)
