@@ -15324,6 +15324,14 @@ add_geo_focused_test(
     "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
 )
 
+add_geo_focused_test(
+    test_category_b_parity_geo
+    geo/test_category_b_parity_geo.cpp
+    test_category_b_parity_geo
+    "geo;cuda;parity;category-b;haversine;focused;integration"
+    "Category-B parity: Haversine CUDA vs CPU distance parity for rollout gate"
+)
+
 if(THEMIS_GEO_CUDA)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_cuda_geo_kernels.cpp")
         message(STATUS "Adding CUDA Geo Kernels focused tests (THEMIS_GEO_CUDA=ON)")

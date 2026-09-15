@@ -127,11 +127,11 @@ All major GPU acceleration backends are now fully implemented and integrated:
 
 #### A-08 · Geo CUDA Kernels (Partial Q3 2026) — Haversine + ST_CONTAINS + ST_DISTANCE
 <!-- Evidence verified 2026-09-15: cuda/geo_kernels.cu (393 LOC); geo_acceleration_bridge.cpp:bridge_geo_containment():141 -->
-- [~] Haversine batch CUDA kernel: `haversineDistanceKernel` implemented in `cuda/geo_kernels.cu:53`; RAII allocation and `cudaGetLastError()` present; kernel auto-tuning via `cudaOccupancyMaxPotentialBlockSize` at line 367. CPU parity test (tolerance ≤1e-6 metres) not yet committed as dedicated `test_category_b_parity_geo`. (Target: Q3 2026)
+- [x] Haversine batch CUDA kernel: `haversineDistanceKernel` implemented in `cuda/geo_kernels.cu:53`; RAII allocation and `cudaGetLastError()` present; kernel auto-tuning via `cudaOccupancyMaxPotentialBlockSize` at line 367. Dedicated parity test `tests/geo/test_category_b_parity_geo.cpp` added with CTest registration `test_category_b_parity_geo` (tolerance ≤1e-6 metres). (Target: Q3 2026)
 - [~] `ST_CONTAINS` GPU dispatch: `bridge_geo_containment()` in `geo_acceleration_bridge.cpp:141` bridges to geo module's `batchIntersects()`; no dedicated CUDA kernel in `cuda/geo_kernels.cu` (delegates to geo module GPU spatial backend). CPU parity test pending. (Target: Q3 2026)
 - [ ] `ST_DISTANCE` GPU dispatch: spherical geodesic distance batch; no standalone CUDA kernel confirmed in `cuda/geo_kernels.cu` — Haversine kernel covers distance but bridge function not verified for `ST_DISTANCE` path; CPU parity test pending. (Target: Q3 2026)
 - [ ] `ST_UNION` and `ST_DIFFERENCE` are explicitly **deferred to Q4 2026**; their dispatch paths MUST carry STUB/SIMULATION NOTE until then. (Target: Q4 2026)
-- [ ] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) — **file missing**; must be written after A-08 kernel completion. (Target: Q3 2026)
+- [x] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) now implemented in `tests/geo/test_category_b_parity_geo.cpp` and registered via `add_geo_focused_test` in `tests/CMakeLists.txt`. (Target: Q3 2026)
 
 #### GPU Benchmark Re-baseline
 - [ ] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json` (**file missing** as of 2026-09-15 — `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp` exists, baseline JSON not yet generated). (Target: Q3 2026)
@@ -151,7 +151,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [ ] Phase C pre-requisite: Geo kernel validation gates (lat/lon bounds, distance range) (Target: Q4 2026)
 - [ ] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback (Target: Q4 2026)
 - [ ] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback (Target: Q4 2026)
-- [ ] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) implemented and registered; pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [ ] Phase C ctest gate: `test_category_b_parity_bfs` (Target: Q4 2026)
 - [ ] Phase C ctest gate: `test_category_b_parity_dijkstra` (Target: Q4 2026)
 - [ ] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` (Target: Q4 2026)
