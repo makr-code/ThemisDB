@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T19:35:00Z",
+  "generated_at": "2026-09-15T04:00:00Z",
   "wave": "Wave B",
   "module": "wave-ab-gap-closure",
   "workflow": "gate-wave-closure.yml",
@@ -9,19 +9,24 @@
     "G1_marker_classification_split": "success",
     "G2_security_critical_real_gaps": "in_progress",
     "G3_runtime_critical_real_gaps": "in_progress",
-    "G4_unapproved_stub_mock_sim_blockers": "pending"
+    "G4_unapproved_stub_mock_sim_blockers": "in_progress"
   },
   "evidence_references": {
     "marker_classification": "audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md",
     "marker_locations": "audit/MARKER_LOCATIONS_2026-08-31.md",
     "source_backlog": "audit/evidence/waves/WAVE_CLOSURE_BACKLOG.md",
-    "follow_up_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34886223443"
+    "follow_up_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34886223443",
+    "g2_security_evidence": "tests/security/test_security_wavec_production_validation_focused.cpp",
+    "g2_security_roadmap": "src/security/ROADMAP.md",
+    "g3_query_fts_evidence": "benchmarks/rag/bench_fts_phase_b.cpp",
+    "g3_transaction_bundle": "src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md",
+    "g4_hsm_stub_closure": "src/security/ROADMAP.md (HSM stub now requires THEMIS_ALLOW_HSM_STUB=1 opt-in, 2026-08-31)"
   },
   "source_validation": {
-    "code": false,
-    "tests": false,
+    "code": true,
+    "tests": true,
     "ci": true,
     "benchmarks": false
   },
-  "notes": "Parallel A/B gap-closure evidence-fill cycle started with real follow-up gate run ID; marker split is verified and remaining real-gap closure tracks are explicitly in progress."
+  "notes": "2026-09-15 advance: G2 evidence strengthened — fail-closed production validation tests shipped 2026-08-17 (tests/security/test_security_wavec_production_validation_focused.cpp covers Vault/HSM/PKI matrix); security module still has 41 real gaps (audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md) — closure in_progress. G3 evidence strengthened — Query FTS executor Phase B delivered (bench_fts_phase_b.cpp), transaction Phase 1-3 test bundle shipped; remaining real gaps (chimera:38, llama_cpp:26, tensor:25) in_progress. G4 advanced to in_progress — HSM stub path now requires explicit opt-in (THEMIS_ALLOW_HSM_STUB=1), removing default non-production fallback; remaining unapproved paths still under audit."
 }
