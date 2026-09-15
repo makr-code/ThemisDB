@@ -533,7 +533,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_endurance_stress.cpp")
         Threads::Threads
     )
     set_tests_properties(test_voice_endurance_stress PROPERTIES
-        LABELS "integration;voice;endurance;stress;phase5"
+        LABELS "integration;voice;endurance;stress;phase5;wave_a_longrun_server_llm"
         TIMEOUT 600
     )
     message(STATUS "  Voice Phase 5.6: Endurance and stress testing (multi-session load, resource growth, memory leaks)")
@@ -738,5 +738,15 @@ foreach(_wave_a_sharding_txn_longrun_target IN ITEMS
         set_property(GLOBAL APPEND PROPERTY
             THEMIS_WAVE_A_LONGRUN_SHARDING_TRANSACTION_TARGETS
             ${_wave_a_sharding_txn_longrun_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_server_llm_longrun_target IN ITEMS
+    test_voice_endurance_stress
+)
+    if(TARGET ${_wave_a_server_llm_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SERVER_LLM_TARGETS
+            ${_wave_a_server_llm_longrun_target})
     endif()
 endforeach()

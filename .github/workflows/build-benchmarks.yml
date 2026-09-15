@@ -511,6 +511,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flow_name: server-llm
+            build_target: themis_wave_a_server_llm_longrun_tests
+            label_regex: wave_a_longrun_server_llm
+            artifact_name: wave-a-server-llm-longrun
+            soak_duration_ms: 0
           - flow_name: server-query-storage-transaction
             build_target: themis_wave_a_server_query_storage_transaction_longrun_tests
             label_regex: wave_a_longrun_server_query_storage_transaction
@@ -521,6 +526,11 @@ jobs:
             label_regex: wave_a_longrun_sharding_transaction
             artifact_name: wave-a-sharding-transaction-longrun
             soak_duration_ms: 120000
+          - flow_name: search-index-tensor-graph-llm
+            build_target: themis_wave_a_search_index_tensor_graph_llm_longrun_tests
+            label_regex: wave_a_longrun_search_index_tensor_graph_llm
+            artifact_name: wave-a-search-stack-longrun
+            soak_duration_ms: 0
     env:
       BUILD_DIR: build/wave-a-longrun
       RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}

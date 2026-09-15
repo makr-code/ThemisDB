@@ -23,6 +23,8 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         list(APPEND _labels layered_retrieval wave_a release_critical)
     elseif(_stem STREQUAL "test_search_integration_phase4")
         list(APPEND _labels integration wave_a release_critical)
+    elseif(_stem STREQUAL "test_search_distributed_merge_stress")
+        list(APPEND _labels distributed_merge stress wave_a_longrun_search_index_tensor_graph_llm)
     endif()
 
     add_executable(${_target} "${_src}")

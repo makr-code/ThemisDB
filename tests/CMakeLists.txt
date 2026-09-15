@@ -2989,11 +2989,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
                      --gtest_filter=DistributedGraphSharedMutexStressTest.*)
 
     set_tests_properties(DistributedGraphSharedMutexFocusedTests PROPERTIES
-        LABELS "graph;distributed;shared_mutex;concurrency;focused;unit"
+        LABELS "graph;distributed;shared_mutex;concurrency;focused;unit;wave_a_longrun_search_index_tensor_graph_llm"
         TIMEOUT 60
         ENVIRONMENT_MODIFICATION
             "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
+
+    set_property(GLOBAL APPEND PROPERTY
+        THEMIS_WAVE_A_LONGRUN_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS
+        test_graph_distributed_shared_mutex_focused)
 
     message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
 else()
@@ -28897,4 +28901,26 @@ if(_wave_a_sharding_txn_longrun_targets)
 else()
     add_custom_target(themis_wave_a_sharding_transaction_longrun_tests)
     message(WARNING "themis_wave_a_sharding_transaction_longrun_tests: no targets collected — check Wave A long-run sharding<->transaction labels")
+endif()
+
+get_property(_wave_a_server_llm_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SERVER_LLM_TARGETS)
+if(_wave_a_server_llm_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_server_llm_longrun_targets)
+    add_custom_target(themis_wave_a_server_llm_longrun_tests
+        DEPENDS ${_wave_a_server_llm_longrun_targets})
+    message(STATUS "themis_wave_a_server_llm_longrun_tests aggregate target covers: ${_wave_a_server_llm_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_server_llm_longrun_tests)
+    message(WARNING "themis_wave_a_server_llm_longrun_tests: no targets collected — check Wave A long-run server<->llm labels")
+endif()
+
+get_property(_wave_a_search_stack_longrun_targets GLOBAL PROPERTY THEMIS_WAVE_A_LONGRUN_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS)
+if(_wave_a_search_stack_longrun_targets)
+    list(REMOVE_DUPLICATES _wave_a_search_stack_longrun_targets)
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_longrun_tests
+        DEPENDS ${_wave_a_search_stack_longrun_targets})
+    message(STATUS "themis_wave_a_search_index_tensor_graph_llm_longrun_tests aggregate target covers: ${_wave_a_search_stack_longrun_targets}")
+else()
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_longrun_tests)
+    message(WARNING "themis_wave_a_search_index_tensor_graph_llm_longrun_tests: no targets collected — check Wave A long-run search/index/tensor/graph/llm labels")
 endif()
