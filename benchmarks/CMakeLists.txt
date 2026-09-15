@@ -2456,6 +2456,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/bench_acceleration_cuda_gate
     message(STATUS "  Acceleration CUDA gates: L2/cosine/inner-product speedup vs CPU (>=8x)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/bench_category_b_gpu_cpu_parity.cpp")
+    message(STATUS "Adding Category-B GPU/CPU parity benchmark gate")
+
+    add_executable(bench_category_b_gpu_cpu_parity
+        acceleration/bench_category_b_gpu_cpu_parity.cpp
+    )
+
+    target_link_libraries(bench_category_b_gpu_cpu_parity PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_category_b_gpu_cpu_parity PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_category_b_gpu_cpu_parity)
+
+    install(TARGETS bench_category_b_gpu_cpu_parity
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Category-B parity gate: BFS/Dijkstra/Geo ST_CONTAINS CUDA vs CPU")
+endif()
+
 # ============================================================================
 # CDC Pipeline Benchmarks
 # ConsumerGroupManager: createGroup/deleteGroup, fetchEventsAtLeastOnce,
