@@ -27,13 +27,6 @@ on:
       - 'v*-rc.*'
   pull_request_review:
     types: [submitted]
-    branches:
-      - develop
-      - minimal
-      - community
-      - enterprise
-      - hyperscaler
-      - military
   issue_comment:
     types: [created]
   schedule:
@@ -90,6 +83,14 @@ jobs:
             echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
+          case "${BASE_REF}" in
+            develop|minimal|community|enterprise|hyperscaler|military) ;;
+            *)
+              echo "run_pr_governance_gates=false" >> "$GITHUB_OUTPUT"
+              exit 0
+              ;;
+          esac
 
           git fetch origin "${BASE_REF}" --depth=1
           CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}...HEAD" || true)"
