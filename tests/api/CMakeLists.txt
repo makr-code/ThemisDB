@@ -8,6 +8,7 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_api_${_stem}_focused")
     set(_ctest "${_stem}_api_FocusedTests")
+    set(_labels api)
 
     if(TARGET ${_target})
         continue()
@@ -31,12 +32,18 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_api_contracts" OR
+       _stem STREQUAL "test_api_llm_grpc_focused" OR
+       _stem STREQUAL "test_api_grpc_server")
+        list(APPEND _labels wave_b wave_b_boundary_api_transport)
+    endif()
+
     themis_register_module_focused_test(
         MODULE api
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS api
+        LABELS ${_labels}
     )
 endforeach()

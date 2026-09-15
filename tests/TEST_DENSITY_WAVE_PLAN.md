@@ -115,6 +115,22 @@ Canonical flows:
 - Publish reproducible commands and labels for each boundary block.
 - Classify remaining indirect evidence as either sufficient-by-design or backlog.
 
+### Canonical execution blocks
+
+- Wave B full boundary rerun: `cmake --build build-community-release --target themis_wave_b_boundary_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_b" --output-on-failure --parallel 1 --timeout 180`
+- Wave B API / transport block: `cmake --build build-community-release --target themis_wave_b_api_transport_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_b_boundary_api_transport" --output-on-failure --parallel 1 --timeout 180`
+- Wave B policy / control block: `cmake --build build-community-release --target themis_wave_b_policy_control_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_b_boundary_policy_control" --output-on-failure --parallel 1 --timeout 180`
+- Wave B content / I/O block: `cmake --build build-community-release --target themis_wave_b_content_io_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_b_boundary_content_io" --output-on-failure --parallel 1 --timeout 180`
+- Wave B runtime / ops block: `cmake --build build-community-release --target themis_wave_b_runtime_ops_tests --parallel "$(nproc)" && ctest --test-dir build-community-release --label-regex "wave_b_boundary_runtime_ops" --output-on-failure --parallel 1 --timeout 180`
+
+### Current source-backed anchor policy
+
+- `api`, `network`, and `rpc_grpc` use contract/integration suites as the first explicit API/transport rerun block.
+- `auth`, `governance`, and `plugins` use policy, contract, and edition-boundary suites as the first explicit policy/control rerun block.
+- `importers`, `exporters`, and `content` use contract and hardening suites as the first explicit content/I/O rerun block.
+- `scheduler` and `observability` use contract plus runtime-integration suites as the first explicit runtime/ops rerun block.
+- Known quarantined suites remain excluded until their API/assertion drift is repaired, notably `tests/governance/test_operational_audit_evidence.cpp`, `tests/governance/test_policy_versioning_and_approval.cpp`, `tests/importers/test_importers_phase2b_exception_safety_focused.cpp`, `tests/importers/test_importers_phase2_phase3_integration_focused.cpp`, and `tests/importers/test_importers_phase2a_data_race_focused.cpp`.
+
 ### Exit criteria
 
 - Each boundary module has direct suite ownership and at least one documented cross-module flow.

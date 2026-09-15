@@ -44,7 +44,7 @@
 
 ### Phase 4: Wave-Ausfuehrung
 - [~] Wave A fuer release-kritische Kernpfade als erster Closure-Block verfolgen (`tests/TEST_DENSITY_WAVE_PLAN.md`); Benchmark- und Long-Run-CI-Lanes in `.github/workflows/build-benchmarks.yml` als kanonische Ausfuehrungswege nutzen (Target: 2026-Q4)
-- [ ] Wave B fuer Boundary-/API-/Policy-Module nach Wave A verdichten (Target: 2026-Q4)
+- [~] Wave B fuer Boundary-/API-/Policy-Module nach Wave A verdichten; Block-Aggregate `themis_wave_b_boundary_tests`, `themis_wave_b_api_transport_tests`, `themis_wave_b_policy_control_tests`, `themis_wave_b_content_io_tests` und `themis_wave_b_runtime_ops_tests` als kanonische Rerun-Pfade nutzen (Target: 2026-Q4)
 - [ ] Wave C fuer duenn abgesicherte Owner-Gaps nach Wave B schliessen (Target: 2026-Q4)
 - [ ] Wave D fuer repo-weite Hardening-/Sign-off-Abnahme nach Waves A-C abschliessen (Target: 2026-Q4)
 

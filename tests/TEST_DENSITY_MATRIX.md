@@ -198,6 +198,23 @@ Wave B exit expectation:
 - policy / contract / boundary regression reruns are reproducible from commands, labels, and current presets
 - no boundary module remains covered only by implied adjacency
 
+Wave B execution blocks:
+- `themis_wave_b_boundary_tests` + label `wave_b`
+- `themis_wave_b_api_transport_tests` + label `wave_b_boundary_api_transport`
+- `themis_wave_b_policy_control_tests` + label `wave_b_boundary_policy_control`
+- `themis_wave_b_content_io_tests` + label `wave_b_boundary_content_io`
+- `themis_wave_b_runtime_ops_tests` + label `wave_b_boundary_runtime_ops`
+
+Wave B current anchor sets:
+- API / transport: `tests/api/test_api_contracts.cpp`, `tests/api/test_api_grpc_server.cpp`, `tests/api/test_api_llm_grpc_focused.cpp`, `tests/network/test_network_contract_hardening_focused.cpp`, `tests/network/test_network_transport_resilience_focused.cpp`, `tests/network/test_wire_protocol_integration.cpp`, `tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp`, `tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp`
+- Policy / control: `tests/auth/test_wave4b_auth_hardening2.cpp`, `tests/auth/test_wave7_auth_ldap_federated.cpp`, `tests/governance/test_governance_contract_hardening_focused.cpp`, `tests/governance/test_governance_llm_policy_focused.cpp`, `tests/governance/test_compliance_framework.cpp`, `tests/plugins/test_plugin_boundary_enforcement_focused.cpp`, `tests/plugins/test_plugin_manifest_edition_gates_focused.cpp`, `tests/plugins/test_plugins_contract_hardening_focused.cpp`
+- Content / I/O: `tests/importers/test_importers_contract_hardening_focused.cpp`, `tests/importers/test_importers_new_connectors_focused.cpp`, `tests/importers/test_phase4_importer_hardening.cpp`, `tests/exporters/test_exporters_contract_hardening_focused.cpp`, `tests/exporters/test_exporters_phase23_hardening_focused.cpp`, `tests/exporters/test_export_encryption.cpp`, `tests/content/test_content_contract_hardening_focused.cpp`, `tests/content/test_content_policy.cpp`, `tests/content/test_content_streaming_ingestion.cpp`
+- Runtime / ops: `tests/scheduler/test_scheduler_contract_hardening_focused.cpp`, `tests/scheduler/test_scheduler_integration.cpp`, `tests/scheduler/test_scheduler_stress_burst_retention.cpp`, `tests/observability/test_observability_contract_hardening_focused.cpp`, `tests/observability/test_tracing_integration_transaction.cpp`, `tests/observability/test_tracing_integration_sharding.cpp`
+
+Known intentional exclusions for this batch:
+- governance suites still quarantined for API convergence: `tests/governance/test_operational_audit_evidence.cpp`, `tests/governance/test_policy_versioning_and_approval.cpp`
+- importer suites still quarantined for focused-only API/assertion drift: `tests/importers/test_importers_phase2b_exception_safety_focused.cpp`, `tests/importers/test_importers_phase2_phase3_integration_focused.cpp`, `tests/importers/test_importers_phase2a_data_race_focused.cpp`
+
 ### Wave C — ownership gap closure
 
 Target modules:

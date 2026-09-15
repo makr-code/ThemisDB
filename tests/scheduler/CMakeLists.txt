@@ -8,6 +8,7 @@ foreach(_src IN LISTS SCHEDULER_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_scheduler_${_stem}_focused")
     set(_ctest "${_stem}_scheduler_FocusedTests")
+    set(_labels scheduler)
 
     if(TARGET ${_target})
         continue()
@@ -26,12 +27,18 @@ foreach(_src IN LISTS SCHEDULER_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_scheduler_contract_hardening_focused" OR
+       _stem STREQUAL "test_scheduler_integration" OR
+       _stem STREQUAL "test_scheduler_stress_burst_retention")
+        list(APPEND _labels wave_b wave_b_boundary_runtime_ops)
+    endif()
+
     themis_register_module_focused_test(
         MODULE scheduler
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS scheduler
+        LABELS ${_labels}
     )
 endforeach()
