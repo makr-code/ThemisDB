@@ -269,6 +269,9 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
+    // Cross-compiler / cross-OS compatibility: RocksDB DB::OpenForReadOnly
+    // expects DB** on many packaged versions, so open with a raw pointer first
+    // and transfer ownership to std::unique_ptr after success.
     rocksdb::DB* db_raw = nullptr;
     rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_raw);
     std::unique_ptr<rocksdb::DB> db_owner(db_raw);

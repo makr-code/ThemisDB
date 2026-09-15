@@ -157,6 +157,9 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
+        // Cross-compiler / cross-OS compatibility: RocksDB DB::Open commonly
+        // takes DB** in distro packages, so use raw pointer open and then
+        // transfer ownership into std::unique_ptr.
         rocksdb::DB* db_raw = nullptr;
         const auto status = rocksdb::DB::Open(options, config.db_path, &db_raw);
         std::unique_ptr<rocksdb::DB> db_instance(db_raw);
