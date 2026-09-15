@@ -274,5 +274,55 @@ class WaveClosureValidationTests(unittest.TestCase):
             self.assertTrue(any("expected module 'gpu'" in v for v in payload["violations"]))
 
 
+    def test_existing_but_unparseable_manifest_not_reported_as_missing(self) -> None:
+        """A required manifest that exists but contains invalid JSON must not produce
+        a 'Missing required closure manifest' error — the parse error is sufficient."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifests = root / "manifests"
+            manifests.mkdir(parents=True)
+
+            # Write a JSON-invalid file so load_manifest returns (None, [error])
+            bad_path = manifests / "gpu_wave_a_closure_manifest.json"
+            bad_path.write_text("{not valid json", encoding="utf-8")
+            bad_path.with_suffix(".md").write_text("# sidecar\n", encoding="utf-8")
+
+            policy = root / "policy.json"
+            policy.write_text(
+                json.dumps(
+                    {
+                        "required_manifests": [
+                            {"file": "gpu_wave_a_closure_manifest.json", "wave": "Wave A", "module": "gpu"}
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            output = root / "out.json"
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "validate_wave_closure_packages.py",
+                    "--manifest-dir",
+                    str(manifests),
+                    "--policy-file",
+                    str(policy),
+                    "--output-json",
+                    str(output),
+                ]
+                code = validator.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 1)
+            self.assertFalse(payload["pass"])
+            # Parse error must be reported
+            self.assertTrue(any("gpu_wave_a_closure_manifest.json" in v for v in payload["violations"]))
+            # But "Missing required closure manifest" must NOT appear — the file existed
+            self.assertFalse(any("Missing required closure manifest" in v for v in payload["violations"]))
+
+
 if __name__ == "__main__":
     unittest.main()
