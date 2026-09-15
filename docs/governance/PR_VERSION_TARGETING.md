@@ -152,6 +152,7 @@ When a version is released or superseded:
 
 - The PR author sets the "Target Version" field
 - GitHub automation assigns the corresponding milestone when the PR is opened or the target field changes
+- If the PR omits the target field, automation falls back to the root `VERSION` file and derives the milestone as `v` + `VERSION` content when needed
 - If the milestone does not exist, the canonical milestone workflow can auto-create it from `.github/milestones.yml` settings before assignment
 
 ### 4.2 PR ↔ CHANGELOG Sync

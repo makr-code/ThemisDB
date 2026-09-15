@@ -367,6 +367,19 @@ jobs:
               return '';
             };
 
+            const versionFileMilestone = (() => {
+              try {
+                const rawVersion = fs.readFileSync('VERSION', 'utf8').trim();
+                if (!rawVersion) {
+                  return '';
+                }
+                return rawVersion.startsWith('v') ? rawVersion : `v${rawVersion}`;
+              } catch (err) {
+                core.warning(`Unable to read VERSION fallback: ${err.message}`);
+                return '';
+              }
+            })();
+
             const fetchMilestones = async () => {
               const all = [];
               for (const state of ['open', 'closed']) {
@@ -389,6 +402,13 @@ jobs:
             if (Boolean(settings.allow_target_version_override) && explicitMilestone) {
               selected = explicitMilestone;
               core.info(`Milestone from explicit target field: ${selected}`);
+            }
+
+            if (!selected) {
+              selected = versionFileMilestone;
+              if (selected) {
+                core.info(`Milestone fallback from VERSION: ${selected}`);
+              }
             }
 
             if (!selected) {
