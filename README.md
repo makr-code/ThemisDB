@@ -197,21 +197,26 @@ curl -X POST http://localhost:8765/v2/query \
 
 ## Architecture
 
-ThemisDB is organised into tracked source modules under `src/`, grouped into four logical layers:
+ThemisDB is organised into tracked source modules under `src/`. For current source-backed navigation, use:
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — generated tier/dependency map
+- [TARGET_ARCHITECTURE.md](TARGET_ARCHITECTURE.md) — target retrieval/reasoning stack
+- [ROADMAP.md](ROADMAP.md) — source-validated module status and delivery evidence
+
+The current target retrieval/reasoning path is a five-stage stack:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  API Layer       REST · GraphQL · gRPC · Wire V2     │
-├─────────────────────────────────────────────────────┤
-│  Query Layer     AQL · Optimizer · Planner · Cache   │
-├─────────────────────────────────────────────────────┤
-│  Storage Layer   RocksDB · MVCC · WAL · Sharding     │
-├─────────────────────────────────────────────────────┤
-│  Distributed     Raft · Replication · Failover · CDC │
-└─────────────────────────────────────────────────────┘
+ANN Frontdoor
+  -> Tensor Mid-Layer
+  -> Graph Truth Layer
+  -> LLM Wiki / Knowledge Context Layer
+  -> LLM / LoRA Final Layer
 ```
 
-→ Full architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)  
+`src/llm_wiki/` is the current source-backed module for the fourth stage. The checked-in implementation exposes the enterprise `ILLMWikiPlugin` contract, workspace/wiki ingest-query flows, guardrails, edition gates, YAML process-policy control, and the optional Wikipedia dump path.
+
+→ Generated module architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
+→ Target retrieval architecture: [TARGET_ARCHITECTURE.md](TARGET_ARCHITECTURE.md)
 → Module list and status: [ROADMAP.md](ROADMAP.md)
 
 ### Distributed Transactions

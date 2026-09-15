@@ -3,8 +3,8 @@
 # ThemisDB Target Architecture
 ## Hybrid Knowledge Retrieval Architecture
 
-**Status:** Active (ANN Frontdoor formalized — issue #5424)  
-**Date:** 2026-06-01
+**Status:** Active (source-backed LLM Wiki layer reality-check refresh)
+**Date:** 2026-09-15
 
 ---
 
@@ -110,7 +110,47 @@ no backend registered
 
 ---
 
-## 2.4 LLM / LoRA Final Layer
+## 2.4 LLM Wiki / Knowledge Context Layer
+
+**Source:** `src/llm_wiki/`, `include/llm_wiki/`, `include/llm/wiki_index_store.h`
+
+### Current Source-Backed Responsibilities
+- expose the enterprise `ILLMWikiPlugin` integration surface for ingest, query, workspace, and lint operations
+- enforce edition gating (`enterprise`, `hyperscaler`, `military`) and the optional `llm_wiki_wikipedia` sub-feature
+- manage persistent wiki workspaces via `WikiWorkspaceOrchestrator` and checksum-validated workspace state
+- apply guardrails for prompt-injection-style unsafe query/content patterns
+- load and hot-reload YAML process policy with fail-closed validation
+- activate RocksDB-backed persistence when available; otherwise keep the documented degraded in-memory fallback for non-production/test paths
+
+### Current Runtime Backends
+
+The checked-in implementation currently builds one wiki runtime around the public `ILLMWikiPlugin` contract:
+
+| Runtime Path | Current State | Source Evidence |
+|--------------|---------------|-----------------|
+| Markdown / workspace ingest-query flow | Implemented in `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp` | `ingest()`, `query()`, `wikiInit()`, `wikiIngest()`, `wikiQuery()`, `wikiLint()` |
+| Wikipedia dump ingest | Implemented behind the `llm_wiki_wikipedia` feature gate | `ingestWikipediaDump()`, `edition_gate.*` |
+| Confluence / Notion / internal-wiki connectors | Not present in the current repository snapshot | no checked-in backend code under `src/llm_wiki/` |
+
+### Retrieval / Persistence Notes
+- the long-term hybrid path uses `WikiIndexStore` (BM25 + HNSW + RRF) for production retrieval
+- current checked-in `src/llm_wiki/` runtime still centers on the plugin/workspace flow and staged Phase B persistence work
+- RocksDB persistence is source-backed through `rocksdb_wiki_store.*` and compile-time `THEMIS_USE_ROCKSDB` wiring
+
+### Output
+- workspace-scoped wiki context for downstream LLM prompting
+- persisted workspace/audit artefacts via the wiki workspace flow
+- gating/guardrail outcomes for caller-visible allow/deny behavior
+
+### Error Handling Surface
+- edition or feature not enabled -> `PermissionDenied`
+- plugin not initialized -> `NotInitialized`
+- invalid process policy / hot-reload failure -> fail closed with `Status::Error(...)`
+- unsafe query with `fail_open=false` -> empty result after guardrail detection
+
+---
+
+## 2.5 LLM / LoRA Final Layer
 
 ### Responsibilities
 - final grounded generation
@@ -128,73 +168,6 @@ no backend registered
 ### Output
 - grounded answer
 - optionally justification metadata
-
----
-
-## 2.5 LLM Wiki / Knowledge Context Layer
-
-**Source:** `src/llm_wiki/`
-
-### Responsibilities
-- provide structured external knowledge context to the LLM inference pipeline
-- route queries to configured wiki backends (Confluence, Notion, internal wikis)
-- enforce workspace isolation and per-tenant knowledge base separation
-- apply access control (public, authenticated, role-based)
-- apply guardrails: content sensitivity filtering, token counting, rate limiting
-- cache query results (per-workspace L1, shared anonymous L2)
-- emit full audit trail for all knowledge access events
-- hybrid retrieval: BM25 (sparse) + HNSW (dense) + RRF fusion via `index/`
-- persist workspace metadata and Phase B cache in RocksDB via `storage/`
-
-### Input Sources
-- LLM query + workspace ID + user identity
-- configured wiki plugin backends
-
-### Output
-- ranked wiki articles / context injected into LLM system prompt
-- audit events
-- token-count metadata for prompt budget management
-
-### Plugin Architecture
-
-Backends are pluggable through a standardized `WikiPlugin` interface:
-
-| Built-in Plugin    | Backend                        | Auth               |
-|--------------------|--------------------------------|--------------------|
-| Confluence Plugin  | Atlassian Confluence REST API  | API token / OAuth  |
-| Notion Plugin      | Notion API v1                  | Integration token  |
-| Internal Wiki      | Markdown / JSON file system    | None               |
-
-Custom backends extend the `WikiPlugin` base class and implement `search()` and `getArticle()`.
-
-### Access Control Model
-- Workspace-level isolation: separate knowledge bases per tenant
-- Document-level granular permissions (public / authenticated / role-based)
-- Query-level rate limiting per user and workspace
-
-### Guardrails
-- Credential, PII, and confidential marking detection (regex + keyword)
-- Token counting with graceful truncation to fit LLM context window
-- Configurable content sensitivity policy per workspace
-
-### Performance Targets (P99)
-- Cache hit: < 1 ms
-- Single plugin query: < 500 ms
-- Multi-plugin query (parallel): < 1000 ms
-- End-to-end context retrieval: < 2 s
-
-### Integration Contracts
-- LLM layer calls `WikiContextManager::getContext(query, workspace)` before inference; returned context is injected read-only into the system prompt.
-- Index module (`index/`) provides BM25 + HNSW + RRF hybrid ranking; cursor lifecycle owned by index.
-- Storage module (`storage/`) owns all RocksDB access for workspace state and cache persistence.
-
-### Error Handling (E9600–E9699)
-- Plugin unavailable → skip source, continue with remaining backends
-- Query timeout → return partial results
-- Access denied → return empty result + audit event
-- Token limit exceeded → truncate to fit
-
----
 
 ## 3. Retrieval Pipeline
 
