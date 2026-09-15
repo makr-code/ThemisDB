@@ -61,6 +61,7 @@
 //   src/acceleration/ARCHITECTURE.md                  — Integration Points (Section 5)
 
 #include "acceleration/geo_acceleration_bridge.h"
+#include "acceleration/batch_validator.h"
 #include "acceleration/cpu_backend.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
@@ -337,8 +338,10 @@ std::vector<float> GeoAccelerationBridge::batchDistances(
     size_t count,
     bool useHaversine
 ) {
-    if (!latitudes1 || !longitudes1 || !latitudes2 || !longitudes2) {
-        THEMIS_WARN("GeoAccelerationBridge::batchDistances: null input pointer");
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1, latitudes2, longitudes2, count, sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchDistances: invalid WGS84 batch input");
         return {};
     }
 
@@ -355,6 +358,11 @@ std::vector<float> GeoAccelerationBridge::batchDistances(
             results[i] = static_cast<float>(std::sqrt(dlat * dlat + dlon * dlon));
         }
     }
+    if (!BatchValidator::validateGeoDistanceResults(name(), results.data(), results.size(), sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchDistances: distance range validation failed");
+        return {};
+    }
+    clearError();
     return results;
 }
 
@@ -369,10 +377,12 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
-    if (!pointLats || !pointLons || !polygonCoords || numPolygonVertices < 3) {
-        THEMIS_WARN("GeoAccelerationBridge::batchPointInPolygon: "
-                    "invalid inputs (null pointer or < 3 polygon vertices)");
-        return std::vector<bool>(numPoints, false);
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
+                                                     numPolygonVertices, sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchPointInPolygon: invalid WGS84 polygon batch input");
+        return {};
     }
 
     // Build the polygon GeometryInfo once.
@@ -409,6 +419,7 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     for (size_t i = 0; i < mask_size && i < numPoints; ++i) {
         out[i] = (res.mask[i] != 0);
     }
+    clearError();
     return out;
 }
 

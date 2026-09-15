@@ -9,6 +9,11 @@
 
 Production-grade acceleration runtime with backend selection, fallback orchestration, plugin/security guards, and multi-device integration.
 
+### Closure Backlog (source-validated)
+- [~] Convert all open Acceleration roadmap items into closure artifacts with explicit evidence type (`code`, `test`, `benchmark`, `CI artifact`, `roadmap/changelog sync`). (Target: Q4 2026)
+  - 2026-09-15 update: Phase-C geo/BFS/Dijkstra constraints were moved to source-enforced runtime guards in `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/cpu_backend.cpp`, and `src/acceleration/geo_acceleration_bridge.cpp`, with regression coverage in `tests/acceleration/test_acceleration_regression.cpp`.
+  - Remaining closure evidence still requires self-hosted CUDA artifacts for parity and benchmark sign-off gates.
+
 **Hybrid Retrieval Rollout Readiness**: 45% 🟡 (issue #5468).
 - Phase A (exact-first): ✅ No acceleration used — safe.
 - Phase B (advisory-only Category A: distance, TopK): 🟡 Q3 2026 after result validation hardening (320 gaps).
@@ -148,9 +153,9 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [ ] Phase B pre-requisite: memory boundary violation fixes (195 gaps → 78) (Target: Q3 2026)
 - [ ] Phase B pre-requisite: CONSTRAINT_A1–A5 enforcement for Category A kernels (Target: Q3 2026)
 - [ ] Phase B pre-requisite: AddressSanitizer gate clean before merge (Target: Q3 2026)
-- [ ] Phase C pre-requisite: Geo kernel validation gates (lat/lon bounds, distance range) (Target: Q4 2026)
-- [ ] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback (Target: Q4 2026)
-- [ ] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback (Target: Q4 2026)
+- [x] Phase C pre-requisite: Geo kernel validation gates (lat/lon bounds, distance range) implemented via `BatchValidator::validateGeoBatch`, `validatePointInPolygonBatch`, and `validateGeoDistanceResults`; wired into CUDA/CPU/bridge geo backends. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/cpu_backend.cpp`, `src/acceleration/geo_acceleration_bridge.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
+- [x] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback implemented via bounded-execution guard `BatchValidator::shouldUseCpuFallbackForGraphBFS` and runtime fallback path in `CUDAGraphBackend::batchBFS`. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
+- [x] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback implemented via `BatchValidator::shouldUseCpuFallbackForShortestPath` and guarded runtime fallback path in `CUDAGraphBackend::batchShortestPath`. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) implemented and registered; pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_bfs` implemented and registered (`tests/graph/test_category_b_parity_bfs.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_dijkstra` implemented and registered (`tests/graph/test_category_b_parity_dijkstra.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
@@ -183,6 +188,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [~] Enforce fail-closed behavior for malformed workload input, plugin/signature failure, and partial device outages (Target: Q4 2026)
   - 2026-08-31: oneAPI USM allocation failures now fail closed before device copies, and break-even routing rejects malformed distance/top-k profiles instead of silently using placeholder timings.
 - [ ] Standardize fallback semantics when optional acceleration features are unavailable (Target: Q4 2026)
+  - 2026-09-15: CUDA graph BFS/SP now applies deterministic bounded-input fallback to CPU for out-of-contract workloads (`numVertices > 10k`, `maxDepth > 3`, negative/non-finite/overflow-risk edge weights) instead of undefined behavior.
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for backend matrix, plugin security, and fallback correctness (Target: Q4 2026)

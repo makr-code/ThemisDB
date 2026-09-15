@@ -301,6 +301,9 @@ std::vector<float> CPUGeoBackend::batchDistances(const double *latitudes1, const
                                     : vincentyDistance(latitudes1[i], longitudes1[i], latitudes2[i], longitudes2[i]);
         distances[i] = static_cast<float>(dist);
     }
+    if (!BatchValidator::validateGeoDistanceResults(name(), distances.data(), distances.size(), sink)) {
+        return {};
+    }
 
     return distances;
 }

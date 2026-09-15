@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Acceleration Phase-C Guard Hardening (2026-09-15)
+
+- Added strict WGS84 range validation and geo distance output-range validation in `BatchValidator` and wired checks into CPU/CUDA/bridge geo batch paths (`include/acceleration/batch_validator.h`, `src/acceleration/cpu_backend.cpp`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/geo_acceleration_bridge.cpp`).
+- Added bounded GPU execution fallback guards for graph workloads:
+  - BFS fallback to CPU when workload exceeds contract (`numVertices > 10k` or `maxDepth > 3`).
+  - Shortest-path fallback to CPU when active edge weights are negative, non-finite, or exceed overflow-safe bounds.
+- Added regression coverage for new validator/fallback guards in both acceleration regression suites (`tests/acceleration/test_acceleration_regression.cpp`, `tests/test_acceleration_regression.cpp`).
+- Synced `src/acceleration/ROADMAP.md` Hybrid Retrieval Rollout gates for Phase-C geo/BFS/Dijkstra prerequisites to source-validated complete status.
+
 ### Wave C ML — Graph Phase Gate Orchestration (2026-09-09)
 
 - Added `themis::graph::GraphPhaseGateOrchestrator` (`include/graph/graph_phase_gate_orchestrator.h`, `src/graph/graph_phase_gate_orchestrator.cpp`) for DAG-based ML pipeline phase tracking with prerequisite-aware gate evaluation, metric thresholds, structured gap reporting, deterministic topological ordering, and completion tracking.
