@@ -152,8 +152,8 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [ ] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback (Target: Q4 2026)
 - [ ] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_category_b_parity_geo` (Haversine GPU vs CPU) implemented and registered; pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
-- [ ] Phase C ctest gate: `test_category_b_parity_bfs` (Target: Q4 2026)
-- [ ] Phase C ctest gate: `test_category_b_parity_dijkstra` (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_category_b_parity_bfs` implemented and registered (`tests/graph/test_category_b_parity_bfs.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
+- [~] Phase C ctest gate: `test_category_b_parity_dijkstra` implemented and registered (`tests/graph/test_category_b_parity_dijkstra.cpp`, `tests/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 - [ ] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` (Target: Q4 2026)
 
 ### Short-term (3-6 months)

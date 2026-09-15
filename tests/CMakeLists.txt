@@ -28539,6 +28539,68 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
     message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_bfs.cpp")
+    message(STATUS "Adding Category-B BFS parity focused test")
+
+    add_executable(test_category_b_parity_bfs
+        graph/test_category_b_parity_bfs.cpp
+    )
+
+    target_include_directories(test_category_b_parity_bfs PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_category_b_parity_bfs PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_category_b_parity_bfs PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME test_category_b_parity_bfs COMMAND test_category_b_parity_bfs)
+    set_tests_properties(test_category_b_parity_bfs PROPERTIES
+        LABELS "graph;cuda;parity;category-b;bfs;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  Category-B BFS parity: CUDA vs CPU traversal parity and depth cutoff checks")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_dijkstra.cpp")
+    message(STATUS "Adding Category-B Dijkstra parity focused test")
+
+    add_executable(test_category_b_parity_dijkstra
+        graph/test_category_b_parity_dijkstra.cpp
+    )
+
+    target_include_directories(test_category_b_parity_dijkstra PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_category_b_parity_dijkstra PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_category_b_parity_dijkstra PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME test_category_b_parity_dijkstra COMMAND test_category_b_parity_dijkstra)
+    set_tests_properties(test_category_b_parity_dijkstra PROPERTIES
+        LABELS "graph;cuda;parity;category-b;dijkstra;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  Category-B Dijkstra parity: CUDA vs CPU shortest-path parity checks")
+endif()
+
 # ============================================================================
 # Wave B B2: RotatE Knowledge Graph Completion (KGC-01..KGC-15)
 # ============================================================================
