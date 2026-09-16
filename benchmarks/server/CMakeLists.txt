@@ -134,3 +134,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_http3_gates.cpp")
     message(STATUS "  SVR-H3-01: Connection-migration latency p99<=5us")
     message(STATUS "  SVR-H3-02: 0-RTT resumption decision latency p99<=1us")
 endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_dedicated_gates.cpp")
+    message(STATUS "Adding Wave D server dedicated-gate benchmarks (SRV-BM-01..SRV-BM-04)")
+    add_executable(bench_server_dedicated_gates bench_server_dedicated_gates.cpp)
+    target_include_directories(bench_server_dedicated_gates PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(bench_server_dedicated_gates PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(bench_server_dedicated_gates PRIVATE THEMIS_BENCHMARK_BUILD=1)
+    themis_apply_benchmark_release_flags(bench_server_dedicated_gates)
+    install(TARGETS bench_server_dedicated_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    themis_register_benchmark_ctest(
+        NAME         "bench_server_dedicated_gates_wave_d"
+        TARGET       "bench_server_dedicated_gates"
+        MODULE       "server"
+        KIND         "wave_d"
+        TIMEOUT      120
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_d benchmark-baseline not_release_critical
+    )
+    message(STATUS "  SRV-BM-01: route-dispatch p95 ≤10µs")
+    message(STATUS "  SRV-BM-02: rate-limit check p95 ≤5µs")
+    message(STATUS "  SRV-BM-03: WASM invoke p99 ≤100µs")
+    message(STATUS "  SRV-BM-04: auth-token validate p95 ≤20µs")
+endif()

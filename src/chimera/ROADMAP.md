@@ -32,14 +32,14 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior across adapter dispatch edge permutations (Target: Q4 2026)
-- [ ] expand regression coverage for engine-availability and fallback behavior (Target: Q4 2026)
-- [ ] improve operator diagnostics for adapter contract and runtime mismatch incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior across adapter dispatch edge permutations (Delivered: Wave D 2026-09-16 — high-cardinality stress)
+- [x] expand regression coverage for engine-availability and fallback behavior (Delivered: Wave D — `tests/chimera/test_chimera_highcardinality_stress.cpp`)
+- [x] improve operator diagnostics for adapter contract and runtime mismatch incidents (Delivered: Wave D — `docs/operability/RUNBOOK_CHIMERA.md`)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline adapter p95/p99 envelopes for release-profile compatibility paths (Target: Q1 2027)
-- [ ] add dedicated chimera-native benchmark coverage for adapter operations (Target: Q1 2027)
-- [ ] evaluate modular multi-vendor adapter expansion strategy within src/chimera (Target: Q1 2027)
+- [~] re-baseline adapter p95/p99 envelopes for release-profile compatibility paths (Target: Q1 2027)
+- [~] add dedicated chimera-native benchmark coverage for adapter operations (Delivered: Wave D — `benchmarks/chimera/bench_chimera_dedicated_gates.cpp` CH-BM-01..04)
+- [~] evaluate modular multi-vendor adapter expansion strategy within src/chimera (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -48,17 +48,17 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [x] define explicit error taxonomy for connection/capability/dispatch failures (2026-08-09: DISPATCH_FAILED=14, CAPABILITY_MISMATCH=15 added to ErrorCode; taxonomy in CHIMERA_ADAPTER_CONTRACT.md §3)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)
-- [ ] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)
+- [~] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] Gap-Closure Wave 2: all third-party adapter methods return `NOT_IMPLEMENTED` when library not compiled in — no silent success (2026-08-31)
 - [ ] standardize fail-closed behavior for invalid connection/dispatch states (Target: Q4 2026)
-- [ ] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
+- [~] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for adapter lifecycle and dispatch edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
+- [x] expand focused regressions for adapter lifecycle and dispatch edge scenarios (Delivered: Wave D — `tests/chimera/test_chimera_highcardinality_stress.cpp`)
+- [~] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026) — GATE-CHM-01..06 benchmarks delivered (2026-08-07)
@@ -100,9 +100,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `chimera`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/chimera/test_chimera_highcardinality_stress.cpp`, CH-BM-01..04 benchmark gates)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_chimera_soak.cpp`)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_CHIMERA.md`)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -110,6 +110,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: CH-BM-01..04 in `benchmarks/chimera/bench_chimera_dedicated_gates.cpp`)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_CHIMERA.md`)

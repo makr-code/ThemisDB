@@ -163,14 +163,34 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_maintenance_endurance_focused.cpp")
             spdlog::spdlog
             Threads::Threads
         )
-        target_compile_definitions(${_target_endurance} PRIVATE THEMIS_TEST_BUILD=1)
+    endif()
+endif()
+
+# Wave D: high-cardinality stress test for maintenance module.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_maintenance_highcardinality_stress.cpp")
+    set(_target_hc_stress "module_maintenance_test_maintenance_highcardinality_stress")
+    if(NOT TARGET ${_target_hc_stress})
+        add_executable(${_target_hc_stress}
+            test_maintenance_highcardinality_stress.cpp
+        )
+        target_include_directories(${_target_hc_stress} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+        target_link_libraries(${_target_hc_stress} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+        target_compile_definitions(${_target_hc_stress} PRIVATE THEMIS_TEST_BUILD=1)
         themis_register_module_focused_test(
             MODULE maintenance
-            NAME   test_maintenance_endurance_focused_maintenance_FocusedTests
-            TARGET ${_target_endurance}
-            TIER   integration
+            NAME   test_maintenance_highcardinality_stress_FocusedTests
+            TARGET ${_target_hc_stress}
+            TIER   stress
             TIMEOUT 120
-            LABELS  maintenance endurance
+            LABELS  maintenance wave_d stress not_release_critical
         )
     endif()
 endif()

@@ -61,12 +61,14 @@
 //   src/acceleration/ARCHITECTURE.md                  — Integration Points (Section 5)
 
 #include "acceleration/geo_acceleration_bridge.h"
+#include "acceleration/batch_validator.h"
 #include "acceleration/cpu_backend.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
 #include "utils/geometric_distances.h"
 
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
@@ -105,6 +107,89 @@ namespace acceleration {
 namespace {
 constexpr double kEarthRadiusKm = 6371.0;
 constexpr double kDegToRad      = 3.141592653589793238462643383279502884 / 180.0;
+constexpr double kWgsA          = 6378137.0;           // semi-major axis (m)
+constexpr double kWgsF          = 1.0 / 298.257223563; // flattening
+constexpr double kWgsB          = 6356752.314245;      // semi-minor axis (m)
+constexpr double kWgsMeridianHalfCircumferenceMeters = 20003931.459; // WGS84 meridian half-circumference (m)
+constexpr double kVincentyTol   = 1e-12;
+
+double vincentyKm(double lat1, double lon1, double lat2, double lon2) noexcept {
+    const double phi1 = lat1 * kDegToRad;
+    const double phi2 = lat2 * kDegToRad;
+    const double L = (lon2 - lon1) * kDegToRad;
+
+    const double U1 = std::atan((1.0 - kWgsF) * std::tan(phi1));
+    const double U2 = std::atan((1.0 - kWgsF) * std::tan(phi2));
+    const double sinU1 = std::sin(U1), cosU1 = std::cos(U1);
+    const double sinU2 = std::sin(U2), cosU2 = std::cos(U2);
+
+    if (cosU1 < kVincentyTol && cosU2 < kVincentyTol) {
+        if (sinU1 * sinU2 > 0.0) {
+            return 0.0;
+        }
+        return kWgsMeridianHalfCircumferenceMeters / 1000.0;
+    }
+
+    double lambda = L;
+    double sinSigma = 0.0, cosSigma = 0.0, sigma = 0.0;
+    double sinAlpha = 0.0, cos2Alpha = 0.0, cos2SigmaM = 0.0;
+    bool converged = false;
+    constexpr int kMaxIterations = 200;
+
+    for (int iter = 0; iter < kMaxIterations; ++iter) {
+        const double sinLambda = std::sin(lambda);
+        const double cosLambda = std::cos(lambda);
+
+        const double a1 = cosU2 * sinLambda;
+        const double a2 = cosU1 * sinU2 - sinU1 * cosU2 * cosLambda;
+        sinSigma = std::sqrt(a1 * a1 + a2 * a2);
+
+        if (sinSigma < kVincentyTol) {
+            return 0.0;
+        }
+
+        cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+        sigma = std::atan2(sinSigma, cosSigma);
+        sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;
+        cos2Alpha = 1.0 - sinAlpha * sinAlpha;
+        cos2SigmaM = (cos2Alpha > kVincentyTol)
+                         ? cosSigma - 2.0 * sinU1 * sinU2 / cos2Alpha
+                         : 0.0;
+
+        const double C = kWgsF / 16.0 * cos2Alpha * (4.0 + kWgsF * (4.0 - 3.0 * cos2Alpha));
+        const double lambda_prev = lambda;
+        lambda = L + (1.0 - C) * kWgsF * sinAlpha
+                       * (sigma + C * sinSigma
+                                      * (cos2SigmaM + C * cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)));
+
+        if (std::fabs(lambda - lambda_prev) <= kVincentyTol) {
+            converged = true;
+            break;
+        }
+    }
+
+    if (!converged) {
+        const double sin_dphi = std::sin((phi2 - phi1) / 2.0);
+        const double sin_dlon = std::sin(L / 2.0);
+        const double haversine_a_raw = sin_dphi * sin_dphi
+                                     + std::cos(phi1) * std::cos(phi2) * sin_dlon * sin_dlon;
+        const double haversine_a = std::clamp(haversine_a_raw, 0.0, 1.0);
+        return kEarthRadiusKm * 2.0 * std::atan2(
+            std::sqrt(haversine_a),
+            std::sqrt(std::max(0.0, 1.0 - haversine_a)));
+    }
+
+    const double u2 = cos2Alpha * (kWgsA * kWgsA - kWgsB * kWgsB) / (kWgsB * kWgsB);
+    const double kA = 1.0 + u2 / 16384.0 * (4096.0 + u2 * (-768.0 + u2 * (320.0 - 175.0 * u2)));
+    const double kB = u2 / 1024.0 * (256.0 + u2 * (-128.0 + u2 * (74.0 - 47.0 * u2)));
+    const double dSigma = kB * sinSigma
+                          * (cos2SigmaM + kB / 4.0
+                                              * (cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)
+                                                 - kB / 6.0 * cos2SigmaM * (-3.0 + 4.0 * sinSigma * sinSigma)
+                                                       * (-3.0 + 4.0 * cos2SigmaM * cos2SigmaM)));
+
+    return (kWgsB * kA * (sigma - dSigma)) / 1000.0;
+}
 
 // ---------------------------------------------------------------------------
 // Static kernel dispatch functions
@@ -118,15 +203,19 @@ static int bridge_geo_distance(
     const double* lats1, const double* lons1,
     const double* lats2, const double* lons2,
     float* out_distances, int count,
-    themis::acceleration::GeoDistanceFormula /*formula*/,
+    themis::acceleration::GeoDistanceFormula formula,
     void* /*stream*/)
 {
     if (!lats1 || !lons1 || !lats2 || !lons2 || !out_distances || count <= 0) {
         return 1;
     }
     for (int i = 0; i < count; ++i) {
-        const double dlat  = (lats2[i] - lats1[i]) * kDegToRad;
-        const double dlon  = (lons2[i] - lons1[i]) * kDegToRad;
+        if (formula == themis::acceleration::GeoDistanceFormula::VINCENTY) {
+            out_distances[i] = static_cast<float>(vincentyKm(lats1[i], lons1[i], lats2[i], lons2[i]));
+            continue;
+        }
+        const double dlat = (lats2[i] - lats1[i]) * kDegToRad;
+        const double dlon = (lons2[i] - lons1[i]) * kDegToRad;
         const double rlat1 = lats1[i] * kDegToRad;
         const double rlat2 = lats2[i] * kDegToRad;
         const double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
@@ -253,8 +342,10 @@ std::vector<float> GeoAccelerationBridge::batchDistances(
     size_t count,
     bool useHaversine
 ) {
-    if (!latitudes1 || !longitudes1 || !latitudes2 || !longitudes2) {
-        THEMIS_WARN("GeoAccelerationBridge::batchDistances: null input pointer");
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1, latitudes2, longitudes2, count, sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchDistances: invalid WGS84 batch input");
         return {};
     }
 
@@ -271,6 +362,11 @@ std::vector<float> GeoAccelerationBridge::batchDistances(
             results[i] = static_cast<float>(std::sqrt(dlat * dlat + dlon * dlon));
         }
     }
+    if (!BatchValidator::validateGeoDistanceResults(name(), results.data(), results.size(), sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchDistances: distance range validation failed");
+        return {};
+    }
+    clearError();
     return results;
 }
 
@@ -285,10 +381,12 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
-    if (!pointLats || !pointLons || !polygonCoords || numPolygonVertices < 3) {
-        THEMIS_WARN("GeoAccelerationBridge::batchPointInPolygon: "
-                    "invalid inputs (null pointer or < 3 polygon vertices)");
-        return std::vector<bool>(numPoints, false);
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
+                                                     numPolygonVertices, sink)) {
+        THEMIS_WARN("GeoAccelerationBridge::batchPointInPolygon: invalid WGS84 polygon batch input");
+        return {};
     }
 
     // Build the polygon GeometryInfo once.
@@ -325,6 +423,7 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     for (size_t i = 0; i < mask_size && i < numPoints; ++i) {
         out[i] = (res.mask[i] != 0);
     }
+    clearError();
     return out;
 }
 

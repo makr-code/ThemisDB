@@ -1,4 +1,10 @@
 # chaos module tests
+#
+# Wave D additions picked up by the glob below:
+#   test_chaos_highcardinality_stress.cpp
+#     → target: module_chaos_test_chaos_highcardinality_stress_focused
+#     → ctest:  test_chaos_highcardinality_stress_chaos_FocusedTests
+#     → labels: wave_d;stress;not_release_critical  (set via set_tests_properties after loop)
 
 file(GLOB CHAOS_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
@@ -49,3 +55,13 @@ foreach(_src IN LISTS CHAOS_MODULE_TEST_SOURCES)
         LABELS chaos
     )
 endforeach()
+
+# ─── Wave D stress label override ────────────────────────────────────────────
+# test_chaos_highcardinality_stress is registered by the loop above with the
+# standard "chaos" label.  Override labels here to add Wave D stress markers.
+if(TEST "test_chaos_highcardinality_stress_chaos_FocusedTests")
+    set_tests_properties(
+        "test_chaos_highcardinality_stress_chaos_FocusedTests"
+        PROPERTIES LABELS "chaos;wave_d;stress;not_release_critical"
+    )
+endif()

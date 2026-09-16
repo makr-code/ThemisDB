@@ -1,12 +1,22 @@
 # AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Wave Status: A ✅ COMPLETE · B ✅ SIGNED OFF 2026-09-09 · C ✅ COMPLETE · D 🟡 IN PROGRESS (D1✅ D3~) Q1 2027 -->
 
 ## Current Status
 
 Production runtime exists for prompt validation, endpoint invocation, JSON mapping, and structured fail-closed error handling.
+
+**Wave Summary (2026-09-16):**
+
+| Wave | Scope | Status | Evidence |
+|---|---|---|---|
+| **A** | Runtime reliability: validation, retry, fail-closed error handling, output-field validation | ✅ COMPLETE | `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` |
+| **B** | ML enhancements: Self-RAG (B1), RotatE KGC (B2), Multi-Task LoRA (B3) | ✅ SIGNED OFF 2026-09-09 (#6286) | `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` |
+| **C** | AI safety: CAI safety module (C1), federated learning (C2), graph phase gate (C3) | ✅ COMPLETE | `WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md` |
+| **D** | Operability: runbook, observability, soak tests, distributed tracing, hardware baselines | 🟡 IN PROGRESS — D1✅ D3~ | `WAVE_D_ROADMAP.md` |
 
 ## Module Documentation Enhancements (2026-07-19)
 
@@ -99,6 +109,18 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Multi-node federated benchmark infra/security review tracking established (FEDERATED-BENCH-01 coverage + issue traceability `#5040`/`#5039`)
 - [x] Graph phase gate orchestrator implemented and all exit criteria confirmed (GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01 — issue #6287)
 
+### Wave C Exit Criteria ✅ COMPLETE
+
+> **Closure Date:** 2026-09-16 | **Evidence:** `src/ai/WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md`
+
+- [x] C1 CAI Safety: CAI-01..15 + CAI-BENCH-01 all passing (`tests/test_cai_safety_module.cpp`)
+- [x] C1 CAI Safety: safety alignment ≥ 0.80, latency ≤ 2.0 s, FPR ≤ 10%
+- [x] C2 Federated Learning: FEDERATED-01..15 + FEDERATED-BENCH-01 all passing (`tests/test_federated_privacy_training.cpp`)
+- [x] C2 Federated Learning: convergence ≥ 95% of centralized baseline, overhead ≤ 2.0 s, DP budget configurable
+- [x] C3 Graph Phase Gate: GRAPH_PHASE_GATE-01..15 + BENCH-01 all passing (`tests/graph/test_graph_phase_gate_orchestration.cpp`)
+- [x] C3 Graph Phase Gate: BENCH-01 ≤ 500 ms wall-clock
+- [x] Production-runtime hook integration: C1 safety gate + C2 telemetry in `LLMAQLHandler` paths (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`)
+
 ### References
 - `src/ai/FUTURE_ENHANCEMENTS.md#wave-c--strategic-ml-enhancements-q3-2027`
 - `docs/research/ml_enhancements_bibliography.md`
@@ -114,6 +136,54 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - Advanced field-level prompt validation remains incomplete.
 - Sandbox artifact materialization and optional callback verification are enforced when `enable_sandbox_gate` is enabled; external sandbox engines remain deployment-specific.
 - Wave B ML enhancement implementation and acceptance-gate coverage are complete; production promotion remains gated on Wave A deployment completion and latency prerequisites.
+
+## Wave A — Runtime Reliability ✅ COMPLETE
+
+> **Closure Date:** 2026-09-16 | **Evidence:** `src/ai/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
+
+### A1: Prompt Validation Hardening
+- [x] Description length enforced (max 8 192 chars)
+- [x] Token-list size limits (required_capabilities, dependencies)
+- [x] Duplicate token detection and rejection
+- [x] ASCII control-character stripping on all string fields
+- [x] Format validation for capability/dependency tokens
+
+### A2: Endpoint Safety Hardening
+- [x] Configurable endpoint allow-list enforced before outbound calls
+- [x] Request payload ceiling (256 KiB) enforced fail-closed
+- [x] Response payload ceiling (8 MiB) enforced before parse
+- [x] Non-2xx HTTP responses normalized to structured error
+- [x] Transport-level failures normalized to structured error
+
+### A3: Retry / Backoff Policy
+- [x] 3-attempt retry for transient endpoint failures
+- [x] Exponential backoff: 100 ms / 200 ms / 400 ms
+- [x] Non-retryable failures fail immediately
+- [x] Retry attempts logged at WARN level
+
+### A4: Output-Field Validation
+- [x] Generated code ≤ 1 MiB per field
+- [x] `security_report` ≤ 64 KiB
+- [x] `version` ≤ 64 chars (default `0.1.0`)
+- [x] `manifest.description` truncated at 8 192 chars
+- [x] Oversized `build_dependencies` entries dropped
+
+### A5: Fail-Closed Error Handling
+- [x] All error branches return structured `Error` result
+- [x] Stats struct: 7 observable counters
+- [x] Log redaction: sensitive fields bounded at 120 chars
+- [x] Thread-safety contract documented (not thread-safe for concurrent `generatePlugin`)
+
+### Wave A Exit Criteria
+- [x] Validation-first execution path verified
+- [x] Endpoint safety controls verified
+- [x] Retry policy documented and source-verified
+- [x] Output-field validation complete
+- [x] All HIGH-severity MODULE_GAPS.md findings resolved (2026-07-19)
+- [x] Focused test coverage: `tests/ai/test_ai_plugin_generator.cpp`, `tests/ai/test_ai_decision_auditor.cpp`
+- [x] Benchmark target registered: `benchmarks/ai/bench_ai_plugin_generator.cpp`
+
+---
 
 ## Wave B (Q1–Q2 2027) Tracking
 
@@ -150,8 +220,19 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Multi-task LoRA average task performance ≥ +8% vs single-task
 - [x] Multi-task LoRA training time increase ≤ 15%
 
+### Wave B Exit Criteria ✅ SIGNED OFF 2026-09-09
+
+> **Sign-off:** Issue [#6286](https://github.com/makr-code/ThemisDB/issues/6286) ✅ SIGNED OFF 2026-09-09 | **Evidence:** `src/ai/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`
+
+- [x] B1 Self-RAG: ALCE-01..05 acceptance tests passing (`tests/rag/test_self_rag_alce.cpp`)
+- [x] B2 RotatE KGC: KGC-01..15 unit tests passing (`tests/test_rotate_completion.cpp`)
+- [x] B3 Multi-Task LoRA: MTL acceptance tests passing (`tests/training/test_multitask_lora_acceptance_gates.cpp`)
+- [x] All seven acceptance-gate criteria met (hallucination, latency, precision, MRR, Hits@10, LoRA perf, LoRA overhead)
+- [x] CI evidence archival complete on `develop`
+- [~] Production promotion: gated on Wave A hardware baselines (pending Q4 2026)
+
 ### Dependencies
-- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [~] Wave A deployment complete (Speculative Decoding, DPR, Fairness) — in progress Q4 2026
 - [ ] LLM inference P95 latency < 200 ms
 - [ ] KnowledgeGraphReasoner stable + benchmark suite passing
 
@@ -159,6 +240,45 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - Research bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Future enhancements detail: `FUTURE_ENHANCEMENTS.md`
 - Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+
+---
+
+## Wave D — Operability Hardening 🟡 IN PROGRESS Q1 2027
+
+> **Detail:** `src/ai/WAVE_D_ROADMAP.md` | **Dependency:** Wave A–C exit criteria confirmed
+
+### D1: AI Generation Operator Runbook
+- [x] Draft runbook: incident taxonomy (validation/endpoint/transport/parse/sandbox failures) (Target: 2026-11)
+- [x] Decision tree for endpoint-timeout + retry-storm scenarios (Target: 2026-11)
+- [x] Stats-counter operational thresholds and alert rules (Target: 2026-12)
+- [x] CAI safety gate latency incident section (Target: 2026-12)
+- [x] Output: `docs/operability/RUNBOOK_AI_GENERATION.md`
+
+### D2: Observability Expansion
+- [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
+- [ ] CAI safety gate per-call latency histogram (p50/p95/p99) (Target: 2026-11)
+- [ ] Federated aggregation round-latency counter (Target: 2026-12)
+- [x] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
+- [x] Span propagation in LLMAQLHandler CAI/federated gate paths (Target: Q1 2027)
+
+### D3: Soak Tests (Sustained Load)
+- [x] `tests/ai/test_ai_generation_soak_60min.cpp` — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
+- [ ] CAI 10-min sustained evaluation test — 500 evaluations/min (Target: 2026-12)
+- [ ] Federated 30-min round-stability test (Target: Q1 2027)
+- [ ] Execute full soak suite on representative hardware (Target: Q1 2027)
+
+### D4: Representative-Hardware Baselines
+- [ ] `generatePlugin` + `validatePrompt` p95/p99 hardware baselines (Target: Q1 2027)
+- [ ] CAI safety gate p95/p99 overhead hardware baselines (Target: Q1 2027)
+- [ ] Federated aggregation round p95 hardware baseline (Target: Q1 2027)
+
+### Wave D Exit Criteria
+- [x] AI generation runbook published (`docs/operability/RUNBOOK_AI_GENERATION.md`)
+- [ ] Observability expansion complete (extended Stats + CAI/federated latency histograms)
+- [x] OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths
+- [~] 60-min soak test created and green on representative hardware (test created 2026-09-16; full run hardware-blocked)
+- [ ] Representative-hardware p95/p99 baselines captured for AI generation + CAI gate
+- [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md`
 
 ## Module Validation Evidence (2026-07-19)
 

@@ -129,11 +129,11 @@ All streaming infrastructure implemented and validated. Module ready for product
 **Objective:** Optimize streaming paths and validate production readiness.
 
 **Deliverables (In Progress):**
-- [ ] Token throughput optimization
-- [ ] Backpressure efficiency profiling
-- [ ] Memory footprint optimization
-- [ ] Concurrent stream scaling validation
-- [ ] Network efficiency measurement
+- [~] Token throughput optimization
+- [~] Backpressure efficiency profiling
+- [~] Memory footprint optimization
+- [~] Concurrent stream scaling validation
+- [~] Network efficiency measurement
 
 **Performance Gates:**
 - Throughput P99: > 50 tokens/sec per stream
@@ -148,12 +148,12 @@ All streaming infrastructure implemented and validated. Module ready for product
 **Objective:** Complete API documentation and operator runbook.
 
 **Deliverables (Planned):**
-- [ ] Doxygen comments for all public APIs
-- [ ] Client integration guide
-- [ ] Configuration parameter documentation
-- [ ] Streaming protocol specification
-- [ ] Troubleshooting runbook
-- [ ] Acceptance checklist
+- [~] Doxygen comments for all public APIs
+- [~] Client integration guide
+- [~] Configuration parameter documentation
+- [~] Streaming protocol specification
+- [x] Troubleshooting runbook — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md
+- [~] Acceptance checklist
 
 **Status:** PLANNED
 
@@ -164,11 +164,11 @@ All streaming infrastructure implemented and validated. Module ready for product
 - [x] Phase 3 error handling comprehensive
 - [x] Phase 4 test suite complete
 - [~] Phase 5 performance hardening (in progress)
-- [ ] Phase 6 documentation complete
+- [~] Phase 6 documentation complete
 - [~] Security review (in progress)
-- [ ] Performance validation on production hardware
-- [ ] Integration testing with LLM inference engine
-- [ ] Operational runbook completion
+- [~] Performance validation on production hardware
+- [~] Integration testing with LLM inference engine
+- [x] Operational runbook completion — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md
 
 ## Known Issues & Limitations
 
@@ -197,3 +197,19 @@ This module is a **contributing module** in the program-level Wave A → B → C
 It must remain `release_critical`-green throughout all waves.
 
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
+
+### Wave D Contribution for `llm_streaming`
+- [x] Deliver or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_llm_streaming_soak.cpp (LLMStreamingSoak_TokenThroughput ≥1000 t/s, LLMStreamingSoak_BackpressureStability, LLMStreamingSoak_ChunkDeliveryReliability)
+- [x] Deliver high-cardinality stress coverage for concurrent streaming sessions and backpressure paths (Target: Q1 2027) — evidence: tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp (1000 sessions / 8-thread, ConcurrentBackpressureStress, ChunkAssemblyEdgeCaseStress)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md (5 scenarios: BufferOverflow, GenerationStall, BackpressureCascade, Disconnected, TokenOrderViolation)
+- [x] Deliver dedicated benchmark gates for streaming hot paths (Target: Q1 2027) — evidence: benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp (LS-BM-01..04)
+
+### Cross-Wave Requirements
+- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
+- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
+- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
+
+### Program-Level Success Criteria (contribution)
+- [x] This module's streaming paths handle backpressure and disconnection fail-closed (Target: Q1 2027)
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — evidence: LS-BM-01..04 registered; representative-hardware capture pending
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md

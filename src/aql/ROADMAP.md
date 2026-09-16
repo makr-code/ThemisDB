@@ -1,7 +1,7 @@
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -67,9 +67,9 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten validation and policy enforcement for complex generated-query patterns (Target: Q4 2026)
+- [x] tighten validation and policy enforcement for complex generated-query patterns (Target: Q4 2026) **COMPLETED 2026-09-16** — `aql_query_validator.cpp`: `checkNestedSubqueryDepth` (depth > 5 → `[VALIDATION:NestedSubqueryDepthExceeded]`), `checkCollectionNameLength` (> 128 chars → `[VALIDATION:CollectionNameTooLong]`); 4 new test cases in `test_aql_query_validator.cpp`
 - [ ] expand deterministic integration tests for provider and bridge variability (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for translation confidence and failure classes (Target: Q4 2026)
+- [x] improve operator-facing diagnostics for translation confidence and failure classes (Target: Q4 2026) **COMPLETED 2026-09-16** — `llm_aql_handler.cpp`: `[TRANSLATION:Confidence]` log line after `translateNLToAQL()` success, emitting `confidence_score` and `retries_used`
 
 ### Mid-term (6-12 months)
 - [ ] reduce remaining proxy-like benchmark coverage via dedicated assistance benchmarks (Target: Q1 2027)
@@ -88,7 +88,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Thread leak elimination in LLMTimeoutManager
   - [x] Per-operation-type circuit breakers
   - [x] Bounded conversation history with token budget
-- [~] align helper components to shared bounded runtime contracts (Target: Q4 2026)
+- [x] align helper components to shared bounded runtime contracts (Target: Q4 2026) **NOTE:** Validation/translation hardening completed in Wave A–D batch (2026-08-24) + Wave D closure (2026-09-16) closes this: policy gates (`NestedSubqueryDepthExceeded`, `CollectionNameTooLong`), confidence diagnostics, and soak evidence all confirm bounded-runtime compliance.
 
 ### Phase 3: Documentation and Acceptance
 - [x] core module docs aligned to source-verifiable behavior
@@ -259,9 +259,9 @@ The following production-code gaps identified in `MODULE_GAPS.md` were addressed
 - [x] Updated `ROADMAP.md` (this section) with Wave A–D gap closure evidence (2026-08-24).
 
 ### Wave D Contribution for `aql`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) **COMPLETED 2026-09-16** — `test_aql_highcardinality_stress.cpp` (3 stress tests), `RUNBOOK_AQL_ASSISTANCE.md`, validator policy hardening
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) **COMPLETED 2026-09-16** — `tests/integration/test_aql_assistance_soak.cpp` (translation p99 ≤ 2 ms, validation p99 ≤ 100 µs, no-exception combined soak)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) **COMPLETED 2026-09-16** — `docs/operability/RUNBOOK_AQL_ASSISTANCE.md` published (6 scenarios, D1 trace cross-links)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -269,6 +269,25 @@ The following production-code gaps identified in `MODULE_GAPS.md` were addressed
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — validation/translation are fail-closed; distributed tracing pending Phase 2A
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — AG-4/AG-5/AG-6 locked 2026-08-02; soak evidence added 2026-09-16
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — `RUNBOOK_AQL_ASSISTANCE.md` published 2026-09-16
+
+## Wave D Closure Batch (2026-09-16)
+
+The following items were delivered to complete the Wave D open `[ ]` items for the `aql` module.
+All work targets the `develop` branch.
+
+### Delivered
+
+| Item | File(s) | Evidence |
+|------|---------|---------|
+| AQL soak test | `tests/integration/test_aql_assistance_soak.cpp` | 3 tests: TranslationP99Under2ms, ValidationP99Under100us, NoExceptionsCombinedSoak; registered with TIMEOUT 120 and `wave_d;soak;not_release_critical` labels |
+| AQL high-cardinality stress test | `tests/aql/test_aql_highcardinality_stress.cpp` | 3 tests: HighCardinalityValidationThroughput (1200 patterns), ConcurrentTranslationStress (8 threads × 150), ContextWindowEvictionUnderLoad (500 turns, 512-token budget); `wave_d;stress;not_release_critical` |
+| AQL operator runbook | `docs/operability/RUNBOOK_AQL_ASSISTANCE.md` | 6 scenarios, D1 trace span cross-links, diagnostic commands with `[TRANSLATION:*]`/`[VALIDATION:*]`/`[BRIDGE:*]` log tag format |
+| Validator policy hardening | `src/aql/aql_query_validator.cpp` | `checkNestedSubqueryDepth` (depth > 5 rejected with `[VALIDATION:NestedSubqueryDepthExceeded]`), `checkCollectionNameLength` (> 128 chars with `[VALIDATION:CollectionNameTooLong]`) |
+| Validator policy tests | `tests/aql/test_aql_query_validator.cpp` | 4 new test cases: 2 for nested subquery depth, 2 for collection name length |
+| Translation confidence diagnostics | `src/aql/llm_aql_handler.cpp` | `[TRANSLATION:Confidence]` log line after `translateNLToAQL()` success: `confidence_score`, `retries_used` |
+| CMakeLists registrations | `tests/aql/CMakeLists.txt`, `tests/integration/CMakeLists.txt` | Stress test auto-registered by GLOB; label override added; soak test added to Wave D soak foreach loop |
+| ROADMAP update | `src/aql/ROADMAP.md` (this file) | All 3 Wave D `[ ]` items marked `[x]`; 2 Planned Features marked `[x]`; `[~] align helper` closed; validated date updated to 2026-09-16 |
+

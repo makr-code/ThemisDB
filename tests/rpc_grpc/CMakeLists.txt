@@ -59,3 +59,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_integration_focused.cpp")
         )
     endif()
 endif()
+
+# Wave D high-cardinality stress test
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_highcardinality_stress.cpp")
+    set(_target "module_rpc_grpc_test_rpc_grpc_highcardinality_stress_focused")
+    if(NOT TARGET ${_target})
+        add_executable(${_target}
+            test_rpc_grpc_highcardinality_stress.cpp
+        )
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        themis_register_module_focused_test(
+            MODULE rpc_grpc
+            NAME   test_rpc_grpc_highcardinality_stress_rpc_grpc_FocusedTests
+            TARGET ${_target}
+            TIER   unit
+            TIMEOUT 120
+            LABELS  rpc_grpc wave_d stress not_release_critical
+        )
+    endif()
+endif()

@@ -27,12 +27,12 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 ### Short-term (3-6 months)
 - [x] Phase A gate: single-shard exact retrieval verified end-to-end (Target: Q3 2026)
 - [~] Phase B gate: ANN + CPU parity tests passing for Category A kernels (Target: Q3 2026) — **COMPLETED 2026-08-08**
-- [ ] Phase C gate: multi-shard exact routing verified under shard failure injection (Target: Q4 2026)
+- [x] Phase C gate: multi-shard exact routing verified under shard failure injection (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] complete phase-6 acceptance documentation from measured behavior (Target: Q1 2027)
-- [ ] complete phase-7 integration into default build/test pipelines (Target: Q1 2027)
-- [ ] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
+- [~] complete phase-6 acceptance documentation from measured behavior (Target: Q1 2027)
+- [~] complete phase-7 integration into default build/test pipelines (Target: Q1 2027)
+- [~] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
 
 ## Implementation Phases
 
@@ -188,9 +188,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `retrieval`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — `tests/retrieval/test_retrieval_highcardinality_stress.cpp` delivered (HC-RT-01..03); `benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp` (RT-BM-01..04)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — `tests/integration/test_retrieval_engine_soak.cpp` delivered (RT-SOAK-01..03); registered in Wave D foreach with TIMEOUT 120
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — `docs/operability/RUNBOOK_RETRIEVAL_ENGINE.md` delivered (5 scenarios, 4 log patterns)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -198,6 +198,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — shard failover tested in RT-SOAK-02; GPU advisory path error recovery tested in RT-SOAK-03
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — RT-BM-01..04 delivered; representative hardware sign-off pending
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — RUNBOOK_RETRIEVAL_ENGINE.md delivered

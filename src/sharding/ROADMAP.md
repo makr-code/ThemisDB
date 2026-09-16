@@ -83,14 +83,14 @@ This module is in the source-validated “implemented + hardening” state: the 
 - [x] replace placeholder S3/Azure/GCS provider bodies in `cloud_backup.cpp` with real SDK-backed upload/download/delete/exists behavior, keeping the callback seam for tests only (Target: Q4 2026)
 - [x] replace the synthetic `shard://<id>` fallback in `distributed_transaction.cpp` with explicit endpoint-contract validation before 2PC starts (Target: Q4 2026)
 - [x] keep `shard_rpc_client.cpp` simulation fallback out of production paths by making the runtime contract explicit and fail-closed when no real RPC transport is available (Target: Q4 2026)
-- [ ] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)
-- [ ] expand stress coverage for cross-shard transaction and anti-entropy edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for rebalance/repair incident triage (Target: Q4 2026)
+- [x] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)
+- [x] expand stress coverage for cross-shard transaction and anti-entropy edge scenarios (Target: Q4 2026)
+- [x] improve operator-facing diagnostics for rebalance/repair incident triage (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for routing, commit, and migration-sensitive paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for advanced multi-DC and topology-failure scenarios (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained distributed write pressure (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for routing, commit, and migration-sensitive paths (Target: Q1 2027)
+- [~] broaden benchmark depth for advanced multi-DC and topology-failure scenarios (Target: Q1 2027)
+- [~] harden long-run reliability under sustained distributed write pressure (Target: Q1 2027)
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
 
@@ -123,12 +123,12 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] define explicit error taxonomy for sharding failure classes — `include/sharding/sharding_api_contract.h` §5 Error Taxonomy: 12+ codes (QUORUM_LOST, COORDINATOR_FAILURE, SHARD_UNAVAILABLE, MIGRATION_CONFLICT, WAL_CORRUPTION, CONSENSUS_TIMEOUT, etc.) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for routing/coordinator and transaction internals (Target: Q4 2026)
-- [ ] align repair/rebalance/migration behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for routing/coordinator and transaction internals (Target: Q4 2026)
+- [x] align repair/rebalance/migration behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for quorum loss, migration faults, and repair failures (Target: Q4 2026)
-- [ ] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for quorum loss, migration faults, and repair failures (Target: Q4 2026)
+- [x] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — in test_sharding_phase6_hardening.cpp; P6-03: FI-01..FI-40 Wave-8 fault injection — in test_sharding_p6_fault_injection.cpp; SCR-01..SCR-16 contract hardening — in `tests/sharding/test_sharding_contract_hardening_focused.cpp`) (Target: Q4 2026 → delivered 2026-07-29)
@@ -136,7 +136,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for sharding hot paths — 6 release-gate benchmarks SRG-01..SRG-06 in `benchmarks/sharding/bench_sharding_release_gates.cpp` (GATE-SRG-01..GATE-SRG-06: consistent-hash routing, 2PC prepare/commit, WAL append, health check, route lookup) (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core sharding module docs aligned to source-verifiable behavior — `include/sharding/sharding_api_contract.h` freezes all routing/2PC/WAL/migration contracts for v1.x
@@ -147,8 +147,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] core sharding surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations — `benchmarks/sharding/bench_sharding_release_gates.cpp` (SRG-01..SRG-06)
-- [ ] remaining hardening tasks closed for failure/transaction/repair edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for failure/transaction/repair edge paths
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

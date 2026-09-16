@@ -24,7 +24,7 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 ### Mid-term (6-12 months)
 - [x] re-baseline p95/p99 envelopes for extraction and write-sensitive paths (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_release_gates.cpp (GATE-SCR-05..06)
 - [x] broaden benchmark depth for scraper-native pipeline scenarios (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_pipeline_depth.cpp (PIPE-01..04)
-- [ ] harden long-run reliability under sustained scraping ingestion pressure (Target: Q1 2027)
+- [x] harden long-run reliability under sustained scraping ingestion pressure (Target: Q1 2027) — evidence: tests/integration/test_scraper_ingestion_soak.cpp (ScraperSoak_LongRunReliability)
 
 ## Implementation Phases
 
@@ -78,9 +78,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `scraper`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/scraper/test_scraper_highcardinality_stress.cpp, docs/operability/RUNBOOK_SCRAPER_INGESTION.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_scraper_ingestion_soak.cpp (ScraperSoak_FetchThroughput, ScraperSoak_IngestStability, ScraperSoak_LongRunReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_SCRAPER_INGESTION.md (5 scenarios, log patterns [SCRAPER:FetchFailed], [SCRAPER:IngestOverflow], [SCRAPER:RateLimitBreach], [SCRAPER:LongRunDegradation])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -88,6 +88,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: scraper_diagnostics.h fail-safe helpers
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_SCRAPER_INGESTION.md

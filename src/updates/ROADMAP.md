@@ -47,14 +47,14 @@ Production-usable updates runtime exists for state-machine orchestration, releas
   - [x] Agent: `general-purpose` (updates-q4-diagnostics) ✅ COMPLETE
 
 ### Q1 2027 Execution Block (Phases 7-8)
-- [ ] **Phase 7:** Performance baselines re-establishment (Target: Nov 1-21, 2026)
+- [~] **Phase 7:** Performance baselines re-establishment (Target: Nov 1-21, 2026)
   - [ ] Hotspot profiling (5-8 critical paths)
   - [ ] Performance envelopes report (`PERFORMANCE_ENVELOPES_Q1_2027.md`)
   - [ ] Baseline benchmarks (`bench_updates_performance_baselines_q1_2027.cpp`)
   - [ ] 20+ SLA gates recommended; P95/P99 stable (<2% variance)
   - [ ] Agent: `research` (updates-q1-baselines)
 
-- [ ] **Phase 8:** Long-run reliability hardening (Target: Nov 22 - Jan 31, 2027)
+- [~] **Phase 8:** Long-run reliability hardening (Target: Nov 22 - Jan 31, 2027)
   - [ ] Long-run reliability test (`test_updates_long_run_reliability_q1_2027.cpp`)
   - [ ] 48h+ stability benchmark (`bench_updates_48h_stability_q1_2027.cpp`)
   - [ ] Long-run reliability report (`LONG_RUN_RELIABILITY_Q1_2027.md`)
@@ -125,9 +125,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `updates`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — `tests/updates/test_updates_highcardinality_stress.cpp` delivered (HC-UP-01..03); `RUNBOOK_UPDATES_ENGINE.md` covers `[UPDATES:ExporterLag]` pattern
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — `tests/integration/test_updates_engine_soak.cpp` delivered (UP-SOAK-01..03); registered in Wave D foreach with TIMEOUT 120
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — `docs/operability/RUNBOOK_UPDATES_ENGINE.md` delivered (5 scenarios, 4 log patterns)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -135,6 +135,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — write batch failure and rollback paths tested in soak and stress suites
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — Phase 7 baselines pending representative hardware sign-off
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — RUNBOOK_UPDATES_ENGINE.md delivered

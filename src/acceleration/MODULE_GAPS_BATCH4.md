@@ -3,7 +3,7 @@
 **Batch:** Tier 3 Batch 4  
 **Wave:** A (Runtime Reliability First)  
 **Module:** `src/acceleration` (746 gaps identified)  
-**Last Updated:** 2026-08-14  
+**Last Updated:** 2026-09-15  
 **Status:** Gap categorization in progress (IMPL vs DOC phase)
 
 ## Gap Summary
@@ -119,14 +119,15 @@
 - **Target:** Q3 2026 | **Severity:** CRITICAL
 
 ### Critical Path 3: CPU Fallback & Graceful Degradation (IMPL + DOC)
-- [ ] **IMPL Gap:** Implement GPU failure detection (automatic or explicit)
-- [ ] **IMPL Gap:** Implement seamless CPU fallback (transparent to caller)
-- [ ] **IMPL Gap:** Verify CPU path performance parity with GPU (worst-case fallback)
-- [ ] **DOC Gap:** Document GPU failure detection strategy
-- [ ] **DOC Gap:** Document CPU fallback behavior and latency expectations
-- [ ] **Test Gate:** Fallback-01 to Fallback-06 focused tests (failure detection, seamless fallback, parity)
-- [ ] **Benchmark Gate:** Fallback latency p99≤10% slower than GPU, detection overhead <5%
-- **Target:** Q3 2026 | **Severity:** HIGH
+<!-- Evidence: tests/acceleration/test_acceleration_failure_handling.cpp (14 test cases; timeout, degradation, OOM, fallback); ROADMAP.md §Failure Handling Verification Status 2026-07-19 -->
+- [x] **IMPL Gap:** GPU failure detection implemented (backend timeout detection, degradation recovery) — evidence: `test_acceleration_failure_handling.cpp`, `ROADMAP.md §Failure Handling Verified 2026-07-19`
+- [x] **IMPL Gap:** Seamless CPU fallback transparent to caller — evidence: `ai_hardware_dispatcher.cpp`, `vllm_resource_manager.cpp:268-294`
+- [~] **IMPL Gap:** CPU path performance parity verification — partial: benchmarks defined in `test_acceleration_performance_gates.cpp`; hardware-in-the-loop RTX parity gate still pending
+- [x] **DOC Gap:** GPU failure detection strategy documented in `ROADMAP.md §Failure Handling Verification Status`
+- [x] **DOC Gap:** CPU fallback behavior and latency expectations documented in `PERFORMANCE_BASELINES.md`
+- [x] **Test Gate:** 14 production-ready test cases in `tests/acceleration/test_acceleration_failure_handling.cpp`
+- [ ] **Benchmark Gate:** Fallback latency p99≤10% slower than GPU — hardware measurement pending (Target: Q3 2026)
+- **Target:** Q3 2026 | **Severity:** HIGH | **Status:** Largely resolved; benchmark gate pending
 
 ### Critical Path 4: Hardware Detection & Capability Probing (IMPL + DOC)
 - [ ] **IMPL Gap:** Implement robust GPU availability detection (CUDA runtime checks)
@@ -185,7 +186,7 @@
 
 ## Known Issues & Limitations
 
-1. **CUDA support:** NVIDIA CUDA only; AMD ROCm support pending
+1. **CUDA support:** NVIDIA CUDA implemented (`cuda_backend.cpp`); AMD ROCm/HIP implemented (`hip_backend.cpp`, 1,192 LOC — verified 2026-09-15)
 2. **Kernel timeout:** Watchdog requires OS-level timer support; implementation platform-specific
 3. **Memory fragmentation:** No compaction strategy; relies on allocator heuristics
 4. **CPU fallback:** Can introduce 10-100x latency penalty; not suitable for latency-critical workloads

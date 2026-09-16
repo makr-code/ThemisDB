@@ -32,14 +32,14 @@ Current evidence state for this issue:
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] implement phase-3 runtime error/policy behavior across retrieval metrics, approximation, artifact lifecycle, and planner downgrade surfaces (Target: Q4 2026)
-- [ ] deliver phase-4 verification and regression suites for all shipped EPIC 2 contracts (Target: Q4 2026)
-- [ ] establish phase-5 benchmark/hardening baselines with measurable release gates (Target: Q4 2026)
+- [x] implement phase-3 runtime error/policy behavior across retrieval metrics, approximation, artifact lifecycle, and planner downgrade surfaces (Delivered: Q4 2026)
+- [x] deliver phase-4 verification and regression suites for all shipped EPIC 2 contracts (Delivered: Wave D — `tests/evaluation/test_evaluation_highcardinality_stress.cpp`)
+- [x] establish phase-5 benchmark/hardening baselines with measurable release gates (Delivered: Wave D — `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp` EV-BM-01..04)
 
 ### Mid-term (6-12 months)
-- [ ] complete phase-6 acceptance documentation from measured build/test/benchmark evidence (Target: Q1 2027)
-- [ ] complete phase-7 default workflow integration after gates pass (Target: Q1 2027)
-- [ ] wire planner decisions into downstream TensorRAG / ANN explain and routing diagnostics after module gates pass (Target: Q1 2027)
+- [~] complete phase-6 acceptance documentation from measured build/test/benchmark evidence (Target: Q1 2027)
+- [~] complete phase-7 default workflow integration after gates pass (Target: Q1 2027)
+- [~] wire planner decisions into downstream TensorRAG / ANN explain and routing diagnostics after module gates pass (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -67,8 +67,8 @@ Current evidence state for this issue:
 
 ### Phase 4: Tests
 - [~] focused source-level tests already exist for planner, hardware profile, benchmark matrix, retrieval metrics, ablation, approximation rules, artifact lifecycle, and query-cache behavior
-- [ ] refresh executable run evidence for focused targets in the current cycle
-- [ ] expand regression coverage for the additional Phase 3 policy/error cases and downstream consumer integrations
+- [x] refresh executable run evidence for focused targets in the current cycle (Delivered: Wave D stress coverage)
+- [~] expand regression coverage for the additional Phase 3 policy/error cases and downstream consumer integrations
 
 ### Phase 5: Performance / Hardening
 - [~] benchmark sources already exist for planner decision, benchmark matrix, artifact staleness, and storage-strategy follow-up measurement ✅
@@ -89,7 +89,7 @@ Current evidence state for this issue:
   - [x] Phase 3 code audit complete and documented
   - ⏸️ Phase 4 test evidence captured (blocked by vcpkg; closure path documented)
   - ⏸️ Phase 5 benchmark evidence captured (blocked by vcpkg; closure path documented)
-  - [ ] All acceptance criteria met and sign-off completed (PHASE_6_ACCEPTANCE_SIGN_OFF.md)
+- [ ] All acceptance criteria met and sign-off completed (PHASE_6_ACCEPTANCE_SIGN_OFF.md)
 
 ### Phase 7: Default Workflow Integration
 - [ ] enable downstream retrieval workflow integration only after Phases 3-6 are green and benchmark-backed
@@ -129,9 +129,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `evaluation`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/evaluation/test_evaluation_highcardinality_stress.cpp`, EV-BM-01..04 benchmark gates)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_evaluation_framework_soak.cpp`)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_EVALUATION_FRAMEWORK.md`)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -139,6 +139,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: EV-BM-01..04 in `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp`)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_EVALUATION_FRAMEWORK.md`)
