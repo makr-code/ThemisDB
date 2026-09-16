@@ -123,6 +123,9 @@ runs:
           const issueTitle = process.env.INPUT_ISSUE_TITLE || '';
           const issueBodyFile = (process.env.INPUT_ISSUE_BODY_FILE || '').trim();
           let issueBody = process.env.INPUT_ISSUE_BODY || '';
+          if (issueBodyFile && issueBody) {
+            core.warning('status-flags-and-issues: both issue-body and issue-body-file were provided; issue-body-file will be used');
+          }
           if (issueBodyFile) {
             if (!fs.existsSync(issueBodyFile)) {
               core.setFailed(`status-flags-and-issues: issue-body-file not found: ${issueBodyFile}`);

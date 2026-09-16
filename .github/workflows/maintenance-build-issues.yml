@@ -544,18 +544,21 @@ jobs:
             echo "Missing /tmp/aggregated-errors.md for chronic issue comment body" >&2
             exit 1
           fi
-          cat > /tmp/chronic-build-error-comment.md <<'EOF'
-          ## 📎 Neuer Build-Fehlerreport
-
-          **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-          EOF
-          cat /tmp/aggregated-errors.md >> /tmp/chronic-build-error-comment.md
-          cat >> /tmp/chronic-build-error-comment.md <<'EOF'
-          <!-- ci-build:error-state:v1 -->
-          ${{ steps.aggregate.outputs.state_snapshot_b64 }}
-          <!-- /ci-build:error-state:v1 -->
-          EOF
+          if [ ! -f /tmp/aggregated-error-state.json ]; then
+            echo "Missing /tmp/aggregated-error-state.json for chronic issue comment body" >&2
+            exit 1
+          fi
+          {
+            echo "## 📎 Neuer Build-Fehlerreport"
+            echo
+            echo "**Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            cat /tmp/aggregated-errors.md
+            echo "<!-- ci-build:error-state:v1 -->"
+            base64 -w 0 /tmp/aggregated-error-state.json
+            echo
+            echo "<!-- /ci-build:error-state:v1 -->"
+          } > /tmp/chronic-build-error-comment.md
 
       - name: Append latest chronic build errors as issue comment
         if: steps.aggregate.outputs.chronic_errors > 0
