@@ -118,6 +118,10 @@ std::string nextMlServingOperationId() {
 }
 
 std::string classifyServingFailure(const MLServingResponse& response) {
+    if (!response.failure_class.empty()) {
+        return response.failure_class;
+    }
+
     switch (response.status) {
         case MLServingStatus::OK:
             return "none";
@@ -126,10 +130,6 @@ std::string classifyServingFailure(const MLServingResponse& response) {
         case MLServingStatus::INVALID_INPUT:
             return "input_validation";
         case MLServingStatus::BACKEND_ERROR:
-            if (response.error_message.find("https://") != std::string::npos
-                || response.error_message.find("insecure transport") != std::string::npos) {
-                return "security_policy";
-            }
             return "backend_error";
         case MLServingStatus::TIMEOUT:
             return "timeout";

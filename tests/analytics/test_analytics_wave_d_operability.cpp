@@ -224,6 +224,9 @@ TEST(AnalyticsWaveDOperability, WDO06_HighCardinalityStressRemainsBounded) {
     }
 
     const auto stats = window->getStats();
+    // The window admits the first 16 distinct tenant partition keys and then
+    // rejects each newly observed key once the configured distinct-key cap is
+    // reached.
     EXPECT_EQ(stats.partition_keys_rejected, 2048u - 16u);
     EXPECT_GE(stats.records_dropped, stats.partition_keys_rejected);
 }

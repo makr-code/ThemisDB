@@ -852,8 +852,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     DistributedResult result;
     result.total_shards = active.size();
     result.shard_info.reserve(active.size());
-    result.operation_id = nextDistributedOperationId();
-    result.correlation_id = result.operation_id;
 
     if (active.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "

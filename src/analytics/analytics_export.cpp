@@ -40,6 +40,10 @@ std::string nextExportOperationId() {
 }
 
 std::string classifyExportFailure(const ExportResult& result) {
+    if (!result.failure_class.empty()) {
+        return result.failure_class;
+    }
+
     switch (result.status) {
         case ExportStatus::SUCCESS:
             return "none";
@@ -48,9 +52,6 @@ std::string classifyExportFailure(const ExportResult& result) {
         case ExportStatus::NOT_SUPPORTED:
             return "dependency_unavailable";
         case ExportStatus::POLICY_REJECTED:
-            if (result.message.find("within") != std::string::npos) {
-                return "timeout";
-            }
             return "policy_rejected";
         case ExportStatus::FAILED:
             if (result.message.find("open output file") != std::string::npos
@@ -1091,14 +1092,15 @@ ExportResult IAnalyticsExporter::exportToFile(
             result.status  = ExportStatus::POLICY_REJECTED;
             result.message = "BoundedExecutionPolicy: export did not complete within "
                              + std::to_string(effective_policy.max_latency_ms) + " ms";
+            result.failure_class = "timeout";
             spdlog::warn("IAnalyticsExporter::exportToFile: export timed out after {} ms "
                          "(policy deadline)", effective_policy.max_latency_ms);
             return finalizeExportResult(std::move(result), output_path, options);
         }
-        return finalizeExportResult(fut.get(), output_path, options);
+        return fut.get();
     }
 
-    return finalizeExportResult(exportToFile(batch, output_path, options), output_path, options);
+    return exportToFile(batch, output_path, options);
 }
 
 } // namespace analytics
