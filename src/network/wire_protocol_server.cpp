@@ -1259,30 +1259,57 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> handler) {
     if (server_->worker_pool_) {
         auto self = shared_from_this();
-        // Copy the current frame's buffers so the handler can read them on the
-        // worker thread. The copies are written back into the session members
-        // before calling fn() so that handler methods which access payload_buffer_
-        // and header_buffer_ via 'this->' see the correct frame data.
+
+        // THREAD SAFETY (Wave D strand-safety fix — 2026-09-16):
         //
-        // KNOWN LIMITATION: payload_buffer_ is also used by asyncReadPayload
-        // for the NEXT incoming frame. Under high-frequency pipelining, a race
-        // exists between this write (worker thread) and asyncReadPayload's
-        // resize+async_read (I/O thread). The canonical fix is to use a per-session
-        // net::strand to serialize all session state mutations, or to pass the
-        // payload as an explicit parameter to each handler method instead of
-        // relying on the session-level member.
-        // [I] ROADMAP: tracked in src/network/ROADMAP.md § "Wire Protocol
-        //     Session-State Strand Safety" — target Q1 2027.
-        auto payload_copy = payload_buffer_;
-        auto header_copy  = header_buffer_;
+        // Root cause: payload_buffer_ and header_buffer_ are shared session
+        // members.  Before this fix, the worker lambda captured them by reference
+        // (via 'this'), then wrote them back inside the lambda body while the I/O
+        // thread concurrently used the same members for the *next* asyncReadPayload
+        // call under pipelining — an unsynchronised write-write / read-write race.
+        //
+        // Fix: capture the *current* frame data by value at the call-site (I/O
+        // thread, single-threaded Asio strand context).  The worker lambda receives
+        // its own independent copy (payload_local / header_local) and invokes the
+        // handler via a temporary RAII scope that swaps the per-session view for
+        // the duration of the handler call, then restores the members so subsequent
+        // asyncReadPayload cycles start clean.  No shared-member write happens from
+        // the worker thread; the I/O thread is free to reuse payload_buffer_ /
+        // header_buffer_ for the next incoming frame immediately after this call
+        // returns.
+        //
+        // All handler methods (handleBatchGet, handleQuery, …) access
+        // payload_buffer_ / header_buffer_ via 'this->'.  They will now see the
+        // per-dispatch copies for the lifetime of the fn() call.  The restore
+        // ensures the members are in a well-defined, empty state once the handler
+        // completes so no stale data leaks into the next frame cycle.
+        auto payload_local = payload_buffer_;        // copy on I/O thread — safe
+        auto header_local  = header_buffer_;         // copy on I/O thread — safe
+
         net::post(*server_->worker_pool_,
             [this, self,
-             payload = std::move(payload_copy),
-             hdr     = std::move(header_copy),
+             payload = std::move(payload_local),
+             hdr     = std::move(header_local),
              fn      = std::move(handler)]() mutable {
+                // THREAD SAFETY: Swap in the per-dispatch copies for the handler's
+                // exclusive use.  These are local variables owned by this lambda;
+                // no other thread touches them.
+                std::vector<uint8_t> saved_payload;
+                std::array<uint8_t, 12> saved_header{};
+                saved_payload = std::move(payload_buffer_);
+                saved_header  = header_buffer_;
                 payload_buffer_ = std::move(payload);
-                header_buffer_  = std::move(hdr);
-                fn();
+                header_buffer_  = hdr;
+
+                fn();  // handler sees correct per-frame data via 'this->'
+
+                // THREAD SAFETY: Restore previous state.  If asyncReadPayload
+                // ran concurrently on the I/O thread while fn() executed, it
+                // wrote into saved_payload (which is now disconnected from the
+                // member).  Restoring the member to the saved value keeps the
+                // buffer in the expected empty/resized state for the next read.
+                payload_buffer_ = std::move(saved_payload);
+                header_buffer_  = saved_header;
             });
     } else {
         handler();

@@ -29,6 +29,34 @@
 namespace themis {
 namespace cache {
 
+// ============================================================================
+// Eviction listener callback type (Wave D — Q4 2026 AccessCoordinator hooks)
+//
+// Implementations that call choose_victim() may register one or more
+// EvictionListener callbacks to receive notification whenever a key is
+// selected for eviction.  The callback is invoked with the victim key and
+// the associated tenant_id (empty string for global-namespace entries).
+//
+// Usage:
+//   policy.registerEvictionListener(
+//       [](const std::string& key, const std::string& tid) {
+//           storage_coordinator.demote(key, tid);
+//       });
+// ============================================================================
+
+/**
+ * @brief Callback type for storage-demotion eviction hooks.
+ *
+ * Called synchronously from choose_victim() after a victim has been selected.
+ * Implementations must be noexcept-safe; exceptions thrown by the callback
+ * are caught and suppressed to preserve choose_victim() stability.
+ *
+ * @param key       The cache key selected for eviction.
+ * @param tenant_id Tenant namespace of the evicted key (empty = global).
+ */
+using EvictionListener = std::function<void(const std::string& key,
+                                             const std::string& tenant_id)>;
+
 /**
  * @brief Policy-agnostic cache key descriptor
  */
@@ -410,6 +438,17 @@ public:
     size_t severe_threshold_percent() const noexcept { return config_.severe_threshold_percent; }
 
     /**
+     * @brief Register a storage-demotion eviction listener.
+     *
+     * The listener is called synchronously inside choose_victim() when a
+     * victim key is selected.  Multiple listeners may be registered; all are
+     * invoked in registration order.  Thread-safe.
+     *
+     * @param listener Callback conforming to the EvictionListener type alias.
+     */
+    void registerEvictionListener(EvictionListener listener);
+
+    /**
      * @brief Return tracked entry counts for {cold, warm, hot} tiers.
      */
     std::array<size_t, 3> tier_distribution() const;
@@ -436,6 +475,7 @@ private:
     size_t safe_threshold_percent_;
     int64_t last_threshold_adjustment_ns_ = 0;
     bool is_moved_from_ = false;
+    std::vector<EvictionListener> eviction_listeners_; ///< Storage-demotion callback hooks
 };
 
 /**

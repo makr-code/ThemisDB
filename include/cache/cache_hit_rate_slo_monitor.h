@@ -298,6 +298,21 @@ public:
     std::vector<std::string> getActiveAlertIds() const;
 
     /**
+     * @brief Record a per-tenant eviction rate sample and log a breach if threshold exceeded.
+     *
+     * Emits `[CACHE:TenantQuotaBreach]` structured log when @p eviction_rate exceeds
+     * @p threshold.  Safe to call from any thread.
+     *
+     * @param tenant_id     The tenant namespace being monitored.
+     * @param eviction_rate Observed eviction rate [0.0, 1.0] or absolute rate (ops/s).
+     * @param threshold     Operator-configured per-tenant eviction rate threshold.
+     * @return true if a breach was logged, false if no breach.
+     */
+    bool recordTenantEvictionRate(const std::string& tenant_id,
+                                   double eviction_rate,
+                                   double threshold);
+
+    /**
      * @brief Update the alertmanager (may be nullptr to disable alert dispatch).
      */
     void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
