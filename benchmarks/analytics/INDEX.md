@@ -1,8 +1,8 @@
 # Phase 5 Analytics Module Performance Validation: Complete Index
 
 **Status**: ✅ PHASE 5 DELIVERABLES COMPLETE  
-**Date**: 2026-08-15  
-**Total Benchmarks**: 19+ across 3 files  
+**Date**: 2026-09-16  
+**Total Benchmarks**: 24+ across 4 files  
 
 ---
 
@@ -23,8 +23,9 @@ Phase 5 validates performance baselines and establishes release gates for the An
 | **bench_analytics_critical_paths_focused.cpp** | BCP-01..06 (6) | Validates no regression after Phases 2-3 fixes | ✅ Complete |
 | **bench_streaming_window.cpp** | 7 total | Runtime hardening: tumbling, sliding, session windows | ✅ Complete |
 | **bench_analytics_release_gates.cpp** | ARG-01..06 (6) | Release gate benchmarks with p99 latency | ✅ Complete |
+| **bench_analytics_operability_paths.cpp** | AO-01..05 (5) | Direct operability benchmarks for export, serving, distributed retry, and high-cardinality streaming | ✅ Complete |
 
-**Total**: **19+ benchmarks** across 3 comprehensive benchmark files
+**Total**: **24+ benchmarks** across 4 comprehensive benchmark files
 
 ### 2. Support Infrastructure
 
@@ -105,6 +106,18 @@ ARG-06  Forecast Inference Stub      → Input validation + mock inference
 - ARG-04: p99 ≤ 100 µs
 - ARG-05: p99 ≤ 500 µs
 - ARG-06: p99 ≤ 5 ms
+
+### Category 4: Operability Paths (AO-01..05)
+
+**Purpose**: Replace proxy-only operability measurements with direct analytics-path benchmarks
+
+```
+AO-01  Export JSON ToString          → direct export serialization
+AO-02  Export CSV ToString           → direct export serialization
+AO-03  High-Cardinality Streaming    → partition-key rejection overhead
+AO-04  Distributed Retry Recovery    → retry and recovery latency
+AO-05  Serving Invalid Input         → fail-closed validation latency
+```
 
 ---
 

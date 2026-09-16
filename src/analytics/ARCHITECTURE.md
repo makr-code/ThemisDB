@@ -44,6 +44,7 @@ The analytics module is a multi-surface runtime for analytical workloads. It com
 - model artifact import supports explicit SHA-256 integrity verification and fail-closed rejection on mismatch.
 - external TF Serving integration enforces secure transport defaults and blocks plaintext HTTP unless explicitly enabled.
 - LLM analytics output is schema-validated with type, range, and payload-bound checks before response materialization.
+- export, serving, and distributed result objects surface correlation identifiers, canonical failure classes, and operator hints so runbooks can link code-level failures to operational remediation.
 
 ## Gap Closure Work (Phase 2, 2026-08-15)
 
