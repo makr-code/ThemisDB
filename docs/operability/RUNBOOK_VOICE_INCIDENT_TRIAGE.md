@@ -462,13 +462,13 @@ force-session-cleanup --session-id <session-id> --wait-timeout 30s
 
 | Runbook Step | D1 Span Name | Baggage Keys | Notes |
 |---|---|---|---|
-| Session setup | `voice.session.setup` | `session_id`, `client_ip`, `protocol_version` | Start of session lifecycle span |
-| Stream validation | `voice.stream.validate` | `session_id`, `frame_count`, `payload_size_bytes`, `validation_result` | Child of session setup span |
-| Liveness / anti-spoof check | `voice.session.liveness_check` | `session_id`, `check_type`, `result` | Linked to stream validation span |
-| Session active transition | `voice.session.active` | `session_id`, `setup_latency_ms` | Marks state transition to active |
-| Session teardown | `voice.session.teardown` | `session_id`, `teardown_reason`, `active_duration_ms` | Final span in session lifecycle |
-| Multi-session cleanup | `voice.session.multi_cleanup` | `client_ip`, `session_count`, `cleanup_strategy` | Covers atomic cleanup of all sessions |
-| Incident triage | `voice.incident.triage` | `incident_id`, `symptom`, `affected_sessions` | Created on failure detection; links to session spans |
+| Session setup | `session.setup` | `session_id`, `client_ip`, `protocol_version` | Start of session lifecycle span |
+| Stream validation | `stream.validate` | `session_id`, `frame_count`, `payload_size_bytes`, `validation_result` | Child of session setup span |
+| Liveness / anti-spoof check | `session.liveness_check` | `session_id`, `check_type`, `result` | Linked to stream validation span |
+| Session active transition | `session.active` | `session_id`, `setup_latency_ms` | Marks state transition to active |
+| Session teardown | `session.teardown` | `session_id`, `teardown_reason`, `active_duration_ms` | Final span in session lifecycle |
+| Multi-session cleanup | `session.multi_cleanup` | `client_ip`, `session_count`, `cleanup_strategy` | Covers atomic cleanup of all sessions |
+| Incident triage | `incident.triage` | `incident_id`, `symptom`, `affected_sessions` | Created on failure detection; links to session spans |
 
 ### Querying Trace Spans (Phase 2A onwards)
 

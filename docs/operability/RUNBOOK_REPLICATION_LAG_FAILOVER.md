@@ -423,12 +423,12 @@ watch-metric --metric replication_lag_p99 --interval 10s
 
 | Runbook Step | D1 Span Name | Baggage Keys | Notes |
 |---|---|---|---|
-| Lag detection (metric alert) | `replication.lag.detection` | `replica_id`, `lag_us`, `source_region` | Triggered by threshold breach |
-| WAL shipping (normal) | `replication.wal.ship` | `log_sequence_number`, `source_region`, `dest_region`, `bytes` | Child spans per batch |
-| WAL shipping (stall) | `replication.wal.stall` | `stall_reason`, `queue_depth`, `replica_id` | Status `WARN`; linked to lag detection span |
-| Failover decision | `replication.failover.decision` | `from_replica`, `to_replica`, `trigger_reason`, `rpo_ms` | Parent span for full failover |
-| Failover execution | `replication.failover.execute` | `cluster_id`, `strategy`, `batch_index` | Child of decision span |
-| Recovery verification | `replication.failover.recovery_verify` | `lag_after_us`, `catch_up_rate`, `samples` | Linked to failover execution span |
+| Lag detection (metric alert) | `lag.detection` | `replica_id`, `lag_us`, `source_region` | Triggered by threshold breach |
+| WAL shipping (normal) | `wal.ship` | `log_sequence_number`, `source_region`, `dest_region`, `bytes` | Child spans per batch |
+| WAL shipping (stall) | `wal.stall` | `stall_reason`, `queue_depth`, `replica_id` | Status `WARN`; linked to lag detection span |
+| Failover decision | `failover.decision` | `from_replica`, `to_replica`, `trigger_reason`, `rpo_ms` | Parent span for full failover |
+| Failover execution | `failover.execute` | `cluster_id`, `strategy`, `batch_index` | Child of decision span |
+| Recovery verification | `failover.recovery_verify` | `lag_after_us`, `catch_up_rate`, `samples` | Linked to failover execution span |
 
 ### Querying Trace Spans (Phase 2A onwards)
 
@@ -442,7 +442,7 @@ otel-query --service replication --operation failover.decision --range 7d
 
 # Cross-reference lag metrics with WAL shipping traces
 otel-metrics-join \
-  --trace-operation replication.wal.ship \
+  --trace-operation wal.ship \
   --metric replication_lag_p99 --window 30s
 ```
 

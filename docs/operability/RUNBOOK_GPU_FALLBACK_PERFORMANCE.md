@@ -441,13 +441,13 @@ run-benchmark --suite gpu-performance-baseline --gpu-id <gpu-id>
 
 | Runbook Step | D1 Span Name | Baggage Keys | Notes |
 |---|---|---|---|
-| GPU health check | `gpu.health.check` | `gpu_id`, `device_name`, `driver_version` | Periodic or triggered |
-| Kernel execution | `gpu.kernel.execute` | `gpu_id`, `kernel_name`, `grid_dim`, `block_dim`, `timeout_ms` | Child span per CUDA kernel call |
-| Kernel timeout detection | `gpu.kernel.timeout` | `gpu_id`, `kernel_name`, `elapsed_ms`, `sla_limit_ms` | Status `WARN`/`ERROR`; linked to kernel span |
-| CPU fallback trigger | `gpu.fallback.trigger` | `gpu_id`, `fallback_reason`, `workload_type` | Parent span for fallback lifecycle |
-| CPU fallback execution | `gpu.fallback.execute` | `workload_type`, `cpu_latency_ms`, `slo_margin_ms` | Child of fallback trigger span |
-| GPU recovery initiation | `gpu.recovery.initiate` | `gpu_id`, `recovery_strategy`, `trigger_reason` | Linked to fallback trigger span |
-| GPU reintegration | `gpu.recovery.reintegrate` | `gpu_id`, `warmup_duration_ms`, `acceptance_criterion` | Final span of recovery lifecycle |
+| GPU health check | `health.check` | `gpu_id`, `device_name`, `driver_version` | Periodic or triggered |
+| Kernel execution | `kernel.execute` | `gpu_id`, `kernel_name`, `grid_dim`, `block_dim`, `timeout_ms` | Child span per CUDA kernel call |
+| Kernel timeout detection | `kernel.timeout` | `gpu_id`, `kernel_name`, `elapsed_ms`, `sla_limit_ms` | Status `WARN`/`ERROR`; linked to kernel span |
+| CPU fallback trigger | `fallback.trigger` | `gpu_id`, `fallback_reason`, `workload_type` | Parent span for fallback lifecycle |
+| CPU fallback execution | `fallback.execute` | `workload_type`, `cpu_latency_ms`, `slo_margin_ms` | Child of fallback trigger span |
+| GPU recovery initiation | `recovery.initiate` | `gpu_id`, `recovery_strategy`, `trigger_reason` | Linked to fallback trigger span |
+| GPU reintegration | `recovery.reintegrate` | `gpu_id`, `warmup_duration_ms`, `acceptance_criterion` | Final span of recovery lifecycle |
 
 ### Querying Trace Spans (Phase 2A onwards)
 
@@ -462,7 +462,7 @@ otel-query --service gpu --operation kernel.timeout --status ERROR --range 24h \
 
 # Cross-reference CUDA kernel traces with GPU error metrics
 otel-metrics-join \
-  --trace-operation gpu.kernel.execute \
+  --trace-operation kernel.execute \
   --metric gpu_kernel_error_rate --window 1m
 
 # Verify CPU fallback met SLO

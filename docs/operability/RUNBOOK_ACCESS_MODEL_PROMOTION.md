@@ -407,11 +407,11 @@ When the Phase 2A tracing SDK is available, the following operator actions map t
 
 | Runbook Step | D1 Span Name | Baggage Keys | Notes |
 |---|---|---|---|
-| Step 1 (Dry-run deploy) | `access_model.promotion.dry_run` | `build_version`, `cluster_id`, `operator_id` | Covers deploy → workload → decision |
-| Step 2 (Canary rollout) | `access_model.promotion.canary` | `canary_target`, `traffic_weight`, `build_version` | Child span per canary target |
-| Step 3 (Full rollout) | `access_model.promotion.full_rollout` | `build_version`, `batch_size`, `shard_count` | Parent span; child spans per batch |
-| Step 4 (Post-rollout validation) | `access_model.promotion.post_validation` | `duration_h`, `sample_count`, `error_rate` | Linked to canary parent via `trace_id` |
-| Step 5 (Rollback) | `access_model.promotion.rollback` | `rollback_reason`, `from_version`, `to_version` | Status set to `ERROR`; link to triggering metric event |
+| Step 1 (Dry-run deploy) | `promotion.dry_run` | `build_version`, `cluster_id`, `operator_id` | Covers deploy → workload → decision |
+| Step 2 (Canary rollout) | `promotion.canary` | `canary_target`, `traffic_weight`, `build_version` | Child span per canary target |
+| Step 3 (Full rollout) | `promotion.full_rollout` | `build_version`, `batch_size`, `shard_count` | Parent span; child spans per batch |
+| Step 4 (Post-rollout validation) | `promotion.post_validation` | `duration_h`, `sample_count`, `error_rate` | Linked to canary parent via `trace_id` |
+| Step 5 (Rollback) | `promotion.rollback` | `rollback_reason`, `from_version`, `to_version` | Status set to `ERROR`; link to triggering metric event |
 
 ### Querying Trace Spans (Phase 2A onwards)
 
@@ -426,7 +426,7 @@ otel-query --service access_model --operation promotion.rollback \
 
 # Cross-reference with auth latency metrics
 otel-metrics-join \
-  --trace-operation access_model.promotion.full_rollout \
+  --trace-operation promotion.full_rollout \
   --metric access_model_auth_latency_p99 \
   --window 5m
 ```

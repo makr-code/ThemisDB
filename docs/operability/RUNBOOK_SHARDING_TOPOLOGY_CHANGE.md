@@ -428,12 +428,12 @@ initiate-topology-rollback --cluster <cluster-id> --to-topology baseline_topolog
 
 | Runbook Step | D1 Span Name | Baggage Keys | Notes |
 |---|---|---|---|
-| Topology change plan | `sharding.topology.plan` | `cluster_id`, `shard_count_before`, `shard_count_after`, `operator_id` | Created at plan stage |
-| Shard routing (during rebalance) | `sharding.route.write` | `shard_id`, `routing_decision`, `fallback_triggered` | Child spans per write batch |
-| Rebalance execution | `sharding.rebalance.execute` | `topology_plan_id`, `batch_index`, `bytes_moved` | Parent span; child spans per shard move |
-| Shard stall detection | `sharding.rebalance.stall` | `stall_reason`, `shard_id`, `elapsed_ms` | Status `WARN`; linked to rebalance parent |
-| Data consistency check | `sharding.topology.consistency_check` | `shard_id`, `key_count`, `checksum` | Linked to rebalance execution span |
-| Topology rollback | `sharding.topology.rollback` | `rollback_reason`, `from_topology`, `to_topology` | Status `ERROR`; linked to triggering stall/failure |
+| Topology change plan | `topology.plan` | `cluster_id`, `shard_count_before`, `shard_count_after`, `operator_id` | Created at plan stage |
+| Shard routing (during rebalance) | `route.write` | `shard_id`, `routing_decision`, `fallback_triggered` | Child spans per write batch |
+| Rebalance execution | `rebalance.execute` | `topology_plan_id`, `batch_index`, `bytes_moved` | Parent span; child spans per shard move |
+| Shard stall detection | `rebalance.stall` | `stall_reason`, `shard_id`, `elapsed_ms` | Status `WARN`; linked to rebalance parent |
+| Data consistency check | `topology.consistency_check` | `shard_id`, `key_count`, `checksum` | Linked to rebalance execution span |
+| Topology rollback | `topology.rollback` | `rollback_reason`, `from_topology`, `to_topology` | Status `ERROR`; linked to triggering stall/failure |
 
 ### Querying Trace Spans (Phase 2A onwards)
 
@@ -447,7 +447,7 @@ otel-query --service sharding --operation rebalance.stall --status WARN --range 
 
 # Cross-reference exact-path gate metrics with routing traces
 otel-metrics-join \
-  --trace-operation sharding.route.write \
+  --trace-operation route.write \
   --metric shard_write_latency_p99 --window 30s
 ```
 

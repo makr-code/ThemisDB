@@ -203,5 +203,5 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave D Cross-Links (access_model)
 - Runbook with D1 Trace Span annotations: [`docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md`](../../docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md) — D1 Span table and `otel-query` examples added 2026-09-16
-- Phase 2A trace instrumentation targets for `access_coordinator.cpp` / `access_model_trace.h`: See runbook §Wave D D1 Distributed Trace Span Cross-Links
+- Phase 2A trace instrumentation targets for `access_coordinator.cpp` / `include/access_model/access_model_trace.h`: See runbook §Wave D D1 Distributed Trace Span Cross-Links
 - Wave D roadmap: [`docs/operability/WAVE_D_ROADMAP.md`](../../docs/operability/WAVE_D_ROADMAP.md)
