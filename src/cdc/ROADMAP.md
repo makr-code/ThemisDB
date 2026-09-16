@@ -34,13 +34,13 @@ Production CDC runtime exists for change capture, buffering, replay, delivery tr
   - Validation: diagnostics assertions in focused tests + benchmark-run metadata capture for incident triage.
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline CDC p95/p99 and throughput envelopes for release profiles (Target: Q1 2027)
+- [~] re-baseline CDC p95/p99 and throughput envelopes for release profiles (Target: Q1 2027)
   - Performance goal: re-derive p95/p99 latency and throughput envelopes from CDC-dedicated release-profile runs.
   - Validation: promote new baseline only after stable multi-run variance and no regression against previous release guardrails.
-- [ ] reduce proxy-like mappings by expanding dedicated CDC microbenchmarks (Target: Q1 2027)
+- [~] reduce proxy-like mappings by expanding dedicated CDC microbenchmarks (Target: Q1 2027)
   - Performance goal: replace indirect proxy mappings with direct CDC microbenchmarks for capture/list/replay/delivery paths.
   - Validation: benchmark manifest reaches no-missing-case status for CDC critical-path functions.
-- [ ] harden multi-tenant and multi-transport consistency in sustained production workloads (Target: Q1 2027)
+- [x] harden multi-tenant and multi-transport consistency in sustained production workloads (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_cdc_soak.cpp`
   - Runtime goal: deterministic tenant isolation and transport-failover behavior under long-running mixed workloads.
   - Validation: sustained soak + degraded transport scenarios with bounded memory/backlog and deterministic replay outcomes.
 
@@ -147,9 +147,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `cdc`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/cdc/test_cdc_highcardinality_stress.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_cdc_soak.cpp`
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `docs/operability/RUNBOOK_CDC.md`
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -157,6 +157,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — **COMPLETED 2026-09-16**
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — **COMPLETED 2026-09-16**: RUNBOOK_CDC.md

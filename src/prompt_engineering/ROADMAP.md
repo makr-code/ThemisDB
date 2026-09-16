@@ -18,15 +18,15 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for concurrent template/version mutation traffic (Target: Q4 2026)
-- [ ] expand stress coverage for optimization loops and feedback-heavy scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for prompt incident triage (Target: Q4 2026)
+- [x] expand stress coverage for optimization loops and feedback-heavy scenarios (Target: Q4 2026) — **COMPLETED 2026-09-16**: `tests/prompt_engineering/test_prompt_engineering_highcardinality_stress.cpp`
+- [x] improve operator-facing diagnostics for prompt incident triage (Target: Q4 2026) — **COMPLETED 2026-09-16**: `docs/operability/RUNBOOK_PROMPT_ENGINEERING.md`
 - [ ] introduce deterministic `RewriteEngine` for prompt normalization, policy rewrites, and NL→AQL preprocessing (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for prompt template/version/quality paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for module-native advanced prompt workflows (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained prompt update/evaluation pressure (Target: Q1 2027)
-- [ ] extend `RewriteEngine` to post-generation canonicalization and structured agent/tool output normalization (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for prompt template/version/quality paths (Target: Q1 2027)
+- [~] broaden benchmark depth for module-native advanced prompt workflows (Target: Q1 2027)
+- [x] harden long-run reliability under sustained prompt update/evaluation pressure (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_prompt_engineering_soak.cpp`
+- [~] extend `RewriteEngine` to post-generation canonicalization and structured agent/tool output normalization (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -248,9 +248,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `prompt_engineering`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/prompt_engineering/test_prompt_engineering_highcardinality_stress.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_prompt_engineering_soak.cpp`
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `docs/operability/RUNBOOK_PROMPT_ENGINEERING.md`
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -258,6 +258,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — **COMPLETED 2026-09-16**
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — **COMPLETED 2026-09-16**: RUNBOOK_PROMPT_ENGINEERING.md

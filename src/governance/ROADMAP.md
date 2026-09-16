@@ -106,3 +106,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Dependencies on Later Waves
 - Wave D operability hardening depends on stable Wave C security controls.
+
+### Wave D Contribution for `governance`
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/governance/test_governance_highcardinality_stress.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_governance_soak.cpp`
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `docs/operability/RUNBOOK_GOVERNANCE.md`
+
+### Program-Level Success Criteria (contribution)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — **COMPLETED 2026-09-16**: RUNBOOK_GOVERNANCE.md
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)

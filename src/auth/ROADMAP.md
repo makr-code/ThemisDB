@@ -123,9 +123,9 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [ ] Test: `tests/auth/test_wave8_auth_hardening.cpp` — 10+ tests covering pagination retry, partial-result detection, cache eviction under size pressure, pool-exhaustion audit trail
 
 ### Mid-term (6-12 months)
-- [ ] reduce remaining proxy-like benchmark targets through dedicated auth microbenchmarks (Target: Q1 2027)
-- [ ] re-baseline auth p95/p99 envelopes on representative production profiles (Target: Q1 2027)
-- [ ] harden multi-realm and distributed trust-state synchronization paths (Target: Q1 2027)
+- [~] reduce remaining proxy-like benchmark targets through dedicated auth microbenchmarks (Target: Q1 2027)
+- [~] re-baseline auth p95/p99 envelopes on representative production profiles (Target: Q1 2027)
+- [x] harden multi-realm and distributed trust-state synchronization paths (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_auth_soak.cpp`
 
 ## Implementation Phases
 
@@ -257,9 +257,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `auth`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/auth/test_auth_highcardinality_stress.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — **COMPLETED 2026-09-16**: `tests/integration/test_auth_soak.cpp`
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — **COMPLETED 2026-09-16**: `docs/operability/RUNBOOK_AUTH.md`
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -267,6 +267,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — **COMPLETED 2026-09-16**
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — **COMPLETED 2026-09-16**: RUNBOOK_AUTH.md

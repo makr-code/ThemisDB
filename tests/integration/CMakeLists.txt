@@ -753,6 +753,16 @@ foreach(_soak_test IN ITEMS
     test_llm_streaming_soak
     test_exporters_soak
     test_image_analysis_soak
+    # Wave D — batch 2 (prompt_engineering, onnx_clip, geo, cdc,
+    #                   distributed_knowledge, ai, governance, auth)
+    test_prompt_engineering_soak
+    test_onnx_clip_soak
+    test_geo_engine_soak
+    test_cdc_soak
+    test_distributed_knowledge_soak
+    test_ai_framework_soak
+    test_governance_soak
+    test_auth_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -974,6 +984,38 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: image analysis soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_image_analysis_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: prompt engineering soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_prompt_engineering_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: onnx_clip soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_onnx_clip_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: geo engine soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_geo_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: cdc soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_cdc_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: distributed knowledge soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_distributed_knowledge_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: AI framework soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_ai_framework_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: governance soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_governance_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: auth soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_auth_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
