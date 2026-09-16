@@ -672,11 +672,20 @@ private:
     // Tenant assigned to this session (set after authentication)
     std::string tenant_id_;
 
-    // Read buffers
+    // Read buffers — written exclusively on the I/O thread (Asio single-threaded context).
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header
     std::vector<uint8_t> payload_buffer_;
     uint32_t checksum_buffer_;
     uint16_t current_flags_ = 0;  // Current message flags
+
+    // Per-dispatch payload — written on the I/O thread inside dispatchToWorkerPool()
+    // *before* net::post() so the happens-before edge of net::post guarantees visibility
+    // to the worker thread.  Worker-dispatched handlers (handleBatchGet, handleQuery,
+    // handleVectorSearch, …) read from this member instead of payload_buffer_, removing
+    // the write-write / read-write race that arises when asyncReadPayload() refills
+    // payload_buffer_ for the next frame while the worker is still executing.
+    // payload_buffer_ is never touched by the worker thread.
+    std::vector<uint8_t> dispatch_payload_;
 
     // Write queue (prevent write-write race)
     std::mutex write_mutex_;
