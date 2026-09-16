@@ -1856,6 +1856,34 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             }
 
             spdlog::info("NL-to-AQL: Translation successful");
+
+            // Operator-facing confidence diagnostics (Planned Feature: improve diagnostics)
+            // Emit a structured [TRANSLATION:Confidence] log entry so operators and SREs
+            // can correlate translation quality with retry count and provider selection
+            // without enabling DEBUG-level logging in production.
+            {
+                double confidence_score = 0.0;
+                try {
+                    AQLConfidenceScorer diag_scorer;
+                    auto diag_conf = diag_scorer.score(aql_query, nl_query, schema_context);
+                    confidence_score = diag_conf.overall_confidence;
+                } catch (...) {
+                    // Confidence scoring is best-effort; do not fail translation if it throws.
+                }
+                std::string provider_id = "unknown";
+                try {
+                    if (impl_->llm_client_) {
+                        provider_id = impl_->llm_client_->getProviderName();
+                    }
+                } catch (...) {
+                    // getProviderName() is best-effort; fall back to "unknown"
+                }
+                spdlog::info("[TRANSLATION:Confidence] provider={} confidence_score={:.3f} retries_used={}",
+                             provider_id,
+                             confidence_score,
+                             attempt + 1);
+            }
+
             return aql_query;
 
         } catch (const LLMException &e) {

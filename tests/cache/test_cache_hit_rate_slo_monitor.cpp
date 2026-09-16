@@ -638,3 +638,64 @@ TEST_F(CacheHitRateSloMonitorTest, ConfigValidate_LatencyOnlyOneThresholdSetIsVa
     config_.p99_critical_ms = 50.0;
     EXPECT_TRUE(config_.validate(&err));
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Wave D — Structured log tag tests (Q4 2026)
+// These cover the [CACHE:SLOBreach] and [CACHE:TenantQuotaBreach] diagnostics.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * CHRS-SLO-01: [CACHE:SLOBreach] path — evaluate() fires an alert when hit-rate
+ * drops below the configured warning threshold.
+ *
+ * Wave D: Confirms that the SLO breach path (which now also emits the
+ * [CACHE:SLOBreach] structured log tag) produces alert_fired=true.
+ */
+TEST_F(CacheHitRateSloMonitorTest, SLOBreach_AlertFiredWhenHitRateBelowWarningThreshold) {
+    // Use 1 request minimum so the monitor evaluates immediately
+    config_.min_requests      = 1;
+    config_.warning_threshold = 0.70;
+    config_.critical_threshold = 0.40;
+    config_.alert_cooldown_seconds = 0; // no cooldown for deterministic test
+
+    CacheHitRateSloMonitor monitor(config_, nullptr /* no alertmanager */);
+
+    // 20 hits + 80 misses = 20% hit rate, well below 70% warning threshold
+    auto result = monitor.evaluate(makeMetrics(20, 80));
+
+    EXPECT_TRUE(result.alert_fired)
+        << "[CACHE:SLOBreach] path must fire an alert when hit_rate(0.20) < warning_threshold(0.70)";
+    EXPECT_GE(result.total_requests, 100u)
+        << "Total request count must reflect all hits + misses";
+    EXPECT_LT(result.hit_rate, config_.warning_threshold)
+        << "Reported hit_rate must be below the warning threshold";
+}
+
+/**
+ * CHRS-SLO-02: [CACHE:TenantQuotaBreach] — recordTenantEvictionRate() returns
+ * true and does not throw when eviction_rate exceeds the threshold.
+ * Returns false when eviction_rate is within the threshold.
+ *
+ * Wave D: Verifies the new per-tenant eviction rate diagnostic API.
+ */
+TEST_F(CacheHitRateSloMonitorTest, TenantQuotaBreach_LoggedWhenEvictionRateExceedsThreshold) {
+    CacheHitRateSloMonitor monitor(config_, nullptr /* no alertmanager */);
+
+    // Eviction rate 0.85 with threshold 0.50 → breach
+    bool breached = false;
+    EXPECT_NO_THROW({
+        breached = monitor.recordTenantEvictionRate("tenant_alpha", 0.85, 0.50);
+    }) << "recordTenantEvictionRate() must not throw";
+
+    EXPECT_TRUE(breached)
+        << "recordTenantEvictionRate() must return true when eviction_rate(0.85) > threshold(0.50)";
+
+    // Eviction rate 0.30 with threshold 0.50 → no breach
+    bool no_breach = false;
+    EXPECT_NO_THROW({
+        no_breach = monitor.recordTenantEvictionRate("tenant_beta", 0.30, 0.50);
+    });
+
+    EXPECT_FALSE(no_breach)
+        << "recordTenantEvictionRate() must return false when eviction_rate(0.30) ≤ threshold(0.50)";
+}

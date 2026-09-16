@@ -174,3 +174,30 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_encrypted_stress_focuse
         )
     endif()
 endif()
+
+# Wave D: High-cardinality stress tests (HighCardinalityEncryptedWrite, ConcurrentKeyRotationStress, EncDecUnderLoadStress)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_encrypted_highcardinality_stress.cpp")
+    set(_target "module_user_storage_encrypted_test_highcardinality_stress")
+    if(NOT TARGET ${_target})
+        add_executable(${_target}
+            test_user_storage_encrypted_highcardinality_stress.cpp
+        )
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            Threads::Threads
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        themis_register_module_focused_test(
+            MODULE user_storage_encrypted
+            NAME   test_user_storage_encrypted_highcardinality_stress
+            TARGET ${_target}
+            TIER   stress
+            TIMEOUT 300
+            LABELS  user_storage_encrypted wave_d stress not_release_critical
+        )
+    endif()
+endif()

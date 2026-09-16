@@ -522,7 +522,20 @@ WeightedTieredLRUEvictionPolicy::choose_victim(
         tier_name = "L1";
     }
 
+    // Emit storage-demotion hooks (tenant_id not carried in CacheKeyDescriptor;
+    // callers that need tenant routing should embed it in the key or sub-class).
+    for (const auto& listener : eviction_listeners_) {
+        try { listener(victim->key, /*tenant_id=*/""); }
+        catch (...) { /* listener exceptions must not abort eviction */ }
+    }
+
     return {true, victim->key, "Tiered LRU victim (" + tier_name + "): " + victim->key};
+}
+
+void WeightedTieredLRUEvictionPolicy::registerEvictionListener(EvictionListener listener) {
+    // listener_ storage is guarded by the same mutex_ as choose_victim
+    std::lock_guard<std::mutex> lock(mutex_);
+    eviction_listeners_.push_back(std::move(listener));
 }
 
 std::unique_ptr<CacheEvictionPolicy> WeightedTieredLRUEvictionPolicy::clone() const {

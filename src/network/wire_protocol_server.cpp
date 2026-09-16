@@ -1259,33 +1259,50 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> handler) {
     if (server_->worker_pool_) {
         auto self = shared_from_this();
-        // Copy the current frame's buffers so the handler can read them on the
-        // worker thread. The copies are written back into the session members
-        // before calling fn() so that handler methods which access payload_buffer_
-        // and header_buffer_ via 'this->' see the correct frame data.
+
+        // THREAD SAFETY (Wave D strand-safety fix — 2026-09-16, revised):
         //
-        // KNOWN LIMITATION: payload_buffer_ is also used by asyncReadPayload
-        // for the NEXT incoming frame. Under high-frequency pipelining, a race
-        // exists between this write (worker thread) and asyncReadPayload's
-        // resize+async_read (I/O thread). The canonical fix is to use a per-session
-        // net::strand to serialize all session state mutations, or to pass the
-        // payload as an explicit parameter to each handler method instead of
-        // relying on the session-level member.
-        // [I] ROADMAP: tracked in src/network/ROADMAP.md § "Wire Protocol
-        //     Session-State Strand Safety" — target Q1 2027.
-        auto payload_copy = payload_buffer_;
-        auto header_copy  = header_buffer_;
+        // Root cause: worker-dispatched handlers (handleBatchGet, handleQuery, …)
+        // read payload_buffer_ via 'this->'.  Under pipelining, asyncReadPayload()
+        // on the I/O thread refills payload_buffer_ for the *next* frame while the
+        // worker is still executing — an unsynchronised read-write race.
+        //
+        // Fix: copy the current frame payload into dispatch_payload_ on the I/O
+        // thread (single-threaded Asio context — safe) before calling net::post().
+        // The happens-before edge of net::post() guarantees the worker thread sees
+        // the write.  Dispatched handlers read dispatch_payload_ instead of
+        // payload_buffer_.  payload_buffer_ is never touched by the worker thread,
+        // so asyncReadPayload() may immediately reuse it for the next frame without
+        // any synchronisation.
+        //
+        // Note: only one dispatch is in flight per session at a time because
+        // asyncReadPayload() is not re-scheduled until handleMessage() returns.
+        // Therefore the single dispatch_payload_ member is sufficient.
+        dispatch_payload_ = payload_buffer_;   // copy on I/O thread — happens-before worker start
+
         net::post(*server_->worker_pool_,
-            [this, self,
-             payload = std::move(payload_copy),
-             hdr     = std::move(header_copy),
-             fn      = std::move(handler)]() mutable {
-                payload_buffer_ = std::move(payload);
-                header_buffer_  = std::move(hdr);
+            [this, self, fn = std::move(handler)]() mutable {
+                // dispatch_payload_ is visible here per the net::post happens-before edge.
+                // payload_buffer_ and header_buffer_ are exclusively owned by the I/O thread
+                // and are not accessed here.
                 fn();
             });
     } else {
-        handler();
+        // Inline path: still on the I/O thread; asyncReadPayload() will not refill
+        // payload_buffer_ until handleMessage() returns, so there is no race.
+        // Use O(1) std::swap so dispatched handlers see their data in dispatch_payload_
+        // (same member read on the worker-pool path) without any heap allocation.
+        // The reverse swap is wrapped in a scope guard so it always runs even if
+        // handler() throws, preventing permanent buffer state corruption.
+        std::swap(dispatch_payload_, payload_buffer_);
+        {
+            auto reverse_swap = [this]() noexcept { std::swap(dispatch_payload_, payload_buffer_); };
+            struct ScopeGuard {
+                decltype(reverse_swap) fn;
+                ~ScopeGuard() { fn(); }
+            } guard{reverse_swap};
+            handler();
+        }
     }
 }
 
@@ -1828,12 +1845,12 @@ void WireProtocolServer::Session::handleBatchGet() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_GET payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid BATCH_GET payload: expected JSON object");
             return;
@@ -1948,12 +1965,12 @@ void WireProtocolServer::Session::handleBatchPut() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBatchPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxBatchPayloadBytes) {
             sendError(413, "BATCH_PUT payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid BATCH_PUT payload: expected JSON object");
             return;
@@ -2109,12 +2126,12 @@ void WireProtocolServer::Session::handleTransactionBegin() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_BEGIN payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_BEGIN payload: expected JSON object");
             return;
@@ -2181,12 +2198,12 @@ void WireProtocolServer::Session::handleTransactionCommit() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_COMMIT payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_COMMIT payload: expected JSON object");
             return;
@@ -2249,12 +2266,12 @@ void WireProtocolServer::Session::handleTransactionAbort() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxTransactionPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxTransactionPayloadBytes) {
             sendError(413, "TRANSACTION_ABORT payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid TRANSACTION_ABORT payload: expected JSON object");
             return;
@@ -2312,12 +2329,12 @@ void WireProtocolServer::Session::handleGraphTraverse() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxGraphPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxGraphPayloadBytes) {
             sendError(413, "GRAPH_TRAVERSE payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid GRAPH_TRAVERSE payload: expected JSON object");
             return;
@@ -2453,12 +2470,12 @@ void WireProtocolServer::Session::handleQuery() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxQueryPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxQueryPayloadBytes) {
             sendError(413, "QUERY payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid QUERY payload: expected JSON object");
             return;
@@ -2579,12 +2596,12 @@ void WireProtocolServer::Session::handleCursorNext() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_NEXT payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid CURSOR_NEXT payload: expected JSON object");
             return;
@@ -2673,12 +2690,12 @@ void WireProtocolServer::Session::handleCursorClose() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxCursorPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxCursorPayloadBytes) {
             sendError(413, "CURSOR_CLOSE payload too large");
             return;
         }
 
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
         if (!request.is_object()) {
             sendError(400, "Invalid CURSOR_CLOSE payload: expected JSON object");
             return;
@@ -2731,7 +2748,7 @@ void WireProtocolServer::Session::handleVectorSearch() {
     }
 
     try {
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
 
         if (request.contains("k") && !request["k"].is_number_integer()) {
             sendError(400, "Invalid 'k' type in VECTOR_SEARCH request");
@@ -2837,7 +2854,7 @@ void WireProtocolServer::Session::handleGeoQuery() {
     }
 
     try {
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
 
         if (request.contains("collection") && !request["collection"].is_string()) {
             sendError(400, "Invalid 'collection' type in GEO_QUERY request");
@@ -3121,7 +3138,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
     try {
         // Parse TimeSeriesQueryRequest from payload
         TimeSeriesQueryRequest request = {};
-        if (!TimeSeriesQueryRequest::parse(payload_buffer_, request)) {
+        if (!TimeSeriesQueryRequest::parse(dispatch_payload_, request)) {
             sendError(0x0009, "Failed to parse TimeSeriesQueryRequest");
             return;
         }
@@ -3468,14 +3485,14 @@ void WireProtocolServer::Session::handleBpmnStartProcess() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN start-process payload too large");
             return;
         }
 
         // Parse JSON payload
         // Expected format: { "process_definition_key": "...", "variables": {...}, "business_key": "..." }
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");
@@ -3604,14 +3621,14 @@ void WireProtocolServer::Session::handleBpmnTaskComplete() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN task-complete payload too large");
             return;
         }
 
         // Parse JSON payload
         // Expected format: { "task_id": "...", "variables": {...}, "assignee": "..." }
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");
@@ -3744,14 +3761,14 @@ void WireProtocolServer::Session::handleBpmnQueryInstance() {
     }
 
     try {
-        if (payload_buffer_.size() > kMaxBpmnPayloadBytes) {
+        if (dispatch_payload_.size() > kMaxBpmnPayloadBytes) {
             sendError(413, "BPMN query-instance payload too large");
             return;
         }
 
         // Parse JSON payload
         // Expected format: { "process_instance_id": "...", "include_variables": true/false, "include_history": true/false }
-        json request = parsePayloadJsonWithRetry(payload_buffer_, 2);
+        json request = parsePayloadJsonWithRetry(dispatch_payload_, 2);
 
         if (!request.is_object()) {
             sendError(400, "Invalid request: expected JSON object");

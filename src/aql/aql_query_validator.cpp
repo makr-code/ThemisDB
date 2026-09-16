@@ -231,6 +231,92 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
     }
 }
 
+// Reject queries whose nested subquery depth exceeds the policy limit (depth > 5).
+// Each LET ... = (subquery) or FOR inside a LET/FILTER subquery increments depth.
+// The check uses a simple FOR-inside-parenthesis counter; it is conservative and
+// does not require a full parse tree.
+void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result) {
+    constexpr int kMaxAllowedDepth = 5;
+    // Track the maximum FOR subquery nesting depth.  A stack records, for each
+    // open parenthesis, whether it introduced a subquery (i.e. "(FOR …").  Only
+    // the matching ")" of a subquery-opening "(" decrements the depth counter;
+    // all other closing parentheses (function calls, grouping expressions, etc.)
+    // are ignored for depth accounting.  This prevents false under-counting when
+    // function calls appear inside subqueries.
+    int max_depth = 0;
+    int depth     = 0;
+    std::string upper = query;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+    // Stack entry: true if the corresponding '(' opened a subquery.
+    std::vector<bool> paren_is_subquery;
+    paren_is_subquery.reserve(32);
+    for (std::size_t pos = 0; pos < upper.size(); ++pos) {
+        if (upper[pos] == '(') {
+            // Look ahead for a FOR keyword inside this parenthesis.
+            std::size_t next = upper.find_first_not_of(" \t\n\r", pos + 1);
+            bool is_subquery = (next != std::string::npos && upper.compare(next, 3, "FOR") == 0);
+            paren_is_subquery.push_back(is_subquery);
+            if (is_subquery) {
+                ++depth;
+                if (depth > max_depth) max_depth = depth;
+            }
+        } else if (upper[pos] == ')') {
+            if (!paren_is_subquery.empty()) {
+                if (paren_is_subquery.back()) {
+                    // Closing a subquery-opening parenthesis: decrement depth.
+                    if (depth > 0) --depth;
+                }
+                paren_is_subquery.pop_back();
+            }
+        }
+    }
+    if (max_depth > kMaxAllowedDepth) {
+        spdlog::debug("[VALIDATION:NestedSubqueryDepthExceeded] Nested subquery depth {} exceeds maximum {}",
+                      max_depth, kMaxAllowedDepth);
+        result.is_valid = false;
+        result.issues.push_back(
+            {ValidationIssue::Severity::ERROR,
+             "Nested subquery depth " + std::to_string(max_depth)
+                 + " exceeds maximum allowed depth " + std::to_string(kMaxAllowedDepth),
+             "FOR"});
+    }
+}
+
+// Reject queries that reference a collection name longer than 128 characters.
+// Oversized names are a signal of LLM hallucination or injection attempts.
+void checkCollectionNameLength(const std::string &query, ValidationResult &result) {
+    constexpr std::size_t kMaxCollectionNameLength = 128;
+    // Match collection names only in FOR/INSERT/UPDATE/REMOVE/UPSERT/REPLACE
+    // contexts to avoid false positives on FILTER x IN <array-expression>.
+    // Patterns: "FOR <var> IN <coll>", "<DML> [INTO|IN] <coll>"
+    try {
+        static const std::regex coll_re(
+            R"(\b(?:FOR\s+[A-Za-z_][A-Za-z0-9_]*\s+IN|(?:INSERT|UPDATE|REMOVE|UPSERT|REPLACE)\b.*?\b(?:IN(?:TO)?)))"
+            R"(\s+([A-Za-z_][A-Za-z0-9_]*))",
+            std::regex::icase);
+        std::sregex_iterator it(query.begin(), query.end(), coll_re);
+        std::sregex_iterator end = {};
+        for (; it != end; ++it) {
+            const std::string name = (*it)[1].str();
+            if (name.size() > kMaxCollectionNameLength) {
+                spdlog::debug("[VALIDATION:CollectionNameTooLong] Collection name length {} exceeds maximum {}",
+                              name.size(), kMaxCollectionNameLength);
+                result.is_valid = false;
+                result.issues.push_back(
+                    {ValidationIssue::Severity::ERROR,
+                     "Collection name '" + name.substr(0, 32) + "...' length "
+                         + std::to_string(name.size())
+                         + " exceeds maximum allowed length "
+                         + std::to_string(kMaxCollectionNameLength),
+                     "FOR"});
+            }
+        }
+    } catch (...) {
+        spdlog::debug("[VALIDATION:CollectionNameTooLong] regex execute for collection name check failed; skipping");
+    }
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -254,6 +340,8 @@ ValidationResult AQLQueryValidator::validate(const std::string &query) const {
     checkAssignmentInFilter(query, result);
     checkMissingLimit(query, result);
     checkTraversalDepthOrder(query, result);
+    checkNestedSubqueryDepth(query, result);
+    checkCollectionNameLength(query, result);
 
     return result;
 }

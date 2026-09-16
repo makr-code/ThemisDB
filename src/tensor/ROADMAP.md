@@ -20,14 +20,14 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for tensor bridge and hybrid routing edge scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for fingerprint graph concurrent read/write patterns (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for tensor graph export and replay incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for tensor bridge and hybrid routing edge scenarios (Completed 2026-09-16 — test_tensor_highcardinality_stress.cpp, TensorSoak_BridgeRoutingReliability)
+- [x] expand stress coverage for fingerprint graph concurrent read/write patterns (Completed 2026-09-16 — test_tensor_highcardinality_stress.cpp, ConcurrentGraphReadWrite/DedupReplayStress)
+- [x] improve operator-facing diagnostics for tensor graph export and replay incidents (Completed 2026-09-16 — RUNBOOK_TENSOR_STORE.md)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for tensor query and graph operation hot paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for tensor index and dedup replay workload diversity (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained tensor graph mutation/query traffic (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for tensor query and graph operation hot paths (Target: Q1 2027 — bench_tensor_dedicated_gates.cpp TN-BM-01..TN-BM-04 in place; hardware run required)
+- [~] broaden benchmark depth for tensor index and dedup replay workload diversity (Target: Q1 2027 — bench_tensor_dedicated_gates.cpp TN-BM-01..TN-BM-04 in place)
+- [x] harden long-run reliability under sustained tensor graph mutation/query traffic (Completed 2026-09-16 — test_tensor_store_soak.cpp)
 
 ## Implementation Phases
 
@@ -99,9 +99,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `tensor`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Completed 2026-09-16 — test_tensor_highcardinality_stress.cpp, bench_tensor_dedicated_gates.cpp, RUNBOOK_TENSOR_STORE.md)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Completed 2026-09-16 — tests/integration/test_tensor_store_soak.cpp)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16 — docs/operability/RUNBOOK_TENSOR_STORE.md)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -109,6 +109,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Completed 2026-09-16 — bridge routing and dedup error handling validated in soak/stress)
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027 — bench_tensor_dedicated_gates.cpp TN-BM-01..TN-BM-04; hardware run required)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Completed 2026-09-16 — RUNBOOK_TENSOR_STORE.md)

@@ -291,7 +291,7 @@ void CacheHitRateSloMonitor::fireAlert(ViolationLevel level, double hit_rate, ui
     active_violation_  = level;
     result.alert_fired = true;
 
-    THEMIS_WARN("Cache hit rate SLO violation [{}]: hit_rate={:.3f} (threshold={:.3f}) "
+    THEMIS_WARN("[CACHE:SLOBreach] Cache hit rate SLO violation [{}]: hit_rate={:.3f} (threshold={:.3f}) "
                 "total_requests={}",
                 violationLevelToString(level), hit_rate,
                 (level == ViolationLevel::CRITICAL ? config_.critical_threshold : config_.warning_threshold),
@@ -500,6 +500,25 @@ bool CacheHitRateSloMonitor::isLatencyCooldownExpired(ViolationLevel level) cons
 
 std::string CacheHitRateSloMonitor::makeLatencyAlertId(const std::string &cache_name, ViolationLevel level) {
     return "cache_latency_" + cache_name + "_" + (level == ViolationLevel::CRITICAL ? "critical" : "warning");
+}
+
+// ---------------------------------------------------------------------------
+// Per-tenant eviction rate diagnostics (Wave D — Q4 2026)
+// ---------------------------------------------------------------------------
+
+bool CacheHitRateSloMonitor::recordTenantEvictionRate(
+        const std::string& tenant_id, double eviction_rate, double threshold) {
+    if (eviction_rate <= threshold || threshold <= 0.0) {
+        return false; // No breach — nothing to log
+    }
+    THEMIS_WARN("[CACHE:TenantQuotaBreach] tenant_id={} eviction_rate={:.4f} threshold={:.4f} "
+                "cache_name={}",
+                tenant_id, eviction_rate, threshold, config_.cache_name);
+    THEMIS_WARN("{{\"event\":\"tenant_quota_breach\",\"tenant_id\":\"{}\","
+                "\"eviction_rate\":{:.4f},\"threshold\":{:.4f},"
+                "\"cache_name\":\"{}\"}}",
+                tenant_id, eviction_rate, threshold, config_.cache_name);
+    return true;
 }
 
 } // namespace cache

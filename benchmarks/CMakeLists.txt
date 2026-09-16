@@ -271,6 +271,9 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/search/CMakeLists.txt")
     add_subdirectory(search)
 endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vector_search/CMakeLists.txt")
+    add_subdirectory(vector_search)
+endif()
 # Wave 2 module benchmark subdirectories (security/network/storage/geo)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/CMakeLists.txt")
     add_subdirectory(security)
@@ -307,6 +310,13 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/CMakeLists.txt")
     add_subdirectory(replication)
 endif()
+# Wave D module benchmark subdirectories
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/CMakeLists.txt")
+    add_subdirectory(sharding)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/CMakeLists.txt")
+    add_subdirectory(graph)
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/CMakeLists.txt")
     add_subdirectory(temporal)
 endif()
@@ -315,6 +325,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/CMakeLists.txt")
 endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/CMakeLists.txt")
     add_subdirectory(tensor)
+endif()
+
+# Wave D dedicated benchmark gates
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/CMakeLists.txt")
+    add_subdirectory(training)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/CMakeLists.txt")
+    add_subdirectory(acceleration)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/CMakeLists.txt")
+    add_subdirectory(gpu)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed_tensor/CMakeLists.txt")
+    add_subdirectory(distributed_tensor)
 endif()
 
 themis_add_standard_benchmark(bench_ycsb ycsb/bench_ycsb.cpp)
@@ -4732,6 +4759,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/bench_chaos_release_gates.cpp")
     message(STATUS "  Chaos gates: GATE-CHS-01 inject throughput, GATE-CHS-02 query latency, GATE-CHS-03 recover throughput, GATE-CHS-04 concurrent ops, GATE-CHS-05 schedule throughput, GATE-CHS-06 callback overhead")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/bench_chaos_microbenchmarks.cpp")
+    message(STATUS "Adding chaos microbenchmarks (Wave D mid-term — CHAOS-MB-01..03)")
+
+    add_executable(bench_chaos_microbenchmarks
+        chaos/bench_chaos_microbenchmarks.cpp
+        ${CMAKE_SOURCE_DIR}/src/chaos/chaos_framework.cpp
+    )
+
+    target_include_directories(bench_chaos_microbenchmarks PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    target_link_libraries(bench_chaos_microbenchmarks PRIVATE
+        benchmark::benchmark_main
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(bench_chaos_microbenchmarks PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+    themis_apply_benchmark_release_flags(bench_chaos_microbenchmarks)
+
+    install(TARGETS bench_chaos_microbenchmarks
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Chaos microbenchmarks: CHAOS-MB-01 inject p99, CHAOS-MB-02 recover p99, CHAOS-MB-03 concurrent throughput")
+endif()
+
 # ============================================================================
 # Auto-registration for eligible benchmark sources not yet manually wired
 #
@@ -5361,10 +5418,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scheduler/CMakeLists.txt")
     add_subdirectory(scheduler)
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/execution/CMakeLists.txt")
+    add_subdirectory(execution)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
     add_subdirectory(scraper)
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt")
     add_subdirectory(user_storage_encrypted)
+endif()
+
+# Wave D: voice and llm_streaming dedicated benchmark gates
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/CMakeLists.txt")
+    add_subdirectory(voice)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_streaming/CMakeLists.txt")
+    add_subdirectory(llm_streaming)
 endif()

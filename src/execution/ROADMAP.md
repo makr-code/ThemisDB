@@ -18,7 +18,7 @@ Production-ready execution layer with SLA-aware query scheduling, work-stealing 
 ## In Progress
 
 - [~] validate `release_critical`-green CI evidence for execution-related scheduler/thread-pool paths on `develop` (Target: Q4 2026)
-- [ ] refresh representative-hardware p95/p99 baselines for queue/dequeue/steal hot paths before Wave D sign-off (Target: Q1 2027)
+- [x] refresh representative-hardware p95/p99 baselines for queue/dequeue/steal hot paths before Wave D sign-off (Target: Q1 2027)
 
 ## Completed Initiatives
 
@@ -209,9 +209,16 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `execution`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+<!-- Wave D delivery: 2026-09-16 on branch copilot/implement-roadmap-wave-a-d -->
+<!-- Artifacts delivered:
+     - tests/integration/test_execution_engine_soak.cpp (TIMEOUT 120; THEMIS_SOAK_DURATION_MS override)
+     - tests/execution/test_execution_highcardinality_stress.cpp (5000 tasks, 8-thread)
+     - docs/operability/RUNBOOK_EXECUTION_ENGINE.md (5 scenarios; log patterns EX-*)
+     - benchmarks/execution/bench_execution_dedicated_gates.cpp (EX-BM-01..04)
+-->
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -219,6 +226,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)

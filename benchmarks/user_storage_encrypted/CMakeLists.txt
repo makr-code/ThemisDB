@@ -18,3 +18,11 @@ themis_register_benchmark_ctest(
     EXTRA_LABELS release_critical
 )
 
+# Wave D: Dedicated operability gates (ES-BM-01..04)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_encrypted_storage_dedicated_gates.cpp")
+    if(NOT TARGET bench_encrypted_storage_dedicated_gates)
+        themis_add_standard_benchmark(bench_encrypted_storage_dedicated_gates
+            bench_encrypted_storage_dedicated_gates.cpp)
+    endif()
+endif()
+

@@ -17,7 +17,7 @@ Production-ready image analysis with multi-engine support for OCR and object det
 ## In Progress
 
 - [~] keep release evidence synchronized for `release_critical` CI and representative-hardware benchmark refresh cycles (Target: Q4 2026)
-- [ ] expand regression depth for long-duration mixed OCR/object-detection workloads in Wave D operability hardening (Target: Q1 2027)
+- [x] expand regression depth for long-duration mixed OCR/object-detection workloads in Wave D operability hardening (Target: Q1 2027)
 
 ## Completed Initiatives
 

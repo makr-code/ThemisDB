@@ -17,3 +17,6 @@ themis_add_standard_benchmark(bench_process_parser_gates bench_process_parser_ga
 themis_add_standard_benchmark(bench_process_linker_gates bench_process_linker_gates.cpp)
 themis_add_standard_benchmark(bench_process_retriever_gates bench_process_retriever_gates.cpp)
 themis_add_standard_benchmark(bench_process_advanced_workflows bench_process_advanced_workflows.cpp)
+
+# Wave D: Dedicated process manager benchmark gates (PM-BM-01..04)
+themis_add_standard_benchmark(bench_process_dedicated_gates bench_process_dedicated_gates.cpp)

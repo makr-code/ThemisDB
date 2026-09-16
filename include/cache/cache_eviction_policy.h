@@ -29,6 +29,39 @@
 namespace themis {
 namespace cache {
 
+// ============================================================================
+// Eviction listener callback type (Wave D — Q4 2026 AccessCoordinator hooks)
+//
+// Implementations that call choose_victim() may register one or more
+// EvictionListener callbacks to receive notification whenever a key is
+// selected for eviction.  The callback is invoked with the victim key and
+// the associated tenant_id (empty string for global-namespace entries).
+//
+// Usage:
+//   policy.registerEvictionListener(
+//       [](const std::string& key, const std::string& tid) {
+//           storage_coordinator.demote(key, tid);
+//       });
+// ============================================================================
+
+/**
+ * @brief Callback type for storage-demotion eviction hooks.
+ *
+ * Called synchronously from choose_victim() after a victim has been selected.
+ * Implementations must be noexcept-safe; exceptions thrown by the callback
+ * are caught and suppressed to preserve choose_victim() stability.
+ *
+ * @param key       The cache key selected for eviction.
+ * @param tenant_id Tenant namespace of the evicted key (empty = global).
+ *
+ * @note Listeners are invoked synchronously while the owning policy's internal
+ *       mutex is held.  A listener **must not** call any method on the owning
+ *       policy object (e.g. registerEvictionListener(), choose_victim()); doing
+ *       so will deadlock.  Listeners should be short, non-blocking callbacks.
+ */
+using EvictionListener = std::function<void(const std::string& key,
+                                             const std::string& tenant_id)>;
+
 /**
  * @brief Policy-agnostic cache key descriptor
  */
@@ -156,6 +189,7 @@ public:
      * @return Unique pointer to new policy with same configuration
      * 
      * Default implementation throws; subclasses override if cloning needed.
+     * @throws std::runtime_error if the concrete policy does not support cloning.
      */
     virtual std::unique_ptr<CacheEvictionPolicy> clone() const {
         throw std::runtime_error(std::string(policy_name()) + " does not support cloning");
@@ -369,6 +403,9 @@ public:
      * @brief Return the currently assigned tier for @p key.
      *
      * Unknown keys are treated as cold because they have no retention history.
+     *
+     * @param key Cache key to look up.
+     * @return Tier assigned to the key (cold if unknown).
      */
     Tier tier_for_key(const std::string& key) const;
 
@@ -401,16 +438,44 @@ public:
      *
      * Returns 0 below the trigger threshold, 1 between trigger and severe
      * thresholds, and a bounded batch size once severe pressure is reached.
+     *
+     * @param current_capacity_percent Current fill level (0–100).
+     * @param candidate_count          Number of eviction candidates available.
+     * @return Recommended number of entries to evict.
      */
     size_t recommended_batch_size(size_t current_capacity_percent,
                                   size_t candidate_count) const;
 
+    /// @brief Returns the capacity percentage at which eviction is triggered.
+    /// @return Trigger threshold as a percentage (0–100).
     size_t trigger_threshold_percent() const noexcept { return trigger_threshold_percent_; }
+    /// @brief Returns the capacity percentage considered safe (below trigger).
+    /// @return Safe threshold as a percentage (0–100).
     size_t safe_threshold_percent() const noexcept { return safe_threshold_percent_; }
+    /// @brief Returns the capacity percentage at which eviction becomes severe.
+    /// @return Severe threshold as a percentage (0–100).
     size_t severe_threshold_percent() const noexcept { return config_.severe_threshold_percent; }
 
     /**
+     * @brief Register a storage-demotion eviction listener.
+     *
+     * The listener is called synchronously inside choose_victim() when a
+     * victim key is selected.  Multiple listeners may be registered; all are
+     * invoked in registration order.  Thread-safe.
+     *
+     * @param listener Callback conforming to the EvictionListener type alias.
+     * @note  The listener is invoked while mutex_ is held.  The listener
+     *        **must not** call back into the owning policy (e.g.
+     *        registerEvictionListener(), choose_victim()); doing so will
+     *        deadlock.  Keep listeners non-blocking and free of policy
+     *        re-entry.
+     */
+    void registerEvictionListener(EvictionListener listener);
+
+    /**
      * @brief Return tracked entry counts for {cold, warm, hot} tiers.
+     *
+     * @return Array of three sizes: [cold_count, warm_count, hot_count].
      */
     std::array<size_t, 3> tier_distribution() const;
 
@@ -436,6 +501,7 @@ private:
     size_t safe_threshold_percent_;
     int64_t last_threshold_adjustment_ns_ = 0;
     bool is_moved_from_ = false;
+    std::vector<EvictionListener> eviction_listeners_; ///< Storage-demotion callback hooks
 };
 
 /**

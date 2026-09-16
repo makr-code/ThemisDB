@@ -136,20 +136,20 @@ The module provides production-grade LLM runtime surfaces across async inference
     - [x] Exception-safety patterns & tests — top-5 methods hardened (`~MLModelManager` noexcept, `deployModel`/`updateModel` rollback on exception, `loadModel` VRAM cleanup on throw); 20 tests in `tests/server/test_wave7_server_llm_hardening.cpp`
     - [x] Performance optimization (copy overhead) — `inferAsync` callback moved into lambda; `loadLoRA`/`unloadLoRA` gossip shard_id moved to announcement struct (eliminates second copy)
     - [x] Security hardening (LLM input validation, injection prevention) — prompt/query 1 MB limit, lora_id alphanumeric regex, max_tokens 1–32768, temperature 0–2; `THEMIS_WARN("[SEC] ...")` on each rejection (`llm_api_handler.cpp` B2)
-  - [ ] Phase 4: Testing & Validation
-    - [ ] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
-    - [ ] Performance regression gates established
-    - [ ] AddressSanitizer / ThreadSanitizer validation
-  - [ ] Deliverables
-    - [ ] GAP_CLOSURE_IMPLEMENTATION_GUIDE.md (created 2026-08-17)
-    - [ ] REMEDIATION_PATTERNS.md with standardized fix patterns (created 2026-08-17)
-    - [ ] All 12,474 gaps tracked, closed, or deferred with justification
+  - [x] Phase 4: Testing & Validation
+    - [x] 40+ focused hardening tests (thread-safety, exception-safety, resource cleanup)
+    - [x] Performance regression gates established
+    - [x] AddressSanitizer / ThreadSanitizer validation
+  - [x] Deliverables
+    - [x] GAP_CLOSURE_IMPLEMENTATION_GUIDE.md (created 2026-08-17)
+    - [x] REMEDIATION_PATTERNS.md with standardized fix patterns (created 2026-08-17)
+    - [x] All 12,474 gaps tracked, closed, or deferred with justification
 
 ## Planned Features
 
 - [x] End-to-end distributed draft/verify optimization in speculative decoding paths (COMPLETE 2026-08-16) — `SpeculativeDecoder` remote-draft shard wiring and distributed end-to-end optimization completed in Wave A-8. Batch aggregation ≥8× speedup verified.
-- [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
-- [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
+- [x] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
+- [x] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
 ### Wave 2-B: RAII & Resource Safety (Target: Q4 2026)
@@ -267,7 +267,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 ### Phase 3: Error Handling and Edge Cases
 - [~] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
-- [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
+- [x] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
   - [x] `FanOutInstanceResult` now carries stable `error_code` + `dispatch_time_ms`; coordinator emits canonical classes for unknown-instance, timeout, backend-unavailable, permanent-remote, and retry-exhausted errors.
 
 ### Phase 4: Tests
@@ -419,8 +419,8 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] Robustness across task configurations
 
 ### Dependencies
-- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
-- [ ] Stable adapter lifecycle and benchmark baselines in LLM module
+- [~] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [~] Stable adapter lifecycle and benchmark baselines in LLM module
 
 ### References
 - Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`

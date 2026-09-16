@@ -1,4 +1,10 @@
 # Auto-generated module tests for prefix 'document'
+#
+# Wave D additions picked up by the glob below:
+#   test_document_highcardinality_stress.cpp
+#     → target: module_document_test_document_highcardinality_stress_focused
+#     → ctest:  test_document_highcardinality_stress_document_FocusedTests
+#     → labels: wave_d;stress;not_release_critical  (set via set_tests_properties after loop)
 
 file(GLOB DOCUMENT_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_document_*.cpp"
@@ -47,3 +53,13 @@ foreach(_src IN LISTS DOCUMENT_PREFIX_TEST_SOURCES)
         LABELS document
     )
 endforeach()
+
+# ─── Wave D stress label override ────────────────────────────────────────────
+# test_document_highcardinality_stress is registered by the loop above with the
+# standard "document" label.  Override labels here to add Wave D stress markers.
+if(TEST "test_document_highcardinality_stress_document_FocusedTests")
+    set_tests_properties(
+        "test_document_highcardinality_stress_document_FocusedTests"
+        PROPERTIES LABELS "document;wave_d;stress;not_release_critical"
+    )
+endif()

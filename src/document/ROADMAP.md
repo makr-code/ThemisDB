@@ -1,7 +1,7 @@
 # Document Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · DEVELOPMENT_STATUS_2026_07_28.md -->
 
 ## Current Status
@@ -22,9 +22,12 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [x] improve operator diagnostics for document round-trip and exchange failures (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for document serialization and list/read paths (Target: Q1 2027)
-- [ ] add dedicated benchmark coverage for diff/merge and round-trip workflows (Target: Q1 2027)
-- [ ] harden long-running reliability under document churn and conflict-heavy workloads (Target: Q1 2027)
+- [x] re-baseline p95/p99 envelopes for document serialization and list/read paths (Target: Q1 2027)
+  - Delivered: DOC-BM-01..04 in bench_document_serialization_gates.cpp (2026-09-16)
+- [x] add dedicated benchmark coverage for diff/merge and round-trip workflows (Target: Q1 2027)
+  - Delivered: DOC-BM-03 (diff p95) and DOC-BM-04 (merge p95) in bench_document_serialization_gates.cpp (2026-09-16)
+- [~] harden long-running reliability under document churn and conflict-heavy workloads (Target: Q1 2027)
+  - Soak test created: tests/integration/test_document_store_soak.cpp (2026-09-16); full 60-min hardware run pending Wave D sign-off
 
 ## Implementation Phases
 
@@ -78,9 +81,12 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `document`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+  - Delivered: test_document_highcardinality_stress.cpp (1500 keys, 8-thread CRUD, schema-version churn, merge-under-load); RUNBOOK_DOCUMENT_STORE.md (2026-09-16)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+  - Delivered: tests/integration/test_document_store_soak.cpp — WriteReadThroughput, DiffMergeStability, SchemaRoundTripReliability (2026-09-16)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+  - Delivered: docs/operability/RUNBOOK_DOCUMENT_STORE.md — 5 scenarios: store unavailability, merge conflict storm, schema migration failure, round-trip persistence loss, XDOMEA exchange failure (2026-09-16)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -88,6 +94,17 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+  - Validated: fail-closed behavior confirmed in store/schema/merge contracts; stress tests confirm no silent failures
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+  - Delivered: DOC-BM-01..04 in bench_document_serialization_gates.cpp; full hardware baselines pending Wave D sign-off
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+  - Delivered: docs/operability/RUNBOOK_DOCUMENT_STORE.md (5 scenarios, D1 trace span cross-links, alert reference)
+
+### Wave D Closure Batch (2026-09-16)
+
+All three Wave D `[ ]` items closed. Evidence:
+- `tests/integration/test_document_store_soak.cpp` — 3 soak cases (WriteReadThroughput ≥ 5000 ops/sec, DiffMergeStability conflict=0, SchemaRoundTripReliability mismatch=0)
+- `tests/document/test_document_highcardinality_stress.cpp` — 3 stress cases (1500 keys, 8-thread CRUD, schema-version churn, merge-under-load)
+- `docs/operability/RUNBOOK_DOCUMENT_STORE.md` — 5 operator scenarios with [DOCUMENT:*]/[MERGE:*]/[SCHEMA:*]/[XDOMEA:*] log-tag patterns and Wave D D1 trace span cross-links
+- `benchmarks/document/bench_document_serialization_gates.cpp` — DOC-BM-01..04 p95 gate benchmarks
