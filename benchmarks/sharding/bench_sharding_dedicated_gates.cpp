@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdio>
 #include <cstdint>
 #include <cstdlib>
 #include <numeric>
