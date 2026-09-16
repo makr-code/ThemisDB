@@ -218,11 +218,15 @@ static int bridge_geo_distance(
         const double dlon = (lons2[i] - lons1[i]) * kDegToRad;
         const double rlat1 = lats1[i] * kDegToRad;
         const double rlat2 = lats2[i] * kDegToRad;
-        const double a_raw = std::sin(dlat / 2.0) * std::sin(dlat / 2.0)
-                           + std::cos(rlat1) * std::cos(rlat2) * std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
-        const double a = std::clamp(a_raw, 0.0, 1.0);
-        out_distances[i] = static_cast<float>(kEarthRadiusKm * 2.0
-            * std::atan2(std::sqrt(a), std::sqrt(std::max(0.0, 1.0 - a))));
+        const double a = std::sin(dlat / 2.0) * std::sin(dlat / 2.0) +
+                         std::cos(rlat1) * std::cos(rlat2) *
+                         std::sin(dlon / 2.0) * std::sin(dlon / 2.0);
+        // Clamp a to [0, 1] to guard against floating-point rounding errors
+        // (e.g. near-antipodal points) that can make 1.0 - a slightly negative,
+        // causing std::sqrt to return NaN.
+        const double a_clamped = std::clamp(a, 0.0, 1.0);
+        out_distances[i] = static_cast<float>(
+            kEarthRadiusKm * 2.0 * std::atan2(std::sqrt(a_clamped), std::sqrt(1.0 - a_clamped)));
     }
     return 0;
 }

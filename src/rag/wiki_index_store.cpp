@@ -357,12 +357,15 @@ struct WikiIndexStore::Impl {
         std::unique_ptr<rocksdb::DB> db_handle(db_raw);
         cache_db = db_handle.get();
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
-        if (cf_handles.size() < 2) {
-            for (auto* handle : cf_handles) {
-                delete handle;
+        // Any handles at index >= 2 are unexpected but must be closed to avoid leaks.
+        if (cf_handles.size() >= 2) {
+            cache_cf = cf_handles[1];
+            // Close the default CF handle (index 0) — not used.
+            delete cf_handles[0];
+            // Close any unexpected extra handles (index >= 2).
+            for (std::size_t i = 2; i < cf_handles.size(); ++i) {
+                delete cf_handles[i];
             }
-            delete db_instance;
-            return false;
         }
         if (!cache_cf) {
             for (auto* handle : cf_handles) {
