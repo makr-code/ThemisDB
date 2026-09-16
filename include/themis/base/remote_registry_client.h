@@ -23,6 +23,7 @@
 
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <cstdint>
 #include <functional>
 #include <future>
 #include <memory>
@@ -144,6 +145,9 @@ struct PluginDownloadResult {
  *
  * Populated by both httpGet() and httpGetBinary() so callers can inspect
  * retry counts and error details without relying on log output.
+ *
+ * Wave D (observability): @c retry_exhausted_count and @c timeout_count
+ * accumulate across the client's lifetime for exporter reliability tracking.
  */
 struct RequestStats {
     /// Number of HTTP attempts made (1 = no retries were needed).
@@ -151,6 +155,19 @@ struct RequestStats {
 
     /// Last error description; empty when the final attempt succeeded.
     std::string last_error;
+
+    // -------------------------------------------------------------------------
+    // Wave D — accumulated retry-exhaust and timeout observability counters
+    // -------------------------------------------------------------------------
+
+    /// @brief Number of request sequences that exhausted all retry budget.
+    ///        Incremented once per httpGet()/httpGetBinary() call that ran out
+    ///        of retries without a successful HTTP response.
+    uint64_t retry_exhausted_count = 0;
+
+    /// @brief Number of individual retry attempts that were classified as
+    ///        timeout events (HTTP response code 0 with a curl timeout error).
+    uint64_t timeout_count = 0;
 };
 
 // =============================================================================
@@ -205,6 +222,32 @@ struct RequestStats {
  */
 class RemoteRegistryClient : public std::enable_shared_from_this<RemoteRegistryClient> {
 public:
+    // -------------------------------------------------------------------------
+    // Wave D — Observability hook
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Callback type for retry-exhaust and timeout observability events.
+     *
+     * Called with the updated @c RequestStats snapshot each time a request
+     * sequence exhausts its retry budget (@c retry_exhausted_count was
+     * incremented) or a per-attempt timeout occurs (@c timeout_count was
+     * incremented).  Callbacks are invoked under the internal @c stats_mutex_,
+     * so implementations must be non-blocking and must not re-enter any
+     * @c RemoteRegistryClient method.
+     */
+    using ObservabilityHook = std::function<void(const RequestStats&)>;
+
+    /**
+     * @brief Register a callback to receive retry-exhaust and timeout events.
+     *
+     * Replaces any previously registered hook.  Pass a default-constructed
+     * @c ObservabilityHook (empty function) to disable the hook.
+     *
+     * @param hook  Callback; must be thread-safe and non-blocking.
+     */
+    void setObservabilityHook(ObservabilityHook hook);
+
     explicit RemoteRegistryClient(const RegistryConfig& config);
     ~RemoteRegistryClient();
 
@@ -239,6 +282,8 @@ private:
 
     mutable std::mutex stats_mutex_;
     RequestStats       last_stats_;
+
+    ObservabilityHook  observability_hook_;  ///< Wave D exporter hook.
 
     std::string httpGet(const std::string& url);
     bool        httpGetBinary(const std::string& url, const std::string& out_path);

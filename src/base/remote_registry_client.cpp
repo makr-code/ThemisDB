@@ -929,6 +929,11 @@ RequestStats RemoteRegistryClient::lastRequestStats() const {
     return last_stats_;
 }
 
+void RemoteRegistryClient::setObservabilityHook(ObservabilityHook hook) {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    observability_hook_ = std::move(hook);
+}
+
 /*static*/ bool RemoteRegistryClient::verifyIntegrity(const std::string &file_path,
                                                       const std::string &expected_sha256) {
     const std::string actual = sha256File(file_path);
