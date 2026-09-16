@@ -39,9 +39,12 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
   - [x] EmbeddedLLM startup now calls `registerGgmlTypeTT()` once under `THEMIS_ENABLE_GGML_BRIDGE`, closing the uninitialized TT-type registration path for ggml-backed inference startup
   - [x] fail-closed production guards added: `map()` invalidates when no allocator path exists, `prefetch()` throws when no prefetch backend is available, and `registerGgmlTypeTT()` throws when no registration backend exists
   - [ ] startup wiring of concrete allocator/prefetch/type-registration providers in server bootstrap remains open
-- [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
-- [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
+  - Addressed by ST-SOAK-02 (WALReplayStability) and ST-STRESS-02 (ConcurrentCompactionStress)
+- [x] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
+  - Addressed by ST-STRESS-03 (BlobTieringEdgeCases) in tests/storage/test_storage_highcardinality_stress.cpp
+- [x] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
+  - Addressed by docs/operability/RUNBOOK_STORAGE_ENGINE.md (5 scenarios with structured log patterns)
 - [x] finish remote cloud backup transport wiring in `backup_manager.cpp` for S3/GCS/Azure so cloud restore now reconstructs backups from a manifest plus payload blobs instead of depending on local-mirror-only behavior (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
@@ -77,7 +80,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 - [~] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
   - [x] `SecuritySignatureManager` now rejects null-backend production use instead of silently downgrading integrity persistence to an in-memory map
   - [x] remote cloud backup archive transport now uses provider blob backends plus a manifest-driven restore contract for S3/GCS/Azure
-- [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026) âœ… COMPLETE (2026-08-03)
