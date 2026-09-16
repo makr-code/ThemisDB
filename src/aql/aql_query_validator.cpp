@@ -237,22 +237,37 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
 // does not require a full parse tree.
 void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result) {
     constexpr int kMaxAllowedDepth = 5;
-    // Count the maximum FOR nesting depth by tracking open parentheses followed
-    // by FOR keywords (case-insensitive).  Each "( ... FOR" pattern increments depth.
+    // Track the maximum FOR subquery nesting depth.  A stack records, for each
+    // open parenthesis, whether it introduced a subquery (i.e. "(FOR …").  Only
+    // the matching ")" of a subquery-opening "(" decrements the depth counter;
+    // all other closing parentheses (function calls, grouping expressions, etc.)
+    // are ignored for depth accounting.  This prevents false under-counting when
+    // function calls appear inside subqueries.
     int max_depth = 0;
     int depth     = 0;
     std::string upper = query;
     std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+    // Stack entry: true if the corresponding '(' opened a subquery.
+    std::vector<bool> paren_is_subquery;
+    paren_is_subquery.reserve(32);
     for (std::size_t pos = 0; pos < upper.size(); ++pos) {
         if (upper[pos] == '(') {
-            // Look ahead for a FOR keyword inside this parenthesis
+            // Look ahead for a FOR keyword inside this parenthesis.
             std::size_t next = upper.find_first_not_of(" \t\n\r", pos + 1);
-            if (next != std::string::npos && upper.compare(next, 3, "FOR") == 0) {
+            bool is_subquery = (next != std::string::npos && upper.compare(next, 3, "FOR") == 0);
+            paren_is_subquery.push_back(is_subquery);
+            if (is_subquery) {
                 ++depth;
                 if (depth > max_depth) max_depth = depth;
             }
         } else if (upper[pos] == ')') {
-            if (depth > 0) --depth;
+            if (!paren_is_subquery.empty()) {
+                if (paren_is_subquery.back()) {
+                    // Closing a subquery-opening parenthesis: decrement depth.
+                    if (depth > 0) --depth;
+                }
+                paren_is_subquery.pop_back();
+            }
         }
     }
     if (max_depth > kMaxAllowedDepth) {
