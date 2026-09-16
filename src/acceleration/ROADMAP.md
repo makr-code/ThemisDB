@@ -135,7 +135,7 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] Haversine batch CUDA kernel: `haversineDistanceKernel` implemented in `cuda/geo_kernels.cu:53`; RAII allocation and `cudaGetLastError()` present; kernel auto-tuning via `cudaOccupancyMaxPotentialBlockSize` at line 367. Dedicated parity test `tests/geo/test_category_b_parity_geo.cpp` added with CTest registration `test_category_b_parity_geo` (practical parity tolerance ≤1e-2 metres for float-km output path). (Target: Q3 2026)
 - [x] `ST_CONTAINS` GPU dispatch: `bridge_geo_containment()` in `geo_acceleration_bridge.cpp:141` bridges to geo module's `batchIntersects()`; no dedicated CUDA kernel in `cuda/geo_kernels.cu` (delegates to geo module GPU spatial backend). CPU parity coverage is now implemented by `CategoryBGeoParity.ContainsGpuVsCpuParity` in `tests/geo/test_category_b_parity_geo.cpp`. (Target: Q3 2026)
 - [x] `ST_DISTANCE` GPU dispatch: geodesic distance batch is wired through `GeoKernelDispatch::launchDistance` with HAVERSINE/VINCENTY formula support; CPU fallback path now honors `GeoDistanceFormula::VINCENTY` in `geo_acceleration_bridge.cpp`, and bridge dispatch behavior is validated by `GeoAccelerationBridge.PopulateGeoDispatch_Distance_VincentyFormulaIsApplied` in `tests/geo/test_geo_gpu_backend.cpp`. (Target: Q3 2026)
-- [ ] `ST_UNION` and `ST_DIFFERENCE` are explicitly **deferred to Q4 2026**; their dispatch paths MUST carry STUB/SIMULATION NOTE until then. (Target: Q4 2026)
+- [~] `ST_UNION` and `ST_DIFFERENCE` CUDA dispatch is now implemented for Point×Point via `launchGeoPointUnionKernel` / `launchGeoPointDifferenceKernel` (`cuda/geo_kernels.cu`) and wired into `src/geo/gpu_backend_stub.cpp`; non-point combinations still use deterministic CPU exact fallback. (Target: Q4 2026)
 - [x] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) now implemented in `tests/geo/test_category_b_parity_geo.cpp` and registered via `add_geo_focused_test` in `tests/CMakeLists.txt`. (Target: Q3 2026)
 
 #### GPU Benchmark Re-baseline
@@ -144,8 +144,8 @@ All major GPU acceleration backends are now fully implemented and integrated:
 
 ### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off
 
-- [ ] **[A-08 geo — ST_UNION]** Implement `ST_UNION` CUDA kernel (deferred from Q3 2026); replace STUB/SIMULATION NOTE with real dispatch; phase C ctest `test_category_b_parity_geo` must still pass. (Target: Q4 2026)
-- [ ] **[A-08 geo — ST_DIFFERENCE]** Implement `ST_DIFFERENCE` CUDA kernel (deferred from Q3 2026); replace STUB/SIMULATION NOTE; CPU parity test (tolerance ≤1e-6). (Target: Q4 2026)
+- [~] **[A-08 geo — ST_UNION]** Point×Point CUDA kernel implemented and dispatch wired (`src/acceleration/cuda/geo_kernels.cu`, `src/geo/gpu_backend_stub.cpp`); parity covered by `CategoryBGeoParity.STUnionPointGpuVsCpuParity`; polygon-clipping CUDA path remains open. (Target: Q4 2026)
+- [~] **[A-08 geo — ST_DIFFERENCE]** Point×Point CUDA kernel implemented and dispatch wired (`src/acceleration/cuda/geo_kernels.cu`, `src/geo/gpu_backend_stub.cpp`); parity covered by `CategoryBGeoParity.STDifferencePointGpuVsCpuParity` (tolerance ≤1e-6); polygon-clipping CUDA path remains open. (Target: Q4 2026)
 - [ ] **[GPU benchmark final sign-off]** All `benchmarks/acceleration/` and `benchmarks/index/` gates green on self-hosted runner with NVIDIA RTX hardware; commit signed baseline artefact to `benchmarks/cuda_final_baseline_q4_2026.json`. (Target: Q4 2026)
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
