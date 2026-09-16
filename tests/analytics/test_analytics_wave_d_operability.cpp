@@ -224,9 +224,9 @@ TEST(AnalyticsWaveDOperability, WDO06_HighCardinalityStressRemainsBounded) {
     }
 
     const auto stats = window->getStats();
-    // The window admits the first 16 distinct tenant partition keys and then
-    // rejects each newly observed key once the configured distinct-key cap is
-    // reached.
+    // makeHighCardinalityRecord() emits one unique partition key per record, so
+    // after the first 16 admitted keys every subsequent record introduces a new
+    // key and is rejected by the distinct-key cap.
     EXPECT_EQ(stats.partition_keys_rejected, 2048u - 16u);
     EXPECT_GE(stats.records_dropped, stats.partition_keys_rejected);
 }
@@ -251,6 +251,8 @@ TEST(AnalyticsWaveDOperability, WDO07_DistributedSoakStyleLoopPreservesDiagnosti
         ASSERT_EQ(result.successful_shards, 1u);
         ASSERT_EQ(result.failure_class, "partial_failure");
         ASSERT_FALSE(result.operation_id.empty());
+        // finalizeDistributedResult() adds the generic degraded-result hint on
+        // the partial-success path when no fail-closed-specific hint is present.
         ASSERT_TRUE(hasHintContaining(result.operator_hints, "Partial result"));
     }
 }

@@ -27,7 +27,7 @@ analytics p95/p99 and throughput baseline capture.
 
 The canonical manifest for required outputs is:
 
-- `/home/runner/work/ThemisDB/ThemisDB/benchmarks/baselines/analytics/representative_hardware_manifest.json`
+- `benchmarks/baselines/analytics/representative_hardware_manifest.json`
 
 Each profile must publish:
 

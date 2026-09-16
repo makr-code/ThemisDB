@@ -64,6 +64,6 @@ Use these fields first when triaging incidents:
   - baseline comparison report status `warn` or `fail`
   - p95/p99 drift beyond the module threshold
 - Actions:
-  - compare against `/home/runner/work/ThemisDB/ThemisDB/benchmarks/baselines/analytics/representative_hardware_manifest.json`
+  - compare against `benchmarks/baselines/analytics/representative_hardware_manifest.json`
   - reproduce on the same hardware profile before widening thresholds
   - only update baselines after a reviewed, intentional performance change

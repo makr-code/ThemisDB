@@ -84,7 +84,10 @@ ExportResult finalizeExportResult(ExportResult result,
         return result;
     }
 
-    if (result.status == ExportStatus::POLICY_REJECTED) {
+    if (result.status == ExportStatus::POLICY_REJECTED && result.failure_class == "timeout") {
+        result.operator_hints.push_back(
+            "The export exceeded the bounded-execution timeout; reduce export size or raise the latency budget before retrying.");
+    } else if (result.status == ExportStatus::POLICY_REJECTED) {
         result.operator_hints.push_back(
             "Review the bounded execution limits for this export and retry once concurrent load is reduced.");
     } else if (result.status == ExportStatus::NOT_SUPPORTED) {
