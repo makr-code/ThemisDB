@@ -40,6 +40,13 @@ int launchGeoContainmentKernel(const double *d_point_lats, const double *d_point
 int launchGeoPointUnionKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count, void *stream);
 int launchGeoPointDifferenceKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count,
                                    void *stream);
+int launchGeoPolygonUnionKernel(const double *d_ring1_xy, int ring1_vertices, const double *d_ring2_xy,
+                                int ring2_vertices, double *d_out_ring1_xy, int *d_out_ring1_vertices,
+                                double *d_out_ring2_xy, int *d_out_ring2_vertices, int *d_out_status, void *stream);
+int launchGeoPolygonDifferenceKernel(const double *d_ring1_xy, int ring1_vertices, const double *d_ring2_xy,
+                                     int ring2_vertices, double *d_out_ring1_xy, int *d_out_ring1_vertices,
+                                     double *d_out_ring2_xy, int *d_out_ring2_vertices, int *d_out_status,
+                                     void *stream);
 } // extern "C"
 #endif // THEMIS_GEO_CUDA
 
@@ -164,6 +171,15 @@ struct PointKernelResult {
 };
 
 using PointKernelLaunchFn = int (*)(const double *, double *, int *, void *);
+using PolygonKernelLaunchFn = int (*)(const double *, int, const double *, int, double *, int *, double *, int *,
+                                      int *, void *);
+
+constexpr int kPolyStatusPolygon = 1;
+constexpr int kPolyStatusReturnGeom1 = 2;
+constexpr int kPolyStatusReturnGeom2 = 3;
+constexpr int kPolyStatusCollection = 4;
+constexpr int kPolyStatusEmpty = 5;
+constexpr int kPolyStatusPolygonWithHole = 6;
 
 static PointKernelResult launchPointSetOpKernel(PointKernelLaunchFn launch_fn, const Coordinate &p1, const Coordinate &p2) {
     PointKernelResult result;
@@ -254,6 +270,189 @@ static GeometryInfo buildGeometryFromPointKernelResult(const PointKernelResult &
     collection.geometries.push_back(std::move(p1));
     collection.geometries.push_back(std::move(p2));
     return collection;
+}
+
+struct PolygonKernelResult {
+    bool dispatched = false;
+    int error_code = 0;
+    int status = 0;
+    int ring1_count = 0;
+    int ring2_count = 0;
+    std::vector<double> ring1_xy;
+    std::vector<double> ring2_xy;
+};
+
+static int normalizedVertexCount(const std::vector<Coordinate> &ring) {
+    if (ring.size() < 3) {
+        return 0;
+    }
+    int n = static_cast<int>(ring.size());
+    if (n > 1 && std::abs(ring.front().x - ring.back().x) <= kEpsilon && std::abs(ring.front().y - ring.back().y) <= kEpsilon) {
+        --n;
+    }
+    return n >= 3 ? n : 0;
+}
+
+static void writeRingInterleaved(const std::vector<Coordinate> &ring, int n, std::vector<double> &dst) {
+    dst.assign(static_cast<std::size_t>(n * 2), 0.0);
+    for (int i = 0; i < n; ++i) {
+        dst[static_cast<std::size_t>(i * 2)] = ring[static_cast<std::size_t>(i)].x;
+        dst[static_cast<std::size_t>(i * 2 + 1)] = ring[static_cast<std::size_t>(i)].y;
+    }
+}
+
+static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch_fn, const GeometryInfo &g1,
+                                                    const GeometryInfo &g2) {
+    PolygonKernelResult result;
+    if (!launch_fn || !g1.isPolygon() || !g2.isPolygon()) {
+        return result;
+    }
+
+    const auto &ring1 = outerRing(g1);
+    const auto &ring2 = outerRing(g2);
+    const int n1 = normalizedVertexCount(ring1);
+    const int n2 = normalizedVertexCount(ring2);
+    if (n1 == 0 || n2 == 0) {
+        return result;
+    }
+
+    std::vector<double> host_ring1;
+    std::vector<double> host_ring2;
+    writeRingInterleaved(ring1, n1, host_ring1);
+    writeRingInterleaved(ring2, n2, host_ring2);
+
+    constexpr int kMaxRingVertices = 513;
+    std::vector<double> host_out1(static_cast<std::size_t>(kMaxRingVertices * 2), 0.0);
+    std::vector<double> host_out2(static_cast<std::size_t>(kMaxRingVertices * 2), 0.0);
+    int host_out1_n = 0;
+    int host_out2_n = 0;
+    int host_status = 0;
+
+    double *d_ring1 = nullptr;
+    double *d_ring2 = nullptr;
+    double *d_out1 = nullptr;
+    double *d_out2 = nullptr;
+    int *d_out1_n = nullptr;
+    int *d_out2_n = nullptr;
+    int *d_status = nullptr;
+
+    const std::size_t ring1_bytes = host_ring1.size() * sizeof(double);
+    const std::size_t ring2_bytes = host_ring2.size() * sizeof(double);
+    const std::size_t out_bytes = host_out1.size() * sizeof(double);
+
+    cudaError_t e = cudaSuccess;
+    if ((e = cudaMalloc(&d_ring1, ring1_bytes)) != cudaSuccess
+        || (e = cudaMalloc(&d_ring2, ring2_bytes)) != cudaSuccess
+        || (e = cudaMalloc(&d_out1, out_bytes)) != cudaSuccess
+        || (e = cudaMalloc(&d_out2, out_bytes)) != cudaSuccess
+        || (e = cudaMalloc(&d_out1_n, sizeof(int))) != cudaSuccess
+        || (e = cudaMalloc(&d_out2_n, sizeof(int))) != cudaSuccess
+        || (e = cudaMalloc(&d_status, sizeof(int))) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+        cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+        return result;
+    }
+
+    if ((e = cudaMemcpy(d_ring1, host_ring1.data(), ring1_bytes, cudaMemcpyHostToDevice)) != cudaSuccess
+        || (e = cudaMemcpy(d_ring2, host_ring2.data(), ring2_bytes, cudaMemcpyHostToDevice)) != cudaSuccess
+        || (e = cudaMemset(d_out1, 0, out_bytes)) != cudaSuccess
+        || (e = cudaMemset(d_out2, 0, out_bytes)) != cudaSuccess
+        || (e = cudaMemset(d_out1_n, 0, sizeof(int))) != cudaSuccess
+        || (e = cudaMemset(d_out2_n, 0, sizeof(int))) != cudaSuccess
+        || (e = cudaMemset(d_status, 0, sizeof(int))) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+        cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+        return result;
+    }
+
+    const int rc = launch_fn(d_ring1, n1, d_ring2, n2, d_out1, d_out1_n, d_out2, d_out2_n, d_status, nullptr);
+    if (rc != 0) {
+        result.error_code = rc;
+        cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+        cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+        return result;
+    }
+
+    e = cudaDeviceSynchronize();
+    if (e != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+        cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+        return result;
+    }
+
+    if ((e = cudaMemcpy(host_out1.data(), d_out1, out_bytes, cudaMemcpyDeviceToHost)) != cudaSuccess
+        || (e = cudaMemcpy(host_out2.data(), d_out2, out_bytes, cudaMemcpyDeviceToHost)) != cudaSuccess
+        || (e = cudaMemcpy(&host_out1_n, d_out1_n, sizeof(int), cudaMemcpyDeviceToHost)) != cudaSuccess
+        || (e = cudaMemcpy(&host_out2_n, d_out2_n, sizeof(int), cudaMemcpyDeviceToHost)) != cudaSuccess
+        || (e = cudaMemcpy(&host_status, d_status, sizeof(int), cudaMemcpyDeviceToHost)) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+        cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+        return result;
+    }
+
+    cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
+    cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+
+    result.dispatched = true;
+    result.status = host_status;
+    result.ring1_count = host_out1_n;
+    result.ring2_count = host_out2_n;
+    result.ring1_xy = std::move(host_out1);
+    result.ring2_xy = std::move(host_out2);
+    return result;
+}
+
+static std::vector<Coordinate> readRing(const std::vector<double> &xy, int count) {
+    std::vector<Coordinate> ring;
+    if (count <= 0) {
+        return ring;
+    }
+    ring.reserve(static_cast<std::size_t>(count));
+    for (int i = 0; i < count; ++i) {
+        ring.emplace_back(xy[static_cast<std::size_t>(i * 2)], xy[static_cast<std::size_t>(i * 2 + 1)]);
+    }
+    return ring;
+}
+
+static GeometryInfo buildGeometryFromPolygonKernelResult(const PolygonKernelResult &res, const GeometryInfo &g1,
+                                                         const GeometryInfo &g2) {
+    switch (res.status) {
+        case kPolyStatusPolygon: {
+            if (res.ring1_count < 4) {
+                return GeometryInfo{};
+            }
+            GeometryInfo poly(GeometryType::Polygon);
+            poly.rings.push_back(readRing(res.ring1_xy, res.ring1_count));
+            return poly;
+        }
+        case kPolyStatusReturnGeom1:
+            return g1;
+        case kPolyStatusReturnGeom2:
+            return g2;
+        case kPolyStatusCollection: {
+            GeometryInfo col(GeometryType::GeometryCollection);
+            col.geometries.push_back(g1);
+            col.geometries.push_back(g2);
+            return col;
+        }
+        case kPolyStatusPolygonWithHole: {
+            if (res.ring1_count < 4 || res.ring2_count < 4) {
+                return g1;
+            }
+            GeometryInfo poly(GeometryType::Polygon);
+            poly.rings.push_back(readRing(res.ring1_xy, res.ring1_count));
+            poly.rings.push_back(readRing(res.ring2_xy, res.ring2_count));
+            return poly;
+        }
+        case kPolyStatusEmpty:
+            return GeometryInfo{};
+        default:
+            return GeometryInfo{};
+    }
 }
 #endif
 } // anonymous namespace
@@ -623,13 +822,13 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // ------------------------------------------------------------------
     // stUnion / stDifference
     //
-    // For Point×Point inputs on CUDA builds, dispatches to dedicated
-    // point set-operation kernels. Other type combinations fall back
+    // For Point×Point and Polygon×Polygon inputs on CUDA builds, dispatches
+    // to dedicated set-operation kernels. Other type combinations fall back
     // to the CPU exact backend.
     // ------------------------------------------------------------------
     GeometryInfo stUnion(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
-        if (geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()
-            && gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU()) {
+        const bool can_use_gpu = gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU();
+        if (can_use_gpu && geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()) {
 #ifdef THEMIS_GEO_CUDA
             const auto gpu_result = launchPointSetOpKernel(launchGeoPointUnionKernel, geom1.coords[0], geom2.coords[0]);
             if (gpu_result.dispatched) {
@@ -642,16 +841,28 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
                                            "error_code=" + std::to_string(gpu_result.error_code));
             themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_gpu_kernel_error");
 #endif
-        } else {
-            audit_log_.recordFallbackToCPU("stUnion: unsupported GPU shape; cpu exact fallback", "");
-            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
+        } else if (can_use_gpu && geom1.isPolygon() && geom2.isPolygon()) {
+#ifdef THEMIS_GEO_CUDA
+            const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonUnionKernel, geom1, geom2);
+            if (gpu_result.dispatched && gpu_result.status != 0) {
+                safe_fail_.recordSuccess();
+                return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+            }
+            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                     "stUnion polygon kernel error: " + std::to_string(gpu_result.error_code));
+            audit_log_.recordFallbackToCPU("stUnion: GPU polygon kernel error; falling back to CPU",
+                                           "error_code=" + std::to_string(gpu_result.error_code));
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_polygon_gpu_kernel_error");
+#endif
         }
+        audit_log_.recordFallbackToCPU("stUnion: cpu exact fallback", "");
+        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
     GeometryInfo stDifference(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
-        if (geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()
-            && gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU()) {
+        const bool can_use_gpu = gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU();
+        if (can_use_gpu && geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()) {
 #ifdef THEMIS_GEO_CUDA
             const auto gpu_result =
                 launchPointSetOpKernel(launchGeoPointDifferenceKernel, geom1.coords[0], geom2.coords[0]);
@@ -665,10 +876,22 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
                                            "error_code=" + std::to_string(gpu_result.error_code));
             themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_gpu_kernel_error");
 #endif
-        } else {
-            audit_log_.recordFallbackToCPU("stDifference: unsupported GPU shape; cpu exact fallback", "");
-            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
+        } else if (can_use_gpu && geom1.isPolygon() && geom2.isPolygon()) {
+#ifdef THEMIS_GEO_CUDA
+            const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonDifferenceKernel, geom1, geom2);
+            if (gpu_result.dispatched && gpu_result.status != 0) {
+                safe_fail_.recordSuccess();
+                return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+            }
+            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                     "stDifference polygon kernel error: " + std::to_string(gpu_result.error_code));
+            audit_log_.recordFallbackToCPU("stDifference: GPU polygon kernel error; falling back to CPU",
+                                           "error_code=" + std::to_string(gpu_result.error_code));
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_polygon_gpu_kernel_error");
+#endif
         }
+        audit_log_.recordFallbackToCPU("stDifference: cpu exact fallback", "");
+        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
     }
 
