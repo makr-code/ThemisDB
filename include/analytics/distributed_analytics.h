@@ -275,6 +275,12 @@ public:
         std::vector<ShardExecutionInfo> shard_info;
         size_t successful_shards = 0;
         size_t total_shards = 0;
+        /// Stable per-query identifier for tracing the distributed fan-out / merge lifecycle.
+        std::string operation_id;
+        /// Correlation identifier surfaced to operator tooling and runbooks.
+        std::string correlation_id;
+        /// Canonical failure classification (`none`, `partial_failure`, `dependency_unavailable`, ...).
+        std::string failure_class = "none";
         /// Wall-clock duration of the entire executeDistributed() call in milliseconds.
         double total_execution_ms = 0.0;
         /// Time spent in the result-merge phase only (mergeResults). Excludes scatter/gather.
@@ -313,7 +319,9 @@ public:
                   const std::string& tenant_id = {});
 
     /**
-     * Deregister a shard.
+     * @brief Deregister a shard.
+     *
+     * @param shard_id  Identifier of the shard to remove.
      */
     void removeShard(const std::string& shard_id);
 
@@ -344,7 +352,7 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * Execute an OLAP query across all healthy shards and merge results.
+     * @brief Execute an OLAP query across all healthy shards and merge results.
      *
      * The query is fanned-out to every healthy shard concurrently.
      * Partial results are aggregated using the merge semantics documented in
@@ -357,7 +365,10 @@ public:
         const themis::analytics::OLAPQuery& query);
 
     /**
-     * Convenience overload returning only the merged OLAPResult.
+     * @brief Convenience overload returning only the merged OLAPResult.
+     *
+     * @param query  The query to execute on each shard.
+     * @return Merged OLAPResult.
      */
     themis::analytics::OLAPResult execute(
         const themis::analytics::OLAPQuery& query);
@@ -367,7 +378,7 @@ public:
     // ------------------------------------------------------------------
 
     /**
-     * Merge a collection of partial OLAPResults into a single result.
+     * @brief Merge a collection of partial OLAPResults into a single result.
      *
      * @param partials   Partial results from individual shards.
      * @param query      Original query (used to determine aggregate semantics).

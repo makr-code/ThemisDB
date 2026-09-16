@@ -30,6 +30,7 @@
 #include <cmath>
 #include <cstring>
 #include <random>
+#include <string>
 #include <vector>
 
 using namespace themis::gpu;
@@ -415,6 +416,130 @@ TEST_P(DotProductParityTest, Parity) {
                  : std::max(1.0,  std::abs(cpu_res.value) * 0.02);
 
     EXPECT_NEAR(cpu_res.value, gpu_res.value, tol);
+}
+
+// ============================================================================
+// Stats consistency: GPU-path accelerator updates stats even when falling
+// back to CPU due to absent hardware.
+// ============================================================================
+
+// ============================================================================
+// 6. TopK — parity  (A-06 closure: previously missing)
+//    Verifies that topK(k) returns the k smallest-key rows in ascending order
+//    and that GPU and forced-CPU paths produce identical results.
+// ============================================================================
+
+class TopKParityTest : public ::testing::TestWithParam<size_t> {};
+
+INSTANTIATE_TEST_SUITE_P(
+    Sizes,
+    TopKParityTest,
+    ::testing::ValuesIn(parityInputSizes()),
+    [](const ::testing::TestParamInfo<size_t>& info) {
+        return std::string("Rows_") + std::to_string(info.param);
+    });
+
+TEST_P(TopKParityTest, TopK_Ascending_Parity) {
+    const size_t n = GetParam();
+    const size_t k = std::min<size_t>(50, n);
+    auto rows = makeRows(n, /*base=*/1.0);
+
+    GPUQueryAccelerator gpu_acc(gpuConfig(0));
+    GPUQueryAccelerator cpu_acc(cpuConfig());
+
+    auto gpu_res = gpu_acc.topK(rows, payloadVal, k, SortOrder::ASC);
+    auto cpu_res = cpu_acc.topK(rows, payloadVal, k, SortOrder::ASC);
+
+    ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
+        << "topK result size mismatch (n=" << n << " k=" << k << ")";
+
+    std::vector<double> gpu_keys;
+    std::vector<double> cpu_keys;
+    gpu_keys.reserve(gpu_res.rows.size());
+    cpu_keys.reserve(cpu_res.rows.size());
+    for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
+        gpu_keys.push_back(payloadVal(gpu_res.rows[i]));
+        cpu_keys.push_back(payloadVal(cpu_res.rows[i]));
+    }
+    std::sort(gpu_keys.begin(), gpu_keys.end());
+    std::sort(cpu_keys.begin(), cpu_keys.end());
+    for (size_t i = 0; i < gpu_keys.size(); ++i) {
+        EXPECT_DOUBLE_EQ(gpu_keys[i], cpu_keys[i])
+            << "topK key multiset mismatch at rank " << i
+            << " (n=" << n << " k=" << k << ")";
+    }
+
+    // Verify ascending order in both results.
+    for (size_t i = 1; i < gpu_res.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
+            << "GPU topK not sorted ascending at index " << i;
+    }
+    for (size_t i = 1; i < cpu_res.rows.size(); ++i) {
+        EXPECT_LE(payloadVal(cpu_res.rows[i - 1]), payloadVal(cpu_res.rows[i]))
+            << "CPU topK not sorted ascending at index " << i;
+    }
+}
+
+TEST_P(TopKParityTest, TopK_Descending_Parity) {
+    const size_t n = GetParam();
+    const size_t k = std::min<size_t>(50, n);
+    auto rows = makeRows(n, /*base=*/1.0);
+
+    GPUQueryAccelerator gpu_acc(gpuConfig(0));
+    GPUQueryAccelerator cpu_acc(cpuConfig());
+
+    auto gpu_res = gpu_acc.topK(rows, payloadVal, k, SortOrder::DESC);
+    auto cpu_res = cpu_acc.topK(rows, payloadVal, k, SortOrder::DESC);
+
+    ASSERT_EQ(gpu_res.rows.size(), cpu_res.rows.size())
+        << "topK DESC result size mismatch (n=" << n << " k=" << k << ")";
+
+    std::vector<double> gpu_keys;
+    std::vector<double> cpu_keys;
+    gpu_keys.reserve(gpu_res.rows.size());
+    cpu_keys.reserve(cpu_res.rows.size());
+    for (size_t i = 0; i < gpu_res.rows.size(); ++i) {
+        gpu_keys.push_back(payloadVal(gpu_res.rows[i]));
+        cpu_keys.push_back(payloadVal(cpu_res.rows[i]));
+    }
+    std::sort(gpu_keys.begin(), gpu_keys.end());
+    std::sort(cpu_keys.begin(), cpu_keys.end());
+    for (size_t i = 0; i < gpu_keys.size(); ++i) {
+        EXPECT_DOUBLE_EQ(gpu_keys[i], cpu_keys[i])
+            << "topK DESC key multiset mismatch at rank " << i
+            << " (n=" << n << " k=" << k << ")";
+    }
+
+    // Verify descending order.
+    for (size_t i = 1; i < gpu_res.rows.size(); ++i) {
+        EXPECT_GE(payloadVal(gpu_res.rows[i - 1]), payloadVal(gpu_res.rows[i]))
+            << "GPU topK not sorted descending at index " << i;
+    }
+    for (size_t i = 1; i < cpu_res.rows.size(); ++i) {
+        EXPECT_GE(payloadVal(cpu_res.rows[i - 1]), payloadVal(cpu_res.rows[i]))
+            << "CPU topK not sorted descending at index " << i;
+    }
+}
+
+TEST(TopKEdgeCases, TopK_KGreaterThanN_ReturnsAllRows) {
+    auto rows = makeRows(10, /*base=*/1.0);
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.topK(rows, payloadVal, 100, SortOrder::ASC);
+    EXPECT_EQ(res.rows.size(), rows.size());
+}
+
+TEST(TopKEdgeCases, TopK_EmptyInput_ReturnsEmpty) {
+    std::vector<Row> empty;
+    GPUQueryAccelerator acc(cpuConfig());
+    auto res = acc.topK(empty, payloadVal, 10, SortOrder::ASC);
+    EXPECT_TRUE(res.rows.empty());
+}
+
+TEST(TopKEdgeCases, TopK_StatsUpdated) {
+    auto rows = makeRows(100, /*base=*/1.0);
+    GPUQueryAccelerator acc(cpuConfig());
+    acc.topK(rows, payloadVal, 10, SortOrder::ASC);
+    EXPECT_EQ(acc.getStats().total_topk, 1u);
 }
 
 // ============================================================================

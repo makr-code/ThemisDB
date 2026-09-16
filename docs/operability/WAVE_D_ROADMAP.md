@@ -1,10 +1,16 @@
 # Wave D: Operability Hardening Roadmap
 
+**Author:** ThemisDB Platform Team  
+**Created:** 2026-08-24  
+**Last Updated:** 2026-09-16  
+**Status:** active  
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
-**Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
+**Execution Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
 **Branch:** develop  
+
+`Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
 
 ---
 
@@ -18,6 +24,7 @@ Wave D focuses on hardening operational capabilities across distributed and acce
 - [ ] High-cardinality metrics collection (shard-level, replication lag quantiles) operational
 - [ ] OpenTelemetry exporter reliability suite green (sustained 1000s events/sec stress)
 - [x] 5 operator runbooks published (access-model, replication, sharding, voice, GPU) ✅
+- [x] D1 Trace Span cross-link sections added to all 5 runbooks (2026-09-16) ✅
 - [~] Soak test suite executing: 3 test files created; full 60-minute runs pending representative hardware
 - [ ] Observability integration verified against Wave 7-9 benchmark gates
 - [ ] Wave D sign-off document complete with human approval
@@ -34,7 +41,7 @@ Wave D focuses on hardening operational capabilities across distributed and acce
 | Distributed tracing SDK | [ ] Not started | Phase 2A plan documented; awaiting Wave A gate confirmation |
 | High-cardinality metrics | [ ] Not started | Phase 2B plan documented; awaiting metric implementation |
 | Exporter reliability suite | [ ] Not started | Phase 2C plan documented; tests not yet created |
-| Remediation hints in runbooks | [~] Partial | 5 runbooks contain operator guidance; D1 cross-links to trace spans pending |
+| Remediation hints in runbooks | [x] Complete | 5 runbooks contain operator guidance; D1 cross-links to trace spans added 2026-09-16 |
 | Wave D sign-off | [ ] Pending | Requires D1-D4 completion + human approval |
 
 ### Cross-Cutting Dependency: Representative Hardware
@@ -297,9 +304,48 @@ See also:
 - FUTURE_ENHANCEMENTS.md §81-84 (Wave D program sequencing)
 - docs/governance/GA_PROMOTION_SIGN_OFF.md (GA batch gates)
 - src/observability/ROADMAP.md (observability module details)
+- src/ai/WAVE_D_ROADMAP.md (AI module Wave D detail plan)
+
+---
+
+## 7. AI Module — Wave D Plan
+
+> **Detail:** `src/ai/WAVE_D_ROADMAP.md` | **Status:** 🟡 Planned Q1 2027
+
+The AI module has its own Wave D scope covering operator runbook, observability expansion,
+soak tests, and representative-hardware baselines. This section summarizes the AI-specific
+items within the cross-cutting Wave D program.
+
+### AI Runbook (D1)
+
+- [x] `docs/operability/RUNBOOK_AI_GENERATION.md` — incident taxonomy (validation/endpoint/transport/parse/sandbox), endpoint-timeout diagnosis, retry-storm prevention, redacted-log interpretation, Stats-counter alert rules (Target: 2026-11 → Q1 2027)
+- [x] CAI safety gate latency incident section (Target: 2026-12)
+- [ ] Federated aggregation failure section: Byzantine-suspect node identification, aggregation round timeouts, DP budget exhaustion alerts (Target: 2026-12)
+
+### AI Observability Expansion (D2)
+
+- [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
+- [ ] CAI safety gate per-call latency histogram (p50/p95/p99) in `src/ai/cai_ethics_integration.cpp` (Target: 2026-11)
+- [ ] Federated aggregation round-latency counter in federated coordinator (Target: 2026-12)
+- [x] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
+- [x] Span propagation in `LLMAQLHandler` CAI-gate + federated telemetry paths (Target: Q1 2027)
+
+### AI Soak Tests (D3)
+
+- [x] `tests/ai/test_ai_generation_soak_60min.cpp` (label: `wave_d;soak;not_release_critical`) — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
+- [ ] CAI 10-min sustained evaluation test (500 evaluations/min) (Target: 2026-12)
+- [ ] Federated 30-min round-stability test (Target: Q1 2027)
+- [ ] Execute full soak suite on representative hardware (Target: Q1 2027)
+
+### AI Representative-Hardware Baselines (D4)
+
+- [ ] `generatePlugin` + `validatePrompt` p95/p99 hardware baselines (Target: Q1 2027)
+- [ ] CAI safety gate p95/p99 overhead hardware baselines (Target: Q1 2027)
+- [ ] Federated aggregation round p95 hardware baseline (Target: Q1 2027)
+- [ ] Benchmark regression gate (`benchmarks/ai/bench_ai_plugin_generator.cpp`) on hardware (Target: Q1 2027)
 
 ---
 
 **Document Owner:** platform-release@themisdb  
-**Last Updated:** 2026-08-24  
-**Next Review:** Phase 2 completion (2026-09-15)
+**Last Updated:** 2026-09-16  
+**Next Review:** Phase 2 completion (Q1 2027 → ongoing)

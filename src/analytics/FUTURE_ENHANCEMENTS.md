@@ -27,7 +27,7 @@
 
 ## Implementation Notes
 
-- continue reducing proxy-only measurements by adding dedicated analytics benchmarks.
+- keep representative-hardware execution evidence current for the direct analytics benchmark set declared in `src/analytics/PERFORMANCE_EXPECTATIONS.md`.
 - standardize error taxonomies across analytics, serving, and export components.
 - enforce consistent observability for rate, latency, and failure-class signals.
 - align runtime guardrails (timeouts, limits, queue bounds) across execution planes.
@@ -43,7 +43,7 @@
 
 - sustained-load streaming and CEP p99 remains within release threshold envelopes.
 - distributed analytics overhead remains bounded versus release baselines.
-- benchmark completeness reaches no-missing-case status for release gate manifests.
+- benchmark completeness stays aligned with the direct analytics benchmark manifest and representative-hardware artifact contract.
 
 ## Security / Reliability
 

@@ -1,0 +1,26 @@
+# benchmarks/sharding — Wave D dedicated gate benchmarks
+
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+
+message(STATUS "Configuring benchmark module: sharding (Wave D dedicated gates)")
+
+# Auto-discover all bench_*.cpp files in this directory.
+file(GLOB SHARDING_BENCH_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/bench_*.cpp"
+)
+
+foreach(_src IN LISTS SHARDING_BENCH_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+
+    if(TARGET ${_stem})
+        continue()
+    endif()
+
+    if(_stem STREQUAL "bench_sharding_dedicated_gates")
+        add_executable(${_stem} "${_src}")
+    else()
+        themis_add_standard_benchmark(${_stem} "${_src}")
+    endif()
+endforeach()

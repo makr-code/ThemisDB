@@ -13,6 +13,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für API-Key-Au
 - **`src/auth/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
 - **`src/auth/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/auth/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+- **`src/auth/RUNBOOK.md`:** Operator-Runbook für kritische Betriebsszenarien (Backend-Ausfall, Leader-Election-Stall, Provider-Timeout, Session-Overflow, Redis-Ausfall).
 
 ## Verbindliche Produktionsanforderungen
 

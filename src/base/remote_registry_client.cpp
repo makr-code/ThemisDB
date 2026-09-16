@@ -699,6 +699,16 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
 
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
+            // Wave D: count per-attempt timeouts for observability.
+            if (res == CURLE_OPERATION_TIMEDOUT) {
+                std::lock_guard<std::mutex> hook_lock(stats_mutex_);
+                last_stats_.timeout_count++;
+                last_stats_.attempts   = attempts_made;
+                last_stats_.last_error = last_error;
+                if (observability_hook_) {
+                    observability_hook_(last_stats_);
+                }
+            }
             // Transient network error – retry
             continue;
         }
@@ -730,7 +740,16 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
     }
 
     const std::string final_error = last_error.empty() ? "httpGet failed after retries" : last_error;
-    update_stats(final_error);
+    // Wave D: record retry-exhaust event and fire observability hook.
+    {
+        std::lock_guard<std::mutex> hook_lock(stats_mutex_);
+        last_stats_.attempts              = attempts_made;
+        last_stats_.last_error            = final_error;
+        last_stats_.retry_exhausted_count++;
+        if (observability_hook_) {
+            observability_hook_(last_stats_);
+        }
+    }
     throw std::runtime_error(final_error);
 }
 
@@ -847,6 +866,16 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
         if (res != CURLE_OK) {
             last_error = std::string("CURL error: ") + curl_easy_strerror(res);
             spdlog::error("RemoteRegistryClient::httpGetBinary: CURL error: {}", curl_easy_strerror(res));
+            // Wave D: count per-attempt timeouts for observability.
+            if (res == CURLE_OPERATION_TIMEDOUT) {
+                std::lock_guard<std::mutex> hook_lock(stats_mutex_);
+                last_stats_.timeout_count++;
+                last_stats_.attempts   = attempts_made;
+                last_stats_.last_error = last_error;
+                if (observability_hook_) {
+                    observability_hook_(last_stats_);
+                }
+            }
             // Remove the incomplete file before retrying.
             std::error_code ec = {};
             std::filesystem::remove(out_path, ec);
@@ -873,7 +902,16 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
 
     spdlog::error("RemoteRegistryClient::httpGetBinary: all {} attempt(s) failed for {}", attempts, url);
     const std::string final_error = last_error.empty() ? "httpGetBinary failed after retries" : last_error;
-    update_stats(final_error);
+    // Wave D: record retry-exhaust event and fire observability hook.
+    {
+        std::lock_guard<std::mutex> hook_lock(stats_mutex_);
+        last_stats_.attempts              = attempts_made;
+        last_stats_.last_error            = final_error;
+        last_stats_.retry_exhausted_count++;
+        if (observability_hook_) {
+            observability_hook_(last_stats_);
+        }
+    }
     return false;
 }
 
@@ -927,6 +965,11 @@ RemoteRegistryClient::setBackoffDispatcher(std::function<std::future<void>(std::
 RequestStats RemoteRegistryClient::lastRequestStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     return last_stats_;
+}
+
+void RemoteRegistryClient::setObservabilityHook(ObservabilityHook hook) {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    observability_hook_ = std::move(hook);
 }
 
 /*static*/ bool RemoteRegistryClient::verifyIntegrity(const std::string &file_path,

@@ -85,9 +85,15 @@
 - enforce bounded resource behavior in sandbox and runtime surfaces.
 - keep diagnostics actionable for production incident response.
 
-## Wave A → D execution status (2026-08-24)
+## Wave A → D execution status (2026-09-16)
 
 - Wave A/B/C runtime gap closures were executed in production code:
   - `remote_registry_client.cpp`: scheme validation, path sanitization, RAII curl cleanup.
   - `hot_reload_manager.cpp`: reload slot re-validation and rollback null-loader guard.
-- Wave D remains focused on operator-facing operability (soak/runtime observability/runbooks), not deferred safety fixes.
+- Wave D CLOSED (2026-09-16):
+  - **Distributed tracing**: `include/themis/base/trace_context.h` integrated into `hot_reload_manager.cpp`; `ScopedSpan` emitted on `reloadModule()` and `rollback()` with error codes on failure paths.  `setSpanEmitter()` / `spanEmitter()` API added to `HotReloadManager`.
+  - **Exporter reliability counters**: `remote_registry_client.cpp` now increments `RequestStats::retry_exhausted_count` and `timeout_count` (CURLE_OPERATION_TIMEDOUT) and fires `ObservabilityHook` on each event.
+  - **High-cardinality stress + fail-closed tests**: `tests/base/test_base_wave_d_tracing.cpp` — 200-concurrent reload stress, mixed concurrent operations, fail-closed verification (no partial state on failure), tracing integration (span emitter event counts), taxonomy coverage for all BASE_LOADER_*/BASE_SANDBOX_* codes.
+  - **Long-duration soak tests**: `tests/base/test_base_soak.cpp` — parameterized reload/rollback/re-register loop (THEMIS_SOAK_ITERATIONS), stats monotonicity, concurrent soak (10 threads × 100 iterations); registered under `ctest -L soak` with 7200 s timeout.
+  - **Benchmark baselines file**: `benchmarks/baselines/base/wave_d_baselines.json` — thresholds for GATE-BASE-01..12; hardware measurement and sign-off remain pending.
+  - **Operator runbook**: `src/base/RUNBOOK.md` — covers BASE_LOADER_*/BASE_SANDBOX_*/BASE_RELOAD_*/BASE_DEP_*/BASE_REGISTRY_* codes with symptom descriptions, diagnostic commands, remediation steps, and Prometheus alert reference.

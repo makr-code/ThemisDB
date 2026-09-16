@@ -22,9 +22,9 @@ Production-usable encrypted user-storage behavior exists for gocryptfs-backed ba
 - [ ] improve operator-facing observability for mount and rotation incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] extend per-user isolation and quota enforcement behavior without widening failure domains (Target: Q1 2027)
-- [ ] re-baseline p95/p99 envelopes for encrypted mount lifecycle workloads (Target: Q1 2027)
-- [ ] deepen resilience tests for sustained multi-tier encrypted storage operation (Target: Q1 2027)
+- [~] extend per-user isolation and quota enforcement behavior without widening failure domains (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for encrypted mount lifecycle workloads (Target: Q1 2027)
+- [~] deepen resilience tests for sustained multi-tier encrypted storage operation (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -78,9 +78,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `user_storage_encrypted`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/integration/test_user_storage_encrypted_soak.cpp, tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp, docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md, benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_user_storage_encrypted_soak.cpp (EncryptedStorageSoak_WriteReadThroughput, EncryptedStorageSoak_KeyRotationStability, EncryptedStorageSoak_EncDecReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md (5 scenarios: KeyRotationFailed, BackendUnavailable, DecryptionOOM, KeystoreCorruption, AuditOverflow)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -88,6 +88,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: Wave D soak + stress + runbook delivered
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — evidence: bench_encrypted_storage_dedicated_gates.cpp (ES-BM-01..04); representative-hardware capture pending
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md

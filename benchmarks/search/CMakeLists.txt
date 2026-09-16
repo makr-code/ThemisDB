@@ -10,6 +10,7 @@ themis_add_standard_benchmark(bench_distributed_merge_gates bench_distributed_me
 themis_add_standard_benchmark(bench_hybrid_fusion_gates bench_hybrid_fusion_gates.cpp)
 themis_add_standard_benchmark(bench_layered_retrieval_phase5 bench_layered_retrieval_phase5.cpp)
 themis_add_standard_benchmark(bench_vector_search_gates bench_vector_search_gates.cpp)
+themis_add_standard_benchmark(bench_search_dedicated_gates bench_search_dedicated_gates.cpp)
 
 if(TARGET bench_layered_retrieval_phase5)
     themis_register_benchmark_ctest(
@@ -20,5 +21,17 @@ if(TARGET bench_layered_retrieval_phase5)
         TIMEOUT      180
         MIN_TIME     "0.01s"
         EXTRA_LABELS wave_a_benchmark_search_index_tensor_graph_llm benchmark-baseline phase5
+    )
+endif()
+
+if(TARGET bench_search_dedicated_gates)
+    themis_register_benchmark_ctest(
+        NAME         "bench_search_dedicated_gates_wave_d"
+        TARGET       "bench_search_dedicated_gates"
+        MODULE       "search"
+        KIND         "wave_d"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_d benchmark not_release_critical search
     )
 endif()

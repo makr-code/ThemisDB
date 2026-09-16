@@ -152,3 +152,17 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         LABELS aql
     )
 endforeach()
+
+# ============================================================================
+# Wave D — AQL High-Cardinality Stress Test
+# Labels: wave_d;stress;not_release_critical
+# Registered as a dedicated CTest entry with an extended TIMEOUT so CI does
+# not time-out the test during normal runs.  Stress runs use the wave_d label
+# selector: ctest -L "wave_d".
+# ============================================================================
+if(TARGET module_aql_test_aql_highcardinality_stress_focused)
+    set_tests_properties(test_aql_highcardinality_stress_AqlFocusedTests PROPERTIES
+        LABELS "aql;wave_d;stress;not_release_critical"
+        TIMEOUT 120
+    )
+endif()

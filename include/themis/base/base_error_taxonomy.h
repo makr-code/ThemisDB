@@ -57,9 +57,10 @@ namespace modules {
  * @brief Standardized error codes and diagnostic builders for the base module.
  *
  * Each inner struct contains:
- *  - @c code            — @c constexpr int unique error code.
- *  - @c description()   — @c static std::string_view one-line description.
- *  - @c format(...)     — @c static std::string diagnostic with context args.
+ *  - @c code              — @c constexpr int unique error code.
+ *  - @c description()     — @c static std::string_view one-line description.
+ *  - @c remediationHint() — @c static std::string_view actionable operator hint.
+ *  - @c format(...)       — @c static std::string diagnostic with context args.
  */
 namespace BaseErrorTaxonomy {
 
@@ -77,6 +78,13 @@ struct BASE_LOADER_PATH_NOT_FOUND {
     /// @brief One-line description.
     static constexpr std::string_view description() noexcept {
         return "module binary not found at the supplied path";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Verify that the module artifact exists at the configured path "
+               "and that the process has read permission. Check deployment "
+               "scripts for missing copy/install steps.";
     }
 
     /**
@@ -103,6 +111,13 @@ struct BASE_LOADER_SIGNATURE_REJECTED {
         return "module signature verification failed";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Re-sign the module artifact with a key trusted by this host. "
+               "Check that the signing key has not expired or been revoked, "
+               "and that the module binary has not been modified in transit.";
+    }
+
     /**
      * @brief Build a formatted diagnostic message.
      * @param module_name  Logical module name.
@@ -124,6 +139,13 @@ struct BASE_LOADER_ABI_MISMATCH {
 
     static constexpr std::string_view description() noexcept {
         return "module ABI version is incompatible with the host";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Rebuild the module against the current ThemisDB SDK version "
+               "or deploy a host binary that matches the module's ABI. "
+               "Confirm that major version numbers align.";
     }
 
     /**
@@ -152,6 +174,14 @@ struct BASE_LOADER_LOAD_FAILED {
         return "OS-level library load failed";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Check dlerror()/GetLastError() output for the root cause. "
+               "Verify that all shared-library dependencies of the module are "
+               "present and accessible (use ldd on Linux). Confirm file "
+               "permissions and SELinux/AppArmor policy allow loading.";
+    }
+
     /**
      * @param module_name  Logical module name.
      * @param path         Path attempted.
@@ -177,6 +207,14 @@ struct BASE_LOADER_INIT_FAILED {
         return "module initialization function returned failure";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Inspect the module's init function logs for the root cause. "
+               "Ensure required runtime resources (config, connections) are "
+               "available at load time. Check module documentation for "
+               "prerequisites and environment variables.";
+    }
+
     /**
      * @param module_name   Logical module name.
      * @param init_symbol   Name of the init symbol that was called.
@@ -200,6 +238,14 @@ struct BASE_LOADER_HEALTH_CHECK_FAILED {
 
     static constexpr std::string_view description() noexcept {
         return "staged-loading health check failed during activation";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Review the health check name and detail in the diagnostic "
+               "message to identify the failing condition. Verify that the "
+               "module's required services and endpoints are reachable before "
+               "activation, and that staged-loading prerequisites are met.";
     }
 
     /**
@@ -231,6 +277,14 @@ struct BASE_SANDBOX_LAUNCH_FAILED {
         return "module sandbox launch failed";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Check the sandbox last error detail for the specific failure. "
+               "Verify that seccomp/AppArmor/SELinux profiles allow the "
+               "required sandbox syscalls. Inspect OS resource limits (ulimit) "
+               "and ensure sufficient memory and file descriptors are available.";
+    }
+
     /**
      * @param module_name  Name of the module being sandboxed.
      * @param last_error   ModuleSandbox::lastError() string.
@@ -252,6 +306,14 @@ struct BASE_SANDBOX_RESOURCE_LIMIT {
 
     static constexpr std::string_view description() noexcept {
         return "module sandbox exceeded configured resource limit";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Increase the sandbox resource limit in the module configuration "
+               "if the workload legitimately requires more resources, or "
+               "investigate the module for resource leaks and unbounded "
+               "allocations.";
     }
 
     /**
@@ -282,6 +344,13 @@ struct BASE_SANDBOX_TIMEOUT {
         return "module sandbox operation timed out";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Increase the sandbox timeout in the module configuration if the "
+               "operation is expected to take longer. Investigate the module for "
+               "deadlocks, blocking I/O without timeout, or runaway computation.";
+    }
+
     /**
      * @param module_name     Module name.
      * @param timeout_seconds Configured timeout value.
@@ -305,6 +374,14 @@ struct BASE_SANDBOX_DEGRADED {
         return "module sandbox is in degraded state (partial constraints only)";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Review the unsupported constraint warnings in the diagnostic. "
+               "Upgrade the host kernel or runtime to support the required "
+               "sandbox capabilities, or accept the degraded state only if the "
+               "missing constraints are not security-critical for this module.";
+    }
+
     /**
      * @param module_name   Module name.
      * @param warnings      Comma-separated list of launchWarnings().
@@ -326,6 +403,13 @@ struct BASE_SANDBOX_INACTIVE_STATS {
 
     static constexpr std::string_view description() noexcept {
         return "stats() called on an inactive sandbox (launch() not completed)";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Ensure that ModuleSandbox::launch() is called and returns true "
+               "before invoking stats(). Check the sandbox lifecycle in the "
+               "calling code path.";
     }
 
     /**
@@ -353,6 +437,14 @@ struct BASE_RELOAD_NO_BACKUP {
         return "rollback requested but no backup version is available";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "A rollback is only possible after at least one successful "
+               "reload has stored a backup slot. Restore the module manually "
+               "from the deployment artifact store, or perform a fresh "
+               "deployment of the last known-good version.";
+    }
+
     /**
      * @param module_name  Module name.
      */
@@ -372,6 +464,13 @@ struct BASE_RELOAD_ROLLBACK_FAILED {
 
     static constexpr std::string_view description() noexcept {
         return "rollback failed — backup version could not be re-activated";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "The backup binary may be corrupted or missing. Manually redeploy "
+               "the last known-good module artifact. Inspect loader and sandbox "
+               "logs for the root cause of the re-activation failure.";
     }
 
     /**
@@ -399,6 +498,14 @@ struct BASE_RELOAD_CANDIDATE_LOAD_FAILED {
         return "candidate module could not be loaded during hot-reload";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Verify that the new module artifact at the supplied path is a "
+               "valid, signed, and ABI-compatible binary. The hot-reload "
+               "manager will retain the previous version. Fix the artifact and "
+               "trigger a new reload.";
+    }
+
     /**
      * @param module_name  Module name.
      * @param new_path     Path to the candidate binary.
@@ -424,6 +531,14 @@ struct BASE_RELOAD_STATE_RESTORE_FAILED {
         return "module state restoration failed after successful reload";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "The module was successfully reloaded but its state restore "
+               "callback reported failure. Inspect module-specific logs for the "
+               "restoration error. The module may be in a partial state; "
+               "consider triggering a rollback to the backup version.";
+    }
+
     /**
      * @param module_name  Module name.
      */
@@ -443,6 +558,13 @@ struct BASE_RELOAD_NOT_REGISTERED {
 
     static constexpr std::string_view description() noexcept {
         return "reload attempted on a module that is not registered";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Call HotReloadManager::registerModule() for this module before "
+               "invoking reloadModule(). Check for typos in the module name "
+               "and verify the registration lifecycle in the startup code.";
     }
 
     /**
@@ -470,6 +592,14 @@ struct BASE_DEPENDENCY_CONFLICT {
         return "conflicting version requirements for a shared dependency";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Resolve the version conflict by aligning the modules' "
+               "dependency declarations to a compatible version range, or by "
+               "upgrading the shared dependency to a version that satisfies "
+               "all constraints. Use the dependency graph export for analysis.";
+    }
+
     /**
      * @param dep_name   Name of the shared dependency.
      * @param mod_a      First requiring module and its constraint.
@@ -495,6 +625,14 @@ struct BASE_DEPENDENCY_CYCLE {
         return "cyclic dependency detected in module graph";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Use the DOT/JSON/ASCII export from PluginDependencyGraph to "
+               "visualize the cycle and identify the modules involved. Break "
+               "the cycle by introducing an interface module or re-designing "
+               "the dependency direction.";
+    }
+
     /**
      * @param cycle_str  Human-readable cycle description, e.g. "A→B→C→A".
      */
@@ -513,6 +651,13 @@ struct BASE_DEPENDENCY_MISSING_REQUIRED {
 
     static constexpr std::string_view description() noexcept {
         return "required module dependency not registered";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Register and load the missing dependency module before loading "
+               "the module that requires it. Check the module manifest and "
+               "deployment order in the startup configuration.";
     }
 
     /**
@@ -536,6 +681,13 @@ struct BASE_DEPENDENCY_VERSION_RANGE_MISMATCH {
 
     static constexpr std::string_view description() noexcept {
         return "dependency version does not satisfy declared version constraints";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Deploy a version of the dependency that falls within the "
+               "declared version range, or relax the requiring module's version "
+               "constraint if the installed version is known-compatible.";
     }
 
     /**
@@ -572,6 +724,14 @@ struct BASE_REGISTRY_NETWORK_ERROR {
         return "network error while contacting the remote plugin registry";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Verify network connectivity to the registry URL. Check firewall "
+               "rules, DNS resolution, and TLS certificate validity. Inspect "
+               "the curl error detail for connection-refused, timeout, or SSL "
+               "handshake errors and address the underlying network issue.";
+    }
+
     /**
      * @param registry_url  URL of the registry.
      * @param http_status   HTTP status code (0 if no response received).
@@ -597,6 +757,14 @@ struct BASE_REGISTRY_AUTH_FAILURE {
         return "authentication to the remote plugin registry was rejected";
     }
 
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Verify that the registry credentials (token/API key) are "
+               "correct and have not expired. Check that the credential has "
+               "the required scopes for listing and downloading plugins. "
+               "Rotate the credential if it may have been compromised.";
+    }
+
     /**
      * @param registry_url  URL of the registry.
      * @param http_status   HTTP status code (typically 401 or 403).
@@ -618,6 +786,14 @@ struct BASE_REGISTRY_CHECKSUM_MISMATCH {
 
     static constexpr std::string_view description() noexcept {
         return "downloaded plugin checksum does not match registry manifest";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Do not load the downloaded artifact — it may be corrupt or "
+               "tampered. Re-trigger the download. If the mismatch persists, "
+               "contact the registry administrator to verify the manifest "
+               "integrity.";
     }
 
     /**
@@ -644,6 +820,14 @@ struct BASE_REGISTRY_DOWNLOAD_FAILED {
 
     static constexpr std::string_view description() noexcept {
         return "plugin binary download failed after HTTP response";
+    }
+
+    /// @brief Actionable operator remediation hint.
+    static constexpr std::string_view remediationHint() noexcept {
+        return "Verify that the destination directory exists and has sufficient "
+               "disk space with write permissions. Check the I/O error detail "
+               "in the diagnostic message. Re-trigger the download after "
+               "resolving the file-system issue.";
     }
 
     /**
@@ -705,6 +889,50 @@ inline std::string_view resolveDescription(int error_code) noexcept {
         case BASE_REGISTRY_CHECKSUM_MISMATCH::code:    return BASE_REGISTRY_CHECKSUM_MISMATCH::description();
         case BASE_REGISTRY_DOWNLOAD_FAILED::code:      return BASE_REGISTRY_DOWNLOAD_FAILED::description();
         default:                                       return "unknown error code";
+    }
+}
+
+/**
+ * @brief Resolve a numeric error code to its operator remediation hint.
+ *
+ * Returns a short, actionable string for each known taxonomy code.
+ * Returns @c "no remediation hint available" for unknown codes.
+ *
+ * @param error_code  Integer error code (e.g. @c BASE_LOADER_ABI_MISMATCH::code).
+ * @return Actionable hint string view.
+ */
+inline std::string_view resolveRemediationHint(int error_code) noexcept {
+    switch (error_code) {
+        // Loader
+        case BASE_LOADER_PATH_NOT_FOUND::code:         return BASE_LOADER_PATH_NOT_FOUND::remediationHint();
+        case BASE_LOADER_SIGNATURE_REJECTED::code:     return BASE_LOADER_SIGNATURE_REJECTED::remediationHint();
+        case BASE_LOADER_ABI_MISMATCH::code:           return BASE_LOADER_ABI_MISMATCH::remediationHint();
+        case BASE_LOADER_LOAD_FAILED::code:            return BASE_LOADER_LOAD_FAILED::remediationHint();
+        case BASE_LOADER_INIT_FAILED::code:            return BASE_LOADER_INIT_FAILED::remediationHint();
+        case BASE_LOADER_HEALTH_CHECK_FAILED::code:    return BASE_LOADER_HEALTH_CHECK_FAILED::remediationHint();
+        // Sandbox
+        case BASE_SANDBOX_LAUNCH_FAILED::code:         return BASE_SANDBOX_LAUNCH_FAILED::remediationHint();
+        case BASE_SANDBOX_RESOURCE_LIMIT::code:        return BASE_SANDBOX_RESOURCE_LIMIT::remediationHint();
+        case BASE_SANDBOX_TIMEOUT::code:               return BASE_SANDBOX_TIMEOUT::remediationHint();
+        case BASE_SANDBOX_DEGRADED::code:              return BASE_SANDBOX_DEGRADED::remediationHint();
+        case BASE_SANDBOX_INACTIVE_STATS::code:        return BASE_SANDBOX_INACTIVE_STATS::remediationHint();
+        // Reload
+        case BASE_RELOAD_NO_BACKUP::code:              return BASE_RELOAD_NO_BACKUP::remediationHint();
+        case BASE_RELOAD_ROLLBACK_FAILED::code:        return BASE_RELOAD_ROLLBACK_FAILED::remediationHint();
+        case BASE_RELOAD_CANDIDATE_LOAD_FAILED::code:  return BASE_RELOAD_CANDIDATE_LOAD_FAILED::remediationHint();
+        case BASE_RELOAD_STATE_RESTORE_FAILED::code:   return BASE_RELOAD_STATE_RESTORE_FAILED::remediationHint();
+        case BASE_RELOAD_NOT_REGISTERED::code:         return BASE_RELOAD_NOT_REGISTERED::remediationHint();
+        // Dependency
+        case BASE_DEPENDENCY_CONFLICT::code:           return BASE_DEPENDENCY_CONFLICT::remediationHint();
+        case BASE_DEPENDENCY_CYCLE::code:              return BASE_DEPENDENCY_CYCLE::remediationHint();
+        case BASE_DEPENDENCY_MISSING_REQUIRED::code:   return BASE_DEPENDENCY_MISSING_REQUIRED::remediationHint();
+        case BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::code: return BASE_DEPENDENCY_VERSION_RANGE_MISMATCH::remediationHint();
+        // Registry
+        case BASE_REGISTRY_NETWORK_ERROR::code:        return BASE_REGISTRY_NETWORK_ERROR::remediationHint();
+        case BASE_REGISTRY_AUTH_FAILURE::code:         return BASE_REGISTRY_AUTH_FAILURE::remediationHint();
+        case BASE_REGISTRY_CHECKSUM_MISMATCH::code:    return BASE_REGISTRY_CHECKSUM_MISMATCH::remediationHint();
+        case BASE_REGISTRY_DOWNLOAD_FAILED::code:      return BASE_REGISTRY_DOWNLOAD_FAILED::remediationHint();
+        default:                                       return "no remediation hint available";
     }
 }
 

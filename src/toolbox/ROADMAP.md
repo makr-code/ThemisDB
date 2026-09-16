@@ -17,14 +17,14 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for composite routing and streaming edge scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for toolbox bridge and helper workloads (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for extraction and content-bridge incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for composite routing and streaming edge scenarios (Target: Q4 2026) — evidence: tests/toolbox/test_toolbox_highcardinality_stress.cpp (TBSTR-03)
+- [x] expand stress coverage for toolbox bridge and helper workloads (Target: Q4 2026) — evidence: tests/toolbox/test_toolbox_highcardinality_stress.cpp (TBSTR-01..03)
+- [x] improve operator-facing diagnostics for extraction and content-bridge incidents (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_TOOLBOX.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for extraction and text-processing-adjacent paths (Target: Q1 2027)
-- [ ] add dedicated benchmark coverage for toolbox-native orchestration and helper workloads (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained toolbox extraction traffic (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for extraction and text-processing-adjacent paths (Target: Q1 2027)
+- [x] add dedicated benchmark coverage for toolbox-native orchestration and helper workloads (Target: Q1 2027) — evidence: benchmarks/toolbox/bench_toolbox_dedicated_gates.cpp (TB-BM-01..04)
+- [x] harden long-run reliability under sustained toolbox extraction traffic (Target: Q1 2027) — evidence: tests/integration/test_toolbox_soak.cpp (ToolboxSoak_RoutingThroughput, ToolboxSoak_StreamBridgeStability, ToolboxSoak_ExtractionReliability)
 
 ## Implementation Phases
 
@@ -299,9 +299,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `toolbox`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/toolbox/test_toolbox_highcardinality_stress.cpp, docs/operability/RUNBOOK_TOOLBOX.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_toolbox_soak.cpp (ToolboxSoak_RoutingThroughput, ToolboxSoak_StreamBridgeStability, ToolboxSoak_ExtractionReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_TOOLBOX.md (5 scenarios, log patterns [TOOLBOX:RoutingFailed], [TOOLBOX:StreamBridgeStall], [TOOLBOX:ExtractionTimeout], [TOOLBOX:ContentBridgeError])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -309,6 +309,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: bridge null-check guards, routing fail-closed contract
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_TOOLBOX.md

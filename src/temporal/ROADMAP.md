@@ -17,14 +17,14 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under retention and snapshot stress conditions (Target: Q4 2026)
-- [ ] expand stress coverage for conflict-resolution and CDC edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for temporal lifecycle incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior under retention and snapshot stress conditions (Target: Q4 2026) — evidence: tests/temporal/test_temporal_highcardinality_stress.cpp (TSTR-01)
+- [x] expand stress coverage for conflict-resolution and CDC edge scenarios (Target: Q4 2026) — evidence: tests/temporal/test_temporal_highcardinality_stress.cpp (TSTR-02..03)
+- [x] improve operator-facing diagnostics for temporal lifecycle incidents (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_TEMPORAL_STORE.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for temporal query and history retrieval paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for advanced temporal workload shapes (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained temporal mutation/query traffic (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for temporal query and history retrieval paths (Target: Q1 2027)
+- [x] broaden benchmark depth for advanced temporal workload shapes (Target: Q1 2027) — evidence: benchmarks/temporal/bench_temporal_dedicated_gates.cpp (TMP-BM-01..04)
+- [x] harden long-run reliability under sustained temporal mutation/query traffic (Target: Q1 2027) — evidence: tests/integration/test_temporal_store_soak.cpp (TemporalSoak_HistoryQueryThroughput, TemporalSoak_SnapshotStability, TemporalSoak_CDCReliability)
 
 ## Implementation Phases
 
@@ -33,12 +33,12 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 - [x] define explicit error taxonomy for temporal lifecycle incident classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for bitemporal/query and lifecycle internals (Target: Q4 2026)
-- [ ] align CDC/compression/tiering behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for bitemporal/query and lifecycle internals (Target: Q4 2026) — evidence: tests/temporal/test_temporal_highcardinality_stress.cpp
+- [x] align CDC/compression/tiering behavior to bounded runtime contracts (Target: Q4 2026) — evidence: TSTR-03 CDC edge-case stress
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for snapshot, retention, and conflict faults (Target: Q4 2026)
-- [ ] unify diagnostics across query, lifecycle, and CDC incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for snapshot, retention, and conflict faults (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_TEMPORAL_STORE.md
+- [x] unify diagnostics across query, lifecycle, and CDC incident classes (Target: Q4 2026) — evidence: RUNBOOK_TEMPORAL_STORE.md alert→runbook mapping
 
 ### Phase 4: Tests
 - [x] expand focused regressions for temporal query, snapshot, and retention edge scenarios (Completed 2026-07-29 — test_temporal_contract_hardening_focused.cpp, TCH-01..TCH-16)
@@ -46,7 +46,7 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for temporal hot paths (Completed 2026-07-29 — bench_temporal_release_gates.cpp, TRG-01..TRG-06)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/temporal/bench_temporal_dedicated_gates.cpp (TMP-BM-01..04)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core temporal module docs aligned to source-verifiable behavior
@@ -61,8 +61,8 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 - [x] temporal_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_temporal_contract_hardening_focused.cpp — TCH-01..TCH-16 (Phase 4 closure, 2026-07-29)
 - [x] bench_temporal_release_gates.cpp — TRG-01..TRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
-- [ ] remaining hardening tasks closed for temporal lifecycle edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for temporal lifecycle edge paths — evidence: tests/temporal/test_temporal_highcardinality_stress.cpp
+- [x] release benchmark stabilization complete — evidence: benchmarks/temporal/bench_temporal_dedicated_gates.cpp
 
 ## Known Issues and Limitations
 
@@ -82,9 +82,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `temporal`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/temporal/test_temporal_highcardinality_stress.cpp, docs/operability/RUNBOOK_TEMPORAL_STORE.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_temporal_store_soak.cpp (TemporalSoak_HistoryQueryThroughput, TemporalSoak_SnapshotStability, TemporalSoak_CDCReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_TEMPORAL_STORE.md (5 scenarios, log patterns [TEMPORAL:SnapshotFailed], [TEMPORAL:RetentionViolation], [TEMPORAL:CDCLag], [TEMPORAL:ConflictStorm])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -92,6 +92,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: snapshot fail-closed, retention sweep bounded
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_TEMPORAL_STORE.md

@@ -254,6 +254,16 @@ TEST_F(VoiceSessionChaosTest, RejectMalformedSpoof) {
         << "Malformed audio should have elevated spoof confidence";
 }
 
+TEST_F(VoiceSessionChaosTest, UniformAudioTriggersStrongSpoofPenalty) {
+    VoiceLivenessChecker checker("session_uniform_001");
+
+    auto uniform = std::vector<uint8_t>(kChunkSize, 7);
+    auto result = checker.check_audio_chunk(uniform.data(), uniform.size(), kTestSampleRate);
+
+    EXPECT_GE(result.spoof_confidence, 50)
+        << "Uniform audio should trigger the restored spoof uniformity penalty";
+}
+
 /**
  * V2-VOICE-005: Handle null audio gracefully.
  * 

@@ -21,14 +21,14 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under high-volume mixed-source ingestion workloads (Target: Q4 2026)
-- [ ] extend stress coverage for checkpoint/quarantine/retry edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for connector/validation/quality incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior under high-volume mixed-source ingestion workloads (Delivered: Wave D 2026-Q4)
+- [x] extend stress coverage for checkpoint/quarantine/retry edge scenarios (Delivered: Wave D — `tests/ingestion/test_ingestion_highcardinality_stress.cpp`)
+- [x] improve operator-facing diagnostics for connector/validation/quality incidents (Delivered: Wave D — `docs/operability/RUNBOOK_INGESTION_PIPELINE.md`)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for ingestion control-plane operations (Target: Q1 2027)
-- [ ] broaden benchmark depth for quality-judge and extraction-intensive workflows (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained ingest pressure (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for ingestion control-plane operations (Target: Q1 2027)
+- [~] broaden benchmark depth for quality-judge and extraction-intensive workflows (Target: Q1 2027)
+- [~] harden long-running reliability under sustained ingest pressure (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -41,13 +41,13 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
     INGESTION_BACKEND_UNAVAILABLE, INGESTION_CONNECTOR_FAILED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for connector intake and orchestration internals (Target: Q4 2026)
-- [ ] align validation/quality/workflow behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] complete hardening for connector intake and orchestration internals (Target: Q4 2026)
+- [~] align validation/quality/workflow behavior to bounded runtime contracts (Target: Q4 2026)
 - [~] move `IngestionManager` filesystem main-path execution to profile-driven workflow engine routing with fail-closed processing errors (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for unsupported/degraded connector scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across retry/quarantine/validation/quality incidents (Target: Q4 2026)
+- [~] standardize fail-safe behavior for unsupported/degraded connector scenarios (Target: Q4 2026)
+- [~] unify diagnostics across retry/quarantine/validation/quality incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for mixed connector and workflow edge scenarios (Delivered: Q3 2026)
@@ -75,8 +75,8 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 - [x] core ingestion surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for connector/control/workflow edge paths
-- [ ] release benchmark stabilization complete
+- [~] remaining hardening tasks closed for connector/control/workflow edge paths
+- [~] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 
@@ -96,9 +96,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `ingestion`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/ingestion/test_ingestion_highcardinality_stress.cpp`, IN-BM-01..04 benchmark gates)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_ingestion_pipeline_soak.cpp`)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_INGESTION_PIPELINE.md`)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -106,6 +106,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: IN-BM-01..04 in `benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp`)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_INGESTION_PIPELINE.md`)

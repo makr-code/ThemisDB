@@ -8,48 +8,55 @@
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_olap_analytics.cpp
-  - benchmarks/bench_timeseries_ingestion.cpp
-  - benchmarks/bench_timeseries_adaptive_flush.cpp
+  - benchmarks/analytics/bench_analytics_release_gates.cpp
+  - benchmarks/analytics/bench_analytics_distributed_coordinator.cpp
+  - benchmarks/analytics/bench_streaming_window.cpp
+  - benchmarks/analytics/bench_analytics_operability_paths.cpp
+  - benchmarks/baselines/analytics/representative_hardware_manifest.json
 
 ## Specific Expectations
 
-| Target ID | Expectation | Benchmark case |
+| Target ID | Expectation | Direct benchmark case |
 |---|---|---|
-| AN-1 | OLAP single-query execution overhead remains within release baseline budget | BM_OLAP_GroupBy_Int |
-| AN-2 | OLAP window-function path remains within release baseline budget | BM_OLAP_WindowFunction |
-| AN-3 | OLAP multi-join path remains within release baseline budget | BM_OLAP_MultiJoin |
-| AN-4 | OLAP top-N sorted path remains within release baseline budget | BM_OLAP_TopN_Sorted |
-| AN-5 | timeseries ingestion throughput remains bounded | BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, RawDataIngestion), BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, BatchIngestion), BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, MultipleMetrics) |
-| AN-6 | timeseries query/downsampling path remains bounded | BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, TimeRangeQuery), BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, Downsampling), BM_DownsamplingThroughput |
-| AN-7 | compression/decompression path remains bounded | BM_GorillaCompression, BM_GorillaDecompression |
-| AN-8 | adaptive flush single/multi-thread behavior remains bounded | BENCHMARK_REGISTER_F(AdaptiveFlushFixture, SingleThreaded), BENCHMARK_REGISTER_F(AdaptiveFlushFixture, MultiThreaded) |
-| AN-9 | adaptive flush p99 and watermark behavior remain bounded | BENCHMARK_REGISTER_F(AdaptiveFlushFixture, P99Latency), BENCHMARK_REGISTER_F(AdaptiveFlushFixture, BatchWatermark) |
-| AN-10 | adaptive flush control and stats overhead remain bounded | BM_FlushController_Standalone, BENCHMARK_REGISTER_F(AdaptiveFlushFixture, StatsExposure) |
+| AN-1 | aggregation throughput remains within release baseline budget | `BM_ARG01_AggregationThroughput` |
+| AN-2 | tumbling-window evaluation p99 remains within release threshold | `BM_ARG02_WindowEvaluation` |
+| AN-3 | OLAP plan lookup p99 remains within release threshold | `BM_ARG03_OlapPlanLookup` |
+| AN-4 | anomaly-check p99 remains within release threshold | `BM_ARG04_AnomalyCheck` |
+| AN-5 | CEP pattern-match p99 remains within release threshold | `BM_ARG05_CepPatternMatch` |
+| AN-6 | forecasting validation/inference stub p99 remains within release threshold | `BM_ARG06_ForecastInferenceStub` |
+| AN-7 | distributed coordinator state transitions and degraded throughput remain bounded | `BenchCircuitBreakerStateTransition`, `BenchConcurrentMergeStartup`, `BenchTimeoutRecoverySwitchover`, `BenchDegradedModeThroughput` |
+| AN-8 | streaming runtime limits remain bounded under sustained and high-cardinality load | `BM_TumblingWindow_SustainedLoad_Bounded`, `BM_SlidingWindow_RecordLimitDrop`, `BM_AO03_HighCardinalityStreamingBounded` |
+| AN-9 | export serialization paths remain directly measurable | `BM_AO01_ExportJsonToString`, `BM_AO02_ExportCsvToString` |
+| AN-10 | serving fail-closed validation and distributed retry paths remain directly measurable | `BM_AO04_DistributedRetryRecovery`, `BM_AO05_ServingInvalidInputFastFail` |
 
 ## Module Hard Gates (v1.0 docs baseline)
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
 | AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| AG-2 | OLAP and timeseries path p99 <= release threshold | p99 from mapped bench_olap_analytics and timeseries benchmark cases |
+| AG-2 | analytics hot-path p99 <= release threshold | p99 from ARG, distributed coordinator, and operability benchmark suites |
 | AG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
 
 ## Validation
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
+- Representative-hardware closure additionally requires the manifest-defined artifact set for every analytics hardware profile.
 
 ## Sourcecode Verification (Module: analytics/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_olap_analytics.cpp
-  - benchmarks/bench_timeseries_ingestion.cpp
-  - benchmarks/bench_timeseries_adaptive_flush.cpp
+  - benchmarks/analytics/bench_analytics_release_gates.cpp
+  - benchmarks/analytics/bench_analytics_distributed_coordinator.cpp
+  - benchmarks/analytics/bench_streaming_window.cpp
+  - benchmarks/analytics/bench_analytics_operability_paths.cpp
+  - benchmarks/baselines/analytics/representative_hardware_manifest.json
 - Verified mapping surfaces:
-  - OLAP execution paths
-  - timeseries ingestion/query/compression paths
-  - adaptive flush and latency/control paths
+  - OLAP hot paths
+  - distributed retry/circuit-breaker/merge paths
+  - bounded streaming and high-cardinality rejection paths
+  - export serialization paths
+  - serving fail-closed validation path
 - Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+  - Referenced benchmark cases exist in current analytics benchmark sources.
+  - The module-level expectation set no longer depends on proxy-only analytics benchmark mappings.
+  - Representative-hardware baseline execution remains tracked via the analytics hardware manifest.

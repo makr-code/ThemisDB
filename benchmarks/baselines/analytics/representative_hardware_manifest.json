@@ -1,0 +1,50 @@
+{
+  "module": "analytics",
+  "validated_at": "2026-09-16",
+  "status": "execution_pending",
+  "profiles": [
+    {
+      "profile_id": "analytics-cpu-balanced",
+      "class": "8+ vCPU general-purpose node",
+      "required_benchmarks": [
+        "bench_analytics_release_gates",
+        "bench_analytics_distributed_coordinator",
+        "bench_streaming_window",
+        "bench_analytics_operability_paths"
+      ],
+      "required_artifacts": [
+        "analytics-cpu-balanced-results.json",
+        "analytics-cpu-balanced-p95p99.md",
+        "analytics-cpu-balanced-baseline-report.txt"
+      ],
+      "status": "pending"
+    },
+    {
+      "profile_id": "analytics-cpu-memory",
+      "class": "memory-optimized node",
+      "required_benchmarks": [
+        "bench_streaming_window",
+        "bench_analytics_distributed_coordinator",
+        "bench_analytics_operability_paths"
+      ],
+      "required_artifacts": [
+        "analytics-cpu-memory-results.json",
+        "analytics-cpu-memory-p95p99.md",
+        "analytics-cpu-memory-baseline-report.txt"
+      ],
+      "status": "pending"
+    },
+    {
+      "profile_id": "analytics-gpu-optional",
+      "class": "optional accelerator-equipped node",
+      "required_benchmarks": [
+        "bench_analytics_operability_paths"
+      ],
+      "required_artifacts": [
+        "analytics-gpu-optional-results.json",
+        "analytics-gpu-optional-failclosed.md"
+      ],
+      "status": "pending"
+    }
+  ]
+}

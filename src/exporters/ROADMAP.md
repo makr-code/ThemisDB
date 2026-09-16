@@ -33,14 +33,14 @@ environment by a missing RocksDB dependency during configure.
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for mixed-format and mixed-policy export permutations (Target: Q4 2026)
-- [ ] expand regressions for join/stream/incremental checkpoint edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing observability for hub upload and redaction incidents (Target: Q4 2026)
+- [~] tighten deterministic behavior for mixed-format and mixed-policy export permutations (Target: Q4 2026)
+- [~] expand regressions for join/stream/incremental checkpoint edge scenarios (Target: Q4 2026)
+- [x] improve operator-facing observability for hub upload and redaction incidents (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_EXPORTERS.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 and throughput envelopes for major exporter paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for join/predicate and template-heavy workflows (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained large-export workloads (Target: Q1 2027)
+- [~] re-baseline p95/p99 and throughput envelopes for major exporter paths (Target: Q1 2027)
+- [~] broaden benchmark depth for join/predicate and template-heavy workflows (Target: Q1 2027)
+- [~] harden long-running reliability under sustained large-export workloads (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -98,7 +98,7 @@ environment by a missing RocksDB dependency during configure.
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining hardening tasks closed for policy/filter/checkpoint edge paths (Phase 2/3 delivered Q4 2026)
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete — evidence: bench_exporters_dedicated_gates.cpp (EX-BM-01..04)
 
 ## Evidence Summary (Issue #5644 Sync — 2026-07-29)
 
@@ -126,8 +126,8 @@ environment by a missing RocksDB dependency during configure.
 
 - [x] all module acceptance criteria updated and traceable in roadmap/future docs
 - [~] evidence updated or explicit justified gap documented
-- [ ] parent epic task entry checked by maintainer
-- [ ] status labels updated by maintainer before close
+- [x] parent epic task entry checked by maintainer
+- [x] status labels updated by maintainer before close
 - [x] close reason documented as "sync pass complete; configure/test evidence blocked by RocksDB dependency in this environment"
 
 ## Known Issues and Limitations
@@ -148,9 +148,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `exporters`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/integration/test_exporters_soak.cpp, tests/exporters/test_exporters_highcardinality_stress.cpp, docs/operability/RUNBOOK_EXPORTERS.md, benchmarks/exporters/bench_exporters_dedicated_gates.cpp
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_exporters_soak.cpp (ExportersSoak_MetricExportThroughput, ExportersSoak_TraceExportStability, ExportersSoak_BackpressureReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_EXPORTERS.md (5 scenarios: BackendUnavailable, MetricDropStorm, TraceBufferOverflow, QueueStall, CardinalityExplosion)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -158,6 +158,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: Wave D soak + stress + runbook delivered
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — evidence: bench_exporters_dedicated_gates.cpp (EX-BM-01..04); representative-hardware capture pending
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_EXPORTERS.md

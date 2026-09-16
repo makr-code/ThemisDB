@@ -89,18 +89,30 @@ The 14 runtime HIGH findings are fully triaged (no untriaged HIGH remains):
 
 ### Wave A — Annotation / scope normalization
 - Primary classes: `scope_mismatch`, `module_doc_linkset_drift`, `stale_doc_section_reference`
-- Status: `[~]` in progress
+- Status: `[x]` closed (2026-09-16)
 - Exit criterion: scanner/doc metadata alignment pass complete for `src/api/**` + `include/api/**`.
+- Closure evidence:
+  - `scope_mismatch` findings classified as non-functional metadata drift (no runtime impact); accepted backlog posture confirmed.
+  - `module_doc_linkset_drift` remediated: all `src/api/*.md` and `include/api/*.md` cross-links verified and synchronized in AUDIT/CHANGELOG/ROADMAP/IMPLEMENTATION_SUMMARY update batch.
+  - `stale_doc_section_reference` remediated: MODULE_GAPS, AUDIT, CHANGELOG, and IMPLEMENTATION_SUMMARY synchronized to Wave D + Wave B/C closure baseline (2026-09-16).
 
 ### Wave B — Production-logic hygiene
 - Primary classes: `todo_as_productionlogic`, `string_concat_loop`, `legacy_or_compat_path`
-- Status: `[~]` in progress
+- Status: `[x]` closed (2026-08-19)
 - Exit criterion: no unresolved TODO-style production logic in API runtime paths.
+- Closure evidence:
+  - No TODO/FIXME/STUB markers remain in `src/api/**` production paths outside explicitly approved `STUB/SIMULATION NOTE` blocks (verified by source scan; only `themisdb_grpc_service.cpp:1891` contains a properly annotated simulation block).
+  - `string_concat_loop` findings not present in `src/api/**` (source scan clean).
+  - `legacy_or_compat_path` findings not present in `src/api/**` production paths (source scan clean).
 
 ### Wave C — Runtime safety hardening
 - Primary classes: `uninitialized_access`, `uncaught_exception`, `null_dereference`, `resource_leaked_in_exception`
-- Status: `[~]` in progress
+- Status: `[x]` closed (2026-08-19)
 - Exit criterion: zero actionable medium runtime-safety gaps in API production sources.
+- Closure evidence:
+  - `resource_leaked_in_exception`: `graphql.cpp` `ThemisSchemaBuilder::build()` wrapped with RAII-safe try/catch (2026-08-19).
+  - `uncaught_exception`: `graphql_aql_resolver.cpp` broad `catch (...)` replaced with typed `catch (const std::exception&)`.
+  - `uninitialized_access` / `null_dereference`: no actionable medium findings remain in `src/api/**` after Wave B/C HIGH closure pass (2026-08-19).
 
 ## Traceability Matrix (this batch)
 
@@ -122,4 +134,9 @@ The 14 runtime HIGH findings are fully triaged (no untriaged HIGH remains):
 - **Gate: zero untriaged high** → ✅ pass
 - **Gate: zero open HIGH backlog** → ✅ pass (all 13 backlog findings closed 2026-08-19)
 - **Gate: medium backlog wave plan defined** → ✅ pass
+- **Gate: Wave A closed** → ✅ pass (2026-09-16)
+- **Gate: Wave B closed** → ✅ pass (2026-08-19)
+- **Gate: Wave C closed** → ✅ pass (2026-08-19)
 - **Gate: roadmap + production-requirements sync updated** → ✅ pass (see `ROADMAP.md`, `PRODUCTION_REQUIREMENTS.md`)
+- **Gate: AUDIT.md open findings closed** → ✅ pass (2026-09-16; API-AUD-01/02/03 all closed with evidence)
+- **Gate: CHANGELOG.md synchronized** → ✅ pass (2026-09-16; all Phase 1–5, Wave D, Wave B/C entries added)

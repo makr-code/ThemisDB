@@ -23,6 +23,28 @@ namespace themis {
 namespace auth {
 
 /**
+ * @brief Decision classification for operator-visible audit events.
+ *
+ * Allows SIEMs, dashboards, and runbook automation to filter audit events by
+ * the type of security decision that produced them.  Added in the operator
+ * diagnostics hardening pass (ROADMAP.md §2c).
+ *
+ * Values:
+ *  - @c unspecified   — decision class not set (backward-compatible default).
+ *  - @c authentication — primary credential verification (JWT, LDAP, MFA, …).
+ *  - @c policy         — key-management and rotation policy decisions.
+ *  - @c revocation     — token or credential revocation decisions.
+ *  - @c federation     — federated-identity and cross-realm decisions.
+ */
+enum class DecisionClass : uint8_t {
+    unspecified    = 0,
+    authentication = 1,
+    policy         = 2,
+    revocation     = 3,
+    federation     = 4,
+};
+
+/**
  * @brief Strongly-typed audit logging facade for authentication events.
  *
  * Wraps `utils::AuditLogger` and provides convenience methods for every
@@ -49,6 +71,26 @@ public:
 
     /** @return true if a logger is currently attached. */
     bool isEnabled() const { return logger_ != nullptr; }
+
+    // -----------------------------------------------------------------------
+    // Decision-class-tagged emit
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Fire a security event tagged with an operator-visible decision class.
+     *
+     * When @p dc is @c DecisionClass::unspecified the event is emitted without
+     * a @c decision_class field (backward-compatible).  For all other values the
+     * field is injected into the JSON detail block so that SIEMs can filter by
+     * decision type.
+     *
+     * This is a low-level helper; prefer the typed @c log*() convenience methods.
+     */
+    void emitWithDecisionClass(utils::SecurityEventType type,
+                               const std::string& user_id,
+                               const std::string& resource,
+                               DecisionClass dc,
+                               const nlohmann::json& details = {});
 
     // -----------------------------------------------------------------------
     // JWT / Token events

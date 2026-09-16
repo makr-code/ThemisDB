@@ -142,6 +142,22 @@ The scanner reports `braces_imbalance` at `hot_reload_manager.cpp:1` and similar
 
 ## Closure Record
 
+### Wave D — **Closed by commit: base-wave-d-delivery**
+**Closed date**: 2026-09-16
+
+#### Gaps closed / new capabilities delivered
+
+| # | Type | Location | Description |
+|---|------|----------|-------------|
+| 1 | Wave D tracing | `hot_reload_manager.cpp` | `ScopedSpan` distributed tracing integrated into `reloadModule()` and `rollback()`; `setSpanEmitter()` / `spanEmitter()` API added |
+| 2 | Wave D observability | `remote_registry_client.cpp` | `retry_exhausted_count` and `timeout_count` now incremented; `ObservabilityHook` fired on each event |
+| 3 | Wave D tests | `tests/base/test_base_wave_d_tracing.cpp` | High-cardinality stress (200-concurrent), fail-closed nachweis, tracing integration, taxonomy coverage |
+| 4 | Wave D soak | `tests/base/test_base_soak.cpp` | Long-duration soak (THEMIS_SOAK_ITERATIONS), stats monotonicity, concurrent soak |
+| 5 | Wave D benchmarks | `benchmarks/baselines/base/wave_d_baselines.json` | GATE-BASE-01..12 threshold definitions; hardware measurement pending |
+| 6 | Wave D runbook | `src/base/RUNBOOK.md` | Full operator runbook for all BASE_LOADER_*/SANDBOX_*/RELOAD_*/DEP_*/REGISTRY_* codes |
+
+---
+
 ### Batch D — **Closed by commit: base-gap-closures-batch-d**
 **Closed date**: 2026-08-24
 
