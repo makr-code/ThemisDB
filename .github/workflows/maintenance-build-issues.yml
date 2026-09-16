@@ -535,6 +535,28 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Prepare chronic build issue comment body
+        if: steps.aggregate.outputs.chronic_errors > 0
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f /tmp/aggregated-errors.md ]; then
+            echo "Missing /tmp/aggregated-errors.md for chronic issue comment body" >&2
+            exit 1
+          fi
+          cat > /tmp/chronic-build-error-comment.md <<'EOF'
+          ## 📎 Neuer Build-Fehlerreport
+
+          **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          EOF
+          cat /tmp/aggregated-errors.md >> /tmp/chronic-build-error-comment.md
+          cat >> /tmp/chronic-build-error-comment.md <<'EOF'
+          <!-- ci-build:error-state:v1 -->
+          ${{ steps.aggregate.outputs.state_snapshot_b64 }}
+          <!-- /ci-build:error-state:v1 -->
+          EOF
+
       - name: Append latest chronic build errors as issue comment
         if: steps.aggregate.outputs.chronic_errors > 0
         uses: ./.github/actions/status-flags-and-issues
@@ -542,15 +564,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: comment_issue
           issue-number: ${{ steps.chronic-issue.outputs.issue-number }}
-          issue-body: |
-            ## 📎 Neuer Build-Fehlerreport
-
-            **Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-            ${{ steps.aggregate.outputs.report_markdown }}
-            <!-- ci-build:error-state:v1 -->
-            ${{ steps.aggregate.outputs.state_snapshot_b64 }}
-            <!-- /ci-build:error-state:v1 -->
+          issue-body-file: /tmp/chronic-build-error-comment.md
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
