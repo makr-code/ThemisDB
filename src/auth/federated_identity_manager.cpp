@@ -26,6 +26,7 @@
 
 // POSIX socket headers for syncTrustState() TCP push.
 #ifdef _WIN32
+#  include <cstring>
 #  include <winsock2.h>
 #  include <ws2tcpip.h>
 #else
@@ -922,7 +923,14 @@ void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
                                       "Expected 'host:port', got: " + peer_rpc_endpoint));
     }
     const std::string host = peer_rpc_endpoint.substr(0, colon);
-    const int         port = std::stoi(peer_rpc_endpoint.substr(colon + 1));
+    int port = 0;
+    try {
+        port = std::stoi(peer_rpc_endpoint.substr(colon + 1));
+    } catch (const std::exception& ex) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Invalid port in peer_rpc_endpoint",
+                                      std::string("Port parse error: ") + ex.what()));
+    }
 
     // Three-attempt exponential-backoff retry (mirrors LDAP pool pattern).
     constexpr int kMaxRetries  = 3;
@@ -932,6 +940,17 @@ void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
     for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
         try {
 #ifdef _WIN32
+            // Ensure Winsock is initialised once per process before any socket calls.
+            static const bool wsa_init = [] {
+                WSADATA wsa_data{};
+                const int rc = ::WSAStartup(MAKEWORD(2, 2), &wsa_data);
+                if (rc != 0) {
+                    spdlog::error("FederatedIdentityManager: WSAStartup failed: {}", rc);
+                }
+                return rc == 0;
+            }();
+            (void)wsa_init;
+
             SOCKET sock = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
             if (sock == INVALID_SOCKET) {
                 throw std::runtime_error("socket() failed");

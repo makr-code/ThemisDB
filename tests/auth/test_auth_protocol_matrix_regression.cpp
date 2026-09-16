@@ -123,6 +123,7 @@ TEST(AuthProtocolMatrix, APM03_KerberosRevocation_RevokedJTIIsRejected) {
 // PROVIDER_DEGRADED so downstream federation code never gets a connection.
 // release_critical
 // ---------------------------------------------------------------------------
+#ifdef THEMIS_HAS_LDAP
 TEST(AuthProtocolMatrix, APM04_LDAPFederation_PoolClosingThrowsProviderDegraded) {
     LDAPPoolConfig pcfg;
     pcfg.host               = "ldap://invalid.local";
@@ -134,6 +135,7 @@ TEST(AuthProtocolMatrix, APM04_LDAPFederation_PoolClosingThrowsProviderDegraded)
     // real LDAP server — must throw, never return nullptr.
     EXPECT_THROW(pool.checkout(), AuthException);
 }
+#endif  // THEMIS_HAS_LDAP
 
 // ---------------------------------------------------------------------------
 // APM-05: API-Key+Rate-Limiting — rate limiter returns false on limit exceeded
