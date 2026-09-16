@@ -432,7 +432,7 @@ run-benchmark --suite gpu-performance-baseline --gpu-id <gpu-id>
 
 ## Wave D — D1 Distributed Trace Span Cross-Links
 
-> **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`
+> **Wave D Phase 3 placeholder:** The trace span annotations below reference the `DistributedTraceSpan`
 > framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2D (GPU module hints Phase 3 placeholder).
 > Until Phase 2A implementation completes (Target: Q1 2027), the listed span names are reference
 > identifiers for future instrumentation.
