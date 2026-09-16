@@ -21,6 +21,7 @@
 
 #include "themis/base/module_loader.h"
 #include "themis/base/module_sandbox.h"
+#include "themis/base/trace_context.h"
 
 #include <chrono>
 #include <functional>
@@ -285,6 +286,29 @@ public:
     void clearReloadCallbacks();
 
     // -------------------------------------------------------------------------
+    // Wave D — Distributed tracing
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Replace the span emitter used by reloadModule() and rollback().
+     *
+     * The default emitter is a no-op; replace it with a collecting emitter in
+     * tests or with an OpenTelemetry adapter in production to capture spans.
+     *
+     * @param emitter  Thread-safe callable that receives @c SpanEvent values.
+     *                 Must remain valid for the lifetime of this manager.
+     */
+    void setSpanEmitter(SpanEmitter emitter);
+
+    /**
+     * @brief Return a reference to the active span emitter.
+     *
+     * The reference is valid for the lifetime of this manager.  Thread safety:
+     * the emitter itself must be thread-safe if accessed from multiple threads.
+     */
+    SpanEmitter& spanEmitter();
+
+    // -------------------------------------------------------------------------
     // Statistics
     // -------------------------------------------------------------------------
 
@@ -337,6 +361,9 @@ private:
     std::vector<ReloadCallback> reload_cbs_;
 
     Stats stats_;
+
+    /// @brief Wave D — injectable span emitter (default: no-op).
+    SpanEmitter span_emitter_;
 
     // -------------------------------------------------------------------------
     // Helpers
