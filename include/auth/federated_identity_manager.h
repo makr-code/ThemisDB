@@ -352,6 +352,40 @@ public:
         const std::string& trusting_issuer) const;
 
     // -----------------------------------------------------------------------
+    // Multi-realm distributed trust-state synchronization (ROADMAP §3c)
+    //
+    // Propagates the local trust registry to a peer node via a simple TCP JSON
+    // payload using the existing TBLK/v1 retry pattern.  The peer node must
+    // expose a JSON-over-TCP listener on @p peer_rpc_endpoint.
+    //
+    // Wire format:
+    //   {"op":"sync_trust","entries":[{"subject":"<issuer>","trusting":"<issuer>"},…]}
+    //
+    // This is a best-effort push; failures are logged but not re-thrown unless
+    // the TCP connect itself fails after the configured retry budget.
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Push local trust-registry state to a peer federation node.
+     *
+     * Serialises the complete trust registry and pushes it to the peer node at
+     * @p peer_rpc_endpoint (format: "host:port") using a TCP JSON payload.  The
+     * peer node is identified by @p peer_node_id for logging purposes.
+     *
+     * Uses the same three-attempt exponential-backoff retry pattern as the
+     * LDAP connection pool (kBaseDelayMs=100 ms).
+     *
+     * @param peer_node_id      Human-readable identifier of the target node
+     *                          (used in log/audit messages only).
+     * @param peer_rpc_endpoint TCP endpoint of the peer node's trust-sync
+     *                          listener, e.g. "10.0.0.42:7171".
+     * @throws AuthException(AUTH_INTERNAL_ERROR) if TCP connect + send fails
+     *         after all retry attempts.
+     */
+    void syncTrustState(const std::string& peer_node_id,
+                        const std::string& peer_rpc_endpoint);
+
+    // -----------------------------------------------------------------------
     // In-memory token validation cache
     //
     // validateToken() populates the cache automatically after each successful

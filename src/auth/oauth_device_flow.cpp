@@ -163,9 +163,22 @@ OAuthDeviceFlow::TokenResponse OAuthDeviceFlow::pollForToken(const std::string &
                 break;
             } catch (const std::exception &ex) {
                 const std::string what = ex.what();
+                // [2a] Explicit HTTP 5xx classification as PROVIDER_DEGRADED (fail-closed)
+                const bool is_5xx = (what.find("HTTP 500") != std::string::npos)
+                                 || (what.find("HTTP 502") != std::string::npos)
+                                 || (what.find("HTTP 503") != std::string::npos)
+                                 || (what.find("HTTP 504") != std::string::npos)
+                                 || (what.find("HTTP 5")   != std::string::npos);
                 const bool retryable   = (what.find("HTTP 429") != std::string::npos)
                                        || (what.find("HTTP 503") != std::string::npos)
                                        || (what.find("libcurl") != std::string::npos);
+                if (is_5xx && (!retryable || attempt + 1 == kMaxRetries)) {
+                    spdlog::error("OAuthDeviceFlow: token poll HTTP 5xx — PROVIDER_DEGRADED: {}", what);
+                    status_out = PollStatus::Error;
+                    throw AuthException(AuthError(AuthErrorCode::PROVIDER_DEGRADED,
+                                                  "OAuth token endpoint unavailable",
+                                                  "HTTP 5xx from token endpoint: " + what));
+                }
                 if (!retryable || attempt + 1 == kMaxRetries) {
                     spdlog::warn("OAuthDeviceFlow: token poll HTTP error: {}", what);
                     status_out = PollStatus::Error;

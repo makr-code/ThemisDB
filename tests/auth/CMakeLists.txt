@@ -98,3 +98,132 @@ if(NOT TARGET module_auth_test_wave7_auth_ldap_federated_focused)
         LABELS auth wave_b release_critical wave_b_boundary_policy_control
     )
 endif()
+
+# ---------------------------------------------------------------------------
+# Auth Protocol Matrix Regression suite (release_critical)
+# Deterministic cross-protocol regression tests: OIDC+mTLS, SAML+MFA,
+# Kerberos+Revocation, LDAP+Federation, API-Key+Rate-Limiting, WebAuthn+Session,
+# OAuth+Blacklist, multi-realm trust isolation.
+# ---------------------------------------------------------------------------
+
+if(NOT TARGET module_auth_test_auth_protocol_matrix_regression_focused)
+    add_executable(module_auth_test_auth_protocol_matrix_regression_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_protocol_matrix_regression.cpp"
+    )
+    target_include_directories(module_auth_test_auth_protocol_matrix_regression_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_auth_test_auth_protocol_matrix_regression_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_auth_test_auth_protocol_matrix_regression_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE auth
+        NAME test_auth_protocol_matrix_regression_auth_FocusedTests
+        TARGET module_auth_test_auth_protocol_matrix_regression_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS auth release_critical protocol_matrix
+    )
+endif()
+
+# ---------------------------------------------------------------------------
+# Wave 8 hardening suite — explicit release_critical registration
+# Covers W8-15 (LDAP pagination retry), W8-16 (token cache LRU/SHA-256),
+# W8-17 (pool exhaustion audit trail).
+# ---------------------------------------------------------------------------
+
+if(NOT TARGET module_auth_test_wave8_auth_hardening_focused)
+    add_executable(module_auth_test_wave8_auth_hardening_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_wave8_auth_hardening.cpp"
+    )
+    target_include_directories(module_auth_test_wave8_auth_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_auth_test_wave8_auth_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_auth_test_wave8_auth_hardening_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE auth
+        NAME test_wave8_auth_hardening_auth_FocusedTests
+        TARGET module_auth_test_wave8_auth_hardening_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS auth wave_8 release_critical
+    )
+endif()
+
+# ---------------------------------------------------------------------------
+# High-cardinality stress suite (Wave D)
+# ---------------------------------------------------------------------------
+
+if(NOT TARGET module_auth_test_auth_highcardinality_stress_focused)
+    add_executable(module_auth_test_auth_highcardinality_stress_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_highcardinality_stress.cpp"
+    )
+    target_include_directories(module_auth_test_auth_highcardinality_stress_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_auth_test_auth_highcardinality_stress_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_auth_test_auth_highcardinality_stress_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE auth
+        NAME test_auth_highcardinality_stress_auth_FocusedTests
+        TARGET module_auth_test_auth_highcardinality_stress_focused
+        TIER unit
+        TIMEOUT 300
+        LABELS auth stress high_cardinality wave_d
+    )
+endif()
+
+# ---------------------------------------------------------------------------
+# Long-duration soak test suite (Wave D)
+# ---------------------------------------------------------------------------
+
+if(NOT TARGET module_auth_test_auth_soak_focused)
+    add_executable(module_auth_test_auth_soak_focused
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_soak.cpp"
+    )
+    target_include_directories(module_auth_test_auth_soak_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(module_auth_test_auth_soak_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(module_auth_test_auth_soak_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+    themis_register_module_focused_test(
+        MODULE auth
+        NAME test_auth_soak_auth_FocusedTests
+        TARGET module_auth_test_auth_soak_focused
+        TIER unit
+        TIMEOUT 600
+        LABELS auth soak wave_d
+    )
+endif()

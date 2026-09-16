@@ -91,8 +91,9 @@ void JWTKeyRotationManager::rotateActiveKey(const std::string &new_kid, std::opt
 
     if (logger) {
         nlohmann::json meta;
-        meta["new_kid"]  = new_kid;
-        meta["rotation"] = rotation_num;
+        meta["new_kid"]        = new_kid;
+        meta["rotation"]       = rotation_num;
+        meta["decision_class"] = "policy";  // [2c] operator diagnostics tag
         logger->logSecurityEvent(utils::SecurityEventType::KEY_ROTATED, "jwt_key_rotation_manager",
                                  "jwt_key/" + new_kid, meta);
     }
@@ -137,8 +138,9 @@ bool JWTKeyRotationManager::revokeKey(const std::string &kid) {
 
     if (revoked && logger) {
         nlohmann::json meta;
-        meta["kid"]        = kid;
-        meta["revocation"] = revocation_num;
+        meta["kid"]            = kid;
+        meta["revocation"]     = revocation_num;
+        meta["decision_class"] = "policy";  // [2c] operator diagnostics tag
         logger->logSecurityEvent(utils::SecurityEventType::KEY_DELETED, "jwt_key_rotation_manager", "jwt_key/" + kid,
                                  meta);
     }

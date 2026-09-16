@@ -138,7 +138,11 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
     while (true) {
         // Fail fast if the pool is shutting down.
         if (closing_) {
-            return nullptr;
+            // [2a] Fail-closed: pool shutdown is a provider-degraded condition.
+            throw AuthException(AuthError(
+                AuthErrorCode::PROVIDER_DEGRADED,
+                "LDAP connection pool is shutting down",
+                "checkout() rejected: pool is in closing state"));
         }
 
         // --- 1. Try to pop an idle connection --------------------------------
@@ -156,7 +160,11 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
                 // Pool shut down while we were health-checking; evict and bail.
                 destroyHandle(candidate);
                 --total_count_;
-                return nullptr;
+                // [2a] Fail-closed: pool shutdown is a provider-degraded condition.
+                throw AuthException(AuthError(
+                    AuthErrorCode::PROVIDER_DEGRADED,
+                    "LDAP connection pool is shutting down",
+                    "checkout() rejected: pool entered closing state during health-check"));
             }
 
             if (healthy) {

@@ -199,9 +199,21 @@ OAuthPKCEFlow::TokenResponse OAuthPKCEFlow::exchangeCode(const std::string &auth
         if (last_exc) {
             try { std::rethrow_exception(last_exc); }
             catch (const std::exception &ex) {
-                spdlog::error("OAuthPKCEFlow: token exchange HTTP error: {}", ex.what());
+                const std::string what = ex.what();
+                spdlog::error("OAuthPKCEFlow: token exchange HTTP error: {}", what);
+                // [2a] Explicit HTTP 5xx classification as PROVIDER_DEGRADED (fail-closed)
+                const bool is_5xx = (what.find("HTTP 500") != std::string::npos)
+                                 || (what.find("HTTP 502") != std::string::npos)
+                                 || (what.find("HTTP 503") != std::string::npos)
+                                 || (what.find("HTTP 504") != std::string::npos)
+                                 || (what.find("HTTP 5")   != std::string::npos);
+                if (is_5xx) {
+                    throw AuthException(AuthError(AuthErrorCode::PROVIDER_DEGRADED,
+                                                  "OAuth token endpoint unavailable",
+                                                  "HTTP 5xx from token endpoint: " + what));
+                }
                 throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR, "PKCE token exchange failed",
-                                             std::string("HTTP error: ") + ex.what()));
+                                             std::string("HTTP error: ") + what));
             }
         }
     }
