@@ -46,8 +46,6 @@ The format is based on Keep a Changelog.
 - `src/api/graphql_aql_resolver.cpp`: bounded recursion depth (`kMaxComplexityScoringDepth`), overflow-checked complexity accumulation (`checkedAdd`), typed exception handling.
 - `src/api/grpc_server.cpp` (critical fix): `lock.lock()` replaced with `lock.try_lock_for(std::chrono::seconds(5))`; fail-closed startup on lock-timeout.
 
-
-
 ### Fixed
 - GraphQL variable substitution behavior hardened in module execution path.
 

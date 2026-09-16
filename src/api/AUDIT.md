@@ -36,7 +36,7 @@
 - tests/api/test_api_observability.cpp (12 tests — Q3 2026 observability)
 - tests/api/test_api_phase4_concurrency.cpp (14 tests — Phase 4 concurrency/edge)
 - tests/api/test_api_degraded_mode.cpp (10 tests — Q4 2026 degraded-mode)
-- tests/api/test_api_wave_d_stress.cpp (Wave D stress/soak)
+- tests/api/test_api_wave_d_stress.cpp (8 tests — Wave D stress/soak)
 
 ## Findings
 
