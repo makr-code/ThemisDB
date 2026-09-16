@@ -1149,9 +1149,10 @@ set(THEMIS_SHARDING_SOURCES
 
 # Do not gate this on TARGET existence. The proto library is created later in the
 # same configure pass and the target may not exist yet when this source list is
-# assembled. Only omit the protobuf-dependent sharding sources when protobuf is
-# genuinely unavailable, otherwise the build will lose the concrete implementations
-# that satisfy the link-time references from other sharding modules.
+# assembled. When protobuf is genuinely unavailable, omit the protobuf-backed
+# sharding/gossip sources together with the in-tree dependents that require their
+# concrete implementations; otherwise final links fail on GNU/Clang linkers and
+# the behavior diverges across platforms.
 if(NOT Protobuf_FOUND)
     list(REMOVE_ITEM THEMIS_SHARDING_SOURCES
         ../src/sharding/shard_rpc_server.cpp
@@ -1160,8 +1161,12 @@ if(NOT Protobuf_FOUND)
         ../src/sharding/gossip_consensus_adapter.cpp
         ../src/sharding/shard_resource_manager.cpp
         ../src/sharding/distributed_coordinator.cpp
+        ../src/sharding/consensus_factory.cpp
+        ../src/sharding/locality_aware_router.cpp
+        ../src/sharding/orphan_detector.cpp
+        ../src/sharding/shard_repair_engine.cpp
     )
-    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources")
+    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources and their direct dependents")
 endif()
 
 set(THEMIS_LLM_SOURCES
