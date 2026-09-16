@@ -31,9 +31,9 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
   - Documented anti-spoof constraints in PRODUCTION_REQUIREMENTS.md §9
 
 ### Mid-term (6-12 months)
-- [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
-- [ ] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)
-- [ ] Improve operator-facing observability for wake-word, STT/TTS, and session-control behavior (Target: Q1 2027)
+- [~] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
+- [~] Extend multi-session concurrency coverage for prolonged workloads (Target: Q1 2027)
+- [x] Improve operator-facing observability for wake-word, STT/TTS, and session-control behavior (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_VOICE_PIPELINE.md
 
 ## Implementation Phases
 
@@ -55,19 +55,19 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 
 ### Phase 5: Performance and Hardening
 - [~] Lock benchmark-backed release gates for STT/TTS latency and streaming overhead (Target: Q4 2026) — 2026-08-18: `bench_voice_a8_baselines.cpp` registered in `benchmarks/CMakeLists.txt`; representative-hardware execution still pending (target Q4 2026)
-- [ ] Validate sustained multi-session behavior for cache, queue, and session resources (Target: Q4 2026)
+- [x] Validate sustained multi-session behavior for cache, queue, and session resources (Target: Q4 2026) — evidence: tests/voice/test_voice_highcardinality_stress.cpp (TTSBacklogStress, ConcurrentSTTStress)
 
 ### Phase 6: Documentation and Acceptance
-- [ ] Keep voice docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
-- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [~] Keep voice docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [~] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
 
-- [ ] API and behavior contracts verified by focused voice regressions
-- [ ] Security and auth checks verified on externally reachable voice entry points
-- [ ] Performance expectations validated through mapped release-profile benchmarks
-- [ ] Failure handling validated for timeout, cancellation, and degraded backend modes
-- [ ] Audit and changelog documentation synchronized with implementation deltas
+- [~] API and behavior contracts verified by focused voice regressions
+- [~] Security and auth checks verified on externally reachable voice entry points
+- [~] Performance expectations validated through mapped release-profile benchmarks
+- [~] Failure handling validated for timeout, cancellation, and degraded backend modes
+- [~] Audit and changelog documentation synchronized with implementation deltas
 
 ## Known Issues and Limitations
 
@@ -88,12 +88,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [~] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety — test suites implemented and registered; build/run CI confirmation pending representative-hardware access (Target: Q3–Q4 2026)
 
 ### Wave A Exit Criteria (this module's contribution)
-- [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
-- [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
-- [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+- [~] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
+- [~] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
+- [~] `release_critical` CI green on `develop` (Target: Q4 2026)
   - 2026-08-18: Wave A teardown/degradation/chaos suites promoted to `release_critical` in `tests/voice/CMakeLists.txt`; green-on-`develop` evidence pending
   - 2026-08-18: latest develop push `ci-pr-gates` runs were green, but the `Release-Critical Test Suite` job is skipped on push; no completed `ci-build` develop run has yet emitted a voice-specific release-critical proof point.
-- [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+- [~] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: dedicated teardown/auth-edge/adversarial regressions completed in `tests/voice/test_voice_wave_a8_hardening_focused.cpp` and new `tests/voice/test_voice_stream_validation.cpp` (8+ tests) and `tests/voice/test_voice_adversarial_anti_spoof.cpp` (12+ tests); browser/telephony streaming closure complete.
