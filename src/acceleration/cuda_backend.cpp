@@ -22,10 +22,12 @@
 #include <thread>
 
 #include "acceleration/batch_validator.h"
+#include "acceleration/cpu_backend.h"
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include "acceleration/kernel_invocation.h"
 #include "index/cuda_hnsw_graph_traversal.h"
+#include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -1358,6 +1360,21 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchBFS(const uint32_t *ad
     if (!BatchValidator::validateGraphBFSBatch(name(), adjacency, numVertices, startVertices, numStarts, sink)) {
         return {};
     }
+    if (BatchValidator::shouldUseCpuFallbackForGraphBFS(numVertices, maxDepth)) {
+        THEMIS_WARN("CUDAGraphBackend: BFS workload exceeds bounded GPU contract (vertices={}, maxDepth={}); using CPU fallback",
+                    numVertices, maxDepth);
+        CPUGraphBackend cpu_backend = {};
+        if (!cpu_backend.initialize()) {
+            setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA",
+                                  "CPU fallback backend initialization failed for BFS fallback",
+                                  "Check CPU backend availability"));
+            return {};
+        }
+        auto cpu_result = cpu_backend.batchBFS(adjacency, numVertices, startVertices, numStarts, maxDepth);
+        cpu_backend.shutdown();
+        clearError();
+        return cpu_result;
+    }
 
 #ifdef THEMIS_ENABLE_CUDA
     if (!initialized_) {
@@ -1578,6 +1595,20 @@ std::vector<std::vector<uint32_t>> CUDAGraphBackend::batchShortestPath(const uin
     if (!BatchValidator::validateShortestPathBatch(name(), adjacency, weights, numVertices, startVertices, endVertices,
                                                    numPairs, sink)) {
         return {};
+    }
+    if (BatchValidator::shouldUseCpuFallbackForShortestPath(adjacency, weights, numVertices)) {
+        THEMIS_WARN("CUDAGraphBackend: shortest-path input violates GPU weight constraints; using CPU fallback");
+        CPUGraphBackend cpu_backend = {};
+        if (!cpu_backend.initialize()) {
+            setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA",
+                                  "CPU fallback backend initialization failed for shortest-path fallback",
+                                  "Check CPU backend availability"));
+            return {};
+        }
+        auto cpu_result = cpu_backend.batchShortestPath(adjacency, weights, numVertices, startVertices, endVertices, numPairs);
+        cpu_backend.shutdown();
+        clearError();
+        return cpu_result;
     }
 
 #ifdef THEMIS_ENABLE_CUDA
@@ -1893,6 +1924,8 @@ std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, cons
                                                   const double *latitudes2, const double *longitudes2, size_t count,
                                                   bool useHaversine) {
 #ifdef THEMIS_ENABLE_CUDA
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
     if (!initialized_) {
         setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA-Geo",
                               "CUDA geo backend not initialized", "Call initialize() before using the backend"));
@@ -1900,12 +1933,7 @@ std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, cons
         return {};
     }
 
-    if (latitudes1 == nullptr || longitudes1 == nullptr || latitudes2 == nullptr || longitudes2 == nullptr) {
-        setError(ErrorContextHelpers::createValidationError("CUDA-Geo", AccelerationErrorCode::InvalidInputShape,
-                                                            "input coordinate pointers must be non-null"));
-        return {};
-    }
-    if (count == 0) {
+    if (!BatchValidator::validateGeoBatch(name(), latitudes1, longitudes1, latitudes2, longitudes2, count, sink)) {
         return {};
     }
 
@@ -1952,6 +1980,9 @@ std::vector<float> CUDAGeoBackend::batchDistances(const double *latitudes1, cons
             std::cerr << lastError_.format() << std::endl;
             return {};
         }
+        if (!BatchValidator::validateGeoDistanceResults(name(), result.data(), result.size(), sink)) {
+            return {};
+        }
 
         clearError();
         return result;
@@ -1977,6 +2008,8 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(const double *pointLats, c
                                                       size_t numPoints, const double *polygonCoords,
                                                       size_t numPolygonVertices) {
 #ifdef THEMIS_ENABLE_CUDA
+    clearError();
+    auto sink = [this](ErrorContext e) { setError(std::move(e)); };
     if (!initialized_) {
         setError(ErrorContext(AccelerationErrorCode::BackendNotInitialized, "CUDA-Geo",
                               "CUDA geo backend not initialized", "Call initialize() before using the backend"));
@@ -1984,12 +2017,8 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(const double *pointLats, c
         return {};
     }
 
-    if (pointLats == nullptr || pointLons == nullptr || polygonCoords == nullptr) {
-        setError(ErrorContextHelpers::createValidationError("CUDA-Geo", AccelerationErrorCode::InvalidInputShape,
-                                                            "input coordinate pointers must be non-null"));
-        return {};
-    }
-    if (numPoints == 0 || numPolygonVertices < 3) {
+    if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
+                                                     numPolygonVertices, sink)) {
         return {};
     }
 

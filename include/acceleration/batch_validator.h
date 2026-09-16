@@ -14,9 +14,13 @@
 
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <cmath>
 #include <functional>
+#include <limits>
+#include <string>
 
 namespace themis {
 namespace acceleration {
@@ -47,6 +51,13 @@ struct BatchValidator {
     /// Called when a validation check fails. Receives an ErrorContext describing
     /// the validation error. The backend stores this error for later retrieval.
     using ErrorSink = std::function<void(ErrorContext)>;
+    static constexpr double kMinLatitude  = -90.0;
+    static constexpr double kMaxLatitude  = 90.0;
+    static constexpr double kMinLongitude = -180.0;
+    static constexpr double kMaxLongitude = 180.0;
+    static constexpr float kMaxGeodesicDistanceKm = 20039.5f;
+    static constexpr uint32_t kBfsMaxDepth = 3;
+    static constexpr size_t kBfsMaxNodesPerHop = 10'000;
 
     // -----------------------------------------------------------------------
     // Vector batch: computeDistances / batchKnnSearch
@@ -162,6 +173,20 @@ struct BatchValidator {
                 "count must be > 0"));
             return false;
         }
+        for (size_t i = 0; i < count; ++i) {
+            const bool lat1Ok = std::isfinite(lats1[i]) && lats1[i] >= kMinLatitude && lats1[i] <= kMaxLatitude;
+            const bool lon1Ok = std::isfinite(lons1[i]) && lons1[i] >= kMinLongitude && lons1[i] <= kMaxLongitude;
+            const bool lat2Ok = std::isfinite(lats2[i]) && lats2[i] >= kMinLatitude && lats2[i] <= kMaxLatitude;
+            const bool lon2Ok = std::isfinite(lons2[i]) && lons2[i] >= kMinLongitude && lons2[i] <= kMaxLongitude;
+            if (!(lat1Ok && lon1Ok && lat2Ok && lon2Ok)) {
+                onError(ErrorContextHelpers::createValidationError(
+                    backendName,
+                    AccelerationErrorCode::InputRangeViolation,
+                    "latitude/longitude must be finite and within WGS84 bounds at index "
+                        + std::to_string(i)));
+                return false;
+            }
+        }
         return true;
     }
 
@@ -219,6 +244,60 @@ struct BatchValidator {
                 "numPolygonVertices must be >= 3 to form a valid polygon"));
             return false;
         }
+        for (size_t i = 0; i < numPoints; ++i) {
+            const bool latOk = std::isfinite(pointLats[i]) && pointLats[i] >= kMinLatitude && pointLats[i] <= kMaxLatitude;
+            const bool lonOk = std::isfinite(pointLons[i]) && pointLons[i] >= kMinLongitude && pointLons[i] <= kMaxLongitude;
+            if (!(latOk && lonOk)) {
+                onError(ErrorContextHelpers::createValidationError(
+                    backendName,
+                    AccelerationErrorCode::InputRangeViolation,
+                    "point latitude/longitude must be finite and within WGS84 bounds at index "
+                        + std::to_string(i)));
+                return false;
+            }
+        }
+        for (size_t i = 0; i < numPolygonVertices; ++i) {
+            const double lat = polygonCoords[i * 2];
+            const double lon = polygonCoords[i * 2 + 1];
+            const bool latOk = std::isfinite(lat) && lat >= kMinLatitude && lat <= kMaxLatitude;
+            const bool lonOk = std::isfinite(lon) && lon >= kMinLongitude && lon <= kMaxLongitude;
+            if (!(latOk && lonOk)) {
+                onError(ErrorContextHelpers::createValidationError(
+                    backendName,
+                    AccelerationErrorCode::InputRangeViolation,
+                    "polygon latitude/longitude must be finite and within WGS84 bounds at vertex "
+                        + std::to_string(i)));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// @brief Validate geodesic distance output range [0, 20039.5] km.
+    static bool validateGeoDistanceResults(
+        const char* backendName,
+        const float* distancesKm,
+        size_t count,
+        const ErrorSink& onError)
+    {
+        if (distancesKm == nullptr && count > 0) {
+            onError(ErrorContextHelpers::createValidationError(
+                backendName,
+                AccelerationErrorCode::InvalidInputShape,
+                "distances pointer must be non-null when count > 0"));
+            return false;
+        }
+        for (size_t i = 0; i < count; ++i) {
+            const float v = distancesKm[i];
+            if (!std::isfinite(v) || v < 0.0f || v > kMaxGeodesicDistanceKm) {
+                onError(ErrorContextHelpers::createValidationError(
+                    backendName,
+                    AccelerationErrorCode::InputRangeViolation,
+                    "distance output must be finite and within [0, 20039.5] km at index "
+                        + std::to_string(i)));
+                return false;
+            }
+        }
         return true;
     }
 
@@ -262,6 +341,27 @@ struct BatchValidator {
         return true;
     }
 
+    /// @brief Validate BFS hop-depth execution constraint.
+    static bool validateGraphBFSHopLimit(
+        const char* backendName,
+        uint32_t maxDepth,
+        const ErrorSink& onError)
+    {
+        if (maxDepth > kBfsMaxDepth) {
+            onError(ErrorContextHelpers::createValidationError(
+                backendName,
+                AccelerationErrorCode::BatchSizeExceeded,
+                "maxDepth exceeds BFS hop limit (max 3 hops)"));
+            return false;
+        }
+        return true;
+    }
+
+    /// @brief Returns true when BFS workload should use CPU fallback for bounded execution.
+    static bool shouldUseCpuFallbackForGraphBFS(size_t numVertices, uint32_t maxDepth) noexcept {
+        return numVertices > kBfsMaxNodesPerHop || maxDepth > kBfsMaxDepth;
+    }
+
     /// @brief Validate pointer and count arguments for a shortest-path batch.
     ///
     /// Checks all pointers are non-null and counts are positive. Used before
@@ -303,6 +403,38 @@ struct BatchValidator {
             return false;
         }
         return true;
+    }
+
+    /// @brief Returns true if shortest-path weights require CPU fallback for safe execution.
+    ///
+    /// Fallback is required when any active edge has a non-finite or negative
+    /// weight, or when the maximum possible path sum can overflow finite
+    /// sentinel arithmetic in GPU path reconstruction.
+    static bool shouldUseCpuFallbackForShortestPath(
+        const uint32_t* adjacency,
+        const float* weights,
+        size_t numVertices) noexcept
+    {
+        if (adjacency == nullptr || weights == nullptr || numVertices == 0) {
+            return true;
+        }
+        constexpr float kFiniteCap = 1e37f;
+        const double maxPathWeight = (numVertices > 1)
+            ? static_cast<double>(kFiniteCap) / static_cast<double>(numVertices - 1)
+            : static_cast<double>(kFiniteCap);
+        for (size_t u = 0; u < numVertices; ++u) {
+            for (size_t v = 0; v < numVertices; ++v) {
+                const size_t idx = u * numVertices + v;
+                if (adjacency[idx] == 0) {
+                    continue;
+                }
+                const float w = weights[idx];
+                if (!std::isfinite(w) || w < 0.0f || static_cast<double>(w) > maxPathWeight) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 };
 

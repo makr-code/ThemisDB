@@ -569,6 +569,25 @@ TEST(BatchValidatorRegression, ValidateGeoBatch_NullPointer_ReturnsFalse) {
     EXPECT_EQ(code, AccelerationErrorCode::InvalidInputShape);
 }
 
+TEST(BatchValidatorRegression, ValidateGeoBatch_OutOfWgs84Range_ReturnsFalse) {
+    bool called = false;
+    AccelerationErrorCode code = AccelerationErrorCode::Success;
+    auto sink = [&](ErrorContext ctx) {
+        called = true;
+        code   = ctx.code;
+    };
+
+    const double lats1[] = {95.0};
+    const double lons1[] = {0.0};
+    const double lats2[] = {0.0};
+    const double lons2[] = {0.0};
+    bool ok = BatchValidator::validateGeoBatch("TestBackend",
+                                               lats1, lons1, lats2, lons2, 1, sink);
+    EXPECT_FALSE(ok);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(code, AccelerationErrorCode::InputRangeViolation);
+}
+
 TEST(BatchValidatorRegression, ValidatePointInPolygon_TooFewVertices_ReturnsFalse) {
     bool called = false;
     AccelerationErrorCode code = AccelerationErrorCode::Success;
@@ -587,6 +606,39 @@ TEST(BatchValidatorRegression, ValidatePointInPolygon_TooFewVertices_ReturnsFals
     EXPECT_EQ(code, AccelerationErrorCode::InvalidInputShape);
 }
 
+TEST(BatchValidatorRegression, ValidatePointInPolygon_InvalidPointCoordinate_ReturnsFalse) {
+    bool called = false;
+    AccelerationErrorCode code = AccelerationErrorCode::Success;
+    auto sink = [&](ErrorContext ctx) {
+        called = true;
+        code   = ctx.code;
+    };
+
+    const double lats[] = {std::numeric_limits<double>::quiet_NaN()};
+    const double lons[] = {0.5};
+    const double poly[] = {0.0, 0.0, 1.0, 0.0, 0.0, 1.0};
+    bool ok = BatchValidator::validatePointInPolygonBatch("TestBackend",
+                                                          lats, lons, 1,
+                                                          poly, 3, sink);
+    EXPECT_FALSE(ok);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(code, AccelerationErrorCode::InputRangeViolation);
+}
+
+TEST(BatchValidatorRegression, ValidateGeoDistanceResults_OutOfRange_ReturnsFalse) {
+    bool called = false;
+    AccelerationErrorCode code = AccelerationErrorCode::Success;
+    auto sink = [&](ErrorContext ctx) {
+        called = true;
+        code   = ctx.code;
+    };
+    const float distances[] = {0.0f, 30000.0f};
+    bool ok = BatchValidator::validateGeoDistanceResults("TestBackend", distances, 2, sink);
+    EXPECT_FALSE(ok);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(code, AccelerationErrorCode::InputRangeViolation);
+}
+
 TEST(BatchValidatorRegression, ValidateGraphBFS_NullAdjacency_ReturnsFalse) {
     bool called = false;
     AccelerationErrorCode code = AccelerationErrorCode::Success;
@@ -601,6 +653,12 @@ TEST(BatchValidatorRegression, ValidateGraphBFS_NullAdjacency_ReturnsFalse) {
     EXPECT_FALSE(ok);
     EXPECT_TRUE(called);
     EXPECT_EQ(code, AccelerationErrorCode::InvalidInputShape);
+}
+
+TEST(BatchValidatorRegression, ShouldUseCpuFallbackForGraphBFS_ConstraintGuard) {
+    EXPECT_FALSE(BatchValidator::shouldUseCpuFallbackForGraphBFS(1'000, 3));
+    EXPECT_TRUE(BatchValidator::shouldUseCpuFallbackForGraphBFS(10'001, 3));
+    EXPECT_TRUE(BatchValidator::shouldUseCpuFallbackForGraphBFS(1'000, 4));
 }
 
 TEST(BatchValidatorRegression, ValidateShortestPath_NullWeights_ReturnsFalse) {
@@ -618,4 +676,16 @@ TEST(BatchValidatorRegression, ValidateShortestPath_NullWeights_ReturnsFalse) {
     EXPECT_FALSE(ok);
     EXPECT_TRUE(called);
     EXPECT_EQ(code, AccelerationErrorCode::InvalidInputShape);
+}
+
+TEST(BatchValidatorRegression, ShouldUseCpuFallbackForShortestPath_RejectsNegativeWeights) {
+    const uint32_t adjacency[] = {
+        0u, 1u,
+        0u, 0u
+    };
+    const float weights[] = {
+        0.0f, -1.0f,
+        0.0f, 0.0f
+    };
+    EXPECT_TRUE(BatchValidator::shouldUseCpuFallbackForShortestPath(adjacency, weights, 2));
 }
