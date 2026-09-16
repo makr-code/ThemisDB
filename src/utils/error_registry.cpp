@@ -29,7 +29,8 @@ json ErrorMetadata::toJSON() const {
         {"cause", cause},
         {"solution", solution},
         {"related_docs", related_docs},
-        {"keywords", keywords}
+        {"keywords", keywords},
+        {"operator_hint", operator_hint}
     };
 }
 

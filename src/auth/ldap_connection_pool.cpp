@@ -136,8 +136,10 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
     std::unique_lock<std::mutex> lock(mutex_);
 
     while (true) {
-        // Fail fast if the pool is shutting down.
+        // Fail fast if the pool is shutting down — return nullptr so callers
+        // treat this the same as the no-LDAP stub path (non-throwing contract).
         if (closing_) {
+            spdlog::warn("LDAPConnectionPool::checkout: pool is shutting down, returning nullptr");
             return nullptr;
         }
 
@@ -156,6 +158,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
                 // Pool shut down while we were health-checking; evict and bail.
                 destroyHandle(candidate);
                 --total_count_;
+                spdlog::warn("LDAPConnectionPool::checkout: pool entered closing state during health-check, returning nullptr");
                 return nullptr;
             }
 

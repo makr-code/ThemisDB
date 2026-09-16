@@ -26,6 +26,30 @@ void AuthAuditLogger::emit(utils::SecurityEventType type, const std::string &use
     }
 }
 
+void AuthAuditLogger::emitWithDecisionClass(utils::SecurityEventType type,
+                                             const std::string &user_id,
+                                             const std::string &resource,
+                                             DecisionClass dc,
+                                             const nlohmann::json &details) {
+    if (!logger_) {
+        return;
+    }
+    if (dc == DecisionClass::unspecified) {
+        logger_->logSecurityEvent(type, user_id, resource, details);
+        return;
+    }
+    // Inject decision_class into a copy of the detail block.
+    nlohmann::json tagged = details;
+    switch (dc) {
+        case DecisionClass::authentication: tagged["decision_class"] = "authentication"; break;
+        case DecisionClass::policy:         tagged["decision_class"] = "policy";         break;
+        case DecisionClass::revocation:     tagged["decision_class"] = "revocation";     break;
+        case DecisionClass::federation:     tagged["decision_class"] = "federation";     break;
+        default: break;
+    }
+    logger_->logSecurityEvent(type, user_id, resource, tagged);
+}
+
 // ---------------------------------------------------------------------------
 // JWT / Token events
 // ---------------------------------------------------------------------------
