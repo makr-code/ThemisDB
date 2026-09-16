@@ -21,7 +21,7 @@
  *                         the onnxruntime library (vcpkg: onnxruntime).
  *
  *   TFServingBackend    – Calls a TensorFlow Serving instance over its REST
- *                         API (POST `/v1/models/<name>:predict`).
+ *                         API (POST `/v1/models/\<name\>:predict`).
  *                         Requires compile-time flag THEMIS_HAS_TF_SERVING=1
  *                         and libcurl (THEMIS_HAS_CURL=1).
  *
@@ -183,7 +183,7 @@ struct ONNXBackendConfig {
  *
  * Models are loaded lazily on the first call to infer() with a new
  * model_name.  The model file is resolved as:
- *   `<model_directory>/<model_name>.onnx`
+ *   `\<model_directory\>/\<model_name\>.onnx`
  *
  * Thread-safety: multiple threads may call infer() concurrently.
  */
@@ -219,14 +219,14 @@ struct TFServingConfig {
 /**
  * TFServingBackend – calls a TensorFlow Serving instance over its REST API.
  *
- * Endpoint: POST `<base_url>/v1/models/<model_name>[:predict]`
- *   (optionally `/versions/<version>` when model_version is set)
+ * Endpoint: POST `\<base_url\>/v1/models/\<model_name\>[:predict]`
+ *   (optionally `/versions/\<version\>` when model_version is set)
  *
  * Requires THEMIS_HAS_TF_SERVING=1 (and THEMIS_HAS_CURL=1 transitively).
  * When either flag is absent the backend reports isAvailable() == false.
  *
  * The REST payload follows the TF Serving JSON API:
- *   @code { "inputs": { "<name>": [[...]] } } @endcode
+ *   @code { "inputs": { "\<name\>": [[...]] } } @endcode
  *
  * Thread-safety: each infer() creates an independent libcurl easy handle so
  * concurrent calls are safe.
