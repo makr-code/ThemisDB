@@ -718,6 +718,9 @@ foreach(_soak_test IN ITEMS
     test_vector_search_soak
     test_execution_engine_soak
     test_process_manager_soak
+    test_retrieval_engine_soak
+    test_updates_engine_soak
+    test_metadata_store_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -792,6 +795,21 @@ foreach(_soak_test IN ITEMS
         # Wave D: process manager soak uses in-process stubs and completes in
         # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
         if(_soak_test STREQUAL "test_process_manager_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: retrieval engine soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_retrieval_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: updates engine soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_updates_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: metadata store soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_metadata_store_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
