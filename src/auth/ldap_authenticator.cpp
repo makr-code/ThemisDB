@@ -406,14 +406,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     bool  owns_connection = false;
 
     if (pool_) {
-        try {
-            pooled_conn = pool_->checkout();
-        } catch (const AuthException& ex) {
-            spdlog::warn("LDAPAuthenticator: pool checkout failed ({}), aborting bind",
-                         ex.error().message());
-            return LDAPAuthResult::Failed("LDAP connection pool unavailable: " +
-                                          ex.error().message());
-        }
+        pooled_conn = pool_->checkout();
         if (pooled_conn) {
             ld = pooled_conn->rawHandle();
         }
@@ -585,14 +578,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     bool  owns_connection = false;  // true when we must unbind on exit
 
     if (pool_) {
-        try {
-            pooled_conn = pool_->checkout();
-        } catch (const AuthException& ex) {
-            spdlog::warn("LDAPAuthenticator: pool checkout failed ({}), aborting bind",
-                         ex.error().message());
-            return LDAPAuthResult::Failed("LDAP connection pool unavailable: " +
-                                          ex.error().message());
-        }
+        pooled_conn = pool_->checkout();
         if (pooled_conn) {
             ld = pooled_conn->rawHandle();
         }

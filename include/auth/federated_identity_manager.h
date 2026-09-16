@@ -361,9 +361,9 @@ public:
     // Wire format:
     //   {"op":"sync_trust","entries":[{"subject":"<issuer>","trusting":"<issuer>"},…]}
     //
-    // Failures during connect or send are retried up to the configured budget;
-    // any failure that exhausts the retry budget causes an AuthException to be
-    // thrown (AUTH_INTERNAL_ERROR).
+    // This push throws AuthException(AUTH_INTERNAL_ERROR) if the connect or
+    // send fails after all retry attempts; individual attempt failures within
+    // the retry budget are logged but swallowed.
     // -----------------------------------------------------------------------
 
     /**
