@@ -43,6 +43,8 @@ bool hasHintContaining(const std::vector<std::string>& hints, const std::string&
 
 class SlowExporter final : public IAnalyticsExporter {
 public:
+    using IAnalyticsExporter::exportToFile;
+
     explicit SlowExporter(std::chrono::milliseconds delay) : delay_(delay) {}
 
     ExportResult exportToFile(const ArrowRecordBatch& batch,
@@ -110,8 +112,9 @@ StreamRecord makeHighCardinalityRecord(std::size_t index) {
     StreamRecord record;
     record.record_id = "record_" + std::to_string(index);
     record.event_time = std::chrono::system_clock::time_point{} + std::chrono::milliseconds(1);
+    record.ingest_time = record.event_time;
     record.partition_key = "tenant_" + std::to_string(index);
-    record.value = static_cast<double>(index % 128);
+    record.set("value", static_cast<double>(index % 128));
     return record;
 }
 
