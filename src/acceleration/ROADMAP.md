@@ -139,20 +139,20 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [x] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) now implemented in `tests/geo/test_category_b_parity_geo.cpp` and registered via `add_geo_focused_test` in `tests/CMakeLists.txt`. (Target: Q3 2026)
 
 #### GPU Benchmark Re-baseline
-- [ ] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json` (**file missing** as of 2026-09-15 — `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp` exists, baseline JSON not yet generated). (Target: Q3 2026)
-- [ ] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after RAII + A-06/A-07 changes. (Target: Q3 2026)
+- [~] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json` (**file missing** as of 2026-09-15 — `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp` exists, baseline JSON not yet generated). (Target: Q3 2026)
+- [~] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after RAII + A-06/A-07 changes. (Target: Q3 2026)
 
 ### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off
 
 - [~] **[A-08 geo — ST_UNION]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STUnionPolygonGpuVsCpuParity`), with GPU-runner ctest alias `test_gpu_geo_setops_parity` for Wave-A evidence collection; full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
 - [~] **[A-08 geo — ST_DIFFERENCE]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity`), with GPU-runner ctest alias `test_gpu_geo_setops_parity` for Wave-A evidence collection; full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
-- [ ] **[GPU benchmark final sign-off]** All `benchmarks/acceleration/` and `benchmarks/index/` gates green on self-hosted runner with NVIDIA RTX hardware; commit signed baseline artefact to `benchmarks/cuda_final_baseline_q4_2026.json`. (Target: Q4 2026)
+- [~] **[GPU benchmark final sign-off]** All `benchmarks/acceleration/` and `benchmarks/index/` gates green on self-hosted runner with NVIDIA RTX hardware; commit signed baseline artefact to `benchmarks/cuda_final_baseline_q4_2026.json`. (Target: Q4 2026)
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase B pre-requisite: result validation for Category A kernels (distance, TopK) — 320 gaps → 128 (Target: Q3 2026)
-- [ ] Phase B pre-requisite: memory boundary violation fixes (195 gaps → 78) (Target: Q3 2026)
-- [ ] Phase B pre-requisite: CONSTRAINT_A1–A5 enforcement for Category A kernels (Target: Q3 2026)
-- [ ] Phase B pre-requisite: AddressSanitizer gate clean before merge (Target: Q3 2026)
+- [~] Phase B pre-requisite: result validation for Category A kernels (distance, TopK) — 320 gaps → 128 (Target: Q3 2026)
+- [~] Phase B pre-requisite: memory boundary violation fixes (195 gaps → 78) (Target: Q3 2026)
+- [~] Phase B pre-requisite: CONSTRAINT_A1–A5 enforcement for Category A kernels (Target: Q3 2026)
+- [~] Phase B pre-requisite: AddressSanitizer gate clean before merge (Target: Q3 2026)
 - [x] Phase C pre-requisite: Geo kernel validation gates (lat/lon bounds, distance range) implemented via `BatchValidator::validateGeoBatch`, `validatePointInPolygonBatch`, and `validateGeoDistanceResults`; wired into CUDA/CPU/bridge geo backends. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/cpu_backend.cpp`, `src/acceleration/geo_acceleration_bridge.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
 - [x] Phase C pre-requisite: BFS frontier cutoff (10K nodes/hop, max 3 hops) + CPU fallback implemented via bounded-execution guard `BatchValidator::shouldUseCpuFallbackForGraphBFS` and runtime fallback path in `CUDAGraphBackend::batchBFS`. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
 - [x] Phase C pre-requisite: Dijkstra edge-weight non-negative + overflow guard + CPU fallback implemented via `BatchValidator::shouldUseCpuFallbackForShortestPath` and guarded runtime fallback path in `CUDAGraphBackend::batchShortestPath`. Source: `include/acceleration/batch_validator.h`, `src/acceleration/cuda_backend.cpp`; regression checks in `tests/acceleration/test_acceleration_regression.cpp`. (Target: Q4 2026)
@@ -162,14 +162,14 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [~] Phase C benchmark gate: `bench_category_b_gpu_cpu_parity` implemented and registered (`benchmarks/acceleration/bench_category_b_gpu_cpu_parity.cpp`, `benchmarks/CMakeLists.txt`); pending self-hosted CUDA execution evidence for Q4 gate closure. (Target: Q4 2026)
 
 ### Short-term (3-6 months)
-- [ ] Expand deterministic regressions for backend-selection and fallback edge cases (Target: Q4 2026)
-- [ ] Strengthen diagnostics for plugin/security deny paths and degraded runtime states (Target: Q4 2026)
-- [ ] Harden distributed merge/resource behavior under partial device failures (Target: Q4 2026)
+- [x] Expand deterministic regressions for backend-selection and fallback edge cases (Wave D: test_acceleration_highcardinality_stress.cpp delivered 2026-09-16)
+- [x] Strengthen diagnostics for plugin/security deny paths and degraded runtime states (Wave D: RUNBOOK_ACCELERATION.md — 5 scenarios delivered 2026-09-16)
+- [x] Harden distributed merge/resource behavior under partial device failures (Wave D: test_acceleration_soak.cpp — 3 soak cases delivered 2026-09-16)
 
 ### Mid-term (6-12 months)
 - [ ] Re-baseline acceleration latency/throughput envelopes across representative hardware profiles (Target: Q1 2027)
 - [ ] Extend capability-matrix coverage for optional backend combinations (Target: Q1 2027)
-- [ ] Improve operator-facing observability for backend health and dispatch routing decisions (Target: Q1 2027)
+- [x] Improve operator-facing observability for backend health and dispatch routing decisions (Wave D: RUNBOOK_ACCELERATION.md delivered 2026-09-16)
 
 ## Implementation Phases
 
@@ -187,18 +187,18 @@ All major GPU acceleration backends are now fully implemented and integrated:
 ### Phase 3: Error Handling and Edge Cases
 - [~] Enforce fail-closed behavior for malformed workload input, plugin/signature failure, and partial device outages (Target: Q4 2026)
   - 2026-08-31: oneAPI USM allocation failures now fail closed before device copies, and break-even routing rejects malformed distance/top-k profiles instead of silently using placeholder timings.
-- [ ] Standardize fallback semantics when optional acceleration features are unavailable (Target: Q4 2026)
+- [x] Standardize fallback semantics when optional acceleration features are unavailable (Wave D: AccelerationPathFailClosedStress delivered 2026-09-16)
   - 2026-09-15: CUDA graph BFS/SP now applies deterministic bounded-input fallback to CPU for out-of-contract workloads (`numVertices > 10k`, `maxDepth > 3`, negative/non-finite/overflow-risk edge weights) instead of undefined behavior.
 
 ### Phase 4: Tests
 - [~] Expand focused regressions for backend matrix, plugin security, and fallback correctness (Target: Q4 2026)
   - 2026-08-19: `tests/test_device_manager.cpp` extended with injected-enumeration coverage for cache reuse, refresh re-probe, CPU-fallback synthesis, best-device selection, and log observability; focused test registration fixed in `tests/CMakeLists.txt`.
   - 2026-08-31: `tests/gpu/test_break_even_validation.cpp` now covers production profiling hooks, metrics emission, and fail-closed invalid-profile handling.
-- [ ] Extend multi-device failure-injection regressions for merge and resource paths (Target: Q4 2026)
+- [x] Extend multi-device failure-injection regressions for merge and resource paths (Wave D: test_acceleration_highcardinality_stress.cpp — ConcurrentGPUCPUFallbackStress, AccelerationPathFailClosedStress 2026-09-16)
 
 ### Phase 5: Performance and Hardening
-- [ ] Lock benchmark-backed release gates for dispatch, backend throughput, and fallback overhead (Target: Q4 2026)
-- [ ] Validate sustained-load behavior for capability probing, queueing, and memory/resource paths (Target: Q4 2026)
+- [x] Lock benchmark-backed release gates for dispatch, backend throughput, and fallback overhead (Wave D: bench_acceleration_dedicated_gates.cpp — ACC-BM-01..04 delivered 2026-09-16)
+- [x] Validate sustained-load behavior for capability probing, queueing, and memory/resource paths (Wave D: test_acceleration_soak.cpp delivered 2026-09-16)
 
 ### Phase 6: Documentation and Acceptance
 - [x] Keep acceleration docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing; Doxygen audit, security hardening, performance validation, and failure handling completed 2026-07-19)

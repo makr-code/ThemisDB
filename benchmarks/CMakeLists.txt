@@ -327,6 +327,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/CMakeLists.txt")
     add_subdirectory(tensor)
 endif()
 
+# Wave D dedicated benchmark gates
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/CMakeLists.txt")
+    add_subdirectory(training)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/CMakeLists.txt")
+    add_subdirectory(acceleration)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/CMakeLists.txt")
+    add_subdirectory(gpu)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed_tensor/CMakeLists.txt")
+    add_subdirectory(distributed_tensor)
+endif()
+
 themis_add_standard_benchmark(bench_ycsb ycsb/bench_ycsb.cpp)
 
 # ============================================================================
@@ -5411,4 +5428,13 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt")
     add_subdirectory(user_storage_encrypted)
+endif()
+
+# Wave D: voice and llm_streaming dedicated benchmark gates
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/CMakeLists.txt")
+    add_subdirectory(voice)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_streaming/CMakeLists.txt")
+    add_subdirectory(llm_streaming)
 endif()
