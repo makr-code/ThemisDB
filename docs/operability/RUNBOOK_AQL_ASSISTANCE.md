@@ -22,7 +22,7 @@ This runbook guides operators through diagnosing and recovering from failures in
 
 **Key Principles:**
 - AQL assistance is an additive capability; its failure must not block direct AQL submission
-- All pipelines are fail-closed; malformed/unvalidated queries are rejected, never executed
+- Validation mode is configurable: `FAIL_CLOSED` rejects malformed queries; `WARN_ONLY` (default) logs issues but passes the query for backward compatibility. Operators should set `FAIL_CLOSED` in production.
 - Circuit breakers protect the translation path from runaway LLM provider calls
 - Conversation context is bounded by token budget; eviction is expected, not an error
 
@@ -83,13 +83,13 @@ Expected output when open:
 #### Step 3: Reset Circuit Breaker (Manual)
 
 ```bash
-# Option A: Restart the AQL assistance service component (soft reset)
-themisdb-admin aql-assistance reset-circuit-breakers --provider translate
+# Option A: Restart the ThemisDB server process to reset all in-process circuit breakers
+# (no dedicated aql-assistance CLI subcommand exists; use server restart or config reload)
+systemctl restart themisdb  # or equivalent for your deployment
 
-# Option B: If provider is healthy, send a probe request to force half-open
-themisdb-admin aql-assistance probe-translation \
-  --query "FOR doc IN test RETURN doc" \
-  --timeout 5s
+# Option B: If provider is healthy, watch for the breaker to self-transition to half-open
+# after the configured cool-down interval, then confirm via log:
+grep 'circuit_breaker.*HALF_OPEN\|breaker.*half.open' /var/log/themisdb/themisdb.log | tail -5
 
 # Verify breaker transitions to CLOSED
 grep 'circuit_breaker.*CLOSED\|breaker.*success' /var/log/themisdb/themisdb.log | tail -5
@@ -98,10 +98,8 @@ grep 'circuit_breaker.*CLOSED\|breaker.*success' /var/log/themisdb/themisdb.log 
 #### Step 4: Validate Recovery
 
 ```bash
-# Confirm translations succeed again
-themisdb-admin aql-assistance test-translation \
-  --nl "find all users with age > 18" \
-  --expect-aql-contains "FOR"
+# Confirm translations are succeeding again (check for absence of ProviderUnavailable tags)
+grep '\[TRANSLATION:Confidence\]' /var/log/themisdb/themisdb.log | tail -10
 
 # Confirm [TRANSLATION:ProviderUnavailable] messages stop appearing
 grep '\[TRANSLATION:ProviderUnavailable\]' /var/log/themisdb/themisdb.log | \
@@ -269,9 +267,9 @@ done
 #### Forcing Half-Open (Probe)
 
 ```bash
-# Wait for automatic half-open transition (default: 30 s after last failure)
-# OR manually reset to trigger probe:
-themisdb-admin aql-assistance reset-circuit-breakers --all --force-half-open
+# Wait for automatic half-open transition (default: 30 s after last failure).
+# No dedicated CLI exists to force this; monitor log for HALF_OPEN transition:
+grep 'circuit_breaker.*HALF_OPEN\|breaker.*half.open' /var/log/themisdb/themisdb.log | tail -5
 ```
 
 #### Resetting to CLOSED (Manual)
@@ -282,8 +280,9 @@ Only reset when provider health is confirmed:
 # Confirm provider is healthy first
 themisdb-admin llm-provider health-check --provider-id <configured-provider>
 
-# Then reset the breaker
-themisdb-admin aql-assistance reset-circuit-breakers --all
+# Then restart ThemisDB to reset all in-process circuit breakers
+# (no dedicated aql-assistance reset-circuit-breakers CLI subcommand exists)
+systemctl restart themisdb  # or equivalent for your deployment
 ```
 
 ---
@@ -458,7 +457,7 @@ grep '\[VALIDATION:' /var/log/themisdb/themisdb.log | tail -30
 grep '\[BRIDGE:' /var/log/themisdb/themisdb.log | tail -20
 
 # ── Combined AQL assistance health check ────────────────────────────────────
-themisdb-admin aql-assistance health-check --verbose
+# (no dedicated aql-assistance health-check CLI subcommand exists; use log scan above)
 
 # ── Live metric snapshot ────────────────────────────────────────────────────
 query-metrics \

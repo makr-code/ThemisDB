@@ -1857,12 +1857,18 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
                 } catch (...) {
                     // Confidence scoring is best-effort; do not fail translation if it throws.
                 }
-                const std::string provider_id =
-                    (impl_->llm_client_ ? impl_->llm_client_->getProviderName() : "unknown");
+                std::string provider_id = "unknown";
+                try {
+                    if (impl_->llm_client_) {
+                        provider_id = impl_->llm_client_->getProviderName();
+                    }
+                } catch (...) {
+                    // getProviderName() is best-effort; fall back to "unknown"
+                }
                 spdlog::info("[TRANSLATION:Confidence] provider={} confidence_score={:.3f} retries_used={}",
                              provider_id,
                              confidence_score,
-                             attempt);
+                             attempt + 1);
             }
 
             return aql_query;

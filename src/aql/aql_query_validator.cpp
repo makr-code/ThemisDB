@@ -246,7 +246,8 @@ void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result
     int max_depth = 0;
     int depth     = 0;
     std::string upper = query;
-    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     // Stack entry: true if the corresponding '(' opened a subquery.
     std::vector<bool> paren_is_subquery;
     paren_is_subquery.reserve(32);
@@ -286,11 +287,14 @@ void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result
 // Oversized names are a signal of LLM hallucination or injection attempts.
 void checkCollectionNameLength(const std::string &query, ValidationResult &result) {
     constexpr std::size_t kMaxCollectionNameLength = 128;
-    // Match collection names in FOR x IN <name> and INSERT/UPDATE/REMOVE INTO/IN <name>
-    static const std::regex coll_re(
-        R"(\bIN\s+([A-Za-z_][A-Za-z0-9_]*))",
-        std::regex::icase);
+    // Match collection names only in FOR/INSERT/UPDATE/REMOVE/UPSERT/REPLACE
+    // contexts to avoid false positives on FILTER x IN <array-expression>.
+    // Patterns: "FOR <var> IN <coll>", "<DML> [INTO|IN] <coll>"
     try {
+        static const std::regex coll_re(
+            R"(\b(?:FOR\s+[A-Za-z_][A-Za-z0-9_]*\s+IN|(?:INSERT|UPDATE|REMOVE|UPSERT|REPLACE)\b.*?\b(?:IN(?:TO)?)))"
+            R"(\s+([A-Za-z_][A-Za-z0-9_]*))",
+            std::regex::icase);
         std::sregex_iterator it(query.begin(), query.end(), coll_re);
         std::sregex_iterator end = {};
         for (; it != end; ++it) {
@@ -309,7 +313,7 @@ void checkCollectionNameLength(const std::string &query, ValidationResult &resul
             }
         }
     } catch (...) {
-        spdlog::debug("[VALIDATION:CollectionNameTooLong] regex compile for collection name check failed; skipping");
+        spdlog::debug("[VALIDATION:CollectionNameTooLong] regex execute for collection name check failed; skipping");
     }
 }
 

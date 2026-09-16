@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <cctype>
 #include <chrono>
 #include <cstdint>
 #include <functional>
@@ -61,7 +62,8 @@ static bool stubValidateAQL(const std::string& query) {
     if (query.empty()) return false;
     // Case-insensitive starts-with check for read queries and DML
     auto upper = query.substr(0, 7);
-    std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
     return upper.rfind("FOR", 0) == 0
         || upper.rfind("INSERT", 0) == 0
         || upper.rfind("REMOVE", 0) == 0

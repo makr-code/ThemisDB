@@ -722,11 +722,6 @@ foreach(_soak_test IN ITEMS
             LABELS "${_soak_labels}"
             TIMEOUT 7200
         )
-        # AQL assistance soak uses in-process stubs and completes in < 2 min
-        # even with the full 60s default duration; reduce its CI timeout.
-        if(_soak_test STREQUAL "test_aql_assistance_soak")
-            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
-        endif()
         # Network protocol soak uses in-process stubs; CI runs at default 60s.
         if(_soak_test STREQUAL "test_network_protocol_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
