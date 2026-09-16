@@ -4,12 +4,12 @@
 **Created:** 2026-09-16
 **Last Updated:** 2026-09-16
 **Status:** active
-**Status Meaning:** document lifecycle metadata
 
 **Document Type:** Wave D Exit Gate Checklist  
 **Target Completion:** Q1 2027 (v2.4.x / v2.5.0-rc1)  
 **Execution Status:** 🟡 Phase 1 In Progress (updated 2026-08-24)
-**Execution Status Meaning:** implementation progress
+
+`Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
 
 ---
 

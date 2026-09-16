@@ -454,8 +454,8 @@ force-session-cleanup --session-id <session-id> --wait-timeout 30s
 ## Wave D — D1 Distributed Trace Span Cross-Links
 
 > **Wave D Phase 3 placeholder:** The trace span annotations below reference the `DistributedTraceSpan`
-> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2D (Voice module hints Phase 3 placeholder).
-> Until Phase 2A implementation completes (Target: Q1 2027), the listed span names are reference
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2D (Voice module hints).
+> Until Phase 3 implementation completes (Target: Q1 2027), the listed span names are reference
 > identifiers for future instrumentation.
 
 ### Voice D1 Trace Spans
