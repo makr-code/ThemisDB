@@ -252,6 +252,88 @@ __global__ void pointInPolygonKernel(
 }
 
 // =============================================================================
+// Point set-operation kernels (single-pair operations)
+// =============================================================================
+
+/**
+ * Compute ST_UNION for two points.
+ *
+ * Input layout:
+ *   points_xy = [x1, y1, x2, y2]
+ *
+ * Output layout:
+ *   out_count = 1 when points are equal, 2 otherwise
+ *   out_points_xy = [x1, y1, x2, y2] (second point ignored when out_count=1)
+ */
+__global__ void pointUnionKernel(
+    const double* points_xy,
+    double*       out_points_xy,
+    int*          out_count
+) {
+    if (blockIdx.x != 0 || threadIdx.x != 0) {
+        return;
+    }
+
+    constexpr double kPointEqEpsilon = 1e-12;
+    const double x1 = points_xy[0];
+    const double y1 = points_xy[1];
+    const double x2 = points_xy[2];
+    const double y2 = points_xy[3];
+
+    out_points_xy[0] = x1;
+    out_points_xy[1] = y1;
+
+    if (fabs(x1 - x2) <= kPointEqEpsilon && fabs(y1 - y2) <= kPointEqEpsilon) {
+        *out_count = 1;
+        out_points_xy[2] = x1;
+        out_points_xy[3] = y1;
+        return;
+    }
+
+    *out_count = 2;
+    out_points_xy[2] = x2;
+    out_points_xy[3] = y2;
+}
+
+/**
+ * Compute ST_DIFFERENCE for two points (geom1 \ geom2).
+ *
+ * Input layout:
+ *   points_xy = [x1, y1, x2, y2]
+ *
+ * Output layout:
+ *   out_count = 0 when points are equal, 1 otherwise
+ *   out_points_xy = [x1, y1, _, _]
+ */
+__global__ void pointDifferenceKernel(
+    const double* points_xy,
+    double*       out_points_xy,
+    int*          out_count
+) {
+    if (blockIdx.x != 0 || threadIdx.x != 0) {
+        return;
+    }
+
+    constexpr double kPointEqEpsilon = 1e-12;
+    const double x1 = points_xy[0];
+    const double y1 = points_xy[1];
+    const double x2 = points_xy[2];
+    const double y2 = points_xy[3];
+
+    out_points_xy[0] = x1;
+    out_points_xy[1] = y1;
+    out_points_xy[2] = x1;
+    out_points_xy[3] = y1;
+
+    if (fabs(x1 - x2) <= kPointEqEpsilon && fabs(y1 - y2) <= kPointEqEpsilon) {
+        *out_count = 0;
+        return;
+    }
+
+    *out_count = 1;
+}
+
+// =============================================================================
 // Kernel launchers — conform to GeoDistanceFn / GeoContainmentFn typedefs
 // =============================================================================
 
@@ -334,6 +416,48 @@ int launchGeoContainmentKernel(
         d_polygon_coords, numPolygonVertices,
         d_results);
 
+    const cudaError_t err = cudaGetLastError();
+    return static_cast<int>(err);
+}
+
+/**
+ * Launch the ST_UNION kernel for a single point pair.
+ *
+ * @param d_points_xy      Device buffer [4]: [x1,y1,x2,y2]
+ * @param d_out_points_xy  Device buffer [4]
+ * @param d_out_count      Device scalar output count
+ * @param opaque_stream    Optional cudaStream_t cast to void*
+ * @return 0 on success, non-zero CUDA error code on failure.
+ */
+int launchGeoPointUnionKernel(
+    const double* d_points_xy,
+    double*       d_out_points_xy,
+    int*          d_out_count,
+    void*         opaque_stream
+) {
+    const cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);
+    pointUnionKernel<<<1, 1, 0, stream>>>(d_points_xy, d_out_points_xy, d_out_count);
+    const cudaError_t err = cudaGetLastError();
+    return static_cast<int>(err);
+}
+
+/**
+ * Launch the ST_DIFFERENCE kernel for a single point pair.
+ *
+ * @param d_points_xy      Device buffer [4]: [x1,y1,x2,y2]
+ * @param d_out_points_xy  Device buffer [4]
+ * @param d_out_count      Device scalar output count
+ * @param opaque_stream    Optional cudaStream_t cast to void*
+ * @return 0 on success, non-zero CUDA error code on failure.
+ */
+int launchGeoPointDifferenceKernel(
+    const double* d_points_xy,
+    double*       d_out_points_xy,
+    int*          d_out_count,
+    void*         opaque_stream
+) {
+    const cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);
+    pointDifferenceKernel<<<1, 1, 0, stream>>>(d_points_xy, d_out_points_xy, d_out_count);
     const cudaError_t err = cudaGetLastError();
     return static_cast<int>(err);
 }

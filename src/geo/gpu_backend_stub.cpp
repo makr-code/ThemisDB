@@ -29,6 +29,7 @@
 
 #ifdef THEMIS_GEO_CUDA
 #include <cstdint>
+#include <cuda_runtime.h>
 extern "C" {
 int launchGeoDistanceKernel(const double *d_lats1, const double *d_lons1, const double *d_lats2, const double *d_lons2,
                             float *d_distances, int count, themis::acceleration::GeoDistanceFormula formula,
@@ -36,6 +37,9 @@ int launchGeoDistanceKernel(const double *d_lats1, const double *d_lons1, const 
 int launchGeoContainmentKernel(const double *d_point_lats, const double *d_point_lons, int numPoints,
                                const double *d_polygon_coords, int numPolygonVertices, uint8_t *d_results,
                                void *stream);
+int launchGeoPointUnionKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count, void *stream);
+int launchGeoPointDifferenceKernel(const double *d_points_xy, double *d_out_points_xy, int *d_out_count,
+                                   void *stream);
 } // extern "C"
 #endif // THEMIS_GEO_CUDA
 
@@ -52,6 +56,7 @@ int hip_launchGeoContainmentKernel(const double *d_point_lats, const double *d_p
 #endif // THEMIS_GEO_HIP
 
 #include <algorithm>
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <cmath>
@@ -150,6 +155,107 @@ static const std::vector<Coordinate> &outerRing(const GeometryInfo &g) {
     return g.rings.empty() ? g.coords : g.rings[0];
 }
 
+#ifdef THEMIS_GEO_CUDA
+struct PointKernelResult {
+    bool dispatched = false;
+    int error_code = 0;
+    int point_count = 0;
+    std::array<double, 4> coords{};
+};
+
+using PointKernelLaunchFn = int (*)(const double *, double *, int *, void *);
+
+static PointKernelResult launchPointSetOpKernel(PointKernelLaunchFn launch_fn, const Coordinate &p1, const Coordinate &p2) {
+    PointKernelResult result;
+    if (!launch_fn) {
+        return result;
+    }
+
+    const std::array<double, 4> host_points = {p1.x, p1.y, p2.x, p2.y};
+    std::array<double, 4> host_out{};
+    int host_count = 0;
+
+    double *d_points = nullptr;
+    double *d_out = nullptr;
+    int *d_count = nullptr;
+
+    cudaError_t e = cudaSuccess;
+    if ((e = cudaMalloc(&d_points, sizeof(host_points))) != cudaSuccess
+        || (e = cudaMalloc(&d_out, sizeof(host_out))) != cudaSuccess
+        || (e = cudaMalloc(&d_count, sizeof(int))) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_points);
+        cudaFree(d_out);
+        cudaFree(d_count);
+        return result;
+    }
+
+    if ((e = cudaMemcpy(d_points, host_points.data(), sizeof(host_points), cudaMemcpyHostToDevice)) != cudaSuccess
+        || (e = cudaMemset(d_out, 0, sizeof(host_out))) != cudaSuccess
+        || (e = cudaMemset(d_count, 0, sizeof(int))) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_points);
+        cudaFree(d_out);
+        cudaFree(d_count);
+        return result;
+    }
+
+    const int rc = launch_fn(d_points, d_out, d_count, nullptr);
+    if (rc != 0) {
+        result.error_code = rc;
+        cudaFree(d_points);
+        cudaFree(d_out);
+        cudaFree(d_count);
+        return result;
+    }
+
+    e = cudaDeviceSynchronize();
+    if (e != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_points);
+        cudaFree(d_out);
+        cudaFree(d_count);
+        return result;
+    }
+
+    if ((e = cudaMemcpy(host_out.data(), d_out, sizeof(host_out), cudaMemcpyDeviceToHost)) != cudaSuccess
+        || (e = cudaMemcpy(&host_count, d_count, sizeof(int), cudaMemcpyDeviceToHost)) != cudaSuccess) {
+        result.error_code = static_cast<int>(e);
+        cudaFree(d_points);
+        cudaFree(d_out);
+        cudaFree(d_count);
+        return result;
+    }
+
+    cudaFree(d_points);
+    cudaFree(d_out);
+    cudaFree(d_count);
+
+    result.dispatched = true;
+    result.point_count = host_count;
+    result.coords = host_out;
+    return result;
+}
+
+static GeometryInfo buildGeometryFromPointKernelResult(const PointKernelResult &res) {
+    if (res.point_count <= 0) {
+        return GeometryInfo{};
+    }
+    if (res.point_count == 1) {
+        GeometryInfo point(GeometryType::Point);
+        point.coords.emplace_back(res.coords[0], res.coords[1]);
+        return point;
+    }
+    GeometryInfo collection(GeometryType::GeometryCollection);
+    GeometryInfo p1(GeometryType::Point);
+    p1.coords.emplace_back(res.coords[0], res.coords[1]);
+    GeometryInfo p2(GeometryType::Point);
+    p2.coords.emplace_back(res.coords[2], res.coords[3]);
+    collection.geometries.push_back(std::move(p1));
+    collection.geometries.push_back(std::move(p2));
+    return collection;
+}
+#endif
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -517,18 +623,52 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // ------------------------------------------------------------------
     // stUnion / stDifference
     //
-    // CUDA kernel dispatch for set-operations is deferred to a future
-    // release.  Both operations fall back to the CPU exact backend.
+    // For Point×Point inputs on CUDA builds, dispatches to dedicated
+    // point set-operation kernels. Other type combinations fall back
+    // to the CPU exact backend.
     // ------------------------------------------------------------------
     GeometryInfo stUnion(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
-        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
+        if (geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()
+            && gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU()) {
+#ifdef THEMIS_GEO_CUDA
+            const auto gpu_result = launchPointSetOpKernel(launchGeoPointUnionKernel, geom1.coords[0], geom2.coords[0]);
+            if (gpu_result.dispatched) {
+                safe_fail_.recordSuccess();
+                return buildGeometryFromPointKernelResult(gpu_result);
+            }
+            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                     "stUnion point kernel error: " + std::to_string(gpu_result.error_code));
+            audit_log_.recordFallbackToCPU("stUnion: GPU point kernel error; falling back to CPU",
+                                           "error_code=" + std::to_string(gpu_result.error_code));
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_gpu_kernel_error");
+#endif
+        } else {
+            audit_log_.recordFallbackToCPU("stUnion: unsupported GPU shape; cpu exact fallback", "");
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
+        }
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
     GeometryInfo stDifference(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
-        themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
+        if (geom1.isPoint() && geom2.isPoint() && !geom1.coords.empty() && !geom2.coords.empty()
+            && gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU()) {
+#ifdef THEMIS_GEO_CUDA
+            const auto gpu_result =
+                launchPointSetOpKernel(launchGeoPointDifferenceKernel, geom1.coords[0], geom2.coords[0]);
+            if (gpu_result.dispatched) {
+                safe_fail_.recordSuccess();
+                return buildGeometryFromPointKernelResult(gpu_result);
+            }
+            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                     "stDifference point kernel error: " + std::to_string(gpu_result.error_code));
+            audit_log_.recordFallbackToCPU("stDifference: GPU point kernel error; falling back to CPU",
+                                           "error_code=" + std::to_string(gpu_result.error_code));
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_gpu_kernel_error");
+#endif
+        } else {
+            audit_log_.recordFallbackToCPU("stDifference: unsupported GPU shape; cpu exact fallback", "");
+            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
+        }
         return getCpuExactBackend()->stDifference(geom1, geom2);
     }
 
