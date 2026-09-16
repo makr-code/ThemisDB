@@ -1,5 +1,10 @@
 # RUNBOOK: AI Generation — Incident Response & Operator Guide
 
+**Author:** ThemisDB Platform Team  
+**Created:** 2026-08-24  
+**Last Updated:** 2026-09-16  
+**Status:** active  
+
 **Audience:** Database Operators, SREs, AI/LLM Integration Team  
 **Purpose:** Diagnose and recover from AI plugin generation failures, endpoint issues,
 retry storms, CAI safety gate latency spikes, and federated aggregation failures  

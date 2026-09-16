@@ -1,6 +1,9 @@
 # Wave D Operability Hardening — Sign-Off Document
 
-**Status:** PENDING HUMAN SIGN-OFF
+**Author:** ThemisDB Platform Team  
+**Created:** 2026-08-24  
+**Last Updated:** 2026-09-16  
+**Status:** review  
 **Target:** Q1 2027
 **Prerequisite:** Wave C Security Production Validation complete (Vault/HSM/PKI, audit hardening, CI policy gates)
 
