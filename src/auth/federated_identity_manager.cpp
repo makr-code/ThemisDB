@@ -951,22 +951,30 @@ void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
             }();
             (void)wsa_init;
 
-            SOCKET sock = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-            if (sock == INVALID_SOCKET) {
-                throw std::runtime_error("socket() failed");
-            }
-            struct sockaddr_in addr{};
-            addr.sin_family = AF_INET;
-            addr.sin_port   = htons(static_cast<uint16_t>(port));
-            struct hostent *he = ::gethostbyname(host.c_str());
-            if (!he) {
-                ::closesocket(sock);
-                throw std::runtime_error("gethostbyname failed for: " + host);
-            }
-            std::memcpy(&addr.sin_addr, he->h_addr_list[0], static_cast<std::size_t>(he->h_length));
-            if (::connect(sock, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)) != 0) {
-                ::closesocket(sock);
-                throw std::runtime_error("connect() failed to " + peer_rpc_endpoint);
+            SOCKET sock = INVALID_SOCKET;
+            {
+                struct addrinfoW hints{};
+                hints.ai_family   = AF_UNSPEC;
+                hints.ai_socktype = SOCK_STREAM;
+                PADDRINFOW res = nullptr;
+                const std::wstring whost(host.begin(), host.end());
+                const std::wstring wport = std::to_wstring(port);
+                const int gai_ret = ::GetAddrInfoW(whost.c_str(), wport.c_str(), &hints, &res);
+                if (gai_ret != 0) {
+                    throw std::runtime_error("GetAddrInfoW failed for: " + host);
+                }
+                sock = ::socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+                if (sock == INVALID_SOCKET) {
+                    ::FreeAddrInfoW(res);
+                    throw std::runtime_error("socket() failed");
+                }
+                if (::connect(sock, res->ai_addr,
+                               static_cast<int>(res->ai_addrlen)) != 0) {
+                    ::closesocket(sock);
+                    ::FreeAddrInfoW(res);
+                    throw std::runtime_error("connect() failed to " + peer_rpc_endpoint);
+                }
+                ::FreeAddrInfoW(res);
             }
             const int sent = ::send(sock, payload_str.c_str(),
                                     static_cast<int>(payload_str.size()), 0);
