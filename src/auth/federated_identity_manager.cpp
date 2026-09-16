@@ -13,6 +13,7 @@
 #include "auth/federated_identity_manager.h"
 
 #include <chrono>
+#include <cstring>
 #include <curl/curl.h>
 #include <iomanip>
 #include <list>
@@ -922,7 +923,33 @@ void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
                                       "Expected 'host:port', got: " + peer_rpc_endpoint));
     }
     const std::string host = peer_rpc_endpoint.substr(0, colon);
-    const int         port = std::stoi(peer_rpc_endpoint.substr(colon + 1));
+    int port = 0;
+    try {
+        port = std::stoi(peer_rpc_endpoint.substr(colon + 1));
+    } catch (const std::exception& ex) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Invalid port in peer_rpc_endpoint",
+                                      std::string("Port parse error: ") + ex.what() +
+                                          "; endpoint=" + peer_rpc_endpoint));
+    }
+    if (port <= 0 || port > 65535) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Port out of range in peer_rpc_endpoint",
+                                      "Port must be 1–65535; got: " + std::to_string(port)));
+    }
+
+#ifdef _WIN32
+    // Initialise Winsock once per process (idempotent via static).
+    static const bool wsa_ok = []() -> bool {
+        WSADATA wd{};
+        return ::WSAStartup(MAKEWORD(2, 2), &wd) == 0;
+    }();
+    if (!wsa_ok) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR,
+                                      "WSAStartup failed",
+                                      "Cannot initialise Winsock for syncTrustState()"));
+    }
+#endif
 
     // Three-attempt exponential-backoff retry (mirrors LDAP pool pattern).
     constexpr int kMaxRetries  = 3;

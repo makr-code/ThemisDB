@@ -361,8 +361,9 @@ public:
     // Wire format:
     //   {"op":"sync_trust","entries":[{"subject":"<issuer>","trusting":"<issuer>"},…]}
     //
-    // This is a best-effort push; failures are logged but not re-thrown unless
-    // the TCP connect itself fails after the configured retry budget.
+    // This push throws AuthException(AUTH_INTERNAL_ERROR) if the connect or
+    // send fails after all retry attempts; individual attempt failures within
+    // the retry budget are logged but swallowed.
     // -----------------------------------------------------------------------
 
     /**

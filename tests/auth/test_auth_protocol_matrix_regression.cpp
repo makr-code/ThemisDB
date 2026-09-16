@@ -117,22 +117,27 @@ TEST(AuthProtocolMatrix, APM03_KerberosRevocation_RevokedJTIIsRejected) {
 }
 
 // ---------------------------------------------------------------------------
-// APM-04: LDAP+Federation — LDAP auth failure prevents federation token issuance
+// APM-04: LDAP+Federation — LDAP pool exhaustion throws PROVIDER_DEGRADED
 //
-// Simulates that when the LDAP pool is in closing state, checkout throws
-// PROVIDER_DEGRADED so downstream federation code never gets a connection.
+// Verifies that checkout() throws PROVIDER_DEGRADED when the pool is exhausted
+// (all slots in use, timeout reached), so downstream federation code can handle
+// it as a fail-closed condition.  Skipped in no-LDAP (stub) builds.
 // release_critical
 // ---------------------------------------------------------------------------
-TEST(AuthProtocolMatrix, APM04_LDAPFederation_PoolClosingThrowsProviderDegraded) {
+TEST(AuthProtocolMatrix, APM04_LDAPFederation_PoolExhaustionThrowsProviderDegraded) {
+#ifndef THEMIS_HAS_LDAP
+    GTEST_SKIP() << "LDAP not compiled in — skipping LDAP pool exhaustion test";
+#else
     LDAPPoolConfig pcfg;
     pcfg.host               = "ldap://invalid.local";
     pcfg.max_size           = 1;
     pcfg.checkout_timeout_ms = 5;
     LDAPConnectionPool pool(pcfg);
 
-    // Attempt checkout on a pool configured with a very short timeout and no
-    // real LDAP server — must throw, never return nullptr.
+    // checkout() on an exhausted pool (no real server, tiny timeout) must throw
+    // PROVIDER_DEGRADED, never silently return nullptr.
     EXPECT_THROW(pool.checkout(), AuthException);
+#endif
 }
 
 // ---------------------------------------------------------------------------

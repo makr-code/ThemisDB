@@ -9,8 +9,8 @@
  * for a configurable duration to detect memory leaks, lock starvation, and
  * cache-growth regressions under sustained load.
  *
- * Default duration: 60 seconds.
- * Override via env var:  THEMIS_AUTH_SOAK_DURATION_S=<integer>
+ * Default duration: 3 seconds (CI-safe default).
+ * Override via env var:  THEMIS_AUTH_SOAK_DURATION_S=<integer> (e.g. 60 for local soak runs)
  *
  * Scenarios:
  *  SOAK-01  Token cache insert/evict cycle — validates LRU cap holds over time
