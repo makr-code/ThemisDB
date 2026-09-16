@@ -581,7 +581,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_phase2.cpp")
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-2 distributed-coordination 2pc 3pc timeout-retry in-doubt-recovery release_critical
+        LABELS transaction phase-2 distributed-coordination 2pc 3pc timeout-retry in-doubt-recovery release_critical wave_a_flow_sharding_transaction
     )
 
     message(STATUS "  Phase 2: Distributed Coordination: 2PC/3PC protocol, timeout/retry, in-doubt recovery")
@@ -616,7 +616,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_saga_compensation_phase2.c
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-2 saga-orchestration compensation idempotency failure-handling release_critical
+        LABELS transaction phase-2 saga-orchestration compensation idempotency failure-handling release_critical wave_a_flow_server_query_storage_transaction
     )
 
     message(STATUS "  Phase 2: SAGA/Compensation: idempotency, orchestration, retry storms, recovery")
@@ -653,7 +653,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction phase-3 fault-injection chaos-engineering cascading-failures release_critical
+        LABELS transaction phase-3 fault-injection chaos-engineering cascading-failures release_critical wave_a_flow_server_query_storage_transaction wave_a_flow_sharding_transaction
     )
 
     message(STATUS "  Phase 3: Fault Injection: cross-shard, chaos, cascading recovery")
@@ -694,7 +694,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_wave_a_closure.cpp")
         TIER unit
         KIND focused
         TIMEOUT 120
-        LABELS transaction wave_a release_critical chaos recovery saga timeout byzantine cross-shard
+        LABELS transaction wave_a release_critical wave_a_flow_server_query_storage_transaction wave_a_flow_sharding_transaction chaos recovery saga timeout byzantine cross-shard
     )
 
     message(STATUS "  Wave A Closure: TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-TIMEOUT-01..03, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02")

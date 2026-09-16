@@ -15,6 +15,7 @@
 
 
 #include "utils/capability_auto_generator.h"
+#include "utils/rocksdb_open_compat.h"
 #include <stdexcept>
 #include "utils/self_awareness.h"
 #include <rocksdb/db.h>
@@ -269,15 +270,15 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     rocksdb::Options options;
     options.create_if_missing = false;
 
-    // Cross-compiler / cross-OS compatibility: RocksDB DB::OpenForReadOnly
-    // expects DB** on many packaged versions, so open with a raw pointer first
-    // and transfer ownership to std::unique_ptr after success.
     rocksdb::DB* db_raw = nullptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_raw);
-    std::unique_ptr<rocksdb::DB> db_owner(db_raw);
+    rocksdb::Status status = themis::storage::detail::openDbForReadOnlyCompat(options, data_path, &db_raw);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
+    }
+    std::unique_ptr<rocksdb::DB> db_owner(db_raw);
+    if (db_owner == nullptr) {
+        throw std::runtime_error("Failed to open RocksDB: DB::OpenForReadOnly returned success with null handle");
     }
 
     // Iterate through database

@@ -294,6 +294,7 @@ cpp_best_practices:
   copilot_guidance:
     - "When generating C++ code, use modern language features like 'auto', smart pointers, 'constexpr', concepts, and ranges where appropriate."
     - "Avoid manual memory management; prefer RAII with std::unique_ptr/std::shared_ptr; treat raw new/delete as review-exception only."
+    - "For RocksDB Open APIs (Open/OpenForReadOnly/open-with-column-families), do not pass std::unique_ptr<rocksdb::DB>* as out-parameter. Use portable ABI-safe pattern: rocksdb::DB* db_raw = nullptr; call Open(..., &db_raw); then transfer ownership via std::unique_ptr<rocksdb::DB>(db_raw)."
     - "Synchronize threads with std::mutex and std::lock_guard; keep critical sections short."
     - "Prevent deadlocks by consistent locking order."
     - "Write clear, const-correct, exception-safe functions; prefer std::string_view/std::span for non-owning parameters."

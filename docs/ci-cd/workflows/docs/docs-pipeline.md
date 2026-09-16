@@ -1,5 +1,10 @@
 # Documentation Pipeline
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-15
+**Last Updated:** 2026-09-15
+**Status:** archived
+
 > [!WARNING]
 > Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
 > Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
@@ -84,7 +89,7 @@ doc-header-check (changed-only), drift-detection, validation-summary.
 
 **Schritte:**
 
-- **Download site artifact** — `actions/download-artifact@v4`
+- **Download site artifact** — `actions/download-artifact@v4.1.3`
 - **Configure GitHub Pages** — `actions/configure-pages@v4`
 - **Upload to Pages** — `actions/upload-pages-artifact@v3`
 - **Deploy to GitHub Pages** — `actions/deploy-pages@v4`
@@ -99,5 +104,3 @@ doc-header-check (changed-only), drift-detection, validation-summary.
 
 - [Workflow-Datei](../../.github/workflows/docs_docs-pipeline.yml)
 - [Alle Workflows](../README.md)
-
-

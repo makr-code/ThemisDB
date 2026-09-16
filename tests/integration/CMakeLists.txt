@@ -154,6 +154,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/full_query_flow_e2e_test.cpp")
     )
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/end_to_end/storage_pipeline_e2e_test.cpp")
+    add_integration_test(
+        storage_pipeline_e2e_test
+        end_to_end/storage_pipeline_e2e_test.cpp
+    )
+    set_tests_properties(storage_pipeline_e2e_test PROPERTIES
+        LABELS "integration;e2e;storage;wave_a_flow_server_query_storage_transaction"
+        TIMEOUT 300
+    )
+endif()
+
 # ============================================================================
 # Cross-Module Pipeline Integration Tests
 # ============================================================================
@@ -164,7 +175,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/query_execution_pipeline_test.cp
         pipeline/query_execution_pipeline_test.cpp
     )
     set_tests_properties(query_execution_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic"
+        LABELS "integration;pipeline_integration;pipeline;query;release_critical;resilience;deterministic;wave_a_flow_server_query_storage_transaction"
     )
 endif()
 
@@ -184,7 +195,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/rag_ai_pipeline_test.cpp")
         pipeline/rag_ai_pipeline_test.cpp
     )
     set_tests_properties(rag_ai_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic"
+        LABELS "integration;pipeline_integration;pipeline;rag;release_critical;degradation;deterministic;wave_a_flow_server_llm"
     )
 endif()
 
@@ -194,7 +205,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/transaction_replication_pipeline
         pipeline/transaction_replication_pipeline_test.cpp
     )
     set_tests_properties(transaction_replication_pipeline_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation"
+        LABELS "integration;pipeline_integration;pipeline;transaction;replication;release_critical;resilience;degradation;wave_a_flow_sharding_transaction"
     )
 endif()
 
@@ -301,7 +312,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w6b_stress_soak_stability_test.c
         pipeline/w6b_stress_soak_stability_test.cpp
     )
     set_tests_properties(w6b_stress_soak_stability_test PROPERTIES
-        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak"
+        LABELS "integration;pipeline_integration;wave6;w6b;stress_soak;wave_a_longrun_server_query_storage_transaction"
         TIMEOUT 300
     )
 endif()
@@ -329,7 +340,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w5a_e2e_critical_journeys_test.c
         pipeline/w5a_e2e_critical_journeys_test.cpp
     )
     set_tests_properties(w5a_e2e_critical_journeys_test PROPERTIES
-        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e"
+        LABELS "integration;pipeline_integration;wave5;w5a;release_critical;e2e;wave_a_flow_server_query_storage_transaction"
         TIMEOUT 300
     )
 endif()
@@ -377,7 +388,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp
         pipeline/w7c_endurance_stability_test.cpp
     )
     set_tests_properties(w7c_endurance_stability_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert"
+        LABELS "integration;pipeline_integration;pipeline;wave7;w7c;endurance;stability_cert;wave_a_longrun_server_query_storage_transaction"
         TIMEOUT 600
     )
 endif()
@@ -454,7 +465,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9c_chaos_fault_tolerance_test.c
         pipeline/w9c_chaos_fault_tolerance_test.cpp
     )
     set_tests_properties(w9c_chaos_fault_tolerance_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance"
+        LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance;wave_a_flow_server_query_storage_transaction;wave_a_flow_sharding_transaction"
         TIMEOUT 120
     )
 endif()
@@ -522,7 +533,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_endurance_stress.cpp")
         Threads::Threads
     )
     set_tests_properties(test_voice_endurance_stress PROPERTIES
-        LABELS "integration;voice;endurance;stress;phase5"
+        LABELS "integration;voice;endurance;stress;phase5;wave_a_longrun_server_llm"
         TIMEOUT 600
     )
     message(STATUS "  Voice Phase 5.6: Endurance and stress testing (multi-session load, resource growth, memory leaks)")
@@ -651,6 +662,37 @@ foreach(_rc_integration_target IN ITEMS
     endif()
 endforeach()
 
+foreach(_wave_a_server_llm_integration_target IN ITEMS
+    rag_ai_pipeline_test
+)
+    if(TARGET ${_wave_a_server_llm_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_LLM_TARGETS
+            ${_wave_a_server_llm_integration_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sqst_integration_target IN ITEMS
+    storage_pipeline_e2e_test
+    query_execution_pipeline_test
+    w5a_e2e_critical_journeys_test
+    w9c_chaos_fault_tolerance_test
+)
+    if(TARGET ${_wave_a_sqst_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+            ${_wave_a_sqst_integration_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sharding_txn_integration_target IN ITEMS
+    transaction_replication_pipeline_test
+    w9c_chaos_fault_tolerance_test
+)
+    if(TARGET ${_wave_a_sharding_txn_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_WAVE_A_FLOW_SHARDING_TRANSACTION_TARGETS
+            ${_wave_a_sharding_txn_integration_target})
+    endif()
+endforeach()
+
 # ============================================================================
 # Wave D Soak Tests
 # Labels: wave_d;soak;not_release_critical
@@ -665,9 +707,46 @@ foreach(_soak_test IN ITEMS
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
+        set(_soak_labels "wave_d;soak;not_release_critical")
+        if(_soak_test STREQUAL "test_replication_soak_60min" OR
+           _soak_test STREQUAL "test_sharding_distributed_write_soak")
+            list(APPEND _soak_labels wave_a_longrun_sharding_transaction)
+        endif()
         set_tests_properties(${_soak_test} PROPERTIES
-            LABELS "wave_d;soak;not_release_critical"
+            LABELS "${_soak_labels}"
             TIMEOUT 7200
         )
+    endif()
+endforeach()
+
+foreach(_wave_a_sqst_longrun_target IN ITEMS
+    w6b_stress_soak_stability_test
+    w7c_endurance_stability_test
+)
+    if(TARGET ${_wave_a_sqst_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+            ${_wave_a_sqst_longrun_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_sharding_txn_longrun_target IN ITEMS
+    test_replication_soak_60min
+    test_sharding_distributed_write_soak
+)
+    if(TARGET ${_wave_a_sharding_txn_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SHARDING_TRANSACTION_TARGETS
+            ${_wave_a_sharding_txn_longrun_target})
+    endif()
+endforeach()
+
+foreach(_wave_a_server_llm_longrun_target IN ITEMS
+    test_voice_endurance_stress
+)
+    if(TARGET ${_wave_a_server_llm_longrun_target})
+        set_property(GLOBAL APPEND PROPERTY
+            THEMIS_WAVE_A_LONGRUN_SERVER_LLM_TARGETS
+            ${_wave_a_server_llm_longrun_target})
     endif()
 endforeach()

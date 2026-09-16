@@ -122,6 +122,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_http3_gates.cpp")
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
+    themis_register_benchmark_ctest(
+        NAME         "bench_server_http3_gates_smoke"
+        TARGET       "bench_server_http3_gates"
+        MODULE       "server"
+        KIND         "wave_a"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_a_benchmark_server_llm benchmark-baseline release-gates
+    )
     message(STATUS "  SVR-H3-01: Connection-migration latency p99<=5us")
     message(STATUS "  SVR-H3-02: 0-RTT resumption decision latency p99<=1us")
 endif()

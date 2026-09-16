@@ -188,7 +188,7 @@ jobs:
         run: |
           echo "  Installing macOS build dependencies via Homebrew..."
           brew update --quiet
-          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb zstd yaml-cpp googletest
+          brew install cmake ninja fmt spdlog nlohmann-json tbb openssl@3 boost rocksdb zstd lz4 snappy yaml-cpp googletest
           echo "  ✅ Homebrew packages installed"
           cmake --version
           ninja --version
@@ -201,6 +201,7 @@ jobs:
           echo "──────────────────────────────────────────────"
           T0=$(date +%s)
           OPENSSL_ROOT=$(brew --prefix openssl@3)
+          BREW_PREFIX=$(brew --prefix)
 
           # Conditionally enable sccache compiler launcher only when the
           # sccache server actually started successfully.  This prevents the
@@ -221,6 +222,7 @@ jobs:
             ${C_LAUNCHER:+$C_LAUNCHER} \
             ${CXX_LAUNCHER:+$CXX_LAUNCHER} \
             -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
+            -DCMAKE_PREFIX_PATH="${BREW_PREFIX}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
             -DTHEMIS_EDITION=COMMUNITY

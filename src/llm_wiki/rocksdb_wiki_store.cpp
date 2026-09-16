@@ -15,6 +15,7 @@
 #ifdef THEMIS_USE_ROCKSDB
 
 #include "llm_wiki/rocksdb_wiki_store.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <filesystem>
 #include <stdexcept>
@@ -62,7 +63,7 @@ Status RocksDbWikiStore::open(const std::string& db_path) {
     // Cross-compiler / cross-OS portability: RocksDB Open APIs commonly expose
     // DB** out-parameters in packaged builds, so open via raw pointer first.
     rocksdb::DB* db_instance = nullptr;
-    rocksdb::Status rdb_st = rocksdb::DB::Open(options_, db_path, &db_instance);
+    rocksdb::Status rdb_st = themis::storage::detail::openDbCompat(options_, db_path, &db_instance);
 
     if (!rdb_st.ok()) {
         // RocksDB contract: on failure, db_instance remains nullptr.

@@ -3,19 +3,20 @@
 # ThemisDB Target Architecture
 ## Hybrid Knowledge Retrieval Architecture
 
-**Status:** Active (ANN Frontdoor formalized — issue #5424)  
-**Date:** 2026-06-01
+**Status:** Active (source-backed LLM Wiki layer reality-check refresh)
+**Date:** 2026-09-15
 
 ---
 
 ## 1. Overview
 
-The target architecture of ThemisDB is a layered hybrid retrieval and reasoning system composed of four primary layers:
+The target architecture of ThemisDB is a layered hybrid retrieval and reasoning system composed of five primary layers:
 
 1. ANN Frontdoor
 2. Tensor Mid-Layer
 3. Graph Truth Layer
-4. LLM / LoRA Final Layer
+4. LLM Wiki / Knowledge Context Layer
+5. LLM / LoRA Final Layer
 
 This architecture is intended to support scalable, explainable, distributed, and adaptive RAG.
 
@@ -109,7 +110,47 @@ no backend registered
 
 ---
 
-## 2.4 LLM / LoRA Final Layer
+## 2.4 LLM Wiki / Knowledge Context Layer
+
+**Source:** `src/llm_wiki/`, `include/llm_wiki/`, `include/llm/wiki_index_store.h`
+
+### Current Source-Backed Responsibilities
+- expose the enterprise `ILLMWikiPlugin` integration surface for ingest, query, workspace, and lint operations
+- enforce edition gating (`enterprise`, `hyperscaler`, `military`) and the optional `llm_wiki_wikipedia` sub-feature
+- manage persistent wiki workspaces via `WikiWorkspaceOrchestrator` and checksum-validated workspace state
+- apply guardrails for prompt-injection-style unsafe query/content patterns
+- load and hot-reload YAML process policy with fail-closed validation
+- activate RocksDB-backed persistence when available; otherwise keep the documented degraded in-memory fallback for non-production/test paths
+
+### Current Runtime Backends
+
+The checked-in implementation currently builds one wiki runtime around the public `ILLMWikiPlugin` contract:
+
+| Runtime Path | Current State | Source Evidence |
+|--------------|---------------|-----------------|
+| Markdown / workspace ingest-query flow | Implemented in `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp` | `ingest()`, `query()`, `wikiInit()`, `wikiIngest()`, `wikiQuery()`, `wikiLint()` |
+| Wikipedia dump ingest | Implemented behind the `llm_wiki_wikipedia` feature gate | `ingestWikipediaDump()`, `edition_gate.*` |
+| Confluence / Notion / internal-wiki connectors | Not present in the current repository snapshot | no checked-in backend code under `src/llm_wiki/` |
+
+### Retrieval / Persistence Notes
+- the long-term hybrid path uses `WikiIndexStore` (BM25 + HNSW + RRF) for production retrieval
+- current checked-in `src/llm_wiki/` runtime still centers on the plugin/workspace flow and staged Phase B persistence work
+- RocksDB persistence is source-backed through `rocksdb_wiki_store.*` and compile-time `THEMIS_USE_ROCKSDB` wiring
+
+### Output
+- workspace-scoped wiki context for downstream LLM prompting
+- persisted workspace/audit artefacts via the wiki workspace flow
+- gating/guardrail outcomes for caller-visible allow/deny behavior
+
+### Error Handling Surface
+- edition or feature not enabled -> `PermissionDenied`
+- plugin not initialized -> `NotInitialized`
+- invalid process policy / hot-reload failure -> fail closed with `Status::Error(...)`
+- unsafe query with `fail_open=false` -> empty result after guardrail detection
+
+---
+
+## 2.5 LLM / LoRA Final Layer
 
 ### Responsibilities
 - final grounded generation
@@ -121,13 +162,12 @@ no backend registered
 - vector candidates
 - tensor summaries
 - graph evidence
+- wiki context (from LLM Wiki layer)
 - trust/provenance metadata
 
 ### Output
 - grounded answer
 - optionally justification metadata
-
----
 
 ## 3. Retrieval Pipeline
 
@@ -135,7 +175,7 @@ no backend registered
 `query -> embedding -> top-k chunks -> prompt -> answer`
 
 ### Target Pattern
-`query -> ANN frontdoor -> tensor compression/routing -> graph validation/evidence -> LLM/LoRA generation`
+`query -> ANN frontdoor -> tensor compression/routing -> graph validation/evidence -> wiki context enrichment -> LLM/LoRA generation`
 
 ---
 

@@ -19,6 +19,7 @@
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/slice.h>
+#include "utils/rocksdb_open_compat.h"
 #endif
 
 #include "rag/wiki_index_store.h"
@@ -341,20 +342,20 @@ struct WikiIndexStore::Impl {
             {"embedding_cache",                 rocksdb::ColumnFamilyOptions{}}
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
-        // Cross-compiler / cross-OS portability: use RocksDB's DB** out-parameter
-        // form and bind lifetime after successful open.
-        rocksdb::DB* db_instance = nullptr;
-        const rocksdb::Status s = rocksdb::DB::Open(
+        rocksdb::DB* db_raw = nullptr;
+        const rocksdb::Status s = themis::storage::detail::openDbWithColumnFamiliesCompat(
             rocksdb::DBOptions{opts},
             config.cache_dir,
             cf_descs,
             &cf_handles,
-            &db_instance);
+            &db_raw);
         if (!s.ok()) {
             THEMIS_WARN("WikiIndexStore: failed to open RocksDB cache at '{}': {}",
                         config.cache_dir, s.ToString());
             return false;
         }
+        std::unique_ptr<rocksdb::DB> db_handle(db_raw);
+        cache_db = db_handle.get();
         // cf_handles[0] = default CF (not used); cf_handles[1] = embedding_cache.
         if (cf_handles.size() < 2) {
             for (auto* handle : cf_handles) {
@@ -363,15 +364,14 @@ struct WikiIndexStore::Impl {
             delete db_instance;
             return false;
         }
-
-        cache_cf = cf_handles[1];
-        // Default CF handle: close immediately (we don't need it).
-        delete cf_handles[0];
-        for (std::size_t i = 2; i < cf_handles.size(); ++i) {
-            delete cf_handles[i];
+        if (!cache_cf) {
+            for (auto* handle : cf_handles) {
+                delete handle;
+            }
+            return false;
         }
-        cache_db = db_instance;
-        return true;
+        db_handle.release();
+        return cache_cf != nullptr;
     }
 
     void closeCacheDB() {

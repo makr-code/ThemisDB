@@ -4,6 +4,7 @@
  */
 
 #include "observability/provenance_store.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
@@ -157,16 +158,13 @@ public:
             options.compression = rocksdb::kSnappyCompression;
         }
 
-        // Cross-compiler / cross-OS compatibility: RocksDB DB::Open commonly
-        // takes DB** in distro packages, so use raw pointer open and then
-        // transfer ownership into std::unique_ptr.
         rocksdb::DB* db_raw = nullptr;
-        const auto status = rocksdb::DB::Open(options, config.db_path, &db_raw);
-        std::unique_ptr<rocksdb::DB> db_instance(db_raw);
+        const auto status = themis::storage::detail::openDbCompat(options, config.db_path, &db_raw);
 
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());
         }
+        std::unique_ptr<rocksdb::DB> db_instance(db_raw);
         if (db_instance == nullptr) {
             throw std::runtime_error("Failed to open RocksDB: DB::Open returned success with null handle");
         }

@@ -29,7 +29,7 @@ What actually happened.
 <!-- Optional but recommended for immediate milestone assignment on issue creation.
      Examples: v2.4.1, v2.5.0-alpha1, Q4 2026, Documentation, Backlog -->
 
-**Target Version:** 
+**Target Version:**
 
 ## Acceptance Criteria
 

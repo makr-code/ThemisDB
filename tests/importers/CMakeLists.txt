@@ -8,6 +8,7 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_importers_${_stem}_focused")
     set(_ctest  "${_stem}_importers_FocusedTests")
+    set(_labels importers phase4)
 
     # Temporarily quarantine suites with known focused-only API/assertion drift
     # while progressing the global windows-release build.
@@ -40,12 +41,18 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_importers_contract_hardening_focused" OR
+       _stem STREQUAL "test_importers_new_connectors_focused" OR
+       _stem STREQUAL "test_phase4_importer_hardening")
+        list(APPEND _labels wave_b wave_b_boundary_content_io)
+    endif()
+
     themis_register_module_focused_test(
         MODULE importers
         NAME   ${_ctest}
         TARGET ${_target}
         TIER   unit
         TIMEOUT 120
-        LABELS  importers phase4
+        LABELS  ${_labels}
     )
 endforeach()

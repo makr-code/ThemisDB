@@ -1,5 +1,10 @@
 # RUNBOOK: Sharding Topology Change & Rebalancing
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Sharding Team Lead  
 **Purpose:** Execute sharding topology changes and rebalance operations safely  
 **Severity:** High (affects read/write distribution and cluster balance)  
@@ -412,7 +417,56 @@ initiate-topology-rollback --cluster <cluster-id> --to-topology baseline_topolog
 
 ---
 
-**Runbook Version:** 1.0  
-**Last Updated:** 2026-08-15  
+## Wave D — D1 Distributed Trace Span Cross-Links
+
+> **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2A (ShardRouter trace points).
+> Until Phase 2A implementation completes (Target: Q1 2027), the listed span names are reference
+> identifiers for future instrumentation.
+
+### Sharding D1 Trace Spans
+
+| Runbook Step | D1 Span Name | Baggage Keys | Notes |
+|---|---|---|---|
+| Topology change plan | `topology.plan` | `cluster_id`, `shard_count_before`, `shard_count_after`, `operator_id` | Created at plan stage |
+| Shard routing (during rebalance) | `route.write` | `shard_id`, `routing_decision`, `fallback_triggered` | Child spans per write batch |
+| Rebalance execution | `rebalance.execute` | `topology_plan_id`, `batch_index`, `bytes_moved` | Parent span; child spans per shard move |
+| Shard stall detection | `rebalance.stall` | `stall_reason`, `shard_id`, `elapsed_ms` | Status `WARN`; linked to rebalance parent |
+| Data consistency check | `topology.consistency_check` | `shard_id`, `key_count`, `checksum` | Linked to rebalance execution span |
+| Topology rollback | `topology.rollback` | `rollback_reason`, `from_topology`, `to_topology` | Status `ERROR`; linked to triggering stall/failure |
+
+### Querying Trace Spans (Phase 2A onwards)
+
+```bash
+# Trace a full topology change from plan to completion
+otel-query --service sharding --operation topology.plan \
+  --baggage cluster_id=<cluster-id> --range 4h --include-children
+
+# Identify stalled rebalance shards
+otel-query --service sharding --operation rebalance.stall --status WARN --range 2h
+
+# Cross-reference exact-path gate metrics with routing traces
+otel-metrics-join \
+  --trace-operation route.write \
+  --metric shard_write_latency_p99 --window 30s
+```
+
+### Phase 2A Instrumentation Targets
+
+Once Phase 2A is implemented, add trace points in:
+
+- `src/sharding/` `ShardRouter::routeWrite()`: Wrap routing decision in a span with `shard_id`,
+  `replica_id`, `routing_decision`, `fallback_triggered` baggage
+- `ShardRouter::rebalanceTopology()`: Track shard discovery latency and exact-path gate transitions;
+  log topology-change decision points with old/new shard set baggage
+
+**Related Wave D documents:**
+- `docs/operability/WAVE_D_ROADMAP.md` §2A — ShardRouter trace integration
+- `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` — Gate W4A-TRACE-01
+
+---
+
+**Runbook Version:** 1.1  
+**Last Updated:** 2026-09-16  
 **Owner:** Sharding Team  
-**Next Review:** 2026-12-15
+**Next Review:** 2027-03-01 (post-Wave D Phase 2A delivery)

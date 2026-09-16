@@ -42,6 +42,14 @@ on:
         description: 'Run nightly module sweep job'
         type: boolean
         default: true
+      run_wave_a_flow_benchmarks:
+        description: 'Run Wave A flow benchmark aggregate jobs'
+        type: boolean
+        default: true
+      run_wave_a_longrun:
+        description: 'Run Wave A long-run/soak evidence jobs'
+        type: boolean
+        default: false
       run_observability_gates:
         description: 'Run Wave D observability gates job (Phase 2A-2C)'
         type: boolean
@@ -378,6 +386,227 @@ jobs:
           path: ${{ env.RESULTS_DIR }}/
           retention-days: 30
           if-no-files-found: error
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1c. Wave A Flow Benchmark Aggregates
+  # Executes the label-driven aggregate benchmark targets introduced for the
+  # canonical Wave A critical flows in a dependency-complete CI environment.
+  # ─────────────────────────────────────────────────────────────────────────
+  wave-a-flow-benchmark-gates:
+    name: Wave A Flow Benchmark Gates (${{ matrix.flow_name }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    needs: [preflight-build-status]
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' &&
+       (inputs.run_wave_a_flow_benchmarks == true || inputs.run_wave_a_flow_benchmarks == 'true'))
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - flow_name: server-llm
+            build_target: themis_wave_a_server_llm_benchmarks
+            label_regex: wave_a_benchmark_server_llm
+            artifact_name: wave-a-server-llm
+          - flow_name: server-query-storage-transaction
+            build_target: themis_wave_a_server_query_storage_transaction_benchmarks
+            label_regex: wave_a_benchmark_server_query_storage_transaction
+            artifact_name: wave-a-sqst
+          - flow_name: sharding-transaction
+            build_target: themis_wave_a_sharding_transaction_benchmarks
+            label_regex: wave_a_benchmark_sharding_transaction
+            artifact_name: wave-a-sharding-transaction
+          - flow_name: search-index-tensor-graph-llm
+            build_target: themis_wave_a_search_index_tensor_graph_llm_benchmarks
+            label_regex: wave_a_benchmark_search_index_tensor_graph_llm
+            artifact_name: wave-a-search-stack
+    env:
+      BUILD_DIR: build/wave-a-benchmarks
+      RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config sccache \
+            libbenchmark-dev librocksdb-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev libcpp-httplib-dev
+
+      - name: Cache sccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.cache/sccache
+          key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
+          restore-keys: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ runner.os }}-
+
+      - name: Configure benchmark build
+        env:
+          SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
+        run: |
+          cmake -S . -B "${BUILD_DIR}" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
+
+      - name: Build Wave A aggregate benchmark target
+        run: |
+          cmake --build "${BUILD_DIR}" --target "${{ matrix.build_target }}" -j"$(nproc)"
+
+      - name: Run Wave A aggregate benchmark smoke lane
+        run: |
+          mkdir -p "${RESULTS_DIR}"
+          ctest --test-dir "${BUILD_DIR}" \
+            --label-regex "${{ matrix.label_regex }}" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 600 \
+            2>&1 | tee "${RESULTS_DIR}/ctest.log"
+
+      - name: Record Wave A benchmark summary
+        run: |
+          {
+            echo "## Wave A benchmark aggregate"
+            echo "- Flow: \`${{ matrix.flow_name }}\`"
+            echo "- Target: \`${{ matrix.build_target }}\`"
+            echo "- Label regex: \`${{ matrix.label_regex }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Wave A benchmark artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}-${{ github.run_number }}
+          path: ${{ env.RESULTS_DIR }}/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1d. Wave A Long-Run / Soak Evidence
+  # Keeps slow evidence adjacent to Wave A gates without polluting the fast
+  # release_critical lanes.
+  # ─────────────────────────────────────────────────────────────────────────
+  wave-a-longrun-evidence:
+    name: Wave A Long-Run Evidence (${{ matrix.flow_name }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    needs: [preflight-build-status]
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' &&
+       (inputs.run_wave_a_longrun == true || inputs.run_wave_a_longrun == 'true'))
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - flow_name: server-llm
+            build_target: themis_wave_a_server_llm_longrun_tests
+            label_regex: wave_a_longrun_server_llm
+            artifact_name: wave-a-server-llm-longrun
+            soak_duration_ms: 0
+          - flow_name: server-query-storage-transaction
+            build_target: themis_wave_a_server_query_storage_transaction_longrun_tests
+            label_regex: wave_a_longrun_server_query_storage_transaction
+            artifact_name: wave-a-sqst-longrun
+            soak_duration_ms: 0
+          - flow_name: sharding-transaction
+            build_target: themis_wave_a_sharding_transaction_longrun_tests
+            label_regex: wave_a_longrun_sharding_transaction
+            artifact_name: wave-a-sharding-transaction-longrun
+            soak_duration_ms: 120000
+          - flow_name: search-index-tensor-graph-llm
+            build_target: themis_wave_a_search_index_tensor_graph_llm_longrun_tests
+            label_regex: wave_a_longrun_search_index_tensor_graph_llm
+            artifact_name: wave-a-search-stack-longrun
+            soak_duration_ms: 0
+    env:
+      BUILD_DIR: build/wave-a-longrun
+      RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config sccache \
+            libbenchmark-dev librocksdb-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev libcpp-httplib-dev libgtest-dev
+
+      - name: Cache sccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.cache/sccache
+          key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
+          restore-keys: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ runner.os }}-
+
+      - name: Configure long-run test build
+        env:
+          SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
+        run: |
+          cmake -S . -B "${BUILD_DIR}" -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=ON \
+            -DTHEMIS_COMPILER_CACHE_PROGRAM=sccache
+
+      - name: Build Wave A long-run target
+        run: |
+          cmake --build "${BUILD_DIR}" --target "${{ matrix.build_target }}" -j"$(nproc)"
+
+      - name: Run Wave A long-run evidence lane
+        env:
+          THEMIS_SOAK_DURATION_MS: ${{ matrix.soak_duration_ms }}
+        run: |
+          mkdir -p "${RESULTS_DIR}"
+          ctest --test-dir "${BUILD_DIR}" \
+            --label-regex "${{ matrix.label_regex }}" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 7200 \
+            2>&1 | tee "${RESULTS_DIR}/ctest.log"
+
+      - name: Record Wave A long-run summary
+        run: |
+          {
+            echo "## Wave A long-run evidence"
+            echo "- Flow: \`${{ matrix.flow_name }}\`"
+            echo "- Target: \`${{ matrix.build_target }}\`"
+            echo "- Label regex: \`${{ matrix.label_regex }}\`"
+            if [ "${{ matrix.soak_duration_ms }}" != "0" ]; then
+              echo "- THEMIS_SOAK_DURATION_MS=${{ matrix.soak_duration_ms }}"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Wave A long-run artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}-${{ github.run_number }}
+          path: ${{ env.RESULTS_DIR }}/
+          retention-days: 30
+          if-no-files-found: ignore
 
   # ─────────────────────────────────────────────────────────────────────────
   # 2. GPU Benchmark Matrix (CUDA / HIP / Vulkan / CPU-fallback)

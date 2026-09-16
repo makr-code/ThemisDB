@@ -7,17 +7,25 @@
 
 - [x] Root-Testdokumente auf konkrete `tests/`-Struktur und CMake-Realität ausgerichtet (Target: 2026-Q2)
 - [x] Veraltete Preset-Referenzen (`linux-ninja-release`) auf `linux-release` aktualisiert (Target: 2026-Q2)
+- [x] Source-validierte Testdichte-Matrix fuer 69 code-bearing `src/`-Module plus 4 kanonische Release-Flows veroeffentlicht (`tests/TEST_DENSITY_MATRIX.md`) (Target: 2026-Q3)
+- [x] Wave-A->D-Closure-Plan fuer Testdichte als kanonischer Folgeplan veroeffentlicht (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q3)
+- [x] Wave-A-Backlog mit Modul-/Flow-Traceability und Gate-Kommandos veroeffentlicht (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q3)
 
 ## In Progress
 
 - [ ] Root-Dokumente für `tests/config/` und `tests/data/` ergänzen (Target: 2026-Q2)
-- [ ] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren (Target: 2026-Q3)
+- [~] Schichtbezogene Abdeckungszuordnung (ANN/Tensor/Graph/LLM) aus bestehenden Test-Suites konsolidieren und an die kanonischen Release-Flows anbinden (Target: 2026-Q3)
+- [~] Risk-basierte Closure Wave A fuer `query`, `index`, `rag`, `transaction`, `llm_wiki`, `search` und nachgelagert `server`, `sharding`, `llm`, `storage` ueber direkte Test-/Benchmark-/Gate-Evidenz verfolgen (Target: 2026-Q4)
+- [~] Fehlende modul-eigene `release_critical`-Labels fuer Wave-A-Module abbauen; erster Batch fuer `query`, `index`, `search`, `storage`, `llm_wiki` gestartet (Target: 2026-Q4)
+- [~] Konsolidierte Wave-A-Flow-Gates fuer `server<->llm`, `server->query->storage->transaction` und `sharding<->transaction` als Build-/CTest-Aggregate verdrahten; Pipeline-/Chaos-/E2E-Anker angebunden und erste Benchmark-Aggregate eingerichtet (Target: 2026-Q4)
 
 ## Planned Features
 
-- [ ] Dokumentierte Matrix: Produktionsmodul `src/<module>` → verantwortliche Test-Suites (Target: 2026-Q3)
+- [x] Dokumentierte Matrix: Produktionsmodul `src/<module>` → verantwortliche Test-Suites (Target: 2026-Q3)
 - [ ] Fokus-Targets aus `tests/CMakeLists.txt` als kuratierte Regression-Sets dokumentieren (Target: 2026-Q3)
-- [ ] CI-fähige, reproduzierbare Test-Kommandos pro Prioritätsblock dokumentieren (Target: 2026-Q4)
+- [~] CI-fähige, reproduzierbare Test-Kommandos pro Wave-Block dokumentieren (`tests/TEST_DENSITY_WAVE_PLAN.md`) (Target: 2026-Q4)
+- [~] Wave-A-Modul-Traceability inkl. Gate-Kommandos fuer CTest- und Benchmark-Aggregate dokumentieren (`tests/TEST_DENSITY_WAVE_A_BACKLOG.md`) (Target: 2026-Q4)
+- [ ] Indirekt abgesicherte Module (`distributed_tensor`, `execution`, `llama_cpp`, `stable_diffusion`) auf dedizierte Owner-Suites oder explizite Ausnahme-Regeln umstellen (Target: 2026-Q4)
 
 ## Implementation Phases
 
@@ -26,15 +34,23 @@
 - [ ] Fehlende Unterbereichs-Readmes (`tests/config`, `tests/data`) ergänzen (Target: 2026-Q2)
 
 ### Phase 2: Abdeckungs-Transparenz
-- [ ] Modul-zu-Test-Mapping für kritische Runtime-Bereiche veröffentlichen (Target: 2026-Q3)
+- [x] Modul-zu-Test-Mapping für kritische Runtime-Bereiche veröffentlichen (`tests/TEST_DENSITY_MATRIX.md`) (Target: 2026-Q3)
 - [ ] Fokus-Suites mit klaren Akzeptanzkriterien und Ziel-Cadence versehen (Target: 2026-Q3)
+- [~] Flow-Matrix fuer `server->query->storage->transaction`, `sharding<->transaction`, `search->index->tensor->graph->llm`, `server<->llm` als Gate-Backlog pflegen und an Wave A binden; dedizierte CTest-/Benchmark-/Long-Run-Beweiswege explizit markieren (Target: 2026-Q4)
 
 ### Phase 3: Rollout-Härtung
 - [ ] Doku-Änderungen regelmäßig gegen CMake-Presets/Test-Presets verifizieren (Target: 2026-Q4)
+- [ ] Historische Testreports aus Closure-Entscheidungen entfernen und nur noch als Kontext verlinken (Target: 2026-Q4)
+
+### Phase 4: Wave-Ausfuehrung
+- [~] Wave A fuer release-kritische Kernpfade als erster Closure-Block verfolgen (`tests/TEST_DENSITY_WAVE_PLAN.md`); Benchmark- und Long-Run-CI-Lanes in `.github/workflows/build-benchmarks.yml` als kanonische Ausfuehrungswege nutzen (Target: 2026-Q4)
+- [~] Wave B fuer Boundary-/API-/Policy-Module nach Wave A verdichten; Block-Aggregate `themis_wave_b_boundary_tests`, `themis_wave_b_api_transport_tests`, `themis_wave_b_policy_control_tests`, `themis_wave_b_content_io_tests` und `themis_wave_b_runtime_ops_tests` als kanonische Rerun-Pfade nutzen (Target: 2026-Q4)
+- [ ] Wave C fuer duenn abgesicherte Owner-Gaps nach Wave B schliessen (Target: 2026-Q4)
+- [ ] Wave D fuer repo-weite Hardening-/Sign-off-Abnahme nach Waves A-C abschliessen (Target: 2026-Q4)
 
 ## Production Readiness Checklist
 
 - [x] Root-Dokumente sind source-verifizierbar und nicht nur Template-Platzhalter
 - [x] Test-Kommandos referenzieren vorhandene Presets
-- [ ] Kritische modulübergreifende Regression-Sets explizit dokumentiert
-- [ ] Schichtbezogene Abdeckungs-Gaps als priorisierter Backlog gepflegt
+- [x] Kritische modulübergreifende Regression-Sets explizit dokumentiert (`tests/TEST_DENSITY_MATRIX.md`, Abschnitt "Critical flow coverage matrix")
+- [x] Schichtbezogene Abdeckungs-Gaps als priorisierter Backlog gepflegt (`tests/TEST_DENSITY_MATRIX.md`, Abschnitt "Closure waves")

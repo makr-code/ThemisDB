@@ -30,7 +30,7 @@ List any alternative approaches you have considered and why they were rejected.
 <!-- Optional but recommended for immediate milestone assignment on issue creation.
      Examples: v2.5.0-alpha1, Q4 2026, Documentation, LONG-TERM, Backlog -->
 
-**Target Version:** 
+**Target Version:**
 
 ## Acceptance Criteria
 

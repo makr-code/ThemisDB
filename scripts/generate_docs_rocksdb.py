@@ -155,6 +155,22 @@ def generate_cpp_direct_writer(docs_data: dict, output_path: str) -> str:
 using json = nlohmann::json;
 using namespace rocksdb;
 
+template <typename DBType = rocksdb::DB>
+Status openDbCompat(const Options& options, const std::string& db_path, DBType** out_db) {
+    if constexpr (requires(std::unique_ptr<DBType>* db_uptr) {
+                      DBType::Open(options, db_path, db_uptr);
+                  }) {
+        std::unique_ptr<DBType> db_uptr;
+        Status status = DBType::Open(options, db_path, &db_uptr);
+        if (status.ok()) {
+            *out_db = db_uptr.release();
+        }
+        return status;
+    } else {
+        return DBType::Open(options, db_path, out_db);
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "Usage: " << argv[0] << " <json_file> <rocksdb_path>" << std::endl;
@@ -183,7 +199,7 @@ int main(int argc, char* argv[]) {
     Options options;
     options.create_if_missing = true;
     DB* db_raw = nullptr;
-    Status status = DB::Open(options, db_path, &db_raw);
+    Status status = openDbCompat(options, db_path, &db_raw);
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;

@@ -374,6 +374,9 @@ std::string ArchiveProcessor::sanitizePath(const std::string &path) {
         normalized[1] == ':') {
         normalized.erase(0, 2);
     }
+    while (!normalized.empty() && normalized.front() == '/') {
+        normalized.erase(normalized.begin());
+    }
 
     std::string result = {};
     result.reserve(normalized.size());
@@ -973,4 +976,3 @@ std::vector<float> ArchiveProcessor::generateEmbedding(const std::string & /*chu
 
 } // namespace content
 } // namespace themis
-

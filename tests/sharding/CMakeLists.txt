@@ -367,7 +367,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase6_hardening.cpp")
         TARGET  test_sharding_phase6_hardening
         TIER    unit
         TIMEOUT 120
-        LABELS  sharding hardening phase6 release_critical sharding_p6
+        LABELS  sharding hardening phase6 release_critical wave_a_flow_sharding_transaction sharding_p6
     )
     message(STATUS "  P6-01 TXC-01..TXC-32: 2PC/3PC consistency verification (32 tests)")
     message(STATUS "  P6-02 FLR-01..FLR-20: failover logic and recovery-path hardening (20 tests)")
@@ -401,7 +401,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_p6_fault_injection.cpp")
         TARGET  test_sharding_p6_fault_injection
         TIER    unit
         TIMEOUT 120
-        LABELS  sharding fault_injection phase6 release_critical sharding_p6
+        LABELS  sharding fault_injection phase6 release_critical wave_a_flow_sharding_transaction sharding_p6
     )
     message(STATUS "  P6-03 FI-01..FI-15: network partition scenarios (15 tests)")
     message(STATUS "  P6-03 FI-16..FI-25: coordinator failure scenarios (10 tests)")
@@ -418,7 +418,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_contract_hardening_focused.cp
     target_include_directories(test_sharding_contract_hardening_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_sharding_contract_hardening_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_sharding_contract_hardening_focused PRIVATE THEMIS_TEST_BUILD=1)
-    themis_register_module_focused_test(MODULE sharding NAME ShardingContractHardeningFocusedTests TARGET test_sharding_contract_hardening_focused TIER unit TIMEOUT 120 LABELS sharding contract hardening release_critical)
+    themis_register_module_focused_test(MODULE sharding NAME ShardingContractHardeningFocusedTests TARGET test_sharding_contract_hardening_focused TIER unit TIMEOUT 120 LABELS sharding contract hardening release_critical wave_a_flow_sharding_transaction)
     message(STATUS "  SCR-01..04: Routing contract (consistent hash, fallback)")
     message(STATUS "  SCR-05..08: 2PC contract (prepare/commit/abort, IN_DOUBT)")
     message(STATUS "  SCR-09..12: WAL contract (ordering, idempotent replay, corruption)")
@@ -477,7 +477,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_wave1_critical_closure.cpp")
         TARGET  test_sharding_wave1_critical_closure
         TIER    unit
         TIMEOUT 60
-        LABELS  sharding wave1 critical-closure release_critical)
+        LABELS  sharding wave1 critical-closure release_critical wave_a_flow_sharding_transaction)
     message(STATUS "  WV1-BRC-01..04: braces_imbalance — all 12 flagged files balanced")
     message(STATUS "  WV1-EXD-01..02: exception_in_destructor — noexcept contracts")
     message(STATUS "  WV1-NTO-01..02: no_timeout — timed-lock enforcement")

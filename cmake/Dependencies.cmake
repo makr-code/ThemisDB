@@ -32,18 +32,11 @@ elseif(EXISTS "${_the_vcpkg_root}")
     if(DEFINED VCPKG_TARGET_TRIPLET AND EXISTS "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
         list(APPEND _vcpkg_prefix_roots "${_the_vcpkg_root}/installed/${VCPKG_TARGET_TRIPLET}")
     endif()
+    list(REMOVE_DUPLICATES _vcpkg_prefix_roots)
     message(STATUS "vcpkg root: ${_the_vcpkg_root}")
-    message(STATUS "vcpkg package dirs: ${_vcpkg_packages}")
+    list(LENGTH _vcpkg_packages _vcpkg_package_count)
+    message(STATUS "vcpkg package dirs discovered: ${_vcpkg_package_count}")
     message(STATUS "vcpkg prefix roots: ${_vcpkg_prefix_roots}")
-    foreach(_pkg_dir ${_vcpkg_packages})
-        list(APPEND CMAKE_PREFIX_PATH 
-            "${_pkg_dir}/lib/cmake"
-            "${_pkg_dir}/share"
-            "${_pkg_dir}/lib"
-        )
-        list(APPEND CMAKE_LIBRARY_PATH "${_pkg_dir}/lib")
-        list(APPEND CMAKE_INCLUDE_PATH "${_pkg_dir}/include")
-    endforeach()
     foreach(_prefix_root ${_vcpkg_prefix_roots})
         if(EXISTS "${_prefix_root}")
             list(APPEND CMAKE_PREFIX_PATH "${_prefix_root}")
@@ -56,6 +49,9 @@ elseif(EXISTS "${_the_vcpkg_root}")
             list(APPEND CMAKE_INCLUDE_PATH "${_prefix_root}/include")
         endif()
     endforeach()
+    list(REMOVE_DUPLICATES CMAKE_PREFIX_PATH)
+    list(REMOVE_DUPLICATES CMAKE_LIBRARY_PATH)
+    list(REMOVE_DUPLICATES CMAKE_INCLUDE_PATH)
 
     # Pre-seed ZLIB variables from vcpkg package layout if present
     set(_vcpkg_zlib_pkg "${_the_vcpkg_root}/packages/zlib_x64-windows")
@@ -941,6 +937,39 @@ if(httplib_FOUND AND NOT TARGET httplib::httplib)
         set_target_properties(httplib::httplib PROPERTIES
             INTERFACE_LINK_LIBRARIES "${_themis_httplib_link_libraries}"
         )
+    endif()
+endif()
+if(NOT TARGET httplib::httplib)
+    set(_themis_httplib_fallback_include "")
+    set(_themis_httplib_triplet "")
+    if(DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+        set(_themis_httplib_triplet "${VCPKG_TARGET_TRIPLET}")
+    elseif(WIN32)
+        set(_themis_httplib_triplet "x64-windows")
+    else()
+        set(_themis_httplib_triplet "x64-linux")
+    endif()
+
+    set(_themis_httplib_candidates
+        "${CMAKE_SOURCE_DIR}/vcpkg_installed/${_themis_httplib_triplet}/include"
+        "${_the_vcpkg_root}/installed/${_themis_httplib_triplet}/include"
+        "${_the_vcpkg_root}/packages/cpp-httplib_${_themis_httplib_triplet}/include"
+    )
+
+    foreach(_themis_httplib_inc_dir IN LISTS _themis_httplib_candidates)
+        if(EXISTS "${_themis_httplib_inc_dir}/httplib.h")
+            set(_themis_httplib_fallback_include "${_themis_httplib_inc_dir}")
+            break()
+        endif()
+    endforeach()
+
+    if(NOT "${_themis_httplib_fallback_include}" STREQUAL "")
+        add_library(httplib::httplib INTERFACE IMPORTED GLOBAL)
+        set_target_properties(httplib::httplib PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${_themis_httplib_fallback_include}"
+        )
+        set(httplib_FOUND TRUE)
+        message(STATUS "cpp-httplib fallback include directory: ${_themis_httplib_fallback_include}")
     endif()
 endif()
 if(httplib_FOUND)

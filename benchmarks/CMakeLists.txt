@@ -1779,7 +1779,7 @@ endif()
 endif()
 
 # LLM Inference Performance Benchmarks
-if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_inference_performance.cpp")
     message(STATUS "Adding LLM Inference Performance benchmarks")
     
     add_executable(bench_llm_inference_performance
@@ -1802,6 +1802,15 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     install(TARGETS bench_llm_inference_performance
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
+    )
+    themis_register_benchmark_ctest(
+        NAME         "bench_llm_inference_performance_smoke"
+        TARGET       "bench_llm_inference_performance"
+        MODULE       "llm"
+        KIND         "wave_a"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_a_benchmark_server_llm wave_a_benchmark_search_index_tensor_graph_llm benchmark-baseline
     )
     
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
@@ -3645,7 +3654,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_shard_routing.cpp")
     message(STATUS "  ShardRouting: single-shard lookup, consistent-hash, batch routing, distribution quality")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_performance.cpp")
     message(STATUS "Adding Sharding performance benchmarks")
 
     add_executable(bench_sharding_performance
@@ -3694,6 +3703,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_release_gates.cpp
     install(TARGETS bench_sharding_release_gates
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
+    )
+    themis_register_benchmark_ctest(
+        NAME         "bench_sharding_release_gates_smoke"
+        TARGET       "bench_sharding_release_gates"
+        MODULE       "sharding"
+        KIND         "wave_a"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_a_benchmark_sharding_transaction benchmark-baseline release-gates
     )
 endif()
 
@@ -4802,6 +4820,50 @@ list(REMOVE_DUPLICATES _eligible_benchmark_targets)
 add_custom_target(themis_benchmarks_all_eligible)
 if(_eligible_benchmark_targets)
     add_dependencies(themis_benchmarks_all_eligible ${_eligible_benchmark_targets})
+endif()
+
+get_property(_wave_a_server_llm_benchmark_targets GLOBAL PROPERTY THEMIS_WAVE_A_BENCHMARK_SERVER_LLM_TARGETS)
+if(_wave_a_server_llm_benchmark_targets)
+    list(REMOVE_DUPLICATES _wave_a_server_llm_benchmark_targets)
+    add_custom_target(themis_wave_a_server_llm_benchmarks
+        DEPENDS ${_wave_a_server_llm_benchmark_targets})
+    message(STATUS "themis_wave_a_server_llm_benchmarks aggregate target covers: ${_wave_a_server_llm_benchmark_targets}")
+else()
+    add_custom_target(themis_wave_a_server_llm_benchmarks)
+    message(WARNING "themis_wave_a_server_llm_benchmarks: no targets collected — check Wave A benchmark labels")
+endif()
+
+get_property(_wave_a_sqst_benchmark_targets GLOBAL PROPERTY THEMIS_WAVE_A_BENCHMARK_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS)
+if(_wave_a_sqst_benchmark_targets)
+    list(REMOVE_DUPLICATES _wave_a_sqst_benchmark_targets)
+    add_custom_target(themis_wave_a_server_query_storage_transaction_benchmarks
+        DEPENDS ${_wave_a_sqst_benchmark_targets})
+    message(STATUS "themis_wave_a_server_query_storage_transaction_benchmarks aggregate target covers: ${_wave_a_sqst_benchmark_targets}")
+else()
+    add_custom_target(themis_wave_a_server_query_storage_transaction_benchmarks)
+    message(WARNING "themis_wave_a_server_query_storage_transaction_benchmarks: no targets collected — check Wave A benchmark labels")
+endif()
+
+get_property(_wave_a_sharding_txn_benchmark_targets GLOBAL PROPERTY THEMIS_WAVE_A_BENCHMARK_SHARDING_TRANSACTION_TARGETS)
+if(_wave_a_sharding_txn_benchmark_targets)
+    list(REMOVE_DUPLICATES _wave_a_sharding_txn_benchmark_targets)
+    add_custom_target(themis_wave_a_sharding_transaction_benchmarks
+        DEPENDS ${_wave_a_sharding_txn_benchmark_targets})
+    message(STATUS "themis_wave_a_sharding_transaction_benchmarks aggregate target covers: ${_wave_a_sharding_txn_benchmark_targets}")
+else()
+    add_custom_target(themis_wave_a_sharding_transaction_benchmarks)
+    message(WARNING "themis_wave_a_sharding_transaction_benchmarks: no targets collected — check Wave A benchmark labels")
+endif()
+
+get_property(_wave_a_search_stack_benchmark_targets GLOBAL PROPERTY THEMIS_WAVE_A_BENCHMARK_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS)
+if(_wave_a_search_stack_benchmark_targets)
+    list(REMOVE_DUPLICATES _wave_a_search_stack_benchmark_targets)
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_benchmarks
+        DEPENDS ${_wave_a_search_stack_benchmark_targets})
+    message(STATUS "themis_wave_a_search_index_tensor_graph_llm_benchmarks aggregate target covers: ${_wave_a_search_stack_benchmark_targets}")
+else()
+    add_custom_target(themis_wave_a_search_index_tensor_graph_llm_benchmarks)
+    message(WARNING "themis_wave_a_search_index_tensor_graph_llm_benchmarks: no targets collected — check Wave A benchmark labels")
 endif()
 
 list(LENGTH _eligible_benchmark_targets _eligible_benchmark_count)

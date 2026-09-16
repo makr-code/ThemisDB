@@ -63,7 +63,7 @@ if(NOT TARGET module_auth_test_wave4b_auth_hardening2_focused)
         TARGET module_auth_test_wave4b_auth_hardening2_focused
         TIER unit
         TIMEOUT 120
-        LABELS auth wave_b release_critical
+        LABELS auth wave_b release_critical wave_b_boundary_policy_control
     )
 endif()
 
@@ -95,6 +95,6 @@ if(NOT TARGET module_auth_test_wave7_auth_ldap_federated_focused)
         TARGET module_auth_test_wave7_auth_ldap_federated_focused
         TIER unit
         TIMEOUT 120
-        LABELS auth wave_b release_critical
+        LABELS auth wave_b release_critical wave_b_boundary_policy_control
     )
 endif()

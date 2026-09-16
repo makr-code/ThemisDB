@@ -343,7 +343,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS release_critical llm phase1
+            LABELS release_critical wave_a_flow_server_llm llm phase1
         )
     elseif(_stem STREQUAL "test_llm_memory_safety_hardening")
         themis_register_module_focused_test(
@@ -352,7 +352,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS release_critical llm batch1 memory_safety
+            LABELS release_critical wave_a_flow_server_llm llm batch1 memory_safety
+        )
+    elseif(_stem STREQUAL "test_llm_multi_model_integration")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER integration
+            TIMEOUT 180
+            LABELS wave_a_flow_server_llm llm integration multi_model
         )
     elseif(_stem STREQUAL "test_subagent_orchestration_focused" OR
            _stem STREQUAL "test_wiki_crossdep_focused")
@@ -397,7 +406,8 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
 
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
          OR _stem STREQUAL "test_llm_wiki_phase3_features_focused"
-         OR _stem STREQUAL "test_llm_wiki_plugin_phase3_phase4_focused")
+         OR _stem STREQUAL "test_llm_wiki_plugin_phase3_phase4_focused"
+         OR _stem STREQUAL "test_llm_multi_model_integration")
         continue()
     endif()
 

@@ -1,12 +1,16 @@
 # Test and Benchmark Documentation Mapping
 
-Status: Active maintainer reference
-Last update: 2026-08-21
-Purpose: Fast mapping from historical reports to current canonical sources.
+**Author:** ThemisDB Contributors  
+**Created:** 2026-08-21  
+**Last Updated:** 2026-09-14  
+**Status:** active
 
 ## Canonical Sources (Current)
 
 - Test rules: [TESTING_STANDARDS.md](TESTING_STANDARDS.md)
+- Test-density ownership matrix: [TEST_DENSITY_MATRIX.md](TEST_DENSITY_MATRIX.md)
+- Test-density closure wave plan: [TEST_DENSITY_WAVE_PLAN.md](TEST_DENSITY_WAVE_PLAN.md)
+- Wave A execution backlog: [TEST_DENSITY_WAVE_A_BACKLOG.md](TEST_DENSITY_WAVE_A_BACKLOG.md)
 - Benchmark rules: [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md)
 - Benchmark measurement protocol: [../benchmarks/MEASUREMENT_HYGIENE.md](../benchmarks/MEASUREMENT_HYGIENE.md)
 - CTest run/inventory truth: [../CTEST.md](../CTEST.md)
@@ -19,7 +23,7 @@ Purpose: Fast mapping from historical reports to current canonical sources.
 | [GOOGLE_TEST_WIRKSAMKEIT_ZUSAMMENFASSUNG.md](GOOGLE_TEST_WIRKSAMKEIT_ZUSAMMENFASSUNG.md) | Test effectiveness summary | [TESTING_STANDARDS.md](TESTING_STANDARDS.md), [../CTEST.md](../CTEST.md) | Keep as historical context |
 | [TEST_VERIFICATION_SUMMARY.md](TEST_VERIFICATION_SUMMARY.md) | Verification snapshot | [TESTING_STANDARDS.md](TESTING_STANDARDS.md), [../CTEST.md](../CTEST.md) | Keep as historical context |
 | [TEST_ENHANCEMENT_SUMMARY.md](TEST_ENHANCEMENT_SUMMARY.md) | Test/benchmark enhancement snapshot | [TESTING_STANDARDS.md](TESTING_STANDARDS.md), [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md) | Keep as historical context |
-| [TEST_COVERAGE_REPORT.md](TEST_COVERAGE_REPORT.md) | Coverage analysis snapshot | [TESTING_STANDARDS.md](TESTING_STANDARDS.md), [../CTEST.md](../CTEST.md) | Keep as historical context |
+| [TEST_COVERAGE_REPORT.md](TEST_COVERAGE_REPORT.md) | Coverage analysis snapshot | [TEST_DENSITY_MATRIX.md](TEST_DENSITY_MATRIX.md), [TESTING_STANDARDS.md](TESTING_STANDARDS.md), [../CTEST.md](../CTEST.md) | Keep as historical context |
 | [../benchmarks/docs/BENCHMARKS_EXECUTIVE_SUMMARY.md](../benchmarks/docs/BENCHMARKS_EXECUTIVE_SUMMARY.md) | Executive benchmark status | [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md), [../benchmarks/README.md](../benchmarks/README.md) | Keep as historical context |
 | [../benchmarks/docs/BENCHMARK_IMPLEMENTATION_REPORT.md](../benchmarks/docs/BENCHMARK_IMPLEMENTATION_REPORT.md) | Implementation/report snapshot | [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md), [../benchmarks/MEASUREMENT_HYGIENE.md](../benchmarks/MEASUREMENT_HYGIENE.md) | Keep as historical context |
 | [../benchmarks/docs/SCIENTIFIC_BENCHMARKS_COMPLETION_SUMMARY.md](../benchmarks/docs/SCIENTIFIC_BENCHMARKS_COMPLETION_SUMMARY.md) | Scientific benchmark rollout snapshot | [../benchmarks/BENCHMARK_STANDARDS.md](../benchmarks/BENCHMARK_STANDARDS.md), [../benchmarks/MEASUREMENT_HYGIENE.md](../benchmarks/MEASUREMENT_HYGIENE.md) | Keep as historical context |

@@ -654,7 +654,9 @@ public:
         uint64_t evictions{0};
     };
 
-    explicit MultiTierCache(Config cfg = {}) : cfg_(cfg) {}
+    MultiTierCache() : MultiTierCache(Config{}) {}
+
+    explicit MultiTierCache(Config cfg) : cfg_(cfg) {}
 
     /// @brief Access a key. Returns value or empty string on miss.
     std::string get(const std::string& key) {
@@ -1270,7 +1272,9 @@ public:
         uint64_t peak_size{0};
     };
 
-    explicit ConnectionPool(Config cfg = {}) : cfg_(cfg) {
+    ConnectionPool() : ConnectionPool(Config{}) {}
+
+    explicit ConnectionPool(Config cfg) : cfg_(cfg) {
         for (size_t i = 0; i < cfg_.min_size; ++i)
             available_.push_back(nextId());
         current_size_ = cfg_.min_size;

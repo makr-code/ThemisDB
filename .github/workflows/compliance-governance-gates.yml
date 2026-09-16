@@ -25,24 +25,6 @@ on:
       - '.github/workflows/compliance-governance-gates.yml'
     tags:
       - 'v*-rc.*'
-  pull_request:
-    types: [opened, synchronize, labeled, unlabeled, reopened]
-    branches:
-      - develop
-      - minimal
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-    paths:
-      - 'ROADMAP.md'
-      - 'FUTURE_ENHANCEMENTS.md'
-      - 'audit/MATURITY_REPORT_*.md'
-      - 'src/*/ROADMAP.md'
-      - 'scripts/verification/**'
-      - 'tests/test_maturity_exit_criteria.py'
-      - 'docs/governance/**'
-      - '.github/workflows/compliance-governance-gates.yml'
   pull_request_review:
     types: [submitted]
   issue_comment:
@@ -64,25 +46,80 @@ permissions:
   checks: write
   security-events: read
 
-# Concurrency: cancel in-progress runs on the same ref so stale PR runs are
-# replaced when new commits are pushed. Note: governance-gate handles multiple
-# event types; cancel-in-progress ensures stale runs are cleared promptly.
+# Concurrency: keep review, comment, and branch-driven runs in separate lanes so
+# approval events do not cancel waiver handling or non-PR maintenance runs.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || github.ref }}
   cancel-in-progress: true
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
-  # 1. Maturity Verification (push/PR/schedule)
+  gate-event-context:
+    name: Governance Gate Event Context
+    runs-on: ubuntu-latest
+    outputs:
+      run_pr_governance_gates: ${{ steps.decide.outputs.run_pr_governance_gates }}
+    steps:
+      - name: Decide whether PR governance gates should run
+        id: decide
+        uses: actions/github-script@v7
+        with:
+          script: |
+            if (context.eventName !== 'pull_request_review') {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
+
+            const reviewState = String(context.payload.review?.state || '').toLowerCase();
+            if (reviewState !== 'approved') {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
+
+            const baseRef = String(context.payload.pull_request?.base?.ref || '');
+            const allowedBaseRefs = new Set(['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military']);
+            if (!allowedBaseRefs.has(baseRef)) {
+              core.setOutput('run_pr_governance_gates', 'false');
+              return;
+            }
+
+            const changedFiles = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+
+            const scopePatterns = [
+              /^ROADMAP\.md$/,
+              /^FUTURE_ENHANCEMENTS\.md$/,
+              /^audit\/MATURITY_REPORT_[^/]+\.md$/,
+              /^src\/[^/]+\/ROADMAP\.md$/,
+              /^scripts\/verification\//,
+              /^tests\/test_maturity_exit_criteria\.py$/,
+              /^docs\/governance\//,
+              /^\.github\/workflows\/compliance-governance-gates\.yml$/,
+            ];
+
+            const inScope = changedFiles.some(file =>
+              scopePatterns.some(pattern => pattern.test(String(file.filename || '')))
+            );
+
+            core.setOutput('run_pr_governance_gates', inScope ? 'true' : 'false');
+
+  # 1. Maturity Verification (push/approved review/schedule)
   maturity-verification:
     name: Maturity Evidence & Gate Verification
+    needs: gate-event-context
     runs-on: ubuntu-latest
     if: >
+      always() && (
       github.event_name == 'push' ||
-      github.event_name == 'pull_request' ||
       github.event_name == 'schedule' ||
-      github.event_name == 'workflow_dispatch'
+      github.event_name == 'workflow_dispatch' ||
+      (needs.gate-event-context.result == 'success' &&
+       needs.gate-event-context.outputs.run_pr_governance_gates == 'true'))
     steps:
       - uses: actions/checkout@v4  # v7.0.1
         with:
@@ -168,12 +205,14 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
-  # 2. Module Phase Gate (PR — ROADMAP.md changes)
+  # 2. Module Phase Gate (approved review — ROADMAP.md changes)
   module-phase-gate:
     name: Module Phase Closure Validation
+    needs: gate-event-context
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'pull_request'
+    # Intentionally review-only: phase closure is evaluated only for the final
+    # approval gate, not for push/schedule maintenance runs.
+    if: needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
     steps:
       - uses: actions/checkout@v4  # v7.0.1
         with:
@@ -206,15 +245,14 @@ jobs:
               --module "${module}" || true
           done
 
-  # 3. Merge Gate Enforcer (PR open/sync/review/comment)
+  # 3. Merge Gate Enforcer (approved PR review)
   merge-gate-enforcer:
     name: Merge Gate Enforcer
+    needs: gate-event-context
     runs-on: ubuntu-latest
-    if: >
-      (github.event_name == 'pull_request' &&
-       (github.event.action == 'opened' || github.event.action == 'synchronize')) ||
-      github.event_name == 'pull_request_review' ||
-      github.event_name == 'issue_comment'
+    # Intentionally review-only: merge gating should happen on the approval
+    # review event that immediately precedes merge.
+    if: needs.gate-event-context.outputs.run_pr_governance_gates == 'true'
     steps:
       - uses: actions/checkout@v4  # v7.0.1
         with:
@@ -240,7 +278,7 @@ jobs:
 
       - name: Prepare gate result summary
         id: gate_comment
-        if: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+        if: steps.validate.outputs.tier0_status != 'skipped'
         shell: bash
         run: |
           python3 - <<'PY'
@@ -264,7 +302,7 @@ jobs:
           PY
 
       - name: Post gate result to PR
-        if: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+        if: steps.validate.outputs.tier0_status != 'skipped'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -816,13 +854,16 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   wave-gate-automation:
     name: 🌊 Wave Gate Automation (ROADMAP checkbox parser)
+    needs: gate-event-context
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
+      always() && (
       github.event_name == 'push' ||
-      github.event_name == 'pull_request' ||
       github.event_name == 'schedule' ||
-      github.event_name == 'workflow_dispatch'
+      github.event_name == 'workflow_dispatch' ||
+      (needs.gate-event-context.result == 'success' &&
+       needs.gate-event-context.outputs.run_pr_governance_gates == 'true'))
     permissions:
       contents: read
       pull-requests: write
@@ -953,8 +994,8 @@ jobs:
           print(f"  Blocking items  : {total_blocking}")
           PY
 
-      - name: Annotate PR with wave gate status
-        if: github.event_name == 'pull_request' && steps.wave_gate.outputs.blocking_count != '0'
+      - name: Emit wave gate warning
+        if: steps.wave_gate.outputs.blocking_count != '0'
         run: |
           echo "::warning::🌊 Wave gate (${{ steps.wave_gate.outputs.wave }}) — ${{ steps.wave_gate.outputs.blocking_count }} in-progress [~] item(s) detected in module ROADMAPs. Resolve before wave promotion."
           echo ""

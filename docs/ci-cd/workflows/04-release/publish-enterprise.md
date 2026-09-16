@@ -1,5 +1,10 @@
 # Publish · Enterprise Edition
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-15
+**Last Updated:** 2026-09-15
+**Status:** archived
+
 > [!WARNING]
 > Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
 > Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
@@ -55,7 +60,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · En
 **Schritte:**
 
 - **Resolve version** — `if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then`
-- **Download build artefacts** — `actions/download-artifact@v4`
+- **Download build artefacts** — `actions/download-artifact@v4.1.3`
 - **Log in to Enterprise registry** — `docker/login-action@v3`
 - **Sign artefacts with GPG** — `set -euo pipefail`
 - **Publish artefacts** — `DRY_RUN="${{ steps.version.outputs.dry_run }}"`
@@ -69,5 +74,3 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · En
 
 - [Workflow-Datei](../../.github/workflows/04-release_publish-enterprise.yml)
 - [Alle Workflows](../README.md)
-
-

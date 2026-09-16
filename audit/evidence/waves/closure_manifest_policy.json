@@ -1,0 +1,44 @@
+{
+  "required_manifests": [
+    {
+      "file": "gpu_wave_a_closure_manifest.json",
+      "wave": "Wave A",
+      "module": "gpu"
+    },
+    {
+      "file": "transaction_wave_b_closure_manifest.json",
+      "wave": "Wave B",
+      "module": "transaction"
+    },
+    {
+      "file": "wave_a_exit_closure_manifest.json",
+      "wave": "Wave A",
+      "module": "wave-a-exit"
+    },
+    {
+      "file": "wave_b_module_hardening_closure_manifest.json",
+      "wave": "Wave B",
+      "module": "wave-b-module-hardening"
+    },
+    {
+      "file": "wave_b_integration_closure_manifest.json",
+      "wave": "Wave B",
+      "module": "wave-b-integration"
+    },
+    {
+      "file": "wave_ab_gap_closure_manifest.json",
+      "wave": "Wave B",
+      "module": "wave-ab-gap-closure"
+    },
+    {
+      "file": "security_wave_c_closure_manifest.json",
+      "wave": "Wave C",
+      "module": "security-governance"
+    },
+    {
+      "file": "operability_wave_d_closure_manifest.json",
+      "wave": "Wave D",
+      "module": "operability"
+    }
+  ]
+}

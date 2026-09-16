@@ -8,6 +8,7 @@ foreach(_src IN LISTS INDEX_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_index_${_stem}_focused")
     set(_ctest "${_stem}_IndexFocusedTests")
+    set(_labels)
 
     # Temporarily quarantine focused suites that still target a superseded
     # AnnFrontdoor test contract.
@@ -31,12 +32,19 @@ foreach(_src IN LISTS INDEX_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_distributed_vector_index")
+        list(APPEND _labels index distributed vector wave_a release_critical)
+    elseif(_stem STREQUAL "test_wave5_index_hardening")
+        list(APPEND _labels index hardening wave_a release_critical)
+    endif()
+
     themis_register_module_focused_test(
         MODULE index
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
+        LABELS ${_labels}
     )
 endforeach()
 

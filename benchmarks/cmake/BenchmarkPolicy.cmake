@@ -92,6 +92,26 @@ function(themis_register_benchmark_ctest)
         if("release_critical" IN_LIST TRB_EXTRA_LABELS)
             set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS ${TRB_TARGET})
         endif()
+        if("wave_a_benchmark_server_llm" IN_LIST TRB_EXTRA_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_BENCHMARK_SERVER_LLM_TARGETS
+                ${TRB_TARGET})
+        endif()
+        if("wave_a_benchmark_server_query_storage_transaction" IN_LIST TRB_EXTRA_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_BENCHMARK_SERVER_QUERY_STORAGE_TRANSACTION_TARGETS
+                ${TRB_TARGET})
+        endif()
+        if("wave_a_benchmark_sharding_transaction" IN_LIST TRB_EXTRA_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_BENCHMARK_SHARDING_TRANSACTION_TARGETS
+                ${TRB_TARGET})
+        endif()
+        if("wave_a_benchmark_search_index_tensor_graph_llm" IN_LIST TRB_EXTRA_LABELS)
+            set_property(GLOBAL APPEND PROPERTY
+                THEMIS_WAVE_A_BENCHMARK_SEARCH_INDEX_TENSOR_GRAPH_LLM_TARGETS
+                ${TRB_TARGET})
+        endif()
     endif()
 
     set_tests_properties("${TRB_NAME}" PROPERTIES

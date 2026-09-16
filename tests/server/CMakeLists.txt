@@ -42,7 +42,7 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS wave_a release_critical server llm hardening
+            LABELS wave_a release_critical wave_a_flow_server_llm server llm hardening
         )
     elseif(_stem STREQUAL "test_server_phase5_hardening")
         themis_register_module_focused_test(
@@ -78,7 +78,7 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 120
-            LABELS release_critical server phase2 gateway
+            LABELS release_critical wave_a_flow_server_llm wave_a_flow_server_query_storage_transaction server phase2 gateway
         )
     elseif(_stem STREQUAL "test_server_openapi_drift_focused")
         themis_register_module_focused_test(
