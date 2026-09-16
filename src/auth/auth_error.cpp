@@ -592,7 +592,14 @@ void registerAuthErrors() {
         "Access is denied until the provider is confirmed healthy (fail-closed policy).",
         "Check provider connectivity, certificates, and health endpoints. "
         "Review auth module logs for the specific network or RPC error.",
-        {}, {"provider", "federation", "availability", "fail-closed"}
+        {}, {"provider", "federation", "availability", "fail-closed"},
+        {{"classification", "federation"},
+         {"check", nlohmann::json::array({
+             "Verify provider network reachability from this node",
+             "Check TLS/certificate validity for the provider endpoint",
+             "Review auth module logs for the specific RPC or HTTP error",
+             "Inspect AsyncHTTPAuth and LDAP pool health metrics"})},
+         {"escalation", "If provider is confirmed healthy, check for clock skew or certificate expiry"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH),
@@ -602,7 +609,13 @@ void registerAuthErrors() {
         "available or not satisfied in the current runtime environment.",
         "Verify provider configuration against the runtime environment "
         "(TLS certificates, JWKS endpoint reachability, connection pool health).",
-        {}, {"provider", "capability", "configuration"}
+        {}, {"provider", "capability", "configuration"},
+        {{"classification", "federation"},
+         {"check", nlohmann::json::array({
+             "Confirm TLS certificate is present and valid for the provider endpoint",
+             "Verify JWKS endpoint is reachable and returns a valid JWKS document",
+             "Check connection pool configuration (min_idle, max_size, checkout_timeout_ms)"})},
+         {"escalation", "Review provider configuration against runtime capability requirements"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::FEDERATION_REALM_UNAVAILABLE),
@@ -611,7 +624,13 @@ void registerAuthErrors() {
         "The OIDC discovery endpoint for a registered federation realm is unreachable "
         "or returned an invalid discovery document.",
         "Check realm issuer URL and network connectivity. Review JWKS cache TTL settings.",
-        {}, {"federation", "realm", "oidc", "discovery"}
+        {}, {"federation", "realm", "oidc", "discovery"},
+        {{"classification", "federation"},
+         {"check", nlohmann::json::array({
+             "Verify the realm issuer URL is reachable: curl <issuer>/.well-known/openid-configuration",
+             "Check JWKS cache TTL and force a cache refresh if stale",
+             "Inspect FederatedIdentityManager logs for the specific discovery error"})},
+         {"escalation", "If realm is permanently decommissioned, remove it via FederatedIdentityManager::removeRealm()"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::FEDERATION_UNKNOWN_REALM),
@@ -621,7 +640,13 @@ void registerAuthErrors() {
         "in FederatedIdentityManager.",
         "Register the issuer URL as a realm via FederatedIdentityManager::addRealm() "
         "or reject tokens from unknown issuers.",
-        {}, {"federation", "realm", "issuer", "jwt"}
+        {}, {"federation", "realm", "issuer", "jwt"},
+        {{"classification", "federation"},
+         {"check", nlohmann::json::array({
+             "Extract the iss claim from the rejected token",
+             "Verify the issuer URL is expected and authorized",
+             "Register the issuer with FederatedIdentityManager::addRealm() if legitimate"})},
+         {"escalation", "Unexpected issuers may indicate token forgery; escalate to security if iss is unknown"}}
     });
 
     // Revocation backend errors
@@ -633,7 +658,14 @@ void registerAuthErrors() {
         "is unreachable. isRevoked() returns true (deny) for unconfirmed tokens.",
         "Check revocation backend health. Review DistributedTokenBlacklist replication stats. "
         "Ensure RocksDB or Redis endpoint is reachable from this node.",
-        {}, {"revocation", "blacklist", "backend", "availability"}
+        {}, {"revocation", "blacklist", "backend", "availability"},
+        {{"classification", "revocation"},
+         {"check", nlohmann::json::array({
+             "Check RocksDB data directory health: ls -la /var/lib/themisdb/blacklist/",
+             "Verify Redis endpoint reachability if using RedisTokenBlacklist",
+             "Review DistributedTokenBlacklist::getReplicationStats() for sync error counts",
+             "Inspect TBLK/v1 RPC port reachability between cluster nodes"})},
+         {"escalation", "See src/auth/RUNBOOK.md §Scenario 1 for step-by-step recovery"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::REVOCATION_ENTRY_INVALID),
@@ -642,7 +674,13 @@ void registerAuthErrors() {
         "A JTI or expiry value presented to the revocation backend violates size or format constraints.",
         "Validate JTI length (<= 1024 bytes) and expiry epoch. "
         "Ensure callers do not pass empty or oversized JTI strings.",
-        {}, {"revocation", "jti", "validation"}
+        {}, {"revocation", "jti", "validation"},
+        {{"classification", "revocation"},
+         {"check", nlohmann::json::array({
+             "Verify JTI is non-empty and <= 1024 bytes",
+             "Verify expiry_unix_secs is a positive epoch value in the future",
+             "Check the caller for correct JTI extraction from the JWT jti claim"})},
+         {"escalation", "If JTI is malformed in a valid JWT, investigate the issuing identity provider"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::REVOCATION_CLUSTER_SYNC_FAILED),
@@ -652,7 +690,14 @@ void registerAuthErrors() {
         "Local state may be stale; the node continues to accept local revocations.",
         "Check cluster node connectivity, TBLK/v1 RPC port reachability, and peer_rpc_timeout_ms. "
         "Review DistributedTokenBlacklist::getReplicationStats() for sync failure counts.",
-        {}, {"revocation", "cluster", "sync", "distributed"}
+        {}, {"revocation", "cluster", "sync", "distributed"},
+        {{"classification", "revocation"},
+         {"check", nlohmann::json::array({
+             "Verify all peer nodes are reachable on their configured rpc_port",
+             "Check peer_rpc_timeout_ms — increase if peers are on high-latency links",
+             "Review DistributedTokenBlacklist::getReplicationStats().sync_failures",
+             "Inspect cluster leader election: ensure exactly one node has isLeader() == true"})},
+         {"escalation", "See src/auth/RUNBOOK.md §Scenario 2 for leader-election stall recovery"}}
     });
 
     // Policy / authorization edge errors
@@ -664,7 +709,13 @@ void registerAuthErrors() {
         "The default-deny policy applies (fail-closed).",
         "Ensure all expected resource types and actions have explicit policy entries. "
         "Review authorization_policy configuration for missing rules.",
-        {}, {"policy", "authorization", "default-deny", "fail-closed"}
+        {}, {"policy", "authorization", "default-deny", "fail-closed"},
+        {{"classification", "policy"},
+         {"check", nlohmann::json::array({
+             "Identify the resource type and action in the denied request from audit logs",
+             "Review authorization_policy configuration for a matching rule",
+             "Add an explicit policy entry for the resource/action pair if authorized"})},
+         {"escalation", "Default-deny is intentional; missing rules indicate a policy gap — do not bypass"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::POLICY_MISSING_REQUIRED_CLAIM),
@@ -674,7 +725,13 @@ void registerAuthErrors() {
         "that is not present in the validated principal.",
         "Ensure the identity provider includes the required claims in issued tokens. "
         "Check token scope and IdP claim mapping configuration.",
-        {}, {"policy", "claim", "authorization", "jwt"}
+        {}, {"policy", "claim", "authorization", "jwt"},
+        {{"classification", "policy"},
+         {"check", nlohmann::json::array({
+             "Decode the rejected token and verify which claim is missing",
+             "Check IdP claim mapping configuration for the required claim",
+             "Verify that the requested OAuth/OIDC scope includes the claim-producing scope"})},
+         {"escalation", "If the claim cannot be added to the token, review the policy requirement"}}
     });
 
     // Async provider / timeout errors
@@ -686,7 +743,13 @@ void registerAuthErrors() {
         "The outstanding future holds this error; access is denied (fail-closed).",
         "Increase async_timeout_ms if the provider legitimately needs more time, "
         "or investigate provider latency spikes. Review AsyncHTTPAuth and LDAP pool health.",
-        {}, {"async", "timeout", "provider", "fail-closed"}
+        {}, {"async", "timeout", "provider", "fail-closed"},
+        {{"classification", "async"},
+         {"check", nlohmann::json::array({
+             "Check provider response latency from this node's perspective",
+             "Review async_timeout_ms in AuthWorkerThreadPool configuration",
+             "Inspect AsyncHTTPAuth and LDAPConnectionPool health metrics"})},
+         {"escalation", "Repeated timeouts indicate provider latency regression or network degradation"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::ASYNC_POOL_EXHAUSTED),
@@ -696,7 +759,13 @@ void registerAuthErrors() {
         "Access is denied to avoid silent queue build-up.",
         "Increase AuthWorkerThreadPool max_threads or reduce request concurrency. "
         "Monitor pool utilisation metrics.",
-        {}, {"async", "pool", "exhaustion", "capacity"}
+        {}, {"async", "pool", "exhaustion", "capacity"},
+        {{"classification", "async"},
+         {"check", nlohmann::json::array({
+             "Check AuthWorkerThreadPool max_threads against current request concurrency",
+             "Monitor pool queue depth and active thread count via auth metrics",
+             "Identify any long-running async calls that are holding threads"})},
+         {"escalation", "Increase max_threads; if pool exhaustion is chronic, investigate auth request surge"}}
     });
     registry.registerError({
         toErrorCode(AuthErrorCode::ASYNC_PROVIDER_EXCEPTION),
@@ -706,7 +775,13 @@ void registerAuthErrors() {
         "Access is denied (fail-closed).",
         "Review auth module logs for the underlying exception message. "
         "Ensure provider adapters wrap all exceptions as structured AuthExceptions.",
-        {}, {"async", "exception", "provider"}
+        {}, {"async", "exception", "provider"},
+        {{"classification", "async"},
+         {"check", nlohmann::json::array({
+             "Search auth logs for the unclassified exception message preceding this error",
+             "Identify the provider adapter (LDAP, HTTP, OIDC) that threw the exception",
+             "Ensure the adapter's exception handling wraps all errors as AuthException"})},
+         {"escalation", "Unclassified exceptions indicate a missing exception guard in a provider adapter"}}
     });
 }
 

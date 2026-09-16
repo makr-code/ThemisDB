@@ -67,7 +67,7 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 
 - behavior remains partly capability-dependent on enabled runtime backends/options.
 - wasm execution paths require an injected WasmRuntime for full functional coverage (validation-only mode is fully tested).
-- GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step not yet wired.
+- GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step. Wave D delivers `benchmarks/baselines/base/wave_d_baselines.json` with defined thresholds; wiring the comparison step into CI is tracked as a post-Wave-D follow-up. p95/p99 values on representative hardware are a prerequisite for closing the benchmark Program-Level Success Criterion (see ROADMAP.md §Program-Level Success Criteria).
 
 ## Breaking Changes
 
@@ -81,9 +81,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `base`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — completed 2026-09-16: `trace_context.h` integration in `hot_reload_manager.cpp` (ScopedSpan on reloadModule/rollback), `remote_registry_client.cpp` retry_exhausted_count/timeout_count counters + ObservabilityHook firing, test coverage in `tests/base/test_base_wave_d_tracing.cpp`
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — completed 2026-09-16: `tests/base/test_base_soak.cpp` delivers reload/rollback/re-register soak loop + stats monotonicity + concurrent soak; THEMIS_SOAK_ITERATIONS-parameterized; registered under `ctest -L soak`
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — completed 2026-09-16: `src/base/RUNBOOK.md` covers BASE_LOADER_*/BASE_SANDBOX_*/BASE_RELOAD_*/BASE_DEP_*/BASE_REGISTRY_* codes with diagnostics, remediation steps, and Prometheus alert reference
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -91,9 +91,9 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — completed 2026-09-16: test_base_wave_d_tracing.cpp FailClosedTest suite verifies all BASE_LOADER_*/BASE_SANDBOX_* error paths leave no partial state and emit error-coded spans
+- [?] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — PENDING HUMAN SIGN-OFF: `benchmarks/baselines/base/wave_d_baselines.json` defines thresholds; measured results must be collected on representative hardware and committed before marking [x]; see wave_d_baselines.json `_status` field
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — completed 2026-09-16: `src/base/RUNBOOK.md` covers all error-code groups with diagnostics, remediation, and Prometheus alert reference; `remediationHint()` on every taxonomy code
 
 ## Wave A → D Gap-Closure Execution (2026-08-24)
 
@@ -101,3 +101,4 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [x] **Wave B (high-risk resource/lifecycle pass)**: curl RAII cleanup guards and exception-safe cleanup in `remote_registry_client.cpp` completed (batch C).
 - [x] **Wave C (concurrency/runtime correctness pass)**: `hot_reload_manager.cpp` stale-slot/null-loader reload/rollback hardening completed (batch D).
 - [~] **Wave D (operability + long-duration confidence)**: remaining observability/runbook soak tasks continue under existing Q1 2027 items above.
+- [x] **Wave D CLOSED (2026-09-16)**: distributed tracing (ScopedSpan in hot_reload_manager), exporter reliability counters (retry_exhausted_count/timeout_count + ObservabilityHook in remote_registry_client), high-cardinality stress tests, long-duration soak tests, operator runbook, and benchmark baseline file all delivered. Benchmark p95/p99 hardware sign-off pending — see ROADMAP.md Program-Level Success Criteria.

@@ -57,7 +57,7 @@ protected:
         db_.reset(openDB(db_path_, /*with_merge_operator=*/true));
         Changefeed::RetentionPolicy rp;
         rp.enabled = false;
-        feed_ = std::make_unique<Changefeed>(db_.get(), nullptr, rp);
+        feed_ = std::make_unique<Changefeed>(db_.get(), db_->DefaultColumnFamily(), rp);
     }
 
     void TearDown() override {
@@ -305,7 +305,7 @@ TEST(SequenceCounterCrashRecovery, ContinuesAfterReopen) {
         std::unique_ptr<rocksdb::TransactionDB> db(openDB(path, true));
         Changefeed::RetentionPolicy rp;
         rp.enabled = false;
-        Changefeed feed(db.get(), nullptr, rp);
+        Changefeed feed(db.get(), db->DefaultColumnFamily(), rp);
 
         for (int i = 0; i < 10; ++i) {
             Changefeed::ChangeEvent ev;
@@ -322,7 +322,7 @@ TEST(SequenceCounterCrashRecovery, ContinuesAfterReopen) {
         std::unique_ptr<rocksdb::TransactionDB> db(openDB(path, true));
         Changefeed::RetentionPolicy rp;
         rp.enabled = false;
-        Changefeed feed(db.get(), nullptr, rp);
+        Changefeed feed(db.get(), db->DefaultColumnFamily(), rp);
 
         EXPECT_EQ(feed.getLatestSequence(), 10u);
 
@@ -375,7 +375,7 @@ TEST(SequenceCounterLegacyInit, LoadsLegacyStringFormatOnConstruction) {
         std::unique_ptr<rocksdb::TransactionDB> db(openDB(path, true));
         Changefeed::RetentionPolicy rp;
         rp.enabled = false;
-        Changefeed feed(db.get(), nullptr, rp);
+        Changefeed feed(db.get(), db->DefaultColumnFamily(), rp);
 
         EXPECT_EQ(feed.getLatestSequence(), 42u);
 

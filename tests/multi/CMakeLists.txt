@@ -24,6 +24,13 @@ foreach(_src IN LISTS MULTI_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/rag/multi_step_rag.cpp
         )
     endif()
+    if(_stem STREQUAL "test_multi_gpu_vector_index")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/gpu_memory_oversubscription.cpp
+            ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
+            ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

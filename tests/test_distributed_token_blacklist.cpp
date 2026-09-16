@@ -219,8 +219,12 @@ TEST_F(DistributedBlacklistTest, LeaderElectionSimulated)
     cfg.peer_nodes.push_back(peer);
     
     DistributedTokenBlacklist blacklist(cfg);
-    
-    // Node with lowest ID should be leader
+
+    // Leader election is evaluated inside sync cycles.
+    // Trigger one cycle before asserting leadership state.
+    (void)blacklist.syncWithCluster().get();
+
+    // Node with lowest ID should be leader.
     EXPECT_TRUE(blacklist.isLeader());
 }
 

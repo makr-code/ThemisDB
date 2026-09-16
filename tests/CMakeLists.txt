@@ -2248,157 +2248,291 @@ endif()
 #         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 #         (from build/test_build_info.cpp, Issue #2470)
 add_test(NAME BuildInfoTests
-    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
+    COMMAND module_build_test_build_info_focused --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
 set_tests_properties(BuildInfoTests PROPERTIES
     LABELS "build;info;module;availability;themis;unit"
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:module_build_test_build_info_focused>
     TIMEOUT 60
 )
 
-# Edition manager tests (subset of AllTests)
-# Covers: singleton identity, edition information (type/name/limits),
-#         feature availability (compile-time gate + runtime license gate),
-#         resource-limit checks (node count, VRAM), feature enumeration,
-#         upgrade messages, RuntimeLicenseGate integration
-#         (from edition/test_edition_manager.cpp, Issue #2469)
-add_test(NAME EditionManagerTests
-    COMMAND themis_tests --gtest_filter=EditionManager.*)
-set_tests_properties(EditionManagerTests PROPERTIES
-    LABELS "edition;feature;gating;themis;unit"
-    TIMEOUT 60
-)
+# Edition and runtime-license focused test binary (decoupled from themis_tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dynamic_feature_flags.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_runtime_license_gate.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gate_result.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_license_client.cpp")
+    add_executable(test_edition_runtime_license_focused
+        test_edition_manager.cpp
+        test_dynamic_feature_flags.cpp
+        test_runtime_license_gate.cpp
+        test_gate_result.cpp
+        test_license_client.cpp
+    )
+    target_include_directories(test_edition_runtime_license_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_edition_runtime_license_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_edition_runtime_license_focused PRIVATE THEMIS_TEST_BUILD=1)
 
-# Dynamic feature-flag override tests (subset of AllTests)
-# Covers: setFeatureOverride / clearFeatureOverride / clearAllFeatureOverrides /
-#         hasFeatureOverride / getFeatureOverride, interaction with compile-time
-#         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
-#         (from dynamic/test_dynamic_feature_flags.cpp, Issue #2469)
-add_test(NAME DynamicFeatureFlagTests
-    COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
-set_tests_properties(DynamicFeatureFlagTests PROPERTIES
-    LABELS "edition;feature;override;themis;unit"
-    TIMEOUT 60
-)
+    # Edition manager tests (subset of AllTests)
+    # Covers: singleton identity, edition information (type/name/limits),
+    #         feature availability (compile-time gate + runtime license gate),
+    #         resource-limit checks (node count, VRAM), feature enumeration,
+    #         upgrade messages, RuntimeLicenseGate integration
+    #         (from edition/test_edition_manager.cpp, Issue #2469)
+    add_test(NAME EditionManagerTests
+        COMMAND test_edition_runtime_license_focused --gtest_filter=EditionManager.*)
+    set_tests_properties(EditionManagerTests PROPERTIES
+        LABELS "edition;feature;gating;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
+        TIMEOUT 60
+    )
 
-# Runtime license gate tests (subset of AllTests)
-# Covers: uninitialized gate, active/expired/grace/invalid/offline license states,
-#         compile-time OFF features, unknown features, initialize()/update()
-#         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
-#         (from runtime/test_runtime_license_gate.cpp)
-add_test(NAME RuntimeLicenseGateTests
-    COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
-set_tests_properties(RuntimeLicenseGateTests PROPERTIES
-    LABELS "license;runtime;license-gate;themis;unit"
-    TIMEOUT 60
-)
+    # Dynamic feature-flag override tests (subset of AllTests)
+    # Covers: setFeatureOverride / clearFeatureOverride / clearAllFeatureOverrides /
+    #         hasFeatureOverride / getFeatureOverride, interaction with compile-time
+    #         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
+    #         (from dynamic/test_dynamic_feature_flags.cpp, Issue #2469)
+    add_test(NAME DynamicFeatureFlagTests
+        COMMAND test_edition_runtime_license_focused --gtest_filter=DynamicFeatureFlagTest.*)
+    set_tests_properties(DynamicFeatureFlagTests PROPERTIES
+        LABELS "edition;feature;override;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
+        TIMEOUT 60
+    )
 
-# GateResult / LicenseDenialReason / LicenseInfo focused tests (v1.7.1)
-# Covers: GateResult defaults, GateResult::message() for all LicenseDenialReason values,
-#         GateResult operator bool(), RuntimeLicenseGate::checkFeature() for all denial
-#         paths (community features, unknown features, TIER_TOO_LOW, LICENSE_EXPIRED,
-#         SIGNATURE_MISMATCH), LicenseInfo::remaining_grace_days() boundary cases
-#         (not-yet-expired, today, 1 day ago, beyond grace, empty date, custom period)
-#         (from gate/test_gate_result.cpp, include/themis/ROADMAP.md v1.7.1)
-add_test(NAME GateResultFocusedTests
-    COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
-set_tests_properties(GateResultFocusedTests PROPERTIES
-    LABELS "license;license-gate;result;denial-reason;themis;unit"
-    TIMEOUT 60
-)
+    # Runtime license gate tests (subset of AllTests)
+    # Covers: uninitialized gate, active/expired/grace/invalid/offline license states,
+    #         compile-time OFF features, unknown features, initialize()/update()
+    #         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
+    #         (from runtime/test_runtime_license_gate.cpp)
+    add_test(NAME RuntimeLicenseGateTests
+        COMMAND test_edition_runtime_license_focused --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+    set_tests_properties(RuntimeLicenseGateTests PROPERTIES
+        LABELS "license;runtime;license-gate;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
+        TIMEOUT 60
+    )
 
-# LicenseClient focused tests (subset of AllTests)
-# Covers: LicenseActivationResult defaults, LicenseClientConfig defaults,
-#         getMachineFingerprint() format/stability/hex/length,
-#         offline activation with/without embedded license, offline-not-allowed,
-#         validate() caching, refresh(), getCachedLicense() before/after activation
-#         (from license/test_license_client.cpp)
-add_test(NAME LicenseClientFocusedTests
-    COMMAND themis_tests --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
-set_tests_properties(LicenseClientFocusedTests PROPERTIES
-    LABELS "license;client;activation;fingerprint;themis;unit"
-    TIMEOUT 60
-)
+    # GateResult / LicenseDenialReason / LicenseInfo focused tests (v1.7.1)
+    # Covers: GateResult defaults, GateResult::message() for all LicenseDenialReason values,
+    #         GateResult operator bool(), RuntimeLicenseGate::checkFeature() for all denial
+    #         paths (community features, unknown features, TIER_TOO_LOW, LICENSE_EXPIRED,
+    #         SIGNATURE_MISMATCH), LicenseInfo::remaining_grace_days() boundary cases
+    #         (not-yet-expired, today, 1 day ago, beyond grace, empty date, custom period)
+    #         (from gate/test_gate_result.cpp, include/themis/ROADMAP.md v1.7.1)
+    add_test(NAME GateResultFocusedTests
+        COMMAND test_edition_runtime_license_focused --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
+    set_tests_properties(GateResultFocusedTests PROPERTIES
+        LABELS "license;license-gate;result;denial-reason;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
+        TIMEOUT 60
+    )
 
-# Module hash verifier tests (subset of AllTests)
-# Covers: SHA-256 computation (empty/known/large files, non-existent),
-#         verifyHash helper (match/mismatch/missing), manifest round-trip,
-#         addExpectedHash / manifestSize / clearManifest / getExpectedHash,
-#         verifyModule (success/mismatch/missing)
-#         (from module/test_module_hash_verifier.cpp, Issue #2471)
-add_test(NAME ModuleHashVerifierFocusedTests
-    COMMAND themis_tests --gtest_filter=ModuleHashVerifier.*)
-set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
-    LABELS "module;hash;verifier;security;themis;unit"
-    TIMEOUT 60
-)
+    # LicenseClient focused tests (subset of AllTests)
+    # Covers: LicenseActivationResult defaults, LicenseClientConfig defaults,
+    #         getMachineFingerprint() format/stability/hex/length,
+    #         offline activation with/without embedded license, offline-not-allowed,
+    #         validate() caching, refresh(), getCachedLicense() before/after activation
+    #         (from license/test_license_client.cpp)
+    add_test(NAME LicenseClientFocusedTests
+        COMMAND test_edition_runtime_license_focused --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
+    set_tests_properties(LicenseClientFocusedTests PROPERTIES
+        LABELS "license;client;activation;fingerprint;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
+        TIMEOUT 60
+    )
+else()
+    message(WARNING "Edition/runtime focused tests not found; falling back to themis_tests aliases")
+    add_test(NAME EditionManagerTests
+        COMMAND themis_tests --gtest_filter=EditionManager.*)
+    set_tests_properties(EditionManagerTests PROPERTIES
+        LABELS "edition;feature;gating;themis;unit"
+        TIMEOUT 60
+    )
 
-# Module signature verifier tests (subset of AllTests)
-# Covers: non-existent file, platform field, error on failure,
-#         GPG (no sig file, explicit non-existent sig, bad content, auto-detect .asc),
-#         Authenticode unsigned/non-existent, Windows unsigned module
-#         (from module/test_module_signature_verifier.cpp, Issue #2473)
-add_test(NAME ModuleSignatureVerifierFocusedTests
-    COMMAND themis_tests --gtest_filter=ModuleSignatureVerifier.*)
-set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
-    LABELS "module;signature;verifier;security;themis;unit"
-    TIMEOUT 60
-)
+    add_test(NAME DynamicFeatureFlagTests
+        COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
+    set_tests_properties(DynamicFeatureFlagTests PROPERTIES
+        LABELS "edition;feature;override;themis;unit"
+        TIMEOUT 60
+    )
 
-# Module dependency resolver tests (subset of AllTests)
-# Covers: ModuleDependency metadata, DependencyResolutionResult, ModuleErrorCode,
-#         ModuleMetadata, ModuleDependencyResolver (topological sort, version compat,
-#         cycle detection, registerModule/resolve/resolveFor/clear)
-#         (from module/test_module_dependency_resolver.cpp, Issue #2474)
-add_test(NAME ModuleDependencyResolverFocusedTests
-    COMMAND themis_tests --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
-set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
-    LABELS "module;dependency;resolver;themis;unit"
-    TIMEOUT 60
-)
+    add_test(NAME RuntimeLicenseGateTests
+        COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+    set_tests_properties(RuntimeLicenseGateTests PROPERTIES
+        LABELS "license;runtime;license-gate;themis;unit"
+        TIMEOUT 60
+    )
 
-# Module Loader core tests (subset of AllTests)
-# Covers: ModuleErrorCode enum values/ranges, ErrorCategory values,
-#         ModuleMetadata defaults/isValid, ModuleVerificationResult defaults,
-#         LoadedModule defaults, ModuleRegistry singleton/register/unregister,
-#         error message strings, error categorization, hash manifest
-#         (from module/test_module_loader.cpp)
-add_test(NAME ModuleLoaderFocusedTests
-    COMMAND themis_tests --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
-set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
-    LABELS "module;loader;security;themis;unit"
-    TIMEOUT 60
-)
+    add_test(NAME GateResultFocusedTests
+        COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
+    set_tests_properties(GateResultFocusedTests PROPERTIES
+        LABELS "license;license-gate;result;denial-reason;themis;unit"
+        TIMEOUT 60
+    )
 
-# Plugin Watchdog tests (subset of AllTests)
-# Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
-#         WatchdogModuleStats defaults/field completeness, lifecycle
-#         (start/stop/isRunning), idempotent start/stop, configureWatchdog,
-#         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats (incl.
-#         while running), disabled watchdog, destructor cleanup
-#         (from module/test_module_loader.cpp, Issue #2373)
-add_test(NAME PluginWatchdogFocusedTests
-    COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
-set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
-    LABELS "module;watchdog;health;restart;themis;unit"
-    TIMEOUT 60
-)
+    add_test(NAME LicenseClientFocusedTests
+        COMMAND themis_tests --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
+    set_tests_properties(LicenseClientFocusedTests PROPERTIES
+        LABELS "license;client;activation;fingerprint;themis;unit"
+        TIMEOUT 60
+    )
+endif()
+
+# Module-focused security/runtime tests (decoupled from themis_tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_signature_verifier.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_dependency_resolver.cpp"
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_loader.cpp")
+    add_executable(test_module_security_focused
+        test_module_hash_verifier.cpp
+        test_module_signature_verifier.cpp
+        test_module_dependency_resolver.cpp
+        test_module_loader.cpp
+    )
+    target_include_directories(test_module_security_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_module_security_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_module_security_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    # Module hash verifier tests (subset of AllTests)
+    # Covers: SHA-256 computation (empty/known/large files, non-existent),
+    #         verifyHash helper (match/mismatch/missing), manifest round-trip,
+    #         addExpectedHash / manifestSize / clearManifest / getExpectedHash,
+    #         verifyModule (success/mismatch/missing)
+    #         (from module/test_module_hash_verifier.cpp, Issue #2471)
+    add_test(NAME ModuleHashVerifierFocusedTests
+        COMMAND test_module_security_focused --gtest_filter=ModuleHashVerifier.*)
+    set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
+        LABELS "module;hash;verifier;security;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
+        TIMEOUT 60
+    )
+
+    # Module signature verifier tests (subset of AllTests)
+    # Covers: non-existent file, platform field, error on failure,
+    #         GPG (no sig file, explicit non-existent sig, bad content, auto-detect .asc),
+    #         Authenticode unsigned/non-existent, Windows unsigned module
+    #         (from module/test_module_signature_verifier.cpp, Issue #2473)
+    add_test(NAME ModuleSignatureVerifierFocusedTests
+        COMMAND test_module_security_focused --gtest_filter=ModuleSignatureVerifier.*)
+    set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
+        LABELS "module;signature;verifier;security;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
+        TIMEOUT 60
+    )
+
+    # Module dependency resolver tests (subset of AllTests)
+    # Covers: ModuleDependency metadata, DependencyResolutionResult, ModuleErrorCode,
+    #         ModuleMetadata, ModuleDependencyResolver (topological sort, version compat,
+    #         cycle detection, registerModule/resolve/resolveFor/clear)
+    #         (from module/test_module_dependency_resolver.cpp, Issue #2474)
+    add_test(NAME ModuleDependencyResolverFocusedTests
+        COMMAND test_module_security_focused --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+    set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
+        LABELS "module;dependency;resolver;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
+        TIMEOUT 60
+    )
+
+    # Module Loader core tests (subset of AllTests)
+    # Covers: ModuleErrorCode enum values/ranges, ErrorCategory values,
+    #         ModuleMetadata defaults/isValid, ModuleVerificationResult defaults,
+    #         LoadedModule defaults, ModuleRegistry singleton/register/unregister,
+    #         error message strings, error categorization, hash manifest
+    #         (from module/test_module_loader.cpp)
+    add_test(NAME ModuleLoaderFocusedTests
+        COMMAND test_module_security_focused --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+    set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
+        LABELS "module;loader;security;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
+        TIMEOUT 60
+    )
+
+    # Plugin Watchdog tests (subset of AllTests)
+    # Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
+    #         WatchdogModuleStats defaults/field completeness, lifecycle
+    #         (start/stop/isRunning), idempotent start/stop, configureWatchdog,
+    #         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats (incl.
+    #         while running), disabled watchdog, destructor cleanup
+    #         (from module/test_module_loader.cpp, Issue #2373)
+    add_test(NAME PluginWatchdogFocusedTests
+        COMMAND test_module_security_focused --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+    set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
+        LABELS "module;watchdog;health;restart;themis;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
+        TIMEOUT 60
+    )
+else()
+    message(WARNING "Module-focused files missing; falling back to themis_tests aliases")
+    add_test(NAME ModuleHashVerifierFocusedTests
+        COMMAND themis_tests --gtest_filter=ModuleHashVerifier.*)
+    set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
+        LABELS "module;hash;verifier;security;themis;unit"
+        TIMEOUT 60
+    )
+
+    add_test(NAME ModuleSignatureVerifierFocusedTests
+        COMMAND themis_tests --gtest_filter=ModuleSignatureVerifier.*)
+    set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
+        LABELS "module;signature;verifier;security;themis;unit"
+        TIMEOUT 60
+    )
+
+    add_test(NAME ModuleDependencyResolverFocusedTests
+        COMMAND themis_tests --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+    set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
+        LABELS "module;dependency;resolver;themis;unit"
+        TIMEOUT 60
+    )
+
+    add_test(NAME ModuleLoaderFocusedTests
+        COMMAND themis_tests --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+    set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
+        LABELS "module;loader;security;themis;unit"
+        TIMEOUT 60
+    )
+
+    add_test(NAME PluginWatchdogFocusedTests
+        COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+    set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
+        LABELS "module;watchdog;health;restart;themis;unit"
+        TIMEOUT 60
+    )
+endif()
 
 # Themis integration tests (subset of AllTests)
 # Covers cross-component interactions:
-#   - License lifecycle ├ù edition gate (active / expired / grace / status transitions)
+#   - License lifecycle -> edition gate (active / expired / grace / status transitions)
 #   - Compile-time gate + runtime gate consistency across RuntimeLicenseGate and EditionManager
 #   - License expiry edge cases (grace period, multiple invalid statuses, contact email in error)
-#   - Dynamic feature override lifecycle (set ÔåÆ query ÔåÆ clear ÔåÆ re-query)
+#   - Dynamic feature override lifecycle (set -> query -> clear -> re-query)
 #   - Build info consistency: module list, version summary, edition string
 #   - Module hash verifier round-trip and tamper detection via manifest
 #   - Build manifest export + verify round-trip
-#   - Full gate stack: compile-time ÔåÆ runtime-license ÔåÆ admin-override precedence
+#   - Full gate stack: compile-time -> runtime-license -> admin-override precedence
 #   (from themis/test_themis_integration.cpp)
-add_test(NAME ThemisIntegrationTests
-    COMMAND themis_tests --gtest_filter=ThemisIntegrationTest.*)
-set_tests_properties(ThemisIntegrationTests PROPERTIES
-    LABELS "themis;integration;edition;license;module;hash;build-info"
-    TIMEOUT 120
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_integration.cpp")
+    add_executable(test_themis_integration_focused
+        test_themis_integration.cpp
+    )
+    target_include_directories(test_themis_integration_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_themis_integration_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_themis_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME ThemisIntegrationTests
+        COMMAND test_themis_integration_focused --gtest_filter=ThemisIntegrationTest.*)
+    set_tests_properties(ThemisIntegrationTests PROPERTIES
+        LABELS "themis;integration;edition;license;module;hash;build-info"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_integration_focused>
+        TIMEOUT 120
+    )
+else()
+    add_test(NAME ThemisIntegrationTests
+        COMMAND themis_tests --gtest_filter=ThemisIntegrationTest.*)
+    set_tests_properties(ThemisIntegrationTests PROPERTIES
+        LABELS "themis;integration;edition;license;module;hash;build-info"
+        TIMEOUT 120
+    )
+endif()
 
 # RemoteRegistryClient focused tests (subset of AllTests, Issue #155)
 # Covers: RegistryConfig defaults/assignment, max_total_retry_time_ms cap,
@@ -2417,20 +2551,40 @@ set_tests_properties(ThemisIntegrationTests PROPERTIES
 #         partial-file-cleanup/integrity-check/lastRequestStats/
 #         total-retry-budget enforcement.
 #         (from tests/test_remote_registry_client.cpp, Issue #3986)
-add_test(NAME RemoteRegistryClientUnifiedTests
-    COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
-set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
-    LABELS "base;remote-registry;async-retry;reliability;unit"
-    TIMEOUT 60
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
+    add_test(NAME RemoteRegistryClientUnifiedTests
+        COMMAND test_remote_registry_client_focused --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+    set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
+        LABELS "base;remote-registry;async-retry;reliability;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_remote_registry_client_focused>
+        TIMEOUT 60
+    )
+elseif(TARGET themis_tests)
+    add_test(NAME RemoteRegistryClientUnifiedTests
+        COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+    set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
+        LABELS "base;remote-registry;async-retry;reliability;unit"
+        TIMEOUT 60
+    )
+endif()
 
 # Session management and revocation endpoint tests (subset of AllTests)
-add_test(NAME SessionManagerTests
-    COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
-set_tests_properties(SessionManagerTests PROPERTIES
-    LABELS "auth;session;revocation;unit"
-    TIMEOUT 60
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
+    add_test(NAME SessionManagerTests
+        COMMAND test_session_manager_focused --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+    set_tests_properties(SessionManagerTests PROPERTIES
+        LABELS "auth;session;revocation;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_session_manager_focused>
+        TIMEOUT 60
+    )
+elseif(TARGET themis_tests)
+    add_test(NAME SessionManagerTests
+        COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+    set_tests_properties(SessionManagerTests PROPERTIES
+        LABELS "auth;session;revocation;unit"
+        TIMEOUT 60
+    )
+endif()
 
 # ============================================================================
 # Vulkan GLSL Compiler Function Tests
@@ -13665,11 +13819,11 @@ else()
 endif()
 
 # Session Manager Focused Tests (standalone binary)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/session/test_session_manager.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     message(STATUS "Adding Session Manager focused tests (standalone binary)")
 
     add_executable(test_session_manager_focused
-        session/test_session_manager.cpp
+        test_session_manager.cpp
     )
 
     target_link_libraries(test_session_manager_focused PRIVATE
@@ -13696,7 +13850,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
 
     message(STATUS "  Session Manager: creation, validation, idle/absolute timeout, concurrent session limits, revocation")
 else()
-    message(STATUS "Session Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/session/test_session_manager.cpp")
+    message(STATUS "Session Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
 endif()
 
 # TOTP Replay Cache Tests
@@ -18290,8 +18444,40 @@ endif()
 
 # ProvenanceAqlIntegration focused tests - round-trip provenance write + lineage
 # query tests covering both offline (in-process store) and live QueryEngine paths.
-# Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
-if(TARGET themis_tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_provenance_aql_integration.cpp")
+    add_executable(test_provenance_aql_integration_focused
+        test_provenance_aql_integration.cpp
+    )
+
+    target_include_directories(test_provenance_aql_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_provenance_aql_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_provenance_aql_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProvenanceAqlIntegrationTests
+        COMMAND test_provenance_aql_integration_focused
+            --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
+
+    set_tests_properties(ProvenanceAqlIntegrationTests PROPERTIES
+        LABELS "training;provenance;aql;lineage;round-trip;focused;integration"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_provenance_aql_integration_focused>
+        TIMEOUT 60
+    )
+
+    message(STATUS "Adding ProvenanceAqlIntegration focused tests")
+    message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
+elseif(TARGET themis_tests)
     add_test(NAME ProvenanceAqlIntegrationTests
         COMMAND themis_tests
             --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
@@ -18300,15 +18486,44 @@ if(TARGET themis_tests)
         LABELS "training;provenance;aql;lineage;round-trip;focused;integration"
         TIMEOUT 60
     )
-
-    message(STATUS "Adding ProvenanceAqlIntegration focused tests")
-    message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
 endif()
 
 # AutoLabelerDbFetch focused tests - covers DB fetch paths in labelAll() and
 # labelQuery() by wiring a real QueryEngine (RocksDB + SecondaryIndexManager).
-# Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
-if(TARGET themis_tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auto_labeler_db_fetch.cpp")
+    add_executable(test_auto_labeler_db_fetch_focused
+        test_auto_labeler_db_fetch.cpp
+    )
+
+    target_include_directories(test_auto_labeler_db_fetch_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_auto_labeler_db_fetch_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auto_labeler_db_fetch_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutoLabelerDbFetchFocusedTests
+        COMMAND test_auto_labeler_db_fetch_focused
+            --gtest_filter=AutoLabelerDbFetchTest.*:AutoLabelerOfflineTest.*)
+
+    set_tests_properties(AutoLabelerDbFetchFocusedTests PROPERTIES
+        LABELS "training;auto-labeler;db-fetch;aql;legal;focused;integration"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_auto_labeler_db_fetch_focused>
+        TIMEOUT 60
+    )
+
+    message(STATUS "Adding AutoLabelerDbFetch focused tests")
+    message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
+elseif(TARGET themis_tests)
     add_test(NAME AutoLabelerDbFetchFocusedTests
         COMMAND themis_tests
             --gtest_filter=AutoLabelerDbFetchTest.*:AutoLabelerOfflineTest.*)
@@ -18317,9 +18532,6 @@ if(TARGET themis_tests)
         LABELS "training;auto-labeler;db-fetch;aql;legal;focused;integration"
         TIMEOUT 60
     )
-
-    message(STATUS "Adding AutoLabelerDbFetch focused tests")
-    message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
 endif()
 
 # KgeVectorSearch focused tests - covers findSimilarDocuments() wired to a
@@ -22001,12 +22213,42 @@ endif()
 # Covers: HotShardSplitPolicy (reactive + predictive), ShardLoadDetector
 #         forecastLoad(), DataMigrator liveMigrate(), AutoRebalancer split
 #         integration, and audit event emission (SHARD_SPLIT / SHARD_MERGE).
-add_test(NAME AdaptiveShardRebalancerFocusedTests
-    COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
-set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
-    LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
-    TIMEOUT 120
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_rebalancer.cpp")
+    add_executable(test_adaptive_shard_rebalancer_focused
+        test_adaptive_shard_rebalancer.cpp
+    )
+
+    target_include_directories(test_adaptive_shard_rebalancer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_shard_rebalancer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_shard_rebalancer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveShardRebalancerFocusedTests
+        COMMAND test_adaptive_shard_rebalancer_focused --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+    set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
+        LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_rebalancer_focused>
+        TIMEOUT 120
+    )
+elseif(TARGET themis_tests)
+    add_test(NAME AdaptiveShardRebalancerFocusedTests
+        COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+    set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
+        LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
+        TIMEOUT 120
+    )
+endif()
 
 # Query Module - Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
 # Validates all five acceptance criteria:
@@ -22356,14 +22598,14 @@ endif()
 #         fetchPluginAsync, downloadPluginAsync) that release the calling thread
 #         during back-off via std::async + shared_from_this().
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/remote/test_remote_registry_client.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
     message(STATUS "Adding RemoteRegistryClient async retry focused tests (base module, Issue #3986)")
 
     # remote_registry_client.cpp is not yet in themis_core (monolithic build)
     # and not in THEMIS_BASE_SOURCES (modular build was updated), so compile it
     # directly into the focused test executable to guarantee availability.
     add_executable(test_remote_registry_client_focused
-        remote/test_remote_registry_client.cpp
+        test_remote_registry_client.cpp
         ${THEMIS_ROOT_DIR}/src/base/remote_registry_client.cpp
     )
 
@@ -22394,7 +22636,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/remote/test_remote_registry_client.cpp")
 
     message(STATUS "  RemoteRegistryClient: sync/async list/fetch/download, RequestStats, retry budget, shared_ptr lifetime")
 else()
-    message(STATUS "RemoteRegistryClient focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/remote/test_remote_registry_client.cpp")
+    message(STATUS "RemoteRegistryClient focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
 endif()
 
 # ============================================================================
@@ -25446,10 +25688,31 @@ endif()
 #         enrichRetrievedDocuments (RI-22..RI-25), move semantics (RI-26..RI-27)
 #         (from rag/test_rag_ingestion_bridge.cpp)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_ingestion_bridge.cpp")
+    add_executable(test_rag_ingestion_bridge_focused
+        rag/test_rag_ingestion_bridge.cpp
+    )
+
+    target_include_directories(test_rag_ingestion_bridge_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_rag_ingestion_bridge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rag_ingestion_bridge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
     add_test(NAME RAGIngestionBridgeTests
-        COMMAND themis_tests --gtest_filter=RAGIngestionBridgeTest.*)
+        COMMAND test_rag_ingestion_bridge_focused --gtest_filter=RAGIngestionBridgeTest.*)
     set_tests_properties(RAGIngestionBridgeTests PROPERTIES
         LABELS "rag;toolbox;ingestion;bridge;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rag_ingestion_bridge_focused>
         TIMEOUT 60
     )
     message(STATUS "  RAGIngestionBridge: RI-01..RI-27 (construction, indexDocument, extractEntities, buildEntityContext, enrichRetrievedDocuments, move semantics)")
@@ -25461,10 +25724,31 @@ endif()
 #         format_parse_step factories (FM-01..FM-08)
 #         (from content/test_content_toolbox_bridge.cpp)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/content/test_content_toolbox_bridge.cpp")
+    add_executable(test_content_toolbox_bridge_focused
+        content/test_content_toolbox_bridge.cpp
+    )
+
+    target_include_directories(test_content_toolbox_bridge_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_content_toolbox_bridge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_content_toolbox_bridge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
     add_test(NAME ContentToolboxBridgeTests
-        COMMAND themis_tests --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
+        COMMAND test_content_toolbox_bridge_focused --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
     set_tests_properties(ContentToolboxBridgeTests PROPERTIES
         LABELS "toolbox;content;bridge;ingestion;format-extractor;unit"
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_content_toolbox_bridge_focused>
         TIMEOUT 60
     )
     message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")

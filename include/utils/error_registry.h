@@ -394,7 +394,20 @@ struct ErrorMetadata {
     std::string solution;           // Step-by-step solution
     std::vector<std::string> related_docs;  // Documentation links
     std::vector<std::string> keywords;      // For searching
-    
+    /**
+     * @brief Machine-readable operator hint for structured tooling.
+     *
+     * Optional structured JSON object that complements the @p solution field
+     * with fields consumable by alerting and runbook systems:
+     * - `"check"` (array of strings): ordered diagnostic steps.
+     * - `"classification"` (string): one of `"authentication"`, `"policy"`,
+     *   `"revocation"`, `"federation"`, `"async"`, `"general"`.
+     * - `"escalation"` (string): free-form escalation guidance.
+     *
+     * Defaults to an empty JSON object when not set.
+     */
+    json operator_hint = json::object();
+
     json toJSON() const;
 };
 

@@ -1,0 +1,92 @@
+{
+  "_comment": "Wave D baseline thresholds for GATE-BASE-01..12. Values are minimum performance targets derived from FUTURE_ENHANCEMENTS.md and bench_base_hot_paths.cpp / bench_base_wasm_sandbox.cpp documentation.",
+  "_status": "PENDING_HARDWARE_SIGN_OFF",
+  "_note": "These thresholds are Wave D delivery targets. Actual measured baselines on representative hardware must be collected and committed here before the Wave D p95/p99 success criterion can be marked [x] in ROADMAP.md. See ROADMAP.md §Program-Level Success Criteria.",
+  "_generated": "2026-09-16",
+  "gates": {
+    "GATE-BASE-01": {
+      "description": "isModuleLoaded throughput",
+      "metric": "ops_per_second",
+      "threshold_min": 500000,
+      "unit": "ops/s",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-02": {
+      "description": "getMetrics throughput",
+      "metric": "ops_per_second",
+      "threshold_min": 100000,
+      "unit": "ops/s",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-03": {
+      "description": "registeredModules p99 latency at 10 modules",
+      "metric": "p99_latency_us",
+      "threshold_max": 5,
+      "unit": "µs",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-04": {
+      "description": "isRollbackAvailable p99 latency",
+      "metric": "p99_latency_us",
+      "threshold_max": 1,
+      "unit": "µs",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-05": {
+      "description": "buildFromResolver 100-node dependency chain",
+      "metric": "wall_time_ms",
+      "threshold_max": 1,
+      "unit": "ms",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-06": {
+      "description": "reloadModule fast-fail path latency",
+      "metric": "wall_time_us",
+      "threshold_max": 50,
+      "unit": "µs",
+      "source": "bench_base_hot_paths.cpp"
+    },
+    "GATE-BASE-07": {
+      "description": "WasmPluginSandbox loadFromBytes valid WASM",
+      "metric": "ops_per_second",
+      "threshold_min": 10000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    },
+    "GATE-BASE-08": {
+      "description": "WasmPluginSandbox loadFromBytes invalid bytes fast-fail",
+      "metric": "ops_per_second",
+      "threshold_min": 100000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    },
+    "GATE-BASE-09": {
+      "description": "AbiChecker checkVersions throughput",
+      "metric": "ops_per_second",
+      "threshold_min": 500000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    },
+    "GATE-BASE-10": {
+      "description": "BaseErrorTaxonomy resolveDescription/format throughput",
+      "metric": "ops_per_second",
+      "threshold_min": 1000000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    },
+    "GATE-BASE-11": {
+      "description": "BaseErrorTaxonomy isKnownCode throughput",
+      "metric": "ops_per_second",
+      "threshold_min": 2000000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    },
+    "GATE-BASE-12": {
+      "description": "ModuleSandbox stats inactive path",
+      "metric": "ops_per_second",
+      "threshold_min": 1000000,
+      "unit": "ops/s",
+      "source": "bench_base_wasm_sandbox.cpp"
+    }
+  }
+}

@@ -17,6 +17,9 @@
  * ## Labels
  * wave_d;stress;not_release_critical
  *
+ * @note Tests use std::thread concurrency; thread count is fixed at kWorkerCount.
+ *       THEMIS_AUTH_STRESS_THREADS env var may be used for local tuning.
+ *
  * @version 1.0.0
  * @see docs/operability/RUNBOOK_AUTH.md
  * @see src/auth/ROADMAP.md — Wave D contribution closure

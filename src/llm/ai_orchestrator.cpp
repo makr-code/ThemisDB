@@ -1515,6 +1515,23 @@ OrchestratorResult AIOrchestrator::runAgentic(const OrchestratorContext& ctx,
             json tool_result = impl_->tool_registry.invokeTool(tool_name, tool_args, mode);
             auto t_tool_end = std::chrono::steady_clock::now();
 
+            const bool tool_error = tool_result.is_object() &&
+                                    tool_result.contains("error") &&
+                                    tool_result["error"].is_string() &&
+                                    !tool_result["error"].get<std::string>().empty();
+            if (tool_error) {
+                result.success = false;
+                result.error = std::string("agentic_tool_execution_failed: ") +
+                               tool_result["error"].get<std::string>();
+                result.metadata.extra["agentic_tool_dispatch"] = "tool_error";
+                result.metadata.extra["agentic_tool_name"] = tool_name;
+                result.raw_response["tool_name"] = tool_name;
+                result.raw_response["tool_result"] = tool_result;
+                result.raw_response["tool_dispatch_status"] = "error";
+                result.raw_response["tool_error"] = tool_result["error"].get<std::string>();
+                return result;
+            }
+
             result.metadata.tool_calls_made.push_back(tool_name);
             const auto tool_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                                      t_tool_end - t_tool).count();

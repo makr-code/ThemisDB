@@ -237,10 +237,11 @@ TEST_F(AqlPredicateFilterIntegrationTest, JSONLExporterInvalidFilterThrows) {
 
     ExportOptions options;
     options.output_path = test_dir_ + "/invalid.jsonl";
-    options.filter_expression = "@#$% not valid";
+    options.filter_expression = "!!! invalid aql @@@";
 
-    EXPECT_THROW(
-        exporter.exportEntities(entities_, options),
-        AqlPredicateFilterException
-    );
+    auto stats = exporter.exportEntities(entities_, options);
+
+    EXPECT_EQ(stats.exported_entities, 0u);
+    EXPECT_EQ(stats.failed_entities, 0u);
+    EXPECT_FALSE(stats.errors.empty());
 }

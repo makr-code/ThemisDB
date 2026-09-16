@@ -749,7 +749,11 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                         : static_cast<double>(positive_samples) /
                               static_cast<double>(labeled_samples);
 
+                    const bool has_sufficient_rollback_evidence =
+                        labeled_samples > impl_->config.min_feedback_samples;
+
                     if (impl_->config.enable_auto_rollback &&
+                            has_sufficient_rollback_evidence &&
                             impl_->si_module->needsRollback(metrics)) {
                         spdlog::warn("CLO: rollback condition triggered for adapter '{}'; "
                                      "skipping retraining cycle", adapter_id);

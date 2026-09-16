@@ -13,6 +13,7 @@
 #include "auth/federated_identity_manager.h"
 
 #include <chrono>
+#include <cstring>
 #include <curl/curl.h>
 #include <iomanip>
 #include <list>
@@ -23,6 +24,18 @@
 #include <stdexcept>
 #include <thread>
 #include <unordered_set>
+
+// POSIX socket headers for syncTrustState() TCP push.
+#ifdef _WIN32
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+#else
+#  include <arpa/inet.h>
+#  include <netdb.h>
+#  include <netinet/in.h>
+#  include <sys/socket.h>
+#  include <unistd.h>
+#endif
 
 namespace themis {
 namespace auth {
@@ -322,8 +335,28 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
                                       "Provider error for realm '" + iss + "': " + ex.what()));
     }
 
-    // Log JWT success before moving claims
+    // [2a] Explicit fail-closed check: provider must return a non-empty subject.
+    // An empty sub field indicates a degraded or misbehaving provider response —
+    // treat it as PROVIDER_DEGRADED to avoid silently accepting invalid identities.
+    if (claims.sub.empty()) {
+        spdlog::error("FederatedIdentityManager: provider for realm '{}' returned empty subject — "
+                      "treating as PROVIDER_DEGRADED", iss);
+        throw AuthException(AuthError(AuthErrorCode::PROVIDER_DEGRADED,
+                                      "Identity provider returned an empty identity subject",
+                                      "Provider for realm '" + iss + "' returned claims with empty 'sub' field"));
+    }
+
+    // Log JWT success before moving claims — tagged with federation decision class
+    // for operator diagnostics filtering (ROADMAP.md §2c).
     if (audit_logger_) {
+        nlohmann::json fed_detail;
+        fed_detail["realm"] = iss;
+        audit_logger_->emitWithDecisionClass(
+            utils::SecurityEventType::LOGIN_SUCCESS,
+            claims.sub,
+            "federation/token",
+            DecisionClass::federation,
+            fed_detail);
         audit_logger_->logJWTSuccess(claims.sub, claims.jti, iss, "");
     }
     FederatedValidationResult validated{std::move(claims), iss};
@@ -855,6 +888,171 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     }
 
     return result;
+}
+
+// ---------------------------------------------------------------------------
+// [3c] Multi-realm distributed trust-state synchronization
+// ---------------------------------------------------------------------------
+
+void FederatedIdentityManager::syncTrustState(const std::string &peer_node_id,
+                                               const std::string &peer_rpc_endpoint) {
+    // Serialize trust registry under lock.
+    nlohmann::json entries = nlohmann::json::array();
+    {
+        std::lock_guard<std::mutex> lock(trust_mutex_);
+        for (const auto &[trusting, subjects] : trust_map_) {
+            for (const auto &subject : subjects) {
+                nlohmann::json e;
+                e["subject"]  = subject;
+                e["trusting"] = trusting;
+                entries.push_back(e);
+            }
+        }
+    }
+
+    nlohmann::json payload;
+    payload["op"]      = "sync_trust";
+    payload["entries"] = entries;
+    const std::string payload_str = payload.dump();
+
+    // Parse host and port from "host:port".
+    const auto colon = peer_rpc_endpoint.rfind(':');
+    if (colon == std::string::npos) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Invalid peer_rpc_endpoint format",
+                                      "Expected 'host:port', got: " + peer_rpc_endpoint));
+    }
+    const std::string host = peer_rpc_endpoint.substr(0, colon);
+    int port = 0;
+    try {
+        port = std::stoi(peer_rpc_endpoint.substr(colon + 1));
+    } catch (const std::exception& ex) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Invalid port in peer_rpc_endpoint",
+                                      std::string("Port parse error: ") + ex.what() +
+                                          "; endpoint=" + peer_rpc_endpoint));
+    }
+    if (port <= 0 || port > 65535) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID,
+                                      "Port out of range in peer_rpc_endpoint",
+                                      "Port must be 1–65535; got: " + std::to_string(port)));
+    }
+
+#ifdef _WIN32
+    // Initialise Winsock once per process (idempotent via static).
+    static const bool wsa_ok = []() -> bool {
+        WSADATA wd{};
+        return ::WSAStartup(MAKEWORD(2, 2), &wd) == 0;
+    }();
+    if (!wsa_ok) {
+        throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR,
+                                      "WSAStartup failed",
+                                      "Cannot initialise Winsock for syncTrustState()"));
+    }
+#endif
+
+    // Three-attempt exponential-backoff retry (mirrors LDAP pool pattern).
+    constexpr int kMaxRetries  = 3;
+    constexpr int kBaseDelayMs = 100;
+    std::string last_error;
+
+    for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
+        try {
+#ifdef _WIN32
+            // Ensure Winsock is initialised once per process before any socket calls.
+            static const bool wsa_init = [] {
+                WSADATA wsa_data{};
+                const int rc = ::WSAStartup(MAKEWORD(2, 2), &wsa_data);
+                if (rc != 0) {
+                    spdlog::error("FederatedIdentityManager: WSAStartup failed: {}", rc);
+                }
+                return rc == 0;
+            }();
+            (void)wsa_init;
+
+            SOCKET sock = INVALID_SOCKET;
+            {
+                struct addrinfoW hints{};
+                hints.ai_family   = AF_UNSPEC;
+                hints.ai_socktype = SOCK_STREAM;
+                PADDRINFOW res = nullptr;
+                const std::wstring whost(host.begin(), host.end());
+                const std::wstring wport = std::to_wstring(port);
+                const int gai_ret = ::GetAddrInfoW(whost.c_str(), wport.c_str(), &hints, &res);
+                if (gai_ret != 0) {
+                    throw std::runtime_error("GetAddrInfoW failed for: " + host);
+                }
+                sock = ::socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+                if (sock == INVALID_SOCKET) {
+                    ::FreeAddrInfoW(res);
+                    throw std::runtime_error("socket() failed");
+                }
+                if (::connect(sock, res->ai_addr,
+                               static_cast<int>(res->ai_addrlen)) != 0) {
+                    ::closesocket(sock);
+                    ::FreeAddrInfoW(res);
+                    throw std::runtime_error("connect() failed to " + peer_rpc_endpoint);
+                }
+                ::FreeAddrInfoW(res);
+            }
+            const int sent = ::send(sock, payload_str.c_str(),
+                                    static_cast<int>(payload_str.size()), 0);
+            ::closesocket(sock);
+            if (sent < 0) {
+                throw std::runtime_error("send() failed");
+            }
+#else
+            struct addrinfo hints{};
+            hints.ai_family   = AF_UNSPEC;
+            hints.ai_socktype = SOCK_STREAM;
+            struct addrinfo *res = nullptr;
+            const int gai_ret = ::getaddrinfo(host.c_str(),
+                                              std::to_string(port).c_str(),
+                                              &hints, &res);
+            if (gai_ret != 0) {
+                throw std::runtime_error(std::string("getaddrinfo failed: ") +
+                                         ::gai_strerror(gai_ret));
+            }
+            int sock = ::socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+            if (sock < 0) {
+                ::freeaddrinfo(res);
+                throw std::runtime_error("socket() failed");
+            }
+            if (::connect(sock, res->ai_addr, res->ai_addrlen) != 0) {
+                ::close(sock);
+                ::freeaddrinfo(res);
+                throw std::runtime_error("connect() failed to " + peer_rpc_endpoint);
+            }
+            ::freeaddrinfo(res);
+            const ssize_t sent = ::send(sock, payload_str.data(),
+                                        payload_str.size(), 0);
+            ::close(sock);
+            if (sent < 0) {
+                throw std::runtime_error("send() failed");
+            }
+#endif
+            spdlog::info("FederatedIdentityManager::syncTrustState: pushed {} trust "
+                         "entries to peer '{}' at '{}' (attempt {})",
+                         entries.size(), peer_node_id, peer_rpc_endpoint, attempt + 1);
+            return;  // Success.
+
+        } catch (const std::exception &ex) {
+            last_error = ex.what();
+            spdlog::warn("FederatedIdentityManager::syncTrustState: attempt {}/{} to '{}' "
+                         "failed: {}",
+                         attempt + 1, kMaxRetries, peer_rpc_endpoint, last_error);
+            if (attempt + 1 < kMaxRetries) {
+                const int delay_ms = kBaseDelayMs * (1 << attempt);
+                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            }
+        }
+    }
+
+    throw AuthException(AuthError(AuthErrorCode::AUTH_INTERNAL_ERROR,
+                                  "Failed to synchronize trust state to peer",
+                                  "syncTrustState to '" + peer_node_id + "' at '" +
+                                  peer_rpc_endpoint + "' failed after " +
+                                  std::to_string(kMaxRetries) + " attempts: " + last_error));
 }
 
 } // namespace auth

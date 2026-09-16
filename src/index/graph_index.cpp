@@ -167,6 +167,12 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	if (!batch->commit()) {
 	  return Status::Error("addEdge: Commit des Batches fehlgeschlagen");
 	}
+
+	const std::string& eid = *eidOpt;
+	const std::string& from = *fromOpt;
+	const std::string& to = *toOpt;
+	auto raw = db_.get(KeySchema::makeGraphOutdexKey(from, eid));
+	THEMIS_INFO("addEdge: from={} edge={} raw_present={} raw_size={}", from, eid, raw.has_value(), raw ? raw->size() : 0);
 	return Status::OK();
 }
 

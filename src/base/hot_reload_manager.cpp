@@ -15,6 +15,7 @@
 // See include/themis/base/hot_reload_manager.h for the public API.
 
 #include "themis/base/hot_reload_manager.h"
+#include "themis/base/trace_context.h"
 #include <stdexcept>
 
 #include <chrono>
@@ -28,9 +29,9 @@ namespace modules {
 // Constructor / Destructor
 // =============================================================================
 
-HotReloadManager::HotReloadManager() : config_{}, stats_{} {}
+HotReloadManager::HotReloadManager() : config_{}, stats_{}, span_emitter_(noOpSpanEmitter()) {}
 
-HotReloadManager::HotReloadManager(const Config &config) : config_(config), stats_{} {}
+HotReloadManager::HotReloadManager(const Config &config) : config_(config), stats_{}, span_emitter_(noOpSpanEmitter()) {}
 
 HotReloadManager::~HotReloadManager() = default;
 
@@ -69,6 +70,12 @@ void HotReloadManager::unregisterModule(const std::string &module_name) {
 HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, const std::string &new_path) {
     auto wall_start = std::chrono::steady_clock::now();
 
+    // Wave D: distributed tracing — root span for this reload operation.
+    // Copy the emitter under a shared lock to avoid a data race with setSpanEmitter().
+    SpanEmitter  local_emitter = spanEmitter();
+    TraceContext ctx  = TraceContext::generate("hot_reload_manager.reloadModule");
+    ScopedSpan   span(ctx, local_emitter);
+
     HotReloadResult result;
     result.rollbackAvailable = false;
 
@@ -85,6 +92,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
             spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
             stats_.totalReloads++;
             stats_.failedReloads++;
+            span.setError(1, result.errorMessage);
             return result;
         }
         loader_ptr    = it->second.loader;
@@ -96,6 +104,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
             spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
             stats_.totalReloads++;
             stats_.failedReloads++;
+            span.setError(1, result.errorMessage);
             return result;
         }
     }
@@ -128,6 +137,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
             stats_.totalReloads++;
             stats_.failedReloads++;
         }
+        span.setError(1, result.errorMessage);
         return result;
     }
 
@@ -207,6 +217,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
             stats_.failedReloads++;
             lock.unlock();
             loader_ptr->unloadModule(module_name);
+            span.setError(1, result.errorMessage);
             return result;
         }
 
@@ -259,6 +270,12 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
 HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
     auto wall_start = std::chrono::steady_clock::now();
 
+    // Wave D: distributed tracing — root span for this rollback operation.
+    // Copy the emitter under a shared lock to avoid a data race with setSpanEmitter().
+    SpanEmitter  local_emitter = spanEmitter();
+    TraceContext ctx  = TraceContext::generate("hot_reload_manager.rollback");
+    ScopedSpan   span(ctx, local_emitter);
+
     HotReloadResult result;
 
     // Validate registration and extract backup info under lock.
@@ -272,6 +289,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
         if (it == slots_.end()) {
             result.errorMessage = "Module '" + module_name + "' is not registered";
             spdlog::error("HotReloadManager::rollback: {}", result.errorMessage);
+            span.setError(1, result.errorMessage);
             return result;
         }
 
@@ -280,6 +298,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
         if (!slot.has_backup || slot.backup_path.empty()) {
             result.errorMessage = "No rollback available for module '" + module_name + "'";
             spdlog::warn("HotReloadManager::rollback: {}", result.errorMessage);
+            span.setError(1, result.errorMessage);
             return result;
         }
 
@@ -290,6 +309,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
         if (!loader_ptr) {
             result.errorMessage = "Module '" + module_name + "' has a null loader";
             spdlog::error("HotReloadManager::rollback: {}", result.errorMessage);
+            span.setError(1, result.errorMessage);
             return result;
         }
     }
@@ -302,6 +322,7 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
     if (!load_result.success) {
         result.errorMessage = "Failed to restore backup binary '" + backup_path + "': " + load_result.errorMessage;
         spdlog::error("HotReloadManager::rollback: {}", result.errorMessage);
+        span.setError(1, result.errorMessage);
         return result;
     }
 
@@ -438,6 +459,25 @@ HotReloadManager::Stats HotReloadManager::getStats() const {
 void HotReloadManager::resetStats() {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = {};
+}
+
+// =============================================================================
+// Wave D — Distributed tracing
+// =============================================================================
+
+void HotReloadManager::setSpanEmitter(SpanEmitter emitter) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    span_emitter_ = std::move(emitter);
+}
+
+// NOTE: spanEmitter() returns by value to avoid a data race between a caller
+// holding the reference and a concurrent setSpanEmitter() call.
+// setSpanEmitter() must only be called at configuration time (before any
+// reload/rollback operations are in-flight) — consistent with OpenTelemetry
+// provider setup conventions.
+SpanEmitter HotReloadManager::spanEmitter() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    return span_emitter_;
 }
 
 // =============================================================================

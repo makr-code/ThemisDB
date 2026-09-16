@@ -111,7 +111,9 @@ TEST(GdprSubjectRightsManager, PartialFailureReportedCorrectly) {
     int ok = 0, fail = 0;
     for (const auto& r : report.store_results) {
         if (r.success) {
-          ++ok; else ++fail;
+                        ++ok;
+                } else {
+                        ++fail;
         }
     }
     EXPECT_EQ(ok, 1);
