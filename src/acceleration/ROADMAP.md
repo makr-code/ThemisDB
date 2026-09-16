@@ -144,8 +144,8 @@ All major GPU acceleration backends are now fully implemented and integrated:
 
 ### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off
 
-- [~] **[A-08 geo — ST_UNION]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STUnionPolygonGpuVsCpuParity`), while full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
-- [~] **[A-08 geo — ST_DIFFERENCE]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity`), while full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
+- [~] **[A-08 geo — ST_UNION]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STUnionPolygonGpuVsCpuParity`), with GPU-runner ctest alias `test_gpu_geo_setops_parity` for Wave-A evidence collection; full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
+- [~] **[A-08 geo — ST_DIFFERENCE]** Point×Point CUDA kernel implemented and dispatch wired; Polygon×Polygon dispatch attempt path + parity coverage added (`CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity`), with GPU-runner ctest alias `test_gpu_geo_setops_parity` for Wave-A evidence collection; full production-grade polygon clipping kernel completion remains open. (Target: Q4 2026)
 - [ ] **[GPU benchmark final sign-off]** All `benchmarks/acceleration/` and `benchmarks/index/` gates green on self-hosted runner with NVIDIA RTX hardware; commit signed baseline artefact to `benchmarks/cuda_final_baseline_q4_2026.json`. (Target: Q4 2026)
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)

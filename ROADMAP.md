@@ -686,7 +686,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 #### A-08 · geo — Partial Delivery (Haversine + ST_CONTAINS/ST_DISTANCE)
 - [ ] Haversine batch kernel: WGS84 points, batch ≤ 1M pairs; ≤ 2 ms on RTX-class; deterministic FP tolerance ≤ 1e-6 vs CPU reference. Gate: `THEMIS_GEO_CUDA=ON`. (Target: Q3 2026)
 - [ ] ST_CONTAINS/ST_DISTANCE CUDA kernels: point-in-polygon test via winding number on GPU; parity vs CPU Greiner-Hormann ≤ 1e-6. (Target: Q3 2026)
-- [~] ST_UNION / ST_DIFFERENCE: Point×Point CUDA kernels are implemented (`launchGeoPointUnionKernel`, `launchGeoPointDifferenceKernel`) and Polygon×Polygon now attempts CUDA dispatch first (`launchGeoPolygonUnionKernel`, `launchGeoPolygonDifferenceKernel`) before deterministic CPU exact fallback; full production-grade polygon clipping kernel completion remains pending. (Target: Q4 2026)
+- [~] ST_UNION / ST_DIFFERENCE: Point×Point CUDA kernels are implemented (`launchGeoPointUnionKernel`, `launchGeoPointDifferenceKernel`) and Polygon×Polygon now attempts CUDA dispatch first (`launchGeoPolygonUnionKernel`, `launchGeoPolygonDifferenceKernel`) before deterministic CPU exact fallback; GPU-runner evidence path is wired through ctest alias `test_gpu_geo_setops_parity`, while full production-grade polygon clipping kernel completion remains pending. (Target: Q4 2026)
 - [ ] Re-baseline GPU benchmarks (`benchmarks/acceleration/`, `benchmarks/index/`) after RAII refactor. (Target: Q3 2026)
 
 #### CUDA Scanner Patterns (Gap Scanner enhancement)

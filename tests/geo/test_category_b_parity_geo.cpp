@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -46,6 +47,60 @@ double ringArea(const GeometryInfo &g) {
         area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
     }
     return std::abs(area) * 0.5;
+}
+
+GeometryInfo makeClosedPolygonWithHoleGeom(std::initializer_list<std::pair<double, double>> outer,
+                                           std::initializer_list<std::pair<double, double>> hole) {
+    GeometryInfo g(GeometryType::Polygon);
+    std::vector<Coordinate> outer_ring;
+    outer_ring.reserve(outer.size() + 1);
+    for (const auto &p : outer) {
+        outer_ring.emplace_back(p.first, p.second);
+    }
+    outer_ring.push_back(outer_ring.front());
+
+    std::vector<Coordinate> hole_ring;
+    hole_ring.reserve(hole.size() + 1);
+    for (const auto &p : hole) {
+        hole_ring.emplace_back(p.first, p.second);
+    }
+    hole_ring.push_back(hole_ring.front());
+
+    g.rings.push_back(std::move(outer_ring));
+    g.rings.push_back(std::move(hole_ring));
+    return g;
+}
+
+double signedRingArea(const std::vector<Coordinate> &ring) {
+    if (ring.size() < 3) {
+        return 0.0;
+    }
+    double area = 0.0;
+    for (std::size_t i = 0, j = ring.size() - 1; i < ring.size(); j = i++) {
+        area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
+    }
+    return area * 0.5;
+}
+
+double geometryArea(const GeometryInfo &g) {
+    if (g.isPolygon()) {
+        if (g.rings.empty()) {
+            return ringArea(g);
+        }
+        double area = std::abs(signedRingArea(g.rings[0]));
+        for (std::size_t i = 1; i < g.rings.size(); ++i) {
+            area -= std::abs(signedRingArea(g.rings[i]));
+        }
+        return std::max(0.0, area);
+    }
+    if (g.isGeometryCollection()) {
+        double total = 0.0;
+        for (const auto &child : g.geometries) {
+            total += geometryArea(child);
+        }
+        return total;
+    }
+    return 0.0;
 }
 
 } // namespace
@@ -246,6 +301,56 @@ TEST(CategoryBGeoParity, STDifferencePolygonGpuVsCpuParity) {
     ASSERT_TRUE(cpu_result.isPolygon());
     const double gpu_area = ringArea(gpu_result);
     const double cpu_area = ringArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}
+
+TEST(CategoryBGeoParity, STUnionPolygonWithHoleGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonWithHoleGeom({{0.0, 0.0}, {4.0, 0.0}, {4.0, 4.0}, {0.0, 4.0}},
+                                                          {{1.0, 1.0}, {3.0, 1.0}, {3.0, 3.0}, {1.0, 3.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{3.0, 0.5}, {5.0, 0.5}, {5.0, 3.5}, {3.0, 3.5}});
+
+    const GeometryInfo gpu_result = gpu_backend->stUnion(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stUnion(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    const double gpu_area = geometryArea(gpu_result);
+    const double cpu_area = geometryArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}
+
+TEST(CategoryBGeoParity, STDifferencePolygonWithHoleGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonWithHoleGeom({{0.0, 0.0}, {4.0, 0.0}, {4.0, 4.0}, {0.0, 4.0}},
+                                                          {{1.0, 1.0}, {3.0, 1.0}, {3.0, 3.0}, {1.0, 3.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{2.5, -0.5}, {5.0, -0.5}, {5.0, 4.5}, {2.5, 4.5}});
+
+    const GeometryInfo gpu_result = gpu_backend->stDifference(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stDifference(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    const double gpu_area = geometryArea(gpu_result);
+    const double cpu_area = geometryArea(cpu_result);
     EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
 #endif
 }

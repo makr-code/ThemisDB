@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added parity coverage in `tests/geo/test_category_b_parity_geo.cpp` for GPU vs CPU Point×Point `ST_UNION` and `ST_DIFFERENCE` with ≤1e-6 tolerance.
 - Added Polygon×Polygon dispatch-attempt kernels `launchGeoPolygonUnionKernel` and `launchGeoPolygonDifferenceKernel` plus backend wiring, keeping deterministic CPU exact fallback for unsupported/failing polygon clipping cases.
 - Added polygon parity tests `CategoryBGeoParity.STUnionPolygonGpuVsCpuParity` and `CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity` in `tests/geo/test_category_b_parity_geo.cpp`.
+- Added CUDA evidence alias test `test_gpu_geo_setops_parity` in `tests/CMakeLists.txt` so Wave-A GPU CI (`ctest -R "test_gpu_"`) can execute set-operation parity coverage on CUDA runners.
 - Synced roadmap/docs status in `src/acceleration/ROADMAP.md`, root `ROADMAP.md`, and `include/geo/README.md` to reflect Point×Point closure, Polygon×Polygon dispatch expansion, and remaining full polygon-clipping kernel completion scope.
 
 ### Wave C ML — Graph Phase Gate Orchestration (2026-09-09)

@@ -180,6 +180,10 @@ constexpr int kPolyStatusReturnGeom2 = 3;
 constexpr int kPolyStatusCollection = 4;
 constexpr int kPolyStatusEmpty = 5;
 constexpr int kPolyStatusPolygonWithHole = 6;
+constexpr int kMaxPolygonKernelVertices = 512;
+constexpr int kMaxPolygonKernelOutputVertices = 513;
+constexpr int kPolygonKernelInvalidStatus = -1001;
+constexpr int kPolygonKernelInvalidOutput = -1002;
 
 static PointKernelResult launchPointSetOpKernel(PointKernelLaunchFn launch_fn, const Coordinate &p1, const Coordinate &p2) {
     PointKernelResult result;
@@ -293,12 +297,89 @@ static int normalizedVertexCount(const std::vector<Coordinate> &ring) {
     return n >= 3 ? n : 0;
 }
 
+static bool ringCoordinatesFinite(const std::vector<Coordinate> &ring, int n) {
+    for (int i = 0; i < n; ++i) {
+        const auto &p = ring[static_cast<std::size_t>(i)];
+        if (!std::isfinite(p.x) || !std::isfinite(p.y)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool hasSelfIntersection(const std::vector<Coordinate> &ring, int n) {
+    if (n < 4) {
+        return false;
+    }
+    for (int i = 0; i < n; ++i) {
+        const int i_next = (i + 1) % n;
+        for (int j = i + 1; j < n; ++j) {
+            const int j_next = (j + 1) % n;
+            if (i == j || i == j_next || i_next == j || i_next == j_next) {
+                continue;
+            }
+            if (i == 0 && j_next == n - 1) {
+                continue;
+            }
+            if (segmentsIntersect(ring[static_cast<std::size_t>(i)].x, ring[static_cast<std::size_t>(i)].y,
+                                  ring[static_cast<std::size_t>(i_next)].x,
+                                  ring[static_cast<std::size_t>(i_next)].y, ring[static_cast<std::size_t>(j)].x,
+                                  ring[static_cast<std::size_t>(j)].y, ring[static_cast<std::size_t>(j_next)].x,
+                                  ring[static_cast<std::size_t>(j_next)].y)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static bool polygonEligibleForCudaSetOps(const GeometryInfo &geom) {
+    if (!geom.isPolygon()) {
+        return false;
+    }
+    if (!geom.rings.empty() && geom.rings.size() != 1) {
+        return false;
+    }
+    const auto &ring = outerRing(geom);
+    const int n = normalizedVertexCount(ring);
+    if (n < 3 || n > kMaxPolygonKernelVertices) {
+        return false;
+    }
+    if (!ringCoordinatesFinite(ring, n)) {
+        return false;
+    }
+    return !hasSelfIntersection(ring, n);
+}
+
 static void writeRingInterleaved(const std::vector<Coordinate> &ring, int n, std::vector<double> &dst) {
     dst.assign(static_cast<std::size_t>(n * 2), 0.0);
     for (int i = 0; i < n; ++i) {
         dst[static_cast<std::size_t>(i * 2)] = ring[static_cast<std::size_t>(i)].x;
         dst[static_cast<std::size_t>(i * 2 + 1)] = ring[static_cast<std::size_t>(i)].y;
     }
+}
+
+static bool knownPolygonKernelStatus(int status) {
+    return status == kPolyStatusPolygon || status == kPolyStatusReturnGeom1 || status == kPolyStatusReturnGeom2
+           || status == kPolyStatusCollection || status == kPolyStatusEmpty || status == kPolyStatusPolygonWithHole;
+}
+
+static bool ringOutputIsValid(const std::vector<double> &xy, int count) {
+    if (count < 4 || count > kMaxPolygonKernelOutputVertices) {
+        return false;
+    }
+    for (int i = 0; i < count; ++i) {
+        const double x = xy[static_cast<std::size_t>(i * 2)];
+        const double y = xy[static_cast<std::size_t>(i * 2 + 1)];
+        if (!std::isfinite(x) || !std::isfinite(y)) {
+            return false;
+        }
+    }
+    const double x0 = xy[0];
+    const double y0 = xy[1];
+    const double xn = xy[static_cast<std::size_t>((count - 1) * 2)];
+    const double yn = xy[static_cast<std::size_t>((count - 1) * 2 + 1)];
+    return std::abs(x0 - xn) <= kEpsilon && std::abs(y0 - yn) <= kEpsilon;
 }
 
 static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch_fn, const GeometryInfo &g1,
@@ -308,22 +389,21 @@ static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch
         return result;
     }
 
+    if (!polygonEligibleForCudaSetOps(g1) || !polygonEligibleForCudaSetOps(g2)) {
+        return result;
+    }
     const auto &ring1 = outerRing(g1);
     const auto &ring2 = outerRing(g2);
     const int n1 = normalizedVertexCount(ring1);
     const int n2 = normalizedVertexCount(ring2);
-    if (n1 == 0 || n2 == 0) {
-        return result;
-    }
 
     std::vector<double> host_ring1;
     std::vector<double> host_ring2;
     writeRingInterleaved(ring1, n1, host_ring1);
     writeRingInterleaved(ring2, n2, host_ring2);
 
-    constexpr int kMaxRingVertices = 513;
-    std::vector<double> host_out1(static_cast<std::size_t>(kMaxRingVertices * 2), 0.0);
-    std::vector<double> host_out2(static_cast<std::size_t>(kMaxRingVertices * 2), 0.0);
+    std::vector<double> host_out1(static_cast<std::size_t>(kMaxPolygonKernelOutputVertices * 2), 0.0);
+    std::vector<double> host_out2(static_cast<std::size_t>(kMaxPolygonKernelOutputVertices * 2), 0.0);
     int host_out1_n = 0;
     int host_out2_n = 0;
     int host_status = 0;
@@ -396,6 +476,22 @@ static PolygonKernelResult launchPolygonSetOpKernel(PolygonKernelLaunchFn launch
 
     cudaFree(d_ring1); cudaFree(d_ring2); cudaFree(d_out1); cudaFree(d_out2);
     cudaFree(d_out1_n); cudaFree(d_out2_n); cudaFree(d_status);
+
+    if (!knownPolygonKernelStatus(host_status)) {
+        result.error_code = kPolygonKernelInvalidStatus;
+        return result;
+    }
+    if (host_out1_n < 0 || host_out1_n > kMaxPolygonKernelOutputVertices || host_out2_n < 0
+        || host_out2_n > kMaxPolygonKernelOutputVertices) {
+        result.error_code = kPolygonKernelInvalidOutput;
+        return result;
+    }
+    if ((host_status == kPolyStatusPolygon && !ringOutputIsValid(host_out1, host_out1_n))
+        || (host_status == kPolyStatusPolygonWithHole
+            && (!ringOutputIsValid(host_out1, host_out1_n) || !ringOutputIsValid(host_out2, host_out2_n)))) {
+        result.error_code = kPolygonKernelInvalidOutput;
+        return result;
+    }
 
     result.dispatched = true;
     result.status = host_status;
@@ -822,9 +918,9 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
     // ------------------------------------------------------------------
     // stUnion / stDifference
     //
-    // For Point×Point and Polygon×Polygon inputs on CUDA builds, dispatches
-    // to dedicated set-operation kernels. Other type combinations fall back
-    // to the CPU exact backend.
+    // For Point×Point and GPU-eligible single-ring Polygon×Polygon inputs on
+    // CUDA builds, dispatches to dedicated set-operation kernels. Other type
+    // combinations (or failed preconditions) fall back to the CPU exact backend.
     // ------------------------------------------------------------------
     GeometryInfo stUnion(const GeometryInfo& geom1, const GeometryInfo& geom2) override {
         const bool can_use_gpu = gpu_device_present_ && active_device_.is_healthy && safe_fail_.shouldAttemptGPU();
@@ -843,16 +939,22 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 #endif
         } else if (can_use_gpu && geom1.isPolygon() && geom2.isPolygon()) {
 #ifdef THEMIS_GEO_CUDA
-            const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonUnionKernel, geom1, geom2);
-            if (gpu_result.dispatched && gpu_result.status != 0) {
-                safe_fail_.recordSuccess();
-                return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+            if (polygonEligibleForCudaSetOps(geom1) && polygonEligibleForCudaSetOps(geom2)) {
+                const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonUnionKernel, geom1, geom2);
+                if (gpu_result.dispatched && gpu_result.status != 0) {
+                    safe_fail_.recordSuccess();
+                    return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+                }
+                safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                         "stUnion polygon kernel error: " + std::to_string(gpu_result.error_code));
+                audit_log_.recordFallbackToCPU("stUnion: GPU polygon kernel error; falling back to CPU",
+                                               "error_code=" + std::to_string(gpu_result.error_code));
+                themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_polygon_gpu_kernel_error");
+            } else {
+                audit_log_.recordFallbackToCPU("stUnion: polygon preconditions not GPU-eligible; falling back to CPU",
+                                               "");
+                themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_polygon_precondition_fallback");
             }
-            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
-                                     "stUnion polygon kernel error: " + std::to_string(gpu_result.error_code));
-            audit_log_.recordFallbackToCPU("stUnion: GPU polygon kernel error; falling back to CPU",
-                                           "error_code=" + std::to_string(gpu_result.error_code));
-            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_polygon_gpu_kernel_error");
 #endif
         }
         audit_log_.recordFallbackToCPU("stUnion: cpu exact fallback", "");
@@ -878,16 +980,22 @@ class GpuBatchBackend final : public ISpatialComputeBackend {
 #endif
         } else if (can_use_gpu && geom1.isPolygon() && geom2.isPolygon()) {
 #ifdef THEMIS_GEO_CUDA
-            const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonDifferenceKernel, geom1, geom2);
-            if (gpu_result.dispatched && gpu_result.status != 0) {
-                safe_fail_.recordSuccess();
-                return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+            if (polygonEligibleForCudaSetOps(geom1) && polygonEligibleForCudaSetOps(geom2)) {
+                const auto gpu_result = launchPolygonSetOpKernel(launchGeoPolygonDifferenceKernel, geom1, geom2);
+                if (gpu_result.dispatched && gpu_result.status != 0) {
+                    safe_fail_.recordSuccess();
+                    return buildGeometryFromPolygonKernelResult(gpu_result, geom1, geom2);
+                }
+                safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
+                                         "stDifference polygon kernel error: " + std::to_string(gpu_result.error_code));
+                audit_log_.recordFallbackToCPU("stDifference: GPU polygon kernel error; falling back to CPU",
+                                               "error_code=" + std::to_string(gpu_result.error_code));
+                themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_polygon_gpu_kernel_error");
+            } else {
+                audit_log_.recordFallbackToCPU(
+                    "stDifference: polygon preconditions not GPU-eligible; falling back to CPU", "");
+                themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_polygon_precondition_fallback");
             }
-            safe_fail_.recordFailure(themis::gpu::GPUSafeFail::FailureType::KERNEL_ERROR,
-                                     "stDifference polygon kernel error: " + std::to_string(gpu_result.error_code));
-            audit_log_.recordFallbackToCPU("stDifference: GPU polygon kernel error; falling back to CPU",
-                                           "error_code=" + std::to_string(gpu_result.error_code));
-            themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_polygon_gpu_kernel_error");
 #endif
         }
         audit_log_.recordFallbackToCPU("stDifference: cpu exact fallback", "");

@@ -15329,7 +15329,13 @@ add_geo_focused_test(
     geo/test_category_b_parity_geo.cpp
     test_category_b_parity_geo
     "geo;cuda;parity;category-b;haversine;contains;st-contains;focused;integration"
-    "Category-B parity: Haversine and ST_CONTAINS CUDA vs CPU parity for rollout gate"
+    "Category-B parity: Haversine, ST_CONTAINS, ST_UNION, ST_DIFFERENCE CUDA vs CPU parity for rollout gate"
+)
+
+add_test(NAME test_gpu_geo_setops_parity COMMAND test_category_b_parity_geo)
+set_tests_properties(test_gpu_geo_setops_parity PROPERTIES
+    LABELS "geo;cuda;parity;st-union;st-difference;gpu;integration"
+    TIMEOUT 180
 )
 
 if(THEMIS_GEO_CUDA)
