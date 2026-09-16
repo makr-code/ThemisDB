@@ -25,10 +25,10 @@ All items were source-validated against `src/ai/ai_plugin_generator.cpp` and
 
 | Artefact | Path | Evidence |
 |---|---|---|
-| Core implementation | `src/ai/ai_plugin_generator.cpp` | 634 lines; validation, retry, error handling, output validation all present |
-| Ethics integration | `src/ai/cai_ethics_integration.cpp` | 312 lines; principal scoring, revision loop, fail-closed callbacks |
-| Public API header | `include/ai/ai_plugin_generator.h` | 283 lines; Config struct with allow-list, payload limits, retry policy knobs |
-| Ethics header | `include/ai/cai_ethics_integration.h` | 193 lines; EthicsEvaluator, CAIConfig, callback signatures with thread-safety contract |
+| Core implementation | `src/ai/ai_plugin_generator.cpp` | Prompt validation, retry/backoff, structured error handling, output-field validation |
+| Ethics integration | `src/ai/cai_ethics_integration.cpp` | Principal scoring, critic-revision loop, fail-closed callbacks |
+| Public API header | `include/ai/ai_plugin_generator.h` | Config struct with allow-list, payload limits, retry policy knobs; Stats fields |
+| Ethics header | `include/ai/cai_ethics_integration.h` | EthicsEvaluator, CAIConfig, callback signatures with thread-safety contract |
 
 ---
 

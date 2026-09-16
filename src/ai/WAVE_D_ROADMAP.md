@@ -40,7 +40,7 @@ production incidents on the AI module.
 - Endpoint-timeout diagnosis flow: how to identify slow endpoints, review allow-list, and adjust timeout budget
 - Retry-storm prevention: detecting excessive retry-budget exhaustion and tuning `max_retries` / backoff constants
 - Redacted-log interpretation: understanding `[REDACTED]` tokens in logs and how to extract diagnostics safely
-- Stats struct interpretation: `requests_attempted`, `requests_succeeded`, `validation_failures`, `endpoint_failures`, `parse_failures` and their operational thresholds
+- Stats struct interpretation: `validation_errors`, `transport_errors`, `http_errors`, `parse_errors`, `safety_rejections`, `sandbox_rejections`, `successes` and their operational thresholds
 - CAI safety gate latency spikes: diagnosing critic-revision loop overruns and adjusting revision round limits
 - Federated aggregation failures: Byzantine-suspect node identification, aggregation round timeouts, DP budget exhaustion alerts
 

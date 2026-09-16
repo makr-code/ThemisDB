@@ -64,7 +64,7 @@ Production-runtime hook integration is complete in `LLMAQLHandler` for C1 and C2
 
 | Artefact | Path | Description |
 |---|---|---|
-| Federated training coordinator | `src/` (FederatedTrainingCoordinator) | Synchronized SGD, Byzantine-robust aggregation, DP tuning |
+| Federated training coordinator | `include/importers/federated_learning.h` (FederatedTrainingCoordinator) / `src/importers/federated_learning.cpp` | Synchronized SGD, Byzantine-robust aggregation, DP tuning |
 | Production telemetry hooks | `src/llm/` (LLMAQLHandler) | `executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat` — opt-in federated telemetry |
 
 ### Test Artefacts

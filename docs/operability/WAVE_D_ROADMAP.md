@@ -344,4 +344,4 @@ items within the cross-cutting Wave D program.
 
 **Document Owner:** platform-release@themisdb  
 **Last Updated:** 2026-09-16  
-**Next Review:** Phase 2 completion (2026-09-15 → ongoing)
+**Next Review:** Phase 2 completion (Q1 2027 → ongoing)

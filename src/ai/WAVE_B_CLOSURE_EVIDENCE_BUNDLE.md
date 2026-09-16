@@ -28,8 +28,8 @@ sign-off issued via Issue #6286 on 2026-09-09.
 
 | Artefact | Path |
 |---|---|
-| Retrieval controller header | `include/rag/self_rag_controller.h` |
-| InferenceEnhancementEngine callback integration | `src/rag/` (SelfRAGController impl) |
+| Retrieval controller header | `include/rag/self_rag.h` |
+| SelfRAGController implementation | `src/rag/self_rag.cpp` |
 
 ### Test Artefacts
 
@@ -63,8 +63,8 @@ sign-off issued via Issue #6286 on 2026-09-09.
 
 | Artefact | Path |
 |---|---|
-| RotatE model, LinkPredictionHead, KGCompletionEngine | `src/` (KGC impl) |
-| KnowledgeGraphReasoner integration | `src/` (KnowledgeGraphReasoner) |
+| RotatE model and LinkPredictionHead | `include/graph/rotate_completion.h` / `src/graph/rotate_completion.cpp` |
+| KnowledgeGraphReasoner integration | `include/graph/knowledge_graph_reasoner.h` / `src/graph/knowledge_graph_reasoner.cpp` |
 
 ### Test Artefacts
 
@@ -99,14 +99,14 @@ sign-off issued via Issue #6286 on 2026-09-09.
 
 | Artefact | Path |
 |---|---|
-| MultiTaskLoRA (shared base + task-specific projections) | `src/` (MultiTaskLoRA impl) |
+| MultiTaskLoRA (shared base + task-specific projections) | `include/training/multi_task_lora.h` / `src/training/multi_task_lora.cpp` |
 
 ### Test Artefacts
 
 | Test Suite | Path | Coverage |
 |---|---|---|
 | MTL acceptance gates | `tests/training/test_multitask_lora_acceptance_gates.cpp` | MTL acceptance |
-| LoRA unit tests | `tests/ai/lora/` | MTL-01..10 |
+| LoRA unit tests | `tests/test_multi_task_lora.cpp`, `tests/test_multi_task_lora_ablation.cpp` | MTL-01..10 |
 
 ### B3 Acceptance Criteria
 
