@@ -18,12 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added regression coverage for new validator/fallback guards in both acceleration regression suites (`tests/acceleration/test_acceleration_regression.cpp`, `tests/test_acceleration_regression.cpp`).
 - Synced `src/acceleration/ROADMAP.md` Hybrid Retrieval Rollout gates for Phase-C geo/BFS/Dijkstra prerequisites to source-validated complete status.
 
-### Geo CUDA ST_UNION/ST_DIFFERENCE Point Dispatch (2026-09-16)
+### Geo CUDA ST_UNION/ST_DIFFERENCE Dispatch Expansion (2026-09-16)
 
 - Added CUDA point set-operation kernels `launchGeoPointUnionKernel` and `launchGeoPointDifferenceKernel` in `src/acceleration/cuda/geo_kernels.cu`.
 - Wired `src/geo/gpu_backend_stub.cpp` to dispatch Point×Point `stUnion`/`stDifference` through CUDA kernels when a healthy GPU is available, with deterministic CPU exact fallback and failure telemetry on GPU errors.
 - Added parity coverage in `tests/geo/test_category_b_parity_geo.cpp` for GPU vs CPU Point×Point `ST_UNION` and `ST_DIFFERENCE` with ≤1e-6 tolerance.
-- Synced roadmap/docs status in `src/acceleration/ROADMAP.md`, root `ROADMAP.md`, and `include/geo/README.md` to reflect Point×Point CUDA delivery and remaining polygon CUDA work.
+- Added Polygon×Polygon dispatch-attempt kernels `launchGeoPolygonUnionKernel` and `launchGeoPolygonDifferenceKernel` plus backend wiring, keeping deterministic CPU exact fallback for unsupported/failing polygon clipping cases.
+- Added polygon parity tests `CategoryBGeoParity.STUnionPolygonGpuVsCpuParity` and `CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity` in `tests/geo/test_category_b_parity_geo.cpp`.
+- Synced roadmap/docs status in `src/acceleration/ROADMAP.md`, root `ROADMAP.md`, and `include/geo/README.md` to reflect Point×Point closure, Polygon×Polygon dispatch expansion, and remaining full polygon-clipping kernel completion scope.
 
 ### Wave C ML — Graph Phase Gate Orchestration (2026-09-09)
 

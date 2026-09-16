@@ -36,7 +36,7 @@ Public interfaces and declarations for geo functionality. Implementation source 
 - GPU backend selection is runtime-safe: unavailable/erroring devices fall back to CPU with circuit-breaker behavior.
 - `IRasterQueryInterface` returns explicit `RasterStatus` values (`NOT_SUPPORTED`, `INVALID_BBOX`, `TILE_TOO_LARGE`, `BACKEND_ERROR`, ...).
 - `IRTreeCursor::next()` returns `CursorStatus::STALE` if the underlying index changed while iterating.
-- Current limits (also tracked in module docs): GPU DBSCAN defaults to finite max-n threshold; `ST_UNION`/`ST_DIFFERENCE` currently use CUDA kernels for Point×Point and CPU exact fallback for polygon set-operations.
+- Current limits (also tracked in module docs): GPU DBSCAN defaults to finite max-n threshold; `ST_UNION`/`ST_DIFFERENCE` use CUDA kernels for Point×Point and now attempt Polygon×Polygon CUDA dispatch first, while CPU exact fallback remains the correctness path for unsupported/failing polygon clipping cases.
 
 ## Configuration Options (Build/Runtime)
 
