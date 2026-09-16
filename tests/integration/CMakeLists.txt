@@ -705,6 +705,11 @@ foreach(_soak_test IN ITEMS
     test_telemetry_soak
     test_failover_soak_60min
     test_aql_assistance_soak
+    test_network_protocol_soak
+    test_analytics_pipeline_soak
+    test_cache_soak
+    test_document_store_soak
+    test_chaos_fault_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -720,6 +725,30 @@ foreach(_soak_test IN ITEMS
         # AQL assistance soak uses in-process stubs and completes in < 2 min
         # even with the full 60s default duration; reduce its CI timeout.
         if(_soak_test STREQUAL "test_aql_assistance_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Network protocol soak uses in-process stubs; CI runs at default 60s.
+        if(_soak_test STREQUAL "test_network_protocol_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Analytics pipeline soak uses in-process stubs and completes in < 2 min
+        # with the default 60s THEMIS_SOAK_DURATION_MS; reduce its CI timeout.
+        if(_soak_test STREQUAL "test_analytics_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Cache soak uses in-process stubs and completes well within 2 min at
+        # the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_cache_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Document store soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_document_store_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Chaos fault soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_chaos_fault_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
