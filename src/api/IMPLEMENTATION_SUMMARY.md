@@ -1,8 +1,35 @@
 # API Module Development Status - Implementation Summary
 
-**Date**: 2026-07-19
+**Date**: 2026-07-19 — **Last updated**: 2026-09-16
 **Issue**: makr-code/ThemisDB#5618
-**Status**: ✅ COMPLETE (Phase 1–5 + Q4 2026 planned features)
+**Status**: ✅ FINALIZED — Wave A / B / C / D complete
+
+## Wave D + Documentation Finalization (2026-08-19 to 2026-09-16)
+
+Wave D deliverables and the documentation finalization pass are now complete:
+
+- **Wave D stress/soak** (`tests/api/test_api_wave_d_stress.cpp`): high-cardinality tracing stress, exporter retry/failure resilience, 100k-request soak simulation, concurrent mixed-load soak, ERR_-prefix operator diagnostics.
+- **Operator runbook** (`docs/API_TRANSPORT_RUNBOOK.md`): ERR_-prefixed remediation steps, Prometheus alert rules, escalation path, SLA targets — all four transport paths covered.
+- **Wave B/C HIGH closure** (2026-08-19): `api_transport_policy.cpp`, `themisdb_grpc_service.cpp`, `graphql.cpp`, `ws_handler.cpp` — 13 HIGH scanner findings fully remediated (see MODULE_GAPS.md Traceability Matrix).
+- **Documentation finalization** (2026-09-16): MODULE_GAPS.md Wave A/B/C closed, AUDIT.md all open findings closed, CHANGELOG.md backfilled.
+
+### Updated Artifact Count
+
+| Category                    | Count     |
+|-----------------------------|-----------|
+| Q3 2026 tests               | 37 tests  |
+| Phase 4 concurrency tests   | 14 tests  |
+| Q4 2026 degraded-mode tests | 10 tests  |
+| Wave D stress/soak tests    | ~8 tests  |
+| **Total tests**             | **~69**   |
+| Q3 2026 benchmarks          | 13        |
+| Phase 5 release-gate BMs    | 13        |
+| Server endpoint BMs         | included  |
+| **Total benchmarks**        | **26+**   |
+| New production headers      | 3         |
+| New production source files | 1         |
+
+---
 
 ## Executive Summary
 
