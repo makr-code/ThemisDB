@@ -1,5 +1,10 @@
 # RUNBOOK: Voice Incident Triage & Session Lifecycle Management
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Voice/Audio Team Lead  
 **Purpose:** Diagnose and resolve voice session failures, stream validation issues, and lifecycle anomalies  
 **Severity:** High (affects all active voice-based workloads)  

@@ -1,5 +1,10 @@
 # RUNBOOK: Sharding Topology Change & Rebalancing
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Sharding Team Lead  
 **Purpose:** Execute sharding topology changes and rebalance operations safely  
 **Severity:** High (affects read/write distribution and cluster balance)  

@@ -1,9 +1,13 @@
 # Wave D Acceptance Checklist
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Document Type:** Wave D Exit Gate Checklist  
 **Target Completion:** Q1 2027 (v2.4.x / v2.5.0-rc1)  
-**Status:** 🟡 Phase 1 In Progress  
-**Last Updated:** 2026-08-24
+**Execution Status:** 🟡 Phase 1 In Progress
 
 ---
 

@@ -1,5 +1,10 @@
 # RUNBOOK: Access-Model Promotion Workflow & Rollback
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs  
 **Purpose:** Safe promotion of access-control model changes with rollback capability  
 **Severity:** Medium (affects authentication/authorization for all connections)  

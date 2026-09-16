@@ -1,5 +1,10 @@
 # RUNBOOK: Replication Lag & Failover Detection and Recovery
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Replication Team Lead  
 **Purpose:** Detect and respond to replication lag spikes and failover events  
 **Severity:** Critical (affects data freshness and high-availability)  

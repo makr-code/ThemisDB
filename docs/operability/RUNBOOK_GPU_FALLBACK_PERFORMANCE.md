@@ -1,5 +1,10 @@
 # RUNBOOK: GPU Fallback Detection & Performance Monitoring
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, GPU/Acceleration Team Lead  
 **Purpose:** Detect GPU failures, manage CPU fallback transitions, and maintain performance SLOs  
 **Severity:** High (affects acceleration-dependent workloads)  
