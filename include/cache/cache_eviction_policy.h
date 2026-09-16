@@ -53,6 +53,11 @@ namespace cache {
  *
  * @param key       The cache key selected for eviction.
  * @param tenant_id Tenant namespace of the evicted key (empty = global).
+ *
+ * @note Listeners are invoked synchronously while the owning policy's internal
+ *       mutex is held.  A listener **must not** call any method on the owning
+ *       policy object (e.g. registerEvictionListener(), choose_victim()); doing
+ *       so will deadlock.  Listeners should be short, non-blocking callbacks.
  */
 using EvictionListener = std::function<void(const std::string& key,
                                              const std::string& tenant_id)>;
@@ -445,6 +450,11 @@ public:
      * invoked in registration order.  Thread-safe.
      *
      * @param listener Callback conforming to the EvictionListener type alias.
+     * @note  The listener is invoked while mutex_ is held.  The listener
+     *        **must not** call back into the owning policy (e.g.
+     *        registerEvictionListener(), choose_victim()); doing so will
+     *        deadlock.  Keep listeners non-blocking and free of policy
+     *        re-entry.
      */
     void registerEvictionListener(EvictionListener listener);
 

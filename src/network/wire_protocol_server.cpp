@@ -1288,10 +1288,13 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
                 fn();
             });
     } else {
-        // Inline path: still on the I/O thread; handlers may read payload_buffer_ directly.
-        // Mirror the dispatch_payload_ assignment so handlers work identically in both paths.
-        dispatch_payload_ = payload_buffer_;
+        // Inline path: still on the I/O thread; asyncReadPayload() will not refill
+        // payload_buffer_ until handleMessage() returns, so there is no race.
+        // Use O(1) std::swap so dispatched handlers see their data in dispatch_payload_
+        // (same member read on the worker-pool path) without any heap allocation.
+        std::swap(dispatch_payload_, payload_buffer_);
         handler();
+        std::swap(dispatch_payload_, payload_buffer_);
     }
 }
 
