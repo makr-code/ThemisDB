@@ -710,6 +710,7 @@ foreach(_soak_test IN ITEMS
     test_cache_soak
     test_document_store_soak
     test_chaos_fault_soak
+    test_vector_search_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -744,6 +745,11 @@ foreach(_soak_test IN ITEMS
         # Chaos fault soak uses in-process stubs and completes in < 2 min
         # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
         if(_soak_test STREQUAL "test_chaos_fault_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Vector search soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_vector_search_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
