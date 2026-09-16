@@ -703,6 +703,8 @@ std::string RemoteRegistryClient::httpGet(const std::string &url) {
             if (res == CURLE_OPERATION_TIMEDOUT) {
                 std::lock_guard<std::mutex> hook_lock(stats_mutex_);
                 last_stats_.timeout_count++;
+                last_stats_.attempts   = attempts_made;
+                last_stats_.last_error = last_error;
                 if (observability_hook_) {
                     observability_hook_(last_stats_);
                 }
@@ -868,6 +870,8 @@ bool RemoteRegistryClient::httpGetBinary(const std::string &url, const std::stri
             if (res == CURLE_OPERATION_TIMEDOUT) {
                 std::lock_guard<std::mutex> hook_lock(stats_mutex_);
                 last_stats_.timeout_count++;
+                last_stats_.attempts   = attempts_made;
+                last_stats_.last_error = last_error;
                 if (observability_hook_) {
                     observability_hook_(last_stats_);
                 }

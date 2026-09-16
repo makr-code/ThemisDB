@@ -71,8 +71,10 @@ HotReloadResult HotReloadManager::reloadModule(const std::string &module_name, c
     auto wall_start = std::chrono::steady_clock::now();
 
     // Wave D: distributed tracing — root span for this reload operation.
+    // Copy the emitter under a shared lock to avoid a data race with setSpanEmitter().
+    SpanEmitter  local_emitter = spanEmitter();
     TraceContext ctx  = TraceContext::generate("hot_reload_manager.reloadModule");
-    ScopedSpan   span(ctx, span_emitter_);
+    ScopedSpan   span(ctx, local_emitter);
 
     HotReloadResult result;
     result.rollbackAvailable = false;
@@ -269,8 +271,10 @@ HotReloadResult HotReloadManager::rollback(const std::string &module_name) {
     auto wall_start = std::chrono::steady_clock::now();
 
     // Wave D: distributed tracing — root span for this rollback operation.
+    // Copy the emitter under a shared lock to avoid a data race with setSpanEmitter().
+    SpanEmitter  local_emitter = spanEmitter();
     TraceContext ctx  = TraceContext::generate("hot_reload_manager.rollback");
-    ScopedSpan   span(ctx, span_emitter_);
+    ScopedSpan   span(ctx, local_emitter);
 
     HotReloadResult result;
 

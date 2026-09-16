@@ -301,10 +301,12 @@ public:
     void setSpanEmitter(SpanEmitter emitter);
 
     /**
-     * @brief Return a reference to the active span emitter.
+     * @brief Return the active span emitter by value (thread-safe snapshot).
      *
-     * The reference is valid for the lifetime of this manager.  Thread safety:
-     * the emitter itself must be thread-safe if accessed from multiple threads.
+     * The returned @c SpanEmitter is a copy taken under a shared lock, so
+     * callers receive a stable, independently-owned value.  Store the returned
+     * emitter by value and pass it by reference into @c ScopedSpan; do not
+     * bind it to a @c const& or @c auto& (that would dangle immediately).
      */
     /// @brief Returns the current span emitter by value (thread-safe read).
     /// Callers must not invoke setSpanEmitter() concurrently with active

@@ -39,7 +39,7 @@ namespace themis { namespace modules {
 
 /// Thread-safe accumulator for SpanEvent records.
 struct SpanCollector {
-    std::mutex            mtx;
+    mutable std::mutex    mtx;
     std::vector<SpanEvent> events;
 
     SpanEmitter emitter() {
@@ -50,21 +50,21 @@ struct SpanCollector {
     }
 
     std::size_t countStartEvents() const {
-        std::lock_guard<std::mutex> lk(const_cast<std::mutex&>(mtx));
+        std::lock_guard<std::mutex> lk(mtx);
         std::size_t n = 0;
         for (const auto& e : events) { if (e.is_start) ++n; }
         return n;
     }
 
     std::size_t countEndEvents() const {
-        std::lock_guard<std::mutex> lk(const_cast<std::mutex&>(mtx));
+        std::lock_guard<std::mutex> lk(mtx);
         std::size_t n = 0;
         for (const auto& e : events) { if (!e.is_start) ++n; }
         return n;
     }
 
     std::size_t countErrorEndEvents() const {
-        std::lock_guard<std::mutex> lk(const_cast<std::mutex&>(mtx));
+        std::lock_guard<std::mutex> lk(mtx);
         std::size_t n = 0;
         for (const auto& e : events) {
             if (!e.is_start && e.error_code != 0) ++n;

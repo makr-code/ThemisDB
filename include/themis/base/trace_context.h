@@ -20,8 +20,8 @@
  *
  * Usage (instrumented call site):
  * @code
- *   // obtain an emitter from the owning subsystem (may be NoOp)
- *   auto& emitter = manager.spanEmitter();
+ *   // obtain an emitter from the owning subsystem (may be NoOp) — store by value
+ *   SpanEmitter emitter = manager.spanEmitter();
  *
  *   TraceContext ctx = TraceContext::generate("hot_reload_manager.reloadModule");
  *   ScopedSpan span(ctx, emitter);
@@ -86,7 +86,7 @@ struct TraceContext {
      * @param operation  Operation name for this span.
      * @return New root @c TraceContext.
      */
-    static TraceContext generate(std::string_view operation) noexcept {
+    static TraceContext generate(std::string_view operation) {
         TraceContext ctx;
         ctx.trace_id        = nextId();
         ctx.span_id         = nextId();
@@ -104,7 +104,7 @@ struct TraceContext {
      * @param operation  Operation name for the child span.
      * @return Child @c TraceContext.
      */
-    TraceContext child(std::string_view operation) const noexcept {
+    TraceContext child(std::string_view operation) const {
         TraceContext ctx;
         ctx.trace_id        = trace_id;
         ctx.span_id         = nextId();
@@ -201,7 +201,7 @@ public:
      * @param ctx      Trace context for this span.
      * @param emitter  Emitter to receive span events (must outlive ScopedSpan).
      */
-    explicit ScopedSpan(const TraceContext& ctx, SpanEmitter& emitter) noexcept
+    explicit ScopedSpan(const TraceContext& ctx, SpanEmitter& emitter)
         : ctx_(ctx), emitter_(emitter), error_code_(0) {
         SpanEvent ev;
         ev.context   = ctx_;
