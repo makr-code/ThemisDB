@@ -258,8 +258,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
 - [ ] CAI safety gate per-call latency histogram (p50/p95/p99) (Target: 2026-11)
 - [ ] Federated aggregation round-latency counter (Target: 2026-12)
-- [ ] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
-- [ ] Span propagation in LLMAQLHandler CAI/federated gate paths (Target: Q1 2027)
+- [x] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
+- [x] Span propagation in LLMAQLHandler CAI/federated gate paths (Target: Q1 2027)
 
 ### D3: Soak Tests (Sustained Load)
 - [x] `tests/ai/test_ai_generation_soak_60min.cpp` — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
@@ -275,7 +275,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ### Wave D Exit Criteria
 - [x] AI generation runbook published (`docs/operability/RUNBOOK_AI_GENERATION.md`)
 - [ ] Observability expansion complete (extended Stats + CAI/federated latency histograms)
-- [ ] OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths
+- [x] OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths
 - [~] 60-min soak test created and green on representative hardware (test created 2026-09-16; full run hardware-blocked)
 - [ ] Representative-hardware p95/p99 baselines captured for AI generation + CAI gate
 - [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md`

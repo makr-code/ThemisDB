@@ -114,7 +114,7 @@ verification steps, rollback procedure, troubleshooting table, and evidence/logg
 
 ## Batch D5 — AI Module Operability Hardening
 
-**Status:** 🔲 Open — runbook and soak test created; hardware baselines and OTel spans pending (Q1 2027)
+**Status:** 🔲 Open — runbook, soak test, and OTel spans delivered; hardware baselines pending (Q1 2027)
 
 **Evidence provided:**
 
@@ -130,7 +130,7 @@ verification steps, rollback procedure, troubleshooting table, and evidence/logg
 - [ ] Full 60-minute `test_ai_generation_soak_60min` run result:
   - Success rate ≥ 80% on always-succeed stub ✓ (CI run link or log attachment)
   - Stats invariant holds across all 4 test scenarios ✓
-- [ ] OTel spans implemented for `generatePlugin` and `LLMAQLHandler` hot paths
+- [x] OTel spans implemented for `generatePlugin` and `LLMAQLHandler` hot paths
   (planned Q1 2027 — see `src/ai/WAVE_D_ROADMAP.md` D2)
 - [ ] Representative-hardware AI generation latency baselines recorded
   (hardware-blocked — pending Q1 2027; see `src/ai/WAVE_D_ROADMAP.md` D4)
@@ -176,7 +176,7 @@ verification steps, rollback procedure, troubleshooting table, and evidence/logg
 - [ ] Batch D2 approved (see above)
 - [ ] Batch D3 runbook cross-links added
 - [ ] Batch D4 full soak evidence attached (see above)
-- [ ] Batch D5 AI module soak evidence attached + OTel spans implemented (see above)
+- [ ] Batch D5 AI module soak evidence attached (hardware-blocked, pending Q1 2027 run)
 - [ ] Batch D6 hardware-blocked items resolved (GATE-EUAI-AUDIT-01, DK-RG-01..06, Analytics Wave-B, LDM-8 matrices)
 - [ ] `ROADMAP.md` Wave D items updated to `[x]`
 - [ ] `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 (Batch D) updated with completion status

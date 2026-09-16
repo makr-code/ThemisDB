@@ -73,8 +73,8 @@ production incidents on the AI module.
 - [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
 - [ ] Add CAI safety gate latency histogram (CAI evaluation p95/p99) (Target: 2026-11)
 - [ ] Add federated aggregation round-latency counter (Target: 2026-12)
-- [ ] Integrate OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
-- [ ] Integrate span propagation in LLMAQLHandler AI-gate paths (Target: Q1 2027)
+- [x] Integrate OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
+- [x] Integrate span propagation in LLMAQLHandler AI-gate paths (Target: Q1 2027)
 - [ ] Verify observability output against Wave 7-9 benchmark gates (Target: Q1 2027)
 
 ---
@@ -134,7 +134,7 @@ production incidents on the AI module.
 |---|---|---|
 | AI generation runbook published at `docs/operability/RUNBOOK_AI_GENERATION.md` | Q1 2027 | [ ] Pending |
 | Observability expansion complete: extended Stats + CAI/federated latency histograms | Q1 2027 | [ ] Pending |
-| OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths | Q1 2027 | [ ] Pending |
+| OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths | Q1 2027 | [x] Done (2026-09-16) |
 | AI generation 60-min soak test created and green | Q1 2027 | [ ] Pending |
 | Representative-hardware p95/p99 baselines captured for AI generation + CAI gate | Q1 2027 | [ ] Pending |
 | Wave D sign-off document complete with human approval | Q1 2027 | [ ] Pending |

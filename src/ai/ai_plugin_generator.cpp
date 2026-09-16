@@ -10,6 +10,7 @@
  */
 
 #include "ai/ai_plugin_generator.h"
+#include "observability/trace_instrumentation.h"
 #include "utils/error_registry.h"
 #include "utils/expected.h"
 
@@ -529,10 +530,15 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     const PluginGenerationPrompt& prompt)
 {
+    // --- Wave D D2: OTel span for the full plugin generation pipeline ---
+    TRACE_SCOPE_AI_GENERATE("ai.plugin.generate");
+
     // 1. Validate inputs first.
     auto vr = validatePrompt(prompt);
     if (!vr) {
         ++stat_validation_errors_;
+        TRACE_EVENT("ai.plugin.generate.validation_error",
+                    {{"ai.error.type", "validation"}, {"ai.error.message", vr.error().message()}});
         return tl::unexpected(vr.error());
     }
 
@@ -553,6 +559,13 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     spdlog::debug(
         "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
         truncateForLog(safe_description), config_.llm_endpoint, config_.timeout_ms);
+
+    // Record key generation attributes on the active span.
+    TRACE_BAGGAGE("ai.endpoint", config_.llm_endpoint);
+    TRACE_EVENT("ai.plugin.generate.start",
+                {{"ai.plugin_type", std::to_string(static_cast<int>(prompt.type))},
+                 {"ai.security_level", std::to_string(static_cast<int>(prompt.security_level))},
+                 {"ai.llm_model", std::to_string(static_cast<int>(prompt.llm_model))}});
 
     json request;
     request["description"] = safe_description;
@@ -625,13 +638,19 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     if (!endpoint_result) {
         if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             ++stat_http_errors_;
+            TRACE_EVENT("ai.plugin.generate.http_error",
+                        {{"ai.error.type", "http"}, {"ai.error.message", endpoint_result.error().message()}});
         } else {
             ++stat_transport_errors_;
+            TRACE_EVENT("ai.plugin.generate.transport_error",
+                        {{"ai.error.type", "transport"}, {"ai.error.message", endpoint_result.error().message()}});
         }
         return tl::unexpected(endpoint_result.error());
     }
     if (endpoint_result.value().size() > config_.max_response_body_bytes) {
         ++stat_http_errors_;
+        TRACE_EVENT("ai.plugin.generate.http_error",
+                    {{"ai.error.type", "response_too_large"}});
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: endpoint response exceeds configured response size limit"));
@@ -832,6 +851,11 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     ++stat_successes_;
+    TRACE_EVENT("ai.plugin.generate.success",
+                {{"ai.generated.name", generated.manifest.name},
+                 {"ai.generated.version", generated.manifest.version},
+                 {"ai.generated.passed_security_checks",
+                  generated.passed_security_checks ? std::string("true") : std::string("false")}});
     return generated;
 }
 

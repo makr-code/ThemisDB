@@ -42,6 +42,7 @@
 #include "llm/kv_prefix_transfer_manager.h"
 #include "llm/llama_wrapper.h"
 #include "llm/llm_plugin_manager.h"
+#include "observability/trace_instrumentation.h"
 #include "prompt_engineering/markdown_utils.h"
 #include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
@@ -767,6 +768,11 @@ std::unique_ptr<IEmbeddingProvider> LLMAQLHandler::makeEmbeddingBridge() {
 std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::string &model_id,
                                         const std::string &lora_id,
                                         const std::unordered_map<std::string, std::string> &options) {
+    // --- Wave D D2: OTel span for the LLM inference pipeline ---
+    TRACE_SCOPE_AI_INFER("llm.infer");
+    TRACE_EVENT("llm.infer.start",
+                {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
+
     auto start_time = std::chrono::steady_clock::now();
     auto &metrics   = LLMMetricsCollector::instance();
 
@@ -1083,6 +1089,13 @@ std::string LLMAQLHandler::executeInferStreaming(const std::string &prompt,
 std::string LLMAQLHandler::executeRAG(const std::string &query, const std::string &collection, int top_k,
                                       const std::string &lora_id,
                                       const std::unordered_map<std::string, std::string> &options) {
+    // --- Wave D D2: OTel span for the RAG pipeline ---
+    TRACE_SCOPE_AI_INFER("llm.rag");
+    TRACE_EVENT("llm.rag.start",
+                {{"llm.collection", collection},
+                 {"llm.top_k", std::to_string(top_k)},
+                 {"llm.lora_id", lora_id}});
+
     auto start_time       = std::chrono::steady_clock::now();
     auto &metrics         = LLMMetricsCollector::instance();
     size_t retrieved_docs = 0;

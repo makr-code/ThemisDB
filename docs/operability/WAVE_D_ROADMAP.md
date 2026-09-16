@@ -320,8 +320,8 @@ items within the cross-cutting Wave D program.
 - [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
 - [ ] CAI safety gate per-call latency histogram (p50/p95/p99) in `src/ai/cai_ethics_integration.cpp` (Target: 2026-11)
 - [ ] Federated aggregation round-latency counter in federated coordinator (Target: 2026-12)
-- [ ] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
-- [ ] Span propagation in `LLMAQLHandler` CAI-gate + federated telemetry paths (Target: Q1 2027)
+- [x] OpenTelemetry span propagation in `generatePlugin` (Target: Q1 2027)
+- [x] Span propagation in `LLMAQLHandler` CAI-gate + federated telemetry paths (Target: Q1 2027)
 
 ### AI Soak Tests (D3)
 
