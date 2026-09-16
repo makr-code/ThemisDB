@@ -19,6 +19,7 @@
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/slice.h>
+#include "utils/rocksdb_open_compat.h"
 #endif
 
 #include "rag/wiki_index_store.h"
@@ -342,7 +343,7 @@ struct WikiIndexStore::Impl {
         };
         std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
         rocksdb::DB* db_raw = nullptr;
-        const rocksdb::Status s = rocksdb::DB::Open(
+        const rocksdb::Status s = themis::storage::detail::openDbWithColumnFamiliesCompat(
             rocksdb::DBOptions{opts},
             config.cache_dir,
             cf_descs,

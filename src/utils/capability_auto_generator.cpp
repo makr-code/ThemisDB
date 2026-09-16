@@ -15,6 +15,7 @@
 
 
 #include "utils/capability_auto_generator.h"
+#include "utils/rocksdb_open_compat.h"
 #include <stdexcept>
 #include "utils/self_awareness.h"
 #include <rocksdb/db.h>
@@ -270,7 +271,7 @@ CapabilityAutoGenerator::AnalysisResult CapabilityAutoGenerator::analyzeShardDat
     options.create_if_missing = false;
 
     rocksdb::DB* db_raw = nullptr;
-    rocksdb::Status status = rocksdb::DB::OpenForReadOnly(options, data_path, &db_raw);
+    rocksdb::Status status = themis::storage::detail::openDbForReadOnlyCompat(options, data_path, &db_raw);
 
     if (!status.ok()) {
         throw std::runtime_error("Failed to open RocksDB: " + status.ToString());

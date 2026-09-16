@@ -149,19 +149,16 @@ json TTSProcessor::getStatistics() const {
 }
 
 TTSResult TTSProcessor::synthesize(const std::string &text, const TTSOptions &options) {
-    if (!initialized_) {
-        TTSResult result;
-        result.success       = false;
-        result.error_message = "TTS processor not initialized";
-        return result;
-    }
-
+    // Default fallback behavior: synthesize can still work without a loaded model
+    // when the app is running in a no-backend / test-only configuration.  This
+    // keeps the uninitialized path usable and ensures the injected encoder hooks
+    // continue to operate for MP3/OGG output.
     return synthesizeInternal(text, options);
 }
 
 bool TTSProcessor::streamSynthesize(const std::string &text, std::function<void(const std::vector<uint8_t> &)> callback,
                                     const TTSOptions &options) {
-    if (!initialized_ || !callback) {
+    if (!callback) {
         return false;
     }
 

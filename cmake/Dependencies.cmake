@@ -939,6 +939,39 @@ if(httplib_FOUND AND NOT TARGET httplib::httplib)
         )
     endif()
 endif()
+if(NOT TARGET httplib::httplib)
+    set(_themis_httplib_fallback_include "")
+    set(_themis_httplib_triplet "")
+    if(DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
+        set(_themis_httplib_triplet "${VCPKG_TARGET_TRIPLET}")
+    elseif(WIN32)
+        set(_themis_httplib_triplet "x64-windows")
+    else()
+        set(_themis_httplib_triplet "x64-linux")
+    endif()
+
+    set(_themis_httplib_candidates
+        "${CMAKE_SOURCE_DIR}/vcpkg_installed/${_themis_httplib_triplet}/include"
+        "${_the_vcpkg_root}/installed/${_themis_httplib_triplet}/include"
+        "${_the_vcpkg_root}/packages/cpp-httplib_${_themis_httplib_triplet}/include"
+    )
+
+    foreach(_themis_httplib_inc_dir IN LISTS _themis_httplib_candidates)
+        if(EXISTS "${_themis_httplib_inc_dir}/httplib.h")
+            set(_themis_httplib_fallback_include "${_themis_httplib_inc_dir}")
+            break()
+        endif()
+    endforeach()
+
+    if(NOT "${_themis_httplib_fallback_include}" STREQUAL "")
+        add_library(httplib::httplib INTERFACE IMPORTED GLOBAL)
+        set_target_properties(httplib::httplib PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${_themis_httplib_fallback_include}"
+        )
+        set(httplib_FOUND TRUE)
+        message(STATUS "cpp-httplib fallback include directory: ${_themis_httplib_fallback_include}")
+    endif()
+endif()
 if(httplib_FOUND)
     message(STATUS "cpp-httplib found - enabling built-in HTTP server")
     add_compile_definitions(THEMIS_HAS_HTTPLIB=1)

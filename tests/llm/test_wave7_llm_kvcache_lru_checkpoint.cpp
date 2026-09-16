@@ -37,6 +37,7 @@
 #include <gtest/gtest.h>
 #include "llm/paged_kv_cache.h"
 #include "llm/paged_block_manager.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <chrono>
 #include <filesystem>
@@ -272,7 +273,7 @@ rocksdb::DB* openTempRocksDB(const std::string& path) {
     rocksdb::Options opts;
     opts.create_if_missing = true;
     rocksdb::DB* db = nullptr;
-    rocksdb::Status s = rocksdb::DB::Open(opts, path + "/rocksdb", &db);
+    rocksdb::Status s = themis::storage::detail::openDbCompat(opts, path + "/rocksdb", &db);
     if (!s.ok() || !db) {
         return nullptr;
     }

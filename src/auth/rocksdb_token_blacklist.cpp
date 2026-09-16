@@ -11,7 +11,7 @@
 
 
 #include "auth/rocksdb_token_blacklist.h"
-#include "auth/rocksdb_open_compat.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <chrono>
 #include <cstring>
@@ -107,7 +107,7 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
     rocksdb::DB *db_instance = nullptr;
-    rocksdb::Status s = themis::auth::detail::openDbWithColumnFamiliesCompat(
+    rocksdb::Status s = themis::storage::detail::openDbWithColumnFamiliesCompat(
         rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_instance);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
