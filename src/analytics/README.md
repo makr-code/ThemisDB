@@ -41,6 +41,7 @@ Out of scope:
 - runtime behavior depends on feature flags and available optional dependencies.
 - analytics execution paths include both local and distributed orchestration surfaces.
 - export and serving integrations can return structured not-supported or dependency errors when optional backends are unavailable.
+- export, serving, and distributed result types expose `operation_id`, `correlation_id`, `failure_class`, and operator-facing hints for incident triage.
 
 ## Security Hardening (2026-08-19)
 

@@ -1,6 +1,13 @@
 # Analytics Troubleshooting Guide
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 The `analytics` module provides OLAP capabilities, Complex Event Processing (CEP), anomaly detection, process mining, time-series forecasting, incremental materialized views, and streaming window aggregations for ThemisDB.
+
+For operator-critical fail-closed, export, distributed, and baseline-regression incidents, also use `docs/troubleshooting/analytics_operability_runbook.md`.
 
 ## Quick Diagnostics
 

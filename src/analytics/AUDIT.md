@@ -30,20 +30,20 @@
 
 ### Open
 
-1. [AN-AUD-01] benchmark coverage remains partially proxy-based.
+1. [AN-AUD-01] representative-hardware baseline evidence is still pending.
 - Severity: medium
-- Evidence: some documented expectations map to proxy benchmark suites rather than dedicated module-path benchmarks.
-- Action: add dedicated benchmark targets and migrate mappings.
+- Evidence: the hardware matrix and baseline manifest now exist, but authoritative p95/p99 artifacts are not yet attached for the declared analytics profiles.
+- Action: execute the required analytics benchmark suites on each representative profile and publish the manifested artifacts.
 
 2. [AN-AUD-02] sustained-load hardening remains active for selected runtime paths.
 - Severity: medium
-- Evidence: roadmap and future enhancements still carry streaming/distributed high-load hardening tasks.
-- Action: close remaining guardrail and edge-case hardening tasks with focused regressions.
+- Evidence: Wave-D soak coverage now exists in focused tests, but representative-environment endurance execution is still pending.
+- Action: promote the new operability suites into representative-hardware and long-duration execution evidence.
 
 3. [AN-AUD-03] optional-integration behavior remains capability dependent.
 - Severity: low
-- Evidence: serving/export/distributed behavior depends on optional backend availability.
-- Action: continue deterministic degraded-mode tests and diagnostics hardening.
+- Evidence: serving/export/distributed result types now expose correlation IDs, failure classes, and operator hints, but optional integrations still depend on deployment wiring.
+- Action: continue deterministic degraded-mode tests and connect alerting to deployment observability.
 
 ### Closed
 
@@ -51,6 +51,7 @@
 - module documentation set is synchronized to source-verifiable claims.
 - roadmap/changelog separation is aligned to governance pattern.
 - serving-path security hardening delivered: model import integrity checks, secure-by-default TF serving transport, and strict LLM response validation.
+- direct analytics benchmark coverage now exists for export serialization, distributed retry, serving fail-closed validation, and high-cardinality streaming.
 
 ## Compliance Snapshot
 

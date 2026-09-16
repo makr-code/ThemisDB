@@ -102,8 +102,15 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 - [x] improve distributed merge diagnostics and operator-facing telemetry (Completed 2026-08-19)
 
 ### Mid-term (6-12 months)
-- [x] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Completed 2026-09-16 — bench_analytics_dedicated_gates.cpp, ANA-BM-01..04)
-- [x] re-baseline analytics latency and throughput envelopes per representative hardware profile (Completed 2026-09-16 — ANA-BM-01..04 gates provide dedicated baselines)
+- [x] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Completed 2026-09-16)
+  - [x] `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` added for ANA-BM-01..04 gate coverage
+  - [x] `benchmarks/analytics/bench_analytics_operability_paths.cpp` added for direct export serialization, high-cardinality streaming, distributed retry, and serving fail-closed validation coverage
+  - [x] `src/analytics/PERFORMANCE_EXPECTATIONS.md` migrated to direct analytics benchmark mappings with no proxy-only module targets remaining
+- [~] re-baseline analytics latency and throughput envelopes per representative hardware profile (Target: Q1 2027)
+  - [x] dedicated baseline gates now exist in `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` (ANA-BM-01..04)
+  - [x] representative-hardware matrix documented in `src/analytics/REPRESENTATIVE_HARDWARE_BASELINES.md`
+  - [x] required artifact contract defined in `benchmarks/baselines/analytics/representative_hardware_manifest.json`
+  - [ ] authoritative execution evidence still pending on representative hardware profiles
 - [x] harden cross-cluster security and reliability controls in federated analytics scenarios (Target: Q1 2027)
   - [x] **AN1**: Wire federated query coordinator — per-shard retry with exponential backoff and ±20% jitter; permanent-failure fast-path skips retry; `Config::RetryConfig` (max_retries=2, base_delay_ms=50, max_delay_ms=500) (Completed 2026-08-26)
   - [x] **AN2**: Forecasting model integrity check — CRC-32 computed at `serialize()` time, verified at `deserialize()` time; legacy models without checksum pass with `THEMIS_WARN`; corrupted checksum returns error (Completed 2026-08-26)
@@ -121,7 +128,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] circuit breaker pattern with state machine
   - [x] bounded queue and backpressure handling
   - [x] exponential backoff recovery mechanism
-- [~] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
+- [x] align serving/export integration behavior to shared bounded execution policy (Completed 2026-09-16)
   - **Concrete plan**: Define a `BoundedExecutionPolicy` struct (max_latency_ms, max_concurrent_requests, queue_depth) in `analytics_api_contract.h`; apply to `MLServingClient::infer()` (ONNX + TF Serving paths) and `AnalyticsExporter::exportToFile()` using the existing circuit-breaker infrastructure as the enforcement layer. Tracked as Wave B exit criterion.
   - [x] `BoundedExecutionPolicy` struct added to `analytics_api_contract.h` with full field semantics and enforcement contract documentation (Completed 2026-08-19)
   - [x] `MLServingClient::infer(req, policy)` overload implemented: concurrency (`max_concurrent_requests`) and timeout (`max_latency_ms`) enforcement; new `TIMEOUT` and `POLICY_REJECTED` status codes added to `MLServingStatus` (Completed 2026-08-19)
@@ -129,6 +136,7 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
   - [x] `BoundedExecutionPolicy default_policy` integrated into `MLServingConfig`: `infer(req)` routes through `infer(req, default_policy)` when constrained (Completed 2026-08-19 Batch 6)
   - [x] `BoundedExecutionPolicy policy` integrated into `ExportOptions`: used as fallback in `exportToFile(…, policy)` when the explicit policy is unconstrained (Completed 2026-08-19 Batch 6)
   - [x] 15 targeted regression tests added for policy enforcement paths (BEP-01..BEP-15 in `test_analytics_bounded_execution_policy.cpp`) (Completed 2026-08-19 Batch 6)
+  - [x] `operation_id`, `correlation_id`, `failure_class`, and `operator_hints` surfaced across export/serving/distributed result types (Completed 2026-09-16)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-closed behavior across optional-backend and degraded states (Completed 2026-08-19)
@@ -187,10 +195,14 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
    - [x] `LLMConfig::injection_prefix_config_path` field added
    - [x] `loadInjectionPrefixes()` helper with built-in 13-pattern fallback
    - [x] `config/analytics/injection_prefixes.txt` default template shipped
+- [x] direct operability benchmark coverage added for export, distributed retry, high-cardinality streaming, and serving fail-closed validation (Completed 2026-09-16)
+- [x] analytics Wave-D focused operability regression suite added (`tests/analytics/test_analytics_wave_d_operability.cpp`, WDO-01..WDO-07) (Completed 2026-09-16)
+- [x] analytics operability runbook added (`docs/troubleshooting/analytics_operability_runbook.md`) (Completed 2026-09-16)
+- [~] representative-hardware baseline matrix and manifest added; execution evidence pending (`src/analytics/REPRESENTATIVE_HARDWARE_BASELINES.md`, `benchmarks/baselines/analytics/representative_hardware_manifest.json`)
 
 ## Known Issues and Limitations
 
-- benchmark coverage is still mixed between direct and proxy mappings for some targets.
+- representative-hardware execution evidence for analytics p95/p99 baselines is still pending.
 - behavior and availability remain partially capability-dependent on optional integrations.
 - continued hardening is required for cross-cluster/federated scenarios.
 
@@ -206,9 +218,19 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `analytics`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Completed 2026-09-16 — test_analytics_highcardinality_stress.cpp, RUNBOOK_ANALYTICS_PIPELINE.md)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Completed 2026-09-16 — test_analytics_pipeline_soak.cpp)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16 — docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md)
+- [~] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+  - [x] result surfaces now expose `operation_id`, `correlation_id`, `failure_class`, and operator remediation hints for export, serving, and distributed analytics
+  - [x] high-cardinality stress coverage added in `tests/analytics/test_analytics_highcardinality_stress.cpp`
+  - [x] fail-closed and degraded-path operability coverage added in `tests/analytics/test_analytics_wave_d_operability.cpp`
+  - [x] direct benchmark coverage added in `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` and `benchmarks/analytics/bench_analytics_operability_paths.cpp`
+  - [ ] representative-hardware exporter reliability evidence still pending
+- [~] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+  - [x] long-duration soak coverage added in `tests/integration/test_analytics_pipeline_soak.cpp`
+  - [x] soak-style repeated distributed degradation coverage added in `tests/analytics/test_analytics_wave_d_operability.cpp` (WDO-07)
+  - [ ] long-duration representative-environment soak execution evidence still pending
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16)
+  - [x] `docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md` covers module-wide steady-state/SLO operations
+  - [x] `docs/troubleshooting/analytics_operability_runbook.md` covers backpressure, open circuit breakers, export failures, TLS/integrity issues, and baseline regressions
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -216,22 +238,33 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Completed 2026-09-16 — confirmed via existing circuit-breaker and fail-closed enforcement)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Completed 2026-09-16 — bench_analytics_dedicated_gates.cpp, ANA-BM-01..04)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Completed 2026-09-16 — docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md)
+- [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+  - [x] distributed, export, and serving fail-closed diagnostics are regression-tested (`tests/analytics/test_analytics_wave_d_operability.cpp`, WDO-01..WDO-07)
+  - [ ] representative-hardware validation for optional accelerated environments still pending
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+  - [x] ANA-BM-01..04 dedicated benchmark gates exist
+  - [x] hardware matrix and artifact manifest defined
+  - [ ] authoritative benchmark results still pending
+- [~] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+  - [x] diagnostic metadata surfaced on analytics result types
+  - [x] module runbook coverage added (`docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md`, `docs/troubleshooting/analytics_operability_runbook.md`)
+  - [ ] alert wiring still depends on deployment-specific observability integration
 
 ---
 
-## Wave D Closure Batch (2026-09-16)
+## Wave D Delivery Snapshot (2026-09-16)
 
-All Wave D open items for `src/analytics` are now closed:
+Source-complete Wave D analytics artifacts are in place, while representative-hardware evidence remains pending:
 
 | Deliverable | File | Status |
 |---|---|---|
 | Analytics soak test | `tests/integration/test_analytics_pipeline_soak.cpp` | ✅ Delivered |
 | Analytics high-cardinality stress test | `tests/analytics/test_analytics_highcardinality_stress.cpp` | ✅ Delivered |
-| Analytics operator runbook | `docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md` | ✅ Delivered |
+| Analytics operability regression suite | `tests/analytics/test_analytics_wave_d_operability.cpp` | ✅ Delivered |
+| Analytics operator runbooks | `docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md`; `docs/troubleshooting/analytics_operability_runbook.md` | ✅ Delivered |
 | Dedicated benchmark gates | `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` | ✅ Delivered |
+| Direct operability benchmarks | `benchmarks/analytics/bench_analytics_operability_paths.cpp` | ✅ Delivered |
+| Representative-hardware baseline evidence | `src/analytics/REPRESENTATIVE_HARDWARE_BASELINES.md`; `benchmarks/baselines/analytics/representative_hardware_manifest.json` | ⏳ Pending execution/sign-off |
 
 **Soak test acceptance criteria met:**
 - `AnalyticsSoak_TimeSeriesAggregation`: throughput ≥ 10 000 ops/sec; no exceptions

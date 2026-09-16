@@ -161,8 +161,9 @@ The analytics module includes 20+ focused test files:
 | Bounded execution | ✅ COMPLETE | Memory/latency/throughput limits specified |
 | Security controls | ✅ COMPLETE | Threat model and mitigations documented |
 | Optional integrations | ✅ COMPLETE | Graceful degradation implemented |
-| Benchmark coverage | ⏸️ IN-PROGRESS | Proxy-covered paths being expanded (Q4 2026) |
+| Benchmark coverage | ✅ DIRECT-COVERAGE READY | Dedicated operability benchmarks added; representative-hardware execution evidence pending |
 | Distributed hardening | ⏸️ IN-PROGRESS | Cross-cluster scenarios (Q1 2027) |
+| Operability diagnostics | ✅ COMPLETE | Correlation IDs, failure classes, operator hints, and runbook coverage added |
 
 ## Roadmap Status Summary
 
@@ -178,11 +179,11 @@ The analytics module includes 20+ focused test files:
 - [~] Consistency hardening for optional dependency and fallback behavior
 
 ### Planned (Q4-Q1 2026-2027)
-- [ ] Strengthen bounded-memory behavior in high-cardinality streaming windows (Q4)
-- [ ] Extend integration regression coverage for serving/export failure classes (Q4)
-- [ ] Improve distributed merge diagnostics and operator-facing telemetry (Q4)
-- [ ] Add/expand dedicated benchmarks for proxy-covered analytics paths (Q1 2027)
-- [ ] Re-baseline analytics latency/throughput envelopes per hardware profile (Q1 2027)
+- [x] Strengthen bounded-memory behavior in high-cardinality streaming windows (implemented; direct stress coverage added in WDO/AO suites)
+- [x] Extend integration regression coverage for serving/export failure classes (implemented; WDO-01..WDO-03)
+- [x] Improve distributed merge diagnostics and operator-facing telemetry (implemented; correlation metadata + WDO-04..WDO-07)
+- [x] Add/expand dedicated benchmarks for proxy-covered analytics paths (implemented; `bench_analytics_operability_paths.cpp`)
+- [~] Re-baseline analytics latency/throughput envelopes per hardware profile (hardware matrix + manifest defined; execution evidence pending)
 
 ## Sign-Off
 
@@ -195,6 +196,6 @@ The analytics module includes 20+ focused test files:
 
 ---
 
-**Last Updated**: 2026-08-19
+**Last Updated**: 2026-09-16
 **Issue Reference**: makr-code/ThemisDB#5627
 **Parent Epic**: makr-code/ThemisDB#5624

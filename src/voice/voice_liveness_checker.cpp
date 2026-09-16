@@ -43,16 +43,17 @@ uint8_t VoiceLivenessChecker::detect_spoof_indicators(
     uint32_t zero_count = 0;
     uint32_t max_byte = 0;
     uint32_t min_byte = 255;
-    uint32_t transition_count = 0;
+    size_t transition_count = 0;
     const size_t sample_n = std::min(audio_size, size_t(4096));
     for (size_t i = 0; i < sample_n; ++i) {
         if (audio_data[i] == 0) {
           zero_count++;
         }
-        max_byte = std::max(max_byte, static_cast<uint32_t>(audio_data[i]));
-        min_byte = std::min(min_byte, static_cast<uint32_t>(audio_data[i]));
+        const auto sample = static_cast<uint32_t>(audio_data[i]);
+        max_byte = std::max(max_byte, sample);
+        min_byte = std::min(min_byte, sample);
         if (i > 0 && audio_data[i] != audio_data[i - 1]) {
-            transition_count++;
+            ++transition_count;
         }
     }
     
@@ -68,6 +69,10 @@ uint8_t VoiceLivenessChecker::detect_spoof_indicators(
     // Check for extreme uniformity (TTS-like).
     if (max_byte < 10) {
         spoof_confidence += 20;  // Very low amplitude variation.
+    }
+    if (sample_n > 0
+        && ((max_byte - min_byte) <= 2u || transition_count < (sample_n / 64u))) {
+        spoof_confidence = static_cast<uint8_t>(std::min<int>(100, spoof_confidence + 30));
     }
     
     return std::min(spoof_confidence, uint8_t(100));
@@ -86,7 +91,7 @@ uint8_t VoiceLivenessChecker::estimate_liveness_confidence(
     
     // If audio has variation and isn't uniform, increase confidence.
     const size_t sample_count = audio_size / 2;  // Assume 16-bit samples.
-    if (sample_count > (static_cast<size_t>(sample_rate) / 100u)) {  // At least 10ms of audio.
+    if (sample_count > static_cast<size_t>(sample_rate) / 100u) {  // At least 10ms of audio.
         confidence += 10;
     }
     

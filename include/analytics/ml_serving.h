@@ -21,7 +21,7 @@
  *                         the onnxruntime library (vcpkg: onnxruntime).
  *
  *   TFServingBackend    – Calls a TensorFlow Serving instance over its REST
- *                         API (POST /v1/models/<name>:predict).
+ *                         API (POST `/v1/models/\<name\>:predict`).
  *                         Requires compile-time flag THEMIS_HAS_TF_SERVING=1
  *                         and libcurl (THEMIS_HAS_CURL=1).
  *
@@ -88,7 +88,8 @@ struct MLTensor {
     std::vector<int64_t>   shape;  ///< Dimensions, e.g. {batch_size, num_features}
     std::vector<float>     data;   ///< Row-major float32 values
 
-    /** Total number of elements (product of shape dimensions). */
+    /** @brief Total number of elements (product of shape dimensions).
+     *  @return Number of elements. */
     std::size_t numElements() const noexcept;
 };
 
@@ -123,6 +124,14 @@ struct MLServingResponse {
     std::string           error_message;
     std::vector<MLTensor> outputs;      ///< Named output tensors
     double                latency_ms   = 0.0; ///< End-to-end call latency
+    /// Stable per-request identifier for correlation with logs and runbooks.
+    std::string           operation_id;
+    /// Correlation identifier propagated across serving diagnostics.
+    std::string           correlation_id;
+    /// Canonical failure classification (`none`, `timeout`, `dependency_unavailable`, ...).
+    std::string           failure_class = "none";
+    /// Operator-facing remediation hints for degraded or fail-closed outcomes.
+    std::vector<std::string> operator_hints;
 
     /** Returns true when status == OK. */
     bool ok() const noexcept { return status == MLServingStatus::OK; }
@@ -174,7 +183,7 @@ struct ONNXBackendConfig {
  *
  * Models are loaded lazily on the first call to infer() with a new
  * model_name.  The model file is resolved as:
- *   <model_directory>/<model_name>.onnx
+ *   `\<model_directory\>/\<model_name\>.onnx`
  *
  * Thread-safety: multiple threads may call infer() concurrently.
  */
@@ -210,14 +219,14 @@ struct TFServingConfig {
 /**
  * TFServingBackend – calls a TensorFlow Serving instance over its REST API.
  *
- * Endpoint: POST <base_url>/v1/models/<model_name>[:predict]
- *   (optionally /versions/<version> when model_version is set)
+ * Endpoint: POST `\<base_url\>/v1/models/\<model_name\>[:predict]`
+ *   (optionally `/versions/\<version\>` when model_version is set)
  *
  * Requires THEMIS_HAS_TF_SERVING=1 (and THEMIS_HAS_CURL=1 transitively).
  * When either flag is absent the backend reports isAvailable() == false.
  *
  * The REST payload follows the TF Serving JSON API:
- *   { "inputs": { "<name>": [[...]] } }
+ *   @code { "inputs": { "\<name\>": [[...]] } } @endcode
  *
  * Thread-safety: each infer() creates an independent libcurl easy handle so
  * concurrent calls are safe.
@@ -309,12 +318,15 @@ public:
     /** Returns true if the specified backend type is compiled in and available. */
     bool isBackendAvailable(MLBackendType type) const;
 
-    /** Returns the name of the active backend. */
+    /** @brief Returns the name of the active backend.
+     *  @return Human-readable name of the active backend. */
     std::string activeBackendName() const;
 
     // ─── Inference ──────────────────────────────────────────────────────────
 
-    /** Run inference using the active backend. */
+    /** @brief Run inference using the active backend.
+     *  @param req  Inference request containing model name and input tensors.
+     *  @return Inference response with output tensors or an error status. */
     MLServingResponse infer(const MLServingRequest& req);
 
     /**
