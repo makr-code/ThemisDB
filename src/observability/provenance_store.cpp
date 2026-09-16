@@ -4,6 +4,7 @@
  */
 
 #include "observability/provenance_store.h"
+#include "utils/rocksdb_open_compat.h"
 
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
@@ -158,7 +159,7 @@ public:
         }
 
         rocksdb::DB* db_raw = nullptr;
-        const auto status = rocksdb::DB::Open(options, config.db_path, &db_raw);
+        const auto status = themis::storage::detail::openDbCompat(options, config.db_path, &db_raw);
 
         if (!status.ok()) {
             throw std::runtime_error(std::string("Failed to open RocksDB: ") + status.ToString());

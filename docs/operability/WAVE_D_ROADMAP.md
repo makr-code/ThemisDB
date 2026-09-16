@@ -7,7 +7,10 @@
 **Document Type:** Wave D Program Roadmap  
 **Target Release:** Q1 2027 (v2.4.x GA + v2.5.0-rc1)  
 **Scope:** Distributed tracing, operator runbooks, long-duration soak testing  
+**Execution Status:** 🟡 Phase 1-2 In Progress (updated 2026-08-24)  
 **Branch:** develop  
+
+`Status` describes document lifecycle metadata; `Execution Status` describes Wave D implementation progress.
 
 ---
 
@@ -21,6 +24,7 @@ Wave D focuses on hardening operational capabilities across distributed and acce
 - [ ] High-cardinality metrics collection (shard-level, replication lag quantiles) operational
 - [ ] OpenTelemetry exporter reliability suite green (sustained 1000s events/sec stress)
 - [x] 5 operator runbooks published (access-model, replication, sharding, voice, GPU) ✅
+- [x] D1 Trace Span cross-link sections added to all 5 runbooks (2026-09-16) ✅
 - [~] Soak test suite executing: 3 test files created; full 60-minute runs pending representative hardware
 - [ ] Observability integration verified against Wave 7-9 benchmark gates
 - [ ] Wave D sign-off document complete with human approval
@@ -37,7 +41,7 @@ Wave D focuses on hardening operational capabilities across distributed and acce
 | Distributed tracing SDK | [ ] Not started | Phase 2A plan documented; awaiting Wave A gate confirmation |
 | High-cardinality metrics | [ ] Not started | Phase 2B plan documented; awaiting metric implementation |
 | Exporter reliability suite | [ ] Not started | Phase 2C plan documented; tests not yet created |
-| Remediation hints in runbooks | [~] Partial | 5 runbooks contain operator guidance; D1 cross-links to trace spans pending |
+| Remediation hints in runbooks | [x] Complete | 5 runbooks contain operator guidance; D1 cross-links to trace spans added 2026-09-16 |
 | Wave D sign-off | [ ] Pending | Requires D1-D4 completion + human approval |
 
 ### Cross-Cutting Dependency: Representative Hardware

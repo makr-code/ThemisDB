@@ -2,6 +2,7 @@
 
 #include "storage/merge_operators.h"
 #include "storage/rocksdb_wrapper.h"
+#include "utils/rocksdb_open_compat.h"
 #include <gtest/gtest.h>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
@@ -33,7 +34,7 @@ TEST_F(MergeOperatorsIntegrationTest, CounterAndMaxTogether) {
     options.merge_operator = std::make_shared<CounterMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Use counters
@@ -50,7 +51,7 @@ TEST_F(MergeOperatorsIntegrationTest, CounterAndMaxTogether) {
     
     // Now open with Max operator
     options.merge_operator = std::make_shared<MaxMergeOperator>();
-    status = rocksdb::DB::Open(options, test_db_path_, &db);
+    status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Use max tracking
@@ -70,7 +71,7 @@ TEST_F(MergeOperatorsIntegrationTest, BatchOperations) {
     options.merge_operator = std::make_shared<CounterMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Use WriteBatch for atomic operations
@@ -103,7 +104,7 @@ TEST_F(MergeOperatorsIntegrationTest, ConcurrentMergeOperations) {
     options.merge_operator = std::make_shared<CounterMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Multiple threads incrementing the same counter
@@ -138,7 +139,7 @@ TEST_F(MergeOperatorsIntegrationTest, AppendOperatorUsageScenario) {
     options.merge_operator = std::make_shared<AppendMergeOperator>(",");
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Simulate event logging
@@ -160,7 +161,7 @@ TEST_F(MergeOperatorsIntegrationTest, SetOperatorUsageScenario) {
     options.merge_operator = std::make_shared<SetMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Simulate tag aggregation
@@ -183,7 +184,7 @@ TEST_F(MergeOperatorsIntegrationTest, MaxOperatorUsageScenario) {
     options.merge_operator = std::make_shared<MaxMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Simulate temperature monitoring
@@ -207,7 +208,7 @@ TEST_F(MergeOperatorsIntegrationTest, MergeWithCompaction) {
     options.level0_file_num_compaction_trigger = 2; // Trigger compaction early
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Create many merge operations to trigger compaction
@@ -235,7 +236,7 @@ TEST_F(MergeOperatorsIntegrationTest, MergeWithSnapshot) {
     options.merge_operator = std::make_shared<CounterMergeOperator>();
     
     rocksdb::DB* db = nullptr;
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db);
     ASSERT_TRUE(status.ok());
     
     // Initial merge

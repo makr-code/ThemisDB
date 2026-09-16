@@ -1,5 +1,10 @@
 # RUNBOOK: GPU Fallback Detection & Performance Monitoring
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, GPU/Acceleration Team Lead  
 **Purpose:** Detect GPU failures, manage CPU fallback transitions, and maintain performance SLOs  
 **Severity:** High (affects acceleration-dependent workloads)  
@@ -425,7 +430,64 @@ run-benchmark --suite gpu-performance-baseline --gpu-id <gpu-id>
 
 ---
 
-**Runbook Version:** 1.0  
-**Last Updated:** 2026-08-15  
+## Wave D — D1 Distributed Trace Span Cross-Links
+
+> **Wave D Phase 3 placeholder:** The trace span annotations below reference the `DistributedTraceSpan`
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2D (GPU module hints, Phase 3).
+> Until Phase 3 implementation completes (Target: Q1 2027), the listed span names are reference
+> identifiers for future instrumentation.
+
+### GPU D1 Trace Spans
+
+| Runbook Step | D1 Span Name | Baggage Keys | Notes |
+|---|---|---|---|
+| GPU health check | `health.check` | `gpu_id`, `device_name`, `driver_version` | Periodic or triggered |
+| Kernel execution | `kernel.execute` | `gpu_id`, `kernel_name`, `grid_dim`, `block_dim`, `timeout_ms` | Child span per CUDA kernel call |
+| Kernel timeout detection | `kernel.timeout` | `gpu_id`, `kernel_name`, `elapsed_ms`, `sla_limit_ms` | Status `WARN`/`ERROR`; linked to kernel span |
+| CPU fallback trigger | `fallback.trigger` | `gpu_id`, `fallback_reason`, `workload_type` | Parent span for fallback lifecycle |
+| CPU fallback execution | `fallback.execute` | `workload_type`, `cpu_latency_ms`, `slo_margin_ms` | Child of fallback trigger span |
+| GPU recovery initiation | `recovery.initiate` | `gpu_id`, `recovery_strategy`, `trigger_reason` | Linked to fallback trigger span |
+| GPU reintegration | `recovery.reintegrate` | `gpu_id`, `warmup_duration_ms`, `acceptance_criterion` | Final span of recovery lifecycle |
+
+### Querying Trace Spans (Phase 3 onwards)
+
+```bash
+# Trace a GPU failure and its fallback lifecycle
+otel-query --service gpu --operation fallback.trigger \
+  --baggage gpu_id=<gpu-id> --include-children --range 4h
+
+# Identify kernel timeout patterns
+otel-query --service gpu --operation kernel.timeout --status ERROR --range 24h \
+  --include-baggage
+
+# Cross-reference CUDA kernel traces with GPU error metrics
+otel-metrics-join \
+  --trace-operation kernel.execute \
+  --metric gpu_kernel_error_rate --window 1m
+
+# Verify CPU fallback met SLO
+otel-query --service gpu --operation fallback.execute --range 7d \
+  --filter "baggage.slo_margin_ms > 0"
+```
+
+### Phase 3 Instrumentation Targets (GPU)
+
+GPU trace point implementation is deferred to Wave D Phase 3 per
+`docs/operability/WAVE_D_ROADMAP.md` §2D (GPU module hints). When Phase 3 begins, add
+trace points in:
+
+- CUDA kernel dispatch path (wrap each checked call with `CudaStreamGuard` + `DistributedTraceSpan`)
+- GPU fallback coordinator — trigger, execution, recovery lifecycle
+- `KernelSLAGuard` timeout path — emit trace event on SLA breach
+
+**Related Wave D documents:**
+- `docs/operability/WAVE_D_ROADMAP.md` §2D — GPU module hints (Phase 3)
+- `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` — Gate W4A-TRACE-01
+- `include/gpu/cuda_raii.h` — `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`
+
+---
+
+**Runbook Version:** 1.1  
+**Last Updated:** 2026-09-16  
 **Owner:** GPU/Acceleration Team  
-**Next Review:** 2026-12-15
+**Next Review:** 2027-03-01 (post-Wave D Phase 2A/3 delivery)
