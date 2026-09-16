@@ -78,13 +78,13 @@ Production graph runtime exists across query planning, constraint-aware traversa
 These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.3 Graph** plan
 (see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
 
-- [ ] **Cross-shard graph query execution**: extend the distributed graph orchestrator to execute
+- [~] **Cross-shard graph query execution**: extend the distributed graph orchestrator to execute
   traversal queries that span multiple shards without requiring full graph materialization on the
   coordinator; partial traversal results merged at the coordinator level (Target: Q4 2026)
   - Inputs: traversal start vertex (may reside on any shard); traversal depth limit; result merge strategy
   - Acceptance: correct traversal result for 4-shard graph with 1M edges total; throughput ≥ 50%
     of single-shard baseline for depth-3 BFS; `release_critical` green
-- [ ] **Distributed Betweenness Centrality (BC)**: implement parallel Brandes BC algorithm with
+- [~] **Distributed Betweenness Centrality (BC)**: implement parallel Brandes BC algorithm with
   work distributed across available nodes; coordinator collects and merges partial sigma/delta
   accumulators; support approximation mode for large graphs (Target: Q4 2026)
   - Inputs: graph name, sample fraction (approximation mode), parallelism hint
