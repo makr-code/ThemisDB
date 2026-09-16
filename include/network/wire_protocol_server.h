@@ -226,10 +226,11 @@ public:
      */
     void store(const std::string& request_id, std::string result);
 
-    /// Remove all cached entries.
+    /// @brief Remove all cached entries.
     void clear();
 
-    /// @return Current number of entries in the cache.
+    /// @brief Return current number of entries in the cache.
+    /// @return Number of entries currently stored.
     [[nodiscard]] size_t size() const;
 
 private:
@@ -576,15 +577,25 @@ class WireProtocolServer::Session : public std::enable_shared_from_this<Session>
 public:
     friend class WireProtocolServer;
 
+    /**
+     * @brief Construct a Session for the given socket and owning server.
+     *
+     * @param session_id Unique identifier for this session.
+     * @param socket     Accepted TCP socket for this connection.
+     * @param server     Pointer to the owning WireProtocolServer.
+     */
     Session(
         uint64_t session_id,
         tcp::socket socket,
         WireProtocolServer* server
     );
 
+    /// @brief Destructor. Closes the session if still open.
     ~Session();
 
+    /// @brief Start reading frames and processing requests for this session.
     void start();
+    /// @brief Close the session and release all associated resources.
     void close();
     
     std::string getRemoteIP() const;

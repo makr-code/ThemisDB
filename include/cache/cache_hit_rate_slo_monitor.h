@@ -319,6 +319,9 @@ public:
 
     /**
      * @brief Return a human-readable string for a ViolationLevel.
+     *
+     * @param level Violation level to convert.
+     * @return String representation of the violation level.
      */
     static std::string violationLevelToString(ViolationLevel level);
 

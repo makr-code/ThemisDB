@@ -189,6 +189,7 @@ public:
      * @return Unique pointer to new policy with same configuration
      * 
      * Default implementation throws; subclasses override if cloning needed.
+     * @throws std::runtime_error if the concrete policy does not support cloning.
      */
     virtual std::unique_ptr<CacheEvictionPolicy> clone() const {
         throw std::runtime_error(std::string(policy_name()) + " does not support cloning");
@@ -402,6 +403,9 @@ public:
      * @brief Return the currently assigned tier for @p key.
      *
      * Unknown keys are treated as cold because they have no retention history.
+     *
+     * @param key Cache key to look up.
+     * @return Tier assigned to the key (cold if unknown).
      */
     Tier tier_for_key(const std::string& key) const;
 
@@ -434,12 +438,22 @@ public:
      *
      * Returns 0 below the trigger threshold, 1 between trigger and severe
      * thresholds, and a bounded batch size once severe pressure is reached.
+     *
+     * @param current_capacity_percent Current fill level (0–100).
+     * @param candidate_count          Number of eviction candidates available.
+     * @return Recommended number of entries to evict.
      */
     size_t recommended_batch_size(size_t current_capacity_percent,
                                   size_t candidate_count) const;
 
+    /// @brief Returns the capacity percentage at which eviction is triggered.
+    /// @return Trigger threshold as a percentage (0–100).
     size_t trigger_threshold_percent() const noexcept { return trigger_threshold_percent_; }
+    /// @brief Returns the capacity percentage considered safe (below trigger).
+    /// @return Safe threshold as a percentage (0–100).
     size_t safe_threshold_percent() const noexcept { return safe_threshold_percent_; }
+    /// @brief Returns the capacity percentage at which eviction becomes severe.
+    /// @return Severe threshold as a percentage (0–100).
     size_t severe_threshold_percent() const noexcept { return config_.severe_threshold_percent; }
 
     /**
@@ -460,6 +474,8 @@ public:
 
     /**
      * @brief Return tracked entry counts for {cold, warm, hot} tiers.
+     *
+     * @return Array of three sizes: [cold_count, warm_count, hot_count].
      */
     std::array<size_t, 3> tier_distribution() const;
 
