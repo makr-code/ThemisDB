@@ -311,8 +311,8 @@ items within the cross-cutting Wave D program.
 
 ### AI Runbook (D1)
 
-- [ ] `docs/operability/RUNBOOK_AI_GENERATION.md` — incident taxonomy (validation/endpoint/transport/parse/sandbox), endpoint-timeout diagnosis, retry-storm prevention, redacted-log interpretation, Stats-counter alert rules (Target: 2026-11 → Q1 2027)
-- [ ] CAI safety gate latency incident section (Target: 2026-12)
+- [x] `docs/operability/RUNBOOK_AI_GENERATION.md` — incident taxonomy (validation/endpoint/transport/parse/sandbox), endpoint-timeout diagnosis, retry-storm prevention, redacted-log interpretation, Stats-counter alert rules (Target: 2026-11 → Q1 2027)
+- [x] CAI safety gate latency incident section (Target: 2026-12)
 - [ ] Federated aggregation failure section: Byzantine-suspect node identification, aggregation round timeouts, DP budget exhaustion alerts (Target: 2026-12)
 
 ### AI Observability Expansion (D2)
@@ -325,7 +325,7 @@ items within the cross-cutting Wave D program.
 
 ### AI Soak Tests (D3)
 
-- [ ] `tests/ai/test_ai_generation_soak_60min.cpp` (label: `wave_d;soak;not_release_critical`) — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
+- [x] `tests/ai/test_ai_generation_soak_60min.cpp` (label: `wave_d;soak;not_release_critical`) — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
 - [ ] CAI 10-min sustained evaluation test (500 evaluations/min) (Target: 2026-12)
 - [ ] Federated 30-min round-stability test (Target: Q1 2027)
 - [ ] Execute full soak suite on representative hardware (Target: Q1 2027)

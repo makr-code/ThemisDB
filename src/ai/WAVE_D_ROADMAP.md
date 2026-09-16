@@ -1,6 +1,6 @@
 # AI Module — Wave D Operability Hardening Roadmap
 
-<!-- Status: PLANNED | target: Q1 2027 -->
+<!-- Status: IN PROGRESS | target: Q1 2027 | D1✅ D3~ -->
 <!-- Wave: D — Operability Hardening -->
 <!-- Branch: develop -->
 <!-- Dependency: Wave A–C exit criteria confirmed -->
@@ -8,7 +8,7 @@
 **Module:** `src/ai/`  
 **Wave:** D — AI Module Operability Hardening  
 **Target:** Q1 2027  
-**Status:** 🟡 Planned — awaiting Wave A hardware gate confirmation  
+**Status:** 🟡 In Progress — D1 runbook published; D3 soak test created; D2/D4 pending Q1 2027  
 
 ---
 
@@ -46,10 +46,10 @@ production incidents on the AI module.
 
 ### Tasks
 
-- [ ] Draft runbook with incident classification taxonomy (Target: 2026-11)
-- [ ] Add decision tree for endpoint-timeout + retry-storm scenarios (Target: 2026-11)
-- [ ] Document stats-counter operational thresholds (alert rules) (Target: 2026-12)
-- [ ] Add CAI safety gate latency incident section (Target: 2026-12)
+- [x] Draft runbook with incident classification taxonomy (Target: 2026-11)
+- [x] Add decision tree for endpoint-timeout + retry-storm scenarios (Target: 2026-11)
+- [x] Document stats-counter operational thresholds (alert rules) (Target: 2026-12)
+- [x] Add CAI safety gate latency incident section (Target: 2026-12)
 - [ ] Review and sign-off with SRE team (Target: Q1 2027)
 
 ---
@@ -95,10 +95,10 @@ production incidents on the AI module.
 
 ### Tasks
 
-- [ ] Create `tests/ai/test_ai_generation_soak_60min.cpp` (label: `wave_d;soak;not_release_critical`) (Target: 2026-12)
+- [x] Create `tests/ai/test_ai_generation_soak_60min.cpp` (label: `wave_d;soak;not_release_critical`) (Target: 2026-12)
 - [ ] Add CAI 10-minute sustained evaluation test (Target: 2026-12)
 - [ ] Add federated 30-minute round-stability test (Target: Q1 2027)
-- [ ] Add retry-budget exhaustion soak scenario (Target: Q1 2027)
+- [x] Add retry-budget exhaustion soak scenario (Target: Q1 2027)
 - [ ] Execute full soak suite on representative hardware (Target: Q1 2027)
 - [ ] Publish soak results as Wave D evidence artefact (Target: Q1 2027)
 

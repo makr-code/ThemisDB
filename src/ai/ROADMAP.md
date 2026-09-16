@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
-<!-- Wave Status: A ✅ COMPLETE · B ✅ SIGNED OFF 2026-09-09 · C ✅ COMPLETE · D 🟡 PLANNED Q1 2027 -->
+<!-- Wave Status: A ✅ COMPLETE · B ✅ SIGNED OFF 2026-09-09 · C ✅ COMPLETE · D 🟡 IN PROGRESS (D1✅ D3~) Q1 2027 -->
 
 ## Current Status
 
@@ -16,7 +16,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 | **A** | Runtime reliability: validation, retry, fail-closed error handling, output-field validation | ✅ COMPLETE | `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` |
 | **B** | ML enhancements: Self-RAG (B1), RotatE KGC (B2), Multi-Task LoRA (B3) | ✅ SIGNED OFF 2026-09-09 (#6286) | `WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md` |
 | **C** | AI safety: CAI safety module (C1), federated learning (C2), graph phase gate (C3) | ✅ COMPLETE | `WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md` |
-| **D** | Operability: runbook, observability, soak tests, distributed tracing, hardware baselines | 🟡 PLANNED Q1 2027 | `WAVE_D_ROADMAP.md` |
+| **D** | Operability: runbook, observability, soak tests, distributed tracing, hardware baselines | 🟡 IN PROGRESS — D1✅ D3~ | `WAVE_D_ROADMAP.md` |
 
 ## Module Documentation Enhancements (2026-07-19)
 
@@ -243,16 +243,16 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 
 ---
 
-## Wave D — Operability Hardening 🟡 PLANNED Q1 2027
+## Wave D — Operability Hardening 🟡 IN PROGRESS Q1 2027
 
 > **Detail:** `src/ai/WAVE_D_ROADMAP.md` | **Dependency:** Wave A–C exit criteria confirmed
 
 ### D1: AI Generation Operator Runbook
-- [ ] Draft runbook: incident taxonomy (validation/endpoint/transport/parse/sandbox failures) (Target: 2026-11)
-- [ ] Decision tree for endpoint-timeout + retry-storm scenarios (Target: 2026-11)
-- [ ] Stats-counter operational thresholds and alert rules (Target: 2026-12)
-- [ ] CAI safety gate latency incident section (Target: 2026-12)
-- [ ] Output: `docs/operability/RUNBOOK_AI_GENERATION.md`
+- [x] Draft runbook: incident taxonomy (validation/endpoint/transport/parse/sandbox failures) (Target: 2026-11)
+- [x] Decision tree for endpoint-timeout + retry-storm scenarios (Target: 2026-11)
+- [x] Stats-counter operational thresholds and alert rules (Target: 2026-12)
+- [x] CAI safety gate latency incident section (Target: 2026-12)
+- [x] Output: `docs/operability/RUNBOOK_AI_GENERATION.md`
 
 ### D2: Observability Expansion
 - [ ] Extend `AIPluginGenerator::Stats` with per-error-class counters (Target: 2026-11)
@@ -262,7 +262,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Span propagation in LLMAQLHandler CAI/federated gate paths (Target: Q1 2027)
 
 ### D3: Soak Tests (Sustained Load)
-- [ ] `tests/ai/test_ai_generation_soak_60min.cpp` — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
+- [x] `tests/ai/test_ai_generation_soak_60min.cpp` — 60-min endpoint-stress + retry-budget-exhaustion (Target: 2026-12)
 - [ ] CAI 10-min sustained evaluation test — 500 evaluations/min (Target: 2026-12)
 - [ ] Federated 30-min round-stability test (Target: Q1 2027)
 - [ ] Execute full soak suite on representative hardware (Target: Q1 2027)
@@ -273,10 +273,10 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [ ] Federated aggregation round p95 hardware baseline (Target: Q1 2027)
 
 ### Wave D Exit Criteria
-- [ ] AI generation runbook published (`docs/operability/RUNBOOK_AI_GENERATION.md`)
+- [x] AI generation runbook published (`docs/operability/RUNBOOK_AI_GENERATION.md`)
 - [ ] Observability expansion complete (extended Stats + CAI/federated latency histograms)
 - [ ] OpenTelemetry span propagation in `generatePlugin` and LLMAQLHandler AI paths
-- [ ] 60-min soak test created and green on representative hardware
+- [~] 60-min soak test created and green on representative hardware (test created 2026-09-16; full run hardware-blocked)
 - [ ] Representative-hardware p95/p99 baselines captured for AI generation + CAI gate
 - [ ] Wave D sign-off: human approval at `docs/operability/WAVE_D_SIGN_OFF.md`
 

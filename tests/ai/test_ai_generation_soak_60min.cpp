@@ -51,7 +51,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
-#include <mutex>
 #include <numeric>
 #include <random>
 #include <string>
@@ -132,7 +131,7 @@ public:
         // Simulate endpoint latency
         std::this_thread::sleep_for(simulated_latency_);
 
-        switch (mode_) {
+        switch (mode_.load(std::memory_order_acquire)) {
         case StubMode::AlwaysSucceed:
             result.success = true;
             break;
@@ -171,8 +170,7 @@ public:
 
     /// @brief Switch stub mode atomically (used for retry-storm recovery test).
     void setMode(StubMode mode) {
-        std::lock_guard<std::mutex> lk(mode_mutex_);
-        mode_ = mode;
+        mode_.store(mode, std::memory_order_release);
     }
 
     /// @brief Return a snapshot of accumulated Stats.
@@ -187,9 +185,8 @@ public:
     }
 
 private:
-    StubMode mode_;
+    std::atomic<StubMode> mode_;
     std::chrono::microseconds simulated_latency_;
-    std::mutex mode_mutex_;
 
     std::atomic<std::size_t> total_calls_{0};
     std::atomic<std::size_t> successes_{0};
@@ -377,7 +374,7 @@ TEST(WaveD_AI_GenerationSoak, StatConsistencyInvariant) {
         std::size_t call_index = 0;
 
         const auto start = std::chrono::steady_clock::now();
-        while (std::chrono::steady_clock::now() - start < burst_duration / 4) {
+        while (std::chrono::steady_clock::now() - start < burst_duration) {
             pipeline.call(call_index++);
         }
 
