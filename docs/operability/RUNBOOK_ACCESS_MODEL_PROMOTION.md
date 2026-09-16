@@ -437,7 +437,7 @@ Once Phase 2A is implemented, add trace points in:
 
 - `src/access_model/access_coordinator.cpp`: Wrap `promoteTier()` and `demoteTier()` in
   `DistributedTraceSpan` with baggage `key`, `from_tier`, `to_tier`, `policy_name`
-- `src/access_model/access_model_trace.h`: Extend `TraceContext` to export W3C
+- `include/access_model/access_model_trace.h`: Extend `TraceContext` to export W3C
   `traceparent`/`tracestate` headers for cross-service propagation
 
 **Related Wave D documents:**
