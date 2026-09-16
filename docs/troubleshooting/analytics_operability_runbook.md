@@ -1,5 +1,10 @@
 # Analytics Operability Runbook
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 ## Scope
 
 This runbook covers operator-critical analytics incidents for streaming,
