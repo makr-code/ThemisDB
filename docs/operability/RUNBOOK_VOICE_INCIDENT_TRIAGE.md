@@ -470,7 +470,7 @@ force-session-cleanup --session-id <session-id> --wait-timeout 30s
 | Multi-session cleanup | `session.multi_cleanup` | `client_ip`, `session_count`, `cleanup_strategy` | Covers atomic cleanup of all sessions |
 | Incident triage | `incident.triage` | `incident_id`, `symptom`, `affected_sessions` | Created on failure detection; links to session spans |
 
-### Querying Trace Spans (Phase 2A onwards)
+### Querying Trace Spans (Phase 3 onwards)
 
 ```bash
 # Trace a full session lifecycle

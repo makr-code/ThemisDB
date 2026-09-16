@@ -449,7 +449,7 @@ run-benchmark --suite gpu-performance-baseline --gpu-id <gpu-id>
 | GPU recovery initiation | `recovery.initiate` | `gpu_id`, `recovery_strategy`, `trigger_reason` | Linked to fallback trigger span |
 | GPU reintegration | `recovery.reintegrate` | `gpu_id`, `warmup_duration_ms`, `acceptance_criterion` | Final span of recovery lifecycle |
 
-### Querying Trace Spans (Phase 2A onwards)
+### Querying Trace Spans (Phase 3 onwards)
 
 ```bash
 # Trace a GPU failure and its fallback lifecycle
