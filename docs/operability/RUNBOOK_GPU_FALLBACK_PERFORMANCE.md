@@ -430,8 +430,6 @@ run-benchmark --suite gpu-performance-baseline --gpu-id <gpu-id>
 
 ---
 
----
-
 ## Wave D — D1 Distributed Trace Span Cross-Links
 
 > **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`

@@ -412,8 +412,6 @@ watch-metric --metric replication_lag_p99 --interval 10s
 
 ---
 
----
-
 ## Wave D — D1 Distributed Trace Span Cross-Links
 
 > **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`
