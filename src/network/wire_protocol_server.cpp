@@ -1292,9 +1292,17 @@ void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> han
         // payload_buffer_ until handleMessage() returns, so there is no race.
         // Use O(1) std::swap so dispatched handlers see their data in dispatch_payload_
         // (same member read on the worker-pool path) without any heap allocation.
+        // The reverse swap is wrapped in a scope guard so it always runs even if
+        // handler() throws, preventing permanent buffer state corruption.
         std::swap(dispatch_payload_, payload_buffer_);
-        handler();
-        std::swap(dispatch_payload_, payload_buffer_);
+        {
+            auto reverse_swap = [this]() noexcept { std::swap(dispatch_payload_, payload_buffer_); };
+            struct ScopeGuard {
+                decltype(reverse_swap) fn;
+                ~ScopeGuard() { fn(); }
+            } guard{reverse_swap};
+            handler();
+        }
     }
 }
 
