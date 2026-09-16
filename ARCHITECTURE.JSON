@@ -961,12 +961,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "c76e290e42f88645"
+      "sha256_prefix": "6b74efb4ae754830"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "089cf5ed0b7c1fd2"
+      "sha256_prefix": "ff88365b88af13a4"
     },
     {
       "category": "governance",
@@ -991,7 +991,7 @@
     {
       "category": "governance",
       "path": "CHANGELOG.md",
-      "sha256_prefix": "f90e1088c727c316"
+      "sha256_prefix": "7ad42111ac267b9d"
     },
     {
       "category": "governance",
@@ -2681,7 +2681,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "c1cc2077bb8fc9b6"
+      "sha256_prefix": "af23a268c09aa2a6"
     },
     {
       "category": "docs",
@@ -5045,6 +5045,11 @@
     },
     {
       "category": "docs",
+      "path": "docs/operability/RUNBOOK_AI_GENERATION.md",
+      "sha256_prefix": "13ea8a6954619ab5"
+    },
+    {
+      "category": "docs",
       "path": "docs/operability/RUNBOOK_GPU_FALLBACK_PERFORMANCE.md",
       "sha256_prefix": "b656ebd36a4e5f28"
     },
@@ -5071,12 +5076,12 @@
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_ROADMAP.md",
-      "sha256_prefix": "b95f95210d82d431"
+      "sha256_prefix": "76cc36b297755f03"
     },
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_SIGN_OFF.md",
-      "sha256_prefix": "f5ad5b035a2c4acb"
+      "sha256_prefix": "ede4163ceb1bc84f"
     },
     {
       "category": "docs",
@@ -6814,7 +6819,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-16T06:41:15.536152+00:00",
+  "generated_at": "2026-09-16T08:12:56.610109+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-14\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8890,19 +8895,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "c76e290e42f88645",
+    "ARCHITECTURE.md": "6b74efb4ae754830",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
-    "ROADMAP.md": "089cf5ed0b7c1fd2",
+    "ROADMAP.md": "ff88365b88af13a4",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "327db5382688c4b9",
     "ai_context/developer_llm_wiki/": "6c2652743c56fea9",
     "ai_working/": "23010ee516eb01da",
-    "docs/": "5cbab8a4526a98d7"
+    "docs/": "2dda6c293436b28a"
   },
   "statistics": {
     "ai_working_artifact_count": 64,
-    "documentation_source_count": 1171,
+    "documentation_source_count": 1172,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
