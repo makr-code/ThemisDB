@@ -704,6 +704,7 @@ foreach(_soak_test IN ITEMS
     test_sharding_distributed_write_soak
     test_telemetry_soak
     test_failover_soak_60min
+    test_aql_assistance_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -716,6 +717,11 @@ foreach(_soak_test IN ITEMS
             LABELS "${_soak_labels}"
             TIMEOUT 7200
         )
+        # AQL assistance soak uses in-process stubs and completes in < 2 min
+        # even with the full 60s default duration; reduce its CI timeout.
+        if(_soak_test STREQUAL "test_aql_assistance_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
     endif()
 endforeach()
 
