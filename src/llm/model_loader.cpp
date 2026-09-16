@@ -625,7 +625,8 @@ size_t LazyModelLoader::evictLRUUnlocked(size_t target_vram_mb) {
     size_t total_freed_vram = 0;
     bool evicted_any = false;
 
-    while (!models_.empty() && (target_vram_mb == 0 || total_freed_vram < target_vram_mb)) {
+    while (!models_.empty()
+           && (target_vram_mb == 0 ? !evicted_any : total_freed_vram < target_vram_mb)) {
         CachedModel* lru_model = nullptr;
         std::string lru_id = {};
         auto oldest_time = std::chrono::system_clock::now();

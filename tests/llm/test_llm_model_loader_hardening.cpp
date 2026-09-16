@@ -117,5 +117,18 @@ TEST_F(LazyModelLoaderHardeningTest, EvictLRURemovesOldestUnpinnedModel) {
     EXPECT_TRUE(loader_->isModelLoaded("recent"));
 }
 
+TEST_F(LazyModelLoaderHardeningTest, EvictLRUWithZeroTargetEvictsOnlyOneModel) {
+    const auto now = std::chrono::system_clock::now();
+    seedModel(makeCachedModel("oldest", now - 20s, 16, 8));
+    seedModel(makeCachedModel("middle", now - 10s, 24, 12));
+    seedModel(makeCachedModel("recent", now - 1s, 32, 16));
+
+    EXPECT_EQ(loader_->evictLRU(/*target_vram_mb=*/0), 16u);
+    EXPECT_FALSE(loader_->isModelLoaded("oldest"));
+    EXPECT_TRUE(loader_->isModelLoaded("middle"));
+    EXPECT_TRUE(loader_->isModelLoaded("recent"));
+    EXPECT_EQ(loader_->total_vram_mb_, 24u + 32u);
+}
+
 }  // namespace
 } } // namespace themis::llm
