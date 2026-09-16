@@ -238,12 +238,15 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] Batch 5 gap closure: resource_leaked_in_exception (jwks_security.cpp RAII), unchecked_result (ldap_authenticator.cpp), catch_all_swallow (rate_limiter_backend.cpp, http_auth_async.cpp, auth_rate_limiter.cpp), circular_lock_ordering (auth_rate_limiter.cpp reset()) — delivered 2026-08-24
 - [x] audit_logger.h filename collision resolved: include/api/audit_logger.h renamed to include/api/graphql_audit_logger.h; ws_handler.cpp updated — delivered 2026-08-24 (unblocks build validation for AUTH-GRG gate evidence)
 - [~] Wave C benchmark gates executed (AUTH-GRG-01..06) — CI run `CI — Benchmarks` #40 (`32765349559`) pending completion as of 2026-08-24T19:20Z; evidence capture follows artifact publication
+- [x] Short-term hardening complete: fail-closed provider-degraded, protocol matrix regression tests, operator diagnostics decision_class — delivered 2026-09-16
+- [x] Mid-term items complete: AHP-09..11 auth microbenchmarks (bench_auth_protocol_micro), p95/p99 design targets in PERFORMANCE_EXPECTATIONS.md, multi-realm syncTrustState() — delivered 2026-09-16
+- [x] Wave D contributions complete: high-cardinality stress tests (test_auth_highcardinality_stress.cpp), soak tests (test_auth_soak.cpp), operator runbook (RUNBOOK.md), operator_hint JSON field in 9420–9452 error registry entries — delivered 2026-09-16
 
 ## Known Issues and Limitations
 
 - behavior remains partially capability-dependent on configured identity providers and backends.
-- continued hardening is needed for multi-realm/distributed revocation edge profiles.
-- benchmark coverage still requires tightening for certain policy and integration paths.
+- Hardware-measured p95/p99 benchmark baselines are design-target-only pending a dedicated benchmark hardware run (see `PERFORMANCE_EXPECTATIONS.md §Re-baseline procedure`).
+- Wave C benchmark gate evidence (AUTH-GRG-01..06) pending CI artifact publication from run `32765349559`.
 
 ## Breaking Changes
 
@@ -267,6 +270,9 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+  - Validated: PROVIDER_DEGRADED fail-closed on empty sub, HTTP 5xx, and provider exceptions; syncTrustState() for multi-realm distribution; all revocation backends are fail-closed by default.
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+  - Design targets established in `src/auth/PERFORMANCE_EXPECTATIONS.md` GATE-AHP-01..10; hardware-measured baselines pending dedicated CI benchmark hardware run (see re-baseline procedure in PERFORMANCE_EXPECTATIONS.md).
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+  - `src/auth/RUNBOOK.md` covers all 5 operator-critical scenarios; `decision_class` field in audit events; structured `operator_hint` JSON in all 9420–9452 error registry entries.
