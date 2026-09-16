@@ -5394,6 +5394,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scheduler/CMakeLists.txt")
     add_subdirectory(scheduler)
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/execution/CMakeLists.txt")
+    add_subdirectory(execution)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
     add_subdirectory(scraper)
 endif()

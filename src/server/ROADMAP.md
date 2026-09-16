@@ -114,22 +114,22 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Tests: integrated into existing schema test suite (test_mcp_search_tools.cpp)
 
 ### Mid-term (6-12 months)
-- [ ] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)
-- [ ] CPU- and memory-governed WASM execution hardening with stricter runtime policy envelopes (Target: Q1 2027)
-- [ ] Service-mesh policy sync hardening and failover behavior validation under partition scenarios (Target: Q1 2027)
-- [ ] MCP Tool Extension — Group 3: Plugin & LLM management (plugin_list/load/unload, llm_model_list, llm_model_status) (Target: Q1 2027)
+- [~] Passwordless WebAuthn/FIDO2 auth integration for admin and API scopes (Target: Q1 2027)
+- [~] CPU- and memory-governed WASM execution hardening with stricter runtime policy envelopes (Target: Q1 2027)
+- [~] Service-mesh policy sync hardening and failover behavior validation under partition scenarios (Target: Q1 2027)
+- [~] MCP Tool Extension — Group 3: Plugin & LLM management (plugin_list/load/unload, llm_model_list, llm_model_status) (Target: Q1 2027)
   - plugin_load/unload require admin scope and synchronous signature validation
   - Backend: LLMPluginManager (already available via attachAIOrchestrator)
   - Tests: 12 GTest cases in tests/server/test_mcp_plugin_tools.cpp
-- [ ] MCP Tool Extension — Group 4: Operations & Monitoring (health_check, metrics_snapshot, shard_status, compaction_trigger, connection_pool_status) (Target: Q1 2027)
+- [~] MCP Tool Extension — Group 4: Operations & Monitoring (health_check, metrics_snapshot, shard_status, compaction_trigger, connection_pool_status) (Target: Q1 2027)
   - compaction_trigger requires admin scope; all others require read scope
   - Backend: health_error_service, monitoring_api_handler, shard_repair_api_handler
   - Tests: 12 GTest cases in tests/server/test_mcp_ops_tools.cpp
-- [ ] MCP Tool Extension — Group 5: Updates & Backup (update_list_pending/apply/rollback, backup_create/list/restore) (Target: Q1 2027)
+- [~] MCP Tool Extension — Group 5: Updates & Backup (update_list_pending/apply/rollback, backup_create/list/restore) (Target: Q1 2027)
   - backup_restore requires one-time confirm_token from backup_list; update error codes follow [7400-7499]
   - Backend: update_api_handler; rollback uses Updates-module isolation model
   - Tests: 16 GTest cases in tests/server/test_mcp_update_tools.cpp
-- [ ] MCP Tool Extension — Group 6: Security & Audit (audit_log_query, permission_check, token_validate, security_scan_status) (Target: Q1-Q2 2027)
+- [~] MCP Tool Extension — Group 6: Security & Audit (audit_log_query, permission_check, token_validate, security_scan_status) (Target: Q1-Q2 2027)
   - audit_log_query RBAC-filtered to caller scope; token_validate never returns token value
   - Backend: audit_api_handler, auth_middleware
   - Tests: 12 GTest cases in tests/server/test_mcp_audit_tools.cpp
@@ -161,7 +161,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [x] P5-S01: Wire-protocol retry with exponential backoff (2-3 retries + budget cap + jitter) — Completed Q3 2026
 - [x] P5-S02: HTTP timeout patterns + graceful shutdown drain semantics — Completed Q3 2026
 - [x] Re-baseline server latency/throughput gates with production-like payload mixes — 8 release-gate benchmarks SVR-01..SVR-08 delivered in `benchmarks/server/bench_server_hotpaths.cpp` (Target: Q1 2027)
-- [ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)
+- [~] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)
 
 ### Phase 1: Top-Risk Module Hardening (Retry/Timeout/Graceful-Shutdown/Recovery)
 - [x] Implemented Consistent Retry Semantics (Target: Q3 2026)
@@ -277,9 +277,13 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `server`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+  - Delivered: `tests/server/test_server_highcardinality_stress.cpp` (SRV-STRESS-01..03: 10k-route routing, concurrent rate-limit, WASM sandbox load)
+  - Delivered: `benchmarks/server/bench_server_dedicated_gates.cpp` (SRV-BM-01..04: route-dispatch p95, rate-limit check p95, WASM invoke p99, auth-token validate p95)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+  - Delivered: `tests/integration/test_server_lifecycle_soak.cpp` (SRV-SOAK-01..03: request throughput ≥5k req/s, rate-limit stability, plugin-adapter reliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+  - Delivered: `docs/operability/RUNBOOK_SERVER_CORE.md` (5 scenarios: plugin load failure, rate-limit bypass, WASM OOM, auth unavailability, GraphQL schema conflict)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -287,6 +291,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+  - Delivered: `benchmarks/server/bench_server_dedicated_gates.cpp` SRV-BM-01..04
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+  - Delivered: `docs/operability/RUNBOOK_SERVER_CORE.md`
