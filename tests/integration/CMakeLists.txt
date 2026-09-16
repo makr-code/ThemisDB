@@ -740,6 +740,18 @@ foreach(_soak_test IN ITEMS
     test_transaction_engine_soak
     test_rag_pipeline_soak
     test_index_engine_soak
+    test_ingestion_pipeline_soak
+    test_chimera_soak
+    test_evaluation_framework_soak
+    test_llm_wiki_soak
+    test_training_pipeline_soak
+    test_acceleration_soak
+    test_gpu_manager_soak
+    test_distributed_tensor_soak
+    test_user_storage_encrypted_soak
+    test_voice_pipeline_soak
+    test_llm_streaming_soak
+    test_exporters_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -887,6 +899,22 @@ foreach(_soak_test IN ITEMS
         if(_soak_test STREQUAL "test_index_engine_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
+        # Wave D: user_storage_encrypted soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_user_storage_encrypted_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: voice pipeline soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_voice_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: LLM streaming soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_llm_streaming_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: exporters soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_exporters_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
         # Wave D: whisper transcription soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_whisper_transcription_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
@@ -909,6 +937,38 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: toolbox soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_toolbox_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: ingestion pipeline soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_ingestion_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: chimera soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_chimera_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: evaluation framework soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_evaluation_framework_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: LLM wiki soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_llm_wiki_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: training pipeline soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_training_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: acceleration soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_acceleration_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: GPU manager soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_gpu_manager_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: distributed tensor soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_distributed_tensor_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
