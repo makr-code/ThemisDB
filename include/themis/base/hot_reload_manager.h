@@ -306,7 +306,10 @@ public:
      * The reference is valid for the lifetime of this manager.  Thread safety:
      * the emitter itself must be thread-safe if accessed from multiple threads.
      */
-    SpanEmitter& spanEmitter();
+    /// @brief Returns the current span emitter by value (thread-safe read).
+    /// Callers must not invoke setSpanEmitter() concurrently with active
+    /// reload/rollback operations.
+    SpanEmitter spanEmitter() const;
 
     // -------------------------------------------------------------------------
     // Statistics

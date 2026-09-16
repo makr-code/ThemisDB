@@ -466,7 +466,13 @@ void HotReloadManager::setSpanEmitter(SpanEmitter emitter) {
     span_emitter_ = std::move(emitter);
 }
 
-SpanEmitter& HotReloadManager::spanEmitter() {
+// NOTE: spanEmitter() returns by value to avoid a data race between a caller
+// holding the reference and a concurrent setSpanEmitter() call.
+// setSpanEmitter() must only be called at configuration time (before any
+// reload/rollback operations are in-flight) — consistent with OpenTelemetry
+// provider setup conventions.
+SpanEmitter HotReloadManager::spanEmitter() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return span_emitter_;
 }
 
