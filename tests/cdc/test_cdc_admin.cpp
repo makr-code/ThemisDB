@@ -4,6 +4,7 @@
 #include "cdc/cdc_error.h"
 #include <memory>
 #include <rocksdb/utilities/transaction_db.h>
+#include <atomic>
 #include <filesystem>
 
 using namespace themis::cdc;
@@ -12,15 +13,23 @@ namespace fs = std::filesystem;
 
 class CDCAdminTest : public ::testing::Test {
 protected:
+    static std::atomic<uint64_t> path_counter;
     std::unique_ptr<rocksdb::TransactionDB> db;
     std::unique_ptr<Changefeed> changefeed;
     std::unique_ptr<CDCAdmin> admin;
     std::string test_db_path = {};
     
     void SetUp() override {
-        // Create temporary test database
-        test_db_path = "/tmp/test_cdc_admin_" + std::to_string(time(nullptr));
-        fs::create_directories(test_db_path);
+        // Use a per-test unique temp path to avoid RocksDB lock/path reuse races.
+        const auto now_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        const auto seq = path_counter.fetch_add(1, std::memory_order_relaxed);
+        const auto test_dir = fs::temp_directory_path() /
+            ("test_cdc_admin_" + std::to_string(now_ns) + "_" + std::to_string(seq));
+        test_db_path = test_dir.string();
+
+        ASSERT_NO_THROW(fs::create_directories(test_db_path));
+        ASSERT_TRUE(fs::exists(test_db_path)) << "Failed to create test directory: " << test_db_path;
         
         rocksdb::Options options;
         options.create_if_missing = true;
@@ -78,6 +87,8 @@ protected:
         changefeed->recordEvent(last);
     }
 };
+
+std::atomic<uint64_t> CDCAdminTest::path_counter{0};
 
 TEST_F(CDCAdminTest, BasicHealthCheck) {
     HealthStatus health = admin->healthCheck();

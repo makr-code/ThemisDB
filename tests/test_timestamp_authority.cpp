@@ -232,14 +232,13 @@ TEST_F(TimestampAuthorityTest, IsAvailable) {
     EXPECT_TRUE(available);
 }
 
-TEST_F(TimestampAuthorityTest, GenerateNonceRejectsZeroAndOversizedRequests) {
+TEST_F(TimestampAuthorityTest, GetTimestampForHashRejectsEmptyHash) {
     TSAConfig config = createFreeTSAConfig();
     TimestampAuthority tsa(config);
 
-    EXPECT_TRUE(tsa.generateNonce(0).empty());
-
-    const auto oversized = static_cast<size_t>(std::numeric_limits<int>::max()) + 1;
-    EXPECT_TRUE(tsa.generateNonce(oversized).empty());
+    auto token = tsa.getTimestampForHash({});
+    EXPECT_FALSE(token.success);
+    EXPECT_FALSE(token.error_message.empty());
 }
 
 TEST_F(TimestampAuthorityTest, InvalidURL) {

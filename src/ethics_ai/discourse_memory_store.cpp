@@ -91,16 +91,19 @@ std::vector<EpisodicMemoryEntry> DiscourseMemoryStore::getEpisodesForSchool(cons
     }
 
     const auto &buf = it->second;
-    const int count = std::min(max_episodes, buf.size());
-    if (count <= 0) {
+    const std::size_t requested = max_episodes > 0
+        ? static_cast<std::size_t>(max_episodes)
+        : 0U;
+    const std::size_t count = std::min(requested, buf.size());
+    if (count == 0U) {
         return {};
     }
 
-    // Return newest-first (reverse of the ring buffer which stores oldest→newest)
+    // Return newest-first (reverse of the ring buffer which stores oldest->newest)
     std::vector<EpisodicMemoryEntry> result;
-    result.reserve(static_cast<std::size_t>(count));
-    for (int i = buf.size() - 1; i >= buf.size() - count; --i) {
-        result.push_back(buf[static_cast<std::size_t>(i)]);
+    result.reserve(count);
+    for (std::size_t i = buf.size(); i > (buf.size() - count); --i) {
+        result.push_back(buf[i - 1]);
     }
     return result;
 }

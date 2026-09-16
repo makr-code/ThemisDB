@@ -164,7 +164,8 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
         -DTHEMIS_STRICT_BUILD=OFF \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
     cmake --build /src/build --parallel $(nproc) --target themis_server && \
-    test -f /src/build/bin/themis_server
+    test -f /src/build/bin/themis_server && \
+    mkdir -p /src/build/data
 
 FROM ubuntu:24.04 AS runtime
 
@@ -199,10 +200,12 @@ COPY --from=build /src/build/lib/ /opt/themis/lib/
 COPY --from=build /src/build/data/ /opt/themis/data/
 COPY docker/config /etc/themis/config
 
-RUN chmod 755 /opt/themis /opt/themis/lib /var/log/themis /var/lib/themis /var/lib/themis/data && \
-    useradd -r -u 1000 -d /opt/themis -s /bin/false themis 2>/dev/null || true && \
-    chown -R themis:themis /opt/themis /etc/themis /var/lib/themis /var/log/themis && \
-    mkdir -p /data && chown -R root:root /opt/themis /data && \
+RUN set -eux; \
+    chmod 755 /opt/themis /opt/themis/lib /var/log/themis /var/lib/themis /var/lib/themis/data; \
+    if ! getent group themis >/dev/null; then groupadd -r themis; fi; \
+    if ! getent passwd themis >/dev/null; then useradd -r -d /opt/themis -s /bin/false -g themis themis; fi; \
+    chown -R themis:themis /opt/themis /etc/themis /var/lib/themis /var/log/themis; \
+    mkdir -p /data; chown -R root:root /opt/themis /data; \
     ldconfig
 
 USER themis

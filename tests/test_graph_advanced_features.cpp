@@ -86,16 +86,16 @@ void test_path_constraints_interface() {
     constraints.requireUniqueNodes();
     
     // Verify constraints were added
-    assert(constraints.getConstraints().size() == 6);
+    EXPECT_EQ(constraints.getConstraints().size(), 6u);
     
     // Test description
     std::string desc = constraints.describeConstraints();
-    assert(!desc.empty());
-    assert(desc.find("Minimum length: 2") != std::string::npos);
+    EXPECT_FALSE(desc.empty());
+    EXPECT_NE(desc.find("Minimum length: 2"), std::string::npos);
     
     // Test clear
     constraints.clearConstraints();
-    assert(constraints.getConstraints().empty());
+    EXPECT_TRUE(constraints.getConstraints().empty());
     
     std::cout << "  ✓ Interface tests passed" << std::endl;
 }
@@ -110,7 +110,7 @@ void test_path_validation() {
     std::vector<std::string> nodes = {"A", "B"};
     std::vector<std::string> edges = {"AB"};
     auto result = constraints.validatePath(nodes, edges);
-    assert(!result.has_value()); // Should fail - too short
+    EXPECT_FALSE(result.has_value()) << (result.has_value() ? "unexpected success" : result.error().message());
     
     // Test MAX_LENGTH constraint
     constraints.clearConstraints();
@@ -118,7 +118,7 @@ void test_path_validation() {
     nodes = {"A", "B", "C"};
     edges = {"AB", "BC"};
     result = constraints.validatePath(nodes, edges);
-    assert(!result.has_value()); // Should fail - too long
+    EXPECT_FALSE(result.has_value()) << (result.has_value() ? "unexpected success" : result.error().message());
     
     // Test valid path
     constraints.clearConstraints();
@@ -127,7 +127,8 @@ void test_path_validation() {
     nodes = {"A", "B", "C"};
     edges = {"AB", "BC"};
     result = constraints.validatePath(nodes, edges);
-    assert(result.has_value() && *result); // Should pass
+    ASSERT_TRUE(result.has_value()) << (result.has_value() ? "" : result.error().message());
+    EXPECT_TRUE(*result);
     
     // Test FORBIDDEN_NODE constraint
     constraints.clearConstraints();
@@ -135,7 +136,7 @@ void test_path_validation() {
     nodes = {"A", "B", "C"};
     edges = {"AB", "BC"};
     result = constraints.validatePath(nodes, edges);
-    assert(!result.has_value()); // Should fail - contains forbidden node
+    EXPECT_FALSE(result.has_value()) << (result.has_value() ? "unexpected success" : result.error().message());
     
     // Test REQUIRED_NODE constraint
     constraints.clearConstraints();
@@ -143,7 +144,7 @@ void test_path_validation() {
     nodes = {"A", "B", "C"};
     edges = {"AB", "BC"};
     result = constraints.validatePath(nodes, edges);
-    assert(!result.has_value()); // Should fail - missing required node
+    EXPECT_FALSE(result.has_value()) << (result.has_value() ? "unexpected success" : result.error().message());
     
     // Test UNIQUE_NODES constraint
     constraints.clearConstraints();
@@ -151,7 +152,7 @@ void test_path_validation() {
     nodes = {"A", "B", "A"}; // Duplicate
     edges = {"AB", "BA"};
     result = constraints.validatePath(nodes, edges);
-    assert(!result.has_value()); // Should fail - duplicate node
+    EXPECT_FALSE(result.has_value()) << (result.has_value() ? "unexpected success" : result.error().message());
     
     std::cout << "  ✓ Validation tests passed" << std::endl;
 }
@@ -164,41 +165,41 @@ void test_path_finding(themis::RocksDBWrapper& storage) {
     
     // Test basic path finding
     auto paths_result = constraints.findConstrainedPaths("A", "C", 10);
-    assert(paths_result.has_value());
-    auto& paths = *paths_result;
-    assert(paths.size() > 0);
-    assert(paths[0].nodes.size() == 3); // A -> B -> C
-    assert(paths[0].nodes[0] == "A");
-    assert(paths[0].nodes[1] == "B");
-    assert(paths[0].nodes[2] == "C");
+    ASSERT_TRUE(paths_result.has_value()) << (paths_result.has_value() ? "" : paths_result.error().message());
+    const auto& paths = *paths_result;
+    ASSERT_FALSE(paths.empty());
+    ASSERT_EQ(paths[0].nodes.size(), 3u); // A -> B -> C
+    EXPECT_EQ(paths[0].nodes[0], "A");
+    EXPECT_EQ(paths[0].nodes[1], "B");
+    EXPECT_EQ(paths[0].nodes[2], "C");
     
     // Test with MAX_LENGTH constraint
     constraints.clearConstraints();
     constraints.setGraphManager(graph_mgr.get());
     constraints.addMaxLength(2);
     paths_result = constraints.findConstrainedPaths("A", "C", 10);
-    assert(!paths_result.has_value()); // Should fail - path is 3 nodes (too long)
+    EXPECT_FALSE(paths_result.has_value()) << (paths_result.has_value() ? "unexpected success" : paths_result.error().message());
     
     // Test with MIN_LENGTH constraint
     constraints.clearConstraints();
     constraints.setGraphManager(graph_mgr.get());
     constraints.addMinLength(2);
     paths_result = constraints.findConstrainedPaths("A", "B", 10);
-    assert(!paths_result.has_value()); // Should fail - path is 2 nodes (equal to min)
+    EXPECT_FALSE(paths_result.has_value()) << (paths_result.has_value() ? "unexpected success" : paths_result.error().message());
     
     // Test with FORBIDDEN_NODE constraint
     constraints.clearConstraints();
     constraints.setGraphManager(graph_mgr.get());
     constraints.addForbiddenNode("B");
     paths_result = constraints.findConstrainedPaths("A", "C", 10);
-    assert(!paths_result.has_value()); // Should fail - must go through B
+    EXPECT_FALSE(paths_result.has_value()) << (paths_result.has_value() ? "unexpected success" : paths_result.error().message());
     
     // Test with multiple paths
     constraints.clearConstraints();
     constraints.setGraphManager(graph_mgr.get());
     paths_result = constraints.findConstrainedPaths("A", "F", 10);
-    assert(paths_result.has_value());
-    assert(paths_result->size() > 0);
+    ASSERT_TRUE(paths_result.has_value()) << (paths_result.has_value() ? "" : paths_result.error().message());
+    EXPECT_FALSE(paths_result->empty());
     
     std::cout << "  ✓ Path finding tests passed" << std::endl;
 }
@@ -217,11 +218,11 @@ void test_optimizer_integration(themis::RocksDBWrapper& storage) {
     
     // Test optimization
     auto plan_result = optimizer.optimizeConstrainedPath("A", "D", constraints);
-    assert(plan_result.has_value());
+    ASSERT_TRUE(plan_result.has_value()) << (plan_result.has_value() ? "" : plan_result.error().message());
     
-    auto& plan = *plan_result;
-    assert(!plan.explanation.empty());
-    assert(plan.estimated_cost > 0);
+    const auto& plan = *plan_result;
+    EXPECT_FALSE(plan.explanation.empty());
+    EXPECT_GT(plan.estimated_cost, 0.0);
     
     std::cout << "  Optimization plan generated:" << std::endl;
     std::cout << "    Algorithm: " << (plan.algorithm == themis::graph::GraphQueryOptimizer::TraversalAlgorithm::BFS ? "BFS" : "DFS") << std::endl;

@@ -275,7 +275,7 @@ TEST(RemoteRegistryClient, PartialFileCleanedUpOnFailure) {
 // Integrity verification – verifyIntegrity via downloadPlugin with known hash
 // =============================================================================
 
-TEST(RemoteRegistryClient, IntegrityCheckPassesForMatchingHash) {
+TEST(RemoteRegistryClient, IntegrityCheckRejectsFileSchemeUrl) {
     // Write a known file and compute its expected SHA-256 using a live download
     // simulation: we use downloadPlugin with a file:// URL that points to a
     // locally created file.  Since libcurl supports file:// we can test the
@@ -301,28 +301,26 @@ TEST(RemoteRegistryClient, IntegrityCheckPassesForMatchingHash) {
     // with an intentionally wrong hash to confirm it fails.
 
     RegistryConfig cfg;
-    cfg.registry_url = "file://" + tmp_dir;  // file:// base (not actually used for download_url)
+    cfg.registry_url = "https://registry.example.com/api/v1";  // base URL required by constructor; not used for download_url
     cfg.download_dir = tmp_dir + "/out";
     cfg.verify_ssl   = false;
 
     RemoteRegistryClient client(cfg);
 
-    // Wrong hash → must fail.
+    // Non-HTTP(S) download URL must be rejected before any transfer.
     RegistryPluginEntry bad_entry;
     bad_entry.name         = "src_plugin";
     bad_entry.version      = "0.0.1";
     bad_entry.download_url = "file://" + src_file;
     bad_entry.sha256       = "0000000000000000000000000000000000000000000000000000000000000000";
 
-    auto bad_result = client.downloadPlugin(bad_entry);
-    EXPECT_FALSE(bad_result.success);
-    EXPECT_FALSE(bad_result.error_message.empty());
+    EXPECT_THROW({ (void)client.downloadPlugin(bad_entry); }, std::invalid_argument);
 
     // Cleanup.
     std::filesystem::remove_all(tmp_dir);
 }
 
-TEST(RemoteRegistryClient, IntegrityCheckSkippedWhenNoHashProvided) {
+TEST(RemoteRegistryClient, IntegrityCheckRejectsFileSchemeWithoutHash) {
     const std::string tmp_dir  = "/tmp/themis_test_registry_nohash";
     const std::string src_file = tmp_dir + "/nohash_plugin.so";
 
@@ -334,7 +332,7 @@ TEST(RemoteRegistryClient, IntegrityCheckSkippedWhenNoHashProvided) {
     }
 
     RegistryConfig cfg;
-    cfg.registry_url = "file://" + tmp_dir;
+    cfg.registry_url = "https://registry.example.com/api/v1";
     cfg.download_dir = tmp_dir + "/out";
     cfg.verify_ssl   = false;
 
@@ -344,19 +342,8 @@ TEST(RemoteRegistryClient, IntegrityCheckSkippedWhenNoHashProvided) {
     entry.name         = "nohash_plugin";
     entry.version      = "0.0.1";
     entry.download_url = "file://" + src_file;
-    // sha256 intentionally left empty → skip hash check
-
-    auto result = client.downloadPlugin(entry);
-    // The download itself may succeed or fail depending on libcurl file:// support;
-    // what matters is that the integrity check does NOT falsely reject it.
-    if (result.success) {
-        // Verify the file was written to the output directory.
-        EXPECT_FALSE(result.local_path.empty());
-        EXPECT_TRUE(std::filesystem::exists(result.local_path));
-    } else {
-        // curl may not support file:// on all platforms; tolerate that.
-        EXPECT_FALSE(result.error_message.empty());
-    }
+    // Even without SHA-256, non-HTTP(S) URLs are rejected by policy.
+    EXPECT_THROW({ (void)client.downloadPlugin(entry); }, std::invalid_argument);
 
     std::filesystem::remove_all(tmp_dir);
 }
