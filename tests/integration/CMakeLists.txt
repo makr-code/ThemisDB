@@ -752,6 +752,7 @@ foreach(_soak_test IN ITEMS
     test_voice_pipeline_soak
     test_llm_streaming_soak
     test_exporters_soak
+    test_image_analysis_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -969,6 +970,10 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: distributed tensor soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_distributed_tensor_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: image analysis soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_image_analysis_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
