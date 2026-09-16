@@ -549,7 +549,7 @@ jobs:
             exit 1
           fi
           {
-            echo "## 📎 Neuer Build-Fehlerreport"
+            echo "## 📎 New Build Error Report"
             echo
             echo "**Generated**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             echo
