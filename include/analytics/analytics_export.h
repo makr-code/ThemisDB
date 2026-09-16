@@ -218,6 +218,8 @@ public:
      * use @c createExporter(format) which returns the appropriate concrete
      * type, or throws @c std::runtime_error when the format requires Arrow
      * support that was not compiled in.
+     *
+     * @return Unique pointer to a @c JSONCSVExporter instance.
      */
     static std::unique_ptr<IAnalyticsExporter> createDefaultExporter();
 };
