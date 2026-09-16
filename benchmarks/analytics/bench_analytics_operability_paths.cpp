@@ -67,7 +67,8 @@ std::vector<::themis::analytics::StreamRecord> makeHighCardinalityRecords(std::s
         record.record_id = "rec_" + std::to_string(i);
         record.event_time = base + std::chrono::milliseconds(static_cast<int64_t>(i % 1000));
         record.partition_key = "user_" + std::to_string(kCanonicalSeed + i);
-        record.value = static_cast<double>(i % 1024);
+        record.ingest_time = base + std::chrono::milliseconds(static_cast<int64_t>(i % 1000));
+        record.set("value", static_cast<double>(i % 1024));
         records.push_back(std::move(record));
     }
     return records;

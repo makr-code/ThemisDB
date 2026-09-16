@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <filesystem>
 #include <future>
 #include <memory>
 #include <stdexcept>
@@ -128,7 +129,10 @@ TEST(AnalyticsWaveDOperability, WDO01_ExportFailureContainsCorrelationMetadata) 
     ExportOptions options;
     options.format = ExportFormat::CSV;
 
-    auto result = exporter->exportToFile(batch, "/dev/null/not-writable/export.csv", options);
+    const auto invalid_path =
+        (std::filesystem::temp_directory_path() / "nonexistent_dir_wdo1" / "sub" / "export.csv")
+            .string();
+    auto result = exporter->exportToFile(batch, invalid_path, options);
 
     EXPECT_EQ(result.status, ExportStatus::FAILED);
     EXPECT_EQ(result.failure_class, "io_failure");
@@ -145,8 +149,11 @@ TEST(AnalyticsWaveDOperability, WDO02_ExportPolicyRejectedContainsOperatorHints)
     BoundedExecutionPolicy policy;
     policy.max_concurrent_requests = 1;
 
+    const auto tmp_a = (std::filesystem::temp_directory_path() / "wdo2-a.csv").string();
+    const auto tmp_b = (std::filesystem::temp_directory_path() / "wdo2-b.csv").string();
+
     auto first = std::async(std::launch::async, [&] {
-        return exporter.exportToFile(batch, "/tmp/wdo2-a.csv", options, policy);
+        return exporter.exportToFile(batch, tmp_a, options, policy);
     });
 
     for (int i = 0; i < 50 && !exporter.entered(); ++i) {
@@ -154,7 +161,7 @@ TEST(AnalyticsWaveDOperability, WDO02_ExportPolicyRejectedContainsOperatorHints)
     }
     ASSERT_TRUE(exporter.entered());
 
-    auto rejected = exporter.exportToFile(batch, "/tmp/wdo2-b.csv", options, policy);
+    auto rejected = exporter.exportToFile(batch, tmp_b, options, policy);
     auto first_result = first.get();
 
     EXPECT_EQ(rejected.status, ExportStatus::POLICY_REJECTED);
