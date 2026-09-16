@@ -758,6 +758,8 @@ bool RocksDBWrapper::open() {
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles = {};
 
     cf_handles.reserve(cf_descriptors.size());
+    // Cross-compiler / cross-OS portability: TransactionDB::Open commonly uses
+    // TransactionDB** out-parameters across distro/toolchain builds.
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
         *options_, 
@@ -3004,4 +3006,3 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
 }
 
 } // namespace themis
-

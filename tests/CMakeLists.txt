@@ -15328,6 +15328,20 @@ add_geo_focused_test(
     "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
 )
 
+add_geo_focused_test(
+    test_category_b_parity_geo
+    geo/test_category_b_parity_geo.cpp
+    test_category_b_parity_geo
+    "geo;cuda;parity;category-b;haversine;contains;st-contains;focused;integration"
+    "Category-B parity: Haversine, ST_CONTAINS, ST_UNION, ST_DIFFERENCE CUDA vs CPU parity for rollout gate"
+)
+
+add_test(NAME test_gpu_geo_setops_parity COMMAND test_category_b_parity_geo)
+set_tests_properties(test_gpu_geo_setops_parity PROPERTIES
+    LABELS "geo;cuda;parity;st-union;st-difference;gpu;integration"
+    TIMEOUT 180
+)
+
 if(THEMIS_GEO_CUDA)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_cuda_geo_kernels.cpp")
         message(STATUS "Adding CUDA Geo Kernels focused tests (THEMIS_GEO_CUDA=ON)")
@@ -27341,6 +27355,24 @@ if(THEMIS_ENABLE_CUDA)
             CONFIGURATIONS Release Debug
         )
     endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/index/test_advanced_vector_index_cuda_knn.cpp")
+        add_executable(test_advanced_vector_index_cuda_knn
+            ${THEMIS_ROOT_DIR}/tests/index/test_advanced_vector_index_cuda_knn.cpp
+        )
+        target_link_libraries(test_advanced_vector_index_cuda_knn
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_advanced_vector_index_cuda_knn
+            DISCOVERY_MODE POST_BUILD
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_vector_index_cuda_knn>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endif()
 
 if(EXISTS "${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp")
@@ -28515,6 +28547,68 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_gpu_traversal.cpp")
     )
 
     message(STATUS "  GPUGraphTraversal: GPU-01..19 (BFS/DFS: load, distances, depth, forbidden, truncation, cycles, disconnected)")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_bfs.cpp")
+    message(STATUS "Adding Category-B BFS parity focused test")
+
+    add_executable(test_category_b_parity_bfs
+        graph/test_category_b_parity_bfs.cpp
+    )
+
+    target_include_directories(test_category_b_parity_bfs PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_category_b_parity_bfs PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_category_b_parity_bfs PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME test_category_b_parity_bfs COMMAND test_category_b_parity_bfs)
+    set_tests_properties(test_category_b_parity_bfs PROPERTIES
+        LABELS "graph;cuda;parity;category-b;bfs;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  Category-B BFS parity: CUDA vs CPU traversal parity and depth cutoff checks")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_dijkstra.cpp")
+    message(STATUS "Adding Category-B Dijkstra parity focused test")
+
+    add_executable(test_category_b_parity_dijkstra
+        graph/test_category_b_parity_dijkstra.cpp
+    )
+
+    target_include_directories(test_category_b_parity_dijkstra PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_category_b_parity_dijkstra PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_category_b_parity_dijkstra PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME test_category_b_parity_dijkstra COMMAND test_category_b_parity_dijkstra)
+    set_tests_properties(test_category_b_parity_dijkstra PROPERTIES
+        LABELS "graph;cuda;parity;category-b;dijkstra;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  Category-B Dijkstra parity: CUDA vs CPU shortest-path parity checks")
 endif()
 
 # ============================================================================

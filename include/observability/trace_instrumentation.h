@@ -1,13 +1,15 @@
 /**
  * @file trace_instrumentation.h
- * @brief Wave D Phase 2A: Trace instrumentation macros for key components.
- * @version 2.4.0
- * @date 2026-08-17
+ * @brief Wave D Phase 2A+D2: Trace instrumentation macros for key components.
+ * @version 2.5.0
+ * @date 2026-09-16
  *
  * Provides RAII-based trace instrumentation macros for:
  * - Coordinator (distributed consensus operations)
  * - ShardRouter (cross-shard routing decisions)
  * - WALShipper (write-ahead log replication)
+ * - AIPluginGenerator (AI plugin generation pipeline) — Wave D D2
+ * - LLMAQLHandler inference and RAG paths — Wave D D2
  *
  * Designed for minimal overhead (< 100 ns per span creation).
  *
@@ -278,6 +280,51 @@ private:
             _span->setStatus((status), ##__VA_ARGS__); \
         } \
     } while (0)
+
+// ============================================================================
+// AI Module Trace Instrumentation — Wave D D2
+// ============================================================================
+
+/**
+ * @brief RAII scope guard for AI module pipeline tracing (Wave D D2).
+ *
+ * Records a span covering any AI module pipeline operation.  Inherits the
+ * caller's trace context so spans appear as child operations in the parent
+ * trace tree (e.g. an incoming AQL query that triggers inference).
+ *
+ * Span names follow OpenTelemetry semantic conventions:
+ * - "ai.plugin.generate" — AIPluginGenerator::generatePlugin()
+ * - "llm.infer"          — LLMAQLHandler::executeInfer()
+ * - "llm.rag"            — LLMAQLHandler::executeRAG()
+ * - "llm.embed"          — LLMAQLHandler::executeEmbed()
+ *
+ * ## Usage
+ *
+ * ```cpp
+ * Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(...) {
+ *     TRACE_SCOPE_AI("ai.plugin.generate");
+ *     // ... pipeline ...
+ * }
+ *
+ * std::string LLMAQLHandler::executeInfer(...) {
+ *     TRACE_SCOPE_AI("llm.infer");
+ *     // ... pipeline ...
+ * }
+ * ```
+ *
+ * @param operation_name Span operation name following OTel conventions.
+ *
+ * @note Overhead is ~1 µs per span creation (within Wave D budget).
+ * @note The span is automatically ended when the enclosing scope exits (RAII).
+ * @see docs/operability/RUNBOOK_AI_GENERATION.md for Stats counter semantics.
+ * @see src/ai/WAVE_D_ROADMAP.md — D2: Observability Expansion.
+ */
+#define TRACE_SCOPE_AI(operation_name) \
+    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
+        operation_name, getCurrentTraceContext()); \
+    TraceContextGuard _trace_guard_##__LINE__( \
+        _trace_span_##__LINE__.get(), \
+        _trace_span_##__LINE__->childContext(operation_name));
 
 } // namespace observability
 } // namespace themis
