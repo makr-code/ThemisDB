@@ -6,11 +6,10 @@
 #include <vector>
 
 #include "acceleration/cpu_backend.h"
-#include "geo/spatial_backend.h"
-
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
 #endif
+#include "geo/spatial_backend.h"
 
 using namespace themis::acceleration;
 using namespace themis::geo;
@@ -73,76 +72,6 @@ TEST(CategoryBGeoParity, ContainsGpuVsCpuParity) {
         GTEST_SKIP() << "No CUDA-capable GPU available";
     }
 
-    TEST(CategoryBGeoParity, STUnionPointGpuVsCpuParity) {
-    #ifndef THEMIS_GEO_CUDA
-        GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
-    #else
-        ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
-        ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
-        ASSERT_NE(gpu_backend, nullptr);
-        ASSERT_NE(cpu_backend, nullptr);
-        if (!gpu_backend->isAvailable()) {
-            GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
-        }
-
-        const GeometryInfo p1 = makePointGeom(10.5, -3.25);
-        const GeometryInfo p2 = makePointGeom(10.5, -3.25);
-        const GeometryInfo p3 = makePointGeom(11.25, -2.0);
-
-        const GeometryInfo gpu_same = gpu_backend->stUnion(p1, p2);
-        const GeometryInfo cpu_same = cpu_backend->stUnion(p1, p2);
-        ASSERT_EQ(gpu_same.type, cpu_same.type);
-        ASSERT_FALSE(gpu_same.coords.empty());
-        ASSERT_FALSE(cpu_same.coords.empty());
-        EXPECT_NEAR(gpu_same.coords[0].x, cpu_same.coords[0].x, 1e-6);
-        EXPECT_NEAR(gpu_same.coords[0].y, cpu_same.coords[0].y, 1e-6);
-
-        const GeometryInfo gpu_distinct = gpu_backend->stUnion(p1, p3);
-        const GeometryInfo cpu_distinct = cpu_backend->stUnion(p1, p3);
-        ASSERT_EQ(gpu_distinct.type, cpu_distinct.type);
-        ASSERT_EQ(gpu_distinct.geometries.size(), cpu_distinct.geometries.size());
-        ASSERT_EQ(gpu_distinct.geometries.size(), 2u);
-        for (std::size_t i = 0; i < gpu_distinct.geometries.size(); ++i) {
-            ASSERT_FALSE(gpu_distinct.geometries[i].coords.empty());
-            ASSERT_FALSE(cpu_distinct.geometries[i].coords.empty());
-            EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].x, cpu_distinct.geometries[i].coords[0].x, 1e-6);
-            EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].y, cpu_distinct.geometries[i].coords[0].y, 1e-6);
-        }
-    #endif
-    }
-
-    TEST(CategoryBGeoParity, STDifferencePointGpuVsCpuParity) {
-    #ifndef THEMIS_GEO_CUDA
-        GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
-    #else
-        ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
-        ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
-        ASSERT_NE(gpu_backend, nullptr);
-        ASSERT_NE(cpu_backend, nullptr);
-        if (!gpu_backend->isAvailable()) {
-            GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
-        }
-
-        const GeometryInfo p1 = makePointGeom(3.0, 4.0);
-        const GeometryInfo p2 = makePointGeom(3.0, 4.0);
-        const GeometryInfo p3 = makePointGeom(8.5, -1.25);
-
-        const GeometryInfo gpu_same = gpu_backend->stDifference(p1, p2);
-        const GeometryInfo cpu_same = cpu_backend->stDifference(p1, p2);
-        EXPECT_EQ(gpu_same.isPoint(), cpu_same.isPoint());
-        EXPECT_EQ(gpu_same.coords.size(), cpu_same.coords.size());
-
-        const GeometryInfo gpu_distinct = gpu_backend->stDifference(p1, p3);
-        const GeometryInfo cpu_distinct = cpu_backend->stDifference(p1, p3);
-        ASSERT_TRUE(gpu_distinct.isPoint());
-        ASSERT_TRUE(cpu_distinct.isPoint());
-        ASSERT_FALSE(gpu_distinct.coords.empty());
-        ASSERT_FALSE(cpu_distinct.coords.empty());
-        EXPECT_NEAR(gpu_distinct.coords[0].x, cpu_distinct.coords[0].x, 1e-6);
-        EXPECT_NEAR(gpu_distinct.coords[0].y, cpu_distinct.coords[0].y, 1e-6);
-    #endif
-    }
-
     CPUGeoBackend cpu_backend;
     ASSERT_TRUE(cpu_backend.initialize());
     ASSERT_TRUE(gpu_backend.initialize());
@@ -172,5 +101,75 @@ TEST(CategoryBGeoParity, ContainsGpuVsCpuParity) {
 
     gpu_backend.shutdown();
     cpu_backend.shutdown();
+#endif
+}
+
+TEST(CategoryBGeoParity, STUnionPointGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo p1 = makePointGeom(10.5, -3.25);
+    const GeometryInfo p2 = makePointGeom(10.5, -3.25);
+    const GeometryInfo p3 = makePointGeom(11.25, -2.0);
+
+    const GeometryInfo gpu_same = gpu_backend->stUnion(p1, p2);
+    const GeometryInfo cpu_same = cpu_backend->stUnion(p1, p2);
+    ASSERT_EQ(gpu_same.type, cpu_same.type);
+    ASSERT_FALSE(gpu_same.coords.empty());
+    ASSERT_FALSE(cpu_same.coords.empty());
+    EXPECT_NEAR(gpu_same.coords[0].x, cpu_same.coords[0].x, 1e-6);
+    EXPECT_NEAR(gpu_same.coords[0].y, cpu_same.coords[0].y, 1e-6);
+
+    const GeometryInfo gpu_distinct = gpu_backend->stUnion(p1, p3);
+    const GeometryInfo cpu_distinct = cpu_backend->stUnion(p1, p3);
+    ASSERT_EQ(gpu_distinct.type, cpu_distinct.type);
+    ASSERT_EQ(gpu_distinct.geometries.size(), cpu_distinct.geometries.size());
+    ASSERT_EQ(gpu_distinct.geometries.size(), 2u);
+    for (std::size_t i = 0; i < gpu_distinct.geometries.size(); ++i) {
+        ASSERT_FALSE(gpu_distinct.geometries[i].coords.empty());
+        ASSERT_FALSE(cpu_distinct.geometries[i].coords.empty());
+        EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].x, cpu_distinct.geometries[i].coords[0].x, 1e-6);
+        EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].y, cpu_distinct.geometries[i].coords[0].y, 1e-6);
+    }
+#endif
+}
+
+TEST(CategoryBGeoParity, STDifferencePointGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo p1 = makePointGeom(3.0, 4.0);
+    const GeometryInfo p2 = makePointGeom(3.0, 4.0);
+    const GeometryInfo p3 = makePointGeom(8.5, -1.25);
+
+    const GeometryInfo gpu_same = gpu_backend->stDifference(p1, p2);
+    const GeometryInfo cpu_same = cpu_backend->stDifference(p1, p2);
+    EXPECT_EQ(gpu_same.isPoint(), cpu_same.isPoint());
+    EXPECT_EQ(gpu_same.coords.size(), cpu_same.coords.size());
+
+    const GeometryInfo gpu_distinct = gpu_backend->stDifference(p1, p3);
+    const GeometryInfo cpu_distinct = cpu_backend->stDifference(p1, p3);
+    ASSERT_TRUE(gpu_distinct.isPoint());
+    ASSERT_TRUE(cpu_distinct.isPoint());
+    ASSERT_FALSE(gpu_distinct.coords.empty());
+    ASSERT_FALSE(cpu_distinct.coords.empty());
+    EXPECT_NEAR(gpu_distinct.coords[0].x, cpu_distinct.coords[0].x, 1e-6);
+    EXPECT_NEAR(gpu_distinct.coords[0].y, cpu_distinct.coords[0].y, 1e-6);
 #endif
 }
