@@ -28,3 +28,17 @@ if(TARGET bench_transaction_throughput)
         EXTRA_LABELS wave_a_benchmark_sharding_transaction benchmark-baseline throughput
     )
 endif()
+
+themis_add_standard_benchmark(bench_transaction_dedicated_gates bench_transaction_dedicated_gates.cpp)
+
+if(TARGET bench_transaction_dedicated_gates)
+    themis_register_benchmark_ctest(
+        NAME         "bench_transaction_dedicated_gates_wave_d"
+        TARGET       "bench_transaction_dedicated_gates"
+        MODULE       "transaction"
+        KIND         "wave_d"
+        TIMEOUT      180
+        MIN_TIME     "0.01s"
+        EXTRA_LABELS wave_d benchmark not_release_critical transaction
+    )
+endif()

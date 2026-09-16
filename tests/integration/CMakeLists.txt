@@ -735,6 +735,9 @@ foreach(_soak_test IN ITEMS
     test_replication_wave_d_soak
     test_graph_engine_soak
     test_llm_pipeline_soak
+    test_query_engine_soak
+    test_search_engine_soak
+    test_transaction_engine_soak
     test_rag_pipeline_soak
     test_index_engine_soak
 )
@@ -862,6 +865,18 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: LLM pipeline soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_llm_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: query engine soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_query_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: search engine soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_search_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: transaction engine soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_transaction_engine_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
         # Wave D: RAG pipeline soak uses in-process stubs; CI timeout 120 s.
