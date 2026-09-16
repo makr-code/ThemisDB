@@ -210,7 +210,7 @@ public:
         emitter_(ev);
     }
 
-    ~ScopedSpan() noexcept {
+    ~ScopedSpan() {
         SpanEvent ev;
         ev.context      = ctx_;
         ev.timestamp    = std::chrono::steady_clock::now();

@@ -76,6 +76,12 @@ struct SpanCollector {
         std::lock_guard<std::mutex> lk(mtx);
         events.clear();
     }
+
+    /// @brief Return a copy of the most recent event under the lock.
+    SpanEvent lastEvent() const {
+        std::lock_guard<std::mutex> lk(mtx);
+        return events.back();
+    }
 };
 
 // =============================================================================
@@ -388,7 +394,7 @@ TEST(ScopedSpanTest, SetErrorPropagates) {
     }
 
     EXPECT_EQ(collector.countErrorEndEvents(), 1u);
-    const auto& end_ev = collector.events.back();
+    const SpanEvent end_ev = collector.lastEvent();
     EXPECT_EQ(end_ev.error_code, 1100);
     EXPECT_EQ(end_ev.error_detail, "path not found");
 }
