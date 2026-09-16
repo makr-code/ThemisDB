@@ -26,7 +26,6 @@
 ## In Progress
 
 - [~] keep module-level roadmap/checklist claims synchronized with source-verified wave gates and representative-hardware evidence updates (Target: Q4 2026)
-- [ ] close remaining Wave B entry dependency on Wave A global gate closure (`release_critical` green + refreshed baselines) (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -149,6 +148,7 @@
 
 - Phase 5-6 observability, e2e/concurrency testing, and benchmark gates were completed and source-validated on 2026-08-17; keep derivative checklists synchronized with the validated source state
 - Phases 2-4 core implementation and unit/integration tests complete as of 2026-08-09
+- Wave B entry gate remains `[~]` pending final authoritative hardware artifacts for Transaction/GPU (Wave A external dependency; no implementation gap in this module)
 
 ---
 
@@ -187,7 +187,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (COMPLETE 2026-08-17) ✅
 
 ### Wave B Entry Gate (prerequisite from Wave A)
-- [ ] Wave A gate is closed: chaos evidence, fail-closed verification, `release_critical` CI green, and baselines refreshed (Target: Q4 2026)
+- [~] Wave A gate closure in progress (Target: Q4 2026): Transaction and GPU `release_critical` CI lanes are green on `develop` (runs `34313051247`/`34313042741`); authoritative representative-hardware artifact output and chaos/recovery evidence remain pending.
+  - `src/transaction/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` — focused suites registered; hardware CI pending Q4 2026
+  - `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` — RAII guards confirmed; hardware baselines pending Q4 2026
+  - See root `ROADMAP.md` §Wave A Closure Batch for current execution order
 
 ### Wave B Exit Criteria (this module's contribution)
 - [x] Stable p95/p99 and bounded memory confirmed on representative hardware (VERIFIED 2026-08-17) ✅
@@ -197,3 +200,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 ### Dependencies on Later Waves
 - Wave C security validation depends on stable Wave B performance baselines.
 - Wave D operability hardening depends on all prior waves being gate-complete.
+
+### Wave D Cross-Links (access_model)
+- Runbook with D1 Trace Span annotations: [`docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md`](../../docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md) — D1 Span table and `otel-query` examples added 2026-09-16
+- Phase 2A trace instrumentation targets for `access_coordinator.cpp` / `access_model_trace.h`: See runbook §Wave D D1 Distributed Trace Span Cross-Links
+- Wave D roadmap: [`docs/operability/WAVE_D_ROADMAP.md`](../../docs/operability/WAVE_D_ROADMAP.md)

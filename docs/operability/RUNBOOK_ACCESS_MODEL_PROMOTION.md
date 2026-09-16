@@ -389,7 +389,62 @@ watch kubectl get pods -n themisdb
 
 ---
 
-**Runbook Version:** 1.0  
-**Last Updated:** 2026-08-15  
+---
+
+## Wave D — D1 Distributed Trace Span Cross-Links
+
+> **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2A. Until Phase 2A implementation
+> completes (Target: Q1 2027), the listed span names are reference identifiers for future
+> instrumentation.
+
+### Access-Model D1 Trace Spans
+
+When the Phase 2A tracing SDK is available, the following operator actions map to trace spans:
+
+| Runbook Step | D1 Span Name | Baggage Keys | Notes |
+|---|---|---|---|
+| Step 1 (Dry-run deploy) | `access_model.promotion.dry_run` | `build_version`, `cluster_id`, `operator_id` | Covers deploy → workload → decision |
+| Step 2 (Canary rollout) | `access_model.promotion.canary` | `canary_target`, `traffic_weight`, `build_version` | Child span per canary target |
+| Step 3 (Full rollout) | `access_model.promotion.full_rollout` | `build_version`, `batch_size`, `shard_count` | Parent span; child spans per batch |
+| Step 4 (Post-rollout validation) | `access_model.promotion.post_validation` | `duration_h`, `sample_count`, `error_rate` | Linked to canary parent via `trace_id` |
+| Step 5 (Rollback) | `access_model.promotion.rollback` | `rollback_reason`, `from_version`, `to_version` | Status set to `ERROR`; link to triggering metric event |
+
+### Querying Trace Spans (Phase 2A onwards)
+
+```bash
+# Find all promotion traces for a build version
+otel-query --service access_model --operation promotion.canary \
+  --baggage build_version=v2.4.x-access-model-v1 --range 24h
+
+# Find rollback traces and their triggering metrics
+otel-query --service access_model --operation promotion.rollback \
+  --status ERROR --range 7d --include-baggage
+
+# Cross-reference with auth latency metrics
+otel-metrics-join \
+  --trace-operation access_model.promotion.full_rollout \
+  --metric access_model_auth_latency_p99 \
+  --window 5m
+```
+
+### Phase 2A Instrumentation Targets
+
+Once Phase 2A is implemented, add trace points in:
+
+- `src/access_model/access_coordinator.cpp`: Wrap `promoteTier()` and `demoteTier()` in
+  `DistributedTraceSpan` with baggage `key`, `from_tier`, `to_tier`, `policy_name`
+- `src/access_model/access_model_trace.h`: Extend `TraceContext` to export W3C
+  `traceparent`/`tracestate` headers for cross-service propagation
+
+**Related Wave D documents:**
+- `docs/operability/WAVE_D_ROADMAP.md` §2A — DistributedTraceSpan implementation plan
+- `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` — Acceptance gate W4A-TRACE-01
+- `src/access_model/ROADMAP.md` §Wave D — Operability dependency notes
+
+---
+
+**Runbook Version:** 1.1  
+**Last Updated:** 2026-09-16  
 **Owner:** Operations Team  
-**Next Review:** 2026-12-15 (post-Phase 5 UAT)
+**Next Review:** 2027-03-01 (post-Wave D Phase 2A delivery)
