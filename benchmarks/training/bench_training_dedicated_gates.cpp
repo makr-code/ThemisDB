@@ -101,7 +101,7 @@ BENCHMARK(TRBM01_BatchDispatchEnqueueLatency)
 // ─────────────────────────────────────────────────────────────────────────────
 static void TRBM02_CheckpointRoundTrip(benchmark::State& state) {
     StubCheckpointManager mgr;
-    uint64_t step = 0;
+    uint64_t step = kTRBMSeed;
     for (auto _ : state) {
         mgr.save(step);
         mgr.restore(step);
@@ -119,9 +119,9 @@ BENCHMARK(TRBM02_CheckpointRoundTrip)
 // ─────────────────────────────────────────────────────────────────────────────
 static void TRBM03_GradientSyncThroughput(benchmark::State& state) {
     StubGradientSyncBus bus;
-    uint64_t step = 0;
+    uint64_t step = kTRBMSeed;
     for (auto _ : state) {
-        bus.sync(0, step++);
+        bus.sync(kTRBMSeed, step++);
         benchmark::DoNotOptimize(bus.n_.load());
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
