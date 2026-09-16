@@ -6,3 +6,4 @@ message(STATUS "Configuring benchmark module: toolbox")
 
 themis_add_standard_benchmark(bench_toolbox_release_gates bench_toolbox_release_gates.cpp)
 themis_add_standard_benchmark(bench_toolbox_native_workloads bench_toolbox_native_workloads.cpp)
+themis_add_standard_benchmark(bench_toolbox_dedicated_gates bench_toolbox_dedicated_gates.cpp)
