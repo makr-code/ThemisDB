@@ -59,18 +59,18 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [~] Phase A gate: fix 50% of error-handling gaps (195 → ~98) in exact traversal paths (Target: Q3 2026)
 - [~] Phase A gate: fix 50% of thread-safety gaps (240 → ~120) under concurrent access — **GraphLRUPlanCache complete** (std::lock_guard on all put/get/erase/clear/size paths, 2026-08-10); ontology manager, knowledge graph reasoner, tensor fingerprint, and scheduled edge refresh protections in progress (Target: Q3 2026)
 - [x] Phase A ctest gate: `test_graph_exact_traversal` with error injection (tests/graph/test_graph_exact_traversal.cpp: BFS + Dijkstra failure injection present)
-- [ ] Phase C gate: Category B kernel fallback paths hardened (BFS frontier cutoff, Dijkstra overflow) (Target: Q4 2026)
-- [ ] Permanent invariant: `ann_frontdoor_route_type` metric confirms no GPU path for Category C (ongoing)
+- [x] Phase C gate: Category B kernel fallback paths hardened (BFS frontier cutoff, Dijkstra overflow) (Target: Q4 2026)
+- [x] Permanent invariant: `ann_frontdoor_route_type` metric confirms no GPU path for Category C (ongoing)
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for high fan-out constrained traversals under mixed query shapes (Target: Q4 2026)
-- [ ] extend stress coverage for long-running parallel/distributed graph query workloads (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for explain/rewrite and fallback incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for high fan-out constrained traversals under mixed query shapes (Target: Q4 2026)
+- [x] extend stress coverage for long-running parallel/distributed graph query workloads (Target: Q4 2026)
+- [x] improve operator-facing diagnostics for explain/rewrite and fallback incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
-- [ ] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
-- [ ] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for optimizer and traversal pathways (Target: Q1 2027)
+- [~] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
+- [~] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
 - [~] Wave B B2: RotatE link-prediction integration with `KnowledgeGraphReasoner` (Target: Q1–Q2 2027) — core impl + KGC-01..15 tests done
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
@@ -78,13 +78,13 @@ Production graph runtime exists across query planning, constraint-aware traversa
 These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.3 Graph** plan
 (see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
 
-- [ ] **Cross-shard graph query execution**: extend the distributed graph orchestrator to execute
+- [~] **Cross-shard graph query execution**: extend the distributed graph orchestrator to execute
   traversal queries that span multiple shards without requiring full graph materialization on the
   coordinator; partial traversal results merged at the coordinator level (Target: Q4 2026)
   - Inputs: traversal start vertex (may reside on any shard); traversal depth limit; result merge strategy
   - Acceptance: correct traversal result for 4-shard graph with 1M edges total; throughput ≥ 50%
     of single-shard baseline for depth-3 BFS; `release_critical` green
-- [ ] **Distributed Betweenness Centrality (BC)**: implement parallel Brandes BC algorithm with
+- [~] **Distributed Betweenness Centrality (BC)**: implement parallel Brandes BC algorithm with
   work distributed across available nodes; coordinator collects and merges partial sigma/delta
   accumulators; support approximation mode for large graphs (Target: Q4 2026)
   - Inputs: graph name, sample fraction (approximation mode), parallelism hint
@@ -104,17 +104,17 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
   - Error description lookup, diagnostics, and validation helpers implemented in `graph_error_taxonomy.h/cpp`
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for optimizer, traversal, and distributed orchestration internals (Target: Q4 2026)
-- [ ] align semantic/reasoning and tensor utility behavior with bounded runtime contracts (Target: Q4 2026)
-- [ ] stage query-optimizer work before cache/resource/scheduling follow-on items in the current Phase 3 execution order (Target: Q3 2026)
+- [x] complete hardening for optimizer, traversal, and distributed orchestration internals (Target: Q4 2026)
+- [x] align semantic/reasoning and tensor utility behavior with bounded runtime contracts (Target: Q4 2026)
+- [x] stage query-optimizer work before cache/resource/scheduling follow-on items in the current Phase 3 execution order (Target: Q3 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)
-- [ ] unify diagnostics across denial, fallback, and semantic conflict incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)
+- [x] unify diagnostics across denial, fallback, and semantic conflict incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for mixed constraint/distribution/acceleration edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for high fan-out and long-path workloads (Target: Q4 2026)
+- [x] expand focused regressions for mixed constraint/distribution/acceleration edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for high fan-out and long-path workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026) — GATE-GRG-01..06 benchmarks delivered (2026-08-07)
@@ -158,8 +158,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Zero backward compatibility breaks
 
 ### Dependencies
-- [ ] `KnowledgeGraphReasoner` stability and benchmark baseline complete
-- [ ] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
+- [~] `KnowledgeGraphReasoner` stability and benchmark baseline complete
+- [~] Wave A deployment complete (Speculative Decoding, DPR, Fairness)
 
 ### References
 - Detail tracker: `../ai/FUTURE_ENHANCEMENTS.md`

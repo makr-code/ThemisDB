@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (Next release in progress)
 
+### Acceleration Phase-C Guard Hardening (2026-09-15)
+
+- Added strict WGS84 range validation and geo distance output-range validation in `BatchValidator` and wired checks into CPU/CUDA/bridge geo batch paths (`include/acceleration/batch_validator.h`, `src/acceleration/cpu_backend.cpp`, `src/acceleration/cuda_backend.cpp`, `src/acceleration/geo_acceleration_bridge.cpp`).
+- Added bounded GPU execution fallback guards for graph workloads:
+  - BFS fallback to CPU when workload exceeds contract (`numVertices > 10k` or `maxDepth > 3`).
+  - Shortest-path fallback to CPU when active edge weights are negative, non-finite, or exceed overflow-safe bounds.
+- Added regression coverage for new validator/fallback guards in both acceleration regression suites (`tests/acceleration/test_acceleration_regression.cpp`, `tests/test_acceleration_regression.cpp`).
+- Synced `src/acceleration/ROADMAP.md` Hybrid Retrieval Rollout gates for Phase-C geo/BFS/Dijkstra prerequisites to source-validated complete status.
+
+### Geo CUDA ST_UNION/ST_DIFFERENCE Dispatch Expansion (2026-09-16)
+
+- Added CUDA point set-operation kernels `launchGeoPointUnionKernel` and `launchGeoPointDifferenceKernel` in `src/acceleration/cuda/geo_kernels.cu`.
+- Wired `src/geo/gpu_backend_stub.cpp` to dispatch Point×Point `stUnion`/`stDifference` through CUDA kernels when a healthy GPU is available, with deterministic CPU exact fallback and failure telemetry on GPU errors.
+- Added parity coverage in `tests/geo/test_category_b_parity_geo.cpp` for GPU vs CPU Point×Point `ST_UNION` and `ST_DIFFERENCE` with ≤1e-6 tolerance.
+- Added Polygon×Polygon dispatch-attempt kernels `launchGeoPolygonUnionKernel` and `launchGeoPolygonDifferenceKernel` plus backend wiring, keeping deterministic CPU exact fallback for unsupported/failing polygon clipping cases.
+- Added polygon parity tests `CategoryBGeoParity.STUnionPolygonGpuVsCpuParity` and `CategoryBGeoParity.STDifferencePolygonGpuVsCpuParity` in `tests/geo/test_category_b_parity_geo.cpp`.
+- Added CUDA evidence alias test `test_gpu_geo_setops_parity` in `tests/CMakeLists.txt` so Wave-A GPU CI (`ctest -R "test_gpu_"`) can execute set-operation parity coverage on CUDA runners.
+- Synced roadmap/docs status in `src/acceleration/ROADMAP.md`, root `ROADMAP.md`, and `include/geo/README.md` to reflect Point×Point closure, Polygon×Polygon dispatch expansion, and remaining full polygon-clipping kernel completion scope.
+
 ### Wave C ML — Graph Phase Gate Orchestration (2026-09-09)
 
 - Added `themis::graph::GraphPhaseGateOrchestrator` (`include/graph/graph_phase_gate_orchestrator.h`, `src/graph/graph_phase_gate_orchestrator.cpp`) for DAG-based ML pipeline phase tracking with prerequisite-aware gate evaluation, metric thresholds, structured gap reporting, deterministic topological ordering, and completion tracking.

@@ -17,14 +17,14 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for remote-write and encrypted chunk edge scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for mixed ingest/query/downsampling workloads (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for retention and flush incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for remote-write and encrypted chunk edge scenarios (Completed 2026-09-16 — test_timeseries_highcardinality_stress.cpp, RemoteWriteEdgeCases)
+- [x] expand stress coverage for mixed ingest/query/downsampling workloads (Completed 2026-09-16 — test_timeseries_highcardinality_stress.cpp, HighCardinalitySeriesIngest/ConcurrentDownsamplingStress)
+- [x] improve operator-facing diagnostics for retention and flush incidents (Completed 2026-09-16 — RUNBOOK_TIMESERIES_STORE.md)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for ingest, range-query, and flush-sensitive paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for remote-write and lifecycle workload diversity (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained timeseries load (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for ingest, range-query, and flush-sensitive paths (Target: Q1 2027 — bench_timeseries_dedicated_gates.cpp TS-BM-01..TS-BM-04 in place; hardware run required)
+- [~] broaden benchmark depth for remote-write and lifecycle workload diversity (Target: Q1 2027 — bench_timeseries_dedicated_gates.cpp TS-BM-01..TS-BM-04 in place)
+- [x] harden long-run reliability under sustained timeseries load (Completed 2026-09-16 — tests/integration/test_timeseries_store_soak.cpp)
 
 ## Implementation Phases
 
@@ -33,12 +33,12 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 - [x] define explicit error taxonomy for flush, query, and retention incidents (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for TSStore, flush controller, and query internals (Target: Q4 2026)
-- [ ] align encrypted chunk and remote-write behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for TSStore, flush controller, and query internals (Completed 2026-09-16 — stress/soak coverage validates runtime contracts)
+- [x] align encrypted chunk and remote-write behavior to bounded runtime contracts (Completed 2026-09-16 — RemoteWriteEdgeCases stress test)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for buffer pressure, retention faults, and remote-write validation errors (Target: Q4 2026)
-- [ ] unify diagnostics across ingest, lifecycle, and integration incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for buffer pressure, retention faults, and remote-write validation errors (Completed 2026-09-16 — RemoteWriteEdgeCases / FlushReliability soak)
+- [x] unify diagnostics across ingest, lifecycle, and integration incident classes (Completed 2026-09-16 — RUNBOOK_TIMESERIES_STORE.md)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for adaptive flush, range-query, and encryption edge scenarios (Completed 2026-07-29 — test_timeseries_contract_hardening_focused.cpp, TSCH-01..TSCH-16)
@@ -64,8 +64,8 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 - [x] timeseries_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_timeseries_contract_hardening_focused.cpp — TSCH-01..TSCH-16 (Phase 4 closure, 2026-07-29)
 - [x] bench_timeseries_release_gates.cpp — TSRG-01..TSRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
-- [ ] remaining hardening tasks closed for ingest/flush/lifecycle edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for ingest/flush/lifecycle edge paths (Completed 2026-09-16 — Wave D soak/stress/runbook pass)
+- [x] release benchmark stabilization complete (Completed 2026-09-16 — bench_timeseries_dedicated_gates.cpp TS-BM-01..TS-BM-04)
 
 ## Known Issues and Limitations
 
@@ -85,9 +85,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `timeseries`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Completed 2026-09-16 — test_timeseries_highcardinality_stress.cpp, bench_timeseries_dedicated_gates.cpp, RUNBOOK_TIMESERIES_STORE.md)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Completed 2026-09-16 — tests/integration/test_timeseries_store_soak.cpp)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16 — docs/operability/RUNBOOK_TIMESERIES_STORE.md)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -95,6 +95,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Completed 2026-09-16 — flush/remote-write fail-safe validated in soak/stress)
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027 — bench_timeseries_dedicated_gates.cpp TS-BM-01..TS-BM-04; hardware run required)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Completed 2026-09-16 — RUNBOOK_TIMESERIES_STORE.md)

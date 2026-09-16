@@ -92,7 +92,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 - [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
 - [x] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is established via `research/implementation_influence/by_module.md` (6 modules, 21 implementation aspects); recurring sync enforced from Phase 6 onwards (✅ COMPLETE 2026-08-04).
 
-## Implementation vs Documentation Gap Classification (2026-09-02, source-validated)
+## Implementation vs Documentation Gap Classification (2026-09-16, source-validated)
 
 | Module | Status | Classification | Notes & Evidence |
 |---|---|---|---|
@@ -107,6 +107,7 @@ The repository is clearly not a blank or mock project. It contains a substantial
 | GPU/CUDA | CUDA Audit COMPLETE | Source gaps ~70% resolved | CUDA-call audit complete 2026-08-24, RAII guards created (`include/gpu/cuda_raii.h`), 340→~100 unchecked calls remaining per `src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; Phase C/D: representative-hardware baselines, break-even benchmarks, and resource exhaustion tests pending Q4 2026 |
 | storage | Phases 1-5 COMPLETE | REMEDIATED 2026-08-03+ | Fail-closed restore hardening, ggml bridge TT registration, `SecuritySignatureManager` null-backend, remote S3/GCS/Azure manifest transport all delivered per `src/storage/ROADMAP.md` Phase 3-5; remaining: ggml allocator/prefetch production wiring and representative-hardware p95/p99 baselines (Target: Q1 2027) |
 | access_model | Phase 5-6 COMPLETE | DOC sync complete 2026-09-16 | Source shows Phase 5-6 observability, e2e/concurrency tests, GATE-ACM-01..06 all complete per `src/access_model/ROADMAP.md` + `PHASE_5_6_ACCEPTANCE_REPORT.md`; Wave B entry gate updated to `[~]` reflecting actual CI status (Transaction/GPU hardware pending); Wave D runbook cross-links delivered |
+| **ai** | **Wave A–C COMPLETE, Wave D PLANNED** | **REMEDIATED 2026-09-16** | Wave A (runtime reliability: validation, retry, fail-closed, output-field validation) ✅; Wave B (Self-RAG/RotatE KGC/Multi-Task LoRA) ✅ SIGNED OFF 2026-09-09 (#6286); Wave C (CAI safety/federated learning/graph phase gate) ✅; Wave D (operability: runbook, observability, soak tests, hardware baselines) 🟡 planned Q1 2027 — see `src/ai/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_C_CLOSURE_EVIDENCE_BUNDLE.md`, `src/ai/WAVE_D_ROADMAP.md` |
 
 ## Release Hardening Program (current canonical version: v2.4.0-alpha)
 
@@ -686,14 +687,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 #### A-08 · geo — Partial Delivery (Haversine + ST_CONTAINS/ST_DISTANCE)
 - [ ] Haversine batch kernel: WGS84 points, batch ≤ 1M pairs; ≤ 2 ms on RTX-class; deterministic FP tolerance ≤ 1e-6 vs CPU reference. Gate: `THEMIS_GEO_CUDA=ON`. (Target: Q3 2026)
 - [ ] ST_CONTAINS/ST_DISTANCE CUDA kernels: point-in-polygon test via winding number on GPU; parity vs CPU Greiner-Hormann ≤ 1e-6. (Target: Q3 2026)
-- [ ] ST_UNION / ST_DIFFERENCE: **explicitly deferred to Q4 2026** — retain CPU Greiner-Hormann with `STUB/SIMULATION NOTE`:
-  ```
-  // STUB/SIMULATION NOTE:
-  // Purpose: ST_UNION/ST_DIFFERENCE use CPU Greiner-Hormann fallback
-  // Activation: Always active until CUDA polygon-clipping kernel lands in Q4 2026
-  // Production Delta: No GPU acceleration; throughput ≤ 50K polygons/s vs target ≥ 400K/s
-  // Removal Plan: Replace with CUDA polygon-clipping kernel in Q4 2026
-  ```
+- [~] ST_UNION / ST_DIFFERENCE: Point×Point CUDA kernels are implemented (`launchGeoPointUnionKernel`, `launchGeoPointDifferenceKernel`) and Polygon×Polygon now attempts CUDA dispatch first (`launchGeoPolygonUnionKernel`, `launchGeoPolygonDifferenceKernel`) before deterministic CPU exact fallback; GPU-runner evidence path is wired through ctest alias `test_gpu_geo_setops_parity`, while full production-grade polygon clipping kernel completion remains pending. (Target: Q4 2026)
 - [ ] Re-baseline GPU benchmarks (`benchmarks/acceleration/`, `benchmarks/index/`) after RAII refactor. (Target: Q3 2026)
 
 #### CUDA Scanner Patterns (Gap Scanner enhancement)

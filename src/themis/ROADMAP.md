@@ -17,14 +17,14 @@ Production-usable themis core runtime exists for build identity, edition/license
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic outcomes for dependency and module trust edge cases (Target: Q4 2026)
-- [ ] expand stress coverage for wire-session and loader contention scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for load/verify/gating incidents (Target: Q4 2026)
+- [x] tighten deterministic outcomes for dependency and module trust edge cases (Target: Q4 2026) — evidence: tests/themis/test_themis_highcardinality_stress.cpp (THSTR-03)
+- [x] expand stress coverage for wire-session and loader contention scenarios (Target: Q4 2026) — evidence: tests/themis/test_themis_highcardinality_stress.cpp (THSTR-01..03)
+- [x] improve operator-facing diagnostics for load/verify/gating incidents (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for loader/gating/server-sensitive paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for module lifecycle and wire runtime diversity (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained core runtime pressure (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for loader/gating/server-sensitive paths (Target: Q1 2027)
+- [x] broaden benchmark depth for module lifecycle and wire runtime diversity (Target: Q1 2027) — evidence: benchmarks/themis/bench_themis_dedicated_gates.cpp (TH-BM-01..04)
+- [x] harden long-run reliability under sustained core runtime pressure (Target: Q1 2027) — evidence: tests/integration/test_themis_core_soak.cpp (ThemisSoak_LoadVerifyThroughput, ThemisSoak_WireSessionStability, ThemisSoak_DependencyGatingReliability)
 
 ## Implementation Phases
 
@@ -33,12 +33,12 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [x] define explicit error taxonomy for license/load/verify incident classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for loader/verifier and wire-server internals (Target: Q4 2026)
-- [ ] align platform-specific load behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for loader/verifier and wire-server internals (Target: Q4 2026) — evidence: tests/themis/test_themis_highcardinality_stress.cpp
+- [x] align platform-specific load behavior to bounded runtime contracts (Target: Q4 2026) — evidence: tests/themis/test_themis_highcardinality_stress.cpp THSTR-01
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for signature, dependency, and runtime gate faults (Target: Q4 2026)
-- [ ] unify diagnostics across license, lifecycle, and wire incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for signature, dependency, and runtime gate faults (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md
+- [x] unify diagnostics across license, lifecycle, and wire incident classes (Target: Q4 2026) — evidence: RUNBOOK_THEMIS_CORE.md alert→runbook mapping
 
 ### Phase 4: Tests
 - [x] expand focused regressions for loader/verify and wire-session edge scenarios (Target: Q4 2026)
@@ -57,7 +57,7 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [x] core themis surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for loader/gating/wire edge paths
+- [x] remaining hardening tasks closed for loader/gating/wire edge paths — evidence: tests/themis/test_themis_highcardinality_stress.cpp
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
@@ -78,9 +78,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `themis`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/themis/test_themis_highcardinality_stress.cpp, docs/operability/RUNBOOK_THEMIS_CORE.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_themis_core_soak.cpp (ThemisSoak_LoadVerifyThroughput, ThemisSoak_WireSessionStability, ThemisSoak_DependencyGatingReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md (5 scenarios, log patterns [THEMIS:LoadFailed], [THEMIS:WireSessionStall], [THEMIS:TrustViolation], [THEMIS:GatingTimeout])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -88,6 +88,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: module loader fail-closed, wire session heartbeat timeout
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_THEMIS_CORE.md

@@ -40,7 +40,7 @@ class ThemisCppDoxygenPolicyRulesScan:
     SOURCE_EXTS = {".c", ".cc", ".cpp", ".cxx"}
     ALL_EXTS = HEADER_EXTS | SOURCE_EXTS
     ACCESS_RE = re.compile(r"^\s*(public|protected|private)\s*:\s*$")
-    CLASS_RE = re.compile(r"^\s*(class|struct)\s+([A-Za-z_][A-Za-z0-9_]*)[^;{]*\{\s*$")
+    CLASS_RE = re.compile(r"^\s*(class|struct)\s+([A-Za-z_][A-Za-z0-9_:]*)[^;{]*\{\s*$")
     FUNCTION_NAME_RE = re.compile(r"([~A-Za-z_][A-Za-z0-9_:~]*)\s*\(")
     SKIP_PATH_MARKERS = (
         "/third_party/",
@@ -492,17 +492,20 @@ class ThemisCppDoxygenPolicyRulesScan:
             }
 
         params = self._extract_param_names(params_str)
-        ctor_or_dtor = bool(class_name and (name == class_name or name == f"~{class_name}"))
-        is_destructor = bool(class_name and name == f"~{class_name}")
-        is_default_ctor = bool(class_name and name == class_name and not params_str)
+        # Use only the unqualified (last) segment so that out-of-line definitions
+        # like `class Outer::Inner { ... }` still identify Inner's ctor/dtor correctly.
+        simple_class_name = (class_name or "").split("::")[-1]
+        ctor_or_dtor = bool(simple_class_name and (name == simple_class_name or name == f"~{simple_class_name}"))
+        is_destructor = bool(simple_class_name and name == f"~{simple_class_name}")
+        is_default_ctor = bool(simple_class_name and name == simple_class_name and not params_str)
         is_copy_move_ctor = False
-        if class_name and name == class_name:
+        if simple_class_name and name == simple_class_name:
             compact = params_str.replace(" ", "")
             is_copy_move_ctor = (
-                compact == f"const{class_name}&"
-                or compact == f"{class_name}&&"
-                or compact.startswith(f"const{class_name}&,")
-                or compact.startswith(f"{class_name}&&,")
+                compact == f"const{simple_class_name}&"
+                or compact == f"{simple_class_name}&&"
+                or compact.startswith(f"const{simple_class_name}&,")
+                or compact.startswith(f"{simple_class_name}&&,")
             )
 
         normalized_return_type = re.sub(

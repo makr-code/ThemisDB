@@ -80,3 +80,12 @@ add_document_benchmark(
     bench_document_store
     bench_document_store.cpp
 )
+
+# ---------------------------------------------------------------------------
+# SER: Document Serialization Gates — DOC-BM-01..04
+# p95/p99 envelope gates for serialization, list/read, diff, and merge paths
+# ---------------------------------------------------------------------------
+add_document_benchmark(
+    bench_document_serialization_gates
+    bench_document_serialization_gates.cpp
+)

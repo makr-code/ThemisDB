@@ -99,14 +99,14 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] benchmark gate: `module_epic3_distributed_tensor_bench_summary_first_focused` (✅ 12 benchmarks 2026-08-17)
 
 #### Phase D — Optional Acceleration (2027+)
-- [ ] CPU/GPU break-even validation for tensor operations (Target: 2027)
-- [ ] bounded GPU refinement after break-even proven (Target: 2027)
+- [~] CPU/GPU break-even validation for tensor operations (Target: 2027)
+- [~] bounded GPU refinement after break-even proven (Target: 2027)
 - [ ] no unconditional GPU dependency on any tensor path (Target: 2027)
 
 ### Short-term (3-6 months)
 - [x] implement phase-3 runtime failure and degraded-mode semantics (Target: Q4 2026)
 - [x] deliver phase-4 distributed contract and fault-path tests (Target: Q4 2026)
-- [ ] establish phase-5 distributed benchmark and hardening baselines (Target: Q4 2026)
+- [x] establish phase-5 distributed benchmark and hardening baselines (Wave D: bench_distributed_tensor_dedicated_gates.cpp — DT-BM-01..04 delivered 2026-09-16)
 
 ### Mid-term (6-12 months)
 - [ ] complete phase-6 acceptance documentation from measured evidence (Target: Q1 2027)
@@ -165,7 +165,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
 - [x] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
-- [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
+- [~] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
 - [x] `bench_tensor_partial_refit` — Phase B benchmark gate ✅ **Done; 8 benchmarks with performance targets: p99 <= 30ms for 100-3200 entry windows, 2026-08-17 completion**
 - [x] `bench_tensor_summary_first` — Phase C benchmark gate ✅ **Done; 12 benchmarks validating summary-first routing and exact-on-demand escalation, 2026-08-17 completion**
@@ -254,9 +254,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `distributed_tensor`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Wave D: test_distributed_tensor_highcardinality_stress.cpp — 3 cases + RUNBOOK_DISTRIBUTED_TENSOR.md delivered 2026-09-16)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Wave D: test_distributed_tensor_soak.cpp — DistTensorSoak_ShardedOpThroughput, DistTensorSoak_SyncStability, DistTensorSoak_PartitionReliability delivered 2026-09-16)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Wave D: RUNBOOK_DISTRIBUTED_TENSOR.md — 5 scenarios with log patterns delivered 2026-09-16)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -266,4 +266,4 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 ### Program-Level Success Criteria (contribution)
 - [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
 - [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Wave D: RUNBOOK_DISTRIBUTED_TENSOR.md delivered 2026-09-16)

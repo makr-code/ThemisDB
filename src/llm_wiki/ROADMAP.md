@@ -25,8 +25,8 @@
 ## Planned Features
 
 - [ ] representative-hardware Recall@k and p95/p99 validation for wiki ingest/query lifecycle (Target: Q4 2026)
-- [ ] adaptive schema migration runner with compatibility matrix for mixed-version readers/writers (Target: Q1 2027)
-- [ ] release gate enforcing zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
+- [~] adaptive schema migration runner with compatibility matrix for mixed-version readers/writers (Target: Q1 2027)
+- [~] release gate enforcing zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
 
 ## Implementation Phases
 
@@ -114,12 +114,12 @@ The LLM Wiki should evolve from a static store into an adaptive ML-aware knowled
 - [~] Define stable-core entity contract (`schema_version`, `entity_type`, `provenance`, `confidence`, timestamps) (Target: Q4 2026)
 - [~] Define extension contract with namespaced keys and policy-scoped allowlists (Target: Q4 2026)
 - [ ] Implement capability registry for reader/writer/governance compatibility checks (Target: Q4 2026)
-- [ ] Implement schema migration runner (deterministic, idempotent, rollback-ready) (Target: Q1 2027)
-- [ ] Add adaptive ranking feedback loop from query outcomes, corrections, and re-anchor signals (Target: Q1 2027)
-- [ ] Add shadow-mode policy experiments for confidence-threshold tuning without production regressions (Target: Q1 2027)
-- [ ] Persist per-decision adaptation metadata for audit and explainability (Target: Q1 2027)
-- [ ] Add compatibility tests for mixed-version readers/writers and unknown extension payloads (Target: Q1 2027)
-- [ ] Add release gate requiring zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
+- [~] Implement schema migration runner (deterministic, idempotent, rollback-ready) (Target: Q1 2027)
+- [~] Add adaptive ranking feedback loop from query outcomes, corrections, and re-anchor signals (Target: Q1 2027)
+- [~] Add shadow-mode policy experiments for confidence-threshold tuning without production regressions (Target: Q1 2027)
+- [~] Persist per-decision adaptation metadata for audit and explainability (Target: Q1 2027)
+- [~] Add compatibility tests for mixed-version readers/writers and unknown extension payloads (Target: Q1 2027)
+- [~] Add release gate requiring zero unauthorized extension writes and zero fail-open validation paths (Target: Q1 2027)
 
 ### YAML Process Orchestration Workstream (Target: Q4 2026 - Q1 2027)
 
@@ -130,8 +130,8 @@ YAML policy should act as the control plane for timing, stage gates, and bounded
 - [~] Wire policy loader with startup validation + hot-reload safeguards (Target: Q4 2026)
 - [ ] Implement schedule classes (interactive, near-real-time, batch) from policy (Target: Q4 2026)
 - [~] Enforce non-tunable safety invariants (`second_planner_allowed=false`, fail-closed validation, entitlement/guardrail gates) (Target: Q4 2026)
-- [ ] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)
-- [ ] Persist adaptation decisions and rollback reasons as governance evidence (Target: Q1 2027)
+- [~] Implement ML knob optimizer with hard-bounds enforcement and canary promotion (Target: Q1 2027)
+- [~] Persist adaptation decisions and rollback reasons as governance evidence (Target: Q1 2027)
 - [~] Add deterministic tests for policy validation, knob-bound checks, and rollback triggers (Target: Q1 2027)
   - [x] Startup policy load is now wired into `LLMWikiPluginImpl::initialize()` with fail-closed behavior on invalid/missing policy.
   - [x] Deterministic deny-path tests now cover missing explicit policy path and non-shadow `fail_open=true` rejection.
@@ -395,3 +395,13 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 ### Dependencies on Later Waves
 - Wave C security validation depends on stable Wave B performance baselines.
 - Wave D operability hardening depends on all prior waves being gate-complete.
+
+### Wave D Contribution for `llm_wiki`
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/llm_wiki/test_llm_wiki_highcardinality_stress.cpp`, LW-BM-01..04 benchmark gates)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_llm_wiki_soak.cpp`)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_LLM_WIKI.md`)
+
+### Program-Level Success Criteria (contribution)
+- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
+- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: LW-BM-01..04 in `benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp`)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_LLM_WIKI.md`)

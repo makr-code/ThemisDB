@@ -17,14 +17,14 @@ Production-capable gRPC RPC plugin runtime exists for server lifecycle operation
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under concurrent service and reload operations (Target: Q4 2026)
-- [ ] expand stress coverage for stream adapter and registration edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for transport incident triage (Target: Q4 2026)
+- [x] tighten deterministic behavior under concurrent service and reload operations (Target: Q4 2026) — evidence: tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp (GSTR-03)
+- [x] expand stress coverage for stream adapter and registration edge scenarios (Target: Q4 2026) — evidence: tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp (GSTR-01..03)
+- [x] improve operator-facing diagnostics for transport incident triage (Target: Q4 2026) — evidence: docs/operability/RUNBOOK_RPC_GRPC.md
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for gRPC apply and service lifecycle paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for additional gRPC transport scenarios (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained RPC traffic pressure (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for gRPC apply and service lifecycle paths (Target: Q1 2027)
+- [x] broaden benchmark depth for additional gRPC transport scenarios (Target: Q1 2027) — evidence: benchmarks/rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp (GRPC-BM-01..04)
+- [x] harden long-run reliability under sustained RPC traffic pressure (Target: Q1 2027) — evidence: tests/integration/test_rpc_grpc_soak.cpp (GrpcSoak_ServiceCallThroughput, GrpcSoak_StreamAdapterStability, GrpcSoak_ReloadReliability)
 
 ## Implementation Phases
 
@@ -80,9 +80,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `rpc_grpc`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp, docs/operability/RUNBOOK_RPC_GRPC.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_rpc_grpc_soak.cpp (GrpcSoak_ServiceCallThroughput, GrpcSoak_StreamAdapterStability, GrpcSoak_ReloadReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_RPC_GRPC.md (5 scenarios, log patterns [GRPC:ServiceUnavailable], [GRPC:StreamAdapterFailed], [GRPC:ReloadTimeout], [GRPC:TransportError])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -90,6 +90,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: reloadTls atomic validation, fail-closed predicate
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_RPC_GRPC.md

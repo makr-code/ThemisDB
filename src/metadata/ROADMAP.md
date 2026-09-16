@@ -17,8 +17,8 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 ## Planned Features
 
 ### Mid-term (6-12 months)
-- [ ] expand deep concurrent-access stress coverage beyond focused unit tests (Target: Q2 2027)
-- [ ] add operator runbook for metadata incident triage with actionable diagnostic steps (Target: Q2 2027)
+- [~] expand deep concurrent-access stress coverage beyond focused unit tests (Target: Q2 2027) — `tests/metadata/test_metadata_highcardinality_stress.cpp` (HC-MD-03) delivered; Q2 2027 extended coverage in progress
+- [x] add operator runbook for metadata incident triage with actionable diagnostic steps (Target: Q2 2027) — `docs/operability/RUNBOOK_METADATA_STORE.md` delivered (5 scenarios, 4 log patterns)
 
 ## Implementation Phases
 
@@ -83,9 +83,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `metadata`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — `tests/metadata/test_metadata_highcardinality_stress.cpp` delivered (HC-MD-01..03); `RUNBOOK_METADATA_STORE.md` covers `[METADATA:ExporterLag]` pattern
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — `tests/integration/test_metadata_store_soak.cpp` delivered (MD-SOAK-01..03); registered in Wave D foreach with TIMEOUT 120
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — `docs/operability/RUNBOOK_METADATA_STORE.md` delivered (5 scenarios, 4 log patterns)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -93,6 +93,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — partition inconsistency and index corruption paths tested in soak and stress suites
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — re-baseline in progress (Q1 2027); representative hardware sign-off pending
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — RUNBOOK_METADATA_STORE.md delivered

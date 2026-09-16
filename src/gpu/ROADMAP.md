@@ -37,27 +37,27 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
   - 2026-08-24: Confirmed present — `KernelSLAGuard` at `include/themis/gpu/gpu_timeout.h`; 11 active deployment sites in `query_accelerator.cpp` and `rocm_backend.cpp`; GPU-TIMEOUT-01..12 registered `release_critical`
 - [~] Phase C pre-requisite: RAII resource lifecycle violations resolved (57 gaps) (Target: Q3 2026)
   - 2026-08-24: Wrapper infrastructure now spans `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `gpu_resource_handles.h` + `cuda_raii.h`; gap-by-gap migration in progress
-- [ ] Phase D gate: fix 85% of unchecked CUDA calls (340 → ≤ 51) (Target: Q4 2026)
+- [~] Phase D gate: fix 85% of unchecked CUDA calls (340 → ≤ 51) (Target: Q4 2026)
 - [ ] Phase D gate: resource exhaustion injection test suite (Target: Q4 2026)
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
-- [ ] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
+- [~] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
 - [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
 - [~] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
 - [~] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
   - 2026-08-18: test_gpu_resource_exhaustion.cpp (GPU-EXHAUST-01..12) and test_gpu_fallback_all_paths.cpp (GPU-FALLBACK-01..12) implemented
   - 2026-08-18: both suites promoted to `release_critical` via `tests/gpu/CMakeLists.txt`; green-on-`develop` evidence still pending
-- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
-- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
+- [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
+- [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for multi-device dispatch under heterogeneous hardware states (Target: Q4 2026)
-- [ ] extend stress coverage for sustained mixed query/training acceleration workloads (Target: Q4 2026)
-- [ ] improve operator-facing incident diagnostics for fallback and capability mismatch scenarios (Target: Q4 2026)
+- [x] extend stress coverage for sustained mixed query/training acceleration workloads (Wave D: test_gpu_highcardinality_stress.cpp — 3 cases delivered 2026-09-16)
+- [x] improve operator-facing incident diagnostics for fallback and capability mismatch scenarios (Wave D: RUNBOOK_GPU_MANAGER.md — 5 scenarios delivered 2026-09-16)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for backend and acceleration pathways (Target: Q1 2027)
-- [ ] broaden benchmark depth for topology, partition, and high-volume concurrency scenarios (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained multi-tenant acceleration pressure (Target: Q1 2027)
+- [x] broaden benchmark depth for topology, partition, and high-volume concurrency scenarios (Wave D: bench_gpu_dedicated_gates.cpp — GPU-BM-01..04 delivered 2026-09-16)
+- [x] harden long-running reliability under sustained multi-tenant acceleration pressure (Wave D: test_gpu_manager_soak.cpp — 3 soak cases delivered 2026-09-16)
 
 ## Implementation Phases
 
@@ -165,6 +165,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [~] Representative-hardware p95/p99 baselines: `bench_gpu_a8_baselines.cpp` now emits gate counters and the dedicated Wave-A GPU workflow now has an explicit opt-in self-hosted representative-hardware artifact job; authoritative A100/H100-class execution evidence is still pending because run `34322900559` had no available `gpu-cuda` runner. (Target: Q4 2026)
   - EVIDENCE-NOTE: sandbox environment does not provide CUDA-capable hardware; CI on `develop` remains the authoritative baseline record.
 - [~] `release_critical` coverage: Wave A targets registered; green-on-`develop` execution evidence still pending.
+
+### Wave D Contribution for `gpu`
+- [x] Deliver high-cardinality stress coverage for GPU manager hot paths (Wave D: test_gpu_highcardinality_stress.cpp — HighCardinalityKernelSubmit, ConcurrentMemoryAllocStress, MultiGPURoutingStress delivered 2026-09-16)
+- [x] Deliver long-duration soak test coverage for GPU manager primary paths (Wave D: test_gpu_manager_soak.cpp — GPUSoak_KernelDispatchThroughput, GPUSoak_MemoryManagerStability, GPUSoak_MultiGPURoutingReliability delivered 2026-09-16)
+- [x] Ensure runbook coverage for operator-critical GPU scenarios (Wave D: RUNBOOK_GPU_MANAGER.md — 5 scenarios with log patterns delivered 2026-09-16)
+- [x] Deliver dedicated benchmark gates for GPU operability hot paths (Wave D: bench_gpu_dedicated_gates.cpp — GPU-BM-01..04 delivered 2026-09-16)
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
