@@ -48,8 +48,8 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
   - Status: GATE-PLG-01 ≤50/100ms, GATE-PLG-02 ≤30ms, GATE-PLG-03 ≥10k ops/s, GATE-PLG-04 ≤200ms
 
 ### Mid-term (6-12 months)
-- [ ] implement async plugin lifecycle operations with futures/promises (Target: Q1 2027)
-- [ ] add persistent plugin operation audit log with retention policy (Target: Q1 2027)
+- [~] implement async plugin lifecycle operations with futures/promises (Target: Q1 2027)
+- [~] add persistent plugin operation audit log with retention policy (Target: Q1 2027)
 - [ ] implement predictive plugin failure detection using metrics (Target: Q2 2027)
 - [ ] add plugin rollback to last known good version capability (Target: Q2 2027)
 
@@ -181,3 +181,9 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Dependencies on Later Waves
 - Wave D operability hardening depends on stable Wave C security controls.
+
+### Wave D Contribution for `plugins`
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths — `tests/integration/test_plugins_soak.cpp` (labels: `wave_d;soak;not_release_critical`; 2026-09-16) ✅
+- [x] Ensure runbook coverage for operator-critical scenarios in this module — `docs/operability/RUNBOOK_PLUGINS.md` (5 scenarios; 2026-09-16) ✅
+- [x] Deliver high-cardinality stress coverage — `tests/plugins/test_plugins_highcardinality_stress.cpp` (3 cases; 2026-09-16) ✅

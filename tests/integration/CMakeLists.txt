@@ -752,6 +752,17 @@ foreach(_soak_test IN ITEMS
     test_voice_pipeline_soak
     test_llm_streaming_soak
     test_exporters_soak
+    test_utils_soak
+    test_projects_soak
+    test_importers_soak
+    test_config_soak
+    test_performance_module_soak
+    test_ethics_ai_soak
+    test_observability_soak
+    test_plugins_soak
+    test_security_soak
+    test_content_pipeline_soak
+    test_base_module_soak
     test_image_analysis_soak
     # Wave D — batch 2 (prompt_engineering, onnx_clip, geo, cdc,
     #                   distributed_knowledge, ai, governance, auth)
@@ -1016,6 +1027,50 @@ foreach(_soak_test IN ITEMS
         endif()
         # Wave D: auth soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_auth_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: utils soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_utils_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: projects soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_projects_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: importers soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_importers_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: config soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_config_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: performance module soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_performance_module_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: ethics_ai soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_ethics_ai_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: observability soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_observability_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: plugins soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_plugins_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: security soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_security_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: content pipeline soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_content_pipeline_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: base module soak uses in-process stubs; CI timeout 120 s.
+        if(_soak_test STREQUAL "test_base_module_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()

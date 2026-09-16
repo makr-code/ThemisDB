@@ -18,14 +18,14 @@ Production content runtime exists across ingestion orchestration, multi-format e
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for mixed-format and large-payload edge permutations (Target: Q4 2026)
-- [ ] expand regressions for async queue pressure and processor fallback paths (Target: Q4 2026)
-- [ ] improve operator diagnostics for ingestion quality and processor degradation incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for mixed-format and large-payload edge permutations (Target: Q4 2026)
+- [x] expand regressions for async queue pressure and processor fallback paths (Target: Q4 2026)
+- [x] improve operator diagnostics for ingestion quality and processor degradation incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for extraction and concurrent throughput profiles (Target: Q1 2027)
-- [ ] add dedicated benchmark coverage for additional processor families and pipeline stages (Target: Q1 2027)
-- [ ] harden long-running ingestion stability under sustained mixed-media workloads (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for extraction and concurrent throughput profiles (Target: Q1 2027)
+- [~] add dedicated benchmark coverage for additional processor families and pipeline stages (Target: Q1 2027)
+- [~] harden long-running ingestion stability under sustained mixed-media workloads (Target: Q1 2027)
 
 ## Implementation Phases
 

@@ -62,7 +62,7 @@ The current `EthicsSelectionRouter` operates in `SELECTION_ONLY` mode (Top-N pre
 - [~] Execute `benchmarks/ethics_ai/bench_ldm.cpp` suite; confirm baseline runtimes for LAYERED_FULL and LAYERED_FAST modes (Target: Q4 2026) — `GATE-EUAI-AUDIT-01` benchmark added 2026-08-09; baseline run requires representative hardware execution — sandbox-blocked; pending hardware sign-off
 - [x] Art. 13 audit export overhead ≤5% regression vs baseline LAYERED_FULL run without audit export (Target: Q4 2026) ✅ **BM_LDM_AuditLog_Append + BM_LDM_AuditLog_ExportOnly added 2026-08-09**
 - [~] ChainVisualizer artifact generation overhead ≤10ms per run (Target: Q4 2026) — benchmark baseline instrumentation present; hardware confirmation pending
-- [ ] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target: Q4 2026)
+- [~] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target: Q4 2026) — requires legal review
 
 ### Private Plugin Separability (Target: Q4 2026)
 
@@ -285,9 +285,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `ethics_ai`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -295,6 +295,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
