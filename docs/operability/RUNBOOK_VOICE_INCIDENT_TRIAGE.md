@@ -489,7 +489,7 @@ otel-query --service voice --operation stream.validate \
 otel-query --service voice --operation incident.triage --range 7d --include-children
 ```
 
-### Phase 2A Instrumentation Targets (Voice — Phase 3 placeholder)
+### Phase 3 Instrumentation Targets (Voice)
 
 Voice trace point implementation is deferred to Wave D Phase 3 per
 `docs/operability/WAVE_D_ROADMAP.md` §2D (voice module hints). When Phase 3 begins, add

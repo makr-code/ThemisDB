@@ -470,7 +470,7 @@ otel-query --service gpu --operation fallback.execute --range 7d \
   --filter "baggage.slo_margin_ms > 0"
 ```
 
-### Phase 2A Instrumentation Targets (GPU — Phase 3 placeholder)
+### Phase 3 Instrumentation Targets (GPU)
 
 GPU trace point implementation is deferred to Wave D Phase 3 per
 `docs/operability/WAVE_D_ROADMAP.md` §2D (GPU module hints). When Phase 3 begins, add
