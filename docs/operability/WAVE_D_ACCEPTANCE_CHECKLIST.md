@@ -65,7 +65,7 @@
 - [x] 5 operator runbooks published: `RUNBOOK_ACCESS_MODEL_PROMOTION.md`, `RUNBOOK_GPU_FALLBACK_PERFORMANCE.md`, `RUNBOOK_REPLICATION_LAG_FAILOVER.md`, `RUNBOOK_SHARDING_TOPOLOGY_CHANGE.md`, `RUNBOOK_VOICE_INCIDENT_TRIAGE.md`
 - [x] D1 Trace Span cross-link sections added to all 5 runbooks (2026-09-16): span tables, `otel-query` examples, and Phase 2A instrumentation targets per module
 - [x] `docs/operability/README.md` updated with directory index and current status (2026-08-24)
-- [ ] Wave D markers added to root ROADMAP.md (template: Phase-6B for observability modules)
+- [ ] Wave D markers added to root ROADMAP.md (template: Phase-6B for observability modules — distinct from runbook cross-link updates; pending when Phase 2A observability implementation begins)
 
 ---
 
