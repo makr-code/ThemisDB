@@ -286,66 +286,40 @@ private:
 // ============================================================================
 
 /**
- * @brief RAII scope guard for AIPluginGenerator::generatePlugin() tracing.
+ * @brief RAII scope guard for AI module pipeline tracing (Wave D D2).
  *
- * Records a span covering the full plugin generation pipeline:
- * input validation → endpoint invocation → response parsing → safety gate.
+ * Records a span covering any AI module pipeline operation.  Inherits the
+ * caller's trace context so spans appear as child operations in the parent
+ * trace tree (e.g. an incoming AQL query that triggers inference).
  *
- * Span name follows the OpenTelemetry semantic convention for internal operations:
- * "ai.plugin.generate"
+ * Span names follow OpenTelemetry semantic conventions:
+ * - "ai.plugin.generate" — AIPluginGenerator::generatePlugin()
+ * - "llm.infer"          — LLMAQLHandler::executeInfer()
+ * - "llm.rag"            — LLMAQLHandler::executeRAG()
+ * - "llm.embed"          — LLMAQLHandler::executeEmbed()
  *
  * ## Usage
  *
  * ```cpp
- * Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
- *     const PluginGenerationPrompt& prompt)
- * {
- *     TRACE_SCOPE_AI_GENERATE("ai.plugin.generate");
- *     // ... generation pipeline ...
+ * Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(...) {
+ *     TRACE_SCOPE_AI("ai.plugin.generate");
+ *     // ... pipeline ...
+ * }
+ *
+ * std::string LLMAQLHandler::executeInfer(...) {
+ *     TRACE_SCOPE_AI("llm.infer");
+ *     // ... pipeline ...
  * }
  * ```
  *
- * @param operation_name Span operation name (e.g. "ai.plugin.generate").
+ * @param operation_name Span operation name following OTel conventions.
  *
  * @note Overhead is ~1 µs per span creation (within Wave D budget).
+ * @note The span is automatically ended when the enclosing scope exits (RAII).
  * @see docs/operability/RUNBOOK_AI_GENERATION.md for Stats counter semantics.
+ * @see src/ai/WAVE_D_ROADMAP.md — D2: Observability Expansion.
  */
-#define TRACE_SCOPE_AI_GENERATE(operation_name) \
-    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
-        operation_name, getCurrentTraceContext()); \
-    TraceContextGuard _trace_guard_##__LINE__( \
-        _trace_span_##__LINE__.get(), \
-        _trace_span_##__LINE__->childContext(operation_name));
-
-/**
- * @brief RAII scope guard for LLMAQLHandler inference/RAG path tracing.
- *
- * Records a span covering the full LLM inference or RAG pipeline, including
- * routing decisions, retry attempts, CAI gate execution, and result handling.
- *
- * Span name follows OpenTelemetry semantic conventions for LLM operations:
- * "llm.infer", "llm.rag", "llm.embed"
- *
- * ## Usage
- *
- * ```cpp
- * std::string LLMAQLHandler::executeInfer(const std::string& prompt, ...) {
- *     TRACE_SCOPE_AI_INFER("llm.infer");
- *     // ... inference pipeline ...
- * }
- *
- * std::string LLMAQLHandler::executeRAG(const std::string& query, ...) {
- *     TRACE_SCOPE_AI_INFER("llm.rag");
- *     // ... RAG pipeline ...
- * }
- * ```
- *
- * @param operation_name Span operation name (e.g. "llm.infer", "llm.rag").
- *
- * @note Overhead is ~1 µs per span creation (within Wave D budget).
- * @note Propagates the caller's trace context; child spans for retries inherit the same trace ID.
- */
-#define TRACE_SCOPE_AI_INFER(operation_name) \
+#define TRACE_SCOPE_AI(operation_name) \
     auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
         operation_name, getCurrentTraceContext()); \
     TraceContextGuard _trace_guard_##__LINE__( \

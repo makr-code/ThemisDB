@@ -769,7 +769,7 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                                         const std::string &lora_id,
                                         const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the LLM inference pipeline ---
-    TRACE_SCOPE_AI_INFER("llm.infer");
+    TRACE_SCOPE_AI("llm.infer");
     TRACE_EVENT("llm.infer.start",
                 {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
 
@@ -1090,7 +1090,7 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                       const std::string &lora_id,
                                       const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the RAG pipeline ---
-    TRACE_SCOPE_AI_INFER("llm.rag");
+    TRACE_SCOPE_AI("llm.rag");
     TRACE_EVENT("llm.rag.start",
                 {{"llm.collection", collection},
                  {"llm.top_k", std::to_string(top_k)},

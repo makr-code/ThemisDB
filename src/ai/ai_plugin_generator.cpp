@@ -342,6 +342,52 @@ Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
     return response_body;
 }
 
+// ---------------------------------------------------------------------------
+// Wave D D2 — enum-to-string helpers for human-readable OTel trace attributes.
+// File-local (anonymous namespace) so they are never exported and are not
+// re-instantiated on every generatePlugin call.
+// ---------------------------------------------------------------------------
+
+[[nodiscard]] std::string pluginTypeToTraceStr(PluginType t) {
+    switch (t) {
+        case PluginType::COMPUTE_BACKEND:        return "COMPUTE_BACKEND";
+        case PluginType::BLOB_STORAGE:           return "BLOB_STORAGE";
+        case PluginType::IMPORTER:               return "IMPORTER";
+        case PluginType::EXPORTER:               return "EXPORTER";
+        case PluginType::HSM_PROVIDER:           return "HSM_PROVIDER";
+        case PluginType::EMBEDDING:              return "EMBEDDING";
+        case PluginType::LLM_BACKEND:            return "LLM_BACKEND";
+        case PluginType::AUDIO_PROCESSING:       return "AUDIO_PROCESSING";
+        case PluginType::IMAGE_GENERATION:       return "IMAGE_GENERATION";
+        case PluginType::AGENTIC_TOOL:           return "AGENTIC_TOOL";
+        case PluginType::INGESTION_STEP:         return "INGESTION_STEP";
+        case PluginType::RESOURCE_LIMIT_POLICY:  return "RESOURCE_LIMIT_POLICY";
+        case PluginType::CUSTOM:                 return "CUSTOM";
+        default:                                 return "UNKNOWN";
+    }
+}
+
+[[nodiscard]] std::string securityLevelToTraceStr(SecurityLevel s) {
+    switch (s) {
+        case SecurityLevel::LOW:      return "LOW";
+        case SecurityLevel::MEDIUM:   return "MEDIUM";
+        case SecurityLevel::HIGH:     return "HIGH";
+        case SecurityLevel::PARANOID: return "PARANOID";
+        default:                      return "UNKNOWN";
+    }
+}
+
+[[nodiscard]] std::string llmModelToTraceStr(LLMModel m) {
+    switch (m) {
+        case LLMModel::CODE_LLAMA:     return "CODE_LLAMA";
+        case LLMModel::CODEX:          return "CODEX";
+        case LLMModel::STARCODER:      return "STARCODER";
+        case LLMModel::GITHUB_COPILOT: return "GITHUB_COPILOT";
+        case LLMModel::CUSTOM:         return "CUSTOM";
+        default:                       return "UNKNOWN";
+    }
+}
+
 } // namespace
 
 /// @brief Constructor for AIPluginGenerator.
@@ -531,7 +577,13 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     const PluginGenerationPrompt& prompt)
 {
     // --- Wave D D2: OTel span for the full plugin generation pipeline ---
-    TRACE_SCOPE_AI_GENERATE("ai.plugin.generate");
+    TRACE_SCOPE_AI("ai.plugin.generate");
+    // Start event fires immediately after span creation — before validation — so trace
+    // reflects the actual span start time, consistent with executeInfer/executeRAG.
+    TRACE_EVENT("ai.plugin.generate.start",
+                {{"ai.plugin_type",    pluginTypeToTraceStr(prompt.type)},
+                 {"ai.security_level", securityLevelToTraceStr(prompt.security_level)},
+                 {"ai.llm_model",      llmModelToTraceStr(prompt.llm_model)}});
 
     // 1. Validate inputs first.
     auto vr = validatePrompt(prompt);
@@ -560,12 +612,35 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         "[AIPluginGenerator] generatePlugin: description='{}' endpoint='{}' timeout_ms={}",
         truncateForLog(safe_description), config_.llm_endpoint, config_.timeout_ms);
 
-    // Record key generation attributes on the active span.
-    TRACE_BAGGAGE("ai.endpoint", config_.llm_endpoint);
-    TRACE_EVENT("ai.plugin.generate.start",
-                {{"ai.plugin_type", std::to_string(static_cast<int>(prompt.type))},
-                 {"ai.security_level", std::to_string(static_cast<int>(prompt.security_level))},
-                 {"ai.llm_model", std::to_string(static_cast<int>(prompt.llm_model))}});
+    // Record endpoint as baggage in redacted form: scheme+host+port only.
+    // Strips path, query params, and any userinfo credentials (user:pass@host).
+    {
+        const std::string& ep = config_.llm_endpoint;
+        const auto scheme_sep = ep.find("//");
+        auto host_start = (scheme_sep != std::string::npos)
+                              ? scheme_sep + 2
+                              : std::string::size_type{0};
+        // Strip userinfo if present: advance past 'user:pass@' within the authority segment.
+        const auto at_pos = ep.find('@', host_start);
+        if (at_pos != std::string::npos) {
+            // Ensure '@' belongs to the authority component (before the first '/' after host_start).
+            const auto first_slash = ep.find('/', host_start);
+            if (first_slash == std::string::npos || at_pos < first_slash) {
+                host_start = at_pos + 1;
+            }
+        }
+        // Scheme prefix to prepend (e.g. "https://") so the recorded baggage is parseable.
+        const std::string scheme_prefix = (scheme_sep != std::string::npos)
+                                              ? ep.substr(0, scheme_sep + 2)
+                                              : "";
+        const std::string authority = ep.substr(host_start);
+        const auto path_pos = authority.find('/');
+        // host_only retains the port (e.g. "host:8080") to allow routing identification.
+        const std::string host_only = (path_pos != std::string::npos)
+                                          ? authority.substr(0, path_pos)
+                                          : authority;
+        TRACE_BAGGAGE("ai.endpoint", scheme_prefix + host_only);
+    }
 
     json request;
     request["description"] = safe_description;

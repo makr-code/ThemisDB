@@ -50,6 +50,7 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdlib>
+#include <type_traits>
 #include <functional>
 #include <numeric>
 #include <random>
@@ -117,7 +118,8 @@ public:
 
     explicit StubAIGenerationPipeline(StubMode mode = StubMode::AlwaysSucceed,
                                       std::chrono::microseconds simulated_latency = 500us)
-        : mode_(mode), simulated_latency_(simulated_latency) {}
+        : mode_(static_cast<std::underlying_type_t<StubMode>>(mode))
+        , simulated_latency_(simulated_latency) {}
 
     /// @brief Execute one simulated generation call.
     ///
@@ -131,7 +133,7 @@ public:
         // Simulate endpoint latency
         std::this_thread::sleep_for(simulated_latency_);
 
-        switch (mode_.load(std::memory_order_acquire)) {
+        switch (static_cast<StubMode>(mode_.load(std::memory_order_acquire))) {
         case StubMode::AlwaysSucceed:
             result.success = true;
             break;
@@ -168,9 +170,10 @@ public:
         return result;
     }
 
-    /// @brief Switch stub mode atomically (used for retry-storm recovery test).
+    /// @brief Switch stub mode (thread-safe via atomic on the underlying integral type).
     void setMode(StubMode mode) {
-        mode_.store(mode, std::memory_order_release);
+        mode_.store(static_cast<std::underlying_type_t<StubMode>>(mode),
+                    std::memory_order_release);
     }
 
     /// @brief Return a snapshot of accumulated Stats.
@@ -185,7 +188,9 @@ public:
     }
 
 private:
-    std::atomic<StubMode> mode_;
+    // Use underlying integral type for well-defined std::atomic specialization
+    // (C++ standard guarantees atomic<T> for integral types; enum specialization is implementation-defined).
+    std::atomic<std::underlying_type_t<StubMode>> mode_;
     std::chrono::microseconds simulated_latency_;
 
     std::atomic<std::size_t> total_calls_{0};
