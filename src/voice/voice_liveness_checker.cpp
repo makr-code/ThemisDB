@@ -60,6 +60,11 @@ uint8_t VoiceLivenessChecker::detect_spoof_indicators(
     if (zero_count > audio_size / 2) {
         spoof_confidence += 30;  // Too many zeros.
     }
+
+    // Extreme uniformity is common for malformed/replayed/generated chunks.
+    if ((max_byte - min_byte) <= 2 || transition_count < (sample_n / 64)) {
+        spoof_confidence += 30;
+    }
     
     // Check for extreme uniformity (TTS-like).
     if (max_byte < 10) {
@@ -193,9 +198,9 @@ bool VoiceLivenessChecker::is_silence_or_noise_only(
     for (size_t i = 0; i < std::min(audio_size, size_t(4096)); ++i) {
         sum += audio_data[i];
     }
-    uint8_t avg = sum / std::min(audio_size, size_t(4096));
-    
-    return avg < 20;  // Very low average indicates silence/noise.
+    const uint32_t avg = sum / static_cast<uint32_t>(std::min(audio_size, size_t(4096)));
+
+    return avg < 20u;  // Very low average indicates silence/noise.
 }
 
 std::string VoiceLivenessChecker::compute_audio_hash(

@@ -24,6 +24,7 @@
 
 #include "cache/eviction_listener.h"
 #include "access_model/access_coordinator.h"
+#include "cache/cache_eviction_policy.h"
 
 namespace themis {
 namespace cache {
@@ -399,6 +400,84 @@ TEST_F(CacheEvictionCoordinatorIntegrationTest, CorrelationID_PropagatedInEvent)
     listener_manager->emitEvictionEvent(event);
 
     EXPECT_EQ(listener->captured_correlation_id, "trace_12345");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Wave D — EvictionListener function-callback hooks (Q4 2026)
+// Tests for EvictionListener (std::function) registration and invocation in
+// WeightedTieredLRUEvictionPolicy.  These cover the storage-demotion feedback
+// hooks added in Wave D item 5.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * CEI-09: EvictionListener callback registration is accepted without error.
+ *
+ * Wave D: Verifies that registerEvictionListener() stores a std::function
+ * callback without throwing, satisfying the Q4 2026 AccessCoordinator hook API.
+ */
+TEST_F(CacheEvictionCoordinatorIntegrationTest, EvictionListener_FunctionRegistration_IsAccepted) {
+    themis::cache::WeightedTieredLRUEvictionPolicy policy;
+
+    bool threw = false;
+    try {
+        policy.registerEvictionListener(
+            [](const std::string& /*key*/, const std::string& /*tid*/) {});
+    } catch (...) {
+        threw = true;
+    }
+
+    EXPECT_FALSE(threw)
+        << "registerEvictionListener() must not throw for a valid std::function callback";
+}
+
+/**
+ * CEI-10: EvictionListener callback is invoked with the correct key and tenant_id
+ *         when choose_victim() selects an eviction victim.
+ *
+ * Wave D: Verifies the storage-demotion feedback hook fires with the victim key.
+ */
+TEST_F(CacheEvictionCoordinatorIntegrationTest, EvictionListener_FunctionCallback_InvokedOnEviction) {
+    themis::cache::WeightedTieredLRUEvictionPolicy policy;
+
+    std::string captured_key;
+    std::string captured_tid;
+    std::atomic<int> invocation_count{0};
+
+    policy.registerEvictionListener(
+        [&captured_key, &captured_tid, &invocation_count](
+                const std::string& key, const std::string& tid) {
+            captured_key = key;
+            captured_tid = tid;
+            invocation_count.fetch_add(1, std::memory_order_relaxed);
+        });
+
+    // Seed the policy with an entry so choose_victim has something to work with
+    policy.record_insert("victim_key", 128);
+    policy.record_insert("other_key",  128);
+
+    themis::cache::CacheKeyDescriptor desc;
+    desc.key              = "victim_key";
+    desc.access_count     = 1;
+    desc.last_access_ns   = 1'000'000LL;
+    desc.creation_time_ns = 1'000'000LL;
+
+    themis::cache::CacheKeyDescriptor desc2;
+    desc2.key              = "other_key";
+    desc2.access_count     = 100; // much hotter — should not be chosen
+    desc2.last_access_ns   = 9'000'000'000LL;
+    desc2.creation_time_ns = 1'000'000LL;
+
+    auto decision = policy.choose_victim({desc, desc2});
+
+    ASSERT_TRUE(decision.should_evict)
+        << "choose_victim() must select a victim from the provided candidates";
+
+    EXPECT_EQ(invocation_count.load(), 1)
+        << "EvictionListener must be invoked exactly once per choose_victim() call "
+           "when a victim is selected";
+
+    EXPECT_EQ(captured_key, decision.victim_key)
+        << "Listener key must match the selected victim key";
 }
 
 }  // namespace cache

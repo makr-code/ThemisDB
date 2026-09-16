@@ -1,0 +1,356 @@
+#include <gtest/gtest.h>
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstddef>
+#include <vector>
+
+#include "acceleration/cpu_backend.h"
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#endif
+#include "geo/spatial_backend.h"
+
+using namespace themis::acceleration;
+using namespace themis::geo;
+
+namespace {
+
+constexpr double kDistanceToleranceMeters = 1e-2;
+
+GeometryInfo makePointGeom(double x, double y) {
+    GeometryInfo g(GeometryType::Point);
+    g.coords.emplace_back(x, y);
+    return g;
+}
+
+GeometryInfo makeClosedPolygonGeom(std::initializer_list<std::pair<double, double>> pts) {
+    GeometryInfo g(GeometryType::Polygon);
+    std::vector<Coordinate> ring;
+    ring.reserve(pts.size() + 1);
+    for (const auto &p : pts) {
+        ring.emplace_back(p.first, p.second);
+    }
+    ring.push_back(ring.front());
+    g.rings.push_back(std::move(ring));
+    return g;
+}
+
+double ringArea(const GeometryInfo &g) {
+    if (g.rings.empty() || g.rings[0].size() < 3) {
+        return 0.0;
+    }
+    const auto &ring = g.rings[0];
+    double area = 0.0;
+    for (std::size_t i = 0, j = ring.size() - 1; i < ring.size(); j = i++) {
+        area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
+    }
+    return std::abs(area) * 0.5;
+}
+
+GeometryInfo makeClosedPolygonWithHoleGeom(std::initializer_list<std::pair<double, double>> outer,
+                                           std::initializer_list<std::pair<double, double>> hole) {
+    GeometryInfo g(GeometryType::Polygon);
+    std::vector<Coordinate> outer_ring;
+    outer_ring.reserve(outer.size() + 1);
+    for (const auto &p : outer) {
+        outer_ring.emplace_back(p.first, p.second);
+    }
+    outer_ring.push_back(outer_ring.front());
+
+    std::vector<Coordinate> hole_ring;
+    hole_ring.reserve(hole.size() + 1);
+    for (const auto &p : hole) {
+        hole_ring.emplace_back(p.first, p.second);
+    }
+    hole_ring.push_back(hole_ring.front());
+
+    g.rings.push_back(std::move(outer_ring));
+    g.rings.push_back(std::move(hole_ring));
+    return g;
+}
+
+double signedRingArea(const std::vector<Coordinate> &ring) {
+    if (ring.size() < 3) {
+        return 0.0;
+    }
+    double area = 0.0;
+    for (std::size_t i = 0, j = ring.size() - 1; i < ring.size(); j = i++) {
+        area += ring[j].x * ring[i].y - ring[i].x * ring[j].y;
+    }
+    return area * 0.5;
+}
+
+double geometryArea(const GeometryInfo &g) {
+    if (g.isPolygon()) {
+        if (g.rings.empty()) {
+            return ringArea(g);
+        }
+        double area = std::abs(signedRingArea(g.rings[0]));
+        for (std::size_t i = 1; i < g.rings.size(); ++i) {
+            area -= std::abs(signedRingArea(g.rings[i]));
+        }
+        return std::max(0.0, area);
+    }
+    if (g.isGeometryCollection()) {
+        double total = 0.0;
+        for (const auto &child : g.geometries) {
+            total += geometryArea(child);
+        }
+        return total;
+    }
+    return 0.0;
+}
+
+} // namespace
+
+TEST(CategoryBGeoParity, HaversineGpuVsCpuParity) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is disabled";
+#else
+    CUDAGeoBackend gpu_backend;
+    if (!gpu_backend.isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable GPU available";
+    }
+
+    CPUGeoBackend cpu_backend;
+    ASSERT_TRUE(cpu_backend.initialize());
+    ASSERT_TRUE(gpu_backend.initialize());
+
+    const std::array<double, 6> lats1 = {48.8566, 40.7128, 35.6895, -33.8688, 52.5200, 37.7749};
+    const std::array<double, 6> lons1 = {2.3522, -74.0060, 139.6917, 151.2093, 13.4050, -122.4194};
+    const std::array<double, 6> lats2 = {51.5074, 34.0522, 1.3521, -23.5505, 41.9028, 47.6062};
+    const std::array<double, 6> lons2 = {-0.1278, -118.2437, 103.8198, -46.6333, 12.4964, -122.3321};
+
+    const auto cpu_dist_km =
+        cpu_backend.batchDistances(lats1.data(), lons1.data(), lats2.data(), lons2.data(), lats1.size(), true);
+    const auto gpu_dist_km =
+        gpu_backend.batchDistances(lats1.data(), lons1.data(), lats2.data(), lons2.data(), lats1.size(), true);
+
+    ASSERT_EQ(cpu_dist_km.size(), lats1.size());
+    ASSERT_EQ(gpu_dist_km.size(), lats1.size());
+
+    for (std::size_t i = 0; i < lats1.size(); ++i) {
+        const double cpu_m = static_cast<double>(cpu_dist_km[i]) * 1000.0;
+        const double gpu_m = static_cast<double>(gpu_dist_km[i]) * 1000.0;
+        EXPECT_NEAR(gpu_m, cpu_m, kDistanceToleranceMeters);
+    }
+
+    gpu_backend.shutdown();
+    cpu_backend.shutdown();
+#endif
+}
+
+TEST(CategoryBGeoParity, ContainsGpuVsCpuParity) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "THEMIS_ENABLE_CUDA is disabled";
+#else
+    CUDAGeoBackend gpu_backend;
+    if (!gpu_backend.isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable GPU available";
+    }
+
+    CPUGeoBackend cpu_backend;
+    ASSERT_TRUE(cpu_backend.initialize());
+    ASSERT_TRUE(gpu_backend.initialize());
+
+    const std::array<double, 6> point_lats = {0.5, 2.5, 1.0, -1.0, 0.25, 3.0};
+    const std::array<double, 6> point_lons = {0.5, 2.5, 0.0,  0.0,  1.75, 1.0};
+    const std::array<double, 8> polygon = {
+        0.0, 0.0,
+        0.0, 2.0,
+        2.0, 2.0,
+        2.0, 0.0
+    };
+
+    const auto cpu_contains = cpu_backend.batchPointInPolygon(
+        point_lats.data(), point_lons.data(), point_lats.size(), polygon.data(), polygon.size() / 2);
+    const auto gpu_contains = gpu_backend.batchPointInPolygon(
+        point_lats.data(), point_lons.data(), point_lats.size(), polygon.data(), polygon.size() / 2);
+
+    ASSERT_EQ(cpu_contains.size(), point_lats.size());
+    ASSERT_EQ(gpu_contains.size(), point_lats.size());
+
+    for (std::size_t i = 0; i < point_lats.size(); ++i) {
+        EXPECT_EQ(gpu_contains[i], cpu_contains[i])
+            << "Containment mismatch at index " << i
+            << " point=(" << point_lats[i] << "," << point_lons[i] << ")";
+    }
+
+    gpu_backend.shutdown();
+    cpu_backend.shutdown();
+#endif
+}
+
+TEST(CategoryBGeoParity, STUnionPointGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo p1 = makePointGeom(10.5, -3.25);
+    const GeometryInfo p2 = makePointGeom(10.5, -3.25);
+    const GeometryInfo p3 = makePointGeom(11.25, -2.0);
+
+    const GeometryInfo gpu_same = gpu_backend->stUnion(p1, p2);
+    const GeometryInfo cpu_same = cpu_backend->stUnion(p1, p2);
+    ASSERT_EQ(gpu_same.type, cpu_same.type);
+    ASSERT_FALSE(gpu_same.coords.empty());
+    ASSERT_FALSE(cpu_same.coords.empty());
+    EXPECT_NEAR(gpu_same.coords[0].x, cpu_same.coords[0].x, 1e-6);
+    EXPECT_NEAR(gpu_same.coords[0].y, cpu_same.coords[0].y, 1e-6);
+
+    const GeometryInfo gpu_distinct = gpu_backend->stUnion(p1, p3);
+    const GeometryInfo cpu_distinct = cpu_backend->stUnion(p1, p3);
+    ASSERT_EQ(gpu_distinct.type, cpu_distinct.type);
+    ASSERT_EQ(gpu_distinct.geometries.size(), cpu_distinct.geometries.size());
+    ASSERT_EQ(gpu_distinct.geometries.size(), 2u);
+    for (std::size_t i = 0; i < gpu_distinct.geometries.size(); ++i) {
+        ASSERT_FALSE(gpu_distinct.geometries[i].coords.empty());
+        ASSERT_FALSE(cpu_distinct.geometries[i].coords.empty());
+        EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].x, cpu_distinct.geometries[i].coords[0].x, 1e-6);
+        EXPECT_NEAR(gpu_distinct.geometries[i].coords[0].y, cpu_distinct.geometries[i].coords[0].y, 1e-6);
+    }
+#endif
+}
+
+TEST(CategoryBGeoParity, STDifferencePointGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend* gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend* cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo p1 = makePointGeom(3.0, 4.0);
+    const GeometryInfo p2 = makePointGeom(3.0, 4.0);
+    const GeometryInfo p3 = makePointGeom(8.5, -1.25);
+
+    const GeometryInfo gpu_same = gpu_backend->stDifference(p1, p2);
+    const GeometryInfo cpu_same = cpu_backend->stDifference(p1, p2);
+    EXPECT_EQ(gpu_same.isPoint(), cpu_same.isPoint());
+    EXPECT_EQ(gpu_same.coords.size(), cpu_same.coords.size());
+
+    const GeometryInfo gpu_distinct = gpu_backend->stDifference(p1, p3);
+    const GeometryInfo cpu_distinct = cpu_backend->stDifference(p1, p3);
+    ASSERT_TRUE(gpu_distinct.isPoint());
+    ASSERT_TRUE(cpu_distinct.isPoint());
+    ASSERT_FALSE(gpu_distinct.coords.empty());
+    ASSERT_FALSE(cpu_distinct.coords.empty());
+    EXPECT_NEAR(gpu_distinct.coords[0].x, cpu_distinct.coords[0].x, 1e-6);
+    EXPECT_NEAR(gpu_distinct.coords[0].y, cpu_distinct.coords[0].y, 1e-6);
+#endif
+}
+
+TEST(CategoryBGeoParity, STUnionPolygonGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonGeom({{0.0, 0.0}, {2.0, 0.0}, {2.0, 2.0}, {0.0, 2.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{1.0, -1.0}, {3.0, -1.0}, {3.0, 1.0}, {1.0, 1.0}});
+
+    const GeometryInfo gpu_result = gpu_backend->stUnion(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stUnion(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    ASSERT_TRUE(gpu_result.isPolygon());
+    ASSERT_TRUE(cpu_result.isPolygon());
+    const double gpu_area = ringArea(gpu_result);
+    const double cpu_area = ringArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}
+
+TEST(CategoryBGeoParity, STDifferencePolygonGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonGeom({{0.0, 0.0}, {2.0, 0.0}, {2.0, 2.0}, {0.0, 2.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{1.0, -1.0}, {3.0, -1.0}, {3.0, 1.0}, {1.0, 1.0}});
+
+    const GeometryInfo gpu_result = gpu_backend->stDifference(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stDifference(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    ASSERT_TRUE(gpu_result.isPolygon());
+    ASSERT_TRUE(cpu_result.isPolygon());
+    const double gpu_area = ringArea(gpu_result);
+    const double cpu_area = ringArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}
+
+TEST(CategoryBGeoParity, STUnionPolygonWithHoleGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonWithHoleGeom({{0.0, 0.0}, {4.0, 0.0}, {4.0, 4.0}, {0.0, 4.0}},
+                                                          {{1.0, 1.0}, {3.0, 1.0}, {3.0, 3.0}, {1.0, 3.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{3.0, 0.5}, {5.0, 0.5}, {5.0, 3.5}, {3.0, 3.5}});
+
+    const GeometryInfo gpu_result = gpu_backend->stUnion(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stUnion(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    const double gpu_area = geometryArea(gpu_result);
+    const double cpu_area = geometryArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}
+
+TEST(CategoryBGeoParity, STDifferencePolygonWithHoleGpuVsCpuParity) {
+#ifndef THEMIS_GEO_CUDA
+    GTEST_SKIP() << "THEMIS_GEO_CUDA is disabled";
+#else
+    ISpatialComputeBackend *gpu_backend = getGpuSpatialBackend();
+    ISpatialComputeBackend *cpu_backend = getCpuExactBackend();
+    ASSERT_NE(gpu_backend, nullptr);
+    ASSERT_NE(cpu_backend, nullptr);
+    if (!gpu_backend->isAvailable()) {
+        GTEST_SKIP() << "No CUDA-capable geo GPU backend available";
+    }
+
+    const GeometryInfo a = makeClosedPolygonWithHoleGeom({{0.0, 0.0}, {4.0, 0.0}, {4.0, 4.0}, {0.0, 4.0}},
+                                                          {{1.0, 1.0}, {3.0, 1.0}, {3.0, 3.0}, {1.0, 3.0}});
+    const GeometryInfo b = makeClosedPolygonGeom({{2.5, -0.5}, {5.0, -0.5}, {5.0, 4.5}, {2.5, 4.5}});
+
+    const GeometryInfo gpu_result = gpu_backend->stDifference(a, b);
+    const GeometryInfo cpu_result = cpu_backend->stDifference(a, b);
+    ASSERT_EQ(gpu_result.type, cpu_result.type);
+    const double gpu_area = geometryArea(gpu_result);
+    const double cpu_area = geometryArea(cpu_result);
+    EXPECT_NEAR(gpu_area, cpu_area, std::max(1e-6, cpu_area * 0.02));
+#endif
+}

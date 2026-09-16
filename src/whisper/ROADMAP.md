@@ -75,6 +75,9 @@ v2.3.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Streaming, VAD and opt
 - [x] `EnergyThresholdVad` + `IVoiceActivityDetector` strategy; `WhisperPlugin::setVoiceActivityDetector()` (Q3 2026)
 - [ ] Benchmark against whisper.cpp CLI on real model (Target: Q3 2026)
 
+### Phase 5 note — Q1 2027 hardware-baseline items
+- [~] Real whisper.cpp integration validated end-to-end (requires model file in CI env)
+
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
@@ -140,9 +143,9 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `whisper`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/whisper/test_whisper_highcardinality_stress.cpp, docs/operability/RUNBOOK_WHISPER_TRANSCRIPTION.md
+- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_whisper_transcription_soak.cpp (WhisperSoak_TranscriptionThroughput, WhisperSoak_ModelLoadStability, WhisperSoak_AudioChunkReliability)
+- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_WHISPER_TRANSCRIPTION.md (5 scenarios, log patterns [WHISPER:ModelLoadFailed], [WHISPER:TranscriptionTimeout], [WHISPER:AudioCorruption], [WHISPER:BenchmarkMiss])
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -150,6 +153,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_WHISPER_TRANSCRIPTION.md

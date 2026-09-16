@@ -3799,6 +3799,9 @@ if(THEMIS_BUILD_MODULAR)
     if(TARGET themis_sharding AND TARGET themis_shard_proto)
         target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
     endif()
+    if(THEMIS_ENABLE_HTTP_SERVER AND TARGET themis_network AND TARGET httplib::httplib)
+        target_link_libraries(themis_network PRIVATE httplib::httplib)
+    endif()
     
     # Wire Protocol V1 protobuf compile flag and link for the network module
     # (mirrors the monolithic build setup below; required by src/themis/wire_protocol_server.cpp)

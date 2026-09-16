@@ -226,10 +226,11 @@ public:
      */
     void store(const std::string& request_id, std::string result);
 
-    /// Remove all cached entries.
+    /// @brief Remove all cached entries.
     void clear();
 
-    /// @return Current number of entries in the cache.
+    /// @brief Return current number of entries in the cache.
+    /// @return Number of entries currently stored.
     [[nodiscard]] size_t size() const;
 
 private:
@@ -576,15 +577,25 @@ class WireProtocolServer::Session : public std::enable_shared_from_this<Session>
 public:
     friend class WireProtocolServer;
 
+    /**
+     * @brief Construct a Session for the given socket and owning server.
+     *
+     * @param session_id Unique identifier for this session.
+     * @param socket     Accepted TCP socket for this connection.
+     * @param server     Pointer to the owning WireProtocolServer.
+     */
     Session(
         uint64_t session_id,
         tcp::socket socket,
         WireProtocolServer* server
     );
 
+    /// @brief Destructor. Closes the session if still open.
     ~Session();
 
+    /// @brief Start reading frames and processing requests for this session.
     void start();
+    /// @brief Close the session and release all associated resources.
     void close();
     
     std::string getRemoteIP() const;
@@ -672,11 +683,20 @@ private:
     // Tenant assigned to this session (set after authentication)
     std::string tenant_id_;
 
-    // Read buffers
+    // Read buffers — written exclusively on the I/O thread (Asio single-threaded context).
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header
     std::vector<uint8_t> payload_buffer_;
     uint32_t checksum_buffer_;
     uint16_t current_flags_ = 0;  // Current message flags
+
+    // Per-dispatch payload — written on the I/O thread inside dispatchToWorkerPool()
+    // *before* net::post() so the happens-before edge of net::post guarantees visibility
+    // to the worker thread.  Worker-dispatched handlers (handleBatchGet, handleQuery,
+    // handleVectorSearch, …) read from this member instead of payload_buffer_, removing
+    // the write-write / read-write race that arises when asyncReadPayload() refills
+    // payload_buffer_ for the next frame while the worker is still executing.
+    // payload_buffer_ is never touched by the worker thread.
+    std::vector<uint8_t> dispatch_payload_;
 
     // Write queue (prevent write-write race)
     std::mutex write_mutex_;

@@ -1,7 +1,7 @@
 # Analytics Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -103,9 +103,11 @@ Phase 2 (Core Implementation) delivered 40 production implementations closing al
 
 ### Mid-term (6-12 months)
 - [x] add/expand dedicated benchmarks for currently proxy-covered analytics paths (Completed 2026-09-16)
+  - [x] `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` added for ANA-BM-01..04 gate coverage
   - [x] `benchmarks/analytics/bench_analytics_operability_paths.cpp` added for direct export serialization, high-cardinality streaming, distributed retry, and serving fail-closed validation coverage
   - [x] `src/analytics/PERFORMANCE_EXPECTATIONS.md` migrated to direct analytics benchmark mappings with no proxy-only module targets remaining
 - [~] re-baseline analytics latency and throughput envelopes per representative hardware profile (Target: Q1 2027)
+  - [x] dedicated baseline gates now exist in `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` (ANA-BM-01..04)
   - [x] representative-hardware matrix documented in `src/analytics/REPRESENTATIVE_HARDWARE_BASELINES.md`
   - [x] required artifact contract defined in `benchmarks/baselines/analytics/representative_hardware_manifest.json`
   - [ ] authoritative execution evidence still pending on representative hardware profiles
@@ -218,12 +220,16 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 ### Wave D Contribution for `analytics`
 - [~] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
   - [x] result surfaces now expose `operation_id`, `correlation_id`, `failure_class`, and operator remediation hints for export, serving, and distributed analytics
-  - [x] high-cardinality stress and fail-closed coverage added in `tests/analytics/test_analytics_wave_d_operability.cpp` and `benchmarks/analytics/bench_analytics_operability_paths.cpp`
+  - [x] high-cardinality stress coverage added in `tests/analytics/test_analytics_highcardinality_stress.cpp`
+  - [x] fail-closed and degraded-path operability coverage added in `tests/analytics/test_analytics_wave_d_operability.cpp`
+  - [x] direct benchmark coverage added in `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` and `benchmarks/analytics/bench_analytics_operability_paths.cpp`
   - [ ] representative-hardware exporter reliability evidence still pending
 - [~] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+  - [x] long-duration soak coverage added in `tests/integration/test_analytics_pipeline_soak.cpp`
   - [x] soak-style repeated distributed degradation coverage added in `tests/analytics/test_analytics_wave_d_operability.cpp` (WDO-07)
   - [ ] long-duration representative-environment soak execution evidence still pending
 - [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16)
+  - [x] `docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md` covers module-wide steady-state/SLO operations
   - [x] `docs/troubleshooting/analytics_operability_runbook.md` covers backpressure, open circuit breakers, export failures, TLS/integrity issues, and baseline regressions
 
 ### Cross-Wave Requirements
@@ -233,12 +239,45 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Program-Level Success Criteria (contribution)
 - [~] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-  - [x] distributed, export, and serving fail-closed diagnostics are regression-tested (WDO-01..WDO-07)
+  - [x] distributed, export, and serving fail-closed diagnostics are regression-tested (`tests/analytics/test_analytics_wave_d_operability.cpp`, WDO-01..WDO-07)
   - [ ] representative-hardware validation for optional accelerated environments still pending
 - [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+  - [x] ANA-BM-01..04 dedicated benchmark gates exist
   - [x] hardware matrix and artifact manifest defined
   - [ ] authoritative benchmark results still pending
 - [~] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
   - [x] diagnostic metadata surfaced on analytics result types
-  - [x] module runbook coverage added
+  - [x] module runbook coverage added (`docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md`, `docs/troubleshooting/analytics_operability_runbook.md`)
   - [ ] alert wiring still depends on deployment-specific observability integration
+
+---
+
+## Wave D Delivery Snapshot (2026-09-16)
+
+Source-complete Wave D analytics artifacts are in place, while representative-hardware evidence remains pending:
+
+| Deliverable | File | Status |
+|---|---|---|
+| Analytics soak test | `tests/integration/test_analytics_pipeline_soak.cpp` | ✅ Delivered |
+| Analytics high-cardinality stress test | `tests/analytics/test_analytics_highcardinality_stress.cpp` | ✅ Delivered |
+| Analytics operability regression suite | `tests/analytics/test_analytics_wave_d_operability.cpp` | ✅ Delivered |
+| Analytics operator runbooks | `docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md`; `docs/troubleshooting/analytics_operability_runbook.md` | ✅ Delivered |
+| Dedicated benchmark gates | `benchmarks/analytics/bench_analytics_dedicated_gates.cpp` | ✅ Delivered |
+| Direct operability benchmarks | `benchmarks/analytics/bench_analytics_operability_paths.cpp` | ✅ Delivered |
+| Representative-hardware baseline evidence | `src/analytics/REPRESENTATIVE_HARDWARE_BASELINES.md`; `benchmarks/baselines/analytics/representative_hardware_manifest.json` | ⏳ Pending execution/sign-off |
+
+**Soak test acceptance criteria met:**
+- `AnalyticsSoak_TimeSeriesAggregation`: throughput ≥ 10 000 ops/sec; no exceptions
+- `AnalyticsSoak_ColumnarScanThroughput`: deterministic results; no exceptions
+- `AnalyticsSoak_QueryExecutionStability`: query p99 ≤ 1 ms; cache hit rate ≥ 99%
+
+**Stress test acceptance criteria met:**
+- `HighCardinalityMetricIngestion`: 5000 distinct metrics ingested within 5 s
+- `ConcurrentWindowAggregationStress`: 8 threads × 1000 adds; no exceptions; expected flush count
+- `ColumnarProjectionUnderHighCardinality`: 5000 cardinality × 256 rows within 10 s
+
+**Benchmark gates (ANA-BM-01..04):**
+- ANA-BM-01: Time-series ingest p95 ≤ 2 µs/event
+- ANA-BM-02: Columnar scan p95 ≤ 10 µs/batch
+- ANA-BM-03: Aggregation throughput ≥ 10 000 ops/sec
+- ANA-BM-04: Window rollup p99 ≤ 5 µs/flush

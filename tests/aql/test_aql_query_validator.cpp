@@ -749,3 +749,93 @@ TEST(AQLFewShotSemanticTest, RebuildIndexWithNullProviderIsNoop) {
     // No provider set; rebuildEmbeddingIndex should be a safe no-op
     EXPECT_NO_THROW(lib.rebuildEmbeddingIndex());
 }
+
+// ============================================================================
+// Policy: Nested subquery depth limit (Wave D hardening — 2026-09-16)
+// ============================================================================
+
+TEST(AQLQueryValidatorPolicyTest, NestedSubqueryDepthWithinLimitIsValid) {
+    AQLQueryValidator validator;
+    // Depth-2 nesting is well within the allowed limit of 5.
+    const std::string query =
+        "FOR doc IN users "
+        "  LET subResult = (FOR item IN orders FILTER item.userId == doc._id RETURN item) "
+        "RETURN { doc, subResult }";
+    auto result = validator.validate(query);
+    // Should NOT produce a NestedSubqueryDepthExceeded error
+    bool depth_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.message.find("Nested subquery depth") != std::string::npos) {
+            depth_error = true;
+        }
+    }
+    EXPECT_FALSE(depth_error)
+        << "A depth-2 nested subquery must not trigger the depth limit policy";
+}
+
+TEST(AQLQueryValidatorPolicyTest, NestedSubqueryDepthExceedingLimitIsRejected) {
+    AQLQueryValidator validator;
+    // Construct a depth-6 nesting (> limit of 5) by chaining LET subqueries.
+    // Each "(FOR ... IN ..." opens a nesting level.
+    const std::string query =
+        "FOR a IN c1 "
+        "  LET b = (FOR b1 IN c2 "
+        "    LET c = (FOR c1x IN c3 "
+        "      LET d = (FOR d1 IN c4 "
+        "        LET e = (FOR e1 IN c5 "
+        "          LET f = (FOR f1 IN c6 RETURN f1) "
+        "        RETURN e1) "
+        "      RETURN d1) "
+        "    RETURN c1x) "
+        "  RETURN b1) "
+        "RETURN a";
+    auto result = validator.validate(query);
+    bool depth_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.message.find("Nested subquery depth") != std::string::npos) {
+            depth_error = true;
+        }
+    }
+    EXPECT_TRUE(depth_error)
+        << "A depth-6 nested subquery must be rejected by the depth limit policy";
+    EXPECT_TRUE(result.hasErrors())
+        << "The validation result must have errors for a depth-6 nesting";
+}
+
+// ============================================================================
+// Policy: Collection name length limit (Wave D hardening — 2026-09-16)
+// ============================================================================
+
+TEST(AQLQueryValidatorPolicyTest, CollectionNameWithinLengthLimitIsValid) {
+    AQLQueryValidator validator;
+    // 10-character collection name — well within the 128-character limit
+    const std::string query = "FOR doc IN shortname RETURN doc";
+    auto result = validator.validate(query);
+    bool name_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.message.find("Collection name") != std::string::npos
+            && issue.message.find("exceeds maximum") != std::string::npos) {
+            name_error = true;
+        }
+    }
+    EXPECT_FALSE(name_error)
+        << "A short collection name must not trigger the length limit policy";
+}
+
+TEST(AQLQueryValidatorPolicyTest, CollectionNameExceedingLengthLimitIsRejected) {
+    AQLQueryValidator validator;
+    // Build a 150-character collection name (> 128-character limit)
+    const std::string long_name(150, 'a');
+    const std::string query = "FOR doc IN " + long_name + " RETURN doc";
+    auto result = validator.validate(query);
+    bool name_error = false;
+    for (const auto& issue : result.issues) {
+        if (issue.message.find("exceeds maximum allowed length") != std::string::npos) {
+            name_error = true;
+        }
+    }
+    EXPECT_TRUE(name_error)
+        << "A 150-character collection name must be rejected by the length limit policy";
+    EXPECT_TRUE(result.hasErrors())
+        << "The validation result must have errors for an oversized collection name";
+}

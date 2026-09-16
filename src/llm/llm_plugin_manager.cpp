@@ -922,6 +922,8 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
                 : rocksdb::kNoCompression;
 
             rocksdb::TransactionDBOptions txn_opts;
+            // Cross-compiler / cross-OS portability: TransactionDB::Open uses
+            // TransactionDB** out-parameters in packaged RocksDB variants.
             rocksdb::TransactionDB* raw_db = nullptr;
             const rocksdb::Status s = rocksdb::TransactionDB::Open(
                 db_opts, txn_opts, config.rocksdb_path, &raw_db);
@@ -943,6 +945,8 @@ bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
                 : rocksdb::kNoCompression;
 
             rocksdb::TransactionDBOptions txn_opts;
+            // Cross-compiler / cross-OS portability: keep the raw out-parameter
+            // call shape, then transfer ownership into owned_state_db_.
             rocksdb::TransactionDB* raw_db = nullptr;
             const rocksdb::Status s = rocksdb::TransactionDB::Open(
                 db_opts, txn_opts, config.rocksdb_path, &raw_db);

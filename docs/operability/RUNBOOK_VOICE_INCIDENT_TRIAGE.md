@@ -1,5 +1,10 @@
 # RUNBOOK: Voice Incident Triage & Session Lifecycle Management
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Voice/Audio Team Lead  
 **Purpose:** Diagnose and resolve voice session failures, stream validation issues, and lifecycle anomalies  
 **Severity:** High (affects all active voice-based workloads)  
@@ -446,7 +451,62 @@ force-session-cleanup --session-id <session-id> --wait-timeout 30s
 
 ---
 
-**Runbook Version:** 1.0  
-**Last Updated:** 2026-08-15  
+## Wave D — D1 Distributed Trace Span Cross-Links
+
+> **Wave D Phase 3 placeholder:** The trace span annotations below reference the `DistributedTraceSpan`
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2D (Voice module hints).
+> Until Phase 3 implementation completes (Target: Q1 2027), the listed span names are reference
+> identifiers for future instrumentation.
+
+### Voice D1 Trace Spans
+
+| Runbook Step | D1 Span Name | Baggage Keys | Notes |
+|---|---|---|---|
+| Session setup | `session.setup` | `session_id`, `client_ip`, `protocol_version` | Start of session lifecycle span |
+| Stream validation | `stream.validate` | `session_id`, `frame_count`, `payload_size_bytes`, `validation_result` | Child of session setup span |
+| Liveness / anti-spoof check | `session.liveness_check` | `session_id`, `check_type`, `result` | Linked to stream validation span |
+| Session active transition | `session.active` | `session_id`, `setup_latency_ms` | Marks state transition to active |
+| Session teardown | `session.teardown` | `session_id`, `teardown_reason`, `active_duration_ms` | Final span in session lifecycle |
+| Multi-session cleanup | `session.multi_cleanup` | `client_ip`, `session_count`, `cleanup_strategy` | Covers atomic cleanup of all sessions |
+| Incident triage | `incident.triage` | `incident_id`, `symptom`, `affected_sessions` | Created on failure detection; links to session spans |
+
+### Querying Trace Spans (Phase 3 onwards)
+
+```bash
+# Trace a full session lifecycle
+otel-query --service voice --operation session.setup \
+  --baggage session_id=<session-id> --include-children --range 1h
+
+# Find sessions that failed liveness check
+otel-query --service voice --operation session.liveness_check \
+  --baggage result=FAIL --range 2h
+
+# Identify oversized-stream failures
+otel-query --service voice --operation stream.validate \
+  --status ERROR --range 24h --include-baggage
+
+# Cross-reference incident traces with session teardown
+otel-query --service voice --operation incident.triage --range 7d --include-children
+```
+
+### Phase 3 Instrumentation Targets (Voice)
+
+Voice trace point implementation is deferred to Wave D Phase 3 per
+`docs/operability/WAVE_D_ROADMAP.md` §2D (voice module hints). When Phase 3 begins, add
+trace points in:
+
+- Voice session setup/teardown coordinator
+- Stream frame validation path
+- Liveness/anti-spoof verification path
+- Multi-session cleanup coordinator
+
+**Related Wave D documents:**
+- `docs/operability/WAVE_D_ROADMAP.md` §2D — Voice module hints (Phase 3)
+- `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` — Gate W4A-TRACE-01
+
+---
+
+**Runbook Version:** 1.1  
+**Last Updated:** 2026-09-16  
 **Owner:** Voice/Audio Team  
-**Next Review:** 2026-12-15
+**Next Review:** 2027-03-01 (post-Wave D Phase 2A/3 delivery)

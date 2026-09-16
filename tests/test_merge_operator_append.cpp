@@ -2,6 +2,7 @@
 
 #include "storage/merge_operators.h"
 #include "storage/rocksdb_wrapper.h"
+#include "utils/rocksdb_open_compat.h"
 #include <gtest/gtest.h>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
@@ -20,7 +21,7 @@ protected:
         options.create_if_missing = true;
         options.merge_operator = std::make_shared<AppendMergeOperator>();
         
-        auto status = rocksdb::DB::Open(options, test_db_path_, &db_);
+        auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db_);
         ASSERT_TRUE(status.ok()) << status.ToString();
     }
     
@@ -160,7 +161,7 @@ TEST_F(AppendMergeOperatorTest, PersistenceAfterReopen) {
     
     rocksdb::Options options;
     options.merge_operator = std::make_shared<AppendMergeOperator>();
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db_);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db_);
     ASSERT_TRUE(status.ok());
     
     // Verify log persisted
@@ -185,7 +186,7 @@ TEST_F(AppendMergeOperatorTest, CustomDelimiterTest) {
     options.create_if_missing = true;
     options.merge_operator = std::make_shared<AppendMergeOperator>(",");
     
-    auto status = rocksdb::DB::Open(options, test_db_path_, &db_);
+    auto status = themis::storage::detail::openDbCompat(options, test_db_path_, &db_);
     ASSERT_TRUE(status.ok());
     
     // Test with comma delimiter

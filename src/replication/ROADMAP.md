@@ -17,14 +17,14 @@ Production-capable replication runtime exists for orchestration, promotion/failo
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under sustained replication backpressure (Target: Q4 2026)
-- [ ] expand stress coverage for slot/stream/CDC edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for failover and lag incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior under sustained replication backpressure (Target: Q4 2026)
+- [x] expand stress coverage for slot/stream/CDC edge scenarios (Target: Q4 2026)
+- [x] improve operator-facing diagnostics for failover and lag incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for promotion, conflict, and CDC paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for advanced multi-tier and multi-writer scenarios (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained cross-node replication traffic (Target: Q1 2027)
+- [~] re-baseline p95/p99 envelopes for promotion, conflict, and CDC paths (Target: Q1 2027)
+- [~] broaden benchmark depth for advanced multi-tier and multi-writer scenarios (Target: Q1 2027)
+- [~] harden long-run reliability under sustained cross-node replication traffic (Target: Q1 2027)
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
 
@@ -72,7 +72,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for replication hot paths (Completed 2026-07-29 — bench_replication_release_gates.cpp, RRG-01..RRG-06)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core replication module docs aligned to source-verifiable behavior

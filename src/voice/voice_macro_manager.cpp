@@ -177,19 +177,23 @@ StepResult executeStep(int index,
         case StepType::QUERY: {
             // Substitute bind variables in the AQL template.
             std::string aql = step.action;
-            // Apply step-level parameters first, then runtime overrides.
-            auto apply = [&](const std::map<std::string, std::string>& params) {
-                for (const auto& kv : params) {
-                    std::string token = "@" + kv.first;
-                    size_t pos = 0;
-                    while ((pos = aql.find(token, pos)) != std::string::npos) {
-                        aql.replace(pos,token.size(), kv.second);
-                        pos += kv.second.size();
-                    }
+
+            // Merge parameters with runtime overrides taking precedence over
+            // step defaults. This must happen before substitution so the same key
+            // can still be replaced correctly when both values are present.
+            std::map<std::string, std::string> merged_params = step.parameters;
+            for (const auto& kv : runtime_params) {
+                merged_params[kv.first] = kv.second;
+            }
+
+            for (const auto& kv : merged_params) {
+                std::string token = "@" + kv.first;
+                size_t pos = 0;
+                while ((pos = aql.find(token, pos)) != std::string::npos) {
+                    aql.replace(pos, token.size(), kv.second);
+                    pos += kv.second.size();
                 }
-            };
-            apply(step.parameters);
-            apply(runtime_params);
+            }
             result.output  = "AQL: " + aql;
             result.success = true;
             break;

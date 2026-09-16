@@ -1,5 +1,10 @@
 # RUNBOOK: Replication Lag & Failover Detection and Recovery
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-16
+**Last Updated:** 2026-09-16
+**Status:** active
+
 **Audience:** Database Operators, SREs, Replication Team Lead  
 **Purpose:** Detect and respond to replication lag spikes and failover events  
 **Severity:** Critical (affects data freshness and high-availability)  
@@ -407,7 +412,56 @@ watch-metric --metric replication_lag_p99 --interval 10s
 
 ---
 
-**Runbook Version:** 1.0  
-**Last Updated:** 2026-08-15  
+## Wave D — D1 Distributed Trace Span Cross-Links
+
+> **Wave D Phase 2A dependency:** The trace span annotations below reference the `DistributedTraceSpan`
+> framework planned in `docs/operability/WAVE_D_ROADMAP.md` §2A (WALShipper trace points).
+> Until Phase 2A implementation completes (Target: Q1 2027), the listed span names are reference
+> identifiers for future instrumentation.
+
+### Replication D1 Trace Spans
+
+| Runbook Step | D1 Span Name | Baggage Keys | Notes |
+|---|---|---|---|
+| Lag detection (metric alert) | `lag.detection` | `replica_id`, `lag_us`, `source_region` | Triggered by threshold breach |
+| WAL shipping (normal) | `wal.ship` | `log_sequence_number`, `source_region`, `dest_region`, `bytes` | Child spans per batch |
+| WAL shipping (stall) | `wal.stall` | `stall_reason`, `queue_depth`, `replica_id` | Status `WARN`; linked to lag detection span |
+| Failover decision | `failover.decision` | `from_replica`, `to_replica`, `trigger_reason`, `rpo_ms` | Parent span for full failover |
+| Failover execution | `failover.execute` | `cluster_id`, `strategy`, `batch_index` | Child of decision span |
+| Recovery verification | `failover.recovery_verify` | `lag_after_us`, `catch_up_rate`, `samples` | Linked to failover execution span |
+
+### Querying Trace Spans (Phase 2A onwards)
+
+```bash
+# Trace a lag spike from detection to recovery
+otel-query --service replication --operation wal.stall \
+  --baggage replica_id=<replica> --range 2h --include-children
+
+# Find all failover events in a time range
+otel-query --service replication --operation failover.decision --range 7d
+
+# Cross-reference lag metrics with WAL shipping traces
+otel-metrics-join \
+  --trace-operation wal.ship \
+  --metric replication_lag_p99 --window 30s
+```
+
+### Phase 2A Instrumentation Targets
+
+Once Phase 2A is implemented, add trace points in:
+
+- `src/replication/` `WALShipper::shipToReplica()`: Wrap per-batch shipping in child spans with
+  `log_sequence_number`, `confirmation_count`, and cross-region lag as span attribute quantile
+- Failover detection path: Annotate decision thresholds with trace annotations per
+  `docs/operability/WAVE_D_ROADMAP.md` §2A replication integration items
+
+**Related Wave D documents:**
+- `docs/operability/WAVE_D_ROADMAP.md` §2A — WALShipper trace points
+- `docs/operability/PHASE2A_DISTRIBUTED_TRACING_VERIFICATION.md` — Gate W4A-TRACE-01
+
+---
+
+**Runbook Version:** 1.1  
+**Last Updated:** 2026-09-16  
 **Owner:** Replication Team  
-**Next Review:** 2026-12-15
+**Next Review:** 2027-03-01 (post-Wave D Phase 2A delivery)
