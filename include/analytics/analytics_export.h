@@ -74,6 +74,14 @@ struct ExportResult {
     size_t rows_exported = 0;
     size_t bytes_written = 0;
     double duration_ms = 0.0;
+    /// Stable per-operation identifier for logs, benchmarks, and runbooks.
+    std::string operation_id;
+    /// Correlation identifier propagated across exporter diagnostics for operator triage.
+    std::string correlation_id;
+    /// Canonical failure classification (`none`, `io_failure`, `policy_rejected`, ...).
+    std::string failure_class = "none";
+    /// Operator-facing remediation hints for fail-closed or degraded export outcomes.
+    std::vector<std::string> operator_hints;
 };
 
 /**

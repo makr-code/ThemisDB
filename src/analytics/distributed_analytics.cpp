@@ -79,6 +79,50 @@ using RowValue   = std::variant<std::nullptr_t, bool, int64_t, double, std::stri
 constexpr double EPSILON = 1e-9;
 constexpr int MAX_RETRIES = 3;
 constexpr std::chrono::milliseconds INITIAL_RETRY_DELAY{100};
+std::atomic<uint64_t> g_distributed_operation_counter{0};
+
+std::string nextDistributedOperationId() {
+    return "analytics-distributed-" +
+           std::to_string(g_distributed_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
+}
+
+std::string classifyDistributedFailure(
+        const DistributedAnalyticsSharding::DistributedResult& result) {
+    if (result.total_shards == 0) {
+        return "dependency_unavailable";
+    }
+    if (result.successful_shards == result.total_shards) {
+        return "none";
+    }
+    return "partial_failure";
+}
+
+DistributedAnalyticsSharding::DistributedResult finalizeDistributedResult(
+        DistributedAnalyticsSharding::DistributedResult result,
+        const OLAPQuery& query) {
+    if (result.operation_id.empty()) {
+        result.operation_id = nextDistributedOperationId();
+    }
+    if (result.correlation_id.empty()) {
+        result.correlation_id = result.operation_id;
+    }
+
+    result.failure_class = classifyDistributedFailure(result);
+    if (result.total_shards == 0 && result.operator_hints.empty()) {
+        result.operator_hints.push_back(
+            "No healthy shards were available for this analytics request; verify shard registration and health monitoring.");
+    }
+    if (result.successful_shards < result.total_shards && result.operator_hints.empty()) {
+        result.operator_hints.push_back(
+            "Distributed analytics returned a degraded result; inspect shard diagnostics before trusting aggregate output.");
+    }
+    if (!result.operator_hints.empty()) {
+        result.operator_hints.push_back(
+            "Correlation ID: " + result.correlation_id + " — query collection='" + query.collection +
+            "' tenant='" + query.tenant_id + "'.");
+    }
+    return result;
+}
 
 /**
  * Safe float comparison with epsilon tolerance.
@@ -808,6 +852,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     DistributedResult result;
     result.total_shards = active.size();
     result.shard_info.reserve(active.size());
+    result.operation_id = nextDistributedOperationId();
+    result.correlation_id = result.operation_id;
 
     if (active.empty()) {
         spdlog::warn("DistributedAnalyticsSharding: no healthy shards registered "
@@ -816,7 +862,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         result.total_execution_ms =
             std::chrono::duration<double, std::milli>(
                 std::chrono::steady_clock::now() - t_start).count();
-        return result;
+        return finalizeDistributedResult(std::move(result), query);
     }
 
     // ------------------------------------------------------------------
@@ -1004,10 +1050,14 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                 spdlog::error("DistributedAnalyticsSharding: shard {} failed and "
                               "allow_partial_results=false; aborting merge",
                               info.shard_id);
+                result.operator_hints.push_back(
+                    "Fail-closed distributed analytics policy blocked merge after shard failure; restore shard health before retrying.");
+                result.operator_hints.push_back(
+                    "allow_partial_results=false is active — no partial aggregates will be emitted for this request.");
                 result.total_execution_ms =
                     std::chrono::duration<double, std::milli>(
                         std::chrono::steady_clock::now() - t_start).count();
-                return result;
+                return finalizeDistributedResult(std::move(result), query);
             }
         }
     }
@@ -1036,7 +1086,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             result.total_execution_ms =
                 std::chrono::duration<double, std::milli>(
                     std::chrono::steady_clock::now() - t_start).count();
-            return result;
+            return finalizeDistributedResult(std::move(result), query);
         }
     }
 
@@ -1051,7 +1101,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         result.total_execution_ms =
             std::chrono::duration<double, std::milli>(
                 std::chrono::steady_clock::now() - t_start).count();
-        return result;
+        return finalizeDistributedResult(std::move(result), query);
     }
 
     // ------------------------------------------------------------------
@@ -1134,7 +1184,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                      result.total_execution_ms);
     }
 
-    return result;
+    return finalizeDistributedResult(std::move(result), query);
 }
 
 // ============================================================================

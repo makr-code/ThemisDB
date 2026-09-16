@@ -110,6 +110,74 @@ class Stopwatch {
     std::chrono::steady_clock::time_point start_;
 };
 
+std::atomic<uint64_t> g_ml_serving_operation_counter{0};
+
+std::string nextMlServingOperationId() {
+    return "analytics-ml-serving-" +
+           std::to_string(g_ml_serving_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
+}
+
+std::string classifyServingFailure(const MLServingResponse& response) {
+    switch (response.status) {
+        case MLServingStatus::OK:
+            return "none";
+        case MLServingStatus::UNAVAILABLE:
+            return "dependency_unavailable";
+        case MLServingStatus::INVALID_INPUT:
+            return "input_validation";
+        case MLServingStatus::BACKEND_ERROR:
+            if (response.error_message.find("https://") != std::string::npos
+                || response.error_message.find("insecure transport") != std::string::npos) {
+                return "security_policy";
+            }
+            return "backend_error";
+        case MLServingStatus::TIMEOUT:
+            return "timeout";
+        case MLServingStatus::POLICY_REJECTED:
+            return "policy_rejected";
+    }
+    return "backend_error";
+}
+
+MLServingResponse finalizeServingResponse(MLServingResponse response, const std::string& model_name) {
+    if (response.operation_id.empty()) {
+        response.operation_id = nextMlServingOperationId();
+    }
+    if (response.correlation_id.empty()) {
+        response.correlation_id = response.operation_id;
+    }
+
+    response.failure_class = classifyServingFailure(response);
+    if (response.status == MLServingStatus::OK) {
+        response.operator_hints.clear();
+        return response;
+    }
+
+    if (response.status == MLServingStatus::UNAVAILABLE) {
+        response.operator_hints.push_back(
+            "Verify that the configured serving backend is built, reachable, and has the requested model loaded.");
+    } else if (response.status == MLServingStatus::INVALID_INPUT) {
+        response.operator_hints.push_back(
+            "Validate tensor shapes, feature extraction, and numeric input availability before retrying inference.");
+    } else if (response.status == MLServingStatus::TIMEOUT) {
+        response.operator_hints.push_back(
+            "Increase the serving timeout or reduce model latency before retrying this request.");
+    } else if (response.status == MLServingStatus::POLICY_REJECTED) {
+        response.operator_hints.push_back(
+            "Review max_concurrent_requests and bounded execution limits before re-submitting this inference request.");
+    } else {
+        response.operator_hints.push_back(
+            "Inspect backend logs, TLS settings, and model integrity configuration before retrying inference.");
+    }
+
+    if (!model_name.empty()) {
+        response.operator_hints.push_back("Model: " + model_name);
+    }
+    response.operator_hints.push_back(
+        "Correlation ID: " + response.correlation_id + " — use this value when investigating serving incidents.");
+    return response;
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -676,13 +744,13 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req) {
         MLServingResponse resp;
         resp.status        = MLServingStatus::UNAVAILABLE;
         resp.error_message = "No backend configured";
-        return resp;
+        return finalizeServingResponse(std::move(resp), req.model_name);
     }
     // Apply the per-client default policy when configured (non-zero limits).
     if (impl_->config.default_policy.isConstrained()) {
         return infer(req, impl_->config.default_policy);
     }
-    return impl_->backend->infer(req);
+    return finalizeServingResponse(impl_->backend->infer(req), req.model_name);
 }
 
 MLServingResponse MLServingClient::infer(const MLServingRequest &req,
@@ -691,7 +759,7 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
         MLServingResponse resp;
         resp.status        = MLServingStatus::UNAVAILABLE;
         resp.error_message = "No backend configured";
-        return resp;
+        return finalizeServingResponse(std::move(resp), req.model_name);
     }
 
     // Fast path: no limits declared.
@@ -712,7 +780,7 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                 spdlog::warn("MLServingClient::infer: request rejected by BoundedExecutionPolicy "
                              "(max_concurrent_requests={}, current={})",
                              policy.max_concurrent_requests, concurrent_snapshot);
-                return resp;
+                return finalizeServingResponse(std::move(resp), req.model_name);
             }
             if (impl_->inflight_count.compare_exchange_weak(
                     concurrent_snapshot, concurrent_snapshot + 1, std::memory_order_acq_rel,
@@ -743,12 +811,12 @@ MLServingResponse MLServingClient::infer(const MLServingRequest &req,
                                  + std::to_string(policy.max_latency_ms) + " ms";
             spdlog::warn("MLServingClient::infer: request timed out after {} ms (policy deadline)",
                          policy.max_latency_ms);
-            return resp;
+            return finalizeServingResponse(std::move(resp), req.model_name);
         }
-        return fut.get();
+        return finalizeServingResponse(fut.get(), req.model_name);
     }
 
-    return impl_->backend->infer(req);
+    return finalizeServingResponse(impl_->backend->infer(req), req.model_name);
 }
 
 MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_name, const DataPoint &point,
@@ -775,7 +843,7 @@ MLServingResponse MLServingClient::inferFromDataPoint(const std::string &model_n
         resp.error_message = "DataPoint has no numeric features";
         spdlog::debug("MLServing: buildInferencePayload failed - DataPoint has no numeric features for model '{}'",
                       model_name);
-        return resp;
+        return finalizeServingResponse(std::move(resp), model_name);
     }
 
     MLServingRequest req;

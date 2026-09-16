@@ -11,6 +11,7 @@
 
 #include "analytics/analytics_export.h"
 
+#include <atomic>
 #include <chrono>
 #include <cstring>
 #include <fstream>
@@ -28,6 +29,90 @@
 
 namespace themis {
 namespace analytics {
+
+namespace {
+
+std::atomic<uint64_t> g_export_operation_counter{0};
+
+std::string nextExportOperationId() {
+    return "analytics-export-" +
+           std::to_string(g_export_operation_counter.fetch_add(1, std::memory_order_relaxed) + 1);
+}
+
+std::string classifyExportFailure(const ExportResult& result) {
+    switch (result.status) {
+        case ExportStatus::SUCCESS:
+            return "none";
+        case ExportStatus::PARTIAL:
+            return "partial_failure";
+        case ExportStatus::NOT_SUPPORTED:
+            return "dependency_unavailable";
+        case ExportStatus::POLICY_REJECTED:
+            if (result.message.find("within") != std::string::npos) {
+                return "timeout";
+            }
+            return "policy_rejected";
+        case ExportStatus::FAILED:
+            if (result.message.find("open output file") != std::string::npos
+                || result.message.find("open file") != std::string::npos
+                || result.message.find("Write failed") != std::string::npos
+                || result.message.find("Close failed") != std::string::npos) {
+                return "io_failure";
+            }
+            return "backend_error";
+    }
+    return "backend_error";
+}
+
+ExportResult finalizeExportResult(ExportResult result,
+                                  const std::string& output_path,
+                                  const ExportOptions& options) {
+    if (result.operation_id.empty()) {
+        result.operation_id = nextExportOperationId();
+    }
+    if (result.correlation_id.empty()) {
+        result.correlation_id = result.operation_id;
+    }
+
+    result.failure_class = classifyExportFailure(result);
+    if (result.status == ExportStatus::SUCCESS) {
+        result.operator_hints.clear();
+        return result;
+    }
+    if (!result.operator_hints.empty()) {
+        return result;
+    }
+
+    if (result.status == ExportStatus::POLICY_REJECTED) {
+        result.operator_hints.push_back(
+            "Review the bounded execution limits for this export and retry once concurrent load is reduced.");
+    } else if (result.status == ExportStatus::NOT_SUPPORTED) {
+        result.operator_hints.push_back(
+            "Use a format-specific exporter or rebuild with the required optional export dependency enabled.");
+    } else if (result.failure_class == "io_failure") {
+        result.operator_hints.push_back(
+            "Verify that the export destination exists, is writable, and has sufficient free space.");
+    } else {
+        result.operator_hints.push_back(
+            "Inspect exporter logs and retry only after the underlying export failure has been remediated.");
+    }
+
+    result.operator_hints.push_back(
+        "Correlation ID: " + result.correlation_id + " — use this value when cross-referencing logs and runbooks.");
+    result.operator_hints.push_back(
+        "Target path: " + output_path + " — confirm the configured format and destination policy.");
+
+    if (options.format == ExportFormat::FMT_ARROW_IPC
+        || options.format == ExportFormat::FMT_ARROW_PARQUET
+        || options.format == ExportFormat::FMT_ARROW_FEATHER) {
+        result.operator_hints.push_back(
+            "Arrow-based exports require the optional Arrow toolchain and fail closed when the dependency is unavailable.");
+    }
+
+    return result;
+}
+
+} // namespace
 
 #ifdef THEMIS_HAS_ARROW
 /**
@@ -220,7 +305,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                     result.status  = ExportStatus::NOT_SUPPORTED;
                     result.message = "Arrow/Parquet/Feather export is not supported by JSONCSVExporter. "
                                      "Use ExporterFactory::createExporter(format) to obtain an Arrow exporter.";
-                    return result;
+                    return finalizeExportResult(std::move(result), output_path, options);
                 default: break;
             }
 
@@ -230,7 +315,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to open output file: {}", output_path);
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to open output file: " + output_path;
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             outfile << data;
@@ -250,7 +335,7 @@ class JSONCSVExporter : public IAnalyticsExporter {
         auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
 
-        return result;
+        return finalizeExportResult(std::move(result), output_path, options);
     }
 
     std::string exportToString(const ArrowRecordBatch &batch, const ExportOptions &options) override {
@@ -432,7 +517,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto arrow_batch = arrow_batch_result.ValueOrDie();
 
@@ -441,7 +526,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to open Arrow IPC file: {}", outfile_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to open file: " + outfile_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto outfile = outfile_result.ValueOrDie();
 
@@ -450,7 +535,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to create IPC writer: {}", writer_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to create IPC writer: " + writer_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto writer = writer_result.ValueOrDie();
 
@@ -459,7 +544,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to write Arrow IPC batch: {}", write_status.ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Write failed: " + write_status.ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             auto close_status = writer->Close();
@@ -467,7 +552,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to close Arrow IPC writer: {}", close_status.ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Close failed: " + close_status.ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             result.bytes_written = outfile->Tell().ValueOrDie();
@@ -482,7 +567,7 @@ class ArrowIPCExporter : public IAnalyticsExporter {
 
         auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        return result;
+        return finalizeExportResult(std::move(result), output_path, options);
     }
 
     std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
@@ -648,7 +733,7 @@ class ParquetExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto arrow_batch = arrow_batch_result.ValueOrDie();
 
@@ -657,7 +742,7 @@ class ParquetExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to open Parquet file: {}", outfile_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to open file: " + outfile_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto outfile = outfile_result.ValueOrDie();
 
@@ -688,7 +773,7 @@ class ParquetExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to write Parquet file: {}", write_status.ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Parquet write failed: " + write_status.ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             result.bytes_written = outfile->Tell().ValueOrDie();
@@ -703,7 +788,7 @@ class ParquetExporter : public IAnalyticsExporter {
 
         auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        return result;
+        return finalizeExportResult(std::move(result), output_path, options);
     }
 
     std::string exportToString(const ArrowRecordBatch &, const ExportOptions &) override {
@@ -721,7 +806,7 @@ class ParquetExporter : public IAnalyticsExporter {
         ExportResult result;
         result.status  = ExportStatus::NOT_SUPPORTED;
         result.message = "Parquet streaming export via callback is not supported; use exportToFile().";
-        return result;
+        return finalizeExportResult(std::move(result), "callback://parquet", ExportOptions{.format = ExportFormat::FMT_ARROW_PARQUET});
     }
 
     bool supportsFormat(ExportFormat format) const override {
@@ -758,7 +843,7 @@ class FeatherExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to convert to Arrow RecordBatch: {}", arrow_batch_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Arrow conversion failed: " + arrow_batch_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto arrow_batch = arrow_batch_result.ValueOrDie();
 
@@ -767,7 +852,7 @@ class FeatherExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to open Feather file: {}", outfile_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to open file: " + outfile_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto outfile = outfile_result.ValueOrDie();
 
@@ -776,7 +861,7 @@ class FeatherExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to create Feather writer: {}", writer_result.status().ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Failed to create Feather writer: " + writer_result.status().ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             auto writer = writer_result.ValueOrDie();
 
@@ -785,7 +870,7 @@ class FeatherExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to write Feather batch: {}", write_status.ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Write failed: " + write_status.ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             auto close_status = writer->Close();
@@ -793,7 +878,7 @@ class FeatherExporter : public IAnalyticsExporter {
                 spdlog::error("Failed to close Feather writer: {}", close_status.ToString());
                 result.status  = ExportStatus::FAILED;
                 result.message = "Close failed: " + close_status.ToString();
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
 
             result.bytes_written = outfile->Tell().ValueOrDie();
@@ -808,7 +893,7 @@ class FeatherExporter : public IAnalyticsExporter {
 
         auto end           = std::chrono::high_resolution_clock::now();
         result.duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        return result;
+        return finalizeExportResult(std::move(result), output_path, options);
     }
 
     std::string exportToString(const ArrowRecordBatch &batch, [[maybe_unused]] const ExportOptions &options) override {
@@ -976,7 +1061,7 @@ ExportResult IAnalyticsExporter::exportToFile(
                 spdlog::warn("IAnalyticsExporter::exportToFile: export rejected by "
                              "BoundedExecutionPolicy (max_concurrent_requests={}, current={})",
                              effective_policy.max_concurrent_requests, concurrent_snapshot);
-                return result;
+                return finalizeExportResult(std::move(result), output_path, options);
             }
             if (inflight_export_count_.compare_exchange_weak(
                     concurrent_snapshot, concurrent_snapshot + 1, std::memory_order_acq_rel,
@@ -1008,12 +1093,12 @@ ExportResult IAnalyticsExporter::exportToFile(
                              + std::to_string(effective_policy.max_latency_ms) + " ms";
             spdlog::warn("IAnalyticsExporter::exportToFile: export timed out after {} ms "
                          "(policy deadline)", effective_policy.max_latency_ms);
-            return result;
+            return finalizeExportResult(std::move(result), output_path, options);
         }
-        return fut.get();
+        return finalizeExportResult(fut.get(), output_path, options);
     }
 
-    return exportToFile(batch, output_path, options);
+    return finalizeExportResult(exportToFile(batch, output_path, options), output_path, options);
 }
 
 } // namespace analytics

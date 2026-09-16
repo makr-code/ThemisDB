@@ -275,6 +275,12 @@ public:
         std::vector<ShardExecutionInfo> shard_info;
         size_t successful_shards = 0;
         size_t total_shards = 0;
+        /// Stable per-query identifier for tracing the distributed fan-out / merge lifecycle.
+        std::string operation_id;
+        /// Correlation identifier surfaced to operator tooling and runbooks.
+        std::string correlation_id;
+        /// Canonical failure classification (`none`, `partial_failure`, `dependency_unavailable`, ...).
+        std::string failure_class = "none";
         /// Wall-clock duration of the entire executeDistributed() call in milliseconds.
         double total_execution_ms = 0.0;
         /// Time spent in the result-merge phase only (mergeResults). Excludes scatter/gather.

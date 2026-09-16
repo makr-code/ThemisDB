@@ -123,6 +123,14 @@ struct MLServingResponse {
     std::string           error_message;
     std::vector<MLTensor> outputs;      ///< Named output tensors
     double                latency_ms   = 0.0; ///< End-to-end call latency
+    /// Stable per-request identifier for correlation with logs and runbooks.
+    std::string           operation_id;
+    /// Correlation identifier propagated across serving diagnostics.
+    std::string           correlation_id;
+    /// Canonical failure classification (`none`, `timeout`, `dependency_unavailable`, ...).
+    std::string           failure_class = "none";
+    /// Operator-facing remediation hints for degraded or fail-closed outcomes.
+    std::vector<std::string> operator_hints;
 
     /** Returns true when status == OK. */
     bool ok() const noexcept { return status == MLServingStatus::OK; }
