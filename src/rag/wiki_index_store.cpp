@@ -366,11 +366,17 @@ struct WikiIndexStore::Impl {
             for (std::size_t i = 2; i < cf_handles.size(); ++i) {
                 delete cf_handles[i];
             }
+            cache_db = nullptr;
+            return false;
+        }
+        cache_cf = cf_handles[1];
+        for (std::size_t i = 0; i < cf_handles.size(); ++i) {
+            if (i != 1) {
+                delete cf_handles[i];
+            }
         }
         if (!cache_cf) {
-            for (auto* handle : cf_handles) {
-                delete handle;
-            }
+            cache_db = nullptr;
             return false;
         }
         db_handle.release();

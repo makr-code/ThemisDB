@@ -30,6 +30,10 @@ inputs:
     description: 'Issue body for upsert and/or comment text for comment_issue'
     required: false
     default: ''
+  issue-body-file:
+    description: 'Path to file containing issue body text (preferred for large payloads)'
+    required: false
+    default: ''
   issue-marker:
     description: 'Unique marker to find existing tracker issue in body'
     required: false
@@ -96,6 +100,7 @@ runs:
         INPUT_ISSUE_NUMBER: ${{ inputs.issue-number }}
         INPUT_ISSUE_TITLE: ${{ inputs.issue-title }}
         INPUT_ISSUE_BODY: ${{ inputs.issue-body }}
+        INPUT_ISSUE_BODY_FILE: ${{ inputs.issue-body-file }}
         INPUT_ISSUE_MARKER: ${{ inputs.issue-marker }}
         INPUT_TARGET_TYPE: ${{ inputs.target-type }}
         INPUT_LABELS_TO_ADD: ${{ inputs.labels-to-add }}
@@ -111,11 +116,23 @@ runs:
         script: |
           const owner = context.repo.owner;
           const repo = context.repo.repo;
+          const fs = require('fs');
 
           const op = (process.env.INPUT_OPERATION || '').trim();
           const issueNumberRaw = (process.env.INPUT_ISSUE_NUMBER || '').trim();
           const issueTitle = process.env.INPUT_ISSUE_TITLE || '';
-          const issueBody = process.env.INPUT_ISSUE_BODY || '';
+          const issueBodyFile = (process.env.INPUT_ISSUE_BODY_FILE || '').trim();
+          let issueBody = process.env.INPUT_ISSUE_BODY || '';
+          if (issueBodyFile && issueBody) {
+            core.warning('status-flags-and-issues: both issue-body and issue-body-file were provided; issue-body-file will be used');
+          }
+          if (issueBodyFile) {
+            if (!fs.existsSync(issueBodyFile)) {
+              core.setFailed(`status-flags-and-issues: issue-body-file not found: ${issueBodyFile}`);
+              return;
+            }
+            issueBody = fs.readFileSync(issueBodyFile, 'utf8');
+          }
           const issueMarker = process.env.INPUT_ISSUE_MARKER || '';
           const targetType = (process.env.INPUT_TARGET_TYPE || 'auto').trim().toLowerCase();
           const sourceWorkflow = process.env.INPUT_SOURCE_WORKFLOW || context.workflow;
@@ -410,4 +427,3 @@ runs:
 
           core.setFailed(`status-flags-and-issues: unsupported operation '${op}'`);
           setOutputs();
-
