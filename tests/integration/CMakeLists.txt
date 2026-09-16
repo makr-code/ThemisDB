@@ -710,7 +710,14 @@ foreach(_soak_test IN ITEMS
     test_cache_soak
     test_document_store_soak
     test_chaos_fault_soak
+    test_server_lifecycle_soak
+    test_storage_engine_soak
+    test_tensor_store_soak
+    test_timeseries_store_soak
+    test_scheduler_soak
     test_vector_search_soak
+    test_execution_engine_soak
+    test_process_manager_soak
 )
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_soak_test}.cpp")
         add_integration_test(${_soak_test} ${_soak_test}.cpp)
@@ -747,9 +754,44 @@ foreach(_soak_test IN ITEMS
         if(_soak_test STREQUAL "test_chaos_fault_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
+        # Tensor store soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_tensor_store_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Timeseries store soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_timeseries_store_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Scheduler soak uses in-process stubs and completes in < 2 min
+        # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
+        if(_soak_test STREQUAL "test_scheduler_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
         # Vector search soak uses in-process stubs and completes in < 2 min
         # at the default 60 000 ms THEMIS_SOAK_DURATION_MS; reduce CI timeout.
         if(_soak_test STREQUAL "test_vector_search_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: server lifecycle soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_server_lifecycle_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: storage engine soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_storage_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: execution engine soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_execution_engine_soak")
+            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        endif()
+        # Wave D: process manager soak uses in-process stubs and completes in
+        # < 2 min at the default 60 000 ms THEMIS_SOAK_DURATION_MS.
+        if(_soak_test STREQUAL "test_process_manager_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
     endif()
