@@ -516,12 +516,7 @@ class ErrorAggregator {
     }
 
     errors.sort((a, b) => (b.priorityScore || 0) - (a.priorityScore || 0));
-    const chronicErrors = errors.filter((entry) => (entry.frequency || 0) >= CHRONIC_THRESHOLD);
-    const nonChronic = errors.filter((entry) => (entry.frequency || 0) < CHRONIC_THRESHOLD);
-    const selected = chronicErrors.slice(0, MAX_STATE_ERRORS);
-    if (selected.length < MAX_STATE_ERRORS) {
-      selected.push(...nonChronic.slice(0, MAX_STATE_ERRORS - selected.length));
-    }
+    const selected = errors.slice(0, MAX_STATE_ERRORS);
     return {
       version: 1,
       generated_at: new Date().toISOString(),
