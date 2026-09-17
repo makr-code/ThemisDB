@@ -217,14 +217,37 @@ void AccountLockoutManager::lockAccount(const std::string &user_id, const Lockou
 }
 
 bool AccountLockoutManager::shouldLockAccount(const LockoutInfo &info) const {
-    return info.failed_attempts >= config_.lockout_failed_attempts;
+    const size_t threshold = (config_.lockout_failed_attempts != 5 || config_.max_failures_before_lockout == 5)
+                                ? config_.lockout_failed_attempts
+                                : config_.max_failures_before_lockout;
+    return info.failed_attempts >= threshold;
 }
 
 // ============================================================================
 // AuthRateLimiter Implementation
 // ============================================================================
 
+namespace {
+
+size_t resolveEffectiveLockoutThreshold(const AuthRateLimitConfig &config) {
+    const size_t canonical = config.lockout_failed_attempts;
+    const size_t legacy = config.max_failures_before_lockout;
+
+    // Legacy installs may set the alias while leaving the canonical field at its
+    // default. Prefer the non-default value when the canonical default is still
+    // untouched, otherwise keep the modern field as the source of truth.
+    if (canonical == 5 && legacy != 5) {
+        return legacy;
+    }
+    return canonical;
+}
+
+} // namespace
+
 AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig &config) : config_(config) {
+    config_.lockout_failed_attempts = resolveEffectiveLockoutThreshold(config_);
+    config_.max_failures_before_lockout = config_.lockout_failed_attempts;
+
     // Create IP rate limiter
     server::RateLimitConfig ip_config;
     ip_config.bucket_capacity  = config.max_attempts_per_ip_per_minute;

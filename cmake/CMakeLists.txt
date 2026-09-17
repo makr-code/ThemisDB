@@ -3028,6 +3028,10 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
+    # Observability: distributed trace context and span management (Wave D Phase 2A)
+    ../src/observability/distributed_tracing_sdk.cpp
+    ../src/observability/distributed_trace_span.cpp
+    ../src/observability/trace_instrumentation.cpp
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp
     ../src/observability/log_aggregator.cpp

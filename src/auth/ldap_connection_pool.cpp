@@ -284,6 +284,18 @@ LDAP *LDAPConnectionPool::createConnection() {
     ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
     ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void *>(&timelimit));
 
+    // ldap_init() only allocates the handle; it does not establish a network
+    // socket.  Treat an unreachable or invalid LDAP server as a failed create so
+    // the pool can fail closed instead of returning a handle that will later
+    // appear "healthy" but cannot actually serve requests.
+    const ULONG connect_rc = ldap_connect(ld, nullptr);
+    if (connect_rc != LDAP_SUCCESS) {
+        spdlog::warn("LDAPConnectionPool: ldap_connect failed for server {} (rc={})",
+                     config_.server_url, connect_rc);
+        ldap_unbind(ld);
+        return nullptr;
+    }
+
     if (ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF) != LDAP_SUCCESS) {
         spdlog::error("LDAPConnectionPool: failed to disable referrals on new connection");
         ldap_unbind(ld);

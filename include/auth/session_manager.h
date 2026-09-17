@@ -100,6 +100,13 @@ public:
         bool valid = false;
         std::optional<SessionInfo> session;
         std::string reason; ///< Human-readable reason if !valid
+
+        /// Compatibility shim for historical bool assertions in existing tests.
+        /// The structured API still exposes .valid and .reason, but bool checks
+        /// like EXPECT_TRUE(sm.validateSession(sid)); should continue to work.
+        explicit operator bool() const noexcept {
+            return valid;
+        }
     };
 
     // -----------------------------------------------------------------------
@@ -160,6 +167,18 @@ public:
      * @param session_id Session to remove.  No-op if not found.
      */
     void terminateSession(const std::string& session_id);
+
+    /**
+     * @brief Backward-compatible alias for terminateSession().
+     *
+     * This preserves the historical SessionManager contract used by older tests
+     * and integrations while the canonical API name remains terminateSession().
+     *
+     * @param session_id Session to remove. No-op if not found.
+     */
+    void invalidateSession(const std::string& session_id) {
+        terminateSession(session_id);
+    }
 
     /**
      * @brief Terminate all sessions for a user except the specified one.

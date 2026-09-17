@@ -60,7 +60,11 @@ struct AuthRateLimitConfig {
     size_t max_attempts_per_user_per_minute = 5;
     
     // Account lockout configuration
+    // Compatibility alias for the historical name used by older auth tests.
+    // Prefer lockout_failed_attempts for new code; the effective value resolves
+    // to the non-default legacy alias when it is explicitly set.
     size_t lockout_failed_attempts = 5;        // Lock after N failed attempts
+    size_t max_failures_before_lockout = 5;    // Deprecated alias kept for compatibility
     std::chrono::minutes lockout_window{15};   // Within this time window
     std::chrono::minutes lockout_duration{15}; // Lock for this duration
     

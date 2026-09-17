@@ -230,6 +230,14 @@ void SessionManager::terminateSession(const std::string &session_id) {
 }
 
 // ---------------------------------------------------------------------------
+// Backward-compatibility alias
+// ---------------------------------------------------------------------------
+
+// invalidateSession() is intentionally provided as a compatibility shim to the
+// modern terminateSession() API. The canonical public name remains
+// terminateSession() and is the one used by current code paths.
+
+// ---------------------------------------------------------------------------
 // terminateAllOtherSessions
 // ---------------------------------------------------------------------------
 
