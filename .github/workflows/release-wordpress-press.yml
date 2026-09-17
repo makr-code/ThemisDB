@@ -220,14 +220,15 @@ jobs:
         env:
           POST_STATUS_INPUT: ${{ inputs.post_status || '' }}
           WP_DEFAULT_STATUS: ${{ vars.WP_DEFAULT_STATUS || '' }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           TARGET_STATUS=""
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${POST_STATUS_INPUT:-}" ]; then
+          if [ "${EVENT_NAME}" = "workflow_dispatch" ] && [ -n "${POST_STATUS_INPUT:-}" ]; then
             TARGET_STATUS="${POST_STATUS_INPUT}"
           elif [ -n "${WP_DEFAULT_STATUS:-}" ]; then
             TARGET_STATUS="${WP_DEFAULT_STATUS}"
-          elif [ "${{ github.event_name }}" = "release" ]; then
+          elif [ "${EVENT_NAME}" = "release" ]; then
             TARGET_STATUS="publish"
           else
             TARGET_STATUS="draft"
@@ -249,6 +250,7 @@ jobs:
           import html
           import json
           import os
+          import re
           import urllib.request
           import urllib.error
 
@@ -301,6 +303,14 @@ jobs:
           content_html = fallback_html
           generation_mode = "fallback"
 
+          def sanitize_html_fragment(fragment: str) -> str:
+              value = fragment or ""
+              value = re.sub(r"(?is)<script\\b[^>]*>.*?</script>", "", value)
+              value = re.sub(r"(?is)on[a-z]+\\s*=\\s*(['\"]).*?\\1", "", value)
+              value = re.sub(r"(?is)on[a-z]+\\s*=\\s*[^\\s>]+", "", value)
+              value = re.sub(r"(?is)javascript\\s*:", "", value)
+              return value.strip()
+
           if use_model and token and endpoint:
               prompt_payload = {
                   "repository": ctx.get("repository"),
@@ -341,8 +351,12 @@ jobs:
                   if choices:
                       candidate = ((choices[0].get("message") or {}).get("content") or "").strip()
                   if candidate:
-                      content_html = candidate
-                      generation_mode = "model"
+                      content_html = sanitize_html_fragment(candidate)
+                      if not content_html:
+                          content_html = fallback_html
+                          generation_mode = "fallback"
+                      else:
+                          generation_mode = "model"
               except urllib.error.HTTPError as e:
                   print(f"Model generation HTTP error: {e.code}")
               except Exception as e:
@@ -455,7 +469,7 @@ jobs:
                   update_payload = dict(payload)
                   update_payload.pop("slug", None)
                   update_url = f"{base_url}/wp-json/wp/v2/posts/{post_id}"
-                  _, updated = request_json("POST", update_url, update_payload)
+                  _, updated = request_json("PUT", update_url, update_payload)
                   result["result"] = "updated-existing"
                   result["post_url"] = updated.get("link", "")
                   result["post_status"] = updated.get("status", status)
@@ -483,18 +497,26 @@ jobs:
 
       - name: Write workflow summary
         if: always()
+        env:
+          RELEASE_TAG: ${{ steps.context.outputs.release_tag }}
+          RELEASE_URL: ${{ steps.context.outputs.release_url }}
+          SHOULD_PUBLISH: ${{ steps.context.outputs.should_publish }}
+          STABLE_REASON: ${{ steps.context.outputs.stable_reason }}
+          TARGET_POST_STATUS: ${{ steps.target-status.outputs.status }}
+          PUBLISH_RESULT: ${{ steps.publish.outputs.result }}
+          POST_URL: ${{ steps.publish.outputs.post_url }}
         run: |
           {
             echo "## WordPress Press Release"
             echo ""
-            echo "- Release Tag: \`${{ steps.context.outputs.release_tag }}\`"
-            echo "- Release URL: ${{ steps.context.outputs.release_url || 'n/a' }}"
-            echo "- Stable Gate: \`${{ steps.context.outputs.should_publish }}\` (${{ steps.context.outputs.stable_reason }})"
-            echo "- Target Post Status: \`${{ steps.target-status.outputs.status }}\`"
-            echo "- Publish Result: \`${{ steps.publish.outputs.result || 'not-run' }}\`"
-            echo "- WordPress Post URL: ${{ steps.publish.outputs.post_url || 'n/a' }}"
+            echo "- Release Tag: \`${RELEASE_TAG:-n/a}\`"
+            echo "- Release URL: ${RELEASE_URL:-n/a}"
+            echo "- Stable Gate: \`${SHOULD_PUBLISH:-false}\` (${STABLE_REASON:-n/a})"
+            echo "- Target Post Status: \`${TARGET_POST_STATUS:-n/a}\`"
+            echo "- Publish Result: \`${PUBLISH_RESULT:-not-run}\`"
+            echo "- WordPress Post URL: ${POST_URL:-n/a}"
             echo ""
-            if [ "${{ steps.context.outputs.should_publish }}" != "true" ]; then
+            if [ "${SHOULD_PUBLISH:-false}" != "true" ]; then
               echo "> Press-Mitteilung wurde nicht veroeffentlicht, weil kein stable Release erkannt wurde."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
