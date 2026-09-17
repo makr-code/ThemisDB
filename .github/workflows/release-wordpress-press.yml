@@ -94,20 +94,86 @@ jobs:
             const eventName = context.eventName;
 
             let releaseData;
+            let hasReleaseObject = false;
+            let releaseSource = '';
+
+            async function buildSyntheticDispatchRelease(tagName) {
+              const releaseUrl = `https://github.com/${owner}/${repo}/releases/tag/${encodeURIComponent(tagName)}`;
+              let publishedAt = null;
+              let releaseBody = '';
+
+              try {
+                const tagRef = await github.rest.git.getRef({
+                  owner,
+                  repo,
+                  ref: `tags/${tagName}`,
+                });
+
+                let targetObject = tagRef.data.object || {};
+                if (targetObject.type === 'tag' && targetObject.sha) {
+                  const annotatedTag = await github.rest.git.getTag({
+                    owner,
+                    repo,
+                    tag_sha: targetObject.sha,
+                  });
+                  releaseBody = annotatedTag.data.message || '';
+                  publishedAt = annotatedTag.data.tagger?.date || publishedAt;
+                  targetObject = annotatedTag.data.object || targetObject;
+                }
+
+                if (!publishedAt && targetObject.sha) {
+                  const commit = await github.rest.repos.getCommit({
+                    owner,
+                    repo,
+                    ref: targetObject.sha,
+                  });
+                  publishedAt =
+                    commit.data.commit?.committer?.date ||
+                    commit.data.commit?.author?.date ||
+                    publishedAt;
+                }
+              } catch (err) {
+                core.warning(`Dispatch tag ${tagName} has no GitHub release or reachable git tag metadata: ${err.message}`);
+              }
+
+              return {
+                tag_name: tagName,
+                name: tagName,
+                html_url: releaseUrl,
+                body: releaseBody,
+                published_at: publishedAt,
+                prerelease: !isStableTag(tagName),
+                assets: [],
+              };
+            }
+
             if (eventName === 'release') {
               releaseData = context.payload.release;
+              hasReleaseObject = true;
+              releaseSource = 'event-release';
             } else {
               const dispatchTag = String(process.env.TAG_NAME_INPUT || '').trim();
               if (!dispatchTag) {
                 core.setFailed('workflow_dispatch requires tag_name');
                 return;
               }
-              const resolved = await github.rest.repos.getReleaseByTag({
-                owner,
-                repo,
-                tag: dispatchTag,
-              });
-              releaseData = resolved.data;
+              try {
+                const resolved = await github.rest.repos.getReleaseByTag({
+                  owner,
+                  repo,
+                  tag: dispatchTag,
+                });
+                releaseData = resolved.data;
+                hasReleaseObject = true;
+                releaseSource = 'api-release';
+              } catch (err) {
+                if (err.status !== 404) {
+                  throw err;
+                }
+                core.warning(`Dispatch tag ${dispatchTag} has no GitHub Release object; using synthetic context.`);
+                releaseData = await buildSyntheticDispatchRelease(dispatchTag);
+                releaseSource = 'synthetic-dispatch';
+              }
             }
 
             const tag = String(releaseData.tag_name || '').trim();
@@ -115,9 +181,10 @@ jobs:
             const stableByTag = isStableTag(tag);
             const stableByFlag = releaseData.prerelease !== true;
             const shouldPublish = stableByTag && stableByFlag;
+            const releaseContextNote = hasReleaseObject ? 'release-object' : 'synthetic-context';
             const stableReason = shouldPublish
-              ? 'stable-release'
-              : `non-stable (prerelease=${releaseData.prerelease}, tag=${tag})`;
+              ? (hasReleaseObject ? 'stable-release' : 'stable-tag-without-release-object')
+              : `non-stable (${releaseContextNote}; prerelease=${releaseData.prerelease}, tag=${tag})`;
 
             const slugSafe = tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
             const slug = `themisdb-release-${slugSafe}`;
@@ -219,6 +286,8 @@ jobs:
             core.setOutput('release_tag', tag);
             core.setOutput('release_url', releaseData.html_url || '');
             core.setOutput('slug', slug);
+            core.setOutput('has_release_object', hasReleaseObject ? 'true' : 'false');
+            core.setOutput('release_source', releaseSource);
 
       - name: Resolve target WordPress status
         id: target-status
@@ -394,7 +463,7 @@ jobs:
 
       - name: Publish post to WordPress
         id: publish
-        if: steps.context.outputs.should_publish == 'true' && steps.dry-run.outputs.enabled != 'true'
+        if: steps.context.outputs.should_publish == 'true' && steps.context.outputs.has_release_object == 'true' && steps.dry-run.outputs.enabled != 'true'
         env:
           CONTEXT_PATH: ${{ steps.context.outputs.context_path }}
           POST_PATH: ${{ steps.generate.outputs.post_path }}
@@ -559,6 +628,8 @@ jobs:
           RELEASE_URL: ${{ steps.context.outputs.release_url }}
           SHOULD_PUBLISH: ${{ steps.context.outputs.should_publish }}
           STABLE_REASON: ${{ steps.context.outputs.stable_reason }}
+          HAS_RELEASE_OBJECT: ${{ steps.context.outputs.has_release_object }}
+          RELEASE_SOURCE: ${{ steps.context.outputs.release_source }}
           TARGET_POST_STATUS: ${{ steps.target-status.outputs.status }}
           DRY_RUN_ENABLED: ${{ steps.dry-run.outputs.enabled }}
           PUBLISH_RESULT: ${{ steps.publish.outputs.result }}
@@ -573,6 +644,7 @@ jobs:
             echo "- Release Tag: \`${RELEASE_TAG:-n/a}\`"
             echo "- Release URL: ${RELEASE_URL:-n/a}"
             echo "- Stable Gate: \`${SHOULD_PUBLISH:-false}\` (${STABLE_REASON:-n/a})"
+            echo "- Release Context: \`${RELEASE_SOURCE:-n/a}\` (release object: \`${HAS_RELEASE_OBJECT:-false}\`)"
             echo "- Dry Run: \`${DRY_RUN_ENABLED:-false}\`"
             echo "- Target Post Status: \`${TARGET_POST_STATUS:-n/a}\`"
             echo "- Publish Result: \`${PUBLISH_RESULT:-not-run}\`"
@@ -581,6 +653,15 @@ jobs:
             echo ""
             if [ "${SHOULD_PUBLISH:-false}" != "true" ]; then
               echo "> Press-Mitteilung wurde nicht veroeffentlicht, weil kein stable Release erkannt wurde."
+            elif [ "${HAS_RELEASE_OBJECT:-false}" != "true" ]; then
+              echo "> Es wurde kein GitHub Release-Objekt gefunden. Preview/Dryrun ist erlaubt, Live-Publish bleibt gesperrt."
+              if [ "${DRY_RUN_ENABLED:-false}" = "true" ]; then
+                echo ""
+                echo "### Dryrun Preview"
+                echo "**Titel:** ${PREVIEW_TITLE:-n/a}"
+                echo ""
+                echo "**Auszug:** ${PREVIEW_TEXT:-n/a}"
+              fi
             elif [ "${DRY_RUN_ENABLED:-false}" = "true" ]; then
               echo "> Dryrun aktiv: Es wurde nichts in WordPress geschrieben."
               echo ""
