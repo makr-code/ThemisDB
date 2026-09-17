@@ -71,6 +71,22 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             re.compile(r"brew install[^\n]*\bgoogletest\b"),
         )
 
+    def test_macos_kqueue_lane_retries_without_sccache_on_backend_failure(self) -> None:
+        workflow_text = BUILD_MAINLINE_WORKFLOW.read_text(encoding="utf-8")
+        macos_kqueue_job = extract_yaml_job_block(workflow_text, "macos-kqueue-validation")
+
+        self.assertIn("SCCACHE_FALLBACK_APPLIED=0", macos_kqueue_job)
+        self.assertIn(
+            "grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' \"${build_log}\"",
+            macos_kqueue_job,
+        )
+        self.assertIn(
+            'cmake -S . -B build-macos \\',
+            macos_kqueue_job,
+        )
+        self.assertIn("-DCMAKE_C_COMPILER_LAUNCHER=", macos_kqueue_job)
+        self.assertIn("-DCMAKE_CXX_COMPILER_LAUNCHER=", macos_kqueue_job)
+
     def test_ai_safety_chaos_links_themis_llm_when_available(self) -> None:
         cmake_text = TESTS_CMAKELISTS.read_text(encoding="utf-8")
         ai_safety_chaos_block = extract_cmake_if_block(
