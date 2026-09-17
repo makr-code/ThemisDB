@@ -550,10 +550,6 @@ jobs:
             echo "Missing aggregated error report for chronic issue comment body" >&2
             exit 1
           fi
-          if [ ! -f /tmp/aggregated-error-state.json ]; then
-            echo "Missing /tmp/aggregated-error-state.json for chronic issue comment body" >&2
-            exit 1
-          fi
           {
             echo "## 📋 Chronic Build Error Summary"
             echo
@@ -562,10 +558,6 @@ jobs:
             cat "$COMPACT_FILE"
             echo
             echo "_Full diagnostics available in the [workflow artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})._"
-            echo "<!-- ci-build:error-state:v1 -->"
-            base64 -w 0 /tmp/aggregated-error-state.json
-            echo
-            echo "<!-- /ci-build:error-state:v1 -->"
           } > /tmp/chronic-build-error-comment.md
 
       - name: Append latest chronic build errors as issue comment

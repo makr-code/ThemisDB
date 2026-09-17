@@ -172,6 +172,7 @@ class ErrorAggregator {
     const compiler = finding.compiler || detectCompilerFromContext(finding.message || '', 'unknown');
 
     const loc = resolveModuleAndFile(finding.file || '');
+    if (!loc.inSrc) return;
     const normalized = {
       ...finding,
       type,
