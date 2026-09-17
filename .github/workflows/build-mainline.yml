@@ -223,6 +223,9 @@ jobs:
             ${CXX_LAUNCHER:+$CXX_LAUNCHER} \
             -DOPENSSL_ROOT_DIR="${OPENSSL_ROOT}" \
             -DCMAKE_PREFIX_PATH="${BREW_PREFIX}" \
+            -DCMAKE_EXE_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
+            -DCMAKE_SHARED_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
+            -DCMAKE_MODULE_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
             -DTHEMIS_EDITION=COMMUNITY
