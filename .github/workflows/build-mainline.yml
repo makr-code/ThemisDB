@@ -143,7 +143,7 @@ jobs:
         trap 'rm -f "${BUILD_LOG}"' EXIT;
         set +e;
         cmake --build build --parallel 16 2>&1 | tee "${BUILD_LOG}";
-        BUILD_EXIT="$?";
+        BUILD_EXIT="${PIPESTATUS[0]}";
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
