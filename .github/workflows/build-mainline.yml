@@ -140,9 +140,10 @@ jobs:
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
         set -euo pipefail;
         BUILD_LOG="$(mktemp)";
+        trap 'rm -f "${BUILD_LOG}"' EXIT;
         set +e;
         cmake --build build --parallel 16 2>&1 | tee "${BUILD_LOG}";
-        BUILD_EXIT="${PIPESTATUS[0]}";
+        BUILD_EXIT="$?";
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
@@ -150,8 +151,7 @@ jobs:
           cmake --build build --parallel 16;
         else
           exit "${BUILD_EXIT}";
-        fi;
-        rm -f "${BUILD_LOG}"
+        fi
       validation_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
       artifact_name: ctest-results-${{ github.run_number }}
