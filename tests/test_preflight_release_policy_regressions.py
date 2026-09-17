@@ -72,14 +72,20 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             job_block = extract_yaml_job_block(workflow_text, job_id)
             sync_prefix = "git submodule sync -- "
             update_prefix = "git submodule update --init --depth 1 "
-            sync_paths = []
-            update_paths = []
+            sync_matches = []
+            update_matches = []
 
             for line in job_block.splitlines():
                 if sync_prefix in line:
-                    sync_paths = line.split(sync_prefix, 1)[1].split("||", 1)[0].split()
+                    sync_matches.append(line.split(sync_prefix, 1)[1].split("||", 1)[0].split())
                 if update_prefix in line:
-                    update_paths = line.split(update_prefix, 1)[1].split("||", 1)[0].split()
+                    update_matches.append(line.split(update_prefix, 1)[1].split("||", 1)[0].split())
+
+            self.assertEqual(len(sync_matches), 1, msg=f"expected one sync command for {job_id}")
+            self.assertEqual(len(update_matches), 1, msg=f"expected one update command for {job_id}")
+
+            sync_paths = sync_matches[0]
+            update_paths = update_matches[0]
 
             self.assertEqual(sync_paths, update_paths)
             self.assertTrue(sync_paths)
