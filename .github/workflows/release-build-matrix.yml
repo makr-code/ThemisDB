@@ -16,7 +16,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: release-build-matrix-${{ github.ref }}-${{ github.run_id }}
+  group: release-build-matrix-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
