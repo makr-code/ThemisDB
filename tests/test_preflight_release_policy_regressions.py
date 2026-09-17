@@ -63,14 +63,7 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
 
 
 def extract_shell_path_tokens(command_suffix: str) -> list[str]:
-    return [
-        token
-        for token in command_suffix.split()
-        if token
-        and token != "--"
-        and not token.startswith("-")
-        and not token.isdigit()
-    ]
+    return command_suffix.split()
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
@@ -102,7 +95,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
             self.assertEqual(set(sync_paths), set(update_paths))
             self.assertTrue(sync_paths)
-            self.assertNotIn("llama.cpp", sync_paths)
+            self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in sync_paths))
             self.assertTrue(set(sync_paths).issubset(declared_paths))
 
     def test_macos_kqueue_lane_installs_googletest(self) -> None:
