@@ -246,6 +246,7 @@ jobs:
           MODEL_NAME: ${{ vars.WP_PRESS_MODEL_NAME || 'openai/gpt-4.1-mini' }}
         run: |
           python3 - <<'PY'
+          import html
           import json
           import os
           import urllib.request
@@ -280,18 +281,21 @@ jobs:
               fallback_lines.append("<h3>Wesentliche Aenderungen</h3>")
               fallback_lines.append("<ul>")
               for h in highlights[:8]:
-                  fallback_lines.append(f"  <li>{h}</li>")
+                  fallback_lines.append(f"  <li>{html.escape(h)}</li>")
               fallback_lines.append("</ul>")
           if ctx.get("changelog_section"):
               fallback_lines.append("<h3>Changelog-Auszug</h3>")
-              fallback_lines.append(f"<pre>{ctx['changelog_section']}</pre>")
+              fallback_lines.append(f"<pre>{html.escape(ctx['changelog_section'])}</pre>")
           if assets:
               fallback_lines.append("<h3>Artefakte</h3>")
               fallback_lines.append("<ul>")
               for a in assets[:10]:
-                  fallback_lines.append(f"  <li>{a.get('name','artifact')} ({a.get('size',0)} bytes)</li>")
+                  asset_name = html.escape(str(a.get('name', 'artifact')))
+                  fallback_lines.append(f"  <li>{asset_name} ({a.get('size',0)} bytes)</li>")
               fallback_lines.append("</ul>")
-          fallback_lines.append(f"<p>Alle Details und Downloads: <a href=\"{rel.get('url','')}\">GitHub Release {tag}</a></p>")
+          safe_release_url = html.escape(rel.get('url', ''), quote=True)
+          safe_tag = html.escape(tag)
+          fallback_lines.append(f"<p>Alle Details und Downloads: <a href=\"{safe_release_url}\">GitHub Release {safe_tag}</a></p>")
           fallback_html = "\n".join(fallback_lines)
 
           content_html = fallback_html
@@ -389,6 +393,8 @@ jobs:
               post = json.load(f)
 
           base_url = os.environ["WP_BASE_URL"].rstrip("/")
+          if not base_url.startswith("https://"):
+              raise SystemExit("WP_BASE_URL must use https://")
           user = os.environ["WP_USER"]
           app_password = os.environ["WP_APP_PASSWORD"]
           auth = base64.b64encode(f"{user}:{app_password}".encode("utf-8")).decode("ascii")
