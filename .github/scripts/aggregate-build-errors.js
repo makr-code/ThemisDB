@@ -688,12 +688,14 @@ class ErrorAggregator {
       .slice(0, 5);
 
     const lines = [];
+    const delta = this.delta || { new_errors: [], resolved_errors: [] };
+    const chronicLabel = `Chronic (≥${CHRONIC_THRESHOLD}x)`;
 
     // Compact metrics row
     lines.push(
-      `| Unique | Chronic (≥${CHRONIC_THRESHOLD}x) | Groups | New | Resolved |`,
-      `|--------|--------------------------|--------|-----|----------|`,
-      `| ${stats.total_unique_errors} | ${stats.chronic_errors} | ${stats.module_file_groups} | ${this.delta.new_errors.length} | ${this.delta.resolved_errors.length} |`,
+      `| Unique | ${chronicLabel} | Groups | New | Resolved |`,
+      `|--------|${'-'.repeat(chronicLabel.length + 2)}|--------|-----|----------|`,
+      `| ${stats.total_unique_errors} | ${stats.chronic_errors} | ${stats.module_file_groups} | ${delta.new_errors.length} | ${delta.resolved_errors.length} |`,
       '',
     );
 
@@ -709,8 +711,8 @@ class ErrorAggregator {
 
     // Delta summary (only when previous state exists)
     if (this.previousState) {
-      const newTop = this.delta.new_errors.slice(0, 3);
-      const resolvedTop = this.delta.resolved_errors.slice(0, 3);
+      const newTop = delta.new_errors.slice(0, 3);
+      const resolvedTop = delta.resolved_errors.slice(0, 3);
       if (newTop.length > 0 || resolvedTop.length > 0) {
         lines.push('<details><summary>🔁 Delta vs previous run</summary>', '');
         if (newTop.length > 0) {
@@ -719,8 +721,8 @@ class ErrorAggregator {
             const loc = e.line ? `${e.file}:${e.line}` : e.file;
             lines.push(`- **${e.type}** \`${loc}\` — ${(e.message || 'n/a').slice(0, 100)}`);
           });
-          if (this.delta.new_errors.length > 3) {
-            lines.push(`- _… and ${this.delta.new_errors.length - 3} more_`);
+          if (delta.new_errors.length > 3) {
+            lines.push(`- _… and ${delta.new_errors.length - 3} more_`);
           }
         }
         if (resolvedTop.length > 0) {
@@ -729,8 +731,8 @@ class ErrorAggregator {
             const loc = e.line ? `${e.file}:${e.line}` : e.file;
             lines.push(`- ~~${e.type}~~ \`${loc}\``);
           });
-          if (this.delta.resolved_errors.length > 3) {
-            lines.push(`- _… and ${this.delta.resolved_errors.length - 3} more_`);
+          if (delta.resolved_errors.length > 3) {
+            lines.push(`- _… and ${delta.resolved_errors.length - 3} more_`);
           }
         }
         lines.push('', '</details>', '');
