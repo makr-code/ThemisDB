@@ -146,6 +146,7 @@ jobs:
                 assets: [],
               };
             }
+
             if (eventName === 'release') {
               releaseData = context.payload.release;
               hasReleaseObject = true;
