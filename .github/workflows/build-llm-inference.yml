@@ -458,6 +458,9 @@ jobs:
       - run-adalora-suite
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download all test results
         uses: actions/download-artifact@v4.1.3  # v4.1.3
         with:

@@ -144,6 +144,9 @@ jobs:
     timeout-minutes: 20
     needs: build-distributed-knowledge
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup C++ runtime dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -172,6 +175,9 @@ jobs:
     timeout-minutes: 25
     needs: build-distributed-knowledge
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup C++ runtime dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
