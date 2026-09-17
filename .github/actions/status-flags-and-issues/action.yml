@@ -297,13 +297,15 @@ runs:
                 const maxPrefixAndSuffix = GITHUB_ISSUE_COMMENT_MAX_CHARS
                   - stateBlock.length
                   - overflowNotice.length;
-                const boundedPrefix = prefix.slice(0, Math.max(0, maxPrefixAndSuffix));
+                const preferredPrefixBudget = Math.floor(maxPrefixAndSuffix * 0.7);
+                const boundedPrefix = prefix.slice(0, Math.max(0, preferredPrefixBudget));
                 const suffixBudget = maxPrefixAndSuffix - boundedPrefix.length;
                 const boundedSuffix = suffix.slice(0, Math.max(0, suffixBudget));
                 const preservedStateBody = `${boundedPrefix}${stateBlock}${boundedSuffix}${overflowNotice}`;
                 if (preservedStateBody.length <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
                   return preservedStateBody;
                 }
+                core.warning('status-flags-and-issues: state-preserving truncation exceeded GitHub limit; falling back to plain truncation');
               }
             }
 
