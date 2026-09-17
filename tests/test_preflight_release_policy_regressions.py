@@ -70,18 +70,16 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
         for job_id in ("linux-release", "windows-release"):
             job_block = extract_yaml_job_block(workflow_text, job_id)
-            sync_match = re.search(r"git submodule sync -- (?P<paths>.+?)(?:\s+\|\|.*)?$", job_block, re.MULTILINE)
-            update_match = re.search(
-                r"git submodule update --init --depth 1 (?P<paths>.+?)(?:\s+\|\|.*)?$",
-                job_block,
-                re.MULTILINE,
-            )
+            sync_prefix = "git submodule sync -- "
+            update_prefix = "git submodule update --init --depth 1 "
+            sync_paths = []
+            update_paths = []
 
-            self.assertIsNotNone(sync_match, msg=f"missing sync command for {job_id}")
-            self.assertIsNotNone(update_match, msg=f"missing update command for {job_id}")
-
-            sync_paths = sync_match.group("paths").split()
-            update_paths = update_match.group("paths").split()
+            for line in job_block.splitlines():
+                if sync_prefix in line:
+                    sync_paths = line.split(sync_prefix, 1)[1].split("||", 1)[0].split()
+                if update_prefix in line:
+                    update_paths = line.split(update_prefix, 1)[1].split("||", 1)[0].split()
 
             self.assertEqual(sync_paths, update_paths)
             self.assertTrue(sync_paths)
