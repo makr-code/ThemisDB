@@ -50,6 +50,8 @@ jobs:
       - name: Collect release context
         id: context
         uses: actions/github-script@v7
+        env:
+          TAG_NAME_INPUT: ${{ inputs.tag_name || '' }}
         with:
           script: |
             const fs = require('fs');
@@ -90,7 +92,7 @@ jobs:
             if (eventName === 'release') {
               releaseData = context.payload.release;
             } else {
-              const dispatchTag = `${{ inputs.tag_name || '' }}`.trim();
+              const dispatchTag = String(process.env.TAG_NAME_INPUT || '').trim();
               if (!dispatchTag) {
                 core.setFailed('workflow_dispatch requires tag_name');
                 return;
@@ -237,7 +239,7 @@ jobs:
         env:
           CONTEXT_PATH: ${{ steps.context.outputs.context_path }}
           OUTPUT_PATH: ${{ runner.temp }}/wordpress_press_post.json
-          USE_MODEL: ${{ github.event_name == 'workflow_dispatch' && inputs.use_model || true }}
+          USE_MODEL: ${{ github.event_name != 'workflow_dispatch' || inputs.use_model }}
           MODEL_TOKEN: ${{ secrets.GITHUB_MODELS_TOKEN || secrets.WP_PRESS_MODEL_TOKEN || secrets.GH_MODELS_TOKEN || '' }}
           MODEL_ENDPOINT: ${{ vars.WP_PRESS_MODEL_ENDPOINT || 'https://models.inference.ai.azure.com/chat/completions' }}
           MODEL_NAME: ${{ vars.WP_PRESS_MODEL_NAME || 'openai/gpt-4.1-mini' }}
@@ -422,8 +424,6 @@ jobs:
           query = urllib.parse.urlencode({"slug": slug, "per_page": 1, "_fields": "id,link,status"})
           check_url = f"{base_url}/wp-json/wp/v2/posts?{query}"
           code, existing = request_json("GET", check_url)
-          if code >= 400:
-              raise SystemExit(f"Failed to query existing posts for slug={slug}")
 
           payload = {
               "title": post.get("title", ""),
