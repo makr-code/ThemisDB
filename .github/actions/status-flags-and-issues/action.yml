@@ -296,7 +296,12 @@ runs:
               const reservedWithState = stateBlock.length + suffix.length + overflowNotice.length;
               if (reservedWithState <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
                 const prefixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS - reservedWithState;
-                return `${prefix.slice(0, prefixBudget)}${stateBlock}${suffix}${overflowNotice}`;
+                const suffixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS - stateBlock.length - overflowNotice.length;
+                const boundedSuffix = suffix.slice(0, Math.max(0, suffixBudget));
+                const preservedStateBody = `${prefix.slice(0, prefixBudget)}${stateBlock}${boundedSuffix}${overflowNotice}`;
+                if (preservedStateBody.length <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
+                  return preservedStateBody;
+                }
               }
             }
 
