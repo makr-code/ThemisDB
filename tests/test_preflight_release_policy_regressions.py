@@ -63,7 +63,14 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
 
 
 def extract_shell_path_tokens(command_suffix: str) -> list[str]:
-    return [token for token in command_suffix.split() if token and not token.startswith("-")]
+    return [
+        token
+        for token in command_suffix.split()
+        if token
+        and token != "--"
+        and not token.startswith("-")
+        and not token.isdigit()
+    ]
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
