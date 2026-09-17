@@ -62,7 +62,7 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     raise AssertionError(f"Could not find balanced CMake block for {anchor!r}")
 
 
-def split_command_tokens(command_suffix: str) -> list[str]:
+def parse_submodule_paths(command_suffix: str) -> list[str]:
     return command_suffix.split()
 
 
@@ -77,12 +77,12 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             sync_prefix = "git submodule sync -- "
             update_prefix = "git submodule update --init --depth 1 "
             sync_matches = [
-                split_command_tokens(line.split(sync_prefix, 1)[1].split("||", 1)[0].strip())
+                parse_submodule_paths(line.split(sync_prefix, 1)[1].split("||", 1)[0].strip())
                 for line in job_block.splitlines()
                 if sync_prefix in line
             ]
             update_matches = [
-                split_command_tokens(line.split(update_prefix, 1)[1].split("||", 1)[0].strip())
+                parse_submodule_paths(line.split(update_prefix, 1)[1].split("||", 1)[0].strip())
                 for line in job_block.splitlines()
                 if update_prefix in line
             ]
@@ -93,8 +93,9 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             sync_paths = sync_matches[0]
             update_paths = update_matches[0]
 
-            self.assertEqual(set(sync_paths), set(update_paths))
             self.assertTrue(sync_paths)
+            self.assertTrue(update_paths)
+            self.assertEqual(set(sync_paths), set(update_paths))
             self.assertFalse(any(path == "llama.cpp" or path.endswith("/llama.cpp") for path in sync_paths))
             self.assertTrue(set(sync_paths).issubset(declared_paths))
 
