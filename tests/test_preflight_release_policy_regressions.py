@@ -62,6 +62,10 @@ def extract_cmake_if_block(text: str, anchor: str) -> str:
     raise AssertionError(f"Could not find balanced CMake block for {anchor!r}")
 
 
+def extract_command_tokens(command_suffix: str) -> list[str]:
+    return re.split(r"\s*(?:\|\||&&|;)\s*", command_suffix, maxsplit=1)[0].strip().split()
+
+
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_release_build_matrix_submodule_sync_only_references_declared_paths(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
@@ -73,12 +77,12 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             sync_prefix = "git submodule sync -- "
             update_prefix = "git submodule update --init --depth 1 "
             sync_matches = [
-                line.split(sync_prefix, 1)[1].split("||", 1)[0].strip().split()
+                extract_command_tokens(line.split(sync_prefix, 1)[1])
                 for line in job_block.splitlines()
                 if sync_prefix in line
             ]
             update_matches = [
-                line.split(update_prefix, 1)[1].split("||", 1)[0].strip().split()
+                extract_command_tokens(line.split(update_prefix, 1)[1])
                 for line in job_block.splitlines()
                 if update_prefix in line
             ]
