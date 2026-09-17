@@ -75,6 +75,8 @@ runs:
             clang++)
               if [[ "$c_fallback" =~ ^clang-[0-9]+$ ]]; then
                 echo "$c_fallback"
+              elif [[ "$c_fallback" =~ ^clang\+\+-([0-9]+)$ ]]; then
+                echo "clang-${BASH_REMATCH[1]}"
               else
                 echo "clang"
               fi
@@ -88,8 +90,8 @@ runs:
           esac
         }
 
-        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "")"
-        CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${CC_PKG}")"
+        CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "${{ inputs.cc }}")"
+        CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${{ inputs.cc }}")"
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
         # required for ThemisDB's GPU backend checks in Linux CI and local
         # validation runs that configure the Vulkan-capable build presets.
