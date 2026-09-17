@@ -217,11 +217,14 @@ jobs:
 
       - name: Resolve target WordPress status
         id: target-status
+        env:
+          POST_STATUS_INPUT: ${{ inputs.post_status || '' }}
+          WP_DEFAULT_STATUS: ${{ vars.WP_DEFAULT_STATUS || '' }}
         run: |
           set -euo pipefail
           TARGET_STATUS=""
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.post_status || '' }}" ]; then
-            TARGET_STATUS="${{ inputs.post_status }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${POST_STATUS_INPUT:-}" ]; then
+            TARGET_STATUS="${POST_STATUS_INPUT}"
           elif [ -n "${WP_DEFAULT_STATUS:-}" ]; then
             TARGET_STATUS="${WP_DEFAULT_STATUS}"
           elif [ "${{ github.event_name }}" = "release" ]; then
@@ -230,8 +233,6 @@ jobs:
             TARGET_STATUS="draft"
           fi
           echo "status=${TARGET_STATUS}" >> "$GITHUB_OUTPUT"
-        env:
-          WP_DEFAULT_STATUS: ${{ vars.WP_DEFAULT_STATUS || '' }}
 
       - name: Generate press post content
         id: generate
@@ -417,8 +418,8 @@ jobs:
                   with urllib.request.urlopen(req, timeout=45) as resp:
                       return resp.getcode(), json.loads(resp.read().decode("utf-8", errors="ignore"))
               except urllib.error.HTTPError as e:
-                  body = e.read().decode("utf-8", errors="ignore")
-                  print(f"WordPress API error HTTP {e.code}: {body[:2000]}")
+                  _ = e.read()
+                  print(f"WordPress API error HTTP {e.code}")
                   raise
 
           query = urllib.parse.urlencode({"slug": slug, "per_page": 1, "_fields": "id,link,status"})
@@ -445,8 +446,10 @@ jobs:
                   result["result"] = "skipped-existing"
                   result["post_url"] = existing[0].get("link", "")
               else:
+                  update_payload = dict(payload)
+                  update_payload.pop("slug", None)
                   update_url = f"{base_url}/wp-json/wp/v2/posts/{post_id}"
-                  _, updated = request_json("POST", update_url, payload)
+                  _, updated = request_json("POST", update_url, update_payload)
                   result["result"] = "updated-existing"
                   result["post_url"] = updated.get("link", "")
                   result["post_status"] = updated.get("status", status)
@@ -459,6 +462,8 @@ jobs:
               result["post_status"] = created.get("status", status)
 
           output_file = os.environ.get("GITHUB_OUTPUT")
+          if not output_file:
+              raise SystemExit("GITHUB_OUTPUT not set")
           with open(output_file, "a", encoding="utf-8") as out:
               out.write(f"result={result['result']}\n")
               out.write(f"post_id={result['post_id']}\n")
