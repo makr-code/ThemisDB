@@ -47,7 +47,6 @@ if(THEMIS_COMPILER_CACHE_EXECUTABLE)
             RESULT_VARIABLE _themis_cache_launcher_probe_result
             OUTPUT_QUIET
             ERROR_VARIABLE _themis_cache_launcher_probe_error
-            OUTPUT_STRIP_TRAILING_WHITESPACE
             ERROR_STRIP_TRAILING_WHITESPACE
         )
         if(NOT _themis_cache_launcher_probe_result EQUAL 0)
