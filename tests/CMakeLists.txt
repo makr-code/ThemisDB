@@ -2261,7 +2261,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp")
 
     target_link_libraries(module_build_test_build_info_focused PRIVATE
         ${TEST_LIBS}
-        themis_core
+        $<$<TARGET_EXISTS:themis_core>:themis_core>
         Threads::Threads
     )
 
