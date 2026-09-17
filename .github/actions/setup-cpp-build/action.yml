@@ -92,6 +92,10 @@ runs:
 
         CC_PKG="$(normalize_compiler_pkg "${{ inputs.cc }}" "")"
         CXX_PKG="$(normalize_compiler_pkg "${{ inputs.cxx }}" "${{ inputs.cc }}")"
+        if [ -z "${CC_PKG}" ] || [ -z "${CXX_PKG}" ]; then
+          echo "::error::Compiler package normalization produced empty value (cc='${{ inputs.cc }}', cxx='${{ inputs.cxx }}')."
+          exit 1
+        fi
         # Base packages required by every C++ CI job. Vulkan/GLSL tooling is
         # required for ThemisDB's GPU backend checks in Linux CI and local
         # validation runs that configure the Vulkan-capable build presets.
