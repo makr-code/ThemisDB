@@ -294,7 +294,7 @@ runs:
               const stateBlock = commentBody.slice(stateStartIndex, stateBlockEnd);
               const suffix = commentBody.slice(stateBlockEnd);
               const reservedWithState = stateBlock.length + suffix.length + overflowNotice.length;
-              if (reservedWithState < GITHUB_ISSUE_COMMENT_MAX_CHARS) {
+              if (reservedWithState <= GITHUB_ISSUE_COMMENT_MAX_CHARS) {
                 const prefixBudget = GITHUB_ISSUE_COMMENT_MAX_CHARS - reservedWithState;
                 return `${prefix.slice(0, prefixBudget)}${stateBlock}${suffix}${overflowNotice}`;
               }
