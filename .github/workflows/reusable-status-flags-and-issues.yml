@@ -109,6 +109,9 @@ jobs:
       applied-labels: ${{ steps.status.outputs.applied-labels }}
       removed-labels: ${{ steps.status.outputs.removed-labels }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Execute status operation
         id: status
         uses: ./.github/actions/status-flags-and-issues
