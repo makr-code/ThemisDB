@@ -580,17 +580,18 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     TRACE_SCOPE_AI("ai.plugin.generate");
     // Start event fires immediately after span creation — before validation — so trace
     // reflects the actual span start time, consistent with executeInfer/executeRAG.
-    TRACE_EVENT("ai.plugin.generate.start",
-                {{"ai.plugin_type",    pluginTypeToTraceStr(prompt.type)},
-                 {"ai.security_level", securityLevelToTraceStr(prompt.security_level)},
-                 {"ai.llm_model",      llmModelToTraceStr(prompt.llm_model)}});
+    themis::observability::recordTraceEvent("ai.plugin.generate.start",
+                                           {{"ai.plugin_type", pluginTypeToTraceStr(prompt.type)},
+                                            {"ai.security_level", securityLevelToTraceStr(prompt.security_level)},
+                                            {"ai.llm_model", llmModelToTraceStr(prompt.llm_model)}});
 
     // 1. Validate inputs first.
     auto vr = validatePrompt(prompt);
     if (!vr) {
         ++stat_validation_errors_;
-        TRACE_EVENT("ai.plugin.generate.validation_error",
-                    {{"ai.error.type", "validation"}, {"ai.error.message", vr.error().message()}});
+        themis::observability::recordTraceEvent("ai.plugin.generate.validation_error",
+                               {{"ai.error.type", "validation"},
+                            {"ai.error.message", vr.error().message()}});
         return tl::unexpected(vr.error());
     }
 
@@ -713,19 +714,21 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     if (!endpoint_result) {
         if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             ++stat_http_errors_;
-            TRACE_EVENT("ai.plugin.generate.http_error",
-                        {{"ai.error.type", "http"}, {"ai.error.message", endpoint_result.error().message()}});
+            themis::observability::recordTraceEvent("ai.plugin.generate.http_error",
+                                                   {{"ai.error.type", "http"},
+                                                    {"ai.error.message", endpoint_result.error().message()}});
         } else {
             ++stat_transport_errors_;
-            TRACE_EVENT("ai.plugin.generate.transport_error",
-                        {{"ai.error.type", "transport"}, {"ai.error.message", endpoint_result.error().message()}});
+            themis::observability::recordTraceEvent("ai.plugin.generate.transport_error",
+                                                   {{"ai.error.type", "transport"},
+                                                    {"ai.error.message", endpoint_result.error().message()}});
         }
         return tl::unexpected(endpoint_result.error());
     }
     if (endpoint_result.value().size() > config_.max_response_body_bytes) {
         ++stat_http_errors_;
-        TRACE_EVENT("ai.plugin.generate.http_error",
-                    {{"ai.error.type", "response_too_large"}});
+        themis::observability::recordTraceEvent("ai.plugin.generate.http_error",
+                               {{"ai.error.type", "response_too_large"}});
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: endpoint response exceeds configured response size limit"));
@@ -926,11 +929,12 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     ++stat_successes_;
-    TRACE_EVENT("ai.plugin.generate.success",
-                {{"ai.generated.name", generated.manifest.name},
-                 {"ai.generated.version", generated.manifest.version},
-                 {"ai.generated.passed_security_checks",
-                  generated.passed_security_checks ? std::string("true") : std::string("false")}});
+    themis::observability::recordTraceEvent("ai.plugin.generate.success",
+                                           {{"ai.generated.name", generated.manifest.name},
+                                            {"ai.generated.version", generated.manifest.version},
+                                            {"ai.generated.passed_security_checks",
+                                             generated.passed_security_checks ? std::string("true")
+                                                                             : std::string("false")}});
     return generated;
 }
 

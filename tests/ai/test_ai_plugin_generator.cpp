@@ -139,7 +139,7 @@ TEST(AIPluginGeneratorTest, APG02_ValidatePromptEmptyDescriptionFails) {
     PluginGenerationPrompt p = validPrompt();
     p.description = "";
     auto result = gen.validatePrompt(p);
-    EXPECT_FALSE(result.has_value()) << "Empty description should produce an error";
+    ASSERT_FALSE(result.has_value()) << "Empty description should produce an error";
     EXPECT_FALSE(result.error().message().empty());
 }
 

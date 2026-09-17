@@ -27,6 +27,7 @@
 #include <unordered_set>
 #include <algorithm>
 #include <chrono>
+#include <iostream>
 
 namespace themis {
 
@@ -414,19 +415,35 @@ std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 	if (!db_.isOpen()) return {Status::Error("outNeighbors: Datenbank ist nicht geöffnet"), {}};
 
-	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
-		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-		std::vector<std::string> result;
-		auto it = outEdges_.find(std::string(fromPk));
-		if (it != outEdges_.end()) {
-			result.reserve(it->second.size());
-			for (const auto& adj : it->second) {
-				result.push_back(adj.targetPk);
+		{
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = outEdges_.find(std::string(fromPk));
+			if (it != outEdges_.end() && !it->second.empty()) {
+				std::vector<std::string> result;
+				result.reserve(it->second.size());
+				for (const auto& adj : it->second) {
+					result.push_back(adj.targetPk);
+				}
+				return {Status::OK(), std::move(result)};
 			}
 		}
-		return {Status::OK(), std::move(result)};
+
+		// Topology may be stale or partially populated after a mutation. Repair from
+		// RocksDB before deciding the node has no outgoing edges.
+		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
+		if (rebuild.ok) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = outEdges_.find(std::string(fromPk));
+			if (it != outEdges_.end() && !it->second.empty()) {
+				std::vector<std::string> result;
+				result.reserve(it->second.size());
+				for (const auto& adj : it->second) {
+					result.push_back(adj.targetPk);
+				}
+				return {Status::OK(), std::move(result)};
+			}
+		}
 	}
 
 	// Fallback to RocksDB scan (O(log N))
@@ -449,19 +466,33 @@ std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::inNeighbors(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inNeighbors: Datenbank ist nicht geöffnet"), {}};
 
-	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
-		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-		std::vector<std::string> result;
-		auto it = inEdges_.find(std::string(toPk));
-		if (it != inEdges_.end()) {
-			result.reserve(it->second.size());
-			for (const auto& adj : it->second) {
-				result.push_back(adj.targetPk);
+		{
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = inEdges_.find(std::string(toPk));
+			if (it != inEdges_.end() && !it->second.empty()) {
+				std::vector<std::string> result;
+				result.reserve(it->second.size());
+				for (const auto& adj : it->second) {
+					result.push_back(adj.targetPk);
+				}
+				return {Status::OK(), std::move(result)};
 			}
 		}
-		return {Status::OK(), std::move(result)};
+
+		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
+		if (rebuild.ok) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = inEdges_.find(std::string(toPk));
+			if (it != inEdges_.end() && !it->second.empty()) {
+				std::vector<std::string> result;
+				result.reserve(it->second.size());
+				for (const auto& adj : it->second) {
+					result.push_back(adj.targetPk);
+				}
+				return {Status::OK(), std::move(result)};
+			}
+		}
 	}
 
 	// Fallback to RocksDB scan (O(log N))
@@ -478,16 +509,23 @@ std::pair<GraphIndexManager::Status, std::vector<GraphIndexManager::AdjacencyInf
 GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 	if (!db_.isOpen()) return {Status::Error("outAdjacency: Datenbank ist nicht geöffnet"), {}};
 
-	// In-Memory schnellpfad
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
-		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-		std::vector<AdjacencyInfo> result;
-		auto it = outEdges_.find(std::string(fromPk));
-		if (it != outEdges_.end()) {
-			result = it->second; // Kopie bewusst
+		{
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = outEdges_.find(std::string(fromPk));
+			if (it != outEdges_.end() && !it->second.empty()) {
+				return {Status::OK(), it->second};
+			}
 		}
-		return {Status::OK(), std::move(result)};
+
+		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
+		if (rebuild.ok) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = outEdges_.find(std::string(fromPk));
+			if (it != outEdges_.end() && !it->second.empty()) {
+				return {Status::OK(), it->second};
+			}
+		}
 	}
 
 	// Fallback: RocksDB-Scan – EdgeId aus Key extrahieren
@@ -510,14 +548,22 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inAdjacency: Datenbank ist nicht geöffnet"), {}};
 
 	if (topologyLoaded_.load(std::memory_order_acquire)) {
-		// LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
-		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-		std::vector<AdjacencyInfo> result;
-		auto it = inEdges_.find(std::string(toPk));
-		if (it != inEdges_.end()) {
-			result = it->second; // Kopie bewusst (edgeId, fromPk)
+		{
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = inEdges_.find(std::string(toPk));
+			if (it != inEdges_.end() && !it->second.empty()) {
+				return {Status::OK(), it->second};
+			}
 		}
-		return {Status::OK(), std::move(result)};
+
+		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
+		if (rebuild.ok) {
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+			auto it = inEdges_.find(std::string(toPk));
+			if (it != inEdges_.end() && !it->second.empty()) {
+				return {Status::OK(), it->second};
+			}
+		}
 	}
 
 	// Fallback: RocksDB-Scan – EdgeId aus Key extrahieren
@@ -543,8 +589,39 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 	if (maxDepth < 0) return {Status::Error("bfs: maxDepth muss >= 0 sein"), {}};
 
 	auto all_vertices = getAllVertices();
+	if (all_vertices.empty() && !topologyLoaded_.load(std::memory_order_acquire)) {
+		const auto rebuild = const_cast<GraphIndexManager*>(this)->rebuildTopology();
+		if (rebuild.ok) {
+			all_vertices = getAllVertices();
+		}
+	}
 	if (std::find(all_vertices.begin(), all_vertices.end(), std::string(startPk)) == all_vertices.end()) {
-		return {Status::Error("bfs: Start node not found"), {}};
+		// Fallback: scan the underlying graph keys directly so a stale or unloaded
+		// topology never turns a valid persisted vertex into a false "Start node not found".
+		std::unordered_set<std::string> seen;
+		db_.scanPrefix("graph:out:", [&seen](std::string_view key, std::string_view /*val*/) {
+			std::string graphId, fromPk, edgeId;
+			if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
+				return true;
+			}
+			if (!fromPk.empty()) {
+				seen.insert(fromPk);
+			}
+			return true;
+		});
+		db_.scanPrefix("graph:in:", [&seen](std::string_view key, std::string_view /*val*/) {
+			std::string graphId, toPk, edgeId;
+			if (!parseInKey_(key, graphId, toPk, edgeId)) {
+				return true;
+			}
+			if (!toPk.empty()) {
+				seen.insert(toPk);
+			}
+			return true;
+		});
+		if (seen.find(std::string(startPk)) == seen.end()) {
+			return {Status::Error("bfs: Start node not found"), {}};
+		}
 	}
 
 	std::vector<std::string> order;
@@ -799,7 +876,6 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	// W5: Update members only after scan completes; preserve atomic topologyLoaded_ behavior
 	outEdges_ = std::move(local_out_edges);
 	inEdges_ = std::move(local_in_edges);
-
 	topologyLoaded_.store(true, std::memory_order_release);
 	return Status::OK();
 }
@@ -884,49 +960,23 @@ GraphIndexManager::allVertices() const {
 	std::unordered_set<std::string> seen;
 	constexpr std::string_view kOutPrefix = "graph:out:";
 	constexpr std::string_view kInPrefix  = "graph:in:";
-	db_.scanPrefix(std::string(kOutPrefix), [&seen, kOutPrefix](std::string_view key, std::string_view /*val*/) {
-		// key format: "graph:out:<fromPk>:<edgeId>"
-		//          or "graph:out:<graphId>:<fromPk>:<edgeId>"
-		// We want fromPk. Use the same logic as parseOutKey_:
-		//   strip "graph:out:" prefix, then split on ':'
-		const std::string_view tail = key.substr(kOutPrefix.size());
-		const size_t first = tail.find(':');
-		if (first == std::string_view::npos) {
-		  return true;
-		}
-		const size_t last  = tail.rfind(':');
-		std::string fromPk = {};
-		if (last == first) {
-			// LEGACY PATH (requires human approval — INDEX-AUD-GI-03): pre-v2.0 key format without graphId segment
-			// Reason: RocksDB keys written before v2.0 lack the graphId segment; must read both formats.
-			// Activation: key parsing when last==first (no graphId separator present).
-			// Primary Delta: v2.0+ keys include graphId; old keys do not.
-			// Approved By: Index module maintainer — pre-existing legacy compat path (INDEX-AUD-GI-03)
-			// Removal Target: v2.6.0 (after full data migration to v2.0+ key schema)
-			fromPk = std::string(tail.substr(0, first));
-		} else {
-			fromPk = std::string(tail.substr(first + 1, last - first - 1));
+	db_.scanPrefix(std::string(kOutPrefix), [&seen](std::string_view key, std::string_view /*val*/) {
+		std::string graphId, fromPk, edgeId;
+		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
+			return true;
 		}
 		if (!fromPk.empty()) {
-		  seen.insert(std::move(fromPk));
+			seen.insert(fromPk);
 		}
 		return true;
 	});
-	db_.scanPrefix(std::string(kInPrefix), [&seen, kInPrefix](std::string_view key, std::string_view /*val*/) {
-		const std::string_view tail = key.substr(kInPrefix.size());
-		const size_t first = tail.find(':');
-		if (first == std::string_view::npos) {
-		  return true;
-		}
-		const size_t last  = tail.rfind(':');
-		std::string toPk = {};
-		if (last == first) {
-			toPk = std::string(tail.substr(0, first));
-		} else {
-			toPk = std::string(tail.substr(first + 1, last - first - 1));
+	db_.scanPrefix(std::string(kInPrefix), [&seen](std::string_view key, std::string_view /*val*/) {
+		std::string graphId, toPk, edgeId;
+		if (!parseInKey_(key, graphId, toPk, edgeId)) {
+			return true;
 		}
 		if (!toPk.empty()) {
-		  seen.insert(std::move(toPk));
+			seen.insert(toPk);
 		}
 		return true;
 	});
@@ -944,17 +994,45 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 }
 
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
- // LOCK: Tier 1 (Global topology protection, read-only) — Phase 3 A-5
-	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
-	std::unordered_set<std::string> nodes = {};
+	{
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
+		if (topologyLoaded_.load(std::memory_order_acquire)) {
+			std::unordered_set<std::string> nodes = {};
+			for (const auto& [node, _] : outEdges_) {
+			  nodes.insert(node);
+			}
+			for (const auto& [node, _] : inEdges_) {
+			  nodes.insert(node);
+			}
+			return {nodes.begin(), nodes.end()};
+		}
+	}
 
-	for (const auto& [node, _] : outEdges_) {
-	  nodes.insert(node);
-	}
-	for (const auto& [node, _] : inEdges_) {
-	  nodes.insert(node);
-	}
-	return {nodes.begin(), nodes.end()};
+	// Topology can be unloaded or stale even though the keys are still present in
+	// RocksDB. Fall back to the persisted adjacency index instead of returning an
+	// empty vertex set and incorrectly reporting the start node as missing.
+	std::unordered_set<std::string> seen;
+	db_.scanPrefix("graph:out:", [&seen](std::string_view key, std::string_view /*val*/) {
+		std::string graphId, fromPk, edgeId;
+		if (!parseOutKey_(key, graphId, fromPk, edgeId)) {
+			return true;
+		}
+		if (!fromPk.empty()) {
+			seen.insert(fromPk);
+		}
+		return true;
+	});
+	db_.scanPrefix("graph:in:", [&seen](std::string_view key, std::string_view /*val*/) {
+		std::string graphId, toPk, edgeId;
+		if (!parseInKey_(key, graphId, toPk, edgeId)) {
+			return true;
+		}
+		if (!toPk.empty()) {
+			seen.insert(toPk);
+		}
+		return true;
+	});
+	return {seen.begin(), seen.end()};
 }
 
 // ────────────────────────────────────────────────────────────────────────────

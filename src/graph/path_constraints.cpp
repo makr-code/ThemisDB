@@ -354,10 +354,30 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
                          "GraphIndexManager not set. Call setGraphManager() first.");
     }
 
+    // Refresh the topology once before traversal so path search does not rely on
+    // a stale in-memory adjacency cache when the persisted graph has already changed.
+    (void)graph_mgr_->rebuildTopology();
+
+    auto loadAdjacency = [&](std::string_view node) {
+        auto [status, adjacency] = graph_mgr_->outAdjacency(node);
+        if (status.ok && !adjacency.empty()) {
+            return std::pair{status, std::move(adjacency)};
+        }
+
+        const auto rebuild = graph_mgr_->rebuildTopology();
+        if (rebuild.ok) {
+            return graph_mgr_->outAdjacency(node);
+        }
+
+        return std::pair{status, std::move(adjacency)};
+    };
+
     // Validate start/end node identifiers
     if (!isValidIdentifier(start_node)) {
         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid start node identifier");
     }
+
+    auto initial_adj = loadAdjacency(start_node);
     if (!isValidIdentifier(end_node)) {
         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED, "Invalid end node identifier");
     }
@@ -489,12 +509,14 @@ PathConstraints::findConstrainedPaths(std::string_view start_node, std::string_v
         }
 
         // Check max length constraint (early termination)
+        // A path whose length is exactly equal to the maximum is still valid and
+        // must be allowed to reach the target for final validation.
         if (max_length > 0 && current.nodes.size() >= static_cast<size_t>(max_length)) {
             continue; // Path already at max length
         }
 
         // Get neighbors
-        auto [status, adjacency] = graph_mgr_->outAdjacency(current_node);
+        auto [status, adjacency] = loadAdjacency(current_node);
         if (!status.ok) {
             continue; // Skip nodes with no neighbors or errors
         }

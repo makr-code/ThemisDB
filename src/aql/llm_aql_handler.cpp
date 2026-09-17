@@ -770,8 +770,8 @@ std::string LLMAQLHandler::executeInfer(const std::string &prompt, const std::st
                                         const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the LLM inference pipeline ---
     TRACE_SCOPE_AI("llm.infer");
-    TRACE_EVENT("llm.infer.start",
-                {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
+    themis::observability::recordTraceEvent("llm.infer.start",
+                                           {{"llm.model_id", model_id}, {"llm.lora_id", lora_id}});
 
     auto start_time = std::chrono::steady_clock::now();
     auto &metrics   = LLMMetricsCollector::instance();
@@ -1091,10 +1091,10 @@ std::string LLMAQLHandler::executeRAG(const std::string &query, const std::strin
                                       const std::unordered_map<std::string, std::string> &options) {
     // --- Wave D D2: OTel span for the RAG pipeline ---
     TRACE_SCOPE_AI("llm.rag");
-    TRACE_EVENT("llm.rag.start",
-                {{"llm.collection", collection},
-                 {"llm.top_k", std::to_string(top_k)},
-                 {"llm.lora_id", lora_id}});
+    themis::observability::recordTraceEvent("llm.rag.start",
+                                           {{"llm.collection", collection},
+                                            {"llm.top_k", std::to_string(top_k)},
+                                            {"llm.lora_id", lora_id}});
 
     auto start_time       = std::chrono::steady_clock::now();
     auto &metrics         = LLMMetricsCollector::instance();

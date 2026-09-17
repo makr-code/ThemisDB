@@ -145,9 +145,9 @@ private:
  * @note Overhead is ~1 µs per span creation (well within 2% budget for typical operations).
  */
 #define TRACE_SCOPE_COORDINATOR(operation_name, parent_context) \
-    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
+    auto _trace_span_##__LINE__ = std::make_shared<themis::observability::DistributedTraceSpan>( \
         operation_name, parent_context); \
-    TraceContextGuard _trace_guard_##__LINE__( \
+    themis::observability::TraceContextGuard _trace_guard_##__LINE__( \
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
 
@@ -169,9 +169,9 @@ private:
  * @param operation_name Human-readable operation name (e.g., "route_query").
  */
 #define TRACE_SCOPE_SHARD_ROUTER(operation_name) \
-    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
-        operation_name, getCurrentTraceContext()); \
-    TraceContextGuard _trace_guard_##__LINE__( \
+    auto _trace_span_##__LINE__ = std::make_shared<themis::observability::DistributedTraceSpan>( \
+        operation_name, themis::observability::getCurrentTraceContext()); \
+    themis::observability::TraceContextGuard _trace_guard_##__LINE__( \
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
 
@@ -193,11 +193,23 @@ private:
  * @param operation_name Human-readable operation name (e.g., "ship_segment").
  */
 #define TRACE_SCOPE_WAL_SHIPPER(operation_name) \
-    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
-        operation_name, getCurrentTraceContext()); \
-    TraceContextGuard _trace_guard_##__LINE__( \
+    auto _trace_span_##__LINE__ = std::make_shared<themis::observability::DistributedTraceSpan>( \
+        operation_name, themis::observability::getCurrentTraceContext()); \
+    themis::observability::TraceContextGuard _trace_guard_##__LINE__( \
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
+
+inline void recordTraceEvent(std::string_view event_name,
+                             std::initializer_list<std::pair<std::string, std::string>> attrs = {}) {
+    auto* span = getCurrentSpan();
+    if (span) {
+        std::map<std::string, std::string> attributes;
+        for (const auto& [key, value] : attrs) {
+            attributes.emplace(key, value);
+        }
+        span->addEvent(std::string(event_name), attributes);
+    }
+}
 
 /**
  * @brief Record a tracing event with optional attributes.
@@ -218,11 +230,11 @@ private:
  * @note Silently ignored if no span is currently active.
  * @note Overhead is ~100 ns per event (negligible impact on p99 latency).
  */
-#define TRACE_EVENT(event_name, attrs) \
+#define TRACE_EVENT(event_name, ...) \
     do { \
-        auto* _span = getCurrentSpan(); \
+        auto* _span = themis::observability::getCurrentSpan(); \
         if (_span) { \
-            _span->addEvent((event_name), (attrs)); \
+            _span->addEvent((event_name) __VA_OPT__(,) __VA_ARGS__); \
         } \
     } while (0)
 
@@ -248,7 +260,7 @@ private:
  */
 #define TRACE_BAGGAGE(key, value) \
     do { \
-        auto* _span = getCurrentSpan(); \
+        auto* _span = themis::observability::getCurrentSpan(); \
         if (_span) { \
             _span->addBaggage((key), (value)); \
         } \
@@ -275,7 +287,7 @@ private:
  */
 #define TRACE_SET_STATUS(status, ...) \
     do { \
-        auto* _span = getCurrentSpan(); \
+        auto* _span = themis::observability::getCurrentSpan(); \
         if (_span) { \
             _span->setStatus((status), ##__VA_ARGS__); \
         } \
@@ -320,9 +332,9 @@ private:
  * @see src/ai/WAVE_D_ROADMAP.md — D2: Observability Expansion.
  */
 #define TRACE_SCOPE_AI(operation_name) \
-    auto _trace_span_##__LINE__ = std::make_shared<DistributedTraceSpan>( \
-        operation_name, getCurrentTraceContext()); \
-    TraceContextGuard _trace_guard_##__LINE__( \
+    auto _trace_span_##__LINE__ = std::make_shared<themis::observability::DistributedTraceSpan>( \
+        operation_name, themis::observability::getCurrentTraceContext()); \
+    themis::observability::TraceContextGuard _trace_guard_##__LINE__( \
         _trace_span_##__LINE__.get(), \
         _trace_span_##__LINE__->childContext(operation_name));
 

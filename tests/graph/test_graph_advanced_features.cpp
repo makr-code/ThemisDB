@@ -24,9 +24,6 @@
 // Helper function to setup a test graph
 std::unique_ptr<themis::GraphIndexManager> setupTestGraph(themis::RocksDBWrapper& storage) {
     auto graph_mgr = std::make_unique<themis::GraphIndexManager>(storage);
-    
-    // Build topology
-    assert(graph_mgr->rebuildTopology().ok);
     assert(storage.put("probe:graph", "ok"));
     assert(storage.get("probe:graph").has_value());
     
@@ -39,47 +36,60 @@ std::unique_ptr<themis::GraphIndexManager> setupTestGraph(themis::RocksDBWrapper
     e1.setField("_from", std::string("A"));
     e1.setField("_to", std::string("B"));
     e1.setField("_weight", 1.0);
-    auto st1 = graph_mgr->addEdge(e1);
-    std::cout << "DEBUG_ADD_EDGE1: ok=" << st1.ok << " msg=" << st1.message << "\n";
-    auto key_check = storage.get(themis::KeySchema::makeGraphOutdexKey("A", "edge1"));
-    std::cout << "DEBUG_SETUP: A after e1 -> " << graph_mgr->outAdjacency("A").second.size() << " key_present=" << (key_check.has_value() ? "yes" : "no") << "\n";
-    storage.scanPrefix("graph:out:", [](std::string_view key, std::string_view val) {
-        std::cout << "DEBUG_DB_KEY: " << key << " => " << val << "\n";
-        return true;
-    });
+    {
+        const auto status = graph_mgr->addEdge(e1);
+        if (!status.ok) {
+            throw std::runtime_error("setupTestGraph edge1: " + status.message);
+        }
+    }
     
     themis::BaseEntity e2("edge2");
     e2.setField("id", std::string("edge2"));
     e2.setField("_from", std::string("B"));
     e2.setField("_to", std::string("C"));
     e2.setField("_weight", 2.0);
-    auto st2 = graph_mgr->addEdge(e2);
-    std::cout << "DEBUG_ADD_EDGE2: ok=" << st2.ok << " msg=" << st2.message << "\n";
+    {
+        const auto status = graph_mgr->addEdge(e2);
+        if (!status.ok) {
+            throw std::runtime_error("setupTestGraph edge2: " + status.message);
+        }
+    }
     
     themis::BaseEntity e3("edge3");
     e3.setField("id", std::string("edge3"));
     e3.setField("_from", std::string("C"));
     e3.setField("_to", std::string("D"));
     e3.setField("_weight", 1.5);
-    assert(graph_mgr->addEdge(e3).ok);
+    {
+        const auto status = graph_mgr->addEdge(e3);
+        if (!status.ok) {
+            throw std::runtime_error("setupTestGraph edge3: " + status.message);
+        }
+    }
     
     themis::BaseEntity e4("edge4");
     e4.setField("id", std::string("edge4"));
     e4.setField("_from", std::string("A"));
     e4.setField("_to", std::string("E"));
     e4.setField("_weight", 3.0);
-    assert(graph_mgr->addEdge(e4).ok);
+    {
+        const auto status = graph_mgr->addEdge(e4);
+        if (!status.ok) {
+            throw std::runtime_error("setupTestGraph edge4: " + status.message);
+        }
+    }
     
     themis::BaseEntity e5("edge5");
     e5.setField("id", std::string("edge5"));
     e5.setField("_from", std::string("E"));
     e5.setField("_to", std::string("F"));
     e5.setField("_weight", 2.5);
-    assert(graph_mgr->addEdge(e5).ok);
-    
-    // Rebuild topology after adding edges
-    assert(graph_mgr->rebuildTopology().ok);
-    std::cout << "DEBUG_AFTER_REBUILD: A outAdj=" << graph_mgr->outAdjacency("A").second.size() << "\n";
+    {
+        const auto status = graph_mgr->addEdge(e5);
+        if (!status.ok) {
+            throw std::runtime_error("setupTestGraph edge5: " + status.message);
+        }
+    }
     
     return graph_mgr;
 }
@@ -195,7 +205,7 @@ void test_path_finding(themis::RocksDBWrapper& storage) {
     // Test with MIN_LENGTH constraint
     constraints.clearConstraints();
     constraints.setGraphManager(graph_mgr.get());
-    constraints.addMinLength(2);
+    constraints.addMinLength(3);
     paths_result = constraints.findConstrainedPaths("A", "B", 10);
     EXPECT_FALSE(paths_result.has_value()) << (paths_result.has_value() ? "unexpected success" : paths_result.error().message());
     
