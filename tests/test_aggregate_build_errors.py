@@ -180,7 +180,7 @@ class AggregateBuildErrorsTests(unittest.TestCase):
                     "CURRENT_STATE_FILE": str(state_file),
                     "TRACKS_OUTPUT_FILE": str(tracks_file),
                     "GITHUB_WORKSPACE": str(temp_root),
-                    "MAX_STATE_ERRORS": "50",
+                    "MAX_STATE_ERRORS": "1",
                 }
             )
 
@@ -194,8 +194,8 @@ class AggregateBuildErrorsTests(unittest.TestCase):
 
             self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
             state = json.loads(state_file.read_text(encoding="utf-8"))
-            self.assertEqual(state["stored_error_count"], 50)
-            self.assertEqual(len(state["errors"]), 50)
+            self.assertEqual(state["stored_error_count"], 1)
+            self.assertEqual(len(state["errors"]), 1)
             self.assertTrue(
                 any(
                     entry["file"] == "src/index/multi_gpu_vector_index.cpp"

@@ -564,7 +564,7 @@ jobs:
             echo "_Full diagnostics available in the [workflow artifacts](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})._"
             echo
             echo "<details>"
-            echo "<summary>🔒 Internal state payload (collapsed)</summary>"
+            echo "<summary>🔒 Internal state payload (machine-readable)</summary>"
             echo
             echo "<!-- ci-build:error-state:v1 -->"
             base64 -w 0 /tmp/aggregated-error-state.json
